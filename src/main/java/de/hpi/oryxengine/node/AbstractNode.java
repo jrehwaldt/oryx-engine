@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.node;
 
+import java.util.ArrayList;
+
 import de.hpi.oryxengine.activity.AbstractActivity;
 
 // TODO: Auto-generated Javadoc
@@ -29,8 +31,11 @@ public class AbstractNode implements NodeInterface {
 	/* (non-Javadoc)
 	 * @see de.hpi.oryxengine.node.NodeInterface#next()
 	 */
-	public Object next() {
-		return this.nextNode;
+	public ArrayList<AbstractNode> next() {
+		ArrayList<AbstractNode> nexts = new ArrayList<AbstractNode>();
+		nexts.add(this.nextNode);
+		
+		return nexts;
 	}
 
 }

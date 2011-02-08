@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.node;
 
+import java.util.ArrayList;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Interface NodeInterface.
@@ -16,6 +18,6 @@ public interface NodeInterface {
 	 *
 	 * @return the next Node
 	 */
-	Object next();
+	ArrayList<AbstractNode> next();
 
 }
