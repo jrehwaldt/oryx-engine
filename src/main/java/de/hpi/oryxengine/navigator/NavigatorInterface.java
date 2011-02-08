@@ -21,4 +21,6 @@ public interface NavigatorInterface {
 	public void stopProcessInstance(int instanceID);
 	
 	public String getCurrentInstanceState(int instanceID);
+	
+	
 }
