@@ -10,8 +10,6 @@ public interface ProcessInstance {
 	ArrayList<AbstractNode> getCurrentActivities();
 	String getID();
 	void setID(String s);
-	void setProcessDefinition(AbstractProcessDefinitionImpl p);
-	AbstractProcessDefinitionImpl getProcessDefinition();
 	void setVariable(String name, String value);
 	String getVariable(String name);
 	

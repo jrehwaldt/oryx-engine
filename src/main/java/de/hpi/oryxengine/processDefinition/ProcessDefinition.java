@@ -8,5 +8,8 @@ public interface ProcessDefinition {
 	
 	//void setTransition(Node start, Node end);
 	void setStartNodes(ArrayList<AbstractNode> n);
+	
+	String getID();
+	void setID(String s);
 
 }
