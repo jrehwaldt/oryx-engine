@@ -1,10 +1,17 @@
 package de.hpi.oryxengine.node;
 
 public abstract class AbstractNode implements NodeInterface {
+	protected State state;
 	
-	private enum State {
+	protected AbstractNode() {
+		this.state = State.INIT;
+	}
+	
+	protected enum State {
 		INIT, READY, RUNNING, TERMINATED, SKIPPED 
 	}
+	
+
 	
 	// start execution
 	public abstract void execute();
