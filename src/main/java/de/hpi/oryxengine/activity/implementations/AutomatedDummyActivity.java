@@ -18,7 +18,7 @@ public class AutomatedDummyActivity extends AbstractActivity {
 	 */
 	AutomatedDummyActivity(String s) {
 		super();
-		message = s;
+		this.message = s;
 	}
 
 	/** 

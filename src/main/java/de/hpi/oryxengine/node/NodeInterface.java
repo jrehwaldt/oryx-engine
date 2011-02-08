@@ -16,7 +16,7 @@ public interface NodeInterface {
 	/**
 	 * Next.
 	 *
-	 * @return the next Node
+	 * @return the next Node(s) depending on the node (normal nodes vs. Splits which have multiple next nodes). 
 	 */
 	ArrayList<AbstractNode> next();
 
