@@ -1,15 +1,21 @@
 package de.hpi.oryxengine.node;
 
-
+// TODO: Auto-generated Javadoc
 /**
  * The Interface NodeInterface.
  */
 public interface NodeInterface {
 	
 	/**
-	 * Execute.
-	 * Starts the execution of a Node Instance. 
+	 * Execute the activity of the node.
 	 */
-	public void execute();	
+	void execute();
+	
+	/**
+	 * Next.
+	 *
+	 * @return the next Node
+	 */
+	Object next();
 
 }

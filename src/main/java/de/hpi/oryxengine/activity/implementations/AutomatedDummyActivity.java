@@ -1,12 +1,12 @@
-package de.hpi.oryxengine.node.implementations;
+package de.hpi.oryxengine.activity.implementations;
 
-import de.hpi.oryxengine.node.AbstractNode;
+import de.hpi.oryxengine.activity.AbstractActivity;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class AutomatedDummyNode.
  */
-public class AutomatedDummyNode extends AbstractNode {
+public class AutomatedDummyActivity extends AbstractActivity {
 	
 	/** This is the message the node prints out during its execution. */
 	private String message;
@@ -16,13 +16,13 @@ public class AutomatedDummyNode extends AbstractNode {
 	 *
 	 * @param s the String which message gets set to.
 	 */
-	AutomatedDummyNode(String s) {
+	AutomatedDummyActivity(String s) {
 		super();
 		message = s;
 	}
 
 	/** 
-	 * @see de.hpi.oryxengine.node.AbstractNode#execute()
+	 * @see de.hpi.oryxengine.activity.AbstractActivity#execute()
 	 */
 	@Override
 	// A simple execution 
