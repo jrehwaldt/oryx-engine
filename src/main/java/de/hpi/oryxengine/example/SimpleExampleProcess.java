@@ -2,8 +2,8 @@ package de.hpi.oryxengine.example;
 
 import java.util.ArrayList;
 
-import de.hpi.oryxengine.activity.implementations.AutomatedDummyActivity;
-import de.hpi.oryxengine.navigator.impl.Navigator;
+import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
+import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
 import de.hpi.oryxengine.node.NodeImpl;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 
@@ -13,7 +13,7 @@ public class SimpleExampleProcess {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Navigator navigator = new Navigator();
+		NavigatorImpl navigator = new NavigatorImpl();
 		ProcessInstanceImpl instance = sampleProcessInstance();
 		navigator.startArbitraryInstance("1", instance);
 		

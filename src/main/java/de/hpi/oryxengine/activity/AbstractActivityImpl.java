@@ -4,7 +4,7 @@ package de.hpi.oryxengine.activity;
 /**
  * The Class AbstractNode.
  */
-public abstract class AbstractActivity implements ActivityInterface {
+public abstract class AbstractActivityImpl implements Activity{
 	
 	/** The state. */
 	protected State state;
@@ -12,7 +12,7 @@ public abstract class AbstractActivity implements ActivityInterface {
 	/**
 	 * Instantiates a new abstract node.
 	 */
-	protected AbstractActivity() {
+	protected AbstractActivityImpl() {
 		this.state = State.INIT;
 	}
 	

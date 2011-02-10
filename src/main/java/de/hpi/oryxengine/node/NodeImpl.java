@@ -2,8 +2,8 @@ package de.hpi.oryxengine.node;
 
 import java.util.ArrayList;
 
-import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.navigator.NavigatorInterface;
+import de.hpi.oryxengine.activity.AbstractActivityImpl;
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 
 // TODO: Auto-generated Javadoc
@@ -11,10 +11,10 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
  * The Class AbstractNode.
  * Which is used for the graph representation of a Process
  */
-public class NodeImpl implements NodeInterface {
+public class NodeImpl implements Node{
 
 	/** The activity. */
-	protected AbstractActivity activity;
+	protected AbstractActivityImpl activity;
 	
 	/** The next node. */
 	protected ArrayList<NodeImpl> nextNodes;
@@ -25,7 +25,7 @@ public class NodeImpl implements NodeInterface {
 	 *
 	 * @param activity the activity to be executed
 	 */
-	public NodeImpl(AbstractActivity activity) {
+	public NodeImpl(AbstractActivityImpl activity) {
 		this.activity = activity;
 		this.nextNodes = new  ArrayList<NodeImpl>();
 	}
@@ -36,12 +36,12 @@ public class NodeImpl implements NodeInterface {
 	 * @param activity the activity to be executed
 	 * @param next the next node
 	 */
-	public NodeImpl(AbstractActivity activity, NodeImpl next) {
+	public NodeImpl(AbstractActivityImpl activity, NodeImpl next) {
 		this(activity);
 		this.addNextNode(next);
 	}
 	
-	public NodeImpl(AbstractActivity activity, ArrayList<NodeImpl> nextNodes){
+	public NodeImpl(AbstractActivityImpl activity, ArrayList<NodeImpl> nextNodes){
 		// TODO: cooles SWA-Pattern, das Jannik so halb eingefallen ist und die vielen Konstruktoren verhindert
 		this(activity);
 		this.nextNodes = nextNodes;
@@ -52,7 +52,7 @@ public class NodeImpl implements NodeInterface {
 	 *
 	 * @return the activity to be executed
 	 */
-	public AbstractActivity getActivity() {
+	public AbstractActivityImpl getActivity() {
 		return activity;
 	}
 
@@ -61,7 +61,7 @@ public class NodeImpl implements NodeInterface {
 	 *
 	 * @param activity the new activity
 	 */
-	public void setActivity(AbstractActivity activity) {
+	public void setActivity(AbstractActivityImpl activity) {
 		this.activity = activity;
 	}
 
@@ -98,7 +98,7 @@ public class NodeImpl implements NodeInterface {
 	/* (non-Javadoc)
 	 * @see de.hpi.oryxengine.node.NodeInterface#execute()
 	 */
-	public void execute(NavigatorInterface navigator) {
+	public void execute(Navigator navigator) {
 		this.activity.execute();
 		navigator.signal(this);
 		

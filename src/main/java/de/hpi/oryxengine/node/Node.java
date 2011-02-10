@@ -2,18 +2,18 @@ package de.hpi.oryxengine.node;
 
 import java.util.ArrayList;
 
-import de.hpi.oryxengine.navigator.NavigatorInterface;
+import de.hpi.oryxengine.navigator.Navigator;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Interface NodeInterface.
  */
-public interface NodeInterface {
+public interface Node {
 	
 	/**
 	 * Execute the activity of the node.
 	 */
-	void execute(NavigatorInterface navigator);
+	void execute(Navigator navigator);
 	
 	/**
 	 * Next.

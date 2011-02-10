@@ -5,7 +5,7 @@ import de.hpi.oryxengine.node.NodeImpl;
 /**
  * The Interface NavigatorInterface.
  */
-public interface NavigatorInterface {
+public interface Navigator {
 
 	/**
 	 * Start a new process instance.

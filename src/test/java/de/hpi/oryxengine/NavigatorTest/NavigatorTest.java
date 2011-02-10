@@ -10,15 +10,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.hpi.oryxengine.activity.implementations.AutomatedDummyActivity;
-import de.hpi.oryxengine.navigator.impl.Navigator;
+import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
+import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
 import de.hpi.oryxengine.node.NodeImpl;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 
 
 public class NavigatorTest{
 	
-	Navigator nav;
+	NavigatorImpl nav;
 	NodeImpl node,node2;
 	ProcessInstanceImpl processInstance;
 	private final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -31,7 +31,7 @@ public class NavigatorTest{
 		tmp = System.out;
 		System.setOut(new PrintStream(out));
 		
-		nav = new Navigator();
+		nav = new NavigatorImpl();
 		
 		AutomatedDummyActivity activity = new AutomatedDummyActivity("test");
 		node = new NodeImpl(activity);
@@ -55,7 +55,7 @@ public class NavigatorTest{
 	public void testSignalPrint(){
 		
 		nav.signal(node);
-		assertEquals("test\n", out.toString());
+		assertEquals("test".trim(), out.toString());
 	}
 	
 	@Test

@@ -3,19 +3,19 @@ package de.hpi.oryxengine.navigator.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.hpi.oryxengine.navigator.NavigatorInterface;
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.node.NodeImpl;
 import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 
-public class Navigator implements NavigatorInterface {
+public class NavigatorImpl implements Navigator {
 	
 	//map IDs to Definition
 	private HashMap<String, ProcessInstanceImpl> runningInstances;
 	private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions; 
 
-	public Navigator() {
+	public NavigatorImpl() {
 		runningInstances = new HashMap<String, ProcessInstanceImpl>();
 		loadedDefinitions = new HashMap<String, AbstractProcessDefinitionImpl>();
 	}
