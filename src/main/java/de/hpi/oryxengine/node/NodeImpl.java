@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.navigator.NavigatorInterface;
-import de.hpi.oryxengine.navigator.impl.Navigator;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 
 // TODO: Auto-generated Javadoc

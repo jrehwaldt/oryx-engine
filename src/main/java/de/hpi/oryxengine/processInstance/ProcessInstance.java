@@ -3,7 +3,6 @@ package de.hpi.oryxengine.processInstance;
 import java.util.ArrayList;
 
 import de.hpi.oryxengine.node.NodeImpl;
-import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
 
 public interface ProcessInstance {
 

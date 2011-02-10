@@ -48,7 +48,7 @@ public abstract class AbstractActivity implements ActivityInterface {
 		RUNNING, 
 		/** The TERMINATED. Node has finished execution. */
 		TERMINATED, 
-		/** The SKIPPED. */
+		/** The SKIPPED. We decided not to continue execution.*/
 		SKIPPED 
 	}
 	
