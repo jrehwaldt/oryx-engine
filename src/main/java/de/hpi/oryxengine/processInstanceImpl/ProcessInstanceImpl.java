@@ -9,13 +9,20 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 public class ProcessInstanceImpl implements ProcessInstance{
 	
 	private String id;
-	private ArrayList<NodeImpl> currentActivities;
+	private ArrayList<NodeImpl> currentNodes;
 
 	public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition) {
-		currentActivities = processDefinition.getStartNodes();
+		currentNodes = processDefinition.getStartNodes();
 	}
-	public ArrayList<NodeImpl> getCurrentActivities() {
-		return currentActivities;
+	
+	public ProcessInstanceImpl(ArrayList<NodeImpl> startNodes){
+		currentNodes = startNodes;
+		for (NodeImpl node : startNodes) {
+			node.setProcessInstance(this);
+		}
+	}
+	public ArrayList<NodeImpl> getCurrentNodes() {
+		return currentNodes;
 	}
 
 	public String getID() {

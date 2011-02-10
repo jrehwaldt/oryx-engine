@@ -18,7 +18,7 @@ public class NodeImpl implements NodeInterface {
 	protected AbstractActivity activity;
 	
 	/** The next node. */
-	protected NodeImpl nextNode;
+	protected ArrayList<NodeImpl> nextNodes;
 	
 	protected ProcessInstance processInstance;
 	/**
@@ -26,9 +26,9 @@ public class NodeImpl implements NodeInterface {
 	 *
 	 * @param activity the activity to be executed
 	 */
-	public NodeImpl(AbstractActivity activity, ProcessInstance instance) {
+	public NodeImpl(AbstractActivity activity) {
 		this.activity = activity;
-		this.processInstance = instance;
+		this.nextNodes = new  ArrayList<NodeImpl>();
 	}
 	
 	/**
@@ -37,9 +37,15 @@ public class NodeImpl implements NodeInterface {
 	 * @param activity the activity to be executed
 	 * @param next the next node
 	 */
-	public NodeImpl(AbstractActivity activity, ProcessInstance instance, NodeImpl next) {
-		this(activity, instance);
-		this.nextNode = next;
+	public NodeImpl(AbstractActivity activity, NodeImpl next) {
+		this(activity);
+		this.addNextNode(next);
+	}
+	
+	public NodeImpl(AbstractActivity activity, ArrayList<NodeImpl> nextNodes){
+		// TODO: cooles SWA-Pattern, das Jannik so halb eingefallen ist und die vielen Konstruktoren verhindert
+		this(activity);
+		this.nextNodes = nextNodes;
 	}
 	
 	/**
@@ -65,8 +71,8 @@ public class NodeImpl implements NodeInterface {
 	 *
 	 * @return the next node
 	 */
-	public NodeImpl getNextNode() {
-		return nextNode;
+	public ArrayList<NodeImpl> getNextNodes() {
+		return this.nextNodes;
 	}
 
 	/**
@@ -74,8 +80,12 @@ public class NodeImpl implements NodeInterface {
 	 *
 	 * @param nextNode the new next node
 	 */
-	public void setNextNode(NodeImpl nextNode) {
-		this.nextNode = nextNode;
+	public void setNextNodes(ArrayList<NodeImpl> nextNodes) {
+		this.nextNodes = nextNodes;
+	}
+	
+	public void addNextNode(NodeImpl node){
+		this.nextNodes.add(node);
 	}
 	
 	public ProcessInstance getProcessInstance() {
@@ -99,10 +109,4 @@ public class NodeImpl implements NodeInterface {
 	/* (non-Javadoc)
 	 * @see de.hpi.oryxengine.node.NodeInterface#next()
 	 */
-	public ArrayList<NodeImpl> next() {
-		ArrayList<NodeImpl> nexts = new ArrayList<NodeImpl>();
-		nexts.add(this.nextNode);
-		
-		return nexts;
-	}
 }

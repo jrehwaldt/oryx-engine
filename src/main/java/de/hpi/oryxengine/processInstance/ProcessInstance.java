@@ -7,7 +7,7 @@ import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
 
 public interface ProcessInstance {
 
-	ArrayList<NodeImpl> getCurrentActivities();
+	ArrayList<NodeImpl> getCurrentNodes();
 	String getID();
 	void setID(String s);
 	void setVariable(String name, String value);

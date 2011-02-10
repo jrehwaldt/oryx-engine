@@ -32,13 +32,26 @@ public class Navigator implements NavigatorInterface {
 		ProcessInstanceImpl processInstance = new ProcessInstanceImpl(loadedDefinitions.get(processID));
 		runningInstances.put(processInstance.getID(), processInstance);
 		
-		for (NodeImpl node : processInstance.getCurrentActivities()){
+		// we need to do this, as after node execution (in Navigator#signal() the currentNodes-Datastructure is altered.
+		// Its not cool to change the datastructure you iterate over.
+		ArrayList<NodeImpl> iterableNodes = (ArrayList<NodeImpl>) processInstance.getCurrentNodes().clone();
+		for (NodeImpl node : iterableNodes){
 			node.execute(this);
 		}
 		
 		//tell the initial nodes to execute their activities
 		
 		return "";
+	}
+	
+	
+	//this method is for first testing only, as we do not have ProcessDefinitions yet
+	public void startArbitraryInstance(String id, ProcessInstanceImpl instance) {
+		runningInstances.put(id, instance);
+		ArrayList<NodeImpl> iterableNodes = (ArrayList<NodeImpl>) instance.getCurrentNodes().clone();
+		for (NodeImpl node : iterableNodes){
+			node.execute(this);
+		}
 	}
 	
 	/*
@@ -66,11 +79,16 @@ public class Navigator implements NavigatorInterface {
 	public void signal(NodeImpl node) {
 		ProcessInstance instance = node.getProcessInstance();
 		
-		ArrayList<NodeImpl> instanceActivities = instance.getCurrentActivities();
+		ArrayList<NodeImpl> instanceActivities = instance.getCurrentNodes();
 		instanceActivities.remove(node);
 		
-		for (NodeImpl nextNode : node.next()) {
+		for (NodeImpl nextNode : node.getNextNodes()) {
 			instanceActivities.add(nextNode);
+			
+			// pass the process instance on. We do not set the process instance for every
+			// node in the constructor of the ProcessInstanceImpl as we do not want the Nodes to be instantiated
+			// beforehand of the whole execution
+			nextNode.setProcessInstance(node.getProcessInstance());
 			nextNode.execute(this);
 		}		
 	}
