@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.hpi.oryxengine.activity.AbstractActivityImpl.State;
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 
 
@@ -29,13 +30,24 @@ public class AutomatedDummyActivityTest {
 	
 	@Test
 	public void testActivityInitialization(){
-		assertNotNull(a);
+		assertNotNull("It should not be null since it should be instantiated correctly", a);
 	}
 	
 	@Test
-	public void testExecute(){
+	public void testStateAfterActivityInitalization(){
+		assertEquals("It should have the state Initialized", State.INIT, a.getState());
+	}
+	
+	@Test
+	public void testExecuteOutput(){
 		a.execute();
-		assertEquals(s, out.toString().trim());		
+		assertEquals("It should print out the given string when executed", s, out.toString().trim());		
+	}
+	
+	@Test
+	public void testStateAfterExecution(){
+		a.execute();
+		assertEquals("It should have the state Initialized", State.TERMINATED, a.getState());
 	}
 	
 	@After
