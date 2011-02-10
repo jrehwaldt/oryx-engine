@@ -1,12 +1,9 @@
 package de.hpi.oryxengine.navigator.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.hpi.oryxengine.navigator.NavigatorInterface;
 import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
-import de.hpi.oryxengine.processDefinitionImpl.ProcessDefinitionImpl;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 
 public class Navigator implements NavigatorInterface {
