@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.navigator;
 
-import de.hpi.oryxengine.node.AbstractNode;
+import de.hpi.oryxengine.node.NodeImpl;
 
 /**
  * The Interface NavigatorInterface.
@@ -29,6 +29,6 @@ public interface NavigatorInterface {
 	 *
 	 * @param node the node that finished execution
 	 */
-	void signal(AbstractNode node);
+	void signal(NodeImpl node);
 	
 }

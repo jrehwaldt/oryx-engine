@@ -16,7 +16,7 @@ public class AutomatedDummyActivity extends AbstractActivity {
 	 *
 	 * @param s the String which message gets set to.
 	 */
-	AutomatedDummyActivity(String s) {
+	public AutomatedDummyActivity(String s) {
 		super();
 		this.message = s;
 	}

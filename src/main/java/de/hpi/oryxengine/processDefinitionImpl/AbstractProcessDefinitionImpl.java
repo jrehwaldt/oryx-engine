@@ -2,20 +2,20 @@ package de.hpi.oryxengine.processDefinitionImpl;
 
 import java.util.ArrayList;
 
-import de.hpi.oryxengine.node.AbstractNode;
+import de.hpi.oryxengine.node.NodeImpl;
 import de.hpi.oryxengine.processDefinition.ProcessDefinition;
 
 public class AbstractProcessDefinitionImpl implements ProcessDefinition {
 
-	protected ArrayList<AbstractNode> startNodes;
+	protected ArrayList<NodeImpl> startNodes;
 	protected String id;
 	
-	public void setStartNodes(ArrayList<AbstractNode> nodes) {
+	public void setStartNodes(ArrayList<NodeImpl> nodes) {
 		// TODO Auto-generated method stub
 		this.startNodes = nodes;
 	}
 
-	public ArrayList<AbstractNode> getStartNodes(){
+	public ArrayList<NodeImpl> getStartNodes(){
 		return startNodes;
 	}
 

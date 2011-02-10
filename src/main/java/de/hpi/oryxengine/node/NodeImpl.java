@@ -3,6 +3,7 @@ package de.hpi.oryxengine.node;
 import java.util.ArrayList;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
+import de.hpi.oryxengine.navigator.NavigatorInterface;
 import de.hpi.oryxengine.navigator.impl.Navigator;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 
@@ -11,13 +12,13 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
  * The Class AbstractNode.
  * Which is used for the graph representation of a Process
  */
-public abstract class AbstractNode implements NodeInterface {
+public class NodeImpl implements NodeInterface {
 
 	/** The activity. */
 	protected AbstractActivity activity;
 	
 	/** The next node. */
-	protected AbstractNode nextNode;
+	protected NodeImpl nextNode;
 	
 	protected ProcessInstance processInstance;
 	/**
@@ -25,7 +26,7 @@ public abstract class AbstractNode implements NodeInterface {
 	 *
 	 * @param activity the activity to be executed
 	 */
-	AbstractNode(AbstractActivity activity, ProcessInstance instance) {
+	public NodeImpl(AbstractActivity activity, ProcessInstance instance) {
 		this.activity = activity;
 		this.processInstance = instance;
 	}
@@ -36,7 +37,7 @@ public abstract class AbstractNode implements NodeInterface {
 	 * @param activity the activity to be executed
 	 * @param next the next node
 	 */
-	AbstractNode(AbstractActivity activity, ProcessInstance instance, AbstractNode next) {
+	public NodeImpl(AbstractActivity activity, ProcessInstance instance, NodeImpl next) {
 		this(activity, instance);
 		this.nextNode = next;
 	}
@@ -64,7 +65,7 @@ public abstract class AbstractNode implements NodeInterface {
 	 *
 	 * @return the next node
 	 */
-	public AbstractNode getNextNode() {
+	public NodeImpl getNextNode() {
 		return nextNode;
 	}
 
@@ -73,7 +74,7 @@ public abstract class AbstractNode implements NodeInterface {
 	 *
 	 * @param nextNode the new next node
 	 */
-	public void setNextNode(AbstractNode nextNode) {
+	public void setNextNode(NodeImpl nextNode) {
 		this.nextNode = nextNode;
 	}
 	
@@ -88,7 +89,7 @@ public abstract class AbstractNode implements NodeInterface {
 	/* (non-Javadoc)
 	 * @see de.hpi.oryxengine.node.NodeInterface#execute()
 	 */
-	public void execute(Navigator navigator) {
+	public void execute(NavigatorInterface navigator) {
 		this.activity.execute();
 		navigator.signal(this);
 		
@@ -98,11 +99,10 @@ public abstract class AbstractNode implements NodeInterface {
 	/* (non-Javadoc)
 	 * @see de.hpi.oryxengine.node.NodeInterface#next()
 	 */
-	public ArrayList<AbstractNode> next() {
-		ArrayList<AbstractNode> nexts = new ArrayList<AbstractNode>();
+	public ArrayList<NodeImpl> next() {
+		ArrayList<NodeImpl> nexts = new ArrayList<NodeImpl>();
 		nexts.add(this.nextNode);
 		
 		return nexts;
 	}
-
 }
