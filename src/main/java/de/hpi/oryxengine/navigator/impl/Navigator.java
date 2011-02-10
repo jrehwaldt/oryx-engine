@@ -1,9 +1,12 @@
 package de.hpi.oryxengine.navigator.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.hpi.oryxengine.navigator.NavigatorInterface;
+import de.hpi.oryxengine.node.AbstractNode;
 import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
+import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 
 public class Navigator implements NavigatorInterface {
@@ -12,6 +15,10 @@ public class Navigator implements NavigatorInterface {
 	private HashMap<String, ProcessInstanceImpl> runningInstances;
 	private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions; 
 
+	public Navigator() {
+		
+	}
+	
 	public String startProcessInstance(String processID) {
 		//A.transitionTo(B);
 		//B...
@@ -23,6 +30,10 @@ public class Navigator implements NavigatorInterface {
 		//instantiate the processDefinition
 		ProcessInstanceImpl processInstance = new ProcessInstanceImpl(loadedDefinitions.get(processID));
 		runningInstances.put(processInstance.getID(), processInstance);
+		
+		for (AbstractNode node : processInstance.getCurrentActivities()){
+			node.execute();
+		}
 		
 		//tell the initial nodes to execute their activities
 		
@@ -50,5 +61,16 @@ public class Navigator implements NavigatorInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	public void signal(AbstractNode node) {
+		ProcessInstance instance = node.getProcessInstance();
+		
+		ArrayList<AbstractNode> instanceActivities = instance.getCurrentActivities();
+		instanceActivities.remove(node);
+		
+		for (AbstractNode nextNode : node.next()) {
+			instanceActivities.add(nextNode);
+			nextNode.execute();
+		}		
+	}
 }

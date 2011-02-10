@@ -3,6 +3,8 @@ package de.hpi.oryxengine.node;
 import java.util.ArrayList;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
+import de.hpi.oryxengine.navigator.impl.Navigator;
+import de.hpi.oryxengine.processInstance.ProcessInstance;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -17,13 +19,15 @@ public abstract class AbstractNode implements NodeInterface {
 	/** The next node. */
 	protected AbstractNode nextNode;
 	
+	protected ProcessInstance processInstance;
 	/**
 	 * Instantiates a new abstract node.
 	 *
 	 * @param activity the activity to be executed
 	 */
-	AbstractNode(AbstractActivity activity) {
+	AbstractNode(AbstractActivity activity, ProcessInstance instance) {
 		this.activity = activity;
+		this.processInstance = instance;
 	}
 	
 	/**
@@ -32,8 +36,8 @@ public abstract class AbstractNode implements NodeInterface {
 	 * @param activity the activity to be executed
 	 * @param next the next node
 	 */
-	AbstractNode(AbstractActivity activity, AbstractNode next) {
-		this(activity);
+	AbstractNode(AbstractActivity activity, ProcessInstance instance, AbstractNode next) {
+		this(activity, instance);
 		this.nextNode = next;
 	}
 	
@@ -72,12 +76,23 @@ public abstract class AbstractNode implements NodeInterface {
 	public void setNextNode(AbstractNode nextNode) {
 		this.nextNode = nextNode;
 	}
+	
+	public ProcessInstance getProcessInstance() {
+		return processInstance;
+	}
+
+	public void setProcessInstance(ProcessInstance processInstance) {
+		this.processInstance = processInstance;
+	}
 
 	/* (non-Javadoc)
 	 * @see de.hpi.oryxengine.node.NodeInterface#execute()
 	 */
-	public void execute() {
+	public void execute(Navigator navigator) {
 		this.activity.execute();
+		navigator.signal(this);
+		
+		//tell navigator that execution is finished
 	}
 	
 	/* (non-Javadoc)

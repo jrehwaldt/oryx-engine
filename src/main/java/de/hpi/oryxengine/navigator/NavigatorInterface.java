@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.navigator;
 
+import de.hpi.oryxengine.node.AbstractNode;
+
 /**
  * The Interface NavigatorInterface.
  */
@@ -22,5 +24,11 @@ public interface NavigatorInterface {
 	
 	public String getCurrentInstanceState(String instanceID);
 	
+	/**
+	 * Signal the finished execution of a node.
+	 *
+	 * @param node the node that finished execution
+	 */
+	void signal(AbstractNode node);
 	
 }

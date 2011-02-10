@@ -36,6 +36,4 @@ public class ProcessInstanceImpl implements ProcessInstance{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
 }
