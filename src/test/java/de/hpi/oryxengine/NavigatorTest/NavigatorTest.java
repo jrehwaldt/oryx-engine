@@ -55,7 +55,7 @@ public class NavigatorTest{
 	public void testSignalPrint(){
 		
 		nav.signal(node);
-		assertEquals("test".trim(), out.toString());
+		assertEquals("test", out.toString().trim());
 	}
 	
 	@Test
