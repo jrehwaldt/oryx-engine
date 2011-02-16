@@ -9,20 +9,33 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 public class ProcessInstanceImpl implements ProcessInstance{
 	
 	private String id;
-	private ArrayList<NodeImpl> currentNodes;
+	//private ArrayList<NodeImpl> currentNodes;
+	NodeImpl currentNode;
+	private ArrayList<ProcessInstanceImpl> childInstances;
 
-	public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition) {
-		currentNodes = processDefinition.getStartNodes();
+	public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition, Integer startNumber) {
+		
+		//choose a start Node from the possible List of Nodes
+		ArrayList<NodeImpl> startNodes = processDefinition.getStartNodes();
+		currentNode = startNodes.get(startNumber);
+
 	}
 	
-	public ProcessInstanceImpl(ArrayList<NodeImpl> startNodes){
-		currentNodes = startNodes;
-		for (NodeImpl node : startNodes) {
-			node.setProcessInstance(this);
-		}
+	public ProcessInstanceImpl(NodeImpl startNodes){
+		currentNode = startNodes;
 	}
-	public ArrayList<NodeImpl> getCurrentNodes() {
-		return currentNodes;
+	public NodeImpl getCurrentNode() {
+		return currentNode;
+	}
+	
+    
+
+	public ArrayList<ProcessInstanceImpl> getChildInstances() {
+		return childInstances;
+	}
+
+	public void setChildInstances(ArrayList<ProcessInstanceImpl> childInstances) {
+		this.childInstances = childInstances;
 	}
 
 	public String getID() {
