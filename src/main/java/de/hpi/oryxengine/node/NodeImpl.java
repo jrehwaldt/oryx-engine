@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import de.hpi.oryxengine.activity.AbstractActivityImpl;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
+import de.hpi.oryxengine.transition.Transition;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -17,9 +18,8 @@ public class NodeImpl implements Node{
 	protected AbstractActivityImpl activity;
 	
 	/** The next node. */
-	protected ArrayList<NodeImpl> nextNodes;
+	protected ArrayList<Transition> transitions;
 	
-	protected ProcessInstance processInstance;
 	/**
 	 * Instantiates a new abstract node.
 	 *
@@ -27,7 +27,7 @@ public class NodeImpl implements Node{
 	 */
 	public NodeImpl(AbstractActivityImpl activity) {
 		this.activity = activity;
-		this.nextNodes = new  ArrayList<NodeImpl>();
+		this.transitions = new  ArrayList<Transition>();
 	}
 	
 	/**
@@ -36,15 +36,9 @@ public class NodeImpl implements Node{
 	 * @param activity the activity to be executed
 	 * @param next the next node
 	 */
-	public NodeImpl(AbstractActivityImpl activity, NodeImpl next) {
+	public NodeImpl(AbstractActivityImpl activity, Transition transition) {
 		this(activity);
-		this.addNextNode(next);
-	}
-	
-	public NodeImpl(AbstractActivityImpl activity, ArrayList<NodeImpl> nextNodes){
-		// TODO: cooles SWA-Pattern, das Jannik so halb eingefallen ist und die vielen Konstruktoren verhindert
-		this(activity);
-		this.nextNodes = nextNodes;
+		this.transitionTo(transition);
 	}
 	
 	/**
@@ -66,43 +60,32 @@ public class NodeImpl implements Node{
 	}
 
 	/**
-	 * Gets the next node.
-	 *
-	 * @return the next node
-	 */
-	public ArrayList<NodeImpl> getNextNodes() {
-		return this.nextNodes;
-	}
-
-	/**
 	 * Sets the next node.
 	 *
 	 * @param nextNode the new next node
 	 */
-	public void setNextNodes(ArrayList<NodeImpl> nextNodes) {
-		this.nextNodes = nextNodes;
-	}
 	
-	public void addNextNode(NodeImpl node){
-		this.nextNodes.add(node);
-	}
-	
-	public ProcessInstance getProcessInstance() {
-		return processInstance;
-	}
-
-	public void setProcessInstance(ProcessInstance processInstance) {
-		this.processInstance = processInstance;
+	public void transitionTo(Transition transition){
+		this.transitions.add(transition);
 	}
 
 	/* (non-Javadoc)
 	 * @see de.hpi.oryxengine.node.NodeInterface#execute()
 	 */
-	public void execute(Navigator navigator) {
+	public void execute(ProcessInstance instance) {
 		this.activity.execute();
-		navigator.signal(this);
 		
-		//tell navigator that execution is finished
+		//save the instance the current node
+		instance.setCurrentNode(this);
+		
+		//Save result in the navigator
+		//....(missing yet)
+		
+	}
+
+	public ArrayList<Transition> getTransitions() {
+		// TODO Auto-generated method stub
+		return transitions;
 	}
 	
 	/* (non-Javadoc)

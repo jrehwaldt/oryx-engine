@@ -5,7 +5,7 @@ import de.hpi.oryxengine.condition.Condition;
 
 public interface Transition {
 	
-	Condition condition();
+	Condition getCondition();
 	NodeImpl getDestination();
 	NodeImpl getSource();
 }

@@ -29,6 +29,6 @@ public interface Navigator {
 	 *
 	 * @param node the node that finished execution
 	 */
-	void signal(NodeImpl node);
+	void doWork();
 	
 }
