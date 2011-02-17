@@ -2,18 +2,21 @@ package de.hpi.oryxengine.navigator.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Queue;
 
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.node.NodeImpl;
 import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
+import de.hpi.oryxengine.transition.Transition;
 
 public class NavigatorImpl implements Navigator {
 	
 	//map IDs to Definition
 	private HashMap<String, ProcessInstanceImpl> runningInstances;
 	private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions; 
+	private Queue<ProcessInstance> toNavigate;
 
 	public NavigatorImpl() {
 		runningInstances = new HashMap<String, ProcessInstanceImpl>();
@@ -29,15 +32,14 @@ public class NavigatorImpl implements Navigator {
 		}
 		
 		//instantiate the processDefinition
-		ProcessInstanceImpl processInstance = new ProcessInstanceImpl(loadedDefinitions.get(processID));
+		ProcessInstanceImpl processInstance = new ProcessInstanceImpl(loadedDefinitions.get(processID), 0);
 		runningInstances.put(processInstance.getID(), processInstance);
 		
 		// we need to do this, as after node execution (in Navigator#signal() the currentNodes-Datastructure is altered.
 		// Its not cool to change the datastructure you iterate over.
-		ArrayList<NodeImpl> iterableNodes = (ArrayList<NodeImpl>) processInstance.getCurrentNodes().clone();
-		for (NodeImpl node : iterableNodes){
-			node.execute(this);
-		}
+		toNavigate.add(processInstance);
+		processInstance.getCurrentNode().execute(processInstance);
+		doWork();
 		
 		//tell the initial nodes to execute their activities
 		
@@ -48,10 +50,8 @@ public class NavigatorImpl implements Navigator {
 	//this method is for first testing only, as we do not have ProcessDefinitions yet
 	public void startArbitraryInstance(String id, ProcessInstanceImpl instance) {
 		runningInstances.put(id, instance);
-		ArrayList<NodeImpl> iterableNodes = (ArrayList<NodeImpl>) instance.getCurrentNodes().clone();
-		for (NodeImpl node : iterableNodes){
-			node.execute(this);
-		}
+		toNavigate.add(instance);
+		instance.getCurrentNode().execute(instance);
 	}
 	
 	/*
@@ -76,20 +76,33 @@ public class NavigatorImpl implements Navigator {
 		return null;
 	}
 	
-	public void signal(NodeImpl node) {
-		ProcessInstance instance = node.getProcessInstance();
+	public void doWork() {
 		
-		ArrayList<NodeImpl> instanceActivities = instance.getCurrentNodes();
-		instanceActivities.remove(node);
-		
-		for (NodeImpl nextNode : node.getNextNodes()) {
-			instanceActivities.add(nextNode);
+		if(toNavigate.size() > 0){
 			
-			// pass the process instance on. We do not set the process instance for every
-			// node in the constructor of the ProcessInstanceImpl as we do not want the Nodes to be instantiated
-			// beforehand of the whole execution
-			nextNode.setProcessInstance(node.getProcessInstance());
-			nextNode.execute(this);
-		}		
+			ProcessInstance instance = toNavigate.remove();
+			
+			NodeImpl instanceActivity = instance.getCurrentNode();
+			
+			ArrayList<Transition> transitions = instanceActivity.getTransitions();
+			
+			for(Transition transition : transitions){
+				if (transition.getCondition().evaluate()){
+					NodeImpl destination = transition.getDestination();
+					destination.execute(instance);
+					toNavigate.add(instance);
+				}
+			}
+			
+		}else{
+			
+			//Busy Waiting
+			doWork();
+			
+		}
+
+		
+
+
 	}
 }
