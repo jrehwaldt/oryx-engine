@@ -2,8 +2,10 @@ package de.hpi.oryxengine.node;
 
 import java.util.ArrayList;
 
+import de.hpi.oryxengine.TransitionImpl.TransitionImpl;
 import de.hpi.oryxengine.activity.AbstractActivityImpl;
-import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.condition.Condition;
+import de.hpi.oryxengine.conditionImpl.ConditionImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.transition.Transition;
 
@@ -31,17 +33,6 @@ public class NodeImpl implements Node{
 	}
 	
 	/**
-	 * Instantiates a new abstract node.
-	 *
-	 * @param activity the activity to be executed
-	 * @param next the next node
-	 */
-	public NodeImpl(AbstractActivityImpl activity, Transition transition) {
-		this(activity);
-		this.transitionTo(transition);
-	}
-	
-	/**
 	 * Gets the activity.
 	 *
 	 * @return the activity to be executed
@@ -65,8 +56,10 @@ public class NodeImpl implements Node{
 	 * @param nextNode the new next node
 	 */
 	
-	public void transitionTo(Transition transition){
-		this.transitions.add(transition);
+	public void transitionTo(NodeImpl node){
+		Condition c = new ConditionImpl();
+		Transition t = new TransitionImpl(this, node, c);
+		this.transitions.add(t);
 	}
 
 	/* (non-Javadoc)
@@ -74,12 +67,9 @@ public class NodeImpl implements Node{
 	 */
 	public void execute(ProcessInstance instance) {
 		this.activity.execute();
-		
-		//save the instance the current node
-		instance.setCurrentNode(this);
-		
-		//Save result in the navigator
-		//....(missing yet)
+
+		//TODO: Save result in the instance
+		//instance.setVariable(...)....(missing yet)
 		
 	}
 
