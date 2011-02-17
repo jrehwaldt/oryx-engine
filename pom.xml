@@ -12,5 +12,12 @@
 			<artifactId>testng</artifactId>
 			<version>5.14.6</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.3.1</version>
+			<scope>src</scope>
+		</dependency>
 	</dependencies>
+
 </project>
