@@ -2,12 +2,12 @@ package de.hpi.oryxengine.node;
 
 import java.util.ArrayList;
 
-import de.hpi.oryxengine.TransitionImpl.TransitionImpl;
 import de.hpi.oryxengine.activity.AbstractActivityImpl;
 import de.hpi.oryxengine.condition.Condition;
 import de.hpi.oryxengine.conditionImpl.ConditionImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.transition.Transition;
+import de.hpi.oryxengine.transitionImpl.TransitionImpl;
 
 // TODO: Auto-generated Javadoc
 /**

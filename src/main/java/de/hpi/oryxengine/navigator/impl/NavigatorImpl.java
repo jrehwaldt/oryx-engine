@@ -12,6 +12,11 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 import de.hpi.oryxengine.transition.Transition;
 
+/**
+ * @author jannikStreek
+ *
+ */
+
 public class NavigatorImpl implements Navigator {
 	
 	//map IDs to Definition
@@ -67,6 +72,12 @@ public class NavigatorImpl implements Navigator {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	// Main Loop: Takes a executable process instance and the belonging node
+	// and executes the node. After, the true conditions are followed and the next node is set.
+	// Now the process instance is added to the Queue again. This has the advantage that the navigator can now
+	// handle multiple instances. Next step is to recall the doWork Method() until there are no instances left.
 	
 	public void doWork() {
 		if(this.toNavigate.size() > 0){

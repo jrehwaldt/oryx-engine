@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.TransitionImpl;
+package de.hpi.oryxengine.transitionImpl;
 
 import de.hpi.oryxengine.condition.Condition;
 import de.hpi.oryxengine.node.NodeImpl;

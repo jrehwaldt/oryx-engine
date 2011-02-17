@@ -1,17 +1,15 @@
 package de.hpi.oryxengine.NavigatorTest;
 
-import static org.junit.Assert.*;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.*;
+import org.mockito.Mockito.*;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
+import de.hpi.oryxengine.node.Node;
 import de.hpi.oryxengine.node.NodeImpl;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 
@@ -25,7 +23,7 @@ public class NavigatorTest{
 	private PrintStream tmp;
 	
 
-	@Before
+	@BeforeClass
 	public void setUp() throws Exception {
 		
 		tmp = System.out;
@@ -36,8 +34,8 @@ public class NavigatorTest{
 		AutomatedDummyActivity activity = new AutomatedDummyActivity("test");
 		node = new NodeImpl(activity);
 		node2 = new NodeImpl(activity);
-		node.addNextNode(node2);
-		ArrayList<NodeImpl> startNodes = new ArrayList<NodeImpl>();
+		node.transitionTo(node2);
+		ArrayList<Node> startNodes = new ArrayList<Node>();
 		startNodes.add(node);
 		processInstance = new ProcessInstanceImpl(startNodes);
 
@@ -46,26 +44,19 @@ public class NavigatorTest{
 	@Test
 	public void testSignalLength(){
 
-		nav.signal(node);
-		assertTrue(processInstance.getCurrentNodes().isEmpty());
+		nav.startArbitraryInstance("1", processInstance);
+		assert processInstance.getCurrentNode().equals(node2);
 
 	}
 	
-	@Test
-	public void testSignalPrint(){
-		
-		nav.signal(node);
-		assertEquals("test", out.toString().trim());
-	}
+//	@Test
+//	public void testSignalPrint(){
+//		nav.startArbitraryInstance("1", processInstance);
+//
+//		assert "test\ntest".equals(out.toString().trim());
+//	}
 	
-	@Test
-	public void testSignalSetOfInstance(){
-		
-		nav.signal(node);
-		assertTrue(node2.getProcessInstance() == processInstance);
-	}
-	
-	@After
+	@AfterClass
 	public void tearDown(){
 		System.setOut(tmp);
 	}
