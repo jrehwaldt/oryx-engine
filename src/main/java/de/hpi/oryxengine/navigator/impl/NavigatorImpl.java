@@ -77,11 +77,12 @@ public class NavigatorImpl implements Navigator {
 	// Main Loop: Takes a executable process instance and the belonging node
 	// and executes the node. After, the true conditions are followed and the next node is set.
 	// Now the process instance is added to the Queue again. This has the advantage that the navigator can now
-	// handle multiple instances. Next step is to recall the doWork Method() until there are no instances left.
+	// handle multiple instances.
 	
 	public void doWork() {
-		if(this.toNavigate.size() > 0){
-			
+		
+		while(this.toNavigate.size() > 0){
+				
 			ProcessInstance instance = this.toNavigate.remove();
 			NodeImpl currentNode = instance.getCurrentNode();
 			currentNode.execute(instance);
@@ -94,18 +95,8 @@ public class NavigatorImpl implements Navigator {
 					this.toNavigate.add(instance);
 				}
 			}
-			
-			doWork();
-			
-		}else{
-			
-			//TODO: Perhaps later Busy Waiting here, to execute instances in an infinite loop
-			//doWork();
-			
+				
 		}
-
-		
-
 
 	}
 }
