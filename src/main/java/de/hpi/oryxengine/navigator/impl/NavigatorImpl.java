@@ -2,6 +2,7 @@ package de.hpi.oryxengine.navigator.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Queue;
 
 import de.hpi.oryxengine.navigator.Navigator;
@@ -11,22 +12,25 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 import de.hpi.oryxengine.transition.Transition;
 
+/**
+ * @author jannikStreek
+ *
+ */
+
 public class NavigatorImpl implements Navigator {
 	
 	//map IDs to Definition
 	private HashMap<String, ProcessInstanceImpl> runningInstances;
 	private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions; 
-	private Queue<ProcessInstance> toNavigate;
+	private LinkedList<ProcessInstance> toNavigate;
 
 	public NavigatorImpl() {
 		runningInstances = new HashMap<String, ProcessInstanceImpl>();
 		loadedDefinitions = new HashMap<String, AbstractProcessDefinitionImpl>();
+		toNavigate = new LinkedList<ProcessInstance>();
 	}
 	
 	public String startProcessInstance(String processID) {
-		//A.transitionTo(B);
-		//B...
-		//Process
 		if (!loadedDefinitions.containsKey(processID)) {
 			//go crazy
 		}
@@ -38,7 +42,6 @@ public class NavigatorImpl implements Navigator {
 		// we need to do this, as after node execution (in Navigator#signal() the currentNodes-Datastructure is altered.
 		// Its not cool to change the datastructure you iterate over.
 		toNavigate.add(processInstance);
-		processInstance.getCurrentNode().execute(processInstance);
 		doWork();
 		
 		//tell the initial nodes to execute their activities
@@ -49,18 +52,11 @@ public class NavigatorImpl implements Navigator {
 	
 	//this method is for first testing only, as we do not have ProcessDefinitions yet
 	public void startArbitraryInstance(String id, ProcessInstanceImpl instance) {
-		runningInstances.put(id, instance);
-		toNavigate.add(instance);
-		instance.getCurrentNode().execute(instance);
+		this.runningInstances.put(id, instance);
+		this.toNavigate.add(instance);
+		doWork();
 	}
 	
-	/*
-	private Node setNextNode(){
-		for (Node node : getFinishedActivities()){
-			setNextActivity(node.getNextActvity())
-		}
-	}
-	*/
 	
 	public void addProcessDefinition(AbstractProcessDefinitionImpl processDefinition){
 		loadedDefinitions.put(processDefinition.getID(), processDefinition);
@@ -68,7 +64,8 @@ public class NavigatorImpl implements Navigator {
 
 	public void stopProcessInstance(String instanceID) {
 		// TODO do some more stuff if instance doesnt exist
-		runningInstances.remove(instanceID);		
+		//runningInstances.remove(instanceID);		
+		//remove from queue...
 	}
 
 	public String getCurrentInstanceState(String instanceID) {
@@ -76,33 +73,30 @@ public class NavigatorImpl implements Navigator {
 		return null;
 	}
 	
+	
+	// Main Loop: Takes a executable process instance and the belonging node
+	// and executes the node. After, the true conditions are followed and the next node is set.
+	// Now the process instance is added to the Queue again. This has the advantage that the navigator can now
+	// handle multiple instances.
+	
 	public void doWork() {
 		
-		if(toNavigate.size() > 0){
-			
-			ProcessInstance instance = toNavigate.remove();
-			
-			NodeImpl instanceActivity = instance.getCurrentNode();
-			
-			ArrayList<Transition> transitions = instanceActivity.getTransitions();
+		while(this.toNavigate.size() > 0){
+				
+			ProcessInstance instance = this.toNavigate.remove();
+			NodeImpl currentNode = instance.getCurrentNode();
+			currentNode.execute(instance);
+			ArrayList<Transition> transitions = currentNode.getTransitions();
 			
 			for(Transition transition : transitions){
 				if (transition.getCondition().evaluate()){
 					NodeImpl destination = transition.getDestination();
-					destination.execute(instance);
-					toNavigate.add(instance);
+					instance.setCurrentNode(destination);
+					this.toNavigate.add(instance);
 				}
 			}
-			
-		}else{
-			
-			//Busy Waiting
-			doWork();
-			
+				
 		}
-
-		
-
 
 	}
 }

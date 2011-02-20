@@ -2,6 +2,7 @@ package de.hpi.oryxengine.processInstanceImpl;
 
 import java.util.ArrayList;
 
+import de.hpi.oryxengine.node.Node;
 import de.hpi.oryxengine.node.NodeImpl;
 import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
@@ -9,15 +10,21 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 public class ProcessInstanceImpl implements ProcessInstance{
 	
 	private String id;
-	//private ArrayList<NodeImpl> currentNodes;
 	NodeImpl currentNode;
 	private ArrayList<ProcessInstanceImpl> childInstances;
 
 	public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition, Integer startNumber) {
 		
 		//choose a start Node from the possible List of Nodes
+		//TODO: how to choose the start node?
 		ArrayList<NodeImpl> startNodes = processDefinition.getStartNodes();
 		currentNode = startNodes.get(startNumber);
+
+	}
+	
+	//Just for testing purposes => make the start easy as possible without a process definition
+	public ProcessInstanceImpl(ArrayList<Node> nodes) {
+		currentNode = (NodeImpl)nodes.get(0);
 
 	}
 	
@@ -27,8 +34,6 @@ public class ProcessInstanceImpl implements ProcessInstance{
 	public NodeImpl getCurrentNode() {
 		return currentNode;
 	}
-	
-    
 
 	public ArrayList<ProcessInstanceImpl> getChildInstances() {
 		return childInstances;

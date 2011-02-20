@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
+import de.hpi.oryxengine.node.Node;
 import de.hpi.oryxengine.node.NodeImpl;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 
@@ -27,8 +28,8 @@ public class SimpleExampleProcess {
 		
 		NodeImpl startNode = new NodeImpl(activity);
 		NodeImpl secondNode = new NodeImpl(activity2);
-		startNode.addNextNode(secondNode);
-		ArrayList<NodeImpl> startNodes = new ArrayList<NodeImpl>();
+		startNode.transitionTo(secondNode);
+		ArrayList<Node> startNodes = new ArrayList<Node>();
 		startNodes.add(startNode);
 		
 		ProcessInstanceImpl sampleInstance = new ProcessInstanceImpl(startNodes);

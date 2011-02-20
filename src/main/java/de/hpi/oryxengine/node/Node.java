@@ -23,5 +23,7 @@ public interface Node {
 	 * @return the next Node(s) depending on the node (normal nodes vs. Splits which have multiple next nodes). 
 	 */
 	ArrayList<Transition> getTransitions();
+	
+	void transitionTo(NodeImpl node);
 
 }
