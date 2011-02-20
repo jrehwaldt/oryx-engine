@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.navigator;
 
-import de.hpi.oryxengine.node.NodeImpl;
 
 /**
  * The Interface NavigatorInterface.
@@ -10,7 +9,7 @@ public interface Navigator {
 	/**
 	 * Start a new process instance.
 	 *
-	 * @param processID the id of the process that is to be instanciated
+	 * @param processID the id of the process that is to be instantiated
 	 * @return the id of the newly created process instance
 	 */
 	public String startProcessInstance(String processID);
