@@ -1,10 +1,10 @@
-package de.hpi.oryxengine.node;
+package de.hpi.oryxengine.processstructure;
 
 import java.util.ArrayList;
 
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.transition.Transition;
+import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -25,5 +25,9 @@ public interface Node {
 	ArrayList<Transition> getTransitions();
 	
 	void transitionTo(NodeImpl node);
+	
+	String getId();
+	
+	void setId(String id);
 
 }

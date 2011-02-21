@@ -1,8 +1,8 @@
-package de.hpi.oryxengine.transitionImpl;
+package de.hpi.oryxengine.processstructure.impl;
 
-import de.hpi.oryxengine.condition.Condition;
-import de.hpi.oryxengine.node.NodeImpl;
-import de.hpi.oryxengine.transition.Transition;
+import de.hpi.oryxengine.processstructure.Condition;
+import de.hpi.oryxengine.processstructure.Transition;
+
 
 public class TransitionImpl implements Transition{
 	

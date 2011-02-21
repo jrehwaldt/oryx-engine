@@ -1,6 +1,6 @@
-package de.hpi.oryxengine.conditionImpl;
+package de.hpi.oryxengine.processstructure.impl;
 
-import de.hpi.oryxengine.condition.Condition;
+import de.hpi.oryxengine.processstructure.Condition;
 
 public class ConditionImpl implements Condition{
 

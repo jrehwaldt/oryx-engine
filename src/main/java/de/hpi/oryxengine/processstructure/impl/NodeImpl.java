@@ -1,33 +1,35 @@
-package de.hpi.oryxengine.node;
+package de.hpi.oryxengine.processstructure.impl;
 
 import java.util.ArrayList;
 
 import de.hpi.oryxengine.activity.AbstractActivityImpl;
-import de.hpi.oryxengine.condition.Condition;
-import de.hpi.oryxengine.conditionImpl.ConditionImpl;
+import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.transition.Transition;
-import de.hpi.oryxengine.transitionImpl.TransitionImpl;
+import de.hpi.oryxengine.processstructure.Condition;
+import de.hpi.oryxengine.processstructure.Node;
+import de.hpi.oryxengine.processstructure.Transition;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class AbstractNode.
  * Which is used for the graph representation of a Process
  */
-public class NodeImpl implements Node{
-
+public class NodeImpl implements Node {
+	
 	/** The activity. */
-	protected AbstractActivityImpl activity;
+	protected Activity activity;
 	
 	/** The next node. */
 	protected ArrayList<Transition> transitions;
+	
+	private String id; 
 	
 	/**
 	 * Instantiates a new abstract node.
 	 *
 	 * @param activity the activity to be executed
 	 */
-	public NodeImpl(AbstractActivityImpl activity) {
+	public NodeImpl(Activity activity) {
 		this.activity = activity;
 		this.transitions = new  ArrayList<Transition>();
 	}
@@ -37,19 +39,19 @@ public class NodeImpl implements Node{
 	 *
 	 * @return the activity to be executed
 	 */
-	public AbstractActivityImpl getActivity() {
+	public Activity getActivity() {
 		return activity;
 	}
-
+	
 	/**
 	 * Sets the activity.
 	 *
 	 * @param activity the new activity
 	 */
-	public void setActivity(AbstractActivityImpl activity) {
+	public void setActivity(Activity activity) {
 		this.activity = activity;
 	}
-
+	
 	/**
 	 * Sets the next node.
 	 *
@@ -61,23 +63,29 @@ public class NodeImpl implements Node{
 		Transition t = new TransitionImpl(this, node, c);
 		this.transitions.add(t);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see de.hpi.oryxengine.node.NodeInterface#execute()
 	 */
 	public void execute(ProcessInstance instance) {
 		this.activity.execute();
-
+	
 		//TODO: Save result in the instance
 		//instance.setVariable(...)....(missing yet)
 		
 	}
-
+	
 	public ArrayList<Transition> getTransitions() {
-		// TODO Auto-generated method stub
 		return transitions;
 	}
-	
+
+  public String getId() {
+    return this.id;
+  }
+  
+  public void setId(String id) {
+	  this.id = id;
+  }
 	/* (non-Javadoc)
 	 * @see de.hpi.oryxengine.node.NodeInterface#next()
 	 */

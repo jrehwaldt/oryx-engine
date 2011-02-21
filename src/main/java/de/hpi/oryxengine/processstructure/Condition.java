@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.condition;
+package de.hpi.oryxengine.processstructure;
 
 public interface Condition {
 	

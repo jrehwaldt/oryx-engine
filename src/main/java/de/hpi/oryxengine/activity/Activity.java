@@ -4,7 +4,7 @@ package de.hpi.oryxengine.activity;
 /**
  * The Interface NodeInterface.
  */
-public interface Activity{
+public interface Activity {
 	
 	/**
 	 * Execute.
@@ -13,3 +13,4 @@ public interface Activity{
 	public void execute();	
 
 }
+
