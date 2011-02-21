@@ -95,6 +95,8 @@ public class NavigatorImpl implements Navigator {
 				if (transition.getCondition().evaluate()){
 					NodeImpl destination = transition.getDestination();
 					instance.setCurrentNode(destination);
+					
+					//TODO: if following transitions there...
 					this.toNavigate.add(instance);
 				}
 			}
