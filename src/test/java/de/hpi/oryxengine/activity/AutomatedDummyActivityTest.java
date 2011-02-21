@@ -17,7 +17,7 @@ public class AutomatedDummyActivityTest {
 	
 	private PrintStream tmp;
 	private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-	private String s = "I'm dumb";
+	private String S = "I'm dumb";
 	private AutomatedDummyActivity a;
 	
 	@BeforeTest
@@ -25,7 +25,7 @@ public class AutomatedDummyActivityTest {
 		
 		tmp = System.out;
 		System.setOut(new PrintStream(out));
-		a = new AutomatedDummyActivity(s);
+		a = new AutomatedDummyActivity(S);
 	}
 	
 	@Test
@@ -41,7 +41,7 @@ public class AutomatedDummyActivityTest {
 	@Test
 	public void testExecuteOutput(){
 		a.execute();
-		assertEquals("It should print out the given string when executed", s, out.toString().trim());		
+		assertTrue("It should print out the given string when executed", out.toString().indexOf(S) != -1);		
 	}
 	
 	@Test
