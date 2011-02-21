@@ -16,7 +16,10 @@ public class SimpleExampleProcess {
 	public static void main(String[] args) {
 		NavigatorImpl navigator = new NavigatorImpl();
 		ProcessInstanceImpl instance = sampleProcessInstance();
+		navigator.start();
+		System.out.println("Navigator started");
 		navigator.startArbitraryInstance("1", instance);
+		System.out.println("Instance started");
 		
 
 	}
@@ -28,6 +31,8 @@ public class SimpleExampleProcess {
 		
 		NodeImpl startNode = new NodeImpl(activity);
 		NodeImpl secondNode = new NodeImpl(activity2);
+		startNode.setId("1");
+		secondNode.setId("2");
 		startNode.transitionTo(secondNode);
 		ArrayList<Node> startNodes = new ArrayList<Node>();
 		startNodes.add(startNode);

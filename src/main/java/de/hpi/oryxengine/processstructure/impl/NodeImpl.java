@@ -15,7 +15,7 @@ import de.hpi.oryxengine.processstructure.Transition;
  * Which is used for the graph representation of a Process
  */
 public class NodeImpl implements Node {
-
+	
 	/** The activity. */
 	protected Activity activity;
 	
@@ -42,7 +42,7 @@ public class NodeImpl implements Node {
 	public Activity getActivity() {
 		return activity;
 	}
-
+	
 	/**
 	 * Sets the activity.
 	 *
@@ -51,7 +51,7 @@ public class NodeImpl implements Node {
 	public void setActivity(Activity activity) {
 		this.activity = activity;
 	}
-
+	
 	/**
 	 * Sets the next node.
 	 *
@@ -63,18 +63,18 @@ public class NodeImpl implements Node {
 		Transition t = new TransitionImpl(this, node, c);
 		this.transitions.add(t);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see de.hpi.oryxengine.node.NodeInterface#execute()
 	 */
 	public void execute(ProcessInstance instance) {
 		this.activity.execute();
-
+	
 		//TODO: Save result in the instance
 		//instance.setVariable(...)....(missing yet)
 		
 	}
-
+	
 	public ArrayList<Transition> getTransitions() {
 		return transitions;
 	}
@@ -82,7 +82,10 @@ public class NodeImpl implements Node {
   public String getId() {
     return this.id;
   }
-	
+  
+  public void setId(String id) {
+	  this.id = id;
+  }
 	/* (non-Javadoc)
 	 * @see de.hpi.oryxengine.node.NodeInterface#next()
 	 */

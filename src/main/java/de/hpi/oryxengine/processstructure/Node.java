@@ -27,5 +27,7 @@ public interface Node {
 	void transitionTo(NodeImpl node);
 	
 	String getId();
+	
+	void setId(String id);
 
 }
