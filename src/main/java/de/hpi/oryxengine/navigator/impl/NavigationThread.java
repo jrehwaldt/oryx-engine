@@ -1,7 +1,12 @@
 package de.hpi.oryxengine.navigator.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.Transition;
@@ -10,6 +15,9 @@ import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 public class NavigationThread extends Thread{
 
 	private List<ProcessInstance> toNavigate;
+	private Logger logger = Logger.getRootLogger();
+	
+	
 	public NavigationThread(String threadname, List<ProcessInstance> activityQueue){
 		super(threadname);
 		this.toNavigate = activityQueue;
@@ -47,6 +55,7 @@ public class NavigationThread extends Thread{
 			else {
 				try {
 					sleep(1000);
+					logger.info("Queue empty");
 					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block

@@ -10,24 +10,29 @@ import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 public class SimpleExampleProcess {
 
+	private static int instanceCount = 100;
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		NavigatorImpl navigator = new NavigatorImpl();
-		ProcessInstanceImpl instance = sampleProcessInstance();
 		navigator.start();
-		System.out.println("Navigator started");
-		navigator.startArbitraryInstance("1", instance);
-		System.out.println("Instance started");
 		
-
+		//let's generate some load :)
+		for (int i = 0; i < instanceCount; i++){
+			ProcessInstanceImpl instance = sampleProcessInstance(i);
+			
+			System.out.println("Navigator started");
+			navigator.startArbitraryInstance("1", instance);
+			System.out.println("Instance started");
+		}		
 	}
 	
-	private static ProcessInstanceImpl sampleProcessInstance() {
+	private static ProcessInstanceImpl sampleProcessInstance(int counter) {
 		
-		AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck");
-		AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course");
+		AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);
+		AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course "+ counter);
 		
 		NodeImpl startNode = new NodeImpl(activity);
 		NodeImpl secondNode = new NodeImpl(activity2);
