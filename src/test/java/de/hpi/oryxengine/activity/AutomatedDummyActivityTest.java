@@ -1,13 +1,13 @@
 package de.hpi.oryxengine.activity;
 
-import static org.junit.Assert.*;
+import static org.testng.AssertJUnit.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.AbstractActivityImpl.State;
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
@@ -20,7 +20,7 @@ public class AutomatedDummyActivityTest {
 	private String s = "I'm dumb";
 	private AutomatedDummyActivity a;
 	
-	@Before
+	@BeforeTest
 	public void setUp() throws Exception {
 		
 		tmp = System.out;
@@ -50,7 +50,7 @@ public class AutomatedDummyActivityTest {
 		assertEquals("It should have the state Initialized", State.TERMINATED, a.getState());
 	}
 	
-	@After
+	@AfterTest
 	public void tearDown(){
 		System.setOut(tmp);
 	}
