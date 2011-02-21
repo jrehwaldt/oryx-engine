@@ -8,7 +8,7 @@ public interface ProcessInstance {
 	void setCurrentNode(NodeImpl node);
 	String getID();
 	void setID(String s);
-	void setVariable(String name, String value);
-	String getVariable(String name);
+	void setVariable(String name, Object value);
+	Object getVariable(String name);
 	
 }

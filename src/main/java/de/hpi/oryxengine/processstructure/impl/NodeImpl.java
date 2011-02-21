@@ -68,7 +68,7 @@ public class NodeImpl implements Node {
 	 * @see de.hpi.oryxengine.node.NodeInterface#execute()
 	 */
 	public void execute(ProcessInstance instance) {
-		this.activity.execute();
+		this.activity.execute(instance);
 	
 		//TODO: Save result in the instance
 		//instance.setVariable(...)....(missing yet)
