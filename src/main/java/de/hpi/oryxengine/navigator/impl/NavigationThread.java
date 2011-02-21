@@ -38,7 +38,6 @@ public class NavigationThread extends Thread{
 					if (transition.getCondition().evaluate()){
 						NodeImpl destination = transition.getDestination();
 						instance.setCurrentNode(destination);
-						System.out.println("Set new node to " + destination.getId());
 						
 						//TODO: if following transitions there...
 						this.toNavigate.add(instance);
