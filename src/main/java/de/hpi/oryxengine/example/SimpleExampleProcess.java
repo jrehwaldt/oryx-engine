@@ -2,6 +2,8 @@ package de.hpi.oryxengine.example;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
@@ -10,7 +12,8 @@ import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 public class SimpleExampleProcess {
 
-	private static int instanceCount = 100;
+	private static int instanceCount = 1000000;
+	private static Logger logger = Logger.getRootLogger();
 	
 	/**
 	 * @param args
@@ -20,13 +23,14 @@ public class SimpleExampleProcess {
 		navigator.start();
 		
 		//let's generate some load :)
+		logger.info("Engine started");
 		for (int i = 0; i < instanceCount; i++){
 			ProcessInstanceImpl instance = sampleProcessInstance(i);
-			
-			System.out.println("Navigator started");
 			navigator.startArbitraryInstance("1", instance);
-			System.out.println("Instance started");
-		}		
+			if (i % 10000 == 0) {
+				logger.debug("Started " + i + " Instances");
+			}
+		}
 	}
 	
 	private static ProcessInstanceImpl sampleProcessInstance(int counter) {

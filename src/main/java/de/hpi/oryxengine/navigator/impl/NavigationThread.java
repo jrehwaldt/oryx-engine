@@ -54,8 +54,8 @@ public class NavigationThread extends Thread{
 			}
 			else {
 				try {
-					sleep(1000);
-					logger.info("Queue empty");
+					logger.debug("Queue empty");
+					sleep(1000);					
 					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block

@@ -25,7 +25,7 @@ public class NavigatorImpl implements Navigator {
 	private HashMap<String, ProcessInstanceImpl> runningInstances;
 	private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions; 
 	private List<ProcessInstance> toNavigate;
-	private NavigationThread mainExecution;
+	private ArrayList<NavigationThread> executionThreads;
 
 	public NavigatorImpl() {
 	  // TODO Lazy initialized
@@ -33,12 +33,16 @@ public class NavigatorImpl implements Navigator {
 		loadedDefinitions = new HashMap<String, AbstractProcessDefinitionImpl>();
 		toNavigate = new LinkedList<ProcessInstance>();
 		toNavigate = Collections.synchronizedList(toNavigate);
+		executionThreads = new ArrayList<NavigationThread>();
 	}
 	
 	public void start() {
 		// "Gentlemen, start your engines"
-		mainExecution = new NavigationThread("first", toNavigate);
-		mainExecution.start();
+		for (int i = 0; i < 10; i++) {
+			NavigationThread thread = new NavigationThread("NT" + i, toNavigate);
+			thread.start();
+			executionThreads.add(thread);
+		}
 	}
 	
 	public String startProcessInstance(String processID) {
