@@ -2,16 +2,17 @@ package de.hpi.oryxengine.processDefinitionImpl;
 
 import java.util.ArrayList;
 
-import de.hpi.oryxengine.node.NodeImpl;
 import de.hpi.oryxengine.processDefinition.ProcessDefinition;
+import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 public class AbstractProcessDefinitionImpl implements ProcessDefinition {
 
+  // TODO [Gerardo] Was ist denn hieran abstrakt
+  
 	protected ArrayList<NodeImpl> startNodes;
 	protected String id;
 	
 	public void setStartNodes(ArrayList<NodeImpl> nodes) {
-		// TODO Auto-generated method stub
 		this.startNodes = nodes;
 	}
 

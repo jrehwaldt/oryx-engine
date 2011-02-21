@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.processInstance;
 
-import de.hpi.oryxengine.node.NodeImpl;
+import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 public interface ProcessInstance {
 

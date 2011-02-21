@@ -6,14 +6,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.node.NodeImpl;
 import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
-import de.hpi.oryxengine.transition.Transition;
+import de.hpi.oryxengine.processstructure.Transition;
+import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 /**
- * @author jannikStreek
+ * @author Jannik Streek
  *
  */
 
@@ -25,6 +25,7 @@ public class NavigatorImpl implements Navigator {
 	private LinkedList<ProcessInstance> toNavigate;
 
 	public NavigatorImpl() {
+	  // TODO Lazy initialized
 		runningInstances = new HashMap<String, ProcessInstanceImpl>();
 		loadedDefinitions = new HashMap<String, AbstractProcessDefinitionImpl>();
 		toNavigate = new LinkedList<ProcessInstance>();
@@ -88,6 +89,8 @@ public class NavigatorImpl implements Navigator {
 			currentNode.execute(instance);
 			ArrayList<Transition> transitions = currentNode.getTransitions();
 			
+			// TODO [Gerardo] das darf nicht hier hin, denn das sollte von den NodeActivities gekapselt,
+			// denn die wissen dach, was sie mit den Transitionen machen sollten
 			for(Transition transition : transitions){
 				if (transition.getCondition().evaluate()){
 					NodeImpl destination = transition.getDestination();

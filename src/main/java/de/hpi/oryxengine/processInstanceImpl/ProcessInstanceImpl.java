@@ -2,10 +2,10 @@ package de.hpi.oryxengine.processInstanceImpl;
 
 import java.util.ArrayList;
 
-import de.hpi.oryxengine.node.Node;
-import de.hpi.oryxengine.node.NodeImpl;
 import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
+import de.hpi.oryxengine.processstructure.Node;
+import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 public class ProcessInstanceImpl implements ProcessInstance{
 	

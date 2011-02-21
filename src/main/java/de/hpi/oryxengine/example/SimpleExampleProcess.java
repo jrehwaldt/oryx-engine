@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
-import de.hpi.oryxengine.node.Node;
-import de.hpi.oryxengine.node.NodeImpl;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
+import de.hpi.oryxengine.processstructure.Node;
+import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 public class SimpleExampleProcess {
 
