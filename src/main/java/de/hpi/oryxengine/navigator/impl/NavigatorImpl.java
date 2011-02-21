@@ -85,5 +85,11 @@ public class NavigatorImpl implements Navigator {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+  public void stop() {
+    for (NavigationThread executionThread : executionThreads) {
+      executionThread.shouldStop = true;
+    }
+  }
 	
 }

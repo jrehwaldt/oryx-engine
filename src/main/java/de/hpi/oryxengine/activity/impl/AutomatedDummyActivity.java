@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.activity.impl;
 
 import de.hpi.oryxengine.activity.AbstractActivityImpl;
+import de.hpi.oryxengine.processInstance.ProcessInstance;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -27,10 +28,10 @@ public class AutomatedDummyActivity extends AbstractActivityImpl {
 	@Override
 	// A simple execution 
 	// all the state setting may be handled by superclass later on
-	public void execute() {
-		this.state = State.RUNNING;
-		System.out.println(this.message);
-		this.state = State.TERMINATED;
-	}
+  public void execute(ProcessInstance instance) {
+    this.state = State.RUNNING;
+    System.out.println(this.message);
+    this.state = State.TERMINATED;
+  }
 
 }
