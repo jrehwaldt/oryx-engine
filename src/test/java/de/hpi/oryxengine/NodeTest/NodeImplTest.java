@@ -8,6 +8,7 @@ import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.Activity;
@@ -30,14 +31,11 @@ public class NodeImplTest {
 		node.setId("1");
 		node2 = new NodeImpl(activity);
 		node.setId("2");
-		node.transitionTo(node2);
 	}
 	
 	@BeforeTest
 	public void setProcessInstance() {
-		ArrayList<Node> startNodes = new ArrayList<Node>();
-		startNodes.add(node);
-		instance = new ProcessInstanceImpl(startNodes);
+		instance = simpleInstance();
 	}
 	
 	@Test
@@ -58,6 +56,13 @@ public class NodeImplTest {
 	@AfterClass
 	public void tearDown() {
 		
+	}
+	
+	private ProcessInstanceImpl simpleInstance() {		
+		node.transitionTo(node2);
+		ArrayList<Node> startNodes = new ArrayList<Node>();
+		startNodes.add(node);
+		return new ProcessInstanceImpl(startNodes);
 	}
 
 }
