@@ -2,16 +2,14 @@ package de.hpi.oryxengine.processstructure;
 
 import java.util.ArrayList;
 
-import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface NodeInterface.
  */
 public interface Node {
-	
+
 	/**
 	 * Execute the activity of the node.
 	 */
