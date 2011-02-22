@@ -1,8 +1,6 @@
 package de.hpi.oryxengine.activity;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -36,7 +34,7 @@ public class AutomatedDummyActivityTest {
 
   @Test
   public void testActivityInitialization() {
-    assertNotNull("It should not be null since it should be instantiated correctly", a);
+    assertNotNull(a, "It should not be null since it should be instantiated correctly");
   }
 
   // @Test
@@ -48,13 +46,13 @@ public class AutomatedDummyActivityTest {
   @Test
   public void testExecuteOutput() {
     a.execute(processInstance);
-    assertTrue("It should print out the given string when executed", out.toString().indexOf(S) != -1);
+    assertTrue(out.toString().indexOf(S) != -1, "It should print out the given string when executed");
   }
 
   @Test
   public void testStateAfterExecution() {
     a.execute(processInstance);
-    assertEquals("It should have the state Initialized", State.TERMINATED, a.getState());
+    assertEquals(State.TERMINATED, a.getState(), "It should have the state Initialized");
   }
 
   @AfterTest
