@@ -30,7 +30,8 @@ public class NodeImplTest {
 		node = new NodeImpl(activity);
 		node.setId("1");
 		node2 = new NodeImpl(activity);
-		node.setId("2");
+		node2.setId("2");
+		node.transitionTo(node2);
 	}
 	
 	@BeforeTest
@@ -59,7 +60,6 @@ public class NodeImplTest {
 	}
 	
 	private ProcessInstanceImpl simpleInstance() {		
-		node.transitionTo(node2);
 		ArrayList<Node> startNodes = new ArrayList<Node>();
 		startNodes.add(node);
 		return new ProcessInstanceImpl(startNodes);
