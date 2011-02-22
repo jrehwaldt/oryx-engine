@@ -42,20 +42,7 @@ public class NavigationThread extends Thread {
         ProcessInstance instance = this.toNavigate.remove(0);
         NodeImpl currentNode = instance.getCurrentNode();
         currentNode.execute(instance);
-        ArrayList<Transition> transitions = currentNode.getTransitions();
-
-        // TODO [Gerardo] das darf nicht hier hin, denn das sollte von den
-        // NodeActivities gekapselt,
-        // denn die wissen dach, was sie mit den Transitionen machen sollten
-        for (Transition transition : transitions) {
-          if (transition.getCondition().evaluate()) {
-            NodeImpl destination = transition.getDestination();
-            instance.setCurrentNode(destination);
-
-            // TODO: if following transitions there...
-            this.toNavigate.add(instance);
-          }
-        }
+        toNavigate.addAll(currentNode.navigate(instance));        
       } else {
         try {
           logger.debug("Queue empty");

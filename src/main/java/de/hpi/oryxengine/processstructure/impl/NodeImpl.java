@@ -1,9 +1,12 @@
 package de.hpi.oryxengine.processstructure.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import de.hpi.oryxengine.activity.AbstractActivityImpl;
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.Condition;
 import de.hpi.oryxengine.processstructure.Node;
@@ -85,6 +88,23 @@ public class NodeImpl implements Node {
   
   public void setId(String id) {
 	  this.id = id;
+  }
+  
+  public List<ProcessInstance> navigate(ProcessInstance instance) {
+	  List<ProcessInstance> instancesToNavigate = new LinkedList<ProcessInstance>();
+	  if (transitions.size() == 1) {
+		  Transition transition = transitions.get(0);
+		  NodeImpl destination = transition.getDestination();
+          instance.setCurrentNode(destination);
+          instancesToNavigate.add(instance);
+	  }
+	  else {
+		  for (Transition transition : transitions) {
+	          // Create new child instances etc.
+	      }
+	  }
+      
+      return instancesToNavigate;
   }
 	/* (non-Javadoc)
 	 * @see de.hpi.oryxengine.node.NodeInterface#next()

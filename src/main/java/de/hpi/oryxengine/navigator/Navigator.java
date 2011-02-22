@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.navigator;
 
+import de.hpi.oryxengine.processInstance.ProcessInstance;
+
 
 /**
  * The Interface NavigatorInterface.

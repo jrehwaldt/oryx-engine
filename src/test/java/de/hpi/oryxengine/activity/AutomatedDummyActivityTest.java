@@ -52,7 +52,7 @@ public class AutomatedDummyActivityTest {
   @Test
   public void testStateAfterExecution() {
     a.execute(processInstance);
-    assertEquals(State.TERMINATED, a.getState(), "It should have the state Initialized");
+    assertEquals(a.getState(), State.TERMINATED, "It should have the state Initialized");
   }
 
   @AfterTest

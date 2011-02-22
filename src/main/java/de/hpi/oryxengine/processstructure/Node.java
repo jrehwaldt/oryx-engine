@@ -1,7 +1,9 @@
 package de.hpi.oryxengine.processstructure;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
@@ -27,5 +29,14 @@ public interface Node {
 	String getId();
 	
 	void setId(String id);
+	
+	/**
+	 * evaluates outgoing transitions
+	 * 
+	 * @param activityQueue
+	 * @param instance
+	 * @return new ProcessInstances that have to be navigated
+	 */
+	List<ProcessInstance> navigate(ProcessInstance instance);
 
 }
