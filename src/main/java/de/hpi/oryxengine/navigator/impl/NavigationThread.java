@@ -40,9 +40,8 @@ public class NavigationThread extends Thread {
       
       if (this.toNavigate.size() > 0) {
         ProcessInstance instance = this.toNavigate.remove(0);
-        NodeImpl currentNode = instance.getCurrentNode();
-        currentNode.execute(instance);
-        toNavigate.addAll(currentNode.navigate(instance));        
+        List<ProcessInstance> instances = instance.executeStep();
+        toNavigate.addAll(instances);        
       } else {
         try {
           logger.debug("Queue empty");

@@ -2,6 +2,7 @@ package de.hpi.oryxengine.processInstanceImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
@@ -74,4 +75,11 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
     return instanceVariables;
   }
+
+  public List<ProcessInstance> executeStep() {
+	this.currentNode.getActivity().execute(this);
+	return this.currentNode.navigate(this);		
+  }
+	  
+  
 }

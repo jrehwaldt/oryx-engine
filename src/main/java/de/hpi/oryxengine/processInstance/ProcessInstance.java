@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.processInstance;
 
+import java.util.List;
+
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 public interface ProcessInstance {
@@ -10,5 +12,6 @@ public interface ProcessInstance {
 	void setID(String s);
 	void setVariable(String name, Object value);
 	Object getVariable(String name);
+	List<ProcessInstance> executeStep();
 	
 }

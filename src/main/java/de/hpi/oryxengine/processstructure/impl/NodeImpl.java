@@ -67,17 +67,6 @@ public class NodeImpl implements Node {
 		this.transitions.add(t);
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.hpi.oryxengine.node.NodeInterface#execute()
-	 */
-	public void execute(ProcessInstance instance) {
-		this.activity.execute(instance);
-	
-		//TODO: Save result in the instance
-		//instance.setVariable(...)....(missing yet)
-		
-	}
-	
 	public ArrayList<Transition> getTransitions() {
 		return transitions;
 	}
@@ -106,7 +95,4 @@ public class NodeImpl implements Node {
       
       return instancesToNavigate;
   }
-	/* (non-Javadoc)
-	 * @see de.hpi.oryxengine.node.NodeInterface#next()
-	 */
 }

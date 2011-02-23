@@ -3,6 +3,7 @@ package de.hpi.oryxengine.processstructure;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
@@ -12,10 +13,9 @@ import de.hpi.oryxengine.processstructure.impl.NodeImpl;
  */
 public interface Node {
 
-	/**
-	 * Execute the activity of the node.
-	 */
-	void execute(ProcessInstance instance);
+	Activity getActivity();
+	
+	void setActivity(Activity activity);
 	
 	/**
 	 * Next.
