@@ -5,6 +5,6 @@
     <additional-data name="protect-config-file" value="false"/>
   </local-check-config>
   <fileset name="all" enabled="true" check-config-name="CheckStyle for OryxEngine" local="true">
-    <file-match-pattern match-pattern="^src[/\\]." include-pattern="true"/>
+    <file-match-pattern match-pattern="." include-pattern="true"/>
   </fileset>
 </fileset-config>
