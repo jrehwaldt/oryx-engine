@@ -12,6 +12,8 @@ import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
+import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;
 
 public class ExampleProcessForReview {
 
@@ -44,17 +46,19 @@ public class ExampleProcessForReview {
     // Default to gerardo.navarro-suarez@student.hpi.uni-potsdam.de
     Activity mailingResult = new MailingVariable("result");
     Activity end = new EndActivity();
+    
+    RoutingBehaviour behaviour = new BPMNTakeAllBehaviour();
 
-    NodeImpl startNode = new NodeImpl(start);
+    NodeImpl startNode = new NodeImpl(start, behaviour);
     startNode.setId("1");
 
-    NodeImpl secondNode = new NodeImpl(calc5Plus5);
+    NodeImpl secondNode = new NodeImpl(calc5Plus5, behaviour);
     secondNode.setId("2");
 
-    NodeImpl thirdNode = new NodeImpl(printResult);
+    NodeImpl thirdNode = new NodeImpl(printResult, behaviour);
     thirdNode.setId("3");
 
-    NodeImpl fourthNode = new NodeImpl(mailingResult);
+    NodeImpl fourthNode = new NodeImpl(mailingResult, behaviour);
     fourthNode.setId("4");
 
     NodeImpl endNode = new NodeImpl(end);

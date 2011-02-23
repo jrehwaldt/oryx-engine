@@ -78,7 +78,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
 
   public List<ProcessInstance> executeStep() {
 	this.currentNode.getActivity().execute(this);
-	return this.currentNode.navigate(this);		
+	return this.currentNode.getRoutingBehaviour().execute(this);
+	//return this.currentNode.navigate(this);		
   }
 	  
   

@@ -11,6 +11,7 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.Condition;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.Transition;
+import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -22,6 +23,9 @@ public class NodeImpl implements Node {
 	/** The activity. */
 	protected Activity activity;
 	
+	/** The routing behaviour. */
+	protected RoutingBehaviour behaviour;
+	
 	/** The next node. */
 	protected ArrayList<Transition> transitions;
 	
@@ -32,9 +36,14 @@ public class NodeImpl implements Node {
 	 *
 	 * @param activity the activity to be executed
 	 */
-	public NodeImpl(Activity activity) {
+	public NodeImpl(Activity activity, RoutingBehaviour behaviour) {
 		this.activity = activity;
+		this.behaviour = behaviour;
 		this.transitions = new  ArrayList<Transition>();
+	}
+	
+	public NodeImpl(Activity activity) {
+		this(activity, null);
 	}
 	
 	/**
@@ -78,21 +87,13 @@ public class NodeImpl implements Node {
   public void setId(String id) {
 	  this.id = id;
   }
+
   
-  public List<ProcessInstance> navigate(ProcessInstance instance) {
-	  List<ProcessInstance> instancesToNavigate = new LinkedList<ProcessInstance>();
-	  if (transitions.size() == 1) {
-		  Transition transition = transitions.get(0);
-		  NodeImpl destination = transition.getDestination();
-          instance.setCurrentNode(destination);
-          instancesToNavigate.add(instance);
-	  }
-	  else {
-		  for (Transition transition : transitions) {
-	          // Create new child instances etc.
-	      }
-	  }
-      
-      return instancesToNavigate;
+  public void setRoutingBehaviour(RoutingBehaviour behaviour) {
+	  this.behaviour = behaviour;
+  }
+  
+  public RoutingBehaviour getRoutingBehaviour() {
+	  return behaviour;
   }
 }

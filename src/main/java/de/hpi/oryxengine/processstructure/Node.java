@@ -29,14 +29,5 @@ public interface Node {
 	String getId();
 	
 	void setId(String id);
-	
-	/**
-	 * evaluates outgoing transitions
-	 * 
-	 * @param activityQueue
-	 * @param instance
-	 * @return new ProcessInstances that have to be navigated
-	 */
-	List<ProcessInstance> navigate(ProcessInstance instance);
 
 }
