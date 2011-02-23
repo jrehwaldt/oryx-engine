@@ -87,7 +87,6 @@ public class NodeImpl implements Node {
   public void setId(String id) {
 	  this.id = id;
   }
-
   
   public void setRoutingBehaviour(RoutingBehaviour behaviour) {
 	  this.behaviour = behaviour;

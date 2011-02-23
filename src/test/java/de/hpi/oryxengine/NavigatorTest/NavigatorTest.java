@@ -14,6 +14,8 @@ import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
+import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;
 
 
 public class NavigatorTest{
@@ -23,7 +25,6 @@ public class NavigatorTest{
 	ProcessInstanceImpl processInstance;
 	private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 	private PrintStream tmp;
-	
 
 	@BeforeClass
 	public void setUp() throws Exception {
@@ -34,8 +35,9 @@ public class NavigatorTest{
 		nav = new NavigatorImpl();
 		nav.start();
 		
+		RoutingBehaviour behaviour = new BPMNTakeAllBehaviour();
 		AutomatedDummyActivity activity = new AutomatedDummyActivity("test");
-		node = new NodeImpl(activity);
+		node = new NodeImpl(activity, behaviour);
 		node.setId("1");
 		node2 = new NodeImpl(activity);
 		node2.setId("2");
