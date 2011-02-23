@@ -38,8 +38,17 @@ public class NavigationThread extends Thread {
         break;
       }
       
-      if (this.toNavigate.size() > 0) {
-        ProcessInstance instance = this.toNavigate.remove(0);
+      ProcessInstance instance = null;
+      
+      // This has to be an atomic operation on toNavigate, otherwise
+      // an IndexOutOfBoundsException might occur
+      synchronized(this.toNavigate) {
+        if (this.toNavigate.size() > 0) {
+          instance = this.toNavigate.remove(0);
+        }
+      }
+      
+      if (instance != null) {
         List<ProcessInstance> instances = instance.executeStep();
         toNavigate.addAll(instances);        
       } else {
