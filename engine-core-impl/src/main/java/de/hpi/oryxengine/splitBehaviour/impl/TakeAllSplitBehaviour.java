@@ -1,9 +1,9 @@
-package de.hpi.oryxengine.routingBehaviour.impl;
+package de.hpi.oryxengine.splitBehaviour.impl;
 
 import java.util.List;
 
 import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.routingBehaviour.SplitBehaviour;
+import de.hpi.oryxengine.splitBehaviour.SplitBehaviour;
 
 public class TakeAllSplitBehaviour implements SplitBehaviour {
 

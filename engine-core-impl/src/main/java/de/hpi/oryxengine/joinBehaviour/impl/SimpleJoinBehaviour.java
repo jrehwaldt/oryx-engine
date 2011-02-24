@@ -1,10 +1,10 @@
-package de.hpi.oryxengine.routingBehaviour.impl;
+package de.hpi.oryxengine.joinBehaviour.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hpi.oryxengine.joinBehaviour.JoinBehaviour;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.routingBehaviour.JoinBehaviour;
 
 public class SimpleJoinBehaviour implements JoinBehaviour {
 

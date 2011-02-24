@@ -9,11 +9,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.joinBehaviour.impl.AndJoinBehaviour;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
-import de.hpi.oryxengine.routingBehaviour.impl.AndJoinBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.AndJoinGatewayBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 

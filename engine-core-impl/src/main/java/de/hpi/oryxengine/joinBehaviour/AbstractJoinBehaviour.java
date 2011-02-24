@@ -1,10 +1,11 @@
-package de.hpi.oryxengine.routingBehaviour;
+package de.hpi.oryxengine.joinBehaviour;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import de.hpi.oryxengine.joinBehaviour.JoinBehaviour;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 
 public abstract class AbstractJoinBehaviour implements JoinBehaviour {
