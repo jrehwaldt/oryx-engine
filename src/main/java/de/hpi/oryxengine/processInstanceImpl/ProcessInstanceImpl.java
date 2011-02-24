@@ -17,7 +17,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
     private String id;
     private Node currentNode;
     private ProcessInstance parentInstance;
-    private ArrayList<ProcessInstance> childInstances;
+    private List<ProcessInstance> childInstances;
     private Map<String, Object> instanceVariables;
 
     public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition, Integer startNumber) {
@@ -61,12 +61,12 @@ public class ProcessInstanceImpl implements ProcessInstance {
         currentNode = node;
     }
 
-    public ArrayList<ProcessInstance> getChildInstances() {
+    public List<ProcessInstance> getChildInstances() {
 
         return childInstances;
     }
 
-    public void setChildInstances(ArrayList<ProcessInstance> childInstances) {
+    public void setChildInstances(List<ProcessInstance> childInstances) {
 
         this.childInstances = childInstances;
     }

@@ -71,7 +71,7 @@ public class NodeImpl implements Node {
      * @param node the next node where the transition points to
      */
 
-    public void transitionTo(NodeImpl node) {
+    public void transitionTo(Node node) {
 
         Condition c = new ConditionImpl();
         Transition t = new TransitionImpl(this, node, c);

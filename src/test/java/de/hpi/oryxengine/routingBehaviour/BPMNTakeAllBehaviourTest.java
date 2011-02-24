@@ -3,6 +3,8 @@ package de.hpi.oryxengine.routingBehaviour;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.*;
 
+import java.util.ArrayList;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,7 +16,7 @@ import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;
 
-public class RoutingBehaviourTest {
+public class BPMNTakeAllBehaviourTest {
 
     private RoutingBehaviour behaviour;
     private ProcessInstance instance;
