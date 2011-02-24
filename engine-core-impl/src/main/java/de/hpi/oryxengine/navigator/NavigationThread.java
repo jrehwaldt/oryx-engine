@@ -9,23 +9,26 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 // TODO Auto-generated Javadoc
 /**
  * The Class NavigationThread.
+ * Which is one thread to navigate.
  */
 public class NavigationThread extends Thread {
 
     /** The to navigate. */
     private List<ProcessInstance> toNavigate;
-    
+
     /** The logger. */
     private Logger logger = Logger.getRootLogger();
-    
-    /** The should stop. */
+
+    /** The should stop. Indicates if the Thread should stop executing. See the doWork source for details.*/
     private boolean shouldStop = false;
 
     /**
      * Instantiates a new navigation thread.
-     *
-     * @param threadname the threadname
-     * @param activityQueue the activity queue
+     * 
+     * @param threadname
+     *            the threadname
+     * @param activityQueue
+     *            the activity queue
      */
     public NavigationThread(String threadname, List<ProcessInstance> activityQueue) {
 
@@ -33,7 +36,9 @@ public class NavigationThread extends Thread {
         this.toNavigate = activityQueue;
     }
 
-    /* (non-Javadoc)
+    /**
+     * The run method which starts the execution of the thread.
+     * 
      * @see java.lang.Thread#run()
      */
     public void run() {
@@ -41,20 +46,20 @@ public class NavigationThread extends Thread {
         doWork();
     }
 
-    // Main Loop: Takes a executable process instance and the belonging node
-    // and executes the node. After, the true conditions are followed and the next
-    // node is set.
-    // Now the process instance is added to the Queue again. This has the
-    // advantage that the navigator can now
-    // handle multiple instances.
-
     /**
      * Do work.
+     * This method does the real work.
+     * Main Loop: Takes an executable process instance and the belonging node
+     * and executes the node. After, the true conditions are followed and the next
+     * node is set.
+     * Now the process instance is added to the Queue again. This has the
+     * advantage that the navigator can now
+     * handle multiple instances.
      */
     public void doWork() {
 
         while (true) {
-            // Das muss auf jeden fall verändert werden
+            // TODO: Das muss auf jeden fall verändert werden
             if (shouldStop) {
                 break;
             }
@@ -86,7 +91,7 @@ public class NavigationThread extends Thread {
 
     /**
      * Gets the to navigate.
-     *
+     * 
      * @return the to navigate
      */
     public List<ProcessInstance> getToNavigate() {
@@ -96,8 +101,9 @@ public class NavigationThread extends Thread {
 
     /**
      * Sets the to navigate.
-     *
-     * @param toNavigate the new to navigate
+     * 
+     * @param toNavigate
+     *            the new to navigate
      */
     public void setToNavigate(List<ProcessInstance> toNavigate) {
 
@@ -106,7 +112,7 @@ public class NavigationThread extends Thread {
 
     /**
      * Gets the logger.
-     *
+     * 
      * @return the logger
      */
     public Logger getLogger() {
@@ -116,8 +122,9 @@ public class NavigationThread extends Thread {
 
     /**
      * Sets the logger.
-     *
-     * @param logger the new logger
+     * 
+     * @param logger
+     *            the new logger
      */
     public void setLogger(Logger logger) {
 
@@ -126,7 +133,7 @@ public class NavigationThread extends Thread {
 
     /**
      * Checks if is should stop.
-     *
+     * 
      * @return true, if is should stop
      */
     public boolean isShouldStop() {
@@ -136,8 +143,9 @@ public class NavigationThread extends Thread {
 
     /**
      * Sets the should stop.
-     *
-     * @param shouldStop the new should stop
+     * 
+     * @param shouldStop
+     *            the new should stop
      */
     public void setShouldStop(boolean shouldStop) {
 
