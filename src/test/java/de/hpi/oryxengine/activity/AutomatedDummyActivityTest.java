@@ -1,8 +1,6 @@
 package de.hpi.oryxengine.activity;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -21,7 +19,7 @@ public class AutomatedDummyActivityTest {
 
     private PrintStream tmp;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private String S = "I'm dumb";
+    private String s = "I'm dumb";
     private AutomatedDummyActivity a;
     private ProcessInstance processInstance;
 
@@ -31,7 +29,7 @@ public class AutomatedDummyActivityTest {
 
         tmp = System.out;
         System.setOut(new PrintStream(out));
-        a = new AutomatedDummyActivity(S);
+        a = new AutomatedDummyActivity(s);
         processInstance = new ProcessInstanceImpl(new NodeImpl(a));
     }
 
@@ -51,7 +49,7 @@ public class AutomatedDummyActivityTest {
     public void testExecuteOutput() {
 
         a.execute(processInstance);
-        assertTrue(out.toString().indexOf(S) != -1, "It should print out the given string when executed");
+        assertTrue(out.toString().indexOf(s) != -1, "It should print out the given string when executed");
     }
 
     @Test

@@ -1,15 +1,18 @@
 package de.hpi.oryxengine.navigator.impl;
 
-import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
+import de.hpi.oryxengine.processInstance.ProcessInstance;
+import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
+
+
+
 
 /**
  * 

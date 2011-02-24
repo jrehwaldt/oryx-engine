@@ -2,14 +2,14 @@ package de.hpi.oryxengine.activity;
 
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 
-// TODO: Auto-generated Javadoc
+// TODO Auto-generated Javadoc
 /**
  * The Class AbstractNode.
  */
 public abstract class AbstractActivityImpl implements Activity {
 
     /** The state. */
-    protected State state;
+    private State state;
 
     /**
      * Instantiates a new abstract node.
@@ -21,7 +21,7 @@ public abstract class AbstractActivityImpl implements Activity {
 
     /**
      * Gets the state of the node.
-     * 
+     *
      * @return the state
      */
     public State getState() {
@@ -31,7 +31,7 @@ public abstract class AbstractActivityImpl implements Activity {
 
     /**
      * Sets the state of the node.
-     * 
+     *
      * @param state
      *            the new state
      */
@@ -60,7 +60,7 @@ public abstract class AbstractActivityImpl implements Activity {
     // start execution
     /**
      * Execute.
-     * 
+     *
      * @see de.hpi.oryxengine.activity.ActivityInterface#execute()
      */
     public void execute(ProcessInstance instance) {

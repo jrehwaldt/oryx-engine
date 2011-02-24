@@ -23,7 +23,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
     public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition, Integer startNumber) {
 
         // choose a start Node from the possible List of Nodes
-        // TODO: how to choose the start node?
+        // TODO how to choose the start node?
         ArrayList<NodeImpl> startNodes = processDefinition.getStartNodes();
         currentNode = startNodes.get(startNumber);
 

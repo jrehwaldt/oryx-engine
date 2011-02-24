@@ -1,13 +1,12 @@
 package de.hpi.oryxengine.processInstance;
 
-import static org.mockito.Mockito.mock;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.Mockito.mock;
+import static org.testng.Assert.*;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import static org.testng.Assert.*;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;

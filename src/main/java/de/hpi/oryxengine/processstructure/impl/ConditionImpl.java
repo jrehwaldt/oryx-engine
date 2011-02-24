@@ -6,7 +6,7 @@ public class ConditionImpl implements Condition {
 
     public boolean evaluate() {
 
-        // TODO: Atm for testing just return true
+        // TODO Atm for testing just return true
         return true;
     }
 
