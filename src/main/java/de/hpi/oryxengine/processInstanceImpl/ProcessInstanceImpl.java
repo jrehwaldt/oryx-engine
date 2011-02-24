@@ -2,12 +2,14 @@ package de.hpi.oryxengine.processInstanceImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.Node;
+import de.hpi.oryxengine.processstructure.Transition;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 public class ProcessInstanceImpl implements ProcessInstance {
@@ -93,6 +95,29 @@ public class ProcessInstanceImpl implements ProcessInstance {
         this.currentNode.getActivity().execute(this);
         return this.currentNode.getRoutingBehaviour().execute(this);
         // return this.currentNode.navigate(this);
+    }
+
+    public List<ProcessInstance> takeAllTransitions() {
+
+        List<ProcessInstance> instancesToNavigate = new LinkedList<ProcessInstance>();
+        ArrayList<Transition> transitions = this.getCurrentNode().getTransitions();
+        if (transitions.size() == 1) {
+            Transition transition = transitions.get(0);
+            NodeImpl destination = transition.getDestination();
+            this.setCurrentNode(destination);
+            instancesToNavigate.add(this);
+        } else {
+            for (Transition transition : transitions) {
+                // Create new child instances etc.
+            }
+        }
+        return instancesToNavigate;
+
+    }
+
+    public List<ProcessInstance> takeSingleTransition(Transition t) {
+
+        return null;
     }
 
 }
