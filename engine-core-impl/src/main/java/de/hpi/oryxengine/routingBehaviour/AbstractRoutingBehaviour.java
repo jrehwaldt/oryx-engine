@@ -2,9 +2,9 @@ package de.hpi.oryxengine.routingBehaviour;
 
 import java.util.List;
 
-import de.hpi.oryxengine.joinBehaviour.JoinBehaviour;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.splitBehaviour.SplitBehaviour;
+import de.hpi.oryxengine.routingBehaviour.joinBehaviour.JoinBehaviour;
+import de.hpi.oryxengine.routingBehaviour.splitBehaviour.SplitBehaviour;
 
 /**
  * The Class AbstractRoutingBehaviour.

@@ -1,16 +1,26 @@
-package de.hpi.oryxengine.joinBehaviour.impl;
+package de.hpi.oryxengine.routingBehaviour.joinBehaviour.impl;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import de.hpi.oryxengine.joinBehaviour.AbstractJoinBehaviour;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.Transition;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
+import de.hpi.oryxengine.routingBehaviour.joinBehaviour.AbstractJoinBehaviour;
 
+/**
+ * The Class AndJoinBehaviour. Realizes the joining of more than one incoming path.
+ */
 public class AndJoinBehaviour extends AbstractJoinBehaviour {
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.hpi.oryxengine.routingBehaviour.joinBehaviour.AbstractJoinBehaviour#joinable(de.hpi.oryxengine.processInstance
+     * .ProcessInstance)
+     */
     @Override
     protected boolean joinable(ProcessInstance instance) {
 
@@ -28,6 +38,13 @@ public class AndJoinBehaviour extends AbstractJoinBehaviour {
         return joinable;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.hpi.oryxengine.routingBehaviour.joinBehaviour.AbstractJoinBehaviour#performJoin(de.hpi.oryxengine.processInstance
+     * .ProcessInstance)
+     */
     @Override
     protected List<ProcessInstance> performJoin(ProcessInstance instance) {
 
