@@ -9,9 +9,9 @@ import de.hpi.oryxengine.processstructure.Transition;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
-public class BPMNTakeAllBehaviour implements RoutingBehaviour {
+public class TakeAllBehaviour implements RoutingBehaviour {
 
-    public BPMNTakeAllBehaviour() {
+    public TakeAllBehaviour() {
 
     }
 

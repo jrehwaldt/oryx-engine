@@ -14,8 +14,8 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
-import de.hpi.oryxengine.routingBehaviour.impl.BPMNAndJoinBehaviour;
-import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.AndJoinBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
 public class BPMNAndJoinTest {
 
@@ -70,8 +70,8 @@ public class BPMNAndJoinTest {
 
         Activity activity = mock(Activity.class);
         splitNode = mock(Node.class);
-        behaviour = new BPMNTakeAllBehaviour();
-        joinBehaviour = new BPMNAndJoinBehaviour();
+        behaviour = new TakeAllBehaviour();
+        joinBehaviour = new AndJoinBehaviour();
 
         node1 = new NodeImpl(activity, behaviour);
         node1.setId("1");

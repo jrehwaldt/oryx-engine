@@ -13,7 +13,7 @@ import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.EmptyRoutingBehaviour;
 
 public class NavigatorTest {
@@ -34,7 +34,7 @@ public class NavigatorTest {
         nav = new NavigatorImpl();
         nav.start();
 
-        RoutingBehaviour takeAllBehaviour = new BPMNTakeAllBehaviour();
+        RoutingBehaviour takeAllBehaviour = new TakeAllBehaviour();
         RoutingBehaviour emptyBehaviour = new EmptyRoutingBehaviour();
         AutomatedDummyActivity activity = new AutomatedDummyActivity("test");
         node = new NodeImpl(activity, takeAllBehaviour);

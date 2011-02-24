@@ -8,7 +8,7 @@ import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.Transition;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
-public class BPMNAndJoinBehaviour implements RoutingBehaviour {
+public class AndJoinBehaviour implements RoutingBehaviour {
 
     public List<ProcessInstance> execute(ProcessInstance instance) {
 

@@ -13,7 +13,7 @@ import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
 /**
  * The Class that holds the example process that needs as review process for the engine.
@@ -53,7 +53,7 @@ public class ExampleProcessForReview {
         Activity mailingResult = new MailingVariable("result");
         Activity end = new EndActivity();
 
-        RoutingBehaviour behaviour = new BPMNTakeAllBehaviour();
+        RoutingBehaviour behaviour = new TakeAllBehaviour();
 
         NodeImpl startNode = new NodeImpl(start, behaviour);
         startNode.setId("1");
