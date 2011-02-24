@@ -12,11 +12,11 @@
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
     <module name="JavadocMethod">
-      <property name="severity" value="ignore"/>
       <property name="suppressLoadErrors" value="true"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
-    <module name="JavadocType"/>
+    <module name="JavadocType">
+      <property name="severity" value="error"/>
+    </module>
     <module name="JavadocVariable">
       <property name="severity" value="ignore"/>
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
@@ -97,7 +97,30 @@
       <property name="separated" value="true"/>
     </module>
     <module name="MutableException"/>
-    <module name="UncommentedMain"/>
+    <module name="UncommentedMain">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="TrailingComment"/>
+    <module name="OuterTypeFilename">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="MissingOverride"/>
+    <module name="MissingDeprecated"/>
+    <module name="BooleanExpressionComplexity"/>
+    <module name="EqualsAvoidNull">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="JUnitTestCase">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="PackageDeclaration">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="RegexpSinglelineJava">
+      <property name="format" value="\s+$"/>
+      <property name="message" value="Line has trailing spaces."/>
+      <property name="ignoreComments" value="true"/>
+    </module>
   </module>
   <module name="JavadocPackage">
     <property name="severity" value="ignore"/>
@@ -108,6 +131,7 @@
   <module name="FileLength"/>
   <module name="FileTabCharacter"/>
   <module name="RegexpSingleline">
+    <property name="severity" value="ignore"/>
     <property name="format" value="\s+$"/>
     <property name="message" value="Line has trailing spaces."/>
   </module>
