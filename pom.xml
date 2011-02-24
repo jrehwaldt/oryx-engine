@@ -2,47 +2,47 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>de.hpi.oryx_engine</groupId>
-    <artifactId>oryx_engine</artifactId>
+    <groupId>de.hpi.oryxengine</groupId>
+    <artifactId>engine-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Oryx-Engine</name>
     <packaging>pom</packaging>
     <description>Parent POM of the Oryx Engine</description>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <checkstyle-config>.checkstyle_for_oryxengine</checkstyle-config>
     </properties>
-    
+
     <dependencyManagement>
-	    <dependencies>
-        	<dependency>
-        		<groupId>org.testng</groupId>
-        		<artifactId>testng</artifactId>
-        		<version>5.14.6</version>
-        		<scope>test</scope>
-       		</dependency>
-       		<dependency>
-       			<groupId>org.mockito</groupId>
-       			<artifactId>mockito-all</artifactId>
-       			<version>1.8.5</version>
-       			<scope>test</scope>
-   			</dependency>
-   			<dependency>
-   				<groupId>log4j</groupId>
-   				<artifactId>log4j</artifactId>
-   				<version>1.2.16</version>
-   				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>1.4.1</version>
-			</dependency>
-		</dependencies>
+        <dependencies>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>5.14.6</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.8.5</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.16</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>1.4.1</version>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -52,12 +52,12 @@
                 <configuration>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <configLocation>${checkstyle-config}</configLocation>
-                    <!--<failsOnError>true</failsOnError>-->
+                    <!--<failsOnError>true</failsOnError> -->
                 </configuration>
             </plugin>
         </plugins>
     </build>
-    
+
     <reporting>
         <plugins>
             <plugin>
@@ -72,10 +72,10 @@
                 <configuration>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <configLocation>${checkstyle-config}</configLocation>
-                    <!--<failsOnError>true</failsOnError>-->
+                    <!--<failsOnError>true</failsOnError> -->
                 </configuration>
             </plugin>
         </plugins>
     </reporting>
-    
+
 </project>
