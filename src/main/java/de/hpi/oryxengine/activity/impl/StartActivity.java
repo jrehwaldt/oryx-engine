@@ -5,8 +5,9 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 
 public class StartActivity implements Activity {
 
-  public void execute(ProcessInstance instance) {
-    // Nothing toDo
-  }
+    public void execute(ProcessInstance instance) {
+
+        // Nothing toDo
+    }
 
 }

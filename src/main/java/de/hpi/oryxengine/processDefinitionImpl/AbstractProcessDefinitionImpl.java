@@ -7,25 +7,29 @@ import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 public class AbstractProcessDefinitionImpl implements ProcessDefinition {
 
-  // TODO [Gerardo] Was ist denn hieran abstrakt
-  
-	protected ArrayList<NodeImpl> startNodes;
-	protected String id;
-	
-	public void setStartNodes(ArrayList<NodeImpl> nodes) {
-		this.startNodes = nodes;
-	}
+    // TODO [Gerardo] Was ist denn hieran abstrakt
 
-	public ArrayList<NodeImpl> getStartNodes(){
-		return startNodes;
-	}
+    protected ArrayList<NodeImpl> startNodes;
+    protected String id;
 
-	public String getID() {
-		return id;
-	}
+    public void setStartNodes(ArrayList<NodeImpl> nodes) {
 
-	public void setID(String s) {
-		this.id = s;
-	}
+        this.startNodes = nodes;
+    }
+
+    public ArrayList<NodeImpl> getStartNodes() {
+
+        return startNodes;
+    }
+
+    public String getID() {
+
+        return id;
+    }
+
+    public void setID(String s) {
+
+        this.id = s;
+    }
 
 }

@@ -7,9 +7,9 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
  */
 public interface Activity {
 
-  /**
-   * Execute. Starts the execution of a Node Instance.
-   */
-  public void execute(ProcessInstance instance);
+    /**
+     * Execute. Starts the execution of a Node Instance.
+     */
+    public void execute(ProcessInstance instance);
 
 }

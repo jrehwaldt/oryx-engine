@@ -13,21 +13,21 @@ import de.hpi.oryxengine.processstructure.impl.NodeImpl;
  */
 public interface Node {
 
-	Activity getActivity();
-	
-	void setActivity(Activity activity);
-	
-	/**
-	 * Next.
-	 *
-	 * @return the next Node(s) depending on the node (normal nodes vs. Splits which have multiple next nodes). 
-	 */
-	ArrayList<Transition> getTransitions();
-	
-	void transitionTo(NodeImpl node);
-	
-	String getId();
-	
-	void setId(String id);
+    Activity getActivity();
+
+    void setActivity(Activity activity);
+
+    /**
+     * Next.
+     * 
+     * @return the next Node(s) depending on the node (normal nodes vs. Splits which have multiple next nodes).
+     */
+    ArrayList<Transition> getTransitions();
+
+    void transitionTo(NodeImpl node);
+
+    String getId();
+
+    void setId(String id);
 
 }

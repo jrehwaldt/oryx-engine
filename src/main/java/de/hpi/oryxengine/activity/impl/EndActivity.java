@@ -5,9 +5,10 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 
 public class EndActivity implements Activity {
 
-  public void execute(ProcessInstance instance) {
-    // Doing nothing is the default behavior
-    // This must change.
-  }
+    public void execute(ProcessInstance instance) {
+
+        // Doing nothing is the default behavior
+        // This must change.
+    }
 
 }

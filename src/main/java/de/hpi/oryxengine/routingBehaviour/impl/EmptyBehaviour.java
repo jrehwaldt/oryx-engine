@@ -9,6 +9,7 @@ import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 public class EmptyBehaviour implements RoutingBehaviour {
 
     public List<ProcessInstance> execute(ProcessInstance instance) {
+
         return new LinkedList<ProcessInstance>();
     }
 

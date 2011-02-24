@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 public class ProcessDefinitionImpl extends AbstractProcessDefinitionImpl {
-	public ProcessDefinitionImpl(ArrayList<NodeImpl> startNodes){
-		this.startNodes = startNodes;
-	}
+    public ProcessDefinitionImpl(ArrayList<NodeImpl> startNodes) {
+
+        this.startNodes = startNodes;
+    }
 }

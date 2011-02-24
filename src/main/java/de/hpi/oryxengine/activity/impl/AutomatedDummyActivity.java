@@ -8,30 +8,33 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
  * The Class AutomatedDummyNode.
  */
 public class AutomatedDummyActivity extends AbstractActivityImpl {
-	
-	/** This is the message the node prints out during its execution. */
-	private String message;
 
-	/**
-	 * Instantiates a new automated dummy node.
-	 *
-	 * @param s the String which message gets set to.
-	 */
-	public AutomatedDummyActivity(String s) {
-		super();
-		this.message = s;
-	}
+    /** This is the message the node prints out during its execution. */
+    private String message;
 
-	/** 
-	 * @see de.hpi.oryxengine.activity.AbstractActivityImpl#execute()
-	 */
-	@Override
-	// A simple execution 
-	// all the state setting may be handled by superclass later on
-  public void execute(ProcessInstance instance) {
-    this.state = State.RUNNING;
-    System.out.println(this.message);
-    this.state = State.TERMINATED;
-  }
+    /**
+     * Instantiates a new automated dummy node.
+     *  
+     * @param s
+     *            the String which message gets set to.
+     */
+    public AutomatedDummyActivity(String s) {
+
+        super();
+        this.message = s;
+    }
+
+    /**
+     * @see de.hpi.oryxengine.activity.AbstractActivityImpl#execute()
+     */
+    @Override
+    // A simple execution
+    // all the state setting may be handled by superclass later on
+    public void execute(ProcessInstance instance) {
+
+        this.state = State.RUNNING;
+        System.out.println(this.message);
+        this.state = State.TERMINATED;
+    }
 
 }

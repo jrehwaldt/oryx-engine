@@ -18,64 +18,65 @@ import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.EmptyBehaviour;
 
+public class NavigatorTest {
 
-public class NavigatorTest{
-	
-	NavigatorImpl nav;
-	NodeImpl node,node2;
-	ProcessInstanceImpl processInstance;
-	private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-	private PrintStream tmp;
+    NavigatorImpl nav;
+    NodeImpl node, node2;
+    ProcessInstanceImpl processInstance;
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private PrintStream tmp;
 
-	@BeforeClass
-	public void setUp() throws Exception {
-		
-		tmp = System.out;
-		System.setOut(new PrintStream(out));
-		
-		nav = new NavigatorImpl();
-		nav.start();
-		
-		RoutingBehaviour takeAllBehaviour = new BPMNTakeAllBehaviour();
-		RoutingBehaviour emptyBehaviour = new EmptyBehaviour();
-		AutomatedDummyActivity activity = new AutomatedDummyActivity("test");
-		node = new NodeImpl(activity, takeAllBehaviour);
-		node.setId("1");
-		node2 = new NodeImpl(activity, emptyBehaviour);
-		node2.setId("2");
-		node.transitionTo(node2);
-		ArrayList<Node> startNodes = new ArrayList<Node>();
-		startNodes.add(node);
-		processInstance = new ProcessInstanceImpl(startNodes);
+    @BeforeClass
+    public void setUp()
+    throws Exception {
 
-	}
-	
-	@Test
-	public void testSignalLength(){
+        tmp = System.out;
+        System.setOut(new PrintStream(out));
 
-		nav.startArbitraryInstance("1", processInstance);
-		
-		//this is not so nice, but I am not sure how to test correctly with parrallel behaviour
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		Assert.assertEquals(processInstance.getCurrentNode(), node2);
-		//assert processInstance.getCurrentNode().getId().equals("2");
+        nav = new NavigatorImpl();
+        nav.start();
 
-	}
-	
-//	@Test
-//	public void testSignalPrint(){
-//		nav.startArbitraryInstance("1", processInstance);
-//
-//		assert "test\ntest".equals(out.toString().trim());
-//	}
-	
-	@AfterClass
-	public void tearDown(){
-		System.setOut(tmp);
-	}
+        RoutingBehaviour takeAllBehaviour = new BPMNTakeAllBehaviour();
+        RoutingBehaviour emptyBehaviour = new EmptyBehaviour();
+        AutomatedDummyActivity activity = new AutomatedDummyActivity("test");
+        node = new NodeImpl(activity, takeAllBehaviour);
+        node.setId("1");
+        node2 = new NodeImpl(activity, emptyBehaviour);
+        node2.setId("2");
+        node.transitionTo(node2);
+        ArrayList<Node> startNodes = new ArrayList<Node>();
+        startNodes.add(node);
+        processInstance = new ProcessInstanceImpl(startNodes);
+
+    }
+
+    @Test
+    public void testSignalLength() {
+
+        nav.startArbitraryInstance("1", processInstance);
+
+        // this is not so nice, but I am not sure how to test correctly with parrallel behaviour
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Assert.assertEquals(processInstance.getCurrentNode(), node2);
+        // assert processInstance.getCurrentNode().getId().equals("2");
+
+    }
+
+    // @Test
+    // public void testSignalPrint(){
+    // nav.startArbitraryInstance("1", processInstance);
+    //
+    // assert "test\ntest".equals(out.toString().trim());
+    // }
+
+    @AfterClass
+    public void tearDown() {
+
+        System.setOut(tmp);
+    }
 
 }

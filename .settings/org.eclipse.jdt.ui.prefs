@@ -1,4 +1,4 @@
-#Wed Feb 23 09:15:52 CET 2011
+#Thu Feb 24 09:14:04 CET 2011
 cleanup.add_default_serial_version_id=true
 cleanup.add_generated_serial_version_id=false
 cleanup.add_missing_annotations=true
@@ -50,8 +50,8 @@ cleanup.use_this_for_non_static_field_access=true
 cleanup.use_this_for_non_static_field_access_only_if_necessary=false
 cleanup.use_this_for_non_static_method_access=true
 cleanup.use_this_for_non_static_method_access_only_if_necessary=false
-cleanup_profile=_eclipse-cs oryx-engine
+cleanup_profile=_eclipse-cs oryx_engine
 cleanup_settings_version=2
 eclipse.preferences.version=1
-formatter_profile=_eclipse-cs oryx-engine
+formatter_profile=_eclipse-cs oryx_engine
 formatter_settings_version=11
