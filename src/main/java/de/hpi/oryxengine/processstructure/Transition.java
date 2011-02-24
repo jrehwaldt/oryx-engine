@@ -6,7 +6,7 @@ public interface Transition {
 
     Condition getCondition();
 
-    NodeImpl getDestination();
+    Node getDestination();
 
-    NodeImpl getSource();
+    Node getSource();
 }

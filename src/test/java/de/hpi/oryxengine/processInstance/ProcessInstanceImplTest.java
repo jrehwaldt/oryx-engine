@@ -5,22 +5,23 @@ import static org.mockito.Mockito.mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.Node;
+import de.hpi.oryxengine.processstructure.Transition;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
-import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;
 
 public class ProcessInstanceImplTest {
 
     ProcessInstance instance;
     NodeImpl node, node2, node3;
+    Transition transitionToTake;
 
-    @BeforeClass
+    @BeforeTest
     public void setUp() {
 
         instance = simpleInstance();
@@ -43,7 +44,18 @@ public class ProcessInstanceImplTest {
         }
 
         Node[] expectedCurrentNodes = { node2, node3 };
-        assertEqualsNoOrder(currentNodes, expectedCurrentNodes, "The new instances should point to the following nodes");
+        assertEqualsNoOrder(currentNodes, expectedCurrentNodes, "The new instances should point to the following nodes.");
+    }
+    
+    @Test
+    public void testTakeSingleTransition() {
+        
+        List<ProcessInstance> newInstances = instance.takeSingleTransition(transitionToTake);
+        assertEquals(newInstances.size(), 1, "You should have a single process instances.");
+        
+        ProcessInstance newInstance = newInstances.get(0);
+        assertEquals(newInstance, instance, "The instance should be the same, now child instance or something like that.");
+        assertEquals(newInstance.getCurrentNode(), node2, "The instance should have moved on.");
     }
 
     private ProcessInstanceImpl simpleInstance() {
@@ -57,6 +69,9 @@ public class ProcessInstanceImplTest {
         node3 = new NodeImpl(activity);
         node3.setId("3");
         node.transitionTo(node2);
+        
+        transitionToTake = node.getTransitions().get(0);
+        
         node.transitionTo(node3);
 
         return new ProcessInstanceImpl(node);

@@ -113,7 +113,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
         ArrayList<Transition> transitions = this.getCurrentNode().getTransitions();
         if (transitions.size() == 1) {
             Transition transition = transitions.get(0);
-            NodeImpl destination = transition.getDestination();
+            Node destination = transition.getDestination();
             this.setCurrentNode(destination);
             instancesToNavigate.add(this);
         } else {
@@ -128,7 +128,10 @@ public class ProcessInstanceImpl implements ProcessInstance {
 
     public List<ProcessInstance> takeSingleTransition(Transition t) {
 
-        return null;
+        List<ProcessInstance> instancesToNavigate = new LinkedList<ProcessInstance>();
+        this.currentNode = t.getDestination();
+        instancesToNavigate.add(this);
+        return instancesToNavigate;
     }
 
     public ProcessInstance createChildInstance(Node node) {
