@@ -73,11 +73,8 @@ public class ExampleProcessForReview {
         secondNode.transitionTo(thirdNode);
         thirdNode.transitionTo(fourthNode);
         fourthNode.transitionTo(endNode);
-
-        ArrayList<Node> startNodes = new ArrayList<Node>();
-        startNodes.add(startNode);
-
-        ProcessInstanceImpl sampleInstance = new ProcessInstanceImpl(startNodes);
+        
+        ProcessInstanceImpl sampleInstance = new ProcessInstanceImpl(startNode);
         return sampleInstance;
     }
 

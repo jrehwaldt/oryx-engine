@@ -1,15 +1,16 @@
 package de.hpi.oryxengine.processstructure.impl;
 
 import de.hpi.oryxengine.processstructure.Condition;
+import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.Transition;
 
 public class TransitionImpl implements Transition {
 
-    NodeImpl destination;
-    NodeImpl start;
+    Node destination;
+    Node start;
     Condition condition;
 
-    public TransitionImpl(NodeImpl start, NodeImpl destination, Condition c) {
+    public TransitionImpl(Node start, Node destination, Condition c) {
 
         this.start = start;
         this.destination = destination;
@@ -23,12 +24,12 @@ public class TransitionImpl implements Transition {
         return this.condition;
     }
 
-    public NodeImpl getDestination() {
+    public Node getDestination() {
 
         return this.destination;
     }
 
-    public NodeImpl getSource() {
+    public Node getSource() {
 
         // TODO Auto-generated method stub
         return null;

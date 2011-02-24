@@ -12,6 +12,7 @@ import de.hpi.oryxengine.processstructure.Condition;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.Transition;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.EmptyRoutingBehaviour;
 
 // TODO Auto-generated Javadoc
 /**
@@ -45,7 +46,7 @@ public class NodeImpl implements Node {
 
     public NodeImpl(Activity activity) {
 
-        this(activity, null);
+        this(activity, new EmptyRoutingBehaviour());
     }
 
     /**
