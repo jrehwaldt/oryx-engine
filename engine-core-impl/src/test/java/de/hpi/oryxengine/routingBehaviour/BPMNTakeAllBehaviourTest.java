@@ -14,17 +14,31 @@ import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
+/**
+ * The test of the TakeAllBehaviour-activity.
+ */
 public class BPMNTakeAllBehaviourTest {
 
+    /** The routing behavior. */
     private RoutingBehaviour behaviour;
+
+    /** The process instance. */
     private ProcessInstance instance;
 
+    /**
+     * Set up.
+     * An instance is build.
+     */
     @BeforeClass
     public void setUp() {
 
         instance = simpleInstance();
     }
 
+    /**
+     * Test class.
+     * 
+     */
     @Test
     public void testClass() {
 
@@ -36,11 +50,20 @@ public class BPMNTakeAllBehaviourTest {
         assertEquals(instance.getCurrentNode(), nextNode);
     }
 
+    /**
+     * Tear down.
+     */
     @AfterClass
     public void tearDown() {
 
     }
 
+    /**
+     * Simple instance.
+     * An activity is set up, it gets a behavior and a transition to a second node.
+     * 
+     * @return the process instance that was created within the method
+     */
     private ProcessInstanceImpl simpleInstance() {
 
         Activity activity = mock(Activity.class);

@@ -81,7 +81,7 @@ public class BPMNAndJoinTest {
             "If only one of the children has reached the And Join, the parent instance should not move on");
     }
 
-    // TODO: Test with nested and splits and joins to simulate the situation that there are grandparents, etc.
+    // TODO Test with nested and splits and joins to simulate the situation that there are grandparents, etc.
 
     /**
      * Initialize instances.

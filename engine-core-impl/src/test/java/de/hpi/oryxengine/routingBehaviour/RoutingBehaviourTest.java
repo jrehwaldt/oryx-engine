@@ -14,11 +14,21 @@ import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
+/**
+ * The test of the routing behavior.
+ */
 public class RoutingBehaviourTest {
 
+    /** The routing behavior. */
     private RoutingBehaviour behaviour;
+
+    /** The process instance. */
     private ProcessInstance instance;
 
+    /**
+     * Set up.
+     * An instance is build.
+     */
     @BeforeClass
     public void setUp() {
 
@@ -26,6 +36,11 @@ public class RoutingBehaviourTest {
 
     }
 
+    /**
+     * Test class.
+     * A routing from the current node to the next node is done.
+     * The instance's current node should now be this next node.
+     */
     @Test
     public void testClass() {
 
@@ -37,11 +52,20 @@ public class RoutingBehaviourTest {
         assertEquals(instance.getCurrentNode(), nextNode);
     }
 
+    /**
+     * Tear down.
+     */
     @AfterClass
     public void tearDown() {
 
     }
 
+    /**
+     * Simple instance.
+     * An activity is set up, it gets a behavior and a transition to a second node.
+     * 
+     * @return the process instance that was created within the method
+     */
     private ProcessInstanceImpl simpleInstance() {
 
         Activity activity = mock(Activity.class);
@@ -52,7 +76,7 @@ public class RoutingBehaviourTest {
         NodeImpl node2 = new NodeImpl(activity, behaviour);
         node2.setId("2");
         node.transitionTo(node2);
-        
+
         return new ProcessInstanceImpl(node);
     }
 }
