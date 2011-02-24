@@ -90,25 +90,26 @@ public interface ProcessInstance {
     Object getVariable(String name);
 
     /**
-     * Execute step.
+     * Executes a step for the given instance, which is usually a single step beginning with the current node.
      * 
-     * @return the list
+     * @return the list of new ProcessInstances that result after the next step is performed.
      */
     List<ProcessInstance> executeStep();
 
     /**
-     * Take all transitions.
+     * Take all outgoing transitions of the current node. If there is only one outgoing transition, the given
+     * ProcessInstance will be moved on. In case of more than one outgoing transitions, child instances are created.
      * 
      * @return the list
      */
     List<ProcessInstance> takeAllTransitions();
 
     /**
-     * Take single transition.
+     * Take single transition. The given ProcessInstance will be moved to the destination of the given Transition.
      * 
      * @param t
      *            the transition to take
-     * @return the list
+     * @return a list with a single ProcessInstance in it.
      */
     List<ProcessInstance> takeSingleTransition(Transition t);
 
