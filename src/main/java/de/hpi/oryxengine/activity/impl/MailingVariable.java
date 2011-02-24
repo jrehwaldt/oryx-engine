@@ -36,6 +36,11 @@ public class MailingVariable implements Activity {
 
     /**
      * Send a single email.
+     *
+     * @param aFromEmailAddr the sender of the mail
+     * @param aToEmailAddr the address the mail should be send to
+     * @param aSubject the subject of the mail
+     * @param aBody the body of the mail
      */
     public void sendEmail(String aFromEmailAddr, String aToEmailAddr, String aSubject, String aBody) {
 

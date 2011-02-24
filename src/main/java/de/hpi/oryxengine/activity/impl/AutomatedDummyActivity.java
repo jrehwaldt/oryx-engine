@@ -3,7 +3,7 @@ package de.hpi.oryxengine.activity.impl;
 import de.hpi.oryxengine.activity.AbstractActivityImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 
-// TODO: Auto-generated Javadoc
+// TODO Auto-generated Javadoc
 /**
  * The Class AutomatedDummyNode.
  */
@@ -32,9 +32,9 @@ public class AutomatedDummyActivity extends AbstractActivityImpl {
     // all the state setting may be handled by superclass later on
     public void execute(ProcessInstance instance) {
 
-        this.state = State.RUNNING;
+        this.setState(State.RUNNING);
         System.out.println(this.message);
-        this.state = State.TERMINATED;
+        this.setState(State.TERMINATED);
     }
 
 }

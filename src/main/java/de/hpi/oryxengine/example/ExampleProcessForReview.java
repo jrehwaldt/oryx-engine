@@ -15,6 +15,9 @@ import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;
 
+/**
+ * The Class that holds the example process that needs as review process for the engine.
+ */
 public class ExampleProcessForReview {
 
     /**

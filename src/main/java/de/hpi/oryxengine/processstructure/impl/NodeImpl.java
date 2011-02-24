@@ -13,7 +13,7 @@ import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.Transition;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
-// TODO: Auto-generated Javadoc
+// TODO Auto-generated Javadoc
 /**
  * The Class AbstractNode. Which is used for the graph representation of a Process
  */
