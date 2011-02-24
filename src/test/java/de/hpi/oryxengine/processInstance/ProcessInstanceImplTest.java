@@ -59,8 +59,6 @@ public class ProcessInstanceImplTest {
         node.transitionTo(node2);
         node.transitionTo(node3);
 
-        ArrayList<Node> startNodes = new ArrayList<Node>();
-        startNodes.add(node);
-        return new ProcessInstanceImpl(startNodes);
+        return new ProcessInstanceImpl(node);
     }
 }

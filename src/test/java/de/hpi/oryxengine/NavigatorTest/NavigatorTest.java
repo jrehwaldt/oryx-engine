@@ -44,9 +44,7 @@ public class NavigatorTest {
         node2 = new NodeImpl(activity, emptyBehaviour);
         node2.setId("2");
         node.transitionTo(node2);
-        ArrayList<Node> startNodes = new ArrayList<Node>();
-        startNodes.add(node);
-        processInstance = new ProcessInstanceImpl(startNodes);
+        processInstance = new ProcessInstanceImpl(node);
 
     }
 

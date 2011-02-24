@@ -15,8 +15,9 @@ import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 public class ProcessInstanceImpl implements ProcessInstance {
 
     private String id;
-    NodeImpl currentNode;
-    private ArrayList<ProcessInstanceImpl> childInstances;
+    private Node currentNode;
+    private ProcessInstance parentInstance;
+    private ArrayList<ProcessInstance> childInstances;
     private Map<String, Object> instanceVariables;
 
     public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition, Integer startNumber) {
@@ -28,30 +29,44 @@ public class ProcessInstanceImpl implements ProcessInstance {
 
     }
 
-    // Just for testing purposes => make the start easy as possible without a
-    // process definition
-    public ProcessInstanceImpl(ArrayList<Node> nodes) {
+    public ProcessInstanceImpl(Node startNode) {
 
-        currentNode = (NodeImpl) nodes.get(0);
-
+        this(startNode, null);
     }
 
-    public ProcessInstanceImpl(NodeImpl startNodes) {
+    public ProcessInstanceImpl(Node startNode, ProcessInstance parentInstance) {
 
-        currentNode = startNodes;
+        currentNode = startNode;
+        this.parentInstance = parentInstance;
+        this.childInstances = new ArrayList<ProcessInstance>();
     }
 
-    public NodeImpl getCurrentNode() {
+    public ProcessInstance getParentInstance() {
+
+        return parentInstance;
+    }
+
+    public void setParentInstance(ProcessInstance instance) {
+
+        this.parentInstance = instance;
+    }
+
+    public Node getCurrentNode() {
 
         return currentNode;
     }
 
-    public ArrayList<ProcessInstanceImpl> getChildInstances() {
+    public void setCurrentNode(Node node) {
+
+        currentNode = node;
+    }
+
+    public ArrayList<ProcessInstance> getChildInstances() {
 
         return childInstances;
     }
 
-    public void setChildInstances(ArrayList<ProcessInstanceImpl> childInstances) {
+    public void setChildInstances(ArrayList<ProcessInstance> childInstances) {
 
         this.childInstances = childInstances;
     }
@@ -75,11 +90,6 @@ public class ProcessInstanceImpl implements ProcessInstance {
     public Object getVariable(String name) {
 
         return getInstanceVariables().get(name);
-    }
-
-    public void setCurrentNode(NodeImpl node) {
-
-        currentNode = node;
     }
 
     private Map<String, Object> getInstanceVariables() {
@@ -108,16 +118,25 @@ public class ProcessInstanceImpl implements ProcessInstance {
             instancesToNavigate.add(this);
         } else {
             for (Transition transition : transitions) {
-                // Create new child instances etc.
+                Node destination = transition.getDestination();
+                ProcessInstance childInstance = createChildInstance(destination);
+                instancesToNavigate.add(childInstance);
             }
         }
         return instancesToNavigate;
-
     }
 
     public List<ProcessInstance> takeSingleTransition(Transition t) {
 
         return null;
+    }
+
+    public ProcessInstance createChildInstance(Node node) {
+
+        ProcessInstance childInstance = new ProcessInstanceImpl(node);
+        childInstance.setParentInstance(this);
+        this.childInstances.add(childInstance);
+        return childInstance;
     }
 
 }

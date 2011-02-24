@@ -43,10 +43,8 @@ public class SimpleExampleProcess {
         startNode.setId("1");
         secondNode.setId("2");
         startNode.transitionTo(secondNode);
-        ArrayList<Node> startNodes = new ArrayList<Node>();
-        startNodes.add(startNode);
 
-        ProcessInstanceImpl sampleInstance = new ProcessInstanceImpl(startNodes);
+        ProcessInstanceImpl sampleInstance = new ProcessInstanceImpl(startNode);
         return sampleInstance;
     }
 

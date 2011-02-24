@@ -31,8 +31,8 @@ public class RoutingBehaviourTest {
     @Test
     public void testClass() {
 
-        NodeImpl node = instance.getCurrentNode();
-        NodeImpl nextNode = node.getTransitions().get(0).getDestination();
+        Node node = instance.getCurrentNode();
+        Node nextNode = node.getTransitions().get(0).getDestination();
 
         behaviour.execute(instance);
 
@@ -54,9 +54,7 @@ public class RoutingBehaviourTest {
         NodeImpl node2 = new NodeImpl(activity, behaviour);
         node2.setId("2");
         node.transitionTo(node2);
-
-        ArrayList<Node> startNodes = new ArrayList<Node>();
-        startNodes.add(node);
-        return new ProcessInstanceImpl(startNodes);
+        
+        return new ProcessInstanceImpl(node);
     }
 }
