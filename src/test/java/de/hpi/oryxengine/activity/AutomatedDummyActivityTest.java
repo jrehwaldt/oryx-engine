@@ -21,7 +21,7 @@ public class AutomatedDummyActivityTest {
 
     private PrintStream tmp;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private String S = "I'm dumb";
+    private String s = "I'm dumb";
     private AutomatedDummyActivity a;
     private ProcessInstance processInstance;
 
@@ -31,7 +31,7 @@ public class AutomatedDummyActivityTest {
 
         tmp = System.out;
         System.setOut(new PrintStream(out));
-        a = new AutomatedDummyActivity(S);
+        a = new AutomatedDummyActivity(s);
         processInstance = new ProcessInstanceImpl(new NodeImpl(a));
     }
 
