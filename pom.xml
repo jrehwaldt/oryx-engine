@@ -48,7 +48,6 @@
                 <configuration>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <configLocation>${checkstyle-config}</configLocation>
-                    <!--<failsOnError>true</failsOnError>-->
                 </configuration>
             </plugin>
         </plugins>
@@ -68,7 +67,6 @@
                 <configuration>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <configLocation>${checkstyle-config}</configLocation>
-                    <!--<failsOnError>true</failsOnError>-->
                 </configuration>
             </plugin>
         </plugins>
