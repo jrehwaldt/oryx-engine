@@ -1,19 +1,20 @@
 package de.hpi.oryxengine.routingBehaviour.impl;
 
-import java.util.List;
+import de.hpi.oryxengine.routingBehaviour.AbstractRoutingBehaviour;
+import de.hpi.oryxengine.routingBehaviour.joinBehaviour.impl.SimpleJoinBehaviour;
+import de.hpi.oryxengine.routingBehaviour.splitBehaviour.impl.TakeAllSplitBehaviour;
 
-import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
+/**
+ * The Class TakeAllBehaviour. Does not join at all and signals all outgoing transitions.
+ */
+public class TakeAllBehaviour extends AbstractRoutingBehaviour {
 
-public class TakeAllBehaviour implements RoutingBehaviour {
-
+    /**
+     * Instantiates a new take all behaviour.
+     */
     public TakeAllBehaviour() {
 
+        this.joinBehaviour = new SimpleJoinBehaviour();
+        this.splitBehaviour = new TakeAllSplitBehaviour();
     }
-
-    public List<ProcessInstance> execute(ProcessInstance instance) {
-
-        return instance.takeAllTransitions();
-    }
-
 }

@@ -6,6 +6,8 @@ import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.NodeImpl;
+import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
  */
@@ -53,7 +55,8 @@ public class SimpleExampleProcess {
 
         AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);
         AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course " + counter);
-        NodeImpl startNode = new NodeImpl(activity);
+        RoutingBehaviour behaviour = new TakeAllBehaviour();
+        NodeImpl startNode = new NodeImpl(activity, behaviour);
         NodeImpl secondNode = new NodeImpl(activity2);
         startNode.setId("1");
         secondNode.setId("2");

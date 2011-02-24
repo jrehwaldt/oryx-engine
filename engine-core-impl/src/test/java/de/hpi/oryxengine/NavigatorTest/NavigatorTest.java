@@ -12,8 +12,8 @@ import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.NodeImpl;
-import de.hpi.oryxengine.routingBehaviour.EmptyRoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.EmptyRoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
 /**

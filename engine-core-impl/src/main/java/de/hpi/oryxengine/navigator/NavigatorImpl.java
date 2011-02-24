@@ -10,22 +10,31 @@ import de.hpi.oryxengine.processDefinition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 
-
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author Jannik Streek
- * 
+ * The Class NavigatorImpl. Our Implementation of the Navigator.
  */
-
 public class NavigatorImpl implements Navigator {
 
     // map IDs to Definition
+    /** The running instances. */
     private HashMap<String, ProcessInstanceImpl> runningInstances;
+
+    /** The loaded definitions. */
     private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions;
+
+    /** The to navigate. The list including all process isntances which are currently executed. */
     private List<ProcessInstance> toNavigate;
+
+    /** The execution threads. Yes our navigator is multithreaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
+
+    /** The Constant NUMBER_OF_NAVIGATOR_THREADS. */
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
 
+    /**
+     * Instantiates a new navigator impl.
+     */
     public NavigatorImpl() {
 
         // TODO Lazy initialized
@@ -36,6 +45,11 @@ public class NavigatorImpl implements Navigator {
         executionThreads = new ArrayList<NavigationThread>();
     }
 
+    /**
+     * Start. 
+     * Starts the number of worker thread specified in the NUMBER_OF_NAVIGATOR_THREADS Constant and adds them to
+     * the execution threads list.
+     */
     public void start() {
 
         // "Gentlemen, start your engines"
@@ -46,10 +60,19 @@ public class NavigatorImpl implements Navigator {
         }
     }
 
+    /**
+     * Starts the a proccesinstance of a process with the given ID.
+     *
+     * @param processID the process id
+     * @return the string
+     * @see de.hpi.oryxengine.navigator.Navigator#startProcessInstance(java.lang.String)
+     */
+    // TODO: Implement this thing in general
     public String startProcessInstance(String processID) {
 
         if (!loadedDefinitions.containsKey(processID)) {
             // go crazy
+            // TODO: handle this errorcase
         }
 
         // instantiate the processDefinition
@@ -66,30 +89,60 @@ public class NavigatorImpl implements Navigator {
     }
 
     // this method is for first testing only, as we do not have ProcessDefinitions yet
+    /**
+     * Start arbitrary instance.
+     * 
+     * @param id
+     *            the id
+     * @param instance
+     *            the instance
+     */
     public void startArbitraryInstance(String id, ProcessInstanceImpl instance) {
 
         this.runningInstances.put(id, instance);
         this.toNavigate.add(instance);
     }
 
+    /**
+     * Adds the process definition to the Map, mapping from IDs to the processDefinition.
+     * 
+     * @param processDefinition
+     *            the process definition
+     */
     public void addProcessDefinition(AbstractProcessDefinitionImpl processDefinition) {
 
-        loadedDefinitions.put(processDefinition.getID(), processDefinition);
+        loadedDefinitions.put(processDefinition.getId(), processDefinition);
     }
 
+    /**
+     * Stop the execution of a processinstance.
+     *
+     * @param instanceID the instance id
+     * @see de.hpi.oryxengine.navigator.Navigator#stopProcessInstance(java.lang.String)
+     */
     public void stopProcessInstance(String instanceID) {
 
-        // TODO do some more stuff if instance doesnt exist
+        // TODO do some more stuff if instance doesnt exist and in genereal
         // runningInstances.remove(instanceID);
         // remove from queue...
     }
 
+    /**
+     * Get the state of the currently running instance.
+     *
+     * @param instanceID the instance id
+     * @return the current instance state
+     * @see de.hpi.oryxengine.navigator.Navigator#getCurrentInstanceState(java.lang.String)
+     */
     public String getCurrentInstanceState(String instanceID) {
 
-        // TODO Auto-generated method stub
+        // TODO get the current instance ID
         return null;
     }
 
+    /**
+     * Stop the Navigator. So in fact you need to stop all the Navigationthreads.
+     */
     public void stop() {
 
         for (NavigationThread executionThread : executionThreads) {

@@ -17,12 +17,29 @@ import de.hpi.oryxengine.processstructure.Transition;
  */
 public class ProcessInstanceImpl implements ProcessInstance {
 
+    /** The id. */
     private String id;
+
+    /** The current node. */
     private Node currentNode;
+
+    /** The parent instance. */
     private ProcessInstance parentInstance;
+
+    /** The child instances. */
     private List<ProcessInstance> childInstances;
+
+    /** The instance variables. */
     private Map<String, Object> instanceVariables;
 
+    /**
+     * Instantiates a new process instance impl.
+     * 
+     * @param processDefinition
+     *            the process definition
+     * @param startNumber
+     *            the start number
+     */
     public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition, Integer startNumber) {
 
         // choose a start Node from the possible List of Nodes
@@ -32,11 +49,25 @@ public class ProcessInstanceImpl implements ProcessInstance {
 
     }
 
+    /**
+     * Instantiates a new process instance impl.
+     * 
+     * @param startNode
+     *            the start node
+     */
     public ProcessInstanceImpl(Node startNode) {
 
         this(startNode, null);
     }
 
+    /**
+     * Instantiates a new process instance impl.
+     * 
+     * @param startNode
+     *            the start node
+     * @param parentInstance
+     *            the parent instance
+     */
     public ProcessInstanceImpl(Node startNode, ProcessInstance parentInstance) {
 
         currentNode = startNode;
@@ -44,57 +75,114 @@ public class ProcessInstanceImpl implements ProcessInstance {
         this.childInstances = new ArrayList<ProcessInstance>();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance#getParentInstance()
+     */
     public ProcessInstance getParentInstance() {
 
         return parentInstance;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.hpi.oryxengine.processInstance.ProcessInstance#setParentInstance(de.hpi.oryxengine.processInstance.ProcessInstance
+     * )
+     */
     public void setParentInstance(ProcessInstance instance) {
 
         this.parentInstance = instance;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance#getCurrentNode()
+     */
     public Node getCurrentNode() {
 
         return currentNode;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance#setCurrentNode(de.hpi.oryxengine.processstructure.Node)
+     */
     public void setCurrentNode(Node node) {
 
         currentNode = node;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance#getChildInstances()
+     */
     public List<ProcessInstance> getChildInstances() {
 
         return childInstances;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance#setChildInstances(java.util.List)
+     */
     public void setChildInstances(List<ProcessInstance> childInstances) {
 
         this.childInstances = childInstances;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance#getID()
+     */
     public String getID() {
 
         return id;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance#setID(java.lang.String)
+     */
     public void setID(String s) {
 
         id = s;
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance#setVariable(java.lang.String, java.lang.Object)
+     */
     public void setVariable(String name, Object value) {
 
         getInstanceVariables().put(name, value);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance#getVariable(java.lang.String)
+     */
     public Object getVariable(String name) {
 
         return getInstanceVariables().get(name);
     }
 
+    /**
+     * Gets the instance variables.
+     * 
+     * @return the instance variables
+     */
     private Map<String, Object> getInstanceVariables() {
 
         if (instanceVariables == null) {
@@ -103,6 +191,11 @@ public class ProcessInstanceImpl implements ProcessInstance {
         return instanceVariables;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance#executeStep()
+     */
     public List<ProcessInstance> executeStep() {
 
         this.currentNode.getActivity().execute(this);
@@ -110,6 +203,11 @@ public class ProcessInstanceImpl implements ProcessInstance {
         // return this.currentNode.navigate(this);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance#takeAllTransitions()
+     */
     public List<ProcessInstance> takeAllTransitions() {
 
         List<ProcessInstance> instancesToNavigate = new LinkedList<ProcessInstance>();
@@ -129,6 +227,13 @@ public class ProcessInstanceImpl implements ProcessInstance {
         return instancesToNavigate;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.hpi.oryxengine.processInstance.ProcessInstance#takeSingleTransition(de.hpi.oryxengine.processstructure.Transition
+     * )
+     */
     public List<ProcessInstance> takeSingleTransition(Transition t) {
 
         List<ProcessInstance> instancesToNavigate = new LinkedList<ProcessInstance>();
@@ -137,6 +242,12 @@ public class ProcessInstanceImpl implements ProcessInstance {
         return instancesToNavigate;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.hpi.oryxengine.processInstance.ProcessInstance#createChildInstance(de.hpi.oryxengine.processstructure.Node)
+     */
     public ProcessInstance createChildInstance(Node node) {
 
         ProcessInstance childInstance = new ProcessInstanceImpl(node);
