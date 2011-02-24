@@ -89,9 +89,6 @@
       <property name="separated" value="true"/>
     </module>
     <module name="MutableException"/>
-    <module name="UncommentedMain">
-      <property name="severity" value="error"/>
-    </module>
     <module name="TrailingComment"/>
     <module name="MissingOverride"/>
     <module name="MissingDeprecated"/>
