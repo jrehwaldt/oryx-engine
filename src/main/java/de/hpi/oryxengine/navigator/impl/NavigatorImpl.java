@@ -26,6 +26,7 @@ public class NavigatorImpl implements Navigator {
     private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions;
     private List<ProcessInstance> toNavigate;
     private ArrayList<NavigationThread> executionThreads;
+    private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
 
     public NavigatorImpl() {
 
@@ -40,7 +41,7 @@ public class NavigatorImpl implements Navigator {
     public void start() {
 
         // "Gentlemen, start your engines"
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < NUMBER_OF_NAVIGATOR_THREADS; i++) {
             NavigationThread thread = new NavigationThread("NT" + i, toNavigate);
             thread.start();
             executionThreads.add(thread);

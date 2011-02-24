@@ -12,7 +12,7 @@ import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 public class SimpleExampleProcess {
 
-    private static int instanceCount = 1000000;
+    private static final int INSTANCE_COUNT = 1000000;
     private static Logger logger = Logger.getRootLogger();
 
     /**
@@ -25,7 +25,7 @@ public class SimpleExampleProcess {
 
         // let's generate some load :)
         logger.info("Engine started");
-        for (int i = 0; i < instanceCount; i++) {
+        for (int i = 0; i < INSTANCE_COUNT; i++) {
             ProcessInstanceImpl instance = sampleProcessInstance(i);
             navigator.startArbitraryInstance("1", instance);
             if (i % 10000 == 0) {
