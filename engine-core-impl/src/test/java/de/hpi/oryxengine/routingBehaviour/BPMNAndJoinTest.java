@@ -9,11 +9,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.joinBehaviour.impl.AndJoinBehaviour;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
-import de.hpi.oryxengine.routingBehaviour.impl.AndJoinBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.AndJoinGatewayBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
 /**
@@ -80,7 +81,7 @@ public class BPMNAndJoinTest {
             "If only one of the children has reached the And Join, the parent instance should not move on");
     }
 
-    // TODO: Test with nested and splits and joins to simulate the situation that there are grandparents, etc.
+    // TODO Test with nested and splits and joins to simulate the situation that there are grandparents, etc.
 
     /**
      * Initialize instances.
@@ -92,7 +93,7 @@ public class BPMNAndJoinTest {
         Activity activity = mock(Activity.class);
         splitNode = mock(Node.class);
         behaviour = new TakeAllBehaviour();
-        joinBehaviour = new AndJoinBehaviour();
+        joinBehaviour = new AndJoinGatewayBehaviour();
 
         node1 = new NodeImpl(activity, behaviour);
         node1.setId("1");

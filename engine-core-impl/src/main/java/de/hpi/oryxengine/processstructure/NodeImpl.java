@@ -6,8 +6,8 @@ import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.processstructure.Condition;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.Transition;
-import de.hpi.oryxengine.routingBehaviour.EmptyRoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.EmptyRoutingBehaviour;
 
 // TODO Auto-generated Javadoc
 /**
