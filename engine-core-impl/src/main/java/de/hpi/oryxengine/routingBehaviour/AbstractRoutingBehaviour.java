@@ -13,13 +13,18 @@ public abstract class AbstractRoutingBehaviour implements RoutingBehaviour {
 
     /** The join behaviour. */
     protected JoinBehaviour joinBehaviour;
-    
+
     /** The split behaviour. */
     protected SplitBehaviour splitBehaviour;
 
-    /* (non-Javadoc)
-     * @see de.hpi.oryxengine.routingBehaviour.RoutingBehaviour#execute(de.hpi.oryxengine.processInstance.ProcessInstance)
-     * Template Method for join and split.
+    /**
+     * Behaves like the routing behaviour should behave. That is joining and splitting as defined.
+     * 
+     * @param instance
+     *            the instance
+     * @return the list
+     * @see 
+     * de.hpi.oryxengine.routingBehaviour.RoutingBehaviour#execute(de.hpi.oryxengine.processInstance.ProcessInstance)
      */
     public List<ProcessInstance> execute(ProcessInstance instance) {
 

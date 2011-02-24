@@ -197,7 +197,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#executeStep()
      */
     public List<ProcessInstance> executeStep() {
-
+        
+        // TODO Hey this is uncool if we got uncontrolled BPMN Cpontrolflow. We would execute the node multiple times
         this.currentNode.getActivity().execute(this);
         return this.currentNode.getRoutingBehaviour().execute(this);
         // return this.currentNode.navigate(this);
