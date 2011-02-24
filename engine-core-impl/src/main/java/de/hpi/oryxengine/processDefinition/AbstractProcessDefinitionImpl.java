@@ -9,13 +9,8 @@ public class AbstractProcessDefinitionImpl implements ProcessDefinition {
 
     // TODO [Gerardo] Was ist denn hieran abstrakt
 
-<<<<<<< HEAD:src/main/java/de/hpi/oryxengine/processDefinitionImpl/AbstractProcessDefinitionImpl.java
-    private ArrayList<NodeImpl> startNodes;
-    private String id;
-=======
     protected ArrayList<Node> startNodes;
     protected String id;
->>>>>>> remotes/origin/modular-maven-setup:engine-core-impl/src/main/java/de/hpi/oryxengine/processDefinition/AbstractProcessDefinitionImpl.java
 
     public void setStartNodes(ArrayList<Node> nodes) {
 

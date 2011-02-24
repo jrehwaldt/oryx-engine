@@ -16,7 +16,6 @@
             <groupId>de.hpi.oryxengine</groupId>
             <artifactId>engine-core-api</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>

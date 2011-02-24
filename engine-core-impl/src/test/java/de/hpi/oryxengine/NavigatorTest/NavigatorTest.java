@@ -9,22 +9,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
-<<<<<<< HEAD:src/test/java/de/hpi/oryxengine/NavigatorTest/NavigatorTest.java
-import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
-import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
-import de.hpi.oryxengine.processstructure.impl.NodeImpl;
-import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
-import de.hpi.oryxengine.routingBehaviour.impl.EmptyRoutingBehaviour;
-=======
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
-import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
-import de.hpi.oryxengine.routingBehaviour.BPMNTakeAllBehaviour;
 import de.hpi.oryxengine.routingBehaviour.EmptyRoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
->>>>>>> remotes/origin/modular-maven-setup:engine-core-impl/src/test/java/de/hpi/oryxengine/NavigatorTest/NavigatorTest.java
+import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
+
 
 public class NavigatorTest {
 

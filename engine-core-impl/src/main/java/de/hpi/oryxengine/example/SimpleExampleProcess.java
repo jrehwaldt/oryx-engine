@@ -3,16 +3,9 @@ package de.hpi.oryxengine.example;
 import org.apache.log4j.Logger;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
-<<<<<<< HEAD:src/main/java/de/hpi/oryxengine/example/SimpleExampleProcess.java
-import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
-import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
-import de.hpi.oryxengine.processstructure.impl.NodeImpl;
-=======
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
-import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
->>>>>>> remotes/origin/modular-maven-setup:engine-core-impl/src/main/java/de/hpi/oryxengine/example/SimpleExampleProcess.java
 
 public class SimpleExampleProcess {
 

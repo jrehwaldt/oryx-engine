@@ -3,11 +3,6 @@ package de.hpi.oryxengine.processstructure;
 import java.util.ArrayList;
 
 import de.hpi.oryxengine.activity.Activity;
-<<<<<<< HEAD:src/main/java/de/hpi/oryxengine/processstructure/Node.java
-=======
-import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
->>>>>>> remotes/origin/modular-maven-setup:engine-core-api/src/main/java/de/hpi/oryxengine/processstructure/Node.java
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
 /**

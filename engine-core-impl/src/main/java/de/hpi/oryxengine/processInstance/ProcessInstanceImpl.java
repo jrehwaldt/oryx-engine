@@ -23,13 +23,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
     public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition, Integer startNumber) {
 
         // choose a start Node from the possible List of Nodes
-<<<<<<< HEAD:src/main/java/de/hpi/oryxengine/processInstanceImpl/ProcessInstanceImpl.java
-        // TODO how to choose the start node?
-        ArrayList<NodeImpl> startNodes = processDefinition.getStartNodes();
-=======
         // TODO: how to choose the start node?
         ArrayList<Node> startNodes = processDefinition.getStartNodes();
->>>>>>> remotes/origin/modular-maven-setup:engine-core-impl/src/main/java/de/hpi/oryxengine/processInstance/ProcessInstanceImpl.java
         currentNode = startNodes.get(startNumber);
 
     }

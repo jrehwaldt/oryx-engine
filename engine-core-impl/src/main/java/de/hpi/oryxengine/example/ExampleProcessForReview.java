@@ -6,20 +6,13 @@ import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.MailingVariable;
 import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
 import de.hpi.oryxengine.activity.impl.StartActivity;
-<<<<<<< HEAD:src/main/java/de/hpi/oryxengine/example/ExampleProcessForReview.java
-import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
-import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
-import de.hpi.oryxengine.processstructure.impl.NodeImpl;
-import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
-=======
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.BPMNTakeAllBehaviour;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
->>>>>>> remotes/origin/modular-maven-setup:engine-core-impl/src/main/java/de/hpi/oryxengine/example/ExampleProcessForReview.java
+import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
 /**
  * The Class that holds the example process that needs as review process for the engine.

@@ -1,19 +1,18 @@
 package de.hpi.oryxengine.routingBehaviour;
 
 import static org.mockito.Mockito.mock;
+import static org.testng.Assert.assertEquals;
 
 import java.util.List;
-
-import static org.testng.Assert.*;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
+import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.Node;
-import de.hpi.oryxengine.processstructure.impl.NodeImpl;
+import de.hpi.oryxengine.processstructure.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.impl.AndJoinBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 

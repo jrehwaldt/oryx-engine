@@ -1,25 +1,14 @@
 package de.hpi.oryxengine.navigator;
 
-<<<<<<< HEAD:src/main/java/de/hpi/oryxengine/navigator/impl/NavigatorImpl.java
-=======
-import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.processDefinition.AbstractProcessDefinitionImpl;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
-
->>>>>>> remotes/origin/modular-maven-setup:engine-core-impl/src/main/java/de/hpi/oryxengine/navigator/NavigatorImpl.java
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
+import de.hpi.oryxengine.processDefinition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
-
-
+import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 
 
 /**

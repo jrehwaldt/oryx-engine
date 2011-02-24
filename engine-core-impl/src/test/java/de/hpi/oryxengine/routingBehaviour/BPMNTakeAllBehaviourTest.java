@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.routingBehaviour;
 
 import static org.mockito.Mockito.mock;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -9,9 +9,9 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
+import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.Node;
-import de.hpi.oryxengine.processstructure.impl.NodeImpl;
+import de.hpi.oryxengine.processstructure.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
 public class BPMNTakeAllBehaviourTest {
@@ -21,9 +21,7 @@ public class BPMNTakeAllBehaviourTest {
 
     @BeforeClass
     public void setUp() {
-
         instance = simpleInstance();
-
     }
 
     @Test
