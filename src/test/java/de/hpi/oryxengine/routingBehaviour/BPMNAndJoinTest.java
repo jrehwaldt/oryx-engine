@@ -17,12 +17,23 @@ import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.impl.BPMNAndJoinBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;
 
+/**
+ * This class tests the BPMNAndJoin-Class.
+ */
 public class BPMNAndJoinTest {
 
-    Node node1, node2, joinNode, splitNode, node3;
-    RoutingBehaviour behaviour, joinBehaviour;
-    ProcessInstance instance, childInstance1, childInstance2;
+    /** The node3. */
+    private Node node1, node2, joinNode, splitNode, node3;
 
+    /** The join behaviour. */
+    private RoutingBehaviour behaviour, joinBehaviour;
+
+    /** The child instance2. */
+    private ProcessInstance instance, childInstance1, childInstance2;
+
+    /**
+     * Sets the up.
+     */
     @BeforeMethod
     public void setUp() {
 
@@ -32,6 +43,9 @@ public class BPMNAndJoinTest {
         childInstance2 = children.get(1);
     }
 
+    /**
+     * Test single instance reached join.
+     */
     @Test
     public void testSingleInstanceReachedJoin() {
 
@@ -47,6 +61,9 @@ public class BPMNAndJoinTest {
             "If only one child has reached the And Join, the parent instance should not move on");
     }
 
+    /**
+     * Test all instances reached join.
+     */
     @Test
     public void testAllInstancesReachedJoin() {
 
@@ -66,6 +83,11 @@ public class BPMNAndJoinTest {
 
     // TODO: Test with nested and splits and joins to simulate the situation that there are grandparents, etc.
 
+    /**
+     * Initialize instances.
+     * 
+     * @return the process instance
+     */
     private ProcessInstance initializeInstances() {
 
         Activity activity = mock(Activity.class);
