@@ -14,18 +14,37 @@ import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
 import de.hpi.oryxengine.processstructure.Transition;
 
+/**
+ * The test for the process instance.
+ */
 public class ProcessInstanceImplTest {
 
-    ProcessInstance instance;
-    NodeImpl node, node2, node3;
-    Transition transitionToTake;
+    /** The process instance. */
+    private ProcessInstance instance;
 
+    /** Different Nodes. */
+    private NodeImpl node, node2, node3;
+
+    /** The transition to be taken. */
+    private Transition transitionToTake;
+
+    /**
+     * Set up.     
+     * An instance is build.
+     */
     @BeforeTest
     public void setUp() {
 
         instance = simpleInstance();
     }
 
+    /**
+     * Test for taking all transitions.
+     * TODO see if description is correct
+     * Two new instances shall be ready for execution if the parent instance goes along all edges.
+     * Both of them should have the same parent instance.
+     * The new instances should then point to the succeeding nodes of the parent instances' node.
+     */
     @Test
     public void testTakeAllTransitions() {
 
@@ -47,18 +66,28 @@ public class ProcessInstanceImplTest {
             "The new instances should point to the following nodes.");
     }
 
+    /**
+     * Test take single transition.
+     * TODO JavaDoc for the test
+     */
     @Test
     public void testTakeSingleTransition() {
 
         List<ProcessInstance> newInstances = instance.takeSingleTransition(transitionToTake);
-        assertEquals(newInstances.size(), 1, "You should have a single process instances.");
+        assertEquals(newInstances.size(), 1, "You should have a single process instance.");
 
         ProcessInstance newInstance = newInstances.get(0);
         assertEquals(newInstance, instance,
-            "The instance should be the same, now child instance or something like that.");
+            "The instance should be the same, no child instance or something like that.");
         assertEquals(newInstance.getCurrentNode(), node2, "The instance should have moved on.");
     }
 
+    /**
+     * Simple instance.
+     * TODO more JavaDoc description
+     * 
+     * @return the process instance impl
+     */
     private ProcessInstanceImpl simpleInstance() {
 
         Activity activity = mock(Activity.class);

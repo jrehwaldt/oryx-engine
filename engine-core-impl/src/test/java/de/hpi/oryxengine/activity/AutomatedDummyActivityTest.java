@@ -15,14 +15,32 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.NodeImpl;
 
+/**
+ * The test for the automated dummy activity.
+ */
 public class AutomatedDummyActivityTest {
 
+    /** A temporary print stream. */
     private PrintStream tmp;
+
+    /** The byte array output stream. */
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+    /** A dummy string. */
     private String s = "I'm dumb";
+
+    /** The dummy activity. */
     private AutomatedDummyActivity a;
+
+    /** The process instance. */
     private ProcessInstance processInstance;
 
+    /**
+     * Set up.
+     * TODO: more JavaDoc description
+     * @throws Exception
+     *             the exception
+     */
     @BeforeTest
     public void setUp()
     throws Exception {
@@ -33,6 +51,10 @@ public class AutomatedDummyActivityTest {
         processInstance = new ProcessInstanceImpl(new NodeImpl(a));
     }
 
+    /**
+     * Test activity initialization.
+     * The activity should not be null if it was instantiated correctly.
+     */
     @Test
     public void testActivityInitialization() {
 
@@ -45,6 +67,10 @@ public class AutomatedDummyActivityTest {
     // a.getState());
     // }
 
+    /**
+     * Test execute output.
+     * If the activity is executed it should print out the given String.
+     */
     @Test
     public void testExecuteOutput() {
 
@@ -52,6 +78,10 @@ public class AutomatedDummyActivityTest {
         assertTrue(out.toString().indexOf(s) != -1, "It should print out the given string when executed");
     }
 
+    /**
+     * Test state after execution.
+     * After execution the activity should be in state TERMINTAED
+     */
     @Test
     public void testStateAfterExecution() {
 
@@ -59,6 +89,9 @@ public class AutomatedDummyActivityTest {
         assertEquals(a.getState(), State.TERMINATED, "It should have the state Initialized");
     }
 
+    /**
+     * Tear down.
+     */
     @AfterTest
     public void tearDown() {
 

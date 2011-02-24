@@ -12,6 +12,9 @@ import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
 import de.hpi.oryxengine.processstructure.Transition;
 
+/**
+ * The implementation of a process instance.
+ */
 public class ProcessInstanceImpl implements ProcessInstance {
 
     private String id;

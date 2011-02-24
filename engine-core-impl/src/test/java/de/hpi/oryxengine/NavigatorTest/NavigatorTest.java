@@ -16,15 +16,32 @@ import de.hpi.oryxengine.routingBehaviour.EmptyRoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
-
+/**
+ * The test for the navigator.
+ */
 public class NavigatorTest {
 
-    NavigatorImpl nav;
-    NodeImpl node, node2;
-    ProcessInstanceImpl processInstance;
+    /** The navigator. */
+    private NavigatorImpl navigator;
+
+    /** Different nodes. */
+    private NodeImpl node, node2;
+
+    /** The process instance. */
+    private ProcessInstanceImpl processInstance;
+
+    /** The byte array output stream. */
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+    /** A temporary print stream. */
     private PrintStream tmp;
 
+    /**
+     * Set up. TODO: JavaDoc description of the test
+     * 
+     * @throws Exception
+     *             the exception
+     */
     @BeforeClass
     public void setUp()
     throws Exception {
@@ -32,8 +49,8 @@ public class NavigatorTest {
         tmp = System.out;
         System.setOut(new PrintStream(out));
 
-        nav = new NavigatorImpl();
-        nav.start();
+        navigator = new NavigatorImpl();
+        navigator.start();
 
         RoutingBehaviour takeAllBehaviour = new TakeAllBehaviour();
         RoutingBehaviour emptyBehaviour = new EmptyRoutingBehaviour();
@@ -47,10 +64,14 @@ public class NavigatorTest {
 
     }
 
+    /**
+    * Test signal length. 
+    * TODO: more JavaScript
+    */
     @Test
     public void testSignalLength() {
 
-        nav.startArbitraryInstance("1", processInstance);
+        navigator.startArbitraryInstance("1", processInstance);
 
         // this is not so nice, but I am not sure how to test correctly with parrallel behaviour
         try {
@@ -70,6 +91,9 @@ public class NavigatorTest {
     // assert "test\ntest".equals(out.toString().trim());
     // }
 
+    /**
+     * Tear down.
+     */
     @AfterClass
     public void tearDown() {
 
