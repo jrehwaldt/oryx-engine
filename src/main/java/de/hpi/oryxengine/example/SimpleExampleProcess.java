@@ -1,13 +1,10 @@
 package de.hpi.oryxengine.example;
 
-import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
-import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 public class SimpleExampleProcess {

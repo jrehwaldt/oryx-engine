@@ -96,7 +96,7 @@ public class NavigatorImpl implements Navigator {
     public void stop() {
 
         for (NavigationThread executionThread : executionThreads) {
-            executionThread.shouldStop = true;
+            executionThread.setShouldStop(true);
         }
     }
 

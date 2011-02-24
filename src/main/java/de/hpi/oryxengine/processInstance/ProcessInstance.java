@@ -4,7 +4,6 @@ import java.util.List;
 
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.Transition;
-import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 /**
  * The Interface ProcessInstance.
