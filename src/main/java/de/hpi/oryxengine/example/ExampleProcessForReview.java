@@ -1,7 +1,5 @@
 package de.hpi.oryxengine.example;
 
-import java.util.ArrayList;
-
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
@@ -10,7 +8,6 @@ import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
 import de.hpi.oryxengine.activity.impl.StartActivity;
 import de.hpi.oryxengine.navigator.impl.NavigatorImpl;
 import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
-import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;

@@ -9,8 +9,8 @@ public class AbstractProcessDefinitionImpl implements ProcessDefinition {
 
     // TODO [Gerardo] Was ist denn hieran abstrakt
 
-    protected ArrayList<NodeImpl> startNodes;
-    protected String id;
+    private ArrayList<NodeImpl> startNodes;
+    private String id;
 
     public void setStartNodes(ArrayList<NodeImpl> nodes) {
 

@@ -6,9 +6,9 @@ import de.hpi.oryxengine.processstructure.Transition;
 
 public class TransitionImpl implements Transition {
 
-    Node destination;
-    Node start;
-    Condition condition;
+    private Node destination;
+    private Node start;
+    private Condition condition;
 
     public TransitionImpl(Node start, Node destination, Condition c) {
 
@@ -33,6 +33,26 @@ public class TransitionImpl implements Transition {
 
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public Node getStart() {
+    
+        return start;
+    }
+
+    public void setStart(Node start) {
+    
+        this.start = start;
+    }
+
+    public void setDestination(Node destination) {
+    
+        this.destination = destination;
+    }
+
+    public void setCondition(Condition condition) {
+    
+        this.condition = condition;
     }
 
 }

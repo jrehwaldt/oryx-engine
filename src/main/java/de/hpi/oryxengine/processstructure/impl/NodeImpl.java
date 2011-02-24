@@ -1,13 +1,8 @@
 package de.hpi.oryxengine.processstructure.impl;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
-import de.hpi.oryxengine.activity.AbstractActivityImpl;
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.Condition;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.Transition;
@@ -21,21 +16,21 @@ import de.hpi.oryxengine.routingBehaviour.impl.EmptyRoutingBehaviour;
 public class NodeImpl implements Node {
 
     /** The activity. */
-    protected Activity activity;
+    private Activity activity;
 
     /** The routing behaviour. */
-    protected RoutingBehaviour behaviour;
+    private RoutingBehaviour behaviour;
 
     /** The next node. */
-    protected ArrayList<Transition> transitions;
+    private ArrayList<Transition> transitions;
 
     private String id;
 
     /**
      * Instantiates a new abstract node.
-     * 
-     * @param activity
-     *            the activity to be executed
+     *
+     * @param activity the activity to be executed
+     * @param behaviour the behaviour of the node
      */
     public NodeImpl(Activity activity, RoutingBehaviour behaviour) {
 
@@ -72,9 +67,8 @@ public class NodeImpl implements Node {
 
     /**
      * Sets the next node.
-     * 
-     * @param nextNode
-     *            the new next node
+     *
+     * @param node the next node where the transition points to
      */
 
     public void transitionTo(NodeImpl node) {
@@ -82,11 +76,6 @@ public class NodeImpl implements Node {
         Condition c = new ConditionImpl();
         Transition t = new TransitionImpl(this, node, c);
         this.transitions.add(t);
-    }
-
-    public ArrayList<Transition> getTransitions() {
-
-        return transitions;
     }
 
     public String getId() {
@@ -97,6 +86,26 @@ public class NodeImpl implements Node {
     public void setId(String id) {
 
         this.id = id;
+    }
+    
+    public RoutingBehaviour getBehaviour() {
+        
+        return behaviour;
+    }
+
+    public void setBehaviour(RoutingBehaviour behaviour) {
+    
+        this.behaviour = behaviour;
+    }
+
+    public void setTransitions(ArrayList<Transition> transitions) {
+    
+        this.transitions = transitions;
+    }
+
+    public ArrayList<Transition> getTransitions() {
+
+        return transitions;
     }
 
     public void setRoutingBehaviour(RoutingBehaviour behaviour) {

@@ -42,7 +42,7 @@ public class ProcessInstanceImplTest {
             currentNodes[i] = newInstances.get(i).getCurrentNode();
         }
 
-        Node[] expectedCurrentNodes = { node2, node3 };
+        Node[] expectedCurrentNodes = {node2, node3};
         assertEqualsNoOrder(currentNodes, expectedCurrentNodes,
             "The new instances should point to the following nodes.");
     }
