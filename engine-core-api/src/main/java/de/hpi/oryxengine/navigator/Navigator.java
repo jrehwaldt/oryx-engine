@@ -22,6 +22,12 @@ public interface Navigator {
      */
     void stopProcessInstance(String instanceID);
 
+    /**
+     * Gets the current instance state.
+     *
+     * @param instanceID the processinstance id
+     * @return the current instance state
+     */
     String getCurrentInstanceState(String instanceID);
 
 }

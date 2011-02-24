@@ -3,9 +3,9 @@ package de.hpi.oryxengine.activity.impl;
 import de.hpi.oryxengine.activity.AbstractActivityImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 
-// TODO Auto-generated Javadoc
 /**
  * The Class AutomatedDummyNode.
+ * It really is dumb. It just prints out whatever message is send to it.
  */
 public class AutomatedDummyActivity extends AbstractActivityImpl {
 
@@ -16,7 +16,7 @@ public class AutomatedDummyActivity extends AbstractActivityImpl {
      * Instantiates a new automated dummy node.
      *  
      * @param s
-     *            the String which message gets set to.
+     *            the String which message gets set to and which gets printed out.
      */
     public AutomatedDummyActivity(String s) {
 

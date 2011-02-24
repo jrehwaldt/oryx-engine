@@ -15,6 +15,7 @@ import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.BPMNTakeAllBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
 public class RoutingBehaviourTest {
 
@@ -47,7 +48,7 @@ public class RoutingBehaviourTest {
     private ProcessInstanceImpl simpleInstance() {
 
         Activity activity = mock(Activity.class);
-        behaviour = new BPMNTakeAllBehaviour();
+        behaviour = new TakeAllBehaviour();
 
         NodeImpl node = new NodeImpl(activity, behaviour);
         node.setId("1");

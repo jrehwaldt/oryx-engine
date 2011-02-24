@@ -8,9 +8,7 @@ import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
 import de.hpi.oryxengine.activity.impl.StartActivity;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
-import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
-import de.hpi.oryxengine.routingBehaviour.BPMNTakeAllBehaviour;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
@@ -20,13 +18,17 @@ import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 public class ExampleProcessForReview {
 
     /**
-     * The main method.
-     *
-     * @param args the arguments
-     * @throws InterruptedException the exception if an interrupt occurs
+     * The main method of our example process for review.
+     * 
+     * @param args
+     *            the arguments
+     * @throws InterruptedException
+     *             the exception if an interrupt occurs
      */
     public static void main(String[] args)
     throws InterruptedException {
+
+        // the main
 
         NavigatorImpl navigator = new NavigatorImpl();
         navigator.start();
@@ -39,6 +41,11 @@ public class ExampleProcessForReview {
         navigator.stop();
     }
 
+    /**
+     * Creates the processinstance for the reviewProcess.
+     * 
+     * @return the process instance impl
+     */
     private static ProcessInstanceImpl processInstanceForReview() {
 
         /*
