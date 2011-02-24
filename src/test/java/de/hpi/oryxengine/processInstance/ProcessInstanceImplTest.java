@@ -44,17 +44,19 @@ public class ProcessInstanceImplTest {
         }
 
         Node[] expectedCurrentNodes = { node2, node3 };
-        assertEqualsNoOrder(currentNodes, expectedCurrentNodes, "The new instances should point to the following nodes.");
+        assertEqualsNoOrder(currentNodes, expectedCurrentNodes,
+            "The new instances should point to the following nodes.");
     }
-    
+
     @Test
     public void testTakeSingleTransition() {
-        
+
         List<ProcessInstance> newInstances = instance.takeSingleTransition(transitionToTake);
         assertEquals(newInstances.size(), 1, "You should have a single process instances.");
-        
+
         ProcessInstance newInstance = newInstances.get(0);
-        assertEquals(newInstance, instance, "The instance should be the same, now child instance or something like that.");
+        assertEquals(newInstance, instance,
+            "The instance should be the same, now child instance or something like that.");
         assertEquals(newInstance.getCurrentNode(), node2, "The instance should have moved on.");
     }
 
@@ -69,9 +71,9 @@ public class ProcessInstanceImplTest {
         node3 = new NodeImpl(activity);
         node3.setId("3");
         node.transitionTo(node2);
-        
+
         transitionToTake = node.getTransitions().get(0);
-        
+
         node.transitionTo(node3);
 
         return new ProcessInstanceImpl(node);
