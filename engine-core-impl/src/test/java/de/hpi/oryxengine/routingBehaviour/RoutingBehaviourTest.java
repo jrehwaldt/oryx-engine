@@ -3,8 +3,6 @@ package de.hpi.oryxengine.routingBehaviour;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.*;
 
-import java.util.ArrayList;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,7 +12,7 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
-import de.hpi.oryxengine.routingBehaviour.BPMNTakeAllBehaviour;
+import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
 public class RoutingBehaviourTest {
 
@@ -47,7 +45,7 @@ public class RoutingBehaviourTest {
     private ProcessInstanceImpl simpleInstance() {
 
         Activity activity = mock(Activity.class);
-        behaviour = new BPMNTakeAllBehaviour();
+        behaviour = new TakeAllBehaviour();
 
         NodeImpl node = new NodeImpl(activity, behaviour);
         node.setId("1");

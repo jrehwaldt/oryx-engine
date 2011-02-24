@@ -8,9 +8,7 @@ import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
 import de.hpi.oryxengine.activity.impl.StartActivity;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
-import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
-import de.hpi.oryxengine.routingBehaviour.BPMNTakeAllBehaviour;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 

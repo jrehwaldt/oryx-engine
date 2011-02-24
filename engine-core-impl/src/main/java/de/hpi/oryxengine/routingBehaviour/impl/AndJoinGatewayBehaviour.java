@@ -2,11 +2,11 @@ package de.hpi.oryxengine.routingBehaviour.impl;
 
 import de.hpi.oryxengine.routingBehaviour.AbstractRoutingBehaviour;
 
-public class TakeAllBehaviour extends AbstractRoutingBehaviour {
+public class AndJoinGatewayBehaviour extends AbstractRoutingBehaviour {
 
-    public TakeAllBehaviour() {
+    public AndJoinGatewayBehaviour() {
 
-        this.joinBehaviour = new SimpleJoinBehaviour();
+        this.joinBehaviour = new AndJoinBehaviour();
         this.splitBehaviour = new TakeAllSplitBehaviour();
     }
 }

@@ -21,6 +21,7 @@ public class BPMNTakeAllBehaviourTest {
 
     @BeforeClass
     public void setUp() {
+
         instance = simpleInstance();
     }
 
@@ -50,7 +51,7 @@ public class BPMNTakeAllBehaviourTest {
         NodeImpl node2 = new NodeImpl(activity, behaviour);
         node2.setId("2");
         node.transitionTo(node2);
-        
+
         return new ProcessInstanceImpl(node);
     }
 }
