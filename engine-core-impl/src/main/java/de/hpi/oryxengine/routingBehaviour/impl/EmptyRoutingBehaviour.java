@@ -7,9 +7,10 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
 /**
- * @deprecated
- * The Class EmptyRoutingBehaviour. Just in for convenience. Should be refactored subclassing AbstractRoutingBehaviour.
+ * @deprecated The Class EmptyRoutingBehaviour. Just in for convenience. 
+ * Should be refactored subclassing AbstractRoutingBehaviour.
  */
+@Deprecated
 public class EmptyRoutingBehaviour implements RoutingBehaviour {
 
     /* (non-Javadoc)
