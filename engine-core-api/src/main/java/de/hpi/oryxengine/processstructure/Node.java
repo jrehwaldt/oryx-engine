@@ -6,7 +6,7 @@ import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
 /**
- * The Interface NodeInterface.
+ * The Interface for Nodes. Nodes are hubs in the graph representation of a process.
  */
 public interface Node {
 
@@ -14,12 +14,32 @@ public interface Node {
     // nodes that have 3 incoming transitions and
     // 5 outgoing transitions in some crazy modelling language
 
+    /**
+     * Gets the activity. The activity is the behavior of a node.
+     *
+     * @return the activity
+     */
     Activity getActivity();
 
+    /**
+     * Sets the activity. The activity is the behavior of a node.
+     *
+     * @param activity the new activity
+     */
     void setActivity(Activity activity);
 
+    /**
+     * Gets the routing behavior.
+     *
+     * @return the routing behavior
+     */
     RoutingBehaviour getRoutingBehaviour();
 
+    /**
+     * Sets the routing behavior.
+     *
+     * @param behaviour the new routing behavior
+     */
     void setRoutingBehaviour(RoutingBehaviour behaviour);
 
     /**
@@ -29,10 +49,25 @@ public interface Node {
      */
     ArrayList<Transition> getTransitions();
 
+    /**
+     * Describes a new outgoing edge to the given node.
+     *
+     * @param node the node to which a new transition shall be established
+     */
     void transitionTo(Node node);
 
+    /**
+     * Gets the id of the node.
+     *
+     * @return the id
+     */
     String getId();
 
+    /**
+     * Sets the id of the node.
+     *
+     * @param id the new id
+     */
     void setId(String id);
 
 }
