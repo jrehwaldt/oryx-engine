@@ -32,7 +32,7 @@
     <module name="StaticVariableName"/>
     <module name="TypeName"/>
     <module name="AvoidStarImport">
-      <property name="allowStaticMemberImports" value="true"/>
+      <property name="excludes" value="org.testng.Assert"/>
     </module>
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
@@ -79,18 +79,10 @@
     <module name="InterfaceIsType"/>
     <module name="VisibilityModifier"/>
     <module name="ArrayTypeStyle"/>
-    <module name="FinalParameters">
-      <property name="severity" value="ignore"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-    </module>
     <module name="TodoComment"/>
     <module name="UpperEll"/>
     <module name="CovariantEquals"/>
     <module name="DefaultComesLast"/>
-    <module name="FinalLocalVariable">
-      <property name="severity" value="ignore"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-    </module>
     <module name="ImportOrder">
       <property name="option" value="top"/>
       <property name="groups" value="/^javax?\./,org"/>
@@ -101,9 +93,6 @@
       <property name="severity" value="error"/>
     </module>
     <module name="TrailingComment"/>
-    <module name="OuterTypeFilename">
-      <property name="severity" value="error"/>
-    </module>
     <module name="MissingOverride"/>
     <module name="MissingDeprecated"/>
     <module name="BooleanExpressionComplexity"/>
@@ -122,19 +111,9 @@
       <property name="ignoreComments" value="true"/>
     </module>
   </module>
-  <module name="JavadocPackage">
-    <property name="severity" value="ignore"/>
-    <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-  </module>
   <module name="NewlineAtEndOfFile"/>
   <module name="Translation"/>
   <module name="FileLength"/>
   <module name="FileTabCharacter"/>
-  <module name="RegexpSingleline">
-    <property name="severity" value="ignore"/>
-    <property name="format" value="\s+$"/>
-    <property name="message" value="Line has trailing spaces."/>
-    <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-  </module>
   <module name="StrictDuplicateCode"/>
 </module>
