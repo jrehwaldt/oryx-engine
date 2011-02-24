@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.splitBehaviour.impl;
+package de.hpi.oryxengine.routingBehaviour.splitBehaviour.impl;
 
 import java.util.List;
 

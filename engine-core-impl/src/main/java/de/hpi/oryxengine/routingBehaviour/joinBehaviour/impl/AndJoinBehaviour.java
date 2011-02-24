@@ -1,13 +1,13 @@
-package de.hpi.oryxengine.joinBehaviour.impl;
+package de.hpi.oryxengine.routingBehaviour.joinBehaviour.impl;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import de.hpi.oryxengine.joinBehaviour.AbstractJoinBehaviour;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.Transition;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
+import de.hpi.oryxengine.routingBehaviour.joinBehaviour.AbstractJoinBehaviour;
 
 public class AndJoinBehaviour extends AbstractJoinBehaviour {
 

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.joinBehaviour.impl;
+package de.hpi.oryxengine.routingBehaviour.joinBehaviour.impl;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.joinBehaviour;
+package de.hpi.oryxengine.routingBehaviour.joinBehaviour;
 
 import java.util.LinkedList;
 import java.util.List;
