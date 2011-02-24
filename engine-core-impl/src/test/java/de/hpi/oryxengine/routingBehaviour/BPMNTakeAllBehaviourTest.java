@@ -26,8 +26,7 @@ public class BPMNTakeAllBehaviourTest {
     private ProcessInstance instance;
 
     /**
-     * Set up.
-     * An instance is build.
+     * Set up. An instance is build.
      */
     @BeforeClass
     public void setUp() {
@@ -59,8 +58,7 @@ public class BPMNTakeAllBehaviourTest {
     }
 
     /**
-     * Simple instance.
-     * An activity is set up, it gets a behavior and a transition to a second node.
+     * Simple instance. An activity is set up, it gets a behavior and a transition to a second node.
      * 
      * @return the process instance that was created within the method
      */

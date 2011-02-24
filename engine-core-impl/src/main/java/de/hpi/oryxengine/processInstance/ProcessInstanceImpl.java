@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.hpi.oryxengine.processDefinition.AbstractProcessDefinitionImpl;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.Node;
-import de.hpi.oryxengine.processstructure.NodeImpl;
 import de.hpi.oryxengine.processstructure.Transition;
 
 /**
@@ -89,7 +87,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
      * (non-Javadoc)
      * 
      * @see
-     * de.hpi.oryxengine.processInstance.ProcessInstance#setParentInstance(de.hpi.oryxengine.processInstance.ProcessInstance
+     * de.hpi.oryxengine.processInstance.ProcessInstance
+     *      #setParentInstance(de.hpi.oryxengine.processInstance.ProcessInstance
      * )
      */
     public void setParentInstance(ProcessInstance instance) {
@@ -158,20 +157,20 @@ public class ProcessInstanceImpl implements ProcessInstance {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#setVariable(java.lang.String, java.lang.Object)
+     * @param name name of the variable
+     * @param value the value to be set at the variable
      */
     public void setVariable(String name, Object value) {
 
         getInstanceVariables().put(name, value);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#getVariable(java.lang.String)
+     * @param name of the variable
+     * @return the variable
      */
     public Object getVariable(String name) {
 
@@ -191,23 +190,22 @@ public class ProcessInstanceImpl implements ProcessInstance {
         return instanceVariables;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#executeStep()
+     * @return list of process instances
      */
     public List<ProcessInstance> executeStep() {
-        
-        // TODO Hey this is uncool if we got uncontrolled BPMN Cpontrolflow. We would execute the node multiple times
+
+        // TODO Hey this is uncool if we got uncontrolled BPMN control flow. We would execute the node multiple times
         this.currentNode.getActivity().execute(this);
         return this.currentNode.getRoutingBehaviour().execute(this);
         // return this.currentNode.navigate(this);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance#takeAllTransitions()
+    /**
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance
+     *      #takeAllTransitions()
+     * @return list of process instances 
      */
     public List<ProcessInstance> takeAllTransitions() {
 
@@ -228,12 +226,11 @@ public class ProcessInstanceImpl implements ProcessInstance {
         return instancesToNavigate;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.hpi.oryxengine.processInstance.ProcessInstance#takeSingleTransition(de.hpi.oryxengine.processstructure.Transition
-     * )
+    /**
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance
+     *      #takeSingleTransition(de.hpi.oryxengine.processstructure.Transition)
+     * @param t the transition to take
+     * @return list of process instances
      */
     public List<ProcessInstance> takeSingleTransition(Transition t) {
 
@@ -243,11 +240,11 @@ public class ProcessInstanceImpl implements ProcessInstance {
         return instancesToNavigate;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.hpi.oryxengine.processInstance.ProcessInstance#createChildInstance(de.hpi.oryxengine.processstructure.Node)
+    /**
+     *@see de.hpi.oryxengine.processInstance.ProcessInstance
+     *      #createChildInstance(de.hpi.oryxengine.processstructure.Node)
+     *@param node the node to add a child at
+     *@return the child instance
      */
     public ProcessInstance createChildInstance(Node node) {
 

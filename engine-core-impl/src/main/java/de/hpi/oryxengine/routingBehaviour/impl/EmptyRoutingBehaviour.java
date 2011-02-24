@@ -13,8 +13,11 @@ import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 @Deprecated
 public class EmptyRoutingBehaviour implements RoutingBehaviour {
 
-    /* (non-Javadoc)
-     * @see de.hpi.oryxengine.routingBehaviour.RoutingBehaviour#execute(de.hpi.oryxengine.processInstance.ProcessInstance)
+    /** 
+     * @see de.hpi.oryxengine.routingBehaviour.RoutingBehaviour#
+     *      execute(de.hpi.oryxengine.processInstance.ProcessInstance)
+     * @param instance the process instance to be executed
+     * @return list of process instances
      */
     public List<ProcessInstance> execute(ProcessInstance instance) {
 

@@ -5,8 +5,6 @@ import java.util.List;
 
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.Node;
-import de.hpi.oryxengine.processstructure.Transition;
-import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.joinBehaviour.AbstractJoinBehaviour;
 
 /**
@@ -42,7 +40,8 @@ public class AndJoinBehaviour extends AbstractJoinBehaviour {
      * (non-Javadoc)
      * 
      * @see
-     * de.hpi.oryxengine.routingBehaviour.joinBehaviour.AbstractJoinBehaviour#performJoin(de.hpi.oryxengine.processInstance
+     * de.hpi.oryxengine.routingBehaviour.joinBehaviour.AbstractJoinBehaviour
+     *      #performJoin(de.hpi.oryxengine.processInstance
      * .ProcessInstance)
      */
     @Override

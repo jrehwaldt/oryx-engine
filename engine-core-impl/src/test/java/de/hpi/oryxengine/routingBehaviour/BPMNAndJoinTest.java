@@ -15,7 +15,6 @@ import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.impl.AndJoinGatewayBehaviour;
 import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
-import de.hpi.oryxengine.routingBehaviour.joinBehaviour.impl.AndJoinBehaviour;
 
 /**
  * This class tests the BPMNAndJoin-Class.
