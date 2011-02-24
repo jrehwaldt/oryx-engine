@@ -21,8 +21,10 @@ import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;
 public class ExampleProcessForReview {
 
     /**
-     * @param args
-     * @throws InterruptedException
+     * The main method.
+     *
+     * @param args the arguments
+     * @throws InterruptedException the exception if an interrupt occurs
      */
     public static void main(String[] args)
     throws InterruptedException {
@@ -73,7 +75,7 @@ public class ExampleProcessForReview {
         secondNode.transitionTo(thirdNode);
         thirdNode.transitionTo(fourthNode);
         fourthNode.transitionTo(endNode);
-        
+
         ProcessInstanceImpl sampleInstance = new ProcessInstanceImpl(startNode);
         return sampleInstance;
     }
