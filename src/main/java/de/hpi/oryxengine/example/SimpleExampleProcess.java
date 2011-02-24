@@ -28,7 +28,7 @@ public class SimpleExampleProcess {
         for (int i = 0; i < INSTANCE_COUNT; i++) {
             ProcessInstanceImpl instance = sampleProcessInstance(i);
             navigator.startArbitraryInstance("1", instance);
-            if (i % 10000 == 0) {
+            if (i % INSTANCE_COUNT == 0) {
                 logger.debug("Started " + i + " Instances");
             }
         }

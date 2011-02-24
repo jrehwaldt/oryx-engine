@@ -31,7 +31,9 @@
     <module name="ParameterName"/>
     <module name="StaticVariableName"/>
     <module name="TypeName"/>
-    <module name="AvoidStarImport"/>
+    <module name="AvoidStarImport">
+      <property name="allowStaticMemberImports" value="true"/>
+    </module>
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
@@ -77,13 +79,21 @@
     <module name="InterfaceIsType"/>
     <module name="VisibilityModifier"/>
     <module name="ArrayTypeStyle"/>
-    <module name="FinalParameters"/>
+    <module name="FinalParameters">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="TodoComment"/>
     <module name="UpperEll"/>
     <module name="CovariantEquals"/>
     <module name="DefaultComesLast"/>
-    <module name="FinalLocalVariable"/>
+    <module name="FinalLocalVariable">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="ImportOrder">
+      <property name="option" value="top"/>
+      <property name="groups" value="/^javax?\./,org"/>
       <property name="separated" value="true"/>
     </module>
     <module name="MutableException"/>
