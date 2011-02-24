@@ -7,6 +7,7 @@ import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
+import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
 /**
  * The Interface NodeInterface.
@@ -16,6 +17,10 @@ public interface Node {
     Activity getActivity();
 
     void setActivity(Activity activity);
+    
+    RoutingBehaviour getRoutingBehaviour();
+    
+    void setRoutingBehaviour(RoutingBehaviour behaviour);
 
     /**
      * Next.

@@ -17,19 +17,7 @@ public class BPMNTakeAllBehaviour implements RoutingBehaviour {
 
     public List<ProcessInstance> execute(ProcessInstance instance) {
 
-        List<ProcessInstance> instancesToNavigate = new LinkedList<ProcessInstance>();
-        ArrayList<Transition> transitions = instance.getCurrentNode().getTransitions();
-        if (transitions.size() == 1) {
-            Transition transition = transitions.get(0);
-            NodeImpl destination = transition.getDestination();
-            instance.setCurrentNode(destination);
-            instancesToNavigate.add(instance);
-        } else {
-            for (Transition transition : transitions) {
-                // Create new child instances etc.
-            }
-        }
-        return instancesToNavigate;
+        return instance.takeAllTransitions();
     }
 
 }
