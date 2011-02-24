@@ -3,8 +3,6 @@ package de.hpi.oryxengine.routingBehaviour;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.*;
 
-import java.util.ArrayList;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

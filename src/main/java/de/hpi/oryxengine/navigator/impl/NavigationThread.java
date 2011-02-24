@@ -6,18 +6,36 @@ import org.apache.log4j.Logger;
 
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 
+// TODO Auto-generated Javadoc
+/**
+ * The Class NavigationThread.
+ */
 public class NavigationThread extends Thread {
 
+    /** The to navigate. */
     private List<ProcessInstance> toNavigate;
+    
+    /** The logger. */
     private Logger logger = Logger.getRootLogger();
-    public boolean shouldStop = false;
+    
+    /** The should stop. */
+    private boolean shouldStop = false;
 
+    /**
+     * Instantiates a new navigation thread.
+     *
+     * @param threadname the threadname
+     * @param activityQueue the activity queue
+     */
     public NavigationThread(String threadname, List<ProcessInstance> activityQueue) {
 
         super(threadname);
         this.toNavigate = activityQueue;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Thread#run()
+     */
     public void run() {
 
         doWork();
@@ -30,6 +48,9 @@ public class NavigationThread extends Thread {
     // advantage that the navigator can now
     // handle multiple instances.
 
+    /**
+     * Do work.
+     */
     public void doWork() {
 
         while (true) {
@@ -61,5 +82,65 @@ public class NavigationThread extends Thread {
                 }
             }
         }
+    }
+
+    /**
+     * Gets the to navigate.
+     *
+     * @return the to navigate
+     */
+    public List<ProcessInstance> getToNavigate() {
+
+        return toNavigate;
+    }
+
+    /**
+     * Sets the to navigate.
+     *
+     * @param toNavigate the new to navigate
+     */
+    public void setToNavigate(List<ProcessInstance> toNavigate) {
+
+        this.toNavigate = toNavigate;
+    }
+
+    /**
+     * Gets the logger.
+     *
+     * @return the logger
+     */
+    public Logger getLogger() {
+
+        return logger;
+    }
+
+    /**
+     * Sets the logger.
+     *
+     * @param logger the new logger
+     */
+    public void setLogger(Logger logger) {
+
+        this.logger = logger;
+    }
+
+    /**
+     * Checks if is should stop.
+     *
+     * @return true, if is should stop
+     */
+    public boolean isShouldStop() {
+
+        return shouldStop;
+    }
+
+    /**
+     * Sets the should stop.
+     *
+     * @param shouldStop the new should stop
+     */
+    public void setShouldStop(boolean shouldStop) {
+
+        this.shouldStop = shouldStop;
     }
 }

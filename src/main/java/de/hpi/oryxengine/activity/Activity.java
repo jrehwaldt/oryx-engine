@@ -10,6 +10,6 @@ public interface Activity {
     /**
      * Execute. Starts the execution of a Node Instance.
      */
-    public void execute(ProcessInstance instance);
+    void execute(ProcessInstance instance);
 
 }
