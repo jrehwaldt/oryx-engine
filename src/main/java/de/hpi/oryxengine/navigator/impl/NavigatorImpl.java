@@ -1,20 +1,18 @@
 package de.hpi.oryxengine.navigator.impl;
 
+import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
+import de.hpi.oryxengine.processInstance.ProcessInstance;
+import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-
-import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.processDefinitionImpl.AbstractProcessDefinitionImpl;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.processInstanceImpl.ProcessInstanceImpl;
-import de.hpi.oryxengine.processstructure.Transition;
-import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 
 /**
+ * 
  * @author Jannik Streek
  * 
  */
@@ -26,6 +24,7 @@ public class NavigatorImpl implements Navigator {
     private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions;
     private List<ProcessInstance> toNavigate;
     private ArrayList<NavigationThread> executionThreads;
+    private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
 
     public NavigatorImpl() {
 
@@ -40,7 +39,7 @@ public class NavigatorImpl implements Navigator {
     public void start() {
 
         // "Gentlemen, start your engines"
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < NUMBER_OF_NAVIGATOR_THREADS; i++) {
             NavigationThread thread = new NavigationThread("NT" + i, toNavigate);
             thread.start();
             executionThreads.add(thread);

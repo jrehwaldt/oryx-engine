@@ -12,11 +12,11 @@
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
     <module name="JavadocMethod">
-      <property name="severity" value="ignore"/>
       <property name="suppressLoadErrors" value="true"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
-    <module name="JavadocType"/>
+    <module name="JavadocType">
+      <property name="severity" value="error"/>
+    </module>
     <module name="JavadocVariable">
       <property name="severity" value="ignore"/>
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
@@ -31,7 +31,9 @@
     <module name="ParameterName"/>
     <module name="StaticVariableName"/>
     <module name="TypeName"/>
-    <module name="AvoidStarImport"/>
+    <module name="AvoidStarImport">
+      <property name="allowStaticMemberImports" value="true"/>
+    </module>
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
@@ -77,17 +79,48 @@
     <module name="InterfaceIsType"/>
     <module name="VisibilityModifier"/>
     <module name="ArrayTypeStyle"/>
-    <module name="FinalParameters"/>
+    <module name="FinalParameters">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="TodoComment"/>
     <module name="UpperEll"/>
     <module name="CovariantEquals"/>
     <module name="DefaultComesLast"/>
-    <module name="FinalLocalVariable"/>
+    <module name="FinalLocalVariable">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="ImportOrder">
+      <property name="option" value="top"/>
+      <property name="groups" value="/^javax?\./,org"/>
       <property name="separated" value="true"/>
     </module>
     <module name="MutableException"/>
-    <module name="UncommentedMain"/>
+    <module name="UncommentedMain">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="TrailingComment"/>
+    <module name="OuterTypeFilename">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="MissingOverride"/>
+    <module name="MissingDeprecated"/>
+    <module name="BooleanExpressionComplexity"/>
+    <module name="EqualsAvoidNull">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="JUnitTestCase">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="PackageDeclaration">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="RegexpSinglelineJava">
+      <property name="format" value="\s+$"/>
+      <property name="message" value="Line has trailing spaces."/>
+      <property name="ignoreComments" value="true"/>
+    </module>
   </module>
   <module name="JavadocPackage">
     <property name="severity" value="ignore"/>
@@ -98,6 +131,7 @@
   <module name="FileLength"/>
   <module name="FileTabCharacter"/>
   <module name="RegexpSingleline">
+    <property name="severity" value="ignore"/>
     <property name="format" value="\s+$"/>
     <property name="message" value="Line has trailing spaces."/>
   </module>
