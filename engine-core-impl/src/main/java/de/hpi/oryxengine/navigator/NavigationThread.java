@@ -8,18 +8,21 @@ import de.hpi.oryxengine.processInstance.ProcessInstance;
 
 // TODO Auto-generated Javadoc
 /**
- * The Class NavigationThread.
- * Which is one thread to navigate.
+ * The Class NavigationThread. Which is one thread to navigate.
  */
 public class NavigationThread extends Thread {
 
-    /** The to navigate. */
+    /** The Constant SLEEPTIME defining the time a thread sleeps if it has got nothing to do. */
+    private static final int SLEEPTIME = 1000;
+
+    /** The to navigate Queue is common to all Navigation Threads. 
+     * This is where they get the instances to work on from. */
     private List<ProcessInstance> toNavigate;
 
     /** The logger. */
     private Logger logger = Logger.getRootLogger();
 
-    /** The should stop. Indicates if the Thread should stop executing. See the doWork source for details.*/
+    /** The should stop. Indicates if the Thread should stop executing. See the doWork source for details. */
     private boolean shouldStop = false;
 
     /**
@@ -28,7 +31,7 @@ public class NavigationThread extends Thread {
      * @param threadname
      *            the threadname
      * @param activityQueue
-     *            the activity queue
+     *            the activity queue which the navigation thread should work on. It contains Process Instances.
      */
     public NavigationThread(String threadname, List<ProcessInstance> activityQueue) {
 
@@ -47,14 +50,10 @@ public class NavigationThread extends Thread {
     }
 
     /**
-     * Do work.
-     * This method does the real work.
-     * Main Loop: Takes an executable process instance and the belonging node
-     * and executes the node. After, the true conditions are followed and the next
-     * node is set.
-     * Now the process instance is added to the Queue again. This has the
-     * advantage that the navigator can now
-     * handle multiple instances.
+     * Do work. This method does the real work, pulling instances out of a queue and then executing. Main Loop: Takes an
+     * executable process instance and the belonging node and executes the node. After, the true conditions are followed
+     * and the next node is set. Now the process instance is added to the Queue again. This has the advantage that the
+     * navigator can now handle multiple instances.
      */
     public void doWork() {
 
@@ -80,7 +79,7 @@ public class NavigationThread extends Thread {
             } else {
                 try {
                     logger.debug("Queue empty");
-                    sleep(1000);
+                    sleep(SLEEPTIME);
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -90,7 +89,8 @@ public class NavigationThread extends Thread {
     }
 
     /**
-     * Gets the to navigate.
+     * Gets the to navigate. The to navigate Queue is common to all Navigation Threads. This is where they get the
+     * instances to work on from.
      * 
      * @return the to navigate
      */
@@ -100,7 +100,8 @@ public class NavigationThread extends Thread {
     }
 
     /**
-     * Sets the to navigate.
+     * Sets the to navigate. The to navigate Queue is common to all Navigation Threads. This is where they get the
+     * instances to work on from.
      * 
      * @param toNavigate
      *            the new to navigate
@@ -132,9 +133,9 @@ public class NavigationThread extends Thread {
     }
 
     /**
-     * Checks if is should stop.
+     * Checks if it should stop execution.
      * 
-     * @return true, if is should stop
+     * @return true, if it should stop execution
      */
     public boolean isShouldStop() {
 

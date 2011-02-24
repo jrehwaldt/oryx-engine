@@ -26,13 +26,13 @@ public interface ProcessDefinition {
      *
      * @return the ID
      */
-    String getID();
+    String getId();
 
     /**
      * Sets the ID of the process definition.
      *
      * @param s the new ID
      */
-    void setID(String s);
+    void setId(String s);
 
 }
