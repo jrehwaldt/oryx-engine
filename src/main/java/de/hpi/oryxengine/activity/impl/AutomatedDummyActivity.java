@@ -26,6 +26,8 @@ public class AutomatedDummyActivity extends AbstractActivityImpl {
 
     /**
      * @see de.hpi.oryxengine.activity.AbstractActivityImpl#execute()
+     * 
+     * @param instance the processinstance
      */
     @Override
     // A simple execution

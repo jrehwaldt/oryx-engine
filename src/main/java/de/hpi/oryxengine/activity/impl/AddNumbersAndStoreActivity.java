@@ -3,7 +3,6 @@ package de.hpi.oryxengine.activity.impl;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AddNumbersAndStoreActivity.
  * As the name inidcates, an activity that adds two numbers and stores the result.
@@ -33,9 +32,10 @@ public class AddNumbersAndStoreActivity implements Activity {
         resultVaribaleName = varibaleName;
     }
 
-    /** 
+    /**
      * sums up the two summands and sets the corresponding resultvariable.
-     * 
+     *
+     * @param instance the processinstance since we need the variables and need to set the result.
      * @see de.hpi.oryxengine.activity.Activity#execute(de.hpi.oryxengine.processInstance.ProcessInstance)
      */
     public void execute(ProcessInstance instance) {
