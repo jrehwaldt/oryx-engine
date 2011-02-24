@@ -9,6 +9,8 @@ public interface Activity {
 
     /**
      * Execute. Starts the execution of a Node Instance.
+     *
+     * @param instance the processinstance which is needed because there might be valuable data in there.
      */
     void execute(ProcessInstance instance);
 

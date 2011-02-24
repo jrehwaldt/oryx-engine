@@ -2,9 +2,10 @@ package de.hpi.oryxengine.activity;
 
 import de.hpi.oryxengine.processInstance.ProcessInstance;
 
-// TODO Auto-generated Javadoc
+
 /**
- * The Class AbstractNode.
+ * The Class AbstractActivityImpl.
+ * An activity is the behaviour of a node. So to say what it does.
  */
 public abstract class AbstractActivityImpl implements Activity {
 
@@ -12,7 +13,8 @@ public abstract class AbstractActivityImpl implements Activity {
     private State state;
 
     /**
-     * Instantiates a new abstract node.
+     * Instantiates a new abstract activity implementation.
+     * It already sets the State to INIT.
      */
     protected AbstractActivityImpl() {
 
@@ -41,7 +43,8 @@ public abstract class AbstractActivityImpl implements Activity {
     }
 
     /**
-     * The Enum State. It contains the different states defined in the context of our process engine.
+     * The Enum State.
+     * It contains the different states defined in the context of our process engine.
      */
     protected enum State {
 
@@ -60,7 +63,10 @@ public abstract class AbstractActivityImpl implements Activity {
     // start execution
     /**
      * Execute.
+     * Execute what the activity does. 
+     * Default behaviour is doing nothing.
      *
+     * @param instance the processinstance - this is needed because there might be valuable data in there.
      * @see de.hpi.oryxengine.activity.ActivityInterface#execute()
      */
     public void execute(ProcessInstance instance) {
