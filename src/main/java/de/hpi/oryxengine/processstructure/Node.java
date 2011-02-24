@@ -14,12 +14,16 @@ import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
  */
 public interface Node {
 
+    // TODO: The node needs a join- and a split-behaviour, as you can imagine
+    // nodes that have 3 incoming transitions and
+    // 5 outgoing transitions in some crazy modelling language
+
     Activity getActivity();
 
     void setActivity(Activity activity);
-    
+
     RoutingBehaviour getRoutingBehaviour();
-    
+
     void setRoutingBehaviour(RoutingBehaviour behaviour);
 
     /**
@@ -29,7 +33,7 @@ public interface Node {
      */
     ArrayList<Transition> getTransitions();
 
-    void transitionTo(NodeImpl node);
+    void transitionTo(Node node);
 
     String getId();
 

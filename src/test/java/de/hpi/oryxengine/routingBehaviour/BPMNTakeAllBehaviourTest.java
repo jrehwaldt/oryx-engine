@@ -16,7 +16,7 @@ import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.impl.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.impl.BPMNTakeAllBehaviour;
 
-public class RoutingBehaviourTest {
+public class BPMNTakeAllBehaviourTest {
 
     private RoutingBehaviour behaviour;
     private ProcessInstance instance;

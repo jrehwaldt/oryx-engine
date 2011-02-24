@@ -27,6 +27,21 @@ public interface ProcessInstance {
     void setParentInstance(ProcessInstance instance);
 
     /**
+     * Gets the child instances.
+     * 
+     * @return the child instances
+     */
+    List<ProcessInstance> getChildInstances();
+
+    /**
+     * Sets the child instances.
+     * 
+     * @param children
+     *            the new child instances
+     */
+    void setChildInstances(List<ProcessInstance> children);
+
+    /**
      * Gets the current node.
      * 
      * @return the current node
@@ -97,11 +112,12 @@ public interface ProcessInstance {
      * @return the list
      */
     List<ProcessInstance> takeSingleTransition(Transition t);
-    
+
     /**
      * Creates a child instance pointing to the given node n.
-     *
-     * @param n the node the new instance points to.
+     * 
+     * @param n
+     *            the node the new instance points to.
      * @return the new process instance
      */
     ProcessInstance createChildInstance(Node n);
