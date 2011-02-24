@@ -18,13 +18,17 @@ import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 public class ExampleProcessForReview {
 
     /**
-     * The main method.
-     *
-     * @param args the arguments
-     * @throws InterruptedException the exception if an interrupt occurs
+     * The main method of our example process for review.
+     * 
+     * @param args
+     *            the arguments
+     * @throws InterruptedException
+     *             the exception if an interrupt occurs
      */
     public static void main(String[] args)
     throws InterruptedException {
+
+        // the main
 
         NavigatorImpl navigator = new NavigatorImpl();
         navigator.start();
@@ -37,6 +41,11 @@ public class ExampleProcessForReview {
         navigator.stop();
     }
 
+    /**
+     * Creates the processinstance for the reviewProcess.
+     * 
+     * @return the process instance impl
+     */
     private static ProcessInstanceImpl processInstanceForReview() {
 
         /*

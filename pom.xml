@@ -43,6 +43,11 @@
         </dependencies>
     </dependencyManagement>
 
+    <modules>
+        <module>engine-core-api</module>
+        <module>engine-core-impl</module>
+    </modules>
+
     <build>
         <plugins>
             <plugin>

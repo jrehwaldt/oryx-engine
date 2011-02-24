@@ -6,14 +6,25 @@ import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 import de.hpi.oryxengine.processstructure.NodeImpl;
-
+/**
+ * The Class SimpleExampleProcess. It really is just a simple example process.
+ */
 public class SimpleExampleProcess {
 
+    /**
+     * The Constant INSTANCE_COUNT. Which determines the number of instances which will be run when the main is
+     * executed.
+     */
     private static final int INSTANCE_COUNT = 1000000;
+
+    /** The logger. */
     private static Logger logger = Logger.getRootLogger();
 
     /**
+     * The main method. It starts a a specified number of instances.
+     * 
      * @param args
+     *            the arguments
      */
     public static void main(String[] args) {
 
@@ -31,6 +42,13 @@ public class SimpleExampleProcess {
         }
     }
 
+    /**
+     * Sample process instance.
+     * 
+     * @param counter
+     *            the counter
+     * @return the process instance impl
+     */
     private static ProcessInstanceImpl sampleProcessInstance(int counter) {
 
         AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);

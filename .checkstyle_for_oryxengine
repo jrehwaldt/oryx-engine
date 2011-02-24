@@ -21,7 +21,9 @@
       <property name="severity" value="ignore"/>
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
-    <module name="JavadocStyle"/>
+    <module name="JavadocStyle">
+      <property name="endOfSentenceFormat" value="([.?!:][ \t\n\r\f&lt;])|([.?!:]$)"/>
+    </module>
     <module name="ConstantName"/>
     <module name="LocalFinalVariableName"/>
     <module name="LocalVariableName"/>
@@ -89,9 +91,6 @@
       <property name="separated" value="true"/>
     </module>
     <module name="MutableException"/>
-    <module name="UncommentedMain">
-      <property name="severity" value="error"/>
-    </module>
     <module name="TrailingComment"/>
     <module name="MissingOverride"/>
     <module name="MissingDeprecated"/>
