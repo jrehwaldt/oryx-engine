@@ -18,3 +18,4 @@ public class TakeAllBehaviour extends AbstractRoutingBehaviour {
         this.splitBehaviour = new TakeAllSplitBehaviour();
     }
 }
+

@@ -73,9 +73,11 @@ public class ProcessInstanceImpl implements ProcessInstance {
         this.childInstances = new ArrayList<ProcessInstance>();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Gets the parent processinstance.
+     * If we split, we create new process instances, that have a parent instance, the instance where they originated
+     *
+     * @return the parent instance
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#getParentInstance()
      */
     public ProcessInstance getParentInstance() {
@@ -83,12 +85,14 @@ public class ProcessInstanceImpl implements ProcessInstance {
         return parentInstance;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Sets the parentInstance of this instance.
+     * The processinstance this instance got forked from that is.
+     *
+     * @param instance the new parent instance
      * @see
      * de.hpi.oryxengine.processInstance.ProcessInstance
-     *      #setParentInstance(de.hpi.oryxengine.processInstance.ProcessInstance
+     * #setParentInstance(de.hpi.oryxengine.processInstance.ProcessInstance
      * )
      */
     public void setParentInstance(ProcessInstance instance) {
@@ -96,9 +100,11 @@ public class ProcessInstanceImpl implements ProcessInstance {
         this.parentInstance = instance;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Gets the current node.
+     * So the position where the execution of the Processinstance is at.
+     *
+     * @return the current node
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#getCurrentNode()
      */
     public Node getCurrentNode() {
@@ -106,9 +112,11 @@ public class ProcessInstanceImpl implements ProcessInstance {
         return currentNode;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Sets the current node.
+     * So the node where the execution of the process instance currently is at.
+     *
+     * @param node the new current node
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#setCurrentNode(de.hpi.oryxengine.processstructure.Node)
      */
     public void setCurrentNode(Node node) {
@@ -116,9 +124,11 @@ public class ProcessInstanceImpl implements ProcessInstance {
         currentNode = node;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Gets the child instances.
+     * Childisntances are instances that got forked from here.
+     *
+     * @return the child instances
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#getChildInstances()
      */
     public List<ProcessInstance> getChildInstances() {
@@ -126,9 +136,11 @@ public class ProcessInstanceImpl implements ProcessInstance {
         return childInstances;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Sets the child instances.
+     * Childisntances are instances that got forked from here.
+     *
+     * @param childInstances the new child instances
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#setChildInstances(java.util.List)
      */
     public void setChildInstances(List<ProcessInstance> childInstances) {
@@ -136,9 +148,10 @@ public class ProcessInstanceImpl implements ProcessInstance {
         this.childInstances = childInstances;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Gets the ID of the processinstance.
+     *
+     * @return the iD
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#getID()
      */
     public String getID() {
@@ -146,9 +159,10 @@ public class ProcessInstanceImpl implements ProcessInstance {
         return id;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Sets the ID of the processinstance.
+     *
+     * @param s the new iD
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#setID(java.lang.String)
      */
     public void setID(String s) {

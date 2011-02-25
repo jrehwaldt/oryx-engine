@@ -11,7 +11,11 @@ import de.hpi.oryxengine.routingBehaviour.joinBehaviour.JoinBehaviour;
  */
 public class SimpleJoinBehaviour implements JoinBehaviour {
 
-    /* (non-Javadoc)
+    /**
+     * Join Behviour.
+     *
+     * @param instance the instance
+     * @return the list of joined instances
      * @see de.hpi.oryxengine.joinBehaviour.JoinBehaviour#join(de.hpi.oryxengine.processInstance.ProcessInstance)
      */
     public List<ProcessInstance> join(ProcessInstance instance) {
