@@ -210,7 +210,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
      */
     public List<ProcessInstance> executeStep() {
 
-        // TODO Hey this is uncool if we got uncontrolled BPMN control flow. We would execute the node multiple times
+        // TODO sholdn't the node itself do this? I don't like this code - or is there any reason for this? [Tobi]
         this.currentNode.getActivity().execute(this);
         return this.currentNode.getRoutingBehaviour().execute(this);
         // return this.currentNode.navigate(this);
