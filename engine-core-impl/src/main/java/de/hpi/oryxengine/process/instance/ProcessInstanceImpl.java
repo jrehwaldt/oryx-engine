@@ -211,10 +211,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
      */
     public List<ProcessInstance> executeStep() {
 
-        // TODO sholdn't the node itself do this? I don't like this code - or is there any reason for this? [Tobi]
-        this.currentNode.getActivity().execute(this);
-        return this.currentNode.getRoutingBehaviour().execute(this);
-        // return this.currentNode.navigate(this);
+        return this.currentNode.execute(this);
     }
 
     /**

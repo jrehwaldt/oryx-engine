@@ -1,8 +1,10 @@
 package de.hpi.oryxengine.process.structure;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.Condition;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.Transition;
@@ -177,5 +179,11 @@ public class NodeImpl implements Node {
     public RoutingBehaviour getRoutingBehaviour() {
 
         return behaviour;
+    }
+
+    public List<ProcessInstance> execute(ProcessInstance instance) {
+
+        this.activity.execute(instance);
+        return this.behaviour.execute(instance);
     }
 }
