@@ -10,7 +10,6 @@ import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
  */
@@ -18,7 +17,7 @@ public class NavigatorImpl implements Navigator {
 
     // map IDs to Definition
     /** The running instances. */
-    private HashMap<String, ProcessInstanceImpl> runningInstances;
+    private HashMap<String, ProcessInstance> runningInstances;
 
     /** The loaded definitions. */
     private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions;
@@ -38,7 +37,7 @@ public class NavigatorImpl implements Navigator {
     public NavigatorImpl() {
 
         // TODO Lazy initialized
-        runningInstances = new HashMap<String, ProcessInstanceImpl>();
+        runningInstances = new HashMap<String, ProcessInstance>();
         loadedDefinitions = new HashMap<String, AbstractProcessDefinitionImpl>();
         toNavigate = new LinkedList<ProcessInstance>();
         toNavigate = Collections.synchronizedList(toNavigate);
@@ -61,7 +60,7 @@ public class NavigatorImpl implements Navigator {
     }
 
     /**
-     * Starts the a proccesinstance of a process with the given ID.
+     * Starts the a procces instance of a process with the given ID.
      *
      * @param processID the process id
      * @return the string
@@ -76,16 +75,13 @@ public class NavigatorImpl implements Navigator {
         }
 
         // instantiate the processDefinition
-        ProcessInstanceImpl processInstance = new ProcessInstanceImpl(loadedDefinitions.get(processID), 0);
+        ProcessInstance processInstance = new ProcessInstanceImpl(loadedDefinitions.get(processID), 0);
         runningInstances.put(processInstance.getID(), processInstance);
 
-        // we need to do this, as after node execution (in Navigator#signal() the currentNodes-Datastructure is altered.
-        // Its not cool to change the datastructure you iterate over.
+        // register initial node for scheduling
         toNavigate.add(processInstance);
 
-        // tell the initial nodes to execute their activities
-
-        return "aProcessInstanceID";
+        return "aProcessInstanceID"; // TODO return id from ProcessInstance, use UUID
     }
 
     // this method is for first testing only, as we do not have ProcessDefinitions yet

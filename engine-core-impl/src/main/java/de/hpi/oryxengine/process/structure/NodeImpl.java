@@ -22,7 +22,7 @@ public class NodeImpl implements Node {
     private RoutingBehaviour behaviour;
 
     /** The next node. */
-    private ArrayList<Transition> transitions;
+    private List<Transition> transitions;
 
     /** The id. */
     private String id;
@@ -81,7 +81,6 @@ public class NodeImpl implements Node {
      * @param node
      *            the next node where the transition points to
      */
-
     public void transitionTo(Node node) {
 
         Condition c = new ConditionImpl();
@@ -139,7 +138,7 @@ public class NodeImpl implements Node {
      * @param transitions
      *            the new transitions
      */
-    public void setTransitions(ArrayList<Transition> transitions) {
+    public void setTransitions(List<Transition> transitions) {
 
         this.transitions = transitions;
     }
@@ -150,7 +149,7 @@ public class NodeImpl implements Node {
      * @return the transitions
      * @see de.hpi.oryxengine.process.structure.Node#getTransitions()
      */
-    public ArrayList<Transition> getTransitions() {
+    public List<Transition> getTransitions() {
 
         return transitions;
     }
@@ -174,11 +173,16 @@ public class NodeImpl implements Node {
      * @return the routing behaviour
      * @see de.hpi.oryxengine.process.structure.Node#getRoutingBehaviour()
      */
+    @Override
     public RoutingBehaviour getRoutingBehaviour() {
 
         return behaviour;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<ProcessInstance> execute(ProcessInstance instance) {
 
         this.activity.execute(instance);

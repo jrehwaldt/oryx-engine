@@ -68,7 +68,7 @@ public class NavigationThread extends Thread {
             // This has to be an atomic operation on toNavigate, otherwise
             // an IndexOutOfBoundsException might occur
             synchronized (this.toNavigate) {
-                if (this.toNavigate.size() > 0) {
+                if (!this.toNavigate.isEmpty()) {
                     instance = this.toNavigate.remove(0);
                 }
             }

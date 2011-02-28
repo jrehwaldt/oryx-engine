@@ -9,7 +9,6 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.AbstractActivityImpl.State;
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
@@ -86,7 +85,7 @@ public class AutomatedDummyActivityTest {
     public void testStateAfterExecution() {
 
         a.execute(processInstance);
-        assertEquals(a.getState(), State.TERMINATED, "It should have the state Initialized");
+        assertEquals(a.getState(), ExecutionState.COMPLETED, "It should have the state Completed");
     }
 
     /**
