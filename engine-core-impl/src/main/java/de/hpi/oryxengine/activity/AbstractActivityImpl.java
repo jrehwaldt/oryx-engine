@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.activity;
 
+import javax.annotation.Nonnull;
+
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 
@@ -7,70 +9,50 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  * The Class AbstractActivityImpl.
  * An activity is the behaviour of a node. So to say what it does.
  */
-public abstract class AbstractActivityImpl implements Activity {
-
-    /** The state. */
-    private State state;
-
+public abstract class AbstractActivityImpl
+implements Activity {
+    
+    private ExecutionState state;
+    
     /**
-     * Instantiates a new abstract activity implementation.
-     * It already sets the State to INIT.
+     * Instantiates a new activity. State is set to INIT.
      */
     protected AbstractActivityImpl() {
-
-        this.state = State.INIT;
+        this.state = ExecutionState.INIT;
     }
-
+    
     /**
-     * Gets the state of the node.
-     *
-     * @return the state
+     * {@inheritDoc}
      */
-    public State getState() {
-
+    @Override
+    public @Nonnull ExecutionState getState() {
         return state;
     }
-
+    
     /**
      * Sets the state of the node.
      *
-     * @param state
-     *            the new state
+     * @param state the new state
      */
-    public void setState(State state) {
-
+    protected void setState(@Nonnull ExecutionState state) {
         this.state = state;
-    }
-
-    /**
-     * The Enum State.
-     * It contains the different states defined in the context of our process engine.
-     */
-    protected enum State {
-
-        /** The INIT. Node is initializing. */
-        INIT,
-        /** The READY. The node is initialized and ready to do its work. */
-        READY,
-        /** The RUNNING. Node is currently executing. */
-        RUNNING,
-        /** The TERMINATED. Node has finished execution. */
-        TERMINATED,
-        /** The SKIPPED. We decided not to continue execution. */
-        SKIPPED
     }
 
     // start execution
     /**
-     * Execute.
-     * Execute what the activity does. 
-     * Default behaviour is doing nothing.
-     *
-     * @param instance the processinstance - this is needed because there might be valuable data in there.
-     * @see de.hpi.oryxengine.activity.ActivityInterface#execute()
+     * {@inheritDoc}
      */
-    public void execute(ProcessInstance instance) {
-
-        // Doing nothing is the default behavior
+    @Override
+    public final void execute(@Nonnull ProcessInstance instance) {
+        setState(ExecutionState.ACTIVE);
+        executeIntern(instance);
+        setState(ExecutionState.COMPLETED);
     }
+    
+    /**
+     * Method, which implements the concrete's activity's implementation.
+     * 
+     * @param instance the instance this activity operates on
+     */
+    protected abstract void executeIntern(@Nonnull ProcessInstance instance);
 }

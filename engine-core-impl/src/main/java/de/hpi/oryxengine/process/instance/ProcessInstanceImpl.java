@@ -38,7 +38,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
      * @param startNumber
      *            the start number
      */
-    public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition, Integer startNumber) {
+    public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition, int startNumber) {
 
         // choose a start Node from the possible List of Nodes
         // TODO: how to choose the start node?
@@ -220,7 +220,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
     public List<ProcessInstance> takeAllTransitions() {
 
         List<ProcessInstance> instancesToNavigate = new LinkedList<ProcessInstance>();
-        ArrayList<Transition> transitions = this.getCurrentNode().getTransitions();
+        List<Transition> transitions = this.getCurrentNode().getTransitions();
         if (transitions.size() == 1) {
             Transition transition = transitions.get(0);
             Node destination = transition.getDestination();
