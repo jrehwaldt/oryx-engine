@@ -100,7 +100,7 @@ extends AbstractActivityImpl {
 
         Properties properties = new Properties();
         properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", "25");
+        properties.put("mail.smtp.port", "2525");
 
         return properties;
     }

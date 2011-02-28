@@ -41,6 +41,11 @@
             <artifactId>mail</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+		    <groupId>dumbster</groupId>
+		    <artifactId>dumbster</artifactId>
+		    <scope>test</scope>
+		</dependency>
     </dependencies>
 
     <build>
