@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.processInstance;
+package de.hpi.oryxengine.process.instance;
 
 import java.util.List;
 
@@ -9,8 +9,10 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.NodeImpl;
+import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.Node;
-import de.hpi.oryxengine.processstructure.NodeImpl;
 import de.hpi.oryxengine.processstructure.Transition;
 
 /**

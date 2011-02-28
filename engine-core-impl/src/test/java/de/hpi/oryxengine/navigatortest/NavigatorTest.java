@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.NavigatorTest;
+package de.hpi.oryxengine.navigatortest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -10,11 +10,11 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
-import de.hpi.oryxengine.processstructure.NodeImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.NodeImpl;
+import de.hpi.oryxengine.routing.behaviour.impl.EmptyRoutingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routingBehaviour.impl.EmptyRoutingBehaviour;
-import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
 /**
  * The test for the navigator.

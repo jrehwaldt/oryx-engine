@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.processInstance;
+package de.hpi.oryxengine.process.instance;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import de.hpi.oryxengine.processDefinition.AbstractProcessDefinitionImpl;
+import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
+import de.hpi.oryxengine.processInstance.ProcessInstance;
 import de.hpi.oryxengine.processstructure.Node;
 import de.hpi.oryxengine.processstructure.Transition;
 
@@ -74,9 +75,9 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * Gets the parent processinstance.
-     * If we split, we create new process instances, that have a parent instance, the instance where they originated
-     *
+     * Gets the parent processinstance. If we split, we create new process instances, that have a parent instance, the
+     * instance where they originated
+     * 
      * @return the parent instance
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#getParentInstance()
      */
@@ -86,14 +87,12 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * Sets the parentInstance of this instance.
-     * The processinstance this instance got forked from that is.
-     *
-     * @param instance the new parent instance
-     * @see
-     * de.hpi.oryxengine.processInstance.ProcessInstance
-     * #setParentInstance(de.hpi.oryxengine.processInstance.ProcessInstance
-     * )
+     * Sets the parentInstance of this instance. The processinstance this instance got forked from that is.
+     * 
+     * @param instance
+     *            the new parent instance
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance
+     *      #setParentInstance(de.hpi.oryxengine.processInstance.ProcessInstance )
      */
     public void setParentInstance(ProcessInstance instance) {
 
@@ -101,9 +100,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * Gets the current node.
-     * So the position where the execution of the Processinstance is at.
-     *
+     * Gets the current node. So the position where the execution of the Processinstance is at.
+     * 
      * @return the current node
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#getCurrentNode()
      */
@@ -113,10 +111,10 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * Sets the current node.
-     * So the node where the execution of the process instance currently is at.
-     *
-     * @param node the new current node
+     * Sets the current node. So the node where the execution of the process instance currently is at.
+     * 
+     * @param node
+     *            the new current node
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#setCurrentNode(de.hpi.oryxengine.processstructure.Node)
      */
     public void setCurrentNode(Node node) {
@@ -125,9 +123,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * Gets the child instances.
-     * Childisntances are instances that got forked from here.
-     *
+     * Gets the child instances. Childisntances are instances that got forked from here.
+     * 
      * @return the child instances
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#getChildInstances()
      */
@@ -137,10 +134,10 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * Sets the child instances.
-     * Childisntances are instances that got forked from here.
-     *
-     * @param childInstances the new child instances
+     * Sets the child instances. Childisntances are instances that got forked from here.
+     * 
+     * @param childInstances
+     *            the new child instances
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#setChildInstances(java.util.List)
      */
     public void setChildInstances(List<ProcessInstance> childInstances) {
@@ -150,7 +147,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
 
     /**
      * Gets the ID of the processinstance.
-     *
+     * 
      * @return the iD
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#getID()
      */
@@ -161,8 +158,9 @@ public class ProcessInstanceImpl implements ProcessInstance {
 
     /**
      * Sets the ID of the processinstance.
-     *
-     * @param s the new iD
+     * 
+     * @param s
+     *            the new iD
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#setID(java.lang.String)
      */
     public void setID(String s) {
@@ -173,8 +171,10 @@ public class ProcessInstanceImpl implements ProcessInstance {
 
     /**
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#setVariable(java.lang.String, java.lang.Object)
-     * @param name name of the variable
-     * @param value the value to be set at the variable
+     * @param name
+     *            name of the variable
+     * @param value
+     *            the value to be set at the variable
      */
     public void setVariable(String name, Object value) {
 
@@ -183,7 +183,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
 
     /**
      * @see de.hpi.oryxengine.processInstance.ProcessInstance#getVariable(java.lang.String)
-     * @param name of the variable
+     * @param name
+     *            of the variable
      * @return the variable
      */
     public Object getVariable(String name) {
@@ -217,9 +218,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance
-     *      #takeAllTransitions()
-     * @return list of process instances 
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance #takeAllTransitions()
+     * @return list of process instances
      */
     public List<ProcessInstance> takeAllTransitions() {
 
@@ -243,7 +243,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
     /**
      * @see de.hpi.oryxengine.processInstance.ProcessInstance
      *      #takeSingleTransition(de.hpi.oryxengine.processstructure.Transition)
-     * @param t the transition to take
+     * @param t
+     *            the transition to take
      * @return list of process instances
      */
     public List<ProcessInstance> takeSingleTransition(Transition t) {
@@ -255,10 +256,11 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     *@see de.hpi.oryxengine.processInstance.ProcessInstance
+     * @see de.hpi.oryxengine.processInstance.ProcessInstance
      *      #createChildInstance(de.hpi.oryxengine.processstructure.Node)
-     *@param node the node to add a child at
-     *@return the child instance
+     * @param node
+     *            the node to add a child at
+     * @return the child instance
      */
     public ProcessInstance createChildInstance(Node node) {
 

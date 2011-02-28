@@ -1,10 +1,13 @@
-package de.hpi.oryxengine.processstructure;
+package de.hpi.oryxengine.process.structure;
 
 import java.util.ArrayList;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.processstructure.Condition;
+import de.hpi.oryxengine.processstructure.Node;
+import de.hpi.oryxengine.processstructure.Transition;
+import de.hpi.oryxengine.routing.behaviour.impl.EmptyRoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routingBehaviour.impl.EmptyRoutingBehaviour;
 
 /**
  * The Class AbstractNode. Which is used for the graph representation of a Process

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.routingBehaviour.impl;
+package de.hpi.oryxengine.routing.behaviour.impl;
 
 import java.util.LinkedList;
 import java.util.List;

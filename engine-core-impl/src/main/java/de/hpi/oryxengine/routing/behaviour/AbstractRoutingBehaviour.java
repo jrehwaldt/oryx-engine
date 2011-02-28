@@ -1,8 +1,9 @@
-package de.hpi.oryxengine.routingBehaviour;
+package de.hpi.oryxengine.routing.behaviour;
 
 import java.util.List;
 
 import de.hpi.oryxengine.processInstance.ProcessInstance;
+import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routingBehaviour.joinBehaviour.JoinBehaviour;
 import de.hpi.oryxengine.routingBehaviour.splitBehaviour.SplitBehaviour;
 

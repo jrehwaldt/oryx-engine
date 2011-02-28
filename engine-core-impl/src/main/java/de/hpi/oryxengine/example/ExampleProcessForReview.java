@@ -7,10 +7,10 @@ import de.hpi.oryxengine.activity.impl.MailingVariable;
 import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
 import de.hpi.oryxengine.activity.impl.StartActivity;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
-import de.hpi.oryxengine.processstructure.NodeImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.NodeImpl;
+import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
 
 /**
  * The Class that holds the example process that needs as review process for the engine.

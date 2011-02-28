@@ -1,8 +1,8 @@
-package de.hpi.oryxengine.routingBehaviour.impl;
+package de.hpi.oryxengine.routing.behaviour.impl;
 
-import de.hpi.oryxengine.routingBehaviour.AbstractRoutingBehaviour;
-import de.hpi.oryxengine.routingBehaviour.joinBehaviour.impl.AndJoinBehaviour;
-import de.hpi.oryxengine.routingBehaviour.splitBehaviour.impl.TakeAllSplitBehaviour;
+import de.hpi.oryxengine.routing.behaviour.AbstractRoutingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.join.impl.AndJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.split.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class AndJoinGatewayBehaviour.

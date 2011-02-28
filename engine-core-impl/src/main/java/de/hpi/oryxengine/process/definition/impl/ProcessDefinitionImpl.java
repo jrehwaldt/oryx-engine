@@ -1,8 +1,8 @@
-package de.hpi.oryxengine.processDefinitionImpl;
+package de.hpi.oryxengine.process.definition.impl;
 
 import java.util.ArrayList;
 
-import de.hpi.oryxengine.processDefinition.AbstractProcessDefinitionImpl;
+import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.processstructure.Node;
 
 /**
