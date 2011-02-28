@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.example;
 
+import java.util.UUID;
+
 import org.apache.log4j.Logger;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
@@ -42,7 +44,7 @@ public final class SimpleExampleProcess {
         logger.info("Engine started");
         for (int i = 0; i < INSTANCE_COUNT; i++) {
             ProcessInstanceImpl instance = sampleProcessInstance(i);
-            navigator.startArbitraryInstance("1", instance);
+            navigator.startArbitraryInstance(UUID.randomUUID(), instance);
             if (i % INSTANCE_COUNT == 0) {
                 logger.debug("Started " + i + " Instances");
             }

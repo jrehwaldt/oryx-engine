@@ -5,19 +5,20 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 
-// TODO: Auto-generated Javadoc
 /**
  * The implementation of a process instance.
  */
-public class ProcessInstanceImpl implements ProcessInstance {
+public class ProcessInstanceImpl
+implements ProcessInstance {
 
     /** The id. */
-    private String id;
+    private UUID id;
 
     /** The current node. */
     private Node currentNode;
@@ -34,10 +35,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
     /**
      * Instantiates a new process instance impl.
      * 
-     * @param processDefinition
-     *            the process definition
-     * @param startNumber
-     *            the start number
+     * @param processDefinition the process definition
+     * @param startNumber the start number
      */
     public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition, Integer startNumber) {
 
@@ -151,22 +150,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
      * @return the iD
      * @see de.hpi.oryxengine.process.instance.ProcessInstance#getID()
      */
-    public String getID() {
-
+    public UUID getID() {
         return id;
-    }
-
-    /**
-     * Sets the ID of the processinstance.
-     * 
-     * @param s
-     *            the new iD
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#setID(java.lang.String)
-     */
-    public void setID(String s) {
-
-        id = s;
-
     }
 
     /**

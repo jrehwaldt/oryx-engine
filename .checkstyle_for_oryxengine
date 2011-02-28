@@ -124,7 +124,9 @@
       <property name="format" value="^Abstract.*$"/>
     </module>
   </module>
-  <module name="NewlineAtEndOfFile"/>
+  <module name="NewlineAtEndOfFile">
+    <property name="lineSeparator" value="lf"/>
+  </module>
   <module name="Translation"/>
   <module name="FileLength"/>
   <module name="FileTabCharacter"/>
