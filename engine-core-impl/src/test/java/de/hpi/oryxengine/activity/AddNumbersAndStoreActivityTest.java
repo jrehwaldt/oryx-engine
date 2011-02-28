@@ -27,7 +27,8 @@ public class AddNumbersAndStoreActivityTest {
     public void setUp() {
         AddNumbersAndStoreNodeFactory factory = new AddNumbersAndStoreNodeFactory();
         addernode = factory.create();
-        p = SimpleProcessInstanceFactory.create(addernode);
+        SimpleProcessInstanceFactory processfactory = new SimpleProcessInstanceFactory(); 
+        p = processfactory.create(addernode);
     }
     
     /**

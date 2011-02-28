@@ -15,7 +15,7 @@ public class SimpleProcessInstanceFactory {
      * @param startNode the start node
      * @return the process instance
      */
-    public static ProcessInstance create(Node startNode) {
+    public ProcessInstance create(Node startNode) {
         ProcessInstance p = new ProcessInstanceImpl(startNode);
         return p;
     }
