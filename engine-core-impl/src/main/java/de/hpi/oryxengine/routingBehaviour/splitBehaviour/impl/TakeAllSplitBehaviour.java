@@ -10,7 +10,12 @@ import de.hpi.oryxengine.routingBehaviour.splitBehaviour.SplitBehaviour;
  */
 public class TakeAllSplitBehaviour implements SplitBehaviour {
 
-    /* (non-Javadoc)
+    /**
+     * Split Behaviour.
+     * It takes all transitions so a classic AND-Split behaviour.
+     *
+     * @param instances the instances
+     * @return the list
      * @see de.hpi.oryxengine.splitBehaviour.SplitBehaviour#split(java.util.List)
      * TODO Discuss communication issue with thorben
      */
