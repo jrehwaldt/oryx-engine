@@ -2,6 +2,7 @@ package de.hpi.oryxengine.example;
 
 import java.util.UUID;
 
+import de.hpi.oryxengine.activity.AbstractActivityImpl;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
@@ -9,6 +10,7 @@ import de.hpi.oryxengine.activity.impl.MailingVariable;
 import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
 import de.hpi.oryxengine.activity.impl.StartActivity;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
+import de.hpi.oryxengine.plugin.ActivityLifecycleLogger;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
@@ -60,13 +62,18 @@ public final class ExampleProcessForReview {
         /*
          * The process looks like this: start => calc5Plus5 => printResult => mailingTheResult => end
          */
-
+        ActivityLifecycleLogger lifecycleLogger = ActivityLifecycleLogger.getInstance();
+        
         Activity start = new StartActivity();
-        Activity calc5Plus5 = new AddNumbersAndStoreActivity("result", 5, 5);
-        Activity printResult = new PrintingVariableActivity("result");
+        AbstractActivityImpl calc5Plus5 = new AddNumbersAndStoreActivity("result", 5, 5);
+        lifecycleLogger.registerWithActivity(calc5Plus5);
+        PrintingVariableActivity printResult = new PrintingVariableActivity("result");
+        lifecycleLogger.registerWithActivity(printResult);
         // Default to gerardo.navarro-suarez@student.hpi.uni-potsdam.de
-        Activity mailingResult = new MailingVariable("result");
-        Activity end = new EndActivity();
+        MailingVariable mailingResult = new MailingVariable("result");
+        lifecycleLogger.registerWithActivity(mailingResult);
+        EndActivity end = new EndActivity();
+        lifecycleLogger.registerWithActivity(end);
 
         RoutingBehaviour behaviour = new TakeAllBehaviour();
 

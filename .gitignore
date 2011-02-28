@@ -1,12 +1,5 @@
-/target
-/test-output
-/testlog.txt
-/benchmark.txt
-
-/bin
-/engine-core-api/target
-/engine-core-api/bin
-/engine-core-impl/target
-/engine-core-impl/target
-/engine-core-impl/testlog.txt
-
+test-output
+target
+bin
+reports
+logs

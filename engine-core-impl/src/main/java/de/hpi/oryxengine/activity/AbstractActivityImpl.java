@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.activity;
 
+import java.util.Observable;
+
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.process.instance.ProcessInstance;
@@ -10,6 +12,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  * An activity is the behaviour of a node. So to say what it does.
  */
 public abstract class AbstractActivityImpl
+extends Observable
 implements Activity {
     
     private ExecutionState state;
@@ -18,7 +21,7 @@ implements Activity {
      * Instantiates a new activity. State is set to INIT.
      */
     protected AbstractActivityImpl() {
-        this.state = ExecutionState.INIT;
+        changeState(ExecutionState.INIT);
     }
     
     /**
@@ -30,23 +33,24 @@ implements Activity {
     }
     
     /**
-     * Sets the state of the node.
+     * Changes the state of the node.
      *
      * @param state the new state
      */
-    protected void setState(@Nonnull ExecutionState state) {
+    private void changeState(@Nonnull ExecutionState state) {
         this.state = state;
+        setChanged();
+        notifyObservers(state);
     }
-
-    // start execution
+    
     /**
      * {@inheritDoc}
      */
     @Override
     public final void execute(@Nonnull ProcessInstance instance) {
-        setState(ExecutionState.ACTIVE);
+        changeState(ExecutionState.ACTIVE);
         executeIntern(instance);
-        setState(ExecutionState.COMPLETED);
+        changeState(ExecutionState.COMPLETED);
     }
     
     /**
@@ -55,4 +59,12 @@ implements Activity {
      * @param instance the instance this activity operates on
      */
     protected abstract void executeIntern(@Nonnull ProcessInstance instance);
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }
