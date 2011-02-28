@@ -10,6 +10,7 @@ import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 
+// TODO: Auto-generated Javadoc
 /**
  * The implementation of a process instance.
  */
@@ -169,11 +170,13 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#setVariable(java.lang.String, java.lang.Object)
+     * Sets the variable.
+     * 
      * @param name
      *            name of the variable
      * @param value
      *            the value to be set at the variable
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#setVariable(java.lang.String, java.lang.Object)
      */
     public void setVariable(String name, Object value) {
 
@@ -181,10 +184,12 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#getVariable(java.lang.String)
+     * Gets the variable.
+     * 
      * @param name
      *            of the variable
      * @return the variable
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#getVariable(java.lang.String)
      */
     public Object getVariable(String name) {
 
@@ -205,43 +210,64 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#executeStep()
+     * Execute step.
+     * 
      * @return list of process instances
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#executeStep()
      */
     public List<ProcessInstance> executeStep() {
 
         return this.currentNode.execute(this);
     }
 
-    /**
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance #takeAllTransitions()
-     * @return list of process instances
-     */
-    public List<ProcessInstance> takeAllTransitions() {
 
-        List<ProcessInstance> instancesToNavigate = new LinkedList<ProcessInstance>();
-        ArrayList<Transition> transitions = this.getCurrentNode().getTransitions();
-        if (transitions.size() == 1) {
-            Transition transition = transitions.get(0);
-            Node destination = transition.getDestination();
-            this.setCurrentNode(destination);
+    public List<ProcessInstance> navigateTo(List<Node> nodeList)
+    throws IllegalNavigationException {
+
+        validateNodeList(nodeList);
+        List<ProcessInstance> instancesToNavigate = new ArrayList<ProcessInstance>();
+        if (nodeList.size() == 1) {
+            Node node = nodeList.get(0);
+            this.setCurrentNode(node);
             instancesToNavigate.add(this);
         } else {
-            for (Transition transition : transitions) {
-                Node destination = transition.getDestination();
-                ProcessInstance childInstance = createChildInstance(destination);
+            for (Node node : nodeList) {
+                ProcessInstance childInstance = createChildInstance(node);
                 instancesToNavigate.add(childInstance);
             }
         }
         return instancesToNavigate;
+
     }
 
     /**
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance
-     *      #takeSingleTransition(de.hpi.oryxengine.process.structure.Transition)
+     * Validate node list.
+     * 
+     * @param nodeList
+     *            the node list
+     * @throws IllegalNavigationException
+     *             the illegal navigation exception
+     */
+    private void validateNodeList(List<Node> nodeList)
+    throws IllegalNavigationException {
+
+        ArrayList<Node> destinations = new ArrayList<Node>();
+        for (Transition transition : currentNode.getTransitions()) {
+            destinations.add(transition.getDestination());
+        }
+        if (!destinations.containsAll(nodeList)) {
+            throw new IllegalNavigationException();
+        }
+    }
+
+    /**
+     * Take single transition.
+     * 
      * @param t
      *            the transition to take
      * @return list of process instances
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance
+     *      #takeSingleTransition(de.hpi.oryxengine.process.structure.Transition)
      */
     public List<ProcessInstance> takeSingleTransition(Transition t) {
 
@@ -252,11 +278,13 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance
-     *      #createChildInstance(de.hpi.oryxengine.process.structure.Node)
+     * Creates the child instance.
+     * 
      * @param node
      *            the node to add a child at
      * @return the child instance
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance
+     *      #createChildInstance(de.hpi.oryxengine.process.structure.Node)
      */
     public ProcessInstance createChildInstance(Node node) {
 
