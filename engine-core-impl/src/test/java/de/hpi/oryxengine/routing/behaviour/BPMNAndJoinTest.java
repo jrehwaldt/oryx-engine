@@ -9,13 +9,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.processstructure.Node;
+import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.impl.AndJoinGatewayBehaviour;
 import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
-import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
 /**
  * This class tests the BPMNAndJoin-Class.

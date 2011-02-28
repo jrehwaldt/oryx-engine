@@ -3,8 +3,8 @@ package de.hpi.oryxengine.routing.behaviour.join.impl;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.processstructure.Node;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.join.AbstractJoinBehaviour;
 
 /**

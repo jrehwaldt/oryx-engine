@@ -2,8 +2,8 @@ package de.hpi.oryxengine.process.definition;
 
 import java.util.ArrayList;
 
-import de.hpi.oryxengine.processDefinition.ProcessDefinition;
-import de.hpi.oryxengine.processstructure.Node;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.structure.Node;
 
 // TODO: Really implement this, it is just a summary of getters and setters right now
 /**
@@ -23,7 +23,7 @@ public class AbstractProcessDefinitionImpl implements ProcessDefinition {
      * sets the start nodes.
      *
      * @param nodes the new start nodes
-     * @see de.hpi.oryxengine.processDefinition.ProcessDefinition#setStartNodes(java.util.ArrayList)
+     * @see de.hpi.oryxengine.process.definition.ProcessDefinition#setStartNodes(java.util.ArrayList)
      */
     public void setStartNodes(ArrayList<Node> nodes) {
 

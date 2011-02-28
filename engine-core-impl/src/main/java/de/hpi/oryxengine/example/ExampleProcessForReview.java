@@ -9,8 +9,8 @@ import de.hpi.oryxengine.activity.impl.StartActivity;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
+import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
-import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
 /**
  * The Class that holds the example process that needs as review process for the engine.

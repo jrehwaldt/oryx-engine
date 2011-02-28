@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.activity.impl;
 
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
  * The Class StartActivity.
@@ -16,7 +16,7 @@ public class StartActivity implements Activity {
      *   
      * @param instance
      *            the processinstance (to get the variable)
-     * @see de.hpi.oryxengine.activity.Activity#execute(de.hpi.oryxengine.processInstance.ProcessInstance)
+     * @see de.hpi.oryxengine.activity.Activity#execute(de.hpi.oryxengine.process.instance.ProcessInstance)
      */
     public void execute(ProcessInstance instance) {
 

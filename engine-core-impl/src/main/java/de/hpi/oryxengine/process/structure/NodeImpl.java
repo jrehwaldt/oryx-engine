@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.processstructure.Condition;
-import de.hpi.oryxengine.processstructure.Node;
-import de.hpi.oryxengine.processstructure.Transition;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.structure.Condition;
+import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.Transition;
+import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.impl.EmptyRoutingBehaviour;
-import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
 /**
  * The Class AbstractNode. Which is used for the graph representation of a Process
@@ -96,7 +96,7 @@ public class NodeImpl implements Node {
      * Returns the id.
      * 
      * @return the id
-     * @see de.hpi.oryxengine.processstructure.Node#getId()
+     * @see de.hpi.oryxengine.process.structure.Node#getId()
      */
     public String getId() {
 
@@ -108,7 +108,7 @@ public class NodeImpl implements Node {
      * 
      * @param id
      *            the new id
-     * @see de.hpi.oryxengine.processstructure.Node#setId(java.lang.String)
+     * @see de.hpi.oryxengine.process.structure.Node#setId(java.lang.String)
      */
     public void setId(String id) {
 
@@ -151,7 +151,7 @@ public class NodeImpl implements Node {
      * get the transitions of the node.
      * 
      * @return the transitions
-     * @see de.hpi.oryxengine.processstructure.Node#getTransitions()
+     * @see de.hpi.oryxengine.process.structure.Node#getTransitions()
      */
     public ArrayList<Transition> getTransitions() {
 
@@ -164,7 +164,7 @@ public class NodeImpl implements Node {
      * @param behaviour
      *            the new routing behaviour
      * @see 
-     * de.hpi.oryxengine.processstructure.Node#setRoutingBehaviour(de.hpi.oryxengine.routingBehaviour.RoutingBehaviour)
+     * de.hpi.oryxengine.process.structure.Node#setRoutingBehaviour(de.hpi.oryxengine.routing.behaviour.RoutingBehaviour)
      */
     public void setRoutingBehaviour(RoutingBehaviour behaviour) {
 
@@ -175,7 +175,7 @@ public class NodeImpl implements Node {
      * Get the routing behaviour of the node.
      * 
      * @return the routing behaviour
-     * @see de.hpi.oryxengine.processstructure.Node#getRoutingBehaviour()
+     * @see de.hpi.oryxengine.process.structure.Node#getRoutingBehaviour()
      */
     public RoutingBehaviour getRoutingBehaviour() {
 

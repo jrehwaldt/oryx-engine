@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
 
 // TODO: Auto-generated Javadoc
 /**

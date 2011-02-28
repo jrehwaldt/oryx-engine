@@ -3,8 +3,8 @@ package de.hpi.oryxengine.routing.behaviour.join;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.routingBehaviour.joinBehaviour.JoinBehaviour;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
 
 /**
  * The Class AbstractJoinBehaviour.
@@ -12,8 +12,8 @@ import de.hpi.oryxengine.routingBehaviour.joinBehaviour.JoinBehaviour;
 public abstract class AbstractJoinBehaviour implements JoinBehaviour {
 
     /**
-     * @see de.hpi.oryxengine.routingBehaviour.joinBehaviour.JoinBehaviour
-     *      #join(de.hpi.oryxengine.processInstance.ProcessInstance) Do not override this, as it is a template method.
+     * @see de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour
+     *      #join(de.hpi.oryxengine.process.instance.ProcessInstance) Do not override this, as it is a template method.
      *      Only join, if a join is possible.
      * @param instance instance to perform the join on
      * @return the list of joined instances

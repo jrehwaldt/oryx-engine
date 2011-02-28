@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.factory;
 
-import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
 
 /**
