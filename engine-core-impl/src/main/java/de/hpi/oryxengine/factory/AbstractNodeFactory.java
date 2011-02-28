@@ -2,7 +2,7 @@ package de.hpi.oryxengine.factory;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.processstructure.Node;
-import de.hpi.oryxengine.processstructure.NodeImpl;
+import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
 /**

@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.factory;
 
 import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routingBehaviour.impl.TakeAllBehaviour;
+import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
 
 /**
  * A factory for creating TakeAllBehaviour objects.
