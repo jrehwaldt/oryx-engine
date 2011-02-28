@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.process.structure;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hpi.oryxengine.activity.Activity;
@@ -11,10 +10,6 @@ import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
  * The Interface for Nodes. Nodes are hubs in the graph representation of a process.
  */
 public interface Node {
-
-    // TODO The node needs a join- and a split-behaviour, as you can imagine
-    // nodes that have 3 incoming transitions and
-    // 5 outgoing transitions in some crazy modelling language
 
     /**
      * Gets the activity. The activity is the behavior of a node.
@@ -51,7 +46,7 @@ public interface Node {
      * 
      * @return the next Node(s) depending on the node (normal nodes vs. Splits which have multiple next nodes).
      */
-    ArrayList<Transition> getTransitions();
+    List<Transition> getTransitions();
 
     /**
      * Describes a new outgoing edge to the given node.
@@ -79,6 +74,7 @@ public interface Node {
     /**
      * Execute some sort of behaviour.
      *
+     * @param instance The process instance to execute
      * @return the list
      */
     List<ProcessInstance> execute(ProcessInstance instance);

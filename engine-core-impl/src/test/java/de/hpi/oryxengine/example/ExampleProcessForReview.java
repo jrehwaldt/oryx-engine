@@ -15,7 +15,12 @@ import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
 /**
  * The Class that holds the example process that needs as review process for the engine.
  */
-public class ExampleProcessForReview {
+public final class ExampleProcessForReview {
+    
+    /** Hidden constructor. */
+    private ExampleProcessForReview() {
+        
+    }
 
     /**
      * The main method of our example process for review.
@@ -53,7 +58,7 @@ public class ExampleProcessForReview {
          */
 
         Activity start = new StartActivity();
-        Activity calc5Plus5 = new AddNumbersAndStoreActivity(5, 5, "result");
+        Activity calc5Plus5 = new AddNumbersAndStoreActivity("result", 5, 5);
         Activity printResult = new PrintingVariableActivity("result");
         // Default to gerardo.navarro-suarez@student.hpi.uni-potsdam.de
         Activity mailingResult = new MailingVariable("result");

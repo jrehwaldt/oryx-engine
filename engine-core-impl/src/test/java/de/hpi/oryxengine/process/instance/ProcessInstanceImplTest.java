@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.process.instance;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
@@ -43,11 +44,18 @@ public class ProcessInstanceImplTest {
      * Two new instances shall be ready for execution if the parent instance goes along all edges.
      * Both of them should have the same parent instance.
      * The new instances should then point to the succeeding nodes of the parent instances' node.
+     * @throws Exception 
      */
     @Test
-    public void testTakeAllTransitions() {
+    public void testTakeAllTransitions() throws Exception {
 
-        List<ProcessInstance> newInstances = instance.takeAllTransitions();
+        List<Node> nodeList = new ArrayList<Node>();
+        Node currentNode = instance.getCurrentNode();
+        for(Transition transition : currentNode.getTransitions()) {
+            nodeList.add(transition.getDestination());
+        }
+        
+        List<ProcessInstance> newInstances = instance.navigateTo(nodeList);
         assertEquals(newInstances.size(), 2, "You should have two new process instances");
 
         for (ProcessInstance newInstance : newInstances) {
@@ -68,11 +76,14 @@ public class ProcessInstanceImplTest {
     /**
      * Test take single transition.
      * TODO JavaDoc for the test
+     * @throws Exception 
      */
     @Test
-    public void testTakeSingleTransition() {
+    public void testTakeSingleTransition() throws Exception {
 
-        List<ProcessInstance> newInstances = instance.takeSingleTransition(transitionToTake);
+        List<Node> nodeList = new ArrayList<Node>();
+        nodeList.add(transitionToTake.getDestination());
+        List<ProcessInstance> newInstances = instance.navigateTo(nodeList);
         assertEquals(newInstances.size(), 1, "You should have a single process instance.");
 
         ProcessInstance newInstance = newInstances.get(0);

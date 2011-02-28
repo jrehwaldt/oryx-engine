@@ -1,6 +1,8 @@
 package de.hpi.oryxengine.activity.impl;
 
-import de.hpi.oryxengine.activity.Activity;
+import javax.annotation.Nonnull;
+
+import de.hpi.oryxengine.activity.AbstractActivityImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
@@ -8,19 +10,24 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  * Just the activity which gets executed on the endevent.
  * So nothing is done, in the future maybe more should be done.
  */
-public class EndActivity implements Activity {
+public class EndActivity
+extends AbstractActivityImpl {
 
-    /** 
-     * Currently das nothing. Subject to chance.
-     * TODO: what changes?
-     * 
-     * @param instance the processinstance id (may need it in order to perform actions)
-     * @see de.hpi.oryxengine.activity.Activity#execute(de.hpi.oryxengine.process.instance.ProcessInstance)
+    /**
+     * Instantiates a new end activity.
      */
-    public void execute(ProcessInstance instance) {
-
-        // Doing nothing is the default behavior
-        // This must change.
+    public EndActivity() {
+        super();
     }
 
+    /** 
+     * Default end activity implementation.
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    protected void executeIntern(@Nonnull ProcessInstance instance) {
+        // Doing nothing is the default behavior
+        // TODO: This must change.
+    }
 }

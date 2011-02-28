@@ -97,22 +97,13 @@ public interface ProcessInstance {
     List<ProcessInstance> executeStep();
 
     /**
-     * Take all outgoing transitions of the current node. If there is only one outgoing transition, the given
-     * ProcessInstance will be moved on. In case of more than one outgoing transitions, child instances are created.
+     * Create a new to navigate instance for every node. Therefore it is possible to use this generic for e.g. and, xor...
+     * 
      * 
      * @return the list
      */
-    List<ProcessInstance> takeAllTransitions();
-
-    /**
-     * Take single transition. The given ProcessInstance will be moved to the destination of the given Transition.
-     * 
-     * @param t
-     *            the transition to take
-     * @return a list with a single ProcessInstance in it.
-     */
-    List<ProcessInstance> takeSingleTransition(Transition t);
-
+    List<ProcessInstance> navigateTo(List<Node> nodeList) throws Exception;
+    
     /**
      * Creates a child instance pointing to the given node n.
      * 

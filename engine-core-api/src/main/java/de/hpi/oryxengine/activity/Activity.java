@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.activity;
 
+import javax.annotation.Nonnull;
+
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
@@ -10,9 +12,15 @@ public interface Activity {
 
     /**
      * Execute. Starts the execution of the Activity.
-     *
-     * @param instance the processinstance which is needed because there might be valuable data in there.
+     * 
+     * @param instance the instance the activity operates on
      */
-    void execute(ProcessInstance instance);
-
+    void execute(@Nonnull ProcessInstance instance);
+    
+    /**
+     * Returns the activity's state.
+     * 
+     * @return the activity's state
+     */
+    @Nonnull ExecutionState getState();
 }

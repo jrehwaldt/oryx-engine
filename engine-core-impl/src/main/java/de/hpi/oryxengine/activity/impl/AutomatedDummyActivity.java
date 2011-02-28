@@ -1,5 +1,8 @@
 package de.hpi.oryxengine.activity.impl;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import de.hpi.oryxengine.activity.AbstractActivityImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
@@ -15,28 +18,19 @@ public class AutomatedDummyActivity extends AbstractActivityImpl {
     /**
      * Instantiates a new automated dummy node.
      *  
-     * @param s
-     *            the String which message gets set to and which gets printed out.
+     * @param s the String which message gets set to and which gets printed out.
      */
-    public AutomatedDummyActivity(String s) {
-
+    public AutomatedDummyActivity(@Nullable String s) {
         super();
         this.message = s;
     }
 
     /**
-     * @see de.hpi.oryxengine.activity.AbstractActivityImpl#execute()
-     * 
-     * @param instance the processinstance
+     * {@inheritDoc}
      */
     @Override
-    // A simple execution
-    // all the state setting may be handled by superclass later on
-    public void execute(ProcessInstance instance) {
-
-        this.setState(State.RUNNING);
+    protected void executeIntern(@Nonnull ProcessInstance instance) {
         System.out.println(this.message);
-        this.setState(State.TERMINATED);
     }
 
 }

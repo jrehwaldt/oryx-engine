@@ -2,6 +2,7 @@ package de.hpi.oryxengine.activity.impl;
 
 import java.util.Properties;
 
+import javax.annotation.Nonnull;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -9,14 +10,15 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.activity.AbstractActivityImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
  * The Class MailingVariable. A dummy class by Gerardo which sends Emails with a preprogrammed String and displaying a
- * value from the processinstance.
+ * value from the process instance.
  */
-public class MailingVariable implements Activity {
+public class MailingVariable
+extends AbstractActivityImpl {
 
     /** The host. */
     private static String host = "localhost";
@@ -45,13 +47,10 @@ public class MailingVariable implements Activity {
     }
 
     /**
-     * Sends an email that contains the Variable which it is given to it in the constructor.
-     * 
-     * @param instance
-     *            the processinstance (to get the variable)
-     * @see de.hpi.oryxengine.activity.Activity#execute(de.hpi.oryxengine.process.instance.ProcessInstance)
+     * {@inheritDoc}
      */
-    public void execute(ProcessInstance instance) {
+    @Override
+    public void executeIntern(@Nonnull ProcessInstance instance) {
 
         String calculationResult = (String) instance.getVariable(variableName);
 
@@ -97,7 +96,7 @@ public class MailingVariable implements Activity {
      * 
      * @return the f mail server config
      */
-    private Properties getMailServerConfig() {
+    private static Properties getMailServerConfig() {
 
         Properties properties = new Properties();
         properties.put("mail.smtp.host", host);
