@@ -181,7 +181,10 @@ implements ProcessInstance {
         return this.currentNode.execute(this);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<ProcessInstance> navigateTo(List<Node> nodeList)
     throws IllegalNavigationException {
 
