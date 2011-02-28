@@ -12,26 +12,27 @@ import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
  */
 abstract class AbstractNodeFactory {
     /** The behavior. */
-    protected static RoutingBehaviour behaviour;
+    protected RoutingBehaviour behaviour;
     /** The activity. */
-    protected static Activity activity;
+    protected Activity activity;
 
     /**
      * Creates the.
      * 
      * @return the node
      */
-    public static Node create() {
+    public Node create() {
 
-        setActivity();
-        setBehaviour();
+        this.setActivity();
+        this.setBehaviour();
         return new NodeImpl(activity, behaviour);
     }
 
     /**
      * Sets the activity.
+     * It sets a default activity which is the printvariable activity.
      */
-    public static void setActivity() {
+    public void setActivity() {
 
         activity = new PrintingVariableActivity("result");
     }
@@ -39,7 +40,7 @@ abstract class AbstractNodeFactory {
     /**
      * Sets the behavior.
      */
-    public static void setBehaviour() {
+    public void setBehaviour() {
 
         behaviour = new TakeAllBehaviour();
     }

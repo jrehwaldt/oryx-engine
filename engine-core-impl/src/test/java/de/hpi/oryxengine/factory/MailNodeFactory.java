@@ -7,8 +7,8 @@ import de.hpi.oryxengine.activity.impl.MailingVariable;
  */
 public class MailNodeFactory extends AbstractNodeFactory {
    /** The set activity. */
-   public static void setActivity() {
-       MailNodeFactory.activity = new MailingVariable("result");
+   public void setActivity() {
+       activity = new MailingVariable("result");
    }
 
 }
