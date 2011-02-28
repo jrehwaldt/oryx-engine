@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.hpi.oryxengine.processDefinition.AbstractProcessDefinitionImpl;
+import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.processInstance.ProcessInstanceImpl;
 
 // TODO: Auto-generated Javadoc
 /**
