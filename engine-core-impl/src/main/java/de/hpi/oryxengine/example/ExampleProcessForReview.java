@@ -15,7 +15,12 @@ import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
 /**
  * The Class that holds the example process that needs as review process for the engine.
  */
-public class ExampleProcessForReview {
+public final class ExampleProcessForReview {
+    
+    /** Hidden constructor. */
+    private ExampleProcessForReview() {
+        
+    }
 
     /**
      * The main method of our example process for review.

@@ -26,12 +26,16 @@
     </module>
     <module name="ConstantName"/>
     <module name="LocalFinalVariableName"/>
-    <module name="LocalVariableName"/>
+    <module name="LocalVariableName">
+      <property name="severity" value="error"/>
+    </module>
     <module name="MemberName"/>
     <module name="MethodName"/>
     <module name="PackageName"/>
     <module name="ParameterName"/>
-    <module name="StaticVariableName"/>
+    <module name="StaticVariableName">
+      <property name="severity" value="error"/>
+    </module>
     <module name="TypeName"/>
     <module name="AvoidStarImport">
       <property name="excludes" value="org.testng.Assert"/>
@@ -106,10 +110,13 @@
     <module name="PackageDeclaration">
       <property name="severity" value="error"/>
     </module>
+    <module name="AbstractClassName">
+      <property name="severity" value="error"/>
+      <property name="format" value="^Abstract.*$"/>
+    </module>
   </module>
   <module name="NewlineAtEndOfFile"/>
   <module name="Translation"/>
   <module name="FileLength"/>
   <module name="FileTabCharacter"/>
-  <module name="StrictDuplicateCode"/>
 </module>

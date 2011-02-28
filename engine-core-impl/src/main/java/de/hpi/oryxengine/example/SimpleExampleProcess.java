@@ -11,8 +11,13 @@ import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
  */
-public class SimpleExampleProcess {
-
+public final class SimpleExampleProcess {
+    
+    /** Hidden constructor. */
+    private SimpleExampleProcess() {
+        
+    }
+    
     /**
      * The Constant INSTANCE_COUNT. Which determines the number of instances which will be run when the main is
      * executed.

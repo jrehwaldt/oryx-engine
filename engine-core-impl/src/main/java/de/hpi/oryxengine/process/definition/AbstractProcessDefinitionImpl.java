@@ -8,7 +8,7 @@ import de.hpi.oryxengine.process.structure.Node;
 /**
  * The Class AbstractProcessDefinitionImpl. Our Implementation of a Process Definition it is not really ready yet.
  */
-public class AbstractProcessDefinitionImpl implements ProcessDefinition {
+public abstract class AbstractProcessDefinitionImpl implements ProcessDefinition {
 
     // TODO [Gerardo] Was ist denn hieran abstrakt
 

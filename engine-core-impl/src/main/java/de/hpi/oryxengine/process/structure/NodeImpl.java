@@ -160,8 +160,8 @@ public class NodeImpl implements Node {
      * 
      * @param behaviour
      *            the new routing behaviour
-     * @see 
-     * de.hpi.oryxengine.process.structure.Node#setRoutingBehaviour(de.hpi.oryxengine.routing.behaviour.RoutingBehaviour)
+     * @see de.hpi.oryxengine.process.structure.Node
+     *      #setRoutingBehaviour(de.hpi.oryxengine.routing.behaviour.RoutingBehaviour)
      */
     public void setRoutingBehaviour(RoutingBehaviour behaviour) {
 
