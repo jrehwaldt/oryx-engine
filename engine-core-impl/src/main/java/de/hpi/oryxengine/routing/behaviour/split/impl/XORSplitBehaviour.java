@@ -11,16 +11,15 @@ import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
 /**
  * The Class TakeAllSplitBehaviour. Will signalize all outgoing transitions.
  */
-public class TakeAllSplitBehaviour implements SplitBehaviour {
+public class XORSplitBehaviour implements SplitBehaviour {
 
     /**
      * Split Behaviour.
-     * It takes all transitions so a classic AND-Split behaviour.
+     * It takes exactly one transition, if mutliple transitions are true the first one is taken
      *
-     * @param instances the instances
-     * @return the list
+     * @param list of process instances
+     * @return the list of to navigate process instances.
      * @see de.hpi.oryxengine.splitBehaviour.SplitBehaviour#split(java.util.List)
-     * TODO Discuss communication issue with thorben
      */
     public List<ProcessInstance> split(List<ProcessInstance> instances) {
 
@@ -28,16 +27,19 @@ public class TakeAllSplitBehaviour implements SplitBehaviour {
             return instances;
         }
         List<Node> nodeList = new ArrayList<Node>();
-        List<ProcessInstance> instancesToNavigate = new ArrayList<ProcessInstance>();
+        List<ProcessInstance> instancesToNavigate = null;
         
         for (ProcessInstance instance : instances) {
             Node currentNode = instance.getCurrentNode();
             for (Transition transition : currentNode.getTransitions()) {
-                nodeList.add(transition.getDestination());
+                if (transition.getCondition().evaluate()) {
+                    nodeList.add(transition.getDestination());
+                    break;
+                }
             }
 
             try {
-                instancesToNavigate.addAll(instance.navigateTo(nodeList));
+                instancesToNavigate = instance.navigateTo(nodeList);
             } catch (Exception e) {
                 e.printStackTrace();
             }
