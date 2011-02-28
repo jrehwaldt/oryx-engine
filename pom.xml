@@ -74,13 +74,15 @@
                     <failsOnError>true</failsOnError>
                 </configuration>
             </plugin>
-            <!--
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
                 <version>2.3.2-SNAPSHOT</version>
+                <configuration>
+                    <effort>Default</effort>
+                    <threshold>Low</threshold>
+                </configuration>
             </plugin>
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -100,13 +102,15 @@
                 <artifactId>maven-jxr-plugin</artifactId>
                 <version>2.2</version>
             </plugin>
-            <!--
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
                 <version>2.3.2-SNAPSHOT</version>
+                <configuration>
+                    <effort>Default</effort>
+                    <threshold>Low</threshold>
+                </configuration>
             </plugin>
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>

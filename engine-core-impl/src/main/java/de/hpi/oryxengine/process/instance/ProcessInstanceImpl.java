@@ -38,7 +38,8 @@ implements ProcessInstance {
      * @param processDefinition the process definition
      * @param startNumber the start number
      */
-    public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition, Integer startNumber) {
+    public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition,
+                               Integer startNumber) {
 
         // choose a start Node from the possible List of Nodes
         // TODO: how to choose the start node?
@@ -54,7 +55,6 @@ implements ProcessInstance {
      *            the start node
      */
     public ProcessInstanceImpl(Node startNode) {
-
         this(startNode, null);
     }
 
@@ -66,7 +66,8 @@ implements ProcessInstance {
      * @param parentInstance
      *            the parent instance
      */
-    public ProcessInstanceImpl(Node startNode, ProcessInstance parentInstance) {
+    public ProcessInstanceImpl(Node startNode,
+                               ProcessInstance parentInstance) {
 
         currentNode = startNode;
         this.parentInstance = parentInstance;
@@ -74,27 +75,18 @@ implements ProcessInstance {
     }
 
     /**
-     * Gets the parent processinstance. If we split, we create new process instances, that have a parent instance, the
-     * instance where they originated
-     * 
-     * @return the parent instance
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#getParentInstance()
+     * {@inheritDoc}
      */
+    @Override
     public ProcessInstance getParentInstance() {
-
         return parentInstance;
     }
 
     /**
-     * Sets the parentInstance of this instance. The processinstance this instance got forked from that is.
-     * 
-     * @param instance
-     *            the new parent instance
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance
-     *      #setParentInstance(de.hpi.oryxengine.process.instance.ProcessInstance )
+     * {@inheritDoc}
      */
+    @Override
     public void setParentInstance(ProcessInstance instance) {
-
         this.parentInstance = instance;
     }
 
@@ -105,65 +97,49 @@ implements ProcessInstance {
      * @see de.hpi.oryxengine.process.instance.ProcessInstance#getCurrentNode()
      */
     public Node getCurrentNode() {
-
         return currentNode;
     }
 
     /**
-     * Sets the current node. So the node where the execution of the process instance currently is at.
-     * 
-     * @param node
-     *            the new current node
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#setCurrentNode(de.hpi.oryxengine.process.structure.Node)
+     * {@inheritDoc}
      */
+    @Override
     public void setCurrentNode(Node node) {
-
         currentNode = node;
     }
 
     /**
-     * Gets the child instances. Childisntances are instances that got forked from here.
-     * 
-     * @return the child instances
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#getChildInstances()
+     * {@inheritDoc}
      */
+    @Override
     public List<ProcessInstance> getChildInstances() {
 
         return childInstances;
     }
 
     /**
-     * Sets the child instances. Childisntances are instances that got forked from here.
-     * 
-     * @param childInstances
-     *            the new child instances
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#setChildInstances(java.util.List)
+     * {@inheritDoc}
      */
+    @Override
     public void setChildInstances(List<ProcessInstance> childInstances) {
 
         this.childInstances = childInstances;
     }
 
     /**
-     * Gets the ID of the processinstance.
-     * 
-     * @return the iD
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#getID()
+     * {@inheritDoc}
      */
+    @Override
     public UUID getID() {
         return id;
     }
 
     /**
-     * Sets the variable.
-     * 
-     * @param name
-     *            name of the variable
-     * @param value
-     *            the value to be set at the variable
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#setVariable(java.lang.String, java.lang.Object)
+     * {@inheritDoc}
      */
-    public void setVariable(String name, Object value) {
+    @Override
+    public void setVariable(String name,
+                            Object value) {
 
         getInstanceVariables().put(name, value);
     }
@@ -216,7 +192,7 @@ implements ProcessInstance {
             this.setCurrentNode(node);
             instancesToNavigate.add(this);
         } else {
-            for (Node node : nodeList) {
+            for (Node node: nodeList) {
                 ProcessInstance childInstance = createChildInstance(node);
                 instancesToNavigate.add(childInstance);
             }
@@ -263,14 +239,9 @@ implements ProcessInstance {
     }
 
     /**
-     * Creates the child instance.
-     * 
-     * @param node
-     *            the node to add a child at
-     * @return the child instance
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance
-     *      #createChildInstance(de.hpi.oryxengine.process.structure.Node)
+     * {@inheritDoc}
      */
+    @Override
     public ProcessInstance createChildInstance(Node node) {
 
         ProcessInstance childInstance = new ProcessInstanceImpl(node);
