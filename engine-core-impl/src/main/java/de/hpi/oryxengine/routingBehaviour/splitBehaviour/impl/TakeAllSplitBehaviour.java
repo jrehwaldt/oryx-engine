@@ -12,6 +12,7 @@ public class TakeAllSplitBehaviour implements SplitBehaviour {
 
     /* (non-Javadoc)
      * @see de.hpi.oryxengine.splitBehaviour.SplitBehaviour#split(java.util.List)
+     * TODO Discuss communication issue with thorben
      */
     public List<ProcessInstance> split(List<ProcessInstance> instances) {
 

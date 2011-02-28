@@ -39,6 +39,7 @@ public class NodeImpl implements Node {
         this.behaviour = behaviour;
         this.transitions = new ArrayList<Transition>();
     }
+    
 
     /**
      * Instantiates a new node impl.
