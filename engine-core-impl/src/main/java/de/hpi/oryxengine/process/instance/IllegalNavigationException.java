@@ -6,4 +6,9 @@ package de.hpi.oryxengine.process.instance;
  */
 public class IllegalNavigationException extends Exception {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
 }
