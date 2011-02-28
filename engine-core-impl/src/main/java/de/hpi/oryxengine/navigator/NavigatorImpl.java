@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
@@ -17,7 +18,7 @@ public class NavigatorImpl implements Navigator {
 
     // map IDs to Definition
     /** The running instances. */
-    private HashMap<String, ProcessInstance> runningInstances;
+    private HashMap<UUID, ProcessInstance> runningInstances;
 
     /** The loaded definitions. */
     private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions;
@@ -37,7 +38,7 @@ public class NavigatorImpl implements Navigator {
     public NavigatorImpl() {
 
         // TODO Lazy initialized
-        runningInstances = new HashMap<String, ProcessInstance>();
+        runningInstances = new HashMap<UUID, ProcessInstance>();
         loadedDefinitions = new HashMap<String, AbstractProcessDefinitionImpl>();
         toNavigate = new LinkedList<ProcessInstance>();
         toNavigate = Collections.synchronizedList(toNavigate);
@@ -93,7 +94,8 @@ public class NavigatorImpl implements Navigator {
      * @param instance
      *            the instance
      */
-    public void startArbitraryInstance(String id, ProcessInstanceImpl instance) {
+    public void startArbitraryInstance(UUID id,
+                                       ProcessInstanceImpl instance) {
 
         this.runningInstances.put(id, instance);
         this.toNavigate.add(instance);

@@ -1,14 +1,16 @@
 package de.hpi.oryxengine.process.instance;
 
 import java.util.List;
+import java.util.UUID;
 
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.Transition;
+import de.hpi.oryxengine.util.Identifiable;
 
 /**
  * The Interface ProcessInstance.
  */
-public interface ProcessInstance {
+public interface ProcessInstance
+extends Identifiable {
 
     /**
      * Gets the parent instance.
@@ -56,19 +58,10 @@ public interface ProcessInstance {
     void setCurrentNode(Node node);
 
     /**
-     * Gets the iD.
-     * 
-     * @return the iD
+     * {@inheritDoc}
      */
-    String getID();
-
-    /**
-     * Sets the iD.
-     * 
-     * @param s
-     *            the new iD
-     */
-    void setID(String s);
+    @Override
+    UUID getID();
 
     /**
      * Sets the variable.
@@ -97,18 +90,19 @@ public interface ProcessInstance {
     List<ProcessInstance> executeStep();
 
     /**
-     * Create a new to navigate instance for every node. Therefore it is possible to use this generic for e.g. and, xor...
+     * Create a new to navigate instance for every node.
+     * Therefore it is possible to use this generic for e.g. and, xor...
      * 
-     * 
-     * @return the list
+     * @param nodeList a list with redirections
+     * @return newly created subprocesses
      */
-    List<ProcessInstance> navigateTo(List<Node> nodeList) throws Exception;
+    List<ProcessInstance> navigateTo(List<Node> nodeList)
+    throws Exception;
     
     /**
      * Creates a child instance pointing to the given node n.
      * 
-     * @param n
-     *            the node the new instance points to.
+     * @param n the node the new instance points to.
      * @return the new process instance
      */
     ProcessInstance createChildInstance(Node n);
