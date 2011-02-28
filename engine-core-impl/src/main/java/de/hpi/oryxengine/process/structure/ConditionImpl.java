@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.process.structure;
 
-import de.hpi.oryxengine.processstructure.Condition;
+import de.hpi.oryxengine.process.structure.Condition;
 
 /**
  * The Class ConditionImpl.
@@ -12,7 +12,7 @@ public class ConditionImpl implements Condition {
      * evaluates a Condition, returning true or false.
      *
      * @return true or false depending on the condition.
-     * @see de.hpi.oryxengine.processstructure.Condition#evaluate()
+     * @see de.hpi.oryxengine.process.structure.Condition#evaluate()
      */
     public boolean evaluate() {
 

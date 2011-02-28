@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.activity;
 
-import de.hpi.oryxengine.processInstance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 
 /**

@@ -2,10 +2,10 @@ package de.hpi.oryxengine.factory;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.processstructure.Node;
+import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
-import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 
 /**
  * A factory for creating AbstractNode objects.

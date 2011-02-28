@@ -11,9 +11,9 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.AbstractActivityImpl.State;
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
 
 /**
  * The test for the automated dummy activity.

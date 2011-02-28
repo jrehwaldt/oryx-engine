@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.processstructure;
+package de.hpi.oryxengine.process.structure;
 
 /**
  * The Interface for conditions.

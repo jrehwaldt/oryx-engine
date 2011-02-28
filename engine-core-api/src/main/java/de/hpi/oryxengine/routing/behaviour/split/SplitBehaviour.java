@@ -1,8 +1,8 @@
-package de.hpi.oryxengine.routingBehaviour.splitBehaviour;
+package de.hpi.oryxengine.routing.behaviour.split;
 
 import java.util.List;
 
-import de.hpi.oryxengine.processInstance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
  * The Interface SplitBehaviour.

@@ -1,9 +1,9 @@
-package de.hpi.oryxengine.processInstance;
+package de.hpi.oryxengine.process.instance;
 
 import java.util.List;
 
-import de.hpi.oryxengine.processstructure.Node;
-import de.hpi.oryxengine.processstructure.Transition;
+import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.Transition;
 
 /**
  * The Interface ProcessInstance.

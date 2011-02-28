@@ -1,11 +1,11 @@
-package de.hpi.oryxengine.processstructure;
+package de.hpi.oryxengine.process.structure;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
 
 /**
  * The Interface for Nodes. Nodes are hubs in the graph representation of a process.

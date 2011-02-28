@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.activity.impl;
 
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
  * The Class AddNumbersAndStoreActivity.
@@ -36,7 +36,7 @@ public class AddNumbersAndStoreActivity implements Activity {
      * sums up the two summands and sets the corresponding resultvariable.
      *
      * @param instance the processinstance since we need the variables and need to set the result.
-     * @see de.hpi.oryxengine.activity.Activity#execute(de.hpi.oryxengine.processInstance.ProcessInstance)
+     * @see de.hpi.oryxengine.activity.Activity#execute(de.hpi.oryxengine.process.instance.ProcessInstance)
      */
     public void execute(ProcessInstance instance) {
 

@@ -3,8 +3,8 @@ package de.hpi.oryxengine.routing.behaviour.impl;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
 
 /**
  * @deprecated The Class EmptyRoutingBehaviour. Just in for convenience. 
@@ -14,8 +14,8 @@ import de.hpi.oryxengine.routingBehaviour.RoutingBehaviour;
 public class EmptyRoutingBehaviour implements RoutingBehaviour {
 
     /** 
-     * @see de.hpi.oryxengine.routingBehaviour.RoutingBehaviour#
-     *      execute(de.hpi.oryxengine.processInstance.ProcessInstance)
+     * @see de.hpi.oryxengine.routing.behaviour.RoutingBehaviour#
+     *      execute(de.hpi.oryxengine.process.instance.ProcessInstance)
      * @param instance the process instance to be executed
      * @return list of process instances
      */

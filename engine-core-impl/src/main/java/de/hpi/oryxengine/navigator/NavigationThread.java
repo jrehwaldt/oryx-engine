@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import de.hpi.oryxengine.processInstance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 // TODO Auto-generated Javadoc
 /**

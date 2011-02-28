@@ -1,8 +1,8 @@
-package de.hpi.oryxengine.routingBehaviour;
+package de.hpi.oryxengine.routing.behaviour;
 
 import java.util.List;
 
-import de.hpi.oryxengine.processInstance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
  * The Interface for the description of incoming and outgoing edges of a node.

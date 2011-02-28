@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.processstructure.Node;
-import de.hpi.oryxengine.processstructure.Transition;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.Transition;
 
 /**
  * The implementation of a process instance.
@@ -79,7 +79,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
      * instance where they originated
      * 
      * @return the parent instance
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance#getParentInstance()
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#getParentInstance()
      */
     public ProcessInstance getParentInstance() {
 
@@ -91,8 +91,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
      * 
      * @param instance
      *            the new parent instance
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance
-     *      #setParentInstance(de.hpi.oryxengine.processInstance.ProcessInstance )
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance
+     *      #setParentInstance(de.hpi.oryxengine.process.instance.ProcessInstance )
      */
     public void setParentInstance(ProcessInstance instance) {
 
@@ -103,7 +103,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
      * Gets the current node. So the position where the execution of the Processinstance is at.
      * 
      * @return the current node
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance#getCurrentNode()
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#getCurrentNode()
      */
     public Node getCurrentNode() {
 
@@ -115,7 +115,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
      * 
      * @param node
      *            the new current node
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance#setCurrentNode(de.hpi.oryxengine.processstructure.Node)
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#setCurrentNode(de.hpi.oryxengine.process.structure.Node)
      */
     public void setCurrentNode(Node node) {
 
@@ -126,7 +126,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
      * Gets the child instances. Childisntances are instances that got forked from here.
      * 
      * @return the child instances
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance#getChildInstances()
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#getChildInstances()
      */
     public List<ProcessInstance> getChildInstances() {
 
@@ -138,7 +138,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
      * 
      * @param childInstances
      *            the new child instances
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance#setChildInstances(java.util.List)
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#setChildInstances(java.util.List)
      */
     public void setChildInstances(List<ProcessInstance> childInstances) {
 
@@ -149,7 +149,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
      * Gets the ID of the processinstance.
      * 
      * @return the iD
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance#getID()
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#getID()
      */
     public String getID() {
 
@@ -161,7 +161,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
      * 
      * @param s
      *            the new iD
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance#setID(java.lang.String)
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#setID(java.lang.String)
      */
     public void setID(String s) {
 
@@ -170,7 +170,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance#setVariable(java.lang.String, java.lang.Object)
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#setVariable(java.lang.String, java.lang.Object)
      * @param name
      *            name of the variable
      * @param value
@@ -182,7 +182,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance#getVariable(java.lang.String)
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#getVariable(java.lang.String)
      * @param name
      *            of the variable
      * @return the variable
@@ -206,7 +206,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance#executeStep()
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance#executeStep()
      * @return list of process instances
      */
     public List<ProcessInstance> executeStep() {
@@ -215,7 +215,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance #takeAllTransitions()
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance #takeAllTransitions()
      * @return list of process instances
      */
     public List<ProcessInstance> takeAllTransitions() {
@@ -238,8 +238,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance
-     *      #takeSingleTransition(de.hpi.oryxengine.processstructure.Transition)
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance
+     *      #takeSingleTransition(de.hpi.oryxengine.process.structure.Transition)
      * @param t
      *            the transition to take
      * @return list of process instances
@@ -253,8 +253,8 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     /**
-     * @see de.hpi.oryxengine.processInstance.ProcessInstance
-     *      #createChildInstance(de.hpi.oryxengine.processstructure.Node)
+     * @see de.hpi.oryxengine.process.instance.ProcessInstance
+     *      #createChildInstance(de.hpi.oryxengine.process.structure.Node)
      * @param node
      *            the node to add a child at
      * @return the child instance

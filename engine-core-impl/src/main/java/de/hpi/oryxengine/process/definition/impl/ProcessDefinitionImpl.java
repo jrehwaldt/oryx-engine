@@ -3,7 +3,7 @@ package de.hpi.oryxengine.process.definition.impl;
 import java.util.ArrayList;
 
 import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
-import de.hpi.oryxengine.processstructure.Node;
+import de.hpi.oryxengine.process.structure.Node;
 
 /**
  * The Class ProcessDefinitionImpl. 

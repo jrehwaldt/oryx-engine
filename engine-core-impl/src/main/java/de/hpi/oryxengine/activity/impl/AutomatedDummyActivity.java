@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.activity.impl;
 
 import de.hpi.oryxengine.activity.AbstractActivityImpl;
-import de.hpi.oryxengine.processInstance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
  * The Class AutomatedDummyNode.

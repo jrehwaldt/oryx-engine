@@ -48,6 +48,14 @@
         <module>engine-core-impl</module>
     </modules>
 
+    <distributionManagement>
+      <site>
+        <id>site</id>
+        <name>Project Site</name>
+        <url>site</url>
+      </site>
+    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>

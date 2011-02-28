@@ -2,8 +2,8 @@ package de.hpi.oryxengine.routing.behaviour.split.impl;
 
 import java.util.List;
 
-import de.hpi.oryxengine.processInstance.ProcessInstance;
-import de.hpi.oryxengine.routingBehaviour.splitBehaviour.SplitBehaviour;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
 
 /**
  * The Class TakeAllSplitBehaviour. Will signalize all outgoing transitions.
