@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.example;
 
+import java.util.UUID;
+
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
@@ -39,7 +41,7 @@ public final class ExampleProcessForReview {
         navigator.start();
 
         ProcessInstanceImpl instance = processInstanceForReview();
-        navigator.startArbitraryInstance("1", instance);
+        navigator.startArbitraryInstance(UUID.randomUUID(), instance);
 
         Thread.sleep(5000);
 
