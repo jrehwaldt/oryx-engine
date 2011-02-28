@@ -51,7 +51,7 @@ public class ProcessInstanceImplTest {
 
         List<Node> nodeList = new ArrayList<Node>();
         Node currentNode = instance.getCurrentNode();
-        for(Transition transition : currentNode.getTransitions()) {
+        for (Transition transition : currentNode.getTransitions()) {
             nodeList.add(transition.getDestination());
         }
         
