@@ -22,6 +22,9 @@ import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
  */
 public class NavigatorTest {
 
+    /** The Constant SLEEP_TIME. */
+    private static final int SLEEP_TIME = 3000;
+
     /** The navigator. */
     private NavigatorImpl navigator;
 
@@ -76,7 +79,7 @@ public class NavigatorTest {
 
         // this is not so nice, but I am not sure how to test correctly with parrallel behaviour
         try {
-            Thread.sleep(3000);
+            Thread.sleep(SLEEP_TIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

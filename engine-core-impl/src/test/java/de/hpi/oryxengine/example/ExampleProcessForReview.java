@@ -19,6 +19,8 @@ import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
  */
 public final class ExampleProcessForReview {
     
+    private static final int SLEEP_TIME = 5000;
+
     /** Hidden constructor. */
     private ExampleProcessForReview() {
         
@@ -43,7 +45,7 @@ public final class ExampleProcessForReview {
         ProcessInstanceImpl instance = processInstanceForReview();
         navigator.startArbitraryInstance(UUID.randomUUID(), instance);
 
-        Thread.sleep(5000);
+        Thread.sleep(SLEEP_TIME);
 
         navigator.stop();
     }
