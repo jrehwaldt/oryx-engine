@@ -8,3 +8,5 @@
 /engine-core-api/bin
 /engine-core-impl/target
 /engine-core-impl/target
+/engine-core-impl/testlog.txt
+
