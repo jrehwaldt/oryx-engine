@@ -95,6 +95,7 @@ extends Identifiable {
      * 
      * @param nodeList a list with redirections
      * @return newly created subprocesses
+     * @throws Exception if the node to navigate to doesn't exist
      */
     List<ProcessInstance> navigateTo(List<Node> nodeList)
     throws Exception;

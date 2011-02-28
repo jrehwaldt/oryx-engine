@@ -9,18 +9,14 @@ import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
 
 /**
- * The Class TakeAllSplitBehaviour. Will signalize all outgoing transitions.
+ * The Class TakeAllSplitBehaviour. Will signal all outgoing transitions.
  */
 public class XORSplitBehaviour implements SplitBehaviour {
 
     /**
-     * Split Behaviour.
-     * It takes exactly one transition, if mutliple transitions are true the first one is taken
-     *
-     * @param list of process instances
-     * @return the list of to navigate process instances.
-     * @see de.hpi.oryxengine.splitBehaviour.SplitBehaviour#split(java.util.List)
+     * {@inheritDoc}
      */
+    @Override
     public List<ProcessInstance> split(List<ProcessInstance> instances) {
 
         if (instances.size() == 0) {
