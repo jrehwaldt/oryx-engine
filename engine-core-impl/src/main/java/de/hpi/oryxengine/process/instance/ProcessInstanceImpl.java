@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 

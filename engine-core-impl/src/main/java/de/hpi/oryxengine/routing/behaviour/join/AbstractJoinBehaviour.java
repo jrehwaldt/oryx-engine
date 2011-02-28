@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
 
 /**
  * The Class AbstractJoinBehaviour.

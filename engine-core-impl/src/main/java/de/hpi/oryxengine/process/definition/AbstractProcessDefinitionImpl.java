@@ -2,7 +2,6 @@ package de.hpi.oryxengine.process.definition;
 
 import java.util.ArrayList;
 
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
 
 // TODO: Really implement this, it is just a summary of getters and setters right now

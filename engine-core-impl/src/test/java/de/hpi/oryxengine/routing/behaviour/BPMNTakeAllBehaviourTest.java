@@ -12,7 +12,6 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
 
 /**

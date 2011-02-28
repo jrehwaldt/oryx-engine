@@ -1,8 +1,5 @@
 package de.hpi.oryxengine.process.structure;
 
-import de.hpi.oryxengine.process.structure.Condition;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.Transition;
 
 /**
  * The Class TransitionImpl. The implementation of a transition that is. A transition is the edge between to nodes.

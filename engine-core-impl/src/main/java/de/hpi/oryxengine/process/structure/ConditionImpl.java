@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.process.structure;
 
-import de.hpi.oryxengine.process.structure.Condition;
 
 /**
  * The Class ConditionImpl.
