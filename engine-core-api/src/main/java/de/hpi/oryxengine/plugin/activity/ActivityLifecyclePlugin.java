@@ -1,6 +1,8 @@
-package de.hpi.oryxengine.plugin;
+package de.hpi.oryxengine.plugin.activity;
 
 import javax.annotation.Nonnull;
+
+import de.hpi.oryxengine.plugin.Plugin;
 
 /**
  * This interface should be implemented by plugins, which

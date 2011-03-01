@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.plugin;
+package de.hpi.oryxengine.plugin.activity;
 
 import javax.annotation.Nonnull;
 

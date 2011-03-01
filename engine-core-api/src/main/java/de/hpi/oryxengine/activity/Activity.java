@@ -2,8 +2,8 @@ package de.hpi.oryxengine.activity;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.plugin.ActivityLifecyclePlugin;
 import de.hpi.oryxengine.plugin.Pluggable;
+import de.hpi.oryxengine.plugin.activity.ActivityLifecyclePlugin;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**

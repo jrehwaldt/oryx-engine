@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.plugin;
+package de.hpi.oryxengine.plugin.activity;
 
 import javax.annotation.Nonnull;
 
@@ -28,7 +28,7 @@ extends AbstractActivityLifecyclePlugin {
      * 
      * @return a logger instance
      */
-    public static @Nonnull ActivityLifecycleLogger getInstance() {
+    public synchronized static @Nonnull ActivityLifecycleLogger getInstance() {
         if (instance == null) {
             instance = new ActivityLifecycleLogger();
         }

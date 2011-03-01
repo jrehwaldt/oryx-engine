@@ -4,8 +4,8 @@ import java.util.Observable;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.plugin.AbstractActivityLifecyclePlugin;
-import de.hpi.oryxengine.plugin.ActivityLifecycleChangeEvent;
+import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
+import de.hpi.oryxengine.plugin.activity.ActivityLifecycleChangeEvent;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.plugin;
+package de.hpi.oryxengine.plugin.activity;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -6,7 +6,7 @@ import java.util.Observer;
 import javax.annotation.Nonnull;
 
 /**
- * This class is a logger and may be injected to observe
+ * This class may be injected to observe
  * the lifecycle of certain activities.
  */
 public abstract class AbstractActivityLifecyclePlugin
