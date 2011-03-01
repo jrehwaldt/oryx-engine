@@ -23,10 +23,10 @@ public class NavigatorImpl implements Navigator {
     /** The loaded definitions. */
     private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions;
 
-    /** The to navigate. The list including all process isntances which are currently executed. */
+    /** The to navigate. The list including all process instances which are currently executed. */
     private List<ProcessInstance> toNavigate;
 
-    /** The execution threads. Yes our navigator is multithreaded. Pretty awesome. */
+    /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
 
     /** The Constant NUMBER_OF_NAVIGATOR_THREADS. */
@@ -147,6 +147,18 @@ public class NavigatorImpl implements Navigator {
         for (NavigationThread executionThread : executionThreads) {
             executionThread.setShouldStop(true);
         }
+    }
+    
+    /**
+     * Checks if the navigator is idle.
+     * That is when there are no process instances in the to navigate list.
+     *
+     * @return true, if is idle
+     */
+    // Maybe it should be synchronized? Do we care about dirty reads?
+    // Lets get dirrrty!
+    public boolean isIdle() {
+        return this.toNavigate.isEmpty();
     }
 
 }
