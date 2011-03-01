@@ -12,7 +12,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  * The Class AbstractActivityImpl.
  * An activity is the behaviour of a node. So to say what it does.
  */
-public abstract class AbstractActivityImpl
+public abstract class AbstractActivity
 extends Observable
 implements Activity {
     
@@ -23,7 +23,7 @@ implements Activity {
      * be notified (since no observer are registered so far).
      * 
      */
-    protected AbstractActivityImpl() {
+    protected AbstractActivity() {
         changeState(ExecutionState.INIT);
     }
     

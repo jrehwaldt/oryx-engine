@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import de.hpi.oryxengine.activity.AbstractActivityImpl;
+import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.ExecutionState;
 
 /**
@@ -60,7 +60,7 @@ implements ActivityLifecyclePlugin {
     @Override
     public void update(@Nonnull Observable observedActivity,
                        @Nonnull Object prevState) {
-        AbstractActivityImpl activity = (AbstractActivityImpl) observedActivity;
+        AbstractActivity activity = (AbstractActivity) observedActivity;
         stateChanged(activity, (ExecutionState) prevState, activity.getState());
     }
     
@@ -68,7 +68,7 @@ implements ActivityLifecyclePlugin {
      * {@inheritDoc}
      */
     @Override
-    public void stateChanged(@Nonnull AbstractActivityImpl activity,
+    public void stateChanged(@Nonnull AbstractActivity activity,
                              @Nonnull ExecutionState prevState,
                              @Nonnull ExecutionState newState) {
         logger.log(level, "Activity " + activity.toString() + " changed: " + prevState.toString() + "-->" + newState.toString());

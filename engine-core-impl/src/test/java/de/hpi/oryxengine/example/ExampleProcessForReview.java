@@ -2,7 +2,7 @@ package de.hpi.oryxengine.example;
 
 import java.util.UUID;
 
-import de.hpi.oryxengine.activity.AbstractActivityImpl;
+import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
@@ -65,7 +65,7 @@ public final class ExampleProcessForReview {
         ActivityLifecycleLogger lifecycleLogger = ActivityLifecycleLogger.getInstance();
         
         Activity start = new StartActivity();
-        AbstractActivityImpl calc5Plus5 = new AddNumbersAndStoreActivity("result", 5, 5);
+        AbstractActivity calc5Plus5 = new AddNumbersAndStoreActivity("result", 5, 5);
         PrintingVariableActivity printResult = new PrintingVariableActivity("result");
         // Default to gerardo.navarro-suarez@student.hpi.uni-potsdam.de
         MailingVariable mailResult = new MailingVariable("result");

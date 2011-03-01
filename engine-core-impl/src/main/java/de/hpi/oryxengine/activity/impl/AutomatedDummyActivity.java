@@ -3,14 +3,14 @@ package de.hpi.oryxengine.activity.impl;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import de.hpi.oryxengine.activity.AbstractActivityImpl;
+import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
  * The Class AutomatedDummyNode.
  * It really is dumb. It just prints out whatever message is send to it.
  */
-public class AutomatedDummyActivity extends AbstractActivityImpl {
+public class AutomatedDummyActivity extends AbstractActivity {
 
     /** This is the message the node prints out during its execution. */
     private String message;

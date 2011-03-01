@@ -2,7 +2,7 @@ package de.hpi.oryxengine.plugin;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.activity.AbstractActivityImpl;
+import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.ExecutionState;
 
 /**
@@ -19,7 +19,7 @@ extends Plugin {
      * @param prevState the previous lifecycle state
      * @param newState the new lifecycle state
      */
-    void stateChanged(@Nonnull AbstractActivityImpl activity,
+    void stateChanged(@Nonnull AbstractActivity activity,
                       @Nonnull ExecutionState prevState,
                       @Nonnull ExecutionState newState);
 }
