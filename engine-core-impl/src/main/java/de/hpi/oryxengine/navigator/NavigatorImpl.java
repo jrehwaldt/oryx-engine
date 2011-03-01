@@ -6,9 +6,9 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
-import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;

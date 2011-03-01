@@ -13,7 +13,7 @@ import de.hpi.oryxengine.plugin.ObserverPlugin;
 
 /**
  * This class may be injected to observe
- * the lifecycle of a navigator thread.
+ * the lifecycle of a navigator.
  */
 public abstract class AbstractNavigatorListener
 implements ObserverPlugin, NavigatorListener {
