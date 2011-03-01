@@ -17,7 +17,7 @@ public class AddNumbersAndStoreNodeFactory extends AbstractNodeFactory {
     /**
      * Instantiates a new adds the numbers and store node factory with default values.
      */
-    AddNumbersAndStoreNodeFactory() {
+    public AddNumbersAndStoreNodeFactory() {
         this(DEFAULT_SUMMAND, DEFAULT_SUMMAND);
     }
     
@@ -27,7 +27,7 @@ public class AddNumbersAndStoreNodeFactory extends AbstractNodeFactory {
      * @param sum1 the first summand
      * @param sum2 the second summand
      */
-    AddNumbersAndStoreNodeFactory(int sum1, int sum2) {
+    public AddNumbersAndStoreNodeFactory(int sum1, int sum2) {
         this(DEFAULT_VARIABLENAME, sum1, sum2);
     }
     
@@ -38,7 +38,7 @@ public class AddNumbersAndStoreNodeFactory extends AbstractNodeFactory {
      * @param sum1 the sum1
      * @param sum2 the sum2
      */
-    AddNumbersAndStoreNodeFactory(String variablename, int sum1, int sum2) {
+    public AddNumbersAndStoreNodeFactory(String variablename, int sum1, int sum2) {
         this.summand1 = sum1;
         this.summand2 = sum2;
         this.variablename = variablename;        
