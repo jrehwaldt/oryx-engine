@@ -2,24 +2,20 @@ package de.hpi.oryxengine.plugin;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.activity.ExecutionState;
-
 /**
  * This interface should be implemented by plugins, which
  * aim to react on lifecycle changes of an activity instance.
+ * 
+ * This is the <b>global</b> one, which means it is active for all
+ * singleton instances of an activity.
  */
 public interface ActivityLifecyclePlugin
 extends Plugin {
     
     /**
-     * Hook for lifecycle change.
+     * Hook for activity lifecycle changes.
      * 
-     * @param activity the activity, which changed
-     * @param prevState the previous lifecycle state
-     * @param newState the new lifecycle state
+     * @param event the change event
      */
-    void stateChanged(@Nonnull AbstractActivity activity,
-                      @Nonnull ExecutionState prevState,
-                      @Nonnull ExecutionState newState);
+    void stateChanged(@Nonnull ActivityLifecycleChangeEvent event);
 }

@@ -9,10 +9,12 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
 /**
  * An activity is the behaviour of a Node, e.g. execution
  * behaviour for sending a mail.
+ * 
+ * @param <P> the plugin implementation class
  */
-public interface Activity
-extends Pluggable<ActivityLifecyclePlugin> {
-
+public interface Activity<P extends ActivityLifecyclePlugin>
+extends Pluggable<P> {
+    
     /**
      * Execute. Starts the execution of the Activity.
      * 

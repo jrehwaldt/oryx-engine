@@ -64,12 +64,12 @@ public final class ExampleProcessForReview {
          */
         ActivityLifecycleLogger lifecycleLogger = ActivityLifecycleLogger.getInstance();
         
-        Activity start = new StartActivity();
+        AbstractActivity start = new StartActivity();
         AbstractActivity calc5Plus5 = new AddNumbersAndStoreActivity("result", 5, 5);
         PrintingVariableActivity printResult = new PrintingVariableActivity("result");
         // Default to gerardo.navarro-suarez@student.hpi.uni-potsdam.de
-        MailingVariable mailResult = new MailingVariable("result");
-        EndActivity end = new EndActivity();
+        AbstractActivity mailResult = new MailingVariable("result");
+        AbstractActivity end = new EndActivity();
         calc5Plus5.registerPlugin(lifecycleLogger);
         printResult.registerPlugin(lifecycleLogger);
         mailResult.registerPlugin(lifecycleLogger);
