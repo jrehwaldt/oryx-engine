@@ -19,7 +19,7 @@ import de.hpi.oryxengine.process.structure.Node;
  * The Class MailNodeActivitytest.
  * Which simply uses a fake mail server to send a mail and tests if the content is right
  */
-public class MailNodeActivitytest {
+public class MailNodeActivityTest {
   
   /** The mailernode. */
   private Node mailernode;
