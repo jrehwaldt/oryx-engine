@@ -3,7 +3,6 @@ package de.hpi.oryxengine.activity.impl;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.plugin.ActivityLifecyclePlugin;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**

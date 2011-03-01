@@ -81,8 +81,9 @@ public class NavigatorImpl implements Navigator {
 
         // register initial node for scheduling
         toNavigate.add(processInstance);
-
-        return "aProcessInstanceID"; // TODO return id from ProcessInstance, use UUID
+        
+     // TODO return id from ProcessInstance, use UUID
+        return "aProcessInstanceID"; 
     }
 
     // this method is for first testing only, as we do not have ProcessDefinitions yet
