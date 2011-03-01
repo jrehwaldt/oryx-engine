@@ -135,7 +135,7 @@ public class NavigatorImpl implements Navigator {
      */
     public String getCurrentInstanceState(String instanceID) {
 
-        // TODO get the current instance ID
+        // TODO get the current instance state
         return null;
     }
 

@@ -2,7 +2,8 @@ package de.hpi.oryxengine.example;
 
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
@@ -10,6 +11,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
+
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
  */
@@ -27,7 +29,7 @@ public final class SimpleExampleProcess {
     private static final int INSTANCE_COUNT = 1000000;
 
     /** The logger. */
-    private static Logger logger = Logger.getRootLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleExampleProcess.class);
 
     /**
      * The main method. It starts a a specified number of instances.
@@ -41,12 +43,12 @@ public final class SimpleExampleProcess {
         navigator.start();
 
         // let's generate some load :)
-        logger.info("Engine started");
+        LOGGER.info("Engine started");
         for (int i = 0; i < INSTANCE_COUNT; i++) {
             ProcessInstanceImpl instance = sampleProcessInstance(i);
             navigator.startArbitraryInstance(UUID.randomUUID(), instance);
             if (i % INSTANCE_COUNT == 0) {
-                logger.debug("Started " + i + " Instances");
+                LOGGER.debug("Started {} Instances", i);
             }
         }
     }

@@ -4,7 +4,8 @@ import java.util.Observable;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.plugin.ActivityLifecyclePlugin;
+import de.hpi.oryxengine.plugin.AbstractActivityLifecyclePlugin;
+import de.hpi.oryxengine.plugin.ActivityLifecycleChangeEvent;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 
@@ -14,9 +15,10 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  */
 public abstract class AbstractActivity
 extends Observable
-implements Activity {
+implements Activity<AbstractActivityLifecyclePlugin> {
     
-    private ExecutionState state;
+    // TODO Refactor: move activity state into ProcessInstance
+    private ExecutionState state = ExecutionState.INIT;
     
     /**
      * Instantiates a new activity. State is set to INIT, but observers will not
@@ -24,7 +26,7 @@ implements Activity {
      * 
      */
     protected AbstractActivity() {
-        changeState(ExecutionState.INIT);
+        
     }
     
     /**
@@ -38,13 +40,15 @@ implements Activity {
     /**
      * Changes the state of the node.
      *
+     * @param instance the process instance
      * @param state the new state
      */
-    private void changeState(@Nonnull ExecutionState state) {
+    private void changeState(@Nonnull ProcessInstance instance,
+                             @Nonnull ExecutionState state) {
         final ExecutionState prevState = this.state;
         this.state = state;
         setChanged();
-        notifyObservers(prevState);
+        notifyObservers(new ActivityLifecycleChangeEvent(this, prevState, this.state, instance));
     }
     
     /**
@@ -52,9 +56,9 @@ implements Activity {
      */
     @Override
     public final void execute(@Nonnull ProcessInstance instance) {
-        changeState(ExecutionState.ACTIVE);
+        changeState(instance, ExecutionState.ACTIVE);
         executeIntern(instance);
-        changeState(ExecutionState.COMPLETED);
+        changeState(instance, ExecutionState.COMPLETED);
     }
     
     /**
@@ -76,7 +80,7 @@ implements Activity {
      * {@inheritDoc}
      */
     @Override
-    public void registerPlugin(@Nonnull ActivityLifecyclePlugin plugin) {
+    public void registerPlugin(@Nonnull AbstractActivityLifecyclePlugin plugin) {
         addObserver(plugin);
     }
 }

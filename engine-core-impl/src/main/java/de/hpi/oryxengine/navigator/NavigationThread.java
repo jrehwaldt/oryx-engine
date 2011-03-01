@@ -2,7 +2,8 @@ package de.hpi.oryxengine.navigator;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
@@ -19,7 +20,7 @@ public class NavigationThread extends Thread {
     private List<ProcessInstance> toNavigate;
 
     /** The logger. */
-    private Logger logger = Logger.getRootLogger();
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /** The should stop. Indicates if the Thread should stop executing. See the doWork source for details. */
     private boolean shouldStop = false;
@@ -108,27 +109,6 @@ public class NavigationThread extends Thread {
     public void setToNavigate(List<ProcessInstance> toNavigate) {
 
         this.toNavigate = toNavigate;
-    }
-
-    /**
-     * Gets the logger.
-     * 
-     * @return the logger
-     */
-    public Logger getLogger() {
-
-        return logger;
-    }
-
-    /**
-     * Sets the logger.
-     * 
-     * @param logger
-     *            the new logger
-     */
-    public void setLogger(Logger logger) {
-
-        this.logger = logger;
     }
 
     /**
