@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.loadgenerator;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -51,7 +50,7 @@ public class LoadGenerator {
 
     /**
      * Gets the logger.
-     *
+     * 
      * @return the logger
      */
     public Logger getLogger() {
@@ -101,6 +100,7 @@ public class LoadGenerator {
 
     /**
      * gimme some load!
+     * No seriously it creates some instances which are run.
      * 
      * @param args
      *            the arguments
@@ -120,10 +120,11 @@ public class LoadGenerator {
                 "Started Processinstance " + Integer.toString(i) + "of " + Integer.toString(gene.getNumberOfRuns()));
         }
         
+        // TODO this is just temporary.. we got to get back a hook when the queue is empty
         long stopTime = System.currentTimeMillis();
         long runTime = stopTime - startTime;
-        gene.getLogger().info("Run time for all our " + Integer.toString(gene.getNumberOfRuns()) + " instances: " + runTime +"ms");
-
+        gene.getLogger().info(
+            "Run time for all our " + Integer.toString(gene.getNumberOfRuns()) + " instances: " + runTime + "ms");
 
     }
 
