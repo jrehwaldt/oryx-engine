@@ -72,16 +72,7 @@ public class LoadGenerator {
     void loadProperties() {
 
         try {
-            File dir1 = new File (".");
-            try {
-              System.out.println("Current dir : " + dir1.getCanonicalPath());
-              }
-            catch(Exception e) {
-              e.printStackTrace();
-              }
-
             properties.load(new FileInputStream(PROPERTIES_FILE_PATH));
-            
             numberOfRuns = Integer.parseInt((String) this.properties.get("numberOfInstances"));
         } catch (IOException e) {
             logger.log(ERROR, "Upps we couldn't load the properties file! here is your error " + e.toString());
@@ -109,7 +100,7 @@ public class LoadGenerator {
     }
 
     /**
-     * gimme some load!.
+     * gimme some load!
      * 
      * @param args
      *            the arguments
@@ -117,6 +108,7 @@ public class LoadGenerator {
     public static void main(String[] args) {
 
         LoadGenerator gene = new LoadGenerator();
+        long startTime = System.currentTimeMillis();
         NavigatorImpl navigator = new NavigatorImpl();
         navigator.start();
         gene.getLogger().info("Started the navigator!");
@@ -127,6 +119,11 @@ public class LoadGenerator {
             gene.getLogger().info(
                 "Started Processinstance " + Integer.toString(i) + "of " + Integer.toString(gene.getNumberOfRuns()));
         }
+        
+        long stopTime = System.currentTimeMillis();
+        long runTime = stopTime - startTime;
+        gene.getLogger().info("Run time for all our " + Integer.toString(gene.getNumberOfRuns()) + " instances: " + runTime +"ms");
+
 
     }
 
