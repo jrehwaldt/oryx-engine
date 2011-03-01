@@ -1,27 +1,20 @@
 package de.hpi.oryxengine.plugin;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import javax.annotation.Nonnull;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
-import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.activity.ExecutionState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is a logger and may be injected to observe
  * the lifecycle of certain activities.
  */
 public final class ActivityLifecycleLogger
-implements ActivityLifecyclePlugin {
+extends AbstractActivityLifecyclePlugin {
     
     private static ActivityLifecycleLogger instance;
     
-    private final Logger logger = Logger.getLogger(getClass());
-    private final Level level = Level.DEBUG;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**
      * Hide singleton constructor.
@@ -35,7 +28,7 @@ implements ActivityLifecyclePlugin {
      * 
      * @return a logger instance
      */
-    public static ActivityLifecycleLogger getInstance() {
+    public static @Nonnull ActivityLifecycleLogger getInstance() {
         if (instance == null) {
             instance = new ActivityLifecycleLogger();
         }
@@ -44,33 +37,10 @@ implements ActivityLifecyclePlugin {
     }
     
     /**
-     * Register this logger instance with the provided activity.
-     * 
-     * @param activity the observed activity
-     */
-    public void registerWithActivity(@Nonnull Observable activity) {
-        activity.addObserver(this);
-    }
-    
-    /**
-     * This method is invoked whenever the activity's state changes.
-     * 
      * {@inheritDoc}
      */
     @Override
-    public void update(@Nonnull Observable observedActivity,
-                       @Nonnull Object prevState) {
-        AbstractActivity activity = (AbstractActivity) observedActivity;
-        stateChanged(activity, (ExecutionState) prevState, activity.getState());
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void stateChanged(@Nonnull AbstractActivity activity,
-                             @Nonnull ExecutionState prevState,
-                             @Nonnull ExecutionState newState) {
-        logger.log(level, "Activity " + activity.toString() + " changed: " + prevState.toString() + "-->" + newState.toString());
+    public void stateChanged(@Nonnull ActivityLifecycleChangeEvent event) {
+        logger.info("ActivityLifecycle: {}", event);
     }
 }
