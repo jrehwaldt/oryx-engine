@@ -1,12 +1,10 @@
 package de.hpi.oryxengine.navigator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
+import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
@@ -23,8 +21,8 @@ public class NavigatorImpl implements Navigator {
     /** The loaded definitions. */
     private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions;
 
-    /** The to navigate. The list including all process instances which are currently executed. */
-    private List<ProcessInstance> toNavigate;
+    
+    private FIFOScheduler scheduler;
 
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
@@ -40,8 +38,7 @@ public class NavigatorImpl implements Navigator {
         // TODO Lazy initialized
         runningInstances = new HashMap<UUID, ProcessInstance>();
         loadedDefinitions = new HashMap<String, AbstractProcessDefinitionImpl>();
-        toNavigate = new LinkedList<ProcessInstance>();
-        toNavigate = Collections.synchronizedList(toNavigate);
+        scheduler = new FIFOScheduler();
         executionThreads = new ArrayList<NavigationThread>();
     }
 
@@ -54,7 +51,7 @@ public class NavigatorImpl implements Navigator {
 
         // "Gentlemen, start your engines"
         for (int i = 0; i < NUMBER_OF_NAVIGATOR_THREADS; i++) {
-            NavigationThread thread = new NavigationThread("NT" + i, toNavigate);
+            NavigationThread thread = new NavigationThread("NT" + i, scheduler);
             thread.start();
             executionThreads.add(thread);
         }
@@ -80,7 +77,7 @@ public class NavigatorImpl implements Navigator {
         runningInstances.put(processInstance.getID(), processInstance);
 
         // register initial node for scheduling
-        toNavigate.add(processInstance);
+        scheduler.submit(processInstance);
         
         // TODO return id from ProcessInstance, use UUID
         return "aProcessInstanceID"; 
@@ -99,7 +96,7 @@ public class NavigatorImpl implements Navigator {
                                        ProcessInstanceImpl instance) {
 
         this.runningInstances.put(id, instance);
-        this.toNavigate.add(instance);
+        this.scheduler.submit(instance);
     }
 
     /**
@@ -158,7 +155,7 @@ public class NavigatorImpl implements Navigator {
     // Maybe it should be synchronized? Do we care about dirty reads?
     // Lets get dirrrty!
     public boolean isIdle() {
-        return this.toNavigate.isEmpty();
+        return this.scheduler.isEmpty();
     }
 
 }
