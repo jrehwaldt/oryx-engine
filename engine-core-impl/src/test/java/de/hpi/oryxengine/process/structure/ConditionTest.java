@@ -47,7 +47,6 @@ public class ConditionTest {
    */
   @Test
   public void testTrueConditionOnVariable() {
-      instance = mock(ProcessInstance.class);
       when(instance.getVariable("a")).thenReturn(1);
       assertTrue(condition.evaluate(instance), "Condition was not true.");
   }
