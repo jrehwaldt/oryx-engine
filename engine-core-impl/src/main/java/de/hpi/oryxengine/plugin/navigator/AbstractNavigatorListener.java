@@ -1,12 +1,9 @@
 package de.hpi.oryxengine.plugin.navigator;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.annotation.Nonnull;
-
-import de.hpi.oryxengine.navigator.Navigator;
 
 /**
  * This class may be injected to observe

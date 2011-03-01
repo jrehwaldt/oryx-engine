@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.navigatortest;
+package de.hpi.oryxengine.navigator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
