@@ -70,11 +70,24 @@ public class NodeImpl implements Node {
     }
 
     /**
+     * Transition to the next node.
+     *
+     * @param node the node
      * {@inheritDoc}
      */
     @Override
     public void transitionTo(Node node) {
         Condition c = new ConditionImpl();
+        createTransitionWithCondition(node, c);
+    }
+    
+    /**
+     * Creates the transition with condition.
+     *
+     * @param node the destination
+     * @param c the condition
+     */
+    private void createTransitionWithCondition(Node node, Condition c) {
         Transition t = new TransitionImpl(this, node, c);
         this.transitions.add(t);
     }
@@ -153,5 +166,15 @@ public class NodeImpl implements Node {
     public List<ProcessInstance> execute(ProcessInstance instance) {
         this.activity.execute(instance);
         return this.behaviour.execute(instance);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void transitionToWithCondition(Node node, Condition c) {
+        createTransitionWithCondition(node, c);
+        
     }
 }
