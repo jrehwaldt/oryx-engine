@@ -1,6 +1,9 @@
 package de.hpi.oryxengine.activity.impl;
 
-import de.hpi.oryxengine.activity.AbstractActivityImpl;
+import javax.annotation.Nonnull;
+
+import de.hpi.oryxengine.activity.AbstractActivity;
+import de.hpi.oryxengine.plugin.ActivityLifecyclePlugin;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
@@ -8,7 +11,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  * As the name indicates, an activity that adds any number of summands and stores the result.
  */
 public class AddNumbersAndStoreActivity
-extends AbstractActivityImpl {
+extends AbstractActivity {
 
     /** Summands. */
     private int[] summands;
@@ -33,7 +36,7 @@ extends AbstractActivityImpl {
      * {@inheritDoc}
      */
     @Override
-    protected void executeIntern(ProcessInstance instance) {
+    protected void executeIntern(@Nonnull ProcessInstance instance) {
         
         int result = 0;
         for (int value: this.summands) {

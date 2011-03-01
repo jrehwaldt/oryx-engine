@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.activity.impl;
 
-import de.hpi.oryxengine.activity.AbstractActivityImpl;
+import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
@@ -8,7 +8,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  * Prints out a variable value which the activity gets in its constructor.
  */
 public class PrintingVariableActivity
-extends AbstractActivityImpl {
+extends AbstractActivity {
 
     /** The variable name. */
     private String variableName;

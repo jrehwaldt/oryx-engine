@@ -10,7 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import de.hpi.oryxengine.activity.AbstractActivityImpl;
+import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
@@ -18,7 +18,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  * value from the process instance.
  */
 public class MailingVariable
-extends AbstractActivityImpl {
+extends AbstractActivity {
 
     /** The host. */
     private static String host = "localhost";

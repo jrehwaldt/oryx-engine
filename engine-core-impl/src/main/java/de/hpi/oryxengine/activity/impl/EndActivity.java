@@ -2,7 +2,7 @@ package de.hpi.oryxengine.activity.impl;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.activity.AbstractActivityImpl;
+import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
@@ -11,7 +11,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  * So nothing is done, in the future maybe more should be done.
  */
 public class EndActivity
-extends AbstractActivityImpl {
+extends AbstractActivity {
 
     /**
      * Instantiates a new end activity.

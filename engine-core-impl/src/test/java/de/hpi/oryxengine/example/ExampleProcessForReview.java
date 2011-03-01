@@ -2,7 +2,7 @@ package de.hpi.oryxengine.example;
 
 import java.util.UUID;
 
-import de.hpi.oryxengine.activity.AbstractActivityImpl;
+import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
@@ -65,15 +65,15 @@ public final class ExampleProcessForReview {
         ActivityLifecycleLogger lifecycleLogger = ActivityLifecycleLogger.getInstance();
         
         Activity start = new StartActivity();
-        AbstractActivityImpl calc5Plus5 = new AddNumbersAndStoreActivity("result", 5, 5);
-        lifecycleLogger.registerWithActivity(calc5Plus5);
+        AbstractActivity calc5Plus5 = new AddNumbersAndStoreActivity("result", 5, 5);
         PrintingVariableActivity printResult = new PrintingVariableActivity("result");
-        lifecycleLogger.registerWithActivity(printResult);
         // Default to gerardo.navarro-suarez@student.hpi.uni-potsdam.de
-        MailingVariable mailingResult = new MailingVariable("result");
-        lifecycleLogger.registerWithActivity(mailingResult);
+        MailingVariable mailResult = new MailingVariable("result");
         EndActivity end = new EndActivity();
-        lifecycleLogger.registerWithActivity(end);
+        calc5Plus5.registerPlugin(lifecycleLogger);
+        printResult.registerPlugin(lifecycleLogger);
+        mailResult.registerPlugin(lifecycleLogger);
+        end.registerPlugin(lifecycleLogger);
 
         RoutingBehaviour behaviour = new TakeAllBehaviour();
 
@@ -86,7 +86,7 @@ public final class ExampleProcessForReview {
         NodeImpl thirdNode = new NodeImpl(printResult, behaviour);
         thirdNode.setId("3");
 
-        NodeImpl fourthNode = new NodeImpl(mailingResult, behaviour);
+        NodeImpl fourthNode = new NodeImpl(mailResult, behaviour);
         fourthNode.setId("4");
 
         NodeImpl endNode = new NodeImpl(end);
