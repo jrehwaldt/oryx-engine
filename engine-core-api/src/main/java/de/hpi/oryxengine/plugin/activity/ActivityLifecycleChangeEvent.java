@@ -3,7 +3,7 @@ package de.hpi.oryxengine.plugin.activity;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.activity.ExecutionState;
+import de.hpi.oryxengine.activity.ActivityState;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
@@ -11,9 +11,9 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  */
 public final class ActivityLifecycleChangeEvent {
     
-    private final @Nonnull Activity<?> activity;
-    private final @Nonnull ExecutionState prevState;
-    private final @Nonnull ExecutionState newState;
+    private final @Nonnull Activity activity;
+    private final @Nonnull ActivityState prevState;
+    private final @Nonnull ActivityState newState;
     private final @Nonnull ProcessInstance instance;
     
     /**
@@ -24,9 +24,9 @@ public final class ActivityLifecycleChangeEvent {
      * @param newState the new state
      * @param instance the process instance
      */
-    public ActivityLifecycleChangeEvent(@Nonnull Activity<?> activity,
-                                        @Nonnull ExecutionState prevState,
-                                        @Nonnull ExecutionState newState,
+    public ActivityLifecycleChangeEvent(@Nonnull Activity activity,
+                                        @Nonnull ActivityState prevState,
+                                        @Nonnull ActivityState newState,
                                         @Nonnull ProcessInstance instance) {
         this.activity = activity;
         this.prevState = prevState;
@@ -39,7 +39,7 @@ public final class ActivityLifecycleChangeEvent {
      * 
      * @return the activity, which fired
      */
-    public @Nonnull Activity<?> getActivity() {
+    public @Nonnull Activity getActivity() {
         return activity;
     }
     
@@ -48,7 +48,7 @@ public final class ActivityLifecycleChangeEvent {
      * 
      * @return the previous state
      */
-    public @Nonnull ExecutionState getPreviousState() {
+    public @Nonnull ActivityState getPreviousState() {
         return prevState;
     }
     
@@ -57,7 +57,7 @@ public final class ActivityLifecycleChangeEvent {
      * 
      * @return the new state
      */
-    public @Nonnull ExecutionState getNewState() {
+    public @Nonnull ActivityState getNewState() {
         return newState;
     }
     
@@ -74,7 +74,7 @@ public final class ActivityLifecycleChangeEvent {
      *  {@inheritDoc}
      */
     @Override
-    public String toString() {
+    public @Nonnull String toString() {
         return String.format("%s changed from %s to %s", this.activity, this.prevState, this.newState);
     }
 }

@@ -64,7 +64,7 @@ public class BPMNTakeAllBehaviourTest {
      */
     private ProcessInstanceImpl simpleInstance() {
 
-        Activity<?> activity = mock(Activity.class);
+        Activity activity = mock(Activity.class);
         behaviour = new TakeAllBehaviour();
 
         NodeImpl node = new NodeImpl(activity, behaviour);

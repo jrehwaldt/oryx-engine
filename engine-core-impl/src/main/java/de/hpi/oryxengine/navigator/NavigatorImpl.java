@@ -7,6 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+
+import de.hpi.oryxengine.plugin.AbstractPluggable;
+import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
 import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
@@ -14,8 +18,10 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
  */
-public class NavigatorImpl implements Navigator {
-
+public class NavigatorImpl
+extends AbstractPluggable<AbstractNavigatorListener>
+implements Navigator {
+    
     // map IDs to Definition
     /** The running instances. */
     private HashMap<UUID, ProcessInstance> runningInstances;
@@ -31,18 +37,21 @@ public class NavigatorImpl implements Navigator {
 
     /** The Constant NUMBER_OF_NAVIGATOR_THREADS. */
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
-
+    
+    private NavigatorState state;
+    
     /**
      * Instantiates a new navigator impl.
      */
     public NavigatorImpl() {
-
+        
         // TODO Lazy initialized
         runningInstances = new HashMap<UUID, ProcessInstance>();
         loadedDefinitions = new HashMap<String, AbstractProcessDefinitionImpl>();
         toNavigate = new LinkedList<ProcessInstance>();
         toNavigate = Collections.synchronizedList(toNavigate);
         executionThreads = new ArrayList<NavigationThread>();
+        state = NavigatorState.INIT;
     }
 
     /**
@@ -51,13 +60,16 @@ public class NavigatorImpl implements Navigator {
      * the execution threads list.
      */
     public void start() {
-
+        
         // "Gentlemen, start your engines"
         for (int i = 0; i < NUMBER_OF_NAVIGATOR_THREADS; i++) {
-            NavigationThread thread = new NavigationThread("NT" + i, toNavigate);
+            NavigationThread nt = new NavigationThread(String.format("NT %d", i), toNavigate);
+            Thread thread = new Thread(nt);
             thread.start();
-            executionThreads.add(thread);
+            executionThreads.add(nt);
         }
+        
+        changeState(NavigatorState.RUNNING);
     }
 
     /**
@@ -120,7 +132,6 @@ public class NavigatorImpl implements Navigator {
      * @see de.hpi.oryxengine.navigator.Navigator#stopProcessInstance(java.lang.String)
      */
     public void stopProcessInstance(String instanceID) {
-
         // TODO do some more stuff if instance doesnt exist and in genereal
         // runningInstances.remove(instanceID);
         // remove from queue...
@@ -143,10 +154,29 @@ public class NavigatorImpl implements Navigator {
      * Stop the Navigator. So in fact you need to stop all the Navigationthreads.
      */
     public void stop() {
-
-        for (NavigationThread executionThread : executionThreads) {
+        for (NavigationThread executionThread: executionThreads) {
             executionThread.setShouldStop(true);
         }
+        changeState(NavigatorState.STOPPED);
     }
 
+    
+    /**
+     * Changes the state of the navigator.
+     *
+     * @param state the new state
+     */
+    private void changeState(@Nonnull NavigatorState state) {
+        this.state = state;
+        setChanged();
+        notifyObservers(this.state);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return String.format("Navigator [state=%s]", this.state);
+    }
 }

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.process.instance;
+package de.hpi.oryxengine.exception;
 
 /**
  * The Class IllegalNavigationException.

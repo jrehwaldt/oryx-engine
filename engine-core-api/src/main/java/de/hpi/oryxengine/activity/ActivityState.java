@@ -3,7 +3,7 @@ package de.hpi.oryxengine.activity;
 /**
  * This enum represents the execution states an activities may be in.
  */
-public enum ExecutionState {
+public enum ActivityState {
     INIT,
     READY,
     ACTIVE,

@@ -10,7 +10,8 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
 /**
  * The Class NavigationThread. Which is one thread to navigate.
  */
-public class NavigationThread extends Thread {
+public class NavigationThread
+extends Thread {
 
     /** The Constant SLEEPTIME defining the time a thread sleeps if it has got nothing to do. */
     private static final int SLEEPTIME = 1000;
