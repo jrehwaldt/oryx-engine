@@ -4,6 +4,7 @@ import java.util.Observable;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.plugin.ActivityLifecyclePlugin;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 
@@ -18,7 +19,9 @@ implements Activity {
     private ExecutionState state;
     
     /**
-     * Instantiates a new activity. State is set to INIT.
+     * Instantiates a new activity. State is set to INIT, but observers will not
+     * be notified (since no observer are registered so far).
+     * 
      */
     protected AbstractActivityImpl() {
         changeState(ExecutionState.INIT);
@@ -38,9 +41,10 @@ implements Activity {
      * @param state the new state
      */
     private void changeState(@Nonnull ExecutionState state) {
+        final ExecutionState prevState = this.state;
         this.state = state;
         setChanged();
-        notifyObservers(state);
+        notifyObservers(prevState);
     }
     
     /**
@@ -66,5 +70,13 @@ implements Activity {
     @Override
     public String toString() {
         return getClass().getSimpleName();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void registerPlugin(@Nonnull ActivityLifecyclePlugin plugin) {
+        addObserver(plugin);
     }
 }

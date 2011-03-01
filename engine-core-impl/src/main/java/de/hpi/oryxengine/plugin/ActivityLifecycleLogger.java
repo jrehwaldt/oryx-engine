@@ -16,7 +16,7 @@ import de.hpi.oryxengine.activity.ExecutionState;
  * the lifecycle of certain activities.
  */
 public final class ActivityLifecycleLogger
-implements Observer {
+implements ActivityLifecyclePlugin {
     
     private static ActivityLifecycleLogger instance;
     
@@ -58,19 +58,19 @@ implements Observer {
      * {@inheritDoc}
      */
     @Override
-    public void update(@Nonnull Observable activity,
-                       @Nonnull Object state) {
-        stateChanged((AbstractActivityImpl) activity, (ExecutionState) state);
+    public void update(@Nonnull Observable observedActivity,
+                       @Nonnull Object prevState) {
+        AbstractActivityImpl activity = (AbstractActivityImpl) observedActivity;
+        stateChanged(activity, (ExecutionState) prevState, activity.getState());
     }
     
     /**
-     * Logs the change event to the default logger.
-     * 
-     * @param activity the activity, which changed
-     * @param state the new state
+     * {@inheritDoc}
      */
-    private void stateChanged(@Nonnull AbstractActivityImpl activity,
-                              @Nonnull ExecutionState state) {
-        logger.log(level, "Activity " + activity.toString() + " changed. New state: " + state.toString());
+    @Override
+    public void stateChanged(@Nonnull AbstractActivityImpl activity,
+                             @Nonnull ExecutionState prevState,
+                             @Nonnull ExecutionState newState) {
+        logger.log(level, "Activity " + activity.toString() + " changed: " + prevState.toString() + "-->" + newState.toString());
     }
 }

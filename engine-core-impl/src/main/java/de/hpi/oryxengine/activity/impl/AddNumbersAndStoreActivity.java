@@ -1,6 +1,9 @@
 package de.hpi.oryxengine.activity.impl;
 
+import javax.annotation.Nonnull;
+
 import de.hpi.oryxengine.activity.AbstractActivityImpl;
+import de.hpi.oryxengine.plugin.ActivityLifecyclePlugin;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
@@ -33,7 +36,7 @@ extends AbstractActivityImpl {
      * {@inheritDoc}
      */
     @Override
-    protected void executeIntern(ProcessInstance instance) {
+    protected void executeIntern(@Nonnull ProcessInstance instance) {
         
         int result = 0;
         for (int value: this.summands) {

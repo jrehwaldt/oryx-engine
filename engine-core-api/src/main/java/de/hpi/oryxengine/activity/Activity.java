@@ -2,13 +2,16 @@ package de.hpi.oryxengine.activity;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.plugin.ActivityLifecyclePlugin;
+import de.hpi.oryxengine.plugin.Pluggable;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
- * The Interface Activity.
- * An activity is the behaviour of a Node. So what the node does exactly.
+ * An activity is the behaviour of a Node, e.g. execution
+ * behaviour for sending a mail.
  */
-public interface Activity {
+public interface Activity
+extends Pluggable<ActivityLifecyclePlugin> {
 
     /**
      * Execute. Starts the execution of the Activity.
@@ -23,4 +26,5 @@ public interface Activity {
      * @return the activity's state
      */
     @Nonnull ExecutionState getState();
+    
 }
