@@ -57,6 +57,14 @@ public interface Node {
     void transitionTo(Node node);
 
     /**
+     * Transition to with condition.
+     *
+     * @param node the destination
+     * @param c the condition
+     */
+    void transitionToWithCondition(Node node, Condition c);
+    
+    /**
      * Gets the id of the node.
      * 
      * @return the id

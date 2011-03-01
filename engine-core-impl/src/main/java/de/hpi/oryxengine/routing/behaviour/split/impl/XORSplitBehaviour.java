@@ -28,7 +28,7 @@ public class XORSplitBehaviour implements SplitBehaviour {
         for (ProcessInstance instance : instances) {
             Node currentNode = instance.getCurrentNode();
             for (Transition transition : currentNode.getTransitions()) {
-                if (transition.getCondition().evaluate()) {
+                if (transition.getCondition().evaluate(instance)) {
                     nodeList.add(transition.getDestination());
                     break;
                 }
