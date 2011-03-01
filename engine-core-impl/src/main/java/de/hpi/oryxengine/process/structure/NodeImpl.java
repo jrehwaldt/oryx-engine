@@ -16,7 +16,7 @@ public class NodeImpl implements Node {
     /**
      * The activity. This is the behaviour of the node e.g. what gets executed.
      * */
-    private Activity activity;
+    private Activity<?> activity;
 
     /** The routing behaviour. E.g. incoming and outgoing transitions. */
     private RoutingBehaviour behaviour;

@@ -22,7 +22,7 @@ extends AbstractActivity {
      */
     @Override
     public void executeIntern(ProcessInstance instance) {
-        // TODO: what is required here?
+        // TODO what is required here?
         // Nothing toDo
     }
 

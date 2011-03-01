@@ -58,7 +58,7 @@ public class NavigationThread extends Thread {
     public void doWork() {
 
         while (true) {
-            // TODO: Das muss auf jeden fall verändert werden
+            // TODO Das muss auf jeden fall verändert werden
             if (shouldStop) {
                 break;
             }

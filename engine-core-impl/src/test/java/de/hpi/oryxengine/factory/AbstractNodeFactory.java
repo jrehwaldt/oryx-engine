@@ -14,7 +14,7 @@ abstract class AbstractNodeFactory {
     /** The behavior. */
     protected RoutingBehaviour behaviour;
     /** The activity. */
-    protected Activity activity;
+    protected Activity<?> activity;
 
     /**
      * Creates the.

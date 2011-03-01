@@ -28,6 +28,6 @@ extends AbstractActivity {
     @Override
     protected void executeIntern(@Nonnull ProcessInstance instance) {
         // Doing nothing is the default behavior
-        // TODO: This must change.
+        // TODO This must change.
     }
 }

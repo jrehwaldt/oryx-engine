@@ -109,7 +109,7 @@ public class BPMNXORBehaviourTest {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("a", 1);
 
-        Activity activity = mock(Activity.class);
+        Activity<?> activity = mock(Activity.class);
         behaviour = new XORBehaviour();
         Condition c = new ConditionImpl(map);
 

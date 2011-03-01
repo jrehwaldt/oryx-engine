@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import de.hpi.oryxengine.process.structure.Node;
 
-// TODO: Really implement this, it is just a summary of getters and setters right now
+// TODO Really implement this, it is just a summary of getters and setters right now
 /**
  * The Class AbstractProcessDefinitionImpl. Our Implementation of a Process Definition it is not really ready yet.
  */
