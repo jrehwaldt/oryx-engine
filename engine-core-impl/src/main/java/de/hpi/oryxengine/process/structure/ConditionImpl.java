@@ -18,7 +18,7 @@ public class ConditionImpl implements Condition {
     private boolean result;
     
     /** The set. */
-    private Set set;
+    private Set<?> set;
     
     /**
      * Instantiates a new condition impl.
@@ -57,7 +57,7 @@ public class ConditionImpl implements Condition {
      */
     public boolean evaluate(ProcessInstance instance) {
 
-        Iterator i = set.iterator();
+        Iterator<?> i = set.iterator();
         
         while (i.hasNext()) {
             Map.Entry me = (Map.Entry)i.next();
