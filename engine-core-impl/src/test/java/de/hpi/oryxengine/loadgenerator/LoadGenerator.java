@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.UUID;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.factory.ExampleProcessInstanceFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
@@ -46,7 +46,7 @@ public class LoadGenerator {
     private Properties properties = new Properties();
 
     /** The logger. */
-    private final Logger logger = Logger.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Gets the logger.
@@ -57,10 +57,6 @@ public class LoadGenerator {
 
         return logger;
     }
-
-    // private final static Level DEBUG = Level.DEBUG;
-    /** The Constant ERROR. */
-    private final static Level ERROR = Level.ERROR;
 
     /** The number of runs. */
     private int numberOfRuns;
@@ -74,7 +70,7 @@ public class LoadGenerator {
             properties.load(new FileInputStream(PROPERTIES_FILE_PATH));
             numberOfRuns = Integer.parseInt((String) this.properties.get("numberOfInstances"));
         } catch (IOException e) {
-            logger.log(ERROR, "Upps we couldn't load the properties file! here is your error " + e.toString());
+            logger.error("Upps we couldn't load the properties file! here is your error " + e.toString());
         }
 
     }
