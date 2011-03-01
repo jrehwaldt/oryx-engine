@@ -67,12 +67,12 @@ public class NavigatorImpl implements Navigator {
      * @return the string
      * @see de.hpi.oryxengine.navigator.Navigator#startProcessInstance(java.lang.String)
      */
-    // TODO: Implement this thing in general
+    // TODO Implement this thing in general
     public String startProcessInstance(String processID) {
 
         if (!loadedDefinitions.containsKey(processID)) {
             // go crazy
-            // TODO: handle this errorcase
+            // TODO handle this errorcase
         }
 
         // instantiate the processDefinition

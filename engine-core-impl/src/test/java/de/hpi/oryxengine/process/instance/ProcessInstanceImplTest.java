@@ -100,7 +100,7 @@ public class ProcessInstanceImplTest {
      */
     private ProcessInstanceImpl simpleInstance() {
 
-        Activity activity = mock(Activity.class);
+        Activity<?> activity = mock(Activity.class);
 
         node = new NodeImpl(activity);
         node.setId("1");

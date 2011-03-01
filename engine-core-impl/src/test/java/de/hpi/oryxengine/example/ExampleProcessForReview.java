@@ -3,7 +3,6 @@ package de.hpi.oryxengine.example;
 import java.util.UUID;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.MailingVariable;

@@ -7,7 +7,7 @@ import de.hpi.oryxengine.process.structure.Node;
 
 /**
  * The Class ProcessDefinitionImpl. 
- * TODO: wtf does this class do (ProcessDefinitionImpl)
+ * TODO wtf does this class do (ProcessDefinitionImpl)
  */
 public class ProcessDefinitionImpl extends AbstractProcessDefinitionImpl {
 

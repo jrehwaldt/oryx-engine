@@ -42,7 +42,7 @@ implements ProcessInstance {
                                Integer startNumber) {
 
         // choose a start Node from the possible List of Nodes
-        // TODO: how to choose the start node?
+        // TODO how to choose the start node?
         ArrayList<Node> startNodes = processDefinition.getStartNodes();
         currentNode = startNodes.get(startNumber);
 

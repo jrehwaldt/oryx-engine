@@ -67,7 +67,7 @@ public class BPMNXORBehaviourTest {
      * Test true condition.
      */
     @Test
-    public void testTrueConditionNode(){
+    public void testTrueConditionNode() {
         instance.setVariable("a", 1);
         Node node = instance.getCurrentNode();
         Node nextNode = node.getTransitions().get(0).getDestination();
@@ -109,7 +109,7 @@ public class BPMNXORBehaviourTest {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("a", 1);
 
-        Activity activity = mock(Activity.class);
+        Activity<?> activity = mock(Activity.class);
         behaviour = new XORBehaviour();
         Condition c = new ConditionImpl(map);
 
@@ -121,8 +121,6 @@ public class BPMNXORBehaviourTest {
         node2.setId("3");
         node.transitionToWithCondition(node2, c);
         node.transitionTo(node3);
-
-
 
         return new ProcessInstanceImpl(node);
     }

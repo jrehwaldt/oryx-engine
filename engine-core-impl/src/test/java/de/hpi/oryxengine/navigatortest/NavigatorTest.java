@@ -41,7 +41,7 @@ public class NavigatorTest {
     private PrintStream tmp;
 
     /**
-     * Set up. TODO: JavaDoc description of the test
+     * Set up. TODO JavaDoc description of the test
      * 
      * @throws Exception
      *             the exception
@@ -70,7 +70,7 @@ public class NavigatorTest {
 
     /**
     * Test signal length. 
-    * TODO: more JavaScript
+    * TODO more JavaScript
     */
     @Test
     public void testSignalLength() {

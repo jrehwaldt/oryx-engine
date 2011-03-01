@@ -49,7 +49,7 @@ public class BPMNAndJoinTest {
     public void testSingleInstanceReachedJoin() {
 
         childInstance1.setCurrentNode(joinNode);
-        RoutingBehaviour behaviour = childInstance1.getCurrentNode().getRoutingBehaviour();
+        behaviour = childInstance1.getCurrentNode().getRoutingBehaviour();
         List<ProcessInstance> newInstances = behaviour.execute(childInstance1);
 
         assertEquals(newInstances.size(), 0,
@@ -68,7 +68,7 @@ public class BPMNAndJoinTest {
 
         childInstance1.setCurrentNode(joinNode);
         childInstance2.setCurrentNode(joinNode);
-        RoutingBehaviour behaviour = childInstance1.getCurrentNode().getRoutingBehaviour();
+        behaviour = childInstance1.getCurrentNode().getRoutingBehaviour();
         List<ProcessInstance> newInstances = behaviour.execute(childInstance1);
 
         assertEquals(newInstances.size(), 1, "There should only be one new instance");
@@ -89,7 +89,7 @@ public class BPMNAndJoinTest {
      */
     private ProcessInstance initializeInstances() {
 
-        Activity activity = mock(Activity.class);
+        Activity<?> activity = mock(Activity.class);
         splitNode = mock(Node.class);
         behaviour = new TakeAllBehaviour();
         joinBehaviour = new AndJoinGatewayBehaviour();
@@ -106,7 +106,7 @@ public class BPMNAndJoinTest {
         node3.setId("3");
         joinNode.transitionTo(node3);
 
-        ProcessInstance instance = new ProcessInstanceImpl(splitNode);
+        instance = new ProcessInstanceImpl(splitNode);
         instance.createChildInstance(node1);
         instance.createChildInstance(node2);
         return instance;
