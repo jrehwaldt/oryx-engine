@@ -31,7 +31,6 @@ public class ConditionImpl implements Condition {
         result = true;
     }
     
-    
     /**
      * {@inheritDoc}
      */
@@ -60,7 +59,8 @@ public class ConditionImpl implements Condition {
         Iterator<?> i = set.iterator();
         
         while (i.hasNext()) {
-            Map.Entry me = (Map.Entry)i.next();
+            @SuppressWarnings("unchecked")
+            Map.Entry<String, Object> me = (Map.Entry<String, Object>) i.next();
             if (instance.getVariable((String) me.getKey()) != me.getValue()) {
                 result = false;
                 break;
