@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.navigator.schedule.Scheduler;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
@@ -18,7 +19,7 @@ extends Thread {
 
     /** The to navigate Queue is common to all Navigation Threads. 
      * This is where they get the instances to work on from. */
-    private List<ProcessInstance> toNavigate;
+    private Scheduler scheduler;
 
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -28,16 +29,14 @@ extends Thread {
 
     /**
      * Instantiates a new navigation thread.
-     * 
-     * @param threadname
-     *            the threadname
-     * @param activityQueue
-     *            the activity queue which the navigation thread should work on. It contains Process Instances.
+     *
+     * @param threadname the thread name
+     * @param scheduler the scheduler
      */
-    public NavigationThread(String threadname, List<ProcessInstance> activityQueue) {
+    public NavigationThread(String threadname, Scheduler scheduler) {
 
         super(threadname);
-        this.toNavigate = activityQueue;
+        this.scheduler = scheduler;
     }
 
     /**
@@ -59,7 +58,7 @@ extends Thread {
     public void doWork() {
 
         while (true) {
-            // TODO Das muss auf jeden fall verändert werden
+            // TODO Das muss auf jeden fall verändert werden | English please whoever this was
             if (shouldStop) {
                 break;
             }
@@ -68,15 +67,15 @@ extends Thread {
 
             // This has to be an atomic operation on toNavigate, otherwise
             // an IndexOutOfBoundsException might occur
-            synchronized (this.toNavigate) {
-                if (!this.toNavigate.isEmpty()) {
-                    instance = this.toNavigate.remove(0);
+            synchronized (this.scheduler) {
+                if (!this.scheduler.isEmpty()) {
+                    instance = this.scheduler.retrieve();
                 }
             }
 
             if (instance != null) {
                 List<ProcessInstance> instances = instance.executeStep();
-                toNavigate.addAll(instances);
+                scheduler.submitAll(instances);
             } else {
                 try {
                     logger.debug("Queue empty");
@@ -95,21 +94,20 @@ extends Thread {
      * 
      * @return the to navigate
      */
-    public List<ProcessInstance> getToNavigate() {
+    public Scheduler getScheduler() {
 
-        return toNavigate;
+        return scheduler;
     }
 
     /**
-     * Sets the to navigate. The to navigate Queue is common to all Navigation Threads. This is where they get the
+     * Sets the scheduler. The scheduler is common to all Navigation Threads. This is where they get the
      * instances to work on from.
-     * 
-     * @param toNavigate
-     *            the new to navigate
+     *
+     * @param scheduler the new scheduler
      */
-    public void setToNavigate(List<ProcessInstance> toNavigate) {
+    public void setToNavigate(Scheduler scheduler) {
 
-        this.toNavigate = toNavigate;
+        this.scheduler = scheduler;
     }
 
     /**
