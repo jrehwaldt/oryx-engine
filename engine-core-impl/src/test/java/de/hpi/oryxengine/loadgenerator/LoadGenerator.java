@@ -1,10 +1,12 @@
 package de.hpi.oryxengine.loadgenerator;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.UUID;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +24,12 @@ public class LoadGenerator {
     /** The Constant PROPERTIES_FILE_PATH. */
     private final static String PROPERTIES_FILE_PATH = "src/test/resources/loadgenerator.properties";
 
+    /** The properties. */
+    private Properties properties = new Properties();
+
+    /** The logger. */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     /**
      * Gets the properties.
      * 
@@ -42,12 +50,6 @@ public class LoadGenerator {
         return numberOfRuns;
     }
 
-    /** The properties. */
-    private Properties properties = new Properties();
-
-    /** The logger. */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      * Gets the logger.
      * 
@@ -63,14 +65,17 @@ public class LoadGenerator {
 
     /**
      * Loads the properties file used to configure the loadgenerator.
+     * @throws FileNotFoundException 
      */
-    void loadProperties() {
-
+    void loadProperties() throws FileNotFoundException {
+        FileInputStream f =  new FileInputStream(PROPERTIES_FILE_PATH);
         try {
-            properties.load(new FileInputStream(PROPERTIES_FILE_PATH));
+            properties.load(f);
             numberOfRuns = Integer.parseInt((String) this.properties.get("numberOfInstances"));
         } catch (IOException e) {
-            logger.error("Upps we couldn't load the properties file! here is your error " + e.toString());
+            logger.error("Upps we couldn't load the properties file!",  e);
+        } finally {
+            IOUtils.closeQuietly(f);
         }
 
     }
@@ -88,20 +93,21 @@ public class LoadGenerator {
 
     /**
      * Instantiates a new load generator.
+     * @throws FileNotFoundException 
      */
-    LoadGenerator() {
+    LoadGenerator() throws FileNotFoundException {
 
         loadProperties();
     }
 
     /**
-     * gimme some load!
-     * No seriously it creates some instances which are run.
+     * gimme some load! No seriously it creates some instances which are run.
      * 
      * @param args
      *            the arguments
+     * @throws FileNotFoundException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 
         LoadGenerator gene = new LoadGenerator();
         long startTime = System.currentTimeMillis();
@@ -113,9 +119,10 @@ public class LoadGenerator {
             ProcessInstanceImpl p = (ProcessInstanceImpl) gene.getExampleProcessInstance();
             navigator.startArbitraryInstance(UUID.randomUUID(), p);
             gene.getLogger().info(
-                "Started Processinstance " + Integer.toString(i) + "of " + Integer.toString(gene.getNumberOfRuns()));
+                "Started Processinstance " + Integer.toString(i + 1) + " of "
+                    + Integer.toString(gene.getNumberOfRuns()));
         }
-        
+
         // TODO this is just temporary.. we got to get back a hook when the queue is empty
         long stopTime = System.currentTimeMillis();
         long runTime = stopTime - startTime;
