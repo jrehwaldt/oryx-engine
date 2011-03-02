@@ -20,7 +20,7 @@ public class TakeAllSplitBehaviour implements SplitBehaviour {
      * @param instances the instances
      * @return the list
      * @see de.hpi.oryxengine.splitBehaviour.SplitBehaviour#split(java.util.List)
-     * TODO Discuss communication issue with thorben
+     * TODO Discuss communication issue with thorben and comment it
      */
     public List<ProcessInstance> split(List<ProcessInstance> instances) {
 

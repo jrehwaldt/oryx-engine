@@ -160,7 +160,7 @@ implements Navigator {
      * Checks if the navigator is idle.
      * That is when there are no process instances in the to navigate list.
      *
-     * @return true, if is idle
+     * @return true, if it is idle
      */
     // Maybe it should be synchronized? Do we care about dirty reads?
     // Lets get dirrrty!
