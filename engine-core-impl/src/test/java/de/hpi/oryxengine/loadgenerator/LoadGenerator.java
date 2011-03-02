@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.factory.ExampleProcessInstanceFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.plugin.scheduler.SchedulerListEmptyListener;
+import de.hpi.oryxengine.plugin.scheduler.SchedulerEmptyListener;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 
@@ -31,7 +31,7 @@ public class LoadGenerator {
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    private SchedulerListEmptyListener listener;
+    private SchedulerEmptyListener listener;
     
     /**
      * Instantiates a new load generator.
@@ -40,7 +40,7 @@ public class LoadGenerator {
     LoadGenerator() throws FileNotFoundException {
 
         loadProperties();
-        this.listener = SchedulerListEmptyListener.getInstance(this);
+        this.listener = SchedulerEmptyListener.getInstance(this);
     }
     
     /**
@@ -113,7 +113,7 @@ public class LoadGenerator {
         
         this.logger.info("We start to put our instances into our navigator!");
         NavigatorImpl navigator = new NavigatorImpl();
-        navigator.getScheduler().registerPlugin(SchedulerListEmptyListener.getInstance(this));
+        navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getInstance(this));
         
         for (int i = 0; i < this.getNumberOfRuns(); i++) {
             ProcessInstanceImpl p = (ProcessInstanceImpl) this.getExampleProcessInstance();

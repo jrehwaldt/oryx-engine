@@ -14,11 +14,11 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  *
  * @see SchedulerListEmptyEvent
  */
-public final class SchedulerListEmptyListener 
+public final class SchedulerEmptyListener 
 extends AbstractSchedulerListener {
 
     private LoadGenerator hugene;
-    private static SchedulerListEmptyListener myself;
+    private static SchedulerEmptyListener myself;
     
 
     /**
@@ -27,7 +27,7 @@ extends AbstractSchedulerListener {
      *
      * @param gene the Load generator we want to report to.
      */
-    private SchedulerListEmptyListener(LoadGenerator gene) {
+    private SchedulerEmptyListener(LoadGenerator gene) {
         this.hugene = gene;
     }
     
@@ -38,9 +38,9 @@ extends AbstractSchedulerListener {
      * @param hugene the Load generator we want to report to.
      * @return single instance of SchedulerListEmptyListener
      */
-    public static SchedulerListEmptyListener getInstance(LoadGenerator hugene) {
+    public static SchedulerEmptyListener getInstance(LoadGenerator hugene) {
         if (myself == null) {
-            myself = new SchedulerListEmptyListener(hugene);
+            myself = new SchedulerEmptyListener(hugene);
         }
         return myself;
     }
