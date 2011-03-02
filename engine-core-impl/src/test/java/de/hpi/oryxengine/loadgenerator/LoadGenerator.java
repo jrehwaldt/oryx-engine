@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.factory.ExampleProcessInstanceFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
+import de.hpi.oryxengine.plugin.scheduler.SchedulerListEmptyListener;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 
@@ -29,6 +30,18 @@ public class LoadGenerator {
 
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    
+    private SchedulerListEmptyListener listener;
+    
+    /**
+     * Instantiates a new load generator.
+     * @throws FileNotFoundException 
+     */
+    LoadGenerator() throws FileNotFoundException {
+
+        loadProperties();
+        this.listener = SchedulerListEmptyListener.getInstance(this);
+    }
     
     /**
      * Gets the properties.
@@ -63,6 +76,8 @@ public class LoadGenerator {
     /** The number of runs. */
     private int numberOfRuns;
 
+    private long startTime;
+
     /**
      * Loads the properties file used to configure the loadgenerator.
      * @throws FileNotFoundException 
@@ -90,14 +105,42 @@ public class LoadGenerator {
         ExampleProcessInstanceFactory factory = new ExampleProcessInstanceFactory();
         return factory.create();
     }
-
+    
     /**
-     * Instantiates a new load generator.
-     * @throws FileNotFoundException 
+     * Execute.
      */
-    LoadGenerator() throws FileNotFoundException {
+    public void execute() {
+        
+        this.logger.info("We start to put our instances into our navigator!");
+        NavigatorImpl navigator = new NavigatorImpl();
+        navigator.getScheduler().registerPlugin(SchedulerListEmptyListener.getInstance(this));
+        
+        for (int i = 0; i < this.getNumberOfRuns(); i++) {
+            ProcessInstanceImpl p = (ProcessInstanceImpl) this.getExampleProcessInstance();
+            navigator.startArbitraryInstance(UUID.randomUUID(), p);
+            /*this.logger.info(
+                "Started Processinstance " + Integer.toString(i + 1) + " of "
+                    + Integer.toString(this.getNumberOfRuns()));*/
+        }
+        
+        this.logger.info("Finished putting instances into our navigator!");
+        this.logger.info("The navigator will be started in a millisecond - take the time!");
+        this.startTime = System.currentTimeMillis();
+        navigator.start();
+        
+    }
+    
+    /**
+     * When the scheduler queue is empty, the Load Generator should stop 
+     * measuring the time for process instances' execution time.
+     */
+    public void schedulerIsEmpty() {
 
-        loadProperties();
+        long stopTime = System.currentTimeMillis();
+        long runTime = stopTime - this.startTime;
+        this.logger.info(
+            "Run time for all our " + Integer.toString(this.getNumberOfRuns()) + " instances: " + runTime + "ms");
+
     }
 
     /**
@@ -110,25 +153,7 @@ public class LoadGenerator {
     public static void main(String[] args) throws FileNotFoundException {
 
         LoadGenerator gene = new LoadGenerator();
-        long startTime = System.currentTimeMillis();
-        NavigatorImpl navigator = new NavigatorImpl();
-        navigator.start();
-        gene.getLogger().info("Started the navigator!");
-
-        for (int i = 0; i < gene.getNumberOfRuns(); i++) {
-            ProcessInstanceImpl p = (ProcessInstanceImpl) gene.getExampleProcessInstance();
-            navigator.startArbitraryInstance(UUID.randomUUID(), p);
-            gene.getLogger().info(
-                "Started Processinstance " + Integer.toString(i + 1) + " of "
-                    + Integer.toString(gene.getNumberOfRuns()));
-        }
-
-        // TODO this is just temporary.. we got to get back a hook when the queue is empty
-        long stopTime = System.currentTimeMillis();
-        long runTime = stopTime - startTime;
-        gene.getLogger().info(
-            "Run time for all our " + Integer.toString(gene.getNumberOfRuns()) + " instances: " + runTime + "ms");
-
+        gene.execute();
     }
-
 }
+

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.plugin.scheduler;
+package de.hpi.oryxengine.navigator.schedule;
 
 /**
  * The Enum SchedulerAction.

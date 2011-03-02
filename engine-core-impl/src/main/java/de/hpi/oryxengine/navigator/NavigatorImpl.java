@@ -187,4 +187,14 @@ implements Navigator {
     public String toString() {
         return String.format("Navigator [state=%s]", this.state);
     }
+    
+    /**
+     * Gets the scheduler. TEMPORARY
+     *
+     * @return the scheduler
+     */
+    public FIFOScheduler getScheduler() {
+
+        return scheduler;
+    }
 }

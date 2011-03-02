@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.navigator.schedule;
 
-import de.hpi.oryxengine.plugin.scheduler.SchedulerAction;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
@@ -61,6 +60,13 @@ public final class SchedulerEvent {
     public SchedulerAction getSchedulerAction() {
     
         return schedulerAction;
+    }
+
+    // TODO does this work (write a test bitch!)
+    @Override
+    public String toString() {
+
+        return "SchedulerEvent [numberOfInstances=" + numberOfInstances + "schedulerAction=" + schedulerAction + "]";
     }
     
 

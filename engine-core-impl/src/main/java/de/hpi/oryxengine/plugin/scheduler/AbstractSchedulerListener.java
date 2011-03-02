@@ -1,0 +1,44 @@
+package de.hpi.oryxengine.plugin.scheduler;
+
+import java.util.Observable;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.hpi.oryxengine.navigator.schedule.SchedulerAction;
+import de.hpi.oryxengine.navigator.schedule.SchedulerEvent;
+import de.hpi.oryxengine.plugin.ObserverPlugin;
+
+/**
+ * The abstract Scheduler Listener should be extended from real Plugins to observe the scheduler.
+ * 
+ * The listener interface for receiving abstractScheduler events.
+ * The class that is interested in processing a abstractScheduler
+ * event implements this interface, and the object created
+ * with that class is registered with a component using the
+ * component's <code>addAbstractSchedulerListener</code> method. When
+ * the abstractScheduler event occurs, that object's appropriate
+ * method is invoked.
+ *
+ * @see AbstractSchedulerEvent
+ */
+public abstract class AbstractSchedulerListener implements ObserverPlugin, SchedulerListener {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Override
+    public void update(Observable observable, Object param) {
+        final SchedulerEvent event = (SchedulerEvent) param;
+        SchedulerAction action = event.getSchedulerAction();
+        
+        switch (action) {
+            case SUBMIT:
+                processInstanceSubmitted(event.getNumberOfInstances(), event.getProcessInstance());
+                break;
+            case RETRIEVE:
+                processInstanceRetrieved(event.getNumberOfInstances(), event.getProcessInstance());
+                break;
+            default:
+                logger.error("We couldn't get the right action in the Scheduler listener for event", event);
+        }
+    }
+}
