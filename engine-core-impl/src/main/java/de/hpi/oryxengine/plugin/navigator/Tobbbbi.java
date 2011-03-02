@@ -26,5 +26,4 @@ extends AbstractNavigatorListener {
     public void navigatorStopped(@Nonnull Navigator navigator) {
         
     }
-
 }

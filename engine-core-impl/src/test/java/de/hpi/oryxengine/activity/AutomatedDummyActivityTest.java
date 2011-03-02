@@ -36,7 +36,6 @@ public class AutomatedDummyActivityTest {
 
     /**
      * Set up.
-     * TODO more JavaDoc description
      * @throws Exception
      *             the exception
      */
