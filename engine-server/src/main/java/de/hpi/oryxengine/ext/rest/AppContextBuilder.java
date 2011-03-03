@@ -9,6 +9,8 @@ import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.xml.XmlConfiguration;
 
+import com.sun.jersey.spi.container.servlet.ServletContainer;
+
 /**
  * This class builds a web context for the rest-part of the oryx engine.
  * 
@@ -47,6 +49,9 @@ public final class AppContextBuilder {
     public ServletContextHandler buildRestWebAppContext(@Nonnull ServletDescriptor... servlets) {
         final ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath(REST_CONTEXT_PATH);
+        
+        final ServletContainer jersey = new ServletContainer();
+        context.addServlet(new ServletHolder(jersey), "*");
         
         for (ServletDescriptor servlet: servlets) {
             context.addServlet(new ServletHolder(servlet.getServlet()), servlet.getContextPath());

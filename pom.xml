@@ -16,6 +16,7 @@
         <slf4j-version>1.6.1</slf4j-version>
         <logback-version>0.9.28</logback-version>
         <jetty-version>7.3.0.v20110203</jetty-version>
+        <jersey-version>1.5</jersey-version>
     </properties>
 
     <dependencyManagement>
@@ -31,15 +32,10 @@
                 <artifactId>logback-classic</artifactId>
                 <version>${logback-version}</version>
             </dependency>
-            <!-- Jetty -->
+            <!-- Jetty & JAX-RS-->
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-server</artifactId>
-                <version>${jetty-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-annotations</artifactId>
                 <version>${jetty-version}</version>
             </dependency>
             <dependency>
@@ -49,13 +45,25 @@
             </dependency>
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-jsp-2.1</artifactId>
+                <artifactId>jetty-annotations</artifactId>
                 <version>${jetty-version}</version>
             </dependency>
-            <dependency>
+            <dependency><!-- JSP Support -->
                 <groupId>org.eclipse.jetty.osgi</groupId>
                 <artifactId>jetty-osgi-boot-jsp</artifactId>
                 <version>${jetty-version}</version>
+            </dependency>
+            <dependency><!-- JAX-RS -->
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-server</artifactId>
+                <scope>compile</scope>
+                <version>${jersey-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-json</artifactId>
+                <scope>runtime</scope>
+                <version>${jersey-version}</version>
             </dependency>
             <!-- JSR305 (@Nonnull/@Nullable) -->
             <dependency>

@@ -22,15 +22,10 @@
             <artifactId>engine-core-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- Jetty -->
+        <!-- Jetty & JAX-RS-->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-annotations</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -40,16 +35,26 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-jsp-2.1</artifactId>
+            <artifactId>jetty-annotations</artifactId>
             <scope>compile</scope>
         </dependency>
-        <dependency>
+        <dependency><!-- JSP Support -->
             <groupId>org.eclipse.jetty.osgi</groupId>
             <artifactId>jetty-osgi-boot-jsp</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency><!-- JAX-RS -->
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <!-- LessCSS -->
-        <dependency>  
+        <dependency>
             <groupId>com.asual.lesscss</groupId>
             <artifactId>lesscss-servlet</artifactId>
             <version>1.2.11</version> <!-- 1.0.41 -->
