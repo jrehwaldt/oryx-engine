@@ -9,8 +9,6 @@ import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.xml.XmlConfiguration;
 
-import com.asual.lesscss.LessServlet;
-
 /**
  * This class builds a web context for the rest-part of the oryx engine.
  * 
@@ -83,7 +81,8 @@ public final class AppContextBuilder {
         context.setDescriptor(context + getAbsoluteServerRoot() + DESCRIPTOR_FILE);
         context.setResourceBase(getAbsoluteServerRoot() + RESOURCE_BASE);
         context.setContextPath(RESOURCE_CONTEXT_PATH);
-        context.addServlet(new ServletHolder(new LessServlet()), "*.css");
+        
+//        context.addServlet(new ServletHolder(new LessServlet()), "*.css");
         
         return context;
     }
