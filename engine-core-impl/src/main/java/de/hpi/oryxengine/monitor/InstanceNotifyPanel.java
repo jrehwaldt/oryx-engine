@@ -13,12 +13,17 @@ import de.hpi.oryxengine.navigator.schedule.SchedulerAction;
 import de.hpi.oryxengine.navigator.schedule.SchedulerEvent;
 
 /**
- * The Class InstanceNotifyPanel.
+ * The Class InstanceNotifyPanel. You can use it in a Swing-GUI to present SchedulerEvents.
  */
 public class InstanceNotifyPanel extends JPanel {
     private LinkedList<JPanel> notifications;
-    private int MAXIMUM_NOTIFICATIONS = 8;
+    private static final int MAXIMUM_NOTIFICATIONS = 8;
+    private static final Color GREEN = new Color(51, 255, 102);
+    private static final Color RED = new Color(255, 102, 51);
 
+    /**
+     * Instantiates a new instance notify panel.
+     */
     public InstanceNotifyPanel() {
 
         super();
@@ -26,6 +31,12 @@ public class InstanceNotifyPanel extends JPanel {
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
     }
 
+    /**
+     * Tell the Panel to add a notification for a given event.
+     * 
+     * @param event
+     *            the event
+     */
     public void addNotification(SchedulerEvent event) {
 
         if (notifications.size() >= MAXIMUM_NOTIFICATIONS) {
@@ -39,6 +50,13 @@ public class InstanceNotifyPanel extends JPanel {
         this.repaint();
     }
 
+    /**
+     * Creates a notification which is basically a JTextArea in a JPanel.
+     * 
+     * @param event
+     *            the event
+     * @return the text notification
+     */
     public JPanel getTextNotification(SchedulerEvent event) {
 
         int height = getHeight();
@@ -60,25 +78,29 @@ public class InstanceNotifyPanel extends JPanel {
         return content;
     }
 
+    /**
+     * Text area for a new SchedulerEvent.
+     * 
+     * @param event
+     *            the event that is to be displayed.
+     * @return the j text area that does this.
+     */
     private JTextArea textAreaFor(SchedulerEvent event) {
-                
+
         JTextArea textArea = new JTextArea();
         if (event.getSchedulerAction() == SchedulerAction.SUBMIT) {
-            textArea.setBackground(new Color(51,255,102));
-            textArea.setText("PI: " + event.getProcessInstance().getID() + "\n" +
-                "Added to Scheduler");
-        }
-        else if (event.getSchedulerAction() == SchedulerAction.RETRIEVE) {
-            textArea.setBackground(new Color(255,51,102));
-            textArea.setText("PI: " + event.getProcessInstance().getID() + "\n" +
-            "Taken from Scheduler");
+            textArea.setBackground(GREEN);
+            textArea.setText("PI: " + event.getProcessInstance().getID() + "\n" + "Added to Scheduler");
+        } else if (event.getSchedulerAction() == SchedulerAction.RETRIEVE) {
+            textArea.setBackground(RED);
+            textArea.setText("PI: " + event.getProcessInstance().getID() + "\n" + "Taken from Scheduler");
         }
         textArea.setOpaque(true);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
         textArea.setFocusable(false);
-        
+
         return textArea;
     }
 }

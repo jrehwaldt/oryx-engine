@@ -12,7 +12,11 @@ public class PaintSurface extends JPanel {
 
     protected int width, height;
 
+    /**
+     * Instantiates a new paint surface.
+     */
     public PaintSurface() {
+        super();
         this.width = 0;
         this.height = 0;
     }
