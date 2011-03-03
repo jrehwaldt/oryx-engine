@@ -14,6 +14,10 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  */
 public class MonitorGUI extends JFrame {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7601506207557238298L;
     private static BarPaintSurface barSurface;
     private static InstanceNotifyPanel notifySurface;
 

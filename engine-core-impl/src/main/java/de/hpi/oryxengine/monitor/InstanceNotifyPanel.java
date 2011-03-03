@@ -16,6 +16,10 @@ import de.hpi.oryxengine.navigator.schedule.SchedulerEvent;
  * The Class InstanceNotifyPanel. You can use it in a Swing-GUI to present SchedulerEvents.
  */
 public class InstanceNotifyPanel extends JPanel {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private LinkedList<JPanel> notifications;
     private static final int MAXIMUM_NOTIFICATIONS = 8;
     private static final Color GREEN = new Color(51, 255, 102);

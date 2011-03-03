@@ -8,6 +8,10 @@ import java.awt.Graphics;
  */
 public class BarPaintSurface extends PaintSurface {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private int runningInstances;
     private int maximumInstances;
 
@@ -45,8 +49,8 @@ public class BarPaintSurface extends PaintSurface {
 
         g.setColor(Color.BLACK);
 
-        g.drawString("ProcessInstances in Queue: " + new Integer(runningInstances).toString() + "/"
-            + new Integer(maximumInstances).toString(), 10, 10);
+        g.drawString("ProcessInstances in Queue: " + String.valueOf(runningInstances) + "/"
+            + String.valueOf(maximumInstances), 10, 10);
     }
 
     /**

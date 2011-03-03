@@ -10,6 +10,10 @@ import javax.swing.JPanel;
  */
 public class PaintSurface extends JPanel {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -714543702943220898L;
     protected int width, height;
 
     /**
