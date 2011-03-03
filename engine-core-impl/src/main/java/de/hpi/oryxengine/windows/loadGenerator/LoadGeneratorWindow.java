@@ -43,8 +43,8 @@ implements ActionListener, PropertyChangeListener {
     private static final int DEFAULT_INSTANCE_NUMBER = 10000;
     
     // variables to be passed on to Load Generator
-    private int threads = DEFAULT_THREAD_NUMBER;
-    private int instances = DEFAULT_INSTANCE_NUMBER;
+    private int threads;
+    private int instances;
     private String processModel;
 
 
@@ -54,6 +54,8 @@ implements ActionListener, PropertyChangeListener {
     public LoadGeneratorWindow() {
        
         super(new BorderLayout());
+        threads = DEFAULT_THREAD_NUMBER;
+        instances = DEFAULT_INSTANCE_NUMBER;
         
         // -------------------- Area for creating small components like text fields or buttons --------------------
         // Create a field for to-be-loaded process model
