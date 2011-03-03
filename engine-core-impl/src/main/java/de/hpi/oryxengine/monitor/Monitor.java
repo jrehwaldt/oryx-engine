@@ -1,11 +1,8 @@
 package de.hpi.oryxengine.monitor;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 
 import de.hpi.oryxengine.plugin.scheduler.AbstractSchedulerListener;
-import de.hpi.oryxengine.plugin.scheduler.SchedulerEmptyListener;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 
 /**
