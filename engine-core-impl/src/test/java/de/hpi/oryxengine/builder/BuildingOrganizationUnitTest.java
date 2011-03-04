@@ -41,8 +41,6 @@ public class BuildingOrganizationUnitTest {
         Assert.assertTrue(identityService.getOrganizationUnits().size() == 1, failuremessage);
         failuremessage = "The Organization Unit (Id='bpt', name='BPT') is not in the IdentityService.";
         Assert.assertTrue(identityService.getOrganizationUnits().contains(organizationUnit), failuremessage);
-        Assert.assertEquals(identityService.getOrganizationUnits().get(0).getId(), "bpt", failuremessage);
-        Assert.assertEquals(identityService.getOrganizationUnits().get(0).getName(), "BPT", failuremessage);
 
     }
 
@@ -114,29 +112,40 @@ public class BuildingOrganizationUnitTest {
 
         // There still should be one Position in the system
         Assert.assertTrue(identityService.getPositions().size() == 1);
+        Assert.assertTrue(identityService.getPositions().contains(pos1));
+        
         String failureMessage = "The Position '1' should belong to the OrganizationUnit 'bpt2'.";
-        Assert.assertEquals(identityService.getPositions().get(0).belongstoOrganization(), orgaUnit2, failureMessage);
+        Assert.assertEquals(pos1.belongstoOrganization(), orgaUnit2, failureMessage);
+        
         failureMessage = "The OrganizationUnit 'bpt2' should have the Position '1'.";
-        Assert.assertTrue(identityService.getOrganizationUnits().get(1).getPositions().size() == 1);
-        Assert.assertEquals(identityService.getOrganizationUnits().get(1).getPositions().get(0), pos1, failureMessage);
+        Assert.assertTrue(orgaUnit2.getPositions().size() == 1);
+        Assert.assertTrue(orgaUnit2.getPositions().contains(pos1), failureMessage);
 
         failureMessage = "The OrganizationUnit 'bpt1' should not have any Position.";
-        Assert.assertTrue(identityService.getOrganizationUnits().get(0).getPositions().size() == 0, failureMessage);
+        Assert.assertTrue(orgaUnit1.getPositions().size() == 0, failureMessage);
     }
 
     @Test
     public void testDeleteOrganizationUnit() {
 
+        Position pos1 = identityBuilder.createPosition("1");
+        Position pos2 = identityBuilder.createPosition("2");
         OrganizationUnit orgaUnit = identityBuilder.createOrganizationUnit("bpt");
-        // Only to have one more OrganizationUnit
-        identityBuilder.createOrganizationUnit("bpt2");
 
-        identityBuilder.deleteOrganizationUnit("bpt");
+        identityBuilder.organizationUnitOffersPosition(orgaUnit, pos1)
+                       .organizationUnitOffersPosition(orgaUnit, pos2);
 
-        Assert.assertTrue(identityService.getOrganizationUnits().size() == 1);
+        identityBuilder.deleteOrganizationUnit(orgaUnit);
+
+        Assert.assertTrue(identityService.getOrganizationUnits().size() == 0);
         if (identityService.getOrganizationUnits().contains(orgaUnit)) {
             String failureMessage = "The OrganizationUnit 'bpt' should be deleted, but it is still there.";
             Assert.fail(failureMessage);
+        }
+
+        // Checking if all Position belongs to the right organization
+        for (Position position : orgaUnit.getPositions()) {
+            Assert.assertNull(position.belongstoOrganization());
         }
     }
 

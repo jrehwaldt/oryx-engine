@@ -14,10 +14,10 @@ public interface Position extends Resource<Position> {
     // Vielleicht später mit Prioritäten, oder Wichitgkeit der Person
     
     Participant getPositionHolder();
-    Position setPositionHolder(Participant participant);
+//    Position setPositionHolder(Participant participant);
     
     Position getSuperiorPosition();
-    Position setSuperiorPosition(Position position);
+//    Position setSuperiorPosition(Position position);
     
     OrganizationUnit belongstoOrganization();
 }

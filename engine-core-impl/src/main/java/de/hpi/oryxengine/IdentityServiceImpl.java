@@ -1,16 +1,14 @@
 package de.hpi.oryxengine;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import de.hpi.oryxengine.builder.IdentityBuilder;
 import de.hpi.oryxengine.builder.IdentityBuilderImpl;
-import de.hpi.oryxengine.identity.Capability;
 import de.hpi.oryxengine.identity.OrganizationUnit;
 import de.hpi.oryxengine.identity.Participant;
 import de.hpi.oryxengine.identity.Position;
-import de.hpi.oryxengine.identity.Resource;
 import de.hpi.oryxengine.identity.Role;
 import de.hpi.oryxengine.resource.CapabilityImpl;
 import de.hpi.oryxengine.resource.OrganizationUnitImpl;
@@ -28,65 +26,69 @@ import de.hpi.oryxengine.resource.RoleImpl;
  */
 public class IdentityServiceImpl implements IdentityService {
 
-    private ArrayList<OrganizationUnitImpl> organizationUnits;
-    private ArrayList<PositionImpl> positions;
-    private ArrayList<ParticipantImpl> participants;
-    private ArrayList<RoleImpl> roles;
-    private ArrayList<CapabilityImpl> capabilities;
+    private Set<OrganizationUnitImpl> organizationUnits;
+    private Set<PositionImpl> positions;
+    private Set<ParticipantImpl> participants;
+    private Set<RoleImpl> roles;
+    private Set<CapabilityImpl> capabilities;
 
     public IdentityBuilder getIdentityBuilder() {
 
         return new IdentityBuilderImpl(this);
     }
 
-    public List<OrganizationUnit> getOrganizationUnits() {
+    public Set<OrganizationUnit> getOrganizationUnits() {
 
-        return new ArrayList<OrganizationUnit>(getOrganizationUnitImpls());
+        Set<OrganizationUnit> setToReturn = new HashSet<OrganizationUnit>(getOrganizationUnitImpls());
+        return Collections.unmodifiableSet(setToReturn);
     }
 
-    public ArrayList<OrganizationUnitImpl> getOrganizationUnitImpls() {
+    public Set<OrganizationUnitImpl> getOrganizationUnitImpls() {
 
         if (organizationUnits == null) {
-            organizationUnits = new ArrayList<OrganizationUnitImpl>();
+            organizationUnits = new HashSet<OrganizationUnitImpl>();
         }
         return organizationUnits;
     }
 
-    public List<Position> getPositions() {
+    public Set<Position> getPositions() {
 
-        return new ArrayList<Position>(getPositionImpls());
+        Set<Position> setToReturn = new HashSet<Position>(getPositionImpls());
+        return Collections.unmodifiableSet(setToReturn);
     }
 
-    public ArrayList<PositionImpl> getPositionImpls() {
+    public Set<PositionImpl> getPositionImpls() {
 
         if (positions == null) {
-            positions = new ArrayList<PositionImpl>();
+            positions = new HashSet<PositionImpl>();
         }
         return positions;
     }
 
-    public List<Participant> getParticipants() {
+    public Set<Participant> getParticipants() {
 
+        Set<Participant> setToReturn = new HashSet<Participant>(getParticipantImpl());
+        return Collections.unmodifiableSet(setToReturn);
+    }
+
+    public Set<ParticipantImpl> getParticipantImpl() {
         if (participants == null) {
-            participants = new ArrayList<ParticipantImpl>();
+            participants = new HashSet<ParticipantImpl>();
         }
-        return new ArrayList<Participant>(participants);
+        return participants;
     }
+    
+    public Set<Role> getRoles() {
 
-    public List<Role> getRoles() {
-
+        Set<Role> setToReturn = new HashSet<Role>(getRolesImpl());
+        return Collections.unmodifiableSet(setToReturn);
+    }
+    
+    public Set<RoleImpl> getRolesImpl() {
         if (roles == null) {
-            roles = new ArrayList<RoleImpl>();
+            roles = new HashSet<RoleImpl>();
         }
-        return new ArrayList<Role>(roles);
-    }
-
-    public List<Capability> getCapabilities() {
-
-        if (capabilities == null) {
-            capabilities = new ArrayList<CapabilityImpl>();
-        }
-        return new ArrayList<Capability>(capabilities);
+        return roles;
     }
 
     public OrganizationUnitImpl findOrganizationUnitImpl(String id) {
@@ -103,7 +105,7 @@ public class IdentityServiceImpl implements IdentityService {
      * @return <R> object, if it is in the resourcelist, otherwise null
      */
     @SuppressWarnings("unchecked")
-    private static <R extends ResourceImpl<?>> R find(List<R> resourceList, String id) {
+    private static <R extends ResourceImpl<?>> R find(Set<R> resourceList, String id) {
 
         for (ResourceImpl<?> resource : resourceList) {
             if (resource.getId().equals(id)) {

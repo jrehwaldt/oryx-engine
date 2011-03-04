@@ -29,7 +29,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
         // hier könnte man das FlyWeight-Pattern verwenden ...
         Capability capability = new CapabilityImpl(capabilityId);
-        identityService.getCapabilities().add(capability);
 
         return capability;
     }
@@ -62,8 +61,14 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public Position createPosition(String positionId) {
 
         PositionImpl position = new PositionImpl(positionId);
-        identityService.getPositionImpls().add(position);
+        for (PositionImpl existingPosition: identityService.getPositionImpls()) {
+            if (existingPosition.equals(position)) {
+                return existingPosition;
+            }
+        }
 
+        identityService.getPositionImpls().add(position);
+        
         return position;
     }
 
@@ -179,19 +184,38 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition) {
 
-        // TODO Auto-generated method stub
-        return null;
+        PositionImpl positionImpl = (PositionImpl) position; 
+        PositionImpl superiorPositionImpl = (PositionImpl) superiorPosition; 
+        if (positionImpl.equals(superiorPositionImpl)) {
+            throw new OryxEngineException("You cannot be the superior of yourself.");
+        }
+        
+        positionImpl.setSuperiorPosition(superiorPosition);
+        
+        superiorPositionImpl.getSubordinatePositionImpls().add(positionImpl);
+        
+        return this;
     }
 
     @Override
-    public IdentityBuilder deleteOrganizationUnit(String organizationUnitId) {
+    public IdentityBuilder deleteOrganizationUnit(OrganizationUnit  organizationUnit) {
 
-        OrganizationUnitImpl organizationUnitImpl = identityService.findOrganizationUnitImpl(organizationUnitId);
-        if (organizationUnitImpl == null) {
-            throw new OryxEngineException("There exists no OrganizationUnit with the id " + organizationUnitId + ".");
+        OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) organizationUnit;
+        
+        if (!identityService.getOrganizationUnitImpls().contains(organizationUnit)) {
+            throw new OryxEngineException("There exists no OrganizationUnit with the id " + organizationUnit.getId() + ".");
         }
             
-        identityService.getOrganizationUnitImpls().remove(organizationUnitImpl);
+        for (OrganizationUnitImpl childOrganizationUnitImpl: organizationUnitImpl.getChildOrganisationUnitImpls()) {
+            childOrganizationUnitImpl.setSuperOrganizationUnit(null);
+        }
+        
+        for (PositionImpl positionImpl : organizationUnitImpl.getPositionImpls()) {
+            positionImpl.belongstoOrganization(null);
+        }
+        
+        
+        identityService.getOrganizationUnitImpls().remove(organizationUnit);
         return this;
     }
 
@@ -217,6 +241,24 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         positionImpl.belongstoOrganization(null);
         organizationUnitImpl.getPositionImpls().remove(positionImpl);
         
+        return this;
+    }
+
+    @Override
+    public IdentityBuilder deletePosition(Position position) {
+
+        PositionImpl positionImpl = (PositionImpl) position;
+        if (!identityService.getPositionImpls().contains(positionImpl)) {
+            throw new OryxEngineException("There exists no OrganizationUnit with the id " + position.getId() + ".");
+        }
+            
+        identityService.getPositionImpls().remove(position);
+        
+        for (PositionImpl subordinatePosition : positionImpl.getSubordinatePositionImpls()) {
+            subordinatePosition.setSuperiorPosition(null);
+        }
+        
+
         return this;
     }
 
