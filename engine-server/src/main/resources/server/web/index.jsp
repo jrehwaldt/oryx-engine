@@ -8,8 +8,9 @@
     <body>
         <h2>REST-interface working ;-)</h2>
         <ul>
-            <li><a href="/rest/start">Start the engine</a></li>
-            <li><a href="/rest/stop">Stop the engine</a></li>
+            <li><a href="api/engine">Status</a></li>
+            <li><a href="api/engine/start">Start the engine</a></li>
+            <li><a href="api/engine/stop">Stop the engine</a></li>
         </ul>
     </body>
 </html>
