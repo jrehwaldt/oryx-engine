@@ -1,12 +1,10 @@
 package de.hpi.oryxengine.loadgenerator;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.UUID;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,26 +21,29 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 public class LoadGenerator {
 
     /** The Constant PROPERTIES_FILE_PATH. */
-    private final static String PROPERTIES_FILE_PATH = "src/test/resources/loadgenerator.properties";
+    private final static String PROPERTIES_FILE_PATH = "/loadgenerator.properties";
 
     /** The properties. */
     private Properties properties = new Properties();
 
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     private SchedulerEmptyListener listener;
-    
+
     /**
      * Instantiates a new load generator.
-     * @throws FileNotFoundException 
+     * 
+     * @throws FileNotFoundException
      */
-    LoadGenerator() throws FileNotFoundException {
+    LoadGenerator()
+    throws FileNotFoundException {
 
         loadProperties();
         this.listener = SchedulerEmptyListener.getInstance(this);
+
     }
-    
+
     /**
      * Gets the properties.
      * 
@@ -80,17 +81,20 @@ public class LoadGenerator {
 
     /**
      * Loads the properties file used to configure the loadgenerator.
-     * @throws FileNotFoundException 
+     * 
+     * @throws FileNotFoundException
      */
-    void loadProperties() throws FileNotFoundException {
-        FileInputStream f =  new FileInputStream(PROPERTIES_FILE_PATH);
+    void loadProperties()
+    throws FileNotFoundException {
+
+        // FileInputStream f = new FileInputStream(PROPERTIES_FILE_PATH);
         try {
-            properties.load(f);
+            properties.load(LoadGenerator.class.getResourceAsStream(PROPERTIES_FILE_PATH));
             numberOfRuns = Integer.parseInt((String) this.properties.get("numberOfInstances"));
         } catch (IOException e) {
-            logger.error("Upps we couldn't load the properties file!",  e);
+            logger.error("Upps we couldn't load the properties file!", e);
         } finally {
-            IOUtils.closeQuietly(f);
+            // IOUtils.closeQuietly(f);
         }
 
     }
@@ -102,44 +106,47 @@ public class LoadGenerator {
      */
     public ProcessInstance getExampleProcessInstance() {
 
-        ExampleProcessInstanceFactory factory = new ExampleProcessInstanceFactory();
-        return factory.create();
+        
+
+            ExampleProcessInstanceFactory factory = new ExampleProcessInstanceFactory();
+            return factory.create();
     }
-    
+
     /**
      * Execute.
      */
     public void execute() {
-        
+
         this.logger.info("We start to put our instances into our navigator!");
         NavigatorImpl navigator = new NavigatorImpl();
         navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getInstance(this));
-        
+
         for (int i = 0; i < this.getNumberOfRuns(); i++) {
             ProcessInstanceImpl p = (ProcessInstanceImpl) this.getExampleProcessInstance();
             navigator.startArbitraryInstance(UUID.randomUUID(), p);
-            /*this.logger.info(
-                "Started Processinstance " + Integer.toString(i + 1) + " of "
-                    + Integer.toString(this.getNumberOfRuns()));*/
+            /*
+             * this.logger.info( "Started Processinstance " + Integer.toString(i + 1) + " of " +
+             * Integer.toString(this.getNumberOfRuns()));
+             */
         }
-        
+
         this.logger.info("Finished putting instances into our navigator!");
         this.logger.info("The navigator will be started in a millisecond - take the time!");
         this.startTime = System.currentTimeMillis();
         navigator.start();
-        
+
     }
-    
+
     /**
-     * When the scheduler queue is empty, the Load Generator should stop 
-     * measuring the time for process instances' execution time.
+     * When the scheduler queue is empty, the Load Generator should stop measuring the time for process instances'
+     * execution time.
      */
     public void schedulerIsEmpty() {
 
         long stopTime = System.currentTimeMillis();
         long runTime = stopTime - this.startTime;
-        this.logger.info(
-            "Run time for all our " + Integer.toString(this.getNumberOfRuns()) + " instances: " + runTime + "ms");
+        this.logger.info("Run time for all our " + Integer.toString(this.getNumberOfRuns()) + " instances: " + runTime
+            + "ms");
 
     }
 
@@ -148,12 +155,12 @@ public class LoadGenerator {
      * 
      * @param args
      *            the arguments
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args)
+    throws FileNotFoundException {
 
         LoadGenerator gene = new LoadGenerator();
         gene.execute();
     }
 }
-
