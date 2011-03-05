@@ -2,7 +2,9 @@ package de.hpi.oryxengine.resource;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.hpi.oryxengine.identity.OrganizationUnit;
 import de.hpi.oryxengine.identity.Position;
@@ -15,6 +17,7 @@ public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> impleme
 
     private ArrayList<PositionImpl> positions;
     private OrganizationUnit superOrganizationalUnit;
+    private Set<OrganizationUnitImpl> childOrganizationUnits;
 
     public OrganizationUnitImpl(String organizationalUnitId) {
 
@@ -37,7 +40,6 @@ public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> impleme
         return positions;
     }
 
-
     public OrganizationUnit getSuperOrganizationUnit() {
 
         return superOrganizationalUnit;
@@ -50,13 +52,21 @@ public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> impleme
     }
 
     public void addPosition(PositionImpl position) {
-        
+
         if (getPositionImpls().contains(position)) {
             // Nothing to do because it is already there
             return;
         }
-        
+
         getPositionImpls().add(position);
+    }
+
+    public Set<OrganizationUnitImpl> getChildOrganisationUnitImpls() {
+
+        if (childOrganizationUnits == null) {
+            childOrganizationUnits = new HashSet<OrganizationUnitImpl>();
+        }
+        return childOrganizationUnits;
     }
 
 }

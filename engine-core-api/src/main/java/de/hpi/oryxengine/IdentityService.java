@@ -1,6 +1,6 @@
 package de.hpi.oryxengine;
 
-import java.util.List;
+import java.util.Set;
 
 import de.hpi.oryxengine.builder.IdentityBuilder;
 import de.hpi.oryxengine.identity.Capability;
@@ -25,9 +25,9 @@ public interface IdentityService {
     // Letztendlich brauchen wir ein QueryObject
     // void createResourceQuery();
 
-    List<OrganizationUnit> getOrganizationUnits();
-    List<Position> getPositions();
-    List<Participant> getParticipants();
-    List<Role> getRoles();
-    List<Capability> getCapabilities();
+    Set<OrganizationUnit> getOrganizationUnits();
+    Set<Position> getPositions();
+    Set<Participant> getParticipants();
+    Set<Role> getRoles();
+//    Set<Capability> getCapabilities();
 }

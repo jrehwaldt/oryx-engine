@@ -76,20 +76,27 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
         return (R) this;
     }
-    
+
     /**
      * A Position object is equal if their id is the same.
      * 
-     * @param objectToCompare - if the object is not an Position object then it is treated like any other object
+     * @param objectToCompare
+     *            - if the object is not an Position object then it is treated like any other object
      */
     @Override
     public boolean equals(Object objectToCompare) {
-        
+
         if (!(objectToCompare instanceof Resource<?>)) {
             return super.equals(objectToCompare);
         }
 
         Resource<?> positionToCompare = (Resource<?>) objectToCompare;
         return this.getId().equals(positionToCompare.getId());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return getId().hashCode();
     }
 }

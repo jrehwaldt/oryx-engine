@@ -8,8 +8,8 @@ import de.hpi.oryxengine.identity.Position;
 import de.hpi.oryxengine.identity.Role;
 
 /**
- * The ResourceBuilder provides an easy and intuitive way to define and
- * customize the enterprise's organization structures.
+ * The ResourceBuilder provides an easy and intuitive way to define and customize the enterprise's organization
+ * structures.
  * 
  * @author Gery
  */
@@ -39,7 +39,7 @@ public interface IdentityBuilder {
      */
     OrganizationUnit createOrganizationUnit(String organizationUnitId);
 
-    IdentityBuilder deleteOrganizationUnit(String organizationUnitId);
+    IdentityBuilder deleteOrganizationUnit(OrganizationUnit organizationUnit);
 
     /**
      * 
@@ -49,6 +49,8 @@ public interface IdentityBuilder {
      */
     Position createPosition(String positionId);
 
+    IdentityBuilder deletePosition(Position position);
+
     /**
      * 
      * @param roleId
@@ -57,15 +59,14 @@ public interface IdentityBuilder {
     Role createRole(String roleId);
 
     /**
-     * Builds a relationship between an OrganizationUnit and a Position which
-     * represents that a Position belongs to an OrganizationUnit.
+     * Builds a relationship between an OrganizationUnit and a Position which represents that a Position belongs to an
+     * OrganizationUnit.
      * 
-     * Be aware that an OrganizationUnit could have several Positions. So
-     * calling this method twice with the same Position parameter does not
-     * create two relationships cause the second Position is already there.
+     * Be aware that an OrganizationUnit could have several Positions. So calling this method twice with the same
+     * Position parameter does not create two relationships cause the second Position is already there.
      * 
-     * Be also aware that, only one Position is related to an OrganizationUnit.
-     * Using this method assures this constraint.
+     * Be also aware that, only one Position is related to an OrganizationUnit. Using this method assures this
+     * constraint.
      * 
      * @param organizationUnit
      *            -
@@ -74,7 +75,9 @@ public interface IdentityBuilder {
      * @return the IdentityBuilder itself
      */
     IdentityBuilder organizationUnitOffersPosition(OrganizationUnit organizationUnit, Position position);
+
     IdentityBuilder organizationUnitDoesNotOfferPosition(OrganizationUnit organizationUnit, Position position);
+
     /**
      * 
      * 
