@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
+import de.hpi.oryxengine.exception.OryxEngineException;
 import de.hpi.oryxengine.identity.OrganizationUnit;
 import de.hpi.oryxengine.identity.Position;
 
@@ -36,12 +37,32 @@ public class BuildingOrganizationUnitTest {
 
         OrganizationUnit organizationUnit = identityBuilder.createOrganizationUnit("bpt");
         organizationUnit.setName("BPT");
+        OrganizationUnit superOrganizationUnit = identityBuilder.createOrganizationUnit("hpi");
+        
+        identityBuilder.subOrganizationUnitOf(organizationUnit, superOrganizationUnit);
 
         String failuremessage = "There should be one Orgazational Unit.";
-        Assert.assertTrue(identityService.getOrganizationUnits().size() == 1, failuremessage);
+        Assert.assertTrue(identityService.getOrganizationUnits().size() == 2, failuremessage);
         failuremessage = "The Organization Unit (Id='bpt', name='BPT') is not in the IdentityService.";
         Assert.assertTrue(identityService.getOrganizationUnits().contains(organizationUnit), failuremessage);
+        Assert.assertEquals(organizationUnit.getSuperOrganizationUnit(), superOrganizationUnit);
 
+    }
+    
+    @Test
+    public void testForDuplicateOrganizationUnit() {
+        
+        OrganizationUnit bpt = identityBuilder.createOrganizationUnit("bpt");
+        bpt.setName("BPT");
+        
+        // Try to create a new OrganizationUnit with the same Id
+        OrganizationUnit bpt2 = identityBuilder.createOrganizationUnit("bpt");
+        
+        String failureMessage = "There should stil be one OrganizationUnit";
+        Assert.assertTrue(identityService.getOrganizationUnits().size() == 1, failureMessage);
+        failureMessage = "The new created OrganizationUnit should be the old one.";
+        Assert.assertEquals(bpt2.getName(), "BPT", failureMessage);
+        
     }
 
     @Test
@@ -89,9 +110,10 @@ public class BuildingOrganizationUnitTest {
         .organizationUnitOffersPosition(orgaUnit, pos1);
 
         // As before, there should be only two positions offered by that OrganizationUnit
-        String failureMessage = "Identity Service should have 1 Position Element, but it is " + identityService.getPositions().size() + " .";
+        String failureMessage = "Identity Service should have 1 Position Element, but it is "
+            + identityService.getPositions().size() + " .";
         Assert.assertTrue(orgaUnit.getPositions().size() == 1, failureMessage);
-        
+
         identityBuilder.organizationUnitOffersPosition(orgaUnit, pos2).organizationUnitOffersPosition(orgaUnit, pos1);
 
         // Now there should be one more
@@ -108,15 +130,15 @@ public class BuildingOrganizationUnitTest {
 
         identityBuilder.organizationUnitOffersPosition(orgaUnit1, pos1)
         // Now change the Position to another OrganizationUnit
-                       .organizationUnitOffersPosition(orgaUnit2, pos1);
+        .organizationUnitOffersPosition(orgaUnit2, pos1);
 
         // There still should be one Position in the system
         Assert.assertTrue(identityService.getPositions().size() == 1);
         Assert.assertTrue(identityService.getPositions().contains(pos1));
-        
+
         String failureMessage = "The Position '1' should belong to the OrganizationUnit 'bpt2'.";
         Assert.assertEquals(pos1.belongstoOrganization(), orgaUnit2, failureMessage);
-        
+
         failureMessage = "The OrganizationUnit 'bpt2' should have the Position '1'.";
         Assert.assertTrue(orgaUnit2.getPositions().size() == 1);
         Assert.assertTrue(orgaUnit2.getPositions().contains(pos1), failureMessage);
@@ -132,21 +154,40 @@ public class BuildingOrganizationUnitTest {
         Position pos2 = identityBuilder.createPosition("2");
         OrganizationUnit orgaUnit = identityBuilder.createOrganizationUnit("bpt");
 
-        identityBuilder.organizationUnitOffersPosition(orgaUnit, pos1)
-                       .organizationUnitOffersPosition(orgaUnit, pos2);
+        identityBuilder.organizationUnitOffersPosition(orgaUnit, pos1).organizationUnitOffersPosition(orgaUnit, pos2);
 
         identityBuilder.deleteOrganizationUnit(orgaUnit);
 
+        String failureMessage = "The OrganizationUnit 'bpt' should be deleted, but it is still there.";
         Assert.assertTrue(identityService.getOrganizationUnits().size() == 0);
-        if (identityService.getOrganizationUnits().contains(orgaUnit)) {
-            String failureMessage = "The OrganizationUnit 'bpt' should be deleted, but it is still there.";
-            Assert.fail(failureMessage);
-        }
+        Assert.assertFalse(identityService.getOrganizationUnits().contains(orgaUnit));
 
-        // Checking if all Position belongs to the right organization
         for (Position position : orgaUnit.getPositions()) {
+            failureMessage = "The Position '" + position.getId() + "' should not have an OrganizationUnit. It should be null.";
             Assert.assertNull(position.belongstoOrganization());
         }
+    }
+    
+    @Test
+    public void testDeleteSuperOrganizationUnit() {
+        
+        OrganizationUnit bpt = identityBuilder.createOrganizationUnit("bpt");
+        OrganizationUnit epic = identityBuilder.createOrganizationUnit("epic");
+        OrganizationUnit hpi = identityBuilder.createOrganizationUnit("hpi");
+        
+        identityBuilder.subOrganizationUnitOf(bpt, hpi)
+                       .subOrganizationUnitOf(epic, hpi);
+
+        identityBuilder.deleteOrganizationUnit(hpi);
+
+        
+        String failureMessage = "The OrganizationUnit 'hpi' should be deleted, but it is still there.";
+        Assert.assertTrue(identityService.getOrganizationUnits().size() == 2);
+        Assert.assertFalse(identityService.getOrganizationUnits().contains(hpi), failureMessage);
+        
+        failureMessage = "The subordinated OrganizationUnits should not have any Organization.";
+        Assert.assertNull(bpt.getSuperOrganizationUnit(), failureMessage);
+        Assert.assertNull(epic.getSuperOrganizationUnit(), failureMessage);
     }
 
     @Test
@@ -162,6 +203,13 @@ public class BuildingOrganizationUnitTest {
         String failureMessage = "The OrganizationUnit 'bpt' doesnot offer any position.";
         Assert.assertTrue(orgaUnit.getPositions().size() == 0, failureMessage);
 
+    }
+    
+    @Test(expectedExceptions = OryxEngineException.class)
+    public void testNotBeingSuperOrganizationUnitOfYourself() {
+
+        OrganizationUnit organizationUnit = identityBuilder.createOrganizationUnit("bpt");
+        identityBuilder.subOrganizationUnitOf(organizationUnit, organizationUnit);
     }
 
 }

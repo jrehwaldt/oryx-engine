@@ -88,7 +88,7 @@ public class BuildingPositionTest {
 
         identityBuilder.deletePosition(superior);
         
-        String failureMessage = "The OrganizationUnit 'oryx-engine-ober-chef' should be deleted, but it is still there.";
+        String failureMessage = "The Position 'oryx-engine-ober-chef' should be deleted, but it is still there.";
         Assert.assertTrue(identityService.getPositions().size() == 2, failureMessage);
         if (identityService.getPositions().contains(superior)) {
             Assert.fail(failureMessage);
@@ -98,20 +98,4 @@ public class BuildingPositionTest {
         Assert.assertNull(position.getSuperiorPosition(), failureMessage);
         Assert.assertNull(position2.getSuperiorPosition(), failureMessage);
     }
-
-//    @Test
-//    public void testShort() {
-//
-//        Set<Hello> set = new HashSet<Hello>();
-//        Hello h = new Hello("a");
-//        set.add(h);
-//        set.add(new Hello("b"));
-//        
-//        System.out.println(set.size());
-//        
-//        set.add(new Hello("a"));
-//        System.out.println(set.size());
-//    }
-    
-    
 }

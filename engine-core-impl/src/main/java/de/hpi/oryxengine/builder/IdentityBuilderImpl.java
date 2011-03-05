@@ -49,6 +49,13 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public OrganizationUnit createOrganizationUnit(String organizationUnitId) {
 
         OrganizationUnitImpl organizationUnit = new OrganizationUnitImpl(organizationUnitId);
+        
+        for (OrganizationUnitImpl existingOrganizationUnit: identityService.getOrganizationUnitImpls()) {
+            if (existingOrganizationUnit.equals(organizationUnit)) {
+                return existingOrganizationUnit;
+            }
+        }
+
         identityService.getOrganizationUnitImpls().add(organizationUnit);
 
         return organizationUnit;
@@ -134,8 +141,17 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public IdentityBuilder subOrganizationUnitOf(OrganizationUnit subOrganizationUnit,
                                                  OrganizationUnit superOrganizationUnit) {
 
-        // TODO Auto-generated method stub
-        return null;
+        OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) subOrganizationUnit; 
+        OrganizationUnitImpl superOrganizationUnitImpl = (OrganizationUnitImpl) superOrganizationUnit; 
+        if (organizationUnitImpl.equals(superOrganizationUnitImpl)) {
+            throw new OryxEngineException("The OrganizationUnit cannot be the superior of yourself.");
+        }
+        
+        organizationUnitImpl.setSuperOrganizationUnit(superOrganizationUnitImpl);
+        
+        superOrganizationUnitImpl.getChildOrganisationUnitImpls().add(organizationUnitImpl);
+        
+        return this;
     }
 
     /**
@@ -187,7 +203,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         PositionImpl positionImpl = (PositionImpl) position; 
         PositionImpl superiorPositionImpl = (PositionImpl) superiorPosition; 
         if (positionImpl.equals(superiorPositionImpl)) {
-            throw new OryxEngineException("You cannot be the superior of yourself.");
+            throw new OryxEngineException("The Position '" + positionImpl.getId() + "' cannot be the superior of yourself.");
         }
         
         positionImpl.setSuperiorPosition(superiorPosition);
