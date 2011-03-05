@@ -1,6 +1,9 @@
 package de.hpi.oryxengine.ext.rest;
 
-import org.eclipse.jetty.server.Server;
+import javax.annotation.Nonnull;
+
+import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.navigator.NavigatorImpl;
 
 /**
  * This is the main class for a server providing 
@@ -26,11 +29,11 @@ public final class Main {
      * @param args the main constructor arguments
      * @throws Exception thrown if the server was unable to start
      */
-    public static void main(String... args) throws Exception {
-        final Server server = AppContextBuilder.buildServer();
+    public static void main(@Nonnull String... args) throws Exception {
+        final Navigator navigator = new NavigatorImpl();
         
-        server.start();
-        server.join();
+        final WebInterface webInterface = new WebInterface(navigator);
+        webInterface.startBlocking();
     }
     
 }
