@@ -1,6 +1,8 @@
 package de.hpi.oryxengine.resource;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import de.hpi.oryxengine.identity.Participant;
 import de.hpi.oryxengine.identity.Role;
@@ -9,6 +11,13 @@ import de.hpi.oryxengine.identity.Role;
  * @author Gerardo Navarro Suarez
  */
 public class RoleImpl extends ResourceImpl<Role> implements Role {
+
+    Set<ParticipantImpl> participants;
+    
+    public RoleImpl(String roleId) {
+
+        super(roleId);
+    }
 
     @Override
     public Role getSuperRole() {
@@ -25,10 +34,17 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
     }
 
     @Override
-    public List<Participant> getParticipants() {
+    public Set<Participant> getParticipants() {
 
-        // TODO Auto-generated method stub
-        return null;
+        Set<Participant> setToReturn = new HashSet<Participant>(getParticipantImpls());
+        return Collections.unmodifiableSet(setToReturn);
+    }
+    
+    public Set<ParticipantImpl> getParticipantImpls() {
+        if (participants == null) {
+            participants = new HashSet<ParticipantImpl>();
+        }
+        return participants;
     }
 
 }

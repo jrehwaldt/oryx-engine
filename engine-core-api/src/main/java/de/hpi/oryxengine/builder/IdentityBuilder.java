@@ -29,6 +29,7 @@ public interface IdentityBuilder {
      * @return the created participant object
      */
     Participant createParticipant(String participantId);
+    IdentityBuilder deleteParticipant(Participant participant);
 
     /**
      * Creates a new OrganizationUnit.
@@ -57,6 +58,7 @@ public interface IdentityBuilder {
      * @return
      */
     Role createRole(String roleId);
+    IdentityBuilder deleteRole(Role role);
 
     /**
      * Builds a relationship between an OrganizationUnit and a Position which represents that a Position belongs to an
@@ -88,8 +90,10 @@ public interface IdentityBuilder {
     IdentityBuilder subOrganizationUnitOf(OrganizationUnit subOrganizationUnit, OrganizationUnit superOrganizationUnit);
 
     IdentityBuilder participantOccupiesPosition(Participant participant, Position position);
+    IdentityBuilder participantDoesNotOccupyPosition(Participant participant, Position position);
 
     IdentityBuilder participantBelongsToRole(Participant participant, Role role);
+    IdentityBuilder participantDoesNotBelongToRole(Participant participant, Role role);
 
     IdentityBuilder participantHasCapability(Participant participant, Capability capability);
 
@@ -97,6 +101,8 @@ public interface IdentityBuilder {
 
     IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition);
 
-    IdentityService getIdentityStructure();
+    
+
+//    IdentityService getIdentityStructure();
 
 }

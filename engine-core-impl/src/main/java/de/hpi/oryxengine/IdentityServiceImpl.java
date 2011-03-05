@@ -67,11 +67,11 @@ public class IdentityServiceImpl implements IdentityService {
 
     public Set<Participant> getParticipants() {
 
-        Set<Participant> setToReturn = new HashSet<Participant>(getParticipantImpl());
+        Set<Participant> setToReturn = new HashSet<Participant>(getParticipantImpls());
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Set<ParticipantImpl> getParticipantImpl() {
+    public Set<ParticipantImpl> getParticipantImpls() {
         if (participants == null) {
             participants = new HashSet<ParticipantImpl>();
         }
@@ -80,11 +80,11 @@ public class IdentityServiceImpl implements IdentityService {
     
     public Set<Role> getRoles() {
 
-        Set<Role> setToReturn = new HashSet<Role>(getRolesImpl());
+        Set<Role> setToReturn = new HashSet<Role>(getRoleImpls());
         return Collections.unmodifiableSet(setToReturn);
     }
     
-    public Set<RoleImpl> getRolesImpl() {
+    public Set<RoleImpl> getRoleImpls() {
         if (roles == null) {
             roles = new HashSet<RoleImpl>();
         }
@@ -120,4 +120,12 @@ public class IdentityServiceImpl implements IdentityService {
         return find(getPositionImpls(), id);
     }
 
+    public ParticipantImpl findParticipantImpl(String id) {
+        return find(getParticipantImpls(), id);
+    }
+
+    public RoleImpl findRoleImpl(String id) {
+
+        return find(getRoleImpls(), id);
+    }
 }

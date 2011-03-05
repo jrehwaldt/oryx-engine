@@ -15,7 +15,7 @@ import de.hpi.oryxengine.identity.Position;
  */
 public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> implements OrganizationUnit {
 
-    private ArrayList<PositionImpl> positions;
+    private Set<PositionImpl> positions;
     private OrganizationUnit superOrganizationalUnit;
     private Set<OrganizationUnitImpl> childOrganizationUnits;
 
@@ -25,17 +25,17 @@ public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> impleme
         superOrganizationalUnit = null;
     }
 
-    public List<Position> getPositions() {
+    public Set<Position> getPositions() {
 
-        List<Position> positionList = new ArrayList<Position>(getPositionImpls());
-        return Collections.unmodifiableList(positionList);
+        Set<Position> positionList = new HashSet<Position>(getPositionImpls());
+        return Collections.unmodifiableSet(positionList);
     }
 
-    public List<PositionImpl> getPositionImpls() {
+    public Set<PositionImpl> getPositionImpls() {
 
         // TODO Nachschauen, ob es bessere Implmentierung gibt für ArrayList<Position> aus ArrayList<PositionImpl>
         if (positions == null) {
-            positions = new ArrayList<PositionImpl>();
+            positions = new HashSet<PositionImpl>();
         }
         return positions;
     }

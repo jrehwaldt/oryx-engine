@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.identity;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * An Organization Unit is a functional grouping of positions. Common examples might include departments like
@@ -17,6 +17,6 @@ public interface OrganizationUnit extends Resource<OrganizationUnit> {
      * 
      * @return read-only list
      */
-    List<Position> getPositions();
+    Set<Position> getPositions();
 //    OrganizationUnit addPosition(Position position);
 }

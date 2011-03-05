@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.identity;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * A Participants is a resource which a task can be assigned to.
@@ -14,13 +14,15 @@ public interface Participant extends Resource<Participant> {
     /**
      * @return read-only list
      */
-    List<Position> getMyPositions();
+    Set<Position> getMyPositions();
 
     // Participant addMyPosition(Position position);
 
     /**
      * @return read-only list
      */
-    List<Capability> getMyCapabilities();
+    Set<Capability> getMyCapabilities();
     // Participant addMyCapability(Capability capability);
+
+    Set<Role> getMyRoles();
 }

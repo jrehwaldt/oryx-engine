@@ -37,7 +37,7 @@ public class BuildingPositionTest {
     }
 
     @Test
-    public void testOrganizationUnitCreation() {
+    public void testPositionCreation() {
 
         Position position = identityBuilder.createPosition("oryx-engine-chef");
         position.setName("Oryx-Engine-Chef");

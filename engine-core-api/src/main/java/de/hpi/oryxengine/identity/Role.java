@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.identity;
 
-import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -18,5 +18,5 @@ public interface Role extends Resource<Role> {
      * 
      * @return read-only list
      */
-    List<Participant> getParticipants();
+    Set<Participant> getParticipants();
 }
