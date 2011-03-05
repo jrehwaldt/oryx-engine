@@ -1,7 +1,5 @@
 package de.hpi.oryxengine.builder;
 
-import java.util.Set;
-
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.exception.OryxEngineException;
 import de.hpi.oryxengine.identity.Capability;
@@ -52,11 +50,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder deleteParticipant(Participant participant) {
 
-        ParticipantImpl participantImpl = (ParticipantImpl) participant;
-
-        if (!identityService.getParticipantImpls().contains(participant)) {
-            throw new OryxEngineException("There exists no Participant with the id " + participant.getId() + ".");
-        }
+        ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
 
         for (PositionImpl positionImpl : participantImpl.getMyPositionImpls()) {
             positionImpl.setPositionHolder(null);
@@ -136,17 +130,18 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     private ParticipantImpl extractParticipantImplFrom(Participant participant) {
-    
+
         if (participant == null) {
             throw new OryxEngineException("The Participant parameter is null.");
         }
+
         ParticipantImpl participantImpl = (ParticipantImpl) participant;
         if (!identityService.getParticipantImpls().contains(participantImpl)) {
             throw new OryxEngineException("There exists no Participant with the id " + participant.getId() + ".");
         }
         return participantImpl;
     }
-    
+
     // -------- Capability Builder Methods ------------
 
     public Capability createCapability(String capabilityId) {
@@ -181,12 +176,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder deleteOrganizationUnit(OrganizationUnit organizationUnit) {
 
-        OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) organizationUnit;
-
-        if (!identityService.getOrganizationUnitImpls().contains(organizationUnit)) {
-            throw new OryxEngineException("There exists no OrganizationUnit with the id " + organizationUnit.getId()
-                + ".");
-        }
+        OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(organizationUnit);
 
         for (OrganizationUnitImpl childOrganizationUnitImpl : organizationUnitImpl.getChildOrganisationUnitImpls()) {
             childOrganizationUnitImpl.setSuperOrganizationUnit(null);
@@ -207,8 +197,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public IdentityBuilder subOrganizationUnitOf(OrganizationUnit subOrganizationUnit,
                                                  OrganizationUnit superOrganizationUnit) {
 
-        OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) subOrganizationUnit;
-        OrganizationUnitImpl superOrganizationUnitImpl = (OrganizationUnitImpl) superOrganizationUnit;
+        OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(subOrganizationUnit);
+        OrganizationUnitImpl superOrganizationUnitImpl = extractOrganizationUnitImplFrom(superOrganizationUnit);
+        
         if (organizationUnitImpl.equals(superOrganizationUnitImpl)) {
             throw new OryxEngineException("The OrganizationUnit cannot be the superior of yourself.");
         }
@@ -226,20 +217,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder organizationUnitOffersPosition(OrganizationUnit organizationUnit, Position position) {
 
-        extractPositionImplFrom(position);
-        if (organizationUnit == null) {
-            throw new OryxEngineException("The Position parameter is null.");
-        }
-
-        PositionImpl positionImpl = identityService.findPositionImpl(position.getId());
-        if (positionImpl == null) {
-            throw new OryxEngineException("There exists no Position with the id " + position.getId() + ".");
-        }
-        OrganizationUnitImpl organizationUnitImpl = identityService.findOrganizationUnitImpl(organizationUnit.getId());
-        if (organizationUnitImpl == null) {
-            throw new OryxEngineException("There exists no OrganizationUnit with the id " + organizationUnit.getId()
-                + ".");
-        }
+        PositionImpl positionImpl = extractPositionImplFrom(position);
+        OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(organizationUnit);
 
         OrganizationUnitImpl oldOrganizationUnit = (OrganizationUnitImpl) positionImpl.belongstoOrganization();
         if (oldOrganizationUnit != null) {
@@ -257,20 +236,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder organizationUnitDoesNotOfferPosition(OrganizationUnit organizationUnit, Position position) {
 
-        extractPositionImplFrom(position);
-        if (organizationUnit == null) {
-            throw new OryxEngineException("The OrganizationUnit parameter is null.");
-        }
-
-        PositionImpl positionImpl = identityService.findPositionImpl(position.getId());
-        if (positionImpl == null) {
-            throw new OryxEngineException("There exists no Position with the id " + position.getId() + ".");
-        }
-        OrganizationUnitImpl organizationUnitImpl = identityService.findOrganizationUnitImpl(organizationUnit.getId());
-        if (organizationUnitImpl == null) {
-            throw new OryxEngineException("There exists no OrganizationUnit with the id " + organizationUnit.getId()
-                + ".");
-        }
+        PositionImpl positionImpl = extractPositionImplFrom(position);
+        OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(organizationUnit);
 
         positionImpl.belongstoOrganization(null);
         organizationUnitImpl.getPositionImpls().remove(positionImpl);
@@ -278,6 +245,19 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
+    private OrganizationUnitImpl extractOrganizationUnitImplFrom(OrganizationUnit organizationUnit) {
+    
+        if (organizationUnit == null) {
+            throw new OryxEngineException("The Position parameter is null.");
+        }
+    
+        OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) organizationUnit;
+        if (!identityService.getOrganizationUnitImpls().contains(organizationUnitImpl)) {
+            throw new OryxEngineException("There exists no OrganizationUnit with the id " + organizationUnit.getId() + ".");
+        }
+        return organizationUnitImpl;
+    }
+    
     // -------- Position Builder Methods --------------
 
     /**
@@ -304,11 +284,11 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition) {
 
-        PositionImpl positionImpl = (PositionImpl) position;
-        PositionImpl superiorPositionImpl = (PositionImpl) superiorPosition;
+        PositionImpl positionImpl = extractPositionImplFrom(position);
+        PositionImpl superiorPositionImpl = extractPositionImplFrom(superiorPosition);
+
         if (positionImpl.equals(superiorPositionImpl)) {
-            throw new OryxEngineException("The Position '" + positionImpl.getId()
-                + "' cannot be the superior of yourself.");
+            throw new OryxEngineException("The Position '" + positionImpl.getId() + "' cannot be the superior of yourself.");
         }
 
         positionImpl.setSuperiorPosition(superiorPosition);
@@ -321,10 +301,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder deletePosition(Position position) {
 
-        PositionImpl positionImpl = (PositionImpl) position;
-        if (!identityService.getPositionImpls().contains(positionImpl)) {
-            throw new OryxEngineException("There exists no OrganizationUnit with the id " + position.getId() + ".");
-        }
+        PositionImpl positionImpl = extractPositionImplFrom(position);
 
         identityService.getPositionImpls().remove(position);
 
@@ -336,10 +313,11 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     private PositionImpl extractPositionImplFrom(Position position) {
-    
+
         if (position == null) {
             throw new OryxEngineException("The Position parameter is null.");
         }
+        
         PositionImpl positionImpl = (PositionImpl) position;
         if (!identityService.getPositionImpls().contains(positionImpl)) {
             throw new OryxEngineException("There exists no Position with the id " + position.getId() + ".");
@@ -348,7 +326,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     // -------- Role Builder Methods ------------------
-    
+
     /**
      * {@inheritDoc}
      */
@@ -371,11 +349,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder deleteRole(Role role) {
 
-        RoleImpl roleImpl = (RoleImpl) role;
-
-        if (!identityService.getRoleImpls().contains(role)) {
-            throw new OryxEngineException("There exists no Role with the id " + role.getId() + ".");
-        }
+        RoleImpl roleImpl = extractRoleImplFrom(role);
 
         for (ParticipantImpl participantImpl : roleImpl.getParticipantImpls()) {
             participantImpl.getMyRolesImpl().remove(roleImpl);
@@ -396,7 +370,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     private RoleImpl extractRoleImplFrom(Role role) {
-    
+
         if (role == null) {
             throw new OryxEngineException("The Role parameter is null.");
         }
