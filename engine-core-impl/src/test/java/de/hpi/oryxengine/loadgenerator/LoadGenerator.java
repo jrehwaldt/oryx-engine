@@ -135,13 +135,6 @@ public class LoadGenerator {
         long memory = runtime.totalMemory() - runtime.freeMemory();
         this.logger.info(messageString + bytesToMegabytes(memory));
     }
-    
-    /**
-     * Calls the other memorylogmethod with a predefined String.
-     */
-    private void logMemoryUsed() {
-        this.logMemoryUsed("Used memory in megabytes: ");
-    }
 
     /**
      * Execute.
