@@ -22,6 +22,8 @@ public class LoadGenerator {
 
     /** The Constant PROPERTIES_FILE_PATH. */
     private final static String PROPERTIES_FILE_PATH = "/loadgenerator.properties";
+    
+    private static final long MEGABYTE = 1024L * 1024L;
 
     /** The properties. */
     private Properties properties = new Properties();
@@ -30,6 +32,12 @@ public class LoadGenerator {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private SchedulerEmptyListener listener;
+    
+    private Runtime runtime;
+    
+    private int numberOfRuns;
+
+    private long startTime;
 
     /**
      * Instantiates a new load generator.
@@ -41,6 +49,7 @@ public class LoadGenerator {
 
         loadProperties();
         this.listener = SchedulerEmptyListener.getInstance(this);
+        this.runtime = Runtime.getRuntime();
 
     }
 
@@ -74,10 +83,15 @@ public class LoadGenerator {
         return logger;
     }
 
-    /** The number of runs. */
-    private int numberOfRuns;
-
-    private long startTime;
+    /**
+     * Computes megabytes from bystes.
+     * 
+     * @param bytes is the number in bytes which should be converted to MB
+     * @return the number of megabytes computed
+     */
+    public static long bytesToMegabytes(long bytes) {
+        return bytes / MEGABYTE;
+    }
 
     /**
      * Loads the properties file used to configure the loadgenerator.
@@ -106,17 +120,29 @@ public class LoadGenerator {
      */
     public ProcessInstance getExampleProcessInstance() {
 
-        
-
             ExampleProcessInstanceFactory factory = new ExampleProcessInstanceFactory();
             return factory.create();
     }
-
+    
+    /**
+     * Log memory used - it is calculated inaccurately from the VMs heapspace.
+     *
+     * @param messageString the message string which is logged
+     */
+    private void logMemoryUsed(String messageString) {
+        long memory = runtime.totalMemory() - runtime.freeMemory();
+        this.logger.info(messageString + bytesToMegabytes(memory));
+    }
+    
     /**
      * Execute.
      */
     public void execute() {
 
+        // cleanup before we get started
+        this.runtime.gc();
+        // Calculate the used memory (in bytes)
+        this.logMemoryUsed("Used memory in megabytes at the very beginning: ");
         this.logger.info("We start to put our instances into our navigator!");
         NavigatorImpl navigator = new NavigatorImpl();
         navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getInstance(this));
@@ -131,6 +157,7 @@ public class LoadGenerator {
         }
 
         this.logger.info("Finished putting instances into our navigator!");
+        this.logMemoryUsed("Memory used after we put all the instances in our navigator:");
         this.logger.info("The navigator will be started in a millisecond - take the time!");
         this.startTime = System.currentTimeMillis();
         navigator.start();
@@ -147,6 +174,11 @@ public class LoadGenerator {
         long runTime = stopTime - this.startTime;
         this.logger.info("Run time for all our " + Integer.toString(this.getNumberOfRuns()) + " instances: " + runTime
             + "ms");
+        this.logMemoryUsed("Used memory in megabytes (before gc run): ");
+        this.runtime.gc();
+        // Calculate the used memory (in bytes)
+        this.logMemoryUsed("Used memory in megabytes (after gc run): ");
+
 
     }
 
