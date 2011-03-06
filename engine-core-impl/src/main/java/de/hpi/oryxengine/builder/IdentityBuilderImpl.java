@@ -248,7 +248,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     private OrganizationUnitImpl extractOrganizationUnitImplFrom(OrganizationUnit organizationUnit) {
     
         if (organizationUnit == null) {
-            throw new OryxEngineException("The Position parameter is null.");
+            throw new OryxEngineException("The OrganizationUnit parameter is null.");
         }
     
         OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) organizationUnit;
