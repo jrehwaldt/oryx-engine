@@ -78,7 +78,8 @@ extends Thread {
                 scheduler.submitAll(instances);
             } else {
                 try {
-                    logger.debug("Queue empty");
+                    // I simply couldn't take it anymore...
+                    // logger.debug("Queue empty");
                     sleep(SLEEPTIME);
 
                 } catch (InterruptedException e) {
