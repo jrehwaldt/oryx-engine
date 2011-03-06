@@ -120,8 +120,6 @@ public class LoadGenerator {
      */
     public ProcessInstance getExampleProcessInstance() {
 
-        
-
             ExampleProcessInstanceFactory factory = new ExampleProcessInstanceFactory();
             return factory.create();
     }

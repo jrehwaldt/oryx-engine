@@ -68,7 +68,7 @@ public class HashComputationActivity extends AbstractActivity {
      */
     private String bytesToHex(byte[] b) {
         char[] hexDigit = {'0', '1', '2', '3', '4', '5', '6', '7',
-                           '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+                           '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
         StringBuffer buf = new StringBuffer();
         for (int j = 0; j < b.length; j++) {
            buf.append(hexDigit[(b[j] >> MAGIC_BITSHIFT) & MAGIC_FIFTEEN]);
