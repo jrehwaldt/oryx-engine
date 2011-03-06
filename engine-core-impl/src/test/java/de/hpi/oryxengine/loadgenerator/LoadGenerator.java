@@ -137,13 +137,6 @@ public class LoadGenerator {
     }
     
     /**
-     * Calls the other memorylogmethod with a predefined String.
-     */
-    private void logMemoryUsed() {
-        this.logMemoryUsed("Used memory in megabytes: ");
-    }
-
-    /**
      * Execute.
      */
     public void execute() {
