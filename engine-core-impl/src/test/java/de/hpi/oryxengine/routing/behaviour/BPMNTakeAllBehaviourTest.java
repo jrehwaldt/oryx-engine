@@ -1,26 +1,25 @@
 package de.hpi.oryxengine.routing.behaviour;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
+
+import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
+import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
 
+// TODO: Auto-generated Javadoc
 /**
  * The test of the TakeAllBehaviour-activity.
  */
 public class BPMNTakeAllBehaviourTest {
-
-    /** The routing behavior. */
-    private RoutingBehaviour behaviour;
 
     /** The process instance. */
     private ProcessInstance instance;
@@ -44,7 +43,7 @@ public class BPMNTakeAllBehaviourTest {
         Node node = instance.getCurrentNode();
         Node nextNode = node.getTransitions().get(0).getDestination();
 
-        behaviour.execute(instance);
+        executeSplitAndJoin(instance);
 
         assertEquals(instance.getCurrentNode(), nextNode);
     }
@@ -64,15 +63,30 @@ public class BPMNTakeAllBehaviourTest {
      */
     private ProcessInstanceImpl simpleInstance() {
 
-        Activity activity = mock(Activity.class);
-        behaviour = new TakeAllBehaviour();
 
-        NodeImpl node = new NodeImpl(activity, behaviour);
+        Node node = new RoutingBehaviourTestFactory().createWithAndSplit();
         node.setId("1");
-        NodeImpl node2 = new NodeImpl(activity, behaviour);
+        Node node2 = new RoutingBehaviourTestFactory().createWithAndSplit();
         node2.setId("2");
         node.transitionTo(node2);
 
         return new ProcessInstanceImpl(node);
     }
+    
+    /**
+     * Execute split and join.
+     *
+     * @param instance the instance
+     * @return the list
+     */
+    private List<ProcessInstance> executeSplitAndJoin(ProcessInstance instance) {
+        Node node = instance.getCurrentNode();
+        JoinBehaviour incomingBehaviour = node.getIncomingBehaviour();
+        SplitBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
+        
+        List<ProcessInstance> joinedInstances = incomingBehaviour.join(instance);
+        
+        return outgoingBehaviour.split(joinedInstances);
+    }
+    
 }

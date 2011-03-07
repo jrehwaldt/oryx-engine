@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.navigator;
 
+import static org.mockito.Mockito.mock;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.UUID;
@@ -9,12 +11,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
+import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.impl.EmptyRoutingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
+
 
 /**
  * The test for the navigator.
@@ -28,7 +29,7 @@ public class NavigatorTest {
     private NavigatorImpl navigator;
 
     /** Different nodes. */
-    private NodeImpl node, node2;
+    private Node node, node2;
 
     /** The process instance. */
     private ProcessInstanceImpl processInstance;
@@ -55,12 +56,9 @@ public class NavigatorTest {
         navigator = new NavigatorImpl();
         navigator.start();
 
-        RoutingBehaviour takeAllBehaviour = new TakeAllBehaviour();
-        RoutingBehaviour emptyBehaviour = new EmptyRoutingBehaviour();
-        AutomatedDummyActivity activity = new AutomatedDummyActivity("test");
-        node = new NodeImpl(activity, takeAllBehaviour);
+        node = new RoutingBehaviourTestFactory().createWithAndSplit();
         node.setId("1");
-        node2 = new NodeImpl(activity, emptyBehaviour);
+        node2 = mock(Node.class);
         node2.setId("2");
         node.transitionTo(node2);
         processInstance = new ProcessInstanceImpl(node);
@@ -69,7 +67,7 @@ public class NavigatorTest {
 
     /**
     * Test signal length. 
-    * TODO more JavaScript
+    * 
     */
     @Test
     public void testSignalLength() {
