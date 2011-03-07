@@ -4,8 +4,8 @@ import java.util.List;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
 /**
  * The Interface for Nodes. Nodes are hubs in the graph representation of a process.
@@ -32,28 +32,28 @@ public interface Node {
      *
      * @param outgoingBehaviour the new outgoing behaviour
      */
-    void setOutgoingBehaviour(SplitBehaviour outgoingBehaviour);
+    void setOutgoingBehaviour(OutgoingBehaviour outgoingBehaviour);
     
     /**
      * Sets the incoming behaviour.
      *
      * @param incomingBehaviour the new incoming behaviour
      */
-    void setIncomingBehaviour(JoinBehaviour incomingBehaviour);
+    void setIncomingBehaviour(IncomingBehaviour incomingBehaviour);
     
     /**
      * Gets the incoming behaviour.
      *
      * @return the incoming behaviour
      */
-    JoinBehaviour getIncomingBehaviour();
+    IncomingBehaviour getIncomingBehaviour();
     
     /**
      * Gets the outgoing behaviour.
      *
      * @return the outgoing behaviour
      */
-    SplitBehaviour getOutgoingBehaviour();
+    OutgoingBehaviour getOutgoingBehaviour();
 
     /**
      * Next.

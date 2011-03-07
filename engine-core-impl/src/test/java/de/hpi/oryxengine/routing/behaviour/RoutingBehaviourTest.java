@@ -12,8 +12,8 @@ import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
 /**
  * The test of the routing behavior.
@@ -43,8 +43,8 @@ public class RoutingBehaviourTest {
         Node node = instance.getCurrentNode();
         Node nextNode = node.getTransitions().get(0).getDestination();
 
-        JoinBehaviour incomingBehaviour = node.getIncomingBehaviour();
-        SplitBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
+        IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
+        OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
         
         List<ProcessInstance> joinedInstances = incomingBehaviour.join(instance);
         

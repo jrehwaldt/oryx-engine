@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.routing.behaviour.join;
+package de.hpi.oryxengine.routing.behaviour.incoming;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
 /**
  * The Interface JoinBehaviour.
  */
-public interface JoinBehaviour {
+public interface IncomingBehaviour {
 
     /**
      * Join.

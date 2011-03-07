@@ -6,19 +6,19 @@ import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.join.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
-import de.hpi.oryxengine.routing.behaviour.split.impl.TakeAllSplitBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * A factory for creating AbstractNode objects.
  */
 abstract class AbstractNodeFactory {
     /** The behavior. */
-    protected JoinBehaviour incomingBehaviour;
+    protected IncomingBehaviour incomingBehaviour;
     /** The behavior. */
-    protected SplitBehaviour outgoingBehaviour;
+    protected OutgoingBehaviour outgoingBehaviour;
     /** The activity. */
     protected AbstractActivity activity;
 

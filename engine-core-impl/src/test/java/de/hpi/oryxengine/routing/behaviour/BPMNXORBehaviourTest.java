@@ -16,8 +16,8 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.ConditionImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
 /**
  * The test of the TakeAllBehaviour-activity.
@@ -123,8 +123,8 @@ public class BPMNXORBehaviourTest {
     
     private void executeSplitAndJoin(ProcessInstance instance) {
         Node node = instance.getCurrentNode();
-        JoinBehaviour incomingBehaviour = node.getIncomingBehaviour();
-        SplitBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
+        IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
+        OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
         
         List<ProcessInstance> joinedInstances = incomingBehaviour.join(instance);
         
