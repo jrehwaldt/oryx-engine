@@ -7,7 +7,6 @@ import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertEquals;
 
 import org.mockito.ArgumentCaptor;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
