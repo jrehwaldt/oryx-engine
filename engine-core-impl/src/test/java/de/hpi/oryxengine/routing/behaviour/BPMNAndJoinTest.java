@@ -25,7 +25,7 @@ public class BPMNAndJoinTest {
     private Node node1, node2, joinNode, splitNode, node3;
 
     /** The child instance2. */
-    private Token instance, childInstance1, childInstance2;
+    private Token token, childToken1, childToken2;
 
     /**
      * Sets the up.
@@ -33,55 +33,55 @@ public class BPMNAndJoinTest {
     @BeforeMethod
     public void setUp() {
 
-        instance = initializeInstances();
-        List<Token> children = instance.getChildTokens();
-        childInstance1 = children.get(0);
-        childInstance2 = children.get(1);
+        token = initializeTokens();
+        List<Token> children = token.getChildTokens();
+        childToken1 = children.get(0);
+        childToken2 = children.get(1);
     }
 
     /**
-     * Test single instance reached join.
+     * Test single token reached join.
      */
     @Test
-    public void testSingleInstanceReachedJoin() {
+    public void testSingleTokenReachedJoin() {
 
-        childInstance1.setCurrentNode(joinNode);
-        List<Token> newInstances = executeSplitAndJoin(childInstance1);
+        childToken1.setCurrentNode(joinNode);
+        List<Token> newInstances = executeSplitAndJoin(childToken1);
 
         assertEquals(newInstances.size(), 0,
-            "If only one child has reached the And Join, no new instances should be scheduled");
-        assertEquals(childInstance1.getCurrentNode(), joinNode,
+            "If only one child has reached the And Join, no new token should be scheduled");
+        assertEquals(childToken1.getCurrentNode(), joinNode,
             "If only one child has reached the And Join, nothing should happen");
-        assertEquals(instance.getCurrentNode(), splitNode,
-            "If only one child has reached the And Join, the parent instance should not move on");
+        assertEquals(token.getCurrentNode(), splitNode,
+            "If only one child has reached the And Join, the parent token should not move on");
     }
 
     /**
-     * Test all instances reached join.
+     * Test all token reached join.
      */
     @Test
-    public void testAllInstancesReachedJoin() {
+    public void testAllTokensReachedJoin() {
 
-        childInstance1.setCurrentNode(joinNode);
-        childInstance2.setCurrentNode(joinNode);
-        List<Token> newInstances = executeSplitAndJoin(childInstance1);
-        assertEquals(newInstances.size(), 1, "There should only be one new instance");
+        childToken1.setCurrentNode(joinNode);
+        childToken2.setCurrentNode(joinNode);
+        List<Token> newTokens = executeSplitAndJoin(childToken1);
+        assertEquals(newTokens.size(), 1, "There should only be one new token");
 
-        Token newInstance = newInstances.get(0);
-        assertEquals(newInstance, instance,
-            "The new instance should be the parent of the instance that executes the join behaviour");
-        assertEquals(instance.getCurrentNode(), node3,
-            "If only one of the children has reached the And Join, the parent instance should not move on");
+        Token newToken = newTokens.get(0);
+        assertEquals(newToken, token,
+            "The new token should be the parent of the token that executes the join behaviour");
+        assertEquals(token.getCurrentNode(), node3,
+            "If only one of the children has reached the And Join, the parent token should not move on");
     }
 
     // TODO Test with nested and splits and joins to simulate the situation that there are grandparents, etc.
 
     /**
-     * Initialize instances.
+     * Initialize tokens.
      * 
-     * @return the process instance
+     * @return the process token
      */
-    private Token initializeInstances() {
+    private Token initializeTokens() {
 
         splitNode = mock(Node.class);
         node1 = new RoutingBehaviourTestFactory().createWithAndSplit();
@@ -93,25 +93,25 @@ public class BPMNAndJoinTest {
         node3 = new RoutingBehaviourTestFactory().createWithAndSplit();
         joinNode.transitionTo(node3);
 
-        instance = new TokenImpl(splitNode);
-        instance.createChildToken(node1);
-        instance.createChildToken(node2);
-        return instance;
+        token = new TokenImpl(splitNode);
+        token.createChildToken(node1);
+        token.createChildToken(node2);
+        return token;
     }
     
     /**
      * Execute split and join.
      *
-     * @param instance the instance
+     * @param instance the token
      * @return the list
      */
-    private List<Token> executeSplitAndJoin(Token instance) {
-        Node node = instance.getCurrentNode();
+    private List<Token> executeSplitAndJoin(Token token) {
+        Node node = token.getCurrentNode();
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
         
-        List<Token> joinedInstances = incomingBehaviour.join(instance);
+        List<Token> joinedTokens = incomingBehaviour.join(token);
         
-        return outgoingBehaviour.split(joinedInstances);
+        return outgoingBehaviour.split(joinedTokens);
     }
 }

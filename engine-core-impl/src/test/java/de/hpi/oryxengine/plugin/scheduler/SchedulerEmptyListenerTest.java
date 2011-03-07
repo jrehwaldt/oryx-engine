@@ -22,14 +22,14 @@ public class SchedulerEmptyListenerTest {
     private Token pi;
 
     /**
-     * Creates everything that we need (a Scheduler with the Plugin), a processinstance and a mocked loadGenerator.
+     * Creates everything that we need (a Scheduler with the Plugin), a processtoken and a mocked loadGenerator.
      */
     @BeforeTest
     public void setUp() {
 
         scheduler = new FIFOScheduler();
         mockiGene = mock(LoadGenerator.class);
-        scheduler.registerPlugin(SchedulerEmptyListener.getInstance(mockiGene));
+        scheduler.registerPlugin(SchedulerEmptyListener.getToken(mockiGene));
         ExampleProcessTokenFactory factory = new ExampleProcessTokenFactory();
         pi = factory.create();
     }

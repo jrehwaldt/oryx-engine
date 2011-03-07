@@ -38,7 +38,7 @@ extends AbstractSchedulerListener {
      * @param hugene the Load generator we want to report to.
      * @return single instance of SchedulerListEmptyListener
      */
-    public static SchedulerEmptyListener getInstance(LoadGenerator hugene) {
+    public static SchedulerEmptyListener getToken(LoadGenerator hugene) {
         if (myself == null) {
             myself = new SchedulerEmptyListener(hugene);
         }
@@ -46,7 +46,7 @@ extends AbstractSchedulerListener {
     }
     
     @Override
-    public void processInstanceSubmitted(int numberOfInstances, Token token) {
+    public void processInstanceSubmitted(int numberOfTokens, Token token) {
 
         // does nothing
     }
@@ -55,9 +55,9 @@ extends AbstractSchedulerListener {
      * {@inheritDoc}
      */
     @Override
-    public void processInstanceRetrieved(int numberOfInstances, Token token) {
+    public void processInstanceRetrieved(int numberOfTokens, Token token) {
 
-        if (numberOfInstances == 0) {
+        if (numberOfTokens == 0) {
             myself.hugene.schedulerIsEmpty();
         }
 

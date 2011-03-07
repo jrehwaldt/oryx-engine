@@ -24,16 +24,16 @@ public interface SchedulerListener extends Plugin {
     /**
      * This method gets called whenever a process instance is submitted to the scheduler.
      * 
-     * @param numberOfInstances the number of instances the scheduler currently schedules
+     * @param numberOfTokens the number of instances the scheduler currently schedules
      * @param token the process instance that got submitted
      */
-    void processInstanceSubmitted(int numberOfInstances, Token token);
+    void processInstanceSubmitted(int numberOfTokens, Token token);
     
     /**
      * This method gets called whenever a process instance is retreived from the scheduler.
      *
-     * @param numberOfInstances the number of instances the scheduler currently schedules
+     * @param numberOfTokens the number of instances the scheduler currently schedules
      * @param token the process instance that got retrieved
      */
-    void processInstanceRetrieved(int numberOfInstances, Token token);
+    void processInstanceRetrieved(int numberOfTokens, Token token);
 }
