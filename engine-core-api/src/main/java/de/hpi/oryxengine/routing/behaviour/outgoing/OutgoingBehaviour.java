@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.routing.behaviour.split;
+package de.hpi.oryxengine.routing.behaviour.outgoing;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
 /**
  * The Interface SplitBehaviour.
  */
-public interface SplitBehaviour {
+public interface OutgoingBehaviour {
 
     /**
      * Split.

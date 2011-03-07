@@ -6,12 +6,10 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.impl.EmptyRoutingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.join.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
-import de.hpi.oryxengine.routing.behaviour.split.impl.TakeAllSplitBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class AbstractNode. Which is used for the graph representation of a Process
@@ -25,8 +23,8 @@ implements Node {
     private Activity activity;
 
     /** The routing behaviour. E.g. incoming and outgoing transitions. */
-    private SplitBehaviour outgoingBehaviour;
-    private JoinBehaviour incomingBehaviour;
+    private OutgoingBehaviour outgoingBehaviour;
+    private IncomingBehaviour incomingBehaviour;
 
     /** The next node. */
     private List<Transition> transitions;
@@ -41,8 +39,8 @@ implements Node {
      * @param behaviour the behaviour of the node
      */
     public NodeImpl(Activity activity,
-                    JoinBehaviour incomingBehaviour,
-                    SplitBehaviour outgoingBehaviour) {
+                    IncomingBehaviour incomingBehaviour,
+                    OutgoingBehaviour outgoingBehaviour) {
 
         this.activity = activity;
         this.incomingBehaviour = incomingBehaviour;
@@ -51,25 +49,25 @@ implements Node {
     }
     
 
-    public SplitBehaviour getOutgoingBehaviour() {
+    public OutgoingBehaviour getOutgoingBehaviour() {
     
         return outgoingBehaviour;
     }
 
 
-    public void setOutgoingBehaviour(SplitBehaviour outgoingBehaviour) {
+    public void setOutgoingBehaviour(OutgoingBehaviour outgoingBehaviour) {
     
         this.outgoingBehaviour = outgoingBehaviour;
     }
 
 
-    public JoinBehaviour getIncomingBehaviour() {
+    public IncomingBehaviour getIncomingBehaviour() {
     
         return incomingBehaviour;
     }
 
 
-    public void setIncomingBehaviour(JoinBehaviour incomingBehaviour) {
+    public void setIncomingBehaviour(IncomingBehaviour incomingBehaviour) {
     
         this.incomingBehaviour = incomingBehaviour;
     }
