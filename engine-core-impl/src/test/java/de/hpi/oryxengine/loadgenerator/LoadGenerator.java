@@ -41,8 +41,8 @@ public class LoadGenerator {
 
     /**
      * Instantiates a new load generator.
-     * 
-     * @throws FileNotFoundException
+     *
+     * @throws FileNotFoundException if there is no such properties file to be loaded
      */
     LoadGenerator()
     throws FileNotFoundException {

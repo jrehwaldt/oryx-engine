@@ -114,11 +114,8 @@ public class BPMNXORBehaviourTest {
         Condition c = new ConditionImpl(map);
 
         NodeImpl node = new NodeImpl(activity, behaviour);
-        node.setId("1");
         NodeImpl node2 = new NodeImpl(activity, behaviour);
-        node2.setId("2");
         NodeImpl node3 = new NodeImpl(activity, behaviour);
-        node2.setId("3");
         node.transitionToWithCondition(node2, c);
         node.transitionTo(node3);
 

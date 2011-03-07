@@ -95,15 +95,12 @@ public class BPMNAndJoinTest {
         joinBehaviour = new AndJoinGatewayBehaviour();
 
         node1 = new NodeImpl(activity, behaviour);
-        node1.setId("1");
         node2 = new NodeImpl(activity, behaviour);
-        node2.setId("2");
         joinNode = new NodeImpl(activity, joinBehaviour);
         node1.transitionTo(joinNode);
         node2.transitionTo(joinNode);
 
         node3 = new NodeImpl(activity, behaviour);
-        node3.setId("3");
         joinNode.transitionTo(node3);
 
         instance = new ProcessInstanceImpl(splitNode);

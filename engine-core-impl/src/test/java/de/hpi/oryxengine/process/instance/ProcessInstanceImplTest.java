@@ -103,11 +103,8 @@ public class ProcessInstanceImplTest {
         Activity activity = mock(Activity.class);
 
         node = new NodeImpl(activity);
-        node.setId("1");
         node2 = new NodeImpl(activity);
-        node2.setId("2");
         node3 = new NodeImpl(activity);
-        node3.setId("3");
         node.transitionTo(node2);
 
         transitionToTake = node.getTransitions().get(0);

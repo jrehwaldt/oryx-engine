@@ -7,11 +7,13 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
+import de.hpi.oryxengine.util.Identifiable;
 
 /**
  * The Interface for Nodes. Nodes are hubs in the graph representation of a process.
  */
-public interface Node {
+public interface Node
+extends Identifiable {
 
     /**
      * Gets the activity. The activity is the behavior of a node.
@@ -78,21 +80,6 @@ public interface Node {
      * @param c the condition
      */
     void transitionToWithCondition(Node node, Condition c);
-    
-    /**
-     * Gets the id of the node.
-     * 
-     * @return the id
-     */
-    String getId();
-
-    /**
-     * Sets the id of the node.
-     * 
-     * @param id
-     *            the new id
-     */
-    void setId(String id);
 
     /**
      * Execute some sort of behaviour.

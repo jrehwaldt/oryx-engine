@@ -59,9 +59,7 @@ public class NavigatorTest {
         RoutingBehaviour emptyBehaviour = new EmptyRoutingBehaviour();
         AutomatedDummyActivity activity = new AutomatedDummyActivity("test");
         node = new NodeImpl(activity, takeAllBehaviour);
-        node.setId("1");
         node2 = new NodeImpl(activity, emptyBehaviour);
-        node2.setId("2");
         node.transitionTo(node2);
         processInstance = new ProcessInstanceImpl(node);
 
