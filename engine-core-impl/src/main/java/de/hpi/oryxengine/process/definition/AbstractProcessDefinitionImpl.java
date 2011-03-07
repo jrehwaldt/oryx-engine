@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.process.definition;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import de.hpi.oryxengine.process.structure.Node;
 
@@ -8,7 +9,8 @@ import de.hpi.oryxengine.process.structure.Node;
 /**
  * The Class AbstractProcessDefinitionImpl. Our Implementation of a Process Definition it is not really ready yet.
  */
-public abstract class AbstractProcessDefinitionImpl implements ProcessDefinition {
+public abstract class AbstractProcessDefinitionImpl
+implements ProcessDefinition {
 
     // TODO [Gerardo] Was ist denn hieran abstrakt
 
@@ -16,16 +18,13 @@ public abstract class AbstractProcessDefinitionImpl implements ProcessDefinition
     private ArrayList<Node> startNodes;
 
     /** The id. */
-    private String id;
+    private UUID id;
 
     /**
-     * sets the start nodes.
-     *
-     * @param nodes the new start nodes
-     * @see de.hpi.oryxengine.process.definition.ProcessDefinition#setStartNodes(java.util.ArrayList)
+     * {@inheritDoc}
      */
+    @Override
     public void setStartNodes(ArrayList<Node> nodes) {
-
         this.startNodes = nodes;
     }
 
@@ -35,28 +34,15 @@ public abstract class AbstractProcessDefinitionImpl implements ProcessDefinition
      * @return the start nodes
      */
     public ArrayList<Node> getStartNodes() {
-
         return startNodes;
     }
 
     /**
-     * Gets the id.
-     *
-     * @return the id
+     * {@inheritDoc}
      */
-    public String getId() {
-
+    @Override
+    public UUID getID() {
         return id;
-    }
-
-    /**
-     * Sets the id.
-     *
-     * @param s the new id
-     */
-    public void setId(String s) {
-
-        this.id = s;
     }
 
 }

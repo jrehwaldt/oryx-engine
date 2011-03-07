@@ -9,7 +9,8 @@ import de.hpi.oryxengine.process.structure.Node;
  * The Class ProcessDefinitionImpl. 
  * TODO wtf does this class do (ProcessDefinitionImpl)
  */
-public class ProcessDefinitionImpl extends AbstractProcessDefinitionImpl {
+public class ProcessDefinitionImpl
+extends AbstractProcessDefinitionImpl {
 
     /**
      * Instantiates a new process definition impl.
@@ -18,7 +19,6 @@ public class ProcessDefinitionImpl extends AbstractProcessDefinitionImpl {
      *            the start nodes
      */
     public ProcessDefinitionImpl(ArrayList<Node> startNodes) {
-
         this.setStartNodes(startNodes);
     }
 }
