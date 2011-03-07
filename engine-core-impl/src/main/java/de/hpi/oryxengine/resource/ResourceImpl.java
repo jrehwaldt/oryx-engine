@@ -3,37 +3,41 @@ package de.hpi.oryxengine.resource;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.hpi.oryxengine.resource.Position;
-import de.hpi.oryxengine.resource.Resource;
-
 /**
+ * ResourceImpl is the implementation of the {@link Resource} interface.
  * 
- * @author Gery
- * 
- * @param <R>
+ * @param <R> - an interface that extends from Resource
  */
 public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
     protected String resourceId;
+    
     protected String resourceName;
+    
     protected Map<String, Object> propertyTable;
 
-    protected ResourceImpl() {
-
-    }
-
+    /**
+     * Default Constructor.
+     * 
+     * @param id
+     *            - the id of the resource
+     */
     protected ResourceImpl(String id) {
 
         resourceId = id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getId() {
 
         return resourceId;
     }
 
     /**
-     * @return the current instance of the resource {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public R setId(String id) {
@@ -42,35 +46,62 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return extractedThis();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getName() {
 
         return resourceName;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public R setName(String name) {
 
         resourceName = name;
         return extractedThis();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Object getProperty(String propertyId) {
 
         return getPropertyTable().get(propertyId);
     }
 
+    /**
+     * Gets the propertyTable.
+     *
+     * @return the propertyTable
+     */
     protected Map<String, Object> getPropertyTable() {
 
-        if (propertyTable == null)
+        if (propertyTable == null) {
             propertyTable = new HashMap<String, Object>();
+        }
         return propertyTable;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public R setProperty(String propertyKey, Object propertyValue) {
 
         getPropertyTable().put(propertyKey, propertyValue);
         return extractedThis();
     }
 
+    /**
+     * Extracts the current Object.
+     * 
+     * @return the current Object as instance of the sub class
+     */
     @SuppressWarnings("unchecked")
     private R extractedThis() {
 
@@ -78,10 +109,12 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     }
 
     /**
-     * A Position object is equal if their id is the same.
+     * Two Resource objects are equal if IDs are the same.
+     * 
      * 
      * @param objectToCompare
-     *            - if the object is not an Position object then it is treated like any other object
+     *            - if the object is not a Resource object then it is treated like any other object
+     * @return Boolean - saying if the object is the same or not
      */
     @Override
     public boolean equals(Object objectToCompare) {
@@ -94,6 +127,9 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return this.getId().equals(positionToCompare.getId());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
 

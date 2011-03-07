@@ -4,16 +4,22 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Role;
 /**
+ * Implementation of the {@link Role} interface.
  * 
  * @author Gerardo Navarro Suarez
  */
 public class RoleImpl extends ResourceImpl<Role> implements Role {
 
-    Set<ParticipantImpl> participants;
-    
+    /** The participants. */
+    private Set<ParticipantImpl> participants;
+
+    /**
+     * The Default Constructor for the Rolempl.
+     * 
+     * @param roleId
+     *            - the id of the Role
+     */
     public RoleImpl(String roleId) {
 
         super(roleId);
@@ -22,16 +28,14 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
     @Override
     public Role getSuperRole() {
 
-        // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
-    public Role setSuperRole(Role superRole) {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
+    // @Override
+    // public Role setSuperRole(Role superRole) {
+    //
+    // return null;
+    // }
 
     @Override
     public Set<Participant> getParticipants() {
@@ -39,8 +43,14 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
         Set<Participant> setToReturn = new HashSet<Participant>(getParticipantImpls());
         return Collections.unmodifiableSet(setToReturn);
     }
-    
-    public Set<ParticipantImpl> getParticipantImpls() {
+
+    /**
+     * Gets the participant implementations.
+     *
+     * @return the participant implementations
+     */
+    protected Set<ParticipantImpl> getParticipantImpls() {
+
         if (participants == null) {
             participants = new HashSet<ParticipantImpl>();
         }

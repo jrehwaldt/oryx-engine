@@ -16,7 +16,7 @@ public interface IdentityBuilder {
      * Creates a new Capability.
      * 
      * @param capabilityId
-     * @return
+     * @return 
      */
     Capability createCapability(String capabilityId);
 

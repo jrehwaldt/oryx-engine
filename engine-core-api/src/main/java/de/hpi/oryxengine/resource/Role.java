@@ -8,15 +8,25 @@ import java.util.Set;
  * example, a Role could be team XY (representing all participants belonging to that group), the group of all account
  * manager.
  * 
- * @author Gery
+ * A Role could have a superior Role.
+ * 
+ * @author Gerardo Navarro Suarez
  */
 public interface Role extends Resource<Role> {
+
+    /**
+     * Returns the superior Role of the current Role.
+     * 
+     * @return the superior Role of the current Role
+     */
     Role getSuperRole();
-    Role setSuperRole(Role superRole);
+    // Das änder ich vielleicht noch
+    // Role setSuperRole(Role superRole);
     
     /**
+     * Returns a read-only Set of all participants belonging to that Role.
      * 
-     * @return read-only list
+     * @return a read-only Set of all participants belonging to that Role
      */
     Set<Participant> getParticipants();
 }
