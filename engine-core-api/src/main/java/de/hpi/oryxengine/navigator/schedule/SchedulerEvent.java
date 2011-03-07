@@ -8,7 +8,7 @@ import de.hpi.oryxengine.process.token.Token;
  * Please referr to the respective getters for more information.
  */
 public final class SchedulerEvent {
-    private final int numberOfInstances;
+    private final int numberOfTokens;
     private final Token token;
     private final SchedulerAction schedulerAction;
     
@@ -17,12 +17,12 @@ public final class SchedulerEvent {
      *
      * @param schedulerAction the scheduler action
      * @param token the process instance
-     * @param numberOfInstances the number of instances
+     * @param numberOfTokens the number of instances
      */
-    public SchedulerEvent(SchedulerAction schedulerAction, Token token, int numberOfInstances) {
+    public SchedulerEvent(SchedulerAction schedulerAction, Token token, int numberOfTokens) {
         this.schedulerAction = schedulerAction;
         this.token = token;
-        this.numberOfInstances = numberOfInstances;
+        this.numberOfTokens = numberOfTokens;
     }
     
     /**
@@ -30,20 +30,20 @@ public final class SchedulerEvent {
      *
      * @return the number of instances
      */
-    public int getNumberOfInstances() {
+    public int getNumberOfTokens() {
     
-        return numberOfInstances;
+        return numberOfTokens;
     }
     
     /**
-     * Gets the process instance.
-     * If the action was SUBMIT it is the submitted processinstance.
-     * If the action was RETRIEVE it is the retrieved processinstance.
-     * You see, in the altter case this may be null (if the queue is empty)
+     * Gets the process token.
+     * If the action was SUBMIT it is the submitted processtoken.
+     * If the action was RETRIEVE it is the retrieved processtoken.
+     * You see, in the latter case this may be null (if the queue is empty)
      *
      * @return the process instance
      */
-    public Token getProcessInstance() {
+    public Token getProcessToken() {
     
         return token;
     }
@@ -66,7 +66,7 @@ public final class SchedulerEvent {
     @Override
     public String toString() {
 
-        return "SchedulerEvent [numberOfInstances=" + numberOfInstances + "schedulerAction=" + schedulerAction + "]";
+        return "SchedulerEvent [numberOfTokens=" + numberOfTokens + "schedulerAction=" + schedulerAction + "]";
     }
     
 

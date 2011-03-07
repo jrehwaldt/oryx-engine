@@ -48,7 +48,7 @@ public class LoadGenerator {
     throws FileNotFoundException {
 
         loadProperties();
-        this.listener = SchedulerEmptyListener.getInstance(this);
+        this.listener = SchedulerEmptyListener.getToken(this);
         this.runtime = Runtime.getRuntime();
 
     }
@@ -145,7 +145,7 @@ public class LoadGenerator {
         this.logMemoryUsed("Used memory in megabytes at the very beginning: ");
         this.logger.info("We start to put our instances into our navigator!");
         NavigatorImpl navigator = new NavigatorImpl();
-        navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getInstance(this));
+        navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getToken(this));
 
         for (int i = 0; i < this.getNumberOfRuns(); i++) {
             TokenImpl p = (TokenImpl) this.getExampleProcessInstance();

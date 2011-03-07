@@ -31,7 +31,7 @@ public class NavigatorTest {
     private Node node, node2;
 
     /** The process instance. */
-    private TokenImpl processInstance;
+    private TokenImpl processToken;
 
     /** The byte array output stream. */
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -58,7 +58,7 @@ public class NavigatorTest {
         node = new RoutingBehaviourTestFactory().createWithAndSplit();
         node2 = mock(Node.class);
         node.transitionTo(node2);
-        processInstance = new TokenImpl(node);
+        processToken = new TokenImpl(node);
 
     }
 
@@ -69,7 +69,7 @@ public class NavigatorTest {
     @Test
     public void testSignalLength() {
         
-        navigator.startArbitraryInstance(UUID.randomUUID(), processInstance);
+        navigator.startArbitraryInstance(UUID.randomUUID(), processToken);
 
         // this is not so nice, but I am not sure how to test correctly with parrallel behaviour
         try {
@@ -77,7 +77,7 @@ public class NavigatorTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(processInstance.getCurrentNode(), node2);
+        Assert.assertEquals(processToken.getCurrentNode(), node2);
         // assert processInstance.getCurrentNode().getId().equals("2");
 
     }

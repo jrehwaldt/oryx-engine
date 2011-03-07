@@ -19,8 +19,8 @@ import de.hpi.oryxengine.process.token.Token;
 public class FIFOSchedulerTest {
 
     private FIFOScheduler scheduler;
-    private Token firstInstance;
-    private Token secondInstance;
+    private Token firstToken;
+    private Token secondToken;
 
     /**
      * Before test.
@@ -30,8 +30,8 @@ public class FIFOSchedulerTest {
 
         scheduler = new FIFOScheduler();
         ExampleProcessTokenFactory factory = new ExampleProcessTokenFactory();
-        firstInstance = factory.create();
-        secondInstance = factory.create();
+        firstToken = factory.create();
+        secondToken = factory.create();
     }
 
     /**
@@ -40,8 +40,8 @@ public class FIFOSchedulerTest {
     @Test
     public void testSubmitAndRetrieve() {
 
-        scheduler.submit(firstInstance);
-        assertEquals(scheduler.retrieve(), firstInstance,
+        scheduler.submit(firstToken);
+        assertEquals(scheduler.retrieve(), firstToken,
             "We submitted something and immideatly retrieved it, but didn't get the same thing back.");
     }
 
@@ -51,7 +51,7 @@ public class FIFOSchedulerTest {
     @Test
     public void testSubmitAndEmpty() {
 
-        scheduler.submit(firstInstance);
+        scheduler.submit(firstToken);
         assertFalse(scheduler.isEmpty(), "Scheduler is empty after something got submitted.");
 
     }
@@ -71,9 +71,9 @@ public class FIFOSchedulerTest {
     @Test
     public void testTwoSubmitsAndRetrieve() {
 
-        scheduler.submit(firstInstance);
-        scheduler.submit(secondInstance);
-        assertEquals(scheduler.retrieve(), firstInstance,
+        scheduler.submit(firstToken);
+        scheduler.submit(secondToken);
+        assertEquals(scheduler.retrieve(), firstToken,
             "FIFO not working correctly, expected the that the first submitted gets retrieved");
     }
     
@@ -83,10 +83,10 @@ public class FIFOSchedulerTest {
     @Test
     public void testTwoSubmitsAndTwoRetrieves() {
 
-        scheduler.submit(firstInstance);
-        scheduler.submit(secondInstance);
+        scheduler.submit(firstToken);
+        scheduler.submit(secondToken);
         scheduler.retrieve();
-        assertEquals(scheduler.retrieve(), secondInstance,
+        assertEquals(scheduler.retrieve(), secondToken,
             "FIFO not working correctly");
     }
     
@@ -96,12 +96,12 @@ public class FIFOSchedulerTest {
     @Test
     public void testSubmitAll() {
         List<Token> processList = new LinkedList<Token>();
-        processList.add(firstInstance);
-        processList.add(secondInstance);
+        processList.add(firstToken);
+        processList.add(secondToken);
         scheduler.submitAll(processList);
         assertFalse(scheduler.isEmpty(), "Ohoh scheduler is emtpy after submitting a list of 2 process instances");
-        assertEquals(scheduler.retrieve(), firstInstance, "Fifo not working with submit all");
-        assertEquals(scheduler.retrieve(), secondInstance, "Fifo not working with submit all");
+        assertEquals(scheduler.retrieve(), firstToken, "Fifo not working with submit all");
+        assertEquals(scheduler.retrieve(), secondToken, "Fifo not working with submit all");
     }
 
 }

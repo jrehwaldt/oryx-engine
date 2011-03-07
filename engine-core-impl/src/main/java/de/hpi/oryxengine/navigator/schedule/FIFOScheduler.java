@@ -17,7 +17,7 @@ import de.hpi.oryxengine.process.token.Token;
 public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> implements Scheduler {
 
     /** The process instances we would like to schedule. */
-    private List<Token> processinstances;
+    private List<Token> processtokens;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -25,8 +25,8 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
      */
     public FIFOScheduler() {
 
-        processinstances = new LinkedList<Token>();
-        processinstances = Collections.synchronizedList(processinstances);
+        processtokens = new LinkedList<Token>();
+        processtokens = Collections.synchronizedList(processtokens);
     }
 
     /**
@@ -37,8 +37,8 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
     @Override
     public void submit(Token p) {
 
-        changed(new SchedulerEvent(SchedulerAction.SUBMIT, p, processinstances.size()));
-        processinstances.add(p);
+        changed(new SchedulerEvent(SchedulerAction.SUBMIT, p, processtokens.size()));
+        processtokens.add(p);
     }
 
     /**
@@ -47,27 +47,27 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
      */
     @Override
     public Token retrieve() {
-        Token removedInstance;
-        synchronized (this.processinstances) {
-            if (this.processinstances.isEmpty()) {
+        Token removedToken;
+        synchronized (this.processtokens) {
+            if (this.processtokens.isEmpty()) {
                 return null;
             }
-            removedInstance = processinstances.remove(0);
+            removedToken = processtokens.remove(0);
             
         }
-        changed(new SchedulerEvent(SchedulerAction.RETRIEVE, removedInstance, processinstances.size()));
-        return removedInstance;
+        changed(new SchedulerEvent(SchedulerAction.RETRIEVE, removedToken, processtokens.size()));
+        return removedToken;
     }
     
     public boolean isEmpty(){
-        return this.processinstances.isEmpty();
+        return this.processtokens.isEmpty();
     }
 
 
     @Override
     // TODO right now we dont care about submitAll plugin/Observerwise
-    public void submitAll(List<Token> listOfInstances) {
-        this.processinstances.addAll(listOfInstances);  
+    public void submitAll(List<Token> listOfTokens) {
+        this.processtokens.addAll(listOfTokens);  
     }
     
     /**

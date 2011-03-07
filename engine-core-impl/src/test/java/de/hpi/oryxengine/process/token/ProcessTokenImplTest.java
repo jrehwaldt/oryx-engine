@@ -22,7 +22,7 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 public class ProcessTokenImplTest {
 
     /** The process instance. */
-    private Token instance;
+    private Token token;
 
     /** Different Nodes. */
     private NodeImpl node, node2, node3;
@@ -37,42 +37,42 @@ public class ProcessTokenImplTest {
     @BeforeTest
     public void setUp() {
 
-        instance = simpleInstance();
+        token = simpleToken();
     }
 
     /**
      * Test for taking all transitions.
      * TODO see if description is correct
-     * Two new instances shall be ready for execution if the parent instance goes along all edges.
-     * Both of them should have the same parent instance.
-     * The new instances should then point to the succeeding nodes of the parent instances' node.
+     * Two new tokens shall be ready for execution if the parent token goes along all edges.
+     * Both of them should have the same parent token.
+     * The new tokens should then point to the succeeding nodes of the parent token's node.
      * @throws Exception 
      */
     @Test
     public void testTakeAllTransitions() throws Exception {
 
         List<Node> nodeList = new ArrayList<Node>();
-        Node currentNode = instance.getCurrentNode();
+        Node currentNode = token.getCurrentNode();
         for (Transition transition : currentNode.getTransitions()) {
             nodeList.add(transition.getDestination());
         }
         
-        List<Token> newInstances = instance.navigateTo(nodeList);
-        assertEquals(newInstances.size(), 2, "You should have two new process instances");
+        List<Token> newTokens = token.navigateTo(nodeList);
+        assertEquals(newTokens.size(), 2, "You should have two new process tokens");
 
-        for (Token newInstance : newInstances) {
-            assertEquals(newInstance.getParentToken(), instance, "The new instances "
-                + "should have the instance that reached the split node as a parent");
+        for (Token newToken : newTokens) {
+            assertEquals(newToken.getParentToken(), token, "The new instances "
+                + "should have the token that reached the split node as a parent");
         }
 
         Node[] currentNodes = new Node[2];
         for (int i = 0; i < 2; i++) {
-            currentNodes[i] = newInstances.get(i).getCurrentNode();
+            currentNodes[i] = newTokens.get(i).getCurrentNode();
         }
 
         Node[] expectedCurrentNodes = {node2, node3};
         assertEqualsNoOrder(currentNodes, expectedCurrentNodes,
-            "The new instances should point to the following nodes.");
+            "The new tokens should point to the following nodes.");
     }
 
     /**
@@ -85,22 +85,22 @@ public class ProcessTokenImplTest {
 
         List<Node> nodeList = new ArrayList<Node>();
         nodeList.add(transitionToTake.getDestination());
-        List<Token> newInstances = instance.navigateTo(nodeList);
-        assertEquals(newInstances.size(), 1, "You should have a single process instance.");
+        List<Token> newTokens = token.navigateTo(nodeList);
+        assertEquals(newTokens.size(), 1, "You should have a single process token.");
 
-        Token newInstance = newInstances.get(0);
-        assertEquals(newInstance, instance,
-            "The instance should be the same, no child instance or something like that.");
-        assertEquals(newInstance.getCurrentNode(), node2, "The instance should have moved on.");
+        Token newToken = newTokens.get(0);
+        assertEquals(newToken, token,
+            "The token should be the same, no child instance or something like that.");
+        assertEquals(newToken.getCurrentNode(), node2, "The token should have moved on.");
     }
 
     /**
-     * Simple instance.
+     * Simple token.
      * TODO more JavaDoc description
      * 
      * @return the process instance impl
      */
-    private TokenImpl simpleInstance() {
+    private TokenImpl simpleToken() {
 
         Activity activity = mock(Activity.class);
 
