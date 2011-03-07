@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.resource;
 
-import de.hpi.oryxengine.identity.Capability;
+import de.hpi.oryxengine.resource.Capability;
 
 /**
  * 

@@ -1,17 +1,13 @@
-package de.hpi.oryxengine.builder;
+package de.hpi.oryxengine.resource;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.exception.OryxEngineException;
-import de.hpi.oryxengine.identity.Capability;
-import de.hpi.oryxengine.identity.OrganizationUnit;
-import de.hpi.oryxengine.identity.Participant;
-import de.hpi.oryxengine.identity.Position;
-import de.hpi.oryxengine.identity.Role;
-import de.hpi.oryxengine.resource.CapabilityImpl;
-import de.hpi.oryxengine.resource.OrganizationUnitImpl;
-import de.hpi.oryxengine.resource.ParticipantImpl;
-import de.hpi.oryxengine.resource.PositionImpl;
-import de.hpi.oryxengine.resource.RoleImpl;
+import de.hpi.oryxengine.resource.Capability;
+import de.hpi.oryxengine.resource.IdentityBuilder;
+import de.hpi.oryxengine.resource.OrganizationUnit;
+import de.hpi.oryxengine.resource.Participant;
+import de.hpi.oryxengine.resource.Position;
+import de.hpi.oryxengine.resource.Role;
 
 /**
  * 
@@ -21,6 +17,12 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     private IdentityServiceImpl identityService;
 
+    /**
+     * Default Constructor.
+     * 
+     * @param identityServiceImpl
+     *            - the IdentityServiceImpl where to build the organization structure on
+     */
     public IdentityBuilderImpl(IdentityServiceImpl identityServiceImpl) {
 
         identityService = identityServiceImpl;
@@ -47,6 +49,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return participant;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IdentityBuilder deleteParticipant(Participant participant) {
 
@@ -82,6 +87,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IdentityBuilder participantDoesNotOccupyPosition(Participant participant, Position position) {
 
@@ -99,7 +107,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder participantHasCapability(Participant participant, Capability capability) {
 
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -118,6 +125,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IdentityBuilder participantDoesNotBelongToRole(Participant participant, Role role) {
 
@@ -129,6 +139,15 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
+    /**
+     * Translates a Participant into a corresponding ParticipantImpl object.
+     * 
+     * Furthermore some constrains are checked.
+     * 
+     * @param participant
+     *            - a Participant object
+     * @return participantImpl - the casted Participant object
+     */
     private ParticipantImpl extractParticipantImplFrom(Participant participant) {
 
         if (participant == null) {
@@ -173,6 +192,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return organizationUnit;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IdentityBuilder deleteOrganizationUnit(OrganizationUnit organizationUnit) {
 
@@ -199,7 +221,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
         OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(subOrganizationUnit);
         OrganizationUnitImpl superOrganizationUnitImpl = extractOrganizationUnitImplFrom(superOrganizationUnit);
-        
+
         if (organizationUnitImpl.equals(superOrganizationUnitImpl)) {
             throw new OryxEngineException("The OrganizationUnit cannot be the superior of yourself.");
         }
@@ -245,19 +267,29 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
+    /**
+     * Translates a OrganizationUnit into a corresponding OrganizationUnitImpl object.
+     * 
+     * Furthermore some constrains are checked.
+     * 
+     * @param organizationUnit
+     *            - a OrganizationUnit object
+     * @return organizationUnitImpl - the casted OrganizationUnit object
+     */
     private OrganizationUnitImpl extractOrganizationUnitImplFrom(OrganizationUnit organizationUnit) {
-    
+
         if (organizationUnit == null) {
             throw new OryxEngineException("The OrganizationUnit parameter is null.");
         }
-    
+
         OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) organizationUnit;
         if (!identityService.getOrganizationUnitImpls().contains(organizationUnitImpl)) {
-            throw new OryxEngineException("There exists no OrganizationUnit with the id " + organizationUnit.getId() + ".");
+            throw new OryxEngineException("There exists no OrganizationUnit with the id " + organizationUnit.getId()
+                + ".");
         }
         return organizationUnitImpl;
     }
-    
+
     // -------- Position Builder Methods --------------
 
     /**
@@ -288,7 +320,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         PositionImpl superiorPositionImpl = extractPositionImplFrom(superiorPosition);
 
         if (positionImpl.equals(superiorPositionImpl)) {
-            throw new OryxEngineException("The Position '" + positionImpl.getId() + "' cannot be the superior of yourself.");
+            throw new OryxEngineException("The Position '" + positionImpl.getId()
+                + "' cannot be the superior of yourself.");
         }
 
         positionImpl.setSuperiorPosition(superiorPosition);
@@ -312,12 +345,21 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
+    /**
+     * Translates a Position into a corresponding PositionImpl object.
+     * 
+     * Furthermore some constrains are checked.
+     * 
+     * @param position
+     *            - a Position object
+     * @return positionImpl - the casted Position object
+     */
     private PositionImpl extractPositionImplFrom(Position position) {
 
         if (position == null) {
             throw new OryxEngineException("The Position parameter is null.");
         }
-        
+
         PositionImpl positionImpl = (PositionImpl) position;
         if (!identityService.getPositionImpls().contains(positionImpl)) {
             throw new OryxEngineException("There exists no Position with the id " + position.getId() + ".");
@@ -346,6 +388,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return role;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IdentityBuilder deleteRole(Role role) {
 
@@ -369,6 +414,15 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return null;
     }
 
+    /**
+     * Translates a Role into a corresponding RoleImpl object.
+     * 
+     * Furthermore some constrains are checked.
+     * 
+     * @param role
+     *            - a Role object
+     * @return roleImpl - the casted Role objent
+     */
     private RoleImpl extractRoleImplFrom(Role role) {
 
         if (role == null) {

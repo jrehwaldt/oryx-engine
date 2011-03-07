@@ -4,17 +4,17 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.hpi.oryxengine.builder.IdentityBuilder;
-import de.hpi.oryxengine.builder.IdentityBuilderImpl;
-import de.hpi.oryxengine.identity.OrganizationUnit;
-import de.hpi.oryxengine.identity.Participant;
-import de.hpi.oryxengine.identity.Position;
-import de.hpi.oryxengine.identity.Role;
 import de.hpi.oryxengine.resource.CapabilityImpl;
+import de.hpi.oryxengine.resource.IdentityBuilder;
+import de.hpi.oryxengine.resource.IdentityBuilderImpl;
+import de.hpi.oryxengine.resource.OrganizationUnit;
 import de.hpi.oryxengine.resource.OrganizationUnitImpl;
+import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.ParticipantImpl;
+import de.hpi.oryxengine.resource.Position;
 import de.hpi.oryxengine.resource.PositionImpl;
 import de.hpi.oryxengine.resource.ResourceImpl;
+import de.hpi.oryxengine.resource.Role;
 import de.hpi.oryxengine.resource.RoleImpl;
 
 /**

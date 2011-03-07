@@ -67,11 +67,9 @@ extends Thread {
 
             // This has to be an atomic operation on toNavigate, otherwise
             // an IndexOutOfBoundsException might occur
-            synchronized (this.scheduler) {
-                if (!this.scheduler.isEmpty()) {
-                    instance = this.scheduler.retrieve();
-                }
-            }
+            
+            instance = this.scheduler.retrieve();
+
 
             if (instance != null) {
                 List<ProcessInstance> instances = instance.executeStep();

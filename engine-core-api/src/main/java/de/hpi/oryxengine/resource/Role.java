@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.identity;
+package de.hpi.oryxengine.resource;
 
 import java.util.Set;
 

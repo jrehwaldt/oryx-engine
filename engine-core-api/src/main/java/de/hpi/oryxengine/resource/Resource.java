@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.identity;
+package de.hpi.oryxengine.resource;
 
 /**
  * Represents a resource that is part of the enterprise's organization strucuture.

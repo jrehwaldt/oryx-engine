@@ -13,6 +13,7 @@ import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
  */
@@ -28,6 +29,7 @@ implements Navigator {
     private HashMap<UUID, AbstractProcessDefinitionImpl> loadedDefinitions;
 
     
+    /** The scheduler. */
     private FIFOScheduler scheduler;
 
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
@@ -36,7 +38,11 @@ implements Navigator {
     /** The Constant NUMBER_OF_NAVIGATOR_THREADS. */
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
     
+    /** The state. */
     private NavigatorState state;
+    
+    /** The counter. */
+    private int counter;
     
     /**
      * Instantiates a new navigator impl.
@@ -49,6 +55,7 @@ implements Navigator {
         scheduler = new FIFOScheduler();
         executionThreads = new ArrayList<NavigationThread>();
         state = NavigatorState.INIT;
+        counter = 0;
     }
 
     /**
@@ -60,12 +67,22 @@ implements Navigator {
         
         // "Gentlemen, start your engines"
         for (int i = 0; i < NUMBER_OF_NAVIGATOR_THREADS; i++) {
-            NavigationThread thread = new NavigationThread(String.format("NT %d", i), scheduler);
-            thread.start();
-            executionThreads.add(thread);
+            increaseSpeed();
         }
         
         changeState(NavigatorState.RUNNING);
+    }
+    
+    /**
+     * Adds speed.
+     *
+     * 
+     */
+    public void increaseSpeed() {
+        NavigationThread thread = new NavigationThread(String.format("NT %d", counter), scheduler);
+        thread.start();
+        executionThreads.add(thread);
+        counter++;
     }
 
     /**
@@ -181,6 +198,9 @@ implements Navigator {
     }
     
     /**
+     * To string.
+     *
+     * @return the string
      * {@inheritDoc}
      */
     @Override

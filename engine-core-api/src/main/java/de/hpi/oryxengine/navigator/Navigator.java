@@ -23,6 +23,11 @@ public interface Navigator {
      *            the id of the instance that is to be stopped
      */
     void stopProcessInstance(UUID instanceID);
+    
+    /**
+     * Increase speed.
+     */
+    void increaseSpeed();
 
     /**
      * Gets the current instance state.
