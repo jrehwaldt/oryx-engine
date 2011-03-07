@@ -9,7 +9,9 @@ import de.hpi.oryxengine.activity.impl.MailingVariable;
 import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
 import de.hpi.oryxengine.activity.impl.StartActivity;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.plugin.ActivityLifecycleLogger;
+import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
+import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
+import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
@@ -37,20 +39,20 @@ public final class ExampleProcessForReview {
      */
     public static void main(String[] args)
     throws InterruptedException {
-
+        
         // the main
-
         NavigatorImpl navigator = new NavigatorImpl();
+        navigator.registerPlugin(NavigatorListenerLogger.getInstance());
         navigator.start();
-
+        
         ProcessInstanceImpl instance = processInstanceForReview();
         navigator.startArbitraryInstance(UUID.randomUUID(), instance);
-
+        
         Thread.sleep(SLEEP_TIME);
-
+        
         navigator.stop();
     }
-
+    
     /**
      * Creates the processinstance for the reviewProcess.
      * 
@@ -61,7 +63,7 @@ public final class ExampleProcessForReview {
         /*
          * The process looks like this: start => calc5Plus5 => printResult => mailingTheResult => end
          */
-        ActivityLifecycleLogger lifecycleLogger = ActivityLifecycleLogger.getInstance();
+        AbstractActivityLifecyclePlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
         
         AbstractActivity start = new StartActivity();
         AbstractActivity calc5Plus5 = new AddNumbersAndStoreActivity("result", 5, 5);

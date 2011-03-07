@@ -92,7 +92,9 @@
       <property name="protectedAllowed" value="true"/>
     </module>
     <module name="ArrayTypeStyle"/>
-    <module name="TodoComment"/>
+    <module name="TodoComment">
+      <property name="format" value="TODO"/>
+    </module>
     <module name="UpperEll"/>
     <module name="CovariantEquals"/>
     <module name="DefaultComesLast"/>

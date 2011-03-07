@@ -89,7 +89,7 @@ public class BPMNAndJoinTest {
      */
     private ProcessInstance initializeInstances() {
 
-        Activity<?> activity = mock(Activity.class);
+        Activity activity = mock(Activity.class);
         splitNode = mock(Node.class);
         behaviour = new TakeAllBehaviour();
         joinBehaviour = new AndJoinGatewayBehaviour();

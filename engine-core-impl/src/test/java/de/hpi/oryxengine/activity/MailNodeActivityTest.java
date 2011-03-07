@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.activity;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.Iterator;
 
@@ -21,20 +22,18 @@ import de.hpi.oryxengine.process.structure.Node;
  */
 public class MailNodeActivityTest {
   
-  /** The mailernode. */
   private Node mailernode;
   
-  /** The p. */
   private ProcessInstance p;
   
-  /** The maily. */
   private SimpleSmtpServer maily;
   
-  /** The SMTP port. */
   private final static int SMTP_PORT = 2525;
   
   /**
-   * Sets the up.
+   * Set up.
+   * Creates a process instance, a mailing node, sets the to-be-sent message
+   * and starts the SMTP server on the given port. 
    */
   @BeforeTest
   public void setUp() {
@@ -57,6 +56,6 @@ public class MailNodeActivityTest {
       assertEquals(maily.getReceivedEmailSize(), 1, "Upps we didn't receive an email.. too bad");
       Iterator<SmtpMessage> emailIter = maily.getReceivedEmail();
       SmtpMessage email = (SmtpMessage) emailIter.next();
-      assertEquals(email.getBody().contains("Roflcopter123!"), true, "No Roflcopter on the fly...");
+      assertTrue(email.getBody().contains("Roflcopter123!"), "No Roflcopter on the fly...");
   }
 }

@@ -1,7 +1,8 @@
-package de.hpi.oryxengine.navigatortest;
+package de.hpi.oryxengine.navigator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Properties;
 import java.util.UUID;
 
 import org.testng.Assert;
@@ -10,7 +11,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
-import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
@@ -74,7 +74,7 @@ public class NavigatorTest {
     */
     @Test
     public void testSignalLength() {
-
+        
         navigator.startArbitraryInstance(UUID.randomUUID(), processInstance);
 
         // this is not so nice, but I am not sure how to test correctly with parrallel behaviour

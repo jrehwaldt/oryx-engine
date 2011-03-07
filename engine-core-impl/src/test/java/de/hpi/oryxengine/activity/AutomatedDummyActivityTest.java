@@ -36,7 +36,6 @@ public class AutomatedDummyActivityTest {
 
     /**
      * Set up.
-     * TODO more JavaDoc description
      * @throws Exception
      *             the exception
      */
@@ -85,7 +84,7 @@ public class AutomatedDummyActivityTest {
     public void testStateAfterExecution() {
 
         a.execute(processInstance);
-        assertEquals(a.getState(), ExecutionState.COMPLETED, "It should have the state Completed");
+        assertEquals(a.getState(), ActivityState.COMPLETED, "It should have the state Completed");
     }
 
     /**

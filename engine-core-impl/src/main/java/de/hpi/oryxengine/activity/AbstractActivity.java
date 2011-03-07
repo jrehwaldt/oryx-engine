@@ -1,24 +1,22 @@
 package de.hpi.oryxengine.activity;
 
-import java.util.Observable;
-
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.plugin.AbstractActivityLifecyclePlugin;
-import de.hpi.oryxengine.plugin.ActivityLifecycleChangeEvent;
+import de.hpi.oryxengine.plugin.AbstractPluggable;
+import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
+import de.hpi.oryxengine.plugin.activity.ActivityLifecycleChangeEvent;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-
 
 /**
  * The Class AbstractActivityImpl.
  * An activity is the behaviour of a node. So to say what it does.
  */
 public abstract class AbstractActivity
-extends Observable
-implements Activity<AbstractActivityLifecyclePlugin> {
+extends AbstractPluggable<AbstractActivityLifecyclePlugin>
+implements Activity {
     
     // TODO Refactor: move activity state into ProcessInstance
-    private ExecutionState state = ExecutionState.INIT;
+    private ActivityState state = ActivityState.INIT;
     
     /**
      * Instantiates a new activity. State is set to INIT, but observers will not
@@ -33,7 +31,7 @@ implements Activity<AbstractActivityLifecyclePlugin> {
      * {@inheritDoc}
      */
     @Override
-    public @Nonnull ExecutionState getState() {
+    public @Nonnull ActivityState getState() {
         return state;
     }
     
@@ -44,8 +42,8 @@ implements Activity<AbstractActivityLifecyclePlugin> {
      * @param state the new state
      */
     private void changeState(@Nonnull ProcessInstance instance,
-                             @Nonnull ExecutionState state) {
-        final ExecutionState prevState = this.state;
+                             @Nonnull ActivityState state) {
+        final ActivityState prevState = this.state;
         this.state = state;
         setChanged();
         notifyObservers(new ActivityLifecycleChangeEvent(this, prevState, this.state, instance));
@@ -56,9 +54,9 @@ implements Activity<AbstractActivityLifecyclePlugin> {
      */
     @Override
     public final void execute(@Nonnull ProcessInstance instance) {
-        changeState(instance, ExecutionState.ACTIVE);
+        changeState(instance, ActivityState.ACTIVE);
         executeIntern(instance);
-        changeState(instance, ExecutionState.COMPLETED);
+        changeState(instance, ActivityState.COMPLETED);
     }
     
     /**

@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
+import de.hpi.oryxengine.monitor.Monitor;
+import de.hpi.oryxengine.monitor.MonitorGUI;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
@@ -16,12 +18,12 @@ import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
  * The Class SimpleExampleProcess. It really is just a simple example process.
  */
 public final class SimpleExampleProcess {
-    
+
     /** Hidden constructor. */
     private SimpleExampleProcess() {
-        
+
     }
-    
+
     /**
      * The Constant INSTANCE_COUNT. Which determines the number of instances which will be run when the main is
      * executed.
@@ -40,13 +42,20 @@ public final class SimpleExampleProcess {
     public static void main(String[] args) {
 
         NavigatorImpl navigator = new NavigatorImpl();
+        MonitorGUI monitorGUI = MonitorGUI.start(INSTANCE_COUNT);
+        Monitor monitor = new Monitor(monitorGUI);
+        navigator.getScheduler().registerPlugin(monitor);
         navigator.start();
 
         // let's generate some load :)
         LOGGER.info("Engine started");
         for (int i = 0; i < INSTANCE_COUNT; i++) {
             ProcessInstanceImpl instance = sampleProcessInstance(i);
+            if (i == 234000 || i == 100000 || i == 500000 || i == 800000) {
+                monitor.markSingleInstance(instance);
+            }
             navigator.startArbitraryInstance(UUID.randomUUID(), instance);
+
             if (i % INSTANCE_COUNT == 0) {
                 LOGGER.debug("Started {} Instances", i);
             }
