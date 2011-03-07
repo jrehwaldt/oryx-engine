@@ -63,6 +63,7 @@ implements Navigator {
      * Starts the number of worker thread specified in the NUMBER_OF_NAVIGATOR_THREADS Constant and adds them to
      * the execution threads list.
      */
+    @Override
     public void start() {
         
         // "Gentlemen, start your engines"
@@ -92,8 +93,9 @@ implements Navigator {
      * @return the string
      * @see de.hpi.oryxengine.navigator.Navigator#startProcessInstance(java.lang.String)
      */
+    @Override
     // TODO Implement this thing in general
-    public String startProcessInstance(UUID processID) {
+    public UUID startProcessInstance(UUID processID) {
 
         if (!loadedDefinitions.containsKey(processID)) {
             // go crazy
@@ -108,7 +110,7 @@ implements Navigator {
         scheduler.submit(processInstance);
         
         // TODO return id from ProcessInstance, use UUID
-        return "aProcessInstanceID"; 
+        return UUID.randomUUID(); 
     }
 
     // this method is for first testing only, as we do not have ProcessDefinitions yet

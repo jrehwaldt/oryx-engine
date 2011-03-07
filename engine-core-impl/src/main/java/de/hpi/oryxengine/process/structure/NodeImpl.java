@@ -2,6 +2,7 @@ package de.hpi.oryxengine.process.structure;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
@@ -11,7 +12,8 @@ import de.hpi.oryxengine.routing.behaviour.impl.EmptyRoutingBehaviour;
 /**
  * The Class AbstractNode. Which is used for the graph representation of a Process
  */
-public class NodeImpl implements Node {
+public class NodeImpl
+implements Node {
 
     /**
      * The activity. This is the behaviour of the node e.g. what gets executed.
@@ -25,7 +27,7 @@ public class NodeImpl implements Node {
     private List<Transition> transitions;
 
     /** The id. */
-    private String id;
+    private UUID id;
 
     /**
      * Instantiates a new abstract node.
@@ -96,16 +98,8 @@ public class NodeImpl implements Node {
      * {@inheritDoc}
      */
     @Override
-    public String getId() {
+    public UUID getID() {
         return this.id;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**

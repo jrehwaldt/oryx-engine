@@ -2,6 +2,8 @@ package de.hpi.oryxengine.navigator;
 
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+
 /**
  * The Interface NavigatorInterface.
  */
@@ -14,7 +16,7 @@ public interface Navigator {
      *            the id of the process that is to be instantiated
      * @return the id of the newly created process instance
      */
-    String startProcessInstance(UUID processID);
+    @Nonnull UUID startProcessInstance(@Nonnull UUID processID);
 
     /**
      * Stop process instance.
@@ -22,7 +24,7 @@ public interface Navigator {
      * @param instanceID
      *            the id of the instance that is to be stopped
      */
-    void stopProcessInstance(UUID instanceID);
+    void stopProcessInstance(@Nonnull UUID instanceID);
     
     /**
      * Increase speed.
@@ -36,5 +38,14 @@ public interface Navigator {
      * @return the current instance state
      */
     String getCurrentInstanceState(UUID instanceID);
-
+    
+    /**
+     * Starts the navigator, which is than ready to schedule processes.
+     */
+    void start();
+    
+    /**
+     * Stops the navigator. No processes will be scheduled afterwards.
+     */
+    void stop();
 }

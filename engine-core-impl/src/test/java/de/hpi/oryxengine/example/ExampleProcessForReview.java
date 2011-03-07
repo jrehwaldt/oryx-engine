@@ -79,19 +79,10 @@ public final class ExampleProcessForReview {
         RoutingBehaviour behaviour = new TakeAllBehaviour();
 
         NodeImpl startNode = new NodeImpl(start, behaviour);
-        startNode.setId("1");
-
         NodeImpl secondNode = new NodeImpl(calc5Plus5, behaviour);
-        secondNode.setId("2");
-
         NodeImpl thirdNode = new NodeImpl(printResult, behaviour);
-        thirdNode.setId("3");
-
         NodeImpl fourthNode = new NodeImpl(mailResult, behaviour);
-        fourthNode.setId("4");
-
         NodeImpl endNode = new NodeImpl(end);
-        endNode.setId("5");
 
         // Setting the transitions
         startNode.transitionTo(secondNode);

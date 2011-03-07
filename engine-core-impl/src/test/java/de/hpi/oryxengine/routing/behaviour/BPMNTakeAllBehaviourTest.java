@@ -68,9 +68,7 @@ public class BPMNTakeAllBehaviourTest {
         behaviour = new TakeAllBehaviour();
 
         NodeImpl node = new NodeImpl(activity, behaviour);
-        node.setId("1");
         NodeImpl node2 = new NodeImpl(activity, behaviour);
-        node2.setId("2");
         node.transitionTo(node2);
 
         return new ProcessInstanceImpl(node);
