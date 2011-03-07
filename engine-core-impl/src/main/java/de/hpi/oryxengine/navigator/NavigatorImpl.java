@@ -25,7 +25,7 @@ implements Navigator {
     private HashMap<UUID, ProcessInstance> runningInstances;
 
     /** The loaded definitions. */
-    private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions;
+    private HashMap<UUID, AbstractProcessDefinitionImpl> loadedDefinitions;
 
     
     private FIFOScheduler scheduler;
@@ -45,7 +45,7 @@ implements Navigator {
         
         // TODO Lazy initialized
         runningInstances = new HashMap<UUID, ProcessInstance>();
-        loadedDefinitions = new HashMap<String, AbstractProcessDefinitionImpl>();
+        loadedDefinitions = new HashMap<UUID, AbstractProcessDefinitionImpl>();
         scheduler = new FIFOScheduler();
         executionThreads = new ArrayList<NavigationThread>();
         state = NavigatorState.INIT;
@@ -76,7 +76,7 @@ implements Navigator {
      * @see de.hpi.oryxengine.navigator.Navigator#startProcessInstance(java.lang.String)
      */
     // TODO Implement this thing in general
-    public String startProcessInstance(String processID) {
+    public String startProcessInstance(UUID processID) {
 
         if (!loadedDefinitions.containsKey(processID)) {
             // go crazy
@@ -118,7 +118,7 @@ implements Navigator {
      */
     public void addProcessDefinition(AbstractProcessDefinitionImpl processDefinition) {
 
-        loadedDefinitions.put(processDefinition.getId(), processDefinition);
+        loadedDefinitions.put(processDefinition.getID(), processDefinition);
     }
 
     /**
@@ -127,7 +127,7 @@ implements Navigator {
      * @param instanceID the instance id
      * @see de.hpi.oryxengine.navigator.Navigator#stopProcessInstance(java.lang.String)
      */
-    public void stopProcessInstance(String instanceID) {
+    public void stopProcessInstance(UUID instanceID) {
         // TODO do some more stuff if instance doesnt exist and in genereal
         // runningInstances.remove(instanceID);
         // remove from queue...
@@ -140,7 +140,7 @@ implements Navigator {
      * @return the current instance state
      * @see de.hpi.oryxengine.navigator.Navigator#getCurrentInstanceState(java.lang.String)
      */
-    public String getCurrentInstanceState(String instanceID) {
+    public String getCurrentInstanceState(UUID instanceID) {
 
         // TODO get the current instance state
         return null;
