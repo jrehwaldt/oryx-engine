@@ -3,8 +3,8 @@ package de.hpi.oryxengine.resource;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.hpi.oryxengine.identity.Position;
-import de.hpi.oryxengine.identity.Resource;
+import de.hpi.oryxengine.resource.Position;
+import de.hpi.oryxengine.resource.Resource;
 
 /**
  * 

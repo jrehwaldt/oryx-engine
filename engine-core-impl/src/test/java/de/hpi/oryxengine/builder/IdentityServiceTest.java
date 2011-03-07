@@ -8,10 +8,11 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.identity.OrganizationUnit;
-import de.hpi.oryxengine.identity.Participant;
-import de.hpi.oryxengine.identity.Position;
-import de.hpi.oryxengine.identity.Role;
+import de.hpi.oryxengine.resource.IdentityBuilder;
+import de.hpi.oryxengine.resource.OrganizationUnit;
+import de.hpi.oryxengine.resource.Participant;
+import de.hpi.oryxengine.resource.Position;
+import de.hpi.oryxengine.resource.Role;
 
 /**
  * 

@@ -1,10 +1,5 @@
-package de.hpi.oryxengine.builder;
+package de.hpi.oryxengine.resource;
 
-import de.hpi.oryxengine.identity.Capability;
-import de.hpi.oryxengine.identity.OrganizationUnit;
-import de.hpi.oryxengine.identity.Participant;
-import de.hpi.oryxengine.identity.Position;
-import de.hpi.oryxengine.identity.Role;
 
 /**
  * The ResourceBuilder provides an easy and intuitive way to define and customize the enterprise's organization

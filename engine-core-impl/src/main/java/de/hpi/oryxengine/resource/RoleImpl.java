@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.hpi.oryxengine.identity.Participant;
-import de.hpi.oryxengine.identity.Role;
+import de.hpi.oryxengine.resource.Participant;
+import de.hpi.oryxengine.resource.Role;
 /**
  * 
  * @author Gerardo Navarro Suarez

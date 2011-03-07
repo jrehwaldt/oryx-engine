@@ -2,11 +2,11 @@ package de.hpi.oryxengine;
 
 import java.util.Set;
 
-import de.hpi.oryxengine.builder.IdentityBuilder;
-import de.hpi.oryxengine.identity.OrganizationUnit;
-import de.hpi.oryxengine.identity.Participant;
-import de.hpi.oryxengine.identity.Position;
-import de.hpi.oryxengine.identity.Role;
+import de.hpi.oryxengine.resource.IdentityBuilder;
+import de.hpi.oryxengine.resource.OrganizationUnit;
+import de.hpi.oryxengine.resource.Participant;
+import de.hpi.oryxengine.resource.Position;
+import de.hpi.oryxengine.resource.Role;
 
 /**
  * The ResourceService provides an interface for:
@@ -20,7 +20,7 @@ import de.hpi.oryxengine.identity.Role;
  * <li>OrganizationUnits - have Positions and have a superior OrganizationUnit</li>
  * <li>Participants - occupy a certain Position in the company, belongs to a certain role and have certain
  * Capabilities</li>
- * <li>Positions - belong to a certain OrganizationUnit and are occupied by certain Positions</li>
+ * <li>Positions - belong to a certain OrganizationUnit and are occupied by a certain Participant</li>
  * <li>Roles - try to summarize certain Participants in a specific context</li>
  * </ul>
  * 
