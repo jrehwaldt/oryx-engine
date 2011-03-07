@@ -10,7 +10,7 @@ import de.hpi.oryxengine.routing.behaviour.split.impl.TakeAllSplitBehaviour;
 /**
  * A factory for creating RoutingBeavhiourTest objects.
  */
-public class RoutingBeavhiourTestFactory extends AbstractNodeFactory {
+public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
 
     public void setActivity() {
 
