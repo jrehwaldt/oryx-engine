@@ -1,15 +1,18 @@
 package de.hpi.oryxengine.resource;
 
+import java.lang.annotation.Inherited;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import de.hpi.oryxengine.identity.OrganizationUnit;
-import de.hpi.oryxengine.identity.Position;
+import de.hpi.oryxengine.resource.OrganizationUnit;
+import de.hpi.oryxengine.resource.Position;
 
 /**
+ * 
+ * {@inheritdoc}
  * 
  * @author Gerardo Navarro Suarez
  */

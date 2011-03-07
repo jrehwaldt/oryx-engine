@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.identity;
+package de.hpi.oryxengine.resource;
 
 /**
  * A capability is some desired skill or ability possessed by a participant.Examples would be first aid skills, health
