@@ -6,13 +6,19 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
+import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.join.impl.SimpleJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
+import de.hpi.oryxengine.routing.behaviour.split.impl.TakeAllSplitBehaviour;
 
 /**
  * A factory for creating AbstractNode objects.
  */
 abstract class AbstractNodeFactory {
     /** The behavior. */
-    protected RoutingBehaviour behaviour;
+    protected JoinBehaviour incomingBehaviour;
+    /** The behavior. */
+    protected SplitBehaviour outgoingBehaviour;
     /** The activity. */
     protected Activity activity;
 
@@ -25,12 +31,11 @@ abstract class AbstractNodeFactory {
 
         this.setActivity();
         this.setBehaviour();
-        return new NodeImpl(activity, behaviour);
+        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
     }
 
     /**
-     * Sets the activity.
-     * It sets a default activity which is the printvariable activity.
+     * Sets the activity. It sets a default activity which is the printvariable activity.
      */
     public void setActivity() {
 
@@ -42,7 +47,8 @@ abstract class AbstractNodeFactory {
      */
     public void setBehaviour() {
 
-        behaviour = new TakeAllBehaviour();
+        incomingBehaviour = new SimpleJoinBehaviour();
+        outgoingBehaviour = new TakeAllSplitBehaviour();
     }
 
 }
