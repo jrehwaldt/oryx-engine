@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.resource;
 
-
 /**
  * A Position refers to a unique job within an organization. Examples might include Positions like the CEO, bank
  * manager, secretary, etc. .
@@ -11,13 +10,27 @@ package de.hpi.oryxengine.resource;
  * @author Gerardo Navarro Suarez
  */
 public interface Position extends Resource<Position> {
+    
     // Vielleicht später mit Prioritäten, oder Wichitgkeit der Person
-    
+
+    /**
+     * Gets the Participant that occupies this Position.
+     * 
+     * @return a Participant - Participant that occupies this Position
+     */
     Participant getPositionHolder();
-//    Position setPositionHolder(Participant participant);
-    
+
+    /**
+     * Gets the superior position.
+     * 
+     * @return the superior position
+     */
     Position getSuperiorPosition();
-//    Position setSuperiorPosition(Position position);
-    
+
+    /**
+     * Return the OrganizationUnit where this Position belongs to.
+     * 
+     * @return the OrganizationUnit where this Position belongs to
+     */
     OrganizationUnit belongstoOrganization();
 }

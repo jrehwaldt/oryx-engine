@@ -4,7 +4,8 @@ import java.util.List;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 import de.hpi.oryxengine.util.Identifiable;
 
 /**
@@ -29,19 +30,32 @@ extends Identifiable {
     void setActivity(Activity activity);
 
     /**
-     * Gets the routing behavior.
-     * 
-     * @return the routing behavior
+     * Sets the outgoing behaviour.
+     *
+     * @param outgoingBehaviour the new outgoing behaviour
      */
-    RoutingBehaviour getRoutingBehaviour();
-
+    void setOutgoingBehaviour(OutgoingBehaviour outgoingBehaviour);
+    
     /**
-     * Sets the routing behavior.
-     * 
-     * @param behaviour
-     *            the new routing behavior
+     * Sets the incoming behaviour.
+     *
+     * @param incomingBehaviour the new incoming behaviour
      */
-    void setRoutingBehaviour(RoutingBehaviour behaviour);
+    void setIncomingBehaviour(IncomingBehaviour incomingBehaviour);
+    
+    /**
+     * Gets the incoming behaviour.
+     *
+     * @return the incoming behaviour
+     */
+    IncomingBehaviour getIncomingBehaviour();
+    
+    /**
+     * Gets the outgoing behaviour.
+     *
+     * @return the outgoing behaviour
+     */
+    OutgoingBehaviour getOutgoingBehaviour();
 
     /**
      * Next.

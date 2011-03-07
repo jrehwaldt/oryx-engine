@@ -6,8 +6,10 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.impl.EmptyRoutingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class AbstractNode. Which is used for the graph representation of a Process
@@ -21,7 +23,8 @@ implements Node {
     private Activity activity;
 
     /** The routing behaviour. E.g. incoming and outgoing transitions. */
-    private RoutingBehaviour behaviour;
+    private OutgoingBehaviour outgoingBehaviour;
+    private IncomingBehaviour incomingBehaviour;
 
     /** The next node. */
     private List<Transition> transitions;
@@ -36,13 +39,39 @@ implements Node {
      * @param behaviour the behaviour of the node
      */
     public NodeImpl(Activity activity,
-                    RoutingBehaviour behaviour) {
+                    IncomingBehaviour incomingBehaviour,
+                    OutgoingBehaviour outgoingBehaviour) {
 
         this.activity = activity;
-        this.behaviour = behaviour;
+        this.incomingBehaviour = incomingBehaviour;
+        this.outgoingBehaviour = outgoingBehaviour;
         this.transitions = new ArrayList<Transition>();
     }
     
+
+    public OutgoingBehaviour getOutgoingBehaviour() {
+    
+        return outgoingBehaviour;
+    }
+
+
+    public void setOutgoingBehaviour(OutgoingBehaviour outgoingBehaviour) {
+    
+        this.outgoingBehaviour = outgoingBehaviour;
+    }
+
+
+    public IncomingBehaviour getIncomingBehaviour() {
+    
+        return incomingBehaviour;
+    }
+
+
+    public void setIncomingBehaviour(IncomingBehaviour incomingBehaviour) {
+    
+        this.incomingBehaviour = incomingBehaviour;
+    }
+
 
     /**
      * Instantiates a new node impl.
@@ -51,7 +80,7 @@ implements Node {
      *            the activity
      */
     public NodeImpl(Activity activity) {
-        this(activity, new EmptyRoutingBehaviour());
+        this(activity, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
     }
 
     /**
@@ -103,24 +132,6 @@ implements Node {
     }
 
     /**
-     * Gets the behaviour.
-     * 
-     * @return the behaviour
-     */
-    public RoutingBehaviour getBehaviour() {
-        return behaviour;
-    }
-
-    /**
-     * Sets the behaviour.
-     * 
-     * @param behaviour the new behaviour
-     */
-    public void setBehaviour(RoutingBehaviour behaviour) {
-        this.behaviour = behaviour;
-    }
-
-    /**
      * Sets the transitions.
      * 
      * @param transitions the new transitions
@@ -141,25 +152,10 @@ implements Node {
      * {@inheritDoc}
      */
     @Override
-    public void setRoutingBehaviour(RoutingBehaviour behaviour) {
-        this.behaviour = behaviour;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RoutingBehaviour getRoutingBehaviour() {
-        return behaviour;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public List<ProcessInstance> execute(ProcessInstance instance) {
+        List<ProcessInstance> instances = this.incomingBehaviour.join(instance);
         this.activity.execute(instance);
-        return this.behaviour.execute(instance);
+        return this.outgoingBehaviour.split(instances);
     }
 
 

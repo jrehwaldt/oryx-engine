@@ -1,17 +1,18 @@
-package de.hpi.oryxengine.routing.behaviour.join;
+package de.hpi.oryxengine.routing.behaviour.incoming;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 
 /**
  * The Class AbstractJoinBehaviour.
  */
-public abstract class AbstractJoinBehaviour implements JoinBehaviour {
+public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
 
     /**
-     * @see de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour
+     * @see de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour
      *      #join(de.hpi.oryxengine.process.instance.ProcessInstance) Do not override this, as it is a template method.
      *      Only join, if a join is possible.
      * @param instance instance to perform the join on

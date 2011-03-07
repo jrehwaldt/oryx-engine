@@ -1,18 +1,19 @@
 package de.hpi.oryxengine.resource;
 
-import de.hpi.oryxengine.resource.Capability;
 
 /**
- * 
- * @author Gerardo Navarro Suarez
- *
+ * Implementation of the {@link Capability} Interface.
  */
 public class CapabilityImpl extends ResourceImpl<Capability> implements Capability {
 
+    /**
+     * The Default Constructor for the CapabilityImpl.
+     * 
+     * @param capabilityId - the id of the capability
+     */
     public CapabilityImpl(String capabilityId) {
-//        new super(capabilityId);
-//
-//        // TODO Auto-generated constructor stub
+
+       super(capabilityId);
     }
 
 }

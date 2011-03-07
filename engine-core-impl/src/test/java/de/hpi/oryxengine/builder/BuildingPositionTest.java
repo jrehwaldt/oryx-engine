@@ -1,11 +1,6 @@
 package de.hpi.oryxengine.builder;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -13,35 +8,29 @@ import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.exception.OryxEngineException;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.OrganizationUnit;
 import de.hpi.oryxengine.resource.Position;
 
 /**
- * 
- * @author Gerardo Navarro Suarez
+ * Tests the building of {@link Position}s in the organization structure.
  */
 public class BuildingPositionTest {
 
     private IdentityService identityService;
     private IdentityBuilder identityBuilder;
+    private Position position;
 
     @BeforeMethod
     public void beforeMethod() {
 
         identityService = new IdentityServiceImpl();
         identityBuilder = identityService.getIdentityBuilder();
-    }
-
-    @AfterMethod
-    public void afterMethod() {
-
+        position = identityBuilder.createPosition("oryx-engine-chef");
+        position.setName("Oryx-Engine-Chef");
     }
 
     @Test
     public void testPositionCreation() {
 
-        Position position = identityBuilder.createPosition("oryx-engine-chef");
-        position.setName("Oryx-Engine-Chef");
         Position superior = identityBuilder.createPosition("oryx-engine-ober-chef");
         identityBuilder.positionReportsToSuperior(position, superior);
         
@@ -57,30 +46,25 @@ public class BuildingPositionTest {
     @Test
     public void testForDuplicatePosition() {
         
-        Position position = identityBuilder.createPosition("oryx-engine-chef");
-        position.setName("Gerardo Navarro Suarez");
-        
         // Try to create a new position with the same Id
         Position position2 = identityBuilder.createPosition("oryx-engine-chef");
         
         String failureMessage = "There should stil be one Position";
         Assert.assertTrue(identityService.getPositions().size() == 1, failureMessage);
         failureMessage = "The new created Position should be the old one.";
-        Assert.assertEquals(position2.getName(), "Gerardo Navarro Suarez", failureMessage);
-        
+        Assert.assertEquals(position2, position, failureMessage);
+        Assert.assertEquals(position2.getName(), "Oryx-Engine-Chef", failureMessage);
     }
     
     @Test(expectedExceptions = OryxEngineException.class)
     public void testNotBeingSuperiorOfYourself() {
 
-        Position position = identityBuilder.createPosition("oryx-engine-chef");
         identityBuilder.positionReportsToSuperior(position, position);
     }
 
     @Test
     public void testDeletePosition() {
         
-        Position position = identityBuilder.createPosition("oryx-engine-chef");
         Position position2 = identityBuilder.createPosition("oryx-engine-chef2");
         Position superior = identityBuilder.createPosition("oryx-engine-ober-chef");        
         

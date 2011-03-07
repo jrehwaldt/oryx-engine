@@ -46,12 +46,4 @@ public class NavigatorListenerTest {
         navigator.stop();
         verify(mock).update(navigator, NavigatorState.STOPPED);
     }
-    
-    /**
-     * Tear down method.
-     */
-    @AfterClass
-    public void tearDown() {
-        
-    }
 }

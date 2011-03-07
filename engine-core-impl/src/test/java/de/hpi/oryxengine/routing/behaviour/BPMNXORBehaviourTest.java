@@ -1,31 +1,28 @@
 package de.hpi.oryxengine.routing.behaviour;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
 
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.ConditionImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.routing.behaviour.impl.XORBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
 /**
  * The test of the TakeAllBehaviour-activity.
  */
 public class BPMNXORBehaviourTest {
-
-    /** The routing behavior. */
-    private RoutingBehaviour behaviour;
 
     /** The process instance. */
     private ProcessInstance instance;
@@ -44,7 +41,7 @@ public class BPMNXORBehaviourTest {
      */
     @Test
     public void testCountOfChildInstances() {
-        behaviour.execute(instance);
+        executeSplitAndJoin(instance);
         assertEquals(instance.getChildInstances().size(), 0);
     }
 
@@ -58,7 +55,7 @@ public class BPMNXORBehaviourTest {
         Node node = instance.getCurrentNode();
         Node nextNode = node.getTransitions().get(1).getDestination();
 
-        behaviour.execute(instance);
+        executeSplitAndJoin(instance);
 
         assertEquals(instance.getCurrentNode(), nextNode);
     }
@@ -72,7 +69,7 @@ public class BPMNXORBehaviourTest {
         Node node = instance.getCurrentNode();
         Node nextNode = node.getTransitions().get(0).getDestination();
 
-        behaviour.execute(instance);
+        executeSplitAndJoin(instance);
 
         assertEquals(instance.getCurrentNode(), nextNode);
     }
@@ -86,7 +83,7 @@ public class BPMNXORBehaviourTest {
         Node node = instance.getCurrentNode();
         Node nextNode = node.getTransitions().get(0).getDestination();
         
-        behaviour.execute(instance);
+        executeSplitAndJoin(instance);
         assert instance.getCurrentNode() != nextNode;
     }
 
@@ -109,16 +106,30 @@ public class BPMNXORBehaviourTest {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("a", 1);
 
-        Activity activity = mock(Activity.class);
-        behaviour = new XORBehaviour();
         Condition c = new ConditionImpl(map);
+        RoutingBehaviourTestFactory factory = new RoutingBehaviourTestFactory();
 
-        NodeImpl node = new NodeImpl(activity, behaviour);
-        NodeImpl node2 = new NodeImpl(activity, behaviour);
-        NodeImpl node3 = new NodeImpl(activity, behaviour);
+        Node node = factory.createWithXORSplit();
+        Node node2 = factory.createWithXORSplit();
+        Node node3 = factory.createWithXORSplit();
         node.transitionToWithCondition(node2, c);
         node.transitionTo(node3);
 
         return new ProcessInstanceImpl(node);
+    }
+    
+    /**
+     * Execute split and join.
+     *
+     * @param instance the instance
+     */
+    private void executeSplitAndJoin(ProcessInstance instance) {
+        Node node = instance.getCurrentNode();
+        IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
+        OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
+        
+        List<ProcessInstance> joinedInstances = incomingBehaviour.join(instance);
+        
+        outgoingBehaviour.split(joinedInstances);
     }
 }

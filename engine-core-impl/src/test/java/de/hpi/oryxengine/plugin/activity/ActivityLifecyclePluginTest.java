@@ -52,12 +52,4 @@ public class ActivityLifecyclePluginTest {
         assertEquals(ActivityState.COMPLETED, activeEvent.getValue().getNewState());
     }
     
-    /**
-     * Tear down method.
-     */
-    @AfterClass
-    public void tearDown() {
-        
-    }
-    
 }
