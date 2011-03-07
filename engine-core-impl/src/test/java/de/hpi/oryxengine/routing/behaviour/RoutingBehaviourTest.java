@@ -1,26 +1,24 @@
 package de.hpi.oryxengine.routing.behaviour;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.*;
+
+import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
+import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
 
 /**
  * The test of the routing behavior.
  */
 public class RoutingBehaviourTest {
-
-    /** The routing behavior. */
-    private RoutingBehaviour behaviour;
 
     /** The process instance. */
     private ProcessInstance instance;
@@ -45,7 +43,12 @@ public class RoutingBehaviourTest {
         Node node = instance.getCurrentNode();
         Node nextNode = node.getTransitions().get(0).getDestination();
 
-        behaviour.execute(instance);
+        JoinBehaviour incomingBehaviour = node.getIncomingBehaviour();
+        SplitBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
+        
+        List<ProcessInstance> joinedInstances = incomingBehaviour.join(instance);
+        
+        outgoingBehaviour.split(joinedInstances);
 
         assertEquals(instance.getCurrentNode(), nextNode);
     }
@@ -65,12 +68,11 @@ public class RoutingBehaviourTest {
      */
     private ProcessInstanceImpl simpleInstance() {
 
-        Activity activity = mock(Activity.class);
-        behaviour = new TakeAllBehaviour();
+        RoutingBehaviourTestFactory factory = new RoutingBehaviourTestFactory();
 
-        NodeImpl node = new NodeImpl(activity, behaviour);
+        Node node = factory.createWithAndSplit();
         node.setId("1");
-        NodeImpl node2 = new NodeImpl(activity, behaviour);
+        Node node2 = factory.createWithAndSplit();
         node2.setId("2");
         node.transitionTo(node2);
 
