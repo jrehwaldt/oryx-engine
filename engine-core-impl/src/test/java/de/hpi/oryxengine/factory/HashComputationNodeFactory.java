@@ -17,7 +17,7 @@ public class HashComputationNodeFactory extends AbstractNodeFactory {
     /**
      * Instantiates a new hash computation node factory.
      *
-     * @param variableName the variable name which is then set in the process instance
+     * @param variableName the variable name which is then set in the process token
      * @param toBeHashed the string to be hashed
      * @param hashAlgorithm the hash algorithm
      */
@@ -30,7 +30,7 @@ public class HashComputationNodeFactory extends AbstractNodeFactory {
     /**
      * Instantiates a new hash computation node factory.
      *
-     * @param variableName the variable name which is then set in the process instance
+     * @param variableName the variable name which is then set in the process token
      * @param toBeHashed the string to be hashed
      */
     public HashComputationNodeFactory(String variableName, String toBeHashed) {

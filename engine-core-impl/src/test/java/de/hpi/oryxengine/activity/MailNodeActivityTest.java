@@ -32,7 +32,7 @@ public class MailNodeActivityTest {
   
   /**
    * Set up.
-   * Creates a process instance, a mailing node, sets the to-be-sent message
+   * Creates a process token, a mailing node, sets the to-be-sent message
    * and starts the SMTP server on the given port. 
    */
   @BeforeTest

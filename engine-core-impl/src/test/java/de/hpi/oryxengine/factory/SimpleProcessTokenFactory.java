@@ -5,7 +5,7 @@ import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
- * A factory for creating simple ProcessInstance objects. So it creates a Process starting at one node spefified.
+ * A factory for creating simple ProcessToken objects. So it creates a Process starting at one node specified.
  */
 public class SimpleProcessTokenFactory {
     

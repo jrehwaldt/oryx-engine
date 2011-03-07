@@ -114,11 +114,11 @@ public class LoadGenerator {
     }
 
     /**
-     * Calls the Example Process Instance factory in order to create a new one.
+     * Calls the Example Process token factory in order to create a new one.
      * 
-     * @return the example process instance
+     * @return the example process token
      */
-    public Token getExampleProcessInstance() {
+    public Token getExampleProcessToken() {
 
             ExampleProcessTokenFactory factory = new ExampleProcessTokenFactory();
             return factory.create();
@@ -148,10 +148,10 @@ public class LoadGenerator {
         navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getInstance(this));
 
         for (int i = 0; i < this.getNumberOfRuns(); i++) {
-            TokenImpl p = (TokenImpl) this.getExampleProcessInstance();
+            TokenImpl p = (TokenImpl) this.getExampleProcessToken();
             navigator.startArbitraryInstance(UUID.randomUUID(), p);
             /*
-             * this.logger.info( "Started Processinstance " + Integer.toString(i + 1) + " of " +
+             * this.logger.info( "Started Process token " + Integer.toString(i + 1) + " of " +
              * Integer.toString(this.getNumberOfRuns()));
              */
         }

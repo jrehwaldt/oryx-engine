@@ -13,7 +13,7 @@ import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class AddNumbersAndStoreActivityTest.
- * Tests for the AddNumberblablabla activity. Basically schecks whether or not the result is good.
+ * Tests for the AddNumberblablabla activity. Basically checks whether or not the result is good.
  */
 public class AddNumbersAndStoreActivityTest {
     private Node addernode;
