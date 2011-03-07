@@ -10,9 +10,9 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
  * The test for the automated dummy activity.
@@ -31,8 +31,8 @@ public class AutomatedDummyActivityTest {
     /** The dummy activity. */
     private AutomatedDummyActivity a;
 
-    /** The process instance. */
-    private ProcessInstance processInstance;
+    /** The process token. */
+    private Token token;
 
     /**
      * Set up.
@@ -46,7 +46,7 @@ public class AutomatedDummyActivityTest {
         tmp = System.out;
         System.setOut(new PrintStream(out));
         a = new AutomatedDummyActivity(s);
-        processInstance = new ProcessInstanceImpl(new NodeImpl(a));
+        token = new TokenImpl(new NodeImpl(a));
     }
 
     /**
@@ -72,7 +72,7 @@ public class AutomatedDummyActivityTest {
     @Test
     public void testExecuteOutput() {
 
-        a.execute(processInstance);
+        a.execute(token);
         assertTrue(out.toString().indexOf(s) != -1, "It should print out the given string when executed");
     }
 
@@ -83,7 +83,7 @@ public class AutomatedDummyActivityTest {
     @Test
     public void testStateAfterExecution() {
 
-        a.execute(processInstance);
+        a.execute(token);
         assertEquals(a.getState(), ActivityState.COMPLETED, "It should have the state Completed");
     }
 

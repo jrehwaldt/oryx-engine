@@ -94,10 +94,10 @@ public class InstanceNotifyPanel extends JPanel {
         JTextArea textArea = new JTextArea();
         if (event.getSchedulerAction() == SchedulerAction.SUBMIT) {
             textArea.setBackground(GREEN);
-            textArea.setText("PI: " + event.getProcessInstance().getID() + "\n" + "Added to Scheduler");
+            textArea.setText("PI: " + event.getProcessToken().getID() + "\n" + "Added to Scheduler");
         } else if (event.getSchedulerAction() == SchedulerAction.RETRIEVE) {
             textArea.setBackground(RED);
-            textArea.setText("PI: " + event.getProcessInstance().getID() + "\n" + "Taken from Scheduler");
+            textArea.setText("PI: " + event.getProcessToken().getID() + "\n" + "Taken from Scheduler");
         }
         textArea.setOpaque(true);
         textArea.setLineWrap(true);

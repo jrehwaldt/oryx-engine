@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
@@ -152,8 +152,8 @@ implements Node {
      * {@inheritDoc}
      */
     @Override
-    public List<ProcessInstance> execute(ProcessInstance instance) {
-        List<ProcessInstance> instances = this.incomingBehaviour.join(instance);
+    public List<Token> execute(Token instance) {
+        List<Token> instances = this.incomingBehaviour.join(instance);
         this.activity.execute(instance);
         return this.outgoingBehaviour.split(instances);
     }

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.process.instance;
+package de.hpi.oryxengine.process.token;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,12 +11,13 @@ import de.hpi.oryxengine.exception.IllegalNavigationException;
 import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
- * The implementation of a process instance.
+ * The implementation of a process token.
  */
-public class ProcessInstanceImpl
-implements ProcessInstance {
+public class TokenImpl
+implements Token {
 
     /** The id. */
     private UUID id;
@@ -24,22 +25,22 @@ implements ProcessInstance {
     /** The current node. */
     private Node currentNode;
 
-    /** The parent instance. */
-    private ProcessInstance parentInstance;
+    /** The parent token. */
+    private Token parentToken;
 
-    /** The child instances. */
-    private List<ProcessInstance> childInstances;
+    /** The child tokens. */
+    private List<Token> childTokens;
 
-    /** The instance variables. */
-    private Map<String, Object> instanceVariables;
+    /** The token variables. */
+    private Map<String, Object> contextVariables;
 
     /**
-     * Instantiates a new process instance impl.
+     * Instantiates a new process token impl.
      * 
      * @param processDefinition the process definition
      * @param startNumber the start number
      */
-    public ProcessInstanceImpl(AbstractProcessDefinitionImpl processDefinition,
+    public TokenImpl(AbstractProcessDefinitionImpl processDefinition,
                                Integer startNumber) {
 
         // choose a start Node from the possible List of Nodes
@@ -50,52 +51,52 @@ implements ProcessInstance {
     }
 
     /**
-     * Instantiates a new process instance impl.
+     * Instantiates a new process token impl.
      * 
      * @param startNode
      *            the start node
      */
-    public ProcessInstanceImpl(Node startNode) {
+    public TokenImpl(Node startNode) {
         this(startNode, null);
     }
 
     /**
-     * Instantiates a new process instance impl.
+     * Instantiates a new process token impl.
      * 
      * @param startNode
      *            the start node
-     * @param parentInstance
-     *            the parent instance
+     * @param parentToken
+     *            the parent token
      */
-    public ProcessInstanceImpl(Node startNode,
-                               ProcessInstance parentInstance) {
+    public TokenImpl(Node startNode,
+                               Token parentToken) {
 
         currentNode = startNode;
-        this.parentInstance = parentInstance;
-        this.childInstances = new ArrayList<ProcessInstance>();
+        this.parentToken = parentToken;
+        this.childTokens = new ArrayList<Token>();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ProcessInstance getParentInstance() {
-        return parentInstance;
+    public Token getParentToken() {
+        return parentToken;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setParentInstance(ProcessInstance instance) {
-        this.parentInstance = instance;
+    public void setParentToken(Token token) {
+        this.parentToken = token;
     }
 
     /**
-     * Gets the current node. So the position where the execution of the Processinstance is at.
+     * Gets the current node. So the position where the execution of the Processtoken is at.
      * 
      * @return the current node
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#getCurrentNode()
+     * @see de.hpi.oryxengine.process.token.Token#getCurrentNode()
      */
     public Node getCurrentNode() {
         return currentNode;
@@ -113,18 +114,18 @@ implements ProcessInstance {
      * {@inheritDoc}
      */
     @Override
-    public List<ProcessInstance> getChildInstances() {
+    public List<Token> getChildTokens() {
 
-        return childInstances;
+        return childTokens;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setChildInstances(List<ProcessInstance> childInstances) {
+    public void setChildTokens(List<Token> childTokens) {
 
-        this.childInstances = childInstances;
+        this.childTokens = childTokens;
     }
 
     /**
@@ -142,7 +143,7 @@ implements ProcessInstance {
     public void setVariable(String name,
                             Object value) {
 
-        getInstanceVariables().put(name, value);
+        getTokenVariables().put(name, value);
     }
 
     /**
@@ -151,33 +152,33 @@ implements ProcessInstance {
      * @param name
      *            of the variable
      * @return the variable
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#getVariable(java.lang.String)
+     * @see de.hpi.oryxengine.process.token.Token#getVariable(java.lang.String)
      */
     public Object getVariable(String name) {
 
-        return getInstanceVariables().get(name);
+        return getTokenVariables().get(name);
     }
 
     /**
-     * Gets the instance variables.
+     * Gets the token variables.
      * 
-     * @return the instance variables
+     * @return the token variables
      */
-    private Map<String, Object> getInstanceVariables() {
+    private Map<String, Object> getTokenVariables() {
 
-        if (instanceVariables == null) {
-            instanceVariables = new HashMap<String, Object>();
+        if (contextVariables == null) {
+            contextVariables = new HashMap<String, Object>();
         }
-        return instanceVariables;
+        return contextVariables;
     }
 
     /**
      * Execute step.
      * 
-     * @return list of process instances
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance#executeStep()
+     * @return list of process tokens
+     * @see de.hpi.oryxengine.process.token.Token#executeStep()
      */
-    public List<ProcessInstance> executeStep() {
+    public List<Token> executeStep() {
 
         return this.currentNode.execute(this);
     }
@@ -186,22 +187,22 @@ implements ProcessInstance {
      * {@inheritDoc}
      */
     @Override
-    public List<ProcessInstance> navigateTo(List<Node> nodeList)
+    public List<Token> navigateTo(List<Node> nodeList)
     throws IllegalNavigationException {
 
         validateNodeList(nodeList);
-        List<ProcessInstance> instancesToNavigate = new ArrayList<ProcessInstance>();
+        List<Token> tokensToNavigate = new ArrayList<Token>();
         if (nodeList.size() == 1) {
             Node node = nodeList.get(0);
             this.setCurrentNode(node);
-            instancesToNavigate.add(this);
+            tokensToNavigate.add(this);
         } else {
             for (Node node: nodeList) {
-                ProcessInstance childInstance = createChildInstance(node);
-                instancesToNavigate.add(childInstance);
+                Token childToken = createChildToken(node);
+                tokensToNavigate.add(childToken);
             }
         }
-        return instancesToNavigate;
+        return tokensToNavigate;
 
     }
 
@@ -230,28 +231,28 @@ implements ProcessInstance {
      * 
      * @param t
      *            the transition to take
-     * @return list of process instances
-     * @see de.hpi.oryxengine.process.instance.ProcessInstance
+     * @return list of process tokens
+     * @see de.hpi.oryxengine.process.token.Token
      *      #takeSingleTransition(de.hpi.oryxengine.process.structure.Transition)
      */
-    public List<ProcessInstance> takeSingleTransition(Transition t) {
+    public List<Token> takeSingleTransition(Transition t) {
 
-        List<ProcessInstance> instancesToNavigate = new LinkedList<ProcessInstance>();
+        List<Token> tokensToNavigate = new LinkedList<Token>();
         this.currentNode = t.getDestination();
-        instancesToNavigate.add(this);
-        return instancesToNavigate;
+        tokensToNavigate.add(this);
+        return tokensToNavigate;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ProcessInstance createChildInstance(Node node) {
+    public Token createChildToken(Node node) {
 
-        ProcessInstance childInstance = new ProcessInstanceImpl(node);
-        childInstance.setParentInstance(this);
-        this.childInstances.add(childInstance);
-        return childInstance;
+        Token childToken = new TokenImpl(node);
+        childToken.setParentToken(this);
+        this.childTokens.add(childToken);
+        return childToken;
     }
 
 }

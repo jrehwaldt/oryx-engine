@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.navigator.schedule;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * An Event for the scheduler listener, may be extended.
@@ -8,21 +8,21 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  * Please referr to the respective getters for more information.
  */
 public final class SchedulerEvent {
-    private final int numberOfInstances;
-    private final ProcessInstance processInstance;
+    private final int numberOfTokens;
+    private final Token token;
     private final SchedulerAction schedulerAction;
     
     /**
      * Instantiates a new scheduler event.
      *
      * @param schedulerAction the scheduler action
-     * @param processInstance the process instance
-     * @param numberOfInstances the number of instances
+     * @param token the process instance
+     * @param numberOfTokens the number of instances
      */
-    public SchedulerEvent(SchedulerAction schedulerAction, ProcessInstance processInstance, int numberOfInstances) {
+    public SchedulerEvent(SchedulerAction schedulerAction, Token token, int numberOfTokens) {
         this.schedulerAction = schedulerAction;
-        this.processInstance = processInstance;
-        this.numberOfInstances = numberOfInstances;
+        this.token = token;
+        this.numberOfTokens = numberOfTokens;
     }
     
     /**
@@ -30,22 +30,22 @@ public final class SchedulerEvent {
      *
      * @return the number of instances
      */
-    public int getNumberOfInstances() {
+    public int getNumberOfTokens() {
     
-        return numberOfInstances;
+        return numberOfTokens;
     }
     
     /**
-     * Gets the process instance.
-     * If the action was SUBMIT it is the submitted processinstance.
-     * If the action was RETRIEVE it is the retrieved processinstance.
-     * You see, in the altter case this may be null (if the queue is empty)
+     * Gets the process token.
+     * If the action was SUBMIT it is the submitted processtoken.
+     * If the action was RETRIEVE it is the retrieved processtoken.
+     * You see, in the latter case this may be null (if the queue is empty)
      *
      * @return the process instance
      */
-    public ProcessInstance getProcessInstance() {
+    public Token getProcessToken() {
     
-        return processInstance;
+        return token;
     }
 
     
@@ -66,7 +66,7 @@ public final class SchedulerEvent {
     @Override
     public String toString() {
 
-        return "SchedulerEvent [numberOfInstances=" + numberOfInstances + "schedulerAction=" + schedulerAction + "]";
+        return "SchedulerEvent [numberOfTokens=" + numberOfTokens + "schedulerAction=" + schedulerAction + "]";
     }
     
 

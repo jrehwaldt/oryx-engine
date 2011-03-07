@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.plugin.scheduler;
 
 import de.hpi.oryxengine.loadgenerator.LoadGenerator;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The listener interface for receiving schedulerListEmpty events.
@@ -38,7 +38,7 @@ extends AbstractSchedulerListener {
      * @param hugene the Load generator we want to report to.
      * @return single instance of SchedulerListEmptyListener
      */
-    public static SchedulerEmptyListener getInstance(LoadGenerator hugene) {
+    public static SchedulerEmptyListener getToken(LoadGenerator hugene) {
         if (myself == null) {
             myself = new SchedulerEmptyListener(hugene);
         }
@@ -46,7 +46,7 @@ extends AbstractSchedulerListener {
     }
     
     @Override
-    public void processInstanceSubmitted(int numberOfInstances, ProcessInstance processInstance) {
+    public void processInstanceSubmitted(int numberOfTokens, Token token) {
 
         // does nothing
     }
@@ -55,9 +55,9 @@ extends AbstractSchedulerListener {
      * {@inheritDoc}
      */
     @Override
-    public void processInstanceRetrieved(int numberOfInstances, ProcessInstance processInstance) {
+    public void processInstanceRetrieved(int numberOfTokens, Token token) {
 
-        if (numberOfInstances == 0) {
+        if (numberOfTokens == 0) {
             myself.hugene.schedulerIsEmpty();
         }
 

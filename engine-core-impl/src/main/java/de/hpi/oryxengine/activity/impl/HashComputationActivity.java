@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * An activity that can be used to compute various hashes of given string.
@@ -90,7 +90,7 @@ public class HashComputationActivity extends AbstractActivity {
 
     
     @Override
-    protected void executeIntern(ProcessInstance instance) {
+    protected void executeIntern(Token instance) {
 
         md.update(toBeHashed.getBytes());
         byte[] output = md.digest();
