@@ -13,6 +13,7 @@ import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
  */
@@ -25,9 +26,10 @@ implements Navigator {
     private HashMap<UUID, ProcessInstance> runningInstances;
 
     /** The loaded definitions. */
-    private HashMap<String, AbstractProcessDefinitionImpl> loadedDefinitions;
+    private HashMap<UUID, AbstractProcessDefinitionImpl> loadedDefinitions;
 
     
+    /** The scheduler. */
     private FIFOScheduler scheduler;
 
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
@@ -36,7 +38,11 @@ implements Navigator {
     /** The Constant NUMBER_OF_NAVIGATOR_THREADS. */
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
     
+    /** The state. */
     private NavigatorState state;
+    
+    /** The counter. */
+    private int counter;
     
     /**
      * Instantiates a new navigator impl.
@@ -45,10 +51,11 @@ implements Navigator {
         
         // TODO Lazy initialized
         runningInstances = new HashMap<UUID, ProcessInstance>();
-        loadedDefinitions = new HashMap<String, AbstractProcessDefinitionImpl>();
+        loadedDefinitions = new HashMap<UUID, AbstractProcessDefinitionImpl>();
         scheduler = new FIFOScheduler();
         executionThreads = new ArrayList<NavigationThread>();
         state = NavigatorState.INIT;
+        counter = 0;
     }
 
     /**
@@ -60,12 +67,22 @@ implements Navigator {
         
         // "Gentlemen, start your engines"
         for (int i = 0; i < NUMBER_OF_NAVIGATOR_THREADS; i++) {
-            NavigationThread thread = new NavigationThread(String.format("NT %d", i), scheduler);
-            thread.start();
-            executionThreads.add(thread);
+            increaseSpeed();
         }
         
         changeState(NavigatorState.RUNNING);
+    }
+    
+    /**
+     * Adds speed.
+     *
+     * 
+     */
+    public void increaseSpeed() {
+        NavigationThread thread = new NavigationThread(String.format("NT %d", counter), scheduler);
+        thread.start();
+        executionThreads.add(thread);
+        counter++;
     }
 
     /**
@@ -76,7 +93,7 @@ implements Navigator {
      * @see de.hpi.oryxengine.navigator.Navigator#startProcessInstance(java.lang.String)
      */
     // TODO Implement this thing in general
-    public String startProcessInstance(String processID) {
+    public String startProcessInstance(UUID processID) {
 
         if (!loadedDefinitions.containsKey(processID)) {
             // go crazy
@@ -118,7 +135,7 @@ implements Navigator {
      */
     public void addProcessDefinition(AbstractProcessDefinitionImpl processDefinition) {
 
-        loadedDefinitions.put(processDefinition.getId(), processDefinition);
+        loadedDefinitions.put(processDefinition.getID(), processDefinition);
     }
 
     /**
@@ -127,7 +144,7 @@ implements Navigator {
      * @param instanceID the instance id
      * @see de.hpi.oryxengine.navigator.Navigator#stopProcessInstance(java.lang.String)
      */
-    public void stopProcessInstance(String instanceID) {
+    public void stopProcessInstance(UUID instanceID) {
         // TODO do some more stuff if instance doesnt exist and in genereal
         // runningInstances.remove(instanceID);
         // remove from queue...
@@ -140,7 +157,7 @@ implements Navigator {
      * @return the current instance state
      * @see de.hpi.oryxengine.navigator.Navigator#getCurrentInstanceState(java.lang.String)
      */
-    public String getCurrentInstanceState(String instanceID) {
+    public String getCurrentInstanceState(UUID instanceID) {
 
         // TODO get the current instance state
         return null;
@@ -181,6 +198,9 @@ implements Navigator {
     }
     
     /**
+     * To string.
+     *
+     * @return the string
      * {@inheritDoc}
      */
     @Override

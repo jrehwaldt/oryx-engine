@@ -2,7 +2,6 @@ package de.hpi.oryxengine.navigator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Properties;
 import java.util.UUID;
 
 import org.testng.Assert;
@@ -41,7 +40,7 @@ public class NavigatorTest {
     private PrintStream tmp;
 
     /**
-     * Set up. TODO JavaDoc description of the test
+     * Set up.
      * 
      * @throws Exception
      *             the exception

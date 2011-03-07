@@ -47,16 +47,22 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
      */
     @Override
     public ProcessInstance retrieve() {
-        ProcessInstance removedInstance = processinstances.remove(0);
+        ProcessInstance removedInstance;
+        synchronized (this.processinstances) {
+            if (this.processinstances.isEmpty()) {
+                return null;
+            }
+            removedInstance = processinstances.remove(0);
+            
+        }
         changed(new SchedulerEvent(SchedulerAction.RETRIEVE, removedInstance, processinstances.size()));
         return removedInstance;
     }
-
-    @Override
-    public boolean isEmpty() {
-
+    
+    public boolean isEmpty(){
         return this.processinstances.isEmpty();
     }
+
 
     @Override
     // TODO right now we dont care about submitAll plugin/Observerwise
