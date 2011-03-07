@@ -12,17 +12,26 @@ import java.util.Set;
 public interface Participant extends Resource<Participant> {
 
     /**
-     * @return read-only list
+     * Returns a read-only Set of all Positions occupied by this Participant.
+     *
+     * @return a read-only Set of all Positions occupied by this Participant.
      */
     Set<Position> getMyPositions();
 
     // Participant addMyPosition(Position position);
 
     /**
-     * @return read-only list
+     * Returns a read-only Set of all Capabilities of this Participant.
+     * 
+     * @return a read-only Set of all Capabilities of this Participant
      */
     Set<Capability> getMyCapabilities();
     // Participant addMyCapability(Capability capability);
 
+    /**
+     * Returns a read-only Set of all Roles that contains this Participant.
+     * 
+     * @return a read-only Set of all Roles that contains this Participant
+     */
     Set<Role> getMyRoles();
 }

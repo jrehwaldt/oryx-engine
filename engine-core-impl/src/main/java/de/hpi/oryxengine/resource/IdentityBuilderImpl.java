@@ -2,16 +2,9 @@ package de.hpi.oryxengine.resource;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.exception.OryxEngineException;
-import de.hpi.oryxengine.resource.Capability;
-import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.OrganizationUnit;
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Position;
-import de.hpi.oryxengine.resource.Role;
 
 /**
- * 
- * @author Gerardo Navarro Suarez
+ * Implementation of {@link IdentityBuilder} Interface.
  */
 public class IdentityBuilderImpl implements IdentityBuilder {
 
@@ -30,9 +23,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     // -------- Participant Builder Methods -----------
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Participant createParticipant(String participantId) {
 
@@ -49,9 +39,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return participant;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder deleteParticipant(Participant participant) {
 
@@ -65,9 +52,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder participantOccupiesPosition(Participant participant, Position position) {
 
@@ -87,9 +71,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder participantDoesNotOccupyPosition(Participant participant, Position position) {
 
@@ -101,18 +82,12 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder participantHasCapability(Participant participant, Capability capability) {
 
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder participantBelongsToRole(Participant participant, Role role) {
 
@@ -125,9 +100,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder participantDoesNotBelongToRole(Participant participant, Role role) {
 
@@ -173,9 +145,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     // -------- OrganizationUnit Builder Methods ------
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public OrganizationUnit createOrganizationUnit(String organizationUnitId) {
 
@@ -192,9 +161,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return organizationUnit;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder deleteOrganizationUnit(OrganizationUnit organizationUnit) {
 
@@ -250,7 +216,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         }
 
         positionImpl.belongstoOrganization(organizationUnitImpl);
-        organizationUnitImpl.addPosition(positionImpl);
+        organizationUnitImpl.getPositionImpls().add(positionImpl);
 
         return this;
     }
@@ -292,9 +258,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     // -------- Position Builder Methods --------------
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Position createPosition(String positionId) {
 
@@ -310,9 +273,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return position;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition) {
 
@@ -369,9 +329,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     // -------- Role Builder Methods ------------------
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Role createRole(String roleId) {
 
@@ -388,9 +345,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return role;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder deleteRole(Role role) {
 
@@ -404,9 +358,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder subRoleOf(Role subRole, Role superRole) {
 

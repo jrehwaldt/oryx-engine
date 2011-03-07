@@ -4,26 +4,33 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.hpi.oryxengine.resource.Capability;
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Position;
-import de.hpi.oryxengine.resource.Role;
-
 /**
- * 
- * @author Gerardo Navarro Suarez
+ * Implementation of the {@link Participant} Interface.
  */
 public class ParticipantImpl extends ResourceImpl<Participant> implements Participant {
 
+    /** My {@link Position}s. */
     private Set<PositionImpl> myPositions;
+    
+    /** My {@link Capability}s. */
     private Set<Capability> myCapabilities;
+    
+    /** My {@link Role}s. */
     private Set<RoleImpl> myRoles;
 
+    /**
+     * Instantiates a new {@link ParticipantImpl}.
+     *
+     * @param participantId the participant id
+     */
     public ParticipantImpl(String participantId) {
 
         super(participantId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Position> getMyPositions() {
 
@@ -31,7 +38,12 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Set<PositionImpl> getMyPositionImpls() {
+    /**
+     * Gets the my position impls.
+     *
+     * @return the my position impls
+     */
+    protected Set<PositionImpl> getMyPositionImpls() {
 
         if (myPositions == null) {
             myPositions = new HashSet<PositionImpl>();
@@ -62,7 +74,12 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Set<RoleImpl> getMyRolesImpl() {
+    /**
+     * Gets the my roles impl.
+     *
+     * @return the my roles impl
+     */
+    protected Set<RoleImpl> getMyRolesImpl() {
 
         if (myRoles == null) {
             myRoles = new HashSet<RoleImpl>();

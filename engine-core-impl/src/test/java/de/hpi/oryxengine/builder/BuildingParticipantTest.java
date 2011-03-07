@@ -1,21 +1,18 @@
 package de.hpi.oryxengine.builder;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.OrganizationUnit;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Position;
 import de.hpi.oryxengine.resource.Role;
 
 /**
- * 
- * @author Gerardo Navarro Suarez
+ * Tests the building of {@link Participant}s in the organization structure.
  */
 public class BuildingParticipantTest {
 
@@ -57,7 +54,7 @@ public class BuildingParticipantTest {
     }
 
     @Test
-    public void testRelationshipParticipantPosition() {
+    public void testCreationParticipantPositionRelationship() {
 
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
@@ -76,7 +73,7 @@ public class BuildingParticipantTest {
      * An OrganzationUnit should only have unique Positions.
      */
     @Test
-    public void testUniquePositionsInParticipant() {
+    public void testUniquePositionsParticipantRelationship() {
 
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
@@ -99,7 +96,7 @@ public class BuildingParticipantTest {
     }
     
     @Test
-    public void testChangePositionInParticipant() {
+    public void testChangePositionParticipantRelationship() {
 
         Position pos1 = identityBuilder.createPosition("1");
 
@@ -140,13 +137,17 @@ public class BuildingParticipantTest {
         Assert.assertFalse(identityService.getParticipants().contains(participant), failureMessage);
 
         for (Position position : participant.getMyPositions()) {
-            failureMessage = "The Position '" + position.getId() + "' should not have an Participant. It should be null.";
+            failureMessage = "The Position '" + position.getId() + "' should not have an Participant."
+                             + "It should be null.";
             Assert.assertNull(position.getPositionHolder());
         }
     }
     
+    /**
+     * Test that the relationship between Participant and Position is removed properly.
+     */
     @Test
-    public void testDeletePositionInParticipant() {
+    public void testDeletePositionParticipantRelationship() {
 
         Position pos1 = identityBuilder.createPosition("1");
 
