@@ -67,14 +67,14 @@ public class RoutingBehaviourTest {
      * @return the process instance that was created within the method
      */
     private ProcessInstanceImpl simpleInstance() {
-
+        
         Activity activity = mock(Activity.class);
         behaviour = new TakeAllBehaviour();
-
+        
         NodeImpl node = new NodeImpl(activity, behaviour);
         NodeImpl node2 = new NodeImpl(activity, behaviour);
         node.transitionTo(node2);
-
+        
         return new ProcessInstanceImpl(node);
     }
 }
