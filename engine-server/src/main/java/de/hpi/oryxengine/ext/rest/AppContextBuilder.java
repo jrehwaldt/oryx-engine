@@ -3,13 +3,10 @@ package de.hpi.oryxengine.ext.rest;
 import javax.annotation.Nonnull;
 
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
-import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.xml.XmlConfiguration;
 
-import com.sun.jersey.spi.container.servlet.ServletContainer;
+import de.hpi.oryxengine.navigator.Navigator;
 
 /**
  * This class builds a web context for the rest-part of the oryx engine.
@@ -19,86 +16,46 @@ import com.sun.jersey.spi.container.servlet.ServletContainer;
  */
 public final class AppContextBuilder {
     
-    private static final String RESOURCE_CONTEXT_PATH = "/web";
-    private static final String REST_CONTEXT_PATH = "/rest";
-    
-    private static final String RESOURCE_BASE = "/web";
-    private static final String DESCRIPTOR_FILE = "/WEB-INF/web.xml";
-    
     private static final String SERVER_CONFIG_FILE = "server.xml";
     
-    private String relativeSrverRoot;
+    private final Navigator navigator;
+    private final String configFile;
     
     /**
-     * Default constructor.
+     * Constructor with setting-file adjustments.
      * 
-     * @param relativeSrverRoot the relative server root within the context's base folder
+     * @param navigator the navigator, which should be controlled
+     * @param configFile the server's config file (generally server.xml)
      */
-    public AppContextBuilder(@Nonnull String relativeSrverRoot) {
-        this.relativeSrverRoot = relativeSrverRoot;
+    protected AppContextBuilder(@Nonnull Navigator navigator,
+                                @Nonnull String configFile) {
+        this.navigator = navigator;
+        this.configFile = configFile;
     }
     
     /**
-     * Builds a rest context and sets it up, appropriately.
-     * This context will provide restful servlets and resist under
-     * context path as defined by constant REST_CONTEXT_PATH.
+     * Default constructor searching for a configuration file server.xml.
      * 
-     * @param servlets any servlet, which should be served within this context
-     * @return a new web context for our rest server
+     * @param navigator the navigator, which should be controlled
      */
-    public ServletContextHandler buildRestWebAppContext(@Nonnull ServletDescriptor... servlets) {
-        final ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.setContextPath(REST_CONTEXT_PATH);
-        
-        final ServletContainer jersey = new ServletContainer();
-        context.addServlet(new ServletHolder(jersey), "*");
-        
-        for (ServletDescriptor servlet: servlets) {
-            context.addServlet(new ServletHolder(servlet.getServlet()), servlet.getContextPath());
-        }
-        
-        return context;
+    protected AppContextBuilder(@Nonnull Navigator navigator) {
+        this(navigator, SERVER_CONFIG_FILE);
     }
     
     /**
-     * Builds a fully configured server. Searches for configuration file as defined
-     * in constant SERVER_CONFIG_FILE.
+     * Builds a fully configured server.
      * 
      * @return the builded server configured via server.xml in the server's root folder
      * @throws Exception thrown if the config file is not loadable or the server configuration failed
      */
     public Server buildServer()
     throws Exception {
-        final Resource configFile = Resource.newSystemResource(SERVER_CONFIG_FILE);
-        final XmlConfiguration config = new XmlConfiguration(configFile.getInputStream());
+        if (this.navigator == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        final Resource resource = Resource.newSystemResource(this.configFile);
+        final XmlConfiguration config = new XmlConfiguration(resource.getInputStream());
         return (Server) config.configure();
-    }
-    
-    /**
-     * Builds a web context and sets it up, appropriately.
-     * This context will provide web resources (html, css, jsp, ...) 
-     * and resist under context path as defined by constant RESOURCE_CONTEXT_PATH.
-     * 
-     * @return a new web context for our rest server
-     */
-    public WebAppContext buildResourceWebAppContext() {
-        final WebAppContext context = new WebAppContext();
-        context.setDescriptor(context + getAbsoluteServerRoot() + DESCRIPTOR_FILE);
-        context.setResourceBase(getAbsoluteServerRoot() + RESOURCE_BASE);
-        context.setContextPath(RESOURCE_CONTEXT_PATH);
-        
-//        context.addServlet(new ServletHolder(new LessServlet()), "*.css");
-        
-        return context;
-    }
-    
-    /**
-     * Returns the absolute server root.
-     * 
-     * @return an absolute path to the server resources
-     */
-    private @Nonnull String getAbsoluteServerRoot() {
-        final String basePath = System.getProperty("jetty.home", "src/main/resources/");
-        return basePath + this.relativeSrverRoot;
     }
 }

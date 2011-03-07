@@ -1,5 +1,5 @@
-#Mon Feb 07 16:54:24 CET 2011
-activeProfiles=
+#Thu Mar 03 10:43:06 CET 2011
+activeProfiles=artifactory
 eclipse.preferences.version=1
 fullBuildGoals=process-test-resources
 resolveWorkspaceProjects=true
