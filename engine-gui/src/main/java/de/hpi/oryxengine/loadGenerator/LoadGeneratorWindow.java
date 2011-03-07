@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.windows.loadGenerator;
+package de.hpi.oryxengine.loadGenerator;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
