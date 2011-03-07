@@ -178,9 +178,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder subOrganizationUnitOf(OrganizationUnit subOrganizationUnit,
                                                  OrganizationUnit superOrganizationUnit) {
@@ -199,9 +196,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder organizationUnitOffersPosition(OrganizationUnit organizationUnit, Position position) {
 
@@ -262,6 +256,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public Position createPosition(String positionId) {
 
         PositionImpl position = new PositionImpl(positionId);
+        
         for (PositionImpl existingPosition : identityService.getPositionImpls()) {
             if (existingPosition.equals(position)) {
                 return existingPosition;

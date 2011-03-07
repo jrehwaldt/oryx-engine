@@ -52,8 +52,8 @@ public class BuildingPositionTest {
         String failureMessage = "There should stil be one Position";
         Assert.assertTrue(identityService.getPositions().size() == 1, failureMessage);
         failureMessage = "The new created Position should be the old one.";
-        Assert.assertEquals(position2.getName(), "Gerardo Navarro Suarez", failureMessage);
-        
+        Assert.assertEquals(position2, position, failureMessage);
+        Assert.assertEquals(position2.getName(), "Oryx-Engine-Chef", failureMessage);
     }
     
     @Test(expectedExceptions = OryxEngineException.class)
