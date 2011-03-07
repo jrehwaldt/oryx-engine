@@ -14,6 +14,17 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  * It stores them in a specified resultvariable.
  * This activity is especially useful for loadtesting, since cipheralgorithms are 
  * by design hard to compute to minimize the success rate of brute force attacks.
+ * 
+ * It uses the Java Message Digest class which supports the following cipher algorithms:
+ * MD2
+ * MD5
+ * SHA-1: The Secure Hash Algorithm, as defined in Secure Hash Standard, NIST FIPS 180-1.
+ * SHA-256
+ * SHA-384
+ * SHA-512
+ * DSA
+ * RSA
+ * andy many more ;-)
  */
 public class HashComputationActivity extends AbstractActivity {
 
