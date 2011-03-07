@@ -3,8 +3,8 @@ package de.hpi.oryxengine.routing.behaviour.incoming.impl;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.AbstractIncomingBehaviour;
 
 /**
@@ -20,14 +20,14 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
      * .ProcessInstance)
      */
     @Override
-    protected boolean joinable(ProcessInstance instance) {
+    protected boolean joinable(Token instance) {
 
         Node currentNode = instance.getCurrentNode();
-        ProcessInstance parent = instance.getParentInstance();
+        Token parent = instance.getParentToken();
         boolean joinable = true;
 
-        List<ProcessInstance> childInstances = parent.getChildInstances();
-        for (ProcessInstance child : childInstances) {
+        List<Token> childInstances = parent.getChildTokens();
+        for (Token child : childInstances) {
             if (child.getCurrentNode() != currentNode) {
                 joinable = false;
             }
@@ -45,12 +45,12 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
      * .ProcessInstance)
      */
     @Override
-    protected List<ProcessInstance> performJoin(ProcessInstance instance) {
+    protected List<Token> performJoin(Token instance) {
 
         // We can do this, as we currently assume that an and join has a single outgoing transition
-        List<ProcessInstance> newInstances = new LinkedList<ProcessInstance>();
+        List<Token> newInstances = new LinkedList<Token>();
         Node currentNode = instance.getCurrentNode();
-        ProcessInstance parent = instance.getParentInstance();
+        Token parent = instance.getParentToken();
         parent.setCurrentNode(currentNode);
         newInstances.add(parent);
         return newInstances;

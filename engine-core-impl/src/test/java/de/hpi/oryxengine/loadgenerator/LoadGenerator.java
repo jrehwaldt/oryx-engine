@@ -8,11 +8,11 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.factory.ExampleProcessInstanceFactory;
+import de.hpi.oryxengine.factory.ExampleProcessTokenFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.scheduler.SchedulerEmptyListener;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
  * The Class LoadGenerator. Is used to generate some load and profile it (more or less) Maybe it should be more generic,
@@ -118,9 +118,9 @@ public class LoadGenerator {
      * 
      * @return the example process instance
      */
-    public ProcessInstance getExampleProcessInstance() {
+    public Token getExampleProcessInstance() {
 
-            ExampleProcessInstanceFactory factory = new ExampleProcessInstanceFactory();
+            ExampleProcessTokenFactory factory = new ExampleProcessTokenFactory();
             return factory.create();
     }
     
@@ -148,7 +148,7 @@ public class LoadGenerator {
         navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getInstance(this));
 
         for (int i = 0; i < this.getNumberOfRuns(); i++) {
-            ProcessInstanceImpl p = (ProcessInstanceImpl) this.getExampleProcessInstance();
+            TokenImpl p = (TokenImpl) this.getExampleProcessInstance();
             navigator.startArbitraryInstance(UUID.randomUUID(), p);
             /*
              * this.logger.info( "Started Processinstance " + Integer.toString(i + 1) + " of " +

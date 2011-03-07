@@ -9,9 +9,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
@@ -21,7 +21,7 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 public class BPMNTakeAllBehaviourTest {
 
     /** The process instance. */
-    private ProcessInstance instance;
+    private Token instance;
 
     /**
      * Set up. An instance is build.
@@ -60,14 +60,14 @@ public class BPMNTakeAllBehaviourTest {
      * 
      * @return the process instance that was created within the method
      */
-    private ProcessInstanceImpl simpleInstance() {
+    private TokenImpl simpleInstance() {
 
 
         Node node = new RoutingBehaviourTestFactory().createWithAndSplit();
         Node node2 = new RoutingBehaviourTestFactory().createWithAndSplit();
         node.transitionTo(node2);
 
-        return new ProcessInstanceImpl(node);
+        return new TokenImpl(node);
     }
     
     /**
@@ -76,12 +76,12 @@ public class BPMNTakeAllBehaviourTest {
      * @param instance the instance
      * @return the list
      */
-    private List<ProcessInstance> executeSplitAndJoin(ProcessInstance instance) {
+    private List<Token> executeSplitAndJoin(Token instance) {
         Node node = instance.getCurrentNode();
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
         
-        List<ProcessInstance> joinedInstances = incomingBehaviour.join(instance);
+        List<Token> joinedInstances = incomingBehaviour.join(instance);
         
         return outgoingBehaviour.split(joinedInstances);
     }

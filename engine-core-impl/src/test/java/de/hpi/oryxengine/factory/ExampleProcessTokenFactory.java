@@ -1,23 +1,23 @@
 package de.hpi.oryxengine.factory;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * A factory for creating ExampleProcessInstance objects.
  * These objects just have 2 add Number activities.
  */
-public class ExampleProcessInstanceFactory {
+public class ExampleProcessTokenFactory {
     private Node node1;
     private Node node2;
-    private ProcessInstance p;
+    private Token p;
     
     /**
      * Creates an Example process instance which uses just two AddNumbersAndStore Nodes.. a bit of profiling
      *
      * @return the process instance
      */
-    public ProcessInstance create() {
+    public Token create() {
         this.initializeNodes();
         this.initializeProcessInstance();
         return this.p;
@@ -37,7 +37,7 @@ public class ExampleProcessInstanceFactory {
      * Initializes the process instance.
      */
     public void initializeProcessInstance() {
-        SimpleProcessInstanceFactory factory = new SimpleProcessInstanceFactory();
+        SimpleProcessTokenFactory factory = new SimpleProcessTokenFactory();
         p = factory.create(node1);        
     }
 

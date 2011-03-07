@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.process.instance;
+package de.hpi.oryxengine.process.token;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +9,7 @@ import de.hpi.oryxengine.util.Identifiable;
 /**
  * The Interface ProcessInstance.
  */
-public interface ProcessInstance
+public interface Token
 extends Identifiable {
 
     /**
@@ -17,22 +17,22 @@ extends Identifiable {
      * 
      * @return the parent instance
      */
-    ProcessInstance getParentInstance();
+    Token getParentToken();
 
     /**
      * Sets the parent instance.
      * 
-     * @param instance
+     * @param token
      *            the new parent instance
      */
-    void setParentInstance(ProcessInstance instance);
+    void setParentToken(Token token);
 
     /**
      * Gets the child instances.
      * 
      * @return the child instances
      */
-    List<ProcessInstance> getChildInstances();
+    List<Token> getChildTokens();
 
     /**
      * Sets the child instances.
@@ -40,7 +40,7 @@ extends Identifiable {
      * @param children
      *            the new child instances
      */
-    void setChildInstances(List<ProcessInstance> children);
+    void setChildTokens(List<Token> children);
 
     /**
      * Gets the current node.
@@ -87,7 +87,7 @@ extends Identifiable {
      * 
      * @return the list of new ProcessInstances that result after the next step is performed.
      */
-    List<ProcessInstance> executeStep();
+    List<Token> executeStep();
 
     /**
      * Create a new to navigate instance for every node.
@@ -97,7 +97,7 @@ extends Identifiable {
      * @return newly created subprocesses
      * @throws Exception if the node to navigate to doesn't exist
      */
-    List<ProcessInstance> navigateTo(List<Node> nodeList)
+    List<Token> navigateTo(List<Node> nodeList)
     throws Exception;
     
     /**
@@ -106,6 +106,6 @@ extends Identifiable {
      * @param n the node the new instance points to.
      * @return the new process instance
      */
-    ProcessInstance createChildInstance(Node n);
+    Token createChildToken(Node n);
 
 }

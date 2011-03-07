@@ -10,9 +10,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
@@ -25,7 +25,7 @@ public class BPMNAndJoinTest {
     private Node node1, node2, joinNode, splitNode, node3;
 
     /** The child instance2. */
-    private ProcessInstance instance, childInstance1, childInstance2;
+    private Token instance, childInstance1, childInstance2;
 
     /**
      * Sets the up.
@@ -34,7 +34,7 @@ public class BPMNAndJoinTest {
     public void setUp() {
 
         instance = initializeInstances();
-        List<ProcessInstance> children = instance.getChildInstances();
+        List<Token> children = instance.getChildTokens();
         childInstance1 = children.get(0);
         childInstance2 = children.get(1);
     }
@@ -46,7 +46,7 @@ public class BPMNAndJoinTest {
     public void testSingleInstanceReachedJoin() {
 
         childInstance1.setCurrentNode(joinNode);
-        List<ProcessInstance> newInstances = executeSplitAndJoin(childInstance1);
+        List<Token> newInstances = executeSplitAndJoin(childInstance1);
 
         assertEquals(newInstances.size(), 0,
             "If only one child has reached the And Join, no new instances should be scheduled");
@@ -64,10 +64,10 @@ public class BPMNAndJoinTest {
 
         childInstance1.setCurrentNode(joinNode);
         childInstance2.setCurrentNode(joinNode);
-        List<ProcessInstance> newInstances = executeSplitAndJoin(childInstance1);
+        List<Token> newInstances = executeSplitAndJoin(childInstance1);
         assertEquals(newInstances.size(), 1, "There should only be one new instance");
 
-        ProcessInstance newInstance = newInstances.get(0);
+        Token newInstance = newInstances.get(0);
         assertEquals(newInstance, instance,
             "The new instance should be the parent of the instance that executes the join behaviour");
         assertEquals(instance.getCurrentNode(), node3,
@@ -81,7 +81,7 @@ public class BPMNAndJoinTest {
      * 
      * @return the process instance
      */
-    private ProcessInstance initializeInstances() {
+    private Token initializeInstances() {
 
         splitNode = mock(Node.class);
         node1 = new RoutingBehaviourTestFactory().createWithAndSplit();
@@ -93,9 +93,9 @@ public class BPMNAndJoinTest {
         node3 = new RoutingBehaviourTestFactory().createWithAndSplit();
         joinNode.transitionTo(node3);
 
-        instance = new ProcessInstanceImpl(splitNode);
-        instance.createChildInstance(node1);
-        instance.createChildInstance(node2);
+        instance = new TokenImpl(splitNode);
+        instance.createChildToken(node1);
+        instance.createChildToken(node2);
         return instance;
     }
     
@@ -105,12 +105,12 @@ public class BPMNAndJoinTest {
      * @param instance the instance
      * @return the list
      */
-    private List<ProcessInstance> executeSplitAndJoin(ProcessInstance instance) {
+    private List<Token> executeSplitAndJoin(Token instance) {
         Node node = instance.getCurrentNode();
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
         
-        List<ProcessInstance> joinedInstances = incomingBehaviour.join(instance);
+        List<Token> joinedInstances = incomingBehaviour.join(instance);
         
         return outgoingBehaviour.split(joinedInstances);
     }

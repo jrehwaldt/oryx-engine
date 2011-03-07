@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class ConditionImpl.
@@ -54,7 +54,7 @@ public class ConditionImpl implements Condition {
      * @return true or false depending on the condition.
      * @see de.hpi.oryxengine.process.structure.Condition#evaluate()
      */
-    public boolean evaluate(ProcessInstance instance) {
+    public boolean evaluate(Token instance) {
 
         Iterator<?> i = set.iterator();
         

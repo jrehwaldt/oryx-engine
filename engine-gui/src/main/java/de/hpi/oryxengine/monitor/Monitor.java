@@ -3,7 +3,7 @@ package de.hpi.oryxengine.monitor;
 import java.util.LinkedHashSet;
 
 import de.hpi.oryxengine.plugin.scheduler.AbstractSchedulerListener;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class Monitor is a Plugin that receives Scheduler Events and forwards it to the provided GUI.
@@ -11,7 +11,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
 public class Monitor extends AbstractSchedulerListener {
 
     private MonitorGUI gui;
-    private LinkedHashSet<ProcessInstance> instancesToTrack;
+    private LinkedHashSet<Token> instancesToTrack;
 
     /**
      * Instantiates a new monitor. This plugin listens for Scheduler events, such as a new instance that is scheduled,
@@ -23,24 +23,24 @@ public class Monitor extends AbstractSchedulerListener {
     public Monitor(MonitorGUI gui) {
 
         this.gui = gui;
-        this.instancesToTrack = new LinkedHashSet<ProcessInstance>();
+        this.instancesToTrack = new LinkedHashSet<Token>();
     }
 
     @Override
-    public void processInstanceSubmitted(int numberOfInstances, ProcessInstance processInstance) {
+    public void processInstanceSubmitted(int numberOfInstances, Token token) {
 
         updateNumberOfInstances(numberOfInstances);
-        if (instancesToTrack.contains(processInstance)) {
-            showInstanceSubmitted(processInstance);
+        if (instancesToTrack.contains(token)) {
+            showInstanceSubmitted(token);
         }
     }
 
     @Override
-    public void processInstanceRetrieved(int numberOfInstances, ProcessInstance processInstance) {
+    public void processInstanceRetrieved(int numberOfInstances, Token token) {
 
         updateNumberOfInstances(numberOfInstances);
-        if (instancesToTrack.contains(processInstance)) {
-            showInstanceRetrieved(processInstance);
+        if (instancesToTrack.contains(token)) {
+            showInstanceRetrieved(token);
         }
     }
 
@@ -49,7 +49,7 @@ public class Monitor extends AbstractSchedulerListener {
      *
      * @param instance the instance that has been submitted to the scheduler.
      */
-    private void showInstanceSubmitted(ProcessInstance instance) {
+    private void showInstanceSubmitted(Token instance) {
 
         gui.showInstanceSubmitted(instance);
     }
@@ -59,7 +59,7 @@ public class Monitor extends AbstractSchedulerListener {
      *
      * @param instance the instance that has been retrieved from the scheduler.
      */
-    private void showInstanceRetrieved(ProcessInstance instance) {
+    private void showInstanceRetrieved(Token instance) {
 
         gui.showInstanceRetrieved(instance);
     }
@@ -79,7 +79,7 @@ public class Monitor extends AbstractSchedulerListener {
      *
      * @param instance the instance
      */
-    public void markSingleInstance(ProcessInstance instance) {
+    public void markSingleInstance(Token instance) {
 
         this.instancesToTrack.add(instance);
     }

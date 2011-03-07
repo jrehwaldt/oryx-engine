@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleChangeEvent;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class AbstractActivityImpl.
@@ -41,7 +41,7 @@ implements Activity {
      * @param instance the process instance
      * @param state the new state
      */
-    private void changeState(@Nonnull ProcessInstance instance,
+    private void changeState(@Nonnull Token instance,
                              @Nonnull ActivityState state) {
         final ActivityState prevState = this.state;
         this.state = state;
@@ -53,7 +53,7 @@ implements Activity {
      * {@inheritDoc}
      */
     @Override
-    public final void execute(@Nonnull ProcessInstance instance) {
+    public final void execute(@Nonnull Token instance) {
         changeState(instance, ActivityState.ACTIVE);
         executeIntern(instance);
         changeState(instance, ActivityState.COMPLETED);
@@ -64,7 +64,7 @@ implements Activity {
      * 
      * @param instance the instance this activity operates on
      */
-    protected abstract void executeIntern(@Nonnull ProcessInstance instance);
+    protected abstract void executeIntern(@Nonnull Token instance);
     
     /**
      * {@inheritDoc}

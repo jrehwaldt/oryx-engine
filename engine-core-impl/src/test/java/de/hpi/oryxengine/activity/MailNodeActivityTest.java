@@ -12,9 +12,9 @@ import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
 
 import de.hpi.oryxengine.factory.MailNodeFactory;
-import de.hpi.oryxengine.factory.SimpleProcessInstanceFactory;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.factory.SimpleProcessTokenFactory;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class MailNodeActivitytest.
@@ -24,7 +24,7 @@ public class MailNodeActivityTest {
   
   private Node mailernode;
   
-  private ProcessInstance p;
+  private Token p;
   
   private SimpleSmtpServer maily;
   
@@ -39,7 +39,7 @@ public class MailNodeActivityTest {
   public void setUp() {
       MailNodeFactory factory = new MailNodeFactory();
       mailernode = factory.create();
-      SimpleProcessInstanceFactory processfactory = new SimpleProcessInstanceFactory(); 
+      SimpleProcessTokenFactory processfactory = new SimpleProcessTokenFactory(); 
       p = processfactory.create(mailernode);
       p.setVariable("result", "Roflcopter123!");
       maily = SimpleSmtpServer.start(SMTP_PORT);

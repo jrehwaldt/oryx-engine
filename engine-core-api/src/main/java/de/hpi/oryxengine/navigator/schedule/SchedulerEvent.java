@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.navigator.schedule;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * An Event for the scheduler listener, may be extended.
@@ -9,19 +9,19 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
  */
 public final class SchedulerEvent {
     private final int numberOfInstances;
-    private final ProcessInstance processInstance;
+    private final Token token;
     private final SchedulerAction schedulerAction;
     
     /**
      * Instantiates a new scheduler event.
      *
      * @param schedulerAction the scheduler action
-     * @param processInstance the process instance
+     * @param token the process instance
      * @param numberOfInstances the number of instances
      */
-    public SchedulerEvent(SchedulerAction schedulerAction, ProcessInstance processInstance, int numberOfInstances) {
+    public SchedulerEvent(SchedulerAction schedulerAction, Token token, int numberOfInstances) {
         this.schedulerAction = schedulerAction;
-        this.processInstance = processInstance;
+        this.token = token;
         this.numberOfInstances = numberOfInstances;
     }
     
@@ -43,9 +43,9 @@ public final class SchedulerEvent {
      *
      * @return the process instance
      */
-    public ProcessInstance getProcessInstance() {
+    public Token getProcessInstance() {
     
-        return processInstance;
+        return token;
     }
 
     

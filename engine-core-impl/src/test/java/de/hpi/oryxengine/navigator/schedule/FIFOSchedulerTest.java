@@ -10,8 +10,8 @@ import java.util.List;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.factory.ExampleProcessInstanceFactory;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.factory.ExampleProcessTokenFactory;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class FIFOSchedulerTest. tests our awesome FIFO Scheduler.
@@ -19,8 +19,8 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
 public class FIFOSchedulerTest {
 
     private FIFOScheduler scheduler;
-    private ProcessInstance firstInstance;
-    private ProcessInstance secondInstance;
+    private Token firstInstance;
+    private Token secondInstance;
 
     /**
      * Before test.
@@ -29,7 +29,7 @@ public class FIFOSchedulerTest {
     public void beforeTest() {
 
         scheduler = new FIFOScheduler();
-        ExampleProcessInstanceFactory factory = new ExampleProcessInstanceFactory();
+        ExampleProcessTokenFactory factory = new ExampleProcessTokenFactory();
         firstInstance = factory.create();
         secondInstance = factory.create();
     }
@@ -95,7 +95,7 @@ public class FIFOSchedulerTest {
      */
     @Test
     public void testSubmitAll() {
-        List<ProcessInstance> processList = new LinkedList<ProcessInstance>();
+        List<Token> processList = new LinkedList<Token>();
         processList.add(firstInstance);
         processList.add(secondInstance);
         scheduler.submitAll(processList);

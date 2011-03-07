@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.process.instance;
+package de.hpi.oryxengine.process.token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +13,16 @@ import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.structure.Transition;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
  * The test for the process instance.
  */
-public class ProcessInstanceImplTest {
+public class ProcessTokenImplTest {
 
     /** The process instance. */
-    private ProcessInstance instance;
+    private Token instance;
 
     /** Different Nodes. */
     private NodeImpl node, node2, node3;
@@ -55,11 +57,11 @@ public class ProcessInstanceImplTest {
             nodeList.add(transition.getDestination());
         }
         
-        List<ProcessInstance> newInstances = instance.navigateTo(nodeList);
+        List<Token> newInstances = instance.navigateTo(nodeList);
         assertEquals(newInstances.size(), 2, "You should have two new process instances");
 
-        for (ProcessInstance newInstance : newInstances) {
-            assertEquals(newInstance.getParentInstance(), instance, "The new instances "
+        for (Token newInstance : newInstances) {
+            assertEquals(newInstance.getParentToken(), instance, "The new instances "
                 + "should have the instance that reached the split node as a parent");
         }
 
@@ -83,10 +85,10 @@ public class ProcessInstanceImplTest {
 
         List<Node> nodeList = new ArrayList<Node>();
         nodeList.add(transitionToTake.getDestination());
-        List<ProcessInstance> newInstances = instance.navigateTo(nodeList);
+        List<Token> newInstances = instance.navigateTo(nodeList);
         assertEquals(newInstances.size(), 1, "You should have a single process instance.");
 
-        ProcessInstance newInstance = newInstances.get(0);
+        Token newInstance = newInstances.get(0);
         assertEquals(newInstance, instance,
             "The instance should be the same, no child instance or something like that.");
         assertEquals(newInstance.getCurrentNode(), node2, "The instance should have moved on.");
@@ -98,7 +100,7 @@ public class ProcessInstanceImplTest {
      * 
      * @return the process instance impl
      */
-    private ProcessInstanceImpl simpleInstance() {
+    private TokenImpl simpleInstance() {
 
         Activity activity = mock(Activity.class);
 
@@ -111,6 +113,6 @@ public class ProcessInstanceImplTest {
 
         node.transitionTo(node3);
 
-        return new ProcessInstanceImpl(node);
+        return new TokenImpl(node);
     }
 }

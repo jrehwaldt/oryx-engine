@@ -11,7 +11,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class ConditionTest.
@@ -22,7 +22,7 @@ public class ConditionTest {
     private Condition condition;
     
     /** The instance. */
-    private ProcessInstance instance;
+    private Token instance;
   
 
   /**
@@ -56,7 +56,7 @@ public class ConditionTest {
    */
   @BeforeMethod
   public void beforeMethod() {
-      instance = mock(ProcessInstance.class);
+      instance = mock(Token.class);
       HashMap<String, Object> map = new HashMap<String, Object>();
       map.put("a", 1);
       condition = new ConditionImpl(map);
