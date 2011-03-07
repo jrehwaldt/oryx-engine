@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.routing.behaviour.impl.EmptyRoutingBehaviour;
 
 
 /**

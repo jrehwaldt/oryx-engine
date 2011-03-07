@@ -5,8 +5,6 @@ import java.util.List;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.impl.EmptyRoutingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.join.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;

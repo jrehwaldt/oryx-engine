@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.routing.behaviour;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 import java.util.HashMap;
@@ -10,7 +9,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
 
 import de.hpi.oryxengine.process.instance.ProcessInstance;
@@ -18,8 +16,6 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.ConditionImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.routing.behaviour.impl.XORBehaviour;
 import de.hpi.oryxengine.routing.behaviour.join.JoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.split.SplitBehaviour;
 
