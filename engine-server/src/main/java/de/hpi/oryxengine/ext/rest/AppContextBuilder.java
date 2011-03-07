@@ -43,8 +43,7 @@ public final class AppContextBuilder {
     }
     
     /**
-     * Builds a fully configured server. Searches for configuration file as defined
-     * in constant SERVER_CONFIG_FILE.
+     * Builds a fully configured server.
      * 
      * @return the builded server configured via server.xml in the server's root folder
      * @throws Exception thrown if the config file is not loadable or the server configuration failed
