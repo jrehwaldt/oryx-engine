@@ -26,8 +26,7 @@ public class RoutingBehaviourTest {
     private ProcessInstance instance;
 
     /**
-     * Set up.
-     * An instance is build.
+     * Set up. An instance is build.
      */
     @BeforeClass
     public void setUp() {
@@ -37,9 +36,8 @@ public class RoutingBehaviourTest {
     }
 
     /**
-     * Test class.
-     * A routing from the current node to the next node is done.
-     * The instance's current node should now be this next node.
+     * Test class. A routing from the current node to the next node is done. The instance's current node should now be
+     * this next node.
      */
     @Test
     public void testClass() {
@@ -61,8 +59,7 @@ public class RoutingBehaviourTest {
     }
 
     /**
-     * Simple instance.
-     * An activity is set up, it gets a behavior and a transition to a second node.
+     * Simple instance. An activity is set up, it gets a behavior and a transition to a second node.
      * 
      * @return the process instance that was created within the method
      */
