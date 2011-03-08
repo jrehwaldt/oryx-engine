@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.correlation;
 
+import javax.annotation.Nonnull;
+
 import de.hpi.oryxengine.util.Identifiable;
 
 /**
@@ -13,5 +15,5 @@ public interface EventType extends Identifiable {
      * 
      * @return the event type's name
      */
-    String getName();
+    @Nonnull String getName();
 }

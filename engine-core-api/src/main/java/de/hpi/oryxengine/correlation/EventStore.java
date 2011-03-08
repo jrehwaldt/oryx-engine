@@ -2,6 +2,8 @@ package de.hpi.oryxengine.correlation;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 /**
  * Stores the events that did not trigger a registered event 
  * so they may be used if a registration is made after an event
@@ -14,14 +16,14 @@ public interface EventStore {
      * 
      * @param e the event to store
      */
-    void storeAdapterEvent(AdapterEvent e);
+    void storeAdapterEvent(@Nonnull AdapterEvent e);
     
     /**
      * Deletes an event from our event store.
      * 
      * @param e the event to delete
      */
-    void deleteAdapterEvent(AdapterEvent e);
+    void deleteAdapterEvent(@Nonnull AdapterEvent e);
     
     /**
      * Get all stored events of the specified Event Type.
@@ -29,5 +31,5 @@ public interface EventStore {
      * @param e the event type
      * @return a List of all events with the specified type
      */
-    List<AdapterEvent> getAdapterEventsOfType(EventType e);
+    @Nonnull List<AdapterEvent> getAdapterEventsOfType(@Nonnull EventType e);
 }

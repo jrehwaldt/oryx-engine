@@ -6,6 +6,6 @@ package de.hpi.oryxengine.correlation.adapter;
  * e.g. email sending adapter.
  */
 public interface OutboundAdapter
-extends Adapter {
+extends CorrelationAdapter {
     
 }

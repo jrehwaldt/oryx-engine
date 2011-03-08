@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.correlation;
 
+import javax.annotation.Nonnull;
+
 /**
  * The correlation manager, which correlates Events to the entities (acitivites, etc..) 
  * which subscribed for them.
@@ -12,6 +14,6 @@ public interface CorrelationManager {
      * 
      * @param e the adapter event
      */
-    void correlateAdapterEvent(AdapterEvent e);
+    void correlateAdapterEvent(@Nonnull AdapterEvent e);
     
 }
