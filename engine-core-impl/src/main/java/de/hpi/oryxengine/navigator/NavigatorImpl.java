@@ -38,6 +38,8 @@ implements Navigator {
     /** The Constant NUMBER_OF_NAVIGATOR_THREADS. */
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
     
+    private int navigatorThreads;
+    
     /** The state. */
     private NavigatorState state;
     
@@ -45,9 +47,18 @@ implements Navigator {
     private int counter;
     
     /**
-     * Instantiates a new navigator impl.
+     * Instantiates a new navigator implementation.
      */
     public NavigatorImpl() {
+        this(NUMBER_OF_NAVIGATOR_THREADS);
+    }
+    
+    /**
+     * Instantiates a new navigator implementation.
+     *
+     * @param numberOfThreads the number of navigator threads
+     */
+    public NavigatorImpl(int numberOfThreads) {
         
         // TODO Lazy initialized
         runningInstances = new HashMap<UUID, ProcessInstance>();
@@ -56,6 +67,7 @@ implements Navigator {
         executionThreads = new ArrayList<NavigationThread>();
         state = NavigatorState.INIT;
         counter = 0;
+        navigatorThreads = numberOfThreads;
     }
 
     /**
@@ -66,7 +78,7 @@ implements Navigator {
     public void start() {
         
         // "Gentlemen, start your engines"
-        for (int i = 0; i < NUMBER_OF_NAVIGATOR_THREADS; i++) {
+        for (int i = 0; i < navigatorThreads; i++) {
             increaseSpeed();
         }
         

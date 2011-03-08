@@ -39,6 +39,8 @@ public class LoadGenerator {
 
     private long startTime;
 
+    private int numberOfThreads;
+
     /**
      * Instantiates a new load generator.
      *
@@ -84,7 +86,7 @@ public class LoadGenerator {
     }
 
     /**
-     * Computes megabytes from bystes.
+     * Computes megabytes from bytes.
      * 
      * @param bytes is the number in bytes which should be converted to MB
      * @return the number of megabytes computed
@@ -94,7 +96,7 @@ public class LoadGenerator {
     }
 
     /**
-     * Loads the properties file used to configure the loadgenerator.
+     * Loads the properties file used to configure the load generator.
      * 
      * @throws FileNotFoundException
      */
@@ -105,6 +107,7 @@ public class LoadGenerator {
         try {
             properties.load(LoadGenerator.class.getResourceAsStream(PROPERTIES_FILE_PATH));
             numberOfRuns = Integer.parseInt((String) this.properties.get("numberOfInstances"));
+            numberOfThreads = Integer.parseInt((String) this.properties.get("numberOfThreads"));
         } catch (IOException e) {
             logger.error("Upps we couldn't load the properties file!", e);
         } finally {
@@ -144,7 +147,7 @@ public class LoadGenerator {
         // Calculate the used memory (in bytes)
         this.logMemoryUsed("Used memory in megabytes at the very beginning: ");
         this.logger.info("We start to put our instances into our navigator!");
-        NavigatorImpl navigator = new NavigatorImpl();
+        NavigatorImpl navigator = new NavigatorImpl(numberOfThreads);
         navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getInstance(this));
 
         for (int i = 0; i < this.getNumberOfRuns(); i++) {
