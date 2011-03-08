@@ -120,6 +120,7 @@
         <module>engine-core-api</module>
         <module>engine-core-impl</module>
         <module>engine-gui</module>
+        <module>engine-demo</module>
     </modules>
 
     <distributionManagement>
