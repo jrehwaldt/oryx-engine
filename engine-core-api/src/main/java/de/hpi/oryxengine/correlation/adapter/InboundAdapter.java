@@ -5,6 +5,8 @@ package de.hpi.oryxengine.correlation.adapter;
  * which allow incoming communication. This includes,
  * e.g. imap email receiving adapter.
  */
-public interface InboundAdapter {
+public interface InboundAdapter
+extends Adapter {
+    
     
 }

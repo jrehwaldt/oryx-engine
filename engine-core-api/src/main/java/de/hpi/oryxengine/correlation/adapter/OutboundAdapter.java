@@ -5,6 +5,7 @@ package de.hpi.oryxengine.correlation.adapter;
  * which allow outgoing communication. This includes,
  * e.g. email sending adapter.
  */
-public interface OutboundAdapter {
+public interface OutboundAdapter
+extends Adapter {
     
 }

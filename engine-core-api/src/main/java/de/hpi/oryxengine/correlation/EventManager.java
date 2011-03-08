@@ -8,7 +8,10 @@ package de.hpi.oryxengine.correlation;
  * 
  * This includes, e.g. preparing an email for sending
  * (add information such as an id) and receiving the response.
+ * 
+ * @deprecated use is unknown
  */
+@Deprecated
 public interface EventManager {
     
 }

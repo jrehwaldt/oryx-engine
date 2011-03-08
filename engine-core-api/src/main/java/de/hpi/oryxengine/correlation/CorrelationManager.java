@@ -13,5 +13,5 @@ public interface CorrelationManager {
      * @param e the adapter event
      */
     void correlateAdapterEvent(AdapterEvent e);
-
+    
 }

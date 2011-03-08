@@ -5,5 +5,9 @@ package de.hpi.oryxengine.correlation;
  * events to the {@link EventManager}.
  */
 public interface EventRegistrar {
-
+    
+    /**
+     * Entry point for registering an event with the {@link CorrelationManager}.
+     */
+    void registerCorrelationEvent();
 }

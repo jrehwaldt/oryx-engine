@@ -37,6 +37,7 @@ extends Thread {
 
         super(threadname);
         this.scheduler = scheduler;
+        logger.info("Navigator {} initialized", threadname);
     }
 
     /**
