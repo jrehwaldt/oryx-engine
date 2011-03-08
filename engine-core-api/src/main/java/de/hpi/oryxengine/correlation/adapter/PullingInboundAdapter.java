@@ -8,4 +8,12 @@ package de.hpi.oryxengine.correlation.adapter;
 public interface PullingInboundAdapter
 extends InboundAdapter {
     
+    /**
+     * This method is invoked whenever pulling is requested.
+     * 
+     * @throws Exception may throw an arbitrary exception
+     */
+    void pull()
+    throws Exception;
+    
 }

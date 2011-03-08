@@ -14,8 +14,8 @@ import de.hpi.oryxengine.navigator.NavigatorState;
  */
 public class NavigatorListenerTest {
     
-    private NavigatorImpl navigator;
-    private AbstractNavigatorListener mock;
+    private NavigatorImpl navigator = null;
+    private AbstractNavigatorListener mock = null;
     
     /**
      * Setup method.

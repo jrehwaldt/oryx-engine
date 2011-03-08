@@ -16,17 +16,11 @@ public final class MailEvent implements EventType {
         
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public UUID getID() {
         return null;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getName() {
         return "mail";
