@@ -27,7 +27,7 @@ implements Node {
     private IncomingBehaviour incomingBehaviour;
 
     /** The next node. */
-    private List<Transition> transitions;
+    private List<Transition> outgoingTransitions, incomingTransitions;
 
     /** The id. */
     private UUID id;
@@ -45,7 +45,8 @@ implements Node {
         this.activity = activity;
         this.incomingBehaviour = incomingBehaviour;
         this.outgoingBehaviour = outgoingBehaviour;
-        this.transitions = new ArrayList<Transition>();
+        this.outgoingTransitions = new ArrayList<Transition>();
+        this.incomingTransitions = new ArrayList<Transition>();
     }
     
 
@@ -120,7 +121,9 @@ implements Node {
      */
     private void createTransitionWithCondition(Node node, Condition c) {
         Transition t = new TransitionImpl(this, node, c);
-        this.transitions.add(t);
+        this.outgoingTransitions.add(t);
+        List<Transition> nextIncoming = node.getIncomingTransitions();
+        nextIncoming.add(t);
     }
 
     /**
@@ -137,15 +140,24 @@ implements Node {
      * @param transitions the new transitions
      */
     public void setTransitions(List<Transition> transitions) {
-        this.transitions = transitions;
+        this.outgoingTransitions = transitions;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<Transition> getTransitions() {
-        return transitions;
+    public List<Transition> getOutgoingTransitions() {
+        return outgoingTransitions;
+    }
+    
+
+
+
+    @Override
+    public List<Transition> getIncomingTransitions() {
+
+        return incomingTransitions;
     }
 
     /**

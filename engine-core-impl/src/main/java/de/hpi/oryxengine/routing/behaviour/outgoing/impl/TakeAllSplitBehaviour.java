@@ -17,32 +17,28 @@ public class TakeAllSplitBehaviour implements OutgoingBehaviour {
      * Split Behaviour.
      * It takes all transitions so a classic AND-Split behaviour.
      *
-     * @param instances the instances
+     * @param tokens the instances
      * @return the list
      * @see de.hpi.oryxengine.OutgoingBehaviour.SplitBehaviour#split(java.util.List)
      * TODO Discuss communication issue with thorben and comment it
      */
-    public List<Token> split(List<Token> instances) {
+    public List<Token> split(List<Token> tokens) {
 
-        if (instances.size() == 0) {
-            return instances;
+        if (tokens.size() == 0) {
+            return tokens;
         }
-        List<Node> nodeList = new ArrayList<Node>();
-        List<Token> instancesToNavigate = new ArrayList<Token>();
+        List<Token> tokensToNavigate = new ArrayList<Token>();
         
-        for (Token instance : instances) {
-            Node currentNode = instance.getCurrentNode();
-            for (Transition transition : currentNode.getTransitions()) {
-                nodeList.add(transition.getDestination());
-            }
+        for (Token token : tokens) {
+            Node currentNode = token.getCurrentNode();
 
             try {
-                instancesToNavigate.addAll(instance.navigateTo(nodeList));
+                tokensToNavigate.addAll(token.navigateTo(currentNode.getOutgoingTransitions()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return instancesToNavigate;
+        return tokensToNavigate;
     }
 
 }

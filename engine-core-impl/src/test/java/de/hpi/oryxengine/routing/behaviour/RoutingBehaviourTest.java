@@ -41,7 +41,7 @@ public class RoutingBehaviourTest {
     public void testClass() {
 
         Node node = token.getCurrentNode();
-        Node nextNode = node.getTransitions().get(0).getDestination();
+        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
 
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();

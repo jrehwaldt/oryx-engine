@@ -52,7 +52,7 @@ extends AbstractActivity {
     @Override
     public void executeIntern(@Nonnull Token instance) {
 
-        String calculationResult = (String) instance.getVariable(variableName);
+        String calculationResult = (String) instance.getContext().getVariable(variableName);
 
         String mailBody = "Da Ergebnis der Berechnung von 5 + 5 ist " + calculationResult + ".";
         sendEmail(defaultSender, defaultRecipient, subject, mailBody);

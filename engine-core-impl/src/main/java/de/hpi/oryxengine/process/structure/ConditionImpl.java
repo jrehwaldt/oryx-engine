@@ -61,7 +61,7 @@ public class ConditionImpl implements Condition {
         while (i.hasNext()) {
             @SuppressWarnings("unchecked")
             Map.Entry<String, Object> me = (Map.Entry<String, Object>) i.next();
-            if (instance.getVariable((String) me.getKey()) != me.getValue()) {
+            if (instance.getContext().getVariable((String) me.getKey()) != me.getValue()) {
                 result = false;
                 break;
             }

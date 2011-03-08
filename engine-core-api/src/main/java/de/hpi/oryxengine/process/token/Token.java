@@ -3,7 +3,9 @@ package de.hpi.oryxengine.process.token;
 import java.util.List;
 import java.util.UUID;
 
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.util.Identifiable;
 
 /**
@@ -11,36 +13,6 @@ import de.hpi.oryxengine.util.Identifiable;
  */
 public interface Token
 extends Identifiable {
-
-    /**
-     * Gets the parent instance.
-     * 
-     * @return the parent instance
-     */
-    Token getParentToken();
-
-    /**
-     * Sets the parent instance.
-     * 
-     * @param token
-     *            the new parent instance
-     */
-    void setParentToken(Token token);
-
-    /**
-     * Gets the child instances.
-     * 
-     * @return the child instances
-     */
-    List<Token> getChildTokens();
-
-    /**
-     * Sets the child instances.
-     * 
-     * @param children
-     *            the new child instances
-     */
-    void setChildTokens(List<Token> children);
 
     /**
      * Gets the current node.
@@ -63,24 +35,6 @@ extends Identifiable {
     @Override
     UUID getID();
 
-    /**
-     * Sets the variable.
-     * 
-     * @param name
-     *            the name
-     * @param value
-     *            the value
-     */
-    void setVariable(String name, Object value);
-
-    /**
-     * Gets the variable.
-     * 
-     * @param name
-     *            the name
-     * @return the variable
-     */
-    Object getVariable(String name);
 
     /**
      * Executes a step for the given instance, which is usually a single step beginning with the current node.
@@ -97,15 +51,25 @@ extends Identifiable {
      * @return newly created subprocesses
      * @throws Exception if the node to navigate to doesn't exist
      */
-    List<Token> navigateTo(List<Node> nodeList)
+    List<Token> navigateTo(List<Transition> transitionList)
     throws Exception;
     
     /**
-     * Creates a child instance pointing to the given node n.
+     * Creates a new token pointing to the given node n in the same processinstancecontext.
      * 
-     * @param n the node the new instance points to.
-     * @return the new process instance
+     * @param n the node the new token points to.
+     * @return the new process token
      */
-    Token createChildToken(Node n);
+    Token createNewToken(Node n);
+    
+    boolean joinable();
+    
+    Token performJoin();
+    
+    ProcessInstanceContext getContext();
+    
+    Transition getLastTakenTransition();
+    
+    void setLastTakenTransitions(Transition t);
 
 }

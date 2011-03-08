@@ -101,16 +101,7 @@ implements Navigator {
             // go crazy
             // TODO handle this errorcase
         }
-
-        // instantiate the processDefinition
-        Token token = new TokenImpl(loadedDefinitions.get(processID), 0);
-        runningInstances.put(token.getID(), token);
-
-        // register initial node for scheduling
-        scheduler.submit(token);
-        
-        // TODO return id from ProcessInstance, use UUID
-        return UUID.randomUUID(); 
+        return null;
     }
 
     // this method is for first testing only, as we do not have ProcessDefinitions yet

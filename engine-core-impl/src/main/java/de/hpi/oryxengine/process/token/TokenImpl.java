@@ -8,16 +8,15 @@ import java.util.Map;
 import java.util.UUID;
 
 import de.hpi.oryxengine.exception.IllegalNavigationException;
-import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
-import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The implementation of a process token.
  */
-public class TokenImpl
-implements Token {
+public class TokenImpl implements Token {
 
     /** The id. */
     private UUID id;
@@ -25,39 +24,22 @@ implements Token {
     /** The current node. */
     private Node currentNode;
 
-    /** The parent token. */
-    private Token parentToken;
+    /** The context. */
+    private ProcessInstanceContext context;
 
-    /** The child tokens. */
-    private List<Token> childTokens;
-
-    /** The token variables. */
-    private Map<String, Object> contextVariables;
+    private Transition lastTakenTransition;
 
     /**
-     * Instantiates a new process token impl.
-     * 
-     * @param processDefinition the process definition
-     * @param startNumber the start number
-     */
-    public TokenImpl(AbstractProcessDefinitionImpl processDefinition,
-                               Integer startNumber) {
-
-        // choose a start Node from the possible List of Nodes
-        // TODO how to choose the start node?
-        ArrayList<Node> startNodes = processDefinition.getStartNodes();
-        currentNode = startNodes.get(startNumber);
-
-    }
-
-    /**
-     * Instantiates a new process token impl.
+     * Instantiates a new token impl.
      * 
      * @param startNode
      *            the start node
+     * @param context
+     *            the context
      */
-    public TokenImpl(Node startNode) {
-        this(startNode, null);
+    public TokenImpl(Node startNode, ProcessInstanceContext context) {
+
+        this(startNode, null, context);
     }
 
     /**
@@ -67,29 +49,24 @@ implements Token {
      *            the start node
      * @param parentToken
      *            the parent token
+     * @param context
+     *            the context
      */
-    public TokenImpl(Node startNode,
-                               Token parentToken) {
+    public TokenImpl(Node startNode, Token parentToken, ProcessInstanceContext context) {
 
         currentNode = startNode;
-        this.parentToken = parentToken;
-        this.childTokens = new ArrayList<Token>();
+        this.context = context;
     }
 
     /**
-     * {@inheritDoc}
+     * Instantiates a new token impl.
+     * 
+     * @param startNode
+     *            the start node
      */
-    @Override
-    public Token getParentToken() {
-        return parentToken;
-    }
+    public TokenImpl(Node startNode) {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setParentToken(Token token) {
-        this.parentToken = token;
+        this(startNode, null, new ProcessInstanceContextImpl());
     }
 
     /**
@@ -99,77 +76,31 @@ implements Token {
      * @see de.hpi.oryxengine.process.token.Token#getCurrentNode()
      */
     public Node getCurrentNode() {
+
         return currentNode;
     }
 
     /**
-     * {@inheritDoc}
+     * Sets the current node.
+     * 
+     * @param node
+     *            the new current node {@inheritDoc}
      */
     @Override
     public void setCurrentNode(Node node) {
+
         currentNode = node;
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<Token> getChildTokens() {
-
-        return childTokens;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setChildTokens(List<Token> childTokens) {
-
-        this.childTokens = childTokens;
-    }
-
-    /**
-     * {@inheritDoc}
+     * Gets the iD.
+     * 
+     * @return the iD {@inheritDoc}
      */
     @Override
     public UUID getID() {
+
         return id;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setVariable(String name,
-                            Object value) {
-
-        getTokenVariables().put(name, value);
-    }
-
-    /**
-     * Gets the variable.
-     * 
-     * @param name
-     *            of the variable
-     * @return the variable
-     * @see de.hpi.oryxengine.process.token.Token#getVariable(java.lang.String)
-     */
-    public Object getVariable(String name) {
-
-        return getTokenVariables().get(name);
-    }
-
-    /**
-     * Gets the token variables.
-     * 
-     * @return the token variables
-     */
-    private Map<String, Object> getTokenVariables() {
-
-        if (contextVariables == null) {
-            contextVariables = new HashMap<String, Object>();
-        }
-        return contextVariables;
     }
 
     /**
@@ -184,22 +115,28 @@ implements Token {
     }
 
     /**
-     * {@inheritDoc}
+     * Navigate to.
+     * 
+     * @param transitionList
+     *            the node list
+     * @return the list
      */
     @Override
-    public List<Token> navigateTo(List<Node> nodeList)
-    throws IllegalNavigationException {
+    public List<Token> navigateTo(List<Transition> transitionList) {
 
-        validateNodeList(nodeList);
         List<Token> tokensToNavigate = new ArrayList<Token>();
-        if (nodeList.size() == 1) {
-            Node node = nodeList.get(0);
+        if (transitionList.size() == 1) {
+            Transition transition = transitionList.get(0);
+            Node node = transition.getDestination();
             this.setCurrentNode(node);
+            this.lastTakenTransition = transition;
             tokensToNavigate.add(this);
         } else {
-            for (Node node: nodeList) {
-                Token childToken = createChildToken(node);
-                tokensToNavigate.add(childToken);
+            for (Transition transition : transitionList) {
+                Node node = transition.getDestination();
+                Token newToken = createNewToken(node);
+                newToken.setLastTakenTransitions(transition);
+                tokensToNavigate.add(newToken);
             }
         }
         return tokensToNavigate;
@@ -207,52 +144,49 @@ implements Token {
     }
 
     /**
-     * Validate node list.
+     * Creates a new token in the same context.
      * 
-     * @param nodeList
-     *            the node list
-     * @throws IllegalNavigationException
-     *             the illegal navigation exception
-     */
-    private void validateNodeList(List<Node> nodeList)
-    throws IllegalNavigationException {
-
-        ArrayList<Node> destinations = new ArrayList<Node>();
-        for (Transition transition : currentNode.getTransitions()) {
-            destinations.add(transition.getDestination());
-        }
-        if (!destinations.containsAll(nodeList)) {
-            throw new IllegalNavigationException();
-        }
-    }
-
-    /**
-     * Take single transition.
-     * 
-     * @param t
-     *            the transition to take
-     * @return list of process tokens
-     * @see de.hpi.oryxengine.process.token.Token
-     *      #takeSingleTransition(de.hpi.oryxengine.process.structure.Transition)
-     */
-    public List<Token> takeSingleTransition(Transition t) {
-
-        List<Token> tokensToNavigate = new LinkedList<Token>();
-        this.currentNode = t.getDestination();
-        tokensToNavigate.add(this);
-        return tokensToNavigate;
-    }
-
-    /**
-     * {@inheritDoc}
+     * @param node
+     *            the node
+     * @return the token {@inheritDoc}
      */
     @Override
-    public Token createChildToken(Node node) {
+    public Token createNewToken(Node node) {
 
-        Token childToken = new TokenImpl(node);
-        childToken.setParentToken(this);
-        this.childTokens.add(childToken);
-        return childToken;
+        Token newToken = new TokenImpl(node, this.context);
+        return newToken;
+    }
+
+    @Override
+    public boolean joinable() {
+
+        return this.context.allIncomingTransitionsSignaled(this.currentNode);
+    }
+
+    @Override
+    public Token performJoin() {
+
+        Token token = new TokenImpl(currentNode, context);
+        context.removeIncomingTransitions(currentNode);
+        return token;
+    }
+
+    @Override
+    public ProcessInstanceContext getContext() {
+
+        return context;
+    }
+
+    @Override
+    public Transition getLastTakenTransition() {
+
+        return lastTakenTransition;
+    }
+
+    @Override
+    public void setLastTakenTransitions(Transition t) {
+
+        this.lastTakenTransition = t;
     }
 
 }

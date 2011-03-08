@@ -41,6 +41,6 @@ extends AbstractActivity {
         for (int value: this.summands) {
             result += value;
         }
-        instance.setVariable(resultVariableName, String.valueOf(result));
+        instance.getContext().setVariable(resultVariableName, String.valueOf(result));
     }
 }

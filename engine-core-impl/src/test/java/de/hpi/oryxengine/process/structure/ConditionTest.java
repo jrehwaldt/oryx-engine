@@ -11,6 +11,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -23,6 +24,9 @@ public class ConditionTest {
     
     /** The instance. */
     private Token token;
+    
+    /** The context. */
+    private ProcessInstanceContext context;
   
 
   /**
@@ -47,7 +51,7 @@ public class ConditionTest {
    */
   @Test
   public void testTrueConditionOnVariable() {
-      when(token.getVariable("a")).thenReturn(1);
+      when(context.getVariable("a")).thenReturn(1);
       assertTrue(condition.evaluate(token), "Condition was not true.");
   }
   
@@ -60,6 +64,8 @@ public class ConditionTest {
       HashMap<String, Object> map = new HashMap<String, Object>();
       map.put("a", 1);
       condition = new ConditionImpl(map);
+      context = mock(ProcessInstanceContext.class);
+      when(token.getContext()).thenReturn(context);
   }
 
   /**

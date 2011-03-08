@@ -62,7 +62,14 @@ extends Identifiable {
      * 
      * @return the next Node(s) depending on the node (normal nodes vs. Splits which have multiple next nodes).
      */
-    List<Transition> getTransitions();
+    List<Transition> getOutgoingTransitions();
+    
+    /**
+     * Gets the incoming transitions.
+     *
+     * @return the incoming transitions
+     */
+    List<Transition> getIncomingTransitions();
 
     /**
      * Describes a new outgoing edge to the given node.

@@ -51,19 +51,10 @@ public class ProcessTokenImplTest {
     @Test
     public void testTakeAllTransitions() throws Exception {
 
-        List<Node> nodeList = new ArrayList<Node>();
         Node currentNode = token.getCurrentNode();
-        for (Transition transition : currentNode.getTransitions()) {
-            nodeList.add(transition.getDestination());
-        }
         
-        List<Token> newTokens = token.navigateTo(nodeList);
+        List<Token> newTokens = token.navigateTo(currentNode.getOutgoingTransitions());
         assertEquals(newTokens.size(), 2, "You should have two new process tokens");
-
-        for (Token newToken : newTokens) {
-            assertEquals(newToken.getParentToken(), token, "The new instances "
-                + "should have the token that reached the split node as a parent");
-        }
 
         Node[] currentNodes = new Node[2];
         for (int i = 0; i < 2; i++) {
@@ -83,9 +74,9 @@ public class ProcessTokenImplTest {
     @Test
     public void testTakeSingleTransition() throws Exception {
 
-        List<Node> nodeList = new ArrayList<Node>();
-        nodeList.add(transitionToTake.getDestination());
-        List<Token> newTokens = token.navigateTo(nodeList);
+        List<Transition> transitionList = new ArrayList<Transition>();
+        transitionList.add(transitionToTake);
+        List<Token> newTokens = token.navigateTo(transitionList);
         assertEquals(newTokens.size(), 1, "You should have a single process token.");
 
         Token newToken = newTokens.get(0);
@@ -109,7 +100,7 @@ public class ProcessTokenImplTest {
         node3 = new NodeImpl(activity);
         node.transitionTo(node2);
 
-        transitionToTake = node.getTransitions().get(0);
+        transitionToTake = node.getOutgoingTransitions().get(0);
 
         node.transitionTo(node3);
 

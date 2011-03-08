@@ -94,7 +94,7 @@ public class HashComputationActivity extends AbstractActivity {
 
         md.update(toBeHashed.getBytes());
         byte[] output = md.digest();
-        instance.setVariable(variableName, bytesToHex(output));
+        instance.getContext().setVariable(variableName, bytesToHex(output));
 
     }
 

@@ -12,6 +12,11 @@ import de.hpi.oryxengine.routing.behaviour.incoming.AbstractIncomingBehaviour;
  */
 public class AndJoinBehaviour extends AbstractIncomingBehaviour {
 
+    public List<Token> join(Token token) {
+
+        token.getContext().setWaitingExecution(token.getLastTakenTransition());
+        return super.join(token);
+    }
     /*
      * (non-Javadoc)
      * 
@@ -20,20 +25,9 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
      * .ProcessInstance)
      */
     @Override
-    protected boolean joinable(Token instance) {
+    protected boolean joinable(Token token) {
 
-        Node currentNode = instance.getCurrentNode();
-        Token parent = instance.getParentToken();
-        boolean joinable = true;
-
-        List<Token> childInstances = parent.getChildTokens();
-        for (Token child : childInstances) {
-            if (child.getCurrentNode() != currentNode) {
-                joinable = false;
-            }
-        }
-
-        return joinable;
+        return token.joinable();
     }
 
     /*
@@ -45,15 +39,12 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
      * .ProcessInstance)
      */
     @Override
-    protected List<Token> performJoin(Token instance) {
+    protected List<Token> performJoin(Token token) {
 
         // We can do this, as we currently assume that an and join has a single outgoing transition
-        List<Token> newInstances = new LinkedList<Token>();
-        Node currentNode = instance.getCurrentNode();
-        Token parent = instance.getParentToken();
-        parent.setCurrentNode(currentNode);
-        newInstances.add(parent);
-        return newInstances;
+        List<Token> newTokens = new LinkedList<Token>();
+        newTokens.add(token.performJoin());
+        return newTokens;
     }
 
 }

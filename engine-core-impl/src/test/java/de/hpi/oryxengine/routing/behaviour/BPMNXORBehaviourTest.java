@@ -34,16 +34,6 @@ public class BPMNXORBehaviourTest {
     public void setUp() {
         token = simpleToken();
     }
-    
-    
-    /**
-     * Test count of child tokens.
-     */
-    @Test
-    public void testCountOfChildInstances() {
-        executeSplitAndJoin(token);
-        assertEquals(token.getChildTokens().size(), 0);
-    }
 
     /**
      * Test the true next destination node.
@@ -53,7 +43,7 @@ public class BPMNXORBehaviourTest {
     public void testTrueNextNode() {
 
         Node node = token.getCurrentNode();
-        Node nextNode = node.getTransitions().get(1).getDestination();
+        Node nextNode = node.getOutgoingTransitions().get(1).getDestination();
 
         executeSplitAndJoin(token);
 
@@ -65,9 +55,9 @@ public class BPMNXORBehaviourTest {
      */
     @Test
     public void testTrueConditionNode() {
-        token.setVariable("a", 1);
+        token.getContext().setVariable("a", 1);
         Node node = token.getCurrentNode();
-        Node nextNode = node.getTransitions().get(0).getDestination();
+        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
 
         executeSplitAndJoin(token);
 
@@ -81,7 +71,7 @@ public class BPMNXORBehaviourTest {
     public void testFalseDestinationNode() {
         
         Node node = token.getCurrentNode();
-        Node nextNode = node.getTransitions().get(0).getDestination();
+        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
         
         executeSplitAndJoin(token);
         assert token.getCurrentNode() != nextNode;
@@ -123,13 +113,13 @@ public class BPMNXORBehaviourTest {
      *
      * @param token the token
      */
-    private void executeSplitAndJoin(Token token) {
+    private List<Token> executeSplitAndJoin(Token token) {
         Node node = token.getCurrentNode();
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
         
         List<Token> joinedInstances = incomingBehaviour.join(token);
         
-        outgoingBehaviour.split(joinedInstances);
+        return outgoingBehaviour.split(joinedInstances);
     }
 }

@@ -41,7 +41,7 @@ public class MailNodeActivityTest {
       mailernode = factory.create();
       SimpleProcessTokenFactory processfactory = new SimpleProcessTokenFactory(); 
       p = processfactory.create(mailernode);
-      p.setVariable("result", "Roflcopter123!");
+      p.getContext().setVariable("result", "Roflcopter123!");
       maily = SimpleSmtpServer.start(SMTP_PORT);
   }
   

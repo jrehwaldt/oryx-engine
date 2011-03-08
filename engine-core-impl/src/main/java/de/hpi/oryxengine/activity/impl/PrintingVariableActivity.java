@@ -29,7 +29,7 @@ extends AbstractActivity {
     @Override
     public void executeIntern(Token instance) {
 
-        String variableValue = (String) instance.getVariable(variableName).toString();
+        String variableValue = (String) instance.getContext().getVariable(variableName).toString();
         System.out.println("In der Variable " + variableName + " steht " + variableValue + " .");
     }
 

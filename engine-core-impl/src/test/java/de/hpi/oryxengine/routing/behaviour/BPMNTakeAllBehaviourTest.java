@@ -40,7 +40,7 @@ public class BPMNTakeAllBehaviourTest {
     public void testClass() {
 
         Node node = token.getCurrentNode();
-        Node nextNode = node.getTransitions().get(0).getDestination();
+        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
 
         executeSplitAndJoin(token);
 

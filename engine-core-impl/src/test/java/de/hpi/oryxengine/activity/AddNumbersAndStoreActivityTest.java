@@ -36,7 +36,7 @@ public class AddNumbersAndStoreActivityTest {
     @Test
     public void testResult() {
         p.executeStep();
-        int i = Integer.parseInt((String) p.getVariable("result"));
+        int i = Integer.parseInt((String) p.getContext().getVariable("result"));
         assertEquals(i, 2, "Upps we cant add correctly.");
     }
 }

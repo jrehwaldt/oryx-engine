@@ -22,25 +22,25 @@ public class XORSplitBehaviour implements OutgoingBehaviour {
         if (instances.size() == 0) {
             return instances;
         }
-        List<Node> nodeList = new ArrayList<Node>();
-        List<Token> instancesToNavigate = null;
+        List<Transition> transitionList = new ArrayList<Transition>();
+        List<Token> transitionsToNavigate = null;
         
         for (Token instance : instances) {
             Node currentNode = instance.getCurrentNode();
-            for (Transition transition : currentNode.getTransitions()) {
+            for (Transition transition : currentNode.getOutgoingTransitions()) {
                 if (transition.getCondition().evaluate(instance)) {
-                    nodeList.add(transition.getDestination());
+                    transitionList.add(transition);
                     break;
                 }
             }
 
             try {
-                instancesToNavigate = instance.navigateTo(nodeList);
+                transitionsToNavigate = instance.navigateTo(transitionList);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return instancesToNavigate;
+        return transitionsToNavigate;
     }
 
 }

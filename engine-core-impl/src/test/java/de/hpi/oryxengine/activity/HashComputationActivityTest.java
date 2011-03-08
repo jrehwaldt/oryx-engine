@@ -41,6 +41,6 @@ public class HashComputationActivityTest {
     @Test
     public void testTheHash() {
         p.executeStep();
-        assertEquals(p.getVariable(VARIABLENAME), SHA1, "Oh well hashing doesn't work what a shame.");
+        assertEquals(p.getContext().getVariable(VARIABLENAME), SHA1, "Oh well hashing doesn't work what a shame.");
     }
 }
