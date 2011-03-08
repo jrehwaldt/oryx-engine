@@ -25,19 +25,19 @@ public class NavigatorTest {
     private static final int SLEEP_TIME = 3000;
 
     /** The navigator. */
-    private NavigatorImpl navigator;
+    private NavigatorImpl navigator = null;
 
     /** Different nodes. */
-    private Node node, node2;
+    private Node node = null, node2 = null;
 
     /** The process instance. */
-    private TokenImpl processToken;
+    private TokenImpl processToken = null;
 
     /** The byte array output stream. */
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
     /** A temporary print stream. */
-    private PrintStream tmp;
+    private PrintStream tmp = null;
 
     /**
      * Set up.

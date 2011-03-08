@@ -18,9 +18,9 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class FIFOSchedulerTest {
 
-    private FIFOScheduler scheduler;
-    private Token firstToken;
-    private Token secondToken;
+    private FIFOScheduler scheduler = null;
+    private Token firstToken = null;
+    private Token secondToken = null;
 
     /**
      * Before test.

@@ -20,13 +20,13 @@ import de.hpi.oryxengine.process.token.Token;
 public class ConditionTest {
     
     /** The condition. */
-    private Condition condition;
+    private Condition condition = null;
     
     /** The instance. */
-    private Token token;
+    private Token token = null;
     
     /** The context. */
-    private ProcessInstanceContext context;
+    private ProcessInstanceContext context = null;
   
 
   /**

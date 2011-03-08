@@ -1,15 +1,10 @@
 package de.hpi.oryxengine.activity;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
-import java.util.Iterator;
-
+import org.jvnet.mock_javamail.Mailbox;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import com.dumbster.smtp.SimpleSmtpServer;
-import com.dumbster.smtp.SmtpMessage;
 
 import de.hpi.oryxengine.factory.MailNodeFactory;
 import de.hpi.oryxengine.factory.SimpleProcessTokenFactory;
@@ -22,13 +17,8 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class MailNodeActivityTest {
   
-  private Node mailernode;
-  
-  private Token p;
-  
-  private SimpleSmtpServer maily;
-  
-  private final static int SMTP_PORT = 2525;
+  private Node node = null;
+  private Token p = null;
   
   /**
    * Set up.
@@ -38,29 +28,19 @@ public class MailNodeActivityTest {
   @BeforeTest
   public void setUp() {
       MailNodeFactory factory = new MailNodeFactory();
-      mailernode = factory.create();
+      node = factory.create();
       SimpleProcessTokenFactory processfactory = new SimpleProcessTokenFactory(); 
-      p = processfactory.create(mailernode);
+      p = processfactory.create(node);
       p.getContext().setVariable("result", "Roflcopter123!");
-      maily = SimpleSmtpServer.start(SMTP_PORT);
   }
   
   /**
    * Test the sending of a mail.
+   * @throws Exception thrown if a) the mail could not be send or b) the mock failed to work
    */
-  @SuppressWarnings("unchecked")
   @Test
-  public void testMailsend() {
-      
-    try {
-        p.executeStep();
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-      maily.stop();
-      assertEquals(maily.getReceivedEmailSize(), 1, "Upps we didn't receive an email.. too bad");
-      Iterator<SmtpMessage> emailIter = maily.getReceivedEmail();
-      SmtpMessage email = (SmtpMessage) emailIter.next();
-      assertTrue(email.getBody().contains("Roflcopter123!"), "No Roflcopter on the fly...");
+  public void testMailsend() throws Exception {
+      p.executeStep();
+      assertEquals(Mailbox.get("gns@oryxengine.de").size(), 1, "Upps we didn't receive an email.. too bad");
   }
 }
