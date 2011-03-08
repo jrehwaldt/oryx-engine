@@ -1,13 +1,11 @@
 package de.hpi.oryxengine.routing.behaviour;
 
-import static org.mockito.Mockito.mock;
+import static org.testng.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import static org.testng.Assert.assertEquals;
 
 import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.process.structure.Node;
@@ -104,9 +102,11 @@ public class BPMNUnstructuredJoinSplitTest {
 
     /**
      * Returns the token out of the candidate nodes that points to the given node.
-     *
-     * @param candidateTokens the candidate tokens
-     * @param n the node that the pointing token is searched for
+     * 
+     * @param candidateTokens
+     *            the candidate tokens
+     * @param n
+     *            the node that the pointing token is searched for
      * @return the token
      */
     private Token tokenOnNode(List<Token> candidateTokens, Node n) {
