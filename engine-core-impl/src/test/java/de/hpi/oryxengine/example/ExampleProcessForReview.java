@@ -3,19 +3,18 @@ package de.hpi.oryxengine.example;
 import java.util.UUID;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
+
 import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.MailingVariable;
-import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
-import de.hpi.oryxengine.activity.impl.StartActivity;
+import de.hpi.oryxengine.factory.AddNumbersAndStoreNodeFactory;
+import de.hpi.oryxengine.factory.MailNodeFactory;
+import de.hpi.oryxengine.factory.PrintingNodeFactory;
+import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
-import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
+import de.hpi.oryxengine.process.token.TokenImpl;
+
 
 /**
  * The Class that holds the example process that needs as review process for the engine.
@@ -45,8 +44,8 @@ public final class ExampleProcessForReview {
         navigator.registerPlugin(NavigatorListenerLogger.getInstance());
         navigator.start();
         
-        ProcessInstanceImpl instance = processInstanceForReview();
-        navigator.startArbitraryInstance(UUID.randomUUID(), instance);
+        TokenImpl token = processTokenForReview();
+        navigator.startArbitraryInstance(UUID.randomUUID(), token);
         
         Thread.sleep(SLEEP_TIME);
         
@@ -54,44 +53,28 @@ public final class ExampleProcessForReview {
     }
     
     /**
-     * Creates the processinstance for the reviewProcess.
+     * Creates the process token for the reviewProcess.
      * 
-     * @return the process instance impl
+     * @return the process token impl
      */
-    private static ProcessInstanceImpl processInstanceForReview() {
+    private static TokenImpl processTokenForReview() {
 
         /*
          * The process looks like this: start => calc5Plus5 => printResult => mailingTheResult => end
          */
-        AbstractActivityLifecyclePlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
         
-        AbstractActivity start = new StartActivity();
-        AbstractActivity calc5Plus5 = new AddNumbersAndStoreActivity("result", 5, 5);
-        PrintingVariableActivity printResult = new PrintingVariableActivity("result");
         // Default to gerardo.navarro-suarez@student.hpi.uni-potsdam.de
-        AbstractActivity mailResult = new MailingVariable("result");
         AbstractActivity end = new EndActivity();
-        calc5Plus5.registerPlugin(lifecycleLogger);
-        printResult.registerPlugin(lifecycleLogger);
-        mailResult.registerPlugin(lifecycleLogger);
-        end.registerPlugin(lifecycleLogger);
 
-        RoutingBehaviour behaviour = new TakeAllBehaviour();
+        Node startNode = new RoutingBehaviourTestFactory().createWithAndSplitAndLogger();
 
-        NodeImpl startNode = new NodeImpl(start, behaviour);
-        startNode.setId("1");
+        Node secondNode = new AddNumbersAndStoreNodeFactory("result", 5, 5).createWithLogger();
 
-        NodeImpl secondNode = new NodeImpl(calc5Plus5, behaviour);
-        secondNode.setId("2");
+        Node thirdNode = new PrintingNodeFactory().createWithLogger();
 
-        NodeImpl thirdNode = new NodeImpl(printResult, behaviour);
-        thirdNode.setId("3");
+        Node fourthNode = new MailNodeFactory().createWithLogger();
 
-        NodeImpl fourthNode = new NodeImpl(mailResult, behaviour);
-        fourthNode.setId("4");
-
-        NodeImpl endNode = new NodeImpl(end);
-        endNode.setId("5");
+        Node endNode = new NodeImpl(end);
 
         // Setting the transitions
         startNode.transitionTo(secondNode);
@@ -99,8 +82,8 @@ public final class ExampleProcessForReview {
         thirdNode.transitionTo(fourthNode);
         fourthNode.transitionTo(endNode);
 
-        ProcessInstanceImpl sampleInstance = new ProcessInstanceImpl(startNode);
-        return sampleInstance;
+        TokenImpl sampleToken = new TokenImpl(startNode);
+        return sampleToken;
     }
 
 }

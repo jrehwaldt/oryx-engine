@@ -10,10 +10,9 @@ import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
 import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
  */
@@ -23,7 +22,7 @@ implements Navigator {
     
     // map IDs to Definition
     /** The running instances. */
-    private HashMap<UUID, ProcessInstance> runningInstances;
+    private HashMap<UUID, Token> runningInstances;
 
     /** The loaded definitions. */
     private HashMap<UUID, AbstractProcessDefinitionImpl> loadedDefinitions;
@@ -61,7 +60,7 @@ implements Navigator {
     public NavigatorImpl(int numberOfThreads) {
         
         // TODO Lazy initialized
-        runningInstances = new HashMap<UUID, ProcessInstance>();
+        runningInstances = new HashMap<UUID, Token>();
         loadedDefinitions = new HashMap<UUID, AbstractProcessDefinitionImpl>();
         scheduler = new FIFOScheduler();
         executionThreads = new ArrayList<NavigationThread>();
@@ -75,6 +74,7 @@ implements Navigator {
      * Starts the number of worker thread specified in the NUMBER_OF_NAVIGATOR_THREADS Constant and adds them to
      * the execution threads list.
      */
+    @Override
     public void start() {
         
         // "Gentlemen, start your engines"
@@ -104,23 +104,15 @@ implements Navigator {
      * @return the string
      * @see de.hpi.oryxengine.navigator.Navigator#startProcessInstance(java.lang.String)
      */
+    @Override
     // TODO Implement this thing in general
-    public String startProcessInstance(UUID processID) {
+    public UUID startProcessInstance(UUID processID) {
 
         if (!loadedDefinitions.containsKey(processID)) {
             // go crazy
             // TODO handle this errorcase
         }
-
-        // instantiate the processDefinition
-        ProcessInstance processInstance = new ProcessInstanceImpl(loadedDefinitions.get(processID), 0);
-        runningInstances.put(processInstance.getID(), processInstance);
-
-        // register initial node for scheduling
-        scheduler.submit(processInstance);
-        
-        // TODO return id from ProcessInstance, use UUID
-        return "aProcessInstanceID"; 
+        return null;
     }
 
     // this method is for first testing only, as we do not have ProcessDefinitions yet
@@ -133,7 +125,7 @@ implements Navigator {
      *            the instance
      */
     public void startArbitraryInstance(UUID id,
-                                       ProcessInstanceImpl instance) {
+                                       TokenImpl instance) {
 
         this.runningInstances.put(id, instance);
         this.scheduler.submit(instance);

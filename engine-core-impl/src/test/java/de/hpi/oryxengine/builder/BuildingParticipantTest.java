@@ -1,28 +1,33 @@
 package de.hpi.oryxengine.builder;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.OrganizationUnit;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Position;
 import de.hpi.oryxengine.resource.Role;
 
 /**
- * 
- * @author Gerardo Navarro Suarez
+ * Tests the building of {@link Participant}s in the organization structure.
  */
 public class BuildingParticipantTest {
 
+    /** The identity service. */
     private IdentityService identityService;
+    
+    /** The identity builder. */
     private IdentityBuilder identityBuilder;
+    
+    /** The participant. */
     private Participant participant;
 
+    /**
+     * Before method.
+     */
     @BeforeMethod
     public void beforeMethod() {
 
@@ -33,6 +38,9 @@ public class BuildingParticipantTest {
         participant.setName("Gerardo Navarro Suarez");
     }
 
+    /**
+     * Test participant creation.
+     */
     @Test
     public void testParticipantCreation() {
 
@@ -43,6 +51,9 @@ public class BuildingParticipantTest {
         Assert.assertEquals(participant.getName(), "Gerardo Navarro Suarez");
     }
 
+    /**
+     * Test for duplicate participant.
+     */
     @Test
     public void testForDuplicateParticipant() {
 
@@ -56,8 +67,11 @@ public class BuildingParticipantTest {
 
     }
 
+    /**
+     * Test creation participant position relationship.
+     */
     @Test
-    public void testRelationshipParticipantPosition() {
+    public void testCreationParticipantPositionRelationship() {
 
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
@@ -76,7 +90,7 @@ public class BuildingParticipantTest {
      * An OrganzationUnit should only have unique Positions.
      */
     @Test
-    public void testUniquePositionsInParticipant() {
+    public void testUniquePositionsParticipantRelationship() {
 
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
@@ -98,8 +112,11 @@ public class BuildingParticipantTest {
         Assert.assertTrue(identityService.getPositions().size() == 2);
     }
     
+    /**
+     * Test change position participant relationship.
+     */
     @Test
-    public void testChangePositionInParticipant() {
+    public void testChangePositionParticipantRelationship() {
 
         Position pos1 = identityBuilder.createPosition("1");
 
@@ -124,6 +141,9 @@ public class BuildingParticipantTest {
         Assert.assertTrue(participant.getMyPositions().size() == 0, failureMessage);
     }
     
+    /**
+     * Test delete participant.
+     */
     @Test
     public void testDeleteParticipant() {
 
@@ -140,13 +160,17 @@ public class BuildingParticipantTest {
         Assert.assertFalse(identityService.getParticipants().contains(participant), failureMessage);
 
         for (Position position : participant.getMyPositions()) {
-            failureMessage = "The Position '" + position.getId() + "' should not have an Participant. It should be null.";
+            failureMessage = "The Position '" + position.getId() + "' should not have an Participant."
+                             + "It should be null.";
             Assert.assertNull(position.getPositionHolder());
         }
     }
     
+    /**
+     * Test that the relationship between Participant and Position is removed properly.
+     */
     @Test
-    public void testDeletePositionInParticipant() {
+    public void testDeletePositionParticipantRelationship() {
 
         Position pos1 = identityBuilder.createPosition("1");
 

@@ -1,51 +1,38 @@
 package de.hpi.oryxengine.routing.behaviour;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.ConditionImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.routing.behaviour.impl.XORBehaviour;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
+import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
 /**
  * The test of the TakeAllBehaviour-activity.
  */
 public class BPMNXORBehaviourTest {
 
-    /** The routing behavior. */
-    private RoutingBehaviour behaviour;
-
     /** The process instance. */
-    private ProcessInstance instance;
+    private Token token;
 
     /**
      * Set up. An instance is build.
      */
     @BeforeMethod
     public void setUp() {
-        instance = simpleInstance();
-    }
-    
-    
-    /**
-     * Test count of child instances.
-     */
-    @Test
-    public void testCountOfChildInstances() {
-        behaviour.execute(instance);
-        assertEquals(instance.getChildInstances().size(), 0);
+        token = simpleToken();
     }
 
     /**
@@ -55,12 +42,16 @@ public class BPMNXORBehaviourTest {
     @Test
     public void testTrueNextNode() {
 
-        Node node = instance.getCurrentNode();
-        Node nextNode = node.getTransitions().get(1).getDestination();
+        Node node = token.getCurrentNode();
+        Node nextNode = node.getOutgoingTransitions().get(1).getDestination();
 
-        behaviour.execute(instance);
+        try {
+            executeSplitAndJoin(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        assertEquals(instance.getCurrentNode(), nextNode);
+        assertEquals(token.getCurrentNode(), nextNode);
     }
 
     /**
@@ -68,13 +59,17 @@ public class BPMNXORBehaviourTest {
      */
     @Test
     public void testTrueConditionNode() {
-        instance.setVariable("a", 1);
-        Node node = instance.getCurrentNode();
-        Node nextNode = node.getTransitions().get(0).getDestination();
+        token.getContext().setVariable("a", 1);
+        Node node = token.getCurrentNode();
+        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
 
-        behaviour.execute(instance);
+        try {
+            executeSplitAndJoin(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        assertEquals(instance.getCurrentNode(), nextNode);
+        assertEquals(token.getCurrentNode(), nextNode);
     }
     
     /**
@@ -83,11 +78,15 @@ public class BPMNXORBehaviourTest {
     @Test
     public void testFalseDestinationNode() {
         
-        Node node = instance.getCurrentNode();
-        Node nextNode = node.getTransitions().get(0).getDestination();
+        Node node = token.getCurrentNode();
+        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
         
-        behaviour.execute(instance);
-        assert instance.getCurrentNode() != nextNode;
+        try {
+            executeSplitAndJoin(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assert token.getCurrentNode() != nextNode;
     }
 
     /**
@@ -95,33 +94,46 @@ public class BPMNXORBehaviourTest {
      */
     @AfterMethod
     public void tearDown() {
-        instance = null;
+        token = null;
     }
 
     /**
-     * Simple instance. An activity is set up, it gets a behavior and a transition to a second and third node.
+     * Simple token. An activity is set up, it gets a behavior and a transition to a second and third node.
      * The first transition gets a false condition, which has to be not taken.
      * 
-     * @return the process instance that was created within the method
+     * @return the process token that was created within the method
      */
-    private ProcessInstanceImpl simpleInstance() {
+    private TokenImpl simpleToken() {
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("a", 1);
 
-        Activity activity = mock(Activity.class);
-        behaviour = new XORBehaviour();
         Condition c = new ConditionImpl(map);
+        RoutingBehaviourTestFactory factory = new RoutingBehaviourTestFactory();
 
-        NodeImpl node = new NodeImpl(activity, behaviour);
-        node.setId("1");
-        NodeImpl node2 = new NodeImpl(activity, behaviour);
-        node2.setId("2");
-        NodeImpl node3 = new NodeImpl(activity, behaviour);
-        node2.setId("3");
+        Node node = factory.createWithXORSplit();
+        Node node2 = factory.createWithXORSplit();
+        Node node3 = factory.createWithXORSplit();
         node.transitionToWithCondition(node2, c);
         node.transitionTo(node3);
 
-        return new ProcessInstanceImpl(node);
+        return new TokenImpl(node);
+    }
+    
+    /**
+     * Execute split and join.
+     *
+     * @param token the processToken
+     * @return the list
+     * @throws Exception 
+     */
+    private List<Token> executeSplitAndJoin(Token token) throws Exception {
+        Node node = token.getCurrentNode();
+        IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
+        OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
+        
+        List<Token> joinedInstances = incomingBehaviour.join(token);
+        
+        return outgoingBehaviour.split(joinedInstances);
     }
 }

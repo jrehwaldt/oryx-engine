@@ -3,7 +3,7 @@ package de.hpi.oryxengine.activity.impl;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class AddNumbersAndStoreActivity.
@@ -35,12 +35,12 @@ extends AbstractActivity {
      * {@inheritDoc}
      */
     @Override
-    protected void executeIntern(@Nonnull ProcessInstance instance) {
+    protected void executeIntern(@Nonnull Token instance) {
         
         int result = 0;
         for (int value: this.summands) {
             result += value;
         }
-        instance.setVariable(resultVariableName, String.valueOf(result));
+        instance.getContext().setVariable(resultVariableName, String.valueOf(result));
     }
 }

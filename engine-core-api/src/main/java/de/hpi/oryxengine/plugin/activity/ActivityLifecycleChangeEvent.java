@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.ActivityState;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * Immutable container for activity lifecycle events.
@@ -14,7 +14,7 @@ public final class ActivityLifecycleChangeEvent {
     private final @Nonnull Activity activity;
     private final @Nonnull ActivityState prevState;
     private final @Nonnull ActivityState newState;
-    private final @Nonnull ProcessInstance instance;
+    private final @Nonnull Token instance;
     
     /**
      * Default constructor. All fields are non-null.
@@ -27,7 +27,7 @@ public final class ActivityLifecycleChangeEvent {
     public ActivityLifecycleChangeEvent(@Nonnull Activity activity,
                                         @Nonnull ActivityState prevState,
                                         @Nonnull ActivityState newState,
-                                        @Nonnull ProcessInstance instance) {
+                                        @Nonnull Token instance) {
         this.activity = activity;
         this.prevState = prevState;
         this.newState = newState;
@@ -66,7 +66,7 @@ public final class ActivityLifecycleChangeEvent {
      * 
      * @return the process instance
      */
-    public @Nonnull ProcessInstance getProcessInstance() {
+    public @Nonnull Token getProcessInstance() {
         return instance;
     }
     

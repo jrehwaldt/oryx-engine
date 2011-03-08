@@ -6,7 +6,7 @@ package de.hpi.oryxengine.resource;
  * 
  * Participants that possess special abilities could be considered by certain resource allocations.
  * 
- * @author Gery
+ * @author Gerardo Navarro Suarez
  */
 public interface Capability extends Resource<Capability> {
     

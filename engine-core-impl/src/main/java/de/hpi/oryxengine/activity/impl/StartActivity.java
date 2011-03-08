@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.activity.impl;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class StartActivity.
@@ -21,7 +21,7 @@ extends AbstractActivity {
      * {@inheritDoc}
      */
     @Override
-    public void executeIntern(ProcessInstance instance) {
+    public void executeIntern(Token instance) {
         // TODO what is required here?
         // Nothing toDo
     }

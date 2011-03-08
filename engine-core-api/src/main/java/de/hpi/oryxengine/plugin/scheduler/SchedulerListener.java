@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.plugin.scheduler;
 
 import de.hpi.oryxengine.plugin.Plugin;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 
 /**
@@ -24,16 +24,16 @@ public interface SchedulerListener extends Plugin {
     /**
      * This method gets called whenever a process instance is submitted to the scheduler.
      * 
-     * @param numberOfInstances the number of instances the scheduler currently schedules
-     * @param processInstance the process instance that got submitted
+     * @param numberOfTokens the number of instances the scheduler currently schedules
+     * @param token the process instance that got submitted
      */
-    void processInstanceSubmitted(int numberOfInstances, ProcessInstance processInstance);
+    void processInstanceSubmitted(int numberOfTokens, Token token);
     
     /**
      * This method gets called whenever a process instance is retreived from the scheduler.
      *
-     * @param numberOfInstances the number of instances the scheduler currently schedules
-     * @param processInstance the process instance that got retrieved
+     * @param numberOfTokens the number of instances the scheduler currently schedules
+     * @param token the process instance that got retrieved
      */
-    void processInstanceRetrieved(int numberOfInstances, ProcessInstance processInstance);
+    void processInstanceRetrieved(int numberOfTokens, Token token);
 }

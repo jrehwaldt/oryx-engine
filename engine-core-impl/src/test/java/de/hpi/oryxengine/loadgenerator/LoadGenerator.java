@@ -8,11 +8,11 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.factory.ExampleProcessInstanceFactory;
+import de.hpi.oryxengine.factory.ExampleProcessTokenFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.scheduler.SchedulerEmptyListener;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
  * The Class LoadGenerator. Is used to generate some load and profile it (more or less) Maybe it should be more generic,
@@ -30,8 +30,6 @@ public class LoadGenerator {
 
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private SchedulerEmptyListener listener;
     
     private Runtime runtime;
     
@@ -50,7 +48,6 @@ public class LoadGenerator {
     throws FileNotFoundException {
 
         loadProperties();
-        this.listener = SchedulerEmptyListener.getInstance(this);
         this.runtime = Runtime.getRuntime();
 
     }
@@ -110,20 +107,18 @@ public class LoadGenerator {
             numberOfThreads = Integer.parseInt((String) this.properties.get("numberOfThreads"));
         } catch (IOException e) {
             logger.error("Upps we couldn't load the properties file!", e);
-        } finally {
-            // IOUtils.closeQuietly(f);
         }
 
     }
 
     /**
-     * Calls the Example Process Instance factory in order to create a new one.
+     * Calls the Example Process token factory in order to create a new one.
      * 
-     * @return the example process instance
+     * @return the example process token
      */
-    public ProcessInstance getExampleProcessInstance() {
+    public Token getExampleProcessToken() {
 
-            ExampleProcessInstanceFactory factory = new ExampleProcessInstanceFactory();
+            ExampleProcessTokenFactory factory = new ExampleProcessTokenFactory();
             return factory.create();
     }
     
@@ -148,13 +143,13 @@ public class LoadGenerator {
         this.logMemoryUsed("Used memory in megabytes at the very beginning: ");
         this.logger.info("We start to put our instances into our navigator!");
         NavigatorImpl navigator = new NavigatorImpl(numberOfThreads);
-        navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getInstance(this));
+        navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getToken(this));
 
         for (int i = 0; i < this.getNumberOfRuns(); i++) {
-            ProcessInstanceImpl p = (ProcessInstanceImpl) this.getExampleProcessInstance();
+            TokenImpl p = (TokenImpl) this.getExampleProcessToken();
             navigator.startArbitraryInstance(UUID.randomUUID(), p);
             /*
-             * this.logger.info( "Started Processinstance " + Integer.toString(i + 1) + " of " +
+             * this.logger.info( "Started Process token " + Integer.toString(i + 1) + " of " +
              * Integer.toString(this.getNumberOfRuns()));
              */
         }

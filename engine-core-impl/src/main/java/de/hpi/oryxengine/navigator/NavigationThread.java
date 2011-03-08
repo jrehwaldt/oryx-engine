@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.navigator.schedule.Scheduler;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class NavigationThread. Which is one thread to navigate.
@@ -37,6 +37,7 @@ extends Thread {
 
         super(threadname);
         this.scheduler = scheduler;
+        logger.info("Navigator {} initialized", threadname);
     }
 
     /**
@@ -63,7 +64,7 @@ extends Thread {
                 break;
             }
 
-            ProcessInstance instance = null;
+            Token instance = null;
 
             // This has to be an atomic operation on toNavigate, otherwise
             // an IndexOutOfBoundsException might occur
@@ -72,7 +73,13 @@ extends Thread {
 
 
             if (instance != null) {
-                List<ProcessInstance> instances = instance.executeStep();
+                List<Token> instances;
+                instances = null;
+                try {
+                    instances = instance.executeStep();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 scheduler.submitAll(instances);
             } else {
                 try {

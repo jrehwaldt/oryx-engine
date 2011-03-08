@@ -9,10 +9,10 @@ import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.monitor.Monitor;
 import de.hpi.oryxengine.monitor.MonitorGUI;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.impl.TakeAllBehaviour;
+import de.hpi.oryxengine.process.token.TokenImpl;
+import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
@@ -50,7 +50,7 @@ public final class SimpleExampleProcess {
         // let's generate some load :)
         LOGGER.info("Engine started");
         for (int i = 0; i < INSTANCE_COUNT; i++) {
-            ProcessInstanceImpl instance = sampleProcessInstance(i);
+            TokenImpl instance = sampleProcessInstance(i);
             if (i == 234000 || i == 100000 || i == 500000 || i == 800000) {
                 monitor.markSingleInstance(instance);
             }
@@ -69,18 +69,17 @@ public final class SimpleExampleProcess {
      *            the counter
      * @return the process instance impl
      */
-    private static ProcessInstanceImpl sampleProcessInstance(int counter) {
+    private static TokenImpl sampleProcessInstance(int counter) {
 
         AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);
         AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course " + counter);
-        RoutingBehaviour behaviour = new TakeAllBehaviour();
-        NodeImpl startNode = new NodeImpl(activity, behaviour);
-        NodeImpl secondNode = new NodeImpl(activity2);
-        startNode.setId("1");
-        secondNode.setId("2");
+        SimpleJoinBehaviour incoming = new SimpleJoinBehaviour();
+        TakeAllSplitBehaviour outgoing = new TakeAllSplitBehaviour();
+        NodeImpl startNode = new NodeImpl(activity, incoming, outgoing);
+        NodeImpl secondNode = new NodeImpl(activity2);;
         startNode.transitionTo(secondNode);
 
-        ProcessInstanceImpl sampleInstance = new ProcessInstanceImpl(startNode);
+        TokenImpl sampleInstance = new TokenImpl(startNode);
         return sampleInstance;
     }
 

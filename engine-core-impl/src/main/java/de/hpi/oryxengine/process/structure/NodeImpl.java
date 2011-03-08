@@ -2,16 +2,20 @@ package de.hpi.oryxengine.process.structure;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.routing.behaviour.RoutingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.impl.EmptyRoutingBehaviour;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class AbstractNode. Which is used for the graph representation of a Process
  */
-public class NodeImpl implements Node {
+public class NodeImpl
+implements Node {
 
     /**
      * The activity. This is the behaviour of the node e.g. what gets executed.
@@ -19,13 +23,14 @@ public class NodeImpl implements Node {
     private Activity activity;
 
     /** The routing behaviour. E.g. incoming and outgoing transitions. */
-    private RoutingBehaviour behaviour;
+    private OutgoingBehaviour outgoingBehaviour;
+    private IncomingBehaviour incomingBehaviour;
 
     /** The next node. */
-    private List<Transition> transitions;
+    private List<Transition> outgoingTransitions, incomingTransitions;
 
     /** The id. */
-    private String id;
+    private UUID id;
 
     /**
      * Instantiates a new abstract node.
@@ -34,13 +39,40 @@ public class NodeImpl implements Node {
      * @param behaviour the behaviour of the node
      */
     public NodeImpl(Activity activity,
-                    RoutingBehaviour behaviour) {
+                    IncomingBehaviour incomingBehaviour,
+                    OutgoingBehaviour outgoingBehaviour) {
 
         this.activity = activity;
-        this.behaviour = behaviour;
-        this.transitions = new ArrayList<Transition>();
+        this.incomingBehaviour = incomingBehaviour;
+        this.outgoingBehaviour = outgoingBehaviour;
+        this.outgoingTransitions = new ArrayList<Transition>();
+        this.incomingTransitions = new ArrayList<Transition>();
     }
     
+
+    public OutgoingBehaviour getOutgoingBehaviour() {
+    
+        return outgoingBehaviour;
+    }
+
+
+    public void setOutgoingBehaviour(OutgoingBehaviour outgoingBehaviour) {
+    
+        this.outgoingBehaviour = outgoingBehaviour;
+    }
+
+
+    public IncomingBehaviour getIncomingBehaviour() {
+    
+        return incomingBehaviour;
+    }
+
+
+    public void setIncomingBehaviour(IncomingBehaviour incomingBehaviour) {
+    
+        this.incomingBehaviour = incomingBehaviour;
+    }
+
 
     /**
      * Instantiates a new node impl.
@@ -49,7 +81,7 @@ public class NodeImpl implements Node {
      *            the activity
      */
     public NodeImpl(Activity activity) {
-        this(activity, new EmptyRoutingBehaviour());
+        this(activity, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
     }
 
     /**
@@ -89,41 +121,17 @@ public class NodeImpl implements Node {
      */
     private void createTransitionWithCondition(Node node, Condition c) {
         Transition t = new TransitionImpl(this, node, c);
-        this.transitions.add(t);
+        this.outgoingTransitions.add(t);
+        List<Transition> nextIncoming = node.getIncomingTransitions();
+        nextIncoming.add(t);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getId() {
+    public UUID getID() {
         return this.id;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the behaviour.
-     * 
-     * @return the behaviour
-     */
-    public RoutingBehaviour getBehaviour() {
-        return behaviour;
-    }
-
-    /**
-     * Sets the behaviour.
-     * 
-     * @param behaviour the new behaviour
-     */
-    public void setBehaviour(RoutingBehaviour behaviour) {
-        this.behaviour = behaviour;
     }
 
     /**
@@ -132,40 +140,35 @@ public class NodeImpl implements Node {
      * @param transitions the new transitions
      */
     public void setTransitions(List<Transition> transitions) {
-        this.transitions = transitions;
+        this.outgoingTransitions = transitions;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<Transition> getTransitions() {
-        return transitions;
+    public List<Transition> getOutgoingTransitions() {
+        return outgoingTransitions;
+    }
+    
+
+
+
+    @Override
+    public List<Transition> getIncomingTransitions() {
+
+        return incomingTransitions;
     }
 
     /**
      * {@inheritDoc}
+     * @throws Exception 
      */
     @Override
-    public void setRoutingBehaviour(RoutingBehaviour behaviour) {
-        this.behaviour = behaviour;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RoutingBehaviour getRoutingBehaviour() {
-        return behaviour;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ProcessInstance> execute(ProcessInstance instance) {
+    public List<Token> execute(Token instance) throws Exception {
+        List<Token> instances = this.incomingBehaviour.join(instance);
         this.activity.execute(instance);
-        return this.behaviour.execute(instance);
+        return this.outgoingBehaviour.split(instances);
     }
 
 

@@ -2,28 +2,28 @@ package de.hpi.oryxengine.navigator.schedule;
 
 import java.util.List;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Interface Scheduler.
- * It is used in order to schedule the process instances of our navigator.
+ * It is used in order to schedule the process tokens of our navigator.
  */
 public interface Scheduler {
     
     
     /**
-     * Submit a new process instance to be scheduled.
+     * Submit a new process token to be scheduled.
      *
      * @param p the p
      */
-    void submit(ProcessInstance p);
+    void submit(Token p);
     
     /**
-     * Retrive a processinstance in order to do your work on it.
+     * Retrive a processtoken in order to do your work on it.
      *
-     * @return the process instance
+     * @return the process token
      */
-    ProcessInstance retrieve();
+    Token retrieve();
     
     /**
      * Checks if we got nothing to schedule.
@@ -33,10 +33,10 @@ public interface Scheduler {
     boolean isEmpty();
     
     /**
-     * Submit all process instances to be scheduled.
+     * Submit all process tokens to be scheduled.
      *
-     * @param listOfInstances the list of instances
+     * @param listOfTokens the list of tokens
      */
-    void submitAll(List<ProcessInstance> listOfInstances);
+    void submitAll(List<Token> listOfTokens);
 
 }

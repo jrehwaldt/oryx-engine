@@ -11,7 +11,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class ConditionTest.
@@ -19,10 +20,13 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
 public class ConditionTest {
     
     /** The condition. */
-    private Condition condition;
+    private Condition condition = null;
     
     /** The instance. */
-    private ProcessInstance instance;
+    private Token token = null;
+    
+    /** The context. */
+    private ProcessInstanceContext context = null;
   
 
   /**
@@ -30,7 +34,7 @@ public class ConditionTest {
    */
   @Test
   public void testFalseConditionOnVariable() {
-      assertFalse(condition.evaluate(instance), "Condition was true but should be false.");
+      assertFalse(condition.evaluate(token), "Condition was true but should be false.");
   }
   
   /**
@@ -39,7 +43,7 @@ public class ConditionTest {
   @Test
   public void testSetFalse() {
     condition.setFalse();
-    assertFalse(condition.evaluate(instance), "Set false didnt happened.");
+    assertFalse(condition.evaluate(token), "Set false didnt happened.");
   }
   
   /**
@@ -47,8 +51,8 @@ public class ConditionTest {
    */
   @Test
   public void testTrueConditionOnVariable() {
-      when(instance.getVariable("a")).thenReturn(1);
-      assertTrue(condition.evaluate(instance), "Condition was not true.");
+      when(context.getVariable("a")).thenReturn(1);
+      assertTrue(condition.evaluate(token), "Condition was not true.");
   }
   
   /**
@@ -56,10 +60,12 @@ public class ConditionTest {
    */
   @BeforeMethod
   public void beforeMethod() {
-      instance = mock(ProcessInstance.class);
+      token = mock(Token.class);
       HashMap<String, Object> map = new HashMap<String, Object>();
       map.put("a", 1);
       condition = new ConditionImpl(map);
+      context = mock(ProcessInstanceContext.class);
+      when(token.getContext()).thenReturn(context);
   }
 
   /**

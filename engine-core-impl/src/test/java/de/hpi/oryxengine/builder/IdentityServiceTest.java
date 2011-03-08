@@ -15,13 +15,18 @@ import de.hpi.oryxengine.resource.Position;
 import de.hpi.oryxengine.resource.Role;
 
 /**
+ * Tests the IdentityService.
  * 
- * @author Gerardo Navaro Suarez
+ *  Especially that retrieved sets are read-only.
  */
 public class IdentityServiceTest {
     
-    IdentityService identityService;
+    /** The identity service. */
+    private IdentityService identityService;
 
+    /**
+     * Before class.
+     */
     @BeforeClass
     public void beforeClass() {
         identityService = new IdentityServiceImpl();

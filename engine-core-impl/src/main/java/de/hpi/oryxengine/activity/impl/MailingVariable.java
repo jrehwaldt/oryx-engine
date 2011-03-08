@@ -11,7 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class MailingVariable. A dummy class by Gerardo which sends Emails with a preprogrammed String and displaying a
@@ -50,9 +50,9 @@ extends AbstractActivity {
      * {@inheritDoc}
      */
     @Override
-    public void executeIntern(@Nonnull ProcessInstance instance) {
+    public void executeIntern(@Nonnull Token instance) {
 
-        String calculationResult = (String) instance.getVariable(variableName);
+        String calculationResult = (String) instance.getContext().getVariable(variableName);
 
         String mailBody = "Da Ergebnis der Berechnung von 5 + 5 ist " + calculationResult + ".";
         sendEmail(defaultSender, defaultRecipient, subject, mailBody);

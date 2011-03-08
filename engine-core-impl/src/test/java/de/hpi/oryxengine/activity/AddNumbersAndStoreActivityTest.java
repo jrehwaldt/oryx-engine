@@ -6,38 +6,38 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.AddNumbersAndStoreNodeFactory;
-import de.hpi.oryxengine.factory.SimpleProcessInstanceFactory;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.factory.SimpleProcessTokenFactory;
 import de.hpi.oryxengine.process.structure.Node;
-
+import de.hpi.oryxengine.process.token.Token;
 
 
 /**
  * The Class AddNumbersAndStoreActivityTest.
- * Tests for the AddNumberblablabla activity. Basically schecks whether or not the result is good.
+ * Tests for the AddNumberblablabla activity. Basically checks whether or not the result is good.
  */
 public class AddNumbersAndStoreActivityTest {
-    private Node addernode;
-    private ProcessInstance p;
+    private Node node = null;
+    private Token p = null;
     
     /**
-     * Sets up the environment with an addernode and a processinstance that shell execute one step.
+     * Sets up the environment with an addernode and a process token that shell execute one step.
      */
     @BeforeTest
     public void setUp() {
         AddNumbersAndStoreNodeFactory factory = new AddNumbersAndStoreNodeFactory();
-        addernode = factory.create();
-        SimpleProcessInstanceFactory processfactory = new SimpleProcessInstanceFactory(); 
-        p = processfactory.create(addernode);
+        node = factory.create();
+        SimpleProcessTokenFactory processfactory = new SimpleProcessTokenFactory(); 
+        p = processfactory.create(node);
     }
     
     /**
      * Test if the result of 1+1 is really 2 (see factory).
+     * @throws Exception thrown if the execution of the node fails
      */
     @Test
-    public void testResult() {
+    public void testResult() throws Exception {
         p.executeStep();
-        int i = Integer.parseInt((String) p.getVariable("result"));
+        int i = Integer.parseInt((String) p.getContext().getVariable("result"));
         assertEquals(i, 2, "Upps we cant add correctly.");
     }
 }

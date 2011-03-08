@@ -32,10 +32,10 @@ public abstract class AbstractSchedulerListener implements ObserverPlugin, Sched
         
         switch (action) {
             case SUBMIT:
-                processInstanceSubmitted(event.getNumberOfInstances(), event.getProcessInstance());
+                processInstanceSubmitted(event.getNumberOfTokens(), event.getProcessToken());
                 break;
             case RETRIEVE:
-                processInstanceRetrieved(event.getNumberOfInstances(), event.getProcessInstance());
+                processInstanceRetrieved(event.getNumberOfTokens(), event.getProcessToken());
                 break;
             default:
                 logger.error("We couldn't get the right action in the Scheduler listener for event", event);
