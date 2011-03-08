@@ -21,8 +21,12 @@ import de.hpi.oryxengine.resource.Role;
  */
 public class IdentityServiceTest {
     
-    IdentityService identityService;
+    /** The identity service. */
+    private IdentityService identityService;
 
+    /**
+     * Before class.
+     */
     @BeforeClass
     public void beforeClass() {
         identityService = new IdentityServiceImpl();

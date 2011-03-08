@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
@@ -20,7 +19,6 @@ public class TakeAllSplitBehaviour implements OutgoingBehaviour {
      * @param tokens the instances
      * @return the list
      * @see de.hpi.oryxengine.OutgoingBehaviour.SplitBehaviour#split(java.util.List)
-     * TODO Discuss communication issue with thorben and comment it
      */
     public List<Token> split(List<Token> tokens) {
 

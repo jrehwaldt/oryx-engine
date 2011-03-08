@@ -3,7 +3,6 @@ package de.hpi.oryxengine.routing.behaviour.incoming.impl;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.AbstractIncomingBehaviour;
 
@@ -12,6 +11,10 @@ import de.hpi.oryxengine.routing.behaviour.incoming.AbstractIncomingBehaviour;
  */
 public class AndJoinBehaviour extends AbstractIncomingBehaviour {
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<Token> join(Token token) {
 
         token.getContext().setWaitingExecution(token.getLastTakenTransition());
@@ -23,6 +26,9 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
      * @see
      * de.hpi.oryxengine.routingBehaviour.joinBehaviour.AbstractJoinBehaviour#joinable(de.hpi.oryxengine.processInstance
      * .ProcessInstance)
+     */
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected boolean joinable(Token token) {
@@ -37,6 +43,9 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
      * de.hpi.oryxengine.routingBehaviour.joinBehaviour.AbstractJoinBehaviour
      *      #performJoin(de.hpi.oryxengine.processInstance
      * .ProcessInstance)
+     */
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected List<Token> performJoin(Token token) {

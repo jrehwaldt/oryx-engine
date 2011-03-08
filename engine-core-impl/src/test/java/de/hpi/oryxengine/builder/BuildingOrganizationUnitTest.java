@@ -16,10 +16,18 @@ import de.hpi.oryxengine.resource.Position;
  */
 public class BuildingOrganizationUnitTest {
 
+    /** The identity service. */
     private IdentityService identityService;
+    
+    /** The identity builder. */
     private IdentityBuilder identityBuilder;
+    
+    /** The organization unit. */
     private OrganizationUnit organizationUnit;
 
+    /**
+     * Before method.
+     */
     @BeforeMethod
     public void beforeMethod() {
 
@@ -29,6 +37,9 @@ public class BuildingOrganizationUnitTest {
         organizationUnit.setName("BPT");
     }
 
+    /**
+     * Test organization unit creation.
+     */
     @Test
     public void testOrganizationUnitCreation() {
 
@@ -43,6 +54,9 @@ public class BuildingOrganizationUnitTest {
         Assert.assertEquals(organizationUnit.getSuperOrganizationUnit(), superOrganizationUnit);
     }
 
+    /**
+     * Test for duplicate organization unit.
+     */
     @Test
     public void testForDuplicateOrganizationUnit() {
 
@@ -56,6 +70,9 @@ public class BuildingOrganizationUnitTest {
         Assert.assertEquals(bpt2.getName(), "BPT", failureMessage);
     }
 
+    /**
+     * Test relationship organization unit position.
+     */
     @Test
     public void testRelationshipOrganizationUnitPosition() {
 
@@ -108,6 +125,9 @@ public class BuildingOrganizationUnitTest {
         Assert.assertTrue(organizationUnit.getPositions().size() == 2);
     }
 
+    /**
+     * Test change position in organization unit.
+     */
     @Test
     public void testChangePositionInOrganizationUnit() {
 
@@ -134,6 +154,9 @@ public class BuildingOrganizationUnitTest {
         Assert.assertTrue(organizationUnit.getPositions().size() == 0, failureMessage);
     }
 
+    /**
+     * Test delete organization unit.
+     */
     @Test
     public void testDeleteOrganizationUnit() {
 
@@ -156,6 +179,9 @@ public class BuildingOrganizationUnitTest {
         }
     }
 
+    /**
+     * Test delete super organization unit.
+     */
     @Test
     public void testDeleteSuperOrganizationUnit() {
 
@@ -175,6 +201,9 @@ public class BuildingOrganizationUnitTest {
         Assert.assertNull(epic.getSuperOrganizationUnit(), failureMessage);
     }
 
+    /**
+     * Test delete position in organization unit.
+     */
     @Test
     public void testDeletePositionInOrganizationUnit() {
 
@@ -189,6 +218,9 @@ public class BuildingOrganizationUnitTest {
 
     }
 
+    /**
+     * Test not being super organization unit of yourself.
+     */
     @Test(expectedExceptions = OryxEngineException.class)
     public void testNotBeingSuperOrganizationUnitOfYourself() {
 

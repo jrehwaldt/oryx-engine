@@ -19,6 +19,9 @@ public class BuildingRoleTest {
     private IdentityBuilder identityBuilder;
     private Role adminRole;
 
+    /**
+     * Before method.
+     */
     @BeforeMethod
     public void beforeMethod() {
 
@@ -29,6 +32,9 @@ public class BuildingRoleTest {
         adminRole.setName("Administrators");
     }
 
+    /**
+     * Test role creation.
+     */
     @Test
     public void testRoleCreation() {
 
@@ -42,6 +48,9 @@ public class BuildingRoleTest {
 
     }
 
+    /**
+     * Test for duplicate role.
+     */
     @Test
     public void testForDuplicateRole() {
 
@@ -55,6 +64,9 @@ public class BuildingRoleTest {
 
     }
 
+    /**
+     * Test creation participant role relationship.
+     */
     @Test
     public void testCreationParticipantRoleRelationship() {
 
@@ -110,6 +122,9 @@ public class BuildingRoleTest {
         Assert.assertTrue(adminRole.getParticipants().size() == 2);
     }
 
+    /**
+     * Test change participant role relationship.
+     */
     @Test
     public void testChangeParticipantRoleRelationship() {
 
@@ -139,6 +154,9 @@ public class BuildingRoleTest {
         Assert.assertTrue(adminRole.getParticipants().contains(participant), failureMessage);
     }
 
+    /**
+     * Test delete role.
+     */
     @Test
     public void testDeleteRole() {
 

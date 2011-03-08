@@ -19,6 +19,9 @@ public class BuildingPositionTest {
     private IdentityBuilder identityBuilder;
     private Position position;
 
+    /**
+     * Before method.
+     */
     @BeforeMethod
     public void beforeMethod() {
 
@@ -28,6 +31,9 @@ public class BuildingPositionTest {
         position.setName("Oryx-Engine-Chef");
     }
 
+    /**
+     * Test position creation.
+     */
     @Test
     public void testPositionCreation() {
 
@@ -43,6 +49,9 @@ public class BuildingPositionTest {
         Assert.assertEquals(position.getSuperiorPosition(), superior);
     }
     
+    /**
+     * Test for duplicate position.
+     */
     @Test
     public void testForDuplicatePosition() {
         
@@ -56,12 +65,18 @@ public class BuildingPositionTest {
         Assert.assertEquals(position2.getName(), "Oryx-Engine-Chef", failureMessage);
     }
     
+    /**
+     * Test not being superior of yourself.
+     */
     @Test(expectedExceptions = OryxEngineException.class)
     public void testNotBeingSuperiorOfYourself() {
 
         identityBuilder.positionReportsToSuperior(position, position);
     }
 
+    /**
+     * Test delete position.
+     */
     @Test
     public void testDeletePosition() {
         

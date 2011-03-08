@@ -111,7 +111,8 @@ public class BPMNXORBehaviourTest {
     /**
      * Execute split and join.
      *
-     * @param token the token
+     * @param token the processToken
+     * @return the list
      */
     private List<Token> executeSplitAndJoin(Token token) {
         Node node = token.getCurrentNode();

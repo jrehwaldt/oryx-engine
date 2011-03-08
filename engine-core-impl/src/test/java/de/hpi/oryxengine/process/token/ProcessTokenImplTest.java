@@ -13,8 +13,6 @@ import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.structure.Transition;
-import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
  * The test for the process instance.

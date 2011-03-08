@@ -16,10 +16,18 @@ import de.hpi.oryxengine.resource.Role;
  */
 public class BuildingParticipantTest {
 
+    /** The identity service. */
     private IdentityService identityService;
+    
+    /** The identity builder. */
     private IdentityBuilder identityBuilder;
+    
+    /** The participant. */
     private Participant participant;
 
+    /**
+     * Before method.
+     */
     @BeforeMethod
     public void beforeMethod() {
 
@@ -30,6 +38,9 @@ public class BuildingParticipantTest {
         participant.setName("Gerardo Navarro Suarez");
     }
 
+    /**
+     * Test participant creation.
+     */
     @Test
     public void testParticipantCreation() {
 
@@ -40,6 +51,9 @@ public class BuildingParticipantTest {
         Assert.assertEquals(participant.getName(), "Gerardo Navarro Suarez");
     }
 
+    /**
+     * Test for duplicate participant.
+     */
     @Test
     public void testForDuplicateParticipant() {
 
@@ -53,6 +67,9 @@ public class BuildingParticipantTest {
 
     }
 
+    /**
+     * Test creation participant position relationship.
+     */
     @Test
     public void testCreationParticipantPositionRelationship() {
 
@@ -95,6 +112,9 @@ public class BuildingParticipantTest {
         Assert.assertTrue(identityService.getPositions().size() == 2);
     }
     
+    /**
+     * Test change position participant relationship.
+     */
     @Test
     public void testChangePositionParticipantRelationship() {
 
@@ -121,6 +141,9 @@ public class BuildingParticipantTest {
         Assert.assertTrue(participant.getMyPositions().size() == 0, failureMessage);
     }
     
+    /**
+     * Test delete participant.
+     */
     @Test
     public void testDeleteParticipant() {
 

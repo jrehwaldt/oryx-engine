@@ -30,8 +30,6 @@ public class LoadGenerator {
 
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private SchedulerEmptyListener listener;
     
     private Runtime runtime;
     
@@ -48,7 +46,6 @@ public class LoadGenerator {
     throws FileNotFoundException {
 
         loadProperties();
-        this.listener = SchedulerEmptyListener.getToken(this);
         this.runtime = Runtime.getRuntime();
 
     }
@@ -107,8 +104,6 @@ public class LoadGenerator {
             numberOfRuns = Integer.parseInt((String) this.properties.get("numberOfInstances"));
         } catch (IOException e) {
             logger.error("Upps we couldn't load the properties file!", e);
-        } finally {
-            // IOUtils.closeQuietly(f);
         }
 
     }

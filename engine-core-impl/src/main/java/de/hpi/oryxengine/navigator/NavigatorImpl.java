@@ -13,7 +13,6 @@ import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
  */
