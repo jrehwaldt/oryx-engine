@@ -39,6 +39,8 @@ public class LoadGenerator {
 
     private int numberOfThreads;
 
+    private NavigatorImpl navigator;
+
     /**
      * Instantiates a new load generator.
      *
@@ -142,7 +144,7 @@ public class LoadGenerator {
         // Calculate the used memory (in bytes)
         this.logMemoryUsed("Used memory in megabytes at the very beginning: ");
         this.logger.info("We start to put our instances into our navigator!");
-        NavigatorImpl navigator = new NavigatorImpl(numberOfThreads);
+        navigator = new NavigatorImpl(numberOfThreads);
         navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getToken(this));
 
         for (int i = 0; i < this.getNumberOfRuns(); i++) {
@@ -168,6 +170,7 @@ public class LoadGenerator {
      */
     public void schedulerIsEmpty() {
 
+        navigator.stop();
         long stopTime = System.currentTimeMillis();
         long runTime = stopTime - this.startTime;
         this.logger.info("Run time for all our " + Integer.toString(this.getNumberOfRuns()) + " instances: " + runTime
