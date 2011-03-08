@@ -79,7 +79,7 @@ implements Navigator {
         
         // "Gentlemen, start your engines"
         for (int i = 0; i < navigatorThreads; i++) {
-            increaseSpeed();
+            addThread();
         }
         
         changeState(NavigatorState.RUNNING);
@@ -90,7 +90,7 @@ implements Navigator {
      *
      * 
      */
-    public void increaseSpeed() {
+    public void addThread() {
         NavigationThread thread = new NavigationThread(String.format("NT %d", counter), scheduler);
         thread.start();
         executionThreads.add(thread);

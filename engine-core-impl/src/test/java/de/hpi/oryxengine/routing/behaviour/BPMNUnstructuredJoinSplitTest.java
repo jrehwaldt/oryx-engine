@@ -81,6 +81,9 @@ public class BPMNUnstructuredJoinSplitTest {
     /**
      * Initialize tokens and graph structure.
      * 
+     *  ->N1->->->
+     * S->N2->IJ->OJ->E
+     *  ->N3->
      * @return the list
      */
     private Token initializeToken() {
