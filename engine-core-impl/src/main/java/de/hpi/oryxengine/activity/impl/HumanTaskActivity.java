@@ -11,7 +11,7 @@ import de.hpi.oryxengine.worklist.TaskDistribution;
 /**
  * The Implementation of a human task.
  * 
- * A user task is a typical “workflow” Task where a human performer performs the Task with the assistance of a software
+ * A user task is a typical workflow Task where a human performer performs the Task with the assistance of a software
  * application.
  */
 public class HumanTaskActivity extends AbstractActivity {
