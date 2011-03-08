@@ -7,11 +7,8 @@ import javax.annotation.Nonnull;
  */
 public class CorrelationManagerImpl implements CorrelationManager {
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void correlateAdapterEvent(@Nonnull AdapterEvent e) {
+    public void correlate(@Nonnull AdapterEvent e) {
         
     }
 }
