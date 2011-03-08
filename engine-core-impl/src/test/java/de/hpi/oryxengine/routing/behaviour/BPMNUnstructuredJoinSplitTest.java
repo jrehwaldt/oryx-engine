@@ -20,17 +20,24 @@ import de.hpi.oryxengine.process.token.TokenImpl;
  */
 public class BPMNUnstructuredJoinSplitTest {
 
-    Token initialToken;
-    Node node1, node2, node3, innerJoinNode, outerJoinNode, endNode;
+    private Token initialToken;
+    private Node node1, node2, node3, innerJoinNode, outerJoinNode, endNode;
 
+    /**
+     * Before test.
+     */
     @BeforeClass
     public void beforeTest() {
 
         initialToken = initializeToken();
     }
 
+    /**
+     * Test overall behaviour. Start with the execution of the first node, validate results on the way and the final
+     * result.
+     */
     @Test
-    public void test() {
+    public void testOverallBehaviour() {
 
         List<Token> newTokens = initialToken.executeStep();
         assertEquals(newTokens.size(), 3,
@@ -97,14 +104,14 @@ public class BPMNUnstructuredJoinSplitTest {
 
     /**
      * Returns the token out of the candidate nodes that points to the given node.
-     * 
-     * @param n
-     *            the n
+     *
+     * @param candidateTokens the candidate tokens
+     * @param n the node that the pointing token is searched for
      * @return the token
      */
     private Token tokenOnNode(List<Token> candidateTokens, Node n) {
 
-        Token result=null;
+        Token result = null;
         for (Token token : candidateTokens) {
             if (token.getCurrentNode() == n) {
                 result = token;
