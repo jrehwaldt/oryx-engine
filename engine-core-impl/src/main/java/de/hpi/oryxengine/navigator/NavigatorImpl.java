@@ -10,8 +10,8 @@ import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
 import de.hpi.oryxengine.process.definition.AbstractProcessDefinitionImpl;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -23,7 +23,7 @@ implements Navigator {
     
     // map IDs to Definition
     /** The running instances. */
-    private HashMap<UUID, ProcessInstance> runningInstances;
+    private HashMap<UUID, Token> runningInstances;
 
     /** The loaded definitions. */
     private HashMap<UUID, AbstractProcessDefinitionImpl> loadedDefinitions;
@@ -50,7 +50,7 @@ implements Navigator {
     public NavigatorImpl() {
         
         // TODO Lazy initialized
-        runningInstances = new HashMap<UUID, ProcessInstance>();
+        runningInstances = new HashMap<UUID, Token>();
         loadedDefinitions = new HashMap<UUID, AbstractProcessDefinitionImpl>();
         scheduler = new FIFOScheduler();
         executionThreads = new ArrayList<NavigationThread>();
@@ -103,11 +103,11 @@ implements Navigator {
         }
 
         // instantiate the processDefinition
-        ProcessInstance processInstance = new ProcessInstanceImpl(loadedDefinitions.get(processID), 0);
-        runningInstances.put(processInstance.getID(), processInstance);
+        Token token = new TokenImpl(loadedDefinitions.get(processID), 0);
+        runningInstances.put(token.getID(), token);
 
         // register initial node for scheduling
-        scheduler.submit(processInstance);
+        scheduler.submit(token);
         
         // TODO return id from ProcessInstance, use UUID
         return UUID.randomUUID(); 
@@ -123,7 +123,7 @@ implements Navigator {
      *            the instance
      */
     public void startArbitraryInstance(UUID id,
-                                       ProcessInstanceImpl instance) {
+                                       TokenImpl instance) {
 
         this.runningInstances.put(id, instance);
         this.scheduler.submit(instance);

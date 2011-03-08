@@ -13,9 +13,9 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.ActivityState;
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
  * Test class for various activity plugin tests.
@@ -23,7 +23,7 @@ import de.hpi.oryxengine.process.structure.NodeImpl;
 public class ActivityLifecyclePluginTest {
     
     private AbstractActivity activity;
-    private ProcessInstance instance;
+    private Token token;
     private AbstractActivityLifecyclePlugin mock;
     
     /**
@@ -32,11 +32,11 @@ public class ActivityLifecyclePluginTest {
     @BeforeTest
     public void setUp() {
         this.activity = new AutomatedDummyActivity("s.out");
-        this.instance = new ProcessInstanceImpl(new NodeImpl(this.activity));
+        this.token = new TokenImpl(new NodeImpl(this.activity));
         this.mock = mock(AbstractActivityLifecyclePlugin.class);
         this.activity.registerPlugin(mock);
         
-        activity.execute(this.instance);
+        activity.execute(this.token);
     }
     
     /**

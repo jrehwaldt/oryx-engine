@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 import de.hpi.oryxengine.navigator.schedule.SchedulerAction;
 import de.hpi.oryxengine.navigator.schedule.SchedulerEvent;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class MonitorGUI has the task to present input provided by e.g. the Monitor-Plugin.
@@ -83,7 +83,7 @@ public class MonitorGUI extends JFrame {
      * @param instance
      *            the instance
      */
-    public void showInstanceRetrieved(ProcessInstance instance) {
+    public void showInstanceRetrieved(Token instance) {
 
         SchedulerEvent event = new SchedulerEvent(SchedulerAction.RETRIEVE, instance, -1);
         notifySurface.addNotification(event);
@@ -95,7 +95,7 @@ public class MonitorGUI extends JFrame {
      * @param instance
      *            the instance
      */
-    public void showInstanceSubmitted(ProcessInstance instance) {
+    public void showInstanceSubmitted(Token instance) {
 
         SchedulerEvent event = new SchedulerEvent(SchedulerAction.SUBMIT, instance, -1);
         notifySurface.addNotification(event);

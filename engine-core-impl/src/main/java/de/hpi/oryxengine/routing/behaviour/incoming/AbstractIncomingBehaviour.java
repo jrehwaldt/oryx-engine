@@ -3,7 +3,7 @@ package de.hpi.oryxengine.routing.behaviour.incoming;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 
 /**
@@ -13,14 +13,14 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
 
     /**
      * @see de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour
-     *      #join(de.hpi.oryxengine.process.instance.ProcessInstance) Do not override this, as it is a template method.
+     *      #join(de.hpi.oryxengine.process.token.Token) Do not override this, as it is a template method.
      *      Only join, if a join is possible.
      * @param instance instance to perform the join on
      * @return the list of joined instances
      */
-    public List<ProcessInstance> join(ProcessInstance instance) {
+    public List<Token> join(Token instance) {
 
-        List<ProcessInstance> instances = new LinkedList<ProcessInstance>();
+        List<Token> instances = new LinkedList<Token>();
         if (joinable(instance)) {
             instances = performJoin(instance);
         }
@@ -35,7 +35,7 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
      * @return true, if a join can be performed, e.g. for a BPMN AND-Join, all sibling-instances have to reached the
      *         join node as well.
      */
-    protected abstract boolean joinable(ProcessInstance instance);
+    protected abstract boolean joinable(Token instance);
 
     /**
      * Perform join.
@@ -44,5 +44,5 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
      *            the instance that the join is triggered for.
      * @return the result of the join.
      */
-    protected abstract List<ProcessInstance> performJoin(ProcessInstance instance);
+    protected abstract List<Token> performJoin(Token instance);
 }

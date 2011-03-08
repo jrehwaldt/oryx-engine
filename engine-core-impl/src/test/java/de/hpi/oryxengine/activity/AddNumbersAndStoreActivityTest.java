@@ -6,28 +6,27 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.AddNumbersAndStoreNodeFactory;
-import de.hpi.oryxengine.factory.SimpleProcessInstanceFactory;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.factory.SimpleProcessTokenFactory;
 import de.hpi.oryxengine.process.structure.Node;
-
+import de.hpi.oryxengine.process.token.Token;
 
 
 /**
  * The Class AddNumbersAndStoreActivityTest.
- * Tests for the AddNumberblablabla activity. Basically schecks whether or not the result is good.
+ * Tests for the AddNumberblablabla activity. Basically checks whether or not the result is good.
  */
 public class AddNumbersAndStoreActivityTest {
     private Node addernode;
-    private ProcessInstance p;
+    private Token p;
     
     /**
-     * Sets up the environment with an addernode and a processinstance that shell execute one step.
+     * Sets up the environment with an addernode and a process token that shell execute one step.
      */
     @BeforeTest
     public void setUp() {
         AddNumbersAndStoreNodeFactory factory = new AddNumbersAndStoreNodeFactory();
         addernode = factory.create();
-        SimpleProcessInstanceFactory processfactory = new SimpleProcessInstanceFactory(); 
+        SimpleProcessTokenFactory processfactory = new SimpleProcessTokenFactory(); 
         p = processfactory.create(addernode);
     }
     

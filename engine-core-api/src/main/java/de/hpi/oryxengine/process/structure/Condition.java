@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.process.structure;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Interface for conditions.
@@ -14,7 +14,7 @@ public interface Condition {
      * @param instance the instance
      * @return true, if successful
      */
-    boolean evaluate(ProcessInstance instance);
+    boolean evaluate(Token instance);
     
     /**
      * Sets condition to false.

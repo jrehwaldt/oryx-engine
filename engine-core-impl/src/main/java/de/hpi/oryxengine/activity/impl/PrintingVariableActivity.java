@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.activity.impl;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class PrintingVariableActivity.
@@ -27,7 +27,7 @@ extends AbstractActivity {
      * {@inheritDoc}
      */
     @Override
-    public void executeIntern(ProcessInstance instance) {
+    public void executeIntern(Token instance) {
 
         String variableValue = (String) instance.getVariable(variableName).toString();
         System.out.println("In der Variable " + variableName + " steht " + variableValue + " .");

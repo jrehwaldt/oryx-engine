@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class AutomatedDummyNode.
@@ -29,7 +29,7 @@ public class AutomatedDummyActivity extends AbstractActivity {
      * {@inheritDoc}
      */
     @Override
-    protected void executeIntern(@Nonnull ProcessInstance instance) {
+    protected void executeIntern(@Nonnull Token instance) {
         System.out.println(this.message);
     }
 

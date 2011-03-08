@@ -3,9 +3,9 @@ package de.hpi.oryxengine.routing.behaviour.outgoing.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
+import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
 /**
@@ -17,15 +17,15 @@ public class XORSplitBehaviour implements OutgoingBehaviour {
      * {@inheritDoc}
      */
     @Override
-    public List<ProcessInstance> split(List<ProcessInstance> instances) {
+    public List<Token> split(List<Token> instances) {
 
         if (instances.size() == 0) {
             return instances;
         }
         List<Node> nodeList = new ArrayList<Node>();
-        List<ProcessInstance> instancesToNavigate = null;
+        List<Token> instancesToNavigate = null;
         
-        for (ProcessInstance instance : instances) {
+        for (Token instance : instances) {
             Node currentNode = instance.getCurrentNode();
             for (Transition transition : currentNode.getTransitions()) {
                 if (transition.getCondition().evaluate(instance)) {

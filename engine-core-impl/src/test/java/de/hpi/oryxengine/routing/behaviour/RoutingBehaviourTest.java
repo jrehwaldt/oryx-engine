@@ -9,9 +9,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
@@ -20,8 +20,8 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
  */
 public class RoutingBehaviourTest {
 
-    /** The process instance. */
-    private ProcessInstance instance;
+    /** The process token. */
+    private Token token;
 
     /**
      * Set up. An instance is build.
@@ -29,7 +29,7 @@ public class RoutingBehaviourTest {
     @BeforeClass
     public void setUp() {
 
-        instance = simpleInstance();
+        token = simpleTokens();
 
     }
 
@@ -40,17 +40,17 @@ public class RoutingBehaviourTest {
     @Test
     public void testClass() {
 
-        Node node = instance.getCurrentNode();
+        Node node = token.getCurrentNode();
         Node nextNode = node.getTransitions().get(0).getDestination();
 
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
         
-        List<ProcessInstance> joinedInstances = incomingBehaviour.join(instance);
+        List<Token> joinedTokens = incomingBehaviour.join(token);
         
-        outgoingBehaviour.split(joinedInstances);
+        outgoingBehaviour.split(joinedTokens);
 
-        assertEquals(instance.getCurrentNode(), nextNode);
+        assertEquals(token.getCurrentNode(), nextNode);
     }
 
     /**
@@ -62,11 +62,11 @@ public class RoutingBehaviourTest {
     }
 
     /**
-     * Simple instance. An activity is set up, it gets a behavior and a transition to a second node.
+     * Simple token. An activity is set up, it gets a behavior and a transition to a second node.
      * 
-     * @return the process instance that was created within the method
+     * @return the process token that was created within the method
      */
-    private ProcessInstanceImpl simpleInstance() {
+    private TokenImpl simpleTokens() {
 
         RoutingBehaviourTestFactory factory = new RoutingBehaviourTestFactory();
 
@@ -74,6 +74,6 @@ public class RoutingBehaviourTest {
         Node node2 = factory.createWithAndSplit();
         node.transitionTo(node2);
 
-        return new ProcessInstanceImpl(node);
+        return new TokenImpl(node);
     }
 }

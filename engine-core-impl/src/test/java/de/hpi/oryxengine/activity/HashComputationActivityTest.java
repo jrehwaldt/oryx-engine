@@ -6,9 +6,9 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.HashComputationNodeFactory;
-import de.hpi.oryxengine.factory.SimpleProcessInstanceFactory;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.factory.SimpleProcessTokenFactory;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * Tests the Hashcomputation Activity.
@@ -16,7 +16,7 @@ import de.hpi.oryxengine.process.structure.Node;
 public class HashComputationActivityTest {
   
     private Node hashNode;
-    private ProcessInstance p;
+    private Token p;
     private static final String TO_BE_HASHED = "Hello World!";
     private static final String VARIABLENAME = "result";
     
@@ -31,7 +31,7 @@ public class HashComputationActivityTest {
     public void setUp() {
         HashComputationNodeFactory factory = new HashComputationNodeFactory(VARIABLENAME, TO_BE_HASHED);
         hashNode = factory.create();
-        SimpleProcessInstanceFactory processFactory = new SimpleProcessInstanceFactory();
+        SimpleProcessTokenFactory processFactory = new SimpleProcessTokenFactory();
         p = processFactory.create(hashNode);
     }
     

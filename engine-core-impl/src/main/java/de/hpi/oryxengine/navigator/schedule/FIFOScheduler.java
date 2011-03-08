@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.scheduler.AbstractSchedulerListener;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class FIFOScheduler. It is a simple FIFO Scheduler so nothing too interesting going on around here.
@@ -17,7 +17,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
 public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> implements Scheduler {
 
     /** The process instances we would like to schedule. */
-    private List<ProcessInstance> processinstances;
+    private List<Token> processtokens;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -25,8 +25,8 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
      */
     public FIFOScheduler() {
 
-        processinstances = new LinkedList<ProcessInstance>();
-        processinstances = Collections.synchronizedList(processinstances);
+        processtokens = new LinkedList<Token>();
+        processtokens = Collections.synchronizedList(processtokens);
     }
 
     /**
@@ -35,10 +35,10 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
      * {@inheritDoc}
      */
     @Override
-    public void submit(ProcessInstance p) {
+    public void submit(Token p) {
 
-        changed(new SchedulerEvent(SchedulerAction.SUBMIT, p, processinstances.size()));
-        processinstances.add(p);
+        changed(new SchedulerEvent(SchedulerAction.SUBMIT, p, processtokens.size()));
+        processtokens.add(p);
     }
 
     /**
@@ -46,28 +46,28 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
      * {@inheritDoc}
      */
     @Override
-    public ProcessInstance retrieve() {
-        ProcessInstance removedInstance;
-        synchronized (this.processinstances) {
-            if (this.processinstances.isEmpty()) {
+    public Token retrieve() {
+        Token removedToken;
+        synchronized (this.processtokens) {
+            if (this.processtokens.isEmpty()) {
                 return null;
             }
-            removedInstance = processinstances.remove(0);
+            removedToken = processtokens.remove(0);
             
         }
-        changed(new SchedulerEvent(SchedulerAction.RETRIEVE, removedInstance, processinstances.size()));
-        return removedInstance;
+        changed(new SchedulerEvent(SchedulerAction.RETRIEVE, removedToken, processtokens.size()));
+        return removedToken;
     }
     
     public boolean isEmpty(){
-        return this.processinstances.isEmpty();
+        return this.processtokens.isEmpty();
     }
 
 
     @Override
     // TODO right now we dont care about submitAll plugin/Observerwise
-    public void submitAll(List<ProcessInstance> listOfInstances) {
-        this.processinstances.addAll(listOfInstances);  
+    public void submitAll(List<Token> listOfTokens) {
+        this.processtokens.addAll(listOfTokens);  
     }
     
     /**

@@ -11,9 +11,9 @@ import de.hpi.oryxengine.factory.PrintingNodeFactory;
 import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
 
 /**
@@ -44,8 +44,8 @@ public final class ExampleProcessForReview {
         navigator.registerPlugin(NavigatorListenerLogger.getInstance());
         navigator.start();
         
-        ProcessInstanceImpl instance = processInstanceForReview();
-        navigator.startArbitraryInstance(UUID.randomUUID(), instance);
+        TokenImpl token = processTokenForReview();
+        navigator.startArbitraryInstance(UUID.randomUUID(), token);
         
         Thread.sleep(SLEEP_TIME);
         
@@ -53,11 +53,11 @@ public final class ExampleProcessForReview {
     }
     
     /**
-     * Creates the processinstance for the reviewProcess.
+     * Creates the process token for the reviewProcess.
      * 
-     * @return the process instance impl
+     * @return the process token impl
      */
-    private static ProcessInstanceImpl processInstanceForReview() {
+    private static TokenImpl processTokenForReview() {
 
         /*
          * The process looks like this: start => calc5Plus5 => printResult => mailingTheResult => end
@@ -82,8 +82,8 @@ public final class ExampleProcessForReview {
         thirdNode.transitionTo(fourthNode);
         fourthNode.transitionTo(endNode);
 
-        ProcessInstanceImpl sampleInstance = new ProcessInstanceImpl(startNode);
-        return sampleInstance;
+        TokenImpl sampleToken = new TokenImpl(startNode);
+        return sampleToken;
     }
 
 }

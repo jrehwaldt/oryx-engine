@@ -3,7 +3,7 @@ package de.hpi.oryxengine.activity.impl;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class EndActivity.
@@ -26,7 +26,7 @@ extends AbstractActivity {
      * {@inheritDoc}
      */
     @Override
-    protected void executeIntern(@Nonnull ProcessInstance instance) {
+    protected void executeIntern(@Nonnull Token instance) {
         // Doing nothing is the default behavior
         // TODO This must change.
     }
