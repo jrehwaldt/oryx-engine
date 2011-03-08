@@ -103,9 +103,10 @@ public class TokenImpl implements Token {
      * Execute step.
      * 
      * @return list of process tokens
+     * @throws Exception 
      * @see de.hpi.oryxengine.process.token.Token#executeStep()
      */
-    public List<Token> executeStep() {
+    public List<Token> executeStep() throws Exception {
 
         return this.currentNode.execute(this);
     }
@@ -131,7 +132,7 @@ public class TokenImpl implements Token {
             for (Transition transition : transitionList) {
                 Node node = transition.getDestination();
                 Token newToken = createNewToken(node);
-                newToken.setLastTakenTransitions(transition);
+                newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }
         }
@@ -180,7 +181,7 @@ public class TokenImpl implements Token {
     }
 
     @Override
-    public void setLastTakenTransitions(Transition t) {
+    public void setLastTakenTransition(Transition t) {
 
         this.lastTakenTransition = t;
     }

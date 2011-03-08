@@ -42,7 +42,11 @@ public class BPMNTakeAllBehaviourTest {
         Node node = token.getCurrentNode();
         Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
 
-        executeSplitAndJoin(token);
+        try {
+            executeSplitAndJoin(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         assertEquals(token.getCurrentNode(), nextNode);
     }
@@ -75,8 +79,9 @@ public class BPMNTakeAllBehaviourTest {
      *
      * @param token the token
      * @return the list
+     * @throws Exception 
      */
-    private List<Token> executeSplitAndJoin(Token token) {
+    private List<Token> executeSplitAndJoin(Token token) throws Exception {
         Node node = token.getCurrentNode();
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();

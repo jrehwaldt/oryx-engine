@@ -43,9 +43,14 @@ public class BPMNAndJoinTest {
      */
     @Test
     public void testSingleTokenReachedJoin() {
+        List<Token> newTokens = null;
+        try {
+            newToken1.executeStep();
+            newTokens = executeSplitAndJoin(newToken1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        newToken1.executeStep();
-        List<Token> newTokens = executeSplitAndJoin(newToken1);
 
         assertEquals(newTokens.size(), 0,
             "If only one child has reached the And Join, no new token should be scheduled");
@@ -58,11 +63,17 @@ public class BPMNAndJoinTest {
      */
     @Test
     public void testAllTokensReachedJoin() {
+        List<Token> newTokens = null;
+        try {
+            newToken1.executeStep();
+            newToken2.executeStep();
+            executeSplitAndJoin(newToken2);
+            newTokens = executeSplitAndJoin(newToken1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        newToken1.executeStep();
-        newToken2.executeStep();
-        executeSplitAndJoin(newToken2);
-        List<Token> newTokens = executeSplitAndJoin(newToken1);
+
         assertEquals(newTokens.size(), 1, "There should only be one new token");
 
         Token newToken = newTokens.get(0);
@@ -102,8 +113,9 @@ public class BPMNAndJoinTest {
      * @param token
      *            the token
      * @return the list
+     * @throws Exception 
      */
-    private List<Token> executeSplitAndJoin(Token token) {
+    private List<Token> executeSplitAndJoin(Token token) throws Exception {
 
         Node node = token.getCurrentNode();
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();

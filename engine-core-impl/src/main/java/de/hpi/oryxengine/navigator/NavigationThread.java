@@ -73,7 +73,13 @@ extends Thread {
 
 
             if (instance != null) {
-                List<Token> instances = instance.executeStep();
+                List<Token> instances;
+                instances = null;
+                try {
+                    instances = instance.executeStep();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 scheduler.submitAll(instances);
             } else {
                 try {

@@ -162,9 +162,10 @@ implements Node {
 
     /**
      * {@inheritDoc}
+     * @throws Exception 
      */
     @Override
-    public List<Token> execute(Token instance) {
+    public List<Token> execute(Token instance) throws Exception {
         List<Token> instances = this.incomingBehaviour.join(instance);
         this.activity.execute(instance);
         return this.outgoingBehaviour.split(instances);

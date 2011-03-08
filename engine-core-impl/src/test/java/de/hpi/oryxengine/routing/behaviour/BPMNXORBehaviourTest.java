@@ -45,7 +45,11 @@ public class BPMNXORBehaviourTest {
         Node node = token.getCurrentNode();
         Node nextNode = node.getOutgoingTransitions().get(1).getDestination();
 
-        executeSplitAndJoin(token);
+        try {
+            executeSplitAndJoin(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         assertEquals(token.getCurrentNode(), nextNode);
     }
@@ -59,7 +63,11 @@ public class BPMNXORBehaviourTest {
         Node node = token.getCurrentNode();
         Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
 
-        executeSplitAndJoin(token);
+        try {
+            executeSplitAndJoin(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         assertEquals(token.getCurrentNode(), nextNode);
     }
@@ -73,7 +81,11 @@ public class BPMNXORBehaviourTest {
         Node node = token.getCurrentNode();
         Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
         
-        executeSplitAndJoin(token);
+        try {
+            executeSplitAndJoin(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assert token.getCurrentNode() != nextNode;
     }
 
@@ -113,8 +125,9 @@ public class BPMNXORBehaviourTest {
      *
      * @param token the processToken
      * @return the list
+     * @throws Exception 
      */
-    private List<Token> executeSplitAndJoin(Token token) {
+    private List<Token> executeSplitAndJoin(Token token) throws Exception {
         Node node = token.getCurrentNode();
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
