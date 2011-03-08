@@ -95,7 +95,7 @@ public class LoadGenerator {
     /**
      * Loads the properties file used to configure the load generator.
      * 
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException if the file is not found on the HDD
      */
     void loadProperties()
     throws FileNotFoundException {
@@ -185,7 +185,7 @@ public class LoadGenerator {
      * 
      * @param args
      *            the arguments
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException if the file is not found on HDD
      */
     public static void main(String[] args)
     throws FileNotFoundException {
