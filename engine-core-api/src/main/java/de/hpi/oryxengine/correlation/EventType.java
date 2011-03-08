@@ -10,6 +10,7 @@ public interface EventType extends Identifiable {
 
     /**
      * Gets a human readable name of the Event (such as "E-Mail").
+     * 
      * @return the event type's name
      */
     String getName();

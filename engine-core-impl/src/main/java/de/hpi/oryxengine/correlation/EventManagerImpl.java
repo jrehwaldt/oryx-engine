@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.event;
+package de.hpi.oryxengine.correlation;
 
 import de.hpi.oryxengine.correlation.EventManager;
 

@@ -7,6 +7,7 @@ public interface AdapterEvent {
     
     /**
      * Gets the event type.
+     * 
      * @return the event type
      */
     EventType getEventType();

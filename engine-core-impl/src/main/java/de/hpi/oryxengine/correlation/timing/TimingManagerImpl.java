@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.event.timing;
+package de.hpi.oryxengine.correlation.timing;
 
 /**
  * 
