@@ -38,10 +38,9 @@ public class NavigatorListenerTest {
     
     /**
      * Tests that the plugin is called when navigator stops.
-     * @throws InterruptedException 
      */
     @Test
-    public void testStopTrigger() throws InterruptedException {
+    public void testStopTrigger() {
         navigator.stop();
         verify(mock).update(navigator, NavigatorState.STOPPED);
     }
