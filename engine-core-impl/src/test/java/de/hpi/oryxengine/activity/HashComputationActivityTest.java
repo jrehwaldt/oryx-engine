@@ -11,7 +11,7 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
- * Tests the Hashcomputation Activity.
+ * Tests the Hash computation Activity.
  */
 public class HashComputationActivityTest {
   
@@ -40,7 +40,11 @@ public class HashComputationActivityTest {
      */
     @Test
     public void testTheHash() {
-        p.executeStep();
+        try {
+            p.executeStep();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(p.getContext().getVariable(VARIABLENAME), SHA1, "Oh well hashing doesn't work what a shame.");
     }
 }

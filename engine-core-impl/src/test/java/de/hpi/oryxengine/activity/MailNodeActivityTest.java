@@ -51,7 +51,12 @@ public class MailNodeActivityTest {
   @SuppressWarnings("unchecked")
   @Test
   public void testMailsend() {
-      p.executeStep();
+      
+    try {
+        p.executeStep();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
       maily.stop();
       assertEquals(maily.getReceivedEmailSize(), 1, "Upps we didn't receive an email.. too bad");
       Iterator<SmtpMessage> emailIter = maily.getReceivedEmail();

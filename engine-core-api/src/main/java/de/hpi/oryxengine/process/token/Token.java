@@ -40,8 +40,9 @@ extends Identifiable {
      * Executes a step for the given instance, which is usually a single step beginning with the current node.
      * 
      * @return the list of new ProcessInstances that result after the next step is performed.
+     * @throws Exception
      */
-    List<Token> executeStep();
+    List<Token> executeStep() throws Exception;
 
     /**
      * Create a new to navigate instance for every node.

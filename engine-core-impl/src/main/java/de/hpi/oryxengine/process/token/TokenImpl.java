@@ -103,9 +103,10 @@ public class TokenImpl implements Token {
      * Execute step.
      * 
      * @return list of process tokens
+     * @throws Exception 
      * @see de.hpi.oryxengine.process.token.Token#executeStep()
      */
-    public List<Token> executeStep() {
+    public List<Token> executeStep() throws Exception {
 
         return this.currentNode.execute(this);
     }
