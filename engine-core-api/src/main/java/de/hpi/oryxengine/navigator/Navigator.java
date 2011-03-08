@@ -29,7 +29,7 @@ public interface Navigator {
     /**
      * Increase speed.
      */
-    void increaseSpeed();
+    void addThread();
 
     /**
      * Gets the current instance state.
