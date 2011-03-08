@@ -87,6 +87,11 @@
                 <artifactId>mockito-all</artifactId>
                 <version>1.8.5</version>
             </dependency>
+            <dependency>
+                <groupId>org.jvnet.mock-javamail</groupId>
+                <artifactId>mock-javamail</artifactId>
+                <version>1.7</version>
+            </dependency>
             <!-- others -->
             <dependency>
                 <groupId>javax.mail</groupId>
