@@ -20,7 +20,7 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 public class AutomatedDummyActivityTest {
 
     /** A temporary print stream. */
-    private PrintStream tmp;
+    private PrintStream tmp = null;
 
     /** The byte array output stream. */
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -29,7 +29,7 @@ public class AutomatedDummyActivityTest {
     private String s = "I'm dumb";
 
     /** The dummy activity. */
-    private AutomatedDummyActivity a;
+    private AutomatedDummyActivity a = null;
 
     /** The process token. */
     private Token token;

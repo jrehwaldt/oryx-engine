@@ -20,13 +20,13 @@ import de.hpi.oryxengine.process.structure.Transition;
 public class ProcessTokenImplTest {
 
     /** The process instance. */
-    private Token token;
+    private Token token = null;
 
     /** Different Nodes. */
-    private NodeImpl node, node2, node3;
+    private NodeImpl node = null, node2 = null, node3 = null;
 
     /** The transition to be taken. */
-    private Transition transitionToTake;
+    private Transition transitionToTake = null;
 
     /**
      * Set up.     
@@ -65,9 +65,9 @@ public class ProcessTokenImplTest {
     }
 
     /**
-     * Test take single transition.
-     * TODO JavaDoc for the test
-     * @throws Exception 
+     * Test the taking of a single transition.
+     * 
+     * @throws Exception if it fails
      */
     @Test
     public void testTakeSingleTransition() throws Exception {
@@ -84,24 +84,23 @@ public class ProcessTokenImplTest {
     }
 
     /**
-     * Simple token.
-     * TODO more JavaDoc description
+     * Creates a simple token.
      * 
      * @return the process instance impl
      */
     private TokenImpl simpleToken() {
-
+        
         Activity activity = mock(Activity.class);
-
+        
         node = new NodeImpl(activity);
         node2 = new NodeImpl(activity);
         node3 = new NodeImpl(activity);
         node.transitionTo(node2);
-
+        
         transitionToTake = node.getOutgoingTransitions().get(0);
-
+        
         node.transitionTo(node3);
-
+        
         return new TokenImpl(node);
     }
 }

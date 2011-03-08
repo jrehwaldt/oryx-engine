@@ -16,8 +16,8 @@ import de.hpi.oryxengine.process.token.Token;
  * Tests for the AddNumberblablabla activity. Basically checks whether or not the result is good.
  */
 public class AddNumbersAndStoreActivityTest {
-    private Node addernode;
-    private Token p;
+    private Node node = null;
+    private Token p = null;
     
     /**
      * Sets up the environment with an addernode and a process token that shell execute one step.
@@ -25,21 +25,18 @@ public class AddNumbersAndStoreActivityTest {
     @BeforeTest
     public void setUp() {
         AddNumbersAndStoreNodeFactory factory = new AddNumbersAndStoreNodeFactory();
-        addernode = factory.create();
+        node = factory.create();
         SimpleProcessTokenFactory processfactory = new SimpleProcessTokenFactory(); 
-        p = processfactory.create(addernode);
+        p = processfactory.create(node);
     }
     
     /**
      * Test if the result of 1+1 is really 2 (see factory).
+     * @throws Exception thrown if the execution of the node fails
      */
     @Test
-    public void testResult() {
-        try {
-            p.executeStep();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void testResult() throws Exception {
+        p.executeStep();
         int i = Integer.parseInt((String) p.getContext().getVariable("result"));
         assertEquals(i, 2, "Upps we cant add correctly.");
     }
