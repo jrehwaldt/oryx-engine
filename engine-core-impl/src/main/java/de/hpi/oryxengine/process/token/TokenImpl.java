@@ -131,7 +131,7 @@ public class TokenImpl implements Token {
             for (Transition transition : transitionList) {
                 Node node = transition.getDestination();
                 Token newToken = createNewToken(node);
-                newToken.setLastTakenTransitions(transition);
+                newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }
         }
@@ -180,7 +180,7 @@ public class TokenImpl implements Token {
     }
 
     @Override
-    public void setLastTakenTransitions(Transition t) {
+    public void setLastTakenTransition(Transition t) {
 
         this.lastTakenTransition = t;
     }

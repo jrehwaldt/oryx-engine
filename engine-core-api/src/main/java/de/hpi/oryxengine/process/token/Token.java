@@ -47,29 +47,52 @@ extends Identifiable {
      * Create a new to navigate instance for every node.
      * Therefore it is possible to use this generic for e.g. and, xor...
      * 
-     * @param nodeList a list with redirections
+     * @param transitionList a list with redirections
      * @return newly created subprocesses
-     * @throws Exception if the node to navigate to doesn't exist
      */
-    List<Token> navigateTo(List<Transition> transitionList)
-    throws Exception;
+    List<Token> navigateTo(List<Transition> transitionList);
     
     /**
-     * Creates a new token pointing to the given node n in the same processinstancecontext.
+     * Creates a new token pointing to the given node n in the same process instance context.
      * 
      * @param n the node the new token points to.
      * @return the new process token
      */
     Token createNewToken(Node n);
     
+    /**
+     * Returns a boolean whether it is possible to join on the current node.
+     *
+     * @return true, if successful
+     */
     boolean joinable();
     
+    /**
+     * Perform the join.
+     *
+     * @return the token
+     */
     Token performJoin();
     
+    /**
+     * Gets the context.
+     *
+     * @return the context
+     */
     ProcessInstanceContext getContext();
     
+    /**
+     * Gets the last taken transition of the token.
+     *
+     * @return the last taken transition
+     */
     Transition getLastTakenTransition();
     
-    void setLastTakenTransitions(Transition t);
+    /**
+     * Sets the last taken transition.
+     *
+     * @param t the new last taken transitions
+     */
+    void setLastTakenTransition(Transition t);
 
 }

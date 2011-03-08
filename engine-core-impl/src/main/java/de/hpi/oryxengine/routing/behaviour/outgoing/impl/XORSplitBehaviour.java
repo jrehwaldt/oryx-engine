@@ -17,7 +17,7 @@ public class XORSplitBehaviour implements OutgoingBehaviour {
      * {@inheritDoc}
      */
     @Override
-    public List<Token> split(List<Token> instances) {
+    public List<Token> split(List<Token> instances) throws NoValidPathException {
 
         if (instances.size() == 0) {
             return instances;
@@ -33,12 +33,15 @@ public class XORSplitBehaviour implements OutgoingBehaviour {
                     break;
                 }
             }
-
-            try {
-                transitionsToNavigate = instance.navigateTo(transitionList);
-            } catch (Exception e) {
-                e.printStackTrace();
+            
+            if (transitionList.size() == 0) {
+                
+                throw new NoValidPathException();
+                
             }
+
+            transitionsToNavigate = instance.navigateTo(transitionList);
+
         }
         return transitionsToNavigate;
     }
