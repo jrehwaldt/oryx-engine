@@ -58,6 +58,7 @@ public class BPMNAndJoinTest {
      */
     @Test
     public void testAllTokensReachedJoin() {
+
         newToken1.executeStep();
         newToken2.executeStep();
         executeSplitAndJoin(newToken2);
@@ -65,8 +66,7 @@ public class BPMNAndJoinTest {
         assertEquals(newTokens.size(), 1, "There should only be one new token");
 
         Token newToken = newTokens.get(0);
-        assertEquals(newToken.getCurrentNode(), node3,
-            "The new token should be on the node following the join node");
+        assertEquals(newToken.getCurrentNode(), node3, "The new token should be on the node following the join node");
     }
 
     // TODO Test with nested and splits and joins to simulate the situation that there are grandparents, etc.
