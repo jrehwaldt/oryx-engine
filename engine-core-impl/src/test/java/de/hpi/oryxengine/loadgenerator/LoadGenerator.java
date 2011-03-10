@@ -46,7 +46,7 @@ public class LoadGenerator {
      *
      * @throws FileNotFoundException if there is no such properties file to be loaded
      */
-    LoadGenerator()
+    public LoadGenerator()
     throws FileNotFoundException {
 
         loadProperties();
