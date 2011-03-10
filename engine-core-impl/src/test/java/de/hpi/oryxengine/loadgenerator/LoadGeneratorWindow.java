@@ -145,7 +145,7 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
             LoadGenerator gene = new LoadGenerator(processModel, instances, threads);
             gene.execute();
         // Handle the combo box
-        } else if (e.getActionCommand() == "processModel") {
+        } else if ("processModel".equals(e.getActionCommand())) {
             JComboBox box = (JComboBox) e.getSource();
             processModel = (String) box.getSelectedItem();
             System.out.println(processModel);
