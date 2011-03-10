@@ -19,13 +19,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.sun.mail.mbox.NewlineOutputStream;
+
 /**
  * The Class LoadGeneratorWindow.
  */
 public class LoadGeneratorWindow extends JPanel implements ActionListener, PropertyChangeListener {
 
     private static final long serialVersionUID = 1L;
-    
+
     // window components
     private JComboBox processModelBox;
     private JFormattedTextField numberOfThreads;
@@ -85,11 +87,10 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         // Create a start button for starting the load generator
         startButton = new JButton("Start");
         startButton.addActionListener(this);
-        
+
         // Create a scrollable text area for the console output
-        textArea = new JTextArea(9,30);
+        textArea = new JTextArea(9, 30);
         JScrollPane consoleText = new JScrollPane(textArea);
-        
 
         // -------------------- Area for creating panels like text field areas or button areas --------------------
         // Create a text field area
@@ -100,11 +101,10 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         // Create an area for the check box and a start button
         JPanel startingArea = new JPanel(new GridLayout(0, 1));
         startingArea.setBorder(BorderFactory.createEtchedBorder());
-        
+
         // Create an area for the console output to be displayed
         JPanel consoleArea = new JPanel(new GridLayout(0, 1));
-        textFieldArea.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-        "Console Output"));
+        textFieldArea.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Console Output"));
 
         // -------------------- Area for putting the things together --------------------
         textFieldArea.add(processesLabel);
@@ -144,8 +144,10 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
             if (processModel != null) {
                 LoadGenerator gene = new LoadGenerator(processModel, instances, threads);
                 gene.execute();
+            } else {
+                textArea.append("Please choose a process model." + System.getProperty("line.separator"));
             }
-        // Handle the combo box
+            // Handle the combo box
         } else if ("processModel".equals(e.getActionCommand())) {
             JComboBox box = (JComboBox) e.getSource();
             processModel = (String) box.getSelectedItem();
@@ -193,6 +195,7 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         // creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+
                 createAndShowGUI();
             }
         });
