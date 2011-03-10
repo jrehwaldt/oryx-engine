@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.factory;
+package de.hpi.oryxengine.factory.token;
 
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;

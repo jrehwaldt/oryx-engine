@@ -34,6 +34,7 @@ implements ActionListener, PropertyChangeListener {
     private JTextField processModelText;
     private JFormattedTextField numberOfThreads;
     private JFormattedTextField numberOfInstances;
+    private final JButton startButton;
     
     // format values for formatted text fields
     private NumberFormat amountFormat;
@@ -87,8 +88,7 @@ implements ActionListener, PropertyChangeListener {
         JCheckBox showMonitor = new JCheckBox("show monitor afterwards", false);
         
         // Create a start button for starting the load generator
-        final JButton startButton = new JButton("Start");
-        startButton.setActionCommand("Start");
+        startButton = new JButton("Start");
         startButton.addActionListener(this);
 
         // -------------------- Area for creating panels like text field areas or button areas --------------------
@@ -127,7 +127,9 @@ implements ActionListener, PropertyChangeListener {
             } else {
                 return;
             }
-        }
+        }else if (e.getSource() == startButton) {
+			
+		}
     }
     
     @Override

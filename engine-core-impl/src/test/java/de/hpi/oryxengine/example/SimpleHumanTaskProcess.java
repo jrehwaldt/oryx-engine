@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.factory.HumanTaskNodeFactory;
-import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
+import de.hpi.oryxengine.factory.node.HumanTaskNodeFactory;
+import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.process.structure.Node;

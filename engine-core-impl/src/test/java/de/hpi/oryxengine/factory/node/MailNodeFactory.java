@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.factory;
+package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.activity.impl.MailingVariable;
 

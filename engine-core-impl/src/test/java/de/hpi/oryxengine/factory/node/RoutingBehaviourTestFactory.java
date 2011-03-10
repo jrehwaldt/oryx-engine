@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.factory;
+package de.hpi.oryxengine.factory.node;
 
 import static org.mockito.Mockito.mock;
 

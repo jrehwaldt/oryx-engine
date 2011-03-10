@@ -6,8 +6,8 @@ import org.jvnet.mock_javamail.Mailbox;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.factory.MailNodeFactory;
-import de.hpi.oryxengine.factory.SimpleProcessTokenFactory;
+import de.hpi.oryxengine.factory.node.MailNodeFactory;
+import de.hpi.oryxengine.factory.token.SimpleProcessTokenFactory;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 

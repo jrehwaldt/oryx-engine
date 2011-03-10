@@ -5,10 +5,10 @@ import java.util.UUID;
 import de.hpi.oryxengine.activity.AbstractActivity;
 
 import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.factory.AddNumbersAndStoreNodeFactory;
-import de.hpi.oryxengine.factory.MailNodeFactory;
-import de.hpi.oryxengine.factory.PrintingNodeFactory;
-import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
+import de.hpi.oryxengine.factory.node.AddNumbersAndStoreNodeFactory;
+import de.hpi.oryxengine.factory.node.MailNodeFactory;
+import de.hpi.oryxengine.factory.node.PrintingNodeFactory;
+import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.process.structure.Node;

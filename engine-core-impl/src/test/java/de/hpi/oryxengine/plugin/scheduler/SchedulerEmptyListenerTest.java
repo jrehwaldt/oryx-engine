@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.factory.ExampleProcessTokenFactory;
+import de.hpi.oryxengine.factory.process.ExampleProcessTokenFactory;
 import de.hpi.oryxengine.loadgenerator.LoadGenerator;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.process.token.Token;
