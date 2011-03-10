@@ -1,5 +1,7 @@
-package de.hpi.oryxengine.factory;
+package de.hpi.oryxengine.factory.process;
 
+import de.hpi.oryxengine.factory.node.HashComputationNodeFactory;
+import de.hpi.oryxengine.factory.token.SimpleProcessTokenFactory;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 
