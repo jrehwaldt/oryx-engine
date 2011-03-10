@@ -21,7 +21,7 @@ public class LoadGenerator {
     private static final long MEGABYTE = 1024L * 1024L;
     
     private static final int DEFAULT_NUMBER_OF_RUNS = 100000;
-    private static final int DEFAULT_NUMBER_OF_THREADS = 10;
+    private static final int DEFAULT_NUMBER_OF_THREADS = 4;
 
     /** The properties. */
     private Properties properties = new Properties();
@@ -64,16 +64,6 @@ public class LoadGenerator {
     public Properties getProperties() {
 
         return properties;
-    }
-
-    /**
-     * Gets the number of runs.
-     * 
-     * @return the number of runs
-     */
-    public int getNumberOfRuns() {
-
-        return numberOfRuns;
     }
 
     /**
@@ -132,7 +122,7 @@ public class LoadGenerator {
         navigator = new NavigatorImpl(numberOfThreads);
         navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getToken(this));
 
-        for (int i = 0; i < this.getNumberOfRuns(); i++) {
+        for (int i = 0; i < this.numberOfRuns; i++) {
             TokenImpl p = (TokenImpl) this.getExampleProcessToken();
             navigator.startArbitraryInstance(UUID.randomUUID(), p);
             /*
@@ -158,7 +148,7 @@ public class LoadGenerator {
         navigator.stop();
         long stopTime = System.currentTimeMillis();
         long runTime = stopTime - this.startTime;
-        this.logger.info("Run time for all our " + Integer.toString(this.getNumberOfRuns()) + " instances: " + runTime
+        this.logger.info("Run time for all our " + String.valueOf(this.numberOfRuns) + " instances: " + runTime
             + "ms");
         this.logMemoryUsed("Used memory in megabytes (before gc run): ");
         this.runtime.gc();
