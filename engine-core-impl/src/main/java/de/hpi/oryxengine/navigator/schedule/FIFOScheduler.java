@@ -18,7 +18,6 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
 
     /** The process instances we would like to schedule. */
     private List<Token> processtokens;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Instantiates a new simple scheduler queue. Thereby instantiating a synchronized linked list.
@@ -59,7 +58,11 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
         return removedToken;
     }
     
-    public boolean isEmpty(){
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isEmpty() {
         return this.processtokens.isEmpty();
     }
 
