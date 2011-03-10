@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.factory.ExampleProcessTokenFactory;
+import de.hpi.oryxengine.factory.HeavyComputationProcessTokenFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.scheduler.SchedulerEmptyListener;
 import de.hpi.oryxengine.process.token.Token;
@@ -40,13 +40,15 @@ public class LoadGenerator {
     private int numberOfThreads;
 
     private NavigatorImpl navigator;
+    
+    private String className;
 
     /**
      * Instantiates a new load generator.
      *
      * @throws FileNotFoundException if there is no such properties file to be loaded
      */
-    LoadGenerator()
+    public LoadGenerator()
     throws FileNotFoundException {
 
         loadProperties();
@@ -107,6 +109,7 @@ public class LoadGenerator {
             properties.load(LoadGenerator.class.getResourceAsStream(PROPERTIES_FILE_PATH));
             numberOfRuns = Integer.parseInt((String) this.properties.get("numberOfInstances"));
             numberOfThreads = Integer.parseInt((String) this.properties.get("numberOfThreads"));
+            className = (String) this.properties.getProperty("processMoped"); 
         } catch (IOException e) {
             logger.error("Upps we couldn't load the properties file!", e);
         }
@@ -120,7 +123,8 @@ public class LoadGenerator {
      */
     public Token getExampleProcessToken() {
 
-            ExampleProcessTokenFactory factory = new ExampleProcessTokenFactory();
+            
+        HeavyComputationProcessTokenFactory factory = new HeavyComputationProcessTokenFactory();
             return factory.create();
     }
     
