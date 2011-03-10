@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
 import java.text.NumberFormat;
 
 import javax.swing.BorderFactory;
@@ -16,6 +20,9 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 /**
  * The Class LoadGeneratorWindow.
@@ -23,12 +30,13 @@ import javax.swing.JPanel;
 public class LoadGeneratorWindow extends JPanel implements ActionListener, PropertyChangeListener {
 
     private static final long serialVersionUID = 1L;
-
+    
     // window components
     private JComboBox processModelBox;
     private JFormattedTextField numberOfThreads;
     private JFormattedTextField numberOfInstances;
     private final JButton startButton;
+    private JTextArea textArea;
 
     // format values for formatted text fields
     private NumberFormat amountFormat;
@@ -45,8 +53,9 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
 
     /**
      * Instantiates a new load generator window.
+     * @throws IOException 
      */
-    public LoadGeneratorWindow() {
+    public LoadGeneratorWindow() throws IOException {
 
         super(new BorderLayout());
         threads = DEFAULT_THREAD_AMOUNT;
@@ -80,6 +89,12 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         // Create a start button for starting the load generator
         startButton = new JButton("Start");
         startButton.addActionListener(this);
+        
+        // Create a scrollable text area for the console output
+        textArea = new JTextArea(9,30);
+        
+        JScrollPane consoleText = new JScrollPane(textArea);
+        
 
         // -------------------- Area for creating panels like text field areas or button areas --------------------
         // Create a text field area
@@ -90,6 +105,11 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         // Create an area for the check box and a start button
         JPanel startingArea = new JPanel(new GridLayout(0, 1));
         startingArea.setBorder(BorderFactory.createEtchedBorder());
+        
+        // Create an area for the console output to be displayed
+        JPanel consoleArea = new JPanel(new GridLayout(0, 1));
+        textFieldArea.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+        "Console Output"));
 
         // -------------------- Area for putting the things together --------------------
         textFieldArea.add(processesLabel);
@@ -100,8 +120,10 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         textFieldArea.add(numberOfThreads);
         startingArea.add(showMonitor);
         startingArea.add(startButton);
+        consoleArea.add(consoleText);
         this.add(textFieldArea, BorderLayout.NORTH);
-        this.add(startingArea, BorderLayout.SOUTH);
+        this.add(startingArea, BorderLayout.CENTER);
+        this.add(consoleArea, BorderLayout.SOUTH);
     }
 
     /**
@@ -140,17 +162,16 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         Object source = evt.getSource();
         if (source == numberOfInstances) {
             instances = ((Long) numberOfInstances.getValue()).intValue();
-            System.out.println(instances);
         } else if (source == numberOfThreads) {
             threads = ((Long) numberOfThreads.getValue()).intValue();
-            System.out.println(threads);
         }
     }
 
     /**
      * Create the GUI and show it.
+     * @throws IOException 
      */
-    private static void createAndShowGUI() {
+    private static void createAndShowGUI() throws IOException {
 
         // Create and set up the window.
         JFrame frame = new JFrame("Load Generator GUI");
@@ -177,7 +198,11 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 
-                createAndShowGUI();
+                try {
+                    createAndShowGUI();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
