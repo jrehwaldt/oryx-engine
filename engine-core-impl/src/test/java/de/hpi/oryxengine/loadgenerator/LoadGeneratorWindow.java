@@ -64,6 +64,8 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         // -------------------- Area for creating small components like text fields or buttons --------------------
         // Create combo box to choose a process model
         processModelBox = new JComboBox(processes);
+        processModelBox.setSelectedIndex(-1);
+        processModelBox.setActionCommand("processModel");
         processModelBox.addActionListener(this);
         JLabel processesLabel = new JLabel("choose your process: ");
         processesLabel.setLabelFor(processModelBox);
@@ -150,9 +152,10 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
             LoadGenerator gene = new LoadGenerator(processModel, instances, threads);
             gene.execute();
         // Handle the combo box
-        } else if (e.getSource() == processModelBox) {
+        } else if (e.getActionCommand() == "processModel") {
             JComboBox box = (JComboBox) e.getSource();
             processModel = (String) box.getSelectedItem();
+            System.out.println(processModel);
         }
     }
 
