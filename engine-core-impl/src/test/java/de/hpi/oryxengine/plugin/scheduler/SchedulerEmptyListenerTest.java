@@ -29,7 +29,7 @@ public class SchedulerEmptyListenerTest {
 
         scheduler = new FIFOScheduler();
         mockiGene = mock(LoadGenerator.class);
-        scheduler.registerPlugin(SchedulerEmptyListener.getToken(mockiGene));
+        scheduler.registerPlugin(SchedulerEmptyListener.getInstance(mockiGene));
         ExampleProcessTokenFactory factory = new ExampleProcessTokenFactory();
         pi = factory.create();
     }

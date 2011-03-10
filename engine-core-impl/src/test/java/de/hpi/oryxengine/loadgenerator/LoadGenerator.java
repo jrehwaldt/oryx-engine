@@ -6,8 +6,6 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bsh.This;
-
 import de.hpi.oryxengine.factory.process.ProcessFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.scheduler.SchedulerEmptyListener;
@@ -134,7 +132,7 @@ public class LoadGenerator {
         this.logger.info("We start to put " + String.valueOf(numberOfRuns) + "  instances from the Factory "
             + className + " into our navigator!");
         navigator = new NavigatorImpl(numberOfThreads);
-        navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getToken(this));
+        navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getInstance(this));
 
         for (int i = 0; i < this.numberOfRuns; i++) {
             TokenImpl p = (TokenImpl) this.getExampleProcessToken();
@@ -162,9 +160,6 @@ public class LoadGenerator {
         navigator.stop();
         long stopTime = System.currentTimeMillis();
         long runTime = stopTime - this.startTime;
-        System.out.println("Sysout " + this.numberOfRuns);
-        this.logger.info("logger:" + this.numberOfRuns);
-        
         this.logger.info("Run time for all our " + String.valueOf(this.numberOfRuns) + " instances: " + runTime + "ms");
         this.logMemoryUsed("Used memory in megabytes (before gc run): ");
         this.runtime.gc();

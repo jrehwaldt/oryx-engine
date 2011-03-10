@@ -38,10 +38,8 @@ extends AbstractSchedulerListener {
      * @param hugene the Load generator we want to report to.
      * @return single instance of SchedulerListEmptyListener
      */
-    public static SchedulerEmptyListener getToken(LoadGenerator hugene) {
-        if (myself == null) {
-            myself = new SchedulerEmptyListener(hugene);
-        }
+    public static SchedulerEmptyListener getInstance(LoadGenerator hugene) {
+        myself = new SchedulerEmptyListener(hugene);
         return myself;
     }
     
