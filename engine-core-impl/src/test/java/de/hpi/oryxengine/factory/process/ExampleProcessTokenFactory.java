@@ -9,7 +9,7 @@ import de.hpi.oryxengine.process.token.Token;
  * A factory for creating ExampleProcessToken objects.
  * These objects just have 2 add Number activities.
  */
-public class ExampleProcessTokenFactory {
+public class ExampleProcessTokenFactory implements ProcessFactory {
     private Node node1;
     private Node node2;
     private Token token;
