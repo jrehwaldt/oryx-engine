@@ -17,32 +17,21 @@ import de.hpi.oryxengine.process.token.Token;
 public final class SchedulerEmptyListener 
 extends AbstractSchedulerListener {
 
-    private LoadGenerator hugene;
-    private static SchedulerEmptyListener myself;
-    
+    private LoadGenerator hugene;    
 
     /**
      * Instantiates a new scheduler list empty listener.
-     * Which is hidden from the outside since we want to have a singleton.
      *
      * @param gene the Load generator we want to report to.
      */
-    private SchedulerEmptyListener(LoadGenerator gene) {
+    public SchedulerEmptyListener(LoadGenerator gene) {
         this.hugene = gene;
     }
     
     /**
-     * Gets the single instance of SchedulerListEmptyListener.
-     * Bad boy singleton action.
-     *
-     * @param hugene the Load generator we want to report to.
-     * @return single instance of SchedulerListEmptyListener
+     * But here it does nothing.
+     * {@inheritDoc}
      */
-    public static SchedulerEmptyListener getInstance(LoadGenerator hugene) {
-        myself = new SchedulerEmptyListener(hugene);
-        return myself;
-    }
-    
     @Override
     public void processInstanceSubmitted(int numberOfTokens, Token token) {
 
@@ -51,12 +40,15 @@ extends AbstractSchedulerListener {
 
     /**
      * {@inheritDoc}
+     * Calls the method schedulerIsEmpty() in hugene, our loadgenerator
+     * currently this is used as a signal that the execution of the instances
+     * is finished.
      */
     @Override
     public void processInstanceRetrieved(int numberOfTokens, Token token) {
 
         if (numberOfTokens == 0) {
-            myself.hugene.schedulerIsEmpty();
+            this.hugene.schedulerIsEmpty();
         }
 
     }

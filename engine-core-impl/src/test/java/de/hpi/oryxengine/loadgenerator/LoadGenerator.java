@@ -132,7 +132,8 @@ public class LoadGenerator {
         this.logger.info("We start to put " + String.valueOf(numberOfRuns) + "  instances from the Factory "
             + className + " into our navigator!");
         navigator = new NavigatorImpl(numberOfThreads);
-        navigator.getScheduler().registerPlugin(SchedulerEmptyListener.getInstance(this));
+        SchedulerEmptyListener listener = new SchedulerEmptyListener(this);
+        navigator.getScheduler().registerPlugin(listener);
 
         for (int i = 0; i < this.numberOfRuns; i++) {
             TokenImpl p = (TokenImpl) this.getExampleProcessToken();
