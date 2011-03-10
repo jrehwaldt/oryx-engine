@@ -19,8 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import com.sun.mail.mbox.NewlineOutputStream;
-
 /**
  * The Class LoadGeneratorWindow.
  */
@@ -151,7 +149,6 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         } else if ("processModel".equals(e.getActionCommand())) {
             JComboBox box = (JComboBox) e.getSource();
             processModel = (String) box.getSelectedItem();
-            System.out.println(processModel);
         }
     }
 
