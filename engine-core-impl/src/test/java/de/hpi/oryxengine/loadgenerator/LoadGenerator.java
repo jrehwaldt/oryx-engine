@@ -1,7 +1,6 @@
 package de.hpi.oryxengine.loadgenerator;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -18,12 +17,11 @@ import de.hpi.oryxengine.process.token.TokenImpl;
  * The Class LoadGenerator. Is used to generate some load and profile it (more or less) Maybe it should be more generic,
  * but we'll see.
  */
-public class LoadGenerator {
-
-    /** The Constant PROPERTIES_FILE_PATH. */
-    private final static String PROPERTIES_FILE_PATH = "/loadgenerator.properties";
-    
+public class LoadGenerator {    
     private static final long MEGABYTE = 1024L * 1024L;
+    
+    private static final int DEFAULT_NUMBER_OF_RUNS = 100000;
+    private static final int DEFAULT_NUMBER_OF_THREADS = 10;
 
     /** The properties. */
     private Properties properties = new Properties();
@@ -46,12 +44,14 @@ public class LoadGenerator {
     /**
      * Instantiates a new load generator.
      *
-     * @throws FileNotFoundException if there is no such properties file to be loaded
+     * @param className the class name of the factory to use in the loadgenerator
+     * @param numberOfRuns the number of seperate processes to start
+     * @param numberOfThreads the number of threads the navigator should use
      */
-    public LoadGenerator()
-    throws FileNotFoundException {
-
-        loadProperties();
+    public LoadGenerator(String className, int numberOfRuns, int numberOfThreads) {
+        this.className = className;
+        this.numberOfRuns = numberOfRuns;
+        this.numberOfThreads = numberOfThreads;
         this.runtime = Runtime.getRuntime();
 
     }
@@ -96,25 +96,6 @@ public class LoadGenerator {
         return bytes / MEGABYTE;
     }
 
-    /**
-     * Loads the properties file used to configure the load generator.
-     * 
-     * @throws FileNotFoundException if the file is not found on the HDD
-     */
-    void loadProperties()
-    throws FileNotFoundException {
-
-        // FileInputStream f = new FileInputStream(PROPERTIES_FILE_PATH);
-        try {
-            properties.load(LoadGenerator.class.getResourceAsStream(PROPERTIES_FILE_PATH));
-            numberOfRuns = Integer.parseInt((String) this.properties.get("numberOfInstances"));
-            numberOfThreads = Integer.parseInt((String) this.properties.get("numberOfThreads"));
-            className = (String) this.properties.getProperty("processMoped"); 
-        } catch (IOException e) {
-            logger.error("Upps we couldn't load the properties file!", e);
-        }
-
-    }
 
     /**
      * Calls the Example Process token factory in order to create a new one.
@@ -197,7 +178,7 @@ public class LoadGenerator {
     public static void main(String[] args)
     throws FileNotFoundException {
 
-        LoadGenerator gene = new LoadGenerator();
+        LoadGenerator gene = new LoadGenerator("test", DEFAULT_NUMBER_OF_RUNS, DEFAULT_NUMBER_OF_THREADS);
         gene.execute();
     }
 }
