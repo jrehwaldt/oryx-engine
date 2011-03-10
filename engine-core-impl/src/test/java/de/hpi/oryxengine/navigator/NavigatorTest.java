@@ -11,7 +11,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.factory.RoutingBehaviourTestFactory;
+import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.TokenImpl;
 

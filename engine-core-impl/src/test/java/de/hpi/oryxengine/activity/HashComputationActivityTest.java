@@ -5,8 +5,8 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.factory.HashComputationNodeFactory;
-import de.hpi.oryxengine.factory.SimpleProcessTokenFactory;
+import de.hpi.oryxengine.factory.node.HashComputationNodeFactory;
+import de.hpi.oryxengine.factory.token.SimpleProcessTokenFactory;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 
