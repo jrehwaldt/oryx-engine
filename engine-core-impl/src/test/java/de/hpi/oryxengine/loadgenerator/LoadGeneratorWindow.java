@@ -6,10 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.io.PrintStream;
 import java.text.NumberFormat;
 
 import javax.swing.BorderFactory;
@@ -22,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 
 /**
  * The Class LoadGeneratorWindow.
@@ -53,9 +48,8 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
 
     /**
      * Instantiates a new load generator window.
-     * @throws IOException 
      */
-    public LoadGeneratorWindow() throws IOException {
+    public LoadGeneratorWindow() {
 
         super(new BorderLayout());
         threads = DEFAULT_THREAD_AMOUNT;
@@ -94,7 +88,6 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         
         // Create a scrollable text area for the console output
         textArea = new JTextArea(9,30);
-        
         JScrollPane consoleText = new JScrollPane(textArea);
         
 
@@ -172,9 +165,8 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
 
     /**
      * Create the GUI and show it.
-     * @throws IOException 
      */
-    private static void createAndShowGUI() throws IOException {
+    private static void createAndShowGUI() {
 
         // Create and set up the window.
         JFrame frame = new JFrame("Load Generator GUI");
@@ -200,12 +192,7 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         // creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-
-                try {
-                    createAndShowGUI();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                createAndShowGUI();
             }
         });
     }
