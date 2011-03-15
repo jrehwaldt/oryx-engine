@@ -1,7 +1,5 @@
 package de.hpi.oryxengine.worklist;
 
-import de.hpi.oryxengine.resource.Resource;
-
 /**
  * Represents a human task for engine internal use.
  */

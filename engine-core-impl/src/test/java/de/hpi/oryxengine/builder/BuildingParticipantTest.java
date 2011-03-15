@@ -69,7 +69,8 @@ public class BuildingParticipantTest {
 
     /**
      * Test creation participant position relationship.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testCreationParticipantPositionRelationship() throws Exception {
@@ -89,7 +90,8 @@ public class BuildingParticipantTest {
 
     /**
      * An OrganzationUnit should only have unique Positions.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testUniquePositionsParticipantRelationship() throws Exception {
@@ -116,7 +118,8 @@ public class BuildingParticipantTest {
     
     /**
      * Test change position participant relationship.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testChangePositionParticipantRelationship() throws Exception {
@@ -146,7 +149,8 @@ public class BuildingParticipantTest {
     
     /**
      * Test delete participant.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testDeleteParticipant() throws Exception {
@@ -172,7 +176,8 @@ public class BuildingParticipantTest {
     
     /**
      * Test that the relationship between Participant and Position is removed properly.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testDeletePositionParticipantRelationship() throws Exception {

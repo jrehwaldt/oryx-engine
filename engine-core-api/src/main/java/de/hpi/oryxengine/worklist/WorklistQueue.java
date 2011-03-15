@@ -5,6 +5,7 @@ import java.util.List;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.Resource;
 
+// TODO: Auto-generated Javadoc
 /**
  * Is the internal interface for operating on the Worklists. This interface is used by the patterns in order to query
  * and modify the queues.

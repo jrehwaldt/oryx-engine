@@ -26,6 +26,9 @@ public class AutomatedDummyActivity extends AbstractActivity {
     }
 
     /**
+     * Execute intern.
+     *
+     * @param instance the instance
      * {@inheritDoc}
      */
     @Override

@@ -35,6 +35,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     /** The Constant NUMBER_OF_NAVIGATOR_THREADS. */
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
 
+    /** The navigator threads. */
     private int navigatorThreads;
 
     /** The state. */
@@ -98,6 +99,9 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         counter++;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void startProcessInstance(UUID processID) throws Exception {
 

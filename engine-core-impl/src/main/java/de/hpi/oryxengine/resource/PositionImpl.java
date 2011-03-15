@@ -3,7 +3,6 @@ package de.hpi.oryxengine.resource;
 import java.util.HashSet;
 import java.util.Set;
 
-// TODO: Auto-generated Javadoc
 /**
  * Implementation of {@link Position} Interface.
  */
@@ -18,6 +17,7 @@ public class PositionImpl extends ResourceImpl<Position> implements Position {
     /** The superior {@link Position}. */
     private Position superiorPosition;
     
+    /** The subordinate positions. */
     private Set<PositionImpl> subordinatePositions;
 
     /**
@@ -31,6 +31,9 @@ public class PositionImpl extends ResourceImpl<Position> implements Position {
         super(positionId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Participant getPositionHolder() {
 
@@ -49,6 +52,9 @@ public class PositionImpl extends ResourceImpl<Position> implements Position {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Position getSuperiorPosition() {
 
@@ -68,6 +74,9 @@ public class PositionImpl extends ResourceImpl<Position> implements Position {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public OrganizationUnit belongstoOrganization() {
 

@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.resource;
 
+// TODO: Auto-generated Javadoc
 /**
  * Represents a resource that is part of the enterprise's organization structure.
  * 

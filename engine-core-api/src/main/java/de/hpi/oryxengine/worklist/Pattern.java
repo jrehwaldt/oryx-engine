@@ -2,6 +2,7 @@ package de.hpi.oryxengine.worklist;
 
 import de.hpi.oryxengine.process.token.Token;
 
+// TODO: Auto-generated Javadoc
 /**
  * Represents a pattern object for distribution of a task into worklists.
  */

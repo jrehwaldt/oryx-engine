@@ -2,6 +2,7 @@ package de.hpi.oryxengine.correlation.adapter.mail;
 
 import javax.annotation.Nonnegative;
 
+// TODO: Auto-generated Javadoc
 /**
  * Mail type enum.
  * 
@@ -9,9 +10,16 @@ import javax.annotation.Nonnegative;
  * @see http://de.wikipedia.org/wiki/POP3
  */
 public enum MailType {
-    POP3(110, 995), IMAP(143, 993);
     
+    /** The PO p3. */
+    POP3(110, 995), 
+ /** The IMAP. */
+ IMAP(143, 993);
+    
+    /** The default port. */
     private int defaultPort;
+    
+    /** The ssl port. */
     private int sslPort;
     
     /**

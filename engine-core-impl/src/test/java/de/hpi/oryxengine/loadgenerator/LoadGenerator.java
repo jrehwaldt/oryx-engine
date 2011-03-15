@@ -16,26 +16,41 @@ import de.hpi.oryxengine.process.token.TokenImpl;
  * but we'll see.
  */
 public class LoadGenerator {
+    
+    /** The Constant MEGABYTE. */
     private static final long MEGABYTE = 1024L * 1024L;
 
+    /** The Constant DEFAULT_PROCESS. */
     private static final String DEFAULT_PROCESS = "HeavyComputationProcessTokenFactory";
+    
+    /** The Constant DEFAULT_NUMBER_OF_RUNS. */
     private static final int DEFAULT_NUMBER_OF_RUNS = 100000;
+    
+    /** The Constant DEFAULT_NUMBER_OF_THREADS. */
     private static final int DEFAULT_NUMBER_OF_THREADS = 4;
+    
+    /** The Constant PATH_TO_PROCESS_FACTORIES. */
     private static final String PATH_TO_PROCESS_FACTORIES = "de.hpi.oryxengine.factory.process.";
 
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    /** The runtime. */
     private Runtime runtime;
 
+    /** The number of runs. */
     private int numberOfRuns;
 
+    /** The start time. */
     private long startTime;
 
+    /** The number of threads. */
     private int numberOfThreads;
 
+    /** The navigator. */
     private NavigatorImpl navigator;
 
+    /** The class name. */
     private String className;
 
     /**
@@ -81,11 +96,8 @@ public class LoadGenerator {
 
     /**
      * Calls the Example Process token factory in order to create a new one.
-     * 
+     *
      * @return the example process token
-     * @throws ClassNotFoundException
-     * @throws IllegalAccessException
-     * @throws InstantiationException
      */
     public Token getExampleProcessToken() {
 

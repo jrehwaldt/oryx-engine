@@ -19,14 +19,20 @@ import de.hpi.oryxengine.repository.ProcessRepository;
 import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
 
+// TODO: Auto-generated Javadoc
 /**
  * Tests the SchedulerEmptyListener Plugin, that invokes a method on a loadgenerator when the queue of the Scheduler is.
  * empty
  */
 public class SchedulerEmptyListenerTest {
 
+    /** The scheduler. */
     private FIFOScheduler scheduler;
+    
+    /** The mocki gene. */
     private LoadGenerator mockiGene;
+    
+    /** The pi. */
     private Token pi;
 
     /**
@@ -40,7 +46,8 @@ public class SchedulerEmptyListenerTest {
 
     /**
      * Creates everything that we need (a Scheduler with the Plugin), a processtoken and a mocked loadGenerator.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @BeforeMethod
     public void setUp() throws Exception {

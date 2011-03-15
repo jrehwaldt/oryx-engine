@@ -24,26 +24,47 @@ import javax.swing.JTextArea;
  */
 public class LoadGeneratorWindow extends JPanel implements ActionListener, PropertyChangeListener {
 
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
     // window components
+    /** The process model box. */
     private JComboBox processModelBox;
+    
+    /** The number of threads. */
     private JFormattedTextField numberOfThreads;
+    
+    /** The number of instances. */
     private JFormattedTextField numberOfInstances;
+    
+    /** The start button. */
     private final JButton startButton;
+    
+    /** The text area. */
     private JTextArea textArea;
 
     // format values for formatted text fields
+    /** The amount format. */
     private NumberFormat amountFormat;
 
     // default values to be shown in window
+    /** The Constant DEFAULT_THREAD_AMOUNT. */
     private static final int DEFAULT_THREAD_AMOUNT = 10;
+    
+    /** The Constant DEFAULT_INSTANCE_AMOUNT. */
     private static final int DEFAULT_INSTANCE_AMOUNT = 10000;
+    
+    /** The processes. */
     private String[] processes;
 
     // variables to be passed on to Load Generator
+    /** The threads. */
     private int threads;
+    
+    /** The instances. */
     private int instances;
+    
+    /** The process model. */
     private String processModel;
 
     /**
@@ -134,6 +155,9 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         return processModels;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -152,6 +176,9 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 

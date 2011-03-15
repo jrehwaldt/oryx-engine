@@ -30,6 +30,9 @@ extends Identifiable {
     void setCurrentNode(Node node);
 
     /**
+     * Gets the iD.
+     *
+     * @return the iD
      * {@inheritDoc}
      */
     @Override
@@ -38,9 +41,9 @@ extends Identifiable {
 
     /**
      * Executes a step for the given instance, which is usually a single step beginning with the current node.
-     * 
+     *
      * @return the list of new ProcessInstances that result after the next step is performed.
-     * @throws Exception
+     * @throws Exception the exception
      */
     List<Token> executeStep() throws Exception;
 

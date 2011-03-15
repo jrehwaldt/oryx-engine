@@ -7,13 +7,17 @@ import java.util.UUID;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ProcessRepositoryImpl. The Repository holds the process definitions in the engine. To instantiate these,
  * the repository has to be asked.
  */
 public final class ProcessRepositoryImpl implements ProcessRepository {
 
+    /** The instance. */
     private static ProcessRepository instance = null;
+    
+    /** The definitions. */
     private Map<UUID, ProcessDefinition> definitions;
 
     /**
@@ -37,6 +41,9 @@ public final class ProcessRepositoryImpl implements ProcessRepository {
         return instance;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ProcessDefinition getDefinition(UUID id) throws DefinitionNotFoundException {
 
@@ -46,6 +53,9 @@ public final class ProcessRepositoryImpl implements ProcessRepository {
         return definitions.get(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addDefinition(ProcessDefinition definition) {
 
@@ -53,6 +63,9 @@ public final class ProcessRepositoryImpl implements ProcessRepository {
         definitions.put(id, definition);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteDefinition(UUID id) {
 
@@ -60,6 +73,9 @@ public final class ProcessRepositoryImpl implements ProcessRepository {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Map<UUID, ProcessDefinition> getDefinitions() {
 

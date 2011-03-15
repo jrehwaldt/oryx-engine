@@ -12,11 +12,13 @@ import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class that holds the example process that needs as review process for the engine.
  */
 public final class SimpleHumanTaskProcess {
     
+    /** The Constant SLEEP_TIME. */
     private static final int SLEEP_TIME = 5000;
 
     /** Hidden constructor. */

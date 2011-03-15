@@ -9,6 +9,8 @@ import de.hpi.oryxengine.plugin.Plugin;
  * This interface should be implemented by plugins, which
  * aim to listen for changes within navigator threads
  * such as emptied queues etc.
+ *
+ * @see NavigatorEvent
  */
 public interface NavigatorListener
 extends Plugin {

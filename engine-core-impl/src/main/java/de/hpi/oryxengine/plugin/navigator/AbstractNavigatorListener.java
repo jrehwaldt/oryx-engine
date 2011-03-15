@@ -14,15 +14,20 @@ import de.hpi.oryxengine.plugin.ObserverPlugin;
 /**
  * This class may be injected to observe
  * the lifecycle of a navigator.
+ *
+ * @see AbstractNavigatorEvent
  */
 public abstract class AbstractNavigatorListener
 implements ObserverPlugin, NavigatorListener {
     
+    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**
      * This method is called whenever the navigator changes its state.
-     * 
+     *
+     * @param observable the observable
+     * @param param the param
      * {@inheritDoc}
      */
     @Override

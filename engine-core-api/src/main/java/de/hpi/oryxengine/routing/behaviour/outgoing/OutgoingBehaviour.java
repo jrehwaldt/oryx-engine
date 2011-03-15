@@ -11,11 +11,10 @@ public interface OutgoingBehaviour {
 
     /**
      * Split.
-     * 
-     * @param instances
-     *            the instances to split/distribute according to outgoing transitions.
+     *
+     * @param instances the instances to split/distribute according to outgoing transitions.
      * @return the list of new process instances that point to the destination-nodes of the outgoing transitions.
-     * @throws Exception
+     * @throws Exception the exception
      */
     List<Token> split(List<Token> instances) throws Exception;
 }

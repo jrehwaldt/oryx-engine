@@ -5,6 +5,7 @@ import java.util.List;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.util.Identifiable;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface of the process definition. The process definition holds the essential information of a process and
  * specifies its list of start nodes.

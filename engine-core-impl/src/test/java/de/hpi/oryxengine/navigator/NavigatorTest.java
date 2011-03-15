@@ -14,7 +14,6 @@ import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
-
 /**
  * The test for the navigator.
  */

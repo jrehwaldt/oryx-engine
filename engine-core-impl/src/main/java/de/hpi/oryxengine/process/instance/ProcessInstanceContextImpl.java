@@ -9,11 +9,13 @@ import java.util.Map;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ProcessInstanceContextImpl.
  */
 public class ProcessInstanceContextImpl implements ProcessInstanceContext {
 
+    /** The waiting transitions. */
     private Map<Node, List<Transition>> waitingTransitions;
 
     /** The token variables. */
@@ -49,6 +51,10 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     /**
+     * Gets the waiting executions.
+     *
+     * @param n the n
+     * @return the waiting executions
      * {@inheritDoc}
      */
     @Override
@@ -57,6 +63,9 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
         return waitingTransitions.get(n);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean allIncomingTransitionsSignaled(Node n) {
 
@@ -70,6 +79,9 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
         return signaledTransitions.containsAll(incomingTransitions);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeIncomingTransitions(Node n) {
 

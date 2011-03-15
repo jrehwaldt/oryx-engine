@@ -13,12 +13,15 @@ import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.XORSplitBehaviour;
 
+// TODO: Auto-generated Javadoc
 /**
  * A factory for creating RoutingBeavhiourTest objects.
  */
 public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
 
     /**
+     * Sets the activity.
+     *
      * {@inheritDoc}
      */
     @Override

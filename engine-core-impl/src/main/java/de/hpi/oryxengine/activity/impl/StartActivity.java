@@ -3,6 +3,7 @@ package de.hpi.oryxengine.activity.impl;
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class StartActivity.
  * The now empty behaviour of a startnode.
@@ -18,6 +19,9 @@ extends AbstractActivity {
     }
 
     /**
+     * Execute intern.
+     *
+     * @param instance the instance
      * {@inheritDoc}
      */
     @Override

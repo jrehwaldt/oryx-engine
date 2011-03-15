@@ -24,10 +24,16 @@ import de.hpi.oryxengine.correlation.adapter.PullingInboundAdapter;
  */
 public class ImapMailAdapterTest {
     
+    /** The imap. */
     private PullingInboundAdapter imap = null;
+    
+    /** The config. */
     private MailAdapterConfiguration config = null;
+    
+    /** The address. */
     private String address = null;
     
+    /** The mock. */
     private CorrelationManager mock = null;
     
     /**

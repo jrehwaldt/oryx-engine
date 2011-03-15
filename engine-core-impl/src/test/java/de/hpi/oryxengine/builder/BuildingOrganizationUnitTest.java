@@ -39,7 +39,8 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test organization unit creation.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testOrganizationUnitCreation() throws Exception {
@@ -73,7 +74,8 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test relationship organization unit position.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testRelationshipOrganizationUnitPosition() throws Exception {
@@ -104,7 +106,8 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * An OrganzationUnit should only have unique Positions.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testUniquePositionsInOrganizationUnit() throws Exception {
@@ -130,7 +133,8 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test change position in organization unit.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testChangePositionInOrganizationUnit() throws Exception {
@@ -160,7 +164,8 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test delete organization unit.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testDeleteOrganizationUnit() throws Exception {
@@ -186,7 +191,8 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test delete super organization unit.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testDeleteSuperOrganizationUnit() throws Exception {
@@ -209,7 +215,8 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test delete position in organization unit.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testDeletePositionInOrganizationUnit() throws Exception {
@@ -227,7 +234,8 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test not being super organization unit of yourself.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test(expectedExceptions = OryxEngineException.class)
     public void testNotBeingSuperOrganizationUnitOfYourself() throws Exception {

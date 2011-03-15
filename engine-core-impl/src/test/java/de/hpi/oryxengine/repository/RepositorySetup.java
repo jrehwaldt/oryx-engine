@@ -10,10 +10,13 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
 import de.hpi.oryxengine.process.structure.Node;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class RepositorySetup.
  */
 public class RepositorySetup {
+    
+    /** The Constant FIRST_EXAMPLE_PROCESS_ID. */
     public static final UUID FIRST_EXAMPLE_PROCESS_ID = UUID.randomUUID();
 
     /**

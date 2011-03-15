@@ -5,11 +5,15 @@ import de.hpi.oryxengine.worklist.Pattern;
 import de.hpi.oryxengine.worklist.Task;
 import de.hpi.oryxengine.worklist.WorklistQueue;
 
+// TODO: Auto-generated Javadoc
 /**
  * Simple Pull Pattern - Only for testing.
  */
 public class SimplePullPattern implements Pattern {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void execute(Task task, Token token, WorklistQueue worklistService) {
 

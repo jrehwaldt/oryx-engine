@@ -15,8 +15,13 @@ import de.hpi.oryxengine.resource.Role;
  */
 public class BuildingRoleTest {
 
+    /** The identity service. */
     private IdentityService identityService;
+    
+    /** The identity builder. */
     private IdentityBuilder identityBuilder;
+    
+    /** The admin role. */
     private Role adminRole;
 
     /**
@@ -66,7 +71,8 @@ public class BuildingRoleTest {
 
     /**
      * Test creation participant role relationship.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testCreationParticipantRoleRelationship() throws Exception {
@@ -100,7 +106,8 @@ public class BuildingRoleTest {
 
     /**
      * An OrganzationUnit should only have unique Positions.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testUniqueParticipantRoleRelationship() throws Exception {
@@ -126,7 +133,8 @@ public class BuildingRoleTest {
 
     /**
      * Test change participant role relationship.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testChangeParticipantRoleRelationship() throws Exception {
@@ -159,7 +167,8 @@ public class BuildingRoleTest {
 
     /**
      * Test delete role.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testDeleteRole() throws Exception {
@@ -183,7 +192,8 @@ public class BuildingRoleTest {
 
     /**
      * Test that the relationship between Participant and Role is removed properly.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testDeleteParticipantRoleRelationship() throws Exception {

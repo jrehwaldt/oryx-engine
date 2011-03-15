@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.correlation.adapter;
 
+// TODO: Auto-generated Javadoc
 /**
  * This interface should be implemented by {@link EventManager} adapters,
  * which allow incoming pull communication. This includes,

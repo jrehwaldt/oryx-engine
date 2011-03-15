@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.navigator.schedule;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Enum SchedulerAction.
  * It has the different Scheduler action.
@@ -7,6 +8,10 @@ package de.hpi.oryxengine.navigator.schedule;
  * RETRIEVE means that a processtoken is retrieved and will now be worked on.
  */
 public enum SchedulerAction {
+    
+    /** The SUBMIT. */
     SUBMIT,
+    
+    /** The RETRIEVE. */
     RETRIEVE
 }

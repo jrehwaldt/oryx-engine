@@ -3,6 +3,7 @@ package de.hpi.oryxengine.activity.impl;
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class PrintingVariableActivity.
  * Prints out a variable value which the activity gets in its constructor.
@@ -24,6 +25,9 @@ extends AbstractActivity {
     }
 
     /**
+     * Execute intern.
+     *
+     * @param instance the instance
      * {@inheritDoc}
      */
     @Override

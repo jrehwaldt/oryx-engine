@@ -16,7 +16,11 @@ import de.hpi.oryxengine.process.token.Token;
  * Tests for the AddNumberblablabla activity. Basically checks whether or not the result is good.
  */
 public class AddNumbersAndStoreActivityTest {
+    
+    /** The node. */
     private Node node = null;
+    
+    /** The p. */
     private Token p = null;
     
     /**

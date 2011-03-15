@@ -15,15 +15,28 @@ import de.hpi.oryxengine.correlation.adapter.PullingAdapterConfiguration;
  */
 public final class MailAdapterConfiguration implements PullingAdapterConfiguration {
     
+    /** The user name. */
     private final String userName;
+    
+    /** The password. */
     private final String password;
+    
+    /** The address. */
     private final String address;
+    
+    /** The port. */
     private final int port;
+    
+    /** The use ssl. */
     private final boolean useSSL;
+    
+    /** The type. */
     private final MailType type;
     
+    /** The Constant DEFAULT_INTERVAL. */
     private static final long DEFAULT_INTERVAL = 1000L;
     
+    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**
@@ -130,6 +143,9 @@ public final class MailAdapterConfiguration implements PullingAdapterConfigurati
         return props;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getInterval() {
         return DEFAULT_INTERVAL;

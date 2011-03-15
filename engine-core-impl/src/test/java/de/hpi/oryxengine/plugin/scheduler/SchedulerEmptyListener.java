@@ -3,6 +3,7 @@ package de.hpi.oryxengine.plugin.scheduler;
 import de.hpi.oryxengine.loadgenerator.LoadGenerator;
 import de.hpi.oryxengine.process.token.Token;
 
+// TODO: Auto-generated Javadoc
 /**
  * The listener interface for receiving schedulerListEmpty events.
  * The class that is interested in processing a schedulerListEmpty
@@ -17,6 +18,7 @@ import de.hpi.oryxengine.process.token.Token;
 public final class SchedulerEmptyListener 
 extends AbstractSchedulerListener {
 
+    /** The hugene. */
     private LoadGenerator hugene;    
 
     /**
@@ -30,6 +32,9 @@ extends AbstractSchedulerListener {
     
     /**
      * But here it does nothing.
+     *
+     * @param numberOfTokens the number of tokens
+     * @param token the token
      * {@inheritDoc}
      */
     @Override
@@ -39,6 +44,10 @@ extends AbstractSchedulerListener {
     }
 
     /**
+     * Process instance retrieved.
+     *
+     * @param numberOfTokens the number of tokens
+     * @param token the token
      * {@inheritDoc}
      * Calls the method schedulerIsEmpty() in hugene, our loadgenerator
      * currently this is used as a signal that the execution of the instances

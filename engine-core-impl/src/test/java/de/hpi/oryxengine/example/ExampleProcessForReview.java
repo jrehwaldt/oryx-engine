@@ -14,12 +14,12 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
-
 /**
  * The Class that holds the example process that needs as review process for the engine.
  */
 public final class ExampleProcessForReview {
     
+    /** The Constant SLEEP_TIME. */
     private static final int SLEEP_TIME = 5000;
 
     /** Hidden constructor. */

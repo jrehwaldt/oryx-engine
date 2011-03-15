@@ -3,6 +3,7 @@ package de.hpi.oryxengine.resource;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
  * ResourceImpl is the implementation of the {@link Resource} interface.
  * 
@@ -10,10 +11,13 @@ import java.util.Map;
  */
 public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
+    /** The resource id. */
     protected String resourceId;
     
+    /** The resource name. */
     protected String resourceName;
     
+    /** The property table. */
     protected Map<String, Object> propertyTable;
 
     /**
@@ -28,6 +32,9 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     }
 
     /**
+     * Gets the id.
+     *
+     * @return the id
      * {@inheritDoc}
      */
     @Override
@@ -37,6 +44,10 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     }
 
     /**
+     * Sets the id.
+     *
+     * @param id the id
+     * @return the r
      * {@inheritDoc}
      */
     @Override
@@ -47,6 +58,9 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     }
 
     /**
+     * Gets the name.
+     *
+     * @return the name
      * {@inheritDoc}
      */
     @Override
@@ -56,6 +70,10 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     }
 
     /**
+     * Sets the name.
+     *
+     * @param name the name
+     * @return the r
      * {@inheritDoc}
      */
     @Override
@@ -66,6 +84,10 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     }
 
     /**
+     * Gets the property.
+     *
+     * @param propertyId the property id
+     * @return the property
      * {@inheritDoc}
      */
     @Override
@@ -88,6 +110,11 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     }
 
     /**
+     * Sets the property.
+     *
+     * @param propertyKey the property key
+     * @param propertyValue the property value
+     * @return the r
      * {@inheritDoc}
      */
     @Override
@@ -128,6 +155,9 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     }
 
     /**
+     * Hash code.
+     *
+     * @return the int
      * {@inheritDoc}
      */
     @Override

@@ -7,6 +7,7 @@ package de.hpi.oryxengine.exception;
  */
 public class OryxEngineException extends Exception {
 
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
     /**

@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.correlation.adapter;
 
+// TODO: Auto-generated Javadoc
 /**
  * Configuration for {@link PullingInboundAdapter}.
  */

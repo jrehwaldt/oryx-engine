@@ -14,6 +14,11 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 public class XORSplitBehaviour implements OutgoingBehaviour {
 
     /**
+     * Split.
+     *
+     * @param instances the instances
+     * @return the list
+     * @throws NoValidPathException the no valid path exception
      * {@inheritDoc}
      */
     @Override

@@ -11,11 +11,13 @@ import de.hpi.oryxengine.process.token.Token;
 public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
 
     /**
-     * @see de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour
-     *      #join(de.hpi.oryxengine.process.token.Token) Do not override this, as it is a template method.
-     *      Only join, if a join is possible.
+     * Join.
+     *
      * @param instance instance to perform the join on
      * @return the list of joined instances
+     * @see de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour
+     * #join(de.hpi.oryxengine.process.token.Token) Do not override this, as it is a template method.
+     * Only join, if a join is possible.
      */
     public List<Token> join(Token instance) {
 

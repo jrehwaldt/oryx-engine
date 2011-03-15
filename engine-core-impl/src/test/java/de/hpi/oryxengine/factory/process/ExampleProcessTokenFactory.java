@@ -10,8 +10,14 @@ import de.hpi.oryxengine.process.token.Token;
  * These objects just have 2 add Number activities.
  */
 public class ExampleProcessTokenFactory implements ProcessFactory {
+    
+    /** The node1. */
     private Node node1;
+    
+    /** The node2. */
     private Node node2;
+    
+    /** The token. */
     private Token token;
     
     /**

@@ -15,8 +15,13 @@ import de.hpi.oryxengine.resource.Position;
  */
 public class BuildingPositionTest {
 
+    /** The identity service. */
     private IdentityService identityService;
+    
+    /** The identity builder. */
     private IdentityBuilder identityBuilder;
+    
+    /** The position. */
     private Position position;
 
     /**
@@ -33,7 +38,8 @@ public class BuildingPositionTest {
 
     /**
      * Test position creation.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testPositionCreation() throws Exception {
@@ -68,7 +74,8 @@ public class BuildingPositionTest {
     
     /**
      * Test not being superior of yourself.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test(expectedExceptions = OryxEngineException.class)
     public void testNotBeingSuperiorOfYourself() throws Exception {
@@ -78,7 +85,8 @@ public class BuildingPositionTest {
 
     /**
      * Test delete position.
-     * @throws Exception 
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testDeletePosition() throws Exception {
