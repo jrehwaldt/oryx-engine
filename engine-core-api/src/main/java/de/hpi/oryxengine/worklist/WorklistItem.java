@@ -1,11 +1,15 @@
 package de.hpi.oryxengine.worklist;
 
-
 /**
- * 
+ * The Interface WorklistItem.
  */
 public interface WorklistItem extends Task {
     
-    WorklistItemState getStatus();
+    /**
+     * Gets the status.
+     *
+     * @return the status
+     */
+    String getStatus();
     
 }

@@ -7,31 +7,58 @@ import static org.testng.Assert.assertTrue;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.factory.process.ExampleProcessTokenFactory;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
+import de.hpi.oryxengine.repository.ProcessRepository;
+import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
+import de.hpi.oryxengine.repository.RepositorySetup;
 
 /**
  * The Class FIFOSchedulerTest. tests our awesome FIFO Scheduler.
  */
 public class FIFOSchedulerTest {
 
+    /** The scheduler. */
     private FIFOScheduler scheduler = null;
+    
+    /** The first token. */
     private Token firstToken = null;
+    
+    /** The second token. */
     private Token secondToken = null;
+
+    
+    /**
+     * Sets the up repo.
+     */
+    @BeforeClass
+    public void setUpRepo() {
+
+        RepositorySetup.fillRepository();
+    }
 
     /**
      * Before test.
+     *
+     * @throws Exception the exception
      */
-    @BeforeTest
-    public void beforeTest() {
+    @BeforeMethod
+    public void beforeTest()
+    throws Exception {
 
         scheduler = new FIFOScheduler();
-        ExampleProcessTokenFactory factory = new ExampleProcessTokenFactory();
-        firstToken = factory.create();
-        secondToken = factory.create();
+        ProcessRepository repo = ProcessRepositoryImpl.getInstance();
+        ProcessDefinition def = repo.getDefinition(RepositorySetup.FIRST_EXAMPLE_PROCESS_ID);
+        List<Node> startNodes = def.getStartNodes();
+        Node startNode = startNodes.get(0);
+        firstToken = new TokenImpl(startNode);
+        secondToken = new TokenImpl(startNode);
     }
 
     /**
@@ -76,7 +103,7 @@ public class FIFOSchedulerTest {
         assertEquals(scheduler.retrieve(), firstToken,
             "FIFO not working correctly, expected the that the first submitted gets retrieved");
     }
-    
+
     /**
      * Test two submits and two retrieves.
      */
@@ -86,15 +113,15 @@ public class FIFOSchedulerTest {
         scheduler.submit(firstToken);
         scheduler.submit(secondToken);
         scheduler.retrieve();
-        assertEquals(scheduler.retrieve(), secondToken,
-            "FIFO not working correctly");
+        assertEquals(scheduler.retrieve(), secondToken, "FIFO not working correctly");
     }
-    
+
     /**
      * Many tests for submit all, all in one place.
      */
     @Test
     public void testSubmitAll() {
+
         List<Token> processList = new LinkedList<Token>();
         processList.add(firstToken);
         processList.add(secondToken);

@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.example;
 
-import java.util.UUID;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
@@ -13,11 +12,13 @@ import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class that holds the example process that needs as review process for the engine.
  */
 public final class SimpleHumanTaskProcess {
     
+    /** The Constant SLEEP_TIME. */
     private static final int SLEEP_TIME = 5000;
 
     /** Hidden constructor. */
@@ -42,7 +43,7 @@ public final class SimpleHumanTaskProcess {
         navigator.start();
         
         TokenImpl token = processTokenForReview();
-        navigator.startArbitraryInstance(UUID.randomUUID(), token);
+        navigator.startArbitraryInstance(token);
         
         Thread.sleep(SLEEP_TIME);
         

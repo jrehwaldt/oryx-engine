@@ -19,6 +19,8 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.XORSplitBehaviour;
 public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
 
     /**
+     * Sets the activity.
+     *
      * {@inheritDoc}
      */
     @Override

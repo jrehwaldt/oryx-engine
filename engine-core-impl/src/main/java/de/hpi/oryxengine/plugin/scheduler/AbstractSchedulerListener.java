@@ -23,8 +23,13 @@ import de.hpi.oryxengine.plugin.ObserverPlugin;
  * @see AbstractSchedulerEvent
  */
 public abstract class AbstractSchedulerListener implements ObserverPlugin, SchedulerListener {
+    
+    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(Observable observable, Object param) {
         final SchedulerEvent event = (SchedulerEvent) param;

@@ -23,10 +23,16 @@ import de.hpi.oryxengine.worklist.WorklistQueue;
  */
 public class WorklistManager implements WorklistService, TaskDistribution, WorklistQueue {
 
+    /** The worklist manager. */
     protected static WorklistManager worklistManager;
     
     private Map<Resource<?>, List<WorklistItem>> lazyWorklistTable;
     
+    /**
+     * Gets the worklist manager instance.
+     *
+     * @return the worklist manager instance
+     */
     private static WorklistManager getWorklistManagerInstance() {
         
         if (worklistManager == null) {
@@ -37,18 +43,36 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
     }
     
     
+    /**
+     * Gets the worklist service.
+     *
+     * @return the worklist service
+     */
     public static WorklistService getWorklistService() {
         return getWorklistManagerInstance();
     }
 
+    /**
+     * Gets the worklist queue.
+     *
+     * @return the worklist queue
+     */
     public static WorklistQueue getWorklistQueue() {
         return getWorklistManagerInstance();
     }
     
+    /**
+     * Gets the task distribution.
+     *
+     * @return the task distribution
+     */
     public static TaskDistribution getTaskDistribution() {
         return getWorklistManagerInstance();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<WorklistItem> getWorkListItems(Resource<?> resource) {
 
@@ -56,6 +80,9 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addWorklistItem(WorklistItem worklistItem, Resource<?> resourceToFillIn) {
 
@@ -72,6 +99,9 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addWorklistItem(WorklistItem worklistItem, List<Resource<?>> resourcesToFillIn) {
         
@@ -80,6 +110,9 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void distribute(Task task, Token token) {
         Pattern pushPattern = task.getAllocationStrategies().getPushPattern();
@@ -87,6 +120,9 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
         pushPattern.execute(task, token, this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Map<Resource<?>, List<WorklistItem>> getWorklistItems(List<Resource<?>> resources) {
 
@@ -94,6 +130,9 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void claimWorklistItem(WorklistItem worklistItem) {
 
@@ -101,6 +140,9 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
         
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void abortWorklistItem(WorklistItem worklistItem) {
 
@@ -108,6 +150,9 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
         
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void completeWorklistItem(WorklistItem worklistItem) {
 

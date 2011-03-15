@@ -29,6 +29,9 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
     }
 
     /**
+     * Gets the my positions.
+     *
+     * @return the my positions
      * {@inheritDoc}
      */
     @Override
@@ -58,6 +61,9 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
     // return this;
     // }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Capability> getMyCapabilities() {
 
@@ -67,6 +73,9 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
         return myCapabilities;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Role> getMyRoles() {
 

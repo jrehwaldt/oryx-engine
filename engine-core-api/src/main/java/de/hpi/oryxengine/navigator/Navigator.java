@@ -14,9 +14,12 @@ public interface Navigator {
      * 
      * @param processID
      *            the id of the process that is to be instantiated
-     * @return the id of the newly created process instance
+     * @throws Exception thrown if process with given id does not exist in repo
      */
-    @Nonnull UUID startProcessInstance(@Nonnull UUID processID);
+    // TODO This should return the id of the created process instance. Unfortunately, we do not have a process instance
+    // class yet, so we cannot do this.
+    @Nonnull
+    void startProcessInstance(@Nonnull UUID processID) throws Exception;
 
     /**
      * Stop process instance.
@@ -25,7 +28,7 @@ public interface Navigator {
      *            the id of the instance that is to be stopped
      */
     void stopProcessInstance(@Nonnull UUID instanceID);
-    
+
     /**
      * Increase speed.
      */
@@ -33,17 +36,18 @@ public interface Navigator {
 
     /**
      * Gets the current instance state.
-     *
-     * @param instanceID the processinstance id
+     * 
+     * @param instanceID
+     *            the processinstance id
      * @return the current instance state
      */
     String getCurrentInstanceState(UUID instanceID);
-    
+
     /**
      * Starts the navigator, which is than ready to schedule processes.
      */
     void start();
-    
+
     /**
      * Stops the navigator. No processes will be scheduled afterwards.
      */

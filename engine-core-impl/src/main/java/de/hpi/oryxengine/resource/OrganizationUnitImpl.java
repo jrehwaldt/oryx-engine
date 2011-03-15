@@ -30,6 +30,9 @@ public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> impleme
         superOrganizationalUnit = null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Position> getPositions() {
 
@@ -50,6 +53,9 @@ public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> impleme
         return positions;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public OrganizationUnit getSuperOrganizationUnit() {
 

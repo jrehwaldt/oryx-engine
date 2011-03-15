@@ -13,10 +13,17 @@ import de.hpi.oryxengine.process.token.Token;
  * The results are stored in the variables hash1 to hash5.
  */
 public class HeavyComputationProcessTokenFactory implements ProcessFactory {
+    
+    /** The Constant NUMBER_OF_NODES. */
     private final static int NUMBER_OF_NODES = 5;
+    
+    /** The Constant PASSWORDS. */
     private final static String[] PASSWORDS = {"Hallo", "toor", "278dahka!§-", "muhhhh", "HPI"};
 
+    /** The nodes. */
     private Node[] nodes;
+    
+    /** The t. */
     private Token t;
 
     /**

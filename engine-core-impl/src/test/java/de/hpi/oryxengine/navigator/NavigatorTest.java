@@ -4,7 +4,6 @@ import static org.mockito.Mockito.mock;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.UUID;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -14,7 +13,6 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.TokenImpl;
-
 
 /**
  * The test for the navigator.
@@ -69,7 +67,7 @@ public class NavigatorTest {
     @Test
     public void testSignalLength() {
         
-        navigator.startArbitraryInstance(UUID.randomUUID(), processToken);
+        navigator.startArbitraryInstance(processToken);
 
         // this is not so nice, but I am not sure how to test correctly with parrallel behaviour
         try {

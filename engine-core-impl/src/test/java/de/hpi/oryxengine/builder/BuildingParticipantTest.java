@@ -69,9 +69,11 @@ public class BuildingParticipantTest {
 
     /**
      * Test creation participant position relationship.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testCreationParticipantPositionRelationship() {
+    public void testCreationParticipantPositionRelationship() throws Exception {
 
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
@@ -88,9 +90,11 @@ public class BuildingParticipantTest {
 
     /**
      * An OrganzationUnit should only have unique Positions.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testUniquePositionsParticipantRelationship() {
+    public void testUniquePositionsParticipantRelationship() throws Exception {
 
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
@@ -114,9 +118,11 @@ public class BuildingParticipantTest {
     
     /**
      * Test change position participant relationship.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testChangePositionParticipantRelationship() {
+    public void testChangePositionParticipantRelationship() throws Exception {
 
         Position pos1 = identityBuilder.createPosition("1");
 
@@ -143,9 +149,11 @@ public class BuildingParticipantTest {
     
     /**
      * Test delete participant.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testDeleteParticipant() {
+    public void testDeleteParticipant() throws Exception {
 
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
@@ -168,9 +176,11 @@ public class BuildingParticipantTest {
     
     /**
      * Test that the relationship between Participant and Position is removed properly.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testDeletePositionParticipantRelationship() {
+    public void testDeletePositionParticipantRelationship() throws Exception {
 
         Position pos1 = identityBuilder.createPosition("1");
 

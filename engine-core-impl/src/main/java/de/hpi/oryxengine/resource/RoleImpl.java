@@ -25,6 +25,9 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
         super(roleId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Role getSuperRole() {
 
@@ -37,6 +40,9 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
     // return null;
     // }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Participant> getParticipants() {
 

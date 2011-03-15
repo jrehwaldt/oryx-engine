@@ -15,8 +15,13 @@ import de.hpi.oryxengine.resource.Role;
  */
 public class BuildingRoleTest {
 
+    /** The identity service. */
     private IdentityService identityService;
+    
+    /** The identity builder. */
     private IdentityBuilder identityBuilder;
+    
+    /** The admin role. */
     private Role adminRole;
 
     /**
@@ -66,9 +71,11 @@ public class BuildingRoleTest {
 
     /**
      * Test creation participant role relationship.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testCreationParticipantRoleRelationship() {
+    public void testCreationParticipantRoleRelationship() throws Exception {
 
         Participant participant = identityBuilder.createParticipant("gerardo.navarro-suarez");
         Participant participant2 = identityBuilder.createParticipant("jannik.streek");
@@ -99,9 +106,11 @@ public class BuildingRoleTest {
 
     /**
      * An OrganzationUnit should only have unique Positions.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testUniqueParticipantRoleRelationship() {
+    public void testUniqueParticipantRoleRelationship() throws Exception {
 
         Participant participant = identityBuilder.createParticipant("gerardo.navarro-suarez");
         Participant participant2 = identityBuilder.createParticipant("jannik.streek");
@@ -124,9 +133,11 @@ public class BuildingRoleTest {
 
     /**
      * Test change participant role relationship.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testChangeParticipantRoleRelationship() {
+    public void testChangeParticipantRoleRelationship() throws Exception {
 
         Participant participant = identityBuilder.createParticipant("gerardo.navarro-suarez");
 
@@ -156,9 +167,11 @@ public class BuildingRoleTest {
 
     /**
      * Test delete role.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testDeleteRole() {
+    public void testDeleteRole() throws Exception {
 
         Participant participant1 = identityBuilder.createParticipant("gerardo.navarro-suarez");
         Participant participant2 = identityBuilder.createParticipant("jannik.streek");
@@ -179,9 +192,11 @@ public class BuildingRoleTest {
 
     /**
      * Test that the relationship between Participant and Role is removed properly.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testDeleteParticipantRoleRelationship() {
+    public void testDeleteParticipantRoleRelationship() throws Exception {
 
         Participant participant = identityBuilder.createParticipant("gerardo.navarro-suarez");
         identityBuilder.participantBelongsToRole(participant, adminRole);

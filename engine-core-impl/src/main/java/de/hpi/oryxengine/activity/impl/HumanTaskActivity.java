@@ -16,6 +16,7 @@ import de.hpi.oryxengine.worklist.TaskDistribution;
  */
 public class HumanTaskActivity extends AbstractActivity {
 
+    /** The task. */
     private Task task;
 
     /**
@@ -28,6 +29,9 @@ public class HumanTaskActivity extends AbstractActivity {
         this.task = task;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void executeIntern(@Nonnull Token instance) {
 

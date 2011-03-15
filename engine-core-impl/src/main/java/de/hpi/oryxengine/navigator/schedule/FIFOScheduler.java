@@ -11,6 +11,7 @@ import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.scheduler.AbstractSchedulerListener;
 import de.hpi.oryxengine.process.token.Token;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class FIFOScheduler. It is a simple FIFO Scheduler so nothing too interesting going on around here.
  */
@@ -30,7 +31,8 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
 
     /**
      * Adds a process instance to our FIFO queue.
-     * 
+     *
+     * @param p the p
      * {@inheritDoc}
      */
     @Override
@@ -41,7 +43,9 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
     }
 
     /**
-     * Gets the first element of the FIFO queue and returns it. 
+     * Gets the first element of the FIFO queue and returns it.
+     *
+     * @return the token
      * {@inheritDoc}
      */
     @Override
@@ -59,6 +63,9 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
     }
     
     /**
+     * Checks if is empty.
+     *
+     * @return true, if is empty
      * {@inheritDoc}
      */
     @Override
@@ -67,6 +74,9 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     // TODO right now we dont care about submitAll plugin/Observerwise
     public void submitAll(List<Token> listOfTokens) {
@@ -74,7 +84,7 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
     }
     
     /**
-     * We changed, tell everybody now!
+     * We changed, tell everybody now!.
      *
      * @param event the event
      */

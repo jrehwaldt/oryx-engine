@@ -8,10 +8,20 @@ import de.hpi.oryxengine.activity.impl.HashComputationActivity;
  * This however can be created without any parameters with all default values.
  */
 public class HashComputationNodeFactory extends AbstractNodeFactory {
+    
+    /** The Constant DEFAULT_VARIABLENAME. */
     private static final String DEFAULT_VARIABLENAME = "hash";
+    
+    /** The Constant DEFAULT_TO_BE_HASHED. */
     private static final String DEFAULT_TO_BE_HASHED = "hasheMePlease!!!111einseins";
+    
+    /** The variable name. */
     private String variableName;
+    
+    /** The to be hashed. */
     private String toBeHashed;
+    
+    /** The hash algorithm. */
     private String hashAlgorithm;
     
     /**
@@ -54,6 +64,8 @@ public class HashComputationNodeFactory extends AbstractNodeFactory {
     }
     
     /**
+     * Sets the activity.
+     *
      * {@inheritDoc}
      */
     @Override

@@ -10,10 +10,14 @@ import java.util.Map;
  */
 public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
+    /** The resource id. */
     protected String resourceId;
-    protected ResourceType resourceType;      
+    protected ResourceType resourceType;
+    
+    /** The resource name. */
     protected String resourceName;
     
+    /** The property table. */
     protected Map<String, Object> propertyTable;
 
     /**
@@ -27,12 +31,25 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         resourceId = id;
     }
 
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     * {@inheritDoc}
+     */
     @Override
     public String getId() {
 
         return resourceId;
     }
 
+    /**
+     * Sets the id.
+     *
+     * @param id the id
+     * @return the r
+     * {@inheritDoc}
+     */
     @Override
     public R setId(String id) {
 
@@ -40,12 +57,25 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return extractedThis();
     }
 
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     * {@inheritDoc}
+     */
     @Override
     public String getName() {
 
         return resourceName;
     }
 
+    /**
+     * Sets the name.
+     *
+     * @param name the name
+     * @return the r
+     * {@inheritDoc}
+     */
     @Override
     public R setName(String name) {
 
@@ -53,6 +83,13 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return extractedThis();
     }
 
+    /**
+     * Gets the property.
+     *
+     * @param propertyId the property id
+     * @return the property
+     * {@inheritDoc}
+     */
     @Override
     public Object getProperty(String propertyId) {
 
@@ -72,6 +109,14 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return propertyTable;
     }
 
+    /**
+     * Sets the property.
+     *
+     * @param propertyKey the property key
+     * @param propertyValue the property value
+     * @return the r
+     * {@inheritDoc}
+     */
     @Override
     public R setProperty(String propertyKey, Object propertyValue) {
 
@@ -109,6 +154,12 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return this.getId().equals(positionToCompare.getId());
     }
 
+    /**
+     * Hash code.
+     *
+     * @return the int
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
 
