@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -23,6 +24,8 @@ public class BPMNUnstructuredJoinSplitTest {
     
     /** The end node. */
     private Node node1, node2, node3, innerJoinNode, outerJoinNode, endNode;
+    
+    private Navigator navigator;
 
     /**
      * Before test.
