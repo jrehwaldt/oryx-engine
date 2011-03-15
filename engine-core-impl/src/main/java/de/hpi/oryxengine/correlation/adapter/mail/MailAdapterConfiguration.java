@@ -49,12 +49,12 @@ public final class MailAdapterConfiguration implements PullingAdapterConfigurati
      * @param port the mail server's port
      * @param useSSL should ssl be used for connection
      */
-    MailAdapterConfiguration(@Nonnull MailType type,
-                             @Nonnull String userName,
-                             @Nonnull String password,
-                             @Nonnull String address,
-                             @Nonnegative int port,
-                             @Nonnull boolean useSSL) {
+    public MailAdapterConfiguration(@Nonnull MailType type,
+                                    @Nonnull String userName,
+                                    @Nonnull String password,
+                                    @Nonnull String address,
+                                    @Nonnegative int port,
+                                    @Nonnull boolean useSSL) {
         this.type = type;
         this.userName = userName;
         this.password = password;
