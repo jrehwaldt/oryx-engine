@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -25,6 +26,9 @@ public class TokenImpl implements Token {
 
     /** The last taken transition. */
     private Transition lastTakenTransition;
+    
+    /** The navigator. */
+    private Navigator navigator;
 
     /**
      * Instantiates a new token impl.
@@ -36,7 +40,7 @@ public class TokenImpl implements Token {
      */
     public TokenImpl(Node startNode, ProcessInstanceContext context) {
 
-        this(startNode, null, context);
+        this(startNode, null, context, null);
     }
 
     /**
@@ -49,10 +53,11 @@ public class TokenImpl implements Token {
      * @param context
      *            the context
      */
-    public TokenImpl(Node startNode, Token parentToken, ProcessInstanceContext context) {
+    public TokenImpl(Node startNode, Token parentToken, ProcessInstanceContext context, Navigator navigator) {
 
         currentNode = startNode;
         this.context = context;
+        this.navigator = navigator;
     }
 
     /**
@@ -63,7 +68,7 @@ public class TokenImpl implements Token {
      */
     public TokenImpl(Node startNode) {
 
-        this(startNode, null, new ProcessInstanceContextImpl());
+        this(startNode, null, new ProcessInstanceContextImpl(), null);
     }
 
     /**
