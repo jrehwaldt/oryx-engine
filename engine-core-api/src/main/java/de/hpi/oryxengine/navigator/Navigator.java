@@ -4,6 +4,9 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.process.token.Token;
+
+// TODO: Auto-generated Javadoc
 /**
  * The Interface NavigatorInterface.
  */
@@ -52,4 +55,19 @@ public interface Navigator {
      * Stops the navigator. No processes will be scheduled afterwards.
      */
     void stop();
+    
+    
+    /**
+     * Adds a token to that is to be worked on.
+     *
+     * @param t the t
+     */
+    void addWorkToken(Token t);
+    
+    /**
+     * Adds a token that is in suspended state.
+     *
+     * @param t the t
+     */
+    void addSuspendToken(Token t);
 }

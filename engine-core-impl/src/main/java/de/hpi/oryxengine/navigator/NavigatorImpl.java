@@ -27,10 +27,12 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     // map IDs to Definition
     /** The running instances. */
     private HashMap<UUID, Token> runningInstances;
-    
-    /** The scheduler. */
+
+    /** The scheduler for tokens that can be processed. */
     private FIFOScheduler scheduler;
-    
+
+    private List<Token> suspendedTokens;
+
     private CorrelationManager correlation;
 
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
@@ -76,8 +78,9 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         this.navigatorThreads = numberOfThreads;
         this.correlation = new CorrelationManagerImpl(this);
         repository = ProcessRepositoryImpl.getInstance();
+        this.suspendedTokens = new ArrayList<Token>();
     }
-    
+
     /**
      * Start. Starts the number of worker thread specified in the NUMBER_OF_NAVIGATOR_THREADS Constant and adds them to
      * the execution threads list.
@@ -217,5 +220,18 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     public FIFOScheduler getScheduler() {
 
         return scheduler;
+    }
+
+    @Override
+    public void addWorkToken(Token t) {
+
+        scheduler.submit(t);
+
+    }
+
+    @Override
+    public void addSuspendToken(Token t) {
+
+        suspendedTokens.add(t);
     }
 }
