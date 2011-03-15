@@ -1,8 +1,5 @@
 package de.hpi.oryxengine.worklist;
 
-import de.hpi.oryxengine.resource.Resource;
-
-// TODO: Auto-generated Javadoc
 /**
  * The Interface WorklistItem.
  */

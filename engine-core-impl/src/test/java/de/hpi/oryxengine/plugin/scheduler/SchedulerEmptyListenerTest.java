@@ -19,7 +19,6 @@ import de.hpi.oryxengine.repository.ProcessRepository;
 import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
 
-// TODO: Auto-generated Javadoc
 /**
  * Tests the SchedulerEmptyListener Plugin, that invokes a method on a loadgenerator when the queue of the Scheduler is.
  * empty

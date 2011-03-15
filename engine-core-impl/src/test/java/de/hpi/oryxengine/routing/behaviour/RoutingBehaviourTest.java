@@ -15,7 +15,6 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
-// TODO: Auto-generated Javadoc
 /**
  * The test of the routing behavior.
  */

@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ProcessInstanceContextImplTest.
  */

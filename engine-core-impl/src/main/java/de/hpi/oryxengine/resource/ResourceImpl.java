@@ -3,7 +3,6 @@ package de.hpi.oryxengine.resource;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
 /**
  * ResourceImpl is the implementation of the {@link Resource} interface.
  * 

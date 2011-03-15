@@ -3,7 +3,6 @@ package de.hpi.oryxengine.plugin.scheduler;
 import de.hpi.oryxengine.loadgenerator.LoadGenerator;
 import de.hpi.oryxengine.process.token.Token;
 
-// TODO: Auto-generated Javadoc
 /**
  * The listener interface for receiving schedulerListEmpty events.
  * The class that is interested in processing a schedulerListEmpty

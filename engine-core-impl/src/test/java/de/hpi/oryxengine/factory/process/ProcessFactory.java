@@ -2,7 +2,6 @@ package de.hpi.oryxengine.factory.process;
 
 import de.hpi.oryxengine.process.token.Token;
 
-// TODO: Auto-generated Javadoc
 /**
  * A factory for creating Process objects.
  * Currently they create a token that points too the connected nodes.

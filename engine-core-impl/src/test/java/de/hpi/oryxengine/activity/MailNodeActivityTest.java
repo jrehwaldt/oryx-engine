@@ -11,7 +11,6 @@ import de.hpi.oryxengine.factory.token.SimpleProcessTokenFactory;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MailNodeActivitytest.
  * Which simply uses a fake mail server to send a mail and tests if the content is right

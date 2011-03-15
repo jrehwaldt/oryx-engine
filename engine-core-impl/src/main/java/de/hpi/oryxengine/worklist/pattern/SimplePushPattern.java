@@ -5,7 +5,6 @@ import de.hpi.oryxengine.worklist.Pattern;
 import de.hpi.oryxengine.worklist.Task;
 import de.hpi.oryxengine.worklist.WorklistQueue;
 
-// TODO: Auto-generated Javadoc
 /**
  * Simple Push Pattern - Only for testing.
  */

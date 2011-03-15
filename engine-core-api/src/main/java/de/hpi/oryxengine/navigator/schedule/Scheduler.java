@@ -4,7 +4,6 @@ import java.util.List;
 
 import de.hpi.oryxengine.process.token.Token;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface Scheduler.
  * It is used in order to schedule the process tokens of our navigator.

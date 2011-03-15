@@ -2,7 +2,6 @@ package de.hpi.oryxengine.correlation.adapter.mail;
 
 import javax.annotation.Nonnegative;
 
-// TODO: Auto-generated Javadoc
 /**
  * Mail type enum.
  * 

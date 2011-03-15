@@ -14,7 +14,6 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.structure.Transition;
 
-// TODO: Auto-generated Javadoc
 /**
  * The test for the process instance.
  */

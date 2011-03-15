@@ -4,7 +4,6 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
-// TODO: Auto-generated Javadoc
 /**
  * A factory for creating simple ProcessToken objects. So it creates a Process starting at one node specified.
  */

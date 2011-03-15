@@ -19,7 +19,6 @@ import de.hpi.oryxengine.repository.ProcessRepository;
 import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FIFOSchedulerTest. tests our awesome FIFO Scheduler.
  */

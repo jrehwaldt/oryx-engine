@@ -11,7 +11,6 @@ import de.hpi.oryxengine.worklist.TaskDistribution;
 import de.hpi.oryxengine.worklist.WorklistItem;
 import de.hpi.oryxengine.worklist.WorklistQueue;
 
-// TODO: Auto-generated Javadoc
 /**
  * The implementation of the WorklistManager.
  */

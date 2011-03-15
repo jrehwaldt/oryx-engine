@@ -2,7 +2,6 @@ package de.hpi.oryxengine.navigator.schedule;
 
 import de.hpi.oryxengine.process.token.Token;
 
-// TODO: Auto-generated Javadoc
 /**
  * An Event for the scheduler listener, may be extended.
  * For now it contains everything, that it needs to contain.

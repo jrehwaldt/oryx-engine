@@ -5,7 +5,6 @@ import java.util.List;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ProcessInstanceContext.
  */

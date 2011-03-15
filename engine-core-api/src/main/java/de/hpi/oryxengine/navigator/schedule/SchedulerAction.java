@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.navigator.schedule;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum SchedulerAction.
  * It has the different Scheduler action.

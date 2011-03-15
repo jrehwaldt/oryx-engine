@@ -10,7 +10,6 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
 import de.hpi.oryxengine.process.structure.Node;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RepositorySetup.
  */

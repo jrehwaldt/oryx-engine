@@ -13,7 +13,6 @@ import javax.mail.internet.MimeMessage;
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MailingVariable. A dummy class by Gerardo which sends Emails with a preprogrammed String and displaying a
  * value from the process instance.
