@@ -92,6 +92,7 @@ public class LoadGenerator {
         ProcessFactory factory;
         try {
             factory = (ProcessFactory) Class.forName(className).newInstance();
+            //TODO change this to the new repository
             return factory.create();
         } catch (InstantiationException e) {
             logger.debug("Loading of class " + className + " failed , the name seems to be wrong.", e);
