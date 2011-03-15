@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -25,7 +26,8 @@ public class BPMNUnstructuredJoinSplitTest {
     /** The end node. */
     private Node node1, node2, node3, innerJoinNode, outerJoinNode, endNode;
     
-    private Navigator navigator;
+    private NavigatorImplMock navigator;
+    private List<Node> workQueue;
 
     /**
      * Before test.
@@ -45,7 +47,8 @@ public class BPMNUnstructuredJoinSplitTest {
 
         List<Token> newTokens;
         try {
-            newTokens = initialToken.executeStep();
+            initialToken.executeStep();
+            newTokens = navigator.getWorkQueue();
             assertEquals(newTokens.size(), 3,
             "Two new tokens have been created, one one the inner join node and one on node3");
 
@@ -53,31 +56,42 @@ public class BPMNUnstructuredJoinSplitTest {
             Token tokenOnNode1 = tokenOnNode(newTokens, node1);
             Token tokenOnNode2 = tokenOnNode(newTokens, node2);
             Token tokenOnNode3 = tokenOnNode(newTokens, node3);
+            navigator.flushWorkQueue();
     
             // Execute node 1 and 2.
             tokenOnNode1.executeStep();
             tokenOnNode2.executeStep();
             
             // Execute join node, actually tokenOnNode1 and tokenOnNode2 have advanced to the join Node
-            newTokens = tokenOnNode1.executeStep();
+            tokenOnNode1.executeStep();
+
+            
+            newTokens = navigator.getWorkQueue();
             assertEquals(newTokens.size(), 0,
                 "Only the first token has signaled, that it has arrived, no tokens should have been synchronized");
-            newTokens = tokenOnNode2.executeStep();
+            
+            tokenOnNode2.executeStep();
+            newTokens = navigator.getWorkQueue();
             assertEquals(newTokens.size(), 1, "The two tokens should be synchronized now");
 
             Token innerJoinedToken = newTokens.get(0);
             assertEquals(innerJoinedToken.getCurrentNode(), outerJoinNode, "It should be on the outer join now.");
-
+            navigator.flushWorkQueue();
+         
             // Execute node 3
             tokenOnNode3.executeStep();
 
             // Execute outer join
             tokenOnNode3.executeStep();
             
-            newTokens = innerJoinedToken.executeStep();
+            innerJoinedToken.executeStep();
+
+            
+            newTokens = navigator.getWorkQueue();
             assertEquals(newTokens.size(), 1, "Again, there should be one synchronized token");
             assertEquals(newTokens.get(0).getCurrentNode(), endNode,
                 "It should point to the node after the outer join, which is the endNode");
+            navigator.flushWorkQueue();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -111,7 +125,10 @@ public class BPMNUnstructuredJoinSplitTest {
         node3.transitionTo(outerJoinNode);
         outerJoinNode.transitionTo(endNode);
 
-        Token token = new TokenImpl(splitNode);
+        
+        navigator = new NavigatorImplMock();
+        
+        Token token = new TokenImpl(splitNode, null, null, navigator);       
 
         return token;
     }
