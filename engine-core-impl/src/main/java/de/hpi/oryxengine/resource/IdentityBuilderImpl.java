@@ -24,9 +24,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     // -------- Participant Builder Methods -----------
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Participant createParticipant(String participantId) {
 
@@ -43,11 +40,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return participant;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public IdentityBuilder deleteParticipant(Participant participant) throws OryxEngineException {
+    public IdentityBuilder deleteParticipant(Participant participant)
+    throws OryxEngineException {
 
         ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
 
@@ -59,11 +54,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public IdentityBuilder participantOccupiesPosition(Participant participant, Position position) throws OryxEngineException {
+    public IdentityBuilder participantOccupiesPosition(Participant participant, Position position)
+    throws OryxEngineException {
 
         PositionImpl positionImpl = extractPositionImplFrom(position);
         ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
@@ -81,11 +74,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public IdentityBuilder participantDoesNotOccupyPosition(Participant participant, Position position) throws OryxEngineException {
+    public IdentityBuilder participantDoesNotOccupyPosition(Participant participant, Position position)
+    throws OryxEngineException {
 
         PositionImpl positionImpl = extractPositionImplFrom(position);
         ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
@@ -95,20 +86,15 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder participantHasCapability(Participant participant, Capability capability) {
 
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public IdentityBuilder participantBelongsToRole(Participant participant, Role role) throws OryxEngineException {
+    public IdentityBuilder participantBelongsToRole(Participant participant, Role role)
+    throws OryxEngineException {
 
         RoleImpl roleImpl = extractRoleImplFrom(role);
         ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
@@ -119,11 +105,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public IdentityBuilder participantDoesNotBelongToRole(Participant participant, Role role) throws OryxEngineException {
+    public IdentityBuilder participantDoesNotBelongToRole(Participant participant, Role role)
+    throws OryxEngineException {
 
         RoleImpl roleImpl = extractRoleImplFrom(role);
         ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
@@ -137,12 +121,15 @@ public class IdentityBuilderImpl implements IdentityBuilder {
      * Translates a Participant into a corresponding ParticipantImpl object.
      * 
      * Furthermore some constrains are checked.
-     *
-     * @param participant - a Participant object
+     * 
+     * @param participant
+     *            - a Participant object
      * @return participantImpl - the casted Participant object
-     * @throws OryxEngineException the oryx engine exception
+     * @throws OryxEngineException
+     *             the oryx engine exception
      */
-    private ParticipantImpl extractParticipantImplFrom(Participant participant) throws OryxEngineException {
+    private ParticipantImpl extractParticipantImplFrom(Participant participant)
+    throws OryxEngineException {
 
         if (participant == null) {
             throw new OryxEngineException("The Participant parameter is null.");
@@ -157,9 +144,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     // -------- Capability Builder Methods ------------
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Capability createCapability(String capabilityId) {
 
@@ -171,9 +155,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     // -------- OrganizationUnit Builder Methods ------
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public OrganizationUnit createOrganizationUnit(String organizationUnitId) {
 
@@ -190,11 +171,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return organizationUnit;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public IdentityBuilder deleteOrganizationUnit(OrganizationUnit organizationUnit) throws OryxEngineException {
+    public IdentityBuilder deleteOrganizationUnit(OrganizationUnit organizationUnit)
+    throws OryxEngineException {
 
         OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(organizationUnit);
 
@@ -210,12 +189,10 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder subOrganizationUnitOf(OrganizationUnit subOrganizationUnit,
-                                                 OrganizationUnit superOrganizationUnit) throws OryxEngineException {
+                                                 OrganizationUnit superOrganizationUnit)
+    throws OryxEngineException {
 
         OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(subOrganizationUnit);
         OrganizationUnitImpl superOrganizationUnitImpl = extractOrganizationUnitImplFrom(superOrganizationUnit);
@@ -231,11 +208,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public IdentityBuilder organizationUnitOffersPosition(OrganizationUnit organizationUnit, Position position) throws OryxEngineException {
+    public IdentityBuilder organizationUnitOffersPosition(OrganizationUnit organizationUnit, Position position)
+    throws OryxEngineException {
 
         PositionImpl positionImpl = extractPositionImplFrom(position);
         OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(organizationUnit);
@@ -253,11 +228,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public IdentityBuilder organizationUnitDoesNotOfferPosition(OrganizationUnit organizationUnit, Position position) throws OryxEngineException {
+    public IdentityBuilder organizationUnitDoesNotOfferPosition(OrganizationUnit organizationUnit, Position position)
+    throws OryxEngineException {
 
         PositionImpl positionImpl = extractPositionImplFrom(position);
         OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(organizationUnit);
@@ -272,12 +245,15 @@ public class IdentityBuilderImpl implements IdentityBuilder {
      * Translates a OrganizationUnit into a corresponding OrganizationUnitImpl object.
      * 
      * Furthermore some constrains are checked.
-     *
-     * @param organizationUnit - a OrganizationUnit object
+     * 
+     * @param organizationUnit
+     *            - a OrganizationUnit object
      * @return organizationUnitImpl - the casted OrganizationUnit object
-     * @throws OryxEngineException the oryx engine exception
+     * @throws OryxEngineException
+     *             the oryx engine exception
      */
-    private OrganizationUnitImpl extractOrganizationUnitImplFrom(OrganizationUnit organizationUnit) throws OryxEngineException {
+    private OrganizationUnitImpl extractOrganizationUnitImplFrom(OrganizationUnit organizationUnit)
+    throws OryxEngineException {
 
         if (organizationUnit == null) {
             throw new OryxEngineException("The OrganizationUnit parameter is null.");
@@ -293,14 +269,11 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     // -------- Position Builder Methods --------------
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Position createPosition(String positionId) {
 
         PositionImpl position = new PositionImpl(positionId);
-        
+
         for (PositionImpl existingPosition : identityService.getPositionImpls()) {
             if (existingPosition.equals(position)) {
                 return existingPosition;
@@ -312,11 +285,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return position;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition) throws OryxEngineException {
+    public IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition)
+    throws OryxEngineException {
 
         PositionImpl positionImpl = extractPositionImplFrom(position);
         PositionImpl superiorPositionImpl = extractPositionImplFrom(superiorPosition);
@@ -333,11 +304,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public IdentityBuilder deletePosition(Position position) throws OryxEngineException {
+    public IdentityBuilder deletePosition(Position position)
+    throws OryxEngineException {
 
         PositionImpl positionImpl = extractPositionImplFrom(position);
 
@@ -354,12 +323,15 @@ public class IdentityBuilderImpl implements IdentityBuilder {
      * Translates a Position into a corresponding PositionImpl object.
      * 
      * Furthermore some constrains are checked.
-     *
-     * @param position - a Position object
+     * 
+     * @param position
+     *            - a Position object
      * @return positionImpl - the casted Position object
-     * @throws OryxEngineException the oryx engine exception
+     * @throws OryxEngineException
+     *             the oryx engine exception
      */
-    private PositionImpl extractPositionImplFrom(Position position) throws OryxEngineException {
+    private PositionImpl extractPositionImplFrom(Position position)
+    throws OryxEngineException {
 
         if (position == null) {
             throw new OryxEngineException("The Position parameter is null.");
@@ -374,9 +346,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     // -------- Role Builder Methods ------------------
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Role createRole(String roleId) {
 
@@ -393,11 +362,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return role;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public IdentityBuilder deleteRole(Role role) throws OryxEngineException {
+    public IdentityBuilder deleteRole(Role role)
+    throws OryxEngineException {
 
         RoleImpl roleImpl = extractRoleImplFrom(role);
 
@@ -409,9 +376,6 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder subRoleOf(Role subRole, Role superRole) {
 
@@ -422,12 +386,15 @@ public class IdentityBuilderImpl implements IdentityBuilder {
      * Translates a Role into a corresponding RoleImpl object.
      * 
      * Furthermore some constrains are checked.
-     *
-     * @param role - a Role object
-     * @return roleImpl - the casted Role objent
-     * @throws OryxEngineException the oryx engine exception
+     * 
+     * @param role
+     *            - a Role object
+     * @return roleImpl - the casted Role object
+     * @throws OryxEngineException
+     *             the oryx engine exception
      */
-    private RoleImpl extractRoleImplFrom(Role role) throws OryxEngineException {
+    private RoleImpl extractRoleImplFrom(Role role)
+    throws OryxEngineException {
 
         if (role == null) {
             throw new OryxEngineException("The Role parameter is null.");

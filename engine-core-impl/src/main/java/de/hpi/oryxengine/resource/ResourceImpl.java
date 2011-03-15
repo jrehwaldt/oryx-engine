@@ -12,6 +12,7 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
     /** The resource id. */
     protected String resourceId;
+    protected ResourceType resourceType;
     
     /** The resource name. */
     protected String resourceName;
@@ -163,5 +164,11 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     public int hashCode() {
 
         return getId().hashCode();
+    }
+
+    @Override
+    public String getType() {
+
+        return null;
     }
 }

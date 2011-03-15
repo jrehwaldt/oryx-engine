@@ -12,6 +12,15 @@ import de.hpi.oryxengine.worklist.WorklistItem;
 public interface WorklistService {
 
     /**
+     * Resolves all worklist items belonging to the given resource.
+     * 
+     * @param resource
+     *            - the resource the worklist items shall be searched for
+     * @return a list of {@link WorklistItem}s
+     */
+    List<WorklistItem> getWorklistItems(Resource<?> resource);
+    
+    /**
      * Resolves all worklist items belonging to the given resources.
      * 
      * @param resources
@@ -25,21 +34,28 @@ public interface WorklistService {
      * 
      * @param worklistItem - {@link WorklistItem} that should be claimed
      */
-    void claimWorklistItem(WorklistItem worklistItem);
+    void claimWorklistItem(WorklistItem worklistItem) throws Exception;
+
+    /**
+     * Claims a {@link WorklistItem}. 
+     * 
+     * @param worklistItem - {@link WorklistItem} that should be claimed
+     */
+    void beginWorklistItem(WorklistItem worklistItem) throws Exception;
+
+    /**
+     * Completes a {@link WorklistItem}.
+     * 
+     * @param worklistItem - {@link WorklistItem} that was completed
+     */
+    void completeWorklistItem(WorklistItem worklistItem) throws Exception;
 
     /**
      * Aborts a {@link WorklistItem}. 
      * 
      * @param worklistItem - {@link WorklistItem} that is aborted
      */
-    void abortWorklistItem(WorklistItem worklistItem);
-    
-    /**
-     * Completes a {@link WorklistItem}.
-     * 
-     * @param worklistItem - {@link WorklistItem} that was completed
-     */
-    void completeWorklistItem(WorklistItem worklistItem);
+    void abortWorklistItem(WorklistItem worklistItem) throws Exception;
     
     // TODO: Observable Interface für die GUI
 }
