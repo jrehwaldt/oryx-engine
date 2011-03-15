@@ -3,13 +3,21 @@ package de.hpi.oryxengine.plugin.scheduler;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.testng.annotations.BeforeTest;
+import java.util.List;
+
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.factory.process.ExampleProcessTokenFactory;
 import de.hpi.oryxengine.loadgenerator.LoadGenerator;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
+import de.hpi.oryxengine.repository.ProcessRepository;
+import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
+import de.hpi.oryxengine.repository.RepositorySetup;
 
 /**
  * Tests the SchedulerEmptyListener Plugin, that invokes a method on a loadgenerator when the queue of the Scheduler is.
@@ -22,17 +30,30 @@ public class SchedulerEmptyListenerTest {
     private Token pi;
 
     /**
-     * Creates everything that we need (a Scheduler with the Plugin), a processtoken and a mocked loadGenerator.
+     * Sets the up repo.
      */
-    @BeforeTest
-    public void setUp() {
+    @BeforeClass
+    public void setUpRepo() {
+
+        RepositorySetup.fillRepository();
+    }
+
+    /**
+     * Creates everything that we need (a Scheduler with the Plugin), a processtoken and a mocked loadGenerator.
+     * @throws Exception 
+     */
+    @BeforeMethod
+    public void setUp() throws Exception {
 
         scheduler = new FIFOScheduler();
         mockiGene = mock(LoadGenerator.class);
         SchedulerEmptyListener listener = new SchedulerEmptyListener(mockiGene);
         scheduler.registerPlugin(listener);
-        ExampleProcessTokenFactory factory = new ExampleProcessTokenFactory();
-        pi = factory.create();
+        ProcessRepository repo = ProcessRepositoryImpl.getInstance();
+        ProcessDefinition def = repo.getDefinition(RepositorySetup.FIRST_EXAMPLE_PROCESS_ID);
+        List<Node> startNodes = def.getStartNodes();
+        Node startNode = startNodes.get(0);
+        pi = new TokenImpl(startNode);
     }
 
     /**
