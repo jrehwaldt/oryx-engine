@@ -12,7 +12,7 @@ import de.hpi.oryxengine.process.token.Token;
  * This is used to create a somewhat higher load on the processinstances.
  * The results are stored in the variables hash1 to hash5.
  */
-public class HeavyComputationProcessTokenFactory implements ProcessFactory {
+public class HeavyComputationProcessTokenFactory implements ProcessTokenFactory {
     
     /** The Constant NUMBER_OF_NODES. */
     private final static int NUMBER_OF_NODES = 5;
