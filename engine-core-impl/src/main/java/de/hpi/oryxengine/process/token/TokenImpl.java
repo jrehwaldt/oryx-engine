@@ -107,9 +107,13 @@ public class TokenImpl implements Token {
      * @throws Exception the exception
      * @see de.hpi.oryxengine.process.token.Token#executeStep()
      */
-    public List<Token> executeStep() throws Exception {
+    public void executeStep() throws Exception {
 
-        return this.currentNode.execute(this);
+        List<Token> joinedTokens = getCurrentNode().getIncomingBehaviour().join(this);
+        getCurrentNode().getActivity().execute(this);
+        getCurrentNode().getOutgoingBehaviour().split(joinedTokens);
+        
+//        return this.currentNode.execute(this);
     }
 
     /**
@@ -155,18 +159,12 @@ public class TokenImpl implements Token {
         return newToken;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean joinable() {
 
         return this.context.allIncomingTransitionsSignaled(this.currentNode);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Token performJoin() {
 
@@ -175,18 +173,12 @@ public class TokenImpl implements Token {
         return token;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ProcessInstanceContext getContext() {
 
         return context;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Transition getLastTakenTransition() {
 
@@ -200,6 +192,20 @@ public class TokenImpl implements Token {
     public void setLastTakenTransition(Transition t) {
 
         this.lastTakenTransition = t;
+    }
+
+    @Override
+    public void suspend() {
+
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void resume() {
+
+        // TODO Auto-generated method stub
+        
     }
 
 }

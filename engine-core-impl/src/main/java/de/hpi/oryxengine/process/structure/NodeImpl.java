@@ -194,9 +194,10 @@ public class NodeImpl implements Node {
     public List<Token> execute(Token token)
     throws Exception {
 
-        List<Token> instances = this.incomingBehaviour.join(token);
-        this.activity.execute(token);
-        return this.outgoingBehaviour.split(instances);
+//        List<Token> instances = this.incomingBehaviour.join(token);
+//        this.activity.execute(token);
+//        return this.outgoingBehaviour.split(instances);
+        return null;
     }
 
     /**
