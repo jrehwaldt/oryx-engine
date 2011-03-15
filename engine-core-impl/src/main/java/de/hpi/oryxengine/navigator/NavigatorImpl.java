@@ -108,7 +108,8 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * {@inheritDoc}
      */
     @Override
-    public void startProcessInstance(UUID processID) throws Exception {
+    public void startProcessInstance(UUID processID)
+    throws Exception {
 
         ProcessDefinition definition = repository.getDefinition(processID);
         List<Node> startNodes = definition.getStartNodes();

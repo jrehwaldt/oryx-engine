@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.factory.process.ProcessFactory;
+import de.hpi.oryxengine.factory.process.ProcessTokenFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.scheduler.SchedulerEmptyListener;
 import de.hpi.oryxengine.process.token.Token;
@@ -101,9 +101,9 @@ public class LoadGenerator {
      */
     public Token getExampleProcessToken() {
 
-        ProcessFactory factory;
+        ProcessTokenFactory factory;
         try {
-            factory = (ProcessFactory) Class.forName(className).newInstance();
+            factory = (ProcessTokenFactory) Class.forName(className).newInstance();
             //TODO change this to the new repository
             return factory.create();
         } catch (InstantiationException e) {
