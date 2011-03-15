@@ -3,6 +3,7 @@ package de.hpi.oryxengine.correlation.adapter.mail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -11,9 +12,11 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
 import org.jvnet.mock_javamail.Mailbox;
+import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.correlation.AdapterEvent;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.PullingInboundAdapter;
 
@@ -58,6 +61,7 @@ public class ImapMailAdapterTest {
         
         MimeMessage msg = new MimeMessage(Session.getInstance(this.config.toMailProperties()));
         msg.setRecipients(RecipientType.TO, this.address);
+        msg.setFrom();
         msg.setText("Huhu");
         Transport.send(msg);
         
@@ -72,6 +76,8 @@ public class ImapMailAdapterTest {
     @Test
     public void testImapPull() throws Exception {
         this.imap.pull();
-        verify(this.mock).correlate(null);
+        ArgumentCaptor<AdapterEvent> event = ArgumentCaptor.forClass(AdapterEvent.class);
+        verify(this.mock).correlate(event.capture());
+        assertFalse(event.getValue() == null, "event should not be null");
     }
 }
