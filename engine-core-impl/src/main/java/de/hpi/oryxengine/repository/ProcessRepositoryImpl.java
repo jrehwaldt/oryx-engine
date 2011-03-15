@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.factory.definition.ProcessDefinitionFactory;
+import de.hpi.oryxengine.factory.definition.SimpleProcessDefinitionFactory;
+import de.hpi.oryxengine.factory.process.ExampleProcessTokenFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
@@ -13,6 +16,8 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
  */
 public final class ProcessRepositoryImpl implements ProcessRepository {
 
+    public static final UUID SIMPLE_PROCESS_ID = UUID.randomUUID();
+    
     /** The instance. */
     private static ProcessRepository instance = null;
     
@@ -36,6 +41,7 @@ public final class ProcessRepositoryImpl implements ProcessRepository {
 
         if (instance == null) {
             instance = new ProcessRepositoryImpl();
+            fillWithSampleProcesses();
         }
         return instance;
     }
@@ -79,6 +85,15 @@ public final class ProcessRepositoryImpl implements ProcessRepository {
     public Map<UUID, ProcessDefinition> getDefinitions() {
 
         return definitions;
+    }
+    
+    /**
+     * Fill with sample processes.
+     */
+    private static void fillWithSampleProcesses() {
+        ProcessDefinitionFactory factory = new SimpleProcessDefinitionFactory();
+        ProcessDefinition def = factory.create(SIMPLE_PROCESS_ID);
+        instance.addDefinition(def);
     }
 
 }
