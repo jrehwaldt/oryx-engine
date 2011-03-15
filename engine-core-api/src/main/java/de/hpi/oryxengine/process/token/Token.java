@@ -107,5 +107,5 @@ extends Identifiable {
     /**
      * Continueing the token navigation.
      */
-    void resume();
+    void resume() throws Exception;
 }

@@ -26,9 +26,13 @@ public class TokenImpl implements Token {
 
     /** The last taken transition. */
     private Transition lastTakenTransition;
-    
+
     /** The navigator. */
     private Navigator navigator;
+
+    private boolean suspended;
+
+    private List<Token> tempProcessingTokens;
 
     /**
      * Instantiates a new token impl.
@@ -107,18 +111,31 @@ public class TokenImpl implements Token {
 
     /**
      * Execute step.
-     *
+     * 
      * @return list of process tokens
-     * @throws Exception the exception
+     * @throws Exception
+     *             the exception
      * @see de.hpi.oryxengine.process.token.Token#executeStep()
      */
-    public void executeStep() throws Exception {
+    public void executeStep()
+    throws Exception {
 
-        List<Token> joinedTokens = getCurrentNode().getIncomingBehaviour().join(this);
+        tempProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
         getCurrentNode().getActivity().execute(this);
-        getCurrentNode().getOutgoingBehaviour().split(joinedTokens);
-        
-//        return this.currentNode.execute(this);
+
+        // Aborting the further execution of the process by the token, because it was suspended
+        if (suspended) {
+            return;
+        }
+
+        List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(tempProcessingTokens);
+
+        for (Token token : splitedTokens) {
+            navigator.addWorkToken(token);
+        }
+
+        tempProcessingTokens = null;
+        // return this.currentNode.execute(this);
     }
 
     /**
@@ -202,15 +219,21 @@ public class TokenImpl implements Token {
     @Override
     public void suspend() {
 
-        // TODO Auto-generated method stub
-        
+        suspended = true;
+        navigator.addSuspendToken(this);
     }
 
     @Override
-    public void resume() {
+    public void resume() throws Exception {
 
-        // TODO Auto-generated method stub
-        
+        getCurrentNode().getActivity().signal(this);
+        List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(tempProcessingTokens);
+
+        for (Token token : splitedTokens) {
+            navigator.addWorkToken(token);
+        }
+
+        tempProcessingTokens = null;
     }
 
 }

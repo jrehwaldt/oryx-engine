@@ -40,4 +40,10 @@ public class HumanTaskActivity extends AbstractActivity {
         
         instance.suspend();
     }
+    
+    @Override
+    public void signal(Token token) {
+
+        // BlaBla
+    }
 }
