@@ -65,20 +65,20 @@ extends Thread {
                 break;
             }
 
-            Token instance = null;
+            Token token = null;
 
             // This has to be an atomic operation on toNavigate, otherwise
             // an IndexOutOfBoundsException might occur
             
-            instance = this.scheduler.retrieve();
+            token = this.scheduler.retrieve();
 
 
-            if (instance != null) {
+            if (token != null) {
                 List<Token> instances;
                 instances = null;
                 try {
                     // the return value of executeStep are the nodes which shall be executed next
-                    instances = instance.executeStep();
+                    instances = token.executeStep();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

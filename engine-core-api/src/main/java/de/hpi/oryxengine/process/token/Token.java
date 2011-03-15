@@ -45,7 +45,7 @@ extends Identifiable {
      * @return the list of new ProcessInstances that result after the next step is performed.
      * @throws Exception the exception
      */
-    List<Token> executeStep() throws Exception;
+    void executeStep() throws Exception;
 
     /**
      * Create a new to navigate instance for every node.
@@ -99,4 +99,13 @@ extends Identifiable {
      */
     void setLastTakenTransition(Transition t);
 
+    /**
+     * Stopping the token navigation.
+     */
+    void suspend();
+
+    /**
+     * Continueing the token navigation.
+     */
+    void resume();
 }

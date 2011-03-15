@@ -37,5 +37,7 @@ public class HumanTaskActivity extends AbstractActivity {
 
         TaskDistribution taskDistribution = WorklistManager.getTaskDistribution();
         taskDistribution.distribute(task, instance);
+        
+        instance.suspend();
     }
 }

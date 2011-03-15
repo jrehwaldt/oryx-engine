@@ -113,6 +113,8 @@ public class HashComputationActivity extends AbstractActivity {
         //logger.debug(stringOutputString);
         instance.getContext().setVariable(variableName, stringOutputString);
 
+        
     }
+    
 
 }

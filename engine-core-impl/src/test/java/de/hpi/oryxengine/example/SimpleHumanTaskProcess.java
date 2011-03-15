@@ -4,6 +4,7 @@ package de.hpi.oryxengine.example;
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.factory.node.HumanTaskNodeFactory;
+import de.hpi.oryxengine.factory.node.PrintingNodeFactory;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
@@ -60,15 +61,17 @@ public final class SimpleHumanTaskProcess {
         AbstractActivity end = new EndActivity();
 
         Node startNode = new RoutingBehaviourTestFactory().createWithAndSplitAndLogger();
-
         
         Node secondNode = new HumanTaskNodeFactory().createWithLogger();
 
+        Node thirdNode = new PrintingNodeFactory().createWithLogger();
+        
         Node endNode = new NodeImpl(end);
 
         // Setting the transitions
         startNode.transitionTo(secondNode);
-        secondNode.transitionTo(endNode);
+        secondNode.transitionTo(thirdNode);
+        thirdNode.transitionTo(endNode);
 
         TokenImpl sampleToken = new TokenImpl(startNode);
         return sampleToken;

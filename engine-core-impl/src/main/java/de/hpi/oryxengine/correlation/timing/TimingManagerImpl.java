@@ -39,7 +39,7 @@ public class TimingManagerImpl implements TimingManager, Runnable {
                 try {
                     
                     adapter.pull();
-                    System.out.println("Woooa2");
+//                    System.out.println("Woooa2");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -7,7 +7,6 @@ import java.util.UUID;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.factory.definition.ProcessDefinitionFactory;
 import de.hpi.oryxengine.factory.definition.SimpleProcessDefinitionFactory;
-import de.hpi.oryxengine.factory.process.ExampleProcessTokenFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**

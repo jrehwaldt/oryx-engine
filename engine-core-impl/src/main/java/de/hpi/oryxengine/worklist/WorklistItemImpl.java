@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.worklist;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
