@@ -2,22 +2,14 @@ package de.hpi.oryxengine.worklist;
 
 import java.util.List;
 
+import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.resource.Resource;
 
 /**
  * Is the internal interface for operating on the Worklists. This interface is used by the patterns in order to query
  * and modify the queues.
  */
-public interface WorklistQueue {
-
-    
-    /**
-     * Gets the {@link WorklistItem}s that are in a certain queue.
-     *
-     * @param resource - in order to identify its queue
-     * @return a list of {@link WorklistItem}s of the {@link Resource}
-     */
-    List<WorklistItem> getWorkListItems(Resource<?> resource);
+public interface WorklistQueue extends WorklistService {
 
     /**
      * Adds a {@link WorklistItem} to the specified {@link Resource}.

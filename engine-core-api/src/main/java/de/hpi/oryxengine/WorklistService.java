@@ -34,28 +34,28 @@ public interface WorklistService {
      * 
      * @param worklistItem - {@link WorklistItem} that should be claimed
      */
-    void claimWorklistItem(WorklistItem worklistItem);
+    void claimWorklistItem(WorklistItem worklistItem) throws Exception;
 
     /**
      * Claims a {@link WorklistItem}. 
      * 
      * @param worklistItem - {@link WorklistItem} that should be claimed
      */
-    void beginWorklistItem(WorklistItem worklistItem);
+    void beginWorklistItem(WorklistItem worklistItem) throws Exception;
 
     /**
      * Completes a {@link WorklistItem}.
      * 
      * @param worklistItem - {@link WorklistItem} that was completed
      */
-    void completeWorklistItem(WorklistItem worklistItem);
+    void completeWorklistItem(WorklistItem worklistItem) throws Exception;
 
     /**
      * Aborts a {@link WorklistItem}. 
      * 
      * @param worklistItem - {@link WorklistItem} that is aborted
      */
-    void abortWorklistItem(WorklistItem worklistItem);
+    void abortWorklistItem(WorklistItem worklistItem) throws Exception;
     
     // TODO: Observable Interface für die GUI
 }

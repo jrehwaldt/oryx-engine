@@ -10,6 +10,6 @@ public interface WorklistItem extends Task {
      *
      * @return the status
      */
-    String getStatus();
+    WorklistItemState getStatus();
     
 }

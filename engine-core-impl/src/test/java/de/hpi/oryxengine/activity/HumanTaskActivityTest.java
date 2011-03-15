@@ -33,8 +33,6 @@ import de.hpi.oryxengine.worklist.pattern.SimplePushPattern;
  */
 public class HumanTaskActivityTest {
 
-    private WorklistManager worklistManager; 
-
     private Task task;
     private Resource<?> resource;
     
@@ -113,13 +111,15 @@ public class HumanTaskActivityTest {
     
     /**
      * Test that the assigned user begins with the humanTask.
+     * @throws Exception 
      */
     @Test
-    public void testJannikBeginsTheWorkItem() {
+    public void testJannikBeginsTheWorkItem() throws Exception {
         
         humanTask.execute(token);
         
         WorklistItem worklistItem = WorklistManager.getWorklistService().getWorklistItems(resource).get(0);
+        System.out.println(worklistItem.getStatus());
         assertEquals(worklistItem.getStatus(), WorklistItemState.ALLOCATED);
 
         WorklistManager.getWorklistService().beginWorklistItem(worklistItem);
@@ -128,9 +128,10 @@ public class HumanTaskActivityTest {
 
     /**
      * Test that the assigned user completes with the humanTask.
+     * @throws Exception 
      */
     @Test
-    public void testJannikCompletesTheWorkItem() {
+    public void testJannikCompletesTheWorkItem() throws Exception {
         
         humanTask.execute(token);
         
