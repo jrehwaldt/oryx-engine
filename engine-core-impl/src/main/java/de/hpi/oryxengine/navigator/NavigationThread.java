@@ -34,7 +34,7 @@ extends Thread {
      * @param scheduler the scheduler
      */
     public NavigationThread(String threadname, Scheduler scheduler) {
-
+        
         super(threadname);
         this.scheduler = scheduler;
         logger.info("Navigator {} initialized", threadname);

@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.correlation.CorrelationManager;
+import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
@@ -26,10 +28,12 @@ implements Navigator {
 
     /** The loaded definitions. */
     private HashMap<UUID, AbstractProcessDefinitionImpl> loadedDefinitions;
-
+    
     
     /** The scheduler. */
     private FIFOScheduler scheduler;
+    
+    private CorrelationManager correlation;
 
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
@@ -60,15 +64,16 @@ implements Navigator {
     public NavigatorImpl(int numberOfThreads) {
         
         // TODO Lazy initialized
-        runningInstances = new HashMap<UUID, Token>();
-        loadedDefinitions = new HashMap<UUID, AbstractProcessDefinitionImpl>();
-        scheduler = new FIFOScheduler();
-        executionThreads = new ArrayList<NavigationThread>();
-        state = NavigatorState.INIT;
-        counter = 0;
-        navigatorThreads = numberOfThreads;
+        this.runningInstances = new HashMap<UUID, Token>();
+        this.loadedDefinitions = new HashMap<UUID, AbstractProcessDefinitionImpl>();
+        this.scheduler = new FIFOScheduler();
+        this.executionThreads = new ArrayList<NavigationThread>();
+        this.state = NavigatorState.INIT;
+        this.counter = 0;
+        this.navigatorThreads = numberOfThreads;
+        this.correlation = new CorrelationManagerImpl(this);
     }
-
+    
     /**
      * Start. 
      * Starts the number of worker thread specified in the NUMBER_OF_NAVIGATOR_THREADS Constant and adds them to
