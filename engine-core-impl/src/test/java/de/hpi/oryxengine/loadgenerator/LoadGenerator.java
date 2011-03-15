@@ -1,7 +1,6 @@
 package de.hpi.oryxengine.loadgenerator;
 
 import java.io.FileNotFoundException;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -137,7 +136,7 @@ public class LoadGenerator {
 
         for (int i = 0; i < this.numberOfRuns; i++) {
             TokenImpl p = (TokenImpl) this.getExampleProcessToken();
-            navigator.startArbitraryInstance(UUID.randomUUID(), p);
+            navigator.startArbitraryInstance(p);
             /*
              * this.logger.info( "Started Process token " + Integer.toString(i + 1) + " of " +
              * Integer.toString(this.getNumberOfRuns()));

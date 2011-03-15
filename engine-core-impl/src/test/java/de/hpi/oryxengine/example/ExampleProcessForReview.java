@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.example;
 
-import java.util.UUID;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
 
@@ -45,7 +44,7 @@ public final class ExampleProcessForReview {
         navigator.start();
         
         TokenImpl token = processTokenForReview();
-        navigator.startArbitraryInstance(UUID.randomUUID(), token);
+        navigator.startArbitraryInstance(token);
         
         Thread.sleep(SLEEP_TIME);
         

@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.example;
 
-import java.util.UUID;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
@@ -42,7 +41,7 @@ public final class SimpleHumanTaskProcess {
         navigator.start();
         
         TokenImpl token = processTokenForReview();
-        navigator.startArbitraryInstance(UUID.randomUUID(), token);
+        navigator.startArbitraryInstance(token);
         
         Thread.sleep(SLEEP_TIME);
         

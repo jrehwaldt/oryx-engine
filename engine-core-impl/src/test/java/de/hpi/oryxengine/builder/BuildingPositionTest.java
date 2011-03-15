@@ -33,9 +33,10 @@ public class BuildingPositionTest {
 
     /**
      * Test position creation.
+     * @throws Exception 
      */
     @Test
-    public void testPositionCreation() {
+    public void testPositionCreation() throws Exception {
 
         Position superior = identityBuilder.createPosition("oryx-engine-ober-chef");
         identityBuilder.positionReportsToSuperior(position, superior);
@@ -67,18 +68,20 @@ public class BuildingPositionTest {
     
     /**
      * Test not being superior of yourself.
+     * @throws Exception 
      */
     @Test(expectedExceptions = OryxEngineException.class)
-    public void testNotBeingSuperiorOfYourself() {
+    public void testNotBeingSuperiorOfYourself() throws Exception {
 
         identityBuilder.positionReportsToSuperior(position, position);
     }
 
     /**
      * Test delete position.
+     * @throws Exception 
      */
     @Test
-    public void testDeletePosition() {
+    public void testDeletePosition() throws Exception {
         
         Position position2 = identityBuilder.createPosition("oryx-engine-chef2");
         Position superior = identityBuilder.createPosition("oryx-engine-ober-chef");        

@@ -11,7 +11,7 @@ public class IllegalNavigationException extends OryxEngineException {
     private static final String DEFAULT_EXCEPTION_MESSAGE = "Please. Don't try to take this way.";
 
     /**
-     * Default Constructor
+     * Default Constructor.
      */
     public IllegalNavigationException() {
 
