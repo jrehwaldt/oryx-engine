@@ -44,7 +44,7 @@ public class TokenImpl implements Token {
      */
     public TokenImpl(Node startNode, ProcessInstanceContext context) {
 
-        this(startNode, null, context, null);
+        this(startNode, context, null);
     }
 
     /**
@@ -52,12 +52,10 @@ public class TokenImpl implements Token {
      * 
      * @param startNode
      *            the start node
-     * @param parentToken
-     *            the parent token
      * @param context
      *            the context
      */
-    public TokenImpl(Node startNode, Token parentToken, ProcessInstanceContext context, Navigator navigator) {
+    public TokenImpl(Node startNode, ProcessInstanceContext context, Navigator navigator) {
 
         currentNode = startNode;
         this.context = context;
@@ -72,7 +70,7 @@ public class TokenImpl implements Token {
      */
     public TokenImpl(Node startNode) {
 
-        this(startNode, null, new ProcessInstanceContextImpl(), null);
+        this(startNode, new ProcessInstanceContextImpl(), null);
     }
 
     /**
@@ -177,7 +175,7 @@ public class TokenImpl implements Token {
     @Override
     public Token createNewToken(Node node) {
 
-        Token newToken = new TokenImpl(node, this.context);
+        Token newToken = new TokenImpl(node, this.context, navigator);
         return newToken;
     }
 
@@ -190,7 +188,7 @@ public class TokenImpl implements Token {
     @Override
     public Token performJoin() {
 
-        Token token = new TokenImpl(currentNode, context);
+        Token token = new TokenImpl(currentNode, context, navigator);
         context.removeIncomingTransitions(currentNode);
         return token;
     }

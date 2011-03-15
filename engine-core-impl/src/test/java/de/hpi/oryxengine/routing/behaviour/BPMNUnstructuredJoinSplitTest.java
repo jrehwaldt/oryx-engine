@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -60,7 +61,8 @@ public class BPMNUnstructuredJoinSplitTest {
     
             // Execute node 1 and 2.
             tokenOnNode1.executeStep();
-            tokenOnNode2.executeStep();
+            tokenOnNode2.executeStep();            
+            navigator.flushWorkQueue();
             
             // Execute join node, actually tokenOnNode1 and tokenOnNode2 have advanced to the join Node
             tokenOnNode1.executeStep();
@@ -83,6 +85,7 @@ public class BPMNUnstructuredJoinSplitTest {
 
             // Execute outer join
             tokenOnNode3.executeStep();
+            navigator.flushWorkQueue();
             
             innerJoinedToken.executeStep();
 
@@ -128,7 +131,7 @@ public class BPMNUnstructuredJoinSplitTest {
         
         navigator = new NavigatorImplMock();
         
-        Token token = new TokenImpl(splitNode, null, null, navigator);       
+        Token token = new TokenImpl(splitNode, new ProcessInstanceContextImpl(), navigator);       
 
         return token;
     }
