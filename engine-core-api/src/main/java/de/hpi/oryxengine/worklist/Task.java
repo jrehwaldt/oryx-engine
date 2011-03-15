@@ -1,6 +1,9 @@
 package de.hpi.oryxengine.worklist;
 
+import java.util.List;
+
 import de.hpi.oryxengine.resource.Resource;
+
 
 /**
  * Represents a human task for engine internal use.
@@ -34,4 +37,11 @@ public interface Task {
      * @return the {@link AllocationStrategies} corresponding to this {@link Task}
      */
     AllocationStrategies getAllocationStrategies();
+    
+    /**
+     * Retrieves the {@link Resource}s that is assigned to this task.
+     * 
+     * @return a list of {@link Resource}s that is assigned to this task
+     */
+    List<Resource<?>> getAssignedResources();
 }

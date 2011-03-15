@@ -11,7 +11,7 @@ import java.util.Map;
 public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
     protected String resourceId;
-    
+    protected ResourceType resourceType;      
     protected String resourceName;
     
     protected Map<String, Object> propertyTable;
@@ -27,18 +27,12 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         resourceId = id;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getId() {
 
         return resourceId;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public R setId(String id) {
 
@@ -46,18 +40,12 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return extractedThis();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getName() {
 
         return resourceName;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public R setName(String name) {
 
@@ -65,9 +53,6 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return extractedThis();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Object getProperty(String propertyId) {
 
@@ -87,9 +72,6 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return propertyTable;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public R setProperty(String propertyKey, Object propertyValue) {
 
@@ -127,12 +109,15 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return this.getId().equals(positionToCompare.getId());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
 
         return getId().hashCode();
+    }
+
+    @Override
+    public String getType() {
+
+        return null;
     }
 }

@@ -1,6 +1,9 @@
 package de.hpi.oryxengine.factory.node;
 
+import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
+import de.hpi.oryxengine.resource.IdentityBuilder;
+import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.worklist.AllocationStrategies;
 import de.hpi.oryxengine.worklist.AllocationStrategiesImpl;
 import de.hpi.oryxengine.worklist.Pattern;
@@ -18,6 +21,10 @@ public class HumanTaskNodeFactory extends AbstractNodeFactory {
     @Override
     public void setActivity() {
         
+        IdentityBuilder identityBuilder = new IdentityServiceImpl().getIdentityBuilder();
+        Participant participant = identityBuilder.createParticipant("jannik");
+        participant.setName("Jannik Streek");
+        
         String subject = "Jannik, get me a cup of coffee!";
         String description = "You know what i mean.";
         
@@ -26,7 +33,7 @@ public class HumanTaskNodeFactory extends AbstractNodeFactory {
         
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
         
-        TaskImpl task = new TaskImpl(subject, description, allocationStrategies);
+        TaskImpl task = new TaskImpl(subject, description, allocationStrategies, participant);
         
         activity = new HumanTaskActivity(task);
     }
