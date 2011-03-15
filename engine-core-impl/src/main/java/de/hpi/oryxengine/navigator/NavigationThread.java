@@ -78,8 +78,10 @@ extends Thread {
                 instances = null;
                 try {
                     // the return value of executeStep are the nodes which shall be executed next
-                    instances = token.executeStep();
+//                    instances = token.executeStep();
+                    token.executeStep();
                 } catch (Exception e) {
+                    
                     e.printStackTrace();
                 }
                 // submit all instances to be executed next to the scheduler

@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
@@ -56,7 +57,7 @@ public class NavigatorTest {
         node = new RoutingBehaviourTestFactory().createWithAndSplit();
         node2 = mock(Node.class);
         node.transitionTo(node2);
-        processToken = new TokenImpl(node);
+        processToken = new TokenImpl(node, null, new ProcessInstanceContextImpl(), navigator);
 
     }
 

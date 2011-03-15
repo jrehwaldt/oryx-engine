@@ -13,9 +13,9 @@ public interface Activity {
     /**
      * Execute. Starts the execution of the Activity.
      * 
-     * @param instance the instance the activity operates on
+     * @param token the instance the activity operates on
      */
-    void execute(@Nonnull Token instance);
+    void execute(@Nonnull Token token);
     
     /**
      * Returns the activity's state.
@@ -24,4 +24,7 @@ public interface Activity {
      */
     @Nonnull ActivityState getState();
     
+    // TODO da sollte noch ein weiterer Parameter übergeben werden
+    // Ein Event oder irgendein Objekt, das sagt das Signal gekommen ist 
+    void signal(@Nonnull Token token);
 }

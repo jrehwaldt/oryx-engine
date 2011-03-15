@@ -26,9 +26,13 @@ public class TokenImpl implements Token {
 
     /** The last taken transition. */
     private Transition lastTakenTransition;
-    
+
     /** The navigator. */
     private Navigator navigator;
+
+    private boolean suspended;
+
+    private List<Token> tempProcessingTokens;
 
     /**
      * Instantiates a new token impl.
@@ -107,14 +111,31 @@ public class TokenImpl implements Token {
 
     /**
      * Execute step.
-     *
+     * 
      * @return list of process tokens
-     * @throws Exception the exception
+     * @throws Exception
+     *             the exception
      * @see de.hpi.oryxengine.process.token.Token#executeStep()
      */
-    public List<Token> executeStep() throws Exception {
+    public void executeStep()
+    throws Exception {
 
-        return this.currentNode.execute(this);
+        tempProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
+        getCurrentNode().getActivity().execute(this);
+
+        // Aborting the further execution of the process by the token, because it was suspended
+        if (suspended) {
+            return;
+        }
+
+        List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(tempProcessingTokens);
+
+        for (Token token : splitedTokens) {
+            navigator.addWorkToken(token);
+        }
+
+        tempProcessingTokens = null;
+        // return this.currentNode.execute(this);
     }
 
     /**
@@ -160,18 +181,12 @@ public class TokenImpl implements Token {
         return newToken;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean joinable() {
 
         return this.context.allIncomingTransitionsSignaled(this.currentNode);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Token performJoin() {
 
@@ -180,18 +195,12 @@ public class TokenImpl implements Token {
         return token;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ProcessInstanceContext getContext() {
 
         return context;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Transition getLastTakenTransition() {
 
@@ -205,6 +214,26 @@ public class TokenImpl implements Token {
     public void setLastTakenTransition(Transition t) {
 
         this.lastTakenTransition = t;
+    }
+
+    @Override
+    public void suspend() {
+
+        suspended = true;
+        navigator.addSuspendToken(this);
+    }
+
+    @Override
+    public void resume() throws Exception {
+
+        getCurrentNode().getActivity().signal(this);
+        List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(tempProcessingTokens);
+
+        for (Token token : splitedTokens) {
+            navigator.addWorkToken(token);
+        }
+
+        tempProcessingTokens = null;
     }
 
 }
