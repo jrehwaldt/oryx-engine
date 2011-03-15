@@ -1,26 +1,36 @@
 package de.hpi.oryxengine.process.definition;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.util.Identifiable;
 
 /**
- * The Interface of the process definition. 
- * The process definition holds the essential information of a process
- * and specifies its list of start nodes. 
+ * The Interface of the process definition. The process definition holds the essential information of a process and
+ * specifies its list of start nodes.
  */
-public interface ProcessDefinition
-extends Identifiable {
+public interface ProcessDefinition extends Identifiable {
 
-    // TODO [Gerardo] die Erstellung einer Prozessinstanz sollte doch die Prozessdefinition selbst übernehmen, oder??
-
-    // void setTransition(Node start, Node end);
     /**
-     * Sets the start nodes of the process.
-     *
-     * @param n the new start nodes
+     * Gets the description.
+     * 
+     * @return the description
      */
-    void setStartNodes(ArrayList<Node> n);
+    String getDescription();
 
+    /**
+     * Sets the description.
+     * 
+     * @param description
+     *            the new description
+     */
+    void setDescription(String description);
+
+    /**
+     * Gets the start nodes of the process. Tokens can be placed there. As the process definition consists of a tree
+     * structure of nodes, this is enough to reference the whole defnition.
+     * 
+     * @return the start nodes
+     */
+    List<Node> getStartNodes();
 }

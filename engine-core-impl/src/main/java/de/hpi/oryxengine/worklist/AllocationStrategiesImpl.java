@@ -7,9 +7,16 @@ import javax.annotation.Nonnull;
  */
 public class AllocationStrategiesImpl implements AllocationStrategies {
 
+    /** The push pattern. */
     private Pattern pushPattern;
+    
+    /** The pull pattern. */
     private Pattern pullPattern;
+    
+    /** The detour pattern. */
     private Pattern detourPattern;
+    
+    /** The creation pattern. */
     private Pattern creationPattern;
     
     /**
@@ -32,24 +39,36 @@ public class AllocationStrategiesImpl implements AllocationStrategies {
     }
     
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Pattern getPullPattern() {
 
         return pullPattern;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Pattern getPushPattern() {
 
         return pushPattern;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Pattern getDetourPattern() {
 
         return detourPattern;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Pattern getCreationPattern() {
 

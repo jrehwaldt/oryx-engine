@@ -8,8 +8,14 @@ import de.hpi.oryxengine.process.token.Token;
  * Please referr to the respective getters for more information.
  */
 public final class SchedulerEvent {
+    
+    /** The number of tokens. */
     private final int numberOfTokens;
+    
+    /** The token. */
     private final Token token;
+    
+    /** The scheduler action. */
     private final SchedulerAction schedulerAction;
     
     /**
@@ -52,10 +58,9 @@ public final class SchedulerEvent {
     /**
      * Gets the scheduler action.
      * May be SUBMIT or RETRIEVE.
-     * 
-     * @see SchedulerAction
      *
      * @return the scheduler action
+     * @see SchedulerAction
      */
     public SchedulerAction getSchedulerAction() {
     
@@ -63,6 +68,9 @@ public final class SchedulerEvent {
     }
 
     // TODO does this work (write a test bitch!)
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
 

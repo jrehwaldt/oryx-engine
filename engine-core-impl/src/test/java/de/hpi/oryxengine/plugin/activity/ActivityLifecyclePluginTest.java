@@ -22,8 +22,13 @@ import de.hpi.oryxengine.process.token.TokenImpl;
  */
 public class ActivityLifecyclePluginTest {
     
+    /** The activity. */
     private AbstractActivity activity = null;
+    
+    /** The token. */
     private Token token = null;
+    
+    /** The mock. */
     private AbstractActivityLifecyclePlugin mock = null;
     
     /**

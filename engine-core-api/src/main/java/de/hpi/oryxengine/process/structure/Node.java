@@ -92,6 +92,7 @@ extends Identifiable {
      *
      * @param instance The process instance to execute
      * @return the list
+     * @throws Exception the exception
      */
     List<Token> execute(Token instance) throws Exception;
 

@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.example;
 
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +53,7 @@ public final class SimpleExampleProcess {
             if (i == 234000 || i == 100000 || i == 500000 || i == 800000) {
                 monitor.markSingleInstance(instance);
             }
-            navigator.startArbitraryInstance(UUID.randomUUID(), instance);
+            navigator.startArbitraryInstance(instance);
 
             if (i % INSTANCE_COUNT == 0) {
                 LOGGER.debug("Started {} Instances", i);

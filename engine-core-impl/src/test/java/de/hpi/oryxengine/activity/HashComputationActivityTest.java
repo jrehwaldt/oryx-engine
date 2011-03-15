@@ -15,9 +15,16 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class HashComputationActivityTest {
   
+    /** The hash node. */
     private Node hashNode;
+    
+    /** The p. */
     private Token p;
+    
+    /** The Constant TO_BE_HASHED. */
     private static final String TO_BE_HASHED = "Hello World!";
+    
+    /** The Constant VARIABLENAME. */
     private static final String VARIABLENAME = "result";
     
     

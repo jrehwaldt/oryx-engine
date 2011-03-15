@@ -8,10 +8,19 @@ import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
  */
 public class AddNumbersAndStoreNodeFactory extends AbstractNodeFactory {
     
+    /** The summand1. */
     private int summand1;
+    
+    /** The summand2. */
     private int summand2;
+    
+    /** The variablename. */
     private String variablename;
+    
+    /** The Constant DEFAULT_SUMMAND. */
     private static final int DEFAULT_SUMMAND = 1;
+    
+    /** The Constant DEFAULT_VARIABLENAME. */
     private static final String DEFAULT_VARIABLENAME = "result";
     
     /**

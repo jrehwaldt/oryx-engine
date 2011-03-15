@@ -32,6 +32,9 @@ extends AbstractActivity {
     }
 
     /**
+     * Execute intern.
+     *
+     * @param instance the instance
      * {@inheritDoc}
      */
     @Override

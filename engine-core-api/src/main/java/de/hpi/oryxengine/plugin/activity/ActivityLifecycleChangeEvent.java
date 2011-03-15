@@ -11,9 +11,16 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public final class ActivityLifecycleChangeEvent {
     
+    /** The activity. */
     private final @Nonnull Activity activity;
+    
+    /** The prev state. */
     private final @Nonnull ActivityState prevState;
+    
+    /** The new state. */
     private final @Nonnull ActivityState newState;
+    
+    /** The instance. */
     private final @Nonnull Token instance;
     
     /**
@@ -71,7 +78,10 @@ public final class ActivityLifecycleChangeEvent {
     }
     
     /**
-     *  {@inheritDoc}
+     * To string.
+     *
+     * @return the string
+     * {@inheritDoc}
      */
     @Override
     public @Nonnull String toString() {

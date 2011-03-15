@@ -17,7 +17,10 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class MailNodeActivityTest {
   
+  /** The node. */
   private Node node = null;
+  
+  /** The p. */
   private Token p = null;
   
   /**

@@ -5,8 +5,13 @@ package de.hpi.oryxengine.worklist;
  */
 public class TaskImpl implements Task {
 
+    /** The subject. */
     private String subject;
+    
+    /** The description. */
     private String description;
+    
+    /** The allocation strategies. */
     private AllocationStrategies allocationStrategies;
 
     /**
@@ -26,25 +31,36 @@ public class TaskImpl implements Task {
         this.allocationStrategies = allocationStrategies;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSubject() {
 
         return subject;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getDescription() {
 
         return description;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Form getForm() {
 
-        // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AllocationStrategies getAllocationStrategies() {
 

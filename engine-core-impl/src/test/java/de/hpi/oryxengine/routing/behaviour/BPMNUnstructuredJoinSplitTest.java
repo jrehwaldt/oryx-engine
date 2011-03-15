@@ -18,7 +18,10 @@ import de.hpi.oryxengine.process.token.TokenImpl;
  */
 public class BPMNUnstructuredJoinSplitTest {
 
+    /** The initial token. */
     private Token initialToken;
+    
+    /** The end node. */
     private Node node1, node2, node3, innerJoinNode, outerJoinNode, endNode;
 
     /**

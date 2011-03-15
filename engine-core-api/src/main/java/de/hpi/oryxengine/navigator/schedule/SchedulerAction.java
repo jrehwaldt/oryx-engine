@@ -7,6 +7,10 @@ package de.hpi.oryxengine.navigator.schedule;
  * RETRIEVE means that a processtoken is retrieved and will now be worked on.
  */
 public enum SchedulerAction {
+    
+    /** The SUBMIT. */
     SUBMIT,
+    
+    /** The RETRIEVE. */
     RETRIEVE
 }

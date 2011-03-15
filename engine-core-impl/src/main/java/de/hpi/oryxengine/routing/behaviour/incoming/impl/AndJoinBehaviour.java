@@ -12,6 +12,10 @@ import de.hpi.oryxengine.routing.behaviour.incoming.AbstractIncomingBehaviour;
 public class AndJoinBehaviour extends AbstractIncomingBehaviour {
 
     /**
+     * Join.
+     *
+     * @param token the token
+     * @return the list
      * {@inheritDoc}
      */
     @Override
@@ -28,6 +32,10 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
      * .ProcessInstance)
      */
     /**
+     * Joinable.
+     *
+     * @param token the token
+     * @return true, if successful
      * {@inheritDoc}
      */
     @Override
@@ -45,6 +53,10 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
      * .ProcessInstance)
      */
     /**
+     * Perform join.
+     *
+     * @param token the token
+     * @return the list
      * {@inheritDoc}
      */
     @Override

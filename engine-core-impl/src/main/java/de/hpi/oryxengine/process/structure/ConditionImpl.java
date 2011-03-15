@@ -32,6 +32,8 @@ public class ConditionImpl implements Condition {
     }
     
     /**
+     * Sets the false.
+     *
      * {@inheritDoc}
      */
     @Override

@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.process.structure;
 
-
 /**
  * The Class TransitionImpl. The implementation of a transition that is. A transition is the edge between to nodes.
  */
@@ -34,6 +33,8 @@ public class TransitionImpl implements Transition {
     }
 
     /**
+     * Gets the condition.
+     *
      * @return the condition
      * @see de.hpi.oryxengine.process.structure.Transition#getCondition()
      */

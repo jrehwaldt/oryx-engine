@@ -20,9 +20,10 @@ extends AbstractActivity {
         super();
     }
 
-    /** 
+    /**
      * Default end activity implementation.
-     * 
+     *
+     * @param instance the instance
      * {@inheritDoc}
      */
     @Override

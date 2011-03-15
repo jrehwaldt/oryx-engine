@@ -39,12 +39,18 @@ public class IdentityServiceImpl implements IdentityService {
     /** The capabilities. */
     private Set<CapabilityImpl> capabilities;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IdentityBuilder getIdentityBuilder() {
 
         return new IdentityBuilderImpl(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<OrganizationUnit> getOrganizationUnits() {
 
@@ -65,6 +71,9 @@ public class IdentityServiceImpl implements IdentityService {
         return organizationUnits;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Position> getPositions() {
 
@@ -85,6 +94,9 @@ public class IdentityServiceImpl implements IdentityService {
         return positions;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Participant> getParticipants() {
 
@@ -105,6 +117,9 @@ public class IdentityServiceImpl implements IdentityService {
         return participants;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Role> getRoles() {
 

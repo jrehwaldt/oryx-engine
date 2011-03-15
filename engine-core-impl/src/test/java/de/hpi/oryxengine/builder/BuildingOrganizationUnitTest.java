@@ -39,9 +39,11 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test organization unit creation.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testOrganizationUnitCreation() {
+    public void testOrganizationUnitCreation() throws Exception {
 
         OrganizationUnit superOrganizationUnit = identityBuilder.createOrganizationUnit("hpi");
 
@@ -72,9 +74,11 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test relationship organization unit position.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testRelationshipOrganizationUnitPosition() {
+    public void testRelationshipOrganizationUnitPosition() throws Exception {
 
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
@@ -102,9 +106,11 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * An OrganzationUnit should only have unique Positions.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testUniquePositionsInOrganizationUnit() {
+    public void testUniquePositionsInOrganizationUnit() throws Exception {
 
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
@@ -127,9 +133,11 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test change position in organization unit.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testChangePositionInOrganizationUnit() {
+    public void testChangePositionInOrganizationUnit() throws Exception {
 
         Position pos1 = identityBuilder.createPosition("1");
 
@@ -156,9 +164,11 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test delete organization unit.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testDeleteOrganizationUnit() {
+    public void testDeleteOrganizationUnit() throws Exception {
 
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
@@ -181,9 +191,11 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test delete super organization unit.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testDeleteSuperOrganizationUnit() {
+    public void testDeleteSuperOrganizationUnit() throws Exception {
 
         OrganizationUnit epic = identityBuilder.createOrganizationUnit("epic");
         OrganizationUnit hpi = identityBuilder.createOrganizationUnit("hpi");
@@ -203,9 +215,11 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test delete position in organization unit.
+     *
+     * @throws Exception the exception
      */
     @Test
-    public void testDeletePositionInOrganizationUnit() {
+    public void testDeletePositionInOrganizationUnit() throws Exception {
 
         Position pos1 = identityBuilder.createPosition("1");
 
@@ -220,9 +234,11 @@ public class BuildingOrganizationUnitTest {
 
     /**
      * Test not being super organization unit of yourself.
+     *
+     * @throws Exception the exception
      */
     @Test(expectedExceptions = OryxEngineException.class)
-    public void testNotBeingSuperOrganizationUnitOfYourself() {
+    public void testNotBeingSuperOrganizationUnitOfYourself() throws Exception {
 
         identityBuilder.subOrganizationUnitOf(organizationUnit, organizationUnit);
     }

@@ -5,7 +5,17 @@ package de.hpi.oryxengine.worklist;
  */
 public interface Form {
 
+    /**
+     * Gets the form source.
+     *
+     * @return the form source
+     */
     String getFormSource();;
 
+    /**
+     * Gets the type.
+     *
+     * @return the type
+     */
     String getType();
 }

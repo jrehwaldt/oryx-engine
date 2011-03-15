@@ -23,6 +23,7 @@ public class TokenImpl implements Token {
     /** The context. */
     private ProcessInstanceContext context;
 
+    /** The last taken transition. */
     private Transition lastTakenTransition;
 
     /**
@@ -101,9 +102,9 @@ public class TokenImpl implements Token {
 
     /**
      * Execute step.
-     * 
+     *
      * @return list of process tokens
-     * @throws Exception 
+     * @throws Exception the exception
      * @see de.hpi.oryxengine.process.token.Token#executeStep()
      */
     public List<Token> executeStep() throws Exception {
@@ -154,12 +155,18 @@ public class TokenImpl implements Token {
         return newToken;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean joinable() {
 
         return this.context.allIncomingTransitionsSignaled(this.currentNode);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Token performJoin() {
 
@@ -168,18 +175,27 @@ public class TokenImpl implements Token {
         return token;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ProcessInstanceContext getContext() {
 
         return context;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Transition getLastTakenTransition() {
 
         return lastTakenTransition;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setLastTakenTransition(Transition t) {
 

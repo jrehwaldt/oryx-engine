@@ -16,16 +16,22 @@ import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.PullingInboundAdapter;
 
 /**
- * This is the default imap mail client implementation and acts as {@link CorrelationAdapter} for the
+ * This is the default imap mail client implementation and acts as {@link CorrelationAdapter} for the.
+ *
  * {@link CorrelationManager}.
  */
 public class InboundImapMailAdapterImpl implements PullingInboundAdapter {
     
+    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
+    /** The configuration. */
     private final MailAdapterConfiguration configuration;
+    
+    /** The type. */
     private final MailEvent type;
     
+    /** The correlation. */
     private final CorrelationManager correlation;
     
     /**
@@ -51,11 +57,17 @@ public class InboundImapMailAdapterImpl implements PullingInboundAdapter {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MailEvent getEventType() {
         return this.type;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull
     MailAdapterConfiguration getConfiguration() {
@@ -64,11 +76,10 @@ public class InboundImapMailAdapterImpl implements PullingInboundAdapter {
 
     /**
      * This mailer adapter will receive mails as specified in {@link MailAdapterConfiguration}.
-     * 
+     *
+     * @throws MessagingException the messaging exception
+     * @throws IOException Signals that an I/O exception has occurred.
      * {@inheritDoc}
-     * 
-     * @throws MessagingException 
-     * @throws IOException 
      */
     @Override
     public void pull() throws MessagingException, IOException {
@@ -113,10 +124,10 @@ public class InboundImapMailAdapterImpl implements PullingInboundAdapter {
 
     /**
      * Called for message processing.
-     * 
+     *
      * @param message a message to process
-     * @throws MessagingException thrown if handling the message fails
      * @throws IOException thrown if fetching the message content fails
+     * @throws MessagingException thrown if handling the message fails
      */
     private void processMessage(@Nonnull Message message)
     throws IOException, MessagingException {

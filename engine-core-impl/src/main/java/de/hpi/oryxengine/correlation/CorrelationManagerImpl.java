@@ -50,13 +50,20 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
         this.adapter = initializeAdapter();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void correlate(@Nonnull AdapterEvent e) {
+    public void correlate(@Nonnull AdapterEvent event) {
         System.out.println("correlating...");
-        if (this.startEvents.contains(e.getEventType())) {
-            startEvent(e);
-        } else if (this.intermediateEvents.contains(e.getEventType())) {
-            intermediateEvent(e);
+        if (this.startEvents.contains(event.getEventType())) {
+            try {
+                startEvent(event);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (this.intermediateEvents.contains(event.getEventType())) {
+            intermediateEvent(event);
         }
     }
     
@@ -94,8 +101,9 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
      * Triggered if an event is identified as start trigger.
      * 
      * @param e the event fired by a certain adapter
+     * @throws Exception thrown if starting this instance fails
      */
-    private void startEvent(@Nonnull AdapterEvent e) {
+    private void startEvent(@Nonnull AdapterEvent e) throws Exception {
         System.out.println("starting process" + this.navigator);
         this.navigator.startProcessInstance(UUID.randomUUID());
     }

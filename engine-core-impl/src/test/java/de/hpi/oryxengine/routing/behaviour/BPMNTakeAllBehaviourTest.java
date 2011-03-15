@@ -79,7 +79,7 @@ public class BPMNTakeAllBehaviourTest {
      *
      * @param token the token
      * @return the list
-     * @throws Exception 
+     * @throws Exception the exception
      */
     private List<Token> executeSplitAndJoin(Token token) throws Exception {
         Node node = token.getCurrentNode();

@@ -4,9 +4,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.scheduler.AbstractSchedulerListener;
 import de.hpi.oryxengine.process.token.Token;
@@ -30,7 +27,8 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
 
     /**
      * Adds a process instance to our FIFO queue.
-     * 
+     *
+     * @param p the p
      * {@inheritDoc}
      */
     @Override
@@ -41,7 +39,9 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
     }
 
     /**
-     * Gets the first element of the FIFO queue and returns it. 
+     * Gets the first element of the FIFO queue and returns it.
+     *
+     * @return the token
      * {@inheritDoc}
      */
     @Override
@@ -59,6 +59,9 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
     }
     
     /**
+     * Checks if is empty.
+     *
+     * @return true, if is empty
      * {@inheritDoc}
      */
     @Override
@@ -67,6 +70,9 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     // TODO right now we dont care about submitAll plugin/Observerwise
     public void submitAll(List<Token> listOfTokens) {
@@ -74,7 +80,7 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
     }
     
     /**
-     * We changed, tell everybody now!
+     * We changed, tell everybody now!.
      *
      * @param event the event
      */

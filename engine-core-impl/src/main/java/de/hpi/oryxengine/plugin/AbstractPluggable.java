@@ -14,6 +14,9 @@ extends Observable
 implements Pluggable<P> {
     
     /**
+     * Register plugin.
+     *
+     * @param plugin the plugin
      * {@inheritDoc}
      */
     @Override

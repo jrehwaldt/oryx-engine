@@ -12,8 +12,10 @@ import org.slf4j.LoggerFactory;
 public final class ActivityLifecycleLogger
 extends AbstractActivityLifecyclePlugin {
     
+    /** The instance. */
     private static ActivityLifecycleLogger instance;
     
+    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**
@@ -37,6 +39,9 @@ extends AbstractActivityLifecyclePlugin {
     }
     
     /**
+     * State changed.
+     *
+     * @param event the event
      * {@inheritDoc}
      */
     @Override

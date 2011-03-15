@@ -10,6 +10,9 @@ import de.hpi.oryxengine.worklist.WorklistQueue;
  */
 public class SimplePushPattern implements Pattern {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void execute(Task task, Token token, WorklistQueue worklistService) {
 

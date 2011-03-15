@@ -28,13 +28,25 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class HashComputationActivity extends AbstractActivity {
 
+    /** The Constant DEFAULT_ALGORITHM. */
     private static final String DEFAULT_ALGORITHM = "SHA1";
+    
+    /** The Constant MAGIC_BITSHIFT. */
     private static final int MAGIC_BITSHIFT = 4;
+    
+    /** The Constant MAGIC_FIFTEEN. */
     private static final int MAGIC_FIFTEEN = 0x0f;
     
+    /** The to be hashed. */
     private String toBeHashed;
+    
+    /** The md. */
     private MessageDigest md;
+    
+    /** The variable name. */
     private String variableName;
+    
+    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**
@@ -89,6 +101,9 @@ public class HashComputationActivity extends AbstractActivity {
      }
 
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void executeIntern(Token instance) {
 
