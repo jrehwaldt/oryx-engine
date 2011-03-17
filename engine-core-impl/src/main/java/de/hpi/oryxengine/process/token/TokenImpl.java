@@ -118,13 +118,8 @@ public class TokenImpl implements Token {
     public void executeStep()
     throws Exception {
 
-        try {
-
-            tempProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
-            getCurrentNode().getActivity().execute(this);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        tempProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
+        getCurrentNode().getActivity().execute(this);
 
         // Aborting the further execution of the process by the token, because it was suspended
         if (suspended) {
@@ -138,7 +133,6 @@ public class TokenImpl implements Token {
         }
 
         tempProcessingTokens = null;
-        // return this.currentNode.execute(this);
     }
 
     /**
