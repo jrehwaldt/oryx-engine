@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.WorklistManager;
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
@@ -75,10 +75,10 @@ public class HumanTaskUserStoryTest {
 
         token.executeStep();
         
-        WorklistItem worklistItem = WorklistManager.getWorklistService().getWorklistItems(resource).get(0);
-        WorklistManager.getWorklistService().beginWorklistItem(worklistItem);
+        WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
+        ServiceFactory.getWorklistService().beginWorklistItem(worklistItem);
         
-        WorklistManager.getWorklistService().completeWorklistItem(worklistItem);
+        ServiceFactory.getWorklistService().completeWorklistItem(worklistItem);
         
         String failureMessage = "Token should point to the endNode, but it points to " + token.getCurrentNode().getID() + ".";
         assertEquals(endNode, token.getCurrentNode(), failureMessage);

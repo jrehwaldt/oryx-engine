@@ -9,7 +9,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.WorklistManager;
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
@@ -24,7 +25,6 @@ import de.hpi.oryxengine.worklist.AllocationStrategiesImpl;
 import de.hpi.oryxengine.worklist.Pattern;
 import de.hpi.oryxengine.worklist.Task;
 import de.hpi.oryxengine.worklist.TaskImpl;
-import de.hpi.oryxengine.worklist.TestingWorklistManager;
 import de.hpi.oryxengine.worklist.WorklistItem;
 import de.hpi.oryxengine.worklist.WorklistItemState;
 import de.hpi.oryxengine.worklist.pattern.SimplePullPattern;
@@ -81,7 +81,7 @@ public class HumanTaskActivityTest {
     public void tearDown() {
         
         // Reseting the Worklist Manager after the test case
-        TestingWorklistManager.clear();
+        ServiceFactoryForTesting.clearWorklistManager();
     }
     
     /**
@@ -102,11 +102,11 @@ public class HumanTaskActivityTest {
 
         humanTask.execute(token);
         
-        int worklistSize = WorklistManager.getWorklistService().getWorklistItems(resource).size();
+        int worklistSize = ServiceFactory.getWorklistService().getWorklistItems(resource).size();
         String failureMessage = "Jannik should now have 1 item in his worklist, but there are " + worklistSize + " item(s) in the worklist."; 
         assertTrue(worklistSize == 1, failureMessage);
         
-        WorklistItem worklistItem = WorklistManager.getWorklistService().getWorklistItems(resource).get(0);
+        WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
         assertEquals(worklistItem.getSubject(), task.getSubject());
         assertEquals(worklistItem.getDescription(), task.getDescription());
     }
@@ -120,11 +120,11 @@ public class HumanTaskActivityTest {
         
         humanTask.execute(token);
         
-        WorklistItem worklistItem = WorklistManager.getWorklistService().getWorklistItems(resource).get(0);
+        WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
         System.out.println(worklistItem.getStatus());
         assertEquals(worklistItem.getStatus(), WorklistItemState.ALLOCATED);
 
-        WorklistManager.getWorklistService().beginWorklistItem(worklistItem);
+        ServiceFactory.getWorklistService().beginWorklistItem(worklistItem);
         assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
     }
 

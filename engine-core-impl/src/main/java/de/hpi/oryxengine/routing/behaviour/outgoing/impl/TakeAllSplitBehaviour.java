@@ -22,7 +22,7 @@ public class TakeAllSplitBehaviour implements OutgoingBehaviour {
      */
     public List<Token> split(List<Token> tokens) {
 
-        if (tokens.size() == 0) {
+        if (tokens == null || tokens.size() == 0) {
             return tokens;
         }
         List<Token> tokensToNavigate = new ArrayList<Token>();
