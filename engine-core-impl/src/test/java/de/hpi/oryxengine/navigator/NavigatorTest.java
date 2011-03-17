@@ -1,7 +1,5 @@
 package de.hpi.oryxengine.navigator;
 
-import static org.mockito.Mockito.mock;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
