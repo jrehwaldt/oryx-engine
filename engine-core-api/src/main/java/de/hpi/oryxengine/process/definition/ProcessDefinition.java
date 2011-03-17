@@ -8,6 +8,8 @@ import de.hpi.oryxengine.util.Identifiable;
 /**
  * The Interface of the process definition. The process definition holds the essential information of a process and
  * specifies its list of start nodes.
+ * 
+ * @author thorben
  */
 public interface ProcessDefinition extends Identifiable {
 
