@@ -228,6 +228,7 @@ public class TokenImpl implements Token {
         List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(tempProcessingTokens);
 
         for (Token token : splitedTokens) {
+
             navigator.addWorkToken(token);
         }
 
