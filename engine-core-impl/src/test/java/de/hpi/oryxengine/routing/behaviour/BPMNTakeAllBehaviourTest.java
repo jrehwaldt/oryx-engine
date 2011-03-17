@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.routing.behaviour;
 
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 import java.util.List;
@@ -8,12 +9,19 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
+import de.hpi.oryxengine.process.definition.NodeParameter;
+import de.hpi.oryxengine.process.definition.NodeParameterImpl;
+import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The test of the TakeAllBehaviour-activity.
@@ -66,29 +74,35 @@ public class BPMNTakeAllBehaviourTest {
      */
     private TokenImpl simpleToken() {
 
-
-        Node node = new RoutingBehaviourTestFactory().createWithAndSplit();
-        Node node2 = new RoutingBehaviourTestFactory().createWithAndSplit();
-        node.transitionTo(node2);
+        ProcessBuilder builder = new ProcessBuilderImpl();
+        NodeParameter param = new NodeParameterImpl(mock(Activity.class), new SimpleJoinBehaviour(),
+            new TakeAllSplitBehaviour());
+        Node node = builder.createNode(param);
+        Node node2 = builder.createNode(param);
+        builder.createTransition(node, node2);
 
         return new TokenImpl(node);
     }
-    
+
     /**
      * Execute split and join.
-     *
-     * @param token the token
+     * 
+     * @param token
+     *            the token
      * @return the list
-     * @throws Exception the exception
+     * @throws Exception
+     *             the exception
      */
-    private List<Token> executeSplitAndJoin(Token token) throws Exception {
+    private List<Token> executeSplitAndJoin(Token token)
+    throws Exception {
+
         Node node = token.getCurrentNode();
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
-        
+
         List<Token> joinedTokens = incomingBehaviour.join(token);
-        
+
         return outgoingBehaviour.split(joinedTokens);
     }
-    
+
 }

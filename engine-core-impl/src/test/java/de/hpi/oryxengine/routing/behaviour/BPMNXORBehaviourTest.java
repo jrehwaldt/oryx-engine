@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.routing.behaviour;
 
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 import java.util.HashMap;
@@ -9,15 +10,23 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 
+import de.hpi.oryxengine.process.definition.NodeParameter;
+import de.hpi.oryxengine.process.definition.NodeParameterImpl;
+import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.ConditionImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.XORSplitBehaviour;
 
 /**
  * The test of the TakeAllBehaviour-activity.
@@ -109,13 +118,14 @@ public class BPMNXORBehaviourTest {
         map.put("a", 1);
 
         Condition c = new ConditionImpl(map);
-        RoutingBehaviourTestFactory factory = new RoutingBehaviourTestFactory();
+        ProcessBuilder builder = new ProcessBuilderImpl();
+        NodeParameter param = new NodeParameterImpl(mock(Activity.class), new SimpleJoinBehaviour(),
+            new XORSplitBehaviour());
 
-        Node node = factory.createWithXORSplit();
-        Node node2 = factory.createWithXORSplit();
-        Node node3 = factory.createWithXORSplit();
-        node.transitionToWithCondition(node2, c);
-        node.transitionTo(node3);
+        Node node = builder.createNode(param);
+        Node node2 = builder.createNode(param);
+        Node node3 = builder.createNode(param);
+        builder.createTransition(node, node2, c).createTransition(node, node3);
 
         return new TokenImpl(node);
     }

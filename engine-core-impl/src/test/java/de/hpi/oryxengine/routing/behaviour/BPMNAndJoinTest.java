@@ -9,14 +9,20 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.process.definition.NodeParameter;
+import de.hpi.oryxengine.process.definition.NodeParameterImpl;
+import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * This class tests the BPMNAndJoin-Class.
@@ -28,7 +34,7 @@ public class BPMNAndJoinTest {
 
     /** The child instance2. */
     private Token newToken1, newToken2;
-    
+
     private NavigatorImplMock navigator;
 
     /**
@@ -47,6 +53,7 @@ public class BPMNAndJoinTest {
      */
     @Test
     public void testSingleTokenReachedJoin() {
+
         List<Token> newTokens = null;
         try {
             newToken1.executeStep();
@@ -56,7 +63,6 @@ public class BPMNAndJoinTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         assertEquals(newTokens.size(), 0,
             "If only one child has reached the And Join, no new token should be scheduled");
@@ -69,6 +75,7 @@ public class BPMNAndJoinTest {
      */
     @Test
     public void testAllTokensReachedJoin() {
+
         List<Token> newTokens = null;
         try {
             newToken1.executeStep();
@@ -81,7 +88,6 @@ public class BPMNAndJoinTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         assertEquals(newTokens.size(), 1, "There should only be one new token");
 
@@ -97,17 +103,24 @@ public class BPMNAndJoinTest {
      * @return the process token
      */
     private List<Token> initializeTokens() {
+
         navigator = new NavigatorImplMock();
 
         splitNode = mock(Node.class);
-        node1 = new RoutingBehaviourTestFactory().createWithAndSplit();
-        node2 = new RoutingBehaviourTestFactory().createWithAndSplit();
-        joinNode = new RoutingBehaviourTestFactory().createWithAndJoin();
-        node1.transitionTo(joinNode);
-        node2.transitionTo(joinNode);
 
-        node3 = new RoutingBehaviourTestFactory().createWithAndSplit();
-        joinNode.transitionTo(node3);
+        ProcessBuilder builder = new ProcessBuilderImpl();
+        NodeParameter param = new NodeParameterImpl(mock(Activity.class), new SimpleJoinBehaviour(),
+            new TakeAllSplitBehaviour());
+        node1 = builder.createNode(param);
+        node2 = builder.createNode(param);
+
+        param.setIncomingBehaviour(new AndJoinBehaviour());
+        joinNode = builder.createNode(param);
+        builder.createTransition(node1, joinNode).createTransition(node2, joinNode);
+        
+        param.setIncomingBehaviour(new SimpleJoinBehaviour());
+        node3 = builder.createNode(param);
+        builder.createTransition(joinNode, node3);
 
         Token token = new TokenImpl(splitNode, new ProcessInstanceContextImpl(), navigator);
 
@@ -118,19 +131,21 @@ public class BPMNAndJoinTest {
     }
     /**
      * Execute split and join.
-     *
-     * @param token the token
+     * 
+     * @param token
+     *            the token
      * @return the list
-     * @throws Exception the exception
+     * @throws Exception
+     *             the exception
      */
-    /*private List<Token> executeSplitAndJoin(Token token) throws Exception {
-
-        Node node = token.getCurrentNode();
-        IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
-        OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
-
-        List<Token> joinedTokens = incomingBehaviour.join(token);
-
-        return outgoingBehaviour.split(joinedTokens);
-    }*/
+    /*
+     * private List<Token> executeSplitAndJoin(Token token) throws Exception {
+     * 
+     * Node node = token.getCurrentNode(); IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
+     * OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
+     * 
+     * List<Token> joinedTokens = incomingBehaviour.join(token);
+     * 
+     * return outgoingBehaviour.split(joinedTokens); }
+     */
 }
