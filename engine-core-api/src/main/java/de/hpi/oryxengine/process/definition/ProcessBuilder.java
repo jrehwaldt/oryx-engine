@@ -50,12 +50,12 @@ public interface ProcessBuilder {
      *
      * @param id the new iD
      */
-    void setID(UUID id);
+    ProcessBuilder setID(UUID id);
     
     /**
      * Sets the description.
      *
      * @param description the new description
      */
-    void setDescription(String description);
+    ProcessBuilder setDescription(String description);
 }

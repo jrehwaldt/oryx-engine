@@ -75,9 +75,10 @@ public class ProcessBuilderImpl implements ProcessBuilder {
      * {@inheritDoc}
      */
     @Override
-    public void setID(UUID id) {
+    public ProcessBuilder setID(UUID id) {
 
         this.id = id;
+        return this;
 
     }
 
@@ -85,9 +86,10 @@ public class ProcessBuilderImpl implements ProcessBuilder {
      * {@inheritDoc}
      */
     @Override
-    public void setDescription(String description) {
+    public ProcessBuilder setDescription(String description) {
 
         this.description = description;
+        return this;
 
     }
 
