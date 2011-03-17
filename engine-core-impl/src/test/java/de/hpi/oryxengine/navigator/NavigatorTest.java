@@ -55,7 +55,7 @@ public class NavigatorTest {
         navigator.start();
 
         node = new RoutingBehaviourTestFactory().createWithAndSplit();
-        node2 = mock(Node.class);
+        node2 = new RoutingBehaviourTestFactory().createWithAndSplit();
         node.transitionTo(node2);
         processToken = new TokenImpl(node, new ProcessInstanceContextImpl(), navigator);
 
