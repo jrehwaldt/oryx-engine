@@ -25,7 +25,7 @@ public class ConditionImpl implements Condition {
      *
      * @param variablesToCheck the variables to check
      */
-    public ConditionImpl(HashMap<String, Object> variablesToCheck) {
+    public ConditionImpl(Map<String, Object> variablesToCheck) {
 
         set = variablesToCheck.entrySet();
         result = true;
