@@ -225,9 +225,9 @@ public class TokenImpl implements Token {
     throws Exception {
 
         getCurrentNode().getActivity().signal(this);
-        List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(tempProcessingTokens);
+        List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(tempProcessingTokens);
 
-        for (Token token : splitedTokens) {
+        for (Token token : splittedTokens) {
             navigator.addWorkToken(token);
         }
 
