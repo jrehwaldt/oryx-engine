@@ -10,6 +10,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
+import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -26,6 +28,8 @@ public class BPMNAndJoinTest {
 
     /** The child instance2. */
     private Token newToken1, newToken2;
+    
+    private NavigatorImplMock navigator;
 
     /**
      * Sets the up.
@@ -46,7 +50,9 @@ public class BPMNAndJoinTest {
         List<Token> newTokens = null;
         try {
             newToken1.executeStep();
-            newTokens = executeSplitAndJoin(newToken1);
+            navigator.flushWorkQueue();
+            newToken1.executeStep();
+            newTokens = navigator.getWorkQueue();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,8 +73,11 @@ public class BPMNAndJoinTest {
         try {
             newToken1.executeStep();
             newToken2.executeStep();
-            executeSplitAndJoin(newToken2);
-            newTokens = executeSplitAndJoin(newToken1);
+            navigator.flushWorkQueue();
+            newToken2.executeStep();
+            navigator.flushWorkQueue();
+            newToken1.executeStep();
+            newTokens = navigator.getWorkQueue();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,6 +97,7 @@ public class BPMNAndJoinTest {
      * @return the process token
      */
     private List<Token> initializeTokens() {
+        navigator = new NavigatorImplMock();
 
         splitNode = mock(Node.class);
         node1 = new RoutingBehaviourTestFactory().createWithAndSplit();
@@ -99,14 +109,13 @@ public class BPMNAndJoinTest {
         node3 = new RoutingBehaviourTestFactory().createWithAndSplit();
         joinNode.transitionTo(node3);
 
-        Token token = new TokenImpl(splitNode);
+        Token token = new TokenImpl(splitNode, new ProcessInstanceContextImpl(), navigator);
 
         List<Token> newTokens = new ArrayList<Token>();
         newTokens.add(token.createNewToken(node1));
         newTokens.add(token.createNewToken(node2));
         return newTokens;
     }
-
     /**
      * Execute split and join.
      *
@@ -114,7 +123,7 @@ public class BPMNAndJoinTest {
      * @return the list
      * @throws Exception the exception
      */
-    private List<Token> executeSplitAndJoin(Token token) throws Exception {
+    /*private List<Token> executeSplitAndJoin(Token token) throws Exception {
 
         Node node = token.getCurrentNode();
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
@@ -123,5 +132,5 @@ public class BPMNAndJoinTest {
         List<Token> joinedTokens = incomingBehaviour.join(token);
 
         return outgoingBehaviour.split(joinedTokens);
-    }
+    }*/
 }
