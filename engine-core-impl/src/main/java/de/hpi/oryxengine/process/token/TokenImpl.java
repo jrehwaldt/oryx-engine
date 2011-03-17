@@ -118,8 +118,13 @@ public class TokenImpl implements Token {
     public void executeStep()
     throws Exception {
 
-        tempProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
-        getCurrentNode().getActivity().execute(this);
+        try {
+
+            tempProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
+            getCurrentNode().getActivity().execute(this);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         // Aborting the further execution of the process by the token, because it was suspended
         if (suspended) {
@@ -222,7 +227,8 @@ public class TokenImpl implements Token {
     }
 
     @Override
-    public void resume() throws Exception {
+    public void resume()
+    throws Exception {
 
         getCurrentNode().getActivity().signal(this);
         List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(tempProcessingTokens);

@@ -74,8 +74,8 @@ extends Thread {
 
 
             if (token != null) {
-                List<Token> instances;
-                instances = null;
+//                List<Token> instances;
+//                instances = null;
                 try {
                     // the return value of executeStep are the nodes which shall be executed next
 //                    instances = token.executeStep();
@@ -85,7 +85,7 @@ extends Thread {
                     e.printStackTrace();
                 }
                 // submit all instances to be executed next to the scheduler
-                scheduler.submitAll(instances);
+//                scheduler.submitAll(instances);
             } else {
                 try {
                     // I simply couldn't take it anymore...
