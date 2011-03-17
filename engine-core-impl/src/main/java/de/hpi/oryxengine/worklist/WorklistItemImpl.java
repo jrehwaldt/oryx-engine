@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.Resource;
 
 /**
@@ -13,11 +14,13 @@ public class WorklistItemImpl implements WorklistItem {
 
     private WorklistItemState status;
     private Task task;
-
-    public WorklistItemImpl(@Nonnull Task task) {
+    private Token correspondingToken;
+    
+    public WorklistItemImpl(@Nonnull Task task, @Nonnull Token correspondingToken) {
 
         this.task = task;
         this.status = WorklistItemState.OFFERED;
+        this.correspondingToken = correspondingToken;
     }
 
     @Override
@@ -65,5 +68,11 @@ public class WorklistItemImpl implements WorklistItem {
     public void setStatus(WorklistItemState status) {
 
         this.status = status;
+    }
+
+    @Override
+    public Token getCorrespondingToken() {
+
+        return correspondingToken;
     }
 }

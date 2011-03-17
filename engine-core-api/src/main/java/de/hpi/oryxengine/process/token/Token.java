@@ -105,7 +105,9 @@ extends Identifiable {
     void suspend();
 
     /**
+     * 
      * Continueing the token navigation.
      */
+    // TODO Info-Object muss übergeben werden von wem das Token resumed wurde
     void resume() throws Exception;
 }

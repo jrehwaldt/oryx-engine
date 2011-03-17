@@ -143,10 +143,10 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
 
     /**
      * {@inheritDoc}
-     * @throws OryxEngineException 
+     * @throws Exception 
      */
     @Override
-    public void completeWorklistItem(WorklistItem worklistItem) throws OryxEngineException {
+    public void completeWorklistItem(WorklistItem worklistItem) throws Exception {
         
         WorklistItemImpl worklistItemImpl = extractWorklistItemImplFrom(worklistItem);
         worklistItemImpl.setStatus(WorklistItemState.COMPLETED);
@@ -154,6 +154,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
         for (Resource<?> resource : worklistItemImpl.getAssignedResources()) {
             getWorklistItems(resource).remove(worklistItemImpl);
         }
+        
+        worklistItemImpl.getCorrespondingToken().resume();
     }
 
     @Override

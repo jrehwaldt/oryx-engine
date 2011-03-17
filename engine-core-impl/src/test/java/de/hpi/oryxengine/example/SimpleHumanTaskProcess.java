@@ -1,6 +1,8 @@
 package de.hpi.oryxengine.example;
 
 
+import static org.testng.Assert.assertEquals;
+import de.hpi.oryxengine.WorklistManager;
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.factory.node.HumanTaskNodeFactory;
@@ -11,6 +13,7 @@ import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
+import de.hpi.oryxengine.worklist.WorklistItemState;
 
 
 // TODO: Auto-generated Javadoc
@@ -58,7 +61,6 @@ public final class SimpleHumanTaskProcess {
      */
     private static TokenImpl processTokenForReview() {
 
-        AbstractActivity end = new EndActivity();
 
         Node startNode = new RoutingBehaviourTestFactory().createWithAndSplitAndLogger();
         
@@ -66,6 +68,7 @@ public final class SimpleHumanTaskProcess {
 
         Node thirdNode = new PrintingNodeFactory().createWithLogger();
         
+        AbstractActivity end = new EndActivity();
         Node endNode = new NodeImpl(end);
 
         // Setting the transitions
