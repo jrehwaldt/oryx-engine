@@ -134,10 +134,8 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <includeTestSourceDirectory>true
-                    </includeTestSourceDirectory>
-                    <configLocation>${checkstyle-config}
-                    </configLocation>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <configLocation>${checkstyle-config}</configLocation>
                     <failsOnError>true</failsOnError>
                 </configuration>
             </plugin>
@@ -193,10 +191,8 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <includeTestSourceDirectory>true
-                    </includeTestSourceDirectory>
-                    <configLocation>${checkstyle-config}
-                    </configLocation>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <configLocation>${checkstyle-config}</configLocation>
                     <failsOnError>true</failsOnError>
                 </configuration>
             </plugin>
