@@ -32,7 +32,7 @@ public class TokenImpl implements Token {
 
     private boolean suspended;
 
-    private List<Token> tempProcessingTokens;
+    private List<Token> lazySuspendedProcessingTokens;
 
     /**
      * Instantiates a new token impl.
@@ -118,7 +118,7 @@ public class TokenImpl implements Token {
     public void executeStep()
     throws Exception {
 
-        tempProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
+        lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
         getCurrentNode().getActivity().execute(this);
 
         // Aborting the further execution of the process by the token, because it was suspended
@@ -126,13 +126,13 @@ public class TokenImpl implements Token {
             return;
         }
 
-        List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(tempProcessingTokens);
+        List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
         for (Token token : splitedTokens) {
             navigator.addWorkToken(token);
         }
 
-        tempProcessingTokens = null;
+        lazySuspendedProcessingTokens = null;
     }
 
     /**
@@ -225,13 +225,22 @@ public class TokenImpl implements Token {
     throws Exception {
 
         getCurrentNode().getActivity().signal(this);
-        List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(tempProcessingTokens);
+        List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
         for (Token token : splittedTokens) {
             navigator.addWorkToken(token);
         }
 
-        tempProcessingTokens = null;
+        lazySuspendedProcessingTokens = null;
+    }
+
+    private List<Token> getLazySuspendedProcessingToken() {
+
+        if (lazySuspendedProcessingTokens == null) {
+            lazySuspendedProcessingTokens = new ArrayList<Token>();
+        }
+        
+        return lazySuspendedProcessingTokens;
     }
 
 }
