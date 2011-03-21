@@ -70,4 +70,11 @@ public interface Navigator {
      * @param t the t
      */
     void addSuspendToken(Token t);
+    
+    /**
+     * Removes the suspend token.
+     *
+     * @param t the t
+     */
+    void removeSuspendToken(Token t);
 }
