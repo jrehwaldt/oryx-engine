@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.builder;
+package de.hpi.oryxengine.resource;
 
 import java.util.Set;
 

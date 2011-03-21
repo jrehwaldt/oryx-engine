@@ -18,6 +18,14 @@ public class WorklistItemImpl implements WorklistItem {
     
     public WorklistItemImpl(@Nonnull Task task, @Nonnull Token correspondingToken) {
 
+        if (task == null) {
+            throw new NullPointerException("The Task parameter cannot be null.");
+        }
+
+        if (correspondingToken == null) {
+            throw new NullPointerException("The corresponding Token parameter cannot be null.");
+        }
+        
         this.task = task;
         this.status = WorklistItemState.OFFERED;
         this.correspondingToken = correspondingToken;

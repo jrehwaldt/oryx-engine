@@ -25,53 +25,13 @@ import de.hpi.oryxengine.worklist.WorklistQueue;
 public class WorklistManager implements WorklistService, TaskDistribution, WorklistQueue {
 
     /** The worklist manager. */
-    protected static WorklistManager worklistManager;
+//    protected static WorklistManager worklistManager;
 
     private Map<Resource<?>, List<WorklistItem>> lazyWorklistTable;
 
-    /**
-     * Gets the worklist manager instance.
-     * 
-     * @return the worklist manager instance
-     */
-    private static WorklistManager getWorklistManagerInstance() {
+    
 
-        if (worklistManager == null) {
-            worklistManager = new WorklistManager();
-        }
-
-        return worklistManager;
-    }
-
-    /**
-     * Gets the worklist service.
-     * 
-     * @return the worklist service
-     */
-    public static WorklistService getWorklistService() {
-
-        return getWorklistManagerInstance();
-    }
-
-    /**
-     * Gets the worklist queue.
-     * 
-     * @return the worklist queue
-     */
-    public static WorklistQueue getWorklistQueue() {
-
-        return getWorklistManagerInstance();
-    }
-
-    /**
-     * Gets the task distribution.
-     * 
-     * @return the task distribution
-     */
-    public static TaskDistribution getTaskDistribution() {
-
-        return getWorklistManagerInstance();
-    }
+    
 
     @Override
     public void addWorklistItem(WorklistItem worklistItem, Resource<?> resourceToFillIn) {
@@ -123,12 +83,13 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
 
     /**
      * {@inheritDoc}
+     * @throws OryxEngineException 
      */
     @Override
-    public void claimWorklistItem(WorklistItem worklistItem) {
+    public void claimWorklistItem(WorklistItem worklistItem) throws OryxEngineException {
 
-        // TODO Auto-generated method stub
-
+        WorklistItemImpl worklistItemImpl = extractWorklistItemImplFrom(worklistItem);
+        worklistItemImpl.setStatus(WorklistItemState.ALLOCATED);
     }
 
     /**

@@ -238,4 +238,11 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
         suspendedTokens.add(t);
     }
+
+    @Override
+    public void removeSuspendToken(Token t) {
+
+        suspendedTokens.remove(t);
+        
+    }
 }

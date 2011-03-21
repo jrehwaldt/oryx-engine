@@ -2,28 +2,25 @@ package de.hpi.oryxengine.worklist;
 
 import static org.testng.Assert.assertEquals;
 
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.WorklistManager;
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
+import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
+import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
-import de.hpi.oryxengine.worklist.pattern.SimplePullPattern;
-import de.hpi.oryxengine.worklist.pattern.SimplePushPattern;
 
 /**
  * 
@@ -33,52 +30,79 @@ import de.hpi.oryxengine.worklist.pattern.SimplePushPattern;
 public class HumanTaskUserStoryTest {
 
     Token token;
-    Resource<?> resource;
+    Resource<?> jannik;
     Node endNode;
     
     @BeforeMethod
     public void setUp()
     throws Exception {
 
-        // Prepare the organisation structure
+        // The organization structure is already prepared in the factory
+        // The task is assigned to Jannik
+        Task task = TaskFactory.createJannikServesGerardoTask();
+        jannik = task.getAssignedResources().get(0);
 
-        IdentityBuilder identityBuilder = new IdentityServiceImpl().getIdentityBuilder();
-        Participant participant = identityBuilder.createParticipant("jannik");
-        participant.setName("Jannik Streek");
+        Activity humanTaskActivity = new HumanTaskActivity(task);
+        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(humanTaskActivity);
 
-        resource = participant;
-        
-        // Define the task
-        String subject = "Jannik, get Gerardo a cup of coffee!";
-        String description = "You know what I mean.";
-
-        Pattern pushPattern = new SimplePushPattern();
-        Pattern pullPattern = new SimplePullPattern();
-
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-
-        Task task = new TaskImpl(subject, description, allocationStrategies, participant);
-
-        Activity humanTask = new HumanTaskActivity(task);
-        Node humanTaskNode = new NodeImpl(humanTask, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-
-        AbstractActivity end = new EndActivity();
-        endNode = new NodeImpl(end);
+        AbstractActivity endactivity = new EndActivity();
+        endNode = GerardoNodeFactory.createSimpleNodeWith(endactivity);
         
         humanTaskNode.transitionTo(endNode);
                 
         token = new TokenImpl(humanTaskNode, new ProcessInstanceContextImpl(), new NavigatorImplMock());
     }
 
+    @AfterMethod
+    public void tearDown() {
+        ServiceFactoryForTesting.clearWorklistManager();
+    }
+    
+    /**
+     * Test that the assigned user begins with the humanTask.
+     * @throws Exception 
+     */
+    @Test
+    public void testJannikBeginsTheWorkItem() throws Exception {
+        
+        token.executeStep();
+        
+        WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
+        System.out.println(worklistItem.getStatus());
+        assertEquals(worklistItem.getStatus(), WorklistItemState.ALLOCATED);
+
+        ServiceFactory.getWorklistService().beginWorklistItem(worklistItem);
+        assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
+    }
+
+    /**
+     * Test that the assigned user completes with the humanTask.
+     * @throws Exception 
+     */
+    @Test
+    public void testJannikCompletesTheWorkItem() throws Exception {
+        
+        token.executeStep();
+        
+        WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
+        ServiceFactory.getWorklistService().beginWorklistItem(worklistItem);
+        assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
+        
+        ServiceFactory.getWorklistService().completeWorklistItem(worklistItem);
+        assertEquals(worklistItem.getStatus(), WorklistItemState.COMPLETED);
+        String failureMessage = "Jannik should have completed the task. So there should be no item in his worklist.";
+        Assert.assertTrue(ServiceFactory.getWorklistService().getWorklistItems(jannik).size() == 0, failureMessage);
+    }
+    
     @Test
     public void testResumptionOfProcess() throws Exception {
 
         token.executeStep();
         
-        WorklistItem worklistItem = WorklistManager.getWorklistService().getWorklistItems(resource).get(0);
-        WorklistManager.getWorklistService().beginWorklistItem(worklistItem);
+        WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
+        ServiceFactory.getWorklistService().beginWorklistItem(worklistItem);
         
-        WorklistManager.getWorklistService().completeWorklistItem(worklistItem);
+        ServiceFactory.getWorklistService().completeWorklistItem(worklistItem);
         
         String failureMessage = "Token should point to the endNode, but it points to " + token.getCurrentNode().getID() + ".";
         assertEquals(endNode, token.getCurrentNode(), failureMessage);

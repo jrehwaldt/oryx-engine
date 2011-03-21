@@ -2,6 +2,7 @@ package de.hpi.oryxengine.activity.impl;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistManager;
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
@@ -35,7 +36,7 @@ public class HumanTaskActivity extends AbstractActivity {
     @Override
     protected void executeIntern(@Nonnull Token instance) {
 
-        TaskDistribution taskDistribution = WorklistManager.getTaskDistribution();
+        TaskDistribution taskDistribution = ServiceFactory.getTaskDistribution();
         taskDistribution.distribute(task, instance);
         
         instance.suspend();
