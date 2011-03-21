@@ -224,6 +224,7 @@ public class TokenImpl implements Token {
     public void resume()
     throws Exception {
 
+        navigator.removeSuspendToken(this);
         getCurrentNode().getActivity().signal(this);
         List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(tempProcessingTokens);
 
