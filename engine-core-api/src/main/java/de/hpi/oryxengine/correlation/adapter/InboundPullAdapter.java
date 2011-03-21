@@ -15,7 +15,7 @@ extends InboundAdapter {
     /**
      * This method is invoked whenever pulling is requested.
      * 
-     * @throws OryxEngineException may throw an arbitrary exception
+     * @throws OryxEngineException thrown if pulling fails
      */
     void pull()
     throws OryxEngineException;
