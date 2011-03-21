@@ -2,8 +2,6 @@ package de.hpi.oryxengine.exception;
 
 /**
  * Runtime exception that is the superclass of all OryxEngine exceptions.
- * 
- * @author Gerardo Navarro Suarez
  */
 public class OryxEngineException extends Exception {
 
