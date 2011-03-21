@@ -13,6 +13,8 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
+import de.hpi.oryxengine.factory.worklist.TaskFactory;
+import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
@@ -30,31 +32,22 @@ public class WorklistItemLifecycleTest {
 
     private WorklistService worklistService;
     private WorklistItem worklistItem;
-    private Participant participantGerardo;
+    private Participant jannik;
 
     @BeforeMethod
     public void setUp() {
 
         worklistService = ServiceFactory.getWorklistService();
 
-        participantGerardo = ServiceFactory.getIdentityService()
-                                           .getIdentityBuilder()
-                                           .createParticipant("gerardo.navarro-suarez");
-        participantGerardo.setName("Gerardo Navarro Suarez");
-
-        Pattern pushPattern = new SimplePushPattern();
-        Pattern pullPattern = new SimplePullPattern();
-
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-
-        Task task = new TaskImpl("Task Subject!!", "Task Decription!!", allocationStrategies, participantGerardo);
-
-        Token token = new TokenImpl(new NodeImpl(new HumanTaskActivity(null)), new ProcessInstanceContextImpl());
-        Whitebox.setInternalState(token, "tempProcessingTokens", new ArrayList<Token>());
+        Task task = TaskFactory.createJannikServesGerardoTask();
+        jannik = (Participant) task.getAssignedResources().get(0);
+        
+        Token token = new TokenImpl(new NodeImpl(new HumanTaskActivity(null)), new ProcessInstanceContextImpl(), new NavigatorImplMock());
+//        Whitebox.setInternalState(token, "tempProcessingTokens", new ArrayList<Token>());
         
         worklistItem = new WorklistItemImpl(task, token);
 
-        ServiceFactory.getWorklistQueue().addWorklistItem(worklistItem, participantGerardo);
+        ServiceFactory.getWorklistQueue().addWorklistItem(worklistItem, jannik);
     }
 
     @AfterMethod
@@ -66,9 +59,9 @@ public class WorklistItemLifecycleTest {
     @Test
     public void testWorklistItemCreation() {
 
-        Participant participantGerardo = ServiceFactory.getIdentityService().getParticipants().iterator().next();
+        Participant jannik = ServiceFactory.getIdentityService().getParticipants().iterator().next();
         // AllocationsStragegies are not important for that test
-        Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, participantGerardo);
+        Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, jannik);
 
         Token token = Mockito.mock(Token.class);
 
@@ -135,6 +128,6 @@ public class WorklistItemLifecycleTest {
         
 
         Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.COMPLETED);
-        Assert.assertTrue(worklistService.getWorklistItems(participantGerardo).size() == 0);
+        Assert.assertTrue(worklistService.getWorklistItems(jannik).size() == 0);
     }
 }

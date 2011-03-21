@@ -110,41 +110,4 @@ public class HumanTaskActivityTest {
         assertEquals(worklistItem.getSubject(), task.getSubject());
         assertEquals(worklistItem.getDescription(), task.getDescription());
     }
-    
-    /**
-     * Test that the assigned user begins with the humanTask.
-     * @throws Exception 
-     */
-    @Test
-    public void testJannikBeginsTheWorkItem() throws Exception {
-        
-        humanTask.execute(token);
-        
-        WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
-        System.out.println(worklistItem.getStatus());
-        assertEquals(worklistItem.getStatus(), WorklistItemState.ALLOCATED);
-
-        ServiceFactory.getWorklistService().beginWorklistItem(worklistItem);
-        assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
-    }
-
-    /**
-     * Test that the assigned user completes with the humanTask.
-     * @throws Exception 
-     */
-    // TODO: TestCase umstellen
-//    @Test
-//    public void testJannikCompletesTheWorkItem() throws Exception {
-//        
-//        humanTask.execute(token);
-//        
-//        WorklistItem worklistItem = WorklistManager.getWorklistService().getWorklistItems(resource).get(0);
-//        WorklistManager.getWorklistService().beginWorklistItem(worklistItem);
-//        assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
-//        
-//        WorklistManager.getWorklistService().completeWorklistItem(worklistItem);
-//        assertEquals(worklistItem.getStatus(), WorklistItemState.COMPLETED);
-//        String failureMessage = "Jannik should have completed the task. So there should be no item in his worklist.";
-//        assertTrue(WorklistManager.getWorklistService().getWorklistItems(resource).size() == 0, failureMessage);
-//    }
 }
