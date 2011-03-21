@@ -18,7 +18,7 @@ import de.hpi.oryxengine.resource.Role;
  * The enterprise's organization structure consists 4 major elements. It contains:
  * <ul>
  * <li>OrganizationUnits - have Positions and have a superior OrganizationUnit</li>
- * <li>Participants - occupy a certain Position in the company, belongs to a certain role and have certain Capabilities</li>
+ * <li>Participants - occupy a certain Position in the company, belongs to a certain role and has Capabilities</li>
  * <li>Positions - belong to a certain OrganizationUnit and are occupied by a certain Participant</li>
  * <li>Roles - try to summarize certain Participants in a specific context</li>
  * </ul>

@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.correlation;
 
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,7 +12,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.correlation.adapter.PullingInboundAdapter;
+import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
@@ -33,14 +34,14 @@ public class CorrelationManagerImplTest {
 //     */
 //    @Test
 //    public void startProcessInstanceFromCorrelation() throws Exception {
-//        for (PullingInboundAdapter adapter: manager.getPullingAdapters()) {
+//        for (InboundPullAdapter adapter: manager.getPullingAdapters()) {
 //            AdapterEvent event = mock(AdapterEvent.class);
 //            when(event.getEventType()).thenReturn(adapter.getEventType());
 //            manager.correlate(event);
 //            
 //            ArgumentCaptor<UUID> uuid = ArgumentCaptor.forClass(UUID.class);
 //            // timeout(20)
-//            verify(this.navigator).startProcessInstance(uuid.capture());
+//            verify(this.navigator, atLeastOnce()).startProcessInstance(uuid.capture());
 //        }
 //    }
    

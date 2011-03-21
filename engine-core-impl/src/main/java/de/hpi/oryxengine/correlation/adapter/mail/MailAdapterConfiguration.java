@@ -8,12 +8,15 @@ import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.correlation.adapter.PullingAdapterConfiguration;
+import de.hpi.oryxengine.correlation.EventType;
+import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
+import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 
 /**
  * The mail adapter configuration.
  */
-public final class MailAdapterConfiguration implements PullingAdapterConfiguration {
+public final class MailAdapterConfiguration
+implements PullAdapterConfiguration {
     
     /** The user name. */
     private final String userName;
@@ -147,7 +150,7 @@ public final class MailAdapterConfiguration implements PullingAdapterConfigurati
      * {@inheritDoc}
      */
     @Override
-    public long getInterval() {
+    public long getPullInterval() {
         return DEFAULT_INTERVAL;
     }
     
@@ -167,5 +170,20 @@ public final class MailAdapterConfiguration implements PullingAdapterConfigurati
      */
     public MailType getType() {
         return type;
+    }
+
+    @Override
+    public String getUniqueName() {
+        return null;
+    }
+
+    @Override
+    public EventType getEventType() {
+        return null; // TODO
+    }
+    
+    @Override
+    public Class<? extends InboundPullAdapter> getAdapterClass() {
+        return InboundImapMailAdapterImpl.class;
     }
 }

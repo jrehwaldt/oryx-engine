@@ -5,32 +5,38 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.correlation.adapter.PullingInboundAdapter;
+import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.mail.InboundImapMailAdapterImpl;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.MailType;
 import de.hpi.oryxengine.correlation.timing.TimingManagerImpl;
+import de.hpi.oryxengine.exception.EngineInitializationFailedException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 
 /**
  * A concrete implementation of our engines Event Manager.
  */
-public class CorrelationManagerImpl implements CorrelationManager, EventRegistrar {
-
+public class CorrelationManagerImpl
+implements CorrelationManager, EventRegistrar {
+    
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     private Navigator navigator;
-
-    private Map<EventType, PullingInboundAdapter> inboundAdapter;
-
+    private TimingManagerImpl timer;
+    
+    private Map<EventType, InboundPullAdapter> inboundAdapter;
+    
     private List<EventType> startEvents;
     private List<EventType> intermediateEvents;
-    private PullingInboundAdapter adapter;
-
-    private TimingManagerImpl timer;
+    private InboundPullAdapter adapter;
 
     /**
      * Default constructor.
@@ -39,26 +45,38 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
      *            the navigator
      */
     public CorrelationManagerImpl(@Nonnull Navigator navigator) {
-
         this.navigator = navigator;
-        this.inboundAdapter = new HashMap<EventType, PullingInboundAdapter>();
+        this.inboundAdapter = new HashMap<EventType, InboundPullAdapter>();
         this.startEvents = new ArrayList<EventType>();
         this.intermediateEvents = new ArrayList<EventType>();
-
-        this.timer = new TimingManagerImpl(this);
-        Thread t = new Thread(this.timer);
-        this.timer.setThread(t);
-        t.start();
-
+        
+        try {
+            this.timer = new TimingManagerImpl(this);
+        } catch (SchedulerException se) {
+            logger.error("Initializing the scheduler failed. EventManager not available.", se);
+            throw new EngineInitializationFailedException("Creating a timer manager failed.", se);
+        }
+    }
+    
+    /**
+     * This method starts the correlation manager and
+     * its dependent services.
+     */
+    public void start() {
+//        Thread t = new Thread(this.timer);
+//        this.timer.setThread(t);
+//        t.start();
+        // TODO timer JAN
+        
         this.adapter = initializeAdapter();
     }
-
+    
     /**
      * {@inheritDoc}
      */
     @Override
     public void correlate(@Nonnull AdapterEvent event) {
-
+        
         System.out.println("correlating...");
         if (this.startEvents.contains(event.getEventType())) {
             try {
@@ -77,12 +95,12 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
         this.startEvents.add(this.adapter.getEventType());
     }
 
-    PullingInboundAdapter initializeAdapter() {
+    InboundPullAdapter initializeAdapter() {
 
         MailAdapterConfiguration config = new MailAdapterConfiguration(MailType.IMAP, "oryxengine", "dalmatina!",
             "imap.gmail.com", MailType.IMAP.getPort(true), true);
 
-        final PullingInboundAdapter mailAdapter = new InboundImapMailAdapterImpl(this, config);
+        final InboundPullAdapter mailAdapter = new InboundImapMailAdapterImpl(this, config);
         this.inboundAdapter.put(mailAdapter.getEventType(), mailAdapter);
 
         return mailAdapter;
@@ -116,7 +134,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
         this.navigator.startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
     }
 
-    public Collection<PullingInboundAdapter> getPullingAdapters() {
+    public Collection<InboundPullAdapter> getPullingAdapters() {
 
         return this.inboundAdapter.values();
     }

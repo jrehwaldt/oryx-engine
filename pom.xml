@@ -17,6 +17,7 @@
         <logback-version>0.9.28</logback-version>
         <jetty-version>7.3.0.v20110203</jetty-version>
         <jersey-version>1.5</jersey-version>
+        <quartz-scheduler.version>1.8.4</quartz-scheduler.version>
     </properties>
 
     <dependencyManagement>
@@ -106,7 +107,7 @@
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz</artifactId>
-                <version>1.8.4</version>
+                <version>${quartz-scheduler.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.correlation.AdapterEvent;
 import de.hpi.oryxengine.correlation.CorrelationManager;
-import de.hpi.oryxengine.correlation.adapter.PullingInboundAdapter;
+import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 
 /**
  * Tests the imap mail adapter.
@@ -28,7 +28,7 @@ import de.hpi.oryxengine.correlation.adapter.PullingInboundAdapter;
 public class ImapMailAdapterTest {
     
     /** The imap. */
-    private PullingInboundAdapter imap = null;
+    private InboundPullAdapter imap = null;
     
     /** The config. */
     private MailAdapterConfiguration config = null;

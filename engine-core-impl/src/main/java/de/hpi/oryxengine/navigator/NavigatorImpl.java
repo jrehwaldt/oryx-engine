@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.quartz.SchedulerException;
+
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
@@ -55,6 +57,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     /**
      * Instantiates a new navigator implementation.
+     * @throws SchedulerException 
      */
     public NavigatorImpl() {
 
@@ -66,6 +69,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * 
      * @param numberOfThreads
      *            the number of navigator threads
+     * @throws SchedulerException 
      */
     public NavigatorImpl(int numberOfThreads) {
 
