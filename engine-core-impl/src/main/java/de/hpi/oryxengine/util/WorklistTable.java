@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hpi.oryxengine.worklist.Worklist;
 import de.hpi.oryxengine.worklist.WorklistItem;
 
 /**
@@ -13,7 +14,7 @@ import de.hpi.oryxengine.worklist.WorklistItem;
  * @param <K>
  * @param <V>
  */
-public class WorklistTable<K, V extends List<WorklistItem>> extends HashMap<K, V> {
+public class WorklistTable<K, V extends Worklist> extends HashMap<K, V> {
 
     private static final long serialVersionUID = 5188122055091014670L;
 
@@ -24,7 +25,7 @@ public class WorklistTable<K, V extends List<WorklistItem>> extends HashMap<K, V
         
         V worklistItems = super.get(castedKey);
         if (worklistItems == null) {
-            V emptyWorklistItems  = (V) new ArrayList<WorklistItem>();
+            V emptyWorklistItems  = (V) new WorklistImpl();
             return emptyWorklistItems;
         }
         
@@ -32,7 +33,7 @@ public class WorklistTable<K, V extends List<WorklistItem>> extends HashMap<K, V
     }
     
     public void addWorklistItemTo(K key, WorklistItem worklistItem) {
-        List<WorklistItem> worklistItems = get(key);
+        Worklist worklistItems = get(key);
         
         worklistItems.add(worklistItem);
         

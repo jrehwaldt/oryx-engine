@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.resource;
 
+import de.hpi.oryxengine.worklist.Worklist;
+
 /**
  * Represents a resource that is part of the enterprise's organization structure.
  * 
@@ -68,5 +70,14 @@ public interface Resource<R extends Resource<?>> {
      * @return the current Resource object
      */
     R setProperty(String propertyId, Object propertyValue);
+    
+    /**
+     * Retriev
+     * 
+     * es the resource's worklist. 
+     * 
+     * @return the worklist of the resource
+     */
+    Worklist getWorklist();
 
 }

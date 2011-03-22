@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.exception.OryxEngineException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.Resource;
 
@@ -82,5 +83,25 @@ public class WorklistItemImpl implements WorklistItem {
     public Token getCorrespondingToken() {
 
         return correspondingToken;
+    }
+    
+    /**
+     * Translates a WorklistItem into a corresponding WorklistItemImpl object.
+     * 
+     * @param role
+     *            - a {@link WorklistItem} object
+     * @return roleImpl - the casted {@link WorklistItemImpl} object
+     * @throws OryxEngineException
+     *             - an {@link OryxEngineException} if the provided Parameter is null
+     */
+    public static WorklistItemImpl asWorklistItemImpl(WorklistItem worklistItem)
+    throws OryxEngineException {
+
+        if (worklistItem == null) {
+            throw new OryxEngineException("The WorklistItem parameter is null.");
+        }
+        WorklistItemImpl worklistItemImpl = (WorklistItemImpl) worklistItem;
+
+        return worklistItemImpl;
     }
 }

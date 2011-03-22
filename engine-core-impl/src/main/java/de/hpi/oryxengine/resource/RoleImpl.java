@@ -4,6 +4,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.hpi.oryxengine.resource.worklist.RoleWorklist;
+import de.hpi.oryxengine.worklist.Worklist;
+
 /**
  * Implementation of the {@link Role} interface.
  * 
@@ -61,6 +64,16 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
             participants = new HashSet<ParticipantImpl>();
         }
         return participants;
+    }
+    
+    @Override
+    public Worklist getWorklist() {
+
+        if (worklist == null) {
+
+            worklist = new RoleWorklist();
+        }
+        return worklist;
     }
 
 }

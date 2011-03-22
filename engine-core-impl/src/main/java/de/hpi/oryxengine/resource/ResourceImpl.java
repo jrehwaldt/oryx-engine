@@ -3,6 +3,9 @@ package de.hpi.oryxengine.resource;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
+import de.hpi.oryxengine.worklist.Worklist;
+
 /**
  * ResourceImpl is the implementation of the {@link Resource} interface.
  * 
@@ -20,7 +23,8 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     
     /** The property table. */
     protected Map<String, Object> propertyTable;
-
+    
+    protected Worklist worklist;
     /**
      * Default Constructor.
      * 
@@ -182,5 +186,11 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     public ResourceType getType() {
 
         return resourceType;
+    }
+
+    @Override
+    public Worklist getWorklist() {
+
+        return new EmptyWorklist();
     }
 }

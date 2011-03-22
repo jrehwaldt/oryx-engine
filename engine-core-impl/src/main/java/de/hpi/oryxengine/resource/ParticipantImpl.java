@@ -4,6 +4,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
+import de.hpi.oryxengine.worklist.Worklist;
+
 /**
  * Implementation of the {@link Participant} Interface.
  */
@@ -11,17 +14,18 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
 
     /** My {@link Position}s. */
     private Set<PositionImpl> myPositions;
-    
+
     /** My {@link Capability}s. */
     private Set<Capability> myCapabilities;
-    
+
     /** My {@link Role}s. */
     private Set<RoleImpl> myRoles;
 
     /**
      * Instantiates a new {@link ParticipantImpl}.
-     *
-     * @param participantId the participant id
+     * 
+     * @param participantId
+     *            the participant id
      */
     public ParticipantImpl(String participantId) {
 
@@ -30,9 +34,8 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
 
     /**
      * Gets the my positions.
-     *
-     * @return the my positions
-     * {@inheritDoc}
+     * 
+     * @return the my positions {@inheritDoc}
      */
     @Override
     public Set<Position> getMyPositions() {
@@ -43,7 +46,7 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
 
     /**
      * Gets the my position impls.
-     *
+     * 
      * @return the my position impls
      */
     protected Set<PositionImpl> getMyPositionImpls() {
@@ -72,7 +75,7 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
 
     /**
      * Gets the my roles impl.
-     *
+     * 
      * @return the my roles impl
      */
     protected Set<RoleImpl> getMyRolesImpl() {
@@ -90,4 +93,13 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
     // return this;
     // }
 
+    @Override
+    public Worklist getWorklist() {
+
+        if (worklist == null) {
+
+            worklist = new ParticipantWorklist(this);
+        }
+        return worklist;
+    }
 }

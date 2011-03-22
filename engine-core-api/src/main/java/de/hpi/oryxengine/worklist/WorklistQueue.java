@@ -9,6 +9,7 @@ import de.hpi.oryxengine.resource.Resource;
  * Is the internal interface for operating on the Worklists. This interface is used by the patterns in order to query
  * and modify the queues.
  */
+// TODO Change Name
 public interface WorklistQueue extends WorklistService {
 
     /**

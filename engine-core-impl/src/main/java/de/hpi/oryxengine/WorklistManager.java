@@ -14,6 +14,7 @@ import de.hpi.oryxengine.worklist.Pattern;
 import de.hpi.oryxengine.worklist.ResourceViewResolver;
 import de.hpi.oryxengine.worklist.Task;
 import de.hpi.oryxengine.worklist.TaskDistribution;
+import de.hpi.oryxengine.worklist.Worklist;
 import de.hpi.oryxengine.worklist.WorklistItem;
 import de.hpi.oryxengine.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.worklist.WorklistItemState;
@@ -24,24 +25,27 @@ import de.hpi.oryxengine.worklist.WorklistQueue;
  */
 public class WorklistManager implements WorklistService, TaskDistribution, WorklistQueue {
 
-    private WorklistTable<Resource<?>, List<WorklistItem>> lazyWorklistTable;
+    private WorklistTable<Resource<?>, Worklist> lazyWorklistTable;
 
     @Override
     public void addWorklistItem(WorklistItem worklistItem, Resource<?> resourceToFillIn) {
 
-//        List<WorklistItem> worklistForResources = getWorklistTable().get(resourceToFillIn);
-//        if (worklistForResources == null) {
-//
-//            worklistForResources = new ArrayList<WorklistItem>();
-//            worklistForResources.add(worklistItem);
-//            getWorklistTable().put(resourceToFillIn, worklistForResources);
-//
-//        } else {
-//
-//            worklistForResources.add(worklistItem);
-//        }
-        getWorklistTable().addWorklistItemTo(resourceToFillIn, worklistItem);
-        
+        // List<WorklistItem> worklistForResources = getWorklistTable().get(resourceToFillIn);
+        // if (worklistForResources == null) {
+        //
+        // worklistForResources = new ArrayList<WorklistItem>();
+        // worklistForResources.add(worklistItem);
+        // getWorklistTable().put(resourceToFillIn, worklistForResources);
+        //
+        // } else {
+        //
+        // worklistForResources.add(worklistItem);
+        // }
+
+        // getWorklistTable().addWorklistItemTo(resourceToFillIn, worklistItem);
+
+        resourceToFillIn.getWorklist().getWorklistItems().add(worklistItem);
+
     }
 
     @Override
@@ -72,12 +76,17 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
 
     /**
      * {@inheritDoc}
-     * @throws OryxEngineException 
+     * 
+     * @throws OryxEngineException
      */
     @Override
     public void claimWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws OryxEngineException {
 
-        WorklistItemImpl worklistItemImpl = extractWorklistItemImplFrom(worklistItem);
+        for (Resource<?> resource2 : worklistItem.getAssignedResources()) {
+            resource2.getWorklist().itemIsAllocated(worklistItem);
+        }
+        
+        resource.getWorklist().addWorklistItem(worklistItem);
         
         for (Resource<?> resourceAssignedToWorklist : worklistItemImpl.getAssignedResources()) {
             List<WorklistItem> worklistItemsAssignedResource = getWorklistTable().get(resourceAssignedToWorklist);
@@ -100,73 +109,56 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
 
     /**
      * {@inheritDoc}
-     * @throws Exception 
+     * 
+     * @throws Exception
      */
     @Override
-    public void completeWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws Exception {
-        
-        WorklistItemImpl worklistItemImpl = extractWorklistItemImplFrom(worklistItem);
+    public void completeWorklistItemBy(WorklistItem worklistItem, Resource<?> resource)
+    throws Exception {
+
+        WorklistItemImpl worklistItemImpl = asWorklistItemImpl(worklistItem);
         worklistItemImpl.setStatus(WorklistItemState.COMPLETED);
-        
+
         for (Resource<?> assignedResource : worklistItemImpl.getAssignedResources()) {
             getWorklistTable().get(assignedResource).remove(worklistItemImpl);
         }
-        
+
         worklistItemImpl.getCorrespondingToken().resume();
     }
 
     @Override
     public List<WorklistItem> getWorklistItems(@Nonnull Resource<?> resource) {
 
-        List<WorklistItem> worklistItemsForResource = new ArrayList<WorklistItem>();
-        
-        List<Resource<?>> resourcesRelatedToResource = ResourceViewResolver.extractResourcesFor(resource);
-        
-        for (Resource<?> relatedResource : resourcesRelatedToResource) {
-            
-            List<WorklistItem> worklistItemsOfRelatedResource = getWorklistTable().get(relatedResource);
-            worklistItemsForResource.addAll(worklistItemsOfRelatedResource);
-        }
-        
-        List<WorklistItem> worklistItemsOfResource = getWorklistTable().get(resource);
-        worklistItemsForResource.addAll(worklistItemsOfResource);
-        
-        return worklistItemsForResource;
+        return getWorklistTable().get(resource).getWorklistItems();
+
+        // List<Resource<?>> resourcesRelatedToResource = ResourceViewResolver.extractResourcesFor(resource);
+        //
+        // for (Resource<?> relatedResource : resourcesRelatedToResource) {
+        //
+        // List<WorklistItem> worklistItemsOfRelatedResource =
+        // getWorklistTable().get(relatedResource).getWorklistItems();
+        // worklistItemsForResource.addAll(worklistItemsOfRelatedResource);
+        // }
+        //
+        // List<WorklistItem> worklistItemsOfResource = getWorklistTable().get(resource);
+        // worklistItemsForResource.addAll(worklistItemsOfResource);
+        //
+        // return worklistItemsForResource;
     }
 
-    private WorklistTable<Resource<?>, List<WorklistItem>> getWorklistTable() {
+    private WorklistTable<Resource<?>, Worklist> getWorklistTable() {
 
         if (lazyWorklistTable == null) {
-            lazyWorklistTable = new WorklistTable<Resource<?>, List<WorklistItem>>();
+            lazyWorklistTable = new WorklistTable<Resource<?>, Worklist>();
         }
         return lazyWorklistTable;
     }
 
     @Override
-    public void beginWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws OryxEngineException {
-
-        WorklistItemImpl worklistItemImpl = extractWorklistItemImplFrom(worklistItem);
-        worklistItemImpl.setStatus(WorklistItemState.EXECUTING);
-    }
-
-    /**
-     * Translates a WorklistItem into a corresponding WorklistItemImpl object.
-     * 
-     * @param role
-     *            - a {@link WorklistItem} object
-     * @return roleImpl - the casted {@link WorklistItemImpl} object
-     * @throws OryxEngineException
-     *             - an {@link OryxEngineException} if the provided Parameter is null
-     */
-    private WorklistItemImpl extractWorklistItemImplFrom(WorklistItem worklistItem)
+    public void beginWorklistItemBy(WorklistItem worklistItem, Resource<?> resource)
     throws OryxEngineException {
 
-        if (worklistItem == null) {
-            throw new OryxEngineException("The WorklistItem parameter is null.");
-        }
-        WorklistItemImpl worklistItemImpl = (WorklistItemImpl) worklistItem;
-
-        return worklistItemImpl;
+        WorklistItemImpl worklistItemImpl = asWorklistItemImpl(worklistItem);
+        worklistItemImpl.setStatus(WorklistItemState.EXECUTING);
     }
-
 }
