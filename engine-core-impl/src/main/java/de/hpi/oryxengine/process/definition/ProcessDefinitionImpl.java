@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.StartNode;
 
 /**
  * The Class ProcessDefinitionImpl.
@@ -17,7 +18,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
     private UUID id;
     
     /** The start nodes. */
-    private List<Node> startNodes;
+    private List<StartNode> startNodes;
     
     /**
      * Instantiates a new process definition. A UUID is generated randomly.
@@ -26,7 +27,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
      * @param description the description
      * @param startNodes the initial nodes that refer to the whole node-tree
      */
-    public ProcessDefinitionImpl(UUID id, String description, List<Node> startNodes) {
+    public ProcessDefinitionImpl(UUID id, String description, List<StartNode> startNodes) {
         this.id = id;
         this.description = description;
         this.startNodes = startNodes;
@@ -63,7 +64,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
      * {@inheritDoc}
      */
     @Override
-    public List<Node> getStartNodes() {
+    public List<StartNode> getStartNodes() {
 
         return startNodes;
     }

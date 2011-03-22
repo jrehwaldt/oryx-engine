@@ -2,10 +2,12 @@ package de.hpi.oryxengine.deploy;
 
 import java.util.UUID;
 
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
- * The Interface Deployer. Use this class to deploy processes in the engine, not the repository itself.
+ * The Interface Deployer. Use this class to deploy processes in the engine, not the repository itself. You can deploy
+ * processes to a specific navigator.
  */
 public interface Deployer {
 
@@ -14,22 +16,28 @@ public interface Deployer {
      * 
      * @param def
      *            the def
+     * @param nav
+     *            the navigator we want to deploy this to
      */
-    void deploy(ProcessDefinition def);
+    void deploy(ProcessDefinition def, Navigator nav);
 
     /**
      * Deactivate.
      * 
      * @param id
      *            the id
+     * @param nav
+     *            the nav
      */
-    void deactivate(UUID id);
+    void deactivate(UUID id, Navigator nav);
 
     /**
      * Delete.
      * 
      * @param id
      *            the id
+     * @param nav
+     *            the nav
      */
-    void delete(UUID id);
+    void delete(UUID id, Navigator nav);
 }
