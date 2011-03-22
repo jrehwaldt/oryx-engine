@@ -18,7 +18,6 @@ import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.repository.ProcessRepository;
-import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
 
 /**
@@ -28,13 +27,13 @@ import de.hpi.oryxengine.repository.RepositorySetup;
 public class SchedulerEmptyListenerTest {
 
     /** The scheduler. */
-    private FIFOScheduler scheduler;
+    private FIFOScheduler scheduler = null;
     
     /** The mocki gene. */
-    private LoadGenerator mockiGene;
+    private LoadGenerator mockiGene = null;
     
     /** The pi. */
-    private Token pi;
+    private Token pi = null;
 
     /**
      * Sets the up repo.
