@@ -148,9 +148,10 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public Capability createCapability(String capabilityId) {
 
         // hier könnte man das FlyWeight-Pattern verwenden ...
-        Capability capability = new CapabilityImpl(capabilityId);
+//        Capability capability = new CapabilityImpl(capabilityId);
 
-        return capability;
+//        return capability;
+        return null;
     }
 
     // -------- OrganizationUnit Builder Methods ------
