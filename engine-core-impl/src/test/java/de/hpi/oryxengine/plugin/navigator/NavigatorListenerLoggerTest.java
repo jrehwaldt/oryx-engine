@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.navigator.NavigatorState;
 
