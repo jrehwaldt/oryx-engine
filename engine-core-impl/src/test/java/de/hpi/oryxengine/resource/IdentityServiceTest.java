@@ -8,11 +8,6 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.OrganizationUnit;
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Position;
-import de.hpi.oryxengine.resource.Role;
 
 /**
  * Tests the IdentityService.
@@ -22,7 +17,7 @@ import de.hpi.oryxengine.resource.Role;
 public class IdentityServiceTest {
     
     /** The identity service. */
-    private IdentityService identityService;
+    private IdentityService identityService = null;
 
     /**
      * Before class.

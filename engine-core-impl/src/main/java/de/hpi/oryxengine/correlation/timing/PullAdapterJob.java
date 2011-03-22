@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
-import de.hpi.oryxengine.exception.OryxEngineException;
+import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
  * This is a quartz-scheduler job implementation for
@@ -34,7 +34,7 @@ implements Job {
         InboundPullAdapter adapter = (InboundPullAdapter) data.get(ADAPTER_KEY);
         try {
             adapter.pull();
-        } catch (OryxEngineException oee) {
+        } catch (DalmatinaException oee) {
             logger.error("Adapter failed while pulling.", oee);
             // TODO exception handling
         }

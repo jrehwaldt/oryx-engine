@@ -17,7 +17,7 @@ public class ServiceFactory {
      * 
      * @return the worklist manager instance
      */
-    protected static WorklistManager getWorklistManagerInstance() {
+    protected synchronized static WorklistManager getWorklistManagerInstance() {
 
         if (worklistManager == null) {
             worklistManager = new WorklistManager();
@@ -56,7 +56,7 @@ public class ServiceFactory {
         return getWorklistManagerInstance();
     }
     
-    public static IdentityService getIdentityService() {
+    public synchronized static IdentityService getIdentityService() {
 
         if (identityService == null) {
             identityService = new IdentityServiceImpl();

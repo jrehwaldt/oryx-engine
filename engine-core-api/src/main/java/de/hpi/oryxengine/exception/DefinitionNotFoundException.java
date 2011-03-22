@@ -3,7 +3,7 @@ package de.hpi.oryxengine.exception;
 /**
  * The Class DefinitionNotFoundException.
  */
-public class DefinitionNotFoundException extends OryxEngineException {
+public class DefinitionNotFoundException extends DalmatinaException {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;

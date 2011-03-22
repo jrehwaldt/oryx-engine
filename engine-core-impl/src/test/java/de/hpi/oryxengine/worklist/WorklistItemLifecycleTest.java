@@ -1,9 +1,6 @@
 package de.hpi.oryxengine.worklist;
 
-import java.util.ArrayList;
-
 import org.mockito.Mockito;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -20,8 +17,6 @@ import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.worklist.pattern.SimplePullPattern;
-import de.hpi.oryxengine.worklist.pattern.SimplePushPattern;
 
 /**
  * Checking the Lifecycle of a WorklistItem.
@@ -30,9 +25,9 @@ import de.hpi.oryxengine.worklist.pattern.SimplePushPattern;
  */
 public class WorklistItemLifecycleTest {
 
-    private WorklistService worklistService;
-    private WorklistItem worklistItem;
-    private Participant jannik;
+    private WorklistService worklistService = null;
+    private WorklistItem worklistItem = null;
+    private Participant jannik = null;
 
     @BeforeMethod
     public void setUp() {

@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.resource;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.exception.OryxEngineException;
+import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
  * Implementation of {@link IdentityBuilder} Interface.
@@ -42,7 +42,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder deleteParticipant(Participant participant)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
 
@@ -56,7 +56,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder participantOccupiesPosition(Participant participant, Position position)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         PositionImpl positionImpl = extractPositionImplFrom(position);
         ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
@@ -76,7 +76,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder participantDoesNotOccupyPosition(Participant participant, Position position)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         PositionImpl positionImpl = extractPositionImplFrom(position);
         ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
@@ -94,7 +94,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder participantBelongsToRole(Participant participant, Role role)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         RoleImpl roleImpl = extractRoleImplFrom(role);
         ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
@@ -107,7 +107,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder participantDoesNotBelongToRole(Participant participant, Role role)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         RoleImpl roleImpl = extractRoleImplFrom(role);
         ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
@@ -125,19 +125,19 @@ public class IdentityBuilderImpl implements IdentityBuilder {
      * @param participant
      *            - a Participant object
      * @return participantImpl - the casted Participant object
-     * @throws OryxEngineException
+     * @throws DalmatinaException
      *             the oryx engine exception
      */
     private ParticipantImpl extractParticipantImplFrom(Participant participant)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         if (participant == null) {
-            throw new OryxEngineException("The Participant parameter is null.");
+            throw new DalmatinaException("The Participant parameter is null.");
         }
 
         ParticipantImpl participantImpl = (ParticipantImpl) participant;
         if (!identityService.getParticipantImpls().contains(participantImpl)) {
-            throw new OryxEngineException("There exists no Participant with the id " + participant.getId() + ".");
+            throw new DalmatinaException("There exists no Participant with the id " + participant.getId() + ".");
         }
         return participantImpl;
     }
@@ -173,7 +173,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder deleteOrganizationUnit(OrganizationUnit organizationUnit)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(organizationUnit);
 
@@ -192,13 +192,13 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder subOrganizationUnitOf(OrganizationUnit subOrganizationUnit,
                                                  OrganizationUnit superOrganizationUnit)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(subOrganizationUnit);
         OrganizationUnitImpl superOrganizationUnitImpl = extractOrganizationUnitImplFrom(superOrganizationUnit);
 
         if (organizationUnitImpl.equals(superOrganizationUnitImpl)) {
-            throw new OryxEngineException("The OrganizationUnit cannot be the superior of yourself.");
+            throw new DalmatinaException("The OrganizationUnit cannot be the superior of yourself.");
         }
 
         organizationUnitImpl.setSuperOrganizationUnit(superOrganizationUnitImpl);
@@ -210,7 +210,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder organizationUnitOffersPosition(OrganizationUnit organizationUnit, Position position)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         PositionImpl positionImpl = extractPositionImplFrom(position);
         OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(organizationUnit);
@@ -230,7 +230,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder organizationUnitDoesNotOfferPosition(OrganizationUnit organizationUnit, Position position)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         PositionImpl positionImpl = extractPositionImplFrom(position);
         OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(organizationUnit);
@@ -249,19 +249,19 @@ public class IdentityBuilderImpl implements IdentityBuilder {
      * @param organizationUnit
      *            - a OrganizationUnit object
      * @return organizationUnitImpl - the casted OrganizationUnit object
-     * @throws OryxEngineException
+     * @throws DalmatinaException
      *             the oryx engine exception
      */
     private OrganizationUnitImpl extractOrganizationUnitImplFrom(OrganizationUnit organizationUnit)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         if (organizationUnit == null) {
-            throw new OryxEngineException("The OrganizationUnit parameter is null.");
+            throw new DalmatinaException("The OrganizationUnit parameter is null.");
         }
 
         OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) organizationUnit;
         if (!identityService.getOrganizationUnitImpls().contains(organizationUnitImpl)) {
-            throw new OryxEngineException("There exists no OrganizationUnit with the id " + organizationUnit.getId()
+            throw new DalmatinaException("There exists no OrganizationUnit with the id " + organizationUnit.getId()
                 + ".");
         }
         return organizationUnitImpl;
@@ -287,13 +287,13 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         PositionImpl positionImpl = extractPositionImplFrom(position);
         PositionImpl superiorPositionImpl = extractPositionImplFrom(superiorPosition);
 
         if (positionImpl.equals(superiorPositionImpl)) {
-            throw new OryxEngineException("The Position '" + positionImpl.getId()
+            throw new DalmatinaException("The Position '" + positionImpl.getId()
                 + "' cannot be the superior of yourself.");
         }
 
@@ -306,7 +306,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder deletePosition(Position position)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         PositionImpl positionImpl = extractPositionImplFrom(position);
 
@@ -327,19 +327,19 @@ public class IdentityBuilderImpl implements IdentityBuilder {
      * @param position
      *            - a Position object
      * @return positionImpl - the casted Position object
-     * @throws OryxEngineException
+     * @throws DalmatinaException
      *             the oryx engine exception
      */
     private PositionImpl extractPositionImplFrom(Position position)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         if (position == null) {
-            throw new OryxEngineException("The Position parameter is null.");
+            throw new DalmatinaException("The Position parameter is null.");
         }
 
         PositionImpl positionImpl = (PositionImpl) position;
         if (!identityService.getPositionImpls().contains(positionImpl)) {
-            throw new OryxEngineException("There exists no Position with the id " + position.getId() + ".");
+            throw new DalmatinaException("There exists no Position with the id " + position.getId() + ".");
         }
         return positionImpl;
     }
@@ -364,7 +364,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder deleteRole(Role role)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         RoleImpl roleImpl = extractRoleImplFrom(role);
 
@@ -390,18 +390,18 @@ public class IdentityBuilderImpl implements IdentityBuilder {
      * @param role
      *            - a Role object
      * @return roleImpl - the casted Role object
-     * @throws OryxEngineException
+     * @throws DalmatinaException
      *             the oryx engine exception
      */
     private RoleImpl extractRoleImplFrom(Role role)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         if (role == null) {
-            throw new OryxEngineException("The Role parameter is null.");
+            throw new DalmatinaException("The Role parameter is null.");
         }
         RoleImpl roleImpl = (RoleImpl) role;
         if (!identityService.getRoleImpls().contains(roleImpl)) {
-            throw new OryxEngineException("There exists no Role with the id " + role.getId() + ".");
+            throw new DalmatinaException("There exists no Role with the id " + role.getId() + ".");
         }
         return roleImpl;
     }

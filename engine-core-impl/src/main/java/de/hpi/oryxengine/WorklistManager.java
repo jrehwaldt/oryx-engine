@@ -8,7 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.exception.OryxEngineException;
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.worklist.Pattern;
@@ -83,10 +83,10 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
 
     /**
      * {@inheritDoc}
-     * @throws OryxEngineException 
+     * @throws DalmatinaException 
      */
     @Override
-    public void claimWorklistItem(WorklistItem worklistItem) throws OryxEngineException {
+    public void claimWorklistItem(WorklistItem worklistItem) throws DalmatinaException {
 
         WorklistItemImpl worklistItemImpl = extractWorklistItemImplFrom(worklistItem);
         worklistItemImpl.setStatus(WorklistItemState.ALLOCATED);
@@ -104,10 +104,9 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
 
     /**
      * {@inheritDoc}
-     * @throws Exception 
      */
     @Override
-    public void completeWorklistItem(WorklistItem worklistItem) throws Exception {
+    public void completeWorklistItem(WorklistItem worklistItem) throws DalmatinaException {
         
         WorklistItemImpl worklistItemImpl = extractWorklistItemImplFrom(worklistItem);
         worklistItemImpl.setStatus(WorklistItemState.COMPLETED);
@@ -139,7 +138,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
     }
 
     @Override
-    public void beginWorklistItem(WorklistItem worklistItem) throws OryxEngineException {
+    public void beginWorklistItem(WorklistItem worklistItem) throws DalmatinaException {
 
         WorklistItemImpl worklistItemImpl = extractWorklistItemImplFrom(worklistItem);
         worklistItemImpl.setStatus(WorklistItemState.EXECUTING);
@@ -148,17 +147,17 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
     /**
      * Translates a WorklistItem into a corresponding WorklistItemImpl object.
      * 
-     * @param role
+     * @param worklistItem
      *            - a {@link WorklistItem} object
      * @return roleImpl - the casted {@link WorklistItemImpl} object
-     * @throws OryxEngineException
-     *             - an {@link OryxEngineException}
+     * @throws DalmatinaException
+     *             - an {@link DalmatinaException}
      */
     private WorklistItemImpl extractWorklistItemImplFrom(WorklistItem worklistItem)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         if (worklistItem == null) {
-            throw new OryxEngineException("The WorklistItem parameter is null.");
+            throw new DalmatinaException("The WorklistItem parameter is null.");
         }
         WorklistItemImpl worklistItemImpl = (WorklistItemImpl) worklistItem;
 

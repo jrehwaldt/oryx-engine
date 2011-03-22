@@ -29,9 +29,9 @@ import de.hpi.oryxengine.resource.Resource;
  */
 public class HumanTaskUserStoryTest {
 
-    Token token;
-    Resource<?> jannik;
-    Node endNode;
+    private Token token = null;
+    private Resource<?> jannik = null;
+    private Node endNode = null;
     
     @BeforeMethod
     public void setUp()

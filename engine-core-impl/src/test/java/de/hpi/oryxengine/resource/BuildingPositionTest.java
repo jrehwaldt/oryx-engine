@@ -6,9 +6,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.exception.OryxEngineException;
-import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.Position;
+import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
  * Tests the building of {@link Position}s in the organization structure.
@@ -16,13 +14,13 @@ import de.hpi.oryxengine.resource.Position;
 public class BuildingPositionTest {
 
     /** The identity service. */
-    private IdentityService identityService;
+    private IdentityService identityService = null;
     
     /** The identity builder. */
-    private IdentityBuilder identityBuilder;
+    private IdentityBuilder identityBuilder = null;
     
     /** The position. */
-    private Position position;
+    private Position position = null;
 
     /**
      * Before method.
@@ -77,7 +75,7 @@ public class BuildingPositionTest {
      *
      * @throws Exception the exception
      */
-    @Test(expectedExceptions = OryxEngineException.class)
+    @Test(expectedExceptions = DalmatinaException.class)
     public void testNotBeingSuperiorOfYourself() throws Exception {
 
         identityBuilder.positionReportsToSuperior(position, position);

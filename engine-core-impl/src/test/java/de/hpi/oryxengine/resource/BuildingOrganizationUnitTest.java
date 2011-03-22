@@ -6,10 +6,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.exception.OryxEngineException;
-import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.OrganizationUnit;
-import de.hpi.oryxengine.resource.Position;
+import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
  * Tests the building of {@link OrganizationUnit}s in the organization structure.
@@ -17,13 +14,13 @@ import de.hpi.oryxengine.resource.Position;
 public class BuildingOrganizationUnitTest {
 
     /** The identity service. */
-    private IdentityService identityService;
+    private IdentityService identityService = null;
     
     /** The identity builder. */
-    private IdentityBuilder identityBuilder;
+    private IdentityBuilder identityBuilder = null;
     
     /** The organization unit. */
-    private OrganizationUnit organizationUnit;
+    private OrganizationUnit organizationUnit = null;
 
     /**
      * Before method.
@@ -237,7 +234,7 @@ public class BuildingOrganizationUnitTest {
      *
      * @throws Exception the exception
      */
-    @Test(expectedExceptions = OryxEngineException.class)
+    @Test(expectedExceptions = DalmatinaException.class)
     public void testNotBeingSuperOrganizationUnitOfYourself() throws Exception {
 
         identityBuilder.subOrganizationUnitOf(organizationUnit, organizationUnit);

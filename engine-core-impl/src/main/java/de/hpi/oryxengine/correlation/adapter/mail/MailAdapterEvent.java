@@ -160,6 +160,6 @@ public class MailAdapterEvent implements AdapterEvent {
     
     @Override
     public Date getTimestamp() {
-        return null;
+        return null; // TODO
     }
 }

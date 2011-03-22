@@ -6,9 +6,6 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Role;
 
 /**
  * Tests the building of {@link Role}s in the organization structure.
@@ -16,13 +13,13 @@ import de.hpi.oryxengine.resource.Role;
 public class BuildingRoleTest {
 
     /** The identity service. */
-    private IdentityService identityService;
+    private IdentityService identityService = null;
     
     /** The identity builder. */
-    private IdentityBuilder identityBuilder;
+    private IdentityBuilder identityBuilder = null;
     
     /** The admin role. */
-    private Role adminRole;
+    private Role adminRole = null;
 
     /**
      * Before method.

@@ -3,6 +3,7 @@ package de.hpi.oryxengine.process.token;
 import java.util.List;
 import java.util.UUID;
 
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
@@ -42,7 +43,6 @@ extends Identifiable {
     /**
      * Executes a step for the given instance, which is usually a single step beginning with the current node.
      *
-     * @return the list of new ProcessInstances that result after the next step is performed.
      * @throws Exception the exception
      */
     void executeStep() throws Exception;
@@ -105,9 +105,10 @@ extends Identifiable {
     void suspend();
 
     /**
+     * Continuing the token navigation.
      * 
-     * Continueing the token navigation.
+     * @throws DalmatinaException thrown if navigation fails
      */
     // TODO Info-Object muss übergeben werden von wem das Token resumed wurde
-    void resume() throws Exception;
+    void resume() throws DalmatinaException;
 }

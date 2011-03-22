@@ -75,7 +75,7 @@ public final class SimpleExampleProcess {
         SimpleJoinBehaviour incoming = new SimpleJoinBehaviour();
         TakeAllSplitBehaviour outgoing = new TakeAllSplitBehaviour();
         NodeImpl startNode = new NodeImpl(activity, incoming, outgoing);
-        NodeImpl secondNode = new NodeImpl(activity2);;
+        NodeImpl secondNode = new NodeImpl(activity2);
         startNode.transitionTo(secondNode);
 
         TokenImpl sampleInstance = new TokenImpl(startNode);

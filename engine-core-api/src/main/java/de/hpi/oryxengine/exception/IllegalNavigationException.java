@@ -4,7 +4,7 @@ package de.hpi.oryxengine.exception;
  * The Class IllegalNavigationException.
  * Is called if someone invokes an undefined navigation-task on ProcessInstance
  */
-public class IllegalNavigationException extends OryxEngineException {
+public class IllegalNavigationException extends DalmatinaException {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;

@@ -35,10 +35,10 @@ import de.hpi.oryxengine.worklist.pattern.SimplePushPattern;
  */
 public class HumanTaskActivityTest {
 
-    private Task task;
-    private Resource<?> resource;
+    private Task task = null;
+    private Resource<?> resource = null;
     
-    private HumanTaskActivity humanTask;
+    private HumanTaskActivity humanTask = null;
     
     private Token token;
 

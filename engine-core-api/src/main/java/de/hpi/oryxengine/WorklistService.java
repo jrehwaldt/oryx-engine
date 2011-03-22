@@ -3,6 +3,7 @@ package de.hpi.oryxengine;
 import java.util.List;
 import java.util.Map;
 
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.worklist.WorklistItem;
 
@@ -33,29 +34,33 @@ public interface WorklistService {
      * Claims a {@link WorklistItem}. 
      * 
      * @param worklistItem - {@link WorklistItem} that should be claimed
+     * @throws DalmatinaException thrown if claim fails
      */
-    void claimWorklistItem(WorklistItem worklistItem) throws Exception;
+    void claimWorklistItem(WorklistItem worklistItem) throws DalmatinaException;
 
     /**
-     * Claims a {@link WorklistItem}. 
+     * Begin a {@link WorklistItem}. 
      * 
      * @param worklistItem - {@link WorklistItem} that should be claimed
+     * @throws DalmatinaException thrown if begin fails
      */
-    void beginWorklistItem(WorklistItem worklistItem) throws Exception;
+    void beginWorklistItem(WorklistItem worklistItem) throws DalmatinaException;
 
     /**
      * Completes a {@link WorklistItem}.
      * 
      * @param worklistItem - {@link WorklistItem} that was completed
+     * @throws DalmatinaException thrown if completing fails
      */
-    void completeWorklistItem(WorklistItem worklistItem) throws Exception;
+    void completeWorklistItem(WorklistItem worklistItem) throws DalmatinaException;
 
     /**
      * Aborts a {@link WorklistItem}. 
      * 
      * @param worklistItem - {@link WorklistItem} that is aborted
+     * @throws DalmatinaException thrown if aborting fails
      */
-    void abortWorklistItem(WorklistItem worklistItem) throws Exception;
+    void abortWorklistItem(WorklistItem worklistItem) throws DalmatinaException;
     
     // TODO: Observable Interface für die GUI
 }
