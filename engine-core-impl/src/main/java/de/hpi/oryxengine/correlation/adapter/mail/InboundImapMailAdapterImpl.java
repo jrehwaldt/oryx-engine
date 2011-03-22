@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.correlation.adapter.mail;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.mail.Folder;
@@ -9,10 +10,10 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.hpi.oryxengine.correlation.CorrelationManager;
+import de.hpi.oryxengine.correlation.adapter.AbstractCorrelationAdapter;
+import de.hpi.oryxengine.correlation.adapter.AdapterType;
+import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.exception.DalmatinaException;
 
@@ -21,19 +22,9 @@ import de.hpi.oryxengine.exception.DalmatinaException;
  *
  * {@link CorrelationManager}.
  */
-public class InboundImapMailAdapterImpl implements InboundPullAdapter {
-    
-    /** The logger. */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    
-    /** The configuration. */
-    private final MailAdapterConfiguration configuration;
-    
-    /** The type. */
-    private final MailEvent type;
-    
-    /** The correlation. */
-    private final CorrelationManager correlation;
+public class InboundImapMailAdapterImpl
+extends AbstractCorrelationAdapter<MailAdapterConfiguration>
+implements InboundPullAdapter {
     
     /**
      * Default constructor.
@@ -46,33 +37,15 @@ public class InboundImapMailAdapterImpl implements InboundPullAdapter {
     @SuppressWarnings("restriction")
     public InboundImapMailAdapterImpl(@Nonnull CorrelationManager correlation,
                                       @Nonnull MailAdapterConfiguration configuration) {
-        this.correlation = correlation;
-        this.configuration = configuration;
-        this.type = new MailEvent();
-        logger.info("MailAdapter initialized with config: {}", this.configuration);
+        super(correlation, configuration);
+        
+        this.logger.info("MailAdapter initialized with config: {}", this.configuration);
         
         if (this.configuration.isUseSSL()) {
             java.security.Security.addProvider(
                 new com.sun.net.ssl.internal.ssl.Provider()
              );
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MailEvent getEventType() {
-        return this.type;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public @Nonnull
-    MailAdapterConfiguration getConfiguration() {
-        return this.configuration;
     }
 
     /**
@@ -137,6 +110,6 @@ public class InboundImapMailAdapterImpl implements InboundPullAdapter {
      */
     private void processMessage(@Nonnull Message message)
     throws IOException, MessagingException {
-        this.correlation.correlate(new MailAdapterEvent(getEventType(), message));
+        correlate(new MailAdapterEvent(this.configuration, message));
     }
 }

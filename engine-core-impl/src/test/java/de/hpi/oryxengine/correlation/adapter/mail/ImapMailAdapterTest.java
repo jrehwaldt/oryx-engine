@@ -49,11 +49,11 @@ public class ImapMailAdapterTest {
         
         this.mock = mock(CorrelationManager.class);
         this.config = new MailAdapterConfiguration(
-            MailType.IMAP,
+            MailProtocol.IMAP,
             "oryxengine",
             "dalmatina!",
             "imap.gmail.com",
-            MailType.IMAP.getPort(true),
+            MailProtocol.IMAP.getPort(true),
             true
         );
         this.address = String.format("%s@%s", this.config.getUserName(), this.config.getAddress());

@@ -8,12 +8,12 @@ import javax.annotation.Nonnegative;
  * @see http://de.wikipedia.org/wiki/Imap
  * @see http://de.wikipedia.org/wiki/POP3
  */
-public enum MailType {
+public enum MailProtocol {
     
     /** The PO p3. */
     POP3(110, 995), 
- /** The IMAP. */
- IMAP(143, 993);
+    /** The IMAP. */
+    IMAP(143, 993);
     
     /** The default port. */
     private int defaultPort;
@@ -27,7 +27,7 @@ public enum MailType {
      * @param defaultPort default port
      * @param sslPort ssl port
      */
-    private MailType(@Nonnegative int defaultPort,
+    private MailProtocol(@Nonnegative int defaultPort,
                      @Nonnegative int sslPort) {
         this.defaultPort = defaultPort;
         this.sslPort = sslPort;

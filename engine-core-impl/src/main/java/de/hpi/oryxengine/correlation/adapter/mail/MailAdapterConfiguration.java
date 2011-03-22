@@ -8,14 +8,16 @@ import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.correlation.EventType;
-import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
+import de.hpi.oryxengine.correlation.adapter.AbstractAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.AdapterType;
+import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 
 /**
  * The mail adapter configuration.
  */
 public final class MailAdapterConfiguration
+extends AbstractAdapterConfiguration
 implements PullAdapterConfiguration {
     
     /** The user name. */
@@ -34,7 +36,7 @@ implements PullAdapterConfiguration {
     private final boolean useSSL;
     
     /** The type. */
-    private final MailType type;
+    private final MailProtocol protocol;
     
     /** The Constant DEFAULT_INTERVAL. */
     private static final long DEFAULT_INTERVAL = 1000L;
@@ -45,20 +47,21 @@ implements PullAdapterConfiguration {
     /**
      * Default constructor.
      * 
-     * @param type the mail type
+     * @param protocol the mail protocol
      * @param userName the account's user name
      * @param password the account's password
      * @param address the mail server's address
      * @param port the mail server's port
      * @param useSSL should ssl be used for connection
      */
-    public MailAdapterConfiguration(@Nonnull MailType type,
+    public MailAdapterConfiguration(@Nonnull MailProtocol protocol,
                                     @Nonnull String userName,
                                     @Nonnull String password,
                                     @Nonnull String address,
                                     @Nonnegative int port,
                                     @Nonnull boolean useSSL) {
-        this.type = type;
+        super(AdapterTypes.Mail);
+        this.protocol = protocol;
         this.userName = userName;
         this.password = password;
         this.address = address;
@@ -114,7 +117,7 @@ implements PullAdapterConfiguration {
         Properties props = new Properties();
         
         String identifier = "";
-        switch (this.type) {
+        switch (this.protocol) {
             case IMAP:
                 identifier = "imap";
                 break;
@@ -122,7 +125,7 @@ implements PullAdapterConfiguration {
                 identifier = "pop3";
                 break;
             default:
-                logger.error("No supported mail type configured: {}", this.type);
+                logger.error("No supported mail type configured: {}", this.protocol);
         }
         
         if (this.useSSL) {
@@ -164,26 +167,16 @@ implements PullAdapterConfiguration {
     }
     
     /**
-     * Returns the account's type.
+     * Returns the account's protocol.
      * 
-     * @return the account type
+     * @return the account protocol
      */
-    public MailType getType() {
-        return type;
+    public MailProtocol getProtocol() {
+        return protocol;
     }
 
     @Override
     public String getUniqueName() {
-        return null;
-    }
-
-    @Override
-    public EventType getEventType() {
         return null; // TODO
-    }
-    
-    @Override
-    public Class<? extends InboundPullAdapter> getAdapterClass() {
-        return InboundImapMailAdapterImpl.class;
     }
 }

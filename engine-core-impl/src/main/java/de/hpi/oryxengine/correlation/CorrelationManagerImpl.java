@@ -12,10 +12,12 @@ import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.AdapterType;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.mail.InboundImapMailAdapterImpl;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
-import de.hpi.oryxengine.correlation.adapter.mail.MailType;
+import de.hpi.oryxengine.correlation.adapter.mail.MailProtocol;
 import de.hpi.oryxengine.correlation.timing.TimingManagerImpl;
 import de.hpi.oryxengine.exception.EngineInitializationFailedException;
 import de.hpi.oryxengine.navigator.Navigator;
@@ -32,10 +34,10 @@ implements CorrelationManager, EventRegistrar {
     private Navigator navigator;
     private TimingManagerImpl timer;
     
-    private Map<EventType, InboundPullAdapter> inboundAdapter;
+    private Map<AdapterType, InboundPullAdapter> inboundAdapter;
     
-    private List<EventType> startEvents;
-    private List<EventType> intermediateEvents;
+    private List<AdapterType> startEvents;
+    private List<AdapterType> intermediateEvents;
     private InboundPullAdapter adapter;
 
     /**
@@ -46,9 +48,9 @@ implements CorrelationManager, EventRegistrar {
      */
     public CorrelationManagerImpl(@Nonnull Navigator navigator) {
         this.navigator = navigator;
-        this.inboundAdapter = new HashMap<EventType, InboundPullAdapter>();
-        this.startEvents = new ArrayList<EventType>();
-        this.intermediateEvents = new ArrayList<EventType>();
+        this.inboundAdapter = new HashMap<AdapterType, InboundPullAdapter>();
+        this.startEvents = new ArrayList<AdapterType>();
+        this.intermediateEvents = new ArrayList<AdapterType>();
         
         try {
             this.timer = new TimingManagerImpl(this);
@@ -77,14 +79,16 @@ implements CorrelationManager, EventRegistrar {
     @Override
     public void correlate(@Nonnull AdapterEvent event) {
         
+        AdapterConfiguration configuration = event.getAdapterConfiguration();
+        
         System.out.println("correlating...");
-        if (this.startEvents.contains(event.getEventType())) {
+        if (this.startEvents.contains(configuration.getAdapterType())) {
             try {
                 startEvent(event);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (this.intermediateEvents.contains(event.getEventType())) {
+        } else if (this.intermediateEvents.contains(configuration.getAdapterType())) {
             intermediateEvent(event);
         }
     }
@@ -92,16 +96,16 @@ implements CorrelationManager, EventRegistrar {
     @Override
     public void registerCorrelationEvent() {
 
-        this.startEvents.add(this.adapter.getEventType());
+        this.startEvents.add(this.adapter.getAdapterType());
     }
 
     InboundPullAdapter initializeAdapter() {
 
-        MailAdapterConfiguration config = new MailAdapterConfiguration(MailType.IMAP, "oryxengine", "dalmatina!",
-            "imap.gmail.com", MailType.IMAP.getPort(true), true);
+        MailAdapterConfiguration config = new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
+            "imap.gmail.com", MailProtocol.IMAP.getPort(true), true);
 
         final InboundPullAdapter mailAdapter = new InboundImapMailAdapterImpl(this, config);
-        this.inboundAdapter.put(mailAdapter.getEventType(), mailAdapter);
+        this.inboundAdapter.put(mailAdapter.getAdapterType(), mailAdapter);
 
         return mailAdapter;
     }

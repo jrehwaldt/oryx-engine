@@ -1,9 +1,9 @@
 package de.hpi.oryxengine.correlation.adapter.mail;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -13,33 +13,33 @@ import javax.mail.internet.InternetAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.correlation.AdapterEvent;
-import de.hpi.oryxengine.correlation.EventType;
+import de.hpi.oryxengine.correlation.adapter.AbstractAdapterEvent;
+import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 
 /**
  * A event implementation for the mail adapter.
  */
-public class MailAdapterEvent implements AdapterEvent {
+public class MailAdapterEvent
+extends AbstractAdapterEvent {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    private EventType type;
-    private Message message;
-    private String content;
-    private String topic;
-    private String from;
+    private @Nonnull Message message;
+    private @Nullable String content;
+    private @Nullable String topic;
+    private @Nullable String from;
     
     /**
      * Default constructor.
      * 
-     * @param type the adapter's event type.
-     * @param message the email object
+     * @param configuration the adapter's {@link AdapterConfiguration}.
+     * @param message the email {@link Message} object
      * @throws MessagingException thrown if parseContent throws exception
      * @throws IOException thrown if parseContent throws exception
      */
-    MailAdapterEvent(@Nonnull EventType type,
+    MailAdapterEvent(@Nonnull AdapterConfiguration configuration,
                      @Nonnull Message message) throws IOException, MessagingException {
-        this.type = type;
+        super(configuration);
         this.message = message;
         parseContent();
     }
@@ -128,7 +128,7 @@ public class MailAdapterEvent implements AdapterEvent {
      * 
      * @return the mail content.
      */
-    public String getMessageContent() {
+    public @Nullable String getMessageContent() {
         return this.content;
       
     }
@@ -138,7 +138,7 @@ public class MailAdapterEvent implements AdapterEvent {
      * 
      * @return the mail topic.
      */
-    public String getMessageTopic() {
+    public @Nullable String getMessageTopic() {
         return this.topic;
       
     }
@@ -148,18 +148,8 @@ public class MailAdapterEvent implements AdapterEvent {
      * 
      * @return the mail sender.
      */
-    public String getMessageFrom() {
+    public @Nullable String getMessageFrom() {
         return this.from;
       
-    }
-    
-    @Override
-    public EventType getEventType() {
-        return this.type;
-    }
-    
-    @Override
-    public Date getTimestamp() {
-        return null; // TODO
     }
 }
