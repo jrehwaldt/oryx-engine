@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.AdapterType;
 
 /**
  * A basic event, which is returned to the {@link EventManager} by adapter implementations.
@@ -12,7 +13,7 @@ import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 public interface AdapterEvent {
     
     /**
-     * Gets the adapter's configuration.
+     * Gets the {@link AdapterConfiguration}.
      * 
      * @return the adapter's configuration
      */
@@ -24,4 +25,11 @@ public interface AdapterEvent {
      * @return a timestamp
      */
     @Nonnull Date getTimestamp();
+    
+    /**
+     * Return's the {@link AdapterType}.
+     * 
+     * @return the adapter's type
+     */
+    @Nonnull AdapterType getAdapterType();
 }

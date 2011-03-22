@@ -1,7 +1,6 @@
 package de.hpi.oryxengine.correlation.adapter.mail;
 
 import java.io.IOException;
-import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.mail.Folder;
@@ -12,8 +11,6 @@ import javax.mail.Store;
 
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.AbstractCorrelationAdapter;
-import de.hpi.oryxengine.correlation.adapter.AdapterType;
-import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.exception.DalmatinaException;
 

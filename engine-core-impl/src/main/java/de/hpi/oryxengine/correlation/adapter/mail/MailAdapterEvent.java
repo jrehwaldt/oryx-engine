@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.correlation.adapter.AbstractAdapterEvent;
 import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.AdapterType;
 
 /**
  * A event implementation for the mail adapter.

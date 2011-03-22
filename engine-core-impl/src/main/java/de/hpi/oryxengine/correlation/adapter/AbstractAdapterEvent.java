@@ -26,14 +26,19 @@ implements AdapterEvent {
         this.timestamp = new Date();
         this.configuration = configuration;
     }
-
+    
     @Override
     public final AdapterConfiguration getAdapterConfiguration() {
         return this.configuration;
     }
-
+    
     @Override
     public final Date getTimestamp() {
         return this.timestamp;
+    }
+    
+    @Override
+    public AdapterType getAdapterType() {
+        return this.configuration.getAdapterType();
     }
 }
