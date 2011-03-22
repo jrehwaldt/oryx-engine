@@ -73,8 +73,7 @@ public class EventRegistrationAndEvaluationTest {
 
         // Mockito isnt able to mock final classes so the next line doesnt work :(
         // MailAdapterConfiguration config = mock(MailAdapterConfiguration.class);
-        MailAdapterConfiguration config = new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
-            "imap.gmail.com", MailProtocol.IMAP.getPort(true), true);
+        MailAdapterConfiguration config = MailAdapterConfiguration.dalmatinaGoogleConfiguration();
         event = new StartEventImpl(mailType, config, conditions1, defintionID);
 
         // create some incoming events, for example from a mailbox

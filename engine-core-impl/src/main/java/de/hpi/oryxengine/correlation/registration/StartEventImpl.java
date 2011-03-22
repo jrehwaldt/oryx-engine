@@ -25,7 +25,7 @@ public class StartEventImpl extends ProcessEventImpl implements StartEvent {
      * @param definitionID
      *            the def
      */
-    protected StartEventImpl(AdapterType type,
+    public StartEventImpl(AdapterType type,
                              PullAdapterConfiguration config,
                              List<EventCondition> conditions,
                              UUID definitionID) {

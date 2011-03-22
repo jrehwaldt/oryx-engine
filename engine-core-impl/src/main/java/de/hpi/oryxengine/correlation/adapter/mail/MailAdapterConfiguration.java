@@ -178,4 +178,14 @@ implements PullAdapterConfiguration {
     public String getUniqueName() {
         return null; // TODO
     }
+    
+    /**
+     * Dalmatina google configuration. This is to prevent code duplication. Remove this later.
+     *
+     * @return the mail adapter configuration
+     */
+    public static MailAdapterConfiguration dalmatinaGoogleConfiguration(){
+        return new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
+            "imap.googlemail.com", MailProtocol.IMAP.getPort(true), true);
+    }
 }

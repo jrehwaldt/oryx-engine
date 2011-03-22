@@ -81,6 +81,8 @@ implements InboundPullAdapter {
             // Retrieve the messages
             Message[] messages = folder.getMessages();
             
+            logger.debug("Found {} messages", messages.length);
+            
             // Loop over all of the messages
             for (Message message: messages) {
                 processMessage(message);

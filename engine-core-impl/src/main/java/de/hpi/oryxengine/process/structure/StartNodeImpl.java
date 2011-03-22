@@ -29,6 +29,7 @@ public class StartNodeImpl extends NodeImpl implements StartNode {
                          StartEvent event) {
 
         super(activity, incomingBehaviour, outgoingBehaviour);
+        this.event = event;
     }
 
     @Override
