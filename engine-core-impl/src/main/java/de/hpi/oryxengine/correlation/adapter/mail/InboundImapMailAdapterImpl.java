@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
-import de.hpi.oryxengine.exception.OryxEngineException;
+import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
  * This is the default imap mail client implementation and acts as {@link CorrelationAdapter} for the.
@@ -84,7 +84,7 @@ public class InboundImapMailAdapterImpl implements InboundPullAdapter {
      */
     @Override
     public void pull()
-    throws OryxEngineException {
+    throws DalmatinaException {
         
         try {
             Session session = Session.getInstance(this.configuration.toMailProperties());
@@ -124,9 +124,9 @@ public class InboundImapMailAdapterImpl implements InboundPullAdapter {
             // Close the message store
             store.close();
         } catch (MessagingException me) {
-            throw new OryxEngineException("Processing the server's messages failed.", me);
+            throw new DalmatinaException("Processing the server's messages failed.", me);
         } catch (IOException ioe) {
-            throw new OryxEngineException("Communication error during mail fetching.", ioe);
+            throw new DalmatinaException("Communication error during mail fetching.", ioe);
         }
     }
 

@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
-import de.hpi.oryxengine.exception.OryxEngineException;
+import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
  * The Class TimingManagerImpl.
@@ -50,7 +50,7 @@ implements TimingManager {
      * @throws OryxEngineException thrown if scheduling fails
      */
     public void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
-    throws OryxEngineException {
+    throws DalmatinaException {
         
         PullAdapterConfiguration configuration = adapter.getConfiguration();
         
@@ -70,7 +70,7 @@ implements TimingManager {
             this.scheduler.scheduleJob(jobDetail, trigger);
         } catch (SchedulerException se) {
             logger.error("Unable to register plugin due to scheduler failure.", se);
-            throw new OryxEngineException("Unable to register plugin due to scheduler failure.", se);
+            throw new DalmatinaException("Unable to register plugin due to scheduler failure.", se);
         }
     }
     

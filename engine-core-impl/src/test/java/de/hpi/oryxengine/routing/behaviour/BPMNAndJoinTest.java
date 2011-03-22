@@ -29,12 +29,12 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 public class BPMNAndJoinTest {
 
     /** The node3. */
-    private Node node1, node2, joinNode, splitNode, node3;
+    private Node node1 = null, node2 = null, joinNode = null, splitNode = null, node3 = null;
 
     /** The child instance2. */
-    private Token newToken1, newToken2;
+    private Token newToken1 = null, newToken2 = null;
 
-    private NavigatorImplMock navigator;
+    private NavigatorImplMock navigator = null;
 
     /**
      * Sets the up.
