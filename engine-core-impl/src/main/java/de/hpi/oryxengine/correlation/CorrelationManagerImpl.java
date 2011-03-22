@@ -136,10 +136,13 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     private void startEvent(@Nonnull AdapterEvent e)
     throws Exception {
 
-        // this is a hack
+        // TODO the next line is a hack
         MailAdapterEvent mailEvent = (MailAdapterEvent) e;
         for (StartEvent event : startEvents) {
             boolean triggerEvent = true;
+            if (mailEvent.getEventType() != event.getEventType()) {
+                continue;
+            }
             for (EventCondition condition : event.getConditions()) {
                 Method method = condition.getMethod();
                 Object returnValue = method.invoke(mailEvent);
