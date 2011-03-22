@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.monitor.Monitor;
 import de.hpi.oryxengine.monitor.MonitorGUI;
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -49,7 +51,7 @@ public final class SimpleExampleProcess {
         // let's generate some load :)
         LOGGER.info("Engine started");
         for (int i = 0; i < INSTANCE_COUNT; i++) {
-            TokenImpl instance = sampleProcessInstance(i);
+            TokenImpl instance = sampleProcessInstance(i, navigator);
             if (i == 234000 || i == 100000 || i == 500000 || i == 800000) {
                 monitor.markSingleInstance(instance);
             }
@@ -68,7 +70,7 @@ public final class SimpleExampleProcess {
      *            the counter
      * @return the process instance impl
      */
-    private static TokenImpl sampleProcessInstance(int counter) {
+    private static TokenImpl sampleProcessInstance(int counter, Navigator navigator) {
 
         AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);
         AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course " + counter);
@@ -78,7 +80,7 @@ public final class SimpleExampleProcess {
         NodeImpl secondNode = new NodeImpl(activity2);
         startNode.transitionTo(secondNode);
 
-        TokenImpl sampleInstance = new TokenImpl(startNode);
+        TokenImpl sampleInstance = new TokenImpl(startNode, new ProcessInstanceContextImpl(), navigator);
         return sampleInstance;
     }
 
