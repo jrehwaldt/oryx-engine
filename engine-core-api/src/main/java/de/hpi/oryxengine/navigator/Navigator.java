@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -16,12 +17,13 @@ public interface Navigator {
      * 
      * @param processID
      *            the id of the process that is to be instantiated
-     * @throws Exception thrown if process with given id does not exist in repo
+     * @throws DefinitionNotFoundException thrown if process with given id does not exist in repo
      */
     // TODO This should return the id of the created process instance. Unfortunately, we do not have a process instance
     // class yet, so we cannot do this.
     @Nonnull
-    void startProcessInstance(@Nonnull UUID processID) throws Exception;
+    void startProcessInstance(@Nonnull UUID processID)
+    throws DefinitionNotFoundException;
 
     /**
      * Stop process instance.

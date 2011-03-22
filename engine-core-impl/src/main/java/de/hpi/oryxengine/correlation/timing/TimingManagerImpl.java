@@ -12,10 +12,10 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
+import de.hpi.oryxengine.exception.AdapterSchedulingException;
 
 /**
  * The Class TimingManagerImpl.
@@ -26,17 +26,17 @@ implements TimingManager {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     private final Scheduler scheduler;
-    private final CorrelationManagerImpl correlation;
+    private final ErrorAdapter errorHandler;
     
     /**
      * Default constructor.
      * 
-     * @param correlation the correlation manager.
+     * @param errorHandler the error handler as {@link ErrorAdapter}
      * @throws SchedulerException if creating a scheduler fails
      */
-    public TimingManagerImpl(@Nonnull CorrelationManagerImpl correlation)
+    public TimingManagerImpl(@Nonnull ErrorAdapter errorHandler)
     throws SchedulerException {
-        this.correlation = correlation;
+        this.errorHandler = errorHandler;
         
         final SchedulerFactory factory = new org.quartz.impl.StdSchedulerFactory();
         this.scheduler = factory.getScheduler();
@@ -45,19 +45,20 @@ implements TimingManager {
     
     @Override
     public void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
-    throws DalmatinaException {
+    throws AdapterSchedulingException {
         
-        PullAdapterConfiguration configuration = adapter.getConfiguration();
+        final PullAdapterConfiguration configuration = adapter.getConfiguration();
+        final long interval = configuration.getPullInterval();
         
         final String jobName = jobName(configuration);
         final String jobGroupName = jobGroupName(configuration);
         final String triggerName = triggerName(configuration);
-        final long interval = configuration.getPullInterval();
         
         JobDetail jobDetail = new JobDetail(jobName, jobGroupName, PullAdapterJob.class);
         JobDataMap data = jobDetail.getJobDataMap();
         
         data.put(PullAdapterJob.ADAPTER_KEY, adapter);
+        data.put(PullAdapterJob.ERROR_HANDLER_KEY, this.errorHandler);
         
         Trigger trigger = new SimpleTrigger(triggerName, SimpleTrigger.REPEAT_INDEFINITELY, interval);
         
@@ -65,7 +66,7 @@ implements TimingManager {
             this.scheduler.scheduleJob(jobDetail, trigger);
         } catch (SchedulerException se) {
             logger.error("Unable to register plugin due to scheduler failure.", se);
-            throw new DalmatinaException("Unable to register plugin due to scheduler failure.", se);
+            throw new AdapterSchedulingException(se);
         }
     }
     

@@ -12,6 +12,7 @@ import org.quartz.SchedulerException;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
@@ -21,7 +22,6 @@ import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.repository.ProcessRepository;
-import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
@@ -112,13 +112,10 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         executionThreads.add(thread);
         counter++;
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public void startProcessInstance(UUID processID)
-    throws Exception {
+    throws DefinitionNotFoundException {
 
         ProcessDefinition definition = repository.getDefinition(processID);
         List<StartNode> startNodes = definition.getStartNodes();

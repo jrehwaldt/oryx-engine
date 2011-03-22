@@ -10,9 +10,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.exception.DalmatinaException;;
 
 /**
@@ -51,8 +51,9 @@ public class TimingManagerTest {
     @BeforeMethod
     public void beforeMethod()
     throws SchedulerException {
-        CorrelationManagerImpl correlation = mock(CorrelationManagerImpl.class);
-        this.timer = new TimingManagerImpl(correlation);
+        ErrorAdapter errorAdapter = mock(ErrorAdapter.class);
+//        CorrelationManagerImpl correlation = mock(CorrelationManagerImpl.class);
+        this.timer = new TimingManagerImpl(errorAdapter);
     }
 
     /**

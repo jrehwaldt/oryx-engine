@@ -16,7 +16,6 @@ import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.correlation.AdapterEvent;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 
@@ -27,16 +26,9 @@ import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
  */
 public class ImapMailAdapterTest {
     
-    /** The imap. */
-    private InboundPullAdapter imap = null;
-    
-    /** The config. */
+    private InboundPullAdapter adapter = null;
     private MailAdapterConfiguration config = null;
-    
-    /** The address. */
     private String address = null;
-    
-    /** The mock. */
     private CorrelationManager mock = null;
     
     /**
@@ -57,7 +49,7 @@ public class ImapMailAdapterTest {
             true
         );
         this.address = String.format("%s@%s", this.config.getUserName(), this.config.getAddress());
-        this.imap = new InboundImapMailAdapterImpl(this.mock, this.config);
+        this.adapter = new InboundImapMailAdapterImpl(this.mock, this.config);
         
         MimeMessage msg = new MimeMessage(Session.getInstance(this.config.toMailProperties()));
         msg.setRecipients(RecipientType.TO, this.address);
@@ -75,8 +67,8 @@ public class ImapMailAdapterTest {
      */
     @Test
     public void testImapPull() throws Exception {
-        this.imap.pull();
-        ArgumentCaptor<AdapterEvent> event = ArgumentCaptor.forClass(AdapterEvent.class);
+        this.adapter.pull();
+        ArgumentCaptor<MailAdapterEvent> event = ArgumentCaptor.forClass(MailAdapterEvent.class);
         verify(this.mock).correlate(event.capture());
         assertFalse(event.getValue() == null, "event should not be null");
     }
