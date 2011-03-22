@@ -104,10 +104,9 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
 
     /**
      * {@inheritDoc}
-     * @throws Exception 
      */
     @Override
-    public void completeWorklistItem(WorklistItem worklistItem) throws Exception {
+    public void completeWorklistItem(WorklistItem worklistItem) throws DalmatinaException {
         
         WorklistItemImpl worklistItemImpl = extractWorklistItemImplFrom(worklistItem);
         worklistItemImpl.setStatus(WorklistItemState.COMPLETED);

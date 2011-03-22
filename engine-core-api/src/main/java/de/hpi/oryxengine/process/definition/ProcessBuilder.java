@@ -48,7 +48,8 @@ public interface ProcessBuilder {
     /**
      * Sets the iD.
      *
-     * @param id the new iD
+     * @param id the new ID
+     * @return the process builder
      */
     ProcessBuilder setID(UUID id);
     
@@ -56,6 +57,7 @@ public interface ProcessBuilder {
      * Sets the description.
      *
      * @param description the new description
+     * @return the process builder
      */
     ProcessBuilder setDescription(String description);
 }

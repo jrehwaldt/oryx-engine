@@ -15,7 +15,7 @@ extends InboundAdapter {
     /**
      * This method is invoked whenever pulling is requested.
      * 
-     * @***throws DalmatinaException thrown if pulling fails
+     * @throws DalmatinaException thrown if pulling fails
      */
     void pull()
     throws DalmatinaException;

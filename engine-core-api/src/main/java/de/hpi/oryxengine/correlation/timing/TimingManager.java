@@ -14,7 +14,7 @@ public interface TimingManager {
      * Registers a new pull adapter.
      * 
      * @param adapter the adapter
-     * @***throws DalmatinaException thrown if scheduling fails
+     * @throws DalmatinaException thrown if scheduling fails
      */
     void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
     throws DalmatinaException;
