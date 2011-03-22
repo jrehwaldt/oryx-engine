@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.StartNode;
 
 /**
  * The Interface ProcessBuilder.
@@ -25,6 +26,8 @@ public interface ProcessBuilder {
      * @return the node
      */
     Node createNode(NodeParameter param);
+    
+    StartNode createStartNode(StartNodeParameter param);
     
     /**
      * Creates the transition.

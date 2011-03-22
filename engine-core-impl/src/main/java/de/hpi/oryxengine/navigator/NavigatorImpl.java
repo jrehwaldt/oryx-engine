@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 
 import org.quartz.SchedulerException;
 
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
@@ -16,6 +17,7 @@ import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.repository.ProcessRepository;
@@ -81,7 +83,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
         this.correlation = new CorrelationManagerImpl(this);
-        repository = ProcessRepositoryImpl.getInstance();
+        repository = ServiceFactory.getRepositoryService();
         this.suspendedTokens = new ArrayList<Token>();
     }
 
@@ -119,7 +121,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     throws Exception {
 
         ProcessDefinition definition = repository.getDefinition(processID);
-        List<Node> startNodes = definition.getStartNodes();
+        List<StartNode> startNodes = definition.getStartNodes();
 
         for (Node node : startNodes) {
             Token newToken = new TokenImpl(node);

@@ -11,8 +11,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.repository.ProcessRepository;
@@ -53,10 +55,10 @@ public class FIFOSchedulerTest {
     throws Exception {
 
         scheduler = new FIFOScheduler();
-        ProcessRepository repo = ProcessRepositoryImpl.getInstance();
+        ProcessRepository repo = ServiceFactory.getRepositoryService();
         ProcessDefinition def = repo.getDefinition(RepositorySetup.FIRST_EXAMPLE_PROCESS_ID);
-        List<Node> startNodes = def.getStartNodes();
-        Node startNode = startNodes.get(0);
+        List<StartNode> startNodes = def.getStartNodes();
+        StartNode startNode = startNodes.get(0);
         firstToken = new TokenImpl(startNode);
         secondToken = new TokenImpl(startNode);
     }

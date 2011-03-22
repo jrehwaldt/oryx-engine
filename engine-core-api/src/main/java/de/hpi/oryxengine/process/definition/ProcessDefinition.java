@@ -2,7 +2,7 @@ package de.hpi.oryxengine.process.definition;
 
 import java.util.List;
 
-import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.util.Identifiable;
 
 /**
@@ -34,5 +34,5 @@ public interface ProcessDefinition extends Identifiable {
      * 
      * @return the start nodes
      */
-    List<Node> getStartNodes();
+    List<StartNode> getStartNodes();
 }

@@ -7,6 +7,8 @@ import java.util.UUID;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
+import de.hpi.oryxengine.process.structure.StartNode;
+import de.hpi.oryxengine.process.structure.StartNodeImpl;
 
 /**
  * The Class ProcessBuilderImpl.
@@ -19,7 +21,7 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     private ProcessDefinition definition;
 
     /** The start nodes. */
-    private List<Node> startNodes = new ArrayList<Node>();
+    private List<StartNode> startNodes = new ArrayList<StartNode>();
 
     /** The id. */
     private UUID id;
@@ -34,7 +36,7 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     public ProcessDefinition buildDefinition() {
 
         definition = new ProcessDefinitionImpl(id, description, startNodes);
-        startNodes = new ArrayList<Node>();
+        startNodes = new ArrayList<StartNode>();
         return definition;
     }
 
@@ -45,9 +47,6 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     public Node createNode(NodeParameter param) {
 
         Node node = new NodeImpl(param.getActivity(), param.getIncomingBehaviour(), param.getOutgoingBehaviour());
-        if (param.isStartNode()) {
-            startNodes.add(node);
-        }
         return node;
     }
 
@@ -91,6 +90,15 @@ public class ProcessBuilderImpl implements ProcessBuilder {
         this.description = description;
         return this;
 
+    }
+
+    @Override
+    public StartNode createStartNode(StartNodeParameter param) {
+
+        StartNode node = new StartNodeImpl(param.getActivity(), param.getIncomingBehaviour(),
+            param.getOutgoingBehaviour(), param.getStartEvent());
+        this.startNodes.add(node);
+        return node;
     }
 
 }
