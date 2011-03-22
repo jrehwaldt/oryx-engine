@@ -25,9 +25,7 @@ implements ObserverPlugin, NavigatorListener {
     
     /**
      * This method is called whenever the navigator changes its state.
-     *
-     * @param observable the observable
-     * @param param the param
+     *  
      * {@inheritDoc}
      */
     @Override

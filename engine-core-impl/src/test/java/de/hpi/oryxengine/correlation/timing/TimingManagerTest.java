@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
-import de.hpi.oryxengine.exception.DalmatinaException;;
+import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
  * Test class for {@link TimingManagerImpl}.

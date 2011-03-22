@@ -176,7 +176,7 @@ implements PullAdapterConfiguration {
 
     @Override
     public String getUniqueName() {
-        return null; // TODO
+        return String.format("%s:%s:%s:%s", protocol, address, port, userName);
     }
     
     /**

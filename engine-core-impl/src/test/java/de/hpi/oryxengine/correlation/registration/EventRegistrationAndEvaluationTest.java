@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.quartz.SchedulerException;
+import org.quartz.impl.SchedulerRepository;
+import org.quartz.impl.StdSchedulerFactory;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -37,12 +41,12 @@ public class EventRegistrationAndEvaluationTest {
         Navigator navigator = mock(Navigator.class);
         CorrelationManagerImpl correlation = new CorrelationManagerImpl(navigator);
         correlation.registerStartEvent(event);
-        
+
         correlation.correlate(incomingEvent);
-        
+
         verify(navigator).startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
     }
-    
+
     @Test
     public void shouldNotAttemptToStartTheSimpleProcessInstance()
     throws Exception {
@@ -50,9 +54,9 @@ public class EventRegistrationAndEvaluationTest {
         Navigator navigator = mock(Navigator.class);
         CorrelationManagerImpl correlation = new CorrelationManagerImpl(navigator);
         correlation.registerStartEvent(event);
-        
+
         correlation.correlate(incomingEvent2);
-        
+
         verify(navigator, never()).startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
     }
 
@@ -80,10 +84,16 @@ public class EventRegistrationAndEvaluationTest {
         incomingEvent = mock(MailAdapterEvent.class);
         when(incomingEvent.getAdapterType()).thenReturn(mailType);
         when(incomingEvent.getMessageTopic()).thenReturn("Hallo");
-        
+
         incomingEvent2 = mock(MailAdapterEvent.class);
         when(incomingEvent2.getAdapterType()).thenReturn(mailType);
         when(incomingEvent2.getMessageTopic()).thenReturn("HalliHallo");
+    }
+
+    @AfterMethod
+    public void flushJobRepository() throws SchedulerException {
+
+        new StdSchedulerFactory().getScheduler().shutdown();
     }
 
 }

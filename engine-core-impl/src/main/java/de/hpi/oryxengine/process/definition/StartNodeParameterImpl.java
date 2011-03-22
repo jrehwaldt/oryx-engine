@@ -14,11 +14,16 @@ public class StartNodeParameterImpl extends NodeParameterImpl implements StartNo
 
     /**
      * Instantiates a new start node parameter impl.
-     *
-     * @param activity the activity
-     * @param incoming the incoming
-     * @param outgoing the outgoing
-     * @param event the event
+     * 
+     * @param activity
+     *            the activity
+     * @param incoming
+     *            the incoming
+     * @param outgoing
+     *            the outgoing
+     * @param event
+     *            the event. Use null if you do not want to register any start event, for example if you have a BPMN
+     *            blank start event.
      */
     public StartNodeParameterImpl(Activity activity,
                                   IncomingBehaviour incoming,
@@ -28,12 +33,12 @@ public class StartNodeParameterImpl extends NodeParameterImpl implements StartNo
         super(activity, incoming, outgoing);
         this.event = event;
     }
-    
+
     /**
      * Instantiates a new start node parameter impl.
      */
     public StartNodeParameterImpl() {
-        
+
     }
 
     @Override

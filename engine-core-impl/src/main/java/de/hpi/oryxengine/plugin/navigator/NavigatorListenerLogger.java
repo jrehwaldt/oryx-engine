@@ -39,23 +39,11 @@ extends AbstractNavigatorListener {
         return instance;
     }
     
-    /**
-     * Navigator started.
-     *
-     * @param navigator the navigator
-     * {@inheritDoc}
-     */
     @Override
     public void navigatorStarted(@Nonnull Navigator navigator) {
         log(navigator);
     }
     
-    /**
-     * Navigator stopped.
-     *
-     * @param navigator the navigator
-     * {@inheritDoc}
-     */
     @Override
     public void navigatorStopped(@Nonnull Navigator navigator) {
         log(navigator);

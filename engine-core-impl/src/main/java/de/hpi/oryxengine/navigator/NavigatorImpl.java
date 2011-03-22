@@ -60,8 +60,11 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     /**
      * Instantiates a new navigator implementation.
+<<<<<<< HEAD
      * 
      * @throws SchedulerException
+=======
+>>>>>>> branch 'refs/heads/master' of git@github.com:jrehwaldt/oryx-engine.git
      */
     public NavigatorImpl() {
 
@@ -73,7 +76,10 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * 
      * @param numberOfThreads
      *            the number of navigator threads
+<<<<<<< HEAD
      * @throws SchedulerException
+=======
+>>>>>>> branch 'refs/heads/master' of git@github.com:jrehwaldt/oryx-engine.git
      */
     public NavigatorImpl(int numberOfThreads) {
 

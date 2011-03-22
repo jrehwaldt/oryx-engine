@@ -34,8 +34,11 @@ public class DeployerImpl implements Deployer {
         CorrelationManagerImpl correlation = ServiceFactory.getCorrelationService(nav);
         for (StartNode node : def.getStartNodes()) {
             StartEvent event = node.getStartEvent();
-            correlation.registerStartEvent(event);
 
+            // Convention says: Null can be used for a blank start event.
+            if (event != null) {
+                correlation.registerStartEvent(event);
+            }
         }
     }
 
