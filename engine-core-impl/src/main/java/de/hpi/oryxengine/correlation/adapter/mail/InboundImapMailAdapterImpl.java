@@ -77,8 +77,6 @@ public class InboundImapMailAdapterImpl implements InboundPullAdapter {
 
     /**
      * This mailer adapter will receive mails as specified in {@link MailAdapterConfiguration}.
-     *
-     * @throws OryxEngineException if fetching the messages failed
      * 
      * {@inheritDoc}
      */

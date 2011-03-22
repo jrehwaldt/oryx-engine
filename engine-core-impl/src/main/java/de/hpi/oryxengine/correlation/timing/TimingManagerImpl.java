@@ -43,12 +43,7 @@ implements TimingManager {
         this.scheduler.start();
     }
     
-    /**
-     * Registers a new pull adapter.
-     * 
-     * @param adapter the adapter
-     * @throws OryxEngineException thrown if scheduling fails
-     */
+    @Override
     public void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
     throws DalmatinaException {
         
