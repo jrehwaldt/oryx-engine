@@ -136,28 +136,25 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     private void startEvent(@Nonnull AdapterEvent e)
     throws Exception {
 
-        // TODO the next line is a hack
-        MailAdapterEvent mailEvent = (MailAdapterEvent) e;
         for (StartEvent event : startEvents) {
             boolean triggerEvent = true;
-            if (mailEvent.getEventType() != event.getEventType()) {
+            if (e.getEventType() != event.getEventType()) {
                 continue;
             }
             for (EventCondition condition : event.getConditions()) {
                 Method method = condition.getMethod();
-                Object returnValue = method.invoke(mailEvent);
+                Object returnValue = method.invoke(e);
                 if (!returnValue.equals(condition.getExpectedValue())) {
                     triggerEvent = false;
                 }
             }
             if (triggerEvent) {
+                // don't generate a random UUID here, as it has to be one that a definition exists in the repository
+                // for.
                 this.navigator.startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
                 System.out.println("starting process" + this.navigator);
             }
         }
-
-        // don't generate a random UUID here, as it has to be one that a definition exists in the repository for.
-        // this.navigator.startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
     }
 
     public Collection<InboundPullAdapter> getPullingAdapters() {

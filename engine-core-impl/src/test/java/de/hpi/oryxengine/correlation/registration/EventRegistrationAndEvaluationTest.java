@@ -65,7 +65,7 @@ public class EventRegistrationAndEvaluationTest {
         UUID defintionID = ProcessRepositoryImpl.SIMPLE_PROCESS_ID;
         EventType mailType = new MailEvent();
 
-        EventCondition subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"),
+        EventCondition subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessag132eTopic"),
             "Hallo");
 
         List<EventCondition> conditions1 = new ArrayList<EventCondition>();
