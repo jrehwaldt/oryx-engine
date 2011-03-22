@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
@@ -222,7 +223,7 @@ public class TokenImpl implements Token {
 
     @Override
     public void resume()
-    throws Exception {
+    throws  DalmatinaException {
 
         navigator.removeSuspendToken(this);
         getCurrentNode().getActivity().signal(this);
