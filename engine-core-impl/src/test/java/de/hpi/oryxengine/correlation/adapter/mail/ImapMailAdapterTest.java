@@ -61,9 +61,9 @@ public class ImapMailAdapterTest {
     }
     
     /**
-     * Tests a imap pull.
+     * Tests an imap pull.
      * 
-     * @throws Exception if thrown, test fails
+     * @throws Exception test fails if thrown
      */
     @Test
     public void testImapPull() throws Exception {

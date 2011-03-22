@@ -26,17 +26,17 @@ implements TimingManager {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     private final Scheduler scheduler;
-    private final ErrorAdapter errorHandler;
+    private final ErrorAdapter errorAdapter;
     
     /**
      * Default constructor.
      * 
-     * @param errorHandler the error handler as {@link ErrorAdapter}
+     * @param errorAdapter the error handler as {@link ErrorAdapter}
      * @throws SchedulerException if creating a scheduler fails
      */
-    public TimingManagerImpl(@Nonnull ErrorAdapter errorHandler)
+    public TimingManagerImpl(@Nonnull ErrorAdapter errorAdapter)
     throws SchedulerException {
-        this.errorHandler = errorHandler;
+        this.errorAdapter = errorAdapter;
         
         final SchedulerFactory factory = new org.quartz.impl.StdSchedulerFactory();
         this.scheduler = factory.getScheduler();
@@ -58,7 +58,7 @@ implements TimingManager {
         JobDataMap data = jobDetail.getJobDataMap();
         
         data.put(PullAdapterJob.ADAPTER_KEY, adapter);
-        data.put(PullAdapterJob.ERROR_HANDLER_KEY, this.errorHandler);
+        data.put(PullAdapterJob.ERROR_HANDLER_KEY, this.errorAdapter);
         
         Trigger trigger = new SimpleTrigger(triggerName, SimpleTrigger.REPEAT_INDEFINITELY, interval);
         

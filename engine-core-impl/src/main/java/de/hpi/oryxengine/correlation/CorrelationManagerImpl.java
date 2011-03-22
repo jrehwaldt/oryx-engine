@@ -3,6 +3,7 @@ package de.hpi.oryxengine.correlation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ implements CorrelationManager, EventRegistrar {
 
     private Navigator navigator;
     private TimingManagerImpl timer;
-    private ErrorAdapter errorHandler;
+    private ErrorAdapter errorAdapter;
     private Map<AdapterType, InboundAdapter> inboundAdapter;
 
     private List<StartEvent> startEvents;
@@ -56,10 +57,10 @@ implements CorrelationManager, EventRegistrar {
         this.inboundAdapter = new HashMap<AdapterType, InboundAdapter>();
         this.startEvents = new ArrayList<StartEvent>();
         this.intermediateEvents = new ArrayList<IntermediateEvent>();
-        this.errorHandler = new ErrorAdapter(this, new ErrorAdapterConfiguration());
+        this.errorAdapter = new ErrorAdapter(this, new ErrorAdapterConfiguration());
         
         try {
-            this.timer = new TimingManagerImpl(this.errorHandler);
+            this.timer = new TimingManagerImpl(this.errorAdapter);
         } catch (SchedulerException se) {
             logger.error("Initializing the scheduler failed. EventManager not available.", se);
             throw new EngineInitializationFailedException("Creating a timer manager failed.", se);
@@ -70,7 +71,8 @@ implements CorrelationManager, EventRegistrar {
      * This method starts the correlation manager and its dependent services.
      */
     public void start() {
-        this.registerAdapter(this.errorHandler);
+        logger.info("Starting the correlation manager");
+        registerAdapter(this.errorAdapter);
     }
     
     @Override
@@ -165,5 +167,23 @@ implements CorrelationManager, EventRegistrar {
 
         // don't generate a random UUID here, as it has to be one that a definition exists in the repository for.
         // this.navigator.startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
+    }
+    
+    /**
+     * Returns the error adapter.
+     * 
+     * @return the error adapter
+     */
+    public ErrorAdapter getErrorAdapter() {
+        return this.errorAdapter;
+    }
+    
+    /**
+     * Returns the list of registered inbound adapters.
+     * 
+     * @return the registered inbound adapter
+     */
+    public Collection<InboundAdapter> getInboundAdapters() {
+        return this.inboundAdapter.values();
     }
 }

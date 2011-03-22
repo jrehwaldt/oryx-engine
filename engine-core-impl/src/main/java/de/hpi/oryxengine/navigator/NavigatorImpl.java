@@ -56,7 +56,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     /**
      * Instantiates a new navigator implementation.
-     * @throws SchedulerException 
      */
     public NavigatorImpl() {
 
@@ -68,7 +67,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * 
      * @param numberOfThreads
      *            the number of navigator threads
-     * @throws SchedulerException 
      */
     public NavigatorImpl(int numberOfThreads) {
 
