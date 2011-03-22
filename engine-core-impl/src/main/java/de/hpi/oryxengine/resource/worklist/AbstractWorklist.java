@@ -13,9 +13,6 @@ public abstract class AbstractWorklist implements Worklist {
     @Override
     public abstract List<WorklistItem> getWorklistItems();
 
-    @Override
-    public abstract void itemHasChanged(WorklistItem worklistItem);
-
     List<WorklistItem> getLazyWorklistItems() {
 
         if (lazyWorklistItems == null) {

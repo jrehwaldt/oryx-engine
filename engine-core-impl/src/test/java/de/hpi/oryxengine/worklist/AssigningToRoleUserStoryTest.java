@@ -73,6 +73,7 @@ public class AssigningToRoleUserStoryTest {
     public void tearDown() {
 
         ServiceFactoryForTesting.clearWorklistManager();
+        ServiceFactoryForTesting.clearIdentityService();
     }
 
     @Test
@@ -108,7 +109,8 @@ public class AssigningToRoleUserStoryTest {
         ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);
         assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.ALLOCATED);
         
-        Assert.assertTrue(worklistItemsForHamburgGuys.size() == 0);
+        worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
+        Assert.assertEquals(worklistItemsForHamburgGuys.size(), 0);
     }
     
     @Test
@@ -140,6 +142,7 @@ public class AssigningToRoleUserStoryTest {
         ServiceFactory.getWorklistService().completeWorklistItemBy(worklistItemForHamburgGuy, jannik);
         assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.COMPLETED);
         
+        worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         String failureMessage = "Jannik should have completed the task."
                                 + "So there should be no item in his worklist and in the worklist of the Role HamburgGuys.";
         Assert.assertTrue(ServiceFactory.getWorklistService().getWorklistItems(jannik).size() == 0, failureMessage);

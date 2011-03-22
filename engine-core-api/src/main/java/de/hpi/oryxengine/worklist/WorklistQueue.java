@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.worklist;
 
-import java.util.List;
+import java.util.Set;
 
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.resource.Resource;
@@ -26,5 +26,5 @@ public interface WorklistQueue extends WorklistService {
      * @param worklistItem - {@link WorklistItem} that should be added to the queue.
      * @param resourcesToFillIn - the {@link Resource}s where the {@link WorklistItem} should be added to
      */
-    void addWorklistItem(WorklistItem worklistItem, List<Resource<?>> resourcesToFillIn);
+    void addWorklistItem(WorklistItem worklistItem, Set<Resource<?>> resourcesToFillIn);
 }

@@ -38,7 +38,7 @@ public class AssigningToParticipantUserStoryTest {
         // The organization structure is already prepared in the factory
         // The task is assigned to Jannik
         Task task = TaskFactory.createJannikServesGerardoTask();
-        jannik = task.getAssignedResources().get(0);
+        jannik = task.getAssignedResources().iterator().next();
 
         Activity humanTaskActivity = new HumanTaskActivity(task);
         Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(humanTaskActivity);
@@ -54,6 +54,7 @@ public class AssigningToParticipantUserStoryTest {
     @AfterMethod
     public void tearDown() {
         ServiceFactoryForTesting.clearWorklistManager();
+        ServiceFactoryForTesting.clearIdentityService();
     }
     
     /**

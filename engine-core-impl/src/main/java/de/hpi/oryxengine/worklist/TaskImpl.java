@@ -2,7 +2,10 @@ package de.hpi.oryxengine.worklist;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.hpi.oryxengine.resource.Resource;
 
@@ -19,7 +22,7 @@ public class TaskImpl implements Task {
     
     /** The allocation strategies. */
     private AllocationStrategies allocationStrategies;
-    private List<Resource<?>> assignedResources;
+    private Set<Resource<?>> assignedResources;
 
     /**
      * Default Constructor.
@@ -30,18 +33,18 @@ public class TaskImpl implements Task {
      *            - further information for the task
      * @param allocationStrategies
      *            - constains all {@link AllocationStrategies} responsible for the distribution of the task
-     * @param list
+     * @param set
      *            - a list of {@link Resource}s that should be assigned to a this task
      */
     public TaskImpl(String subject,
                     String description,
                     AllocationStrategies allocationStrategies,
-                    List<Resource<?>> list) {
+                    Set<Resource<?>> set) {
 
         this.subject = subject;
         this.description = description;
         this.allocationStrategies = allocationStrategies;
-        this.assignedResources = list;
+        this.assignedResources = set;
     }
 
     /**
@@ -65,7 +68,7 @@ public class TaskImpl implements Task {
         this(subject,
             description,
             allocationStrategies,
-            new ArrayList<Resource<?>>(Arrays.asList(assignedResource)));
+            new HashSet<Resource<?>>(Arrays.asList(assignedResource)));
     }
 
     /**
@@ -105,10 +108,10 @@ public class TaskImpl implements Task {
     }
 
     @Override
-    public List<Resource<?>> getAssignedResources() {
+    public Set<Resource<?>> getAssignedResources() {
 
         if (assignedResources == null) {
-            assignedResources = new ArrayList<Resource<?>>();
+            assignedResources = new HashSet<Resource<?>>();
         }
         return assignedResources;
     }

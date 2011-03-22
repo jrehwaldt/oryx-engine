@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.worklist;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -57,7 +57,7 @@ public class WorklistItemImpl implements WorklistItem {
     }
 
     @Override
-    public List<Resource<?>> getAssignedResources() {
+    public Set<Resource<?>> getAssignedResources() {
 
         return task.getAssignedResources();
     }

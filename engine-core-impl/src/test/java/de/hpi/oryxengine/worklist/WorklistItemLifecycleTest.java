@@ -36,7 +36,7 @@ public class WorklistItemLifecycleTest {
         worklistService = ServiceFactory.getWorklistService();
 
         Task task = TaskFactory.createJannikServesGerardoTask();
-        jannik = (Participant) task.getAssignedResources().get(0);
+        jannik = (Participant) task.getAssignedResources().iterator().next();
         
         Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(new HumanTaskActivity(null));
         Token token = new TokenImpl(humanTaskNode, new ProcessInstanceContextImpl(), new NavigatorImplMock());

@@ -71,7 +71,7 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
 
         if (worklist == null) {
 
-            worklist = new RoleWorklist();
+            worklist = new RoleWorklist(this);
         }
         return worklist;
     }
