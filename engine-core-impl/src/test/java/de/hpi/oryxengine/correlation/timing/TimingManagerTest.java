@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.correlation.timing;
 
-import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

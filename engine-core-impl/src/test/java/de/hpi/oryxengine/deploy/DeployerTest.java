@@ -18,10 +18,10 @@ import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
  */
 public class DeployerTest {
 
-    private Deployer deployer;
-    private ProcessRepository repo;
-    private ProcessDefinition def;
-    private UUID defID;
+    private Deployer deployer = null;
+    private ProcessRepository repo = null;
+    private ProcessDefinition def = null;
+    private UUID defID = null;
 
     /**
      * Sets the up.

@@ -55,10 +55,12 @@ public class TokenImpl implements Token {
      *            the start node
      * @param context
      *            the context
+     * @param navigator
+     *            the navigator
      */
     public TokenImpl(Node startNode, ProcessInstanceContext context, Navigator navigator) {
 
-        currentNode = startNode;
+        this.currentNode = startNode;
         this.context = context;
         this.navigator = navigator;
     }

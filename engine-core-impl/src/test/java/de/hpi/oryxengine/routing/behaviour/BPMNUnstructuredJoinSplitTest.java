@@ -31,13 +31,13 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 public class BPMNUnstructuredJoinSplitTest {
 
     /** The initial token. */
-    private Token initialToken;
+    private Token initialToken = null;
 
     /** The end node. */
-    private Node node1, node2, node3, innerJoinNode, outerJoinNode, endNode;
+    private Node node1 = null, node2 = null, node3 = null, innerJoinNode = null, outerJoinNode = null, endNode = null;
 
-    private NavigatorImplMock navigator;
-    private List<Node> workQueue;
+    private NavigatorImplMock navigator = null;
+    private List<Node> workQueue = null;
 
     /**
      * Before test.

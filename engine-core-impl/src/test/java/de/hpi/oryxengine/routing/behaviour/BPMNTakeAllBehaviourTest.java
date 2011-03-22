@@ -29,7 +29,7 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 public class BPMNTakeAllBehaviourTest {
 
     /** The process token. */
-    private Token token;
+    private Token token = null;
 
     /**
      * Set up. A token is built.

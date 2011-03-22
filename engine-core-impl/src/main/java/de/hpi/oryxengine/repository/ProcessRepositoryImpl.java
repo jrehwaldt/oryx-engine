@@ -36,7 +36,7 @@ public final class ProcessRepositoryImpl implements ProcessRepository {
      *
      * @return single instance of ProcessRepositoryImpl
      */
-    public static ProcessRepository getInstance() {
+    public synchronized static ProcessRepository getInstance() {
 
         if (instance == null) {
             instance = new ProcessRepositoryImpl();

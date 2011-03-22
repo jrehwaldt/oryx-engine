@@ -147,7 +147,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
     /**
      * Translates a WorklistItem into a corresponding WorklistItemImpl object.
      * 
-     * @param role
+     * @param worklistItem
      *            - a {@link WorklistItem} object
      * @return roleImpl - the casted {@link WorklistItemImpl} object
      * @throws DalmatinaException
