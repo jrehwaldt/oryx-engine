@@ -22,14 +22,9 @@ import de.hpi.oryxengine.process.token.TokenImpl;
  */
 public class ActivityLifecyclePluginTest {
     
-    /** The activity. */
     private AbstractActivity activity = null;
-    
-    /** The token. */
     private Token token = null;
-    
-    /** The mock. */
-    private AbstractActivityLifecyclePlugin mock = null;
+    private ArgumentCaptor<ActivityLifecycleChangeEvent> eventCapturer = null;
     
     /**
      * Setup method.
@@ -38,10 +33,7 @@ public class ActivityLifecyclePluginTest {
     public void setUp() {
         this.activity = new AutomatedDummyActivity("s.out");
         this.token = new TokenImpl(new NodeImpl(this.activity));
-        this.mock = mock(AbstractActivityLifecyclePlugin.class);
-        this.activity.registerPlugin(mock);
-        
-        activity.execute(this.token);
+        this.eventCapturer = ArgumentCaptor.forClass(ActivityLifecycleChangeEvent.class);
     }
     
     /**
@@ -50,10 +42,11 @@ public class ActivityLifecyclePluginTest {
      */
     @Test
     public void testStartedTrigger() {
-        ArgumentCaptor<ActivityLifecycleChangeEvent> activeEvent
-            = ArgumentCaptor.forClass(ActivityLifecycleChangeEvent.class);
-        verify(this.mock, times(2)).update(eq(this.activity), activeEvent.capture());
-        assertEquals(ActivityState.COMPLETED, activeEvent.getValue().getNewState());
+        AbstractActivityLifecyclePlugin mock = mock(AbstractActivityLifecyclePlugin.class);
+        this.activity.registerPlugin(mock);
+        this.activity.execute(this.token);
+        
+        verify(mock, times(2)).update(eq(this.activity), this.eventCapturer.capture());
+        assertEquals(ActivityState.COMPLETED, this.eventCapturer.getValue().getNewState());
     }
-    
 }

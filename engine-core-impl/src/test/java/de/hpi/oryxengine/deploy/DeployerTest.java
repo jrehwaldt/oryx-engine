@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.deploy;
 
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 import java.util.UUID;
@@ -7,21 +8,22 @@ import java.util.UUID;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.factory.definition.ProcessDefinitionFactory;
 import de.hpi.oryxengine.factory.definition.SimpleProcessDefinitionFactory;
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.repository.ProcessRepository;
-import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 
 /**
  * The Class DeployerTest.
  */
 public class DeployerTest {
 
-    private Deployer deployer;
-    private ProcessRepository repo;
-    private ProcessDefinition def;
-    private UUID defID;
+    private Deployer deployer = null;
+    private ProcessRepository repo = null;
+    private ProcessDefinition def = null;
+    private UUID defID = null;
 
     /**
      * Sets the up.
@@ -30,7 +32,7 @@ public class DeployerTest {
     public void setUp() {
 
         deployer = new DeployerImpl();
-        repo = ProcessRepositoryImpl.getInstance();
+        repo = ServiceFactory.getRepositoryService();
         ProcessDefinitionFactory factory = new SimpleProcessDefinitionFactory();
         defID = UUID.randomUUID();
         def = factory.create(defID);
@@ -46,7 +48,7 @@ public class DeployerTest {
     public void testDeployment()
     throws Exception {
 
-        deployer.deploy(def);
+        deployer.deploy(def, mock(Navigator.class));
         assertEquals(repo.getDefinition(defID), def,
             "The deployed process definition should be avaialable in the repository.");
     }

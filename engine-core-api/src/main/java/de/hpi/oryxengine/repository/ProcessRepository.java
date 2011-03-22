@@ -3,6 +3,7 @@ package de.hpi.oryxengine.repository;
 import java.util.Map;
 import java.util.UUID;
 
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
@@ -15,10 +16,10 @@ public interface ProcessRepository {
      *
      * @param id the id
      * @return the definition
-     * @throws Exception thrown, if key id does not exist
+     * @throws DefinitionNotFoundException thrown, if key id does not exist
      */
     ProcessDefinition getDefinition(UUID id)
-    throws Exception;
+    throws DefinitionNotFoundException;
 
     /**
      * Adds the definition.

@@ -2,7 +2,6 @@ package de.hpi.oryxengine.example;
 
 
 import de.hpi.oryxengine.activity.AbstractActivity;
-
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.factory.node.AddNumbersAndStoreNodeFactory;
 import de.hpi.oryxengine.factory.node.MailNodeFactory;

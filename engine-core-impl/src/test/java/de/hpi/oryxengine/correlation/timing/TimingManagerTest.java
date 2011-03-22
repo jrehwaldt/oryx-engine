@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.correlation.timing;
 
-import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -10,10 +10,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
-import de.hpi.oryxengine.exception.OryxEngineException;
+import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
+import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
  * Test class for {@link TimingManagerImpl}.
@@ -28,10 +28,10 @@ public class TimingManagerTest {
     /**
      * Tests the registering of a pull adapter and its invocation.
      * 
-     * @throws OryxEngineException test fails if either pulling or registering fails
+     * @throws DalmatinaException test fails if either pulling or registering fails
      */
     @Test
-    public void testRegisteringAPullAdapter() throws OryxEngineException {
+    public void testRegisteringAPullAdapter() throws DalmatinaException {
         InboundPullAdapter adapter = mock(InboundPullAdapter.class);
         PullAdapterConfiguration configuration = mock(PullAdapterConfiguration.class);
         
@@ -51,8 +51,9 @@ public class TimingManagerTest {
     @BeforeMethod
     public void beforeMethod()
     throws SchedulerException {
-        CorrelationManagerImpl correlation = mock(CorrelationManagerImpl.class);
-        this.timer = new TimingManagerImpl(correlation);
+        ErrorAdapter errorAdapter = mock(ErrorAdapter.class);
+//        CorrelationManagerImpl correlation = mock(CorrelationManagerImpl.class);
+        this.timer = new TimingManagerImpl(errorAdapter);
     }
 
     /**

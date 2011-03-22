@@ -6,6 +6,9 @@ import java.util.List;
 import de.hpi.oryxengine.worklist.Worklist;
 import de.hpi.oryxengine.worklist.WorklistItem;
 
+/**
+ * The abstract work list class.
+ */
 public abstract class AbstractWorklist implements Worklist {
 
     private List<WorklistItem> lazyWorklistItems;

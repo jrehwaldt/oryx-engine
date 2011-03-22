@@ -16,9 +16,7 @@ implements ObserverPlugin, ActivityLifecyclePlugin {
     
     /**
      * This method is invoked whenever the activity's state changes.
-     *
-     * @param observable the observable
-     * @param event the event
+     * 
      * {@inheritDoc}
      */
     @Override

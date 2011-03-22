@@ -26,9 +26,9 @@ import de.hpi.oryxengine.resource.Participant;
  */
 public class WorklistItemLifecycleTest {
 
-    private WorklistService worklistService;
-    private WorklistItem worklistItem;
-    private Participant jannik;
+    private WorklistService worklistService = null;
+    private WorklistItem worklistItem = null;
+    private Participant jannik = null;
 
     @BeforeMethod
     public void setUp() {
@@ -37,10 +37,10 @@ public class WorklistItemLifecycleTest {
 
         Task task = TaskFactory.createJannikServesGerardoTask();
         jannik = (Participant) task.getAssignedResources().iterator().next();
-        
+
         Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(new HumanTaskActivity(null));
         Token token = new TokenImpl(humanTaskNode, new ProcessInstanceContextImpl(), new NavigatorImplMock());
-        
+
         worklistItem = new WorklistItemImpl(task, token);
 
         ServiceFactory.getWorklistQueue().addWorklistItem(worklistItem, jannik);
@@ -73,7 +73,8 @@ public class WorklistItemLifecycleTest {
         try {
 
             worklistItemForGerardo = new WorklistItemImpl(task, null);
-            String failureMessage = "An NullPointerException should have occurred, because the WorklistItem was created without a Token.";
+            String failureMessage = "An NullPointerException should have occurred, "
+                + "because the WorklistItem was created without a Token.";
             Assert.fail(failureMessage);
         } catch (NullPointerException nullPointerException) {
             // This was expected
@@ -83,7 +84,8 @@ public class WorklistItemLifecycleTest {
         try {
 
             worklistItemForGerardo = new WorklistItemImpl(task, null);
-            String failureMessage = "An NullPointerException should have occurred, because the WorklistItem was created without a Task.";
+            String failureMessage = "An NullPointerException should have occurred, "
+                + "because the WorklistItem was created without a Task.";
             Assert.fail(failureMessage);
         } catch (NullPointerException nullPointerException) {
             // This was expected
@@ -114,7 +116,7 @@ public class WorklistItemLifecycleTest {
 
         worklistService.beginWorklistItemBy(worklistItem, jannik);
         worklistService.abortWorklistItemBy(worklistItem, jannik);
-        
+
         // TODO Assertions are missing
     }
 

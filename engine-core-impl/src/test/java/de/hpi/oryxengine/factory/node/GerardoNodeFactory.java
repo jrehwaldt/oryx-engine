@@ -14,8 +14,13 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 /**
  * 
  */
-public class GerardoNodeFactory {
-
+public final class GerardoNodeFactory {
+    /**
+     * Hidden constructor.
+     */
+    private GerardoNodeFactory() {
+        
+    }
     
     public static Node createSimpleNodeWith(Activity activity) {
 

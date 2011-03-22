@@ -9,17 +9,21 @@ import javax.annotation.Nonnull;
 
 import org.quartz.SchedulerException;
 
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.repository.ProcessRepository;
-import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
@@ -57,7 +61,11 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     /**
      * Instantiates a new navigator implementation.
-     * @throws SchedulerException 
+<<<<<<< HEAD
+     * 
+     * @throws SchedulerException
+=======
+>>>>>>> branch 'refs/heads/master' of git@github.com:jrehwaldt/oryx-engine.git
      */
     public NavigatorImpl() {
 
@@ -69,7 +77,10 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * 
      * @param numberOfThreads
      *            the number of navigator threads
-     * @throws SchedulerException 
+<<<<<<< HEAD
+     * @throws SchedulerException
+=======
+>>>>>>> branch 'refs/heads/master' of git@github.com:jrehwaldt/oryx-engine.git
      */
     public NavigatorImpl(int numberOfThreads) {
 
@@ -81,7 +92,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
         this.correlation = new CorrelationManagerImpl(this);
-        repository = ProcessRepositoryImpl.getInstance();
+        repository = ServiceFactory.getRepositoryService();
         this.suspendedTokens = new ArrayList<Token>();
     }
 
@@ -111,18 +122,18 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         counter++;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void startProcessInstance(UUID processID)
-    throws Exception {
+    throws DefinitionNotFoundException {
 
+        // TODO we need a method that allows to start a process at a single startNode, for example at a message start
+        // node.
         ProcessDefinition definition = repository.getDefinition(processID);
-        List<Node> startNodes = definition.getStartNodes();
+        List<StartNode> startNodes = definition.getStartNodes();
 
+        ProcessInstanceContext context = new ProcessInstanceContextImpl();
         for (Node node : startNodes) {
-            Token newToken = new TokenImpl(node);
+            Token newToken = new TokenImpl(node, context, this);
             startArbitraryInstance(newToken);
         }
     }
@@ -243,6 +254,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     public void removeSuspendToken(Token t) {
 
         suspendedTokens.remove(t);
-        
+
     }
 }

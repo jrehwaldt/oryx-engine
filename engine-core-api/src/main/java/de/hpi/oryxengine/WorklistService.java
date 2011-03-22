@@ -3,6 +3,7 @@ package de.hpi.oryxengine;
 import java.util.List;
 import java.util.Map;
 
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.worklist.WorklistItem;
 
@@ -30,36 +31,40 @@ public interface WorklistService {
     Map<Resource<?>, List<WorklistItem>> getWorklistItems(List<Resource<?>> resources);
 
     /**
-     * Claims a {@link WorklistItem}. 
-     * 
+     * Claims a {@link WorklistItem}.
+     *
      * @param worklistItem - {@link WorklistItem} that should be claimed
-     * @param resource - {@link Resource} that claims the given {@link WorklistItem}
+     * @param resource the resource that triggers this method
+     * @throws DalmatinaException thrown if claim fails
      */
-    void claimWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws Exception;
+    void claimWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws DalmatinaException;
 
     /**
-     * Claims a {@link WorklistItem}. 
-     * 
+     * Begin a {@link WorklistItem}.
+     *
      * @param worklistItem - {@link WorklistItem} that should be claimed
-     * @param resource - {@link Resource} that begins the given {@link WorklistItem}
+     * @param resource the resource that triggers this method
+     * @throws DalmatinaException thrown if begin fails
      */
-    void beginWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws Exception;
+    void beginWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws DalmatinaException;
 
     /**
      * Completes a {@link WorklistItem}.
-     * 
+     *
      * @param worklistItem - {@link WorklistItem} that was completed
-     * @param resource - {@link Resource} that completes the given {@link WorklistItem}
+     * @param resource the resource that triggers this method
+     * @throws DalmatinaException thrown if completing fails
      */
-    void completeWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws Exception;
+    void completeWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws DalmatinaException;
 
     /**
-     * Aborts a {@link WorklistItem}. 
-     * 
+     * Aborts a {@link WorklistItem}.
+     *
      * @param worklistItem - {@link WorklistItem} that is aborted
-     * @param resource - {@link Resource} that aborts the given {@link WorklistItem}
+     * @param resource the resource that triggers this method
+     * @throws DalmatinaException thrown if aborting fails
      */
-    void abortWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws Exception;
+    void abortWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws DalmatinaException;
     
     // TODO: Observable Interface für die GUI
 }

@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.StartNode;
 
 /**
  * The Interface ProcessBuilder.
@@ -25,6 +26,8 @@ public interface ProcessBuilder {
      * @return the node
      */
     Node createNode(NodeParameter param);
+    
+    StartNode createStartNode(StartNodeParameter param);
     
     /**
      * Creates the transition.
@@ -48,7 +51,8 @@ public interface ProcessBuilder {
     /**
      * Sets the iD.
      *
-     * @param id the new iD
+     * @param id the new ID
+     * @return the process builder
      */
     ProcessBuilder setID(UUID id);
     
@@ -56,6 +60,7 @@ public interface ProcessBuilder {
      * Sets the description.
      *
      * @param description the new description
+     * @return the process builder
      */
     ProcessBuilder setDescription(String description);
 }

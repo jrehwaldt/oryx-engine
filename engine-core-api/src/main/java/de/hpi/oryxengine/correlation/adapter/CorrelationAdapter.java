@@ -2,7 +2,8 @@ package de.hpi.oryxengine.correlation.adapter;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.correlation.EventType;
+import de.hpi.oryxengine.correlation.EventManager;
+
 
 /**
  * General {@link EventManager} adapter.
@@ -13,7 +14,7 @@ public interface CorrelationAdapter {
      * 
      * @return the adapter's type
      */
-    @Nonnull EventType getEventType();
+    @Nonnull AdapterType getAdapterType();
     
     /**
      * Provides access to the adapter's configuration.

@@ -26,7 +26,6 @@ import de.hpi.oryxengine.worklist.Pattern;
 import de.hpi.oryxengine.worklist.Task;
 import de.hpi.oryxengine.worklist.TaskImpl;
 import de.hpi.oryxengine.worklist.WorklistItem;
-import de.hpi.oryxengine.worklist.WorklistItemState;
 import de.hpi.oryxengine.worklist.pattern.SimplePullPattern;
 import de.hpi.oryxengine.worklist.pattern.SimplePushPattern;
 
@@ -35,10 +34,10 @@ import de.hpi.oryxengine.worklist.pattern.SimplePushPattern;
  */
 public class HumanTaskActivityTest {
 
-    private Task task;
-    private Resource<?> resource;
+    private Task task = null;
+    private Resource<?> resource = null;
     
-    private HumanTaskActivity humanTask;
+    private HumanTaskActivity humanTask = null;
     
     private Token token;
 

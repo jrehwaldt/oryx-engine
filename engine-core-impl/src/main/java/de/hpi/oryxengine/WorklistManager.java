@@ -1,6 +1,5 @@
 package de.hpi.oryxengine;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +7,7 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.exception.OryxEngineException;
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.worklist.Pattern;
@@ -41,8 +40,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
 
         try {
             resourceToFillIn.getWorklist().addWorklistItem(worklistItem);
-        } catch (OryxEngineException e) {
-            // TODO Auto-generated catch block
+        } catch (DalmatinaException e) {
             e.printStackTrace();
         }
 
@@ -51,7 +49,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
     @Override
     public void addWorklistItem(WorklistItem worklistItem, Set<Resource<?>> resourcesToFillIn) {
 
-        Resource<?>[] resourcesToFillInArray = (Resource<?>[]) resourcesToFillIn.toArray(new Resource<?>[resourcesToFillIn.size()]);
+        Resource<?>[] resourcesToFillInArray = (Resource<?>[]) resourcesToFillIn
+        .toArray(new Resource<?>[resourcesToFillIn.size()]);
 
         for (int i = 0; i < resourcesToFillInArray.length; i++) {
             Resource<?> resourceToFillIn = resourcesToFillInArray[i];
@@ -73,18 +72,17 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
     @Override
     public Map<Resource<?>, List<WorklistItem>> getWorklistItems(List<Resource<?>> resources) {
 
-        // TODO Auto-generated method stub
         return null;
     }
 
     /**
      * {@inheritDoc}
      * 
-     * @throws OryxEngineException
+     * @throws DalmatinaException
      */
     @Override
     public void claimWorklistItemBy(WorklistItem worklistItem, Resource<?> resource)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         Set<Resource<?>> resourcesToNotify = new HashSet<Resource<?>>();
         resourcesToNotify.add(resource);
@@ -93,23 +91,19 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
             resourceToNotify.getWorklist().itemIsAllocatedBy(worklistItem, resource);
         }
 
-//        resource.getWorklist().addWorklistItem(worklistItem);
-//        resource.getWorklist().itemIsAllocated(worklistItem);
+        // resource.getWorklist().addWorklistItem(worklistItem);
+        // resource.getWorklist().itemIsAllocated(worklistItem);
     }
 
     @Override
     public void abortWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) {
 
-        // TODO Auto-generated method stub
 
     }
 
-    /**
-     * @throws Exception
-     */
     @Override
     public void completeWorklistItemBy(WorklistItem worklistItem, Resource<?> resource)
-    throws Exception {
+    throws DalmatinaException {
 
         resource.getWorklist().itemIsCompleted(worklistItem);
 
@@ -120,25 +114,11 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
     public List<WorklistItem> getWorklistItems(@Nonnull Resource<?> resource) {
 
         return resource.getWorklist().getWorklistItems();
-
-        // List<Resource<?>> resourcesRelatedToResource = ResourceViewResolver.extractResourcesFor(resource);
-        //
-        // for (Resource<?> relatedResource : resourcesRelatedToResource) {
-        //
-        // List<WorklistItem> worklistItemsOfRelatedResource =
-        // getWorklistTable().get(relatedResource).getWorklistItems();
-        // worklistItemsForResource.addAll(worklistItemsOfRelatedResource);
-        // }
-        //
-        // List<WorklistItem> worklistItemsOfResource = getWorklistTable().get(resource);
-        // worklistItemsForResource.addAll(worklistItemsOfResource);
-        //
-        // return worklistItemsForResource;
     }
 
     @Override
     public void beginWorklistItemBy(WorklistItem worklistItem, Resource<?> resource)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         resource.getWorklist().itemIsStarted(worklistItem);
     }

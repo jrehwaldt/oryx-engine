@@ -3,7 +3,7 @@ package de.hpi.oryxengine.resource.worklist;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hpi.oryxengine.exception.OryxEngineException;
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Position;
 import de.hpi.oryxengine.resource.Resource;
@@ -46,7 +46,7 @@ public class ParticipantWorklist extends AbstractWorklist {
 
     @Override
     public void itemIsAllocatedBy(WorklistItem worklistItem, Resource<?> claimingResource)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
 
@@ -74,7 +74,7 @@ public class ParticipantWorklist extends AbstractWorklist {
 
     @Override
     public void itemIsCompleted(WorklistItem worklistItem)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
 
@@ -85,7 +85,7 @@ public class ParticipantWorklist extends AbstractWorklist {
 
     @Override
     public void itemIsStarted(WorklistItem worklistItem)
-    throws OryxEngineException {
+    throws DalmatinaException {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
         worklistItemImpl.setStatus(WorklistItemState.EXECUTING);
