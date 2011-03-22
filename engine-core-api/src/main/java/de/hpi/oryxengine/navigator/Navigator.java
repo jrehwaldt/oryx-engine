@@ -6,7 +6,6 @@ import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.process.token.Token;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface NavigatorInterface.
  */
