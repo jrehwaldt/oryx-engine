@@ -22,7 +22,7 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
      */
     public RoleImpl(String roleId) {
 
-        super(roleId);
+        super(roleId, ResourceType.ROLE);
     }
 
     /**

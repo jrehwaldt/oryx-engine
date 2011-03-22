@@ -28,7 +28,7 @@ public class PositionImpl extends ResourceImpl<Position> implements Position {
      */
     public PositionImpl(String positionId) {
 
-        super(positionId);
+        super(positionId, ResourceType.POSITION);
     }
 
     /**

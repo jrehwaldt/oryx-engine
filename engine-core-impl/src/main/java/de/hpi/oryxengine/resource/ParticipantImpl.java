@@ -25,7 +25,7 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
      */
     public ParticipantImpl(String participantId) {
 
-        super(participantId);
+        super(participantId, ResourceType.PARTICIPANT);
     }
 
     /**
@@ -54,16 +54,6 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
         return myPositions;
     }
 
-    // @Override
-    // public Participant addMyPosition(Position position) {
-    //
-    // myPositions.add(position);
-    // return this;
-    // }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Set<Capability> getMyCapabilities() {
 
@@ -73,9 +63,6 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
         return myCapabilities;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Set<Role> getMyRoles() {
 

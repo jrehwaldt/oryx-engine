@@ -25,6 +25,7 @@ public class HumanTaskActivity extends AbstractActivity {
      * 
      * @param task - the task to distribute
      */
+    // TODO: CreationPattern einfügen
     public HumanTaskActivity(Task task) {
 
         this.task = task;
@@ -36,6 +37,8 @@ public class HumanTaskActivity extends AbstractActivity {
     @Override
     protected void executeIntern(@Nonnull Token instance) {
 
+//        creationPattern.createTask()
+        
         TaskDistribution taskDistribution = ServiceFactory.getTaskDistribution();
         taskDistribution.distribute(task, instance);
         

@@ -26,7 +26,7 @@ public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> impleme
      */
     public OrganizationUnitImpl(String organizationalUnitId) {
 
-        super(organizationalUnitId);
+        super(organizationalUnitId, ResourceType.ORGANIZATION_UNIT);
         superOrganizationalUnit = null;
     }
 

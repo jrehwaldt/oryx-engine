@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.hpi.oryxengine.resource.CapabilityImpl;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.IdentityBuilderImpl;
 import de.hpi.oryxengine.resource.OrganizationUnit;
@@ -37,7 +36,7 @@ public class IdentityServiceImpl implements IdentityService {
     private Set<RoleImpl> roles;
     
     /** The capabilities. */
-    private Set<CapabilityImpl> capabilities;
+//    private Set<CapabilityImpl> capabilities;
 
     /**
      * {@inheritDoc}

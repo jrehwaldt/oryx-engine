@@ -13,9 +13,9 @@ public interface Resource<R extends Resource<?>> {
     /**
      * Returns the type of the {@link Resource}. The type is an element of Enumeration {@link ResourceType}.
      * 
-     * @return the type of the {@link Resource}
+     * @return the type of the {@link Resource}, which is an Element of the Enumeration
      */
-    String getType();
+    ResourceType getType();
 
     /**
      * Returns the id of the Resource.
