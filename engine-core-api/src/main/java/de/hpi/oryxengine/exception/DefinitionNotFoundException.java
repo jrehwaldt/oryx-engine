@@ -16,7 +16,6 @@ public class DefinitionNotFoundException extends DalmatinaException {
      * Default Constructor.
      */
     public DefinitionNotFoundException() {
-
         super(DEFAULT_EXCEPTION_MESSAGE);
     }
 }

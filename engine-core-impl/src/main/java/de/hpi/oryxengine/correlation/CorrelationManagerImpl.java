@@ -1,8 +1,8 @@
 package de.hpi.oryxengine.correlation;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,15 +14,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.correlation.adapter.AdapterType;
+import de.hpi.oryxengine.correlation.adapter.InboundAdapter;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
+import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
+import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.InboundImapMailAdapterImpl;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
-import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
 import de.hpi.oryxengine.correlation.adapter.mail.MailProtocol;
 import de.hpi.oryxengine.correlation.registration.EventCondition;
 import de.hpi.oryxengine.correlation.registration.IntermediateEvent;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.correlation.timing.TimingManagerImpl;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.EngineInitializationFailedException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
@@ -30,18 +33,19 @@ import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 /**
  * A concrete implementation of our engines Event Manager.
  */
-public class CorrelationManagerImpl implements CorrelationManager, EventRegistrar {
+public class CorrelationManagerImpl
+implements CorrelationManager, EventRegistrar {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private Navigator navigator;
     private TimingManagerImpl timer;
-
-    private Map<AdapterType, InboundPullAdapter> inboundAdapter;
+    private ErrorAdapter errorHandler;
+    private Map<AdapterType, InboundAdapter> inboundAdapter;
+    private InboundPullAdapter adapter; // TODO remove, this is a hack
 
     private List<StartEvent> startEvents;
     private List<IntermediateEvent> intermediateEvents;
-    private InboundPullAdapter adapter; // TODO remove, this is a hack
 
     /**
      * Default constructor.
@@ -50,14 +54,15 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
      *            the navigator
      */
     public CorrelationManagerImpl(@Nonnull Navigator navigator) {
-
+        
         this.navigator = navigator;
-        this.inboundAdapter = new HashMap<AdapterType, InboundPullAdapter>();
+        this.inboundAdapter = new HashMap<AdapterType, InboundAdapter>();
         this.startEvents = new ArrayList<StartEvent>();
         this.intermediateEvents = new ArrayList<IntermediateEvent>();
-
+        this.errorHandler = new ErrorAdapter(this, new ErrorAdapterConfiguration());
+        
         try {
-            this.timer = new TimingManagerImpl(this);
+            this.timer = new TimingManagerImpl(this.errorHandler);
         } catch (SchedulerException se) {
             logger.error("Initializing the scheduler failed. EventManager not available.", se);
             throw new EngineInitializationFailedException("Creating a timer manager failed.", se);
@@ -73,7 +78,8 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
         // this.timer.setThread(t);
         // t.start();
         // TODO timer JAN
-
+        
+        this.registerAdapter(this.errorHandler);
         this.adapter = initializeAdapter();
     }
 
@@ -83,7 +89,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     @Override
     public void correlate(@Nonnull AdapterEvent event) {
 
-        System.out.println("correlating...");
+        logger.debug("Correlating {}", event);
         try {
             startEvent(event);
         } catch (Exception e) {
@@ -93,49 +99,58 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     }
 
     @Override
-    public void registerStartEvent(StartEvent event) {
-
+    public void registerStartEvent(@Nonnull StartEvent event) {
         this.startEvents.add(event);
     }
 
     @Override
-    public void registerIntermediateEvent(IntermediateEvent event) {
-
+    public void registerIntermediateEvent(@Nonnull IntermediateEvent event) {
         this.intermediateEvents.add(event);
     }
-
-    InboundPullAdapter initializeAdapter() {
-
+    
+    /**
+     * A call to this method registers the corresponding adapter.
+     * 
+     * @param adapter the {@link InboundAdapter} to register
+     * @param <Adapter> the adapter's type, generally {@link InboundAdapter} or {@link InboundPullAdapter}
+     * @return the registered {@link InboundAdapter}
+     */
+    private @Nonnull <Adapter extends InboundAdapter> Adapter registerAdapter(@Nonnull Adapter adapter) {
+        this.inboundAdapter.put(adapter.getAdapterType(), adapter);
+        return adapter;
+    }
+    
+    @Nonnull InboundPullAdapter initializeAdapter() {
+        
         MailAdapterConfiguration config = new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
             "imap.gmail.com", MailProtocol.IMAP.getPort(true), true);
 
         final InboundPullAdapter mailAdapter = new InboundImapMailAdapterImpl(this, config);
-        this.inboundAdapter.put(mailAdapter.getAdapterType(), mailAdapter);
-
-        return mailAdapter;
+        return registerAdapter(mailAdapter);
     }
 
     /**
      * Triggered if an event is identified as intermediate trigger.
      * 
      * @param e
-     *            the event fired by a certain adapter
+     *            the event fired by a certain {@link InboundAdapter}
      */
     private void intermediateEvent(@Nonnull AdapterEvent e) {
-
         // TODO user story ready to be solved
     }
 
     /**
-     * Triggered if an event is identified as start trigger.
+     * Triggered if an {@link AdapterEvent} is identified as start trigger.
      * 
      * @param e
      *            the event fired by a certain adapter
-     * @throws Exception
+     * @throws InvocationTargetException reflection exception
+     * @throws IllegalAccessException reflection exception
+     * @throws DefinitionNotFoundException
      *             thrown if starting this instance fails
      */
     private void startEvent(@Nonnull AdapterEvent e)
-    throws Exception {
+    throws DefinitionNotFoundException, IllegalAccessException, InvocationTargetException {
         
         for (StartEvent event : startEvents) {
             boolean triggerEvent = true;
@@ -157,10 +172,5 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
 
         // don't generate a random UUID here, as it has to be one that a definition exists in the repository for.
         // this.navigator.startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
-    }
-
-    public Collection<InboundPullAdapter> getPullingAdapters() {
-
-        return this.inboundAdapter.values();
     }
 }

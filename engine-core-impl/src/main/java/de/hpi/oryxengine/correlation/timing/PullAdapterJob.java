@@ -6,10 +6,9 @@ import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
+import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
@@ -22,8 +21,7 @@ public class PullAdapterJob
 implements Job {
     
     public static final String ADAPTER_KEY = "adapter";
-    
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    public static final String ERROR_HANDLER_KEY = "error-handler";
     
     @Override
     public void execute(@Nonnull JobExecutionContext context)
@@ -34,9 +32,9 @@ implements Job {
         InboundPullAdapter adapter = (InboundPullAdapter) data.get(ADAPTER_KEY);
         try {
             adapter.pull();
-        } catch (DalmatinaException oee) {
-            logger.error("Adapter failed while pulling.", oee);
-            // TODO exception handling
+        } catch (DalmatinaException e) {
+            ErrorAdapter error = (ErrorAdapter) data.get(ERROR_HANDLER_KEY);
+            error.exceptionOccured("Adapter failed while pulling.", e);
         }
     }
 }

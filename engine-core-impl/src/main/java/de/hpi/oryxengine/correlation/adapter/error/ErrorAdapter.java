@@ -14,7 +14,7 @@ import de.hpi.oryxengine.correlation.adapter.InboundAdapter;
 public class ErrorAdapter
 extends AbstractCorrelationAdapter<ErrorAdapterConfiguration>
 implements InboundAdapter {
-
+    
     /**
      * Default constructor.
      * 
@@ -30,9 +30,12 @@ implements InboundAdapter {
      * This method is internally called if an {@link Exception} occurred,
      * which may be correlated with the process.
      * 
+     * @param message a message describing the error
      * @param exception the {@link Throwable}, which occurred
      */
-    public void exceptionOccured(@Nonnull Throwable exception) {
+    public void exceptionOccured(@Nonnull String message,
+                                 @Nonnull Throwable exception) {
+        logger.error(message, exception);
         correlate(new ErrorAdapterEvent(this.configuration, exception));
     }
 }

@@ -49,7 +49,8 @@ public final class ProcessRepositoryImpl implements ProcessRepository {
      * {@inheritDoc}
      */
     @Override
-    public ProcessDefinition getDefinition(UUID id) throws DefinitionNotFoundException {
+    public ProcessDefinition getDefinition(UUID id)
+    throws DefinitionNotFoundException {
 
         if (!definitions.containsKey(id)) {
             throw new DefinitionNotFoundException();

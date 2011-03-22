@@ -7,10 +7,9 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.quartz.SchedulerException;
-
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
@@ -110,13 +109,10 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         executionThreads.add(thread);
         counter++;
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public void startProcessInstance(UUID processID)
-    throws Exception {
+    throws DefinitionNotFoundException {
 
         ProcessDefinition definition = repository.getDefinition(processID);
         List<Node> startNodes = definition.getStartNodes();
