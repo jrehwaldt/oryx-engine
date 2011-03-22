@@ -18,13 +18,11 @@ import de.hpi.oryxengine.correlation.adapter.InboundAdapter;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapterConfiguration;
-import de.hpi.oryxengine.correlation.adapter.mail.InboundImapMailAdapterImpl;
-import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
-import de.hpi.oryxengine.correlation.adapter.mail.MailProtocol;
 import de.hpi.oryxengine.correlation.registration.EventCondition;
 import de.hpi.oryxengine.correlation.registration.IntermediateEvent;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.correlation.timing.TimingManagerImpl;
+import de.hpi.oryxengine.exception.AdapterSchedulingException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.EngineInitializationFailedException;
 import de.hpi.oryxengine.navigator.Navigator;
@@ -42,7 +40,6 @@ implements CorrelationManager, EventRegistrar {
     private TimingManagerImpl timer;
     private ErrorAdapter errorHandler;
     private Map<AdapterType, InboundAdapter> inboundAdapter;
-    private InboundPullAdapter adapter; // TODO remove, this is a hack
 
     private List<StartEvent> startEvents;
     private List<IntermediateEvent> intermediateEvents;
@@ -73,22 +70,12 @@ implements CorrelationManager, EventRegistrar {
      * This method starts the correlation manager and its dependent services.
      */
     public void start() {
-
-        // Thread t = new Thread(this.timer);
-        // this.timer.setThread(t);
-        // t.start();
-        // TODO timer JAN
-        
         this.registerAdapter(this.errorHandler);
-        this.adapter = initializeAdapter();
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public void correlate(@Nonnull AdapterEvent event) {
-
+        
         logger.debug("Correlating {}", event);
         try {
             startEvent(event);
@@ -97,14 +84,16 @@ implements CorrelationManager, EventRegistrar {
         }
         intermediateEvent(event);
     }
-
+    
     @Override
     public void registerStartEvent(@Nonnull StartEvent event) {
+        logger.debug("Registering start event {}", event);
         this.startEvents.add(event);
     }
-
+    
     @Override
     public void registerIntermediateEvent(@Nonnull IntermediateEvent event) {
+        logger.debug("Registering intermediate event {}", event);
         this.intermediateEvents.add(event);
     }
     
@@ -120,13 +109,17 @@ implements CorrelationManager, EventRegistrar {
         return adapter;
     }
     
-    @Nonnull InboundPullAdapter initializeAdapter() {
-        
-        MailAdapterConfiguration config = new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
-            "imap.gmail.com", MailProtocol.IMAP.getPort(true), true);
-
-        final InboundPullAdapter mailAdapter = new InboundImapMailAdapterImpl(this, config);
-        return registerAdapter(mailAdapter);
+    /**
+     * A call to this method registers the corresponding adapter.
+     * 
+     * @param adapter the {@link InboundAdapter} to register
+     * @return the registered {@link InboundAdapter}
+     * @throws AdapterSchedulingException thrown if the scheduling fails
+     */
+    private @Nonnull InboundPullAdapter registerPullAdapter(@Nonnull InboundPullAdapter adapter)
+    throws AdapterSchedulingException {
+        this.timer.registerPullAdapter(adapter);
+        return registerAdapter(adapter);
     }
 
     /**
