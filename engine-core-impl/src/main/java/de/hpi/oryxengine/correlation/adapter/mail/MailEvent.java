@@ -10,9 +10,9 @@ import de.hpi.oryxengine.correlation.EventType;
 public final class MailEvent implements EventType {
     
     /**
-     * Hidden constructor.
+     * Constructor. Made this public as I need this in the tests.
      */
-    MailEvent() {
+    public MailEvent() {
         
     }
     

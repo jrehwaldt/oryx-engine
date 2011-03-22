@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.correlation;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,7 +16,11 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.mail.InboundImapMailAdapterImpl;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
 import de.hpi.oryxengine.correlation.adapter.mail.MailType;
+import de.hpi.oryxengine.correlation.registration.EventCondition;
+import de.hpi.oryxengine.correlation.registration.IntermediateEvent;
+import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.correlation.timing.TimingManagerImpl;
 import de.hpi.oryxengine.exception.EngineInitializationFailedException;
 import de.hpi.oryxengine.navigator.Navigator;
@@ -24,18 +29,17 @@ import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 /**
  * A concrete implementation of our engines Event Manager.
  */
-public class CorrelationManagerImpl
-implements CorrelationManager, EventRegistrar {
-    
+public class CorrelationManagerImpl implements CorrelationManager, EventRegistrar {
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     private Navigator navigator;
     private TimingManagerImpl timer;
-    
+
     private Map<EventType, InboundPullAdapter> inboundAdapter;
-    
-    private List<EventType> startEvents;
-    private List<EventType> intermediateEvents;
+
+    private List<StartEvent> startEvents;
+    private List<IntermediateEvent> intermediateEvents;
     private InboundPullAdapter adapter;
 
     /**
@@ -45,11 +49,12 @@ implements CorrelationManager, EventRegistrar {
      *            the navigator
      */
     public CorrelationManagerImpl(@Nonnull Navigator navigator) {
+
         this.navigator = navigator;
         this.inboundAdapter = new HashMap<EventType, InboundPullAdapter>();
-        this.startEvents = new ArrayList<EventType>();
-        this.intermediateEvents = new ArrayList<EventType>();
-        
+        this.startEvents = new ArrayList<StartEvent>();
+        this.intermediateEvents = new ArrayList<IntermediateEvent>();
+
         try {
             this.timer = new TimingManagerImpl(this);
         } catch (SchedulerException se) {
@@ -57,42 +62,45 @@ implements CorrelationManager, EventRegistrar {
             throw new EngineInitializationFailedException("Creating a timer manager failed.", se);
         }
     }
-    
+
     /**
-     * This method starts the correlation manager and
-     * its dependent services.
+     * This method starts the correlation manager and its dependent services.
      */
     public void start() {
-//        Thread t = new Thread(this.timer);
-//        this.timer.setThread(t);
-//        t.start();
+
+        // Thread t = new Thread(this.timer);
+        // this.timer.setThread(t);
+        // t.start();
         // TODO timer JAN
-        
+
         this.adapter = initializeAdapter();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void correlate(@Nonnull AdapterEvent event) {
-        
+
         System.out.println("correlating...");
-        if (this.startEvents.contains(event.getEventType())) {
-            try {
-                startEvent(event);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (this.intermediateEvents.contains(event.getEventType())) {
-            intermediateEvent(event);
+        try {
+            startEvent(event);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        intermediateEvent(event);
     }
 
     @Override
-    public void registerCorrelationEvent() {
+    public void registerStartEvent(StartEvent event) {
 
-        this.startEvents.add(this.adapter.getEventType());
+        this.startEvents.add(event);
+    }
+
+    @Override
+    public void registerIntermediateEvent(IntermediateEvent event) {
+
+        this.intermediateEvents.add(event);
     }
 
     InboundPullAdapter initializeAdapter() {
@@ -128,10 +136,25 @@ implements CorrelationManager, EventRegistrar {
     private void startEvent(@Nonnull AdapterEvent e)
     throws Exception {
 
-        System.out.println("starting process" + this.navigator);
+        // this is a hack
+        MailAdapterEvent mailEvent = (MailAdapterEvent) e;
+        for (StartEvent event : startEvents) {
+            boolean triggerEvent = true;
+            for (EventCondition condition : event.getConditions()) {
+                Method method = condition.getMethod();
+                Object returnValue = method.invoke(mailEvent);
+                if (!returnValue.equals(condition.getExpectedValue())) {
+                    triggerEvent = false;
+                }
+            }
+            if (triggerEvent) {
+                this.navigator.startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
+                System.out.println("starting process" + this.navigator);
+            }
+        }
 
         // don't generate a random UUID here, as it has to be one that a definition exists in the repository for.
-        this.navigator.startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
+        // this.navigator.startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
     }
 
     public Collection<InboundPullAdapter> getPullingAdapters() {

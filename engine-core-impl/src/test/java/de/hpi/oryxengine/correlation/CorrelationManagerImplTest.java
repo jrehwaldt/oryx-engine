@@ -52,7 +52,8 @@ public class CorrelationManagerImplTest {
    public void beforeMethod() {
       navigator = mock(NavigatorImpl.class);
       manager = new CorrelationManagerImpl(navigator);
-      manager.registerCorrelationEvent();
+      // TODO commented this out, as the test is as well and the method doesnt exist anymore.
+      //manager.registerCorrelationEvent();
    }
 
    /**
