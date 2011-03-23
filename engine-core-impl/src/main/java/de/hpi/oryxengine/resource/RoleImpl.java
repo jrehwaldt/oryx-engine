@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.worklist.RoleWorklist;
 import de.hpi.oryxengine.worklist.Worklist;
 
@@ -74,6 +76,27 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
             worklist = new RoleWorklist(this);
         }
         return worklist;
+    }
+    
+    /**
+     * Translates a Role into a corresponding RoleImpl object.
+     * 
+     * Furthermore some constrains are checked.
+     * 
+     * @param role
+     *            - a Role object
+     * @return roleImpl - the casted Role object
+     */
+    public static RoleImpl asRoleImpl(Role role) {
+
+        if (role == null) {
+            throw new DalmatinaRuntimeException("The Role parameter is null.");
+        }
+        RoleImpl roleImpl = (RoleImpl) role;
+        if (!ServiceFactory.getIdentityService().getRoles().contains(roleImpl)) {
+            throw new DalmatinaRuntimeException("There exists no Role with the id " + role.getId() + ".");
+        }
+        return roleImpl;
     }
 
 }

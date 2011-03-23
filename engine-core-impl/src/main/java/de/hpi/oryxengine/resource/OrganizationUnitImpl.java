@@ -4,6 +4,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+
 /**
  * Implementation of the {@link OrganizationUnit} Interface.
  */
@@ -86,6 +90,29 @@ public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> impleme
             childOrganizationUnits = new HashSet<OrganizationUnitImpl>();
         }
         return childOrganizationUnits;
+    }
+
+    /**
+     * Translates a OrganizationUnit into a corresponding OrganizationUnitImpl object.
+     * 
+     * Furthermore some constrains are checked.
+     * 
+     * @param organizationUnit
+     *            - a OrganizationUnit object
+     * @return organizationUnitImpl - the casted OrganizationUnit object
+     */
+    public static OrganizationUnitImpl asOrganizationUnitImpl(OrganizationUnit organizationUnit) {
+
+        if (organizationUnit == null) {
+            throw new DalmatinaRuntimeException("The OrganizationUnit parameter is null.");
+        }
+
+        OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) organizationUnit;
+        if (!ServiceFactory.getIdentityService().getOrganizationUnits().contains(organizationUnitImpl)) {
+            throw new DalmatinaRuntimeException("There exists no OrganizationUnit with the id "
+                + organizationUnit.getId() + ".");
+        }
+        return organizationUnitImpl;
     }
 
 }
