@@ -104,8 +104,6 @@ public class EventRegistrationAndEvaluationTest {
         method.setAccessible(true);
 
         // create some incoming events, for example from a mailbox
-
-        // would like to use this code, but mockito isnt able to mock final methods...
         incomingEvent = mock(MailAdapterEvent.class);
         when(incomingEvent.getAdapterType()).thenReturn(mailType);
         when(incomingEvent.getMessageTopic()).thenReturn("Hallo");
@@ -116,18 +114,6 @@ public class EventRegistrationAndEvaluationTest {
         when(anotherIncomingEvent.getAdapterType()).thenReturn(mailType);
         when(anotherIncomingEvent.getMessageTopic()).thenReturn("HalliHallo");
         when(anotherIncomingEvent.getAdapterConfiguration()).thenReturn(config);
-
-        // this is the ugly code then
-
-        // Message message = mock(Message.class);
-        //
-        // when(message.getSubject()).thenReturn("Hallo");
-        // when(message.getFrom()).thenReturn(new Address[0]);
-        // anotherIncomingEvent = new MailAdapterEvent(config, message);
-        //
-        // Message anotherMessage = mock(Message.class);
-        // when(message.getSubject()).thenReturn("HalliHallo");
-        // anotherIncomingEvent = new MailAdapterEvent(config, anotherMessage);
     }
 
     @AfterMethod

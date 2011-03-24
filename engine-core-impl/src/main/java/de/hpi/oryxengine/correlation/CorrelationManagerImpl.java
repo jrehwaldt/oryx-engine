@@ -218,9 +218,6 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
                 System.out.println("starting process" + this.navigator);
             }
         }
-
-        // don't generate a random UUID here, as it has to be one that a definition exists in the repository for.
-        // this.navigator.startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
     }
 
     /**
