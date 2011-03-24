@@ -1,7 +1,9 @@
 package de.hpi.oryxengine.process.definition;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import de.hpi.oryxengine.correlation.registration.StartEvent;
@@ -26,14 +28,35 @@ public class ProcessBuilderImpl implements ProcessBuilder {
 
     private String description;
 
+    private Map<StartEvent, Node> temporaryStartTriggers;
+
+    /**
+     * Instantiates some temporary datastructures.
+     */
+    public ProcessBuilderImpl() {
+
+        this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
+    }
+
     /**
      * {@inheritDoc}
+     * @throws DalmatinaException 
      */
     @Override
-    public ProcessDefinition buildDefinition() {
+    public ProcessDefinition buildDefinition() throws DalmatinaException {
 
         definition = new ProcessDefinitionImpl(id, description, startNodes);
+
+        for (Map.Entry<StartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
+            definition.addStartTrigger(entry.getKey(), entry.getValue());
+        }
+        
+        //cleanup
         startNodes = new ArrayList<Node>();
+        id = null;
+        description = null;
+        this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
+        
         return definition;
     }
 
@@ -81,7 +104,7 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     public void createStartTrigger(StartEvent event, Node startNode)
     throws DalmatinaException {
 
-        definition.addStartTrigger(event, startNode);
+        temporaryStartTriggers.put(event, startNode);
 
     }
 

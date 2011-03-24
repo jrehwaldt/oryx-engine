@@ -86,7 +86,12 @@ public class ExampleMailStartProcess {
         
         builder.createTransition(node1, node2).setDescription("description").setID(processID);
 
-        ProcessDefinition def = builder.buildDefinition();
+        ProcessDefinition def = null;
+        try {
+            def = builder.buildDefinition();
+        } catch (DalmatinaException e) {
+            e.printStackTrace();
+        }
         deployer.deploy(def, navigator);
 
         navigator.start();

@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.loadgenerator.LoadGenerator;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -36,9 +37,10 @@ public class SchedulerEmptyListenerTest {
 
     /**
      * Sets the up repo.
+     * @throws DalmatinaException 
      */
     @BeforeClass
-    public void setUpRepo() {
+    public void setUpRepo() throws DalmatinaException {
 
         RepositorySetup.fillRepository();
     }

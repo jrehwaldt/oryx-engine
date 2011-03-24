@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.StartActivity;
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -23,9 +24,10 @@ public class ProcessBuilderTest {
 
     /**
      * Test simple build process.
+     * @throws DalmatinaException 
      */
     @Test
-    public void testSimpleBuildProcess() {
+    public void testSimpleBuildProcess() throws DalmatinaException {
 
         NodeParameter param = new NodeParameterImpl();
 

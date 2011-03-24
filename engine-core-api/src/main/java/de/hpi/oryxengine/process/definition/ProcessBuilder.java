@@ -17,8 +17,9 @@ public interface ProcessBuilder {
      * Gets the definition as the result of the building process.
      *
      * @return the definition
+     * @throws DalmatinaException 
      */
-    ProcessDefinition buildDefinition();
+    ProcessDefinition buildDefinition() throws DalmatinaException;
     
     /**
      * Creates a new node with the given parameters.
