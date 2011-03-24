@@ -122,7 +122,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         ProcessDefinition definition = repository.getDefinition(processID);
         List<StartNode> startNodes = definition.getStartNodes();
 
-        ProcessInstanceContext context = new ProcessInstanceContextImpl();
         ProcessInstance instance = new ProcessInstanceImpl(definition);
         for (Node node : startNodes) {
             Token newToken = instance.createToken(node, this);
