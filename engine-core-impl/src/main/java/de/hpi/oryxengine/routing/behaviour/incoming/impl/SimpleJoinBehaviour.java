@@ -6,14 +6,13 @@ import java.util.List;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SimpleJoinBehaviour. Just takes the incoming instance and performs no real joining at all.
  */
 public class SimpleJoinBehaviour implements IncomingBehaviour {
 
     /**
-     * Join Behviour.
+     * Join behaviour.
      *
      * @param token the instance
      * @return the list of joined instances
