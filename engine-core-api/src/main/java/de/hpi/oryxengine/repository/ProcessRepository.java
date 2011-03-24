@@ -9,16 +9,19 @@ import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
- * The Interface ProcessRepository. This is intended to be a singleton.
+ * The Interface ProcessRepository. This is intended to be a singleton. It holds the process definitions that are
+ * currently deployed identified by their id.
  */
 public interface ProcessRepository {
 
     /**
      * Gets the definition.
-     *
-     * @param id the id
+     * 
+     * @param id
+     *            the id
      * @return the definition
-     * @throws DefinitionNotFoundException thrown, if key id does not exist
+     * @throws DefinitionNotFoundException
+     *             thrown, if key id does not exist
      */
     ProcessDefinition getDefinition(UUID id)
     throws DefinitionNotFoundException;
@@ -45,11 +48,12 @@ public interface ProcessRepository {
      * @return the definitions
      */
     Map<UUID, ProcessDefinition> getDefinitions();
-    
+
     /**
      * Returns, whether a certain definition is available.
      * 
-     * @param id the definition's id
+     * @param id
+     *            the definition's id
      * @return true, if available
      */
     boolean containsDefinition(@Nonnull UUID id);

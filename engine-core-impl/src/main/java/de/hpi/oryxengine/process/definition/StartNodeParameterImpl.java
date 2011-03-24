@@ -6,7 +6,7 @@ import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
 /**
- * The Class StartNodeParameterImpl.
+ * The Class StartNodeParameterImpl. Have a look at the interface {@link StartNodeParameter}.
  */
 public class StartNodeParameterImpl extends NodeParameterImpl implements StartNodeParameter {
 

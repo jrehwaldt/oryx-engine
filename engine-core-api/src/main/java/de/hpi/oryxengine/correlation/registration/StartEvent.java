@@ -3,7 +3,8 @@ package de.hpi.oryxengine.correlation.registration;
 import java.util.UUID;
 
 /**
- * The Interface StartEvent.
+ * The Interface StartEvent. A start event, in contrast to the intermediate event, will trigger the instantiation of a
+ * process.
  */
 public interface StartEvent extends ProcessEvent {
 

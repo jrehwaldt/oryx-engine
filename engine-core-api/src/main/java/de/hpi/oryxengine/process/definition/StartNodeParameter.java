@@ -3,7 +3,8 @@ package de.hpi.oryxengine.process.definition;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 
 /**
- * The Interface StartNodeParameter.
+ * The Interface StartNodeParameter. In addition to the NodeParameter, it has a start event that may be registered upon
+ * deployment.
  */
 public interface StartNodeParameter extends NodeParameter {
 

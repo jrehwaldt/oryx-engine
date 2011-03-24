@@ -5,7 +5,7 @@ import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
 /**
- * The Class NodeParameterImpl.
+ * The Class NodeParameterImpl. Have a look at the interface {@link NodeParameter}.
  * 
  * @author thorben
  */

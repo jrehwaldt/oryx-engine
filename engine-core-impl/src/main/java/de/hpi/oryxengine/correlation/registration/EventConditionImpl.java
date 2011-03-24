@@ -3,7 +3,7 @@ package de.hpi.oryxengine.correlation.registration;
 import java.lang.reflect.Method;
 
 /**
- * The Class EventConditionImpl.
+ * The Class EventConditionImpl. Have a look at the interface {@link EventCondition}.
  */
 public class EventConditionImpl implements EventCondition {
 

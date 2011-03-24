@@ -11,7 +11,8 @@ import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.structure.StartNodeImpl;
 
 /**
- * The Class ProcessBuilderImpl.
+ * The Class ProcessBuilderImpl. As you would think, only nodes that were created using createStartNode() become
+ * actually start nodes.
  * 
  * @author thorben
  */

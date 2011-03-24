@@ -6,7 +6,9 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 
 /**
- * The Interface ProcessInstanceContext.
+ * The Interface ProcessInstanceContext. It is shared between Tokens that work in the same process scope, for example in
+ * the same subprocess. This makes it possible to synchronize them at parallel joins and share process instance
+ * variables.
  */
 public interface ProcessInstanceContext {
 
@@ -35,11 +37,12 @@ public interface ProcessInstanceContext {
      * @return true, if successful
      */
     boolean allIncomingTransitionsSignaled(Node n);
-    
+
     /**
      * Removes the incoming transitions.
-     *
-     * @param n the n
+     * 
+     * @param n
+     *            the n
      */
     void removeIncomingTransitions(Node n);
 
