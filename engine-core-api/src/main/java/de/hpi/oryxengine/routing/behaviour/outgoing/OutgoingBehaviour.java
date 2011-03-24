@@ -2,7 +2,7 @@ package de.hpi.oryxengine.routing.behaviour.outgoing;
 
 import java.util.List;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.NoValidPathException;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -15,7 +15,7 @@ public interface OutgoingBehaviour {
      *
      * @param instances the instances to split/distribute according to outgoing transitions.
      * @return the list of new process instances that point to the destination-nodes of the outgoing transitions.
-     * @throws DalmatinaException the exception
+     * @throws NoValidPathException the routing found no path with a true condition
      */
-    List<Token> split(List<Token> instances) throws DalmatinaException;
+    List<Token> split(List<Token> instances) throws NoValidPathException;
 }

@@ -3,7 +3,6 @@ package de.hpi.oryxengine.correlation.adapter.mail;
 import java.io.IOException;
 
 import javax.annotation.Nonnull;
-import javax.mail.Flags;
 import javax.mail.Flags.Flag;
 import javax.mail.Folder;
 import javax.mail.Message;

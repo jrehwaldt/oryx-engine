@@ -11,13 +11,6 @@ extends Exception {
     private static final long serialVersionUID = 1570011344525950859L;
     
     /**
-     * Default constructor.
-     */
-    public DalmatinaException() {
-        super();
-    }
-    
-    /**
      * Default constructor for a message only exception.
      * 
      * @param message the error message

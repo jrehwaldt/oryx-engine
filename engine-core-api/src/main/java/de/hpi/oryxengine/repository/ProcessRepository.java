@@ -3,6 +3,8 @@ package de.hpi.oryxengine.repository;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
@@ -43,4 +45,12 @@ public interface ProcessRepository {
      * @return the definitions
      */
     Map<UUID, ProcessDefinition> getDefinitions();
+    
+    /**
+     * Returns, whether a certain definition is available.
+     * 
+     * @param id the definition's id
+     * @return true, if available
+     */
+    boolean containsDefinition(@Nonnull UUID id);
 }

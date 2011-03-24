@@ -7,8 +7,6 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.quartz.SchedulerException;
-
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
