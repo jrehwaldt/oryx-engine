@@ -2,15 +2,16 @@ package de.hpi.oryxengine.correlation.registration;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.quartz.SchedulerException;
-import org.quartz.impl.SchedulerRepository;
 import org.quartz.impl.StdSchedulerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -22,6 +23,7 @@ import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
 import de.hpi.oryxengine.correlation.adapter.mail.MailProtocol;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
@@ -31,8 +33,8 @@ import de.hpi.oryxengine.repository.RepositorySetup;
  */
 public class EventRegistrationAndEvaluationTest {
 
-    private StartEvent event;
-    private MailAdapterEvent incomingEvent, incomingEvent2;
+    private StartEvent event, anotherEvent;
+    private MailAdapterEvent incomingEvent, anotherIncomingEvent;
 
     @Test
     public void shouldAttemptToStartTheSimpleProcessInstance()
@@ -55,18 +57,32 @@ public class EventRegistrationAndEvaluationTest {
         CorrelationManagerImpl correlation = new CorrelationManagerImpl(navigator);
         correlation.registerStartEvent(event);
 
-        correlation.correlate(incomingEvent2);
+        correlation.correlate(anotherIncomingEvent);
 
         verify(navigator, never()).startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
     }
 
+    @Test
+    public void testTwoSimilarEventsWithDiferrentConfig()
+    throws DefinitionNotFoundException {
+
+        Navigator navigator = mock(Navigator.class);
+        CorrelationManagerImpl correlation = new CorrelationManagerImpl(navigator);
+        correlation.registerStartEvent(event);
+        correlation.registerStartEvent(anotherEvent);
+
+        correlation.correlate(incomingEvent);
+
+        verify(navigator, times(1)).startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
+    }
+
     @BeforeClass
     public void beforeClass()
-    throws SecurityException, NoSuchMethodException {
+    throws Exception {
 
         RepositorySetup.fillRepository();
         // register some events
-        UUID defintionID = ProcessRepositoryImpl.SIMPLE_PROCESS_ID;
+        UUID definitionID = ProcessRepositoryImpl.SIMPLE_PROCESS_ID;
         AdapterType mailType = AdapterTypes.Mail;
 
         EventCondition subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"),
@@ -78,20 +94,45 @@ public class EventRegistrationAndEvaluationTest {
         // Mockito isnt able to mock final classes so the next line doesnt work :(
         // MailAdapterConfiguration config = mock(MailAdapterConfiguration.class);
         MailAdapterConfiguration config = MailAdapterConfiguration.dalmatinaGoogleConfiguration();
-        event = new StartEventImpl(mailType, config, conditions1, defintionID);
+        event = new StartEventImpl(mailType, config, conditions1, definitionID);
+
+        MailAdapterConfiguration anotherConfig = new MailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin",
+            "imap.horst.de", 80, false);
+        anotherEvent = new StartEventImpl(mailType, anotherConfig, conditions1, definitionID);
+
+        Method method = MailAdapterEvent.class.getMethod("getAdapterConfiguration");
+        method.setAccessible(true);
 
         // create some incoming events, for example from a mailbox
+
+        // would like to use this code, but mockito isnt able to mock final methods...
         incomingEvent = mock(MailAdapterEvent.class);
         when(incomingEvent.getAdapterType()).thenReturn(mailType);
         when(incomingEvent.getMessageTopic()).thenReturn("Hallo");
+        when(incomingEvent.getAdapterConfiguration()).thenReturn(config);
+        
 
-        incomingEvent2 = mock(MailAdapterEvent.class);
-        when(incomingEvent2.getAdapterType()).thenReturn(mailType);
-        when(incomingEvent2.getMessageTopic()).thenReturn("HalliHallo");
+        anotherIncomingEvent = mock(MailAdapterEvent.class);
+        when(anotherIncomingEvent.getAdapterType()).thenReturn(mailType);
+        when(anotherIncomingEvent.getMessageTopic()).thenReturn("HalliHallo");
+        when(anotherIncomingEvent.getAdapterConfiguration()).thenReturn(config);
+
+        // this is the ugly code then
+
+        // Message message = mock(Message.class);
+        //
+        // when(message.getSubject()).thenReturn("Hallo");
+        // when(message.getFrom()).thenReturn(new Address[0]);
+        // anotherIncomingEvent = new MailAdapterEvent(config, message);
+        //
+        // Message anotherMessage = mock(Message.class);
+        // when(message.getSubject()).thenReturn("HalliHallo");
+        // anotherIncomingEvent = new MailAdapterEvent(config, anotherMessage);
     }
 
     @AfterMethod
-    public void flushJobRepository() throws SchedulerException {
+    public void flushJobRepository()
+    throws SchedulerException {
 
         new StdSchedulerFactory().getScheduler().shutdown();
     }

@@ -194,9 +194,17 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
 
         for (StartEvent event : startEvents) {
             boolean triggerEvent = true;
+            
+            // don't correlate events of different types.
             if (e.getAdapterType() != event.getAdapterType()) {
                 continue;
             }
+            
+            // don't correlate events that were assigned to different configurations.
+            if (e.getAdapterConfiguration() != event.getAdapterConfiguration()) {
+                continue;
+            }
+            
             for (EventCondition condition : event.getConditions()) {
                 Method method = condition.getMethod();
                 Object returnValue = method.invoke(e);
