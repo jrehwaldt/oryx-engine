@@ -1,11 +1,13 @@
 package de.hpi.oryxengine.resource;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityService;
-import de.hpi.oryxengine.IdentityServiceImpl;
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.ServiceFactoryForTesting;
 
 /**
  * Tests the building of {@link Participant}s in the organization structure.
@@ -27,11 +29,20 @@ public class BuildingParticipantTest {
     @BeforeMethod
     public void beforeMethod() {
 
-        identityService = new IdentityServiceImpl();
+        identityService = ServiceFactory.getIdentityService();
         identityBuilder = identityService.getIdentityBuilder();
 
         participant = identityBuilder.createParticipant("gerardo.navarro-suarez");
         participant.setName("Gerardo Navarro Suarez");
+    }
+    
+    /**
+     * Tear down.
+     */
+    @AfterMethod
+    public void tearDown() {
+        
+        ServiceFactoryForTesting.clearIdentityService();
     }
 
     /**

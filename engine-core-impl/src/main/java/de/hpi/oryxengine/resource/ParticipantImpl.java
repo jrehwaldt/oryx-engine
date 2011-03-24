@@ -4,6 +4,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
+import de.hpi.oryxengine.worklist.Worklist;
+
 /**
  * Implementation of the {@link Participant} Interface.
  */
@@ -11,28 +17,28 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
 
     /** My {@link Position}s. */
     private Set<PositionImpl> myPositions;
-    
+
     /** My {@link Capability}s. */
     private Set<Capability> myCapabilities;
-    
+
     /** My {@link Role}s. */
     private Set<RoleImpl> myRoles;
 
     /**
      * Instantiates a new {@link ParticipantImpl}.
-     *
-     * @param participantId the participant id
+     * 
+     * @param participantId
+     *            the participant id
      */
     public ParticipantImpl(String participantId) {
 
-        super(participantId);
+        super(participantId, ResourceType.PARTICIPANT);
     }
 
     /**
      * Gets the my positions.
-     *
-     * @return the my positions
-     * {@inheritDoc}
+     * 
+     * @return the my positions {@inheritDoc}
      */
     @Override
     public Set<Position> getMyPositions() {
@@ -43,7 +49,7 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
 
     /**
      * Gets the my position impls.
-     *
+     * 
      * @return the my position impls
      */
     protected Set<PositionImpl> getMyPositionImpls() {
@@ -54,16 +60,6 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
         return myPositions;
     }
 
-    // @Override
-    // public Participant addMyPosition(Position position) {
-    //
-    // myPositions.add(position);
-    // return this;
-    // }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Set<Capability> getMyCapabilities() {
 
@@ -73,9 +69,6 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
         return myCapabilities;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Set<Role> getMyRoles() {
 
@@ -85,7 +78,7 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
 
     /**
      * Gets the my roles impl.
-     *
+     * 
      * @return the my roles impl
      */
     protected Set<RoleImpl> getMyRolesImpl() {
@@ -103,4 +96,35 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
     // return this;
     // }
 
+    @Override
+    public Worklist getWorklist() {
+
+        if (worklist == null) {
+
+            worklist = new ParticipantWorklist(this);
+        }
+        return worklist;
+    }
+    
+    /**
+     * Translates a Participant into a corresponding ParticipantImpl object.
+     * 
+     * Furthermore some constrains are checked.
+     * 
+     * @param participant
+     *            - a Participant object
+     * @return participantImpl - the casted Participant object
+     */
+    public static ParticipantImpl asParticipantImpl(Participant participant) {
+
+        if (participant == null) {
+            throw new DalmatinaRuntimeException("The Participant parameter is null.");
+        }
+
+        ParticipantImpl participantImpl = (ParticipantImpl) participant;
+        if (!ServiceFactory.getIdentityService().getParticipants().contains(participantImpl)) {
+            throw new DalmatinaRuntimeException("There exists no Participant with the id " + participant.getId() + ".");
+        }
+        return participantImpl;
+    }
 }

@@ -9,7 +9,6 @@ import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.repository.ProcessRepository;
-import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 
 /**
  * The Class DeployerImpl.

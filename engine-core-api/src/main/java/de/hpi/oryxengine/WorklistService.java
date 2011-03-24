@@ -31,36 +31,40 @@ public interface WorklistService {
     Map<Resource<?>, List<WorklistItem>> getWorklistItems(List<Resource<?>> resources);
 
     /**
-     * Claims a {@link WorklistItem}. 
-     * 
+     * Claims a {@link WorklistItem}.
+     *
      * @param worklistItem - {@link WorklistItem} that should be claimed
+     * @param resource the resource that triggers this method
      * @throws DalmatinaException thrown if claim fails
      */
-    void claimWorklistItem(WorklistItem worklistItem) throws DalmatinaException;
+    void claimWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws DalmatinaException;
 
     /**
-     * Begin a {@link WorklistItem}. 
-     * 
+     * Begin a {@link WorklistItem}.
+     *
      * @param worklistItem - {@link WorklistItem} that should be claimed
+     * @param resource the resource that triggers this method
      * @throws DalmatinaException thrown if begin fails
      */
-    void beginWorklistItem(WorklistItem worklistItem) throws DalmatinaException;
+    void beginWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws DalmatinaException;
 
     /**
      * Completes a {@link WorklistItem}.
-     * 
+     *
      * @param worklistItem - {@link WorklistItem} that was completed
+     * @param resource the resource that triggers this method
      * @throws DalmatinaException thrown if completing fails
      */
-    void completeWorklistItem(WorklistItem worklistItem) throws DalmatinaException;
+    void completeWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws DalmatinaException;
 
     /**
-     * Aborts a {@link WorklistItem}. 
-     * 
+     * Aborts a {@link WorklistItem}.
+     *
      * @param worklistItem - {@link WorklistItem} that is aborted
+     * @param resource the resource that triggers this method
      * @throws DalmatinaException thrown if aborting fails
      */
-    void abortWorklistItem(WorklistItem worklistItem) throws DalmatinaException;
+    void abortWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws DalmatinaException;
     
     // TODO: Observable Interface für die GUI
 }

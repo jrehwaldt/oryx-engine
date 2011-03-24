@@ -13,12 +13,10 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.repository.ProcessRepository;
-import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
 
 /**

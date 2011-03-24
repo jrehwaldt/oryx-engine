@@ -3,6 +3,10 @@ package de.hpi.oryxengine.resource;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+
 /**
  * Implementation of {@link Position} Interface.
  */
@@ -28,7 +32,7 @@ public class PositionImpl extends ResourceImpl<Position> implements Position {
      */
     public PositionImpl(String positionId) {
 
-        super(positionId);
+        super(positionId, ResourceType.POSITION);
     }
 
     /**
@@ -107,5 +111,27 @@ public class PositionImpl extends ResourceImpl<Position> implements Position {
             subordinatePositions = new HashSet<PositionImpl>();
         }
         return subordinatePositions;
+    }
+    
+    /**
+     * Translates a Position into a corresponding PositionImpl object.
+     * 
+     * Furthermore some constrains are checked.
+     * 
+     * @param position
+     *            - a Position object
+     * @return positionImpl - the casted Position object
+     */
+    public static PositionImpl asPositionImpl(Position position) {
+
+        if (position == null) {
+            throw new DalmatinaRuntimeException("The Position parameter is null.");
+        }
+
+        PositionImpl positionImpl = (PositionImpl) position;
+        if (!ServiceFactory.getIdentityService().getPositions().contains(positionImpl)) {
+            throw new DalmatinaRuntimeException("There exists no Position with the id " + position.getId() + ".");
+        }
+        return positionImpl;
     }
 }

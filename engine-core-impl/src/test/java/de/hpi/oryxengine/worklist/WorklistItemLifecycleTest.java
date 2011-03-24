@@ -10,10 +10,11 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
+import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
-import de.hpi.oryxengine.process.structure.NodeImpl;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.Participant;
@@ -35,11 +36,11 @@ public class WorklistItemLifecycleTest {
         worklistService = ServiceFactory.getWorklistService();
 
         Task task = TaskFactory.createJannikServesGerardoTask();
-        jannik = (Participant) task.getAssignedResources().get(0);
-        
-        Token token = new TokenImpl(new NodeImpl(new HumanTaskActivity(null)), new ProcessInstanceContextImpl(), new NavigatorImplMock());
-//        Whitebox.setInternalState(token, "tempProcessingTokens", new ArrayList<Token>());
-        
+        jannik = (Participant) task.getAssignedResources().iterator().next();
+
+        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(new HumanTaskActivity(null));
+        Token token = new TokenImpl(humanTaskNode, new ProcessInstanceContextImpl(), new NavigatorImplMock());
+
         worklistItem = new WorklistItemImpl(task, token);
 
         ServiceFactory.getWorklistQueue().addWorklistItem(worklistItem, jannik);
@@ -49,6 +50,7 @@ public class WorklistItemLifecycleTest {
     public void tearDown() {
 
         ServiceFactoryForTesting.clearWorklistManager();
+        ServiceFactoryForTesting.clearIdentityService();
     }
 
     @Test
@@ -71,7 +73,8 @@ public class WorklistItemLifecycleTest {
         try {
 
             worklistItemForGerardo = new WorklistItemImpl(task, null);
-            String failureMessage = "An NullPointerException should have occurred, because the WorklistItem was created without a Token.";
+            String failureMessage = "An NullPointerException should have occurred, "
+                + "because the WorklistItem was created without a Token.";
             Assert.fail(failureMessage);
         } catch (NullPointerException nullPointerException) {
             // This was expected
@@ -81,7 +84,8 @@ public class WorklistItemLifecycleTest {
         try {
 
             worklistItemForGerardo = new WorklistItemImpl(task, null);
-            String failureMessage = "An NullPointerException should have occurred, because the WorklistItem was created without a Task.";
+            String failureMessage = "An NullPointerException should have occurred, "
+                + "because the WorklistItem was created without a Task.";
             Assert.fail(failureMessage);
         } catch (NullPointerException nullPointerException) {
             // This was expected
@@ -92,7 +96,7 @@ public class WorklistItemLifecycleTest {
     public void testClaimingWorklistItem()
     throws Exception {
 
-        worklistService.claimWorklistItem(worklistItem);
+        worklistService.claimWorklistItemBy(worklistItem, jannik);
 
         Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.ALLOCATED);
     }
@@ -101,7 +105,7 @@ public class WorklistItemLifecycleTest {
     public void testBeginningWorklistItem()
     throws Exception {
 
-        worklistService.beginWorklistItem(worklistItem);
+        worklistService.beginWorklistItemBy(worklistItem, jannik);
 
         Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
     }
@@ -110,17 +114,18 @@ public class WorklistItemLifecycleTest {
     public void testAbortAfterBeginningWorklistItem()
     throws Exception {
 
-        worklistService.beginWorklistItem(worklistItem);
-        worklistService.abortWorklistItem(worklistItem);
+        worklistService.beginWorklistItemBy(worklistItem, jannik);
+        worklistService.abortWorklistItemBy(worklistItem, jannik);
+
+        // TODO Assertions are missing
     }
 
     @Test
     public void testCompletingWorklistItem()
     throws Exception {
 
-        worklistService.beginWorklistItem(worklistItem);
-        worklistService.completeWorklistItem(worklistItem);
-        
+        worklistService.beginWorklistItemBy(worklistItem, jannik);
+        worklistService.completeWorklistItemBy(worklistItem, jannik);
 
         Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.COMPLETED);
         Assert.assertTrue(worklistService.getWorklistItems(jannik).size() == 0);

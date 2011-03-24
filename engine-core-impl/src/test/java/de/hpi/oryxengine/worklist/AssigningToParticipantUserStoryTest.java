@@ -23,11 +23,9 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.Resource;
 
 /**
- * 
- * @author Gery
- *
+ * This test assigns a task directly to a participant. 
  */
-public class HumanTaskUserStoryTest {
+public class AssigningToParticipantUserStoryTest {
 
     private Token token = null;
     private Resource<?> jannik = null;
@@ -40,7 +38,7 @@ public class HumanTaskUserStoryTest {
         // The organization structure is already prepared in the factory
         // The task is assigned to Jannik
         Task task = TaskFactory.createJannikServesGerardoTask();
-        jannik = task.getAssignedResources().get(0);
+        jannik = task.getAssignedResources().iterator().next();
 
         Activity humanTaskActivity = new HumanTaskActivity(task);
         Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(humanTaskActivity);
@@ -56,6 +54,7 @@ public class HumanTaskUserStoryTest {
     @AfterMethod
     public void tearDown() {
         ServiceFactoryForTesting.clearWorklistManager();
+        ServiceFactoryForTesting.clearIdentityService();
     }
     
     /**
@@ -68,10 +67,9 @@ public class HumanTaskUserStoryTest {
         token.executeStep();
         
         WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
-        System.out.println(worklistItem.getStatus());
         assertEquals(worklistItem.getStatus(), WorklistItemState.ALLOCATED);
 
-        ServiceFactory.getWorklistService().beginWorklistItem(worklistItem);
+        ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItem, jannik);
         assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
     }
 
@@ -85,10 +83,10 @@ public class HumanTaskUserStoryTest {
         token.executeStep();
         
         WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
-        ServiceFactory.getWorklistService().beginWorklistItem(worklistItem);
+        ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItem, jannik);
         assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
         
-        ServiceFactory.getWorklistService().completeWorklistItem(worklistItem);
+        ServiceFactory.getWorklistService().completeWorklistItemBy(worklistItem,jannik);
         assertEquals(worklistItem.getStatus(), WorklistItemState.COMPLETED);
         String failureMessage = "Jannik should have completed the task. So there should be no item in his worklist.";
         Assert.assertTrue(ServiceFactory.getWorklistService().getWorklistItems(jannik).size() == 0, failureMessage);
@@ -100,9 +98,9 @@ public class HumanTaskUserStoryTest {
         token.executeStep();
         
         WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
-        ServiceFactory.getWorklistService().beginWorklistItem(worklistItem);
+        ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItem, jannik);
         
-        ServiceFactory.getWorklistService().completeWorklistItem(worklistItem);
+        ServiceFactory.getWorklistService().completeWorklistItemBy(worklistItem, jannik);
         
         String failureMessage = "Token should point to the endNode, but it points to " + token.getCurrentNode().getID() + ".";
         assertEquals(endNode, token.getCurrentNode(), failureMessage);

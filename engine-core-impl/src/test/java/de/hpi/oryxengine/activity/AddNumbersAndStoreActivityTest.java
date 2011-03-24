@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.activity;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;

@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.plugin.scheduler;
 
+import de.hpi.oryxengine.navigator.schedule.SchedulerEvent;
 import de.hpi.oryxengine.plugin.Plugin;
 import de.hpi.oryxengine.process.token.Token;
 

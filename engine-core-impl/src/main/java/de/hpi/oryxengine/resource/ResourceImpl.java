@@ -3,6 +3,9 @@ package de.hpi.oryxengine.resource;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
+import de.hpi.oryxengine.worklist.Worklist;
+
 /**
  * ResourceImpl is the implementation of the {@link Resource} interface.
  * 
@@ -12,6 +15,7 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
     /** The resource id. */
     protected String resourceId;
+    
     protected ResourceType resourceType;
     
     /** The resource name. */
@@ -19,16 +23,18 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     
     /** The property table. */
     protected Map<String, Object> propertyTable;
-
+    
+    protected Worklist worklist;
     /**
      * Default Constructor.
      * 
      * @param id
      *            - the id of the resource
      */
-    protected ResourceImpl(String id) {
+    protected ResourceImpl(String id, ResourceType resourceType) {
 
-        resourceId = id;
+        this.resourceType = resourceType;
+        this.resourceId = id;
     }
 
     /**
@@ -136,7 +142,7 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     }
 
     /**
-     * Two Resource objects are equal if IDs are the same.
+     * Two Resource objects are equal if their {@link ResourceType}s and their IDs an are the same.
      * 
      * 
      * @param objectToCompare
@@ -150,25 +156,41 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
             return super.equals(objectToCompare);
         }
 
-        Resource<?> positionToCompare = (Resource<?>) objectToCompare;
-        return this.getId().equals(positionToCompare.getId());
+        Resource<?> resourceToCompare = (Resource<?>) objectToCompare;
+        
+        // Only if the type and the id of the two objects are the same then it is true
+        if (this.getType().equals(resourceToCompare.getType())) {
+            if (this.getId().equals(resourceToCompare.getId())) {
+                return true;
+            }
+        }
+        // otherwise it should be false
+        
+        return false;
     }
 
     /**
-     * Hash code.
-     *
-     * @return the int
+     * The hashCode of a resource consists of the concatenated string of their type and their id.
+     * 
+     * @return Integer representing the hashCode
+     * 
      * {@inheritDoc}
      */
     @Override
     public int hashCode() {
 
-        return getId().hashCode();
+        return (getType() + getId()).hashCode();
     }
 
     @Override
-    public String getType() {
+    public ResourceType getType() {
 
-        return null;
+        return resourceType;
+    }
+
+    @Override
+    public Worklist getWorklist() {
+
+        return new EmptyWorklist();
     }
 }

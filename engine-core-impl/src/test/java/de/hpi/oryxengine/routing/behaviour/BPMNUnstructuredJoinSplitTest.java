@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
-import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;

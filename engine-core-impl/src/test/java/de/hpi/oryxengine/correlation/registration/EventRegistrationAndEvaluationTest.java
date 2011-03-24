@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.quartz.SchedulerException;
-import org.quartz.impl.SchedulerRepository;
 import org.quartz.impl.StdSchedulerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -21,7 +20,6 @@ import de.hpi.oryxengine.correlation.adapter.AdapterType;
 import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
-import de.hpi.oryxengine.correlation.adapter.mail.MailProtocol;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
