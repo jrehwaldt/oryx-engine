@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.worklist;
+package de.hpi.oryxengine.allocation;
 
 import org.mockito.Mockito;
 import org.testng.Assert;
@@ -10,6 +10,9 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
+import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.TaskImpl;
+import de.hpi.oryxengine.allocation.WorklistItemImpl;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
@@ -18,6 +21,8 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.Participant;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * Checking the Lifecycle of a WorklistItem.

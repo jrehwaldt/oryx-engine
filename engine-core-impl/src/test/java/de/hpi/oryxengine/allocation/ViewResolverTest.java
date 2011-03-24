@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.worklist;
+package de.hpi.oryxengine.allocation;
 
 import junit.framework.Assert;
 
@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.ServiceFactoryForTesting;
+import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.WorklistItemImpl;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.token.Token;
@@ -18,6 +20,7 @@ import de.hpi.oryxengine.resource.OrganizationUnit;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Position;
 import de.hpi.oryxengine.resource.Role;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
  * TODO javaDoc und Implementierung.

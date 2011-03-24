@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.worklist.WorklistItem;
 
 /**
  * 

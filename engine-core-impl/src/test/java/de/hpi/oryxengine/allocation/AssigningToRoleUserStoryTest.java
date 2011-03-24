@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.worklist;
+package de.hpi.oryxengine.allocation;
 
 import static org.testng.Assert.assertEquals;
 
@@ -15,6 +15,13 @@ import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
+import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.AllocationStrategiesImpl;
+import de.hpi.oryxengine.allocation.Pattern;
+import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.TaskImpl;
+import de.hpi.oryxengine.allocation.pattern.RolePushPattern;
+import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
@@ -25,8 +32,8 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
-import de.hpi.oryxengine.worklist.pattern.RolePushPattern;
-import de.hpi.oryxengine.worklist.pattern.SimplePullPattern;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * This test assigns a task to a role or to a resource that contains other resources.

@@ -8,7 +8,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
-import de.hpi.oryxengine.worklist.Worklist;
+import de.hpi.oryxengine.resource.worklist.Worklist;
 
 /**
  * Implementation of the {@link Participant} Interface.

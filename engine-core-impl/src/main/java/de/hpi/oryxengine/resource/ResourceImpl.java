@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
-import de.hpi.oryxengine.worklist.Worklist;
+import de.hpi.oryxengine.resource.worklist.Worklist;
 
 /**
  * ResourceImpl is the implementation of the {@link Resource} interface.

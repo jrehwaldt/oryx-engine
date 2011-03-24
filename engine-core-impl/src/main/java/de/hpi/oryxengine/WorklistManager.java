@@ -7,20 +7,20 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.allocation.Pattern;
+import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.TaskDistribution;
+import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.worklist.Pattern;
-import de.hpi.oryxengine.worklist.Task;
-import de.hpi.oryxengine.worklist.TaskDistribution;
-import de.hpi.oryxengine.worklist.WorklistItem;
-import de.hpi.oryxengine.worklist.WorklistQueue;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
  * The implementation of the WorklistManager.
  */
-public class WorklistManager implements WorklistService, TaskDistribution, WorklistQueue {
+public class WorklistManager implements WorklistService, TaskDistribution, TaskAllocation {
 
     @Override
     public void addWorklistItem(WorklistItem worklistItem, Resource<?> resourceToFillIn) {

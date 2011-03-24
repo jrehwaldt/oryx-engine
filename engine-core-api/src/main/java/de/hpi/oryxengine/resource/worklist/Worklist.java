@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.worklist;
+package de.hpi.oryxengine.resource.worklist;
 
 import java.util.List;
 

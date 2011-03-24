@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.worklist;
+package de.hpi.oryxengine.allocation;
 
 import static org.testng.Assert.assertEquals;
 
@@ -13,6 +13,7 @@ import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
+import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
@@ -21,6 +22,8 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * This test assigns a task directly to a participant. 

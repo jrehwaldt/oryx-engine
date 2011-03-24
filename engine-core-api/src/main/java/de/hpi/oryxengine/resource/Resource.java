@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.resource;
 
-import de.hpi.oryxengine.worklist.Worklist;
+import de.hpi.oryxengine.resource.worklist.Worklist;
 
 /**
  * Represents a resource that is part of the enterprise's organization structure.

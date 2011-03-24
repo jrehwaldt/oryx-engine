@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.hpi.oryxengine.allocation.WorklistItemImpl;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Position;
 import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.worklist.WorklistItem;
-import de.hpi.oryxengine.worklist.WorklistItemImpl;
-import de.hpi.oryxengine.worklist.WorklistItemState;
 
 /**
  * 

@@ -1,12 +1,17 @@
-package de.hpi.oryxengine.worklist;
+package de.hpi.oryxengine.allocation;
 
 import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.Form;
+import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * THe implementation of the Task Interface.

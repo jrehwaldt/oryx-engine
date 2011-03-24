@@ -7,7 +7,6 @@ import java.util.List;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.resource.Role;
-import de.hpi.oryxengine.worklist.WorklistItem;
 
 /**
  * The work list for the resource 'role'.

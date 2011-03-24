@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
  * The Worklist Service which is used to manage our {@link Worklist}, add tasks and remove them that is.
