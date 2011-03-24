@@ -210,6 +210,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
                 Object returnValue = method.invoke(e);
                 if (!returnValue.equals(condition.getExpectedValue())) {
                     triggerEvent = false;
+                    break;
                 }
             }
             if (triggerEvent) {
