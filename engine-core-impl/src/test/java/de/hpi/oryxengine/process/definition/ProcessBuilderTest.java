@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.StartActivity;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -24,10 +24,10 @@ public class ProcessBuilderTest {
 
     /**
      * Test simple build process.
-     * @throws DalmatinaException 
+     * @throws IllegalStarteventException 
      */
     @Test
-    public void testSimpleBuildProcess() throws DalmatinaException {
+    public void testSimpleBuildProcess() throws IllegalStarteventException {
 
         NodeParameter param = new NodeParameterImpl();
 

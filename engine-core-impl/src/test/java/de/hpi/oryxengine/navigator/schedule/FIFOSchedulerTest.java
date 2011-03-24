@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
@@ -37,10 +37,10 @@ public class FIFOSchedulerTest {
     
     /**
      * Sets the up repo.
-     * @throws DalmatinaException 
+     * @throws IllegalStarteventException 
      */
     @BeforeClass
-    public void setUpRepo() throws DalmatinaException {
+    public void setUpRepo() throws IllegalStarteventException {
 
         RepositorySetup.fillRepository();
     }

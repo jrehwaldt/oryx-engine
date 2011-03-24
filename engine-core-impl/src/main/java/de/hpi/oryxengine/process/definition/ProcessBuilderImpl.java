@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
@@ -40,10 +41,10 @@ public class ProcessBuilderImpl implements ProcessBuilder {
 
     /**
      * {@inheritDoc}
-     * @throws DalmatinaException 
+     * @throws IllegalStarteventException 
      */
     @Override
-    public ProcessDefinition buildDefinition() throws DalmatinaException {
+    public ProcessDefinition buildDefinition() throws IllegalStarteventException {
 
         definition = new ProcessDefinitionImpl(id, description, startNodes);
 

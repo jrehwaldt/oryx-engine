@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import de.hpi.oryxengine.correlation.registration.StartEvent;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
 
 /**
@@ -73,12 +73,12 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
 
     @Override
     public void addStartTrigger(StartEvent event, Node node)
-    throws DalmatinaException {
+    throws IllegalStarteventException {
 
         if (startNodes.contains(node)) {
             startTriggers.put(event, node);
         } else {
-            throw new DalmatinaException("cannot register a start event for a node, that is not a start node");
+            throw new IllegalStarteventException();
         }
 
     }

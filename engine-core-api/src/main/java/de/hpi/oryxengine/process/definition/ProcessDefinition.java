@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.hpi.oryxengine.correlation.registration.StartEvent;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.util.Identifiable;
 
@@ -51,7 +51,7 @@ public interface ProcessDefinition extends Identifiable {
      *
      * @param event the event
      * @param node the node
-     * @throws DalmatinaException thrown if the provided node isn't a startnode.
+     * @throws IllegalStarteventException thrown if the provided node isn't a startnode.
      */
-    void addStartTrigger(StartEvent event, Node node) throws DalmatinaException;
+    void addStartTrigger(StartEvent event, Node node) throws IllegalStarteventException;
 }

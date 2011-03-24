@@ -16,6 +16,7 @@ import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.correlation.registration.StartEventImpl;
 import de.hpi.oryxengine.deploy.Deployer;
 import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.process.definition.NodeParameter;
@@ -34,15 +35,17 @@ public class ExampleMailStartProcess {
 
     /**
      * The main method. Run the sh*t.
-     *
-     * @param args the arguments
-     * @throws InterruptedException the interrupted exception
+     * 
+     * @param args
+     *            the arguments
+     * @throws InterruptedException
+     *             the interrupted exception
      */
     public static void main(String[] args)
     throws InterruptedException {
 
         UUID processID = UUID.randomUUID();
-        
+
         // the main
         NavigatorImpl navigator = new NavigatorImpl();
         navigator.registerPlugin(NavigatorListenerLogger.getInstance());
@@ -60,8 +63,7 @@ public class ExampleMailStartProcess {
         MailAdapterConfiguration config = MailAdapterConfiguration.dalmatinaGoogleConfiguration();
         EventCondition subjectCondition = null;
         try {
-            subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"),
-                "Hallo");
+            subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");
         } catch (SecurityException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -69,7 +71,7 @@ public class ExampleMailStartProcess {
         }
         List<EventCondition> conditions = new ArrayList<EventCondition>();
         conditions.add(subjectCondition);
-        
+
         StartEvent event = new StartEventImpl(AdapterTypes.Mail, config, conditions, processID);
 
         Node node1 = builder.createNode(param);
@@ -78,23 +80,21 @@ public class ExampleMailStartProcess {
         } catch (DalmatinaException e) {
             e.printStackTrace();
         }
-        
+
         param.setActivity(new PrintingVariableActivity("result"));
         param.makeStartNode(false);
 
         Node node2 = builder.createNode(param);
-        
+
         builder.createTransition(node1, node2).setDescription("description").setID(processID);
 
-        ProcessDefinition def = null;
         try {
-            def = builder.buildDefinition();
-        } catch (DalmatinaException e) {
+            ProcessDefinition def = builder.buildDefinition();
+            deployer.deploy(def, navigator);
+            navigator.start();
+        } catch (IllegalStarteventException e) {
             e.printStackTrace();
         }
-        deployer.deploy(def, navigator);
-
-        navigator.start();
 
         // Thread.sleep(SLEEP_TIME);
 

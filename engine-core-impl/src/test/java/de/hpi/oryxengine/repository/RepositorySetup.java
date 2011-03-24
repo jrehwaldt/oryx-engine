@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
@@ -31,9 +31,9 @@ public final class RepositorySetup {
 
     /**
      * Fill repository.
-     * @throws DalmatinaException 
+     * @throws IllegalStarteventException 
      */
-    public static void fillRepository() throws DalmatinaException {
+    public static void fillRepository() throws IllegalStarteventException {
 
         ProcessRepository repo = ServiceFactory.getRepositoryService();
         repo.addDefinition(exampleProcess1());
@@ -43,9 +43,9 @@ public final class RepositorySetup {
      * Example process1.
      * 
      * @return the process definition
-     * @throws DalmatinaException 
+     * @throws IllegalStarteventException 
      */
-    private static ProcessDefinition exampleProcess1() throws DalmatinaException {
+    private static ProcessDefinition exampleProcess1() throws IllegalStarteventException {
 
         ProcessBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl(new AddNumbersAndStoreActivity("result", 1, 1),

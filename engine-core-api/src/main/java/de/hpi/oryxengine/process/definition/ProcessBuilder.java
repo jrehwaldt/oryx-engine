@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 
@@ -17,9 +18,9 @@ public interface ProcessBuilder {
      * Gets the definition as the result of the building process.
      *
      * @return the definition
-     * @throws DalmatinaException 
+     * @throws IllegalStarteventException 
      */
-    ProcessDefinition buildDefinition() throws DalmatinaException;
+    ProcessDefinition buildDefinition() throws IllegalStarteventException;
     
     /**
      * Creates a new node with the given parameters.
