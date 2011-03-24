@@ -224,8 +224,7 @@ public class TokenImpl implements Token {
     }
 
     @Override
-    public void resume()
-    throws  DalmatinaException {
+    public void resume() throws DalmatinaException {
 
         navigator.removeSuspendToken(this);
         getCurrentNode().getActivity().signal(this);
