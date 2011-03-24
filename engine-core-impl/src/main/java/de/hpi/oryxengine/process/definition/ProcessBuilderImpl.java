@@ -41,9 +41,6 @@ public class ProcessBuilderImpl implements ProcessBuilder {
         return definition;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Node createNode(NodeParameter param) {
 
@@ -51,9 +48,6 @@ public class ProcessBuilderImpl implements ProcessBuilder {
         return node;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ProcessBuilder createTransition(Node source, Node destination) {
 
@@ -61,9 +55,6 @@ public class ProcessBuilderImpl implements ProcessBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ProcessBuilder createTransition(Node source, Node destination, Condition condition) {
 
@@ -71,9 +62,6 @@ public class ProcessBuilderImpl implements ProcessBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ProcessBuilder setID(UUID id) {
 
@@ -82,9 +70,6 @@ public class ProcessBuilderImpl implements ProcessBuilder {
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ProcessBuilder setDescription(String description) {
 

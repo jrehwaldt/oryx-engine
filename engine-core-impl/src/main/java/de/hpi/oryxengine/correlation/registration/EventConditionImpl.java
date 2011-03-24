@@ -21,18 +21,12 @@ public class EventConditionImpl implements EventCondition {
         this.expectedValue = expectedValue;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Method getMethod() {
 
         return method;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Object getExpectedValue() {
 

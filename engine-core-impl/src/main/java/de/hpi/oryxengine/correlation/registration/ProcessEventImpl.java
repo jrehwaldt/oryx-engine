@@ -36,27 +36,18 @@ public class ProcessEventImpl implements ProcessEvent {
         this.conditions = conditions;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public AdapterType getAdapterType() {
 
         return type;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public PullAdapterConfiguration getAdapterConfiguration() {
 
         return config;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<EventCondition> getConditions() {
 

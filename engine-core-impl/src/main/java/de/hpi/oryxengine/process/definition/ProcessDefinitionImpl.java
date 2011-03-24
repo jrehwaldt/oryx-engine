@@ -37,36 +37,24 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
         this.startNodes = startNodes;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public UUID getID() {
 
         return id;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDescription() {
 
         return description;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setDescription(String description) {
 
         this.description = description;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<StartNode> getStartNodes() {
 
