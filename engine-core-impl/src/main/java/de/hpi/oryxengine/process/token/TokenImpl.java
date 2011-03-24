@@ -174,7 +174,7 @@ public class TokenImpl implements Token {
     @Override
     public Token createNewToken(Node node) {
 
-        Token newToken = new TokenImpl(node, this.instance, navigator);
+        Token newToken = instance.createToken(node, navigator);
         return newToken;
     }
 
