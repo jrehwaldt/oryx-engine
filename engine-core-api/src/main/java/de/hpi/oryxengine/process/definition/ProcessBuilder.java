@@ -2,9 +2,10 @@ package de.hpi.oryxengine.process.definition;
 
 import java.util.UUID;
 
+import de.hpi.oryxengine.correlation.registration.StartEvent;
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.StartNode;
 
 /**
  * The Interface ProcessBuilder. The process builder is a comfortable way to construct a process definition.
@@ -26,8 +27,6 @@ public interface ProcessBuilder {
      * @return the node
      */
     Node createNode(NodeParameter param);
-    
-    StartNode createStartNode(StartNodeParameter param);
     
     /**
      * Creates the transition.
@@ -63,4 +62,13 @@ public interface ProcessBuilder {
      * @return the process builder
      */
     ProcessBuilder setDescription(String description);
+    
+    /**
+     * This will create a start trigger for the process definition.
+     *
+     * @param event the event
+     * @param startNode the start node
+     * @throws DalmatinaException thrown if the provided node isn't a startNode.
+     */
+    void createStartTrigger(StartEvent event, Node startNode) throws DalmatinaException;
 }

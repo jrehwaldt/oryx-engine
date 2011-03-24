@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.correlation.registration;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -46,7 +48,8 @@ public class EventRegistrationAndEvaluationTest {
 
         correlation.correlate(incomingEvent);
 
-        verify(navigator).startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
+        // we use eq(...) because if you use mockito matchers as the parameters, all parameters have to be matchers.
+        verify(navigator).startProcessInstance(eq(ProcessRepositoryImpl.SIMPLE_PROCESS_ID), any(StartEvent.class));
     }
 
     @Test
@@ -59,7 +62,8 @@ public class EventRegistrationAndEvaluationTest {
 
         correlation.correlate(anotherIncomingEvent);
 
-        verify(navigator, never()).startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
+        verify(navigator, never()).startProcessInstance(eq(ProcessRepositoryImpl.SIMPLE_PROCESS_ID),
+            any(StartEvent.class));
     }
 
     @Test
@@ -73,7 +77,8 @@ public class EventRegistrationAndEvaluationTest {
 
         correlation.correlate(incomingEvent);
 
-        verify(navigator, times(1)).startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
+        verify(navigator, times(1)).startProcessInstance(eq(ProcessRepositoryImpl.SIMPLE_PROCESS_ID),
+            any(StartEvent.class));
     }
 
     @BeforeClass
@@ -108,7 +113,6 @@ public class EventRegistrationAndEvaluationTest {
         when(incomingEvent.getAdapterType()).thenReturn(mailType);
         when(incomingEvent.getMessageTopic()).thenReturn("Hallo");
         when(incomingEvent.getAdapterConfiguration()).thenReturn(config);
-        
 
         anotherIncomingEvent = mock(MailAdapterEvent.class);
         when(anotherIncomingEvent.getAdapterType()).thenReturn(mailType);

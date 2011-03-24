@@ -10,19 +10,16 @@ import javax.annotation.Nonnull;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
+import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.repository.ProcessRepository;
 
 /**
@@ -58,7 +55,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     /** The repository. */
     private ProcessRepository repository;
-    
+
     private List<ProcessInstance> instances;
 
     /**
@@ -117,20 +114,18 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     }
 
     @Override
-    public void startProcessInstance(UUID processID)
+    public void startProcessInstance(UUID processID, StartEvent event)
     throws DefinitionNotFoundException {
 
-        // TODO we need a method that allows to start a process at a single startNode, for example at a message start
-        // node.
         ProcessDefinition definition = repository.getDefinition(processID);
-        List<StartNode> startNodes = definition.getStartNodes();
 
         ProcessInstance instance = new ProcessInstanceImpl(definition);
-        for (Node node : startNodes) {
-            Token newToken = instance.createToken(node, this);
-            startArbitraryInstance(newToken);
-        }
+        Node startNode = definition.getStartTriggers().get(event);
+        Token newToken = instance.createToken(startNode, this);
+        startArbitraryInstance(newToken);
         instances.add(instance);
+        
+        //TODO we need a method that allows the starting on a list of nodes.
     }
 
     // this method is for first testing only, as we do not have ProcessDefinitions yet

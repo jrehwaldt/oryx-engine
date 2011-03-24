@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import de.hpi.oryxengine.correlation.registration.StartEvent;
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.process.structure.StartNode;
-import de.hpi.oryxengine.process.structure.StartNodeImpl;
 
 /**
  * The Class ProcessBuilderImpl. As you would think, only nodes that were created using createStartNode() become
@@ -18,16 +18,12 @@ import de.hpi.oryxengine.process.structure.StartNodeImpl;
  */
 public class ProcessBuilderImpl implements ProcessBuilder {
 
-    /** The definition. */
     private ProcessDefinition definition;
 
-    /** The start nodes. */
-    private List<StartNode> startNodes = new ArrayList<StartNode>();
+    private List<Node> startNodes = new ArrayList<Node>();
 
-    /** The id. */
     private UUID id;
 
-    /** The description. */
     private String description;
 
     /**
@@ -37,7 +33,7 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     public ProcessDefinition buildDefinition() {
 
         definition = new ProcessDefinitionImpl(id, description, startNodes);
-        startNodes = new ArrayList<StartNode>();
+        startNodes = new ArrayList<Node>();
         return definition;
     }
 
@@ -45,6 +41,9 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     public Node createNode(NodeParameter param) {
 
         Node node = new NodeImpl(param.getActivity(), param.getIncomingBehaviour(), param.getOutgoingBehaviour());
+        if (param.isStartNode()) {
+            startNodes.add(node);
+        }
         return node;
     }
 
@@ -79,12 +78,11 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     }
 
     @Override
-    public StartNode createStartNode(StartNodeParameter param) {
+    public void createStartTrigger(StartEvent event, Node startNode)
+    throws DalmatinaException {
 
-        StartNode node = new StartNodeImpl(param.getActivity(), param.getIncomingBehaviour(),
-            param.getOutgoingBehaviour(), param.getStartEvent());
-        this.startNodes.add(node);
-        return node;
+        definition.addStartTrigger(event, startNode);
+
     }
 
 }

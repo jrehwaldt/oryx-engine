@@ -15,13 +15,14 @@ import de.hpi.oryxengine.correlation.registration.EventConditionImpl;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.correlation.registration.StartEventImpl;
 import de.hpi.oryxengine.deploy.Deployer;
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
+import de.hpi.oryxengine.process.definition.NodeParameter;
+import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.definition.StartNodeParameter;
-import de.hpi.oryxengine.process.definition.StartNodeParameterImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
@@ -49,10 +50,11 @@ public class ExampleMailStartProcess {
         Deployer deployer = ServiceFactory.getDeplyomentService();
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        StartNodeParameter param = new StartNodeParameterImpl();
+        NodeParameter param = new NodeParameterImpl();
         param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
+        param.makeStartNode(true);
 
         // Create a mail adapater event here. Could create a builder for this later.
         MailAdapterConfiguration config = MailAdapterConfiguration.dalmatinaGoogleConfiguration();
@@ -69,11 +71,16 @@ public class ExampleMailStartProcess {
         conditions.add(subjectCondition);
         
         StartEvent event = new StartEventImpl(AdapterTypes.Mail, config, conditions, processID);
-        param.setStartEvent(event);
 
-        Node node1 = builder.createStartNode(param);
+        Node node1 = builder.createNode(param);
+        try {
+            builder.createStartTrigger(event, node1);
+        } catch (DalmatinaException e) {
+            e.printStackTrace();
+        }
         
         param.setActivity(new PrintingVariableActivity("result"));
+        param.makeStartNode(false);
 
         Node node2 = builder.createNode(param);
         

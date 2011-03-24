@@ -14,7 +14,6 @@ import de.hpi.oryxengine.loadgenerator.LoadGenerator;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.repository.ProcessRepository;
@@ -58,7 +57,7 @@ public class SchedulerEmptyListenerTest {
         scheduler.registerPlugin(listener);
         ProcessRepository repo = ServiceFactory.getRepositoryService();
         ProcessDefinition def = repo.getDefinition(RepositorySetup.FIRST_EXAMPLE_PROCESS_ID);
-        List<StartNode> startNodes = def.getStartNodes();
+        List<Node> startNodes = def.getStartNodes();
         Node startNode = startNodes.get(0);
         pi = new TokenImpl(startNode);
     }

@@ -5,8 +5,10 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -16,16 +18,15 @@ public interface Navigator {
 
     /**
      * Start a new process instance.
-     * 
-     * @param processID
-     *            the id of the process that is to be instantiated
-     * @throws DefinitionNotFoundException
-     *             thrown if process with given id does not exist in repo
+     *
+     * @param processID the id of the process that is to be instantiated
+     * @param event the event that triggered the start
+     * @throws DefinitionNotFoundException thrown if process with given id does not exist in repo
      */
     // TODO This should return the id of the created process instance. Unfortunately, we do not have a process instance
     // class yet, so we cannot do this.
     @Nonnull
-    void startProcessInstance(@Nonnull UUID processID)
+    void startProcessInstance(@Nonnull UUID processID, StartEvent event)
     throws DefinitionNotFoundException;
 
     /**

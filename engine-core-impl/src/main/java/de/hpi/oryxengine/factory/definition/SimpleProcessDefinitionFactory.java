@@ -10,8 +10,6 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.process.structure.StartNode;
-import de.hpi.oryxengine.process.structure.StartNodeImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
@@ -28,7 +26,7 @@ public class SimpleProcessDefinitionFactory implements ProcessDefinitionFactory 
         Activity activity = new AddNumbersAndStoreActivity("result", 1, 1);
         IncomingBehaviour incomingBehaviour = new SimpleJoinBehaviour();
         OutgoingBehaviour outgoingBehaviour = new TakeAllSplitBehaviour();        
-        StartNode node1 = new StartNodeImpl(activity, incomingBehaviour, outgoingBehaviour, null);
+        Node node1 = new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
         
         activity = new AddNumbersAndStoreActivity("result", 1, 1);
         incomingBehaviour = new SimpleJoinBehaviour();
@@ -36,7 +34,7 @@ public class SimpleProcessDefinitionFactory implements ProcessDefinitionFactory 
         Node node2 = new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
         
         node1.transitionTo(node2);
-        List<StartNode> startNodes = new ArrayList<StartNode>();
+        List<Node> startNodes = new ArrayList<Node>();
         startNodes.add(node1);
         ProcessDefinition def = new ProcessDefinitionImpl(definitionID, "description", startNodes);
         return def;

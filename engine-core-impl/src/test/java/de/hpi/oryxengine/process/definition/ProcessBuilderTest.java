@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.StartActivity;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
@@ -28,19 +27,21 @@ public class ProcessBuilderTest {
     @Test
     public void testSimpleBuildProcess() {
 
-        StartNodeParameter param = new StartNodeParameterImpl();
+        NodeParameter param = new NodeParameterImpl();
 
         param.setActivity(new StartActivity());
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
-        param.setStartEvent(null);
-        startNode = builder.createStartNode(param);
+        param.makeStartNode(true);
+        startNode = builder.createNode(param);
+        
+        param.makeStartNode(false);
 
         endNode = builder.createNode(param);
 
         ProcessDefinition definition = builder.createTransition(startNode, endNode).buildDefinition();
 
-        List<StartNode> startNodes = definition.getStartNodes();
+        List<Node> startNodes = definition.getStartNodes();
         assertEquals(startNodes.size(), 1, "There should be one start node");
 
         Node node = startNodes.get(0);

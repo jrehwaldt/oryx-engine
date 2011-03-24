@@ -214,7 +214,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
                 }
             }
             if (triggerEvent) {
-                this.navigator.startProcessInstance(event.getDefinitionID());
+                this.navigator.startProcessInstance(event.getDefinitionID(), event);
                 System.out.println("starting process" + this.navigator);
             }
         }
