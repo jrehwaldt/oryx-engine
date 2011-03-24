@@ -2,6 +2,7 @@ package de.hpi.oryxengine.resource;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
 import de.hpi.oryxengine.resource.worklist.Worklist;
@@ -9,65 +10,54 @@ import de.hpi.oryxengine.resource.worklist.Worklist;
 /**
  * ResourceImpl is the implementation of the {@link Resource} interface.
  * 
- * @param <R> - an interface that extends from Resource
+ * @param <R>
+ *            - an interface that extends from Resource
  */
 public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
     /** The resource id. */
-    protected String resourceId;
-    
+    protected UUID resourceId;
+
     protected ResourceType resourceType;
-    
+
     /** The resource name. */
     protected String resourceName;
-    
+
     /** The property table. */
     protected Map<String, Object> propertyTable;
-    
+
     protected Worklist worklist;
+
     /**
      * Default Constructor.
      * 
      * @param id
      *            - the id of the resource
+     * @param resourceType
+     *            - the type of the {@link Resource}
      */
-    protected ResourceImpl(String id, ResourceType resourceType) {
+    protected ResourceImpl(UUID id, String resourceName, ResourceType resourceType) {
 
-        this.resourceType = resourceType;
         this.resourceId = id;
+        this.resourceName = resourceName;
+        this.resourceType = resourceType;
     }
 
-    /**
-     * Gets the id.
-     *
-     * @return the id
-     * {@inheritDoc}
-     */
+    protected ResourceImpl(String resourceName, ResourceType resourceType) {
+
+        this(UUID.randomUUID(), resourceName, resourceType);
+    }
+
     @Override
-    public String getId() {
+    public UUID getID() {
 
         return resourceId;
     }
 
     /**
-     * Sets the id.
-     *
-     * @param id the id
-     * @return the r
-     * {@inheritDoc}
-     */
-    @Override
-    public R setId(String id) {
-
-        resourceId = id;
-        return extractedThis();
-    }
-
-    /**
      * Gets the name.
-     *
-     * @return the name
-     * {@inheritDoc}
+     * 
+     * @return the name {@inheritDoc}
      */
     @Override
     public String getName() {
@@ -77,10 +67,10 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
     /**
      * Sets the name.
-     *
-     * @param name the name
-     * @return the r
-     * {@inheritDoc}
+     * 
+     * @param name
+     *            the name
+     * @return the r {@inheritDoc}
      */
     @Override
     public R setName(String name) {
@@ -91,10 +81,10 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
     /**
      * Gets the property.
-     *
-     * @param propertyId the property id
-     * @return the property
-     * {@inheritDoc}
+     * 
+     * @param propertyId
+     *            the property id
+     * @return the property {@inheritDoc}
      */
     @Override
     public Object getProperty(String propertyId) {
@@ -104,7 +94,7 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
     /**
      * Gets the propertyTable.
-     *
+     * 
      * @return the propertyTable
      */
     protected Map<String, Object> getPropertyTable() {
@@ -117,11 +107,12 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
     /**
      * Sets the property.
-     *
-     * @param propertyKey the property key
-     * @param propertyValue the property value
-     * @return the r
-     * {@inheritDoc}
+     * 
+     * @param propertyKey
+     *            the property key
+     * @param propertyValue
+     *            the property value
+     * @return the r {@inheritDoc}
      */
     @Override
     public R setProperty(String propertyKey, Object propertyValue) {
@@ -157,15 +148,15 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         }
 
         Resource<?> resourceToCompare = (Resource<?>) objectToCompare;
-        
+
         // Only if the type and the id of the two objects are the same then it is true
         if (this.getType().equals(resourceToCompare.getType())) {
-            if (this.getId().equals(resourceToCompare.getId())) {
+            if (this.getID().equals(resourceToCompare.getID())) {
                 return true;
             }
         }
         // otherwise it should be false
-        
+
         return false;
     }
 
@@ -174,12 +165,12 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
      * 
      * @return Integer representing the hashCode
      * 
-     * {@inheritDoc}
+     *         {@inheritDoc}
      */
     @Override
     public int hashCode() {
 
-        return (getType() + getId()).hashCode();
+        return (getType().toString() + getID().toString()).hashCode();
     }
 
     @Override

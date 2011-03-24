@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 
 /**
@@ -13,30 +12,24 @@ import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
  */
 public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> implements OrganizationUnit {
 
-    /** The positions. */
     private Set<PositionImpl> positions;
 
-    /** The super organizational unit. */
     private OrganizationUnit superOrganizationalUnit;
 
-    /** The child organization units. */
     private Set<OrganizationUnitImpl> childOrganizationUnits;
 
     /**
      * Instantiates a new {@link OrganizationUnitImpl}.
      * 
-     * @param organizationalUnitId
-     *            the organizational unit id
+     * @param organizationalUnitName
+     *            the name of the organizational unit
      */
-    public OrganizationUnitImpl(String organizationalUnitId) {
+    public OrganizationUnitImpl(String organizationalUnitName) {
 
-        super(organizationalUnitId, ResourceType.ORGANIZATION_UNIT);
+        super(organizationalUnitName, ResourceType.ORGANIZATION_UNIT);
         superOrganizationalUnit = null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Set<Position> getPositions() {
 
@@ -44,11 +37,6 @@ public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> impleme
         return Collections.unmodifiableSet(positionList);
     }
 
-    /**
-     * Gets the positionImpls.
-     * 
-     * @return the positionImpls
-     */
     protected Set<PositionImpl> getPositionImpls() {
 
         if (positions == null) {
@@ -57,33 +45,18 @@ public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> impleme
         return positions;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public OrganizationUnit getSuperOrganizationUnit() {
 
         return superOrganizationalUnit;
     }
 
-    /**
-     * Sets the super organization unit.
-     * 
-     * @param organizationalUnit
-     *            the organizational unit
-     * @return the organization unit
-     */
     public OrganizationUnit setSuperOrganizationUnit(OrganizationUnit organizationalUnit) {
 
         superOrganizationalUnit = organizationalUnit;
         return this;
     }
 
-    /**
-     * Gets the child organisation unit impls.
-     * 
-     * @return the child organisation unit impls
-     */
     protected Set<OrganizationUnitImpl> getChildOrganisationUnitImpls() {
 
         if (childOrganizationUnits == null) {
@@ -110,9 +83,8 @@ public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> impleme
         OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) organizationUnit;
         if (!ServiceFactory.getIdentityService().getOrganizationUnits().contains(organizationUnitImpl)) {
             throw new DalmatinaRuntimeException("There exists no OrganizationUnit with the id "
-                + organizationUnit.getId() + ".");
+                + organizationUnit.getID() + ".");
         }
         return organizationUnitImpl;
     }
-
 }

@@ -15,70 +15,50 @@ import de.hpi.oryxengine.exception.DalmatinaException;
  */
 public class BuildingPositionTest {
 
-    /** The identity service. */
     private IdentityService identityService = null;
     
-    /** The identity builder. */
     private IdentityBuilder identityBuilder = null;
     
-    /** The position. */
     private Position position = null;
 
-    /**
-     * Before method.
-     */
     @BeforeMethod
     public void beforeMethod() {
 
         identityService = ServiceFactory.getIdentityService();
         identityBuilder = identityService.getIdentityBuilder();
-        position = identityBuilder.createPosition("oryx-engine-chef");
-        position.setName("Oryx-Engine-Chef");
+        position = identityBuilder.createPosition("Oryx-Engine-Chef");
     }
     
-    /**
-     * Tear down.
-     */
     @AfterMethod
     public void tearDown() {
         
         ServiceFactoryForTesting.clearIdentityService();
     }
 
-    /**
-     * Test position creation.
-     *
-     * @throws Exception the exception
-     */
     @Test
     public void testPositionCreation() throws Exception {
 
-        Position superior = identityBuilder.createPosition("oryx-engine-ober-chef");
+        Position superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");
         identityBuilder.positionReportsToSuperior(position, superior);
         
         String failureMessage = "The Identity Service should have two Position.";
         Assert.assertTrue(identityService.getPositions().size() == 2, failureMessage);
         Assert.assertTrue(identityService.getPositions().contains(position), failureMessage);
         Assert.assertTrue(identityService.getPositions().contains(superior), failureMessage);
-        Assert.assertEquals(position.getId(), "oryx-engine-chef");
         Assert.assertEquals(position.getName(), "Oryx-Engine-Chef");
         Assert.assertEquals(position.getSuperiorPosition(), superior);
     }
     
-    /**
-     * Test for duplicate position.
-     */
     @Test
-    public void testForDuplicatePosition() {
+    public void testForUniquePosition() {
         
-        // Try to create a new position with the same Id
-        Position position2 = identityBuilder.createPosition("oryx-engine-chef");
+        // Try to create a new position with the same Name
+        Position position2 = identityBuilder.createPosition("Oryx-Engine-Chef");
         
         String failureMessage = "There should stil be one Position";
-        Assert.assertTrue(identityService.getPositions().size() == 1, failureMessage);
-        failureMessage = "The new created Position should be the old one.";
-        Assert.assertEquals(position2, position, failureMessage);
-        Assert.assertEquals(position2.getName(), "Oryx-Engine-Chef", failureMessage);
+        Assert.assertTrue(identityService.getPositions().size() == 2, failureMessage);
+        failureMessage = "The new created Position should not be the old one.";
+        Assert.assertNotSame(position2, position, failureMessage);
     }
     
     /**
@@ -92,23 +72,18 @@ public class BuildingPositionTest {
         identityBuilder.positionReportsToSuperior(position, position);
     }
 
-    /**
-     * Test delete position.
-     *
-     * @throws Exception the exception
-     */
     @Test
     public void testDeletePosition() throws Exception {
         
-        Position position2 = identityBuilder.createPosition("oryx-engine-chef2");
-        Position superior = identityBuilder.createPosition("oryx-engine-ober-chef");        
+        Position position2 = identityBuilder.createPosition("Oryx-Engine-Chef2");
+        Position superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");        
         
         identityBuilder.positionReportsToSuperior(position, superior)
                        .positionReportsToSuperior(position2, superior);
 
         identityBuilder.deletePosition(superior);
         
-        String failureMessage = "The Position 'oryx-engine-ober-chef' should be deleted, but it is still there.";
+        String failureMessage = "The Position 'Oryx-Engine-Ober-Chef' should be deleted, but it is still there.";
         Assert.assertTrue(identityService.getPositions().size() == 2, failureMessage);
         if (identityService.getPositions().contains(superior)) {
             Assert.fail(failureMessage);
