@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityService;
-import de.hpi.oryxengine.IdentityServiceImpl;
+import de.hpi.oryxengine.ServiceFactory;
 
 /**
  * Tests the IdentityService.
@@ -24,7 +24,7 @@ public class IdentityServiceTest {
      */
     @BeforeClass
     public void beforeClass() {
-        identityService = new IdentityServiceImpl();
+        identityService = ServiceFactory.getIdentityService();
         
         IdentityBuilder identityBuilder = identityService.getIdentityBuilder();
         

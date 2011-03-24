@@ -2,14 +2,14 @@ package de.hpi.oryxengine;
 
 import java.util.HashMap;
 
+import de.hpi.oryxengine.allocation.TaskDistribution;
+import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.deploy.Deployer;
 import de.hpi.oryxengine.deploy.DeployerImpl;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.repository.ProcessRepository;
 import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
-import de.hpi.oryxengine.worklist.TaskDistribution;
-import de.hpi.oryxengine.worklist.WorklistQueue;
 
 /**
  * 
@@ -56,7 +56,7 @@ public class ServiceFactory {
      * 
      * @return the worklist queue
      */
-    public static WorklistQueue getWorklistQueue() {
+    public static TaskAllocation getWorklistQueue() {
 
         return getWorklistManagerInstance();
     }

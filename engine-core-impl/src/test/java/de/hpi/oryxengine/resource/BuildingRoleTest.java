@@ -1,11 +1,13 @@
 package de.hpi.oryxengine.resource;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityService;
-import de.hpi.oryxengine.IdentityServiceImpl;
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.ServiceFactoryForTesting;
 
 /**
  * Tests the building of {@link Role}s in the organization structure.
@@ -27,13 +29,22 @@ public class BuildingRoleTest {
     @BeforeMethod
     public void beforeMethod() {
 
-        identityService = new IdentityServiceImpl();
+        identityService = ServiceFactory.getIdentityService();
         identityBuilder = identityService.getIdentityBuilder();
 
         adminRole = identityBuilder.createRole("admin");
         adminRole.setName("Administrators");
     }
 
+    /**
+     * Tear down.
+     */
+    @AfterMethod
+    public void tearDown() {
+        
+        ServiceFactoryForTesting.clearIdentityService();
+    }
+    
     /**
      * Test role creation.
      */

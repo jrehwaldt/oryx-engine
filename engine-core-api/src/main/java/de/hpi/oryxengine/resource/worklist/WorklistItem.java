@@ -1,10 +1,11 @@
 /*
  * 
  */
-package de.hpi.oryxengine.worklist;
+package de.hpi.oryxengine.resource.worklist;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.process.token.Token;
 
 /**

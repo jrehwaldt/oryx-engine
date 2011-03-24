@@ -1,6 +1,6 @@
-package de.hpi.oryxengine.worklist;
+package de.hpi.oryxengine.allocation;
 
-import java.util.List;
+import java.util.Set;
 
 import de.hpi.oryxengine.resource.Resource;
 
@@ -43,5 +43,5 @@ public interface Task {
      * 
      * @return a list of {@link Resource}s that is assigned to this task
      */
-    List<Resource<?>> getAssignedResources();
+    Set<Resource<?>> getAssignedResources();
 }

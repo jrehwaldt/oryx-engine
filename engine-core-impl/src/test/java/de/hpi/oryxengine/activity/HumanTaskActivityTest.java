@@ -12,6 +12,13 @@ import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
+import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.AllocationStrategiesImpl;
+import de.hpi.oryxengine.allocation.Pattern;
+import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.TaskImpl;
+import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
+import de.hpi.oryxengine.allocation.pattern.SimplePushPattern;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
@@ -20,15 +27,7 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.worklist.AllocationStrategies;
-import de.hpi.oryxengine.worklist.AllocationStrategiesImpl;
-import de.hpi.oryxengine.worklist.Pattern;
-import de.hpi.oryxengine.worklist.Task;
-import de.hpi.oryxengine.worklist.TaskImpl;
-import de.hpi.oryxengine.worklist.WorklistItem;
-import de.hpi.oryxengine.worklist.WorklistItemState;
-import de.hpi.oryxengine.worklist.pattern.SimplePullPattern;
-import de.hpi.oryxengine.worklist.pattern.SimplePushPattern;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
  * The test for the {@link HumanTaskActivity}.
