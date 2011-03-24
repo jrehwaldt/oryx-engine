@@ -11,7 +11,8 @@ import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.repository.ProcessRepository;
 
 /**
- * The Class DeployerImpl.
+ * The Class DeployerImpl. It allows to deploy a process definition for a specific navigator. During this, start events
+ * are registered.
  */
 public class DeployerImpl implements Deployer {
 

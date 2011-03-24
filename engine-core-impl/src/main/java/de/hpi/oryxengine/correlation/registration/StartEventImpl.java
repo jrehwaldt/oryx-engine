@@ -7,7 +7,7 @@ import de.hpi.oryxengine.correlation.adapter.AdapterType;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 
 /**
- * The Class StartEventImpl.
+ * The Class StartEventImpl. Have a look at {@link StartEvent}.
  */
 public class StartEventImpl extends ProcessEventImpl implements StartEvent {
 
@@ -26,9 +26,9 @@ public class StartEventImpl extends ProcessEventImpl implements StartEvent {
      *            the def
      */
     public StartEventImpl(AdapterType type,
-                             PullAdapterConfiguration config,
-                             List<EventCondition> conditions,
-                             UUID definitionID) {
+                          PullAdapterConfiguration config,
+                          List<EventCondition> conditions,
+                          UUID definitionID) {
 
         super(type, config, conditions);
         this.definitionID = definitionID;
