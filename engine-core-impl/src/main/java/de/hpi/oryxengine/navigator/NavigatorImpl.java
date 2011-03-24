@@ -32,7 +32,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     // map IDs to Definition
     /** The running instances. */
-    private HashMap<UUID, Token> runningInstances;
+    private HashMap<UUID, Token> runningTokens;
 
     /** The scheduler for tokens that can be processed. */
     private FIFOScheduler scheduler;
@@ -58,6 +58,8 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     /** The repository. */
     private ProcessRepository repository;
+    
+    private List<ProcessInstance> instances;
 
     /**
      * Instantiates a new navigator implementation.
@@ -76,7 +78,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     public NavigatorImpl(int numberOfThreads) {
 
         // TODO Lazy initialized
-        this.runningInstances = new HashMap<UUID, Token>();
+        this.runningTokens = new HashMap<UUID, Token>();
         this.scheduler = new FIFOScheduler();
         this.executionThreads = new ArrayList<NavigationThread>();
         this.state = NavigatorState.INIT;
@@ -85,6 +87,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         this.correlation = new CorrelationManagerImpl(this);
         repository = ServiceFactory.getRepositoryService();
         this.suspendedTokens = new ArrayList<Token>();
+        this.instances = new ArrayList<ProcessInstance>();
     }
 
     /**
@@ -127,6 +130,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
             Token newToken = instance.createToken(node, this);
             startArbitraryInstance(newToken);
         }
+        instances.add(instance);
     }
 
     // this method is for first testing only, as we do not have ProcessDefinitions yet
@@ -139,7 +143,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      */
     public void startArbitraryInstance(Token token) {
 
-        this.runningInstances.put(token.getID(), token);
+        this.runningTokens.put(token.getID(), token);
         this.scheduler.submit(token);
     }
 
@@ -246,5 +250,11 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
         suspendedTokens.remove(t);
 
+    }
+
+    @Override
+    public List<ProcessInstance> getInstances() {
+
+        return instances;
     }
 }

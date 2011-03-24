@@ -1,10 +1,12 @@
 package de.hpi.oryxengine.navigator;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -17,7 +19,8 @@ public interface Navigator {
      * 
      * @param processID
      *            the id of the process that is to be instantiated
-     * @throws DefinitionNotFoundException thrown if process with given id does not exist in repo
+     * @throws DefinitionNotFoundException
+     *             thrown if process with given id does not exist in repo
      */
     // TODO This should return the id of the created process instance. Unfortunately, we do not have a process instance
     // class yet, so we cannot do this.
@@ -56,26 +59,35 @@ public interface Navigator {
      * Stops the navigator. No processes will be scheduled afterwards.
      */
     void stop();
-    
-    
+
     /**
      * Adds a token to that is to be worked on.
-     *
-     * @param t the t
+     * 
+     * @param t
+     *            the t
      */
     void addWorkToken(Token t);
-    
+
     /**
      * Adds a token that is in suspended state.
-     *
-     * @param t the t
+     * 
+     * @param t
+     *            the t
      */
     void addSuspendToken(Token t);
-    
+
     /**
      * Removes the suspend token.
-     *
-     * @param t the t
+     * 
+     * @param t
+     *            the t
      */
     void removeSuspendToken(Token t);
+
+    /**
+     * Gets all the instances that were ever started/executed by this navigator.
+     * 
+     * @return the instances
+     */
+    List<ProcessInstance> getInstances();
 }

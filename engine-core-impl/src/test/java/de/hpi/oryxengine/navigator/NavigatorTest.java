@@ -60,12 +60,12 @@ public class NavigatorTest {
     }
 
     /**
-    * Test signal length. 
-    * 
-    */
+     * Test signal length.
+     * 
+     */
     @Test
     public void testSignalLength() {
-        
+
         navigator.startArbitraryInstance(processToken);
 
         // this is not so nice, but I am not sure how to test correctly with parrallel behaviour
