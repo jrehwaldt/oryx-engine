@@ -13,14 +13,13 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 public interface IdentityBuilder {
 
     /**
-     * Creates a new Participant. If a Participant with that participantId already exist, then the old Participant is
-     * returned.
+     * Creates a new Participant, no matter if there exists already a {@link Participant} with the same name.
      * 
-     * @param participantId
-     *            - is the id of the instantiated object
-     * @return the created Participant object, except when the Participant already exists
+     * @param participantName
+     *            - is the name of the instantiated object
+     * @return the created Participant object; the object already contains an id
      */
-    Participant createParticipant(String participantId);
+    Participant createParticipant(String participantName);
 
     /**
      * Deletes the given Participant, so that it is removed from the organization structure.
@@ -106,14 +105,13 @@ public interface IdentityBuilder {
     IdentityBuilder participantHasCapability(Participant participant, Capability capability);
 
     /**
-     * Creates a new OrganizationUnit. If a OrganizationUnit with that organizationUnitId already exist, then the old
-     * OrganizationUnit is returned.
+     * Creates a new OrganizationUnit, no matter if there already exists an {@link OrganizationUnit} with the same name.
      * 
-     * @param organizationUnitId
-     *            - is the id of the instantiated object
-     * @return the created OrganizationUnit object, except when the OrganizationUnit already exists
+     * @param organizationUnitName
+     *            - is the name of the instantiated object
+     * @return the created OrganizationUnit object; the object already contains an id
      */
-    OrganizationUnit createOrganizationUnit(String organizationUnitId);
+    OrganizationUnit createOrganizationUnit(String organizationUnitName);
 
     /**
      * Deletes the given OrganizationUnit, so that it is removed from the organization structure.
@@ -173,18 +171,20 @@ public interface IdentityBuilder {
      * @param superOrganizationUnit
      *            - {@link OrganizationUnit} above the superOrganizationUnit
      * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws DalmatinaException - in case the sub and super OrganizationUnit are the same
+     * @throws DalmatinaException
+     *             - in case the sub and super OrganizationUnit are the same
      */
-    IdentityBuilder subOrganizationUnitOf(OrganizationUnit subOrganizationUnit, OrganizationUnit superOrganizationUnit) throws DalmatinaException;
+    IdentityBuilder subOrganizationUnitOf(OrganizationUnit subOrganizationUnit, OrganizationUnit superOrganizationUnit)
+    throws DalmatinaException;
 
     /**
-     * Creates a new Position. If a Position with that positionId already exist, then the old Position is returned.
+     * Creates a new Position, no matter if there exists already a {@link Position} with the same name.
      * 
-     * @param positionId
-     *            - is the id of the instantiated object
-     * @return the created Position object, except when the Position already exists
+     * @param positionName
+     *            - is the name of the instantiated object
+     * @return the created Position object; the object already contains an id.
      */
-    Position createPosition(String positionId);
+    Position createPosition(String positionName);
 
     /**
      * Deletes the given Position, so that it is removed from the organization structure.
@@ -211,18 +211,20 @@ public interface IdentityBuilder {
      * @param superiorPosition
      *            - {@link Position} that is the superior position of the other one
      * @return the current IdentityBuilder in order to continue building the organization structures
-     * @throws DalmatinaException - in case the position and its superior position are the same
+     * @throws DalmatinaException
+     *             - in case the position and its superior position are the same
      */
-    IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition) throws DalmatinaException;
+    IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition)
+    throws DalmatinaException;
 
     /**
-     * Creates a new Role. If a Role with that roleId already exist, then the old Role is returned.
+     * Creates a new Role, no matter if there exists already a {@link Role} with the same name.
      * 
-     * @param roleId
+     * @param roleName
      *            - is the id of the instantiated object
-     * @return the created Role object, except when the Role already exists
+     * @return the created Role object; the object already contains an id
      */
-    Role createRole(String roleId);
+    Role createRole(String roleName);
 
     /**
      * Deletes the given Role, so that it is removed from the organization structure.
@@ -247,7 +249,7 @@ public interface IdentityBuilder {
      */
     IdentityBuilder subRoleOf(Role subRole, Role superRole);
 
-    // Muss noch geschaut werden ob das wirklich schon gebracuht wird
+    // Muss noch geschaut werden ob das wirklich schon gebraucht wird
     /**
      * Creates a new Capability.
      * 

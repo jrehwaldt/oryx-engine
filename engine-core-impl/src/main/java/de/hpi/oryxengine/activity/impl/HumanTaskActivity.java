@@ -30,9 +30,6 @@ public class HumanTaskActivity extends AbstractActivity {
         this.task = task;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void executeIntern(@Nonnull Token instance) {
 
