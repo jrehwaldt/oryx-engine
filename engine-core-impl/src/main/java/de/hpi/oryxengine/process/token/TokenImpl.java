@@ -6,8 +6,10 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 
@@ -16,19 +18,14 @@ import de.hpi.oryxengine.process.structure.Transition;
  */
 public class TokenImpl implements Token {
 
-    /** The id. */
     private UUID id;
 
-    /** The current node. */
     private Node currentNode;
 
-    /** The context. */
-    private ProcessInstanceContext context;
+    private ProcessInstance instance;
 
-    /** The last taken transition. */
     private Transition lastTakenTransition;
 
-    /** The navigator. */
     private Navigator navigator;
 
     private boolean suspended;
@@ -43,9 +40,9 @@ public class TokenImpl implements Token {
      * @param context
      *            the context
      */
-    public TokenImpl(Node startNode, ProcessInstanceContext context) {
+    public TokenImpl(Node startNode, ProcessInstance instance) {
 
-        this(startNode, context, null);
+        this(startNode, instance, null);
     }
 
     /**
@@ -58,10 +55,10 @@ public class TokenImpl implements Token {
      * @param navigator
      *            the navigator
      */
-    public TokenImpl(Node startNode, ProcessInstanceContext context, Navigator navigator) {
+    public TokenImpl(Node startNode, ProcessInstance instance, Navigator navigator) {
 
         this.currentNode = startNode;
-        this.context = context;
+        this.instance = instance;
         this.navigator = navigator;
     }
 
@@ -73,7 +70,7 @@ public class TokenImpl implements Token {
      */
     public TokenImpl(Node startNode) {
 
-        this(startNode, new ProcessInstanceContextImpl(), null);
+        this(startNode, new ProcessInstanceImpl(null), null);
     }
 
     /**
@@ -177,28 +174,28 @@ public class TokenImpl implements Token {
     @Override
     public Token createNewToken(Node node) {
 
-        Token newToken = new TokenImpl(node, this.context, navigator);
+        Token newToken = new TokenImpl(node, this.instance, navigator);
         return newToken;
     }
 
     @Override
     public boolean joinable() {
 
-        return this.context.allIncomingTransitionsSignaled(this.currentNode);
+        return this.instance.getContext().allIncomingTransitionsSignaled(this.currentNode);
     }
 
     @Override
     public Token performJoin() {
 
-        Token token = new TokenImpl(currentNode, context, navigator);
-        context.removeIncomingTransitions(currentNode);
+        Token token = new TokenImpl(currentNode, instance, navigator);
+        instance.getContext().removeIncomingTransitions(currentNode);
         return token;
     }
 
     @Override
-    public ProcessInstanceContext getContext() {
+    public ProcessInstance getInstance() {
 
-        return context;
+        return instance;
     }
 
     @Override

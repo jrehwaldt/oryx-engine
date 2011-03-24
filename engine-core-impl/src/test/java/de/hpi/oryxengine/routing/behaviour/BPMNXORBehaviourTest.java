@@ -15,6 +15,7 @@ import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.ConditionImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -65,7 +66,8 @@ public class BPMNXORBehaviourTest {
      */
     @Test
     public void testTrueConditionNode() {
-        token.getContext().setVariable("a", 1);
+        ProcessInstanceContext context = token.getInstance().getContext();
+        context.setVariable("a", 1);
         Node node = token.getCurrentNode();
         Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
 

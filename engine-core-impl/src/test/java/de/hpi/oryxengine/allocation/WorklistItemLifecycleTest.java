@@ -10,13 +10,10 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
-import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.allocation.TaskImpl;
-import de.hpi.oryxengine.allocation.WorklistItemImpl;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -44,7 +41,7 @@ public class WorklistItemLifecycleTest {
         jannik = (Participant) task.getAssignedResources().iterator().next();
 
         Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(new HumanTaskActivity(null));
-        Token token = new TokenImpl(humanTaskNode, new ProcessInstanceContextImpl(), new NavigatorImplMock());
+        Token token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
 
         worklistItem = new WorklistItemImpl(task, token);
 

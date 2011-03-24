@@ -15,8 +15,10 @@ import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.token.Token;
@@ -121,8 +123,9 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         List<StartNode> startNodes = definition.getStartNodes();
 
         ProcessInstanceContext context = new ProcessInstanceContextImpl();
+        ProcessInstance instance = new ProcessInstanceImpl(definition);
         for (Node node : startNodes) {
-            Token newToken = new TokenImpl(node, context, this);
+            Token newToken = instance.createToken(node, this);
             startArbitraryInstance(newToken);
         }
     }

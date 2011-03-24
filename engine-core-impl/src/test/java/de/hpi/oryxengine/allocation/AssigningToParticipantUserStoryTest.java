@@ -13,11 +13,10 @@ import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -51,7 +50,7 @@ public class AssigningToParticipantUserStoryTest {
         
         humanTaskNode.transitionTo(endNode);
                 
-        token = new TokenImpl(humanTaskNode, new ProcessInstanceContextImpl(), new NavigatorImplMock());
+        token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
     }
 
     @AfterMethod

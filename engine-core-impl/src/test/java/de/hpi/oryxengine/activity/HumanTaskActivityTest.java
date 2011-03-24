@@ -21,6 +21,7 @@ import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.allocation.pattern.SimplePushPattern;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -70,7 +71,7 @@ public class HumanTaskActivityTest {
         task = new TaskImpl(subject, description, allocationStrategies, participant);
         
         humanTask = new HumanTaskActivity(task);
-        token = new TokenImpl(new NodeImpl(humanTask), new ProcessInstanceContextImpl(), new NavigatorImplMock());
+        token = new TokenImpl(new NodeImpl(humanTask), new ProcessInstanceImpl(null), new NavigatorImplMock());
     }
 
     /**

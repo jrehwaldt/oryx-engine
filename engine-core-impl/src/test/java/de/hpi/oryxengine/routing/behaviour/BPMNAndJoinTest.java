@@ -15,7 +15,7 @@ import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -121,7 +121,7 @@ public class BPMNAndJoinTest {
         node3 = builder.createNode(param);
         builder.createTransition(joinNode, node3);
 
-        Token token = new TokenImpl(splitNode, new ProcessInstanceContextImpl(), navigator);
+        Token token = new TokenImpl(splitNode, new ProcessInstanceImpl(null), navigator);
 
         List<Token> newTokens = new ArrayList<Token>();
         newTokens.add(token.createNewToken(node1));
