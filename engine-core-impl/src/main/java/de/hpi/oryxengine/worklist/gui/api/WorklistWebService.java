@@ -1,11 +1,24 @@
 package de.hpi.oryxengine.worklist.gui.api;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import java.util.List;
+import java.util.UUID;
 
+import javax.annotation.Nonnull;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+
+import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
+import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.ResourceType;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.worklist.gui.WorklistServiceFacade;
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -17,16 +30,19 @@ import de.hpi.oryxengine.WorklistService;
  */
 @Path("/worklist")
 @Produces({ "application/xml", "application/json" })
-public final class WorklistWebService {
-//implements WorklistService {
+public final class WorklistWebService
+implements WorklistServiceFacade {
     
     private final WorklistService service;
+    
+    private final IdentityService identity;
     
     /**
      * Default constructor.
      */
     public WorklistWebService() {
         this.service = ServiceFactory.getWorklistService();
+        this.identity = ServiceFactory.getIdentityService();
     }
     
     /**
@@ -44,55 +60,62 @@ public final class WorklistWebService {
             return "Hallo Welt.";
         }
     }
+    @Path("/items/test/{resource}")
+    @GET
+//    @Override
+    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") Resource<?> resource) {
+        
+        
+        return null;
+    }
     
-//    @Path("/items/{resource}")
-//    @GET
-////    @Override
-//    public List<WorklistItem> getWorklistItems(@PathParam("resource") Resource<?> resource) {
-//        return getWorklistItems(resource);
-//    }
-//    
-//    
-//    @Path("/items/all/{resources}")
-//    @GET
-////    @Override
-//   public Map<Resource<?>, List<WorklistItem>> getWorklistItems(@PathParam("resources") List<Resource<?>> resources) {
-//        return service.getWorklistItems(resources);
-//    }
-//
-//    @Path("/item/{item}/claim/{resource}")
-//    @POST
-//    @Override
-//    public void claimWorklistItemBy(@PathParam("item") WorklistItem worklistItem,
-//                                    @PathParam("resource") Resource<?> resource)
-//    throws DalmatinaException {
-//        service.claimWorklistItemBy(worklistItem, resource);
-//    }
-//
-//    @Path("/item/{item}/begin/{resource}")
-//    @POST
-//    @Override
-//    public void beginWorklistItemBy(@PathParam("item") WorklistItem worklistItem,
-//                                    @PathParam("resource") Resource<?> resource)
-//    throws DalmatinaException {
-//        service.beginWorklistItemBy(worklistItem, resource);
-//    }
-//
-//    @Path("/item/{item}/complete/{resource}")
-//    @POST
-//    @Override
-//    public void completeWorklistItemBy(@PathParam("item") WorklistItem worklistItem,
-//                                       @PathParam("resource") Resource<?> resource)
-//    throws DalmatinaException {
-//        service.completeWorklistItemBy(worklistItem, resource);
-//    }
-//
-//    @Path("/item/{item}/abort/{resource}")
-//    @POST
-//    @Override
-//    public void abortWorklistItemBy(@PathParam("item") WorklistItem worklistItem,
-//                                    @PathParam("resource") Resource<?> resource)
-//    throws DalmatinaException {
-//        service.abortWorklistItemBy(worklistItem, resource);
-//    }
+    @Path("/items/{resource-type}-{resource-id}")
+    @GET
+    @Override
+    public @Nonnull List<WorklistItem> getWorklistItems(@PathParam("resource-type") ResourceType resourceType,
+                                                        @PathParam("resource-id") UUID resourceId) {
+        
+        
+        return null;
+    }
+    
+    @Path("/item/{worklist-item-id}/claim/{resource-type}-{resource-id}")
+    @POST
+    @Override
+    public void claimWorklistItemBy(@Nonnull UUID worklistItemId,
+                                    @Nonnull ResourceType resourceType,
+                                    @Nonnull UUID resourceId)
+    throws DalmatinaException {
+        
+    }
+    
+    @Path("/item/{worklist-item-id}/begin/{resource-type}-{resource-id}")
+    @POST
+    @Override
+    public void beginWorklistItemBy(@Nonnull UUID worklistItemId,
+                                    @Nonnull ResourceType resourceType,
+                                    @Nonnull UUID resourceId)
+    throws DalmatinaException {
+        
+    }
+    
+    @Path("/item/{worklist-item-id}/complete/{resource-type}-{resource-id}")
+    @POST
+    @Override
+    public void completeWorklistItemBy(@Nonnull UUID worklistItemId,
+                                       @Nonnull ResourceType resourceType,
+                                       @Nonnull UUID resourceId)
+    throws DalmatinaException {
+        
+    }
+    
+    @Path("/item/{worklist-item-id}/abort/{resource-type}-{resource-id}")
+    @POST
+    @Override
+    public void abortWorklistItemBy(@Nonnull UUID worklistItemId,
+                                    @Nonnull ResourceType resourceType,
+                                    @Nonnull UUID resourceId)
+    throws DalmatinaException {
+        
+    }
 }
