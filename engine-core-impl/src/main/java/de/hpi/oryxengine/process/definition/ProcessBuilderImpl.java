@@ -39,10 +39,6 @@ public class ProcessBuilderImpl implements ProcessBuilder {
         this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
     }
 
-    /**
-     * {@inheritDoc}
-     * @throws IllegalStarteventException 
-     */
     @Override
     public ProcessDefinition buildDefinition() throws IllegalStarteventException {
 

@@ -20,12 +20,6 @@ extends AbstractActivity {
         super();
     }
 
-    /**
-     * Default end activity implementation.
-     *
-     * @param instance the instance
-     * {@inheritDoc}
-     */
     @Override
     protected void executeIntern(@Nonnull Token instance) {
         // Doing nothing is the default behavior

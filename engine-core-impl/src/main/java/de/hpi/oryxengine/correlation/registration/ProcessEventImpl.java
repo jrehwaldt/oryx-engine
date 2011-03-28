@@ -10,13 +10,10 @@ import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
  */
 public class ProcessEventImpl implements ProcessEvent {
 
-    /** The type. */
     private AdapterType type;
 
-    /** The config. */
     private PullAdapterConfiguration config;
 
-    /** The conditions. */
     private List<EventCondition> conditions;
 
     /**

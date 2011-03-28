@@ -14,10 +14,8 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class ConditionImpl implements Condition {
     
-    /** The result. */
     private boolean result;
     
-    /** The set. */
     private Set<?> set;
     
     /**
@@ -31,11 +29,6 @@ public class ConditionImpl implements Condition {
         result = true;
     }
     
-    /**
-     * Sets the false.
-     *
-     * {@inheritDoc}
-     */
     @Override
     public void setFalse() {
         result = false;

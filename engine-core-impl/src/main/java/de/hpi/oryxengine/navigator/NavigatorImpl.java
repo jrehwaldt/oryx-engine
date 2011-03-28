@@ -34,8 +34,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     private List<Token> suspendedTokens;
 
-    private CorrelationManager correlation;
-
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
 
@@ -74,7 +72,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         this.state = NavigatorState.INIT;
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
-        this.correlation = new CorrelationManagerImpl(this);
         repository = ServiceFactory.getRepositoryService();
         this.suspendedTokens = new ArrayList<Token>();
         this.instances = new ArrayList<ProcessInstance>();

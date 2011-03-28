@@ -23,7 +23,7 @@ public interface ProcessInstance extends Identifiable {
     void addToken(Token t);
 
     /**
-     * Gets the instance context.
+     * Gets the instance context that is shared among all tokens that belong to this instance.
      * 
      * @return the context
      */

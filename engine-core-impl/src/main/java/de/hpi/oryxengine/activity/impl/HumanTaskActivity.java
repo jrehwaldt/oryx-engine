@@ -16,7 +16,6 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class HumanTaskActivity extends AbstractActivity {
 
-    /** The task. */
     private Task task;
 
     /**

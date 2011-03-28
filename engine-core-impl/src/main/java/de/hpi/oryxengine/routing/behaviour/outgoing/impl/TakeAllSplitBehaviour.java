@@ -20,6 +20,7 @@ public class TakeAllSplitBehaviour implements OutgoingBehaviour {
      * @return the list
      * @see de.hpi.oryxengine.OutgoingBehaviour.SplitBehaviour#split(java.util.List)
      */
+    @Override
     public List<Token> split(List<Token> tokens) {
 
         if (tokens == null || tokens.size() == 0) {

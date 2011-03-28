@@ -14,10 +14,8 @@ import de.hpi.oryxengine.process.structure.Transition;
  */
 public class ProcessInstanceContextImpl implements ProcessInstanceContext {
 
-    /** The waiting transitions. */
     private Map<Node, List<Transition>> waitingTransitions;
 
-    /** The token variables. */
     private Map<String, Object> contextVariables;
 
     /**
@@ -28,12 +26,6 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
         waitingTransitions = new HashMap<Node, List<Transition>>();
     }
 
-    /**
-     * Sets the waiting execution.
-     * 
-     * @param t
-     *            the new waiting execution {@inheritDoc}
-     */
     @Override
     public void setWaitingExecution(Transition t) {
 
@@ -49,22 +41,12 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
 
     }
 
-    /**
-     * Gets the waiting executions.
-     *
-     * @param n the n
-     * @return the waiting executions
-     * {@inheritDoc}
-     */
     @Override
     public List<Transition> getWaitingExecutions(Node n) {
 
         return waitingTransitions.get(n);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean allIncomingTransitionsSignaled(Node n) {
 
@@ -78,9 +60,6 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
         return signaledTransitions.containsAll(incomingTransitions);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void removeIncomingTransitions(Node n) {
 
@@ -105,28 +84,13 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
         }
     }
 
-    /**
-     * Sets the variable.
-     * 
-     * @param name
-     *            the name
-     * @param value
-     *            the value {@inheritDoc}
-     */
     @Override
     public void setVariable(String name, Object value) {
 
         getInstanceVariables().put(name, value);
     }
 
-    /**
-     * Gets the variable.
-     * 
-     * @param name
-     *            of the variable
-     * @return the variable
-     * @see de.hpi.oryxengine.process.token.Token#getVariable(java.lang.String)
-     */
+    @Override
     public Object getVariable(String name) {
 
         return getInstanceVariables().get(name);

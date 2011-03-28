@@ -3,7 +3,6 @@ package de.hpi.oryxengine.process.structure;
 import java.util.List;
 
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 import de.hpi.oryxengine.util.Identifiable;
@@ -86,14 +85,5 @@ extends Identifiable {
      * @param c the condition
      */
     void transitionToWithCondition(Node node, Condition c);
-
-    /**
-     * Execute some sort of behaviour.
-     *
-     * @param instance The process instance to execute
-     * @return the list
-     * @throws Exception the exception
-     */
-    List<Token> execute(Token instance) throws Exception;
 
 }

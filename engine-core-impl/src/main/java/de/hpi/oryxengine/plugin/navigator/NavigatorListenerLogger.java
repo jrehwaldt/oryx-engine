@@ -13,10 +13,8 @@ import de.hpi.oryxengine.navigator.Navigator;
 public final class NavigatorListenerLogger
 extends AbstractNavigatorListener {
     
-    /** The instance. */
     private static NavigatorListenerLogger instance;
     
-    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**

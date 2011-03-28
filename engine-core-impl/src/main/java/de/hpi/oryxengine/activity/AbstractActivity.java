@@ -16,7 +16,6 @@ extends AbstractPluggable<AbstractActivityLifecyclePlugin>
 implements Activity {
     
     // TODO Refactor: move activity state into ProcessInstance
-    /** The state. */
     private ActivityState state = ActivityState.INIT;
     
     /**
@@ -28,12 +27,6 @@ implements Activity {
         
     }
     
-    /**
-     * Gets the state.
-     *
-     * @return the state
-     * {@inheritDoc}
-     */
     @Override
     public @Nonnull ActivityState getState() {
         return state;
@@ -53,12 +46,6 @@ implements Activity {
         notifyObservers(new ActivityLifecycleChangeEvent(this, prevState, this.state, instance));
     }
     
-    /**
-     * Execute.
-     *
-     * @param instance the instance
-     * {@inheritDoc}
-     */
     @Override
     public final void execute(@Nonnull Token instance) {
         changeState(instance, ActivityState.ACTIVE);
@@ -73,23 +60,11 @@ implements Activity {
      */
     protected abstract void executeIntern(@Nonnull Token instance);
     
-    /**
-     * To string.
-     *
-     * @return the string
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         return getClass().getSimpleName();
     }
     
-    /**
-     * Register plugin.
-     *
-     * @param plugin the plugin
-     * {@inheritDoc}
-     */
     @Override
     public void registerPlugin(@Nonnull AbstractActivityLifecyclePlugin plugin) {
         addObserver(plugin);

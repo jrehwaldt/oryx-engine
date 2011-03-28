@@ -32,12 +32,6 @@ extends AbstractActivity {
         resultVariableName = variableName;
     }
 
-    /**
-     * Execute intern.
-     *
-     * @param token the token
-     * {@inheritDoc}
-     */
     @Override
     protected void executeIntern(@Nonnull Token token) {
         
