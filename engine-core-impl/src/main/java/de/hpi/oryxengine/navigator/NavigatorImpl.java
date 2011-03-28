@@ -28,10 +28,8 @@ import de.hpi.oryxengine.repository.ProcessRepository;
 public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> implements Navigator {
 
     // map IDs to Definition
-    /** The running instances. */
     private HashMap<UUID, Token> runningTokens;
 
-    /** The scheduler for tokens that can be processed. */
     private FIFOScheduler scheduler;
 
     private List<Token> suspendedTokens;
@@ -41,19 +39,14 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
 
-    /** The Constant NUMBER_OF_NAVIGATOR_THREADS. */
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
 
-    /** The navigator threads. */
     private int navigatorThreads;
 
-    /** The state. */
     private NavigatorState state;
 
-    /** The counter. */
     private int counter;
 
-    /** The repository. */
     private ProcessRepository repository;
 
     private List<ProcessInstance> instances;
@@ -124,8 +117,8 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         Token newToken = instance.createToken(startNode, this);
         startArbitraryInstance(newToken);
         instances.add(instance);
-        
-        //TODO we need a method that allows the starting on a list of nodes.
+
+        // TODO we need a method that allows the starting on a list of nodes.
     }
 
     // this method is for first testing only, as we do not have ProcessDefinitions yet
