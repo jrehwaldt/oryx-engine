@@ -27,11 +27,10 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
     /**
      * Default Constructor.
-     * 
-     * @param id
-     *            - the id of the resource
-     * @param resourceType
-     *            - the type of the {@link Resource}
+     *
+     * @param id - the id of the resource
+     * @param resourceName the resource name
+     * @param resourceType - the type of the {@link Resource}
      */
     protected ResourceImpl(UUID id, String resourceName, ResourceType resourceType) {
 
@@ -40,6 +39,12 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         this.resourceType = resourceType;
     }
 
+    /**
+     * Constructor.
+     *
+     * @param resourceName - the resource name
+     * @param resourceType - the type of the {@link Resource}
+     */
     protected ResourceImpl(String resourceName, ResourceType resourceType) {
 
         this(UUID.randomUUID(), resourceName, resourceType);

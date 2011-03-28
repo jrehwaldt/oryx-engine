@@ -20,7 +20,6 @@ import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.allocation.pattern.SimplePushPattern;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
@@ -37,13 +36,14 @@ public class HumanTaskActivityTest {
 
     private Task task = null;
     private Resource<?> resource = null;
-    
+
     private HumanTaskActivity humanTask = null;
-    
+
     private Token token;
 
     /**
      * Set up.
+     * 
      * @throws Exception
      *             the exception
      */
@@ -52,24 +52,24 @@ public class HumanTaskActivityTest {
     throws Exception {
 
         // Prepare the organisation structure
-        
+
         IdentityBuilder identityBuilder = new IdentityServiceImpl().getIdentityBuilder();
         Participant participant = identityBuilder.createParticipant("jannik");
         participant.setName("Jannik Streek");
 
         resource = participant;
-        
+
         // Define the task
         String subject = "Jannik, get Gerardo a cup of coffee!";
         String description = "You know what I mean.";
-        
+
         Pattern pushPattern = new SimplePushPattern();
         Pattern pullPattern = new SimplePullPattern();
-        
+
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-        
+
         task = new TaskImpl(subject, description, allocationStrategies, participant);
-        
+
         humanTask = new HumanTaskActivity(task);
         token = new TokenImpl(new NodeImpl(humanTask), new ProcessInstanceImpl(null), new NavigatorImplMock());
     }
@@ -79,14 +79,13 @@ public class HumanTaskActivityTest {
      */
     @AfterMethod
     public void tearDown() {
-        
+
         // Reseting the Worklist Manager after the test case
         ServiceFactoryForTesting.clearWorklistManager();
     }
-    
+
     /**
-     * Test activity initialization.
-     * The activity should not be null if it was instantiated correctly.
+     * Test activity initialization. The activity should not be null if it was instantiated correctly.
      */
     @Test
     public void testActivityInitialization() {
@@ -101,11 +100,12 @@ public class HumanTaskActivityTest {
     public void testJannikHasWorklistItem() {
 
         humanTask.execute(token);
-        
+
         int worklistSize = ServiceFactory.getWorklistService().getWorklistItems(resource).size();
-        String failureMessage = "Jannik should now have 1 item in his worklist, but there are " + worklistSize + " item(s) in the worklist."; 
+        String failureMessage = "Jannik should now have 1 item in his worklist, but there are " + worklistSize
+            + " item(s) in the worklist.";
         assertTrue(worklistSize == 1, failureMessage);
-        
+
         WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
         assertEquals(worklistItem.getSubject(), task.getSubject());
         assertEquals(worklistItem.getDescription(), task.getDescription());

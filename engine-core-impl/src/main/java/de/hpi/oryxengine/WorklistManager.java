@@ -10,8 +10,8 @@ import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.allocation.TaskAllocation;
+import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.token.Token;
