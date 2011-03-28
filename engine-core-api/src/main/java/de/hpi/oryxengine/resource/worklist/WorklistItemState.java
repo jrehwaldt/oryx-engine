@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.worklist;
+package de.hpi.oryxengine.resource.worklist;
 
 /**
  * This Enum represents the different states of a {@link WorklistItem}.

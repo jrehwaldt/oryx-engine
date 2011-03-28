@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.worklist;
+package de.hpi.oryxengine.allocation;
 
 import de.hpi.oryxengine.process.token.Token;
 
@@ -15,7 +15,7 @@ public interface Pattern {
      * @param token
      *            - reference to the {@link Token} in order to have more context information
      * @param worklistService
-     *            - reference to the {@link WorklistQueue} in order to operate on worklist queues
+     *            - reference to the {@link TaskAllocation} in order to operate on worklist queues
      */
-    void execute(Task task, Token token, WorklistQueue worklistService);
+    void execute(Task task, Token token, TaskAllocation worklistService);
 }

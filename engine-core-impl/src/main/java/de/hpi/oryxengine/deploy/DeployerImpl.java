@@ -7,7 +7,7 @@ import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.structure.StartNode;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.repository.ProcessRepository;
 
 /**
@@ -32,13 +32,8 @@ public class DeployerImpl implements Deployer {
 
         // Register start events at event manager.
         CorrelationManagerImpl correlation = ServiceFactory.getCorrelationService(nav);
-        for (StartNode node : def.getStartNodes()) {
-            StartEvent event = node.getStartEvent();
-
-            // Convention says: Null can be used for a blank start event.
-            if (event != null) {
-                correlation.registerStartEvent(event);
-            }
+        for (StartEvent event : def.getStartTriggers().keySet()) {
+            correlation.registerStartEvent(event);
         }
     }
 

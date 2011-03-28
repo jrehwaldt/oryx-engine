@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.MailNodeFactory;
 import de.hpi.oryxengine.factory.token.SimpleProcessTokenFactory;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 
@@ -34,7 +35,8 @@ public class MailNodeActivityTest {
       node = factory.create();
       SimpleProcessTokenFactory processfactory = new SimpleProcessTokenFactory(); 
       p = processfactory.create(node);
-      p.getContext().setVariable("result", "Roflcopter123!");
+      ProcessInstanceContext context = p.getInstance().getContext();
+      context.setVariable("result", "Roflcopter123!");
   }
   
   /**

@@ -7,7 +7,7 @@ import java.util.Set;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.worklist.RoleWorklist;
-import de.hpi.oryxengine.worklist.Worklist;
+import de.hpi.oryxengine.resource.worklist.Worklist;
 
 /**
  * Implementation of the {@link Role} interface.
@@ -22,17 +22,14 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
     /**
      * The Default Constructor for the Rolempl.
      * 
-     * @param roleId
-     *            - the id of the Role
+     * @param roleName
+     *            - the name of the Role
      */
-    public RoleImpl(String roleId) {
+    public RoleImpl(String roleName) {
 
-        super(roleId, ResourceType.ROLE);
+        super(roleName, ResourceType.ROLE);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Role getSuperRole() {
 
@@ -94,7 +91,7 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
         }
         RoleImpl roleImpl = (RoleImpl) role;
         if (!ServiceFactory.getIdentityService().getRoles().contains(roleImpl)) {
-            throw new DalmatinaRuntimeException("There exists no Role with the id " + role.getId() + ".");
+            throw new DalmatinaRuntimeException("There exists no Role with the id " + role.getID() + ".");
         }
         return roleImpl;
     }

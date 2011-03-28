@@ -1,12 +1,17 @@
-package de.hpi.oryxengine.worklist;
+package de.hpi.oryxengine.allocation;
 
 import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.Form;
+import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * THe implementation of the Task Interface.
@@ -88,17 +93,16 @@ public class WorklistItemImpl implements WorklistItem {
     /**
      * Translates a WorklistItem into a corresponding WorklistItemImpl object.
      * 
-     * @param role
+     * @param worklistItem
      *            - a {@link WorklistItem} object
-     * @return roleImpl - the casted {@link WorklistItemImpl} object
-     * @throws DalmatinaException
-     *             - an {@link DalmatinaException} if the provided Parameter is null
+     * @return worklistItemImpl - the casted {@link WorklistItemImpl} object
+     * @throws DalmatinaRuntimeException
+     *             - an {@link DalmatinaRuntimeException} if the provided Parameter is null
      */
-    public static WorklistItemImpl asWorklistItemImpl(WorklistItem worklistItem)
-    throws DalmatinaException {
+    public static WorklistItemImpl asWorklistItemImpl(WorklistItem worklistItem) {
 
         if (worklistItem == null) {
-            throw new DalmatinaException("The WorklistItem parameter is null.");
+            throw new DalmatinaRuntimeException("The WorklistItem parameter is null.");
         }
         WorklistItemImpl worklistItemImpl = (WorklistItemImpl) worklistItem;
 

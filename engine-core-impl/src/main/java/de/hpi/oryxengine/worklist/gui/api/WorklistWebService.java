@@ -1,17 +1,11 @@
 package de.hpi.oryxengine.worklist.gui.api;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.worklist.WorklistItem;
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -44,7 +38,11 @@ public final class WorklistWebService {
     @GET
     @Produces("text/plain")
     public String status() {
-        return "Hello World";
+        if (this.service == null) {
+            return "Hello World";
+        } else {
+            return "Hallo Welt.";
+        }
     }
     
 //    @Path("/items/{resource}")
@@ -58,7 +56,7 @@ public final class WorklistWebService {
 //    @Path("/items/all/{resources}")
 //    @GET
 ////    @Override
-//    public Map<Resource<?>, List<WorklistItem>> getWorklistItems(@PathParam("resources") List<Resource<?>> resources) {
+//   public Map<Resource<?>, List<WorklistItem>> getWorklistItems(@PathParam("resources") List<Resource<?>> resources) {
 //        return service.getWorklistItems(resources);
 //    }
 //

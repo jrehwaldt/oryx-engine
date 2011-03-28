@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.AddNumbersAndStoreNodeFactory;
 import de.hpi.oryxengine.factory.token.SimpleProcessTokenFactory;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 
@@ -41,7 +42,8 @@ public class AddNumbersAndStoreActivityTest {
     @Test
     public void testResult() throws Exception {
         p.executeStep();
-        int i = Integer.parseInt((String) p.getContext().getVariable("result"));
+        ProcessInstanceContext context = p.getInstance().getContext();
+        int i = Integer.parseInt((String) context.getVariable("result"));
         assertEquals(i, 2, "Upps we cant add correctly.");
     }
 }

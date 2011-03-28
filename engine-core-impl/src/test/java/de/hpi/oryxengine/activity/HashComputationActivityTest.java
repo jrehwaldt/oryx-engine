@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.HashComputationNodeFactory;
 import de.hpi.oryxengine.factory.token.SimpleProcessTokenFactory;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 
@@ -52,6 +53,7 @@ public class HashComputationActivityTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(p.getContext().getVariable(VARIABLENAME), SHA1, "Oh well hashing doesn't work what a shame.");
+        ProcessInstanceContext context = p.getInstance().getContext();
+        assertEquals(context.getVariable(VARIABLENAME), SHA1, "Oh well hashing doesn't work what a shame.");
     }
 }

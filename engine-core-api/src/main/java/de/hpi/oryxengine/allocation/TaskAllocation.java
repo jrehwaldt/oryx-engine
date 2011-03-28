@@ -1,16 +1,16 @@
-package de.hpi.oryxengine.worklist;
+package de.hpi.oryxengine.allocation;
 
 import java.util.Set;
 
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
  * Is the internal interface for operating on the Worklists. This interface is used by the patterns in order to query
  * and modify the queues.
  */
-// TODO Change Name
-public interface WorklistQueue extends WorklistService {
+public interface TaskAllocation extends WorklistService {
 
     /**
      * Adds a {@link WorklistItem} to the specified {@link Resource}.

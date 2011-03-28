@@ -5,10 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
-import de.hpi.oryxengine.worklist.Worklist;
+import de.hpi.oryxengine.resource.worklist.Worklist;
 
 /**
  * Implementation of the {@link Participant} Interface.
@@ -27,12 +26,12 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
     /**
      * Instantiates a new {@link ParticipantImpl}.
      * 
-     * @param participantId
-     *            the participant id
+     * @param participantName
+     *            the name of the {@link ParticipantImpl}
      */
-    public ParticipantImpl(String participantId) {
+    public ParticipantImpl(String participantName) {
 
-        super(participantId, ResourceType.PARTICIPANT);
+        super(participantName, ResourceType.PARTICIPANT);
     }
 
     /**
@@ -123,7 +122,7 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
 
         ParticipantImpl participantImpl = (ParticipantImpl) participant;
         if (!ServiceFactory.getIdentityService().getParticipants().contains(participantImpl)) {
-            throw new DalmatinaRuntimeException("There exists no Participant with the id " + participant.getId() + ".");
+            throw new DalmatinaRuntimeException("There exists no Participant with the id " + participant.getID() + ".");
         }
         return participantImpl;
     }

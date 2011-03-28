@@ -1,14 +1,14 @@
 package de.hpi.oryxengine.factory.worklist;
 
+import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.AllocationStrategiesImpl;
+import de.hpi.oryxengine.allocation.Pattern;
+import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.TaskImpl;
+import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
+import de.hpi.oryxengine.allocation.pattern.SimplePushPattern;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.worklist.AllocationStrategies;
-import de.hpi.oryxengine.worklist.AllocationStrategiesImpl;
-import de.hpi.oryxengine.worklist.Pattern;
-import de.hpi.oryxengine.worklist.Task;
-import de.hpi.oryxengine.worklist.TaskImpl;
-import de.hpi.oryxengine.worklist.pattern.SimplePullPattern;
-import de.hpi.oryxengine.worklist.pattern.SimplePushPattern;
 
 /**
  * Little factory for creating Resources. A short cut for in the implementation.

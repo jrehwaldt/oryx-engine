@@ -1,14 +1,17 @@
 package de.hpi.oryxengine.process.definition;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import de.hpi.oryxengine.correlation.registration.StartEvent;
+import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.process.structure.StartNode;
-import de.hpi.oryxengine.process.structure.StartNodeImpl;
 
 /**
  * The Class ProcessBuilderImpl. As you would think, only nodes that were created using createStartNode() become
@@ -18,42 +21,56 @@ import de.hpi.oryxengine.process.structure.StartNodeImpl;
  */
 public class ProcessBuilderImpl implements ProcessBuilder {
 
-    /** The definition. */
     private ProcessDefinition definition;
 
-    /** The start nodes. */
-    private List<StartNode> startNodes = new ArrayList<StartNode>();
+    private List<Node> startNodes = new ArrayList<Node>();
 
-    /** The id. */
     private UUID id;
 
-    /** The description. */
     private String description;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ProcessDefinition buildDefinition() {
+    private Map<StartEvent, Node> temporaryStartTriggers;
 
-        definition = new ProcessDefinitionImpl(id, description, startNodes);
-        startNodes = new ArrayList<StartNode>();
-        return definition;
+    /**
+     * Instantiates some temporary datastructures.
+     */
+    public ProcessBuilderImpl() {
+
+        this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
     }
 
     /**
      * {@inheritDoc}
+     * @throws IllegalStarteventException 
      */
+    @Override
+    public ProcessDefinition buildDefinition() throws IllegalStarteventException {
+
+        definition = new ProcessDefinitionImpl(id, description, startNodes);
+
+        for (Map.Entry<StartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
+            definition.addStartTrigger(entry.getKey(), entry.getValue());
+        }
+        
+        //cleanup
+        startNodes = new ArrayList<Node>();
+        id = null;
+        description = null;
+        this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
+        
+        return definition;
+    }
+
     @Override
     public Node createNode(NodeParameter param) {
 
         Node node = new NodeImpl(param.getActivity(), param.getIncomingBehaviour(), param.getOutgoingBehaviour());
+        if (param.isStartNode()) {
+            startNodes.add(node);
+        }
         return node;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ProcessBuilder createTransition(Node source, Node destination) {
 
@@ -61,9 +78,6 @@ public class ProcessBuilderImpl implements ProcessBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ProcessBuilder createTransition(Node source, Node destination, Condition condition) {
 
@@ -71,9 +85,6 @@ public class ProcessBuilderImpl implements ProcessBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ProcessBuilder setID(UUID id) {
 
@@ -82,9 +93,6 @@ public class ProcessBuilderImpl implements ProcessBuilder {
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ProcessBuilder setDescription(String description) {
 
@@ -94,12 +102,11 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     }
 
     @Override
-    public StartNode createStartNode(StartNodeParameter param) {
+    public void createStartTrigger(StartEvent event, Node startNode)
+    throws DalmatinaException {
 
-        StartNode node = new StartNodeImpl(param.getActivity(), param.getIncomingBehaviour(),
-            param.getOutgoingBehaviour(), param.getStartEvent());
-        this.startNodes.add(node);
-        return node;
+        temporaryStartTriggers.put(event, startNode);
+
     }
 
 }

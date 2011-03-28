@@ -194,24 +194,30 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
 
         for (StartEvent event : startEvents) {
             boolean triggerEvent = true;
+            
+            // don't correlate events of different types.
             if (e.getAdapterType() != event.getAdapterType()) {
                 continue;
             }
+            
+            // don't correlate events that were assigned to different configurations.
+            if (e.getAdapterConfiguration() != event.getAdapterConfiguration()) {
+                continue;
+            }
+            
             for (EventCondition condition : event.getConditions()) {
                 Method method = condition.getMethod();
                 Object returnValue = method.invoke(e);
                 if (!returnValue.equals(condition.getExpectedValue())) {
                     triggerEvent = false;
+                    break;
                 }
             }
             if (triggerEvent) {
-                this.navigator.startProcessInstance(event.getDefinitionID());
+                this.navigator.startProcessInstance(event.getDefinitionID(), event);
                 System.out.println("starting process" + this.navigator);
             }
         }
-
-        // don't generate a random UUID here, as it has to be one that a definition exists in the repository for.
-        // this.navigator.startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
     }
 
     /**

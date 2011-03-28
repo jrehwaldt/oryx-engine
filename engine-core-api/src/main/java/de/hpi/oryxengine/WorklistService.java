@@ -3,21 +3,20 @@ package de.hpi.oryxengine;
 import java.util.List;
 import java.util.Map;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
- * The worklist service which is used to manage our worklist, add tasks and remove them that is.
+ * The Worklist Service which is used to manage our {@link Worklist}, add tasks and remove them that is.
  */
 public interface WorklistService {
 
     /**
-     * Resolves all worklist items belonging to the given resource.
+     * Resolves all {@link Worklist} items belonging to the given resource.
      * 
      * @param resource
-     *            - the resource the worklist items shall be searched for
-     * @return a list of {@link WorklistItem}s
+     *            - the resource the {@link Worklist} items shall be searched for
+     * @return a list of {@link WorklistItem}s; the list is unmodifiable (read-only)
      */
     List<WorklistItem> getWorklistItems(Resource<?> resource);
     
@@ -35,36 +34,32 @@ public interface WorklistService {
      *
      * @param worklistItem - {@link WorklistItem} that should be claimed
      * @param resource the resource that triggers this method
-     * @throws DalmatinaException thrown if claim fails
      */
-    void claimWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws DalmatinaException;
+    void claimWorklistItemBy(WorklistItem worklistItem, Resource<?> resource);
 
     /**
      * Begin a {@link WorklistItem}.
      *
      * @param worklistItem - {@link WorklistItem} that should be claimed
      * @param resource the resource that triggers this method
-     * @throws DalmatinaException thrown if begin fails
      */
-    void beginWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws DalmatinaException;
+    void beginWorklistItemBy(WorklistItem worklistItem, Resource<?> resource);
 
     /**
      * Completes a {@link WorklistItem}.
      *
      * @param worklistItem - {@link WorklistItem} that was completed
      * @param resource the resource that triggers this method
-     * @throws DalmatinaException thrown if completing fails
      */
-    void completeWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws DalmatinaException;
+    void completeWorklistItemBy(WorklistItem worklistItem, Resource<?> resource);
 
     /**
      * Aborts a {@link WorklistItem}.
      *
      * @param worklistItem - {@link WorklistItem} that is aborted
      * @param resource the resource that triggers this method
-     * @throws DalmatinaException thrown if aborting fails
      */
-    void abortWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) throws DalmatinaException;
+    void abortWorklistItemBy(WorklistItem worklistItem, Resource<?> resource);
     
     // TODO: Observable Interface für die GUI
 }

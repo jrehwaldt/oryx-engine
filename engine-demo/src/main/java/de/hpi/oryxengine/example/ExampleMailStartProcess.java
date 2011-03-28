@@ -15,13 +15,15 @@ import de.hpi.oryxengine.correlation.registration.EventConditionImpl;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.correlation.registration.StartEventImpl;
 import de.hpi.oryxengine.deploy.Deployer;
+import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
+import de.hpi.oryxengine.process.definition.NodeParameter;
+import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.definition.StartNodeParameter;
-import de.hpi.oryxengine.process.definition.StartNodeParameterImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
@@ -33,15 +35,17 @@ public class ExampleMailStartProcess {
 
     /**
      * The main method. Run the sh*t.
-     *
-     * @param args the arguments
-     * @throws InterruptedException the interrupted exception
+     * 
+     * @param args
+     *            the arguments
+     * @throws InterruptedException
+     *             the interrupted exception
      */
     public static void main(String[] args)
     throws InterruptedException {
 
         UUID processID = UUID.randomUUID();
-        
+
         // the main
         NavigatorImpl navigator = new NavigatorImpl();
         navigator.registerPlugin(NavigatorListenerLogger.getInstance());
@@ -49,17 +53,17 @@ public class ExampleMailStartProcess {
         Deployer deployer = ServiceFactory.getDeplyomentService();
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        StartNodeParameter param = new StartNodeParameterImpl();
+        NodeParameter param = new NodeParameterImpl();
         param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
+        param.makeStartNode(true);
 
         // Create a mail adapater event here. Could create a builder for this later.
         MailAdapterConfiguration config = MailAdapterConfiguration.dalmatinaGoogleConfiguration();
         EventCondition subjectCondition = null;
         try {
-            subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"),
-                "Hallo");
+            subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");
         } catch (SecurityException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -67,22 +71,30 @@ public class ExampleMailStartProcess {
         }
         List<EventCondition> conditions = new ArrayList<EventCondition>();
         conditions.add(subjectCondition);
-        
-        StartEvent event = new StartEventImpl(AdapterTypes.Mail, config, conditions, processID);
-        param.setStartEvent(event);
 
-        Node node1 = builder.createStartNode(param);
-        
+        StartEvent event = new StartEventImpl(AdapterTypes.Mail, config, conditions, processID);
+
+        Node node1 = builder.createNode(param);
+        try {
+            builder.createStartTrigger(event, node1);
+        } catch (DalmatinaException e) {
+            e.printStackTrace();
+        }
+
         param.setActivity(new PrintingVariableActivity("result"));
+        param.makeStartNode(false);
 
         Node node2 = builder.createNode(param);
-        
+
         builder.createTransition(node1, node2).setDescription("description").setID(processID);
 
-        ProcessDefinition def = builder.buildDefinition();
-        deployer.deploy(def, navigator);
-
-        navigator.start();
+        try {
+            ProcessDefinition def = builder.buildDefinition();
+            deployer.deploy(def, navigator);
+            navigator.start();
+        } catch (IllegalStarteventException e) {
+            e.printStackTrace();
+        }
 
         // Thread.sleep(SLEEP_TIME);
 
