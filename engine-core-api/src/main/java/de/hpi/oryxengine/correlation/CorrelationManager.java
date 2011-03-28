@@ -2,6 +2,8 @@ package de.hpi.oryxengine.correlation;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.correlation.registration.IntermediateEvent;
+
 /**
  * The correlation manager, which correlates Events to the entities (acitivites, etc..) 
  * which subscribed for them.
@@ -15,5 +17,12 @@ public interface CorrelationManager {
      * @param e the adapter event
      */
     void correlate(@Nonnull AdapterEvent e);
+    
+    /**
+     * Register intermediate event.
+     *
+     * @param e the e
+     */
+    void registerIntermediateEvent(@Nonnull IntermediateEvent e);
     
 }

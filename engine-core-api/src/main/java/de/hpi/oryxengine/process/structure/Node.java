@@ -3,6 +3,7 @@ package de.hpi.oryxengine.process.structure;
 import java.util.List;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.correlation.registration.IntermediateEvent;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
@@ -28,6 +29,20 @@ extends Identifiable {
      *            the new activity
      */
     void setActivity(Activity activity);
+    
+    /**
+     * Sets the event.
+     *
+     * @param event the new event
+     */
+    void setEvent(IntermediateEvent event);
+    
+    /**
+     * Gets the event.
+     *
+     * @return the event
+     */
+    IntermediateEvent getEvent();
 
     /**
      * Sets the outgoing behaviour.

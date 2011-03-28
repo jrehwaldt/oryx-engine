@@ -96,8 +96,7 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     @Override
     public StartNode createStartNode(StartNodeParameter param) {
 
-        StartNode node = new StartNodeImpl(param.getActivity(), param.getIncomingBehaviour(),
-            param.getOutgoingBehaviour(), param.getStartEvent());
+        StartNode node = new StartNodeImpl(param.getStartEvent());
         this.startNodes.add(node);
         return node;
     }

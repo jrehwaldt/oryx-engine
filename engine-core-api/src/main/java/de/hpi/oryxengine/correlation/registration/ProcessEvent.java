@@ -2,6 +2,7 @@ package de.hpi.oryxengine.correlation.registration;
 
 import java.util.List;
 
+import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.AdapterType;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 
@@ -23,7 +24,8 @@ public interface ProcessEvent {
      * 
      * @return the adapter configuration
      */
-    PullAdapterConfiguration getAdapterConfiguration();
+ 
+    AdapterConfiguration getAdapterConfiguration();
 
     /**
      * Gets the conditions.

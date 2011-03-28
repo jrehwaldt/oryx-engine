@@ -28,7 +28,7 @@ public class SimpleProcessDefinitionFactory implements ProcessDefinitionFactory 
         Activity activity = new AddNumbersAndStoreActivity("result", 1, 1);
         IncomingBehaviour incomingBehaviour = new SimpleJoinBehaviour();
         OutgoingBehaviour outgoingBehaviour = new TakeAllSplitBehaviour();        
-        StartNode node1 = new StartNodeImpl(activity, incomingBehaviour, outgoingBehaviour, null);
+        StartNode node1 = new StartNodeImpl(null);
         
         activity = new AddNumbersAndStoreActivity("result", 1, 1);
         incomingBehaviour = new SimpleJoinBehaviour();

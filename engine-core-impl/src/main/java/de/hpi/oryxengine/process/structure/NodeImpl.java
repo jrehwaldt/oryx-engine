@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.correlation.registration.IntermediateEvent;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -32,6 +33,9 @@ public class NodeImpl implements Node {
 
     /** The id. */
     private UUID id;
+    
+    /** The event. */
+    private IntermediateEvent event;
 
     /**
      * Instantiates a new abstract node.
@@ -42,14 +46,20 @@ public class NodeImpl implements Node {
      *            the incoming behaviour
      * @param outgoingBehaviour
      *            the outgoing behaviour
+     * @param event
+     *            the event for the node, e.g. a timer event
      */
-    public NodeImpl(Activity activity, IncomingBehaviour incomingBehaviour, OutgoingBehaviour outgoingBehaviour) {
+    public NodeImpl(Activity activity,
+                    IncomingBehaviour incomingBehaviour,
+                    OutgoingBehaviour outgoingBehaviour,
+                    IntermediateEvent event) {
 
         this.activity = activity;
         this.incomingBehaviour = incomingBehaviour;
         this.outgoingBehaviour = outgoingBehaviour;
         this.outgoingTransitions = new ArrayList<Transition>();
         this.incomingTransitions = new ArrayList<Transition>();
+        this.event = event;
     }
 
     @Override
@@ -84,7 +94,7 @@ public class NodeImpl implements Node {
      */
     public NodeImpl(Activity activity) {
 
-        this(activity, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        this(activity, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour(), null);
     }
 
     /**
@@ -213,5 +223,18 @@ public class NodeImpl implements Node {
 
         createTransitionWithCondition(node, c);
 
+    }
+
+    @Override
+    public void setEvent(IntermediateEvent event) {
+
+        this.event = event;
+        
+    }
+
+    @Override
+    public IntermediateEvent getEvent() {
+
+        return this.event;
     }
 }

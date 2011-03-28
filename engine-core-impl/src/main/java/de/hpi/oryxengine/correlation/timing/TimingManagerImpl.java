@@ -12,20 +12,26 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.exception.AdapterSchedulingException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TimingManagerImpl.
  */
 public class TimingManagerImpl
 implements TimingManager {
     
+    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
+    /** The scheduler. */
     private final Scheduler scheduler;
+    
+    /** The error adapter. */
     private final ErrorAdapter errorAdapter;
     
     /**
@@ -34,7 +40,7 @@ implements TimingManager {
      * @param errorAdapter the error handler as {@link ErrorAdapter}
      * @throws SchedulerException if creating a scheduler fails
      */
-    public TimingManagerImpl(@Nonnull ErrorAdapter errorAdapter)
+    public TimingManagerImpl(@Nonnull ErrorAdapter errorAdapter, CorrelationManager correlationManager)
     throws SchedulerException {
         this.errorAdapter = errorAdapter;
         
@@ -43,6 +49,9 @@ implements TimingManager {
         this.scheduler.start();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
     throws AdapterSchedulingException {
@@ -60,14 +69,11 @@ implements TimingManager {
         data.put(PullAdapterJob.ADAPTER_KEY, adapter);
         data.put(PullAdapterJob.ERROR_HANDLER_KEY, this.errorAdapter);
         
-        Trigger trigger = new SimpleTrigger(triggerName, SimpleTrigger.REPEAT_INDEFINITELY, interval);
-        
-        try {
-            this.scheduler.scheduleJob(jobDetail, trigger);
-        } catch (SchedulerException se) {
-            logger.error("Unable to register plugin due to scheduler failure.", se);
-            throw new AdapterSchedulingException(se);
-        }
+        registerJob(jobDetail,
+                    data,
+                    triggerName,
+                    SimpleTrigger.REPEAT_INDEFINITELY,
+                    interval);
     }
     
     /**
@@ -96,5 +102,52 @@ implements TimingManager {
      */
     private static @Nonnull String jobGroupName(@Nonnull PullAdapterConfiguration configuration) {
         return String.format("job-group-%s", configuration.getUniqueName());
+    }
+
+    /**
+     * Registers the job for intermediate events and for adapters.
+     *
+     * @param detail the detail
+     * @param map the map
+     * @param triggerName the trigger name
+     * @param repeat the repeat
+     * @param interval the interval
+     * @throws AdapterSchedulingException the adapter scheduling exception
+     */
+    private void registerJob(JobDetail detail, JobDataMap map, String triggerName , Integer repeat, long interval)
+    throws AdapterSchedulingException {
+
+        Trigger trigger = new SimpleTrigger(triggerName, repeat, interval);
+        
+        try {
+            this.scheduler.scheduleJob(detail, trigger);
+        } catch (SchedulerException se) {
+            logger.error("Unable to register plugin due to scheduler failure.", se);
+            throw new AdapterSchedulingException(se);
+        }
+        
+    }
+
+    /**
+     * Register intermediate job.
+     *
+     * @param name the name
+     * @param groupName the group name
+     * @param trigger the trigger
+     * @param interval the interval
+     * @throws AdapterSchedulingException the adapter scheduling exception
+     */
+    public void registerIntermediateJob(String name, String groupName, String trigger, Integer interval)
+    throws AdapterSchedulingException {
+        
+        JobDetail jobDetail = new JobDetail(name, groupName, TimerJob.class);
+        JobDataMap data = jobDetail.getJobDataMap();
+
+        registerJob(jobDetail,
+            data,
+            trigger,
+            0,
+            interval);
+        
     }
 }

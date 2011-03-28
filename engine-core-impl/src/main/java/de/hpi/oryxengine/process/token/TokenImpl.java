@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.correlation.CorrelationManager;
+import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
@@ -131,6 +134,16 @@ public class TokenImpl implements Token {
 
         List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
+        // Check if an event is attached
+        
+        if(getCurrentNode().getEvent() != null) {
+            CorrelationManager correlationService = ServiceFactory.getCorrelationService(navigator);
+            correlationService.registerIntermediateEvent(getCurrentNode().getEvent());
+            
+            // TODO Create waiting tokens
+            // navigator.addSuspendToken(t);
+        }
+        
         for (Token token : splitedTokens) {
             navigator.addWorkToken(token);
         }

@@ -62,7 +62,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
         this.errorAdapter = new ErrorAdapter(this, new ErrorAdapterConfiguration());
 
         try {
-            this.timer = new TimingManagerImpl(this.errorAdapter);
+            this.timer = new TimingManagerImpl(this.errorAdapter, this);
         } catch (SchedulerException se) {
             logger.error("Initializing the scheduler failed. EventManager not available.", se);
             throw new EngineInitializationFailedException("Creating a timer manager failed.", se);
