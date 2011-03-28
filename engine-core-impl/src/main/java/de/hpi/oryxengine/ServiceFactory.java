@@ -2,6 +2,8 @@ package de.hpi.oryxengine;
 
 import java.util.HashMap;
 
+import javax.annotation.Nonnull;
+
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.deploy.Deployer;
 import de.hpi.oryxengine.deploy.DeployerImpl;
@@ -12,17 +14,24 @@ import de.hpi.oryxengine.worklist.TaskDistribution;
 import de.hpi.oryxengine.worklist.WorklistQueue;
 
 /**
- * 
+ * General service factory, which provides singleton instances for our system.
  */
 public class ServiceFactory {
+    
+    /**
+     * Hidden constructor.
+     */
+    protected ServiceFactory() {
+        
+    }
 
-    protected static WorklistManager worklistManager;
+    protected static WorklistManager worklistManager = null;
 
-    protected static IdentityService identityService;
+    protected static IdentityService identityService = null;
 
-    protected static Deployer deployer;
+    protected static Deployer deployer = null;
 
-    protected static ProcessRepository repo;
+    protected static ProcessRepository repo = null;
 
     protected static HashMap<Navigator, CorrelationManagerImpl> correlationManagers = 
         new HashMap<Navigator, CorrelationManagerImpl>();
@@ -71,6 +80,11 @@ public class ServiceFactory {
         return getWorklistManagerInstance();
     }
 
+    /**
+     * Gets the identity manager instance.
+     * 
+     * @return the identity manager instance
+     */
     public synchronized static IdentityService getIdentityService() {
 
         if (identityService == null) {
@@ -114,7 +128,7 @@ public class ServiceFactory {
      *            the nav
      * @return the correlation service
      */
-    public synchronized static CorrelationManagerImpl getCorrelationService(Navigator nav) {
+    public synchronized static CorrelationManagerImpl getCorrelationService(@Nonnull Navigator nav) {
 
         CorrelationManagerImpl correlation = correlationManagers.get(nav);
         if (correlation == null) {
