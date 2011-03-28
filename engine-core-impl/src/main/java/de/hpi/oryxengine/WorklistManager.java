@@ -1,5 +1,6 @@
 package de.hpi.oryxengine;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -71,8 +72,14 @@ public class WorklistManager implements WorklistService, TaskDistribution, Workl
      */
     @Override
     public Map<Resource<?>, List<WorklistItem>> getWorklistItems(List<Resource<?>> resources) {
-
-        return null;
+        
+        Map<Resource<?>, List<WorklistItem>> result = new HashMap<Resource<?>, List<WorklistItem>>();
+        
+        for (Resource<?> r: resources) {
+            result.put(r, getWorklistItems(r));
+        }
+        
+        return result;
     }
 
     /**
