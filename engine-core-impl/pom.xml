@@ -78,6 +78,53 @@
             <artifactId>quartz</artifactId>
             <scope>compile</scope>
         </dependency>
+        <!-- Jetty & JAX-RS-->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-annotations</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency><!-- JSP Support -->
+            <groupId>org.eclipse.jetty.osgi</groupId>
+            <artifactId>jetty-osgi-boot-jsp</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency><!-- JAX-RS -->
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- LessCSS -->
+        <dependency>
+            <groupId>com.asual.lesscss</groupId>
+            <artifactId>lesscss-servlet</artifactId>
+            <version>1.2.11</version> <!-- 1.0.41 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
     <build>

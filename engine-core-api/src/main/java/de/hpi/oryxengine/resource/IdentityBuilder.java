@@ -175,7 +175,8 @@ public interface IdentityBuilder {
      * @return the current IdentityBuilder in order to continue building the organization structure
      * @throws DalmatinaException - in case the sub and super OrganizationUnit are the same
      */
-    IdentityBuilder subOrganizationUnitOf(OrganizationUnit subOrganizationUnit, OrganizationUnit superOrganizationUnit) throws DalmatinaException;
+    IdentityBuilder subOrganizationUnitOf(OrganizationUnit subOrganizationUnit, OrganizationUnit superOrganizationUnit)
+    throws DalmatinaException;
 
     /**
      * Creates a new Position. If a Position with that positionId already exist, then the old Position is returned.

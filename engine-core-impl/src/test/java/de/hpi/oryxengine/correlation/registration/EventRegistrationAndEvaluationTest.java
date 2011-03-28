@@ -20,6 +20,7 @@ import de.hpi.oryxengine.correlation.adapter.AdapterType;
 import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
@@ -32,9 +33,14 @@ public class EventRegistrationAndEvaluationTest {
     private StartEvent event;
     private MailAdapterEvent incomingEvent, incomingEvent2;
 
+    /**
+     * Tests that a process instance is started.
+     * 
+     * @throws DefinitionNotFoundException fails
+     */
     @Test
     public void shouldAttemptToStartTheSimpleProcessInstance()
-    throws Exception {
+    throws DefinitionNotFoundException {
 
         Navigator navigator = mock(Navigator.class);
         CorrelationManagerImpl correlation = new CorrelationManagerImpl(navigator);
@@ -45,9 +51,14 @@ public class EventRegistrationAndEvaluationTest {
         verify(navigator).startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
     }
 
+    /**
+     * Tests that no process is invoked on wrong event.
+     * 
+     * @throws DefinitionNotFoundException fails
+     */
     @Test
     public void shouldNotAttemptToStartTheSimpleProcessInstance()
-    throws Exception {
+    throws DefinitionNotFoundException {
 
         Navigator navigator = mock(Navigator.class);
         CorrelationManagerImpl correlation = new CorrelationManagerImpl(navigator);
@@ -57,10 +68,15 @@ public class EventRegistrationAndEvaluationTest {
 
         verify(navigator, never()).startProcessInstance(ProcessRepositoryImpl.SIMPLE_PROCESS_ID);
     }
-
+    
+    /**
+     * Class initialization.
+     * 
+     * @throws NoSuchMethodException unlikely to be thrown...
+     */
     @BeforeClass
     public void beforeClass()
-    throws SecurityException, NoSuchMethodException {
+    throws NoSuchMethodException {
 
         RepositorySetup.fillRepository();
         // register some events
@@ -88,9 +104,14 @@ public class EventRegistrationAndEvaluationTest {
         when(incomingEvent2.getMessageTopic()).thenReturn("HalliHallo");
     }
 
+    /**
+     * Tear down.
+     * 
+     * @throws SchedulerException tear down fails
+     */
     @AfterMethod
-    public void flushJobRepository() throws SchedulerException {
-
+    public void flushJobRepository()
+    throws SchedulerException {
         new StdSchedulerFactory().getScheduler().shutdown();
     }
 

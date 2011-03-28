@@ -2,6 +2,9 @@ package de.hpi.oryxengine.process.definition;
 
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.StartNode;
@@ -17,7 +20,7 @@ public interface ProcessBuilder {
      *
      * @return the definition
      */
-    ProcessDefinition buildDefinition();
+    @Nonnull ProcessDefinition buildDefinition();
     
     /**
      * Creates a new node with the given parameters.
@@ -25,9 +28,15 @@ public interface ProcessBuilder {
      * @param param the param
      * @return the node
      */
-    Node createNode(NodeParameter param);
+    @Nonnull Node createNode(NodeParameter param);
     
-    StartNode createStartNode(StartNodeParameter param);
+    /**
+     * Creates a new start node with the given parameters.
+     *
+     * @param param the param
+     * @return the node
+     */
+    @Nonnull StartNode createStartNode(StartNodeParameter param);
     
     /**
      * Creates the transition.
@@ -36,7 +45,8 @@ public interface ProcessBuilder {
      * @param destination the destination
      * @return the process builder
      */
-    ProcessBuilder createTransition(Node source, Node destination);
+    @Nonnull ProcessBuilder createTransition(@Nonnull Node source,
+                                             @Nonnull Node destination);
     
     /**
      * Creates the transition.
@@ -46,7 +56,9 @@ public interface ProcessBuilder {
      * @param condition the condition
      * @return the process builder
      */
-    ProcessBuilder createTransition(Node source, Node destination, Condition condition);
+    @Nonnull ProcessBuilder createTransition(@Nonnull Node source,
+                                             @Nonnull Node destination,
+                                             @Nonnull Condition condition);
     
     /**
      * Sets the iD.
@@ -54,7 +66,7 @@ public interface ProcessBuilder {
      * @param id the new ID
      * @return the process builder
      */
-    ProcessBuilder setID(UUID id);
+    @Nonnull ProcessBuilder setID(@Nonnull UUID id);
     
     /**
      * Sets the description.
@@ -62,5 +74,5 @@ public interface ProcessBuilder {
      * @param description the new description
      * @return the process builder
      */
-    ProcessBuilder setDescription(String description);
+    @Nonnull ProcessBuilder setDescription(@Nullable String description);
 }

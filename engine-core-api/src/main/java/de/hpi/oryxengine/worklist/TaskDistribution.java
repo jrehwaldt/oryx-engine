@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.worklist;
 
+import javax.annotation.Nonnull;
+
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -14,7 +16,8 @@ public interface TaskDistribution {
      * @param task - {@link Task} that should be resolved to certain worklists
      * @param token the token
      */
-    void distribute(Task task, Token token);
+    void distribute(@Nonnull Task task,
+                    @Nonnull Token token);
     
     
     
