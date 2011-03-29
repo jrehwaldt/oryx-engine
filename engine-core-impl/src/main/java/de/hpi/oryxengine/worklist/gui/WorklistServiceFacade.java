@@ -16,6 +16,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItem;
  * @author Jan Rehwaldt
  */
 public interface WorklistServiceFacade {
+    
    /**
     * Returns a list of work items for a certain resource.
     * 

@@ -9,18 +9,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.exception.DalmatinaException;
-import de.hpi.oryxengine.resource.OrganizationUnit;
-import de.hpi.oryxengine.resource.OrganizationUnitImpl;
-import de.hpi.oryxengine.resource.Position;
-import de.hpi.oryxengine.resource.PositionImpl;
 import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.resource.ResourceImpl;
 import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 import de.hpi.oryxengine.worklist.gui.WorklistServiceFacade;
@@ -72,20 +65,20 @@ implements WorklistServiceFacade {
 //    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") ResourceImpl<?> resource) {
 //        return this.service.getWorklistItems(resource);
 //    }
-
-    @Path("/items/position/")
-    @GET
-//    @Override
-    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") PositionImpl resource) {
-        return this.service.getWorklistItems(resource);
-    }
-
-    @Path("/items/organization-unit/")
-    @GET
-//    @Override
-    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") OrganizationUnitImpl resource) {
-        return this.service.getWorklistItems(resource);
-    }
+    
+//    @Path("/items/position/")
+//    @GET
+////    @Override
+//    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") PositionImpl resource) {
+//        return this.service.getWorklistItems(resource);
+//    }
+//
+//    @Path("/items/organization-unit/")
+//    @GET
+////    @Override
+//    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") OrganizationUnitImpl resource) {
+//        return this.service.getWorklistItems(resource);
+//    }
     
     @Path("/items/{resource-type}-{resource-id}")
     @GET
