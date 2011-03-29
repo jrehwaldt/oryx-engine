@@ -16,6 +16,11 @@ public class ParticipantWorklist extends AbstractWorklist {
 
     private Participant relatedParticipant;
 
+    /**
+     * Instantiates a new participant worklist.
+     *
+     * @param owner the related participant to the work list 
+     */
     public ParticipantWorklist(Participant owner) {
 
         this.relatedParticipant = owner;

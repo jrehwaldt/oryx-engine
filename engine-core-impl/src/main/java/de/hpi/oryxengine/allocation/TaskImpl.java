@@ -14,13 +14,10 @@ import de.hpi.oryxengine.resource.Resource;
  */
 public class TaskImpl implements Task {
 
-    /** The subject. */
     private String subject;
     
-    /** The description. */
     private String description;
     
-    /** The allocation strategies. */
     private AllocationStrategies allocationStrategies;
     private Set<Resource<?>> assignedResources;
 
@@ -71,36 +68,24 @@ public class TaskImpl implements Task {
             new HashSet<Resource<?>>(Arrays.asList(assignedResource)));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getSubject() {
 
         return subject;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDescription() {
 
         return description;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Form getForm() {
 
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public AllocationStrategies getAllocationStrategies() {
 

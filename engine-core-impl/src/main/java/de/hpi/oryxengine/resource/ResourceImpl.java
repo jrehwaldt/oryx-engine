@@ -21,22 +21,21 @@ import de.hpi.oryxengine.resource.worklist.Worklist;
     OrganizationUnitImpl.class, ParticipantImpl.class, PositionImpl.class, RoleImpl.class
 })
 public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
-    
+
     protected UUID resourceId;
     protected ResourceType resourceType;
+
     protected String resourceName;
+
     protected Map<String, Object> propertyTable;
     protected Worklist worklist;
     
     /**
      * Hidden constructor with provided id.
-     * 
-     * @param id
-     *            - the id of the resource
-     * @param resourceName
-     *            - the name of the resource
-     * @param resourceType
-     *            - the type of the {@link Resource}
+     *
+     * @param id - the id of the resource
+     * @param resourceName the resource name
+     * @param resourceType - the type of the {@link Resource}
      */
     protected ResourceImpl(UUID id,
                            String resourceName,
@@ -46,15 +45,14 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         this.resourceName = resourceName;
         this.resourceType = resourceType;
     }
-    
+
     /**
-     * Default constructor. 
-     * 
-     * @param resourceName the resource's name
-     * @param resourceType the resource's type
+     * Constructor.
+     *
+     * @param resourceName - the resource name
+     * @param resourceType - the type of the {@link Resource}
      */
-    protected ResourceImpl(String resourceName,
-                           ResourceType resourceType) {
+    protected ResourceImpl(String resourceName, ResourceType resourceType) {
 
         this(UUID.randomUUID(), resourceName, resourceType);
     }
@@ -65,24 +63,12 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return resourceId;
     }
 
-    /**
-     * Gets the name.
-     * 
-     * @return the name {@inheritDoc}
-     */
     @Override
     public String getName() {
 
         return resourceName;
     }
 
-    /**
-     * Sets the name.
-     * 
-     * @param name
-     *            the name
-     * @return the r {@inheritDoc}
-     */
     @Override
     public R setName(String name) {
 
@@ -90,13 +76,6 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return extractedThis();
     }
 
-    /**
-     * Gets the property.
-     * 
-     * @param propertyId
-     *            the property id
-     * @return the property {@inheritDoc}
-     */
     @Override
     public Object getProperty(String propertyId) {
 
@@ -116,15 +95,6 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
         return propertyTable;
     }
 
-    /**
-     * Sets the property.
-     * 
-     * @param propertyKey
-     *            the property key
-     * @param propertyValue
-     *            the property value
-     * @return the r {@inheritDoc}
-     */
     @Override
     public R setProperty(String propertyKey,
                          Object propertyValue) {

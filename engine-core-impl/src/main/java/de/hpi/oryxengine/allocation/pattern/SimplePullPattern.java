@@ -10,9 +10,6 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class SimplePullPattern implements Pattern {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Task task, Token token, TaskAllocation worklistService) {
 

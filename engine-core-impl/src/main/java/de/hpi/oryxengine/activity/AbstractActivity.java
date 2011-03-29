@@ -16,7 +16,6 @@ extends AbstractPluggable<AbstractActivityLifecyclePlugin>
 implements Activity {
     
     // TODO Refactor: move activity state into ProcessInstance
-    /** The state. */
     private ActivityState state = ActivityState.INIT;
     
     /**
@@ -28,12 +27,6 @@ implements Activity {
         
     }
     
-    /**
-     * Gets the state.
-     *
-     * @return the state
-     * {@inheritDoc}
-     */
     @Override
     public @Nonnull ActivityState getState() {
         return state;
@@ -42,54 +35,36 @@ implements Activity {
     /**
      * Changes the state of the node.
      *
-     * @param instance the process instance
+     * @param token the process token
      * @param state the new state
      */
-    private void changeState(@Nonnull Token instance,
+    private void changeState(@Nonnull Token token,
                              @Nonnull ActivityState state) {
         final ActivityState prevState = this.state;
         this.state = state;
         setChanged();
-        notifyObservers(new ActivityLifecycleChangeEvent(this, prevState, this.state, instance));
+        notifyObservers(new ActivityLifecycleChangeEvent(this, prevState, this.state, token));
     }
     
-    /**
-     * Execute.
-     *
-     * @param instance the instance
-     * {@inheritDoc}
-     */
     @Override
-    public final void execute(@Nonnull Token instance) {
-        changeState(instance, ActivityState.ACTIVE);
-        executeIntern(instance);
-        changeState(instance, ActivityState.COMPLETED);
+    public final void execute(@Nonnull Token token) {
+        changeState(token, ActivityState.ACTIVE);
+        executeIntern(token);
+        changeState(token, ActivityState.COMPLETED);
     }
     
     /**
      * Method, which implements the concrete's activity's implementation.
      * 
-     * @param instance the instance this activity operates on
+     * @param token the instance this activity operates on
      */
-    protected abstract void executeIntern(@Nonnull Token instance);
+    protected abstract void executeIntern(@Nonnull Token token);
     
-    /**
-     * To string.
-     *
-     * @return the string
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         return getClass().getSimpleName();
     }
     
-    /**
-     * Register plugin.
-     *
-     * @param plugin the plugin
-     * {@inheritDoc}
-     */
     @Override
     public void registerPlugin(@Nonnull AbstractActivityLifecyclePlugin plugin) {
         addObserver(plugin);

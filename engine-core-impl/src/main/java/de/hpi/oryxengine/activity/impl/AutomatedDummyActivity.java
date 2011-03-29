@@ -25,12 +25,6 @@ public class AutomatedDummyActivity extends AbstractActivity {
         this.message = s;
     }
 
-    /**
-     * Execute intern.
-     *
-     * @param instance the instance
-     * {@inheritDoc}
-     */
     @Override
     protected void executeIntern(@Nonnull Token instance) {
         System.out.println(this.message);

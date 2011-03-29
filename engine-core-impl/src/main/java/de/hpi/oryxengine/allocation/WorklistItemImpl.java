@@ -3,7 +3,6 @@ package de.hpi.oryxengine.allocation;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.token.Token;
@@ -12,9 +11,8 @@ import de.hpi.oryxengine.resource.worklist.WorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
- * The implementation of the Task Interface.
+ * THe implementation of the Task Interface.
  */
-@XmlRootElement
 public class WorklistItemImpl implements WorklistItem {
 
     private WorklistItemState status;
@@ -22,13 +20,12 @@ public class WorklistItemImpl implements WorklistItem {
     private Token correspondingToken;
     
     /**
-     * Default constructor.
-     * 
-     * @param task the task
-     * @param correspondingToken the instance's token
+     * Default Constructor.
+     *
+     * @param task the {@link Task} that should be executed
+     * @param correspondingToken the corresponding {@link Token} of the task
      */
-    public WorklistItemImpl(@Nonnull Task task,
-                            @Nonnull Token correspondingToken) {
+    public WorklistItemImpl(@Nonnull Task task, @Nonnull Token correspondingToken) {
 
         if (task == null) {
             throw new NullPointerException("The Task parameter cannot be null.");
@@ -102,6 +99,7 @@ public class WorklistItemImpl implements WorklistItem {
      * @param worklistItem
      *            - a {@link WorklistItem} object
      * @return worklistItemImpl - the casted {@link WorklistItemImpl} object
+     *             - an {@link DalmatinaRuntimeException} if the provided Parameter is null
      */
     public static WorklistItemImpl asWorklistItemImpl(WorklistItem worklistItem) {
 

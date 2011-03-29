@@ -25,12 +25,6 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
         processtokens = Collections.synchronizedList(processtokens);
     }
 
-    /**
-     * Adds a process instance to our FIFO queue.
-     *
-     * @param p the p
-     * {@inheritDoc}
-     */
     @Override
     public void submit(Token p) {
 
@@ -38,12 +32,6 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
         processtokens.add(p);
     }
 
-    /**
-     * Gets the first element of the FIFO queue and returns it.
-     *
-     * @return the token
-     * {@inheritDoc}
-     */
     @Override
     public Token retrieve() {
         Token removedToken;
@@ -58,21 +46,11 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
         return removedToken;
     }
     
-    /**
-     * Checks if is empty.
-     *
-     * @return true, if is empty
-     * {@inheritDoc}
-     */
     @Override
     public boolean isEmpty() {
         return this.processtokens.isEmpty();
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     // TODO right now we dont care about submitAll plugin/Observerwise
     public void submitAll(List<Token> listOfTokens) {

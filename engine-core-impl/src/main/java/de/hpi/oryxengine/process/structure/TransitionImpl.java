@@ -38,6 +38,7 @@ public class TransitionImpl implements Transition {
      * @return the condition
      * @see de.hpi.oryxengine.process.structure.Transition#getCondition()
      */
+    @Override
     public Condition getCondition() {
         return this.condition;
     }
@@ -48,6 +49,7 @@ public class TransitionImpl implements Transition {
      * @return the destination
      * @see de.hpi.oryxengine.process.structure.Transition#getDestination()
      */
+    @Override
     public Node getDestination() {
 
         return this.destination;
@@ -58,11 +60,13 @@ public class TransitionImpl implements Transition {
      * 
      * @return the start
      */
+    @Override
     public Node getSource() {
 
         return source;
     }
 
+    // TODO the following three methods diverge from the interface. Do we want to expose them in the interface?
     /**
      * Sets the start.
      * 

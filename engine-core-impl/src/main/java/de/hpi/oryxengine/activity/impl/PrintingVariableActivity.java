@@ -11,7 +11,6 @@ import de.hpi.oryxengine.process.token.Token;
 public class PrintingVariableActivity
 extends AbstractActivity {
 
-    /** The variable name. */
     private String variableName;
 
     /**
@@ -24,12 +23,6 @@ extends AbstractActivity {
         variableName = variableToBePrinted;
     }
 
-    /**
-     * Execute intern.
-     *
-     * @param token the instance
-     * {@inheritDoc}
-     */
     @Override
     public void executeIntern(Token token) {
 

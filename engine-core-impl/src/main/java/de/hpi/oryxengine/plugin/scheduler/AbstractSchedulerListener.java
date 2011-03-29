@@ -24,7 +24,6 @@ import de.hpi.oryxengine.plugin.ObserverPlugin;
  */
 public abstract class AbstractSchedulerListener implements ObserverPlugin, SchedulerListener {
     
-    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**

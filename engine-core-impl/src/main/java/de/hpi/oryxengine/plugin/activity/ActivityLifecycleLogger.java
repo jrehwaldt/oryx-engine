@@ -38,12 +38,6 @@ extends AbstractActivityLifecyclePlugin {
         return instance;
     }
     
-    /**
-     * State changed.
-     *
-     * @param event the event
-     * {@inheritDoc}
-     */
     @Override
     public void stateChanged(@Nonnull ActivityLifecycleChangeEvent event) {
         logger.info("ActivityLifecycle: {}", event);

@@ -62,6 +62,7 @@ public interface ProcessInstanceContext {
      * @param name
      *            the name
      * @return the variable
+     * @see de.hpi.oryxengine.process.token.Token#getVariable(java.lang.String)
      */
     Object getVariable(String name);
 

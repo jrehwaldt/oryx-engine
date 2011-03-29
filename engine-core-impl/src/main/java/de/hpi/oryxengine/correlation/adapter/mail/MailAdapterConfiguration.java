@@ -19,28 +19,20 @@ public final class MailAdapterConfiguration
 extends AbstractAdapterConfiguration
 implements PullAdapterConfiguration {
     
-    /** The user name. */
     private final String userName;
     
-    /** The password. */
     private final String password;
     
-    /** The address. */
     private final String address;
     
-    /** The port. */
     private final int port;
     
-    /** The use ssl. */
     private final boolean useSSL;
     
-    /** The type. */
     private final MailProtocol protocol;
     
-    /** The Constant DEFAULT_INTERVAL. */
     private static final long DEFAULT_INTERVAL = 1000L;
     
-    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**
@@ -148,9 +140,6 @@ implements PullAdapterConfiguration {
         return props;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public long getPullInterval() {
         return DEFAULT_INTERVAL;

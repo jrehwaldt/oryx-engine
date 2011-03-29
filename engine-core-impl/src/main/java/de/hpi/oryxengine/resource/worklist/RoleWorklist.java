@@ -57,9 +57,6 @@ public class RoleWorklist extends AbstractWorklist {
         worklistItem.getAssignedResources().add(relatedRole);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void itemIsCompleted(WorklistItem worklistItem) {
 
@@ -67,9 +64,6 @@ public class RoleWorklist extends AbstractWorklist {
         throw new DalmatinaRuntimeException(exceptionMessage);        
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void itemIsStarted(WorklistItem worklistItem) {
 
