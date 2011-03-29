@@ -28,7 +28,7 @@ implements AdapterEvent {
     }
     
     @Override
-    public final AdapterConfiguration getAdapterConfiguration() {
+    public AdapterConfiguration getAdapterConfiguration() {
         return this.configuration;
     }
     

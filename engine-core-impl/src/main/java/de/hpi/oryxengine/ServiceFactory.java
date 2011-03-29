@@ -2,27 +2,36 @@ package de.hpi.oryxengine;
 
 import java.util.HashMap;
 
+import javax.annotation.Nonnull;
+
+import de.hpi.oryxengine.allocation.TaskDistribution;
+import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.deploy.Deployer;
 import de.hpi.oryxengine.deploy.DeployerImpl;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.repository.ProcessRepository;
 import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
-import de.hpi.oryxengine.worklist.TaskDistribution;
-import de.hpi.oryxengine.worklist.WorklistQueue;
 
 /**
- * 
+ * General service factory, which provides singleton instances for our system.
  */
 public class ServiceFactory {
+    
+    /**
+     * Hidden constructor.
+     */
+    protected ServiceFactory() {
+        
+    }
 
-    protected static WorklistManager worklistManager;
+    protected static WorklistManager worklistManager = null;
 
-    protected static IdentityService identityService;
+    protected static IdentityService identityService = null;
 
-    protected static Deployer deployer;
+    protected static Deployer deployer = null;
 
-    protected static ProcessRepository repo;
+    protected static ProcessRepository repo = null;
 
     protected static HashMap<Navigator, CorrelationManagerImpl> correlationManagers = 
         new HashMap<Navigator, CorrelationManagerImpl>();
@@ -32,7 +41,7 @@ public class ServiceFactory {
      * 
      * @return the worklist manager instance
      */
-    protected synchronized static WorklistManager getWorklistManagerInstance() {
+    protected synchronized static @Nonnull WorklistManager getWorklistManagerInstance() {
 
         if (worklistManager == null) {
             worklistManager = new WorklistManager();
@@ -46,7 +55,7 @@ public class ServiceFactory {
      * 
      * @return the worklist service
      */
-    public static WorklistService getWorklistService() {
+    public static @Nonnull WorklistService getWorklistService() {
 
         return getWorklistManagerInstance();
     }
@@ -56,7 +65,7 @@ public class ServiceFactory {
      * 
      * @return the worklist queue
      */
-    public static WorklistQueue getWorklistQueue() {
+    public static @Nonnull TaskAllocation getWorklistQueue() {
 
         return getWorklistManagerInstance();
     }
@@ -66,12 +75,17 @@ public class ServiceFactory {
      * 
      * @return the task distribution
      */
-    public static TaskDistribution getTaskDistribution() {
+    public static @Nonnull TaskDistribution getTaskDistribution() {
 
         return getWorklistManagerInstance();
     }
 
-    public synchronized static IdentityService getIdentityService() {
+    /**
+     * Gets the identity manager instance.
+     * 
+     * @return the identity manager instance
+     */
+    public synchronized static @Nonnull IdentityService getIdentityService() {
 
         if (identityService == null) {
             identityService = new IdentityServiceImpl();
@@ -85,7 +99,7 @@ public class ServiceFactory {
      * 
      * @return the deployer service.
      */
-    public synchronized static Deployer getDeplyomentService() {
+    public synchronized static @Nonnull Deployer getDeplyomentService() {
 
         if (deployer == null) {
             deployer = new DeployerImpl();
@@ -98,7 +112,7 @@ public class ServiceFactory {
      * 
      * @return the repository service
      */
-    public synchronized static ProcessRepository getRepositoryService() {
+    public synchronized static @Nonnull ProcessRepository getRepositoryService() {
 
         if (repo == null) {
             repo = new ProcessRepositoryImpl();
@@ -114,7 +128,7 @@ public class ServiceFactory {
      *            the nav
      * @return the correlation service
      */
-    public synchronized static CorrelationManagerImpl getCorrelationService(Navigator nav) {
+    public synchronized static @Nonnull CorrelationManagerImpl getCorrelationService(@Nonnull Navigator nav) {
 
         CorrelationManagerImpl correlation = correlationManagers.get(nav);
         if (correlation == null) {

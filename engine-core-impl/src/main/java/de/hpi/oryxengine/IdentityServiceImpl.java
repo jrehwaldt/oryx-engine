@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.hpi.oryxengine.resource.CapabilityImpl;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.IdentityBuilderImpl;
 import de.hpi.oryxengine.resource.OrganizationUnit;
@@ -24,33 +23,20 @@ import de.hpi.oryxengine.resource.RoleImpl;
  */
 public class IdentityServiceImpl implements IdentityService {
 
-    /** The organization units. */
     private Set<OrganizationUnitImpl> organizationUnits;
     
-    /** The positions. */
     private Set<PositionImpl> positions;
     
-    /** The participants. */
     private Set<ParticipantImpl> participants;
     
-    /** The roles. */
     private Set<RoleImpl> roles;
     
-    /** The capabilities. */
-    private Set<CapabilityImpl> capabilities;
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IdentityBuilder getIdentityBuilder() {
 
         return new IdentityBuilderImpl(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Set<OrganizationUnit> getOrganizationUnits() {
 
@@ -58,11 +44,6 @@ public class IdentityServiceImpl implements IdentityService {
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    /**
-     * Gets the {@link OrganizationUnit} implementations.
-     *
-     * @return a set of organizationUnitImpls
-     */
     public Set<OrganizationUnitImpl> getOrganizationUnitImpls() {
 
         if (organizationUnits == null) {
@@ -71,9 +52,6 @@ public class IdentityServiceImpl implements IdentityService {
         return organizationUnits;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Set<Position> getPositions() {
 
@@ -81,11 +59,6 @@ public class IdentityServiceImpl implements IdentityService {
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    /**
-     * Gets the {@link Position} implementations.
-     *
-     * @return a set of PositionImpls
-     */
     public Set<PositionImpl> getPositionImpls() {
 
         if (positions == null) {
@@ -94,9 +67,6 @@ public class IdentityServiceImpl implements IdentityService {
         return positions;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Set<Participant> getParticipants() {
 
@@ -104,11 +74,6 @@ public class IdentityServiceImpl implements IdentityService {
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    /**
-     * Gets the {@link Participant} implementations.
-     *
-     * @return a set of ParticipantImpls
-     */
     public Set<ParticipantImpl> getParticipantImpls() {
 
         if (participants == null) {
@@ -117,9 +82,6 @@ public class IdentityServiceImpl implements IdentityService {
         return participants;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Set<Role> getRoles() {
 
@@ -127,11 +89,6 @@ public class IdentityServiceImpl implements IdentityService {
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    /**
-     * Gets the {@link Role} implementations.
-     *
-     * @return a set of RoleImpls
-     */
     public Set<RoleImpl> getRoleImpls() {
 
         if (roles == null) {
@@ -203,7 +160,7 @@ public class IdentityServiceImpl implements IdentityService {
     private static <R extends ResourceImpl<?>> R find(Set<R> resourceList, String id) {
 
         for (ResourceImpl<?> resource : resourceList) {
-            if (resource.getId().equals(id)) {
+            if (resource.getID().equals(id)) {
                 return (R) resource;
             }
         }

@@ -33,9 +33,6 @@ public class NodeImpl implements Node {
 
     /** The id. */
     private UUID id;
-    
-    /** The event. */
-    private IntermediateEvent event;
 
     /**
      * Instantiates a new abstract node.
@@ -51,15 +48,13 @@ public class NodeImpl implements Node {
      */
     public NodeImpl(Activity activity,
                     IncomingBehaviour incomingBehaviour,
-                    OutgoingBehaviour outgoingBehaviour,
-                    IntermediateEvent event) {
+                    OutgoingBehaviour outgoingBehaviour) {
 
         this.activity = activity;
         this.incomingBehaviour = incomingBehaviour;
         this.outgoingBehaviour = outgoingBehaviour;
         this.outgoingTransitions = new ArrayList<Transition>();
         this.incomingTransitions = new ArrayList<Transition>();
-        this.event = event;
     }
 
     @Override
@@ -94,7 +89,7 @@ public class NodeImpl implements Node {
      */
     public NodeImpl(Activity activity) {
 
-        this(activity, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour(), null);
+        this(activity, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
     }
 
     /**
@@ -225,16 +220,4 @@ public class NodeImpl implements Node {
 
     }
 
-    @Override
-    public void setEvent(IntermediateEvent event) {
-
-        this.event = event;
-        
-    }
-
-    @Override
-    public IntermediateEvent getEvent() {
-
-        return this.event;
-    }
 }

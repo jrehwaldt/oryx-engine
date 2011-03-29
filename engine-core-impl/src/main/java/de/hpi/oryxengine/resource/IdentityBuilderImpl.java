@@ -25,15 +25,15 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     // -------- Participant Builder Methods -----------
 
     @Override
-    public Participant createParticipant(String participantId) {
+    public Participant createParticipant(String participantName) {
 
-        ParticipantImpl participant = new ParticipantImpl(participantId);
+        ParticipantImpl participant = new ParticipantImpl(participantName);
 
-        for (ParticipantImpl existingParticipant : identityService.getParticipantImpls()) {
-            if (existingParticipant.equals(participant)) {
-                return existingParticipant;
-            }
-        }
+//        for (ParticipantImpl existingParticipant : identityService.getParticipantImpls()) {
+//            if (existingParticipant.equals(participant)) {
+//                return existingParticipant;
+//            }
+//        }
 
         identityService.getParticipantImpls().add(participant);
 
@@ -44,7 +44,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public IdentityBuilder deleteParticipant(Participant participant)
     throws DalmatinaException {
 
-        ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
+        ParticipantImpl participantImpl = ParticipantImpl.asParticipantImpl(participant);
 
         for (PositionImpl positionImpl : participantImpl.getMyPositionImpls()) {
             positionImpl.setPositionHolder(null);
@@ -55,11 +55,10 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder participantOccupiesPosition(Participant participant, Position position)
-    throws DalmatinaException {
+    public IdentityBuilder participantOccupiesPosition(Participant participant, Position position) {
 
-        PositionImpl positionImpl = extractPositionImplFrom(position);
-        ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
+        PositionImpl positionImpl = PositionImpl.asPositionImpl(position);
+        ParticipantImpl participantImpl = ParticipantImpl.asParticipantImpl(participant);
 
         ParticipantImpl oldParticiant = (ParticipantImpl) positionImpl.getPositionHolder();
         if (oldParticiant != null) {
@@ -75,11 +74,10 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder participantDoesNotOccupyPosition(Participant participant, Position position)
-    throws DalmatinaException {
+    public IdentityBuilder participantDoesNotOccupyPosition(Participant participant, Position position) {
 
-        PositionImpl positionImpl = extractPositionImplFrom(position);
-        ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
+        PositionImpl positionImpl = PositionImpl.asPositionImpl(position);
+        ParticipantImpl participantImpl = ParticipantImpl.asParticipantImpl(participant);
 
         positionImpl.belongstoOrganization(null);
         participantImpl.getMyPositionImpls().remove(positionImpl);
@@ -93,11 +91,10 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder participantBelongsToRole(Participant participant, Role role)
-    throws DalmatinaException {
+    public IdentityBuilder participantBelongsToRole(Participant participant, Role role) {
 
-        RoleImpl roleImpl = extractRoleImplFrom(role);
-        ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
+        RoleImpl roleImpl = RoleImpl.asRoleImpl(role);
+        ParticipantImpl participantImpl = ParticipantImpl.asParticipantImpl(participant);
 
         roleImpl.getParticipantImpls().add(participantImpl);
         participantImpl.getMyRolesImpl().add(roleImpl);
@@ -106,40 +103,14 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder participantDoesNotBelongToRole(Participant participant, Role role)
-    throws DalmatinaException {
+    public IdentityBuilder participantDoesNotBelongToRole(Participant participant, Role role) {
 
-        RoleImpl roleImpl = extractRoleImplFrom(role);
-        ParticipantImpl participantImpl = extractParticipantImplFrom(participant);
+        RoleImpl roleImpl = RoleImpl.asRoleImpl(role);
+        ParticipantImpl participantImpl = ParticipantImpl.asParticipantImpl(participant);
 
         roleImpl.getParticipantImpls().remove(participantImpl);
         participantImpl.getMyRolesImpl().remove(roleImpl);
         return this;
-    }
-
-    /**
-     * Translates a Participant into a corresponding ParticipantImpl object.
-     * 
-     * Furthermore some constrains are checked.
-     * 
-     * @param participant
-     *            - a Participant object
-     * @return participantImpl - the casted Participant object
-     * @throws DalmatinaException
-     *             the oryx engine exception
-     */
-    private ParticipantImpl extractParticipantImplFrom(Participant participant)
-    throws DalmatinaException {
-
-        if (participant == null) {
-            throw new DalmatinaException("The Participant parameter is null.");
-        }
-
-        ParticipantImpl participantImpl = (ParticipantImpl) participant;
-        if (!identityService.getParticipantImpls().contains(participantImpl)) {
-            throw new DalmatinaException("There exists no Participant with the id " + participant.getId() + ".");
-        }
-        return participantImpl;
     }
 
     // -------- Capability Builder Methods ------------
@@ -148,23 +119,24 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public Capability createCapability(String capabilityId) {
 
         // hier könnte man das FlyWeight-Pattern verwenden ...
-        Capability capability = new CapabilityImpl(capabilityId);
+        // Capability capability = new CapabilityImpl(capabilityId);
 
-        return capability;
+        // return capability;
+        return null;
     }
 
     // -------- OrganizationUnit Builder Methods ------
 
     @Override
-    public OrganizationUnit createOrganizationUnit(String organizationUnitId) {
+    public OrganizationUnit createOrganizationUnit(String organizationUnitName) {
 
-        OrganizationUnitImpl organizationUnit = new OrganizationUnitImpl(organizationUnitId);
+        OrganizationUnitImpl organizationUnit = new OrganizationUnitImpl(organizationUnitName);
 
-        for (OrganizationUnitImpl existingOrganizationUnit : identityService.getOrganizationUnitImpls()) {
-            if (existingOrganizationUnit.equals(organizationUnit)) {
-                return existingOrganizationUnit;
-            }
-        }
+//        for (OrganizationUnitImpl existingOrganizationUnit : identityService.getOrganizationUnitImpls()) {
+//            if (existingOrganizationUnit.equals(organizationUnit)) {
+//                return existingOrganizationUnit;
+//            }
+//        }
 
         identityService.getOrganizationUnitImpls().add(organizationUnit);
 
@@ -172,10 +144,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder deleteOrganizationUnit(OrganizationUnit organizationUnit)
-    throws DalmatinaException {
+    public IdentityBuilder deleteOrganizationUnit(OrganizationUnit organizationUnit) {
 
-        OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(organizationUnit);
+        OrganizationUnitImpl organizationUnitImpl = OrganizationUnitImpl.asOrganizationUnitImpl(organizationUnit);
 
         for (OrganizationUnitImpl childOrganizationUnitImpl : organizationUnitImpl.getChildOrganisationUnitImpls()) {
             childOrganizationUnitImpl.setSuperOrganizationUnit(null);
@@ -194,8 +165,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
                                                  OrganizationUnit superOrganizationUnit)
     throws DalmatinaException {
 
-        OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(subOrganizationUnit);
-        OrganizationUnitImpl superOrganizationUnitImpl = extractOrganizationUnitImplFrom(superOrganizationUnit);
+        OrganizationUnitImpl organizationUnitImpl = OrganizationUnitImpl.asOrganizationUnitImpl(subOrganizationUnit);
+        OrganizationUnitImpl superOrganizationUnitImpl = OrganizationUnitImpl
+        .asOrganizationUnitImpl(superOrganizationUnit);
 
         if (organizationUnitImpl.equals(superOrganizationUnitImpl)) {
             throw new DalmatinaException("The OrganizationUnit cannot be the superior of yourself.");
@@ -209,11 +181,10 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder organizationUnitOffersPosition(OrganizationUnit organizationUnit, Position position)
-    throws DalmatinaException {
+    public IdentityBuilder organizationUnitOffersPosition(OrganizationUnit organizationUnit, Position position) {
 
-        PositionImpl positionImpl = extractPositionImplFrom(position);
-        OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(organizationUnit);
+        PositionImpl positionImpl = PositionImpl.asPositionImpl(position);
+        OrganizationUnitImpl organizationUnitImpl = OrganizationUnitImpl.asOrganizationUnitImpl(organizationUnit);
 
         OrganizationUnitImpl oldOrganizationUnit = (OrganizationUnitImpl) positionImpl.belongstoOrganization();
         if (oldOrganizationUnit != null) {
@@ -229,11 +200,10 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder organizationUnitDoesNotOfferPosition(OrganizationUnit organizationUnit, Position position)
-    throws DalmatinaException {
+    public IdentityBuilder organizationUnitDoesNotOfferPosition(OrganizationUnit organizationUnit, Position position) {
 
-        PositionImpl positionImpl = extractPositionImplFrom(position);
-        OrganizationUnitImpl organizationUnitImpl = extractOrganizationUnitImplFrom(organizationUnit);
+        PositionImpl positionImpl = PositionImpl.asPositionImpl(position);
+        OrganizationUnitImpl organizationUnitImpl = OrganizationUnitImpl.asOrganizationUnitImpl(organizationUnit);
 
         positionImpl.belongstoOrganization(null);
         organizationUnitImpl.getPositionImpls().remove(positionImpl);
@@ -241,44 +211,18 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * Translates a OrganizationUnit into a corresponding OrganizationUnitImpl object.
-     * 
-     * Furthermore some constrains are checked.
-     * 
-     * @param organizationUnit
-     *            - a OrganizationUnit object
-     * @return organizationUnitImpl - the casted OrganizationUnit object
-     * @throws DalmatinaException
-     *             the oryx engine exception
-     */
-    private OrganizationUnitImpl extractOrganizationUnitImplFrom(OrganizationUnit organizationUnit)
-    throws DalmatinaException {
-
-        if (organizationUnit == null) {
-            throw new DalmatinaException("The OrganizationUnit parameter is null.");
-        }
-
-        OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) organizationUnit;
-        if (!identityService.getOrganizationUnitImpls().contains(organizationUnitImpl)) {
-            throw new DalmatinaException("There exists no OrganizationUnit with the id " + organizationUnit.getId()
-                + ".");
-        }
-        return organizationUnitImpl;
-    }
-
     // -------- Position Builder Methods --------------
 
     @Override
-    public Position createPosition(String positionId) {
+    public Position createPosition(String positionName) {
 
-        PositionImpl position = new PositionImpl(positionId);
-
-        for (PositionImpl existingPosition : identityService.getPositionImpls()) {
-            if (existingPosition.equals(position)) {
-                return existingPosition;
-            }
-        }
+        PositionImpl position = new PositionImpl(positionName);
+//
+//        for (PositionImpl existingPosition : identityService.getPositionImpls()) {
+//            if (existingPosition.equals(position)) {
+//                return existingPosition;
+//            }
+//        }
 
         identityService.getPositionImpls().add(position);
 
@@ -289,11 +233,11 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition)
     throws DalmatinaException {
 
-        PositionImpl positionImpl = extractPositionImplFrom(position);
-        PositionImpl superiorPositionImpl = extractPositionImplFrom(superiorPosition);
+        PositionImpl positionImpl = PositionImpl.asPositionImpl(position);
+        PositionImpl superiorPositionImpl = PositionImpl.asPositionImpl(superiorPosition);
 
         if (positionImpl.equals(superiorPositionImpl)) {
-            throw new DalmatinaException("The Position '" + positionImpl.getId()
+            throw new DalmatinaException("The Position '" + positionImpl.getID()
                 + "' cannot be the superior of yourself.");
         }
 
@@ -308,7 +252,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public IdentityBuilder deletePosition(Position position)
     throws DalmatinaException {
 
-        PositionImpl positionImpl = extractPositionImplFrom(position);
+        PositionImpl positionImpl = PositionImpl.asPositionImpl(position);
 
         identityService.getPositionImpls().remove(position);
 
@@ -319,43 +263,18 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         return this;
     }
 
-    /**
-     * Translates a Position into a corresponding PositionImpl object.
-     * 
-     * Furthermore some constrains are checked.
-     * 
-     * @param position
-     *            - a Position object
-     * @return positionImpl - the casted Position object
-     * @throws DalmatinaException
-     *             the oryx engine exception
-     */
-    private PositionImpl extractPositionImplFrom(Position position)
-    throws DalmatinaException {
-
-        if (position == null) {
-            throw new DalmatinaException("The Position parameter is null.");
-        }
-
-        PositionImpl positionImpl = (PositionImpl) position;
-        if (!identityService.getPositionImpls().contains(positionImpl)) {
-            throw new DalmatinaException("There exists no Position with the id " + position.getId() + ".");
-        }
-        return positionImpl;
-    }
-
     // -------- Role Builder Methods ------------------
 
     @Override
-    public Role createRole(String roleId) {
+    public Role createRole(String roleName) {
 
-        RoleImpl role = new RoleImpl(roleId);
+        RoleImpl role = new RoleImpl(roleName);
 
-        for (RoleImpl existingRoles : identityService.getRoleImpls()) {
-            if (existingRoles.equals(role)) {
-                return existingRoles;
-            }
-        }
+//        for (RoleImpl existingRoles : identityService.getRoleImpls()) {
+//            if (existingRoles.equals(role)) {
+//                return existingRoles;
+//            }
+//        }
 
         identityService.getRoleImpls().add(role);
 
@@ -366,7 +285,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public IdentityBuilder deleteRole(Role role)
     throws DalmatinaException {
 
-        RoleImpl roleImpl = extractRoleImplFrom(role);
+        RoleImpl roleImpl = RoleImpl.asRoleImpl(role);
 
         for (ParticipantImpl participantImpl : roleImpl.getParticipantImpls()) {
             participantImpl.getMyRolesImpl().remove(roleImpl);
@@ -380,29 +299,5 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public IdentityBuilder subRoleOf(Role subRole, Role superRole) {
 
         return null;
-    }
-
-    /**
-     * Translates a Role into a corresponding RoleImpl object.
-     * 
-     * Furthermore some constrains are checked.
-     * 
-     * @param role
-     *            - a Role object
-     * @return roleImpl - the casted Role object
-     * @throws DalmatinaException
-     *             the oryx engine exception
-     */
-    private RoleImpl extractRoleImplFrom(Role role)
-    throws DalmatinaException {
-
-        if (role == null) {
-            throw new DalmatinaException("The Role parameter is null.");
-        }
-        RoleImpl roleImpl = (RoleImpl) role;
-        if (!identityService.getRoleImpls().contains(roleImpl)) {
-            throw new DalmatinaException("There exists no Role with the id " + role.getId() + ".");
-        }
-        return roleImpl;
     }
 }

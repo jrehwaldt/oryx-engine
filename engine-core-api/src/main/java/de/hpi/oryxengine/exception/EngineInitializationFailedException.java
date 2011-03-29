@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
  * @author Jan Rehwaldt
  */
 public final class EngineInitializationFailedException
-extends RuntimeException {
+extends DalmatinaRuntimeException {
     private static final long serialVersionUID = 6061861852349667735L;
     
     /**

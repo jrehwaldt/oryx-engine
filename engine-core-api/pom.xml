@@ -18,6 +18,11 @@
             <artifactId>jsr305</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

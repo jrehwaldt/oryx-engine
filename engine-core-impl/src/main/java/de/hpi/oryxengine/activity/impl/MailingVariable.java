@@ -11,6 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -49,13 +50,14 @@ extends AbstractActivity {
     /**
      * Execute intern.
      *
-     * @param instance the instance
+     * @param token the instance
      * {@inheritDoc}
      */
     @Override
-    public void executeIntern(@Nonnull Token instance) {
+    public void executeIntern(@Nonnull Token token) {
 
-        String calculationResult = (String) instance.getContext().getVariable(variableName);
+        ProcessInstanceContext context = token.getInstance().getContext();
+        String calculationResult = (String) context.getVariable(variableName);
 
         String mailBody = "Da Ergebnis der Berechnung von 5 + 5 ist " + calculationResult + ".";
         sendEmail(defaultSender, defaultRecipient, subject, mailBody);

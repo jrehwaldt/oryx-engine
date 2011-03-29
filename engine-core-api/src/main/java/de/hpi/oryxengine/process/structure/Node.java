@@ -29,20 +29,6 @@ extends Identifiable {
      *            the new activity
      */
     void setActivity(Activity activity);
-    
-    /**
-     * Sets the event.
-     *
-     * @param event the new event
-     */
-    void setEvent(IntermediateEvent event);
-    
-    /**
-     * Gets the event.
-     *
-     * @return the event
-     */
-    IntermediateEvent getEvent();
 
     /**
      * Sets the outgoing behaviour.

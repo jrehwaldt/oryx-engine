@@ -3,6 +3,7 @@ package de.hpi.oryxengine.activity.impl;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -34,16 +35,17 @@ extends AbstractActivity {
     /**
      * Execute intern.
      *
-     * @param instance the instance
+     * @param token the token
      * {@inheritDoc}
      */
     @Override
-    protected void executeIntern(@Nonnull Token instance) {
+    protected void executeIntern(@Nonnull Token token) {
         
         int result = 0;
         for (int value: this.summands) {
             result += value;
         }
-        instance.getContext().setVariable(resultVariableName, String.valueOf(result));
+        ProcessInstanceContext context = token.getInstance().getContext();
+        context.setVariable(resultVariableName, String.valueOf(result));
     }
 }

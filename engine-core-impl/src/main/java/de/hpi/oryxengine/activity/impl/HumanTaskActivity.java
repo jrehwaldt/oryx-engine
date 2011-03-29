@@ -3,11 +3,10 @@ package de.hpi.oryxengine.activity.impl;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.WorklistManager;
 import de.hpi.oryxengine.activity.AbstractActivity;
+import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.worklist.Task;
-import de.hpi.oryxengine.worklist.TaskDistribution;
 
 /**
  * The Implementation of a human task.
@@ -25,21 +24,21 @@ public class HumanTaskActivity extends AbstractActivity {
      * 
      * @param task - the task to distribute
      */
+    // TODO: CreationPattern einfügen
     public HumanTaskActivity(Task task) {
 
         this.task = task;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected void executeIntern(@Nonnull Token instance) {
+    protected void executeIntern(@Nonnull Token token) {
 
-        TaskDistribution taskDistribution = ServiceFactory.getTaskDistribution();
-        taskDistribution.distribute(task, instance);
+//        creationPattern.createTask()
         
-        instance.suspend();
+        TaskDistribution taskDistribution = ServiceFactory.getTaskDistribution();
+        taskDistribution.distribute(task, token);
+        
+        token.suspend();
     }
     
     @Override

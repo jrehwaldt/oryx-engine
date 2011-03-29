@@ -1,0 +1,66 @@
+package de.hpi.oryxengine.worklist.gui.util;
+
+import org.eclipse.jetty.server.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+/**
+ * A web interface server for a certain service instance.
+ * 
+ * @author Jan Rehwaldt
+ * @since 2011-03-24
+ */
+public final class WebInterface {
+    
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
+    private final Server server;
+    
+    /**
+     * Sets up a server instance for a certain navigator instance.
+     * Server needs to be started explicitly.
+     * 
+     * @throws Exception thrown if building the server fails (e.g. no config found)
+     */
+    public WebInterface()
+    throws Exception {
+        final AppContextBuilder builder = new AppContextBuilder();
+        this.server = builder.buildServer();
+    }
+    
+    /**
+     * Starts the server non-blocked.
+     * 
+     * @throws Exception thrown if starting fails
+     */
+    public void start()
+    throws Exception {
+        this.server.start();
+    }
+    
+    /**
+     * Starts the web interface and blocks until it is stopped.
+     * 
+     * @throws Exception if starting fails
+     */
+    public void startBlocking()
+    throws Exception {
+        start();
+        try {
+            this.server.join();
+        } catch (InterruptedException ie) {
+            logger.info("Server stopped.");
+        }
+    }
+    
+    /**
+     * Stops the web interface.
+     * 
+     * @throws Exception thrown if stopping fails
+     */
+    public void stop()
+    throws Exception {
+        this.server.stop();
+    }
+}

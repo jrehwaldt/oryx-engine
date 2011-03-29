@@ -1,5 +1,8 @@
 package de.hpi.oryxengine.resource;
 
+import de.hpi.oryxengine.resource.worklist.Worklist;
+import de.hpi.oryxengine.util.Identifiable;
+
 /**
  * Represents a resource that is part of the enterprise's organization structure.
  * 
@@ -8,30 +11,14 @@ package de.hpi.oryxengine.resource;
  * @param <R>
  *            - extending Resource
  */
-public interface Resource<R extends Resource<?>> {
+public interface Resource<R extends Resource<?>> extends Identifiable {
 
     /**
      * Returns the type of the {@link Resource}. The type is an element of Enumeration {@link ResourceType}.
      * 
-     * @return the type of the {@link Resource}
+     * @return the type of the {@link Resource}, which is an Element of the Enumeration
      */
-    String getType();
-
-    /**
-     * Returns the id of the Resource.
-     * 
-     * @return the id of the Resource
-     */
-    String getId();
-
-    /**
-     * Sets the id.
-     * 
-     * @param id
-     *            the id
-     * @return the current Resource object
-     */
-    R setId(String id);
+    ResourceType getType();
 
     /**
      * Gets the name.
@@ -68,5 +55,14 @@ public interface Resource<R extends Resource<?>> {
      * @return the current Resource object
      */
     R setProperty(String propertyId, Object propertyValue);
+    
+    /**
+     * Retriev
+     * 
+     * es the resource's worklist. 
+     * 
+     * @return the worklist of the resource
+     */
+    Worklist getWorklist();
 
 }

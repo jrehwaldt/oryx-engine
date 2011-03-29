@@ -1,10 +1,11 @@
 package de.hpi.oryxengine.process.token;
 
+import static org.mockito.Mockito.mock;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertEqualsNoOrder;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.mockito.Mockito.mock;
-import static org.testng.Assert.*;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;

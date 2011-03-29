@@ -1,11 +1,11 @@
 package de.hpi.oryxengine.process.structure;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -52,18 +52,19 @@ public class ConditionImpl implements Condition {
     /**
      * evaluates a Condition, returning true or false.
      *
-     * @param instance the instance
+     * @param token the token
      * @return true or false depending on the condition.
      * @see de.hpi.oryxengine.process.structure.Condition#evaluate()
      */
-    public boolean evaluate(Token instance) {
+    public boolean evaluate(Token token) {
 
         Iterator<?> i = set.iterator();
         
         while (i.hasNext()) {
             @SuppressWarnings("unchecked")
             Map.Entry<String, Object> me = (Map.Entry<String, Object>) i.next();
-            if (instance.getContext().getVariable((String) me.getKey()) != me.getValue()) {
+            ProcessInstanceContext context = token.getInstance().getContext();
+            if (context.getVariable((String) me.getKey()) != me.getValue()) {
                 result = false;
                 break;
             }

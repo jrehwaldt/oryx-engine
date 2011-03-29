@@ -13,8 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.correlation.CorrelationManager;
+import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.exception.AdapterSchedulingException;
 
@@ -56,14 +58,14 @@ implements TimingManager {
     public void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
     throws AdapterSchedulingException {
         
-        final PullAdapterConfiguration configuration = adapter.getConfiguration();
-        final long interval = configuration.getPullInterval();
+        final TimedAdapterConfiguration configuration = adapter.getConfiguration();
+        final long interval = configuration.getTimeInterval();
         
         final String jobName = jobName(configuration);
         final String jobGroupName = jobGroupName(configuration);
         final String triggerName = triggerName(configuration);
         
-        JobDetail jobDetail = new JobDetail(jobName, jobGroupName, PullAdapterJob.class);
+        JobDetail jobDetail = new JobDetail(jobName, jobGroupName, configuration.getScheduledClass());
         JobDataMap data = jobDetail.getJobDataMap();
         
         data.put(PullAdapterJob.ADAPTER_KEY, adapter);
@@ -82,7 +84,7 @@ implements TimingManager {
      * @param configuration the adapter configuration
      * @return a unique trigger name
      */
-    private static @Nonnull String triggerName(@Nonnull PullAdapterConfiguration configuration) {
+    private static @Nonnull String triggerName(@Nonnull AdapterConfiguration configuration) {
         return String.format("trigger-%s", configuration.getUniqueName());
     }
     /**
@@ -91,7 +93,7 @@ implements TimingManager {
      * @param configuration the adapter configuration
      * @return a unique job name
      */
-    private static @Nonnull String jobName(@Nonnull PullAdapterConfiguration configuration) {
+    private static @Nonnull String jobName(@Nonnull AdapterConfiguration configuration) {
         return String.format("job-%s", configuration.getUniqueName());
     }
     /**
@@ -100,7 +102,7 @@ implements TimingManager {
      * @param configuration the adapter configuration
      * @return a unique group name
      */
-    private static @Nonnull String jobGroupName(@Nonnull PullAdapterConfiguration configuration) {
+    private static @Nonnull String jobGroupName(@Nonnull AdapterConfiguration configuration) {
         return String.format("job-group-%s", configuration.getUniqueName());
     }
 
@@ -128,26 +130,18 @@ implements TimingManager {
         
     }
 
-    /**
-     * Register intermediate job.
-     *
-     * @param name the name
-     * @param groupName the group name
-     * @param trigger the trigger
-     * @param interval the interval
-     * @throws AdapterSchedulingException the adapter scheduling exception
-     */
-    public void registerIntermediateJob(String name, String groupName, String trigger, Integer interval)
+    public void registerNonRecurringJob(TimedAdapterConfiguration configuration)
     throws AdapterSchedulingException {
         
-        JobDetail jobDetail = new JobDetail(name, groupName, TimerJob.class);
+        JobDetail jobDetail = new JobDetail(jobName(configuration), jobGroupName(configuration), configuration.getScheduledClass());
         JobDataMap data = jobDetail.getJobDataMap();
-
+        
         registerJob(jobDetail,
             data,
-            trigger,
+            triggerName(configuration),
             0,
-            interval);
+            configuration.getTimeInterval());
         
     }
+
 }

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -101,17 +102,15 @@ public class HashComputationActivity extends AbstractActivity {
      }
 
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected void executeIntern(Token instance) {
+    protected void executeIntern(Token token) {
 
         md.update(toBeHashed.getBytes());
         byte[] output = md.digest();
         String stringOutputString = bytesToHex(output);
         //logger.debug(stringOutputString);
-        instance.getContext().setVariable(variableName, stringOutputString);
+        ProcessInstanceContext context = token.getInstance().getContext();
+        context.setVariable(variableName, stringOutputString);
 
         
     }

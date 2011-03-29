@@ -1,23 +1,29 @@
 package de.hpi.oryxengine.factory.worklist;
 
+import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.AllocationStrategiesImpl;
+import de.hpi.oryxengine.allocation.Pattern;
+import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.TaskImpl;
+import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
+import de.hpi.oryxengine.allocation.pattern.SimplePushPattern;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.worklist.AllocationStrategies;
-import de.hpi.oryxengine.worklist.AllocationStrategiesImpl;
-import de.hpi.oryxengine.worklist.Pattern;
-import de.hpi.oryxengine.worklist.Task;
-import de.hpi.oryxengine.worklist.TaskImpl;
-import de.hpi.oryxengine.worklist.pattern.SimplePullPattern;
-import de.hpi.oryxengine.worklist.pattern.SimplePushPattern;
 
 /**
  * Little factory for creating Resources. A short cut for in the implementation.
  */
-public class TaskFactory {
+public final class TaskFactory {
  
-    public static final String JANNIK_SERVES_GERARDO_TASK_DESCRIPTION = "You know what I mean.";
-    public static final String JANNIK_SERVES_GERARDO_TASK_SUBJECT = "Jannik, get Gerardo a cup of coffee!";
+    public static final String SIMPLE_TASK_SUBJECT = "Get Gerardo a cup of coffee!";
+    public static final String SIMPLE_TASK_DESCRIPTION = "You know what I mean.";
 
+    /**
+     * Private Constructor because the CheckStyle want me to do that.
+     */
+    private TaskFactory() { }
+    
+    
     public static Task createJannikServesGerardoTask() {
         
         Pattern pushPattern = new SimplePushPattern();
@@ -27,13 +33,19 @@ public class TaskFactory {
         
         Resource<?> resource = ParticipantFactory.createJannik();
         
-        Task task = new TaskImpl(JANNIK_SERVES_GERARDO_TASK_SUBJECT,
-                                 JANNIK_SERVES_GERARDO_TASK_DESCRIPTION,
+        Task task = new TaskImpl(SIMPLE_TASK_SUBJECT,
+                                 SIMPLE_TASK_DESCRIPTION,
                                  allocationStrategies,
                                  resource);
         
         return task;
     }
     
-
+    public static Task createSimpleTask(Resource<?> resourceToAssign) { 
+        
+        Task task = new TaskImpl(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null, resourceToAssign);
+        
+        return task;
+    }
+    
 }

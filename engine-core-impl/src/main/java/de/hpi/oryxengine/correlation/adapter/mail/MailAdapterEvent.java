@@ -44,7 +44,7 @@ public class MailAdapterEvent extends AbstractAdapterEvent {
      * @throws IOException
      *             thrown if parseContent throws exception
      */
-    MailAdapterEvent(@Nonnull AdapterConfiguration configuration, @Nonnull Message message)
+    public MailAdapterEvent(@Nonnull AdapterConfiguration configuration, @Nonnull Message message)
     throws IOException, MessagingException {
 
         super(configuration);

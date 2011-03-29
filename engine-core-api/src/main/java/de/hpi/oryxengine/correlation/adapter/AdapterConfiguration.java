@@ -13,4 +13,12 @@ public interface AdapterConfiguration {
      * @return the adapter's configuration
      */
     @Nonnull AdapterType getAdapterType();
+    
+    /**
+     * Provides a unique adapter name. Should be human readable,
+     * but cool if done so. Construct through configuration parameters.
+     * 
+     * @return an unique adapter name
+     */
+    @Nonnull String getUniqueName();
 }

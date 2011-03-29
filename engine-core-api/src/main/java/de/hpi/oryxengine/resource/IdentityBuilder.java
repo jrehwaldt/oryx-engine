@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.resource;
 
+import de.hpi.oryxengine.exception.DalmatinaException;
+
 /**
  * The ResourceBuilder provides an easy and intuitive way to define and customize the enterprise's organization
  * structures.
@@ -10,25 +12,14 @@ package de.hpi.oryxengine.resource;
  */
 public interface IdentityBuilder {
 
-    // Muss noch geschaut werden ob das wirklich schon gebracuht wird
     /**
-     * Creates a new Capability.
+     * Creates a new Participant, no matter if there exists already a {@link Participant} with the same name.
      * 
-     * @param capabilityId
-     *            the capability id
-     * @return the capability
+     * @param participantName
+     *            - is the name of the instantiated object
+     * @return the created Participant object; the object already contains an id
      */
-    Capability createCapability(String capabilityId);
-
-    /**
-     * Creates a new Participant. If a Participant with that participantId already exist, then the old Participant is
-     * returned.
-     * 
-     * @param participantId
-     *            - is the id of the instantiated object
-     * @return the created Participant object, except when the Participant already exists
-     */
-    Participant createParticipant(String participantId);
+    Participant createParticipant(String participantName);
 
     /**
      * Deletes the given Participant, so that it is removed from the organization structure.
@@ -43,14 +34,84 @@ public interface IdentityBuilder {
     throws Exception;
 
     /**
-     * Creates a new OrganizationUnit. If a OrganizationUnit with that organizationUnitId already exist, then the old
-     * OrganizationUnit is returned.
+     * Defines the relationship between a Participant and a Position.
      * 
-     * @param organizationUnitId
-     *            - is the id of the instantiated object
-     * @return the created OrganizationUnit object, except when the OrganizationUnit already exists
+     * Be aware that a Position can only be occupied by only one Participant. But a Participant can occupy several
+     * Positions.
+     * 
+     * Calling this method requires that the Participant and the Position already exist in the organization structure.
+     * 
+     * @param participant
+     *            - {@link Participant} that occupies the {@link Position}
+     * @param position
+     *            - {@link Position} that is occupied by the {@link Participant}
+     * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    OrganizationUnit createOrganizationUnit(String organizationUnitId);
+    IdentityBuilder participantOccupiesPosition(Participant participant, Position position);
+
+    /**
+     * Removes the relationship between a certain Participant and a certain Position.
+     * 
+     * The given objects are not removed, only the relationship between them is removed.
+     * 
+     * @param participant
+     *            - {@link Participant} that occupies the {@link Position}
+     * @param position
+     *            - {@link Position} that is occupied by the {@link Participant}
+     * @return the current IdentityBuilder in order to continue building the organization structure
+     */
+    IdentityBuilder participantDoesNotOccupyPosition(Participant participant, Position position);
+
+    /**
+     * Builds a relationship between a Participant and a Role which represents that a Participants belongs to an Role.
+     * 
+     * Calling this method requires that the Participant and the Role already exist in the organization structure.
+     * 
+     * Be aware that a Participant Unit could belong to several Roles. So calling this method twice with the same
+     * Participant parameter does not create two relationships cause the second Participant is already there.
+     * 
+     * Be also aware that a Roles could have several Participants, too.
+     * 
+     * @param participant
+     *            - {@link Participant} that should belong to a {@link Role}
+     * @param role
+     *            - {@link Role} that contains the {@link Participant}
+     * @return the current IdentityBuilder in order to continue building the organization structure
+     */
+    IdentityBuilder participantBelongsToRole(Participant participant, Role role);
+
+    /**
+     * Removes the relationship between a certain Participant and a certain Role.
+     * 
+     * The given objects are not removed, only the relationship between them is removed.
+     * 
+     * @param participant
+     *            - {@link Participant} that belongs to the {@link Role}
+     * @param role
+     *            - {@link Role} that contains the {@link Participant}
+     * @return the current IdentityBuilder in order to continue building the organization structure
+     */
+    IdentityBuilder participantDoesNotBelongToRole(Participant participant, Role role);
+
+    /**
+     * Participant has capability.
+     * 
+     * @param participant
+     *            the participant
+     * @param capability
+     *            the capability
+     * @return the identity builder
+     */
+    IdentityBuilder participantHasCapability(Participant participant, Capability capability);
+
+    /**
+     * Creates a new OrganizationUnit, no matter if there already exists an {@link OrganizationUnit} with the same name.
+     * 
+     * @param organizationUnitName
+     *            - is the name of the instantiated object
+     * @return the created OrganizationUnit object; the object already contains an id
+     */
+    OrganizationUnit createOrganizationUnit(String organizationUnitName);
 
     /**
      * Deletes the given OrganizationUnit, so that it is removed from the organization structure.
@@ -62,48 +123,6 @@ public interface IdentityBuilder {
      *             the exception
      */
     IdentityBuilder deleteOrganizationUnit(OrganizationUnit organizationUnit)
-    throws Exception;
-
-    /**
-     * Creates a new Position. If a Position with that positionId already exist, then the old Position is returned.
-     * 
-     * @param positionId
-     *            - is the id of the instantiated object
-     * @return the created Position object, except when the Position already exists
-     */
-    Position createPosition(String positionId);
-
-    /**
-     * Deletes the given Position, so that it is removed from the organization structure.
-     * 
-     * @param position
-     *            - object that should be deleted.
-     * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws Exception
-     *             the exception
-     */
-    IdentityBuilder deletePosition(Position position)
-    throws Exception;
-
-    /**
-     * Creates a new Role. If a Role with that roleId already exist, then the old Role is returned.
-     * 
-     * @param roleId
-     *            - is the id of the instantiated object
-     * @return the created Role object, except when the Role already exists
-     */
-    Role createRole(String roleId);
-
-    /**
-     * Deletes the given Role, so that it is removed from the organization structure.
-     * 
-     * @param role
-     *            - object that should be deleted.
-     * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws Exception
-     *             the exception
-     */
-    IdentityBuilder deleteRole(Role role)
     throws Exception;
 
     /**
@@ -123,11 +142,8 @@ public interface IdentityBuilder {
      * @param position
      *            - that belongs to the organizationUnit
      * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws Exception
-     *             the exception
      */
-    IdentityBuilder organizationUnitOffersPosition(OrganizationUnit organizationUnit, Position position)
-    throws Exception;
+    IdentityBuilder organizationUnitOffersPosition(OrganizationUnit organizationUnit, Position position);
 
     /**
      * Removes the relationship between the certain OrganizationUnit and the certain Position.
@@ -139,11 +155,8 @@ public interface IdentityBuilder {
      * @param position
      *            - part of the relationship
      * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws Exception
-     *             the exception
      */
-    IdentityBuilder organizationUnitDoesNotOfferPosition(OrganizationUnit organizationUnit, Position position)
-    throws Exception;
+    IdentityBuilder organizationUnitDoesNotOfferPosition(OrganizationUnit organizationUnit, Position position);
 
     /**
      * Defines the relationship between two OrganizationUnits.
@@ -158,105 +171,32 @@ public interface IdentityBuilder {
      * @param superOrganizationUnit
      *            - {@link OrganizationUnit} above the superOrganizationUnit
      * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws Exception
-     *             the exception
+     * @throws DalmatinaException
+     *             - in case the sub and super OrganizationUnit are the same
      */
     IdentityBuilder subOrganizationUnitOf(OrganizationUnit subOrganizationUnit, OrganizationUnit superOrganizationUnit)
-    throws Exception;
+    throws DalmatinaException;
 
     /**
-     * Defines the relationship between a Participant and a Position.
+     * Creates a new Position, no matter if there exists already a {@link Position} with the same name.
      * 
-     * Be aware that a Position can only be occupied by only one Participant. But a Participant can occupy several
-     * Positions.
+     * @param positionName
+     *            - is the name of the instantiated object
+     * @return the created Position object; the object already contains an id.
+     */
+    Position createPosition(String positionName);
+
+    /**
+     * Deletes the given Position, so that it is removed from the organization structure.
      * 
-     * Calling this method requires that the Participant and the Position already exist in the organization structure.
-     * 
-     * @param participant
-     *            - {@link Participant} that occupies the {@link Position}
      * @param position
-     *            - {@link Position} that is occupied by the {@link Participant}
+     *            - object that should be deleted.
      * @return the current IdentityBuilder in order to continue building the organization structure
      * @throws Exception
      *             the exception
      */
-    IdentityBuilder participantOccupiesPosition(Participant participant, Position position)
+    IdentityBuilder deletePosition(Position position)
     throws Exception;
-
-    /**
-     * Removes the relationship between a certain Participant and a certain Position.
-     * 
-     * The given objects are not removed, only the relationship between them is removed.
-     * 
-     * @param participant
-     *            - {@link Participant} that occupies the {@link Position}
-     * @param position
-     *            - {@link Position} that is occupied by the {@link Participant}
-     * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws Exception
-     *             the exception
-     */
-    IdentityBuilder participantDoesNotOccupyPosition(Participant participant, Position position)
-    throws Exception;
-
-    /**
-     * Builds a relationship between a Participant and a Role which represents that a Participants belongs to an Role.
-     * 
-     * Calling this method requires that the Participant and the Role already exist in the organization structure.
-     * 
-     * Be aware that a Participant Unit could belong to several Roles. So calling this method twice with the same
-     * Participant parameter does not create two relationships cause the second Participant is already there.
-     * 
-     * Be also aware that a Roles could have several Participants, too.
-     * 
-     * @param participant
-     *            - {@link Participant} that should belong to a {@link Role}
-     * @param role
-     *            - {@link Role} that contains the {@link Participant}
-     * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws Exception
-     *             the exception
-     */
-    IdentityBuilder participantBelongsToRole(Participant participant, Role role)
-    throws Exception;
-
-    /**
-     * Removes the relationship between a certain Participant and a certain Role.
-     * 
-     * The given objects are not removed, only the relationship between them is removed.
-     * 
-     * @param participant
-     *            - {@link Participant} that belongs to the {@link Role}
-     * @param role
-     *            - {@link Role} that contains the {@link Participant}
-     * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws Exception
-     *             the exception
-     */
-    IdentityBuilder participantDoesNotBelongToRole(Participant participant, Role role)
-    throws Exception;
-
-    /**
-     * Participant has capability.
-     * 
-     * @param participant
-     *            the participant
-     * @param capability
-     *            the capability
-     * @return the identity builder
-     */
-    IdentityBuilder participantHasCapability(Participant participant, Capability capability);
-
-    /**
-     * Sub role of.
-     * 
-     * @param subRole
-     *            the sub role
-     * @param superRole
-     *            the super role
-     * @return the identity builder
-     */
-    IdentityBuilder subRoleOf(Role subRole, Role superRole);
 
     /**
      * Defines the relationship between two Positions that one position is the superior position of the other position.
@@ -271,12 +211,51 @@ public interface IdentityBuilder {
      * @param superiorPosition
      *            - {@link Position} that is the superior position of the other one
      * @return the current IdentityBuilder in order to continue building the organization structures
+     * @throws DalmatinaException
+     *             - in case the position and its superior position are the same
+     */
+    IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition)
+    throws DalmatinaException;
+
+    /**
+     * Creates a new Role, no matter if there exists already a {@link Role} with the same name.
+     * 
+     * @param roleName
+     *            - is the id of the instantiated object
+     * @return the created Role object; the object already contains an id
+     */
+    Role createRole(String roleName);
+
+    /**
+     * Deletes the given Role, so that it is removed from the organization structure.
+     * 
+     * @param role
+     *            - object that should be deleted.
+     * @return the current IdentityBuilder in order to continue building the organization structure
      * @throws Exception
      *             the exception
      */
-    IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition)
+    IdentityBuilder deleteRole(Role role)
     throws Exception;
 
-    // IdentityService getIdentityStructure();
+    /**
+     * Sub role of.
+     * 
+     * @param subRole
+     *            the sub role
+     * @param superRole
+     *            the super role
+     * @return the identity builder
+     */
+    IdentityBuilder subRoleOf(Role subRole, Role superRole);
 
+    // Muss noch geschaut werden ob das wirklich schon gebraucht wird
+    /**
+     * Creates a new Capability.
+     * 
+     * @param capabilityId
+     *            the capability id
+     * @return the capability
+     */
+    Capability createCapability(String capabilityId);
 }

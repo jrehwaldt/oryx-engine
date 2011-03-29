@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
+import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
 import de.hpi.oryxengine.exception.AdapterSchedulingException;
 
 /**
@@ -17,8 +18,8 @@ public interface TimingManager {
      * @param adapter the adapter
      * @throws AdapterSchedulingException thrown if scheduling fails
      */
-    void registerPullAdapter(@Nonnull InboundPullAdapter adapter, CorrelationManager correlationManager)
+    void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
     throws AdapterSchedulingException;
-    void registerIntermediateJob(@Nonnull Object context)
+    void registerNonRecurringJob(@Nonnull TimedAdapterConfiguration configuration)
     throws AdapterSchedulingException;
 }

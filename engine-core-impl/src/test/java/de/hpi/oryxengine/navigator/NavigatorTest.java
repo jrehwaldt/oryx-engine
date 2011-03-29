@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
@@ -55,17 +55,17 @@ public class NavigatorTest {
         node = new RoutingBehaviourTestFactory().createWithAndSplit();
         node2 = new RoutingBehaviourTestFactory().createWithAndSplit();
         node.transitionTo(node2);
-        processToken = new TokenImpl(node, new ProcessInstanceContextImpl(), navigator);
+        processToken = new TokenImpl(node, new ProcessInstanceImpl(null), navigator);
 
     }
 
     /**
-    * Test signal length. 
-    * 
-    */
+     * Test signal length.
+     * 
+     */
     @Test
     public void testSignalLength() {
-        
+
         navigator.startArbitraryInstance(processToken);
 
         // this is not so nice, but I am not sure how to test correctly with parrallel behaviour

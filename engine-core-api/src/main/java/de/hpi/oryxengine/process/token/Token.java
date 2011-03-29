@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
@@ -81,11 +83,11 @@ public interface Token extends Identifiable {
     Token performJoin();
 
     /**
-     * Gets the context.
+     * Gets the process instance this token belongs to.
      * 
      * @return the context
      */
-    ProcessInstanceContext getContext();
+    ProcessInstance getInstance();
 
     /**
      * Gets the last taken transition of the token.
@@ -116,4 +118,11 @@ public interface Token extends Identifiable {
     // TODO Info-Object muss übergeben werden von wem das Token resumed wurde
     void resume()
     throws DalmatinaException;
+    
+    /**
+     * Gets the navigator.
+     *
+     * @return the navigator
+     */
+    Navigator getNavigator();
 }

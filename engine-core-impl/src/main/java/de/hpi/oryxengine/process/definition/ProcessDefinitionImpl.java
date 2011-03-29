@@ -1,10 +1,13 @@
 package de.hpi.oryxengine.process.definition;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import de.hpi.oryxengine.correlation.registration.StartEvent;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.StartNode;
 
 /**
  * The Class ProcessDefinitionImpl. A process definition consists of a list of start nodes that, as we have a tree
@@ -12,14 +15,13 @@ import de.hpi.oryxengine.process.structure.StartNode;
  */
 public class ProcessDefinitionImpl implements ProcessDefinition {
 
-    /** The description. */
     private String description;
 
-    /** The id. */
     private UUID id;
 
-    /** The start nodes. */
-    private List<StartNode> startNodes;
+    private List<Node> startNodes;
+
+    private Map<StartEvent, Node> startTriggers;
 
     /**
      * Instantiates a new process definition. A UUID is generated randomly.
@@ -31,47 +33,54 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
      * @param startNodes
      *            the initial nodes that refer to the whole node-tree
      */
-    public ProcessDefinitionImpl(UUID id, String description, List<StartNode> startNodes) {
+    public ProcessDefinitionImpl(UUID id, String description, List<Node> startNodes) {
 
         this.id = id;
         this.description = description;
         this.startNodes = startNodes;
+        this.startTriggers = new HashMap<StartEvent, Node>();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public UUID getID() {
 
         return id;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDescription() {
 
         return description;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setDescription(String description) {
 
         this.description = description;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public List<StartNode> getStartNodes() {
+    public List<Node> getStartNodes() {
 
         return startNodes;
+    }
+
+    @Override
+    public Map<StartEvent, Node> getStartTriggers() {
+
+        return startTriggers;
+    }
+
+    @Override
+    public void addStartTrigger(StartEvent event, Node node)
+    throws IllegalStarteventException {
+
+        if (startNodes.contains(node)) {
+            startTriggers.put(event, node);
+        } else {
+            throw new IllegalStarteventException();
+        }
+
     }
 
 }

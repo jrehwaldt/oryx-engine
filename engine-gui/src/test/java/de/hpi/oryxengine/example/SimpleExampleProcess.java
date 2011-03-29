@@ -10,6 +10,7 @@ import de.hpi.oryxengine.monitor.MonitorGUI;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -80,7 +81,7 @@ public final class SimpleExampleProcess {
         NodeImpl secondNode = new NodeImpl(activity2);
         startNode.transitionTo(secondNode);
 
-        TokenImpl sampleInstance = new TokenImpl(startNode, new ProcessInstanceContextImpl(), navigator);
+        TokenImpl sampleInstance = new TokenImpl(startNode, new ProcessInstanceImpl(null), navigator);
         return sampleInstance;
     }
 

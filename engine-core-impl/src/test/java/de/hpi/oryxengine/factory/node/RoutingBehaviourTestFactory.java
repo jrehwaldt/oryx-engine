@@ -1,9 +1,7 @@
 package de.hpi.oryxengine.factory.node;
 
 import static org.mockito.Mockito.mock;
-
 import de.hpi.oryxengine.activity.AbstractActivity;
-
 import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
 import de.hpi.oryxengine.process.structure.Node;

@@ -7,9 +7,9 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.activity.impl.StartActivity;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
@@ -24,23 +24,26 @@ public class ProcessBuilderTest {
 
     /**
      * Test simple build process.
+     * @throws IllegalStarteventException 
      */
     @Test
-    public void testSimpleBuildProcess() {
+    public void testSimpleBuildProcess() throws IllegalStarteventException {
 
-        StartNodeParameter param = new StartNodeParameterImpl();
+        NodeParameter param = new NodeParameterImpl();
 
         param.setActivity(new NullActivity());
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
-        param.setStartEvent(null);
-        startNode = builder.createStartNode(param);
+        param.makeStartNode(true);
+        startNode = builder.createNode(param);
+        
+        param.makeStartNode(false);
 
         endNode = builder.createNode(param);
 
         ProcessDefinition definition = builder.createTransition(startNode, endNode).buildDefinition();
 
-        List<StartNode> startNodes = definition.getStartNodes();
+        List<Node> startNodes = definition.getStartNodes();
         assertEquals(startNodes.size(), 1, "There should be one start node");
 
         Node node = startNodes.get(0);

@@ -10,17 +10,16 @@ import javax.annotation.Nonnull;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
+import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.StartNode;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.repository.ProcessRepository;
 
 /**
@@ -30,7 +29,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     // map IDs to Definition
     /** The running instances. */
-    private HashMap<UUID, Token> runningInstances;
+    private HashMap<UUID, Token> runningTokens;
 
     /** The scheduler for tokens that can be processed. */
     private FIFOScheduler scheduler;
@@ -57,13 +56,10 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     /** The repository. */
     private ProcessRepository repository;
 
+    private List<ProcessInstance> instances;
+
     /**
      * Instantiates a new navigator implementation.
-<<<<<<< HEAD
-     * 
-     * @throws SchedulerException
-=======
->>>>>>> branch 'refs/heads/master' of git@github.com:jrehwaldt/oryx-engine.git
      */
     public NavigatorImpl() {
 
@@ -75,15 +71,11 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * 
      * @param numberOfThreads
      *            the number of navigator threads
-<<<<<<< HEAD
-     * @throws SchedulerException
-=======
->>>>>>> branch 'refs/heads/master' of git@github.com:jrehwaldt/oryx-engine.git
      */
     public NavigatorImpl(int numberOfThreads) {
 
         // TODO Lazy initialized
-        this.runningInstances = new HashMap<UUID, Token>();
+        this.runningTokens = new HashMap<UUID, Token>();
         this.scheduler = new FIFOScheduler();
         this.executionThreads = new ArrayList<NavigationThread>();
         this.state = NavigatorState.INIT;
@@ -92,6 +84,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         this.correlation = new CorrelationManagerImpl(this);
         repository = ServiceFactory.getRepositoryService();
         this.suspendedTokens = new ArrayList<Token>();
+        this.instances = new ArrayList<ProcessInstance>();
     }
 
     /**
@@ -121,19 +114,18 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     }
 
     @Override
-    public void startProcessInstance(UUID processID)
+    public void startProcessInstance(UUID processID, StartEvent event)
     throws DefinitionNotFoundException {
 
-        // TODO we need a method that allows to start a process at a single startNode, for example at a message start
-        // node.
         ProcessDefinition definition = repository.getDefinition(processID);
-        List<StartNode> startNodes = definition.getStartNodes();
 
-        ProcessInstanceContext context = new ProcessInstanceContextImpl();
-        for (Node node : startNodes) {
-            Token newToken = new TokenImpl(node, context, this);
-            startArbitraryInstance(newToken);
-        }
+        ProcessInstance instance = new ProcessInstanceImpl(definition);
+        Node startNode = definition.getStartTriggers().get(event);
+        Token newToken = instance.createToken(startNode, this);
+        startArbitraryInstance(newToken);
+        instances.add(instance);
+        
+        //TODO we need a method that allows the starting on a list of nodes.
     }
 
     // this method is for first testing only, as we do not have ProcessDefinitions yet
@@ -146,7 +138,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      */
     public void startArbitraryInstance(Token token) {
 
-        this.runningInstances.put(token.getID(), token);
+        this.runningTokens.put(token.getID(), token);
         this.scheduler.submit(token);
     }
 
@@ -253,5 +245,11 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
         suspendedTokens.remove(t);
 
+    }
+
+    @Override
+    public List<ProcessInstance> getInstances() {
+
+        return instances;
     }
 }
