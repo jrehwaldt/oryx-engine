@@ -5,8 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
@@ -47,6 +49,19 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         Pattern pushPattern = task.getAllocationStrategies().getPushPattern();
 
         pushPattern.execute(task, token, this);
+    }
+
+    @Override
+    public @Nullable WorklistItem getWorklistItem(@Nonnull Resource<?> resource,
+                                                  @Nonnull UUID worklistItemId) {
+        
+        for (final WorklistItem item: resource.getWorklist()) {
+            if (worklistItemId.equals(item.getID())) {
+                return item;
+            }
+        }
+        
+        return null;
     }
 
     @Override

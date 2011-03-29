@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
@@ -23,6 +25,7 @@ import de.hpi.oryxengine.resource.ResourceType;
  * https://jaxb.dev.java.net/guide/Migrating_JAXB_2_0_applications_to_JavaSE_6.html#Using_JAXB_2_1_with_JavaSE_6
  */
 @Provider
+@Produces({ MediaType.APPLICATION_JSON })
 public class JAXBContextResolver
 implements ContextResolver<JAXBContext> {
     
@@ -30,8 +33,7 @@ implements ContextResolver<JAXBContext> {
     private final Set<Class<?>> types;
     private Class<?>[] cTypes = {
         UUID.class, ResourceType.class
-//        ResourceImpl.class, OrganizationUnitImpl.class, ParticipantImpl.class, PositionImpl.class, RoleImpl.class,
-//        ArrayList.class, List.class
+//        ResourceImpl.class, OrganizationUnitImpl.class, ParticipantImpl.class, PositionImpl.class, RoleImpl.class
     };
     
     /**

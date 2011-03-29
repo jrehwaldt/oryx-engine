@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
@@ -24,8 +25,8 @@ public interface WorklistServiceFacade {
     * @param resourceId the resource's id
     * @return the work items
     */
-   @Nonnull List<WorklistItem> getWorklistItems(@Nonnull ResourceType resourceType,
-                                                @Nonnull UUID resourceId);
+   @Nullable List<WorklistItem> getWorklistItems(@Nonnull ResourceType resourceType,
+                                                 @Nonnull UUID resourceId);
    
    /**
     * Claims a certain work item.

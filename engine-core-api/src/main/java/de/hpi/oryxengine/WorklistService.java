@@ -2,6 +2,10 @@ package de.hpi.oryxengine;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
@@ -60,6 +64,16 @@ public interface WorklistService {
      * @param resource the resource that triggers this method
      */
     void abortWorklistItemBy(WorklistItem worklistItem, Resource<?> resource);
+
+    /**
+     * Returns a {@link WorklistItem} by id.
+     * 
+     * @param resource the {@link Resource}, to which the {@link WorklistItem} belongs
+     * @param worklistItemId the {@link WorklistItem}'s id
+     * @return the {@link WorklistItem}
+     */
+    @Nullable WorklistItem getWorklistItem(@Nonnull Resource<?> resource,
+                                           @Nonnull UUID worklistItemId);
     
     // TODO: Observable Interface für die GUI
 }
