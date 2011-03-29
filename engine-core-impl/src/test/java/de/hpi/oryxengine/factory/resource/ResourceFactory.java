@@ -5,10 +5,24 @@ import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 
 /**
- * Little factory for creating Resources. A short cut for in the implmentation.
+ * Little factory for creating Resources. A short cut for in the implementation.
  */
 public class ResourceFactory {
-
+    
+    /**
+     * Hidden constructor.
+     */
+    protected ResourceFactory() {
+        
+    }
+    
+    /**
+     * Creates a participant.
+     * 
+     * @param id participant id
+     * @param name participant name
+     * @return the participant
+     */
     public static Participant createParticipant(String id, String name) {
         
         IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
