@@ -75,16 +75,7 @@ public class NavigatorTest {
             e.printStackTrace();
         }
         Assert.assertEquals(processToken.getCurrentNode(), node2);
-        // assert processInstance.getCurrentNode().getId().equals("2");
-
     }
-
-    // @Test
-    // public void testSignalPrint(){
-    // nav.startArbitraryInstance("1", processInstance);
-    //
-    // assert "test\ntest".equals(out.toString().trim());
-    // }
 
     /**
      * Tear down.
