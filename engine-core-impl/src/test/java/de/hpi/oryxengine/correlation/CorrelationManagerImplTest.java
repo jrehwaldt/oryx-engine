@@ -39,6 +39,11 @@ public class CorrelationManagerImplTest {
         this.manager.start();
         assertEquals(this.manager.getInboundAdapters().size(), INITIAL_ADAPTERS_COUNT);
     }
+    
+    @Test
+    public void testRegistrationOfIntermediateEvent(){
+        
+    }
    
     /**
      * Setup.

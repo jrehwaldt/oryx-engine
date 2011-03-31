@@ -12,9 +12,13 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.TimerConfigurationImpl;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
  * Test class for {@link TimingManagerImpl}.
@@ -23,6 +27,7 @@ public class TimingManagerTest {
     
     private static final int PULL_TIMEOUT = 5;
     private static final short VERIFY_FACTOR = 4;
+    private static final long TIMER = 10;
     
     private TimingManager timer = null;
     
@@ -42,6 +47,21 @@ public class TimingManagerTest {
         this.timer.registerPullAdapter(adapter);
         
         verify(adapter, timeout(PULL_TIMEOUT * VERIFY_FACTOR).atLeastOnce()).pull();
+    }
+    
+    /**
+     * Test registering a non recurring event, in this case a simple timer.
+     *
+     * @throws DalmatinaException the dalmatina exception
+     * @throws InterruptedException the interrupted exception for thread sleeping
+     */
+    @Test
+    public void testRegisteringANonRecurringEvent() throws DalmatinaException, InterruptedException {
+        Token token = mock(TokenImpl.class);
+        TimedAdapterConfiguration configuration = new TimerConfigurationImpl(null, TIMER);
+        this.timer.registerNonRecurringJob(configuration, token);
+        Thread.sleep(TIMER);
+        verify(token).resume();
     }
 
     /**
