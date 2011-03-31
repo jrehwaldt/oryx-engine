@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.correlation.registration.IntermediateEvent;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * This interface provides methods for registering events to the {@link EventManager}.
@@ -22,5 +23,5 @@ public interface EventRegistrar {
      * 
      * @param event the intermediate event
      */
-    void registerIntermediateEvent(@Nonnull IntermediateEvent event);
+    void registerIntermediateEvent(@Nonnull IntermediateEvent event, Token token);
 }

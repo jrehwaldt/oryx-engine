@@ -18,6 +18,7 @@ import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
 import de.hpi.oryxengine.correlation.adapter.InboundAdapter;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
+import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.InboundImapMailAdapterImpl;
@@ -31,6 +32,7 @@ import de.hpi.oryxengine.exception.AdapterSchedulingException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.EngineInitializationFailedException;
 import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * A concrete implementation of our engines Event Manager.
@@ -45,7 +47,6 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     private Map<AdapterConfiguration, InboundAdapter> inboundAdapter;
 
     private List<StartEvent> startEvents;
-    private List<IntermediateEvent> intermediateEvents;
 
     /**
      * Default constructor.
@@ -58,7 +59,6 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
         this.navigator = navigator;
         this.inboundAdapter = new HashMap<AdapterConfiguration, InboundAdapter>();
         this.startEvents = new ArrayList<StartEvent>();
-        this.intermediateEvents = new ArrayList<IntermediateEvent>();
         this.errorAdapter = new ErrorAdapter(this, new ErrorAdapterConfiguration());
 
         try {
@@ -127,10 +127,15 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     }
 
     @Override
-    public void registerIntermediateEvent(@Nonnull IntermediateEvent event) {
+    public void registerIntermediateEvent(@Nonnull IntermediateEvent event, Token token) {
 
         logger.debug("Registering intermediate event {}", event);
-        this.intermediateEvents.add(event);
+        try {
+            this.timer.registerNonRecurringJob((TimedAdapterConfiguration) event.getAdapterConfiguration(), Token token);
+        } catch (AdapterSchedulingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**

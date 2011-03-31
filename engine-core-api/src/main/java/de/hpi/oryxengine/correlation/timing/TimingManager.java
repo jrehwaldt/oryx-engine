@@ -6,6 +6,7 @@ import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
 import de.hpi.oryxengine.exception.AdapterSchedulingException;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * This class is responsible for providing timing support.
@@ -20,6 +21,6 @@ public interface TimingManager {
      */
     void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
     throws AdapterSchedulingException;
-    void registerNonRecurringJob(@Nonnull TimedAdapterConfiguration configuration)
+    void registerNonRecurringJob(@Nonnull TimedAdapterConfiguration configuration, Token token)
     throws AdapterSchedulingException;
 }

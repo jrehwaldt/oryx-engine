@@ -13,12 +13,6 @@ public abstract class AbstractPluggable<P extends ObserverPlugin>
 extends Observable
 implements Pluggable<P> {
     
-    /**
-     * Register plugin.
-     *
-     * @param plugin the plugin
-     * {@inheritDoc}
-     */
     @Override
     public void registerPlugin(P plugin) {
         this.addObserver(plugin);

@@ -6,7 +6,6 @@ import java.util.UUID;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.util.Identifiable;
@@ -120,7 +119,7 @@ public interface Token extends Identifiable {
     throws DalmatinaException;
     
     /**
-     * Gets the navigator.
+     * Gets the navigator that this token is assigned to.
      *
      * @return the navigator
      */

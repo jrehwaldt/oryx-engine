@@ -19,6 +19,7 @@ import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.exception.AdapterSchedulingException;
+import de.hpi.oryxengine.process.token.Token;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -36,6 +37,7 @@ implements TimingManager {
     /** The error adapter. */
     private final ErrorAdapter errorAdapter;
     
+    public static final String TOKEN_KEY = "token";
     /**
      * Default constructor.
      * 
@@ -130,11 +132,12 @@ implements TimingManager {
         
     }
 
-    public void registerNonRecurringJob(TimedAdapterConfiguration configuration)
+    public void registerNonRecurringJob(TimedAdapterConfiguration configuration, Token token)
     throws AdapterSchedulingException {
         
         JobDetail jobDetail = new JobDetail(jobName(configuration), jobGroupName(configuration), configuration.getScheduledClass());
         JobDataMap data = jobDetail.getJobDataMap();
+        data.put(TimingManagerImpl.TOKEN_KEY, token);
         
         registerJob(jobDetail,
             data,

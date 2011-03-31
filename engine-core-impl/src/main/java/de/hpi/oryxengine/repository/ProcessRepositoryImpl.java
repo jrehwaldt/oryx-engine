@@ -17,7 +17,6 @@ public final class ProcessRepositoryImpl implements ProcessRepository {
 
     public static final UUID SIMPLE_PROCESS_ID = UUID.randomUUID();
 
-    /** The definitions. */
     private Map<UUID, ProcessDefinition> definitions;
 
     /**
@@ -62,33 +61,5 @@ public final class ProcessRepositoryImpl implements ProcessRepository {
     public boolean containsDefinition(@Nonnull UUID id) {
         return this.definitions.containsKey(id);
     }
-
-//    /**
-//     * Fill with sample processes.
-//     */
-//    private static void fillWithSampleProcesses() {
-//
-//        // Use Process Builder here.
-//
-//        ProcessBuilder builder = new ProcessBuilderImpl();
-//        StartNodeParameter param = new StartNodeParameterImpl();
-//        param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
-//        param.setIncomingBehaviour(new SimpleJoinBehaviour());
-//        param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
-//
-//        // Create a mail adapater event here
-//        param.setStartEvent(null);
-//
-//        Node node1 = builder.createStartNode(param);
-//
-//        Node node2 = builder.createNode(param);
-//
-//        builder.createTransition(node1, node2).setDescription("description").setID(SIMPLE_PROCESS_ID);
-//
-//        ProcessDefinition def = builder.buildDefinition();
-//
-//        // instance.addDefinition(def); We don't do this here, because we want to actually deploy this process,
-//        // not only put it in the repo.
-//    }
 
 }

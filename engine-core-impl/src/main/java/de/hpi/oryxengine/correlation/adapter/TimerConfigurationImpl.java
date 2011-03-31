@@ -9,7 +9,7 @@ import de.hpi.oryxengine.correlation.timing.TimerJob;
  */
 public class TimerConfigurationImpl
 extends AbstractAdapterConfiguration
-implements TimerConfiguration {
+implements TimedAdapterConfiguration {
     
     private long waitingTime;
     private long timestamp;

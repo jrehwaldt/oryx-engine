@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.correlation.registration;
 
-import java.util.UUID;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Interface IntermediateEvent. An intermediate event, in contrast to the startEvent will not trigger the
@@ -13,6 +13,6 @@ public interface IntermediateEvent extends ProcessEvent {
      * 
      * @return the definition id
      */
-    UUID getTokenID();
+    Token getToken();
 
 }

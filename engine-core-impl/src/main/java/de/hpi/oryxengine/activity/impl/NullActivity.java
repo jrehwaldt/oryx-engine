@@ -17,12 +17,6 @@ extends AbstractActivity {
         super();
     }
 
-    /**
-     * Execute intern.
-     *
-     * @param instance the instance
-     * {@inheritDoc}
-     */
     @Override
     public void executeIntern(Token instance) {
         // TODO what is required here?

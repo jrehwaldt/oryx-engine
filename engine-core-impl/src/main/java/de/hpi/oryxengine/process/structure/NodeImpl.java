@@ -22,16 +22,11 @@ public class NodeImpl implements Node {
      * */
     private Activity activity;
 
-    /** The routing behaviour. E.g. incoming and outgoing transitions. */
     private OutgoingBehaviour outgoingBehaviour;
-
-    /** The incoming behaviour. */
     private IncomingBehaviour incomingBehaviour;
 
-    /** The next node. */
     private List<Transition> outgoingTransitions, incomingTransitions;
 
-    /** The id. */
     private UUID id;
 
     /**
@@ -92,35 +87,18 @@ public class NodeImpl implements Node {
         this(activity, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
     }
 
-    /**
-     * Gets the activity.
-     * 
-     * @return the activity {@inheritDoc}
-     */
     @Override
     public Activity getActivity() {
 
         return activity;
     }
 
-    /**
-     * Sets the activity.
-     * 
-     * @param activity
-     *            the new activity {@inheritDoc}
-     */
     @Override
     public void setActivity(Activity activity) {
 
         this.activity = activity;
     }
 
-    /**
-     * Transition to the next node.
-     * 
-     * @param node
-     *            the node {@inheritDoc}
-     */
     @Override
     public void transitionTo(Node node) {
 
@@ -144,11 +122,6 @@ public class NodeImpl implements Node {
         nextIncoming.add(t);
     }
 
-    /**
-     * Gets the iD.
-     * 
-     * @return the iD {@inheritDoc}
-     */
     @Override
     public UUID getID() {
 
@@ -166,53 +139,18 @@ public class NodeImpl implements Node {
         this.outgoingTransitions = transitions;
     }
 
-    /**
-     * Gets the outgoing transitions.
-     * 
-     * @return the outgoing transitions {@inheritDoc}
-     */
     @Override
     public List<Transition> getOutgoingTransitions() {
 
         return outgoingTransitions;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Transition> getIncomingTransitions() {
 
         return incomingTransitions;
     }
 
-    /**
-     * Execute.
-     * 
-     * @param token
-     *            the instance
-     * @return the list
-     * @throws Exception
-     *             the exception {@inheritDoc}
-     */
-    @Override
-    public List<Token> execute(Token token)
-    throws Exception {
-
-//        List<Token> instances = this.incomingBehaviour.join(token);
-//        this.activity.execute(token);
-//        return this.outgoingBehaviour.split(instances);
-        return null;
-    }
-
-    /**
-     * Transition to with condition.
-     * 
-     * @param node
-     *            the node
-     * @param c
-     *            the c {@inheritDoc}
-     */
     @Override
     public void transitionToWithCondition(Node node, Condition c) {
 

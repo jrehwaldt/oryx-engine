@@ -21,19 +21,14 @@ import de.hpi.oryxengine.process.token.Token;
 public class MailingVariable
 extends AbstractActivity {
 
-    /** The host. */
     private static String host = "localhost";
 
-    /** The default sender. */
     private static String defaultSender = "oryxengine@bpt.hpi.uni-potsdam.de";
 
-    /** The default recipient. */
     private static String defaultRecipient = "gns@oryxengine.de";
 
-    /** The subject. */
     private static String subject = "Hier das Ergebnis deiner Berechnung.";
 
-    /** The variable name. */
     private String variableName;
 
     /**

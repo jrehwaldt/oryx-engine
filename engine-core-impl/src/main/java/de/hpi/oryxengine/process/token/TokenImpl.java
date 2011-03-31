@@ -10,8 +10,6 @@ import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
@@ -40,8 +38,8 @@ public class TokenImpl implements Token {
      * 
      * @param startNode
      *            the start node
-     * @param context
-     *            the context
+     * @param instance
+     *            the instance
      */
     public TokenImpl(Node startNode, ProcessInstance instance) {
 
@@ -53,8 +51,8 @@ public class TokenImpl implements Token {
      * 
      * @param startNode
      *            the start node
-     * @param context
-     *            the context
+     * @param instance
+     *            the instance
      * @param navigator
      *            the navigator
      */
@@ -82,6 +80,7 @@ public class TokenImpl implements Token {
      * @return the current node
      * @see de.hpi.oryxengine.process.token.Token#getCurrentNode()
      */
+    @Override
     public Node getCurrentNode() {
 
         return currentNode;
@@ -99,11 +98,6 @@ public class TokenImpl implements Token {
         currentNode = node;
     }
 
-    /**
-     * Gets the iD.
-     * 
-     * @return the iD {@inheritDoc}
-     */
     @Override
     public UUID getID() {
 
@@ -113,7 +107,6 @@ public class TokenImpl implements Token {
     /**
      * Execute step.
      * 
-     * @return list of process tokens
      * @throws Exception
      *             the exception
      * @see de.hpi.oryxengine.process.token.Token#executeStep()
@@ -163,6 +156,9 @@ public class TokenImpl implements Token {
                 newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }
+
+            // this is needed, as the this-token would be left on the node that triggers the split.
+            instance.removeToken(this);
         }
         return tokensToNavigate;
 
@@ -225,7 +221,8 @@ public class TokenImpl implements Token {
     }
 
     @Override
-    public void resume() throws DalmatinaException {
+    public void resume()
+    throws DalmatinaException {
 
         navigator.removeSuspendToken(this);
         getCurrentNode().getActivity().signal(this);
@@ -243,7 +240,7 @@ public class TokenImpl implements Token {
         if (lazySuspendedProcessingTokens == null) {
             lazySuspendedProcessingTokens = new ArrayList<Token>();
         }
-        
+
         return lazySuspendedProcessingTokens;
     }
 

@@ -6,13 +6,14 @@ import java.util.UUID;
 import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.AdapterType;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class TimerEventImpl.
  */
 public class TimerEventImpl implements IntermediateEvent {
 
-    private UUID tokenId;
+    private Token token;
     private AdapterConfiguration config;
 
     /**
@@ -24,16 +25,16 @@ public class TimerEventImpl implements IntermediateEvent {
      * @param tokenId the token id
      */
     public TimerEventImpl(AdapterConfiguration config,
-                          UUID tokenId) {
+                          Token token) {
 
-        this.tokenId = tokenId;
+        this.token = token;
         this.config = config;
     }
 
     @Override
-    public UUID getTokenID() {
+    public Token getToken() {
 
-        return tokenId;
+        return token;
     }
 
     @Override

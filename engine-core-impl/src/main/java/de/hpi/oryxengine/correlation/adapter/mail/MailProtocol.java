@@ -10,15 +10,11 @@ import javax.annotation.Nonnegative;
  */
 public enum MailProtocol {
     
-    /** The PO p3. */
     POP3(110, 995), 
-    /** The IMAP. */
     IMAP(143, 993);
     
-    /** The default port. */
     private int defaultPort;
     
-    /** The ssl port. */
     private int sslPort;
     
     /**

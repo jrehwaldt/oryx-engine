@@ -7,6 +7,8 @@ import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.correlation.CorrelationManager;
+import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.TimerConfigurationImpl;
 import de.hpi.oryxengine.correlation.registration.TimerEventImpl;
 import de.hpi.oryxengine.process.token.Token;
 
@@ -16,7 +18,7 @@ import de.hpi.oryxengine.process.token.Token;
 public class IntermediateTimer extends AbstractActivity {
     private long time;
 
-    public IntermediateTimer(int time) {
+    public IntermediateTimer(long time) {
         this.time = time;
     }
     
@@ -24,9 +26,8 @@ public class IntermediateTimer extends AbstractActivity {
     protected void executeIntern(@Nonnull Token token) {
         
         CorrelationManager correlationService = ServiceFactory.getCorrelationService(token.getNavigator());
-        
-        correlationService.registerIntermediateEvent(new TimerEventImpl(config, tokenId));
-        
+        TimedAdapterConfiguration conf = new TimerConfigurationImpl(null, this.time);
+        correlationService.registerIntermediateEvent(new TimerEventImpl(conf, token));
         token.suspend();
     }
     

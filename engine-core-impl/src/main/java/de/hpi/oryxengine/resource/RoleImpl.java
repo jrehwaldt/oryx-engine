@@ -42,9 +42,6 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
     // return null;
     // }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Set<Participant> getParticipants() {
 

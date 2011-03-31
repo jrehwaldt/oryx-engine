@@ -1,15 +1,12 @@
 package de.hpi.oryxengine.navigator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.correlation.CorrelationManager;
-import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
@@ -27,36 +24,25 @@ import de.hpi.oryxengine.repository.ProcessRepository;
  */
 public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> implements Navigator {
 
-    // map IDs to Definition
-    /** The running instances. */
-    private HashMap<UUID, Token> runningTokens;
-
-    /** The scheduler for tokens that can be processed. */
     private FIFOScheduler scheduler;
 
     private List<Token> suspendedTokens;
 
-    private CorrelationManager correlation;
-
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
 
-    /** The Constant NUMBER_OF_NAVIGATOR_THREADS. */
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
 
-    /** The navigator threads. */
     private int navigatorThreads;
 
-    /** The state. */
     private NavigatorState state;
 
-    /** The counter. */
     private int counter;
 
-    /** The repository. */
     private ProcessRepository repository;
 
-    private List<ProcessInstance> instances;
+    private List<ProcessInstance> runningInstances;
+    private List<ProcessInstance> finishedInstances;
 
     /**
      * Instantiates a new navigator implementation.
@@ -74,17 +60,16 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      */
     public NavigatorImpl(int numberOfThreads) {
 
-        // TODO Lazy initialized
-        this.runningTokens = new HashMap<UUID, Token>();
+        // TODO Lazy initialized, o rly?
         this.scheduler = new FIFOScheduler();
         this.executionThreads = new ArrayList<NavigationThread>();
         this.state = NavigatorState.INIT;
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
-        this.correlation = new CorrelationManagerImpl(this);
         repository = ServiceFactory.getRepositoryService();
         this.suspendedTokens = new ArrayList<Token>();
-        this.instances = new ArrayList<ProcessInstance>();
+        this.runningInstances = new ArrayList<ProcessInstance>();
+        this.finishedInstances = new ArrayList<ProcessInstance>();
     }
 
     /**
@@ -123,9 +108,9 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         Node startNode = definition.getStartTriggers().get(event);
         Token newToken = instance.createToken(startNode, this);
         startArbitraryInstance(newToken);
-        instances.add(instance);
-        
-        //TODO we need a method that allows the starting on a list of nodes.
+        runningInstances.add(instance);
+
+        // TODO we need a method that allows the starting on a list of nodes.
     }
 
     // this method is for first testing only, as we do not have ProcessDefinitions yet
@@ -138,7 +123,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      */
     public void startArbitraryInstance(Token token) {
 
-        this.runningTokens.put(token.getID(), token);
         this.scheduler.submit(token);
     }
 
@@ -248,8 +232,26 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     }
 
     @Override
-    public List<ProcessInstance> getInstances() {
+    public List<ProcessInstance> getRunningInstances() {
 
-        return instances;
+        return runningInstances;
+    }
+
+    @Override
+    public List<ProcessInstance> getEndedInstances() {
+
+        return finishedInstances;
+    }
+
+    @Override
+    public void signalEndedProcessInstance(ProcessInstance instance) {
+
+        runningInstances.remove(instance);
+
+        // TODO maybe throw an exception if the instance provided is not in the running instances list?
+        if (runningInstances != null) {
+            finishedInstances.add(instance);
+        }
+
     }
 }
