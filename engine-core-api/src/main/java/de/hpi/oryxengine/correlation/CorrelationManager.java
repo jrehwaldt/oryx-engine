@@ -18,6 +18,13 @@ public interface CorrelationManager {
      * @param e the adapter event
      */
     void correlate(@Nonnull AdapterEvent e);
+    
+    /**
+     * Entry point for registering an event with the {@link CorrelationManager}.
+     * 
+     * @param event the intermediate event
+     */
+    void registerIntermediateEvent(@Nonnull IntermediateEvent event);
 
     
 }

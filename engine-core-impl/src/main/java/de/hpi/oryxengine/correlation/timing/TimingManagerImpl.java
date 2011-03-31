@@ -1,5 +1,8 @@
 package de.hpi.oryxengine.correlation.timing;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import javax.annotation.Nonnull;
 
 import org.quartz.JobDataMap;
@@ -12,16 +15,13 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
-import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.exception.AdapterSchedulingException;
 import de.hpi.oryxengine.process.token.Token;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TimingManagerImpl.
  */
@@ -44,7 +44,7 @@ implements TimingManager {
      * @param errorAdapter the error handler as {@link ErrorAdapter}
      * @throws SchedulerException if creating a scheduler fails
      */
-    public TimingManagerImpl(@Nonnull ErrorAdapter errorAdapter, CorrelationManager correlationManager)
+    public TimingManagerImpl(@Nonnull ErrorAdapter errorAdapter)
     throws SchedulerException {
         this.errorAdapter = errorAdapter;
         
@@ -73,11 +73,10 @@ implements TimingManager {
         data.put(PullAdapterJob.ADAPTER_KEY, adapter);
         data.put(PullAdapterJob.ERROR_HANDLER_KEY, this.errorAdapter);
         
+        Trigger trigger = new SimpleTrigger(triggerName, SimpleTrigger.REPEAT_INDEFINITELY, interval);
+        
         registerJob(jobDetail,
-                    data,
-                    triggerName,
-                    SimpleTrigger.REPEAT_INDEFINITELY,
-                    interval);
+                    trigger);
     }
     
     /**
@@ -109,20 +108,15 @@ implements TimingManager {
     }
 
     /**
-     * Registers the job for intermediate events and for adapters.
+     * Registers a job for QUARTZ Scheduler.
      *
-     * @param detail the detail
-     * @param map the map
-     * @param triggerName the trigger name
-     * @param repeat the repeat
-     * @param interval the interval
+     * @param detail the job detail which includes the data for the job.
+     * @param trigger the trigger which defines when (repeated or just for one time) and how to execute the job.
      * @throws AdapterSchedulingException the adapter scheduling exception
      */
-    private void registerJob(JobDetail detail, JobDataMap map, String triggerName , Integer repeat, long interval)
+    private void registerJob(JobDetail detail, Trigger trigger)
     throws AdapterSchedulingException {
-
-        Trigger trigger = new SimpleTrigger(triggerName, repeat, interval);
-        
+ 
         try {
             this.scheduler.scheduleJob(detail, trigger);
         } catch (SchedulerException se) {
@@ -132,18 +126,27 @@ implements TimingManager {
         
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void registerNonRecurringJob(TimedAdapterConfiguration configuration, Token token)
     throws AdapterSchedulingException {
         
-        JobDetail jobDetail = new JobDetail(jobName(configuration), jobGroupName(configuration), configuration.getScheduledClass());
+        JobDetail jobDetail = new JobDetail(
+            jobName(configuration),
+            jobGroupName(configuration),
+            configuration.getScheduledClass());
         JobDataMap data = jobDetail.getJobDataMap();
         data.put(TimingManagerImpl.TOKEN_KEY, token);
         
+        Calendar date = new GregorianCalendar();
+        date.setTimeInMillis(System.currentTimeMillis() + configuration.getTimeInterval());
+
+        Trigger trigger = new SimpleTrigger(triggerName(configuration), date.getTime());
+        
         registerJob(jobDetail,
-            data,
-            triggerName(configuration),
-            0,
-            configuration.getTimeInterval());
+           trigger);
         
     }
 

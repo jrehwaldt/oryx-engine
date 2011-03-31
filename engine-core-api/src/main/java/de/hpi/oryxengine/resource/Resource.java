@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.resource;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import de.hpi.oryxengine.resource.worklist.Worklist;
 import de.hpi.oryxengine.util.Identifiable;
 
@@ -11,6 +13,7 @@ import de.hpi.oryxengine.util.Identifiable;
  * @param <R>
  *            - extending Resource
  */
+@XmlRootElement
 public interface Resource<R extends Resource<?>> extends Identifiable {
 
     /**

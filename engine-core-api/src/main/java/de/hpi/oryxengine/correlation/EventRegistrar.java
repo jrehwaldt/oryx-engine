@@ -18,10 +18,5 @@ public interface EventRegistrar {
      */
     void registerStartEvent(@Nonnull StartEvent event);
 
-    /**
-     * Entry point for registering an event with the {@link CorrelationManager}.
-     * 
-     * @param event the intermediate event
-     */
-    void registerIntermediateEvent(@Nonnull IntermediateEvent event, Token token);
+
 }

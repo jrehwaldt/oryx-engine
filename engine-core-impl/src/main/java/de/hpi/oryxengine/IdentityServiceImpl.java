@@ -3,6 +3,10 @@ package de.hpi.oryxengine;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.IdentityBuilderImpl;
@@ -12,7 +16,9 @@ import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.ParticipantImpl;
 import de.hpi.oryxengine.resource.Position;
 import de.hpi.oryxengine.resource.PositionImpl;
+import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.resource.ResourceImpl;
+import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.Role;
 import de.hpi.oryxengine.resource.RoleImpl;
 
@@ -97,51 +103,29 @@ public class IdentityServiceImpl implements IdentityService {
         return roles;
     }
 
-    /**
-     * Retrieves a specific {@link OrganizationUnitImpl}.
-     * 
-     * @param id
-     *            - id of the {@link OrganizationUnitImpl} to look for
-     * @return organizationUnitImpl
-     */
-    protected OrganizationUnitImpl findOrganizationUnitImpl(String id) {
-
+    @Override
+    public @Nullable Resource<?> findResource(@Nonnull ResourceType resourceType,
+                                              @Nonnull UUID id) {
         return find(getOrganizationUnitImpls(), id);
     }
 
-    /**
-     * Retrieves a specific {@link PositionImpl}.
-     * 
-     * @param id
-     *            - id of the {@link PositionImpl} to look for
-     * @return positionImpl
-     */
-    protected PositionImpl findPositionImpl(String id) {
+    @Override
+    public @Nullable OrganizationUnitImpl getOrganizationUnit(@Nonnull UUID id) {
+        return find(getOrganizationUnitImpls(), id);
+    }
 
+    @Override
+    public @Nullable PositionImpl getPosition(@Nonnull UUID id) {
         return find(getPositionImpls(), id);
     }
 
-    /**
-     * Retrieves a specific {@link ParticipantImpl}.
-     * 
-     * @param id
-     *            - id of the {@link ParticipantImpl} to look for
-     * @return participantImpl
-     */
-    protected ParticipantImpl findParticipantImpl(String id) {
-
+    @Override
+    public @Nullable ParticipantImpl getParticipant(@Nonnull UUID id) {
         return find(getParticipantImpls(), id);
     }
 
-    /**
-     * Retrieves a specific {@link RoleImpl}.
-     * 
-     * @param id
-     *            - id of the {@link RoleImpl} to look for
-     * @return roleImpl
-     */
-    protected RoleImpl findRoleImpl(String id) {
-
+    @Override
+    public @Nullable RoleImpl getRole(@Nonnull UUID id) {
         return find(getRoleImpls(), id);
     }
 
@@ -157,7 +141,8 @@ public class IdentityServiceImpl implements IdentityService {
      * @return <R> object, if it is in the resourceList, otherwise null
      */
     @SuppressWarnings("unchecked")
-    private static <R extends ResourceImpl<?>> R find(Set<R> resourceList, String id) {
+    private static @Nullable <R extends ResourceImpl<?>> R find(@Nonnull Set<R> resourceList,
+                                                                @Nonnull UUID id) {
 
         for (ResourceImpl<?> resource : resourceList) {
             if (resource.getID().equals(id)) {

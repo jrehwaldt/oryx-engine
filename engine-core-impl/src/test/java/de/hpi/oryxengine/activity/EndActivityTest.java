@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.StartActivity;
+import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.definition.NodeParameter;
@@ -107,7 +107,7 @@ public class EndActivityTest {
     throws IllegalStarteventException {
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(new StartActivity(), new SimpleJoinBehaviour(),
+        NodeParameter param = new NodeParameterImpl(new NullActivity(), new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
         param.makeStartNode(true);
         startNode = builder.createNode(param);

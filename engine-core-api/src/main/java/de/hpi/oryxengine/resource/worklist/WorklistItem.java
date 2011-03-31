@@ -7,11 +7,12 @@ import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.util.Identifiable;
 
 /**
  * The Interface WorklistItem.
  */
-public interface WorklistItem extends Task {
+public interface WorklistItem extends Task, Identifiable {
     
     /**
      * Gets the status.

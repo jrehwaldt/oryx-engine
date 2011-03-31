@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.correlation.CorrelationManager;
-import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
@@ -121,7 +118,7 @@ public class TokenImpl implements Token {
         if (suspended) {
             return;
         }
-
+        // TODO Add Activity completed here
         List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
         

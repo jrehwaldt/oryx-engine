@@ -1,11 +1,17 @@
 package de.hpi.oryxengine;
 
 import java.util.Set;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.OrganizationUnit;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Position;
+import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.Role;
 
 /**
@@ -32,7 +38,7 @@ public interface IdentityService {
      * 
      * @return an IdentityBuilder Object
      */
-    IdentityBuilder getIdentityBuilder();
+    @Nonnull IdentityBuilder getIdentityBuilder();
 
     // Letztendlich brauchen wir ein QueryObject
     // void createResourceQuery();
@@ -42,27 +48,69 @@ public interface IdentityService {
      * 
      * @return the organization units
      */
-    Set<OrganizationUnit> getOrganizationUnits();
+    @Nonnull Set<OrganizationUnit> getOrganizationUnits();
 
     /**
      * Gets the positions.
      * 
      * @return the positions
      */
-    Set<Position> getPositions();
+    @Nonnull Set<Position> getPositions();
 
     /**
      * Gets the participants.
      * 
      * @return the participants
      */
-    Set<Participant> getParticipants();
+    @Nonnull Set<Participant> getParticipants();
 
     /**
      * Gets the roles.
      * 
      * @return the roles
      */
-    Set<Role> getRoles();
+    @Nonnull Set<Role> getRoles();
     // Set<Capability> getCapabilities();
+    
+    /**
+     * Returns the requested resource.
+     * 
+     * @param resourceType the resource's type
+     * @param resourceId the resource's id
+     * @return the {@link Resource}
+     */
+    @Nullable Resource<?> findResource(@Nonnull ResourceType resourceType,
+                                       @Nonnull UUID resourceId);
+    
+    /**
+     * Returns the requested role.
+     * 
+     * @param roleId the role's id
+     * @return the {@link Role}
+     */
+    @Nullable Role getRole(@Nonnull UUID roleId);
+    
+    /**
+     * Returns the requested positions.
+     * 
+     * @param positionId the position's id
+     * @return the {@link Position}
+     */
+    @Nullable Position getPosition(@Nonnull UUID positionId);
+    
+    /**
+     * Returns the requested organizational units.
+     * 
+     * @param organizationUnitId the organization's id
+     * @return the {@link OrganizationUnit}
+     */
+    @Nullable OrganizationUnit getOrganizationUnit(@Nonnull UUID organizationUnitId);
+    
+    /**
+     * Returns the requested participants.
+     * 
+     * @param participantId the participant's id
+     * @return the {@link Participant}
+     */
+    @Nullable Participant getParticipant(@Nonnull UUID participantId);
 }

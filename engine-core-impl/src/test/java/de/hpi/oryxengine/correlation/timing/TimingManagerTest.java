@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
+import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
@@ -33,11 +34,10 @@ public class TimingManagerTest {
     @Test
     public void testRegisteringAPullAdapter() throws DalmatinaException {
         InboundPullAdapter adapter = mock(InboundPullAdapter.class);
-        PullAdapterConfiguration configuration = mock(PullAdapterConfiguration.class);
-        
-        when(configuration.getPullInterval()).thenReturn((long) PULL_TIMEOUT);
-        when(configuration.getUniqueName()).thenReturn("a-unique-name");
-        
+        // Unfortunately mocking doesn't seem to work with classes as return value,
+        // therefore the PullAdapterConfiguration is instantiated manually
+        PullAdapterConfiguration configuration = new MailAdapterConfiguration(null, null, null,
+            null, 0, false);
         when(adapter.getConfiguration()).thenReturn(configuration);
         this.timer.registerPullAdapter(adapter);
         
