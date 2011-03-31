@@ -4,18 +4,20 @@ import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Interface for conditions.
+ * 
+ * @author Jannik Streek
  */
 public interface Condition {
 
-
     /**
-     * Evaluate.
-     *
-     * @param instance the instance
+     * Evaluates the condition.
+     * 
+     * @param instance
+     *            the instance
      * @return true, if successful
      */
     boolean evaluate(Token instance);
-    
+
     /**
      * Sets condition to false.
      */

@@ -2,9 +2,7 @@ package de.hpi.oryxengine.correlation;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.correlation.registration.IntermediateEvent;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
-import de.hpi.oryxengine.process.token.Token;
 
 /**
  * This interface provides methods for registering events to the {@link EventManager}.

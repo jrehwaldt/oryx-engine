@@ -4,10 +4,7 @@ import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.correlation.CorrelationManager;
-import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.TimerConfigurationImpl;
 import de.hpi.oryxengine.correlation.registration.TimerEventImpl;
@@ -19,6 +16,11 @@ import de.hpi.oryxengine.process.token.Token;
 public class IntermediateTimer extends AbstractActivity {
     private long time;
 
+    /**
+     * Instantiates a new intermediate timer with a given time.
+     *
+     * @param time the time in ms
+     */
     public IntermediateTimer(long time) {
         this.time = time;
     }

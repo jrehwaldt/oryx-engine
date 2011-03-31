@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.correlation.registration.IntermediateEvent;
-import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
@@ -38,8 +36,6 @@ public class NodeImpl implements Node {
      *            the incoming behaviour
      * @param outgoingBehaviour
      *            the outgoing behaviour
-     * @param event
-     *            the event for the node, e.g. a timer event
      */
     public NodeImpl(Activity activity,
                     IncomingBehaviour incomingBehaviour,

@@ -3,8 +3,6 @@ package de.hpi.oryxengine.process.structure;
 import java.util.List;
 
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.correlation.registration.IntermediateEvent;
-import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 import de.hpi.oryxengine.util.Identifiable;

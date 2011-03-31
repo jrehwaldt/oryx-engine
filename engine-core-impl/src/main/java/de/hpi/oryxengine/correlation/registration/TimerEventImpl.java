@@ -1,11 +1,9 @@
 package de.hpi.oryxengine.correlation.registration;
 
 import java.util.List;
-import java.util.UUID;
 
 import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.AdapterType;
-import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -19,10 +17,8 @@ public class TimerEventImpl implements IntermediateEvent {
     /**
      * Instantiates a new timer event impl.
      *
-     * @param type the type
-     * @param config the config
-     * @param conditions the conditions
-     * @param tokenId the token id
+     * @param config the config for the event, consists out of options for scheduling and for the adaptor.
+     * @param token the process token
      */
     public TimerEventImpl(AdapterConfiguration config,
                           Token token) {
@@ -51,8 +47,6 @@ public class TimerEventImpl implements IntermediateEvent {
 
     @Override
     public List<EventCondition> getConditions() {
-
-        // TODO Auto-generated method stub
         return null;
     }
 

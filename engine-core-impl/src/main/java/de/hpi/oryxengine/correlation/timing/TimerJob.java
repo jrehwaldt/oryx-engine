@@ -27,7 +27,6 @@ implements Job {
         try {
             token.resume();
         } catch (DalmatinaException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         

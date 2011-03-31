@@ -4,7 +4,6 @@ import java.util.List;
 
 import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.AdapterType;
-import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 
 /**
  * The Interface ProcessEvent. All process events have an assigned adapter with a given configuration that may produce

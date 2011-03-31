@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.correlation.AdapterEvent;
 import de.hpi.oryxengine.correlation.CorrelationManager;
-import de.hpi.oryxengine.correlation.EventManager;
 
 /**
  * Abstract super adapter defining helper functions and a general structure.

@@ -18,5 +18,10 @@ extends AdapterConfiguration {
          */
         @Nonnegative long getTimeInterval();
         
+        /**
+         * Gets the scheduled class which is used for the QUARTZ Scheduler.
+         *
+         * @return the scheduled class
+         */
         Class<? extends Job> getScheduledClass();
 }

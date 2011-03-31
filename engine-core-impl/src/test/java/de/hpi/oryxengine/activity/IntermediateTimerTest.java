@@ -23,6 +23,7 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class IntermediateTimerTest. Checks if the intermediate timer is working.
+ * @author Jannik Streek
  */
 public class IntermediateTimerTest {
     
@@ -30,9 +31,9 @@ public class IntermediateTimerTest {
     private Node node;
     private Node node2;
     private Node node3;
-    public static final int WAITING_TIME = 300;
-    public static final int SHORT_WAITING_TIME_TEST = 200;
-    public static final int LONG_WAITING_TIME_TEST = 600;
+    private static final int WAITING_TIME = 300;
+    private static final int SHORT_WAITING_TIME_TEST = 200;
+    private static final int LONG_WAITING_TIME_TEST = 600;
     
   /**
    * Start a simple waiting process test. There are multiple assertions,
@@ -46,9 +47,9 @@ public class IntermediateTimerTest {
       token.executeStep();
       assertEquals(token.getCurrentNode(), node2);
       token.executeStep();
-      Thread.sleep(IntermediateTimerTest.SHORT_WAITING_TIME_TEST);
+      Thread.sleep(SHORT_WAITING_TIME_TEST);
       assertEquals(token.getCurrentNode(), node2);
-      Thread.sleep(IntermediateTimerTest.LONG_WAITING_TIME_TEST);
+      Thread.sleep(LONG_WAITING_TIME_TEST);
       assertEquals(token.getCurrentNode(), node3);
       
   }
@@ -62,7 +63,7 @@ public class IntermediateTimerTest {
   public void beforeClass() {
       ProcessBuilder builder = new ProcessBuilderImpl();
       NodeParameter param = new NodeParameterImpl(
-          new IntermediateTimer(IntermediateTimerTest.WAITING_TIME),
+          new IntermediateTimer(WAITING_TIME),
           new SimpleJoinBehaviour(),
           new TakeAllSplitBehaviour());
       

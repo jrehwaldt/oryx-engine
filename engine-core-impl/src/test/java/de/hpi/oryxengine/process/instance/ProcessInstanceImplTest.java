@@ -1,10 +1,13 @@
 package de.hpi.oryxengine.process.instance;
 
 import static org.mockito.Mockito.mock;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
-import static org.testng.Assert.assertTrue;
+
 import static org.testng.Assert.assertNotNull;
+
+import static org.testng.Assert.assertTrue;
+
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;

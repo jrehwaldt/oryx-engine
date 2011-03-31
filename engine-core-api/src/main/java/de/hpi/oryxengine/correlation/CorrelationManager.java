@@ -3,7 +3,6 @@ package de.hpi.oryxengine.correlation;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.correlation.registration.IntermediateEvent;
-import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The correlation manager, which correlates Events to the entities (acitivites, etc..) 
