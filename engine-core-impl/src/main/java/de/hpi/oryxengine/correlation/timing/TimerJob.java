@@ -9,7 +9,8 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
- * The Class TimerJob.
+ * The Class TimerJob, used for intermediate timer events.
+ * @author Jannik Streek
  */
 public class TimerJob
 implements Job {

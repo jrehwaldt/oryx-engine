@@ -11,6 +11,7 @@ import de.hpi.oryxengine.process.token.Token;
 /**
  * The Class ConditionImpl.
  * It should be a Condition and it should be evaluated properly. (to true or false)
+ * @author Jannik Streek
  */
 public class ConditionImpl implements Condition {
     

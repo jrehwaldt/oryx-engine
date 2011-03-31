@@ -6,6 +6,7 @@ import de.hpi.oryxengine.correlation.timing.TimerJob;
 
 /**
  * The Class TimerConfigurationImpl. The Timer Configuration is used for the intermediate timer event.
+ * @author Jannik Streek
  */
 public class TimerConfigurationImpl
 extends AbstractAdapterConfiguration
