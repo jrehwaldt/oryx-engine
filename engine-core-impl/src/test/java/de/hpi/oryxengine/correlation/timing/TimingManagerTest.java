@@ -80,6 +80,8 @@ public class TimingManagerTest {
         TimedAdapterConfiguration configuration = new TimerConfigurationImpl(null, TIMER);
         this.timer.registerNonRecurringJob(configuration, token);
         verify(token, never()).resume();
+        // Wait until job is deleted, otherwise conflicts can occur
+        Thread.sleep(TIMER + TIMER);
     }
 
     /**
