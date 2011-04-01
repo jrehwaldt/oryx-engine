@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.correlation.timing;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,7 +28,7 @@ public class TimingManagerTest {
     
     private static final int PULL_TIMEOUT = 5;
     private static final short VERIFY_FACTOR = 4;
-    private static final long TIMER = 10;
+    private static final long TIMER = 100;
     
     private TimingManager timer = null;
     
@@ -51,6 +52,8 @@ public class TimingManagerTest {
     
     /**
      * Test registering a non recurring event, in this case a simple timer.
+     * The test waits some time, until the timer should be done and then an assertion is used to test
+     * if resume was called on the token.
      *
      * @throws DalmatinaException the dalmatina exception
      * @throws InterruptedException the interrupted exception for thread sleeping
@@ -60,8 +63,23 @@ public class TimingManagerTest {
         Token token = mock(TokenImpl.class);
         TimedAdapterConfiguration configuration = new TimerConfigurationImpl(null, TIMER);
         this.timer.registerNonRecurringJob(configuration, token);
-        Thread.sleep(TIMER);
+        Thread.sleep(TIMER + TIMER);
         verify(token).resume();
+    }
+    
+    /**
+     * Test registering a non recurring event, in this case a simple timer. Because waiting time is not long enough,
+     * the token should not be resumed.
+     *
+     * @throws DalmatinaException the dalmatina exception
+     * @throws InterruptedException the interrupted exception for thread sleeping
+     */
+    @Test
+    public void testFailingRegisteringANonRecurringEvent() throws DalmatinaException, InterruptedException {
+        Token token = mock(TokenImpl.class);
+        TimedAdapterConfiguration configuration = new TimerConfigurationImpl(null, TIMER);
+        this.timer.registerNonRecurringJob(configuration, token);
+        verify(token, never()).resume();
     }
 
     /**

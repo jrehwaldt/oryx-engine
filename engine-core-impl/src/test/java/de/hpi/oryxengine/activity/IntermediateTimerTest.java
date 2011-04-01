@@ -2,9 +2,10 @@ package de.hpi.oryxengine.activity;
 
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.IntermediateTimer;
@@ -37,20 +38,34 @@ public class IntermediateTimerTest {
     
   /**
    * Start a simple waiting process test. There are multiple assertions,
-   * which test if the process is waiting and after continuing.
+   * which test if the process is waiting and after that continuing.
    *
    * @throws Exception the exception
    */
   @Test
-  public void startSimpleWaitingProcessTest() throws Exception {
-      assertEquals(token.getCurrentNode(), node);
+  public void testWaitingProcess() throws Exception {
+      token.executeStep();
+      assertEquals(token.getCurrentNode(), node2);
+      token.executeStep();
+      Thread.sleep(LONG_WAITING_TIME_TEST);
+      assertEquals(token.getCurrentNode(), node3);
+      
+  }
+  
+  /**
+   * Start a simple failing waiting process test. Waiting time is here not sufficient,
+   * so the process can't step forward when the assertion is made.
+   *
+   * @throws Exception the exception
+   */
+  @Test
+  public void testFailingWaitingProcess() throws Exception {
       token.executeStep();
       assertEquals(token.getCurrentNode(), node2);
       token.executeStep();
       Thread.sleep(SHORT_WAITING_TIME_TEST);
-      assertEquals(token.getCurrentNode(), node2);
-      Thread.sleep(LONG_WAITING_TIME_TEST);
-      assertEquals(token.getCurrentNode(), node3);
+      assertFalse(token.getCurrentNode() == node3, "Current Node should not be the node after the timer,"
+          + " because time wasn't sufficient.");
       
   }
   
@@ -59,8 +74,8 @@ public class IntermediateTimerTest {
    * Creates the process. It consists out of three nodes,
    * the central node is an intermediate timer event which waits for 300 MS until execution is continued
    */
-  @BeforeClass
-  public void beforeClass() {
+  @BeforeMethod
+  public void beforeMethod() {
       ProcessBuilder builder = new ProcessBuilderImpl();
       NodeParameter param = new NodeParameterImpl(
           new IntermediateTimer(WAITING_TIME),
@@ -85,8 +100,8 @@ public class IntermediateTimerTest {
   /**
    * Delete used objects.
    */
-  @AfterClass
-  public void afterClass() {
+  @AfterMethod
+  public void afterMethod() {
       node = null;
       node2 = null;
       node3 = null;

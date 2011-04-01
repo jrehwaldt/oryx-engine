@@ -6,7 +6,7 @@ import org.quartz.Job;
 
 /**
  * The Interface TimedAdapterConfiguration. This should be used for adapters or events
- * which have to be called in specific time intervals
+ * which have to be called in specific time intervals.
  * @author Jannik Streek
  */
 public interface TimedAdapterConfiguration
