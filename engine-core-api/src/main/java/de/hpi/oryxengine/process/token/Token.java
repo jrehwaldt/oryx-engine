@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.util.Identifiable;
@@ -117,4 +117,11 @@ public interface Token extends Identifiable {
     // TODO Info-Object muss übergeben werden von wem das Token resumed wurde
     void resume()
     throws DalmatinaException;
+    
+    /**
+     * Gets the navigator that this token is assigned to.
+     *
+     * @return the navigator
+     */
+    Navigator getNavigator();
 }

@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.allocation;
 
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
@@ -18,6 +19,7 @@ public class WorklistItemImpl implements WorklistItem {
     private WorklistItemState status;
     private Task task;
     private Token correspondingToken;
+    private UUID id;
     
     /**
      * Default Constructor.
@@ -38,6 +40,7 @@ public class WorklistItemImpl implements WorklistItem {
         this.task = task;
         this.status = WorklistItemState.OFFERED;
         this.correspondingToken = correspondingToken;
+        this.id = UUID.randomUUID();
     }
 
     @Override
@@ -109,5 +112,10 @@ public class WorklistItemImpl implements WorklistItem {
         WorklistItemImpl worklistItemImpl = (WorklistItemImpl) worklistItem;
 
         return worklistItemImpl;
+    }
+
+    @Override
+    public UUID getID() {
+        return this.id;
     }
 }

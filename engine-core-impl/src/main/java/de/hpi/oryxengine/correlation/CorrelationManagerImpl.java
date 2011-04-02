@@ -18,6 +18,7 @@ import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
 import de.hpi.oryxengine.correlation.adapter.InboundAdapter;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
+import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.InboundImapMailAdapterImpl;
@@ -45,7 +46,6 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     private Map<AdapterConfiguration, InboundAdapter> inboundAdapter;
 
     private List<StartEvent> startEvents;
-    private List<IntermediateEvent> intermediateEvents;
 
     /**
      * Default constructor.
@@ -58,7 +58,6 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
         this.navigator = navigator;
         this.inboundAdapter = new HashMap<AdapterConfiguration, InboundAdapter>();
         this.startEvents = new ArrayList<StartEvent>();
-        this.intermediateEvents = new ArrayList<IntermediateEvent>();
         this.errorAdapter = new ErrorAdapter(this, new ErrorAdapterConfiguration());
 
         try {
@@ -87,7 +86,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
         } catch (Exception e) {
             e.printStackTrace();
         }
-        intermediateEvent(event);
+        // Maybe later used, to get the token from an UUID: intermediateEvent(event);
     }
 
     @Override
@@ -130,7 +129,13 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     public void registerIntermediateEvent(@Nonnull IntermediateEvent event) {
 
         logger.debug("Registering intermediate event {}", event);
-        this.intermediateEvents.add(event);
+        try {
+            this.timer.registerNonRecurringJob(
+                (TimedAdapterConfiguration) event.getAdapterConfiguration(),
+                event.getToken());
+        } catch (AdapterSchedulingException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -164,17 +169,6 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
 
         this.timer.registerPullAdapter(adapter);
         return registerAdapter(adapter);
-    }
-
-    /**
-     * Triggered if an event is identified as intermediate trigger.
-     * 
-     * @param e
-     *            the event fired by a certain {@link InboundAdapter}
-     */
-    private void intermediateEvent(@Nonnull AdapterEvent e) {
-
-        // TODO user story ready to be solved
     }
 
     /**

@@ -5,12 +5,14 @@ import java.util.Properties;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
+import org.quartz.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.correlation.adapter.AbstractAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
+import de.hpi.oryxengine.correlation.timing.PullAdapterJob;
 
 /**
  * The mail adapter configuration.
@@ -141,7 +143,7 @@ implements PullAdapterConfiguration {
     }
     
     @Override
-    public long getPullInterval() {
+    public long getTimeInterval() {
         return DEFAULT_INTERVAL;
     }
     
@@ -176,5 +178,10 @@ implements PullAdapterConfiguration {
     public static MailAdapterConfiguration dalmatinaGoogleConfiguration() {
         return new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
             "imap.googlemail.com", MailProtocol.IMAP.getPort(true), true);
+    }
+
+    @Override
+    public Class<? extends Job> getScheduledClass() {
+        return PullAdapterJob.class;
     }
 }

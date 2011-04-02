@@ -7,8 +7,6 @@ import java.util.UUID;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
@@ -120,9 +118,10 @@ public class TokenImpl implements Token {
         if (suspended) {
             return;
         }
-
+        // TODO Add Activity completed here
         List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
+        
         for (Token token : splitedTokens) {
             navigator.addWorkToken(token);
         }
@@ -154,6 +153,9 @@ public class TokenImpl implements Token {
                 newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }
+
+            // this is needed, as the this-token would be left on the node that triggers the split.
+            instance.removeToken(this);
         }
         return tokensToNavigate;
 
@@ -237,6 +239,12 @@ public class TokenImpl implements Token {
         }
 
         return lazySuspendedProcessingTokens;
+    }
+
+    @Override
+    public Navigator getNavigator() {
+
+        return this.navigator;
     }
 
 }

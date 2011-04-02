@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.resource.worklist;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import de.hpi.oryxengine.resource.Resource;
@@ -40,4 +41,10 @@ public abstract class AbstractWorklist implements Worklist {
 
     @Override
     public abstract void addWorklistItem(WorklistItem worklistItem);
+
+
+    @Override
+    public Iterator<WorklistItem> iterator() {
+        return getWorklistItems().iterator();
+    }
 }

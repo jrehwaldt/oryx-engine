@@ -4,9 +4,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.hpi.oryxengine.allocation.AllocationStrategies;
-import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.resource.Resource;
 
 /**

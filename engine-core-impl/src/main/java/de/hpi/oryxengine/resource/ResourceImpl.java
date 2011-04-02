@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+
 import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
 import de.hpi.oryxengine.resource.worklist.Worklist;
 
@@ -13,26 +16,30 @@ import de.hpi.oryxengine.resource.worklist.Worklist;
  * @param <R>
  *            - an interface that extends from Resource
  */
+@XmlRootElement
+@XmlSeeAlso({
+    OrganizationUnitImpl.class, ParticipantImpl.class, PositionImpl.class, RoleImpl.class
+})
 public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
 
     protected UUID resourceId;
-
     protected ResourceType resourceType;
 
     protected String resourceName;
 
     protected Map<String, Object> propertyTable;
-
     protected Worklist worklist;
-
+    
     /**
-     * Default Constructor.
+     * Hidden constructor with provided id.
      *
      * @param id - the id of the resource
      * @param resourceName the resource name
      * @param resourceType - the type of the {@link Resource}
      */
-    protected ResourceImpl(UUID id, String resourceName, ResourceType resourceType) {
+    protected ResourceImpl(UUID id,
+                           String resourceName,
+                           ResourceType resourceType) {
 
         this.resourceId = id;
         this.resourceName = resourceName;
@@ -89,7 +96,8 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     }
 
     @Override
-    public R setProperty(String propertyKey, Object propertyValue) {
+    public R setProperty(String propertyKey,
+                         Object propertyValue) {
 
         getPropertyTable().put(propertyKey, propertyValue);
         return extractedThis();

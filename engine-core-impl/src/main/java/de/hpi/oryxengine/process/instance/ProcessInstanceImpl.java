@@ -67,4 +67,17 @@ public class ProcessInstanceImpl implements ProcessInstance {
         return newToken;
     }
 
+    @Override
+    public void removeToken(Token t) {
+
+        this.assignedTokens.remove(t);
+        
+    }
+
+    @Override
+    public boolean hasAssignedTokens() {
+
+        return !assignedTokens.isEmpty();
+    }
+
 }

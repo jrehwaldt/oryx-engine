@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.allocation.TaskAllocation;
+import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.deploy.Deployer;
 import de.hpi.oryxengine.deploy.DeployerImpl;

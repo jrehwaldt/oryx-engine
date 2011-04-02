@@ -3,18 +3,16 @@ package de.hpi.oryxengine.worklist.gui.api;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
@@ -29,7 +27,7 @@ import de.hpi.oryxengine.worklist.gui.WorklistServiceFacade;
  * @since 2011-03-24
  */
 @Path("/worklist")
-@Produces({ "application/xml", "application/json" })
+@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public final class WorklistWebService
 implements WorklistServiceFacade {
     
@@ -60,62 +58,78 @@ implements WorklistServiceFacade {
             return "Hallo Welt.";
         }
     }
-    @Path("/items/test/{resource}")
-    @GET
-//    @Override
-    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") Resource<?> resource) {
-        
-        
-        return null;
-    }
+
+//    @Path("/items/")
+//    @GET
+////    @Override
+//    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") ResourceImpl<?> resource) {
+//        return this.service.getWorklistItems(resource);
+//    }
+//    
+//    @Path("/items/position/")
+//    @GET
+////    @Override
+//    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") Resource<?> resource) {
+//        return this.service.getWorklistItems(resource);
+//    }
+//
+//    @Path("/items/organization-unit/")
+//    @GET
+////    @Override
+//    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") OrganizationUnitImpl resource) {
+//        return this.service.getWorklistItems(resource);
+//    }
     
     @Path("/items/{resource-type}-{resource-id}")
     @GET
     @Override
-    public @Nonnull List<WorklistItem> getWorklistItems(@PathParam("resource-type") ResourceType resourceType,
-                                                        @PathParam("resource-id") UUID resourceId) {
-        
-        
-        return null;
+    public List<WorklistItem> getWorklistItems(@PathParam("resource-type") ResourceType resourceType,
+                                               @PathParam("resource-id") UUID resourceId) {
+        Resource<?> resource = this.identity.findResource(resourceType, resourceId);
+        return this.service.getWorklistItems(resource);
     }
     
     @Path("/item/{worklist-item-id}/claim/{resource-type}-{resource-id}")
     @POST
     @Override
-    public void claimWorklistItemBy(@Nonnull UUID worklistItemId,
-                                    @Nonnull ResourceType resourceType,
-                                    @Nonnull UUID resourceId)
-    throws DalmatinaException {
-        
+    public void claimWorklistItemBy(@PathParam("worklist-item-id") UUID worklistItemId,
+                                    @PathParam("resource-type") ResourceType resourceType,
+                                    @PathParam("resource-id") UUID resourceId) {
+        Resource<?> resource = this.identity.findResource(resourceType, resourceId);
+        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemId);
+        this.service.claimWorklistItemBy(worklistItem, resource);
     }
     
     @Path("/item/{worklist-item-id}/begin/{resource-type}-{resource-id}")
     @POST
     @Override
-    public void beginWorklistItemBy(@Nonnull UUID worklistItemId,
-                                    @Nonnull ResourceType resourceType,
-                                    @Nonnull UUID resourceId)
-    throws DalmatinaException {
-        
+    public void beginWorklistItemBy(@PathParam("worklist-item-id") UUID worklistItemId,
+                                    @PathParam("resource-type") ResourceType resourceType,
+                                    @PathParam("resource-id") UUID resourceId) {
+        Resource<?> resource = this.identity.findResource(resourceType, resourceId);
+        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemId);
+        this.service.beginWorklistItemBy(worklistItem, resource);
     }
     
     @Path("/item/{worklist-item-id}/complete/{resource-type}-{resource-id}")
     @POST
     @Override
-    public void completeWorklistItemBy(@Nonnull UUID worklistItemId,
-                                       @Nonnull ResourceType resourceType,
-                                       @Nonnull UUID resourceId)
-    throws DalmatinaException {
-        
+    public void completeWorklistItemBy(@PathParam("worklist-item-id") UUID worklistItemId,
+                                       @PathParam("resource-type") ResourceType resourceType,
+                                       @PathParam("resource-id") UUID resourceId) {
+        Resource<?> resource = this.identity.findResource(resourceType, resourceId);
+        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemId);
+        this.service.completeWorklistItemBy(worklistItem, resource);
     }
     
     @Path("/item/{worklist-item-id}/abort/{resource-type}-{resource-id}")
     @POST
     @Override
-    public void abortWorklistItemBy(@Nonnull UUID worklistItemId,
-                                    @Nonnull ResourceType resourceType,
-                                    @Nonnull UUID resourceId)
-    throws DalmatinaException {
-        
+    public void abortWorklistItemBy(@PathParam("worklist-item-id") UUID worklistItemId,
+                                    @PathParam("resource-type") ResourceType resourceType,
+                                    @PathParam("resource-id") UUID resourceId) {
+        Resource<?> resource = this.identity.findResource(resourceType, resourceId);
+        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemId);
+        this.service.abortWorklistItemBy(worklistItem, resource);
     }
 }

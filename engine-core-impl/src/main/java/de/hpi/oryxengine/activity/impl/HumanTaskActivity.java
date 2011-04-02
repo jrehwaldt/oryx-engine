@@ -30,14 +30,14 @@ public class HumanTaskActivity extends AbstractActivity {
     }
 
     @Override
-    protected void executeIntern(@Nonnull Token instance) {
+    protected void executeIntern(@Nonnull Token token) {
 
 //        creationPattern.createTask()
         
         TaskDistribution taskDistribution = ServiceFactory.getTaskDistribution();
-        taskDistribution.distribute(task, instance);
+        taskDistribution.distribute(task, token);
         
-        instance.suspend();
+        token.suspend();
     }
     
     @Override

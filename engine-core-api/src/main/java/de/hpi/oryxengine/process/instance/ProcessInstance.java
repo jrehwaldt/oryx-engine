@@ -23,6 +23,14 @@ public interface ProcessInstance extends Identifiable {
     void addToken(Token t);
 
     /**
+     * Removes a token from the instance, for example, if it has finished execution.
+     * 
+     * @param t
+     *            the t
+     */
+    void removeToken(Token t);
+
+    /**
      * Gets the instance context that is shared among all tokens that belong to this instance.
      * 
      * @return the context
@@ -45,11 +53,22 @@ public interface ProcessInstance extends Identifiable {
 
     /**
      * Creates the token referencing the given navigator and places it on the supplied node.
-     *
-     * @param node the node
-     * @param nav the nav
+     * 
+     * @param node
+     *            the node
+     * @param nav
+     *            the nav
      * @return the token
      */
     Token createToken(Node node, Navigator nav);
+
+    /**
+     * Checks if there tokens assigned to this instance. This indicates, that this instance is still running. If this
+     * evaluates to false, this does not necessarily meant that this instance has finished, as it might not have been
+     * started yet.
+     * 
+     * @return true, if there are tokens assigned
+     */
+    boolean hasAssignedTokens();
 
 }
