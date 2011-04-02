@@ -14,18 +14,12 @@ import de.hpi.oryxengine.ServiceFactoryForTesting;
  */
 public class BuildingRoleTest {
 
-    /** The identity service. */
     private IdentityService identityService = null;
 
-    /** The identity builder. */
     private IdentityBuilder identityBuilder = null;
 
-    /** The admin role. */
     private Role adminRole = null;
 
-    /**
-     * Before method.
-     */
     @BeforeMethod
     public void beforeMethod() {
 
@@ -35,18 +29,12 @@ public class BuildingRoleTest {
         adminRole = identityBuilder.createRole("Administrators");
     }
 
-    /**
-     * Tear down.
-     */
     @AfterMethod
     public void tearDown() {
 
         ServiceFactoryForTesting.clearIdentityService();
     }
 
-    /**
-     * Test role creation.
-     */
     @Test
     public void testRoleCreation() {
 
@@ -60,11 +48,8 @@ public class BuildingRoleTest {
 
     }
 
-    /**
-     * Test for duplicate role.
-     */
     @Test
-    public void testForDuplicateRole() {
+    public void testForUniqueRole() {
 
         // Try to create a new Role with the same Name
         Role adminRole2 = identityBuilder.createRole("Administrators");
@@ -77,12 +62,6 @@ public class BuildingRoleTest {
 
     }
 
-    /**
-     * Test creation participant role relationship.
-     * 
-     * @throws Exception
-     *             the exception
-     */
     @Test
     public void testCreationParticipantRoleRelationship()
     throws Exception {
@@ -114,12 +93,6 @@ public class BuildingRoleTest {
         adminRole.getParticipants().add(participant);
     }
 
-    /**
-     * An OrganzationUnit should only have unique Positions.
-     * 
-     * @throws Exception
-     *             the exception
-     */
     @Test
     public void testUniqueParticipantRoleRelationship()
     throws Exception {
@@ -143,12 +116,6 @@ public class BuildingRoleTest {
         Assert.assertTrue(adminRole.getParticipants().size() == 2);
     }
 
-    /**
-     * Test change participant role relationship.
-     * 
-     * @throws Exception
-     *             the exception
-     */
     @Test
     public void testChangeParticipantRoleRelationship()
     throws Exception {
@@ -179,12 +146,6 @@ public class BuildingRoleTest {
         Assert.assertTrue(adminRole.getParticipants().contains(participant), failureMessage);
     }
 
-    /**
-     * Test delete role.
-     * 
-     * @throws Exception
-     *             the exception
-     */
     @Test
     public void testDeleteRole()
     throws Exception {

@@ -1,207 +1,215 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>de.hpi.oryxengine</groupId>
-    <artifactId>engine-root</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>Oryx-Engine</name>
-    <packaging>pom</packaging>
-    <description>Parent POM of the Oryx Engine</description>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.hpi.oryxengine</groupId>
+	<artifactId>engine-root</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Oryx-Engine</name>
+	<packaging>pom</packaging>
+	<description>Parent POM of the Oryx Engine</description>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <checkstyle-config>.checkstyle_for_oryxengine</checkstyle-config>
-        <slf4j-version>1.6.1</slf4j-version>
-        <logback-version>0.9.28</logback-version>
-        <jetty-version>7.3.0.v20110203</jetty-version>
-        <jersey-version>1.5</jersey-version>
-        <quartz-scheduler.version>1.8.4</quartz-scheduler.version>
-    </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<checkstyle-config>.checkstyle_for_oryxengine</checkstyle-config>
+		<slf4j-version>1.6.1</slf4j-version>
+		<logback-version>0.9.28</logback-version>
+		<jetty-version>7.3.0.v20110203</jetty-version>
+		<jersey-version>1.5</jersey-version>
+		<quartz-scheduler.version>1.8.4</quartz-scheduler.version>
+		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+	</properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <!--  Logging -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback-version}</version>
-            </dependency>
-            <!-- Jetty & JAX-RS-->
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-server</artifactId>
-                <version>${jetty-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-servlet</artifactId>
-                <version>${jetty-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-annotations</artifactId>
-                <version>${jetty-version}</version>
-            </dependency>
-            <dependency><!-- JSP Support -->
-                <groupId>org.eclipse.jetty.osgi</groupId>
-                <artifactId>jetty-osgi-boot-jsp</artifactId>
-                <version>${jetty-version}</version>
-            </dependency>
-            <dependency><!-- JAX-RS -->
-                <groupId>com.sun.jersey</groupId>
-                <artifactId>jersey-server</artifactId>
-                <scope>compile</scope>
-                <version>${jersey-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.jersey</groupId>
-                <artifactId>jersey-json</artifactId>
-                <scope>runtime</scope>
-                <version>${jersey-version}</version>
-            </dependency>
-            <!-- JSR305 (@Nonnull/@Nullable) -->
-            <dependency>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>jsr305</artifactId>
-                <version>1.3.9</version>
-            </dependency>
-            <!-- Testing -->
-            <dependency>
-                <groupId>org.testng</groupId>
-                <artifactId>testng</artifactId>
-                <version>5.14.6</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-all</artifactId>
-                <version>1.8.5</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jvnet.mock-javamail</groupId>
-                <artifactId>mock-javamail</artifactId>
-                <version>1.7</version>
-            </dependency>
-            <!-- others -->
-            <dependency>
-                <groupId>javax.mail</groupId>
-                <artifactId>mail</artifactId>
-                <version>1.4.1</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                 <version>2.0.1</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.activation</groupId>
-                <artifactId>activation</artifactId>
-                <version>1.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.quartz-scheduler</groupId>
-                <artifactId>quartz</artifactId>
-                <version>${quartz-scheduler.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+	<dependencyManagement>
+		<dependencies>
+			<!-- Logging -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback-version}</version>
+			</dependency>
+			<!-- Jetty & JAX-RS -->
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-server</artifactId>
+				<version>${jetty-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-servlet</artifactId>
+				<version>${jetty-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-annotations</artifactId>
+				<version>${jetty-version}</version>
+			</dependency>
+			<dependency><!-- JSP Support -->
+				<groupId>org.eclipse.jetty.osgi</groupId>
+				<artifactId>jetty-osgi-boot-jsp</artifactId>
+				<version>${jetty-version}</version>
+			</dependency>
+			<dependency><!-- JAX-RS -->
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-server</artifactId>
+				<scope>compile</scope>
+				<version>${jersey-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-json</artifactId>
+				<scope>runtime</scope>
+				<version>${jersey-version}</version>
+			</dependency>
+			<!-- JSR305 (@Nonnull/@Nullable) -->
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>1.3.9</version>
+			</dependency>
+			<!-- Testing -->
+			<dependency>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>5.14.6</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>1.8.5</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jvnet.mock-javamail</groupId>
+				<artifactId>mock-javamail</artifactId>
+				<version>1.7</version>
+			</dependency>
+			<!-- others -->
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>1.4.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.activation</groupId>
+				<artifactId>activation</artifactId>
+				<version>1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${quartz-scheduler.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
-    <modules>
-        <module>engine-core-api</module>
-        <module>engine-core-impl</module>
-        <module>engine-gui</module>
-        <module>engine-demo</module>
-    </modules>
+	<modules>
+		<module>engine-core-api</module>
+		<module>engine-core-impl</module>
+		<module>engine-gui</module>
+		<module>engine-demo</module>
+	</modules>
 
-    <distributionManagement>
-        <site>
-            <id>site</id>
-            <name>Oryx Engine Generated Site</name>
-            <url>site</url>
-        </site>
-    </distributionManagement>
+	<distributionManagement>
+		<site>
+			<id>site</id>
+			<name>Oryx Engine Generated Site</name>
+			<url>site</url>
+		</site>
+	</distributionManagement>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <configLocation>${checkstyle-config}</configLocation>
-                    <failsOnError>true</failsOnError>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>2.3.2-SNAPSHOT</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <threshold>Low</threshold>
-                    <includeTests>true</includeTests>
-                </configuration>
-            </plugin>
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-pmd-plugin</artifactId> 
-                <version>2.5</version> <configuration> <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding> 
-                <minimumTokens>100</minimumTokens> <targetJdk>1.6</targetJdk> <format>xml</format> 
-                <failOnViolation>false</failOnViolation> </configuration> </plugin> -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<configLocation>${checkstyle-config}</configLocation>
+					<failsOnError>true</failsOnError>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.3.2-SNAPSHOT</version>
+				<configuration>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
+					<includeTests>true</includeTests>
+				</configuration>
+			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-pmd-plugin</artifactId> 
+				<version>2.5</version> <configuration> <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding> 
+				<minimumTokens>100</minimumTokens> <targetJdk>1.6</targetJdk> <format>xml</format> 
+				<failOnViolation>false</failOnViolation> </configuration> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.2</version>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>2.3.2-SNAPSHOT</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <threshold>Low</threshold>
-                    <includeTests>true</includeTests>
-                </configuration>
-            </plugin>
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-pmd-plugin</artifactId> 
-                <version>2.5</version> <configuration> <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding> 
-                <minimumTokens>100</minimumTokens> <targetJdk>1.6</targetJdk> <format>xml</format> 
-                <failOnViolation>false</failOnViolation> </configuration> </plugin> -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <configLocation>${checkstyle-config}</configLocation>
-                    <failsOnError>true</failsOnError>
-                </configuration>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-              <version>2.7</version>
-            </plugin>
-        </plugins>
-    </reporting>
+	<dependencies>
+	</dependencies>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.3.2-SNAPSHOT</version>
+				<configuration>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
+					<includeTests>true</includeTests>
+				</configuration>
+			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-pmd-plugin</artifactId> 
+				<version>2.5</version> <configuration> <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding> 
+				<minimumTokens>100</minimumTokens> <targetJdk>1.6</targetJdk> <format>xml</format> 
+				<failOnViolation>false</failOnViolation> </configuration> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<configLocation>${checkstyle-config}</configLocation>
+					<failsOnError>true</failsOnError>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
 </project>
