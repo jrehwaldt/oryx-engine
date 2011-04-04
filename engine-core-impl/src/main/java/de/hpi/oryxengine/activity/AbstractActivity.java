@@ -15,8 +15,7 @@ public abstract class AbstractActivity
 extends AbstractPluggable<AbstractActivityLifecyclePlugin>
 implements Activity {
     
-    // TODO Refactor: move activity state into ProcessInstance
-    private ActivityState state = ActivityState.INIT;
+    protected ActivityState state = ActivityState.INIT;
     
     /**
      * Instantiates a new activity. State is set to INIT, but observers will not
@@ -38,7 +37,7 @@ implements Activity {
      * @param token the process token
      * @param state the new state
      */
-    private void changeState(@Nonnull Token token,
+    protected void changeState(@Nonnull Token token,
                              @Nonnull ActivityState state) {
         final ActivityState prevState = this.state;
         this.state = state;
@@ -47,7 +46,7 @@ implements Activity {
     }
     
     @Override
-    public final void execute(@Nonnull Token token) {
+    public void execute(@Nonnull Token token) {
         changeState(token, ActivityState.ACTIVE);
         executeIntern(token);
         changeState(token, ActivityState.COMPLETED);

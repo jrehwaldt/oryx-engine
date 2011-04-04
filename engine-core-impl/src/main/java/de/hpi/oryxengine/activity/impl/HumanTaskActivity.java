@@ -3,7 +3,7 @@ package de.hpi.oryxengine.activity.impl;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.AbstractActivity;
+import de.hpi.oryxengine.activity.AbstractDeferredActivity;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.process.token.Token;
@@ -14,7 +14,7 @@ import de.hpi.oryxengine.process.token.Token;
  * A user task is a typical workflow Task where a human performer performs the Task with the assistance of a software
  * application.
  */
-public class HumanTaskActivity extends AbstractActivity {
+public class HumanTaskActivity extends AbstractDeferredActivity {
 
     private Task task;
 
@@ -38,11 +38,5 @@ public class HumanTaskActivity extends AbstractActivity {
         taskDistribution.distribute(task, token);
         
         token.suspend();
-    }
-    
-    @Override
-    public void signal(Token token) {
-
-        // BlaBla
     }
 }
