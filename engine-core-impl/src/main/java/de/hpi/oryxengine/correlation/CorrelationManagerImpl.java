@@ -42,6 +42,9 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     private Navigator navigator;
     private TimingManagerImpl timer;
     private ErrorAdapter errorAdapter;
+    // there may be multiple references to an Adapter configuration (i.e. a mail account)
+    // and if these all use the same Configuration Object we can avoid duplicated adapters
+    // TODO give a process a list of of AdapterConfiguration Objects in order for this to work
     private Map<AdapterConfiguration, InboundAdapter> inboundAdapter;
 
     private List<StartEvent> startEvents;
