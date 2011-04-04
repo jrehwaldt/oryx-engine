@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.repository;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
@@ -47,7 +47,7 @@ public interface ProcessRepository {
      * 
      * @return the definitions
      */
-    Map<UUID, ProcessDefinition> getDefinitions();
+    List<ProcessDefinition> getDefinitions();
 
     /**
      * Returns, whether a certain definition is available.
