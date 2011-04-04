@@ -51,8 +51,8 @@ public class AssigningToRoleUserStoryTest {
         jannik = ParticipantFactory.createJannik();
         IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
         hamburgGuysRole = identityBuilder.createRole("hamburgGuys");
-        identityBuilder.participantBelongsToRole(jannik, hamburgGuysRole).participantBelongsToRole(gerardo,
-            hamburgGuysRole);
+        identityBuilder.participantBelongsToRole(jannik.getID(), hamburgGuysRole.getID()).participantBelongsToRole(gerardo.getID(),
+            hamburgGuysRole.getID());
 
         Pattern pushPattern = new RolePushPattern();
         Pattern pullPattern = new SimplePullPattern();

@@ -69,8 +69,8 @@ public class BuildingRoleTest {
         Participant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
         Participant participant2 = identityBuilder.createParticipant("Jannik Streek");
 
-        identityBuilder.participantBelongsToRole(participant, adminRole).participantBelongsToRole(participant2,
-            adminRole);
+        identityBuilder.participantBelongsToRole(participant.getID(), adminRole.getID()).participantBelongsToRole(
+            participant2.getID(), adminRole.getID());
 
         Assert.assertTrue(adminRole.getParticipants().size() == 2);
         String failuremessage = "The Participant 'Gerardo Navarro Suarez' should belong to the role 'Administrators'.";
@@ -100,17 +100,17 @@ public class BuildingRoleTest {
         Participant participant = identityBuilder.createParticipant("gerardo.navarro-suarez");
         Participant participant2 = identityBuilder.createParticipant("jannik.streek");
 
-        identityBuilder.participantBelongsToRole(participant, adminRole)
+        identityBuilder.participantBelongsToRole(participant.getID(), adminRole.getID())
         // Try to offer the same Position again
-        .participantBelongsToRole(participant, adminRole);
+        .participantBelongsToRole(participant.getID(), adminRole.getID());
 
         // As before, there should be only two positions offered by that Role
         String failureMessage = "Identity Service should have 1 Participant Element, but it is "
             + adminRole.getParticipants().size() + " .";
         Assert.assertTrue(adminRole.getParticipants().size() == 1, failureMessage);
 
-        identityBuilder.participantBelongsToRole(participant2, adminRole).participantBelongsToRole(participant,
-            adminRole);
+        identityBuilder.participantBelongsToRole(participant2.getID(), adminRole.getID()).participantBelongsToRole(participant.getID(),
+            adminRole.getID());
 
         // Now there should be one more
         Assert.assertTrue(adminRole.getParticipants().size() == 2);
@@ -124,9 +124,9 @@ public class BuildingRoleTest {
 
         Role secretaryRole = identityBuilder.createRole("Secretaries");
 
-        identityBuilder.participantBelongsToRole(participant, adminRole)
+        identityBuilder.participantBelongsToRole(participant.getID(), adminRole.getID())
         // Now change the Position to another Role
-        .participantBelongsToRole(participant, secretaryRole);
+        .participantBelongsToRole(participant.getID(), secretaryRole.getID());
 
         // There still should be one Position in the system
         Assert.assertTrue(identityService.getParticipants().size() == 1);
@@ -153,10 +153,10 @@ public class BuildingRoleTest {
         Participant participant1 = identityBuilder.createParticipant("Gerardo Navarro Suarez");
         Participant participant2 = identityBuilder.createParticipant("Jannik Streek");
 
-        identityBuilder.participantBelongsToRole(participant1, adminRole).participantBelongsToRole(participant2,
-            adminRole);
+        identityBuilder.participantBelongsToRole(participant1.getID(), adminRole.getID()).participantBelongsToRole(participant2.getID(),
+            adminRole.getID());
 
-        identityBuilder.deleteRole(adminRole);
+        identityBuilder.deleteRole(adminRole.getID());
 
         String failureMessage = "The Role 'Administrators' should be deleted, but it is still there.";
         Assert.assertTrue(identityService.getRoles().size() == 0, failureMessage);
@@ -179,9 +179,9 @@ public class BuildingRoleTest {
     throws Exception {
 
         Participant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
-        identityBuilder.participantBelongsToRole(participant, adminRole);
+        identityBuilder.participantBelongsToRole(participant.getID(), adminRole.getID());
 
-        identityBuilder.participantDoesNotBelongToRole(participant, adminRole);
+        identityBuilder.participantDoesNotBelongToRole(participant.getID(), adminRole.getID());
 
         String failureMessage = "The Role 'Administrators' does not contain any participants.";
         Assert.assertTrue(adminRole.getParticipants().size() == 0, failureMessage);

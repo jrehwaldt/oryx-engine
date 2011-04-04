@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.resource;
 
+import java.util.UUID;
+
 import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
@@ -30,7 +32,7 @@ public interface IdentityBuilder {
      * @throws Exception
      *             the exception
      */
-    IdentityBuilder deleteParticipant(Participant participant)
+    IdentityBuilder deleteParticipant(UUID participant)
     throws Exception;
 
     /**
@@ -47,7 +49,7 @@ public interface IdentityBuilder {
      *            - {@link Position} that is occupied by the {@link Participant}
      * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    IdentityBuilder participantOccupiesPosition(Participant participant, Position position);
+    IdentityBuilder participantOccupiesPosition(UUID participant, UUID position);
 
     /**
      * Removes the relationship between a certain Participant and a certain Position.
@@ -60,7 +62,7 @@ public interface IdentityBuilder {
      *            - {@link Position} that is occupied by the {@link Participant}
      * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    IdentityBuilder participantDoesNotOccupyPosition(Participant participant, Position position);
+    IdentityBuilder participantDoesNotOccupyPosition(UUID participant, UUID position);
 
     /**
      * Builds a relationship between a Participant and a Role which represents that a Participants belongs to an Role.
@@ -78,7 +80,7 @@ public interface IdentityBuilder {
      *            - {@link Role} that contains the {@link Participant}
      * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    IdentityBuilder participantBelongsToRole(Participant participant, Role role);
+    IdentityBuilder participantBelongsToRole(UUID participant, UUID role);
 
     /**
      * Removes the relationship between a certain Participant and a certain Role.
@@ -91,7 +93,7 @@ public interface IdentityBuilder {
      *            - {@link Role} that contains the {@link Participant}
      * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    IdentityBuilder participantDoesNotBelongToRole(Participant participant, Role role);
+    IdentityBuilder participantDoesNotBelongToRole(UUID participant, UUID role);
 
     /**
      * Participant has capability.
@@ -102,7 +104,7 @@ public interface IdentityBuilder {
      *            the capability
      * @return the identity builder
      */
-    IdentityBuilder participantHasCapability(Participant participant, Capability capability);
+    IdentityBuilder participantHasCapability(UUID participant, Capability capability);
 
     /**
      * Creates a new OrganizationUnit, no matter if there already exists an {@link OrganizationUnit} with the same name.
@@ -122,7 +124,7 @@ public interface IdentityBuilder {
      * @throws Exception
      *             the exception
      */
-    IdentityBuilder deleteOrganizationUnit(OrganizationUnit organizationUnit)
+    IdentityBuilder deleteOrganizationUnit(UUID organizationUnit)
     throws Exception;
 
     /**
@@ -143,7 +145,7 @@ public interface IdentityBuilder {
      *            - that belongs to the organizationUnit
      * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    IdentityBuilder organizationUnitOffersPosition(OrganizationUnit organizationUnit, Position position);
+    IdentityBuilder organizationUnitOffersPosition(UUID organizationUnit, UUID position);
 
     /**
      * Removes the relationship between the certain OrganizationUnit and the certain Position.
@@ -156,7 +158,7 @@ public interface IdentityBuilder {
      *            - part of the relationship
      * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    IdentityBuilder organizationUnitDoesNotOfferPosition(OrganizationUnit organizationUnit, Position position);
+    IdentityBuilder organizationUnitDoesNotOfferPosition(UUID organizationUnit, UUID position);
 
     /**
      * Defines the relationship between two OrganizationUnits.
@@ -174,7 +176,7 @@ public interface IdentityBuilder {
      * @throws DalmatinaException
      *             - in case the sub and super OrganizationUnit are the same
      */
-    IdentityBuilder subOrganizationUnitOf(OrganizationUnit subOrganizationUnit, OrganizationUnit superOrganizationUnit)
+    IdentityBuilder subOrganizationUnitOf(UUID subOrganizationUnit, UUID superOrganizationUnit)
     throws DalmatinaException;
 
     /**
@@ -195,7 +197,7 @@ public interface IdentityBuilder {
      * @throws Exception
      *             the exception
      */
-    IdentityBuilder deletePosition(Position position)
+    IdentityBuilder deletePosition(UUID position)
     throws Exception;
 
     /**
@@ -214,7 +216,7 @@ public interface IdentityBuilder {
      * @throws DalmatinaException
      *             - in case the position and its superior position are the same
      */
-    IdentityBuilder positionReportsToSuperior(Position position, Position superiorPosition)
+    IdentityBuilder positionReportsToSuperior(UUID position, UUID superiorPosition)
     throws DalmatinaException;
 
     /**
@@ -235,7 +237,7 @@ public interface IdentityBuilder {
      * @throws Exception
      *             the exception
      */
-    IdentityBuilder deleteRole(Role role)
+    IdentityBuilder deleteRole(UUID role)
     throws Exception;
 
     /**
@@ -247,7 +249,7 @@ public interface IdentityBuilder {
      *            the super role
      * @return the identity builder
      */
-    IdentityBuilder subRoleOf(Role subRole, Role superRole);
+    IdentityBuilder subRoleOf(UUID subRole, UUID superRole);
 
     // Muss noch geschaut werden ob das wirklich schon gebraucht wird
     /**

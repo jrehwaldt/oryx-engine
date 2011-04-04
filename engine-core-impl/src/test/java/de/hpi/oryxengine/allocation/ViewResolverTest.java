@@ -53,14 +53,14 @@ public class ViewResolverTest {
         gerardoPosition = identityBuilder.createPosition("gerardoPosition");
         bpt = identityBuilder.createOrganizationUnit("bpt");
         
-        identityBuilder.participantBelongsToRole(jannik, hamburgGuysRole)
-                       .participantBelongsToRole(gerardo, hamburgGuysRole);
+        identityBuilder.participantBelongsToRole(jannik.getID(), hamburgGuysRole.getID())
+                       .participantBelongsToRole(gerardo.getID(), hamburgGuysRole.getID());
         
-        identityBuilder.participantOccupiesPosition(jannik, jannikPosition)
-                       .participantOccupiesPosition(gerardo, gerardoPosition);
+        identityBuilder.participantOccupiesPosition(jannik.getID(), jannikPosition.getID())
+                       .participantOccupiesPosition(gerardo.getID(), gerardoPosition.getID());
         
-        identityBuilder.organizationUnitOffersPosition(bpt, jannikPosition)
-                       .organizationUnitOffersPosition(bpt, gerardoPosition);
+        identityBuilder.organizationUnitOffersPosition(bpt.getID(), jannikPosition.getID())
+                       .organizationUnitOffersPosition(bpt.getID(), gerardoPosition.getID());
     }
     
     @AfterMethod

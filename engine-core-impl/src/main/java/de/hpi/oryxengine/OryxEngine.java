@@ -19,14 +19,19 @@ public class OryxEngine {
     
     public void start() {
         
-        ApplicationContext appCon = new ClassPathXmlApplicationContext();
+        ApplicationContext appCon = new ClassPathXmlApplicationContext("context.xml");
+        
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("oryxengine.xml");
+        
+        ctx.getBean("");
+        
 //        appCon.
         
-        Navigator navigator = new NavigatorImpl();
-        navigator.start();
-        
-        CorrelationManagerImpl correlationManager = new CorrelationManagerImpl(navigator);
-        correlationManager.start();
+//        Navigator navigator = new NavigatorImpl();
+//        navigator.start();
+//        
+//        CorrelationManagerImpl correlationManager = new CorrelationManagerImpl(navigator);
+//        correlationManager.start();
     }
     
     public void shutdown() {
