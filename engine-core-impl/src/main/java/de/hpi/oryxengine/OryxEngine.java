@@ -19,8 +19,6 @@ public class OryxEngine {
     
     public void start() {
         
-        ApplicationContext appCon = new ClassPathXmlApplicationContext("context.xml");
-        
         ApplicationContext ctx = new ClassPathXmlApplicationContext("oryxengine.xml");
         
         ctx.getBean("");
