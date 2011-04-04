@@ -68,9 +68,5 @@ implements Activity {
     public void registerPlugin(@Nonnull AbstractActivityLifecyclePlugin plugin) {
         addObserver(plugin);
     }
-    
-    @Override
-    public void signal(@Nonnull Token token) {
-        // Doing nothing Hihi;
-    }
+
 }

@@ -7,7 +7,9 @@ import de.hpi.oryxengine.process.token.Token;
 /**
  * The Class AbstractDeferredActivity.
  */
-public abstract class AbstractDeferredActivity extends AbstractActivity {
+public abstract class AbstractDeferredActivity
+extends AbstractActivity
+implements DeferredActivity {
     
     /**
      * {@inheritDoc}
