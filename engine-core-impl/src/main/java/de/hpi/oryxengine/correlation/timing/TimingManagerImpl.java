@@ -1,5 +1,8 @@
 package de.hpi.oryxengine.correlation.timing;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import javax.annotation.Nonnull;
 
 import org.quartz.JobDataMap;
@@ -12,10 +15,12 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
-import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.exception.AdapterSchedulingException;
+import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class TimingManagerImpl.
@@ -23,11 +28,16 @@ import de.hpi.oryxengine.exception.AdapterSchedulingException;
 public class TimingManagerImpl
 implements TimingManager {
     
+    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
+    /** The scheduler. */
     private final Scheduler scheduler;
+    
+    /** The error adapter. */
     private final ErrorAdapter errorAdapter;
     
+    public static final String TOKEN_KEY = "token";
     /**
      * Default constructor.
      * 
@@ -43,18 +53,21 @@ implements TimingManager {
         this.scheduler.start();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
     throws AdapterSchedulingException {
         
-        final PullAdapterConfiguration configuration = adapter.getConfiguration();
-        final long interval = configuration.getPullInterval();
+        final TimedAdapterConfiguration configuration = adapter.getConfiguration();
+        final long interval = configuration.getTimeInterval();
         
         final String jobName = jobName(configuration);
         final String jobGroupName = jobGroupName(configuration);
         final String triggerName = triggerName(configuration);
         
-        JobDetail jobDetail = new JobDetail(jobName, jobGroupName, PullAdapterJob.class);
+        JobDetail jobDetail = new JobDetail(jobName, jobGroupName, configuration.getScheduledClass());
         JobDataMap data = jobDetail.getJobDataMap();
         
         data.put(PullAdapterJob.ADAPTER_KEY, adapter);
@@ -62,12 +75,8 @@ implements TimingManager {
         
         Trigger trigger = new SimpleTrigger(triggerName, SimpleTrigger.REPEAT_INDEFINITELY, interval);
         
-        try {
-            this.scheduler.scheduleJob(jobDetail, trigger);
-        } catch (SchedulerException se) {
-            logger.error("Unable to register plugin due to scheduler failure.", se);
-            throw new AdapterSchedulingException(se);
-        }
+        registerJob(jobDetail,
+                    trigger);
     }
     
     /**
@@ -76,7 +85,7 @@ implements TimingManager {
      * @param configuration the adapter configuration
      * @return a unique trigger name
      */
-    private static @Nonnull String triggerName(@Nonnull PullAdapterConfiguration configuration) {
+    private static @Nonnull String triggerName(@Nonnull AdapterConfiguration configuration) {
         return String.format("trigger-%s", configuration.getUniqueName());
     }
     /**
@@ -85,7 +94,7 @@ implements TimingManager {
      * @param configuration the adapter configuration
      * @return a unique job name
      */
-    private static @Nonnull String jobName(@Nonnull PullAdapterConfiguration configuration) {
+    private static @Nonnull String jobName(@Nonnull AdapterConfiguration configuration) {
         return String.format("job-%s", configuration.getUniqueName());
     }
     /**
@@ -94,7 +103,51 @@ implements TimingManager {
      * @param configuration the adapter configuration
      * @return a unique group name
      */
-    private static @Nonnull String jobGroupName(@Nonnull PullAdapterConfiguration configuration) {
+    private static @Nonnull String jobGroupName(@Nonnull AdapterConfiguration configuration) {
         return String.format("job-group-%s", configuration.getUniqueName());
     }
+
+    /**
+     * Registers a job for QUARTZ Scheduler.
+     *
+     * @param detail the job detail which includes the data for the job.
+     * @param trigger the trigger which defines when (repeated or just for one time) and how to execute the job.
+     * @throws AdapterSchedulingException the adapter scheduling exception
+     */
+    private void registerJob(JobDetail detail, Trigger trigger)
+    throws AdapterSchedulingException {
+ 
+        try {
+            this.scheduler.scheduleJob(detail, trigger);
+        } catch (SchedulerException se) {
+            logger.error("Unable to register plugin due to scheduler failure.", se);
+            throw new AdapterSchedulingException(se);
+        }
+        
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void registerNonRecurringJob(TimedAdapterConfiguration configuration, Token token)
+    throws AdapterSchedulingException {
+        
+        JobDetail jobDetail = new JobDetail(
+            jobName(configuration),
+            jobGroupName(configuration),
+            configuration.getScheduledClass());
+        JobDataMap data = jobDetail.getJobDataMap();
+        data.put(TimingManagerImpl.TOKEN_KEY, token);
+        
+        Calendar date = new GregorianCalendar();
+        date.setTimeInMillis(System.currentTimeMillis() + configuration.getTimeInterval());
+
+        Trigger trigger = new SimpleTrigger(triggerName(configuration), date.getTime());
+        
+        registerJob(jobDetail,
+           trigger);
+        
+    }
+
 }

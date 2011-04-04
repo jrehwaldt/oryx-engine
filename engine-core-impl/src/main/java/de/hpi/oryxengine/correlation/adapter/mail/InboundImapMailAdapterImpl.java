@@ -12,7 +12,6 @@ import javax.mail.Store;
 
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.AbstractCorrelationAdapter;
-import de.hpi.oryxengine.correlation.adapter.CorrelationAdapter;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.exception.DalmatinaException;
 

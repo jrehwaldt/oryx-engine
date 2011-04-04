@@ -17,4 +17,11 @@ extends AbstractAdapterConfiguration {
     public ErrorAdapterConfiguration() {
         super(AdapterTypes.Error);
     }
+
+    @Override
+    public String getUniqueName() {
+        return "Error";
+    }
+
+
 }

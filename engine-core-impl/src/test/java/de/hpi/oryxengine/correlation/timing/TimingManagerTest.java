@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.correlation.timing;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,8 +13,13 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.TimerConfigurationImpl;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
+import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
  * Test class for {@link TimingManagerImpl}.
@@ -22,6 +28,7 @@ public class TimingManagerTest {
     
     private static final int PULL_TIMEOUT = 5;
     private static final short VERIFY_FACTOR = 4;
+    private static final long TIMER = 100;
     
     private TimingManager timer = null;
     
@@ -33,15 +40,48 @@ public class TimingManagerTest {
     @Test
     public void testRegisteringAPullAdapter() throws DalmatinaException {
         InboundPullAdapter adapter = mock(InboundPullAdapter.class);
-        PullAdapterConfiguration configuration = mock(PullAdapterConfiguration.class);
-        
-        when(configuration.getPullInterval()).thenReturn((long) PULL_TIMEOUT);
-        when(configuration.getUniqueName()).thenReturn("a-unique-name");
-        
+        // Unfortunately mocking doesn't seem to work with classes as return value,
+        // therefore the PullAdapterConfiguration is instantiated manually
+        PullAdapterConfiguration configuration = new MailAdapterConfiguration(null, null, null,
+            null, 0, false);
         when(adapter.getConfiguration()).thenReturn(configuration);
         this.timer.registerPullAdapter(adapter);
         
         verify(adapter, timeout(PULL_TIMEOUT * VERIFY_FACTOR).atLeastOnce()).pull();
+    }
+    
+    /**
+     * Test registering a non recurring event, in this case a simple timer.
+     * The test waits some time, until the timer should be done and then an assertion is used to test
+     * if resume was called on the token.
+     *
+     * @throws DalmatinaException the dalmatina exception
+     * @throws InterruptedException the interrupted exception for thread sleeping
+     */
+    @Test
+    public void testRegisteringANonRecurringEvent() throws DalmatinaException, InterruptedException {
+        Token token = mock(TokenImpl.class);
+        TimedAdapterConfiguration configuration = new TimerConfigurationImpl(null, TIMER);
+        this.timer.registerNonRecurringJob(configuration, token);
+        Thread.sleep(TIMER + TIMER);
+        verify(token).resume();
+    }
+    
+    /**
+     * Test registering a non recurring event, in this case a simple timer. Because waiting time is not long enough,
+     * the token should not be resumed.
+     *
+     * @throws DalmatinaException the dalmatina exception
+     * @throws InterruptedException the interrupted exception for thread sleeping
+     */
+    @Test
+    public void testFailingRegisteringANonRecurringEvent() throws DalmatinaException, InterruptedException {
+        Token token = mock(TokenImpl.class);
+        TimedAdapterConfiguration configuration = new TimerConfigurationImpl(null, TIMER);
+        this.timer.registerNonRecurringJob(configuration, token);
+        verify(token, never()).resume();
+        // Wait until job is deleted, otherwise conflicts can occur
+        Thread.sleep(TIMER + TIMER);
     }
 
     /**

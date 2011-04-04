@@ -22,19 +22,19 @@ public class EmptyWorklist extends AbstractWorklist {
     @Override
     public void itemIsCompleted(WorklistItem worklistItem) {
 
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);        
+        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
     }
 
     @Override
     public void itemIsStarted(WorklistItem worklistItem) {
 
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);        
+        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
     }
 
     @Override
     public void addWorklistItem(WorklistItem worklistItem) {
 
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);        
+        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
     }
 
     @Override

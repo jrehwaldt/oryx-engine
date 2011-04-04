@@ -37,7 +37,9 @@ public class NodeImpl implements Node {
      * @param outgoingBehaviour
      *            the outgoing behaviour
      */
-    public NodeImpl(Activity activity, IncomingBehaviour incomingBehaviour, OutgoingBehaviour outgoingBehaviour) {
+    public NodeImpl(Activity activity,
+                    IncomingBehaviour incomingBehaviour,
+                    OutgoingBehaviour outgoingBehaviour) {
 
         this.activity = activity;
         this.incomingBehaviour = incomingBehaviour;
@@ -151,4 +153,5 @@ public class NodeImpl implements Node {
         createTransitionWithCondition(node, c);
 
     }
+
 }

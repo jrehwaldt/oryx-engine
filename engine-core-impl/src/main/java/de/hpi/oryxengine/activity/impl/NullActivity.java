@@ -5,15 +5,15 @@ import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class StartActivity.
- * The now empty behaviour of a startnode.
+ * The now empty behaviour of a for instance startnode.
  */
-public class StartActivity
+public class NullActivity
 extends AbstractActivity {
 
     /**
      * Default constructor. Creates a new start activity.
      */
-    public StartActivity() {
+    public NullActivity() {
         super();
     }
 

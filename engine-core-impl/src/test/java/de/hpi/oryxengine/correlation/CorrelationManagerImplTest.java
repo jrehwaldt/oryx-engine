@@ -7,7 +7,6 @@ import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 
@@ -39,6 +38,11 @@ public class CorrelationManagerImplTest {
     public void testNoUnusedAdaptersRegisteredByStartup() {
         this.manager.start();
         assertEquals(this.manager.getInboundAdapters().size(), INITIAL_ADAPTERS_COUNT);
+    }
+    
+    @Test
+    public void testRegistrationOfIntermediateEvent(){
+        
     }
    
     /**

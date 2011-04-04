@@ -2,7 +2,6 @@ package de.hpi.oryxengine.correlation.adapter;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.correlation.EventManager;
 import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
