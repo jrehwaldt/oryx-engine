@@ -39,6 +39,7 @@ public class AssigningToRoleUserStoryTest {
     Role hamburgGuysRole;
     Participant jannik;
     Node endNode;
+    Participant gerardo;
 
     @BeforeMethod
     public void setUp()
@@ -46,7 +47,7 @@ public class AssigningToRoleUserStoryTest {
 
         // The organization structure is already prepared in the factory
         // There is role containing Gerardo and Jannik
-        Participant gerardo = ParticipantFactory.createGerardo();
+        gerardo = ParticipantFactory.createGerardo();
         jannik = ParticipantFactory.createJannik();
         IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
         hamburgGuysRole = identityBuilder.createRole("hamburgGuys");
@@ -89,6 +90,9 @@ public class AssigningToRoleUserStoryTest {
 
         List<WorklistItem> worklistItemsForJannik = ServiceFactory.getWorklistService().getWorklistItems(jannik);
         Assert.assertTrue(worklistItemsForJannik.size() == 1);
+        
+        List<WorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService().getWorklistItems(gerardo);
+        Assert.assertTrue(worklistItemsForGerardo.size() == 1);
         
         WorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         Assert.assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.OFFERED);

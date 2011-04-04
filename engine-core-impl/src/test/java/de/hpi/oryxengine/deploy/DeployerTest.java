@@ -48,6 +48,7 @@ public class DeployerTest {
     public void testDeployment()
     throws Exception {
 
+        // Best Regards Tom Baeyens
         deployer.deploy(def, mock(Navigator.class));
         assertEquals(repo.getDefinition(defID), def,
             "The deployed process definition should be avaialable in the repository.");

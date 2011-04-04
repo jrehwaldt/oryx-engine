@@ -85,6 +85,12 @@ public class EndActivityTest {
 
         assertFalse(instance.hasAssignedTokens(),
             "no tokens should be assigned to this instance anymore, as it has finished execution.");
+        
+        // TODO
+        /*
+         * Problem:
+         * Wenn ein Zweig ohne End-Event endet, dann wird dieser ganze Aufräumkram nicht gemacht -> die Instanz endet nicht, Instanz geht verloren
+         */
     }
 
     /**
