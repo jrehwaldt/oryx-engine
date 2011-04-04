@@ -1,7 +1,9 @@
 package de.hpi.oryxengine;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,13 +31,13 @@ import de.hpi.oryxengine.resource.RoleImpl;
  */
 public class IdentityServiceImpl implements IdentityService {
 
-    private Set<OrganizationUnitImpl> organizationUnits;
+    private Map<UUID, OrganizationUnitImpl> organizationUnits;
     
-    private Set<PositionImpl> positions;
+    private Map<UUID, PositionImpl> positions;
     
-    private Set<ParticipantImpl> participants;
+    private Map<UUID, ParticipantImpl> participants;
     
-    private Set<RoleImpl> roles;
+    private Map<UUID, RoleImpl> roles;
     
     @Override
     public IdentityBuilder getIdentityBuilder() {
@@ -46,14 +48,14 @@ public class IdentityServiceImpl implements IdentityService {
     @Override
     public Set<OrganizationUnit> getOrganizationUnits() {
 
-        Set<OrganizationUnit> setToReturn = new HashSet<OrganizationUnit>(getOrganizationUnitImpls());
+        Set<OrganizationUnit> setToReturn = new HashSet<OrganizationUnit>(getOrganizationUnitImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Set<OrganizationUnitImpl> getOrganizationUnitImpls() {
+    public Map<UUID, OrganizationUnitImpl> getOrganizationUnitImpls() {
 
         if (organizationUnits == null) {
-            organizationUnits = new HashSet<OrganizationUnitImpl>();
+            organizationUnits = new HashMap<UUID, OrganizationUnitImpl>();
         }
         return organizationUnits;
     }
@@ -61,14 +63,14 @@ public class IdentityServiceImpl implements IdentityService {
     @Override
     public Set<Position> getPositions() {
 
-        Set<Position> setToReturn = new HashSet<Position>(getPositionImpls());
+        Set<Position> setToReturn = new HashSet<Position>(getPositionImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Set<PositionImpl> getPositionImpls() {
+    public Map<UUID, PositionImpl> getPositionImpls() {
 
         if (positions == null) {
-            positions = new HashSet<PositionImpl>();
+            positions = new HashMap<UUID, PositionImpl>();
         }
         return positions;
     }
@@ -76,14 +78,14 @@ public class IdentityServiceImpl implements IdentityService {
     @Override
     public Set<Participant> getParticipants() {
 
-        Set<Participant> setToReturn = new HashSet<Participant>(getParticipantImpls());
+        Set<Participant> setToReturn = new HashSet<Participant>(getParticipantImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Set<ParticipantImpl> getParticipantImpls() {
+    public Map<UUID, ParticipantImpl> getParticipantImpls() {
 
         if (participants == null) {
-            participants = new HashSet<ParticipantImpl>();
+            participants = new HashMap<UUID, ParticipantImpl>();
         }
         return participants;
     }
@@ -91,14 +93,14 @@ public class IdentityServiceImpl implements IdentityService {
     @Override
     public Set<Role> getRoles() {
 
-        Set<Role> setToReturn = new HashSet<Role>(getRoleImpls());
+        Set<Role> setToReturn = new HashSet<Role>(getRoleImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Set<RoleImpl> getRoleImpls() {
+    public Map<UUID, RoleImpl> getRoleImpls() {
 
         if (roles == null) {
-            roles = new HashSet<RoleImpl>();
+            roles = new HashMap<UUID, RoleImpl>();
         }
         return roles;
     }
@@ -106,27 +108,37 @@ public class IdentityServiceImpl implements IdentityService {
     @Override
     public @Nullable Resource<?> findResource(@Nonnull ResourceType resourceType,
                                               @Nonnull UUID id) {
-        return find(getOrganizationUnitImpls(), id);
+
+        return null;
+//        return find(getOrganizationUnitImpls(), id);
     }
 
     @Override
     public @Nullable OrganizationUnitImpl getOrganizationUnit(@Nonnull UUID id) {
-        return find(getOrganizationUnitImpls(), id);
+
+        return getOrganizationUnitImpls().get(id);
+        //        return find(getOrganizationUnitImpls(), id);
     }
 
     @Override
     public @Nullable PositionImpl getPosition(@Nonnull UUID id) {
-        return find(getPositionImpls(), id);
+
+        return getPositionImpls().get(id);
+//        return find(getPositionImpls(), id);
     }
 
     @Override
     public @Nullable ParticipantImpl getParticipant(@Nonnull UUID id) {
-        return find(getParticipantImpls(), id);
+
+        return getParticipantImpls().get(id);
+//        return find(getParticipantImpls(), id);
     }
 
     @Override
     public @Nullable RoleImpl getRole(@Nonnull UUID id) {
-        return find(getRoleImpls(), id);
+
+        return getRoleImpls().get(id);
+        //        return find(getRoleImpls(), id);
     }
 
     /**

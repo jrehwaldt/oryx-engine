@@ -65,7 +65,7 @@ public class BuildingParticipantTest {
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
 
-        identityBuilder.participantOccupiesPosition(participant, pos1).participantOccupiesPosition(participant, pos2);
+        identityBuilder.participantOccupiesPosition(participant.getID(), pos1.getID()).participantOccupiesPosition(participant.getID(), pos2.getID());
 
         Assert.assertTrue(identityService.getPositions().size() == 2);
         Assert.assertTrue(participant.getMyPositions().size() == 2);
@@ -87,18 +87,18 @@ public class BuildingParticipantTest {
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
 
-        identityBuilder.participantOccupiesPosition(participant, pos1)
+        identityBuilder.participantOccupiesPosition(participant.getID(), pos1.getID())
         // Try to occupy the same Position again
-        .participantOccupiesPosition(participant, pos1);
+        .participantOccupiesPosition(participant.getID(), pos1.getID());
 
         // As before, there should be only two positions offered by that Participant
         String failureMessage = "Identity Service should have 1 Position Element, but it is "
             + identityService.getPositions().size() + " .";
         Assert.assertTrue(participant.getMyPositions().size() == 1, failureMessage);
 
-        identityBuilder.participantOccupiesPosition(participant, pos2)
+        identityBuilder.participantOccupiesPosition(participant.getID(), pos2.getID())
         // Trying to occupy it again
-        .participantOccupiesPosition(participant, pos1);
+        .participantOccupiesPosition(participant.getID(), pos1.getID());
 
         // Now there should be one more
         Assert.assertTrue(identityService.getPositions().size() == 2);
@@ -112,9 +112,9 @@ public class BuildingParticipantTest {
 
         Participant participant2 = identityBuilder.createParticipant("Jannik Streek");
 
-        identityBuilder.participantOccupiesPosition(participant, pos1)
+        identityBuilder.participantOccupiesPosition(participant.getID(), pos1.getID())
         // Now change the Position to another Participant
-        .participantOccupiesPosition(participant2, pos1);
+        .participantOccupiesPosition(participant2.getID(), pos1.getID());
 
         // There still should be one Position in the system
         Assert.assertTrue(identityService.getPositions().size() == 1);
@@ -138,9 +138,9 @@ public class BuildingParticipantTest {
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
 
-        identityBuilder.participantOccupiesPosition(participant, pos1).participantOccupiesPosition(participant, pos2);
+        identityBuilder.participantOccupiesPosition(participant.getID(), pos1.getID()).participantOccupiesPosition(participant.getID(), pos2.getID());
 
-        identityBuilder.deleteParticipant(participant);
+        identityBuilder.deleteParticipant(participant.getID());
 
         String failureMessage = "The Participant 'Gerardo Navarro Suarez' should be deleted, but it is still there.";
         Assert.assertTrue(identityService.getParticipants().size() == 0, failureMessage);
@@ -165,9 +165,9 @@ public class BuildingParticipantTest {
 
         Position pos1 = identityBuilder.createPosition("1");
 
-        identityBuilder.participantOccupiesPosition(participant, pos1);
+        identityBuilder.participantOccupiesPosition(participant.getID(), pos1.getID());
 
-        identityBuilder.participantDoesNotOccupyPosition(participant, pos1);
+        identityBuilder.participantDoesNotOccupyPosition(participant.getID(), pos1.getID());
 
         String failureMessage = "The Participant 'Gerardo Navarro Suarez' does not offer any position.";
         Assert.assertTrue(participant.getMyPositions().size() == 0, failureMessage);

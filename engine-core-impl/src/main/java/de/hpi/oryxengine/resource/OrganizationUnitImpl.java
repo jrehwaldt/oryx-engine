@@ -3,6 +3,7 @@ package de.hpi.oryxengine.resource;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
@@ -70,20 +71,20 @@ public class OrganizationUnitImpl extends ResourceImpl<OrganizationUnit> impleme
      * 
      * Furthermore some constrains are checked.
      * 
-     * @param organizationUnit
+     * @param organizationUnitId
      *            - a OrganizationUnit object
      * @return organizationUnitImpl - the casted OrganizationUnit object
      */
-    public static OrganizationUnitImpl asOrganizationUnitImpl(OrganizationUnit organizationUnit) {
+    public static OrganizationUnitImpl asOrganizationUnitImpl(UUID organizationUnitId) {
 
-        if (organizationUnit == null) {
+        if (organizationUnitId == null) {
             throw new DalmatinaRuntimeException("The OrganizationUnit parameter is null.");
         }
 
-        OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) organizationUnit;
-        if (!ServiceFactory.getIdentityService().getOrganizationUnits().contains(organizationUnitImpl)) {
-            throw new DalmatinaRuntimeException("There exists no OrganizationUnit with the id "
-                + organizationUnit.getID() + ".");
+        OrganizationUnitImpl organizationUnitImpl = (OrganizationUnitImpl) ServiceFactory.getIdentityService()
+        .getOrganizationUnit(organizationUnitId);
+        if (organizationUnitImpl == null) {
+            throw new DalmatinaRuntimeException("There exists no OrganizationUnit with the id " + organizationUnitId + ".");
         }
         return organizationUnitImpl;
     }
