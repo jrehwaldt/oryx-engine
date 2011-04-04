@@ -1,6 +1,8 @@
 package de.hpi.oryxengine.repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -52,9 +54,9 @@ public final class ProcessRepositoryImpl implements ProcessRepository {
     }
 
     @Override
-    public Map<UUID, ProcessDefinition> getDefinitions() {
+    public List<ProcessDefinition> getDefinitions() {
 
-        return definitions;
+        return new ArrayList<ProcessDefinition>(definitions.values());
     }
     
     @Override
