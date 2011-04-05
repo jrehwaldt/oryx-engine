@@ -6,13 +6,20 @@ package de.hpi.oryxengine;
  * 
  * It retrieves the parameter and consider them in order to start the {@link OryxEngine}.
  */
-public class OryxEngineBootstrapper {
+public final class OryxEngineBootstrapper {
 
     /**
      * Starts the {@link OryxEngine} considering arguments.
+     *
+     * @param args the arguments
      */
     public static void main(String... args) {
 
         OryxEngine.start();
     }
+    
+    /**
+     * Hidden Constructor.
+     */
+    private OryxEngineBootstrapper() { }
 }

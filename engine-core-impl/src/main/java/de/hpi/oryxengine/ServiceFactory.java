@@ -12,7 +12,7 @@ import de.hpi.oryxengine.repository.ProcessRepository;
 /**
  * General service factory, which provides singleton instances for our system.
  */
-public class ServiceFactory {
+public final class ServiceFactory {
     
     protected static @Nonnull WorklistManager getWorklistManagerInstance() {
 
@@ -70,4 +70,9 @@ public class ServiceFactory {
         
         return  (CorrelationManagerImpl) OryxEngineAppContext.getBean("correlationService");
     }
+    
+    /**
+     * Hidden Constructor.
+     */
+    private ServiceFactory() { }
 }

@@ -1,6 +1,5 @@
 package de.hpi.oryxengine;
 
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
@@ -18,10 +17,10 @@ public class OryxEngineAppContext implements ApplicationContextAware {
      * This method is called from within the ApplicationContext once it is done starting up, it will stick a reference
      * to itself into this bean.
      * 
-     * @param an
+     * @param context
      *            {@link ApplicationContext} - a reference to the ApplicationContext.
      */
-    public void setApplicationContext(ApplicationContext context) throws BeansException {
+    public void setApplicationContext(ApplicationContext context) {
 
         applicationContext = context;
     }
