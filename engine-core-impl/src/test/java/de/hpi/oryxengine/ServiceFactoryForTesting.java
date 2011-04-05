@@ -10,7 +10,7 @@ public class ServiceFactoryForTesting extends ServiceFactory {
      */
     public static void clearWorklistManager() {
 
-        worklistManager = null;
+//        worklistManager = null;
     }
 
     /**
@@ -18,6 +18,7 @@ public class ServiceFactoryForTesting extends ServiceFactory {
      */
     public static void clearIdentityService() {
         
-        identityService = null;
+//        identityService = null;
     }
+    
 }

@@ -10,6 +10,9 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskAllocation;
@@ -23,12 +26,26 @@ import de.hpi.oryxengine.resource.worklist.WorklistItem;
 /**
  * The implementation of the WorklistManager.
  */
-public class WorklistManager implements WorklistService, TaskDistribution, TaskAllocation {
+public class WorklistManager implements WorklistService, TaskDistribution, TaskAllocation, Service {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Override
+    public void start() {
+
+        logger.info("Starting the correlation manager");
+    }
+
+    @Override
+    public void stop() {
+
+        logger.info("Stopping the correlation manager");
+    }
 
     @Override
     public void addWorklistItem(WorklistItem worklistItem, Resource<?> resourceToFillIn) {
 
-            resourceToFillIn.getWorklist().addWorklistItem(worklistItem);
+        resourceToFillIn.getWorklist().addWorklistItem(worklistItem);
     }
 
     @Override
@@ -52,27 +69,27 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public @Nullable WorklistItem getWorklistItem(@Nonnull Resource<?> resource,
-                                                  @Nonnull UUID worklistItemId) {
-        
-        for (final WorklistItem item: resource.getWorklist()) {
+    public @Nullable
+    WorklistItem getWorklistItem(@Nonnull Resource<?> resource, @Nonnull UUID worklistItemId) {
+
+        for (final WorklistItem item : resource.getWorklist()) {
             if (worklistItemId.equals(item.getID())) {
                 return item;
             }
         }
-        
+
         return null;
     }
 
     @Override
     public Map<Resource<?>, List<WorklistItem>> getWorklistItems(List<Resource<?>> resources) {
-        
+
         Map<Resource<?>, List<WorklistItem>> result = new HashMap<Resource<?>, List<WorklistItem>>();
-        
-        for (Resource<?> r: resources) {
+
+        for (Resource<?> r : resources) {
             result.put(r, getWorklistItems(r));
         }
-        
+
         return result;
     }
 
@@ -90,7 +107,6 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     @Override
     public void abortWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) {
 
-
     }
 
     @Override
@@ -99,11 +115,11 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         resource.getWorklist().itemIsCompleted(worklistItem);
 
         try {
-            
+
             worklistItem.getCorrespondingToken().resume();
-        
+
         } catch (DalmatinaException e) {
-            
+
             // TODO Logger message
             throw new DalmatinaRuntimeException(e.getMessage());
         }

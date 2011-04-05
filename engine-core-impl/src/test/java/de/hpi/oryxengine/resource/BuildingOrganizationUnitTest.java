@@ -1,5 +1,9 @@
 package de.hpi.oryxengine.resource;
 
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -13,7 +17,9 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 /**
  * Tests the building of {@link OrganizationUnit}s in the organization structure.
  */
-public class BuildingOrganizationUnitTest {
+@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTests {
 
     private IdentityService identityService = null;
 

@@ -13,5 +13,6 @@ public class OryxEngineBootstrapper {
      */
     public static void main(String... args) {
 
+        OryxEngine.start();
     }
 }
