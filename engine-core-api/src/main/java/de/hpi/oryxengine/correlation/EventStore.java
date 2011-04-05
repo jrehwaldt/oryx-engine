@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.correlation.adapter.AdapterType;
+import de.hpi.oryxengine.correlation.adapter.EventType;
 
 /**
  * Stores the events that did not trigger a registered event 
@@ -33,5 +33,5 @@ public interface EventStore {
      * @param e the event type
      * @return a List of all events with the specified type
      */
-    @Nonnull List<AdapterEvent> getAdapterEventsFor(@Nonnull AdapterType e);
+    @Nonnull List<AdapterEvent> getAdapterEventsFor(@Nonnull EventType e);
 }

@@ -3,7 +3,7 @@ package de.hpi.oryxengine.correlation.registration;
 import java.util.List;
 import java.util.UUID;
 
-import de.hpi.oryxengine.correlation.adapter.AdapterType;
+import de.hpi.oryxengine.correlation.adapter.EventType;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 
 /**
@@ -25,7 +25,7 @@ public class StartEventImpl extends ProcessEventImpl implements StartEvent {
      * @param definitionID
      *            the def
      */
-    public StartEventImpl(AdapterType type,
+    public StartEventImpl(EventType type,
                           PullAdapterConfiguration config,
                           List<EventCondition> conditions,
                           UUID definitionID) {

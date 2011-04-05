@@ -2,16 +2,15 @@ package de.hpi.oryxengine.correlation.registration;
 
 import java.util.List;
 
-import de.hpi.oryxengine.correlation.adapter.AdapterType;
+import de.hpi.oryxengine.correlation.EventConfiguration;
+import de.hpi.oryxengine.correlation.adapter.EventType;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 
 /**
  * The Class ProcessEventImpl. Have a look at {@link ProcessEvent}.
  */
 public class ProcessEventImpl implements ProcessEvent {
-
-    private AdapterType type;
-
+    
     private PullAdapterConfiguration config;
 
     private List<EventCondition> conditions;
@@ -26,21 +25,14 @@ public class ProcessEventImpl implements ProcessEvent {
      * @param conditions
      *            the conditions
      */
-    protected ProcessEventImpl(AdapterType type, PullAdapterConfiguration config, List<EventCondition> conditions) {
+    protected ProcessEventImpl(EventType type, PullAdapterConfiguration config, List<EventCondition> conditions) {
 
-        this.type = type;
         this.config = config;
         this.conditions = conditions;
     }
 
     @Override
-    public AdapterType getAdapterType() {
-
-        return type;
-    }
-
-    @Override
-    public PullAdapterConfiguration getAdapterConfiguration() {
+    public EventConfiguration getEventConfiguration() {
 
         return config;
     }

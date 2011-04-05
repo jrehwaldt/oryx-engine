@@ -15,9 +15,9 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
+import de.hpi.oryxengine.correlation.EventConfiguration;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
-import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.TimedConfiguration;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.exception.AdapterSchedulingException;
 import de.hpi.oryxengine.process.token.Token;
@@ -60,7 +60,7 @@ implements TimingManager {
     public void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
     throws AdapterSchedulingException {
         
-        final TimedAdapterConfiguration configuration = adapter.getConfiguration();
+        final TimedConfiguration configuration = adapter.getConfiguration();
         final long interval = configuration.getTimeInterval();
         
         final String jobName = jobName(configuration);
@@ -85,7 +85,7 @@ implements TimingManager {
      * @param configuration the adapter configuration
      * @return a unique trigger name
      */
-    private static @Nonnull String triggerName(@Nonnull AdapterConfiguration configuration) {
+    private static @Nonnull String triggerName(@Nonnull EventConfiguration configuration) {
         return String.format("trigger-%s", configuration.getUniqueName());
     }
     /**
@@ -94,7 +94,7 @@ implements TimingManager {
      * @param configuration the adapter configuration
      * @return a unique job name
      */
-    private static @Nonnull String jobName(@Nonnull AdapterConfiguration configuration) {
+    private static @Nonnull String jobName(@Nonnull EventConfiguration configuration) {
         return String.format("job-%s", configuration.getUniqueName());
     }
     /**
@@ -103,7 +103,7 @@ implements TimingManager {
      * @param configuration the adapter configuration
      * @return a unique group name
      */
-    private static @Nonnull String jobGroupName(@Nonnull AdapterConfiguration configuration) {
+    private static @Nonnull String jobGroupName(@Nonnull EventConfiguration configuration) {
         return String.format("job-group-%s", configuration.getUniqueName());
     }
 
@@ -130,7 +130,7 @@ implements TimingManager {
      * {@inheritDoc}
      */
     @Override
-    public void registerNonRecurringJob(TimedAdapterConfiguration configuration, Token token)
+    public void registerNonRecurringJob(TimedConfiguration configuration, Token token)
     throws AdapterSchedulingException {
         
         JobDetail jobDetail = new JobDetail(

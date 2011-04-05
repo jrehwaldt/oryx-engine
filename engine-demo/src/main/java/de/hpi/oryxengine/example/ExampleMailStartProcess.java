@@ -7,7 +7,7 @@ import java.util.UUID;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
-import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
+import de.hpi.oryxengine.correlation.adapter.EventTypes;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
 import de.hpi.oryxengine.correlation.registration.EventCondition;
@@ -72,7 +72,7 @@ public class ExampleMailStartProcess {
         List<EventCondition> conditions = new ArrayList<EventCondition>();
         conditions.add(subjectCondition);
 
-        StartEvent event = new StartEventImpl(AdapterTypes.Mail, config, conditions, processID);
+        StartEvent event = new StartEventImpl(EventTypes.Mail, config, conditions, processID);
 
         Node node1 = builder.createNode(param);
         try {

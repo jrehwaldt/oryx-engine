@@ -15,14 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
-import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
 import de.hpi.oryxengine.correlation.adapter.InboundAdapter;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
-import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.TimedConfiguration;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapterConfiguration;
-import de.hpi.oryxengine.correlation.adapter.mail.InboundImapMailAdapterImpl;
-import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.correlation.registration.EventCondition;
 import de.hpi.oryxengine.correlation.registration.IntermediateEvent;
 import de.hpi.oryxengine.correlation.registration.ProcessEvent;
@@ -116,16 +113,15 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     private void createAdapaterForEvent(ProcessEvent event)
     throws AdapterSchedulingException {
 
-        if (event.getAdapterType() == AdapterTypes.Mail) {
-            // check if an adapter with the given configuration already exists
-            if (inboundAdapter.containsKey(event.getAdapterConfiguration())) {
-                return;
-            }
-            InboundImapMailAdapterImpl adapter = new InboundImapMailAdapterImpl(this,
-                (MailAdapterConfiguration) event.getAdapterConfiguration());
-            registerPullAdapter(adapter);
-            logger.debug("Registered mail adapter {}", adapter);
+        // TODO: Implement Comparable for Adapter configurations
+        // check if an adapter with the given configuration already exists
+        if (inboundAdapter.containsKey(event.getEventConfiguration())) {
+            return;
         }
+        // Maybe it is possible to do this better.
+        AdapterConfiguration configuration = (AdapterConfiguration) event.getEventConfiguration();
+        configuration.createAdapter(this);
+            
     }
 
     @Override
@@ -134,7 +130,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
         logger.debug("Registering intermediate event {}", event);
         try {
             this.timer.registerNonRecurringJob(
-                (TimedAdapterConfiguration) event.getAdapterConfiguration(),
+                (TimedConfiguration) event.getEventConfiguration(),
                 event.getToken());
         } catch (AdapterSchedulingException e) {
             e.printStackTrace();
@@ -193,12 +189,12 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
             boolean triggerEvent = true;
             
             // don't correlate events of different types.
-            if (e.getAdapterType() != event.getAdapterType()) {
+            if (e.getAdapterType() != event.getEventConfiguration().getEventType()) {
                 continue;
             }
             
             // don't correlate events that were assigned to different configurations.
-            if (e.getAdapterConfiguration() != event.getAdapterConfiguration()) {
+            if (e.getAdapterConfiguration() != event.getEventConfiguration()) {
                 continue;
             }
             

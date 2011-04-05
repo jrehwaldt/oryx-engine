@@ -2,8 +2,7 @@ package de.hpi.oryxengine.correlation.registration;
 
 import java.util.List;
 
-import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
-import de.hpi.oryxengine.correlation.adapter.AdapterType;
+import de.hpi.oryxengine.correlation.adapter.TimedConfiguration;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -12,7 +11,7 @@ import de.hpi.oryxengine.process.token.Token;
 public class TimerEventImpl implements IntermediateEvent {
 
     private Token token;
-    private AdapterConfiguration config;
+    private TimedConfiguration config;
 
     /**
      * Instantiates a new timer event impl.
@@ -20,7 +19,7 @@ public class TimerEventImpl implements IntermediateEvent {
      * @param config the config for the event, consists out of options for scheduling and for the adaptor.
      * @param token the process token
      */
-    public TimerEventImpl(AdapterConfiguration config,
+    public TimerEventImpl(TimedConfiguration config,
                           Token token) {
 
         this.token = token;
@@ -34,13 +33,7 @@ public class TimerEventImpl implements IntermediateEvent {
     }
 
     @Override
-    public AdapterType getAdapterType() {
-
-        return this.config.getAdapterType();
-    }
-
-    @Override
-    public AdapterConfiguration getAdapterConfiguration() {
+    public TimedConfiguration getEventConfiguration() {
 
         return config;
     }

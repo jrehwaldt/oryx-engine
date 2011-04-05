@@ -1,24 +1,20 @@
 package de.hpi.oryxengine.correlation.adapter;
 
-import javax.annotation.Nonnull;
+import de.hpi.oryxengine.correlation.CorrelationManager;
+import de.hpi.oryxengine.correlation.EventConfiguration;
 
 
 /**
  * Configuration package for our adapter.
  */
-public interface AdapterConfiguration {
+public interface AdapterConfiguration extends EventConfiguration {
+     
+        
     /**
-     * Provides the firing adapter's configuration.
-     * 
-     * @return the adapter's configuration
+     * Creates the adapter for this configuration.
+     *
+     * @param c the Correlation Manager 
+     * @return the correlation adapter for this config
      */
-    @Nonnull AdapterType getAdapterType();
-    
-    /**
-     * Provides a unique adapter name. Should be human readable,
-     * but cool if done so. Construct through configuration parameters.
-     * 
-     * @return an unique adapter name
-     */
-    @Nonnull String getUniqueName();
+    CorrelationAdapter createAdapter(CorrelationManager c);
 }

@@ -9,21 +9,16 @@ import de.hpi.oryxengine.correlation.timing.TimerJob;
  * @author Jannik Streek
  */
 public class TimerConfigurationImpl
-extends AbstractAdapterConfiguration
-implements TimedAdapterConfiguration {
+implements TimedConfiguration {
     
     private long waitingTime;
     private long timestamp;
     
     /**
      * Instantiates a new timer configuration impl.
-     *
-     * @param type the type
      * @param waitingTime the waiting time
      */
-    public TimerConfigurationImpl(AdapterType type, long waitingTime) {
-
-        super(type);
+    public TimerConfigurationImpl(long waitingTime) {
         this.waitingTime = waitingTime;
         this.timestamp = System.currentTimeMillis();
     }
@@ -43,6 +38,11 @@ implements TimedAdapterConfiguration {
     @Override
     public Class<? extends Job> getScheduledClass() {
         return TimerJob.class;
+    }
+
+    @Override
+    public EventType getEventType() {
+        return EventTypes.Timer;
     }
 
 }

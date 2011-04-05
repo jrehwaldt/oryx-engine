@@ -38,7 +38,7 @@ implements AdapterEvent {
     }
     
     @Override
-    public AdapterType getAdapterType() {
-        return this.configuration.getAdapterType();
+    public EventType getAdapterType() {
+        return this.configuration.getEventType();
     }
 }

@@ -3,7 +3,7 @@ package de.hpi.oryxengine.correlation.timing;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
-import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.TimedConfiguration;
 import de.hpi.oryxengine.exception.AdapterSchedulingException;
 import de.hpi.oryxengine.process.token.Token;
 
@@ -28,6 +28,6 @@ public interface TimingManager {
      * @param token the process token to continue the process afterwards.
      * @throws AdapterSchedulingException the adapter scheduling exception
      */
-    void registerNonRecurringJob(@Nonnull TimedAdapterConfiguration configuration, Token token)
+    void registerNonRecurringJob(@Nonnull TimedConfiguration configuration, Token token)
     throws AdapterSchedulingException;
 }

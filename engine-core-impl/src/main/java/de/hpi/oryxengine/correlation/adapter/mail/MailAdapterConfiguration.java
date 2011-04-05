@@ -9,8 +9,9 @@ import org.quartz.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.AbstractAdapterConfiguration;
-import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
+import de.hpi.oryxengine.correlation.adapter.EventTypes;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 import de.hpi.oryxengine.correlation.timing.PullAdapterJob;
 
@@ -53,7 +54,7 @@ implements PullAdapterConfiguration {
                                     @Nonnull String address,
                                     @Nonnegative int port,
                                     @Nonnull boolean useSSL) {
-        super(AdapterTypes.Mail);
+        super(EventTypes.Mail);
         this.protocol = protocol;
         this.userName = userName;
         this.password = password;
@@ -183,5 +184,16 @@ implements PullAdapterConfiguration {
     @Override
     public Class<? extends Job> getScheduledClass() {
         return PullAdapterJob.class;
+    }
+    
+    /**
+     * create the Adapter which is defined by this Adapter configuration.
+     * @param c the Corrleation Manager
+     * @return the InboundMailAdapter
+     */
+    public InboundImapMailAdapterImpl createAdapter(CorrelationManager c) {
+        InboundImapMailAdapterImpl adapter = new InboundImapMailAdapterImpl(c, this);
+        logger.debug("Registered mail adapter {}", adapter);
+        return adapter;        
     }
 }

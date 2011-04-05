@@ -38,8 +38,8 @@ public abstract class AbstractCorrelationAdapter<
     }
     
     @Override
-    public final AdapterType getAdapterType() {
-        return this.configuration.getAdapterType();
+    public final EventType getAdapterType() {
+        return this.configuration.getEventType();
     }
     
     @Override

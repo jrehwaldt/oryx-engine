@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
-import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.TimedConfiguration;
 import de.hpi.oryxengine.correlation.adapter.TimerConfigurationImpl;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
@@ -61,7 +61,7 @@ public class TimingManagerTest {
     @Test
     public void testRegisteringANonRecurringEvent() throws DalmatinaException, InterruptedException {
         Token token = mock(TokenImpl.class);
-        TimedAdapterConfiguration configuration = new TimerConfigurationImpl(null, TIMER);
+        TimedConfiguration configuration = new TimerConfigurationImpl(TIMER);
         this.timer.registerNonRecurringJob(configuration, token);
         Thread.sleep(TIMER + TIMER);
         verify(token).resume();
@@ -77,7 +77,7 @@ public class TimingManagerTest {
     @Test
     public void testFailingRegisteringANonRecurringEvent() throws DalmatinaException, InterruptedException {
         Token token = mock(TokenImpl.class);
-        TimedAdapterConfiguration configuration = new TimerConfigurationImpl(null, TIMER);
+        TimedConfiguration configuration = new TimerConfigurationImpl(TIMER);
         this.timer.registerNonRecurringJob(configuration, token);
         verify(token, never()).resume();
         // Wait until job is deleted, otherwise conflicts can occur

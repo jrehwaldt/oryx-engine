@@ -20,8 +20,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
-import de.hpi.oryxengine.correlation.adapter.AdapterType;
-import de.hpi.oryxengine.correlation.adapter.AdapterTypes;
+import de.hpi.oryxengine.correlation.adapter.EventType;
+import de.hpi.oryxengine.correlation.adapter.EventTypes;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
 import de.hpi.oryxengine.correlation.adapter.mail.MailProtocol;
@@ -105,7 +105,7 @@ public class EventRegistrationAndEvaluationTest {
         RepositorySetup.fillRepository();
         // register some events
         UUID definitionID = ProcessRepositoryImpl.SIMPLE_PROCESS_ID;
-        AdapterType mailType = AdapterTypes.Mail;
+        EventType mailType = EventTypes.Mail;
 
         EventCondition subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"),
             "Hallo");

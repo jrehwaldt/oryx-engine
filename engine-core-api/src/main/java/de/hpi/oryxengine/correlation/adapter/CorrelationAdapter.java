@@ -12,7 +12,7 @@ public interface CorrelationAdapter {
      * 
      * @return the adapter's type
      */
-    @Nonnull AdapterType getAdapterType();
+    @Nonnull EventType getAdapterType();
     
     /**
      * Provides access to the adapter's configuration.

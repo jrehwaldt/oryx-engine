@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.correlation.CorrelationManager;
-import de.hpi.oryxengine.correlation.adapter.TimedAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.TimedConfiguration;
 import de.hpi.oryxengine.correlation.adapter.TimerConfigurationImpl;
 import de.hpi.oryxengine.correlation.registration.TimerEventImpl;
 import de.hpi.oryxengine.process.token.Token;
@@ -29,7 +29,7 @@ public class IntermediateTimer extends AbstractActivity {
     protected void executeIntern(@Nonnull Token token) {
         
         CorrelationManager correlationService = ServiceFactory.getCorrelationService(token.getNavigator());
-        TimedAdapterConfiguration conf = new TimerConfigurationImpl(null, this.time);
+        TimedConfiguration conf = new TimerConfigurationImpl(this.time);
         correlationService.registerIntermediateEvent(new TimerEventImpl(conf, token));
         token.suspend();
     }
