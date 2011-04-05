@@ -4,12 +4,13 @@ import java.util.Observable;
 
 import javax.annotation.Nonnull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.hpi.oryxengine.navigator.Navigator;
+
 import de.hpi.oryxengine.navigator.NavigatorState;
 import de.hpi.oryxengine.plugin.ObserverPlugin;
+import de.hpi.oryxengine.plugin.Plugin;
+
+
 
 /**
  * This class may be injected to observe
@@ -18,10 +19,7 @@ import de.hpi.oryxengine.plugin.ObserverPlugin;
  * @see AbstractNavigatorEvent
  */
 public abstract class AbstractNavigatorListener
-implements ObserverPlugin, NavigatorListener {
-    
-    /** The logger. */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+implements ObserverPlugin, Plugin {
     
     /**
      * This method is called whenever the navigator changes its state.
@@ -31,19 +29,14 @@ implements ObserverPlugin, NavigatorListener {
     @Override
     public void update(@Nonnull Observable observable,
                        @Nonnull Object param) {
-        final NavigatorState state = (NavigatorState) param;
-        final Navigator navigator = (Navigator) observable;
-        
-        switch (state) {
-            case RUNNING:
-                navigatorStarted(navigator);
-                break;
-            case STOPPED:
-                navigatorStopped(navigator);
-                break;
-            default:
-                logger.error("NavigatorPlugin fired for unknown state");
-                break;
-        }
+        stateChanged((Navigator) observable, (NavigatorState) param);
     }
+    
+    /**
+     * The state of the navigator changed.
+     *
+     *@param nav the Navigator
+     * @param navState the state the navigator changed to.
+     */
+    protected abstract void stateChanged(Navigator nav, NavigatorState navState);
 }

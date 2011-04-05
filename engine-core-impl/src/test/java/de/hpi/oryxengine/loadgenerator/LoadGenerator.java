@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.factory.process.ProcessTokenFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.plugin.scheduler.SchedulerEmptyListener;
+import de.hpi.oryxengine.plugin.scheduler.NoRunningInstancesLoadgeneratorCaller;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
@@ -21,6 +21,7 @@ public class LoadGenerator {
     private static final long MEGABYTE = 1024L * 1024L;
 
     /** The Constant DEFAULT_PROCESS. */
+    // TODO replace via process definitions from the repository
     private static final String DEFAULT_PROCESS = "HeavyComputationProcessTokenFactory";
     
     /** The Constant DEFAULT_NUMBER_OF_RUNS. */
@@ -30,6 +31,7 @@ public class LoadGenerator {
     private static final int DEFAULT_NUMBER_OF_THREADS = 4;
     
     /** The Constant PATH_TO_PROCESS_FACTORIES. */
+    // TODO replace with repository
     private static final String PATH_TO_PROCESS_FACTORIES = "de.hpi.oryxengine.factory.process.";
 
     /** The logger. */
@@ -50,7 +52,7 @@ public class LoadGenerator {
     /** The navigator. */
     private NavigatorImpl navigator;
 
-    /** The class name. */
+    /** The class name of the processfactory which creates the process that simulates the load. */
     private String className;
 
     /**
@@ -95,11 +97,11 @@ public class LoadGenerator {
     }
 
     /**
-     * Calls the Example Process token factory in order to create a new one.
+     * Calls the Example Process token factory in order to create a new process.
      *
      * @return the example process token
      */
-    public Token getExampleProcessToken() {
+    public Token getExampleProcess() {
 
         ProcessTokenFactory factory;
         try {
@@ -144,11 +146,11 @@ public class LoadGenerator {
         this.logger.info("We start to put " + String.valueOf(numberOfRuns) + "  instances from the Factory "
             + className + " into our navigator!");
         navigator = new NavigatorImpl(numberOfThreads);
-        SchedulerEmptyListener listener = new SchedulerEmptyListener(this);
-        navigator.getScheduler().registerPlugin(listener);
+        NoRunningInstancesLoadgeneratorCaller listener = new NoRunningInstancesLoadgeneratorCaller(this);
+        navigator.registerPlugin(listener);
 
         for (int i = 0; i < this.numberOfRuns; i++) {
-            TokenImpl p = (TokenImpl) this.getExampleProcessToken();
+            TokenImpl p = (TokenImpl) this.getExampleProcess();
             navigator.startArbitraryInstance(p);
             /*
              * this.logger.info( "Started Process token " + Integer.toString(i + 1) + " of " +
@@ -168,9 +170,10 @@ public class LoadGenerator {
      * When the scheduler queue is empty, the Load Generator should stop measuring the time for process instances'
      * execution time.
      */
-    public void schedulerIsEmpty() {
+    
+    
+    public void navigatorCurrentlyFinished() {
 
-        navigator.stop();
         long stopTime = System.currentTimeMillis();
         long runTime = stopTime - this.startTime;
         this.logger.info("Run time for all our " + String.valueOf(this.numberOfRuns) + " instances: " + runTime + "ms");

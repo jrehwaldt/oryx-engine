@@ -29,26 +29,9 @@ public interface Navigator {
     throws DefinitionNotFoundException;
 
     /**
-     * Stop process instance.
-     * 
-     * @param instanceID
-     *            the id of the instance that is to be stopped
-     */
-    void stopProcessInstance(@Nonnull UUID instanceID);
-
-    /**
      * Increase speed.
      */
     void addThread();
-
-    /**
-     * Gets the current instance state.
-     * 
-     * @param instanceID
-     *            the processinstance id
-     * @return the current instance state
-     */
-    String getCurrentInstanceState(UUID instanceID);
 
     /**
      * Starts the navigator, which is than ready to schedule processes.

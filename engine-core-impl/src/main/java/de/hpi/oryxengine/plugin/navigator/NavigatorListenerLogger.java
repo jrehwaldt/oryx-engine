@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.navigator.NavigatorState;
 
 /**
  * A logger implementation, which observes the state of a navigator thread.
@@ -38,12 +39,7 @@ extends AbstractNavigatorListener {
     }
     
     @Override
-    public void navigatorStarted(@Nonnull Navigator navigator) {
-        log(navigator);
-    }
-    
-    @Override
-    public void navigatorStopped(@Nonnull Navigator navigator) {
+    protected void stateChanged(@Nonnull Navigator navigator, NavigatorState navState) {
         log(navigator);
     }
     

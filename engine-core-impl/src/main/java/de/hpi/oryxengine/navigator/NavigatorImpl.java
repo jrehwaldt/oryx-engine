@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.swing.text.ChangedCharSetException;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
+import de.hpi.oryxengine.navigator.schedule.Scheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -24,9 +26,27 @@ import de.hpi.oryxengine.repository.ProcessRepository;
  */
 public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> implements Navigator {
 
-    private FIFOScheduler scheduler;
+    /**
+     * Holds all the process tokens that are ready to be executed. Also implements some kind of scheduling algorithm.
+     *(Tokens are the uni in which we schedule)
+     */
+    private Scheduler scheduler;
 
+    /**
+     * All the tokens that are suspended for some reason, for example because of a human task.
+     */
     private List<Token> suspendedTokens;
+    
+    /**
+     * All the process Instances (not tokens!) that are currently running for some reason.
+     */
+    private List<ProcessInstance> runningInstances;
+    
+    /**
+     * All the process instances that finished i.e. that reached all their end events.
+     * TODO they really shouldn't be kept here they should be destroyed instead. 
+     */
+    private List<ProcessInstance> finishedInstances;
 
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
@@ -41,8 +61,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     private ProcessRepository repository;
 
-    private List<ProcessInstance> runningInstances;
-    private List<ProcessInstance> finishedInstances;
+
 
     /**
      * Instantiates a new navigator implementation.
@@ -63,7 +82,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         // TODO Lazy initialized, o rly?
         this.scheduler = new FIFOScheduler();
         this.executionThreads = new ArrayList<NavigationThread>();
-        this.state = NavigatorState.INIT;
+        changeState(NavigatorState.INIT);
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
         repository = ServiceFactory.getRepositoryService();
@@ -126,33 +145,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         this.scheduler.submit(token);
     }
 
-    /**
-     * Stop the execution of a processinstance.
-     * 
-     * @param instanceID
-     *            the instance id
-     * @see de.hpi.oryxengine.navigator.Navigator#stopProcessInstance(java.lang.String)
-     */
-    public void stopProcessInstance(UUID instanceID) {
-
-        // TODO do some more stuff if instance doesnt exist and in genereal
-        // runningInstances.remove(instanceID);
-        // remove from queue...
-    }
-
-    /**
-     * Get the state of the currently running instance.
-     * 
-     * @param instanceID
-     *            the instance id
-     * @return the current instance state
-     * @see de.hpi.oryxengine.navigator.Navigator#getCurrentInstanceState(java.lang.String)
-     */
-    public String getCurrentInstanceState(UUID instanceID) {
-
-        // TODO get the current instance state
-        return null;
-    }
 
     /**
      * Stop the Navigator. So in fact you need to stop all the Navigationthreads.
@@ -170,8 +162,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * 
      * @return true, if it is idle
      */
-    // Maybe it should be synchronized? Do we care about dirty reads?
-    // Lets get dirrrty!
     public boolean isIdle() {
 
         return this.scheduler.isEmpty();
@@ -206,7 +196,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * 
      * @return the scheduler
      */
-    public FIFOScheduler getScheduler() {
+    public Scheduler getScheduler() {
 
         return scheduler;
     }
@@ -246,11 +236,15 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     @Override
     public void signalEndedProcessInstance(ProcessInstance instance) {
 
-        runningInstances.remove(instance);
+        boolean instanceContained = runningInstances.remove(instance);
 
         // TODO maybe throw an exception if the instance provided is not in the running instances list?
-        if (runningInstances != null) {
+        if (instanceContained) {
             finishedInstances.add(instance);
+        }
+
+        if (runningInstances.isEmpty()) {
+            changeState(NavigatorState.CURRENTLY_FINISHED);
         }
 
     }

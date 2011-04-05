@@ -5,12 +5,12 @@ package de.hpi.oryxengine.navigator;
  */
 public enum NavigatorState {
     
-    /** The INIT. */
     INIT,
     
-    /** The RUNNING. */
     RUNNING,
     
-    /** The STOPPED. */
-    STOPPED
+    STOPPED,
+    
+    /** All process instances are finished at this moment (no running Instances). */
+    CURRENTLY_FINISHED
 }
