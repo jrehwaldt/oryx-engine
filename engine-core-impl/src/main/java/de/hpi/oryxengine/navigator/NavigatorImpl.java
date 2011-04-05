@@ -196,9 +196,9 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * 
      * @return the scheduler
      */
-    public Scheduler getScheduler() {
+    public FIFOScheduler getScheduler() {
 
-        return scheduler;
+        return (FIFOScheduler) scheduler;
     }
 
     @Override

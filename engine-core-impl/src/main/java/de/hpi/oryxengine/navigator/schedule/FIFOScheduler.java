@@ -4,12 +4,14 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.hpi.oryxengine.plugin.AbstractPluggable;
+import de.hpi.oryxengine.plugin.scheduler.AbstractSchedulerListener;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class FIFOScheduler. It is a simple FIFO Scheduler so nothing too interesting going on around here.
  */
-public class FIFOScheduler implements Scheduler {
+public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> implements Scheduler {
 
     /** The process instances we would like to schedule. */
     private List<Token> processtokens;
@@ -25,6 +27,8 @@ public class FIFOScheduler implements Scheduler {
 
     @Override
     public void submit(Token p) {
+
+        changed(new SchedulerEvent(SchedulerAction.SUBMIT, p, processtokens.size()));
         processtokens.add(p);
     }
 
@@ -38,6 +42,7 @@ public class FIFOScheduler implements Scheduler {
             removedToken = processtokens.remove(0);
             
         }
+        changed(new SchedulerEvent(SchedulerAction.RETRIEVE, removedToken, processtokens.size()));
         return removedToken;
     }
     
@@ -47,7 +52,20 @@ public class FIFOScheduler implements Scheduler {
     }
 
     @Override
+    // TODO right now we dont care about submitAll plugin/Observerwise
     public void submitAll(List<Token> listOfTokens) {
         this.processtokens.addAll(listOfTokens);  
     }
+    
+    /**
+     * We changed, tell everybody now!.
+     *
+     * @param event the event
+     */
+    private void changed(SchedulerEvent event) {
+        setChanged();
+        notifyObservers(event);
+    }
+    
+    
 }

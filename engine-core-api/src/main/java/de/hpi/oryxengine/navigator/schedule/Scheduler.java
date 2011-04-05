@@ -2,13 +2,14 @@ package de.hpi.oryxengine.navigator.schedule;
 
 import java.util.List;
 
+import de.hpi.oryxengine.plugin.Pluggable;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Interface Scheduler.
  * It is used in order to schedule the process tokens of our navigator.
  */
-public interface Scheduler {
+public interface Scheduler{
     
     
     /**
