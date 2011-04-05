@@ -90,7 +90,7 @@ public class ExampleMailStartProcess {
 
         try {
             ProcessDefinition def = builder.buildDefinition();
-            deployer.deploy(def, navigator);
+            deployer.deploy(def);
             navigator.start();
         } catch (IllegalStarteventException e) {
             e.printStackTrace();

@@ -4,6 +4,10 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -32,7 +36,9 @@ import de.hpi.oryxengine.resource.worklist.WorklistItem;
 /**
  * The test for the {@link HumanTaskActivity}.
  */
-public class HumanTaskActivityTest {
+@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+public class HumanTaskActivityTest extends AbstractTestNGSpringContextTests {
 
     private Task task = null;
     private Resource<?> resource = null;

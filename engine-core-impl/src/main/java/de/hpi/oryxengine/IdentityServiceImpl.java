@@ -10,6 +10,9 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.IdentityBuilderImpl;
 import de.hpi.oryxengine.resource.OrganizationUnit;
@@ -29,8 +32,10 @@ import de.hpi.oryxengine.resource.RoleImpl;
  * This implementation is designed to store all information regarding the organization structure in the engine. Others
  * Identity Service implementation might think about database connections.
  */
-public class IdentityServiceImpl implements IdentityService {
+public class IdentityServiceImpl implements IdentityService, Service {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     private Map<UUID, OrganizationUnitImpl> organizationUnits;
     
     private Map<UUID, PositionImpl> positions;
@@ -39,6 +44,18 @@ public class IdentityServiceImpl implements IdentityService {
     
     private Map<UUID, RoleImpl> roles;
     
+    @Override
+    public void start() {
+        
+        logger.info("Starting the correlation manager");
+    }
+
+    @Override
+    public void stop() {
+        
+        logger.info("Stopping the correlation manager");
+    }
+
     @Override
     public IdentityBuilder getIdentityBuilder() {
 

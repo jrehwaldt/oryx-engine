@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
@@ -49,16 +50,6 @@ public interface Navigator {
      * @return the current instance state
      */
     String getCurrentInstanceState(UUID instanceID);
-
-    /**
-     * Starts the navigator, which is than ready to schedule processes.
-     */
-    void start();
-
-    /**
-     * Stops the navigator. No processes will be scheduled afterwards.
-     */
-    void stop();
 
     /**
      * Adds a token to that is to be worked on.
