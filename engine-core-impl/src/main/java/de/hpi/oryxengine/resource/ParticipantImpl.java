@@ -3,7 +3,9 @@ package de.hpi.oryxengine.resource;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
+import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
@@ -110,19 +112,20 @@ public class ParticipantImpl extends ResourceImpl<Participant> implements Partic
      * 
      * Furthermore some constrains are checked.
      * 
-     * @param participant
+     * @param participantID
      *            - a Participant object
      * @return participantImpl - the casted Participant object
      */
-    public static ParticipantImpl asParticipantImpl(Participant participant) {
+    public static ParticipantImpl asParticipantImpl(UUID participantID) {
 
-        if (participant == null) {
+        if (participantID == null) {
             throw new DalmatinaRuntimeException("The Participant parameter is null.");
         }
 
-        ParticipantImpl participantImpl = (ParticipantImpl) participant;
-        if (!ServiceFactory.getIdentityService().getParticipants().contains(participantImpl)) {
-            throw new DalmatinaRuntimeException("There exists no Participant with the id " + participant.getID() + ".");
+        ParticipantImpl participantImpl = (ParticipantImpl) ServiceFactory.getIdentityService().getParticipant(participantID);
+        if (participantImpl == null) {
+            
+            throw new DalmatinaRuntimeException("There exists no Participant with the id " + participantID + ".");
         }
         return participantImpl;
     }

@@ -2,6 +2,7 @@ package de.hpi.oryxengine.resource;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
@@ -12,11 +13,11 @@ import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 public class PositionImpl extends ResourceImpl<Position> implements Position {
 
     private Participant positionHolder;
-    
+
     private OrganizationUnit organizationalUnit;
-    
+
     private Position superiorPosition;
-    
+
     private Set<PositionImpl> subordinatePositions;
 
     /**
@@ -64,8 +65,9 @@ public class PositionImpl extends ResourceImpl<Position> implements Position {
 
     /**
      * Sets the {@link OrganizationUnit} that offers this {@link Position}.
-     *
-     * @param organizationalUnit the organizational unit
+     * 
+     * @param organizationalUnit
+     *            the organizational unit
      * @return the position
      */
     public Position belongstoOrganization(OrganizationUnit organizationalUnit) {
@@ -81,25 +83,26 @@ public class PositionImpl extends ResourceImpl<Position> implements Position {
         }
         return subordinatePositions;
     }
-    
+
     /**
      * Translates a Position into a corresponding PositionImpl object.
      * 
      * Furthermore some constrains are checked.
      * 
-     * @param position
+     * @param positionId
      *            - a Position object
      * @return positionImpl - the casted Position object
      */
-    public static PositionImpl asPositionImpl(Position position) {
+    public static PositionImpl asPositionImpl(UUID positionId) {
 
-        if (position == null) {
+        if (positionId == null) {
             throw new DalmatinaRuntimeException("The Position parameter is null.");
         }
 
-        PositionImpl positionImpl = (PositionImpl) position;
-        if (!ServiceFactory.getIdentityService().getPositions().contains(positionImpl)) {
-            throw new DalmatinaRuntimeException("There exists no Position with the id " + position.getID() + ".");
+        PositionImpl positionImpl = (PositionImpl) ServiceFactory.getIdentityService().getPosition(positionId);
+
+        if (positionImpl == null) {
+            throw new DalmatinaRuntimeException("There exists no Position with the id " + positionId + ".");
         }
         return positionImpl;
     }

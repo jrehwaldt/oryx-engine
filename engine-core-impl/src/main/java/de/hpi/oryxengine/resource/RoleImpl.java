@@ -3,6 +3,7 @@ package de.hpi.oryxengine.resource;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
@@ -77,18 +78,19 @@ public class RoleImpl extends ResourceImpl<Role> implements Role {
      * 
      * Furthermore some constrains are checked.
      * 
-     * @param role
+     * @param roleId
      *            - a Role object
      * @return roleImpl - the casted Role object
      */
-    public static RoleImpl asRoleImpl(Role role) {
+    public static RoleImpl asRoleImpl(UUID roleId) {
 
-        if (role == null) {
+        if (roleId == null) {
             throw new DalmatinaRuntimeException("The Role parameter is null.");
         }
-        RoleImpl roleImpl = (RoleImpl) role;
-        if (!ServiceFactory.getIdentityService().getRoles().contains(roleImpl)) {
-            throw new DalmatinaRuntimeException("There exists no Role with the id " + role.getID() + ".");
+        RoleImpl roleImpl = (RoleImpl) ServiceFactory.getIdentityService().getRole(roleId);
+        if (roleImpl == null) {
+            
+            throw new DalmatinaRuntimeException("There exists no Role with the id " + roleId + ".");
         }
         return roleImpl;
     }

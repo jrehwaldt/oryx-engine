@@ -39,7 +39,7 @@ public class BuildingPositionTest {
     public void testPositionCreation() throws Exception {
 
         Position superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");
-        identityBuilder.positionReportsToSuperior(position, superior);
+        identityBuilder.positionReportsToSuperior(position.getID(), superior.getID());
         
         String failureMessage = "The Identity Service should have two Position.";
         Assert.assertTrue(identityService.getPositions().size() == 2, failureMessage);
@@ -69,7 +69,7 @@ public class BuildingPositionTest {
     @Test(expectedExceptions = DalmatinaException.class)
     public void testNotBeingSuperiorOfYourself() throws Exception {
 
-        identityBuilder.positionReportsToSuperior(position, position);
+        identityBuilder.positionReportsToSuperior(position.getID(), position.getID());
     }
 
     @Test
@@ -78,10 +78,10 @@ public class BuildingPositionTest {
         Position position2 = identityBuilder.createPosition("Oryx-Engine-Chef2");
         Position superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");        
         
-        identityBuilder.positionReportsToSuperior(position, superior)
-                       .positionReportsToSuperior(position2, superior);
+        identityBuilder.positionReportsToSuperior(position.getID(), superior.getID())
+                       .positionReportsToSuperior(position2.getID(), superior.getID());
 
-        identityBuilder.deletePosition(superior);
+        identityBuilder.deletePosition(superior.getID());
         
         String failureMessage = "The Position 'Oryx-Engine-Ober-Chef' should be deleted, but it is still there.";
         Assert.assertTrue(identityService.getPositions().size() == 2, failureMessage);

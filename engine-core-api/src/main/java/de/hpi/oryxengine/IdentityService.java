@@ -70,7 +70,6 @@ public interface IdentityService {
      * @return the roles
      */
     @Nonnull Set<Role> getRoles();
-    // Set<Capability> getCapabilities();
     
     /**
      * Returns the requested resource.

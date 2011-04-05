@@ -3,6 +3,7 @@ package de.hpi.oryxengine.activity;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -11,6 +12,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.activity.impl.IntermediateTimer;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.plugin.activity.ActivityLifecycleAssurancePlugin;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
@@ -35,6 +37,7 @@ public class IntermediateTimerTest {
     private static final int WAITING_TIME = 300;
     private static final int SHORT_WAITING_TIME_TEST = 200;
     private static final int LONG_WAITING_TIME_TEST = 600;
+    private ActivityLifecycleAssurancePlugin lifecycleTester;
     
   /**
    * Start a simple waiting process test. There are multiple assertions,
@@ -51,6 +54,34 @@ public class IntermediateTimerTest {
       assertEquals(token.getCurrentNode(), node3);
       
   }
+  
+  /**
+   * Test activity COMPLETED activity state.
+   *
+   * @throws Exception the exception
+   */
+  @Test
+  public void testActivityStateCompleted() throws Exception {
+      token.executeStep();
+      token.executeStep();
+      assertFalse(lifecycleTester.isCompletedCalled());
+      Thread.sleep(LONG_WAITING_TIME_TEST);
+      assertTrue(lifecycleTester.isCompletedCalled());
+  }
+  
+  /**
+   * Test activity ACTIVE activity state.
+   *
+   * @throws Exception the exception
+   */
+  @Test
+  public void testActivityStateActive() throws Exception {
+      token.executeStep();
+      token.executeStep();
+      Thread.sleep(SHORT_WAITING_TIME_TEST);
+      assertEquals(token.getCurrentNode().getActivity().getState(), ActivityState.ACTIVE);
+  }
+  
   
   /**
    * Start a simple failing waiting process test. Waiting time is here not sufficient,
@@ -77,8 +108,11 @@ public class IntermediateTimerTest {
   @BeforeMethod
   public void beforeMethod() {
       ProcessBuilder builder = new ProcessBuilderImpl();
+      IntermediateTimer timer = new IntermediateTimer(WAITING_TIME);
+      lifecycleTester = new ActivityLifecycleAssurancePlugin();
+      timer.registerPlugin(lifecycleTester);
       NodeParameter param = new NodeParameterImpl(
-          new IntermediateTimer(WAITING_TIME),
+          timer,
           new SimpleJoinBehaviour(),
           new TakeAllSplitBehaviour());
       

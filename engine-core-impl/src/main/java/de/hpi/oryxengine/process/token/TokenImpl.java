@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import de.hpi.oryxengine.activity.DeferredActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
@@ -222,7 +223,12 @@ public class TokenImpl implements Token {
     throws DalmatinaException {
 
         navigator.removeSuspendToken(this);
-        getCurrentNode().getActivity().signal(this);
+        
+        // The Activity has to be casted into deferred activity because the signal method is only
+        // implemented in the interface DeferredActivities.
+        // This was done to not force the developer to implement the signal method in every activity.
+        DeferredActivity activity = (DeferredActivity) getCurrentNode().getActivity();
+        activity.signal(this);
         List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
         for (Token token : splittedTokens) {
@@ -232,6 +238,11 @@ public class TokenImpl implements Token {
         lazySuspendedProcessingTokens = null;
     }
 
+    /**
+     * Gets the lazy suspended processing token.
+     *
+     * @return the lazy suspended processing token
+     */
     private List<Token> getLazySuspendedProcessingToken() {
 
         if (lazySuspendedProcessingTokens == null) {

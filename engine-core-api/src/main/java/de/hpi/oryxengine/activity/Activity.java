@@ -23,8 +23,5 @@ public interface Activity {
      * @return the activity's state
      */
     @Nonnull ActivityState getState();
-    
-    // TODO da sollte noch ein weiterer Parameter übergeben werden
-    // Ein Event oder irgendein Objekt, das sagt das Signal gekommen ist 
-    void signal(@Nonnull Token token);
+   
 }
