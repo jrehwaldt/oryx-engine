@@ -24,11 +24,20 @@ public class NavigatorWebService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Navigator nav;
-    
-    
+
+    /**
+     * Default Constructor.
+     */
     public NavigatorWebService() {
+
         nav = (Navigator) OryxEngineAppContext.getBean("navigatorService");
     }
+
+    /**
+     * Gets the number of running process instances in the navigator.
+     * 
+     * @return the number of running process instances as string
+     */
     @Path("/runninginstances")
     @GET
     @Produces("text/plain")
@@ -37,6 +46,11 @@ public class NavigatorWebService {
         return String.valueOf(nav.getRunningInstances().size());
     }
 
+    /**
+     * Gets the number of finished instances in the navigator.
+     * 
+     * @return the number of finished instances as string
+     */
     @Path("/endedinstances")
     @GET
     @Produces("text/plain")
@@ -45,6 +59,12 @@ public class NavigatorWebService {
         return String.valueOf(nav.getEndedInstances().size());
     }
 
+    /**
+     * Starts a process instance according to the given process definition ID.
+     * 
+     * @param definitionID
+     *            the id of the process definition to be instantiated and started
+     */
     @Path("/start/{definition-id}")
     @GET
     public void startInstance(@PathParam("definition-id") String definitionID) {

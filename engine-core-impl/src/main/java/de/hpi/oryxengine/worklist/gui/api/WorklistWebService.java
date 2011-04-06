@@ -10,15 +10,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.hpi.oryxengine.IdentityService;
-import de.hpi.oryxengine.OryxEngineAppContext;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.exception.DefinitionNotFoundException;
-import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
@@ -40,8 +34,6 @@ public final class WorklistWebService implements WorklistServiceFacade {
 
     private final IdentityService identity;
     
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      * Default constructor.
      */
