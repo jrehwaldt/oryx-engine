@@ -84,52 +84,61 @@ implements WorklistServiceFacade {
     @GET
     @Override
     public List<WorklistItem> getWorklistItems(@PathParam("resource-type") ResourceType resourceType,
-                                               @PathParam("resource-id") UUID resourceId) {
-        Resource<?> resource = this.identity.findResource(resourceType, resourceId);
+                                               @PathParam("resource-id") String resourceId) {
+        UUID resourceUUID = UUID.fromString(resourceId);
+        Resource<?> resource = this.identity.findResource(resourceType, resourceUUID);
         return this.service.getWorklistItems(resource);
     }
     
     @Path("/item/{worklist-item-id}/claim/{resource-type}-{resource-id}")
     @POST
     @Override
-    public void claimWorklistItemBy(@PathParam("worklist-item-id") UUID worklistItemId,
+    public void claimWorklistItemBy(@PathParam("worklist-item-id") String worklistItemId,
                                     @PathParam("resource-type") ResourceType resourceType,
-                                    @PathParam("resource-id") UUID resourceId) {
-        Resource<?> resource = this.identity.findResource(resourceType, resourceId);
-        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemId);
+                                    @PathParam("resource-id") String resourceId) {
+        UUID resourceUUID = UUID.fromString(resourceId);
+        Resource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+        UUID worklistItemUUID = UUID.fromString(worklistItemId);
+        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
         this.service.claimWorklistItemBy(worklistItem, resource);
     }
     
     @Path("/item/{worklist-item-id}/begin/{resource-type}-{resource-id}")
     @POST
     @Override
-    public void beginWorklistItemBy(@PathParam("worklist-item-id") UUID worklistItemId,
+    public void beginWorklistItemBy(@PathParam("worklist-item-id") String worklistItemId,
                                     @PathParam("resource-type") ResourceType resourceType,
-                                    @PathParam("resource-id") UUID resourceId) {
-        Resource<?> resource = this.identity.findResource(resourceType, resourceId);
-        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemId);
+                                    @PathParam("resource-id") String resourceId) {
+        UUID resourceUUID = UUID.fromString(resourceId);
+        Resource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+        UUID worklistItemUUID = UUID.fromString(worklistItemId);
+        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
         this.service.beginWorklistItemBy(worklistItem, resource);
     }
     
     @Path("/item/{worklist-item-id}/complete/{resource-type}-{resource-id}")
     @POST
     @Override
-    public void completeWorklistItemBy(@PathParam("worklist-item-id") UUID worklistItemId,
+    public void completeWorklistItemBy(@PathParam("worklist-item-id") String worklistItemId,
                                        @PathParam("resource-type") ResourceType resourceType,
-                                       @PathParam("resource-id") UUID resourceId) {
-        Resource<?> resource = this.identity.findResource(resourceType, resourceId);
-        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemId);
+                                       @PathParam("resource-id") String resourceId) {
+        UUID resourceUUID = UUID.fromString(resourceId);
+        UUID worklistItemUUID = UUID.fromString(worklistItemId);
+        Resource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
         this.service.completeWorklistItemBy(worklistItem, resource);
     }
     
     @Path("/item/{worklist-item-id}/abort/{resource-type}-{resource-id}")
     @POST
     @Override
-    public void abortWorklistItemBy(@PathParam("worklist-item-id") UUID worklistItemId,
+    public void abortWorklistItemBy(@PathParam("worklist-item-id") String worklistItemId,
                                     @PathParam("resource-type") ResourceType resourceType,
-                                    @PathParam("resource-id") UUID resourceId) {
-        Resource<?> resource = this.identity.findResource(resourceType, resourceId);
-        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemId);
+                                    @PathParam("resource-id") String resourceId) {
+        UUID resourceUUID = UUID.fromString(resourceId);
+        UUID worklistItemUUID = UUID.fromString(worklistItemId);
+        Resource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
         this.service.abortWorklistItemBy(worklistItem, resource);
     }
 }

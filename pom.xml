@@ -20,6 +20,9 @@
 		<quartz-scheduler.version>1.8.4</quartz-scheduler.version>
 		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
 	</properties>
+	<!-- - <repositories> <repository> <id>jboss</id> <url>http://repository.jboss.org/maven2</url> 
+		</repository> </repositories> -->
+
 
 	<dependencyManagement>
 		<dependencies>
@@ -34,36 +37,25 @@
 				<artifactId>logback-classic</artifactId>
 				<version>${logback-version}</version>
 			</dependency>
-			<!-- Jetty & JAX-RS -->
 			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-server</artifactId>
-				<version>${jetty-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-servlet</artifactId>
-				<version>${jetty-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-annotations</artifactId>
-				<version>${jetty-version}</version>
-			</dependency>
-			<dependency><!-- JSP Support -->
-				<groupId>org.eclipse.jetty.osgi</groupId>
-				<artifactId>jetty-osgi-boot-jsp</artifactId>
-				<version>${jetty-version}</version>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>2.5</version>
 			</dependency>
 			<dependency><!-- JAX-RS -->
-				<groupId>com.sun.jersey</groupId>
-				<artifactId>jersey-server</artifactId>
-				<version>${jersey-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.sun.jersey</groupId>
-				<artifactId>jersey-json</artifactId>
-				<version>${jersey-version}</version>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxrs</artifactId>
+				<version>2.0.0.GA</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-simple</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jcl-over-slf4j</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<!-- JSR305 (@Nonnull/@Nullable) -->
 			<dependency>
@@ -177,6 +169,9 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-war-plugin</artifactId> 
+				<version>2.1.1</version> <configuration> <webXml>engine-core-impl/src/main/resources/webapp/WEB-INF/web.xml</webXml> 
+				<failOnMissingWebXml>false</failOnMissingWebXml> </configuration> </plugin> -->
 		</plugins>
 	</build>
 
