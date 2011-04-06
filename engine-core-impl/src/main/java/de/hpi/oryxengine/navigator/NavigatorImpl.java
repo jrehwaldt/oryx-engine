@@ -109,7 +109,8 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     public void startProcessInstance(UUID processID)
     throws DefinitionNotFoundException {
 
-        // TODO use the variable repository here.
+        // TODO use the variable repository here. This cannot be used in tests, as it requires the bootstrap to have run
+        // first, but we definitely do not want to start the whole engine to test a simple feature.
         ProcessDefinition definition = ServiceFactory.getRepositoryService().getDefinition(processID);
 
         ProcessInstance instance = new ProcessInstanceImpl(definition);
