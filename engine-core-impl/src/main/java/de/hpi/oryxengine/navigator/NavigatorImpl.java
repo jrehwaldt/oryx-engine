@@ -54,7 +54,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     }
 
     public NavigatorImpl(int numberOfThreads) {
-        
+
         this(null, numberOfThreads);
     }
 
@@ -72,7 +72,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         this.state = NavigatorState.INIT;
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
-//        repository = ServiceFactory.getRepositoryService();
+        // repository = ServiceFactory.getRepositoryService();
         this.repository = repo;
         this.suspendedTokens = new ArrayList<Token>();
         this.runningInstances = new ArrayList<ProcessInstance>();
@@ -103,6 +103,22 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         thread.start();
         executionThreads.add(thread);
         counter++;
+    }
+
+    @Override
+    public void startProcessInstance(UUID processID)
+    throws DefinitionNotFoundException {
+
+        // TODO use the variable repository here.
+        ProcessDefinition definition = ServiceFactory.getRepositoryService().getDefinition(processID);
+
+        ProcessInstance instance = new ProcessInstanceImpl(definition);
+
+        for (Node node : definition.getStartNodes()) {
+            Token newToken = instance.createToken(node, this);
+            startArbitraryInstance(newToken);
+        }
+        runningInstances.add(instance);
     }
 
     @Override

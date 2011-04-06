@@ -10,9 +10,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.hpi.oryxengine.IdentityService;
+import de.hpi.oryxengine.OryxEngineAppContext;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
@@ -28,21 +34,23 @@ import de.hpi.oryxengine.worklist.gui.WorklistServiceFacade;
  */
 @Path("/worklist")
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-public final class WorklistWebService
-implements WorklistServiceFacade {
-    
+public final class WorklistWebService implements WorklistServiceFacade {
+
     private final WorklistService service;
-    
+
     private final IdentityService identity;
     
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     /**
      * Default constructor.
      */
     public WorklistWebService() {
+
         this.service = ServiceFactory.getWorklistService();
         this.identity = ServiceFactory.getIdentityService();
     }
-    
+
     /**
      * Provides status information for the engine.
      * 
@@ -52,6 +60,7 @@ implements WorklistServiceFacade {
     @GET
     @Produces("text/plain")
     public String status() {
+
         if (this.service == null) {
             return "Hello World";
         } else {
@@ -59,82 +68,90 @@ implements WorklistServiceFacade {
         }
     }
 
-//    @Path("/items/")
-//    @GET
-////    @Override
-//    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") ResourceImpl<?> resource) {
-//        return this.service.getWorklistItems(resource);
-//    }
-//    
-//    @Path("/items/position/")
-//    @GET
-////    @Override
-//    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") Resource<?> resource) {
-//        return this.service.getWorklistItems(resource);
-//    }
-//
-//    @Path("/items/organization-unit/")
-//    @GET
-////    @Override
-//    public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") OrganizationUnitImpl resource) {
-//        return this.service.getWorklistItems(resource);
-//    }
     
+
+    
+    // @Path("/items/")
+    // @GET
+    // // @Override
+    // public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") ResourceImpl<?> resource) {
+    // return this.service.getWorklistItems(resource);
+    // }
+    //
+    // @Path("/items/position/")
+    // @GET
+    // // @Override
+    // public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") Resource<?> resource) {
+    // return this.service.getWorklistItems(resource);
+    // }
+    //
+    // @Path("/items/organization-unit/")
+    // @GET
+    // // @Override
+    // public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") OrganizationUnitImpl resource) {
+    // return this.service.getWorklistItems(resource);
+    // }
+
     @Path("/items/{resource-type}-{resource-id}")
     @GET
     @Override
     public List<WorklistItem> getWorklistItems(@PathParam("resource-type") ResourceType resourceType,
                                                @PathParam("resource-id") String resourceId) {
+
         UUID resourceUUID = UUID.fromString(resourceId);
         Resource<?> resource = this.identity.findResource(resourceType, resourceUUID);
         return this.service.getWorklistItems(resource);
     }
-    
+
     @Path("/item/{worklist-item-id}/claim/{resource-type}-{resource-id}")
     @POST
     @Override
     public void claimWorklistItemBy(@PathParam("worklist-item-id") String worklistItemId,
                                     @PathParam("resource-type") ResourceType resourceType,
                                     @PathParam("resource-id") String resourceId) {
+
         UUID resourceUUID = UUID.fromString(resourceId);
         Resource<?> resource = this.identity.findResource(resourceType, resourceUUID);
         UUID worklistItemUUID = UUID.fromString(worklistItemId);
         WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
         this.service.claimWorklistItemBy(worklistItem, resource);
     }
-    
+
     @Path("/item/{worklist-item-id}/begin/{resource-type}-{resource-id}")
     @POST
     @Override
     public void beginWorklistItemBy(@PathParam("worklist-item-id") String worklistItemId,
                                     @PathParam("resource-type") ResourceType resourceType,
                                     @PathParam("resource-id") String resourceId) {
+
         UUID resourceUUID = UUID.fromString(resourceId);
         Resource<?> resource = this.identity.findResource(resourceType, resourceUUID);
         UUID worklistItemUUID = UUID.fromString(worklistItemId);
         WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
         this.service.beginWorklistItemBy(worklistItem, resource);
     }
-    
+
     @Path("/item/{worklist-item-id}/complete/{resource-type}-{resource-id}")
     @POST
     @Override
     public void completeWorklistItemBy(@PathParam("worklist-item-id") String worklistItemId,
                                        @PathParam("resource-type") ResourceType resourceType,
                                        @PathParam("resource-id") String resourceId) {
+
         UUID resourceUUID = UUID.fromString(resourceId);
         UUID worklistItemUUID = UUID.fromString(worklistItemId);
         Resource<?> resource = this.identity.findResource(resourceType, resourceUUID);
         WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
         this.service.completeWorklistItemBy(worklistItem, resource);
     }
-    
+
     @Path("/item/{worklist-item-id}/abort/{resource-type}-{resource-id}")
     @POST
     @Override
     public void abortWorklistItemBy(@PathParam("worklist-item-id") String worklistItemId,
                                     @PathParam("resource-type") ResourceType resourceType,
                                     @PathParam("resource-id") String resourceId) {
+
         UUID resourceUUID = UUID.fromString(resourceId);
         UUID worklistItemUUID = UUID.fromString(worklistItemId);
         Resource<?> resource = this.identity.findResource(resourceType, resourceUUID);

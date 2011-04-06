@@ -18,15 +18,30 @@ public interface Navigator {
 
     /**
      * Start a new process instance.
-     *
-     * @param processID the id of the process that is to be instantiated
-     * @param event the event that triggered the start
-     * @throws DefinitionNotFoundException thrown if process with given id does not exist in repo
+     * 
+     * @param processID
+     *            the id of the process that is to be instantiated
+     * @param event
+     *            the event that triggered the start
+     * @throws DefinitionNotFoundException
+     *             thrown if process with given id does not exist in repo
      */
     // TODO This should return the id of the created process instance. Unfortunately, we do not have a process instance
     // class yet, so we cannot do this.
     @Nonnull
     void startProcessInstance(@Nonnull UUID processID, StartEvent event)
+    throws DefinitionNotFoundException;
+
+    /**
+     * Starts a new process instance with tokens on all start nodes.
+     * 
+     * @param processID
+     *            the id of the process to start
+     * @throws DefinitionNotFoundException
+     *             thrown if the specified id does not point to a process in the repository
+     */
+    @Nonnull
+    void startProcessInstance(@Nonnull UUID processID)
     throws DefinitionNotFoundException;
 
     /**
@@ -81,18 +96,19 @@ public interface Navigator {
      * @return the instances
      */
     List<ProcessInstance> getRunningInstances();
-    
+
     /**
      * Gets the instances that were processed by this navigator and have ended.
-     *
+     * 
      * @return the ended instances
      */
     List<ProcessInstance> getEndedInstances();
-    
+
     /**
      * Signal that a formerly running process instance has ended.
-     *
-     * @param instance the instance
+     * 
+     * @param instance
+     *            the instance
      */
     void signalEndedProcessInstance(ProcessInstance instance);
 }
