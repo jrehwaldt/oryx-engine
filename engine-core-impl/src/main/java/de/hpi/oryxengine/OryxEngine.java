@@ -1,38 +1,71 @@
 package de.hpi.oryxengine;
 
-import org.springframework.context.ApplicationContext;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
-import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.navigator.NavigatorImpl;
-
 /**
- * Bootstrapper for starting the Dalmatina Engine.
- * 
- * The Bootstrapper reads a configuration file and enables the dependency injection.
- * 
+ * The {@link OryxEngine} class is responsible for the initialization of the whole applicaiton. Therefore we use the
+ * "Inversion of Control" pattern provided by the Spring.net Framework.
  */
-public class OryxEngine {
+public final class OryxEngine {
 
-    // Dependency injection??
-    
-    public void start() {
-        
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("oryxengine.xml");
-        
-        ctx.getBean("");
-        
-//        appCon.
-        
-//        Navigator navigator = new NavigatorImpl();
-//        navigator.start();
-//        
-//        CorrelationManagerImpl correlationManager = new CorrelationManagerImpl(navigator);
-//        correlationManager.start();
+    public static final String DEFAULT_SPRING_CONFIG_FILE = "oryxengine.cfg.xml";
+
+    /**
+     * Starts the engine using the default dependency injection file (oryxengine.cfg.xml).
+     */
+    public static void start() {
+
+        startWithConfig(DEFAULT_SPRING_CONFIG_FILE);
     }
-    
-    public void shutdown() {
-        
+
+    /**
+     * Starts the engine using a specific dependency injection file.
+     * 
+     * @param configurationFile
+     *            - file where the dependencies are defined
+     */
+    public static void startWithConfig(String configurationFile) {
+
+        // Initialize ApplicationContext
+        initializeApplicationContext(configurationFile);
+
+        // Extracting all Service Beans
+        Map<String, Service> serviceTable = OryxEngineAppContext.getAppContext().getBeansOfType(Service.class);
+
+        if (serviceTable != null) {
+
+            Iterator<Service> serviceIterator = serviceTable.values().iterator();
+            while (serviceIterator.hasNext()) {
+
+                Service service = serviceIterator.next();
+                service.start();
+            }
+        }
     }
+
+    /**
+     * Initializes the {@link ApplicationContext} of the {@link OryxEngine}.
+     * 
+     * @param configurationFile
+     *            - file where the dependencies are defined
+     */
+    private static void initializeApplicationContext(String configurationFile) {
+
+        new ClassPathXmlApplicationContext(configurationFile);
+    }
+
+    /**
+     * Stops the {@link OryxEngine}.
+     */
+    public static void shutdown() {
+
+    }
+
+    /**
+     * Hidden Constructor.
+     */
+    private OryxEngine() { }
 }

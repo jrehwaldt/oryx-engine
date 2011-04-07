@@ -28,7 +28,7 @@ public class IntermediateTimer extends AbstractDeferredActivity {
     @Override
     protected void executeIntern(@Nonnull Token token) {
         
-        CorrelationManager correlationService = ServiceFactory.getCorrelationService(token.getNavigator());
+        CorrelationManager correlationService = ServiceFactory.getCorrelationService();
         TimedConfiguration conf = new TimerConfigurationImpl(this.time);
         correlationService.registerIntermediateEvent(new TimerEventImpl(conf, token));
         token.suspend();

@@ -14,6 +14,7 @@ import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.InboundAdapter;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
@@ -33,7 +34,7 @@ import de.hpi.oryxengine.navigator.Navigator;
 /**
  * A concrete implementation of our engines Event Manager.
  */
-public class CorrelationManagerImpl implements CorrelationManager, EventRegistrar {
+public class CorrelationManagerImpl implements CorrelationManager, EventRegistrar, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -75,6 +76,12 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
 
         logger.info("Starting the correlation manager");
         registerAdapter(this.errorAdapter);
+    }
+
+    @Override
+    public void stop() {
+        
+        logger.info("Stopping the correlation manager");
     }
 
     @Override

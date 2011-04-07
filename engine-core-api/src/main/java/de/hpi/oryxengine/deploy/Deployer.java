@@ -16,10 +16,8 @@ public interface Deployer {
      * 
      * @param def
      *            the def
-     * @param nav
-     *            the navigator we want to deploy this to
      */
-    void deploy(ProcessDefinition def, Navigator nav);
+    void deploy(ProcessDefinition def);
 
     /**
      * Deactivate.

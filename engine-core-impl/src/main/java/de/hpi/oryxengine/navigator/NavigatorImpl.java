@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.swing.text.ChangedCharSetException;
 
+import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
@@ -24,7 +25,7 @@ import de.hpi.oryxengine.repository.ProcessRepository;
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
  */
-public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> implements Navigator {
+public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> implements Navigator, Service {
 
     /**
      * Holds all the process tokens that are ready to be executed. Also implements some kind of scheduling algorithm.
@@ -68,7 +69,12 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      */
     public NavigatorImpl() {
 
-        this(NUMBER_OF_NAVIGATOR_THREADS);
+        this(null, NUMBER_OF_NAVIGATOR_THREADS);
+    }
+
+    public NavigatorImpl(int numberOfThreads) {
+
+        this(null, numberOfThreads);
     }
 
     /**
@@ -77,7 +83,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * @param numberOfThreads
      *            the number of navigator threads
      */
-    public NavigatorImpl(int numberOfThreads) {
+    public NavigatorImpl(ProcessRepository repo, int numberOfThreads) {
 
         // TODO Lazy initialized, o rly?
         this.scheduler = new FIFOScheduler();
@@ -85,7 +91,8 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         changeState(NavigatorState.INIT);
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
-        repository = ServiceFactory.getRepositoryService();
+        // repository = ServiceFactory.getRepositoryService();
+        this.repository = repo;
         this.suspendedTokens = new ArrayList<Token>();
         this.runningInstances = new ArrayList<ProcessInstance>();
         this.finishedInstances = new ArrayList<ProcessInstance>();
@@ -115,6 +122,23 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         thread.start();
         executionThreads.add(thread);
         counter++;
+    }
+
+    @Override
+    public void startProcessInstance(UUID processID)
+    throws DefinitionNotFoundException {
+
+        // TODO use the variable repository here. This cannot be used in tests, as it requires the bootstrap to have run
+        // first, but we definitely do not want to start the whole engine to test a simple feature.
+        ProcessDefinition definition = ServiceFactory.getRepositoryService().getDefinition(processID);
+
+        ProcessInstance instance = new ProcessInstanceImpl(definition);
+
+        for (Node node : definition.getStartNodes()) {
+            Token newToken = instance.createToken(node, this);
+            startArbitraryInstance(newToken);
+        }
+        runningInstances.add(instance);
     }
 
     @Override

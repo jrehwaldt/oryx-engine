@@ -26,7 +26,7 @@ public interface WorklistServiceFacade {
     * @return the work items
     */
    @Nullable List<WorklistItem> getWorklistItems(@Nonnull ResourceType resourceType,
-                                                 @Nonnull UUID resourceId);
+                                                 @Nonnull String resourceId);
    
    /**
     * Claims a certain work item.
@@ -35,9 +35,9 @@ public interface WorklistServiceFacade {
     * @param resourceType the resource's type
     * @param resourceId the resource's id
     */
-   void claimWorklistItemBy(@Nonnull UUID worklistItemId,
+   void claimWorklistItemBy(@Nonnull String worklistItemId,
                             @Nonnull ResourceType resourceType,
-                            @Nonnull UUID resourceId);
+                            @Nonnull String resourceId);
    
    /**
     * Begins a certain work item.
@@ -46,9 +46,9 @@ public interface WorklistServiceFacade {
     * @param resourceType the resource's type
     * @param resourceId the resource's id
     */
-   void beginWorklistItemBy(@Nonnull UUID worklistItemId,
+   void beginWorklistItemBy(@Nonnull String worklistItemId,
                             @Nonnull ResourceType resourceType,
-                            @Nonnull UUID resourceId);
+                            @Nonnull String resourceId);
    
    /**
     * Completes a certain work item.
@@ -57,9 +57,9 @@ public interface WorklistServiceFacade {
     * @param resourceType the resource's type
     * @param resourceId the resource's id
     */
-   void completeWorklistItemBy(@Nonnull UUID worklistItemId,
+   void completeWorklistItemBy(@Nonnull String worklistItemId,
                                @Nonnull ResourceType resourceType,
-                               @Nonnull UUID resourceId);
+                               @Nonnull String resourceId);
    
    /**
     * Aborts a certain work item.
@@ -68,7 +68,7 @@ public interface WorklistServiceFacade {
     * @param resourceType the resource's type
     * @param resourceId the resource's id
     */
-   void abortWorklistItemBy(@Nonnull UUID worklistItemId,
+   void abortWorklistItemBy(@Nonnull String worklistItemId,
                             @Nonnull ResourceType resourceType,
-                            @Nonnull UUID resourceId);
+                            @Nonnull String resourceId);
 }

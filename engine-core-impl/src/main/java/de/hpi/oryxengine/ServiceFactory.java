@@ -1,140 +1,73 @@
 package de.hpi.oryxengine;
 
-import java.util.HashMap;
-
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.allocation.TaskDistribution;
+import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.deploy.Deployer;
-import de.hpi.oryxengine.deploy.DeployerImpl;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.repository.ProcessRepository;
-import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 
 /**
  * General service factory, which provides singleton instances for our system.
  */
-public class ServiceFactory {
+public final class ServiceFactory {
     
-    /**
-     * Hidden constructor.
-     */
-    protected ServiceFactory() {
-        
+    protected static @Nonnull WorklistManager getWorklistManagerInstance() {
+
+        return (WorklistManager) OryxEngineAppContext.getBean("worklistService");
     }
 
-    protected static WorklistManager worklistManager = null;
-
-    protected static IdentityService identityService = null;
-
-    protected static Deployer deployer = null;
-
-    protected static ProcessRepository repo = null;
-
-    protected static HashMap<Navigator, CorrelationManagerImpl> correlationManagers = 
-        new HashMap<Navigator, CorrelationManagerImpl>();
-
-    /**
-     * Gets the worklist manager instance.
-     * 
-     * @return the worklist manager instance
-     */
-    protected synchronized static @Nonnull WorklistManager getWorklistManagerInstance() {
-
-        if (worklistManager == null) {
-            worklistManager = new WorklistManager();
-        }
-
-        return worklistManager;
-    }
-
-    /**
-     * Gets the worklist service.
-     * 
-     * @return the worklist service
-     */
     public static @Nonnull WorklistService getWorklistService() {
 
         return getWorklistManagerInstance();
     }
 
-    /**
-     * Gets the worklist queue.
-     * 
-     * @return the worklist queue
-     */
     public static @Nonnull TaskAllocation getWorklistQueue() {
 
         return getWorklistManagerInstance();
     }
 
-    /**
-     * Gets the task distribution.
-     * 
-     * @return the task distribution
-     */
     public static @Nonnull TaskDistribution getTaskDistribution() {
 
         return getWorklistManagerInstance();
     }
 
-    /**
-     * Gets the identity manager instance.
-     * 
-     * @return the identity manager instance
-     */
-    public synchronized static @Nonnull IdentityService getIdentityService() {
+    public static @Nonnull IdentityService getIdentityService() {
 
-        if (identityService == null) {
-            identityService = new IdentityServiceImpl();
-        }
-
-        return identityService;
+        return (IdentityService) OryxEngineAppContext.getBean("identityService");
     }
 
-    /**
-     * Deplyoment service.
-     * 
-     * @return the deployer service.
-     */
-    public synchronized static @Nonnull Deployer getDeplyomentService() {
+    public static @Nonnull Navigator getNavigatorService() {
 
-        if (deployer == null) {
-            deployer = new DeployerImpl();
-        }
-        return deployer;
+        return (Navigator) OryxEngineAppContext.getBean("navigatorService");
     }
 
-    /**
-     * Gets the repository service.
-     * 
-     * @return the repository service
-     */
-    public synchronized static @Nonnull ProcessRepository getRepositoryService() {
+    public static @Nonnull Deployer getDeplyomentService() {
 
-        if (repo == null) {
-            repo = new ProcessRepositoryImpl();
-        }
-        return repo;
+        return (Deployer) OryxEngineAppContext.getBean("deployerService");
+    }
+
+    public static @Nonnull ProcessRepository getRepositoryService() {
+
+        return (ProcessRepository) OryxEngineAppContext.getBean("repositoryService");
     }
 
     /**
      * Gets the correlation service for the supplied navigator. As we do not necessarily have only one navigator, we
      * need a CorrelationManager for each of them.
      * 
-     * @param nav
-     *            the nav
      * @return the correlation service
      */
-    public synchronized static @Nonnull CorrelationManagerImpl getCorrelationService(@Nonnull Navigator nav) {
-
-        CorrelationManagerImpl correlation = correlationManagers.get(nav);
-        if (correlation == null) {
-            correlation = new CorrelationManagerImpl(nav);
-            correlationManagers.put(nav, new CorrelationManagerImpl(nav));
-        }
-        return correlation;
+    public static @Nonnull CorrelationManager getCorrelationService() {
+        
+        return  (CorrelationManagerImpl) OryxEngineAppContext.getBean("correlationService");
     }
+    
+    /**
+     * Hidden Constructor.
+     */
+    private ServiceFactory() { }
 }

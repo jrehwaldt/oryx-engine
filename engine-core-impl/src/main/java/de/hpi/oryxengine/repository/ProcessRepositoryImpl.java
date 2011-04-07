@@ -8,6 +8,10 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
@@ -15,7 +19,10 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
  * The Class ProcessRepositoryImpl. The Repository holds the process definitions in the engine. To instantiate these,
  * the repository has to be asked.
  */
-public final class ProcessRepositoryImpl implements ProcessRepository {
+public final class ProcessRepositoryImpl implements ProcessRepository, Service {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass()); 
+    
 
     public static final UUID SIMPLE_PROCESS_ID = UUID.randomUUID();
 
@@ -27,6 +34,18 @@ public final class ProcessRepositoryImpl implements ProcessRepository {
     public ProcessRepositoryImpl() {
 
         this.definitions = new HashMap<UUID, ProcessDefinition>();
+    }
+
+    @Override
+    public void start() {
+        
+        logger.info("Starting the correlation manager");
+    }
+    
+    @Override
+    public void stop() {
+        
+        logger.info("Stopping the correlation manager");
     }
 
     @Override

@@ -1,5 +1,9 @@
 package de.hpi.oryxengine.resource;
 
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -13,7 +17,9 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 /**
  * Tests the building of {@link OrganizationUnit}s in the organization structure.
  */
-public class BuildingOrganizationUnitTest {
+@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTests {
 
     private IdentityService identityService = null;
 
@@ -21,6 +27,9 @@ public class BuildingOrganizationUnitTest {
 
     private OrganizationUnit organizationUnit = null;
 
+    /**
+     * Setup.
+     */
     @BeforeMethod
     public void beforeMethod() {
 
@@ -29,12 +38,20 @@ public class BuildingOrganizationUnitTest {
         organizationUnit = identityBuilder.createOrganizationUnit("BPT");
     }
 
+    /**
+     * Teardown.
+     */
     @AfterMethod
     public void tearDown() {
 
         ServiceFactoryForTesting.clearIdentityService();
     }
 
+    /**
+     * Tests orga creation.
+     * 
+     * @throws Exception fails
+     */
     @Test
     public void testOrganizationUnitCreation()
     throws Exception {
@@ -51,6 +68,9 @@ public class BuildingOrganizationUnitTest {
         Assert.assertEquals(organizationUnit.getSuperOrganizationUnit(), superOrganizationUnit);
     }
 
+    /**
+     * Tests unique orga.
+     */
     @Test
     public void testForUniqueOrganizationUnit() {
 

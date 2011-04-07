@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<bean id="navigatorService" class="de.hpi.oryxengine.navigator.NavigatorImpl">
+		<!-- Defines the number of navigator threads -->
+		<!-- <constructor-arg type="int" value="1"/> -->
+	</bean>
+
+	<bean id="identityService" class="de.hpi.oryxengine.IdentityServiceImpl"
+		scope="singleton" />
+
+	<bean id="worklistService" class="de.hpi.oryxengine.WorklistManager"
+		scope="singleton" />
+
+	<bean id="deployerService" class="de.hpi.oryxengine.deploy.DeployerImpl"
+		scope="singleton" />
+
+	<bean id="repositoryService" class="de.hpi.oryxengine.repository.ProcessRepositoryImpl"
+		scope="singleton">
+	</bean>
+
+	<bean id="correlationService" class="de.hpi.oryxengine.correlation.CorrelationManagerImpl"
+		scope="singleton">
+		<constructor-arg>
+			<ref bean="navigatorService" />
+		</constructor-arg>
+	</bean>
+
+
+	<bean id="oryxEngineAppContext" class="de.hpi.oryxengine.OryxEngineAppContext" />
+
+</beans>
