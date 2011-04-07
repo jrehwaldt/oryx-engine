@@ -150,8 +150,11 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
         /*
          * File dir = new File(PATH_TO_PROCESSES); File[] fileList = dir.listFiles(); System.out.println(fileList);
          * for(File f : fileList) { System.out.println(f.getName()); }
+         * 
+         * new approach:
+         * Class.forName(qualifiedSuperClassName).? <---------- it's your turn to find something!!!!
          */
-        String[] processModels = {"ExampleProcessTokenFactory", "HeavyComputationProcessTokenFactory"};
+        String[] processModels = {"ExampleProcessDeployer", "HeavyComputationProcessDeployer"};
         return processModels;
     }
 
