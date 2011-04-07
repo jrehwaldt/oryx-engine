@@ -102,7 +102,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         // TODO Lazy initialized, o rly?
         this.scheduler = new FIFOScheduler();
         this.executionThreads = new ArrayList<NavigationThread>();
-        changeState(NavigatorState.INIT);
+        this.state = NavigatorState.INIT;
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
         //this.repository = ServiceFactory.getRepositoryService();

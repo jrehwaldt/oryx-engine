@@ -1,6 +1,8 @@
 package de.hpi.oryxengine.plugin.navigator;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -19,41 +21,40 @@ public class NavigatorListenerLoggerTest {
     private NavigatorImpl navigator = null;
     private AbstractNavigatorListener listener = null;
     
+   /**
+    * Setup.
+    */
+   @BeforeTest
+   public void beforeMethod() {
+       this.navigator = new NavigatorImpl();
+       this.listener = mock(NavigatorListenerLogger.class);
+       this.navigator.registerPlugin(this.listener);
+   }
+    
+   /**
+    * Tests {@link Navigator} started.
+    */
+   @Test
+   public void testLoggingNavigatorStarted() {
+       navigator.start();
+       verify(listener).update(this.navigator, NavigatorState.RUNNING);
+       
+   }
+   
     /**
      * Tests {@link Navigator} stopped.
      */
     @Test
     public void testLoggingNavigatorStopped() {
-        NavigatorState state = NavigatorState.RUNNING;
-        this.listener.update(this.navigator, state);
-        this.listener.stateChanged(this.navigator, state);
-    }
-    
-    /**
-     * Tests {@link Navigator} started.
-     */
-    @Test
-    public void testLoggingNavigatorStarted() {
-        NavigatorState state = NavigatorState.STOPPED;
-        this.listener.update(this.navigator, state);
-        this.listener.stateChanged(this.navigator, state);
-    }
-    
-    /**
-     * Tests {@link Navigator} initialized (default switch branch...).
-     */
-    @Test
-    public void testLoggingNavigatorInitializedAndDefaultSwitchBranch() {
-        this.listener.update(this.navigator, NavigatorState.INIT);
+        navigator.start();
+        navigator.stop();
+        verify(listener).update(this.navigator, NavigatorState.STOPPED);
     }
     
     
-    /**
-     * Setup.
-     */
-   @BeforeTest
-   public void beforeMethod() {
-       this.navigator = mock(NavigatorImpl.class);
-       this.listener = NavigatorListenerLogger.getInstance();
-   }
+    
+    
+    
+    
+
 }
