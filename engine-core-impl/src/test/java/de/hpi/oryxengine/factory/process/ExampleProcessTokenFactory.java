@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.factory.process;
 
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.factory.node.AddNumbersAndStoreNodeFactory;
 import de.hpi.oryxengine.factory.token.SimpleProcessTokenFactory;
 import de.hpi.oryxengine.process.structure.Node;
@@ -47,6 +48,14 @@ public class ExampleProcessTokenFactory implements ProcessTokenFactory {
     public void initializeProcessToken() {
         SimpleProcessTokenFactory factory = new SimpleProcessTokenFactory();
         token = factory.create(node1);        
+    }
+
+    @Override
+    public void deploy()
+    throws IllegalStarteventException {
+
+        // TODO Auto-generated method stub
+        
     }
 
 }

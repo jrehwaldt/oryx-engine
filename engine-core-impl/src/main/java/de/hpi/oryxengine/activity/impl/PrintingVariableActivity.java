@@ -28,7 +28,6 @@ extends AbstractActivity {
 
         ProcessInstanceContext context = token.getInstance().getContext();
         String variableValue = (String) context.getVariable(variableName).toString();
-        System.out.println("In der Variable " + variableName + " steht " + variableValue + " .");
     }
 
 }

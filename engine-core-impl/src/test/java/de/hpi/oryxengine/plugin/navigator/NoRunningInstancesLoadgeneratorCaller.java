@@ -3,8 +3,7 @@ package de.hpi.oryxengine.plugin.navigator;
 import de.hpi.oryxengine.loadgenerator.LoadGenerator;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorState;
-import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
-import de.hpi.oryxengine.process.token.Token;
+
 
 /**
  * The listener interface for receiving schedulerListEmpty events.
@@ -21,7 +20,9 @@ public final class NoRunningInstancesLoadgeneratorCaller
 extends AbstractNavigatorListener {
 
     /** The hugene. */
-    private LoadGenerator hugene;    
+    private LoadGenerator hugene; 
+    /** determines whether or not we already called the method on the loadgenerator. */
+    private boolean called;
 
     /**
      * Instantiates a new scheduler list empty listener.
@@ -30,14 +31,15 @@ extends AbstractNavigatorListener {
      */
     public NoRunningInstancesLoadgeneratorCaller(LoadGenerator gene) {
         this.hugene = gene;
+        called = false;
     }
     
 
     @Override
     protected void stateChanged(Navigator nav, NavigatorState navState) {
-
-        if (navState == NavigatorState.CURRENTLY_FINISHED) {
+        if ((navState == NavigatorState.CURRENTLY_FINISHED) && (!called)) {
             hugene.navigatorCurrentlyFinished();
+            called = true;
         }
         
     }

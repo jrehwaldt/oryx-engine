@@ -12,6 +12,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.factory.process.ProcessTokenFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
+import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.plugin.navigator.NoRunningInstancesLoadgeneratorCaller;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -35,7 +36,7 @@ public class LoadGenerator {
     private static final String DEFAULT_PROCESS = "HeavyComputationProcessTokenFactory";
     
     /** The Constant DEFAULT_NUMBER_OF_RUNS. */
-    private static final int DEFAULT_NUMBER_OF_RUNS = 1;
+    private static final int DEFAULT_NUMBER_OF_RUNS = 10;
     
     /** The Constant DEFAULT_NUMBER_OF_THREADS. */
     private static final int DEFAULT_NUMBER_OF_THREADS = 4;
@@ -116,8 +117,6 @@ public class LoadGenerator {
 
     /**
      * Calls the Example Process token factory in order to create a new process.
-     *
-     * @return the example process token
      */
     public void deployProcessDefinitionExampleProcess() {
 
@@ -165,9 +164,12 @@ public class LoadGenerator {
         this.logMemoryUsed("Used memory in megabytes at the very beginning: ");
         this.logger.info("We start to put " + String.valueOf(numberOfRuns) + "  instances from the Factory "
             + className + " into our navigator!");
+      //  navigator = (NavigatorImpl) ServiceFactory.getNavigatorService(); 
         navigator = new NavigatorImpl(numberOfThreads);
         NoRunningInstancesLoadgeneratorCaller listener = new NoRunningInstancesLoadgeneratorCaller(this);
         navigator.registerPlugin(listener);
+        NavigatorListenerLogger l = NavigatorListenerLogger.getInstance();
+        navigator.registerPlugin(l);
         
         // Lookup the process Definition and get the start tokens
         List<Token> tokenList = new ArrayList<Token>();
@@ -176,7 +178,7 @@ public class LoadGenerator {
         ProcessDefinition definition = ServiceFactory.getRepositoryService().getDefinitions().get(0);
         ProcessInstance instance = new ProcessInstanceImpl(definition);
         for (Node startNode : definition.getStartNodes()) {
-            tokenList.add(instance.createToken(startNode, ServiceFactory.getNavigatorService()));
+            tokenList.add(instance.createToken(startNode, navigator));
         }
 
         for (int i = 0; i < this.numberOfRuns; i++) {

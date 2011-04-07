@@ -7,6 +7,8 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.swing.text.ChangedCharSetException;
 
+import ch.qos.logback.classic.Logger;
+
 import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
@@ -66,12 +68,24 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     /**
      * Instantiates a new navigator implementation.
+     * 
+     * Be aware however that there is a ServiceFactory which has a Navigator Singleton since this should be a Singleton.
+     * So use with caution.
      */
     public NavigatorImpl() {
 
         this(null, NUMBER_OF_NAVIGATOR_THREADS);
     }
 
+    
+    /**
+     * Instantiates a new navigator implementation.
+     * 
+     * Be aware however that there is a ServiceFactory which has a Navigator Singleton since this should be a Singleton.
+     * So use with caution.
+     *
+     * @param numberOfThreads the number of threads
+     */
     public NavigatorImpl(int numberOfThreads) {
 
         this(null, numberOfThreads);

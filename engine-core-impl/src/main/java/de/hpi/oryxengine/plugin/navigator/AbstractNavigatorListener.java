@@ -8,7 +8,6 @@ import de.hpi.oryxengine.navigator.Navigator;
 
 import de.hpi.oryxengine.navigator.NavigatorState;
 import de.hpi.oryxengine.plugin.ObserverPlugin;
-import de.hpi.oryxengine.plugin.Plugin;
 
 
 
@@ -19,7 +18,7 @@ import de.hpi.oryxengine.plugin.Plugin;
  * @see AbstractNavigatorEvent
  */
 public abstract class AbstractNavigatorListener
-implements ObserverPlugin, Plugin {
+implements ObserverPlugin {
     
     /**
      * This method is called whenever the navigator changes its state.

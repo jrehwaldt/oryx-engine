@@ -2,6 +2,7 @@ package de.hpi.oryxengine.factory.process;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HashComputationActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
@@ -66,6 +67,11 @@ public class HeavyComputationProcessTokenFactory implements ProcessTokenFactory 
             builder.createTransition(this.lastNode, tmpNode);
             this.lastNode = tmpNode;
         }
+        
+        param.setActivity(new EndActivity());
+        Node endNode = builder.createNode(param);
+        builder.createTransition(this.lastNode, endNode);
+        
     }
 
     /**
