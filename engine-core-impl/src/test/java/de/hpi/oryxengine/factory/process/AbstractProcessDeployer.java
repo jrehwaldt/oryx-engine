@@ -20,6 +20,7 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
      */
     public void deploy() throws IllegalStarteventException {
         this.initializeNodes();
+        this.createPseudoHuman();
         ProcessDefinition definition = this.builder.buildDefinition();
         ServiceFactory.getDeplyomentService().deploy(definition);
     }
@@ -28,5 +29,13 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
      * Initialize nodes.
      */
     abstract public void initializeNodes();
+    
+    /**
+     * Creates a thread to complete human tasks.
+     * Nothing happens here for automated task nodes.
+     */
+    public void createPseudoHuman() {
+
+    }
 
 }
