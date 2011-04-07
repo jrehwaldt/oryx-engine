@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.factory.process;
 
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -13,6 +14,6 @@ public interface ProcessTokenFactory {
      *
      * @return the token
      */
-    Token create();
+    void deploy() throws IllegalStarteventException;
 
 }

@@ -25,7 +25,7 @@ import de.hpi.oryxengine.process.token.Token;
  * SHA-512
  * DSA
  * RSA
- * andy many more ;-)
+ * and many more ;-)
  */
 public class HashComputationActivity extends AbstractActivity {
 

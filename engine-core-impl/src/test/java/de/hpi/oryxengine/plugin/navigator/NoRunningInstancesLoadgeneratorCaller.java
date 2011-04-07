@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.plugin.scheduler;
+package de.hpi.oryxengine.plugin.navigator;
 
 import de.hpi.oryxengine.loadgenerator.LoadGenerator;
 import de.hpi.oryxengine.navigator.Navigator;

@@ -1,9 +1,21 @@
 package de.hpi.oryxengine.factory.process;
 
-import de.hpi.oryxengine.factory.node.HashComputationNodeFactory;
-import de.hpi.oryxengine.factory.token.SimpleProcessTokenFactory;
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.activity.impl.HashComputationActivity;
+import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.process.definition.NodeParameter;
+import de.hpi.oryxengine.process.definition.NodeParameterImpl;
+import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * A factory for creating HeavyComputationProcessToken objects / process instances.
@@ -19,53 +31,54 @@ public class HeavyComputationProcessTokenFactory implements ProcessTokenFactory 
     
     /** The Constant PASSWORDS. */
     private final static String[] PASSWORDS = {"Hallo", "toor", "278dahka!§-", "muhhhh", "HPI"};
-
-    /** The nodes. */
-    private Node[] nodes;
     
-    /** The t. */
-    private Token t;
+    private ProcessBuilder builder;
+    
+    private Node startNode;
+    
+    private Node lastNode;
 
     /**
      * Instantiates a new heavy computation process token factory.
      */
     public HeavyComputationProcessTokenFactory() {
 
-        nodes = new Node[NUMBER_OF_NODES];
+        builder = new ProcessBuilderImpl();
     }
 
     /**
      * Initialize this HashComputation nodes of the factory and connects them so we get an actual graph.
      */
     public void initializeNodes() {
-
+       
+        NodeParameter param = new NodeParameterImpl(new NullActivity(), new SimpleJoinBehaviour(),
+            new TakeAllSplitBehaviour());
+        param.makeStartNode(true);
+        startNode = builder.createNode(param);
+        param.makeStartNode(false);
+        this.lastNode = startNode;
+        
         for (int i = 0; i < NUMBER_OF_NODES; i++) {
-            HashComputationNodeFactory factory = new HashComputationNodeFactory("hash" + String.valueOf(i + 1),
-                PASSWORDS[i], "SHA-512");
-            nodes[i] = factory.create();
-            if (i > 0) {
-                nodes[i - 1].transitionTo(nodes[i]);
-            }
+            Activity activity  = new HashComputationActivity("hash" + String.valueOf(i + 1),
+                PASSWORDS[i % PASSWORDS.length], "SHA-512");
+            param.setActivity(activity);
+            Node tmpNode = builder.createNode(param);
+            builder.createTransition(this.lastNode, tmpNode);
+            this.lastNode = tmpNode;
         }
     }
 
     /**
-     * Initializes the token which is set to the first node.
-     */
-    public void initializeToken() {
-        SimpleProcessTokenFactory factory = new SimpleProcessTokenFactory();
-        t = factory.create(nodes[0]);
-    }
-    
-    /**
-     * Creates the Heavy Compuation process token.
+     * Creates the Heavy Computation process token.
      *
      * @return the token
+     * @throws IllegalStarteventException 
      */
-    public Token create() {
+    public void deploy() throws IllegalStarteventException {
         this.initializeNodes();
-        this.initializeToken();
-        return this.t;
+        ProcessDefinition definition = this.builder.buildDefinition();
+        ServiceFactory.getDeplyomentService().deploy(definition);
+
     }
 
 }

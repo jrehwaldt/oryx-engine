@@ -1,13 +1,23 @@
 package de.hpi.oryxengine.loadgenerator;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.OryxEngine;
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.factory.process.ProcessTokenFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.plugin.scheduler.NoRunningInstancesLoadgeneratorCaller;
+import de.hpi.oryxengine.plugin.navigator.NoRunningInstancesLoadgeneratorCaller;
+import de.hpi.oryxengine.process.definition.NodeParameter;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
@@ -66,11 +76,19 @@ public class LoadGenerator {
      *            the number of threads the navigator should use
      */
     public LoadGenerator(String className, int numberOfRuns, int numberOfThreads) {
-
+               
+        //Initialize the service
+        OryxEngine.startWithConfig("test.oryxengine.cfg.xml");
+        
         this.className = PATH_TO_PROCESS_FACTORIES + className;
         this.numberOfRuns = numberOfRuns;
         this.numberOfThreads = numberOfThreads;
         this.runtime = Runtime.getRuntime();
+        
+        // TODO Deploy the ordered process definition. Perhaps later all process
+        // definitions should be deployed and the appropriate then should be selected...
+        deployProcessDefinitionExampleProcess();
+        
 
     }
 
@@ -101,13 +119,13 @@ public class LoadGenerator {
      *
      * @return the example process token
      */
-    public Token getExampleProcess() {
+    public void deployProcessDefinitionExampleProcess() {
 
         ProcessTokenFactory factory;
         try {
             factory = (ProcessTokenFactory) Class.forName(className).newInstance();
             //TODO change this to the new repository
-            return factory.create();
+            factory.deploy();
         } catch (InstantiationException e) {
             logger.debug("Loading of class " + className + " failed , the name seems to be wrong.", e);
             e.printStackTrace();
@@ -117,8 +135,10 @@ public class LoadGenerator {
         } catch (ClassNotFoundException e) {
             logger.debug("Loading of class " + className + " failed , the name seems to be wrong.", e);
             e.printStackTrace();
+        } catch (IllegalStarteventException e) {
+            logger.debug("Loading of class " + className + " failed , start node was wrong.", e);
+            e.printStackTrace();
         }
-        return null;
 
     }
 
@@ -148,10 +168,23 @@ public class LoadGenerator {
         navigator = new NavigatorImpl(numberOfThreads);
         NoRunningInstancesLoadgeneratorCaller listener = new NoRunningInstancesLoadgeneratorCaller(this);
         navigator.registerPlugin(listener);
+        
+        // Lookup the process Definition and get the start tokens
+        List<Token> tokenList = new ArrayList<Token>();
+        // TODO atm first implementation only with the first process in the repository,
+        // this should be later changed to a more generic way
+        ProcessDefinition definition = ServiceFactory.getRepositoryService().getDefinitions().get(0);
+        ProcessInstance instance = new ProcessInstanceImpl(definition);
+        for (Node startNode : definition.getStartNodes()) {
+            tokenList.add(instance.createToken(startNode, ServiceFactory.getNavigatorService()));
+        }
 
         for (int i = 0; i < this.numberOfRuns; i++) {
-            TokenImpl p = (TokenImpl) this.getExampleProcess();
-            navigator.startArbitraryInstance(p);
+            // Start the process with all the start tokens
+            for (Token token : tokenList) {
+                navigator.startArbitraryInstance(token);
+            }
+
             /*
              * this.logger.info( "Started Process token " + Integer.toString(i + 1) + " of " +
              * Integer.toString(this.getNumberOfRuns()));

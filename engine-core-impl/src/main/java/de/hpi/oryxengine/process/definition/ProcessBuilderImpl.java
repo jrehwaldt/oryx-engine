@@ -30,6 +30,8 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     private String description;
 
     private Map<StartEvent, Node> temporaryStartTriggers;
+    
+    private Node startNode;
 
     /**
      * Instantiates some temporary datastructures.
