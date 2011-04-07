@@ -5,7 +5,7 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-	<bean id="navigatorService" class="de.hpi.oryxengine.navigator.NavigatorImpl">
+	<bean id="navigatorService" class="de.hpi.oryxengine.navigator.NavigatorImpl" scope="singleton">
 		<!-- Defines the number of navigator threads -->
 		<!-- <constructor-arg type="int" value="1"/> -->
 	</bean>

@@ -27,6 +27,9 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
 
     private OrganizationUnit organizationUnit = null;
 
+    /**
+     * Setup.
+     */
     @BeforeMethod
     public void beforeMethod() {
 
@@ -35,12 +38,20 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
         organizationUnit = identityBuilder.createOrganizationUnit("BPT");
     }
 
+    /**
+     * Teardown.
+     */
     @AfterMethod
     public void tearDown() {
 
         ServiceFactoryForTesting.clearIdentityService();
     }
 
+    /**
+     * Tests orga creation.
+     * 
+     * @throws Exception fails
+     */
     @Test
     public void testOrganizationUnitCreation()
     throws Exception {
@@ -57,6 +68,9 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
         Assert.assertEquals(organizationUnit.getSuperOrganizationUnit(), superOrganizationUnit);
     }
 
+    /**
+     * Tests unique orga.
+     */
     @Test
     public void testForUniqueOrganizationUnit() {
 
