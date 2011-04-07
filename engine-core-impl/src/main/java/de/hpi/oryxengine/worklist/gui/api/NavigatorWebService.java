@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.OryxEngineAppContext;
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.Navigator;
 
@@ -30,7 +30,7 @@ public class NavigatorWebService {
      */
     public NavigatorWebService() {
 
-        nav = (Navigator) OryxEngineAppContext.getBean("navigatorService");
+        nav = ServiceFactory.getNavigatorService();
     }
 
     /**

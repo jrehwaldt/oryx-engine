@@ -7,6 +7,7 @@ import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.deploy.Deployer;
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.repository.ProcessRepository;
 
 /**
@@ -39,6 +40,11 @@ public final class ServiceFactory {
         return (IdentityService) OryxEngineAppContext.getBean("identityService");
     }
 
+    public static @Nonnull Navigator getNavigatorService() {
+
+        return (Navigator) OryxEngineAppContext.getBean("navigatorService");
+    }
+
     public static @Nonnull Deployer getDeplyomentService() {
 
         return (Deployer) OryxEngineAppContext.getBean("deployerService");
@@ -53,19 +59,8 @@ public final class ServiceFactory {
      * Gets the correlation service for the supplied navigator. As we do not necessarily have only one navigator, we
      * need a CorrelationManager for each of them.
      * 
-     * @param nav
-     *            the nav
      * @return the correlation service
      */
-//    public synchronized static @Nonnull CorrelationManagerImpl getCorrelationService(@Nonnull Navigator nav) {
-//
-//        CorrelationManagerImpl correlation = correlationManagers.get(nav);
-//        if (correlation == null) {
-//            correlation = new CorrelationManagerImpl(nav);
-//            correlationManagers.put(nav, new CorrelationManagerImpl(nav));
-//        }
-//        return correlation;
-//    }
     public static @Nonnull CorrelationManager getCorrelationService() {
         
         return  (CorrelationManagerImpl) OryxEngineAppContext.getBean("correlationService");
