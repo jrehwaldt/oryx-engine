@@ -72,7 +72,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         this.state = NavigatorState.INIT;
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
-        // repository = ServiceFactory.getRepositoryService();
+        //this.repository = ServiceFactory.getRepositoryService();
         this.repository = repo;
         this.suspendedTokens = new ArrayList<Token>();
         this.runningInstances = new ArrayList<ProcessInstance>();
