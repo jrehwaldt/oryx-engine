@@ -12,8 +12,10 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.loadgenerator.LoadGenerator;
+import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -24,15 +26,12 @@ import de.hpi.oryxengine.repository.RepositorySetup;
  * Tests the SchedulerEmptyListener Plugin, that invokes a method on a loadgenerator when the queue of the Scheduler is.
  * empty
  */
-public class SchedulerEmptyListenerTest {
+public class NoRunningInstancesLoadgeneratorCallerTest {
 
-    /** The scheduler. */
-    private FIFOScheduler scheduler = null;
+    private NavigatorImpl nav = null;
     
-    /** The mocki gene. */
     private LoadGenerator mockiGene = null;
     
-    /** The pi. */
     private Token pi = null;
 
     /**
@@ -53,10 +52,10 @@ public class SchedulerEmptyListenerTest {
     @BeforeMethod
     public void setUp() throws Exception {
 
-        scheduler = new FIFOScheduler();
+        nav = new NavigatorImpl();
         mockiGene = mock(LoadGenerator.class);
-        SchedulerEmptyListener listener = new SchedulerEmptyListener(mockiGene);
-        scheduler.registerPlugin(listener);
+        NoRunningInstancesLoadgeneratorCaller caller = new NoRunningInstancesLoadgeneratorCaller(mockiGene);
+        nav.registerPlugin(caller);
         ProcessRepository repo = ServiceFactory.getRepositoryService();
         ProcessDefinition def = repo.getDefinition(RepositorySetup.FIRST_EXAMPLE_PROCESS_ID);
         List<Node> startNodes = def.getStartNodes();
@@ -70,11 +69,12 @@ public class SchedulerEmptyListenerTest {
     @Test
     public void testMethodInvokedOnLoadGenerator() {
 
-        scheduler.submit(pi);
-        scheduler.retrieve();
-
+        nav.startArbitraryInstance(pi);
+        ProcessInstance instance = pi.getInstance();
+        nav.signalEndedProcessInstance(instance);
+        
         // verify that the method we want is called on the load generator
-        verify(mockiGene).schedulerIsEmpty();
+        verify(mockiGene).navigatorCurrentlyFinished();
 
     }
 }

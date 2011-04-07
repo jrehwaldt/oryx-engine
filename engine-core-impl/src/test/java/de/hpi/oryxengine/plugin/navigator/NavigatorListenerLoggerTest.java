@@ -13,6 +13,7 @@ import de.hpi.oryxengine.navigator.NavigatorState;
  * 
  * @author Jan Rehwaldt
  */
+// TODO mock it so it really tests something
 public class NavigatorListenerLoggerTest {
     
     private NavigatorImpl navigator = null;
@@ -23,8 +24,9 @@ public class NavigatorListenerLoggerTest {
      */
     @Test
     public void testLoggingNavigatorStopped() {
-        this.listener.update(this.navigator, NavigatorState.RUNNING);
-        this.listener.navigatorStopped(this.navigator);
+        NavigatorState state = NavigatorState.RUNNING;
+        this.listener.update(this.navigator, state);
+        this.listener.stateChanged(this.navigator, state);
     }
     
     /**
@@ -32,8 +34,9 @@ public class NavigatorListenerLoggerTest {
      */
     @Test
     public void testLoggingNavigatorStarted() {
-        this.listener.update(this.navigator, NavigatorState.STOPPED);
-        this.listener.navigatorStarted(this.navigator);
+        NavigatorState state = NavigatorState.STOPPED;
+        this.listener.update(this.navigator, state);
+        this.listener.stateChanged(this.navigator, state);
     }
     
     /**
