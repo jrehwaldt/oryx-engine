@@ -3,6 +3,10 @@ package de.hpi.oryxengine.navigator;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,22 +22,16 @@ import de.hpi.oryxengine.process.token.TokenImpl;
  */
 public class NavigatorTest {
 
-    /** The Constant SLEEP_TIME. */
     private static final int SLEEP_TIME = 3000;
 
-    /** The navigator. */
     private NavigatorImpl navigator = null;
 
-    /** Different nodes. */
     private Node node = null, node2 = null;
 
-    /** The process instance. */
     private TokenImpl processToken = null;
 
-    /** The byte array output stream. */
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-    /** A temporary print stream. */
     private PrintStream tmp = null;
 
     /**

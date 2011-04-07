@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.worklist.gui.api;
+package de.hpi.oryxengine.restapi;
 
 import java.util.UUID;
 
@@ -41,9 +41,8 @@ public class NavigatorWebService {
     @Path("/runninginstances")
     @GET
     @Produces("text/plain")
-    public String runningInstances() {
-
-        return String.valueOf(nav.getRunningInstances().size());
+    public int runningInstances() {
+        return nav.getRunningInstances().size();
     }
 
     /**
@@ -54,9 +53,9 @@ public class NavigatorWebService {
     @Path("/endedinstances")
     @GET
     @Produces("text/plain")
-    public String endedInstances() {
+    public int endedInstances() {
 
-        return String.valueOf(nav.getEndedInstances().size());
+        return nav.getEndedInstances().size();
     }
 
     /**

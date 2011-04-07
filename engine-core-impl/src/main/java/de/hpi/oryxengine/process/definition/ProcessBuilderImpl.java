@@ -37,21 +37,22 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     public ProcessBuilderImpl() {
 
         this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
+        this.id = UUID.randomUUID();
     }
 
     @Override
     public ProcessDefinition buildDefinition() throws IllegalStarteventException {
 
-        definition = new ProcessDefinitionImpl(id, description, startNodes);
+        this.definition = new ProcessDefinitionImpl(id, description, startNodes);
 
         for (Map.Entry<StartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
-            definition.addStartTrigger(entry.getKey(), entry.getValue());
+            this.definition.addStartTrigger(entry.getKey(), entry.getValue());
         }
         
         //cleanup
-        startNodes = new ArrayList<Node>();
-        id = null;
-        description = null;
+        this.startNodes = new ArrayList<Node>();
+        this.id = UUID.randomUUID();
+        this.description = null;
         this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
         
         return definition;
@@ -101,7 +102,7 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     public void createStartTrigger(StartEvent event, Node startNode)
     throws DalmatinaException {
 
-        temporaryStartTriggers.put(event, startNode);
+        this.temporaryStartTriggers.put(event, startNode);
 
     }
 

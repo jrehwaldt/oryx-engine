@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.worklist.gui.api;
+package de.hpi.oryxengine.restapi;
 
 import java.util.UUID;
 
