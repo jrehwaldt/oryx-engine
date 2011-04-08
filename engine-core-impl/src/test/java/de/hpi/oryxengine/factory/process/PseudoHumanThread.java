@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.resource.AbstractResource;
+import de.hpi.oryxengine.resource.AutomatedParticipant;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
@@ -19,9 +20,6 @@ import de.hpi.oryxengine.resource.worklist.WorklistItem;
 public class PseudoHumanThread extends Thread {
     private String name;
 
-    /** worktime is the time this PseudoHumanThread needs to complete one task. */
-    private int worktime;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -29,13 +27,10 @@ public class PseudoHumanThread extends Thread {
      * 
      * @param name
      *            the name of the pseudo human thread
-     * @param time
-     *            the time this workerthread needs to work on a specific task
      */
-    public PseudoHumanThread(String name, int time) {
+    public PseudoHumanThread(String name) {
 
         this.name = name;
-        this.worktime = time;
     }
 
     /**
@@ -45,13 +40,14 @@ public class PseudoHumanThread extends Thread {
      */
     public void run() {
 
-        Set<Participant> participants = ServiceFactory.getIdentityService().getParticipants();
+        // this has to be freaking substituted :-o
+        Set<AutomatedParticipant> participants = (Set<AutomatedParticipant>) ServiceFactory.getIdentityService().getParticipants();
         // create a list with the participants, which is necessary for the size function call
         List<AbstractResource<?>> listParticipants = new ArrayList<AbstractResource<?>>();
         listParticipants.addAll(participants);
         // repeat as long as there is work to be done for every participant
         while (ServiceFactory.getWorklistQueue().size(listParticipants) > 0) {
-            for (Participant participant : participants) {
+            for (AutomatedParticipant participant : participants) {
                 // we have to check whether the participant has work to do, otherwise we skip him
                 if (ServiceFactory.getWorklistQueue().getWorklistItems(participant).size() > 0) {
                     // get an item and complete it
@@ -60,7 +56,7 @@ public class PseudoHumanThread extends Thread {
                     ServiceFactory.getWorklistQueue().claimWorklistItemBy(item, participant);
                     // wait some time to simulate working duration
                     try {
-                        Thread.sleep(this.worktime);
+                        Thread.sleep(participant.get);
                     } catch (InterruptedException e) {
                         logger.debug("Ths sleep of our PseudoHumanThread " + name + " was somehow interrupted...", e);
                     }

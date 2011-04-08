@@ -83,7 +83,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(List<AbstractResource<?>> resources) {
+    public Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(Set<AbstractResource<?>> resources) {
 
         Map<AbstractResource<?>, List<WorklistItem>> result = new HashMap<AbstractResource<?>, List<WorklistItem>>();
 
@@ -139,7 +139,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public int size(List<AbstractResource<?>> resources) {
+    public int size(Set<AbstractResource<?>> resources) {
         Map<AbstractResource<?>, List<WorklistItem>> items = getWorklistItems(resources);
         return items.size();
     }
