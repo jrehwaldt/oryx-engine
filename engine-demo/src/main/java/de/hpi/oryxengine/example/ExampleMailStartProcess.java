@@ -29,76 +29,86 @@ import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
- * The Class ExampleMailStartProcess. This is an example process that is started by an arriving email.
+ * The Class ExampleMailStartProcess. This is an example process that is started
+ * by an arriving email.
  */
-public class ExampleMailStartProcess {
+public final class ExampleMailStartProcess {
 
-    /**
-     * The main method. Run the sh*t.
-     * 
-     * @param args
-     *            the arguments
-     * @throws InterruptedException
-     *             the interrupted exception
-     */
-    public static void main(String[] args)
-    throws InterruptedException {
+	/** no public/default constructor for this Demothingie. */
+	private ExampleMailStartProcess() {
+	};
 
-        UUID processID = UUID.randomUUID();
+	/**
+	 * The main method. Run the sh*t.
+	 * 
+	 * @param args
+	 *            the arguments
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 */
+	public static void main(String[] args) throws InterruptedException {
 
-        // the main
-        NavigatorImpl navigator = new NavigatorImpl();
-        navigator.registerPlugin(NavigatorListenerLogger.getInstance());
+		UUID processID = UUID.randomUUID();
 
-        Deployer deployer = ServiceFactory.getDeplyomentService();
+		// the main
+		NavigatorImpl navigator = new NavigatorImpl();
+		navigator.registerPlugin(NavigatorListenerLogger.getInstance());
 
-        ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl();
-        param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
-        param.setIncomingBehaviour(new SimpleJoinBehaviour());
-        param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
-        param.makeStartNode(true);
+		Deployer deployer = ServiceFactory.getDeplyomentService();
 
-        // Create a mail adapater event here. Could create a builder for this later.
-        MailAdapterConfiguration config = MailAdapterConfiguration.dalmatinaGoogleConfiguration();
-        EventCondition subjectCondition = null;
-        try {
-            subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        List<EventCondition> conditions = new ArrayList<EventCondition>();
-        conditions.add(subjectCondition);
+		ProcessBuilder builder = new ProcessBuilderImpl();
+		NodeParameter param = new NodeParameterImpl();
+		param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
+		param.setIncomingBehaviour(new SimpleJoinBehaviour());
+		param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
+		param.makeStartNode(true);
 
-        StartEvent event = new StartEventImpl(EventTypes.Mail, config, conditions, processID);
+		// Create a mail adapater event here. Could create a builder for this
+		// later.
+		MailAdapterConfiguration config = MailAdapterConfiguration
+				.dalmatinaGoogleConfiguration();
+		EventCondition subjectCondition = null;
+		try {
+			subjectCondition = new EventConditionImpl(
+					MailAdapterEvent.class.getMethod("getMessageTopic"),
+					"Hallo");
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+		List<EventCondition> conditions = new ArrayList<EventCondition>();
+		conditions.add(subjectCondition);
 
-        Node node1 = builder.createNode(param);
-        try {
-            builder.createStartTrigger(event, node1);
-        } catch (DalmatinaException e) {
-            e.printStackTrace();
-        }
+		StartEvent event = new StartEventImpl(EventTypes.Mail, config,
+				conditions, processID);
 
-        param.setActivity(new PrintingVariableActivity("result"));
-        param.makeStartNode(false);
+		Node node1 = builder.createNode(param);
+		try {
+			builder.createStartTrigger(event, node1);
+		} catch (DalmatinaException e) {
+			e.printStackTrace();
+		}
 
-        Node node2 = builder.createNode(param);
+		param.setActivity(new PrintingVariableActivity("result"));
+		param.makeStartNode(false);
 
-        builder.createTransition(node1, node2).setDescription("description").setID(processID);
+		Node node2 = builder.createNode(param);
 
-        try {
-            ProcessDefinition def = builder.buildDefinition();
-            deployer.deploy(def);
-            navigator.start();
-        } catch (IllegalStarteventException e) {
-            e.printStackTrace();
-        }
+		builder.createTransition(node1, node2).setDescription("description")
+				.setID(processID);
 
-        // Thread.sleep(SLEEP_TIME);
+		try {
+			ProcessDefinition def = builder.buildDefinition();
+			deployer.deploy(def);
+			navigator.start();
+		} catch (IllegalStarteventException e) {
+			e.printStackTrace();
+		}
 
-        // navigator.stop();
-    }
+		// Thread.sleep(SLEEP_TIME);
+
+		// navigator.stop();
+	}
 
 }
