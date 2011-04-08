@@ -9,9 +9,9 @@ import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
- * Simple Pull Pattern - Only for testing.
+ * Simple Pull Pattern
  * 
- * TODO ... ab in den Testordner?!
+ * TODO: @Metzke&Friends => ihr müsst nochmal über Pull-Pattern nachdenken
  */
 public class SimplePullPattern implements Pattern {
     

@@ -72,16 +72,6 @@ public interface IdentityService {
     @Nonnull Set<Role> getRoles();
     
     /**
-     * Returns the requested resource.
-     * 
-     * @param resourceType the resource's type
-     * @param resourceId the resource's id
-     * @return the {@link AbstractResource}
-     */
-    @Nullable AbstractResource<?> findResource(@Nonnull ResourceType resourceType,
-                                               @Nonnull UUID resourceId);
-    
-    /**
      * Returns the requested role.
      * 
      * @param roleId the role's id

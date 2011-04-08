@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.restapi;
+package de.hpi.oryxengine.rest.api;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +16,7 @@ import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
-import de.hpi.oryxengine.worklist.gui.WorklistServiceFacade;
+import de.hpi.oryxengine.rest.WorklistServiceFacade;
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -31,7 +31,6 @@ import de.hpi.oryxengine.worklist.gui.WorklistServiceFacade;
 public final class WorklistWebService implements WorklistServiceFacade {
 
     private final WorklistService service;
-
     private final IdentityService identity;
     
     /**
@@ -91,8 +90,9 @@ public final class WorklistWebService implements WorklistServiceFacade {
                                                @PathParam("resource-id") String resourceId) {
 
         UUID resourceUUID = UUID.fromString(resourceId);
-        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
-        return this.service.getWorklistItems(resource);
+//        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+//        return this.service.getWorklistItems(resource);
+        return null;
     }
 
     @Path("/item/{worklist-item-id}/claim/{resource-type}-{resource-id}")
@@ -103,10 +103,10 @@ public final class WorklistWebService implements WorklistServiceFacade {
                                     @PathParam("resource-id") String resourceId) {
 
         UUID resourceUUID = UUID.fromString(resourceId);
-        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+//        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
         UUID worklistItemUUID = UUID.fromString(worklistItemId);
-        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
-        this.service.claimWorklistItemBy(worklistItem, resource);
+//        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
+//        this.service.claimWorklistItemBy(worklistItem, resource);
     }
 
     @Path("/item/{worklist-item-id}/begin/{resource-type}-{resource-id}")
@@ -117,10 +117,10 @@ public final class WorklistWebService implements WorklistServiceFacade {
                                     @PathParam("resource-id") String resourceId) {
 
         UUID resourceUUID = UUID.fromString(resourceId);
-        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+//        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
         UUID worklistItemUUID = UUID.fromString(worklistItemId);
-        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
-        this.service.beginWorklistItemBy(worklistItem, resource);
+//        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
+//        this.service.beginWorklistItemBy(worklistItem, resource);
     }
 
     @Path("/item/{worklist-item-id}/complete/{resource-type}-{resource-id}")
@@ -132,9 +132,9 @@ public final class WorklistWebService implements WorklistServiceFacade {
 
         UUID resourceUUID = UUID.fromString(resourceId);
         UUID worklistItemUUID = UUID.fromString(worklistItemId);
-        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
-        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
-        this.service.completeWorklistItemBy(worklistItem, resource);
+//        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+//        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
+//        this.service.completeWorklistItemBy(worklistItem, resource);
     }
 
     @Path("/item/{worklist-item-id}/abort/{resource-type}-{resource-id}")
@@ -146,8 +146,8 @@ public final class WorklistWebService implements WorklistServiceFacade {
 
         UUID resourceUUID = UUID.fromString(resourceId);
         UUID worklistItemUUID = UUID.fromString(worklistItemId);
-        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
-        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
-        this.service.abortWorklistItemBy(worklistItem, resource);
+//        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+//        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
+//        this.service.abortWorklistItemBy(worklistItem, resource);
     }
 }

@@ -14,7 +14,7 @@ import de.hpi.oryxengine.process.token.Token;
 /**
  * The Interface NavigatorInterface.
  */
-public interface Navigator {
+public interface Navigator extends Service {
 
     /**
      * Start a new process instance.
@@ -28,14 +28,15 @@ public interface Navigator {
      */
     // TODO This should return the id of the created process instance. Unfortunately, we do not have a process instance
     // class yet, so we cannot do this.
-    @Nonnull
-    void startProcessInstance(@Nonnull UUID processID, StartEvent event)
+    void startProcessInstance(@Nonnull UUID processID,
+                              @Nonnull StartEvent event)
     throws DefinitionNotFoundException;
     
     /**
      * Start the process instance.
      *
      * @param processID the process id
+     * @exception DefinitionNotFoundException 
      */
     void startProcessInstance(@Nonnull UUID processID)
     throws DefinitionNotFoundException;
@@ -48,11 +49,13 @@ public interface Navigator {
     /**
      * Starts the navigator, which is than ready to schedule processes.
      */
+    @Override
     void start();
 
     /**
      * Stops the navigator. No processes will be scheduled afterwards.
      */
+    @Override
     void stop();
 
     /**
@@ -61,7 +64,7 @@ public interface Navigator {
      * @param t
      *            the t
      */
-    void addWorkToken(Token t);
+    void addWorkToken(@Nonnull Token t);
 
     /**
      * Adds a token that is in suspended state.
@@ -69,7 +72,7 @@ public interface Navigator {
      * @param t
      *            the t
      */
-    void addSuspendToken(Token t);
+    void addSuspendToken(@Nonnull Token t);
 
     /**
      * Removes the suspend token.
@@ -77,21 +80,21 @@ public interface Navigator {
      * @param t
      *            the t
      */
-    void removeSuspendToken(Token t);
+    void removeSuspendToken(@Nonnull Token t);
 
     /**
      * Gets all the instances that were ever started/executed by this navigator.
      * 
      * @return the instances
      */
-    List<ProcessInstance> getRunningInstances();
+    @Nonnull List<ProcessInstance> getRunningInstances();
 
     /**
      * Gets the instances that were processed by this navigator and have ended.
      * 
      * @return the ended instances
      */
-    List<ProcessInstance> getEndedInstances();
+    @Nonnull List<ProcessInstance> getEndedInstances();
 
     /**
      * Signal that a formerly running process instance has ended.
@@ -99,5 +102,19 @@ public interface Navigator {
      * @param instance
      *            the instance
      */
-    void signalEndedProcessInstance(ProcessInstance instance);
+    void signalEndedProcessInstance(@Nonnull ProcessInstance instance);
+    
+    /**
+     * Checks if the navigator is idle.
+     * 
+     * @return true, if it is idle
+     */
+    boolean isIdle();
+    
+    /**
+     * Provides statistic information for the navigator.
+     * 
+     * @return statistic
+     */
+    @Nonnull NavigatorStatistic getStatistics();
 }

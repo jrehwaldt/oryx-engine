@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.worklist.gui.api.provider;
+package de.hpi.oryxengine.rest.provider;
 
 import java.io.IOException;
 import java.io.InputStream;
