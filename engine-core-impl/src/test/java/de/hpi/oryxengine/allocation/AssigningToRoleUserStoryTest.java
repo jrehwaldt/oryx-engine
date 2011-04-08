@@ -4,6 +4,10 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.List;
 
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -34,13 +38,18 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 /**
  * This test assigns a task to a role or to a resource that contains other resources.
  */
-public class AssigningToRoleUserStoryTest {
+@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+public class AssigningToRoleUserStoryTest extends AbstractTestNGSpringContextTests {
 
     private Token token = null;
     private Role hamburgGuysRole = null;
+    private Role mecklenRole = null;
     private Participant jannik = null;
     private Node endNode = null;
     private Participant gerardo = null;
+    private Participant tobi = null;
+    private Participant tobi2 = null;
 
     /**
      * Setup.
@@ -52,12 +61,18 @@ public class AssigningToRoleUserStoryTest {
         // There is role containing Gerardo and Jannik
         gerardo = ParticipantFactory.createGerardo();
         jannik = ParticipantFactory.createJannik();
+        tobi = ParticipantFactory.createTobi();
+        tobi2 = ParticipantFactory.createTobi2();
+        
         IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
         hamburgGuysRole = identityBuilder.createRole("hamburgGuys");
-        identityBuilder.participantBelongsToRole(
-            jannik.getID(),
-            hamburgGuysRole.getID()).participantBelongsToRole(gerardo.getID(),
-            hamburgGuysRole.getID());
+        mecklenRole = identityBuilder.createRole("Mecklenburger");
+        
+        // look out all these methods are are called on the identity builder (therefore the format)
+        identityBuilder
+            .participantBelongsToRole(jannik.getID(), hamburgGuysRole.getID())
+            .participantBelongsToRole(gerardo.getID(), hamburgGuysRole.getID())
+            .participantBelongsToRole(tobi2.getID(), mecklenRole.getID());
 
         Pattern pushPattern = new RolePushPattern();
         Pattern pullPattern = new SimplePullPattern();
@@ -108,6 +123,14 @@ public class AssigningToRoleUserStoryTest {
         List<WorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService().getWorklistItems(gerardo);
         Assert.assertTrue(worklistItemsForGerardo.size() == 1);
         
+        // Tobi doesn't belong to any role so he shouldn't have anything to do
+        List<WorklistItem> worklistItemsForTobi = ServiceFactory.getWorklistService().getWorklistItems(tobi);
+        Assert.assertTrue(worklistItemsForTobi.isEmpty());
+        
+        // Tobi2 doesn't belong to the HamburgGuysRole so he shouldn't have anything to do
+        List<WorklistItem> worklistItemsForTobi2 = ServiceFactory.getWorklistService().getWorklistItems(tobi);
+        Assert.assertTrue(worklistItemsForTobi2.isEmpty());
+        
         WorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         Assert.assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.OFFERED);
 
@@ -141,7 +164,7 @@ public class AssigningToRoleUserStoryTest {
     }
     
     /**
-     * Test work item begin.
+     * Test that Jannik begins the work on the work item.
      * 
      * @throws DalmatinaException test fails
      */
@@ -162,7 +185,7 @@ public class AssigningToRoleUserStoryTest {
     }
     
     /**
-     * Test work item complete.
+     * Test the case that Jannik completes the work item.
      * 
      * @throws DalmatinaException test fails
      */

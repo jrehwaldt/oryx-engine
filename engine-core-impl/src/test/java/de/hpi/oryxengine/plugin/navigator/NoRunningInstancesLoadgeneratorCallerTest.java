@@ -17,7 +17,6 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.loadgenerator.LoadGenerator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;

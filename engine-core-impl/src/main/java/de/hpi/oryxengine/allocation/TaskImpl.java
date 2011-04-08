@@ -12,9 +12,9 @@ import de.hpi.oryxengine.resource.AbstractResource;
 public class TaskImpl implements Task {
 
     private String subject;
-    
+
     private String description;
-    
+
     private AllocationStrategies allocationStrategies;
     private Set<AbstractResource<?>> assignedResources;
 
@@ -31,7 +31,7 @@ public class TaskImpl implements Task {
      *            - a list of {@link AbstractResource}s that should be assigned to a this task
      */
     public TaskImpl(String subject,
-                    String description,
+                    String description, 
                     AllocationStrategies allocationStrategies,
                     Set<AbstractResource<?>> set) {
 
@@ -42,7 +42,8 @@ public class TaskImpl implements Task {
     }
 
     /**
-     * Default Constructor.
+     * Default Constructor. 
+     * TODO @Gerardo please describe why some of them may be null and why the hell  are there 2 default constructors? -.-'
      * 
      * @param subject
      *            - the subject of the task
