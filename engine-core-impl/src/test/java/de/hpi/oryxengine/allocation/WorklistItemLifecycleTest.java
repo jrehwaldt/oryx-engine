@@ -17,8 +17,9 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.resource.Participant;
+import de.hpi.oryxengine.resource.ParticipantImpl;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
@@ -30,15 +31,18 @@ public class WorklistItemLifecycleTest {
 
     private WorklistService worklistService = null;
     private WorklistItem worklistItem = null;
-    private Participant jannik = null;
+    private ParticipantImpl jannik = null;
 
+    /**
+     * Set up.
+     */
     @BeforeMethod
     public void setUp() {
 
         worklistService = ServiceFactory.getWorklistService();
 
         Task task = TaskFactory.createJannikServesGerardoTask();
-        jannik = (Participant) task.getAssignedResources().iterator().next();
+        jannik = (ParticipantImpl) task.getAssignedResources().iterator().next();
 
         Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(new HumanTaskActivity(null));
         Token token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
@@ -48,6 +52,9 @@ public class WorklistItemLifecycleTest {
         ServiceFactory.getWorklistQueue().addWorklistItem(worklistItem, jannik);
     }
 
+    /**
+     * Tear down.
+     */
     @AfterMethod
     public void tearDown() {
 
@@ -55,12 +62,15 @@ public class WorklistItemLifecycleTest {
         ServiceFactoryForTesting.clearIdentityService();
     }
 
+    /**
+     * Test creation of a worklist item.
+     */
     @Test
     public void testWorklistItemCreation() {
 
-        Participant jannik = ServiceFactory.getIdentityService().getParticipants().iterator().next();
+        ParticipantImpl part = ServiceFactory.getIdentityService().getParticipants().iterator().next();
         // AllocationsStragegies are not important for that test
-        Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, jannik);
+        Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, part);
 
         Token token = Mockito.mock(Token.class);
 
@@ -94,27 +104,33 @@ public class WorklistItemLifecycleTest {
         }
     }
 
+    /**
+     * Tests claiming a work list item.
+     */
     @Test
-    public void testClaimingWorklistItem()
-    throws Exception {
+    public void testClaimingWorklistItem() {
 
         worklistService.claimWorklistItemBy(worklistItem, jannik);
 
         Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.ALLOCATED);
     }
 
+    /**
+     * Tests beginning a worklist item.
+     */
     @Test
-    public void testBeginningWorklistItem()
-    throws Exception {
+    public void testBeginningWorklistItem()  {
 
         worklistService.beginWorklistItemBy(worklistItem, jannik);
 
         Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
     }
 
+    /**
+     * Tests aborting a worklist item.
+     */
     @Test
-    public void testAbortAfterBeginningWorklistItem()
-    throws Exception {
+    public void testAbortAfterBeginningWorklistItem()  {
 
         worklistService.beginWorklistItemBy(worklistItem, jannik);
         worklistService.abortWorklistItemBy(worklistItem, jannik);
@@ -122,9 +138,11 @@ public class WorklistItemLifecycleTest {
         // TODO Assertions are missing
     }
 
+    /**
+     * Test completing worklist items.
+     */
     @Test
-    public void testCompletingWorklistItem()
-    throws Exception {
+    public void testCompletingWorklistItem() {
 
         worklistService.beginWorklistItemBy(worklistItem, jannik);
         worklistService.completeWorklistItemBy(worklistItem, jannik);

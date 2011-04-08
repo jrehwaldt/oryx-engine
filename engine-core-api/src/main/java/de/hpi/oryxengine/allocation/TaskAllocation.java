@@ -3,7 +3,7 @@ package de.hpi.oryxengine.allocation;
 import java.util.Set;
 
 import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
@@ -13,18 +13,18 @@ import de.hpi.oryxengine.resource.worklist.WorklistItem;
 public interface TaskAllocation extends WorklistService {
 
     /**
-     * Adds a {@link WorklistItem} to the specified {@link Resource}.
+     * Adds a {@link WorklistItem} to the specified {@link AbstractResource}.
      *
      * @param worklistItem - {@link WorklistItem} that should be added to the queue.
-     * @param resourceToFillIn - the {@link Resource} where the {@link WorklistItem} should be added to
+     * @param resourceToFillIn - the {@link AbstractResource} where the {@link WorklistItem} should be added to
      */
-    void addWorklistItem(WorklistItem worklistItem, Resource<?> resourceToFillIn);
+    void addWorklistItem(WorklistItem worklistItem, AbstractResource<?> resourceToFillIn);
 
     /**
-     * Adds a {@link WorklistItem} to the specified {@link Resource}s.
+     * Adds a {@link WorklistItem} to the specified {@link AbstractResource}s.
      *
      * @param worklistItem - {@link WorklistItem} that should be added to the queue.
-     * @param resourcesToFillIn - the {@link Resource}s where the {@link WorklistItem} should be added to
+     * @param resourcesToFillIn - the {@link AbstractResource}s where the {@link WorklistItem} should be added to
      */
-    void addWorklistItem(WorklistItem worklistItem, Set<Resource<?>> resourcesToFillIn);
+    void addWorklistItem(WorklistItem worklistItem, Set<AbstractResource<?>> resourcesToFillIn);
 }

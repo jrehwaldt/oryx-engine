@@ -5,22 +5,22 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
-import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.resource.Role;
+import de.hpi.oryxengine.resource.AbstractResource;
+import de.hpi.oryxengine.resource.RoleImpl;
 
 /**
  * The work list for the resource 'role'.
  */
 public class RoleWorklist extends AbstractWorklist {
 
-    private Role relatedRole;
+    private RoleImpl relatedRole;
     
     /**
      * Instantiates a new role worklist.
      *
      * @param owner the owner
      */
-    public RoleWorklist(Role owner) {
+    public RoleWorklist(RoleImpl owner) {
 
         this.relatedRole = owner;
     }
@@ -39,7 +39,7 @@ public class RoleWorklist extends AbstractWorklist {
     }
 
     @Override
-    public void itemIsAllocatedBy(WorklistItem worklistItem, Resource<?> claimingResource) {
+    public void itemIsAllocatedBy(WorklistItem worklistItem, AbstractResource<?> claimingResource) {
 
         
         System.out.println("worklistitem: " + worklistItem);

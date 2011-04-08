@@ -11,16 +11,16 @@ import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
 import de.hpi.oryxengine.resource.worklist.Worklist;
 
 /**
- * ResourceImpl is the implementation of the {@link Resource} interface.
+ * ResourceImpl is the implementation of the {@link AbstractResource} interface.
  * 
  * @param <R>
  *            - an interface that extends from Resource
  */
 @XmlRootElement
 @XmlSeeAlso({
-    OrganizationUnitImpl.class, ParticipantImpl.class, PositionImpl.class, RoleImpl.class
+    AbstractOrganizationUnit.class, AbstractParticipant.class, AbstractPosition.class, AbstractRole.class
 })
-public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
+public abstract class AbstractResourceImpl<R extends AbstractResource<?>> extends AbstractResource<R> {
 
     protected UUID resourceId;
     protected ResourceType resourceType;
@@ -35,9 +35,9 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
      *
      * @param id - the id of the resource
      * @param resourceName the resource name
-     * @param resourceType - the type of the {@link Resource}
+     * @param resourceType - the type of the {@link AbstractResource}
      */
-    protected ResourceImpl(UUID id,
+    protected AbstractResourceImpl(UUID id,
                            String resourceName,
                            ResourceType resourceType) {
 
@@ -50,9 +50,9 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
      * Constructor.
      *
      * @param resourceName - the resource name
-     * @param resourceType - the type of the {@link Resource}
+     * @param resourceType - the type of the {@link AbstractResource}
      */
-    protected ResourceImpl(String resourceName, ResourceType resourceType) {
+    protected AbstractResourceImpl(String resourceName, ResourceType resourceType) {
 
         this(UUID.randomUUID(), resourceName, resourceType);
     }
@@ -125,11 +125,11 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     @Override
     public boolean equals(Object objectToCompare) {
 
-        if (!(objectToCompare instanceof Resource<?>)) {
+        if (!(objectToCompare instanceof AbstractResource<?>)) {
             return super.equals(objectToCompare);
         }
 
-        Resource<?> resourceToCompare = (Resource<?>) objectToCompare;
+        AbstractResource<?> resourceToCompare = (AbstractResource<?>) objectToCompare;
 
         // Only if the type and the id of the two objects are the same then it is true
         if (this.getType().equals(resourceToCompare.getType())) {
@@ -145,9 +145,9 @@ public class ResourceImpl<R extends Resource<?>> implements Resource<R> {
     /**
      * The hashCode of a resource consists of the concatenated string of their type and their id.
      * 
-     * @return Integer representing the hashCode
+     * {@inheritDoc}
      * 
-     *         {@inheritDoc}
+     * @return Integer representing the hashCode
      */
     @Override
     public int hashCode() {

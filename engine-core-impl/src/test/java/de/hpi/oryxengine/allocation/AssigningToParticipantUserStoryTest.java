@@ -13,6 +13,7 @@ import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
@@ -20,7 +21,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
@@ -30,12 +31,14 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 public class AssigningToParticipantUserStoryTest {
 
     private Token token = null;
-    private Resource<?> jannik = null;
+    private AbstractResource<?> jannik = null;
     private Node endNode = null;
     
+    /**
+     * Set up.
+     */
     @BeforeMethod
-    public void setUp()
-    throws Exception {
+    public void setUp() {
 
         // The organization structure is already prepared in the factory
         // The task is assigned to Jannik
@@ -53,6 +56,9 @@ public class AssigningToParticipantUserStoryTest {
         token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
     }
 
+    /**
+     * Tear Down.
+     */
     @AfterMethod
     public void tearDown() {
         ServiceFactoryForTesting.clearWorklistManager();
@@ -61,10 +67,11 @@ public class AssigningToParticipantUserStoryTest {
     
     /**
      * Test that the assigned user begins with the humanTask.
-     * @throws Exception 
+     * @throws DalmatinaException 
      */
     @Test
-    public void testJannikBeginsTheWorkItem() throws Exception {
+    public void testJannikBeginsTheWorkItem()
+    throws DalmatinaException {
         
         token.executeStep();
         
@@ -77,10 +84,11 @@ public class AssigningToParticipantUserStoryTest {
 
     /**
      * Test that the assigned user completes with the humanTask.
-     * @throws Exception 
+     * @throws DalmatinaException 
      */
     @Test
-    public void testJannikCompletesTheWorkItem() throws Exception {
+    public void testJannikCompletesTheWorkItem()
+    throws DalmatinaException {
         
         token.executeStep();
         
@@ -88,14 +96,20 @@ public class AssigningToParticipantUserStoryTest {
         ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItem, jannik);
         assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
         
-        ServiceFactory.getWorklistService().completeWorklistItemBy(worklistItem,jannik);
+        ServiceFactory.getWorklistService().completeWorklistItemBy(worklistItem, jannik);
         assertEquals(worklistItem.getStatus(), WorklistItemState.COMPLETED);
         String failureMessage = "Jannik should have completed the task. So there should be no item in his worklist.";
         Assert.assertTrue(ServiceFactory.getWorklistService().getWorklistItems(jannik).size() == 0, failureMessage);
     }
     
+    /**
+     * Test resume of a process instance.
+     * 
+     * @throws DalmatinaException test fails
+     */
     @Test
-    public void testResumptionOfProcess() throws Exception {
+    public void testResumptionOfProcess()
+    throws DalmatinaException {
 
         token.executeStep();
         
@@ -104,7 +118,8 @@ public class AssigningToParticipantUserStoryTest {
         
         ServiceFactory.getWorklistService().completeWorklistItemBy(worklistItem, jannik);
         
-        String failureMessage = "Token should point to the endNode, but it points to " + token.getCurrentNode().getID() + ".";
+        String failureMessage =
+            "Token should point to the endNode, but it points to " + token.getCurrentNode().getID() + ".";
         assertEquals(endNode, token.getCurrentNode(), failureMessage);
     }
 }

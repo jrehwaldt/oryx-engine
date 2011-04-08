@@ -1,15 +1,16 @@
-package de.hpi.oryxengine.allocation;
+package de.hpi.oryxengine.resource.worklist;
 
 import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.Form;
+import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
-import de.hpi.oryxengine.resource.worklist.WorklistItemState;
+import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
  * THe implementation of the Task Interface.
@@ -27,7 +28,8 @@ public class WorklistItemImpl implements WorklistItem {
      * @param task the {@link Task} that should be executed
      * @param correspondingToken the corresponding {@link Token} of the task
      */
-    public WorklistItemImpl(@Nonnull Task task, @Nonnull Token correspondingToken) {
+    public WorklistItemImpl(@Nonnull Task task,
+                            @Nonnull Token correspondingToken) {
 
         if (task == null) {
             throw new NullPointerException("The Task parameter cannot be null.");
@@ -68,7 +70,7 @@ public class WorklistItemImpl implements WorklistItem {
     }
 
     @Override
-    public Set<Resource<?>> getAssignedResources() {
+    public Set<AbstractResource<?>> getAssignedResources() {
 
         return task.getAssignedResources();
     }

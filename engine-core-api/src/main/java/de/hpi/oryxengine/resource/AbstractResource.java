@@ -14,21 +14,21 @@ import de.hpi.oryxengine.util.Identifiable;
  *            - extending Resource
  */
 @XmlRootElement
-public interface Resource<R extends Resource<?>> extends Identifiable {
+public abstract class AbstractResource<R extends AbstractResource<?>> implements Identifiable {
 
     /**
-     * Returns the type of the {@link Resource}. The type is an element of Enumeration {@link ResourceType}.
+     * Returns the type of the {@link AbstractResource}. The type is an element of Enumeration {@link ResourceType}.
      * 
-     * @return the type of the {@link Resource}, which is an Element of the Enumeration
+     * @return the type of the {@link AbstractResource}, which is an Element of the Enumeration
      */
-    ResourceType getType();
+    public abstract ResourceType getType();
 
     /**
      * Gets the name.
      * 
      * @return the name
      */
-    String getName();
+    public abstract String getName();
 
     /**
      * Sets the name.
@@ -37,7 +37,7 @@ public interface Resource<R extends Resource<?>> extends Identifiable {
      *            - the name
      * @return the current Resource object
      */
-    R setName(String name);
+   public abstract R setName(String name);
 
     /**
      * Gets the object that corresponds to the property id.
@@ -46,7 +46,7 @@ public interface Resource<R extends Resource<?>> extends Identifiable {
      *            - the property id
      * @return the object corresponding to the property id
      */
-    Object getProperty(String propertyId);
+   public abstract Object getProperty(String propertyId);
 
     /**
      * Stores a property that consists of a property id and the corresponding object.
@@ -57,7 +57,7 @@ public interface Resource<R extends Resource<?>> extends Identifiable {
      *            - the object that is stored to the property id
      * @return the current Resource object
      */
-    R setProperty(String propertyId, Object propertyValue);
+   public abstract R setProperty(String propertyId, Object propertyValue);
     
     /**
      * Retriev
@@ -66,6 +66,6 @@ public interface Resource<R extends Resource<?>> extends Identifiable {
      * 
      * @return the worklist of the resource
      */
-    Worklist getWorklist();
+   public abstract Worklist getWorklist();
 
 }

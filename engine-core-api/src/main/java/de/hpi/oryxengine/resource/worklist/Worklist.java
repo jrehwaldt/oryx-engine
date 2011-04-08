@@ -4,10 +4,10 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
- * Represents the Worklist that contains several {@link WorklistItem} for a {@link Resource}.
+ * Represents the Worklist that contains several {@link WorklistItem} for a {@link AbstractResource}.
  */
 public interface Worklist extends Iterable<WorklistItem> {
 
@@ -24,9 +24,10 @@ public interface Worklist extends Iterable<WorklistItem> {
      * The resource is now able to move, edit and remove the {@link WorklistItem}. 
      * 
      * @param worklistItem - a {@link WorklistItem} that was allocated
-     * @param claimingResource - the {@link Resource} that allocated the {@link WorklistItem}
+     * @param claimingResource - the {@link AbstractResource} that allocated the {@link WorklistItem}
      */
-    void itemIsAllocatedBy(@Nonnull WorklistItem worklistItem, @Nonnull Resource<?> claimingResource);
+    void itemIsAllocatedBy(@Nonnull WorklistItem worklistItem,
+                           @Nonnull AbstractResource<?> claimingResource);
 
     /**
      * Notifies the {@link Worklist} that the {@link WorklistItem} has been started.

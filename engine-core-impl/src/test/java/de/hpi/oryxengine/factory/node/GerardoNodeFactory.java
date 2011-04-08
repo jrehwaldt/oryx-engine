@@ -12,7 +12,7 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
- * 
+ * TODO hää?
  */
 public final class GerardoNodeFactory {
     /**

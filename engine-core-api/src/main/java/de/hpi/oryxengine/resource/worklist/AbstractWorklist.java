@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
  * The abstract work list class.
@@ -31,7 +31,7 @@ public abstract class AbstractWorklist implements Worklist {
     public abstract List<WorklistItem> getWorklistItems();
 
     @Override
-    public abstract void itemIsAllocatedBy(WorklistItem worklistItem, Resource<?> claimingResource);
+    public abstract void itemIsAllocatedBy(WorklistItem worklistItem, AbstractResource<?> claimingResource);
 
     @Override
     public abstract void itemIsCompleted(WorklistItem worklistItem);

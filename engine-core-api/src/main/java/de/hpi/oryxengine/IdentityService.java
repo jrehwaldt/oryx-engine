@@ -6,13 +6,13 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.OrganizationUnit;
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Position;
-import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.OrganizationUnitImpl;
+import de.hpi.oryxengine.resource.ParticipantImpl;
+import de.hpi.oryxengine.resource.PositionImpl;
 import de.hpi.oryxengine.resource.ResourceType;
-import de.hpi.oryxengine.resource.Role;
+import de.hpi.oryxengine.resource.RoleImpl;
 
 /**
  * The ResourceService provides an interface for:
@@ -46,70 +46,70 @@ public interface IdentityService {
     /**
      * Gets the organization units.
      * 
-     * @return the organization units
+     * @return the {@link OrganizationUnitImpl}s
      */
-    @Nonnull Set<OrganizationUnit> getOrganizationUnits();
+    @Nonnull Set<OrganizationUnitImpl> getOrganizationUnits();
 
     /**
      * Gets the positions.
      * 
-     * @return the positions
+     * @return the {@link PositionImpl}s
      */
-    @Nonnull Set<Position> getPositions();
+    @Nonnull Set<PositionImpl> getPositions();
 
     /**
      * Gets the participants.
      * 
-     * @return the participants
+     * @return the {@link ParticipantImpl}s
      */
-    @Nonnull Set<Participant> getParticipants();
+    @Nonnull Set<ParticipantImpl> getParticipants();
 
     /**
      * Gets the roles.
      * 
-     * @return the roles
+     * @return the {@link RoleImpl}s
      */
-    @Nonnull Set<Role> getRoles();
+    @Nonnull Set<RoleImpl> getRoles();
     
     /**
      * Returns the requested resource.
      * 
      * @param resourceType the resource's type
      * @param resourceId the resource's id
-     * @return the {@link Resource}
+     * @return the {@link AbstractResource}
      */
-    @Nullable Resource<?> findResource(@Nonnull ResourceType resourceType,
-                                       @Nonnull UUID resourceId);
+    @Nullable AbstractResource<?> findResource(@Nonnull ResourceType resourceType,
+                                               @Nonnull UUID resourceId);
     
     /**
      * Returns the requested role.
      * 
      * @param roleId the role's id
-     * @return the {@link Role}
+     * @return the {@link RoleImpl}
      */
-    @Nullable Role getRole(@Nonnull UUID roleId);
+    @Nullable RoleImpl getRole(@Nonnull UUID roleId);
     
     /**
      * Returns the requested positions.
      * 
      * @param positionId the position's id
-     * @return the {@link Position}
+     * @return the {@link PositionImpl}
      */
-    @Nullable Position getPosition(@Nonnull UUID positionId);
+    @Nullable PositionImpl getPosition(@Nonnull UUID positionId);
     
     /**
      * Returns the requested organizational units.
      * 
      * @param organizationUnitId the organization's id
-     * @return the {@link OrganizationUnit}
+     * @return the {@link OrganizationUnitImpl}
      */
-    @Nullable OrganizationUnit getOrganizationUnit(@Nonnull UUID organizationUnitId);
+    @Nullable OrganizationUnitImpl getOrganizationUnit(@Nonnull UUID organizationUnitId);
     
     /**
      * Returns the requested participants.
      * 
      * @param participantId the participant's id
-     * @return the {@link Participant}
+     * @return the {@link ParticipantImpl}
      */
-    @Nullable Participant getParticipant(@Nonnull UUID participantId);
+    @Nullable ParticipantImpl getParticipant(@Nonnull UUID participantId);
 }

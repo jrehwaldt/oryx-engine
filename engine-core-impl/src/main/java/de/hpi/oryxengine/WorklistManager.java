@@ -20,7 +20,7 @@ import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
@@ -43,19 +43,19 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public void addWorklistItem(WorklistItem worklistItem, Resource<?> resourceToFillIn) {
+    public void addWorklistItem(WorklistItem worklistItem, AbstractResource<?> resourceToFillIn) {
 
         resourceToFillIn.getWorklist().addWorklistItem(worklistItem);
     }
 
     @Override
-    public void addWorklistItem(WorklistItem worklistItem, Set<Resource<?>> resourcesToFillIn) {
+    public void addWorklistItem(WorklistItem worklistItem, Set<AbstractResource<?>> resourcesToFillIn) {
 
-        Resource<?>[] resourcesToFillInArray = (Resource<?>[]) resourcesToFillIn
-        .toArray(new Resource<?>[resourcesToFillIn.size()]);
+        AbstractResource<?>[] resourcesToFillInArray = (AbstractResource<?>[]) resourcesToFillIn
+        .toArray(new AbstractResource<?>[resourcesToFillIn.size()]);
 
         for (int i = 0; i < resourcesToFillInArray.length; i++) {
-            Resource<?> resourceToFillIn = resourcesToFillInArray[i];
+            AbstractResource<?> resourceToFillIn = resourcesToFillInArray[i];
             addWorklistItem(worklistItem, resourceToFillIn);
         }
     }
@@ -70,7 +70,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
     @Override
     public @Nullable
-    WorklistItem getWorklistItem(@Nonnull Resource<?> resource, @Nonnull UUID worklistItemId) {
+    WorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource, @Nonnull UUID worklistItemId) {
 
         for (final WorklistItem item : resource.getWorklist()) {
             if (worklistItemId.equals(item.getID())) {
@@ -82,11 +82,11 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public Map<Resource<?>, List<WorklistItem>> getWorklistItems(List<Resource<?>> resources) {
+    public Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(List<AbstractResource<?>> resources) {
 
-        Map<Resource<?>, List<WorklistItem>> result = new HashMap<Resource<?>, List<WorklistItem>>();
+        Map<AbstractResource<?>, List<WorklistItem>> result = new HashMap<AbstractResource<?>, List<WorklistItem>>();
 
-        for (Resource<?> r : resources) {
+        for (AbstractResource<?> r : resources) {
             result.put(r, getWorklistItems(r));
         }
 
@@ -94,23 +94,23 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public void claimWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) {
+    public void claimWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource) {
 
-        Set<Resource<?>> resourcesToNotify = new HashSet<Resource<?>>();
+        Set<AbstractResource<?>> resourcesToNotify = new HashSet<AbstractResource<?>>();
         resourcesToNotify.add(resource);
         resourcesToNotify.addAll(worklistItem.getAssignedResources());
-        for (Resource<?> resourceToNotify : resourcesToNotify) {
+        for (AbstractResource<?> resourceToNotify : resourcesToNotify) {
             resourceToNotify.getWorklist().itemIsAllocatedBy(worklistItem, resource);
         }
     }
 
     @Override
-    public void abortWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) {
+    public void abortWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource) {
 
     }
 
     @Override
-    public void completeWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) {
+    public void completeWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource) {
 
         resource.getWorklist().itemIsCompleted(worklistItem);
 
@@ -126,13 +126,13 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public List<WorklistItem> getWorklistItems(@Nonnull Resource<?> resource) {
+    public List<WorklistItem> getWorklistItems(@Nonnull AbstractResource<?> resource) {
 
         return resource.getWorklist().getWorklistItems();
     }
 
     @Override
-    public void beginWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) {
+    public void beginWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource) {
 
         resource.getWorklist().itemIsStarted(worklistItem);
     }

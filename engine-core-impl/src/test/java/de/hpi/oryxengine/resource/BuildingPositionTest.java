@@ -15,7 +15,7 @@ import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
- * Tests the building of {@link Position}s in the organization structure.
+ * Tests the building of {@link PositionImpl}s in the organization structure.
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
@@ -25,8 +25,11 @@ public class BuildingPositionTest extends AbstractTestNGSpringContextTests {
     
     private IdentityBuilder identityBuilder = null;
     
-    private Position position = null;
+    private PositionImpl position = null;
 
+    /**
+     * Set up.
+     */
     @BeforeMethod
     public void beforeMethod() {
 
@@ -35,6 +38,9 @@ public class BuildingPositionTest extends AbstractTestNGSpringContextTests {
         position = identityBuilder.createPosition("Oryx-Engine-Chef");
     }
     
+    /**
+     * Tear down.
+     */
     @AfterMethod
     public void tearDown() {
         
@@ -44,7 +50,7 @@ public class BuildingPositionTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testPositionCreation() throws Exception {
 
-        Position superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");
+        PositionImpl superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");
         identityBuilder.positionReportsToSuperior(position.getID(), superior.getID());
         
         String failureMessage = "The Identity Service should have two Position.";
@@ -59,7 +65,7 @@ public class BuildingPositionTest extends AbstractTestNGSpringContextTests {
     public void testForUniquePosition() {
         
         // Try to create a new position with the same Name
-        Position position2 = identityBuilder.createPosition("Oryx-Engine-Chef");
+        PositionImpl position2 = identityBuilder.createPosition("Oryx-Engine-Chef");
         
         String failureMessage = "There should stil be one Position";
         Assert.assertTrue(identityService.getPositions().size() == 2, failureMessage);
@@ -78,15 +84,20 @@ public class BuildingPositionTest extends AbstractTestNGSpringContextTests {
         identityBuilder.positionReportsToSuperior(position.getID(), position.getID());
     }
 
+    /**
+     * Test the deletion of a position.
+     * 
+     * @throws DalmatinaException test fails
+     */
     @Test
-    public void testDeletePosition() throws Exception {
+    public void testDeletePosition() throws DalmatinaException {
         
-        Position position2 = identityBuilder.createPosition("Oryx-Engine-Chef2");
-        Position superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");        
+        PositionImpl position2 = identityBuilder.createPosition("Oryx-Engine-Chef2");
+        PositionImpl superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");
         
         identityBuilder.positionReportsToSuperior(position.getID(), superior.getID())
                        .positionReportsToSuperior(position2.getID(), superior.getID());
-
+        
         identityBuilder.deletePosition(superior.getID());
         
         String failureMessage = "The Position 'Oryx-Engine-Ober-Chef' should be deleted, but it is still there.";
@@ -94,7 +105,7 @@ public class BuildingPositionTest extends AbstractTestNGSpringContextTests {
         if (identityService.getPositions().contains(superior)) {
             Assert.fail(failureMessage);
         }
-
+        
         failureMessage = "The subordinated Positions should not have any Organization.";
         Assert.assertNull(position.getSuperiorPosition(), failureMessage);
         Assert.assertNull(position2.getSuperiorPosition(), failureMessage);

@@ -7,8 +7,10 @@ package de.hpi.oryxengine.resource;
  * Participants that possess special abilities could be considered by certain resource allocations.
  * 
  * @author Gerardo Navarro Suarez
+ * @deprecated Interface kommt weg
  */
-public interface Capability extends Resource<Capability> {
+@Deprecated
+public abstract class AbstractCapability extends AbstractResource<AbstractCapability> {
     
     // da muss irgend eine bestimmte Methode rein die dann immer aufgerufen wird
 

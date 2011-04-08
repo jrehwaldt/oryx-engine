@@ -3,7 +3,7 @@ package de.hpi.oryxengine.resource.worklist;
 import java.util.Collections;
 import java.util.List;
 
-import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
  * 
@@ -38,7 +38,7 @@ public class EmptyWorklist extends AbstractWorklist {
     }
 
     @Override
-    public void itemIsAllocatedBy(WorklistItem worklistItem, Resource<?> claimingResource) {
+    public void itemIsAllocatedBy(WorklistItem worklistItem, AbstractResource<?> claimingResource) {
 
         throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
     }

@@ -2,7 +2,7 @@ package de.hpi.oryxengine.allocation;
 
 import java.util.Set;
 
-import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.AbstractResource;
 
 
 /**
@@ -39,9 +39,9 @@ public interface Task {
     AllocationStrategies getAllocationStrategies();
     
     /**
-     * Retrieves the {@link Resource}s that is assigned to this task.
+     * Retrieves the {@link AbstractResource}s that is assigned to this task.
      * 
-     * @return a list of {@link Resource}s that is assigned to this task
+     * @return a list of {@link AbstractResource}s that is assigned to this task
      */
-    Set<Resource<?>> getAssignedResources();
+    Set<AbstractResource<?>> getAssignedResources();
 }

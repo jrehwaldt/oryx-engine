@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.allocation;
 
-import junit.framework.Assert;
 
 import org.mockito.Mockito;
 import org.testng.annotations.AfterMethod;
@@ -10,41 +9,46 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.ServiceFactoryForTesting;
-import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.allocation.WorklistItemImpl;
+import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.OrganizationUnit;
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Position;
-import de.hpi.oryxengine.resource.Role;
+import de.hpi.oryxengine.resource.OrganizationUnitImpl;
+import de.hpi.oryxengine.resource.ParticipantImpl;
+import de.hpi.oryxengine.resource.PositionImpl;
+import de.hpi.oryxengine.resource.RoleImpl;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
+
+import junit.framework.Assert;
 
 /**
- * TODO javaDoc und Implementierung.
+ * Tests the {@link WorklistService} view resolution.
  */
 public class ViewResolverTest {
 
-    IdentityService identityService;
-    IdentityBuilder identityBuilder;
+    private IdentityService identityService = null;
+    private IdentityBuilder identityBuilder = null;
     
-    Role hamburgGuysRole;
-    Participant jannik, gerardo;
-    Position jannikPosition, gerardoPosition;
-    OrganizationUnit bpt;
+    private RoleImpl hamburgGuysRole = null;
+    private ParticipantImpl jannik = null, gerardo = null;
+    private PositionImpl jannikPosition, gerardoPosition = null;
+    private OrganizationUnitImpl bpt = null;
+    
+    private WorklistService worklistService = null;
     
     
     /**
      * Building a basic organisation structure.
-     * @throws Exception
      */
     @BeforeMethod
-    public void setUp() throws Exception {
+    public void setUp() {
         
         identityService = ServiceFactory.getIdentityService();
         identityBuilder = identityService.getIdentityBuilder();
+        worklistService = ServiceFactory.getWorklistService();
+        
         
         hamburgGuysRole = identityBuilder.createRole("hamburgGuys");
         jannik = ParticipantFactory.createJannik();
@@ -63,23 +67,29 @@ public class ViewResolverTest {
                        .organizationUnitOffersPosition(bpt.getID(), gerardoPosition.getID());
     }
     
+    /**
+     * Tear down.
+     */
     @AfterMethod
     public void tearDown() {
         ServiceFactoryForTesting.clearIdentityService();
     }
     
+    /**
+     * Tests the view resolution for certain work list participants.
+     */
     @Test
-    public void testViewResolver() throws Exception {
+    public void testViewResolver() {
 
         Task task = TaskFactory.createSimpleTask(null);
         WorklistItem worklistItem = new WorklistItemImpl(task, Mockito.mock(Token.class));
         
         ServiceFactory.getWorklistQueue().addWorklistItem(worklistItem, hamburgGuysRole);
-        Assert.assertTrue(ServiceFactory.getWorklistService().getWorklistItems(jannik).size() == 1);
-        Assert.assertTrue(ServiceFactory.getWorklistService().getWorklistItems(gerardo).size() == 1);
+        Assert.assertTrue(worklistService.getWorklistItems(jannik).size() == 1);
+        Assert.assertTrue(worklistService.getWorklistItems(gerardo).size() == 1);
 
         ServiceFactory.getWorklistQueue().addWorklistItem(worklistItem, jannik);
-        Assert.assertTrue(ServiceFactory.getWorklistService().getWorklistItems(jannik).size() == 2);
-        Assert.assertTrue(ServiceFactory.getWorklistService().getWorklistItems(gerardo).size() == 1);
+        Assert.assertTrue(worklistService.getWorklistItems(jannik).size() == 2);
+        Assert.assertTrue(worklistService.getWorklistItems(gerardo).size() == 1);
     }
 }

@@ -1,7 +1,6 @@
 package de.hpi.oryxengine.worklist.gui;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
  * THe implementation of the Task Interface.
@@ -16,7 +16,7 @@ public class TaskImpl implements Task {
     private String description;
     
     private AllocationStrategies allocationStrategies;
-    private Set<Resource<?>> assignedResources;
+    private Set<AbstractResource<?>> assignedResources;
 
     /**
      * Default Constructor.
@@ -28,12 +28,12 @@ public class TaskImpl implements Task {
      * @param allocationStrategies
      *            - constains all {@link AllocationStrategies} responsible for the distribution of the task
      * @param set
-     *            - a list of {@link Resource}s that should be assigned to a this task
+     *            - a list of {@link AbstractResource}s that should be assigned to a this task
      */
     public TaskImpl(String subject,
                     String description,
                     AllocationStrategies allocationStrategies,
-                    Set<Resource<?>> set) {
+                    Set<AbstractResource<?>> set) {
 
         this.subject = subject;
         this.description = description;
@@ -51,18 +51,18 @@ public class TaskImpl implements Task {
      * @param allocationStrategies
      *            - constains all {@link AllocationStrategies} responsible for the distribution of the task
      * @param assignedResource
-     *            - the assigned {@link Resource} that should be assigned to a this task
+     *            - the assigned {@link AbstractResource} that should be assigned to a this task
      */
     @SuppressWarnings("unchecked")
     public TaskImpl(String subject,
                     String description,
                     AllocationStrategies allocationStrategies,
-                    Resource<?> assignedResource) {
+                    AbstractResource<?> assignedResource) {
 
         this(subject,
             description,
             allocationStrategies,
-            new HashSet<Resource<?>>(Arrays.asList(assignedResource)));
+            new HashSet<AbstractResource<?>>(Arrays.asList(assignedResource)));
     }
 
     @Override
@@ -90,10 +90,10 @@ public class TaskImpl implements Task {
     }
 
     @Override
-    public Set<Resource<?>> getAssignedResources() {
+    public Set<AbstractResource<?>> getAssignedResources() {
 
         if (assignedResources == null) {
-            assignedResources = new HashSet<Resource<?>>();
+            assignedResources = new HashSet<AbstractResource<?>>();
         }
         return assignedResources;
     }

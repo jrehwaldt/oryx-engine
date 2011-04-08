@@ -17,6 +17,7 @@ import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.allocation.pattern.RolePushPattern;
 import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
@@ -25,8 +26,8 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Role;
+import de.hpi.oryxengine.resource.ParticipantImpl;
+import de.hpi.oryxengine.resource.RoleImpl;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
@@ -35,15 +36,17 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
  */
 public class AssigningToRoleUserStoryTest {
 
-    Token token;
-    Role hamburgGuysRole;
-    Participant jannik;
-    Node endNode;
-    Participant gerardo;
+    private Token token = null;
+    private RoleImpl hamburgGuysRole = null;
+    private ParticipantImpl jannik = null;
+    private Node endNode = null;
+    private ParticipantImpl gerardo = null;
 
+    /**
+     * Setup.
+     */
     @BeforeMethod
-    public void setUp()
-    throws Exception {
+    public void setUp() {
 
         // The organization structure is already prepared in the factory
         // There is role containing Gerardo and Jannik
@@ -51,7 +54,9 @@ public class AssigningToRoleUserStoryTest {
         jannik = ParticipantFactory.createJannik();
         IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
         hamburgGuysRole = identityBuilder.createRole("hamburgGuys");
-        identityBuilder.participantBelongsToRole(jannik.getID(), hamburgGuysRole.getID()).participantBelongsToRole(gerardo.getID(),
+        identityBuilder.participantBelongsToRole(
+            jannik.getID(),
+            hamburgGuysRole.getID()).participantBelongsToRole(gerardo.getID(),
             hamburgGuysRole.getID());
 
         Pattern pushPattern = new RolePushPattern();
@@ -72,6 +77,9 @@ public class AssigningToRoleUserStoryTest {
         token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
     }
 
+    /**
+     * Tear down.
+     */
     @AfterMethod
     public void tearDown() {
 
@@ -79,13 +87,19 @@ public class AssigningToRoleUserStoryTest {
         ServiceFactoryForTesting.clearIdentityService();
     }
 
+    /**
+     * Test receive work item.
+     * 
+     * @throws DalmatinaException test fails
+     */
     @Test
     public void testHamburgGuysReceiveWorkItem()
-    throws Exception {
+    throws DalmatinaException {
 
         token.executeStep();
 
-        List<WorklistItem> worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
+        List<WorklistItem> worklistItemsForHamburgGuys =
+            ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         Assert.assertTrue(worklistItemsForHamburgGuys.size() == 1);
 
         List<WorklistItem> worklistItemsForJannik = ServiceFactory.getWorklistService().getWorklistItems(jannik);
@@ -102,13 +116,20 @@ public class AssigningToRoleUserStoryTest {
         
         Assert.assertEquals(worklistItemForJannik, worklistItemForHamburgGuy);
     }
-
+    
+    /**
+     * Test work item claim.
+     * 
+     * @throws DalmatinaException test fails
+     */
     @Test
-    public void testJannikClaimsWorklistItem() throws Exception {
+    public void testJannikClaimsWorklistItem()
+    throws DalmatinaException {
      
         token.executeStep();
         
-        List<WorklistItem> worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
+        List<WorklistItem> worklistItemsForHamburgGuys =
+            ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         WorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         Assert.assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.OFFERED);
         
@@ -119,12 +140,19 @@ public class AssigningToRoleUserStoryTest {
         Assert.assertEquals(worklistItemsForHamburgGuys.size(), 0);
     }
     
+    /**
+     * Test work item begin.
+     * 
+     * @throws DalmatinaException test fails
+     */
     @Test
-    public void testJannikBeginsWorklistItem() throws Exception {
+    public void testJannikBeginsWorklistItem()
+    throws DalmatinaException {
 
         token.executeStep();
         
-        List<WorklistItem> worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
+        List<WorklistItem> worklistItemsForHamburgGuys =
+            ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         WorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         
         ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);
@@ -133,13 +161,19 @@ public class AssigningToRoleUserStoryTest {
         assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.EXECUTING);
     }
     
+    /**
+     * Test work item complete.
+     * 
+     * @throws DalmatinaException test fails
+     */
     @Test
     public void testJannikCompletesTheWorkItem()
-    throws Exception {
+    throws DalmatinaException {
 
         token.executeStep();
         
-        List<WorklistItem> worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
+        List<WorklistItem> worklistItemsForHamburgGuys =
+            ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         WorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         
         ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);        
@@ -150,21 +184,27 @@ public class AssigningToRoleUserStoryTest {
         
         worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         String failureMessage = "Jannik should have completed the task."
-                                + "So there should be no item in his worklist and in the worklist of the Role HamburgGuys.";
+                           + "So there should be no item in his worklist and in the worklist of the Role HamburgGuys.";
         Assert.assertTrue(ServiceFactory.getWorklistService().getWorklistItems(jannik).size() == 0, failureMessage);
         Assert.assertTrue(worklistItemsForHamburgGuys.size() == 0, failureMessage);
     }
 
+    /**
+     * Test work item resume.
+     * 
+     * @throws DalmatinaException test fails
+     */
     @Test
     public void testResumptionOfProcess()
-    throws Exception {
+    throws DalmatinaException {
 
         token.executeStep();
         
-        List<WorklistItem> worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
+        List<WorklistItem> worklistItemsForHamburgGuys =
+            ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         WorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         
-        ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);        
+        ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);
         ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItemForHamburgGuy, jannik);
 
         ServiceFactory.getWorklistService().completeWorklistItemBy(worklistItemForHamburgGuy, jannik);
