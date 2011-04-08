@@ -6,10 +6,10 @@ import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.TaskImpl;
-import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.allocation.pattern.DirectPushPattern;
+import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
+import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.Participant;
 
 /**
  * A factory for creating a HumanTaskNode objects.
@@ -22,7 +22,7 @@ public class HumanTaskNodeFactory extends AbstractNodeFactory {
     public void setActivity() {
         
         IdentityBuilder identityBuilder = new IdentityServiceImpl().getIdentityBuilder();
-        Participant participant = identityBuilder.createParticipant("jannik");
+        AbstractParticipant participant = identityBuilder.createParticipant("jannik");
         participant.setName("Jannik Streek");
         
         String subject = "Jannik, get me a cup of coffee!";

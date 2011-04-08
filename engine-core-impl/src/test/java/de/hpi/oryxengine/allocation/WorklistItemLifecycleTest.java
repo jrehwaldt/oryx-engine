@@ -17,6 +17,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
+import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
@@ -31,7 +32,7 @@ public class WorklistItemLifecycleTest {
 
     private WorklistService worklistService = null;
     private WorklistItem worklistItem = null;
-    private Participant jannik = null;
+    private AbstractParticipant jannik = null;
 
     /**
      * Set up.
@@ -68,7 +69,7 @@ public class WorklistItemLifecycleTest {
     @Test
     public void testWorklistItemCreation() {
 
-        Participant part = ServiceFactory.getIdentityService().getParticipants().iterator().next();
+        AbstractParticipant part = ServiceFactory.getIdentityService().getParticipants().iterator().next();
         // AllocationsStragegies are not important for that test
         Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, part);
 
