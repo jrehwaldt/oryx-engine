@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.restapi;
+package de.hpi.oryxengine.rest.api;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +16,7 @@ import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
-import de.hpi.oryxengine.worklist.gui.WorklistServiceFacade;
+import de.hpi.oryxengine.rest.WorklistServiceFacade;
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -31,7 +31,6 @@ import de.hpi.oryxengine.worklist.gui.WorklistServiceFacade;
 public final class WorklistWebService implements WorklistServiceFacade {
 
     private final WorklistService service;
-
     private final IdentityService identity;
     
     /**

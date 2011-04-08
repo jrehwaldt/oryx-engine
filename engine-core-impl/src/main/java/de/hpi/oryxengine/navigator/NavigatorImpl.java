@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
-import javax.swing.text.ChangedCharSetException;
-
-import ch.qos.logback.classic.Logger;
 
 import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
@@ -53,19 +50,17 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
-
+    
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
-
+    
     private int navigatorThreads;
-
+    
     private NavigatorState state;
-
+    
     private int counter;
-
+    
     private ProcessRepository repository;
-
-
-
+    
     /**
      * Instantiates a new navigator implementation.
      * 
@@ -73,7 +68,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * So use with caution.
      */
     public NavigatorImpl() {
-
+        
         this(null, NUMBER_OF_NAVIGATOR_THREADS);
     }
 
@@ -142,8 +137,8 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     public void startProcessInstance(UUID processID)
     throws DefinitionNotFoundException {
 
-        // TODO use the variable repository here. This cannot be used in tests, as it requires the bootstrap to have run
-        // first, but we definitely do not want to start the whole engine to test a simple feature.
+        // TODO use the variable repository here. This cannot be used in tests, as it requires the bootstrap to have
+        // run first, but we definitely do not want to start the whole engine to test a simple feature.
         ProcessDefinition definition = ServiceFactory.getRepositoryService().getDefinition(processID);
 
         ProcessInstance instance = new ProcessInstanceImpl(definition);
@@ -156,7 +151,8 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     }
 
     @Override
-    public void startProcessInstance(UUID processID, StartEvent event)
+    public void startProcessInstance(UUID processID,
+                                     StartEvent event)
     throws DefinitionNotFoundException {
 
         ProcessDefinition definition = repository.getDefinition(processID);
@@ -179,14 +175,15 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      *            the token
      */
     public void startArbitraryInstance(Token token) {
-
+        
         this.scheduler.submit(token);
     }
 
 
     /**
-     * Stop the Navigator. So in fact you need to stop all the Navigationthreads.
+     * Stop the Navigator. So in fact you need to stop all the navigation threads.
      */
+    @Override
     public void stop() {
 
         for (NavigationThread executionThread : executionThreads) {
@@ -195,13 +192,9 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         changeState(NavigatorState.STOPPED);
     }
 
-    /**
-     * Checks if the navigator is idle. That is when there are no process instances in the to navigate list.
-     * 
-     * @return true, if it is idle
-     */
+    
+    @Override
     public boolean isIdle() {
-
         return this.scheduler.isEmpty();
     }
 
@@ -273,9 +266,9 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     @Override
     public void signalEndedProcessInstance(ProcessInstance instance) {
-
+        
         boolean instanceContained = runningInstances.remove(instance);
-
+        
         // TODO maybe throw an exception if the instance provided is not in the running instances list?
         if (instanceContained) {
             finishedInstances.add(instance);
@@ -285,5 +278,16 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
             changeState(NavigatorState.CURRENTLY_FINISHED);
         }
 
+    }
+    
+    @Override
+    public final NavigatorStatistic getStatistics() {
+        final NavigatorStatistic stat = new NavigatorStatistic(
+            getEndedInstances().size(),
+            getRunningInstances().size(),
+            this.executionThreads.size(),
+            isIdle());
+        
+        return stat;
     }
 }

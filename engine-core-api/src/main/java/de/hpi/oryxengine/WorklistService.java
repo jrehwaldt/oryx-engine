@@ -2,6 +2,7 @@ package de.hpi.oryxengine;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
@@ -31,7 +32,7 @@ public interface WorklistService {
      *            - the resources the worklist items shall be searched for
      * @return a map where the key is a {@link AbstractResource} and the value is a list of {@link WorklistItem}s
      */
-    Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(List<AbstractResource<?>> resources);
+    Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(Set<? extends AbstractResource<?>> resources);
 
     /**
      * Claims a {@link WorklistItem}.
@@ -76,4 +77,12 @@ public interface WorklistService {
                                            @Nonnull UUID worklistItemId);
     
     // TODO: Observable Interface für die GUI
+    
+    /**
+     * Returns the number of worklist items which are offered or allocated? to the given resources
+     *
+     * @param resources the resources
+     * @return the int
+     */
+    int size(Set<? extends AbstractResource<?>> resources);
 }

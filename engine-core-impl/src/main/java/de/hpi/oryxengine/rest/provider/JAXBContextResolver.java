@@ -1,9 +1,8 @@
-package de.hpi.oryxengine.worklist.gui.api.provider;
+package de.hpi.oryxengine.rest.provider;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -11,7 +10,8 @@ import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
 
-import de.hpi.oryxengine.resource.ResourceType;
+import de.hpi.oryxengine.navigator.NavigatorStatistic;
+import de.hpi.oryxengine.resource.AbstractResource;
 
 
 /**
@@ -29,8 +29,8 @@ implements ContextResolver<JAXBContext> {
     private JAXBContext context;
     private final Set<Class<?>> types;
     private Class<?>[] cTypes = {
-        UUID.class, ResourceType.class
-//        ResourceImpl.class, OrganizationUnitImpl.class, ParticipantImpl.class, PositionImpl.class, RoleImpl.class
+        NavigatorStatistic.class,
+        AbstractResource.class
     };
     
     /**
@@ -41,7 +41,7 @@ implements ContextResolver<JAXBContext> {
     public JAXBContextResolver()
     throws Exception {
         types = new HashSet<Class<?>>(Arrays.asList(cTypes));
-        //context = new JSONJAXBContext(JSONConfiguration.natural().build(), cTypes);
+//        context = new JSONJAXBContext(JSONConfiguration.natural().build(), cTypes);
     }
     
     @Override

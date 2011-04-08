@@ -48,6 +48,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         // The worklistItem is added to the worklist of a certain resource
         resourceToFillIn.getWorklist().addWorklistItem(worklistItem);
     }
+    
 
     @Override
     public void addWorklistItem(WorklistItem worklistItem, Set<AbstractResource<?>> resourcesToFillIn) {
@@ -85,7 +86,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(List<AbstractResource<?>> resources) {
+    public Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(Set<? extends AbstractResource<?>> resources) {
 
         Map<AbstractResource<?>, List<WorklistItem>> result = new HashMap<AbstractResource<?>, List<WorklistItem>>();
 
@@ -144,5 +145,11 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     public void beginWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource) {
 
         resource.getWorklist().itemIsStarted(worklistItem);
+    }
+
+    @Override
+    public int size(Set<? extends AbstractResource<?>> resources) {
+        Map<AbstractResource<?>, List<WorklistItem>> items = getWorklistItems(resources);
+        return items.size();
     }
 }

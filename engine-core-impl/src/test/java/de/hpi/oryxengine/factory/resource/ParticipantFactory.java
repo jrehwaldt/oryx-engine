@@ -30,5 +30,31 @@ public class ParticipantFactory extends ResourceFactory {
 
         return createParticipant("jannik.streek", "Jannik Streek");
     }
+    
+    /**
+     * Returns a {@link AbstractParticipant} object with the the following parameter
+     *  id: tobias.pfeiffer
+     *  name: Tobias Pfeiffer
+     * 
+     * @return the {@link Participant} Tobi
+     */
+    public static Participant createTobi() {
+
+        return createParticipant("tobias.pfeiffer", "Tobias Pfeiffer");
+    }
+    
+    /**
+     * Returns a {@link AbstractParticipant} object with the the following parameter
+     *  id: tobias.metzke
+     *  name: Tobias Metzke
+     * 
+     * @return the {@link Participant} Tobi2
+     */
+    public static Participant createTobi2() {
+
+        return createParticipant("tobias.metzke", "Tobias Metzke");
+    }
+    
+    
 
 }

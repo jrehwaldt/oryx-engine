@@ -1,8 +1,9 @@
-package de.hpi.oryxengine.restapi;
+package de.hpi.oryxengine.rest.api;
 
 import java.util.UUID;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.navigator.NavigatorStatistic;
 
 /**
  * API servlet providing an interface for the navigator. It can be used to start/stop process instances.
@@ -23,39 +25,14 @@ import de.hpi.oryxengine.navigator.Navigator;
 public class NavigatorWebService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final Navigator nav;
+    private final Navigator navigatorService;
 
     /**
      * Default Constructor.
      */
     public NavigatorWebService() {
 
-        nav = ServiceFactory.getNavigatorService();
-    }
-
-    /**
-     * Gets the number of running process instances in the navigator.
-     * 
-     * @return the number of running process instances as string
-     */
-    @Path("/runninginstances")
-    @GET
-    @Produces("text/plain")
-    public int runningInstances() {
-        return nav.getRunningInstances().size();
-    }
-
-    /**
-     * Gets the number of finished instances in the navigator.
-     * 
-     * @return the number of finished instances as string
-     */
-    @Path("/endedinstances")
-    @GET
-    @Produces("text/plain")
-    public int endedInstances() {
-
-        return nav.getEndedInstances().size();
+        navigatorService = ServiceFactory.getNavigatorService();
     }
 
     /**
@@ -64,17 +41,27 @@ public class NavigatorWebService {
      * @param definitionID
      *            the id of the process definition to be instantiated and started
      */
-    @Path("/start/{definition-id}")
-    @GET
+    @Path("/instance/{definition-id}/start")
+    @POST
     public void startInstance(@PathParam("definition-id") String definitionID) {
 
         UUID id = UUID.fromString(definitionID);
         try {
-            nav.startProcessInstance(id);
+            navigatorService.startProcessInstance(id);
         } catch (DefinitionNotFoundException e) {
             logger.info("Definition with id {} not found", id.toString());
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Provides a statistic file with navigator information.
+     * 
+     * @return a statistic file
+     */
+    @Path("/statistic")
+    @GET
+    public NavigatorStatistic getStatistics() {
+        return this.navigatorService.getStatistics();
+    }
 }
