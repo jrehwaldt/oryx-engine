@@ -22,7 +22,7 @@ import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
-import de.hpi.oryxengine.allocation.pattern.SimplePushPattern;
+import de.hpi.oryxengine.allocation.pattern.DirectPushPattern;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
@@ -69,7 +69,7 @@ public class HumanTaskActivityTest extends AbstractTestNGSpringContextTests {
         String subject = "Jannik, get Gerardo a cup of coffee!";
         String description = "You know what I mean.";
 
-        Pattern pushPattern = new SimplePushPattern();
+        Pattern pushPattern = new DirectPushPattern();
         Pattern pullPattern = new SimplePullPattern();
 
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);

@@ -10,6 +10,7 @@ package de.hpi.oryxengine.resource;
 public class Capability extends AbstractResource<Capability> {
     
     // TODO @Scherapo: wieso ist Capability mal implemenmtiert und mal nicht? MAAAAAAAAAAAAAAAAAANNNNNN!!
+    // FROM Scherapo: Weil das noch nicht fertig war 
     
     /**
      * The Default Constructor for the CapabilityImpl.
