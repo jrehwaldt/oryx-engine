@@ -6,10 +6,19 @@ package de.hpi.oryxengine.resource;
  * 
  * Participants that possess special abilities could be considered by certain resource allocations.
  * 
- * @author Gerardo Navarro Suarez
  */
-public interface Capability extends Resource<Capability> {
+public class Capability extends AbstractResource<Capability> {
     
-    // da muss irgend eine bestimmte Methode rein die dann immer aufgerufen wird
+    // TODO @Scherapo: wieso ist Capability mal implemenmtiert und mal nicht? MAAAAAAAAAAAAAAAAAANNNNNN!!
+    
+    /**
+     * The Default Constructor for the CapabilityImpl.
+     * 
+     * @param capabilityId - the id of the capability
+     */
+    public Capability(String capabilityId) {
+
+       super(capabilityId, ResourceType.CAPABILITY);
+    }
 
 }

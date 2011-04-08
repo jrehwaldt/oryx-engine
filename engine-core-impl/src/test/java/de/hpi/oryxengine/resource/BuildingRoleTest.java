@@ -26,6 +26,9 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
 
     private Role adminRole = null;
 
+    /**
+     * Set up.
+     */
     @BeforeMethod
     public void beforeMethod() {
 
@@ -35,6 +38,9 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
         adminRole = identityBuilder.createRole("Administrators");
     }
 
+    /**
+     * Tear down.
+     */
     @AfterMethod
     public void tearDown() {
 
@@ -96,7 +102,7 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
 
         Participant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
 
-        adminRole.getParticipants().add(participant);
+        adminRole.getParticipantsImmutable().add(participant);
     }
 
     @Test
@@ -159,8 +165,8 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
         Participant participant1 = identityBuilder.createParticipant("Gerardo Navarro Suarez");
         Participant participant2 = identityBuilder.createParticipant("Jannik Streek");
 
-        identityBuilder.participantBelongsToRole(participant1.getID(), adminRole.getID()).participantBelongsToRole(participant2.getID(),
-            adminRole.getID());
+        identityBuilder.participantBelongsToRole(
+            participant1.getID(), adminRole.getID()).participantBelongsToRole(participant2.getID(), adminRole.getID());
 
         identityBuilder.deleteRole(adminRole.getID());
 

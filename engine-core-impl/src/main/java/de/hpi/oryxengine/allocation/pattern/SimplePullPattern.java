@@ -10,6 +10,8 @@ import de.hpi.oryxengine.process.token.Token;
 
 /**
  * Simple Pull Pattern - Only for testing.
+ * 
+ * TODO ... ab in den Testordner?!
  */
 public class SimplePullPattern implements Pattern {
     

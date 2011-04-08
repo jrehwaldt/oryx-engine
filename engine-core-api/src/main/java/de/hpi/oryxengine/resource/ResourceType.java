@@ -1,19 +1,22 @@
 package de.hpi.oryxengine.resource;
 
 /**
- * Defines different types that are available as resource.
+ * Defines different types that are available as {@link AbstractResource}.
  */
 public enum ResourceType {
 
-    /** Represents an {@link OrganizationUnit}. */
+    /** Represents an {@link AbstractOrganizationUnit}. */
     ORGANIZATION_UNIT,
 
-    /** Represents an {@link Participant}. */
+    /** Represents an {@link AbstractParticipant}. */
     PARTICIPANT,
 
-    /** Represents an {@link Role}. */
+    /** Represents an {@link AbstractRole}. */
     ROLE,
 
-    /** Represents an {@link Position}. */
-    POSITION
+    /** Represents an {@link AbstractPosition}. */
+    POSITION,
+
+    /** Represents an {@link AbstractCapability}. */
+    CAPABILITY
 }

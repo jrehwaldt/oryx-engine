@@ -102,15 +102,9 @@ public class TokenImpl implements Token {
         return id;
     }
 
-    /**
-     * Execute step.
-     * 
-     * @throws Exception
-     *             the exception
-     * @see de.hpi.oryxengine.process.token.Token#executeStep()
-     */
+    @Override
     public void executeStep()
-    throws Exception {
+    throws DalmatinaException {
 
         lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
         getCurrentNode().getActivity().execute(this);

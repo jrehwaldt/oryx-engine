@@ -42,11 +42,11 @@ public interface Token extends Identifiable {
     /**
      * Executes a step for the given instance, which is usually a single step beginning with the current node.
      * 
-     * @throws Exception
+     * @throws DalmatinaException
      *             the exception
      */
     void executeStep()
-    throws Exception;
+    throws DalmatinaException;
 
     /**
      * Create a new to navigate instance for every node. Therefore it is possible to use this generic for e.g. and,

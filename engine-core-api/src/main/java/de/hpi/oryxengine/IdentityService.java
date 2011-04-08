@@ -6,11 +6,11 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.OrganizationUnit;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Position;
-import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.Role;
 
@@ -46,28 +46,28 @@ public interface IdentityService {
     /**
      * Gets the organization units.
      * 
-     * @return the organization units
+     * @return the {@link OrganizationUnit}s
      */
     @Nonnull Set<OrganizationUnit> getOrganizationUnits();
 
     /**
      * Gets the positions.
      * 
-     * @return the positions
+     * @return the {@link Position}s
      */
     @Nonnull Set<Position> getPositions();
 
     /**
      * Gets the participants.
      * 
-     * @return the participants
+     * @return the {@link Participant}s
      */
     @Nonnull Set<Participant> getParticipants();
 
     /**
      * Gets the roles.
      * 
-     * @return the roles
+     * @return the {@link Role}s
      */
     @Nonnull Set<Role> getRoles();
     
@@ -76,10 +76,10 @@ public interface IdentityService {
      * 
      * @param resourceType the resource's type
      * @param resourceId the resource's id
-     * @return the {@link Resource}
+     * @return the {@link AbstractResource}
      */
-    @Nullable Resource<?> findResource(@Nonnull ResourceType resourceType,
-                                       @Nonnull UUID resourceId);
+    @Nullable AbstractResource<?> findResource(@Nonnull ResourceType resourceType,
+                                               @Nonnull UUID resourceId);
     
     /**
      * Returns the requested role.

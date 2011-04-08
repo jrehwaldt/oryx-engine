@@ -2,6 +2,8 @@ package de.hpi.oryxengine.resource;
 
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+
 import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
@@ -15,13 +17,13 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 public interface IdentityBuilder {
 
     /**
-     * Creates a new Participant, no matter if there exists already a {@link Participant} with the same name.
+     * Creates a new Participant, no matter if there exists already a {@link AbstractParticipant} with the same name.
      * 
      * @param participantName
      *            - is the name of the instantiated object
      * @return the created Participant object; the object already contains an id
      */
-    Participant createParticipant(String participantName);
+    @Nonnull Participant createParticipant(@Nonnull String participantName);
 
     /**
      * Deletes the given Participant, so that it is removed from the organization structure.
@@ -32,7 +34,7 @@ public interface IdentityBuilder {
      * @throws Exception
      *             the exception
      */
-    IdentityBuilder deleteParticipant(UUID participant)
+    @Nonnull IdentityBuilder deleteParticipant(@Nonnull UUID participant)
     throws Exception;
 
     /**
@@ -44,12 +46,13 @@ public interface IdentityBuilder {
      * Calling this method requires that the Participant and the Position already exist in the organization structure.
      * 
      * @param participant
-     *            - {@link Participant} that occupies the {@link Position}
+     *            - {@link AbstractParticipant} that occupies the {@link AbstractPosition}
      * @param position
-     *            - {@link Position} that is occupied by the {@link Participant}
+     *            - {@link AbstractPosition} that is occupied by the {@link AbstractParticipant}
      * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    IdentityBuilder participantOccupiesPosition(UUID participant, UUID position);
+    @Nonnull IdentityBuilder participantOccupiesPosition(@Nonnull UUID participant,
+                                                         @Nonnull UUID position);
 
     /**
      * Removes the relationship between a certain Participant and a certain Position.
@@ -57,12 +60,13 @@ public interface IdentityBuilder {
      * The given objects are not removed, only the relationship between them is removed.
      * 
      * @param participant
-     *            - {@link Participant} that occupies the {@link Position}
+     *            - {@link AbstractParticipant} that occupies the {@link AbstractPosition}
      * @param position
-     *            - {@link Position} that is occupied by the {@link Participant}
+     *            - {@link AbstractPosition} that is occupied by the {@link AbstractParticipant}
      * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    IdentityBuilder participantDoesNotOccupyPosition(UUID participant, UUID position);
+    @Nonnull IdentityBuilder participantDoesNotOccupyPosition(@Nonnull UUID participant,
+                                                              @Nonnull UUID position);
 
     /**
      * Builds a relationship between a Participant and a Role which represents that a Participants belongs to an Role.
@@ -75,12 +79,13 @@ public interface IdentityBuilder {
      * Be also aware that a Roles could have several Participants, too.
      * 
      * @param participant
-     *            - {@link Participant} that should belong to a {@link Role}
+     *            - {@link AbstractParticipant} that should belong to a {@link AbstractRole}
      * @param role
-     *            - {@link Role} that contains the {@link Participant}
+     *            - {@link AbstractRole} that contains the {@link AbstractParticipant}
      * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    IdentityBuilder participantBelongsToRole(UUID participant, UUID role);
+    @Nonnull IdentityBuilder participantBelongsToRole(@Nonnull UUID participant,
+                                                      @Nonnull UUID role);
 
     /**
      * Removes the relationship between a certain Participant and a certain Role.
@@ -88,12 +93,13 @@ public interface IdentityBuilder {
      * The given objects are not removed, only the relationship between them is removed.
      * 
      * @param participant
-     *            - {@link Participant} that belongs to the {@link Role}
+     *            - {@link AbstractParticipant} that belongs to the {@link AbstractRole}
      * @param role
-     *            - {@link Role} that contains the {@link Participant}
+     *            - {@link AbstractRole} that contains the {@link AbstractParticipant}
      * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    IdentityBuilder participantDoesNotBelongToRole(UUID participant, UUID role);
+    @Nonnull IdentityBuilder participantDoesNotBelongToRole(@Nonnull UUID participant,
+                                                            @Nonnull UUID role);
 
     /**
      * Participant has capability.
@@ -104,16 +110,18 @@ public interface IdentityBuilder {
      *            the capability
      * @return the identity builder
      */
-    IdentityBuilder participantHasCapability(UUID participant, Capability capability);
+    @Nonnull IdentityBuilder participantHasCapability(@Nonnull UUID participant,
+                                                      @Nonnull Capability capability);
 
     /**
-     * Creates a new OrganizationUnit, no matter if there already exists an {@link OrganizationUnit} with the same name.
+     * Creates a new OrganizationUnit, no matter if there already exists an {@link AbstractOrganizationUnit}
+     * with the same name.
      * 
      * @param organizationUnitName
      *            - is the name of the instantiated object
      * @return the created OrganizationUnit object; the object already contains an id
      */
-    OrganizationUnit createOrganizationUnit(String organizationUnitName);
+    OrganizationUnit createOrganizationUnit(@Nonnull String organizationUnitName);
 
     /**
      * Deletes the given OrganizationUnit, so that it is removed from the organization structure.
@@ -121,11 +129,11 @@ public interface IdentityBuilder {
      * @param organizationUnit
      *            - object that should be deleted.
      * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws Exception
+     * @throws DalmatinaException
      *             the exception
      */
-    IdentityBuilder deleteOrganizationUnit(UUID organizationUnit)
-    throws Exception;
+    @Nonnull IdentityBuilder deleteOrganizationUnit(@Nonnull UUID organizationUnit)
+    throws DalmatinaException;
 
     /**
      * Builds a relationship between an OrganizationUnit and a Position which represents that a Position belongs to an
@@ -145,7 +153,8 @@ public interface IdentityBuilder {
      *            - that belongs to the organizationUnit
      * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    IdentityBuilder organizationUnitOffersPosition(UUID organizationUnit, UUID position);
+    @Nonnull IdentityBuilder organizationUnitOffersPosition(@Nonnull UUID organizationUnit,
+                                                            @Nonnull UUID position);
 
     /**
      * Removes the relationship between the certain OrganizationUnit and the certain Position.
@@ -158,7 +167,8 @@ public interface IdentityBuilder {
      *            - part of the relationship
      * @return the current IdentityBuilder in order to continue building the organization structure
      */
-    IdentityBuilder organizationUnitDoesNotOfferPosition(UUID organizationUnit, UUID position);
+    @Nonnull IdentityBuilder organizationUnitDoesNotOfferPosition(@Nonnull UUID organizationUnit,
+                                                                  @Nonnull UUID position);
 
     /**
      * Defines the relationship between two OrganizationUnits.
@@ -169,24 +179,25 @@ public interface IdentityBuilder {
      * OrganizationUnit parameter.
      * 
      * @param subOrganizationUnit
-     *            - {@link OrganizationUnit} below the superOrganizationUnit
+     *            - {@link AbstractOrganizationUnit} below the superOrganizationUnit
      * @param superOrganizationUnit
-     *            - {@link OrganizationUnit} above the superOrganizationUnit
+     *            - {@link AbstractOrganizationUnit} above the superOrganizationUnit
      * @return the current IdentityBuilder in order to continue building the organization structure
      * @throws DalmatinaException
      *             - in case the sub and super OrganizationUnit are the same
      */
-    IdentityBuilder subOrganizationUnitOf(UUID subOrganizationUnit, UUID superOrganizationUnit)
+    @Nonnull IdentityBuilder subOrganizationUnitOf(@Nonnull UUID subOrganizationUnit,
+                                                   @Nonnull UUID superOrganizationUnit)
     throws DalmatinaException;
 
     /**
-     * Creates a new Position, no matter if there exists already a {@link Position} with the same name.
+     * Creates a new Position, no matter if there exists already a {@link AbstractPosition} with the same name.
      * 
      * @param positionName
      *            - is the name of the instantiated object
      * @return the created Position object; the object already contains an id.
      */
-    Position createPosition(String positionName);
+    Position createPosition(@Nonnull String positionName);
 
     /**
      * Deletes the given Position, so that it is removed from the organization structure.
@@ -194,11 +205,11 @@ public interface IdentityBuilder {
      * @param position
      *            - object that should be deleted.
      * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws Exception
+     * @throws DalmatinaException
      *             the exception
      */
-    IdentityBuilder deletePosition(UUID position)
-    throws Exception;
+    @Nonnull IdentityBuilder deletePosition(@Nonnull UUID position)
+    throws DalmatinaException;
 
     /**
      * Defines the relationship between two Positions that one position is the superior position of the other position.
@@ -209,24 +220,25 @@ public interface IdentityBuilder {
      * parameter.
      * 
      * @param position
-     *            - {@link Position} that is below the superior position
+     *            - {@link AbstractPosition} that is below the superior position
      * @param superiorPosition
-     *            - {@link Position} that is the superior position of the other one
+     *            - {@link AbstractPosition} that is the superior position of the other one
      * @return the current IdentityBuilder in order to continue building the organization structures
      * @throws DalmatinaException
      *             - in case the position and its superior position are the same
      */
-    IdentityBuilder positionReportsToSuperior(UUID position, UUID superiorPosition)
+    @Nonnull IdentityBuilder positionReportsToSuperior(@Nonnull UUID position,
+                                                       @Nonnull UUID superiorPosition)
     throws DalmatinaException;
 
     /**
-     * Creates a new Role, no matter if there exists already a {@link Role} with the same name.
+     * Creates a new Role, no matter if there exists already a {@link AbstractRole} with the same name.
      * 
      * @param roleName
      *            - is the id of the instantiated object
      * @return the created Role object; the object already contains an id
      */
-    Role createRole(String roleName);
+    Role createRole(@Nonnull String roleName);
 
     /**
      * Deletes the given Role, so that it is removed from the organization structure.
@@ -237,7 +249,7 @@ public interface IdentityBuilder {
      * @throws Exception
      *             the exception
      */
-    IdentityBuilder deleteRole(UUID role)
+    @Nonnull IdentityBuilder deleteRole(@Nonnull UUID role)
     throws Exception;
 
     /**
@@ -249,7 +261,8 @@ public interface IdentityBuilder {
      *            the super role
      * @return the identity builder
      */
-    IdentityBuilder subRoleOf(UUID subRole, UUID superRole);
+    @Nonnull IdentityBuilder subRoleOf(@Nonnull UUID subRole,
+                                       @Nonnull UUID superRole);
 
     // Muss noch geschaut werden ob das wirklich schon gebraucht wird
     /**
@@ -259,5 +272,5 @@ public interface IdentityBuilder {
      *            the capability id
      * @return the capability
      */
-    Capability createCapability(String capabilityId);
+    Capability createCapability(@Nonnull String capabilityId);
 }

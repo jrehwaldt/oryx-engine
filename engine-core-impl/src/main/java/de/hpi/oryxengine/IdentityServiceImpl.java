@@ -13,19 +13,14 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.IdentityBuilderImpl;
 import de.hpi.oryxengine.resource.OrganizationUnit;
-import de.hpi.oryxengine.resource.OrganizationUnitImpl;
 import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.ParticipantImpl;
 import de.hpi.oryxengine.resource.Position;
-import de.hpi.oryxengine.resource.PositionImpl;
-import de.hpi.oryxengine.resource.Resource;
-import de.hpi.oryxengine.resource.ResourceImpl;
 import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.Role;
-import de.hpi.oryxengine.resource.RoleImpl;
 
 /**
  * The IdentityServiceImpl is concrete implementation of the {@link IdentityService} that is provided by the engine.
@@ -36,13 +31,13 @@ public class IdentityServiceImpl implements IdentityService, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    private Map<UUID, OrganizationUnitImpl> organizationUnits;
+    private Map<UUID, OrganizationUnit> organizationUnits;
     
-    private Map<UUID, PositionImpl> positions;
+    private Map<UUID, Position> positions;
     
-    private Map<UUID, ParticipantImpl> participants;
+    private Map<UUID, Participant> participants;
     
-    private Map<UUID, RoleImpl> roles;
+    private Map<UUID, Role> roles;
     
     @Override
     public void start() {
@@ -69,10 +64,15 @@ public class IdentityServiceImpl implements IdentityService, Service {
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Map<UUID, OrganizationUnitImpl> getOrganizationUnitImpls() {
+    /**
+     * Returns a mutable map of orga units.
+     * 
+     * @return a mutable orga units map.
+     */
+    public Map<UUID, OrganizationUnit> getOrganizationUnitImpls() {
 
         if (organizationUnits == null) {
-            organizationUnits = new HashMap<UUID, OrganizationUnitImpl>();
+            organizationUnits = new HashMap<UUID, OrganizationUnit>();
         }
         return organizationUnits;
     }
@@ -83,11 +83,16 @@ public class IdentityServiceImpl implements IdentityService, Service {
         Set<Position> setToReturn = new HashSet<Position>(getPositionImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
-
-    public Map<UUID, PositionImpl> getPositionImpls() {
+    
+    /**
+     * Returns a mutable map of positions.
+     * 
+     * @return a mutable positions map.
+     */
+    public Map<UUID, Position> getPositionImpls() {
 
         if (positions == null) {
-            positions = new HashMap<UUID, PositionImpl>();
+            positions = new HashMap<UUID, Position>();
         }
         return positions;
     }
@@ -99,10 +104,15 @@ public class IdentityServiceImpl implements IdentityService, Service {
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Map<UUID, ParticipantImpl> getParticipantImpls() {
+    /**
+     * Returns a mutable map of participants.
+     * 
+     * @return a mutable participants map.
+     */
+    public Map<UUID, Participant> getParticipantImpls() {
 
         if (participants == null) {
-            participants = new HashMap<UUID, ParticipantImpl>();
+            participants = new HashMap<UUID, Participant>();
         }
         return participants;
     }
@@ -114,70 +124,76 @@ public class IdentityServiceImpl implements IdentityService, Service {
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Map<UUID, RoleImpl> getRoleImpls() {
+    /**
+     * Returns a mutable map of roles.
+     * 
+     * @return a mutable roles map.
+     */
+    public Map<UUID, Role> getRoleImpls() {
 
         if (roles == null) {
-            roles = new HashMap<UUID, RoleImpl>();
+            roles = new HashMap<UUID, Role>();
         }
         return roles;
     }
 
     @Override
-    public @Nullable Resource<?> findResource(@Nonnull ResourceType resourceType,
-                                              @Nonnull UUID id) {
+    public @Nullable OrganizationUnit getOrganizationUnit(@Nonnull UUID id) {
 
-        return null;
+        return getOrganizationUnitImpls().get(id);
 //        return find(getOrganizationUnitImpls(), id);
     }
 
     @Override
-    public @Nullable OrganizationUnitImpl getOrganizationUnit(@Nonnull UUID id) {
-
-        return getOrganizationUnitImpls().get(id);
-        //        return find(getOrganizationUnitImpls(), id);
-    }
-
-    @Override
-    public @Nullable PositionImpl getPosition(@Nonnull UUID id) {
+    public @Nullable Position getPosition(@Nonnull UUID id) {
 
         return getPositionImpls().get(id);
 //        return find(getPositionImpls(), id);
     }
 
     @Override
-    public @Nullable ParticipantImpl getParticipant(@Nonnull UUID id) {
+    public @Nullable Participant getParticipant(@Nonnull UUID id) {
 
         return getParticipantImpls().get(id);
-//        return find(getParticipantImpls(), id);
+//        return find(getParticipants(), id);
     }
 
     @Override
-    public @Nullable RoleImpl getRole(@Nonnull UUID id) {
+    public @Nullable Role getRole(@Nonnull UUID id) {
 
         return getRoleImpls().get(id);
         //        return find(getRoleImpls(), id);
     }
 
-    /**
-     * Looks if the Resource with the given Id is already in the list.
-     * 
-     * @param <R>
-     *            - a subclass of {@link ResourceImpl}
-     * @param resourceList
-     *            - a list that contains object that inherits
-     * @param id
-     *            - id of the resource to look for
-     * @return <R> object, if it is in the resourceList, otherwise null
-     */
-    @SuppressWarnings("unchecked")
-    private static @Nullable <R extends ResourceImpl<?>> R find(@Nonnull Set<R> resourceList,
-                                                                @Nonnull UUID id) {
+    @Override
+    public @Nullable AbstractResource<?> findResource(@Nonnull ResourceType resourceType,
+                                                      @Nonnull UUID id) {
 
-        for (ResourceImpl<?> resource : resourceList) {
-            if (resource.getID().equals(id)) {
-                return (R) resource;
-            }
-        }
-        return null;
+        return null; // TODO Gerardo verkloppen... einfach Methoden so umschreiben, dass sie null zurückgeben
+                     //      gibt eine Uff'n Kopp!
+//        return find(getOrganizationUnitImpls(), id);
     }
+
+//    /**
+//     * Looks if the Resource with the given Id is already in the list.
+//     * 
+//     * @param <R>
+//     *            - a subclass of {@link AbstractResourceImpl}
+//     * @param resourceList
+//     *            - a list that contains object that inherits
+//     * @param id
+//     *            - id of the resource to look for
+//     * @return <R> object, if it is in the resourceList, otherwise null
+//     */
+//    @SuppressWarnings("unchecked")
+//    private static @Nullable <R extends AbstractResource<?>> R find(@Nonnull Set<R> resourceList,
+//                                                                    @Nonnull UUID id) {
+//
+//        for (AbstractResource<?> resource: resourceList) {
+//            if (resource.getID().equals(id)) {
+//                return (R) resource;
+//            }
+//        }
+//        return null;
+//    }
 }

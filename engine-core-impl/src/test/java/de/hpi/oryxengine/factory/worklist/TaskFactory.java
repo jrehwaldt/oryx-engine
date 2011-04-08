@@ -8,7 +8,7 @@ import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.allocation.pattern.SimplePushPattern;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
-import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
  * Little factory for creating Resources. A short cut for the implementation.
@@ -22,9 +22,7 @@ public final class TaskFactory {
      * Private Constructor because the CheckStyle want me to do that. Gerardo do what told. Gerardo intelligent. Gerardo
      * checkstyle also want you to comment methods. Gerardo better do that.
      */
-    private TaskFactory() {
-
-    }
+    private TaskFactory() { }
 
     /**
      * Creates a new Task object where Jannik shall get coffee for Gerardo. Note that the Participant who shall complete
@@ -40,9 +38,12 @@ public final class TaskFactory {
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
 
         // creates the participant Jannik
-        Resource<?> resource = ParticipantFactory.createJannik();
+        AbstractResource<?> resource = ParticipantFactory.createJannik();
 
-        Task task = new TaskImpl(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, allocationStrategies, resource);
+        Task task = new TaskImpl(SIMPLE_TASK_SUBJECT,
+                                 SIMPLE_TASK_DESCRIPTION,
+                                 allocationStrategies,
+                                 resource);
 
         return task;
     }
@@ -53,7 +54,7 @@ public final class TaskFactory {
      * @param resourceToAssign the resource to assign
      * @return the task
      */
-    public static Task createSimpleTask(Resource<?> resourceToAssign) {
+    public static Task createSimpleTask(AbstractResource<?> resourceToAssign) {
 
         Task task = new TaskImpl(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null, resourceToAssign);
 

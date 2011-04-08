@@ -20,6 +20,7 @@ public class OryxEngineAppContext implements ApplicationContextAware {
      * @param context
      *            {@link ApplicationContext} - a reference to the ApplicationContext.
      */
+    @Override
     public void setApplicationContext(ApplicationContext context) {
 
         applicationContext = context;

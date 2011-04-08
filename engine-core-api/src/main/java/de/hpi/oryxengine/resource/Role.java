@@ -1,31 +1,79 @@
 package de.hpi.oryxengine.resource;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
+import de.hpi.oryxengine.resource.worklist.RoleWorklist;
+
 /**
- * A Role is a duty or a set of duties that are performed by one or more participants. Imagine that it is a group. For
- * example, a Role could be team XY (representing all participants belonging to that group), the group of all account
- * manager.
- * 
- * A Role could have a superior Role.
+ * Implementation of the {@link RoleImpl} interface.
  * 
  * @author Gerardo Navarro Suarez
+ * @author Jan Rehwaldt
  */
-public interface Role extends Resource<Role> {
+public class Role extends AbstractResource<Role> {
+
+    /** The participants. */
+    private Set<Participant> participants;
+
+    /**
+     * The Default Constructor for the RoleImpl.
+     * 
+     * @param roleName
+     *            - the name of the Role
+     */
+    public Role(String roleName) {
+
+        super(roleName, ResourceType.ROLE);
+    }
 
     /**
      * Returns the superior Role of the current Role.
      * 
      * @return the superior Role of the current Role
      */
-    Role getSuperRole();
-    // Das änder ich vielleicht noch
-    // Role setSuperRole(Role superRole);
-    
+    public @Nullable Role getSuperRole() {
+
+        return null; // TODO ever null
+    }
+
     /**
      * Returns a read-only Set of all participants belonging to that Role.
      * 
      * @return a read-only Set of all participants belonging to that Role
      */
-    Set<Participant> getParticipants();
+    public @Nonnull Set<Participant> getParticipantsImmutable() {
+
+        Set<Participant> setToReturn = new HashSet<Participant>(getParticipants());
+        return Collections.unmodifiableSet(setToReturn);
+    }
+
+    /**
+     * Gets the participant implementations.
+     *
+     * @return the participant implementations
+     */
+    protected @Nonnull Set<Participant> getParticipants() {
+
+        if (participants == null) {
+            participants = new HashSet<Participant>();
+        }
+        return participants;
+    }
+    
+    @Override
+    public AbstractWorklist getWorklist() {
+
+        if (worklist == null) {
+
+            worklist = new RoleWorklist(this);
+        }
+        return worklist;
+    }
+
 }

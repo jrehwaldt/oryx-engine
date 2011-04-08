@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.hpi.oryxengine.allocation.WorklistItemImpl;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Position;
-import de.hpi.oryxengine.resource.Resource;
 
 /**
  * 
@@ -30,17 +29,17 @@ public class ParticipantWorklist extends AbstractWorklist {
     public List<WorklistItem> getWorklistItems() {
 
         // Extracting the resources related to this owner
-        List<Resource<?>> resourcesInView = new ArrayList<Resource<?>>();
-        resourcesInView.addAll(relatedParticipant.getMyRoles());
-        for (Position position : relatedParticipant.getMyPositions()) {
+        List<AbstractResource<?>> resourcesInView = new ArrayList<AbstractResource<?>>();
+        resourcesInView.addAll(relatedParticipant.getMyRolesImmutable());
+        for (Position position: relatedParticipant.getMyPositionsImmutable()) {
             resourcesInView.add(position);
-            resourcesInView.add(position.belongstoOrganization());
+            resourcesInView.add(position.belongsToOrganization());
         }
 
         // Creating the list of worklistItems from the owner and the related resources
         List<WorklistItem> resultWorklistItems = new ArrayList<WorklistItem>();
         resultWorklistItems.addAll(getLazyWorklistItems());
-        for (Resource<?> resourceInView : resourcesInView) {
+        for (AbstractResource<?> resourceInView : resourcesInView) {
             resultWorklistItems.addAll(resourceInView.getWorklist().getWorklistItems());
         }
 
@@ -48,7 +47,7 @@ public class ParticipantWorklist extends AbstractWorklist {
     }
 
     @Override
-    public void itemIsAllocatedBy(WorklistItem worklistItem, Resource<?> claimingResource) {
+    public void itemIsAllocatedBy(WorklistItem worklistItem, AbstractResource<?> claimingResource) {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
 

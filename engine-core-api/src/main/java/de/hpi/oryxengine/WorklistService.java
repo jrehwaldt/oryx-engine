@@ -7,7 +7,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
@@ -22,16 +22,16 @@ public interface WorklistService {
      *            - the resource the {@link Worklist} items shall be searched for
      * @return a list of {@link WorklistItem}s; the list is unmodifiable (read-only)
      */
-    List<WorklistItem> getWorklistItems(Resource<?> resource);
+    List<WorklistItem> getWorklistItems(AbstractResource<?> resource);
     
     /**
      * Resolves all worklist items belonging to the given resources.
      * 
      * @param resources
      *            - the resources the worklist items shall be searched for
-     * @return a map where the key is a {@link Resource} and the value is a list of {@link WorklistItem}s
+     * @return a map where the key is a {@link AbstractResource} and the value is a list of {@link WorklistItem}s
      */
-    Map<Resource<?>, List<WorklistItem>> getWorklistItems(List<Resource<?>> resources);
+    Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(List<AbstractResource<?>> resources);
 
     /**
      * Claims a {@link WorklistItem}.
@@ -39,7 +39,7 @@ public interface WorklistService {
      * @param worklistItem - {@link WorklistItem} that should be claimed
      * @param resource the resource that triggers this method
      */
-    void claimWorklistItemBy(WorklistItem worklistItem, Resource<?> resource);
+    void claimWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource);
 
     /**
      * Begin a {@link WorklistItem}.
@@ -47,7 +47,7 @@ public interface WorklistService {
      * @param worklistItem - {@link WorklistItem} that should be claimed
      * @param resource the resource that triggers this method
      */
-    void beginWorklistItemBy(WorklistItem worklistItem, Resource<?> resource);
+    void beginWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource);
 
     /**
      * Completes a {@link WorklistItem}.
@@ -55,7 +55,7 @@ public interface WorklistService {
      * @param worklistItem - {@link WorklistItem} that was completed
      * @param resource the resource that triggers this method
      */
-    void completeWorklistItemBy(WorklistItem worklistItem, Resource<?> resource);
+    void completeWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource);
 
     /**
      * Aborts a {@link WorklistItem}.
@@ -63,16 +63,16 @@ public interface WorklistService {
      * @param worklistItem - {@link WorklistItem} that is aborted
      * @param resource the resource that triggers this method
      */
-    void abortWorklistItemBy(WorklistItem worklistItem, Resource<?> resource);
+    void abortWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource);
 
     /**
      * Returns a {@link WorklistItem} by id.
      * 
-     * @param resource the {@link Resource}, to which the {@link WorklistItem} belongs
+     * @param resource the {@link AbstractResource}, to which the {@link WorklistItem} belongs
      * @param worklistItemId the {@link WorklistItem}'s id
      * @return the {@link WorklistItem}
      */
-    @Nullable WorklistItem getWorklistItem(@Nonnull Resource<?> resource,
+    @Nullable WorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
                                            @Nonnull UUID worklistItemId);
     
     // TODO: Observable Interface für die GUI

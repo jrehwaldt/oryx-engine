@@ -26,6 +26,9 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
 
     private Participant participant = null;
 
+    /**
+     * Set up.
+     */
     @BeforeMethod
     public void beforeMethod() {
 
@@ -35,6 +38,9 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
         participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
     }
 
+    /**
+     * Tear down.
+     */
     @AfterMethod
     public void tearDown() {
 
@@ -71,7 +77,8 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
 
-        identityBuilder.participantOccupiesPosition(participant.getID(), pos1.getID()).participantOccupiesPosition(participant.getID(), pos2.getID());
+        identityBuilder.participantOccupiesPosition(
+            participant.getID(), pos1.getID()).participantOccupiesPosition(participant.getID(), pos2.getID());
 
         Assert.assertTrue(identityService.getPositions().size() == 2);
         Assert.assertTrue(participant.getMyPositions().size() == 2);
@@ -144,7 +151,8 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
         Position pos1 = identityBuilder.createPosition("1");
         Position pos2 = identityBuilder.createPosition("2");
 
-        identityBuilder.participantOccupiesPosition(participant.getID(), pos1.getID()).participantOccupiesPosition(participant.getID(), pos2.getID());
+        identityBuilder.participantOccupiesPosition(
+            participant.getID(), pos1.getID()).participantOccupiesPosition(participant.getID(), pos2.getID());
 
         identityBuilder.deleteParticipant(participant.getID());
 
@@ -185,11 +193,11 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
      */
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testProhibitedOperationsOnPositionRelations() {
-
+        
         Position pos1 = identityBuilder.createPosition("1");
-
+        
         // Trying to modify the Relations of the Participant directly
-        participant.getMyPositions().add(pos1);
+        participant.getMyPositionsImmutable().add(pos1);
     }
 
     /**
@@ -197,10 +205,10 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
      */
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testProhibitedOperationsOnRoleRelations() {
-
+        
         Role role = identityBuilder.createRole("admin");
-
+        
         // Trying to modify the Relations of the Participant directly
-        participant.getMyRoles().add(role);
+        participant.getMyRolesImmutable().add(role);
     }
 }

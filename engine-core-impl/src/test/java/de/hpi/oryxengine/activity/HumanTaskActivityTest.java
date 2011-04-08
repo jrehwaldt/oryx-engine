@@ -28,9 +28,9 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
@@ -41,7 +41,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItem;
 public class HumanTaskActivityTest extends AbstractTestNGSpringContextTests {
 
     private Task task = null;
-    private Resource<?> resource = null;
+    private AbstractResource<?> resource = null;
 
     private HumanTaskActivity humanTask = null;
 

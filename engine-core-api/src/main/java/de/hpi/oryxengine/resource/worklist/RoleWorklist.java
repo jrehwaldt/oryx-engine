@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
-import de.hpi.oryxengine.resource.Resource;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.Role;
 
 /**
@@ -39,7 +39,7 @@ public class RoleWorklist extends AbstractWorklist {
     }
 
     @Override
-    public void itemIsAllocatedBy(WorklistItem worklistItem, Resource<?> claimingResource) {
+    public void itemIsAllocatedBy(WorklistItem worklistItem, AbstractResource<?> claimingResource) {
 
         
         System.out.println("worklistitem: " + worklistItem);

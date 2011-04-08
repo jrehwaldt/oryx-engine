@@ -3,12 +3,12 @@ package de.hpi.oryxengine.factory.resource;
 import de.hpi.oryxengine.resource.Participant;
 
 /**
- * A little factory for creating {@link Participant}s.
+ * A little factory for creating {@link AbstractParticipant}s.
  */
 public class ParticipantFactory extends ResourceFactory {
 
     /**
-     * Returns a {@link Participant} object with the following parameter
+     * Returns a {@link AbstractParticipant} object with the following parameter
      *  id: gerardo.navarro-suarez
      *  name: Gerardo Navarro Suarez
      * 
@@ -20,7 +20,7 @@ public class ParticipantFactory extends ResourceFactory {
     }
 
     /**
-     * Returns a {@link Participant} object with the the following parameter
+     * Returns a {@link AbstractParticipant} object with the the following parameter
      *  id: jannik.streek
      *  name: Jannik Streek
      * 
