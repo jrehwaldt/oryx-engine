@@ -38,7 +38,7 @@ public class ParticipantFactory extends ResourceFactory {
      * 
      * @return the {@link Participant} Tobi
      */
-    public static Participant createTobi() {
+    public static AbstractParticipant createTobi() {
 
         return createParticipant("tobias.pfeiffer", "Tobias Pfeiffer");
     }
@@ -50,7 +50,7 @@ public class ParticipantFactory extends ResourceFactory {
      * 
      * @return the {@link Participant} Tobi2
      */
-    public static Participant createTobi2() {
+    public static AbstractParticipant createTobi2() {
 
         return createParticipant("tobias.metzke", "Tobias Metzke");
     }

@@ -99,4 +99,8 @@ public interface Navigator {
      *            the instance
      */
     void signalEndedProcessInstance(ProcessInstance instance);
+
+    boolean isIdle();
+
+    NavigatorStatistic getStatistics();
 }
