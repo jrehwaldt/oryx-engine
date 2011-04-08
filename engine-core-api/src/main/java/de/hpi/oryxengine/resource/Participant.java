@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
-import de.hpi.oryxengine.resource.worklist.Worklist;
 
 /**
  * A Participants is a resource which a task can be assigned to.
@@ -14,24 +14,24 @@ import de.hpi.oryxengine.resource.worklist.Worklist;
  * 
  * @author Gerardo Navarro Suarez
  */
-public class ParticipantImpl extends AbstractResourceImpl<ParticipantImpl> {
+public class Participant extends AbstractResource<Participant> {
 
     /** My {@link AbstractPosition}s. */
-    private Set<PositionImpl> myPositions;
+    private Set<Position> myPositions;
 
     /** My {@link AbstractCapability}s. */
-    private Set<CapabilityImpl> myCapabilities;
+    private Set<Capability> myCapabilities;
 
     /** My {@link AbstractRole}s. */
-    private Set<RoleImpl> myRoles;
+    private Set<Role> myRoles;
 
     /**
-     * Instantiates a new {@link ParticipantImpl}.
+     * Instantiates a new {@link Participant}.
      * 
      * @param participantName
-     *            the name of the {@link ParticipantImpl}
+     *            the name of the {@link Participant}
      */
-    public ParticipantImpl(String participantName) {
+    public Participant(String participantName) {
 
         super(participantName, ResourceType.PARTICIPANT);
     }
@@ -41,9 +41,9 @@ public class ParticipantImpl extends AbstractResourceImpl<ParticipantImpl> {
      *
      * @return a read-only Set of all Positions occupied by this Participant.
      */
-    public Set<PositionImpl> getMyPositionsImmutable() {
+    public Set<Position> getMyPositionsImmutable() {
 
-        Set<PositionImpl> setToReturn = new HashSet<PositionImpl>(getMyPositions());
+        Set<Position> setToReturn = new HashSet<Position>(getMyPositions());
         return Collections.unmodifiableSet(setToReturn);
     }
     
@@ -52,10 +52,10 @@ public class ParticipantImpl extends AbstractResourceImpl<ParticipantImpl> {
      * 
      * @return a Set of all PositionImpl of this Participant
      */
-    protected Set<PositionImpl> getMyPositions() {
+    protected Set<Position> getMyPositions() {
 
         if (myPositions == null) {
-            myPositions = new HashSet<PositionImpl>();
+            myPositions = new HashSet<Position>();
         }
         return myPositions;
     }
@@ -65,10 +65,10 @@ public class ParticipantImpl extends AbstractResourceImpl<ParticipantImpl> {
      * 
      * @return a read-only Set of all Capabilities of this Participant
      */
-    protected Set<CapabilityImpl> getMyCapabilities() {
+    protected Set<Capability> getMyCapabilities() {
 
         if (myCapabilities == null) {
-            myCapabilities = new HashSet<CapabilityImpl>();
+            myCapabilities = new HashSet<Capability>();
         }
         return myCapabilities;
     }
@@ -78,9 +78,9 @@ public class ParticipantImpl extends AbstractResourceImpl<ParticipantImpl> {
      * 
      * @return a read-only Set of all Roles that contains this Participant
      */
-    public Set<RoleImpl> getMyRolesImmutable() {
+    public Set<Role> getMyRolesImmutable() {
 
-        Set<RoleImpl> setToReturn = new HashSet<RoleImpl>(getMyRoles());
+        Set<Role> setToReturn = new HashSet<Role>(getMyRoles());
         return Collections.unmodifiableSet(setToReturn);
     }
     
@@ -89,16 +89,16 @@ public class ParticipantImpl extends AbstractResourceImpl<ParticipantImpl> {
      * 
      * @return a Set of all RoleImpl of this Participant
      */
-    protected Set<RoleImpl> getMyRoles() {
+    protected Set<Role> getMyRoles() {
 
         if (myRoles == null) {
-            myRoles = new HashSet<RoleImpl>();
+            myRoles = new HashSet<Role>();
         }
         return myRoles;
     }
 
     @Override
-    public Worklist getWorklist() {
+    public AbstractWorklist getWorklist() {
 
         if (worklist == null) {
 

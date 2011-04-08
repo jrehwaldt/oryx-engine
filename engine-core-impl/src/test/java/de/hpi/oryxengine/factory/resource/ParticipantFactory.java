@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.factory.resource;
 
-import de.hpi.oryxengine.resource.ParticipantImpl;
+import de.hpi.oryxengine.resource.Participant;
 
 /**
  * A little factory for creating {@link AbstractParticipant}s.
@@ -12,9 +12,9 @@ public class ParticipantFactory extends ResourceFactory {
      *  id: gerardo.navarro-suarez
      *  name: Gerardo Navarro Suarez
      * 
-     * @return the {@link ParticipantImpl} Gerardo
+     * @return the {@link Participant} Gerardo
      */
-    public static ParticipantImpl createGerardo() {
+    public static Participant createGerardo() {
 
         return createParticipant("gerardo.navarro-suarez", "Gerardo Navarro Suarez");
     }
@@ -24,9 +24,9 @@ public class ParticipantFactory extends ResourceFactory {
      *  id: jannik.streek
      *  name: Jannik Streek
      * 
-     * @return the {@link ParticipantImpl} Jannik
+     * @return the {@link Participant} Jannik
      */
-    public static ParticipantImpl createJannik() {
+    public static Participant createJannik() {
 
         return createParticipant("jannik.streek", "Jannik Streek");
     }

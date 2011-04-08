@@ -15,23 +15,23 @@ import javax.annotation.Nullable;
  * 
  * @author Gerardo Navarro Suarez
  */
-public class PositionImpl extends AbstractResourceImpl<PositionImpl> {
-
-    private ParticipantImpl positionHolder;
-
-    private OrganizationUnitImpl organizationalUnit;
-
-    private PositionImpl superiorPosition;
-
-    private Set<PositionImpl> subordinatePositions;
-
+public class Position extends AbstractResource<Position> {
+    
+    private Participant positionHolder;
+    
+    private OrganizationUnit organizationalUnit;
+    
+    private Position superiorPosition;
+    
+    private Set<Position> subordinatePositions;
+    
     /**
      * The Default Constructor. Creates a position object with the given id.
      * 
      * @param positionName
      *            - identifier for the position Object
      */
-    public PositionImpl(String positionName) {
+    public Position(String positionName) {
 
         super(positionName, ResourceType.POSITION);
     }
@@ -41,7 +41,7 @@ public class PositionImpl extends AbstractResourceImpl<PositionImpl> {
      * 
      * @return a Participant - Participant that occupies this Position
      */
-    public ParticipantImpl getPositionHolder() {
+    public Participant getPositionHolder() {
 
         return positionHolder;
     }
@@ -52,7 +52,7 @@ public class PositionImpl extends AbstractResourceImpl<PositionImpl> {
      * @param participant the participant
      * @return the subordinate position (this)
      */
-    protected @Nonnull PositionImpl setPositionHolder(@Nullable ParticipantImpl participant) {
+    protected @Nonnull Position setPositionHolder(@Nullable Participant participant) {
 
         positionHolder = participant;
         return this;
@@ -63,7 +63,7 @@ public class PositionImpl extends AbstractResourceImpl<PositionImpl> {
      * 
      * @return the superior position
      */
-    public PositionImpl getSuperiorPosition() {
+    public Position getSuperiorPosition() {
 
         return superiorPosition;
     }
@@ -74,7 +74,7 @@ public class PositionImpl extends AbstractResourceImpl<PositionImpl> {
      * @param position the superior position
      * @return the subordinate position (this)
      */
-    protected @Nonnull PositionImpl setSuperiorPosition(@Nullable PositionImpl position) {
+    protected @Nonnull Position setSuperiorPosition(@Nullable Position position) {
 
         superiorPosition = position;
 
@@ -86,19 +86,19 @@ public class PositionImpl extends AbstractResourceImpl<PositionImpl> {
      * 
      * @return the OrganizationUnit where this Position belongs to
      */
-    public @Nullable OrganizationUnitImpl belongsToOrganization() {
+    public @Nullable OrganizationUnit belongsToOrganization() {
         
         return organizationalUnit;
     }
 
     /**
-     * Sets the {@link OrganizationUnitImpl} that offers this {@link AbstractPosition}.
+     * Sets the {@link OrganizationUnit} that offers this {@link AbstractPosition}.
      * 
      * @param organizationalUnit
      *            the organizational unit
      * @return the position (this)
      */
-    public @Nonnull PositionImpl belongsToOrganization(@Nullable OrganizationUnitImpl organizationalUnit) {
+    public @Nonnull Position belongsToOrganization(@Nullable OrganizationUnit organizationalUnit) {
 
         this.organizationalUnit = organizationalUnit;
         return this;
@@ -109,10 +109,10 @@ public class PositionImpl extends AbstractResourceImpl<PositionImpl> {
      * 
      * @return the subordinate position
      */
-    public @Nonnull Set<PositionImpl> getSubordinatePositions() {
+    public @Nonnull Set<Position> getSubordinatePositions() {
 
         if (subordinatePositions == null) {
-            subordinatePositions = new HashSet<PositionImpl>();
+            subordinatePositions = new HashSet<Position>();
         }
         return subordinatePositions;
     }

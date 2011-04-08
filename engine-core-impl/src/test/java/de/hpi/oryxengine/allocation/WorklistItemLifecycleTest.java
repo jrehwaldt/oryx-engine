@@ -17,7 +17,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.resource.ParticipantImpl;
+import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
@@ -31,7 +31,7 @@ public class WorklistItemLifecycleTest {
 
     private WorklistService worklistService = null;
     private WorklistItem worklistItem = null;
-    private ParticipantImpl jannik = null;
+    private Participant jannik = null;
 
     /**
      * Set up.
@@ -42,7 +42,7 @@ public class WorklistItemLifecycleTest {
         worklistService = ServiceFactory.getWorklistService();
 
         Task task = TaskFactory.createJannikServesGerardoTask();
-        jannik = (ParticipantImpl) task.getAssignedResources().iterator().next();
+        jannik = (Participant) task.getAssignedResources().iterator().next();
 
         Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(new HumanTaskActivity(null));
         Token token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
@@ -68,7 +68,7 @@ public class WorklistItemLifecycleTest {
     @Test
     public void testWorklistItemCreation() {
 
-        ParticipantImpl part = ServiceFactory.getIdentityService().getParticipants().iterator().next();
+        Participant part = ServiceFactory.getIdentityService().getParticipants().iterator().next();
         // AllocationsStragegies are not important for that test
         Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, part);
 

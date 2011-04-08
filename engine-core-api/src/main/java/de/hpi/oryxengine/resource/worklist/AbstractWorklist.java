@@ -7,9 +7,9 @@ import java.util.List;
 import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
- * The abstract work list class.
+ * Represents the Worklist that contains several {@link WorklistItem} for a {@link AbstractResource}.
  */
-public abstract class AbstractWorklist implements Worklist {
+public abstract class AbstractWorklist implements Iterable<WorklistItem> {
 
     private List<WorklistItem> lazyWorklistItems;
     
@@ -27,19 +27,42 @@ public abstract class AbstractWorklist implements Worklist {
         return lazyWorklistItems;
     }
 
-    @Override
+    /**
+     * Retrieves the contained {@link WorklistItem}s.
+     * 
+     * @return a list of {@link WorklistItem}s; the list is unmodifiable (read-only) 
+     */
     public abstract List<WorklistItem> getWorklistItems();
-
-    @Override
+    
+    /**
+     * Notifies this {@link Worklist} that the item has been allocated by a certain resource.
+     * 
+     * The resource is now able to move, edit and remove the {@link WorklistItem}. 
+     * 
+     * @param worklistItem - a {@link WorklistItem} that was allocated
+     * @param claimingResource - the {@link AbstractResource} that allocated the {@link WorklistItem}
+     */
     public abstract void itemIsAllocatedBy(WorklistItem worklistItem, AbstractResource<?> claimingResource);
 
-    @Override
+    /**
+     * Notifies this {@link Worklist} that the {@link WorklistItem} has been completed.
+     * 
+     * @param worklistItem - a {@link WorklistItem} that was completed
+     */
     public abstract void itemIsCompleted(WorklistItem worklistItem);
 
-    @Override
+    /**
+     * Notifies the {@link Worklist} that the {@link WorklistItem} has been started.
+     * 
+     * @param worklistItem - a {@link WorklistItem} that has been started
+     */
     public abstract void itemIsStarted(WorklistItem worklistItem);
-
-    @Override
+    
+    /**
+     * Adds a {@link WorklistItem} into the {@link Worklist}.
+     * 
+     * @param worklistItem - a {@link WorklistItem} to add
+     */
     public abstract void addWorklistItem(WorklistItem worklistItem);
 
 

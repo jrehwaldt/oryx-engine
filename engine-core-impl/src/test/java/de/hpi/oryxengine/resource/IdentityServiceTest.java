@@ -47,7 +47,7 @@ public class IdentityServiceTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testProhibitedOperationsOnPositionsSet() {
 
-        Set<PositionImpl> positions = identityService.getPositions();
+        Set<Position> positions = identityService.getPositions();
         Assert.assertNotNull(positions);
         positions.add(null);
     }
@@ -58,7 +58,7 @@ public class IdentityServiceTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testProhibitedOperationsOnOrganizationUnitsSet() {
         
-        Set<OrganizationUnitImpl> organizationUnits = identityService.getOrganizationUnits();
+        Set<OrganizationUnit> organizationUnits = identityService.getOrganizationUnits();
         Assert.assertNotNull(organizationUnits);
         organizationUnits.add(null);
     }
@@ -69,7 +69,7 @@ public class IdentityServiceTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testProhibitedOperationsOnParticipantsSet() {
         
-        Set<ParticipantImpl> participants = identityService.getParticipants();
+        Set<Participant> participants = identityService.getParticipants();
         Assert.assertNotNull(participants);
         participants.add(null);
     }
@@ -80,7 +80,7 @@ public class IdentityServiceTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testProhibitedOperationsOnRolesSet() {
         
-        Set<RoleImpl> roles = identityService.getRoles();
+        Set<Role> roles = identityService.getRoles();
         Assert.assertNotNull(roles);
         roles.add(null);
     }

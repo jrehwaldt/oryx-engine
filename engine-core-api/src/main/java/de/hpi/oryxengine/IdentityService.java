@@ -8,11 +8,11 @@ import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.OrganizationUnitImpl;
-import de.hpi.oryxengine.resource.ParticipantImpl;
-import de.hpi.oryxengine.resource.PositionImpl;
+import de.hpi.oryxengine.resource.OrganizationUnit;
+import de.hpi.oryxengine.resource.Participant;
+import de.hpi.oryxengine.resource.Position;
 import de.hpi.oryxengine.resource.ResourceType;
-import de.hpi.oryxengine.resource.RoleImpl;
+import de.hpi.oryxengine.resource.Role;
 
 /**
  * The ResourceService provides an interface for:
@@ -46,30 +46,30 @@ public interface IdentityService {
     /**
      * Gets the organization units.
      * 
-     * @return the {@link OrganizationUnitImpl}s
+     * @return the {@link OrganizationUnit}s
      */
-    @Nonnull Set<OrganizationUnitImpl> getOrganizationUnits();
+    @Nonnull Set<OrganizationUnit> getOrganizationUnits();
 
     /**
      * Gets the positions.
      * 
-     * @return the {@link PositionImpl}s
+     * @return the {@link Position}s
      */
-    @Nonnull Set<PositionImpl> getPositions();
+    @Nonnull Set<Position> getPositions();
 
     /**
      * Gets the participants.
      * 
-     * @return the {@link ParticipantImpl}s
+     * @return the {@link Participant}s
      */
-    @Nonnull Set<ParticipantImpl> getParticipants();
+    @Nonnull Set<Participant> getParticipants();
 
     /**
      * Gets the roles.
      * 
-     * @return the {@link RoleImpl}s
+     * @return the {@link Role}s
      */
-    @Nonnull Set<RoleImpl> getRoles();
+    @Nonnull Set<Role> getRoles();
     
     /**
      * Returns the requested resource.
@@ -85,31 +85,31 @@ public interface IdentityService {
      * Returns the requested role.
      * 
      * @param roleId the role's id
-     * @return the {@link RoleImpl}
+     * @return the {@link Role}
      */
-    @Nullable RoleImpl getRole(@Nonnull UUID roleId);
+    @Nullable Role getRole(@Nonnull UUID roleId);
     
     /**
      * Returns the requested positions.
      * 
      * @param positionId the position's id
-     * @return the {@link PositionImpl}
+     * @return the {@link Position}
      */
-    @Nullable PositionImpl getPosition(@Nonnull UUID positionId);
+    @Nullable Position getPosition(@Nonnull UUID positionId);
     
     /**
      * Returns the requested organizational units.
      * 
      * @param organizationUnitId the organization's id
-     * @return the {@link OrganizationUnitImpl}
+     * @return the {@link OrganizationUnit}
      */
-    @Nullable OrganizationUnitImpl getOrganizationUnit(@Nonnull UUID organizationUnitId);
+    @Nullable OrganizationUnit getOrganizationUnit(@Nonnull UUID organizationUnitId);
     
     /**
      * Returns the requested participants.
      * 
      * @param participantId the participant's id
-     * @return the {@link ParticipantImpl}
+     * @return the {@link Participant}
      */
-    @Nullable ParticipantImpl getParticipant(@Nonnull UUID participantId);
+    @Nullable Participant getParticipant(@Nonnull UUID participantId);
 }

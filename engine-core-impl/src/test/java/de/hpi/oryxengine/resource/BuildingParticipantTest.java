@@ -14,7 +14,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.ServiceFactoryForTesting;
 
 /**
- * Tests the building of {@link ParticipantImpl}s in the organization structure.
+ * Tests the building of {@link Participant}s in the organization structure.
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
@@ -24,7 +24,7 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
 
     private IdentityBuilder identityBuilder = null;
 
-    private ParticipantImpl participant = null;
+    private Participant participant = null;
 
     /**
      * Set up.
@@ -60,7 +60,7 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
     public void testForUniqueParticipant() {
 
         // Try to create a new Participant with the same Name
-        ParticipantImpl participant2 = identityBuilder.createParticipant("Gerardo Navarro Suarez");
+        Participant participant2 = identityBuilder.createParticipant("Gerardo Navarro Suarez");
 
         String failureMessage = "There should be two Participants";
         Assert.assertTrue(identityService.getParticipants().size() == 2, failureMessage);
@@ -74,8 +74,8 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
     public void testCreationParticipantPositionRelationship()
     throws Exception {
 
-        PositionImpl pos1 = identityBuilder.createPosition("1");
-        PositionImpl pos2 = identityBuilder.createPosition("2");
+        Position pos1 = identityBuilder.createPosition("1");
+        Position pos2 = identityBuilder.createPosition("2");
 
         identityBuilder.participantOccupiesPosition(
             participant.getID(), pos1.getID()).participantOccupiesPosition(participant.getID(), pos2.getID());
@@ -97,8 +97,8 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
     public void testUniquePositionsParticipantRelationship()
     throws Exception {
 
-        PositionImpl pos1 = identityBuilder.createPosition("1");
-        PositionImpl pos2 = identityBuilder.createPosition("2");
+        Position pos1 = identityBuilder.createPosition("1");
+        Position pos2 = identityBuilder.createPosition("2");
 
         identityBuilder.participantOccupiesPosition(participant.getID(), pos1.getID())
         // Try to occupy the same Position again
@@ -121,9 +121,9 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
     public void testChangePositionParticipantRelationship()
     throws Exception {
 
-        PositionImpl pos1 = identityBuilder.createPosition("1");
+        Position pos1 = identityBuilder.createPosition("1");
 
-        ParticipantImpl participant2 = identityBuilder.createParticipant("Jannik Streek");
+        Participant participant2 = identityBuilder.createParticipant("Jannik Streek");
 
         identityBuilder.participantOccupiesPosition(participant.getID(), pos1.getID())
         // Now change the Position to another Participant
@@ -148,8 +148,8 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
     public void testDeleteParticipant()
     throws Exception {
 
-        PositionImpl pos1 = identityBuilder.createPosition("1");
-        PositionImpl pos2 = identityBuilder.createPosition("2");
+        Position pos1 = identityBuilder.createPosition("1");
+        Position pos2 = identityBuilder.createPosition("2");
 
         identityBuilder.participantOccupiesPosition(
             participant.getID(), pos1.getID()).participantOccupiesPosition(participant.getID(), pos2.getID());
@@ -160,7 +160,7 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(identityService.getParticipants().size() == 0, failureMessage);
         Assert.assertFalse(identityService.getParticipants().contains(participant), failureMessage);
 
-        for (PositionImpl position : participant.getMyPositions()) {
+        for (Position position : participant.getMyPositions()) {
             failureMessage = "The Position '" + position.getID() + " => " + position.getName()
                 + "' should not have an Participant. It should be null.";
             Assert.assertNull(position.getPositionHolder());
@@ -177,7 +177,7 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
     public void testDeletePositionParticipantRelationship()
     throws Exception {
 
-        PositionImpl pos1 = identityBuilder.createPosition("1");
+        Position pos1 = identityBuilder.createPosition("1");
 
         identityBuilder.participantOccupiesPosition(participant.getID(), pos1.getID());
 
@@ -194,7 +194,7 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testProhibitedOperationsOnPositionRelations() {
         
-        PositionImpl pos1 = identityBuilder.createPosition("1");
+        Position pos1 = identityBuilder.createPosition("1");
         
         // Trying to modify the Relations of the Participant directly
         participant.getMyPositionsImmutable().add(pos1);
@@ -206,7 +206,7 @@ public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testProhibitedOperationsOnRoleRelations() {
         
-        RoleImpl role = identityBuilder.createRole("admin");
+        Role role = identityBuilder.createRole("admin");
         
         // Trying to modify the Relations of the Participant directly
         participant.getMyRolesImmutable().add(role);

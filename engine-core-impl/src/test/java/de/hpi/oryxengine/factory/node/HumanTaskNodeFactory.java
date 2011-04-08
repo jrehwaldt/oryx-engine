@@ -9,7 +9,7 @@ import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.allocation.pattern.SimplePushPattern;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.ParticipantImpl;
+import de.hpi.oryxengine.resource.Participant;
 
 /**
  * A factory for creating a HumanTaskNode objects.
@@ -22,7 +22,7 @@ public class HumanTaskNodeFactory extends AbstractNodeFactory {
     public void setActivity() {
         
         IdentityBuilder identityBuilder = new IdentityServiceImpl().getIdentityBuilder();
-        ParticipantImpl participant = identityBuilder.createParticipant("jannik");
+        Participant participant = identityBuilder.createParticipant("jannik");
         participant.setName("Jannik Streek");
         
         String subject = "Jannik, get me a cup of coffee!";

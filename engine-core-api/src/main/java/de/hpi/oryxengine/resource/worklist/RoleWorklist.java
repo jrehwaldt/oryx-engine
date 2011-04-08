@@ -6,21 +6,21 @@ import java.util.List;
 
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.RoleImpl;
+import de.hpi.oryxengine.resource.Role;
 
 /**
  * The work list for the resource 'role'.
  */
 public class RoleWorklist extends AbstractWorklist {
 
-    private RoleImpl relatedRole;
+    private Role relatedRole;
     
     /**
      * Instantiates a new role worklist.
      *
      * @param owner the owner
      */
-    public RoleWorklist(RoleImpl owner) {
+    public RoleWorklist(Role owner) {
 
         this.relatedRole = owner;
     }

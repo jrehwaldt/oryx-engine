@@ -23,7 +23,7 @@ public interface IdentityBuilder {
      *            - is the name of the instantiated object
      * @return the created Participant object; the object already contains an id
      */
-    @Nonnull ParticipantImpl createParticipant(@Nonnull String participantName);
+    @Nonnull Participant createParticipant(@Nonnull String participantName);
 
     /**
      * Deletes the given Participant, so that it is removed from the organization structure.
@@ -111,7 +111,7 @@ public interface IdentityBuilder {
      * @return the identity builder
      */
     @Nonnull IdentityBuilder participantHasCapability(@Nonnull UUID participant,
-                                                      @Nonnull CapabilityImpl capability);
+                                                      @Nonnull Capability capability);
 
     /**
      * Creates a new OrganizationUnit, no matter if there already exists an {@link AbstractOrganizationUnit}
@@ -121,7 +121,7 @@ public interface IdentityBuilder {
      *            - is the name of the instantiated object
      * @return the created OrganizationUnit object; the object already contains an id
      */
-    OrganizationUnitImpl createOrganizationUnit(@Nonnull String organizationUnitName);
+    OrganizationUnit createOrganizationUnit(@Nonnull String organizationUnitName);
 
     /**
      * Deletes the given OrganizationUnit, so that it is removed from the organization structure.
@@ -197,7 +197,7 @@ public interface IdentityBuilder {
      *            - is the name of the instantiated object
      * @return the created Position object; the object already contains an id.
      */
-    PositionImpl createPosition(@Nonnull String positionName);
+    Position createPosition(@Nonnull String positionName);
 
     /**
      * Deletes the given Position, so that it is removed from the organization structure.
@@ -238,7 +238,7 @@ public interface IdentityBuilder {
      *            - is the id of the instantiated object
      * @return the created Role object; the object already contains an id
      */
-    RoleImpl createRole(@Nonnull String roleName);
+    Role createRole(@Nonnull String roleName);
 
     /**
      * Deletes the given Role, so that it is removed from the organization structure.
@@ -272,5 +272,5 @@ public interface IdentityBuilder {
      *            the capability id
      * @return the capability
      */
-    CapabilityImpl createCapability(@Nonnull String capabilityId);
+    Capability createCapability(@Nonnull String capabilityId);
 }

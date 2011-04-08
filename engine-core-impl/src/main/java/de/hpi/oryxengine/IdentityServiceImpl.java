@@ -14,14 +14,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.AbstractResourceImpl;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.IdentityBuilderImpl;
-import de.hpi.oryxengine.resource.OrganizationUnitImpl;
-import de.hpi.oryxengine.resource.ParticipantImpl;
-import de.hpi.oryxengine.resource.PositionImpl;
+import de.hpi.oryxengine.resource.OrganizationUnit;
+import de.hpi.oryxengine.resource.Participant;
+import de.hpi.oryxengine.resource.Position;
 import de.hpi.oryxengine.resource.ResourceType;
-import de.hpi.oryxengine.resource.RoleImpl;
+import de.hpi.oryxengine.resource.Role;
 
 /**
  * The IdentityServiceImpl is concrete implementation of the {@link IdentityService} that is provided by the engine.
@@ -32,13 +31,13 @@ public class IdentityServiceImpl implements IdentityService, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    private Map<UUID, OrganizationUnitImpl> organizationUnits;
+    private Map<UUID, OrganizationUnit> organizationUnits;
     
-    private Map<UUID, PositionImpl> positions;
+    private Map<UUID, Position> positions;
     
-    private Map<UUID, ParticipantImpl> participants;
+    private Map<UUID, Participant> participants;
     
-    private Map<UUID, RoleImpl> roles;
+    private Map<UUID, Role> roles;
     
     @Override
     public void start() {
@@ -59,63 +58,111 @@ public class IdentityServiceImpl implements IdentityService, Service {
     }
 
     @Override
-    public Set<OrganizationUnitImpl> getOrganizationUnits() {
+    public Set<OrganizationUnit> getOrganizationUnits() {
 
-        Set<OrganizationUnitImpl> setToReturn = new HashSet<OrganizationUnitImpl>(getOrganizationUnitImpls().values());
+        Set<OrganizationUnit> setToReturn = new HashSet<OrganizationUnit>(getOrganizationUnitImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Map<UUID, OrganizationUnitImpl> getOrganizationUnitImpls() {
+    /**
+     * Returns a mutable map of orga units.
+     * 
+     * @return a mutable orga units map.
+     */
+    public Map<UUID, OrganizationUnit> getOrganizationUnitImpls() {
 
         if (organizationUnits == null) {
-            organizationUnits = new HashMap<UUID, OrganizationUnitImpl>();
+            organizationUnits = new HashMap<UUID, OrganizationUnit>();
         }
         return organizationUnits;
     }
 
     @Override
-    public Set<PositionImpl> getPositions() {
+    public Set<Position> getPositions() {
 
-        Set<PositionImpl> setToReturn = new HashSet<PositionImpl>(getPositionImpls().values());
+        Set<Position> setToReturn = new HashSet<Position>(getPositionImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
-
-    public Map<UUID, PositionImpl> getPositionImpls() {
+    
+    /**
+     * Returns a mutable map of positions.
+     * 
+     * @return a mutable positions map.
+     */
+    public Map<UUID, Position> getPositionImpls() {
 
         if (positions == null) {
-            positions = new HashMap<UUID, PositionImpl>();
+            positions = new HashMap<UUID, Position>();
         }
         return positions;
     }
 
     @Override
-    public Set<ParticipantImpl> getParticipants() {
+    public Set<Participant> getParticipants() {
 
-        Set<ParticipantImpl> setToReturn = new HashSet<ParticipantImpl>(getParticipantImpls().values());
+        Set<Participant> setToReturn = new HashSet<Participant>(getParticipantImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Map<UUID, ParticipantImpl> getParticipantImpls() {
+    /**
+     * Returns a mutable map of participants.
+     * 
+     * @return a mutable participants map.
+     */
+    public Map<UUID, Participant> getParticipantImpls() {
 
         if (participants == null) {
-            participants = new HashMap<UUID, ParticipantImpl>();
+            participants = new HashMap<UUID, Participant>();
         }
         return participants;
     }
 
     @Override
-    public Set<RoleImpl> getRoles() {
+    public Set<Role> getRoles() {
 
-        Set<RoleImpl> setToReturn = new HashSet<RoleImpl>(getRoleImpls().values());
+        Set<Role> setToReturn = new HashSet<Role>(getRoleImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
 
-    public Map<UUID, RoleImpl> getRoleImpls() {
+    /**
+     * Returns a mutable map of roles.
+     * 
+     * @return a mutable roles map.
+     */
+    public Map<UUID, Role> getRoleImpls() {
 
         if (roles == null) {
-            roles = new HashMap<UUID, RoleImpl>();
+            roles = new HashMap<UUID, Role>();
         }
         return roles;
+    }
+
+    @Override
+    public @Nullable OrganizationUnit getOrganizationUnit(@Nonnull UUID id) {
+
+        return getOrganizationUnitImpls().get(id);
+//        return find(getOrganizationUnitImpls(), id);
+    }
+
+    @Override
+    public @Nullable Position getPosition(@Nonnull UUID id) {
+
+        return getPositionImpls().get(id);
+//        return find(getPositionImpls(), id);
+    }
+
+    @Override
+    public @Nullable Participant getParticipant(@Nonnull UUID id) {
+
+        return getParticipantImpls().get(id);
+//        return find(getParticipants(), id);
+    }
+
+    @Override
+    public @Nullable Role getRole(@Nonnull UUID id) {
+
+        return getRoleImpls().get(id);
+        //        return find(getRoleImpls(), id);
     }
 
     @Override
@@ -127,54 +174,26 @@ public class IdentityServiceImpl implements IdentityService, Service {
 //        return find(getOrganizationUnitImpls(), id);
     }
 
-    @Override
-    public @Nullable OrganizationUnitImpl getOrganizationUnit(@Nonnull UUID id) {
-
-        return getOrganizationUnitImpls().get(id);
-//        return find(getOrganizationUnitImpls(), id);
-    }
-
-    @Override
-    public @Nullable PositionImpl getPosition(@Nonnull UUID id) {
-
-        return getPositionImpls().get(id);
-//        return find(getPositionImpls(), id);
-    }
-
-    @Override
-    public @Nullable ParticipantImpl getParticipant(@Nonnull UUID id) {
-
-        return getParticipantImpls().get(id);
-//        return find(getParticipants(), id);
-    }
-
-    @Override
-    public @Nullable RoleImpl getRole(@Nonnull UUID id) {
-
-        return getRoleImpls().get(id);
-        //        return find(getRoleImpls(), id);
-    }
-
-    /**
-     * Looks if the Resource with the given Id is already in the list.
-     * 
-     * @param <R>
-     *            - a subclass of {@link AbstractResourceImpl}
-     * @param resourceList
-     *            - a list that contains object that inherits
-     * @param id
-     *            - id of the resource to look for
-     * @return <R> object, if it is in the resourceList, otherwise null
-     */
-    @SuppressWarnings("unchecked")
-    private static @Nullable <R extends AbstractResourceImpl<?>> R find(@Nonnull Set<R> resourceList,
-                                                                        @Nonnull UUID id) {
-
-        for (AbstractResourceImpl<?> resource: resourceList) {
-            if (resource.getID().equals(id)) {
-                return (R) resource;
-            }
-        }
-        return null;
-    }
+//    /**
+//     * Looks if the Resource with the given Id is already in the list.
+//     * 
+//     * @param <R>
+//     *            - a subclass of {@link AbstractResourceImpl}
+//     * @param resourceList
+//     *            - a list that contains object that inherits
+//     * @param id
+//     *            - id of the resource to look for
+//     * @return <R> object, if it is in the resourceList, otherwise null
+//     */
+//    @SuppressWarnings("unchecked")
+//    private static @Nullable <R extends AbstractResource<?>> R find(@Nonnull Set<R> resourceList,
+//                                                                    @Nonnull UUID id) {
+//
+//        for (AbstractResource<?> resource: resourceList) {
+//            if (resource.getID().equals(id)) {
+//                return (R) resource;
+//            }
+//        }
+//        return null;
+//    }
 }

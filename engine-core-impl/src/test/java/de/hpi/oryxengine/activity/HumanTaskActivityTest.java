@@ -30,7 +30,7 @@ import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.ParticipantImpl;
+import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
@@ -60,7 +60,7 @@ public class HumanTaskActivityTest extends AbstractTestNGSpringContextTests {
         // Prepare the organisation structure
 
         IdentityBuilder identityBuilder = new IdentityServiceImpl().getIdentityBuilder();
-        ParticipantImpl participant = identityBuilder.createParticipant("jannik");
+        Participant participant = identityBuilder.createParticipant("jannik");
         participant.setName("Jannik Streek");
 
         resource = participant;

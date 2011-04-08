@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.allocation;
 
-
 import org.mockito.Mockito;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -14,10 +13,10 @@ import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.OrganizationUnitImpl;
-import de.hpi.oryxengine.resource.ParticipantImpl;
-import de.hpi.oryxengine.resource.PositionImpl;
-import de.hpi.oryxengine.resource.RoleImpl;
+import de.hpi.oryxengine.resource.OrganizationUnit;
+import de.hpi.oryxengine.resource.Participant;
+import de.hpi.oryxengine.resource.Position;
+import de.hpi.oryxengine.resource.Role;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 
@@ -31,10 +30,10 @@ public class ViewResolverTest {
     private IdentityService identityService = null;
     private IdentityBuilder identityBuilder = null;
     
-    private RoleImpl hamburgGuysRole = null;
-    private ParticipantImpl jannik = null, gerardo = null;
-    private PositionImpl jannikPosition, gerardoPosition = null;
-    private OrganizationUnitImpl bpt = null;
+    private Role hamburgGuysRole = null;
+    private Participant jannik = null, gerardo = null;
+    private Position jannikPosition, gerardoPosition = null;
+    private OrganizationUnit bpt = null;
     
     private WorklistService worklistService = null;
     

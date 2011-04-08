@@ -15,7 +15,7 @@ import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.exception.DalmatinaException;
 
 /**
- * Tests the building of {@link OrganizationUnitImpl}s in the organization structure.
+ * Tests the building of {@link OrganizationUnit}s in the organization structure.
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
@@ -25,7 +25,7 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
 
     private IdentityBuilder identityBuilder = null;
 
-    private OrganizationUnitImpl organizationUnit = null;
+    private OrganizationUnit organizationUnit = null;
 
     /**
      * Setup.
@@ -56,7 +56,7 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testOrganizationUnitCreation()
     throws Exception {
 
-        OrganizationUnitImpl superOrganizationUnit = identityBuilder.createOrganizationUnit("HPI");
+        OrganizationUnit superOrganizationUnit = identityBuilder.createOrganizationUnit("HPI");
 
         identityBuilder.subOrganizationUnitOf(organizationUnit.getID(), superOrganizationUnit.getID());
 
@@ -75,7 +75,7 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testForUniqueOrganizationUnit() {
 
         // Try to create a new OrganizationUnit with the same Id
-        OrganizationUnitImpl bpt2 = identityBuilder.createOrganizationUnit("BPT");
+        OrganizationUnit bpt2 = identityBuilder.createOrganizationUnit("BPT");
 
         String failureMessage = "There should still be two OrganizationUnit, but there are "
             + identityService.getOrganizationUnits().size();
@@ -94,8 +94,8 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testRelationshipOrganizationUnitPosition()
     throws DalmatinaException {
 
-        PositionImpl pos1 = identityBuilder.createPosition("1");
-        PositionImpl pos2 = identityBuilder.createPosition("2");
+        Position pos1 = identityBuilder.createPosition("1");
+        Position pos2 = identityBuilder.createPosition("2");
 
         identityBuilder.organizationUnitOffersPosition(
             organizationUnit.getID(), pos1.getID()).organizationUnitOffersPosition(
@@ -114,7 +114,7 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testProhibitedOperations() {
 
-        PositionImpl pos1 = identityBuilder.createPosition("1");
+        Position pos1 = identityBuilder.createPosition("1");
 
         organizationUnit.getPositionsImmutable().add(pos1);
     }
@@ -129,8 +129,8 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testUniquePositionsInOrganizationUnit()
     throws DalmatinaException {
 
-        PositionImpl pos1 = identityBuilder.createPosition("1");
-        PositionImpl pos2 = identityBuilder.createPosition("2");
+        Position pos1 = identityBuilder.createPosition("1");
+        Position pos2 = identityBuilder.createPosition("2");
 
         identityBuilder.organizationUnitOffersPosition(organizationUnit.getID(), pos1.getID())
         // Try to offer the same Position again
@@ -158,9 +158,9 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testChangePositionInOrganizationUnit()
     throws DalmatinaException {
 
-        PositionImpl pos1 = identityBuilder.createPosition("1");
+        Position pos1 = identityBuilder.createPosition("1");
 
-        OrganizationUnitImpl orgaUnit2 = identityBuilder.createOrganizationUnit("HPI");
+        OrganizationUnit orgaUnit2 = identityBuilder.createOrganizationUnit("HPI");
 
         identityBuilder.organizationUnitOffersPosition(organizationUnit.getID(), pos1.getID())
         // Now change the Position to another OrganizationUnit
@@ -190,8 +190,8 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testDeleteOrganizationUnit()
     throws DalmatinaException {
 
-        PositionImpl pos1 = identityBuilder.createPosition("1");
-        PositionImpl pos2 = identityBuilder.createPosition("2");
+        Position pos1 = identityBuilder.createPosition("1");
+        Position pos2 = identityBuilder.createPosition("2");
 
         identityBuilder.organizationUnitOffersPosition(
             organizationUnit.getID(), pos1.getID()).organizationUnitOffersPosition(
@@ -203,7 +203,7 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
         Assert.assertTrue(identityService.getOrganizationUnits().size() == 0, failureMessage);
         Assert.assertFalse(identityService.getOrganizationUnits().contains(organizationUnit), failureMessage);
 
-        for (PositionImpl position : organizationUnit.getPositions()) {
+        for (Position position : organizationUnit.getPositions()) {
             failureMessage = "The Position '" + position.getID() + " => " + position.getName()
                 + "' should not have an OrganizationUnit. It should be null.";
             Assert.assertNull(position.belongsToOrganization());
@@ -218,8 +218,8 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     @Test
     public void testDeleteSuperOrganizationUnit() throws DalmatinaException {
 
-        OrganizationUnitImpl epic = identityBuilder.createOrganizationUnit("EPIC");
-        OrganizationUnitImpl hpi = identityBuilder.createOrganizationUnit("HPI");
+        OrganizationUnit epic = identityBuilder.createOrganizationUnit("EPIC");
+        OrganizationUnit hpi = identityBuilder.createOrganizationUnit("HPI");
 
         identityBuilder.subOrganizationUnitOf(
             organizationUnit.getID(),
@@ -245,7 +245,7 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testDeletePositionInOrganizationUnit()
     throws DalmatinaException {
 
-        PositionImpl pos1 = identityBuilder.createPosition("1");
+        Position pos1 = identityBuilder.createPosition("1");
 
         identityBuilder.organizationUnitOffersPosition(organizationUnit.getID(), pos1.getID());
 

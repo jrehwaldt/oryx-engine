@@ -15,21 +15,21 @@ import javax.annotation.Nullable;
  * 
  * @author Gerardo Navarro Suarez
  */
-public class OrganizationUnitImpl extends AbstractResourceImpl<OrganizationUnitImpl> {
+public class OrganizationUnit extends AbstractResource<OrganizationUnit> {
 
-    private Set<PositionImpl> positions;
+    private Set<Position> positions;
 
-    private OrganizationUnitImpl superOrganizationalUnit;
+    private OrganizationUnit superOrganizationalUnit;
 
-    private Set<OrganizationUnitImpl> childOrganizationUnits;
+    private Set<OrganizationUnit> childOrganizationUnits;
 
     /**
-     * Instantiates a new {@link OrganizationUnitImpl}.
+     * Instantiates a new {@link OrganizationUnit}.
      * 
      * @param organizationalUnitName
      *            the name of the organizational unit
      */
-    public OrganizationUnitImpl(@Nonnull String organizationalUnitName) {
+    public OrganizationUnit(@Nonnull String organizationalUnitName) {
 
         super(organizationalUnitName, ResourceType.ORGANIZATION_UNIT);
         superOrganizationalUnit = null; // TODO never set to something else...
@@ -40,9 +40,9 @@ public class OrganizationUnitImpl extends AbstractResourceImpl<OrganizationUnitI
      * 
      * @return a read-only Set of all Positions belonging to that OrganizationUnit
      */
-    public @Nonnull Set<PositionImpl> getPositionsImmutable() {
+    public @Nonnull Set<Position> getPositionsImmutable() {
         
-        Set<PositionImpl> positionList = new HashSet<PositionImpl>(getPositions());
+        Set<Position> positionList = new HashSet<Position>(getPositions());
         return Collections.unmodifiableSet(positionList);
     }
     
@@ -51,10 +51,10 @@ public class OrganizationUnitImpl extends AbstractResourceImpl<OrganizationUnitI
      * 
      * @return a set of all Positions belonging to that OrganizationUnit
      */
-    protected @Nonnull Set<PositionImpl> getPositions() {
+    protected @Nonnull Set<Position> getPositions() {
 
         if (positions == null) {
-            positions = new HashSet<PositionImpl>();
+            positions = new HashSet<Position>();
         }
         return positions;
     }
@@ -64,7 +64,7 @@ public class OrganizationUnitImpl extends AbstractResourceImpl<OrganizationUnitI
      *
      * @return OrganizationUnit - is the superior OrganzationUnit
      */
-    public @Nullable OrganizationUnitImpl getSuperOrganizationUnit() {
+    public @Nullable OrganizationUnit getSuperOrganizationUnit() {
 
         return superOrganizationalUnit;
     }
@@ -73,20 +73,20 @@ public class OrganizationUnitImpl extends AbstractResourceImpl<OrganizationUnitI
      *
      * @param superOrganizationalUnit - the superior OrganzationUnit
      */
-    protected void setSuperOrganizationUnit(@Nullable OrganizationUnitImpl superOrganizationalUnit) {
+    protected void setSuperOrganizationUnit(@Nullable OrganizationUnit superOrganizationalUnit) {
         
         this.superOrganizationalUnit = superOrganizationalUnit;
     }
     
     /**
-     * Get the child {@link OrganizationUnitImpl}.
+     * Get the child {@link OrganizationUnit}.
      *
      * @return Set<OrganizationUnitImpl> - the child units
      */
-    protected @Nonnull Set<OrganizationUnitImpl> getChildOrganisationUnits() {
+    protected @Nonnull Set<OrganizationUnit> getChildOrganisationUnits() {
 
         if (childOrganizationUnits == null) {
-            childOrganizationUnits = new HashSet<OrganizationUnitImpl>();
+            childOrganizationUnits = new HashSet<OrganizationUnit>();
         }
         return childOrganizationUnits;
     }

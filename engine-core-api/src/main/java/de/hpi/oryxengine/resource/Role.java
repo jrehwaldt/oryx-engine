@@ -7,8 +7,8 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.RoleWorklist;
-import de.hpi.oryxengine.resource.worklist.Worklist;
 
 /**
  * Implementation of the {@link RoleImpl} interface.
@@ -16,10 +16,10 @@ import de.hpi.oryxengine.resource.worklist.Worklist;
  * @author Gerardo Navarro Suarez
  * @author Jan Rehwaldt
  */
-public class RoleImpl extends AbstractResourceImpl<RoleImpl> {
+public class Role extends AbstractResource<Role> {
 
     /** The participants. */
-    private Set<ParticipantImpl> participants;
+    private Set<Participant> participants;
 
     /**
      * The Default Constructor for the RoleImpl.
@@ -27,7 +27,7 @@ public class RoleImpl extends AbstractResourceImpl<RoleImpl> {
      * @param roleName
      *            - the name of the Role
      */
-    public RoleImpl(String roleName) {
+    public Role(String roleName) {
 
         super(roleName, ResourceType.ROLE);
     }
@@ -37,7 +37,7 @@ public class RoleImpl extends AbstractResourceImpl<RoleImpl> {
      * 
      * @return the superior Role of the current Role
      */
-    public @Nullable RoleImpl getSuperRole() {
+    public @Nullable Role getSuperRole() {
 
         return null; // TODO ever null
     }
@@ -47,9 +47,9 @@ public class RoleImpl extends AbstractResourceImpl<RoleImpl> {
      * 
      * @return a read-only Set of all participants belonging to that Role
      */
-    public @Nonnull Set<ParticipantImpl> getParticipantsImmutable() {
+    public @Nonnull Set<Participant> getParticipantsImmutable() {
 
-        Set<ParticipantImpl> setToReturn = new HashSet<ParticipantImpl>(getParticipants());
+        Set<Participant> setToReturn = new HashSet<Participant>(getParticipants());
         return Collections.unmodifiableSet(setToReturn);
     }
 
@@ -58,16 +58,16 @@ public class RoleImpl extends AbstractResourceImpl<RoleImpl> {
      *
      * @return the participant implementations
      */
-    protected @Nonnull Set<ParticipantImpl> getParticipants() {
+    protected @Nonnull Set<Participant> getParticipants() {
 
         if (participants == null) {
-            participants = new HashSet<ParticipantImpl>();
+            participants = new HashSet<Participant>();
         }
         return participants;
     }
     
     @Override
-    public Worklist getWorklist() {
+    public AbstractWorklist getWorklist() {
 
         if (worklist == null) {
 
