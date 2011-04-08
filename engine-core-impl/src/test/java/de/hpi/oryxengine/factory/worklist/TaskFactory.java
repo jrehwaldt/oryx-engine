@@ -6,7 +6,7 @@ import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
-import de.hpi.oryxengine.allocation.pattern.SimplePushPattern;
+import de.hpi.oryxengine.allocation.pattern.DirectPushPattern;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.resource.AbstractResource;
 
@@ -26,7 +26,7 @@ public final class TaskFactory {
     
     public static Task createJannikServesGerardoTask() {
         
-        Pattern pushPattern = new SimplePushPattern();
+        Pattern pushPattern = new DirectPushPattern();
         Pattern pullPattern = new SimplePullPattern();
         
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
