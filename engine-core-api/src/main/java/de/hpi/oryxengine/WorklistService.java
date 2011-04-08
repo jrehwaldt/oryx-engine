@@ -76,4 +76,12 @@ public interface WorklistService {
                                            @Nonnull UUID worklistItemId);
     
     // TODO: Observable Interface für die GUI
+    
+    /**
+     * Returns the number of worklist items which are offered or allocated? to the given resources
+     *
+     * @param resources the resources
+     * @return the int
+     */
+    int size(List<Resource<?>> resources);
 }

@@ -31,8 +31,8 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
     abstract public void initializeNodes();
     
     /**
-     * Creates a thread to complete human tasks.
-     * Nothing happens here for automated task nodes.
+     * Creates a thread to complete human tasks. So human taks Process deployers shall overwrite this method.
+     * Nothing happens here for automated task nodes, so they must not overwrite this method.
      */
     public void createPseudoHuman() {
 

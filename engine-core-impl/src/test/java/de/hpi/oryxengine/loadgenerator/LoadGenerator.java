@@ -3,7 +3,6 @@ package de.hpi.oryxengine.loadgenerator;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Attributes.Name;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,18 +10,14 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.OryxEngine;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.factory.process.AbstractProcessDeployer;
 import de.hpi.oryxengine.factory.process.ProcessDeployer;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.plugin.navigator.NoRunningInstancesLoadgeneratorCaller;
-import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
  * The Class LoadGenerator. Is used to generate some load and profile it (more or less) Maybe it should be more generic,
@@ -34,7 +29,6 @@ public class LoadGenerator {
     private static final long MEGABYTE = 1024L * 1024L;
 
     /** The Constant DEFAULT_PROCESS. */
-    // TODO replace via process definitions from the repository
     private static final String DEFAULT_PROCESS = "HeavyComputationProcessDeployer";
     
     /** The Constant DEFAULT_NUMBER_OF_RUNS. */
@@ -44,7 +38,6 @@ public class LoadGenerator {
     private static final int DEFAULT_NUMBER_OF_THREADS = 4;
     
     /** The Constant PATH_TO_PROCESS_FACTORIES. */
-    // TODO replace with repository
     private static final String PATH_TO_PROCESS_FACTORIES = "de.hpi.oryxengine.factory.process.";
 
     /** The logger. */

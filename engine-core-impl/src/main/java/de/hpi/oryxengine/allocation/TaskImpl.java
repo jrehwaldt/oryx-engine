@@ -12,9 +12,9 @@ import de.hpi.oryxengine.resource.Resource;
 public class TaskImpl implements Task {
 
     private String subject;
-    
+
     private String description;
-    
+
     private AllocationStrategies allocationStrategies;
     private Set<Resource<?>> assignedResources;
 
@@ -31,7 +31,7 @@ public class TaskImpl implements Task {
      *            - a list of {@link Resource}s that should be assigned to a this task
      */
     public TaskImpl(String subject,
-                    String description,
+                    String description, 
                     AllocationStrategies allocationStrategies,
                     Set<Resource<?>> set) {
 
@@ -42,7 +42,8 @@ public class TaskImpl implements Task {
     }
 
     /**
-     * Default Constructor.
+     * Default Constructor. 
+     * TODO @Gerardo please describe why some of them may be null and why the hell  are there 2 default constructors? -.-'
      * 
      * @param subject
      *            - the subject of the task
@@ -59,10 +60,7 @@ public class TaskImpl implements Task {
                     AllocationStrategies allocationStrategies,
                     Resource<?> assignedResource) {
 
-        this(subject,
-            description,
-            allocationStrategies,
-            new HashSet<Resource<?>>(Arrays.asList(assignedResource)));
+        this(subject, description, allocationStrategies, new HashSet<Resource<?>>(Arrays.asList(assignedResource)));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package de.hpi.oryxengine;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.swing.JSpinner.ListEditor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +49,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
         resourceToFillIn.getWorklist().addWorklistItem(worklistItem);
     }
+    
 
     @Override
     public void addWorklistItem(WorklistItem worklistItem, Set<Resource<?>> resourcesToFillIn) {
@@ -135,5 +138,11 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     public void beginWorklistItemBy(WorklistItem worklistItem, Resource<?> resource) {
 
         resource.getWorklist().itemIsStarted(worklistItem);
+    }
+
+    @Override
+    public int size(List<Resource<?>> resources) {
+        Map<Resource<?>, List<WorklistItem>> items = getWorklistItems(resources);
+        return items.size();
     }
 }

@@ -36,6 +36,9 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     
     private Task task = null;
     
+    /** worktimes for the pseudo work time of the PseudoHumans (that is the time they need to complete one task). */
+    private int[] WORKTIMES = {1000, 2000};
+    
     /**
      * Instantiates a new example process token factory.
      */
@@ -56,6 +59,8 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         param.makeStartNode(false);
         
         // Create the task
+        // TODO @Pfeiffer New AutomatedParticipant verwenden und dafür in der Gumpennasen  Factory ne Methode erstellen
+        // damit du auch was zu tun hast =)
         task = TaskFactory.createJannikServesGerardoTask();
         Activity activity  = new HumanTaskActivity(task);
         param.setActivity(activity);
@@ -72,9 +77,11 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
 
     /**
      * {@inheritDoc}
+     * 
      */
+    @Override
     public void createPseudoHuman() {
-        PseudoHumanThread thread = new PseudoHumanThread("ein name");
+        PseudoHumanThread thread = new PseudoHumanThread("ein name", WORKTIMES[0]);
         thread.start();
     }
 
