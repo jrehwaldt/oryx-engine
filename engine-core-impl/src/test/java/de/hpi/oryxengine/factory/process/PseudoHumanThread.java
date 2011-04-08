@@ -41,13 +41,10 @@ public class PseudoHumanThread extends Thread {
     public void run() {
 
         // this has to be freaking substituted :-o
-        Set<AutomatedParticipant> participants = (Set<AutomatedParticipant>) ServiceFactory.getIdentityService().getParticipants();
-        // create a list with the participants, which is necessary for the size function call
-        List<AbstractResource<?>> listParticipants = new ArrayList<AbstractResource<?>>();
-        listParticipants.addAll(participants);
+        Set<Participant> participants = ServiceFactory.getIdentityService().getParticipants();     
         // repeat as long as there is work to be done for every participant
-        while (ServiceFactory.getWorklistQueue().size(listParticipants) > 0) {
-            for (AutomatedParticipant participant : participants) {
+        while (ServiceFactory.getWorklistQueue().size(participants) > 0) {
+            for (Participant participant : participants) {
                 // we have to check whether the participant has work to do, otherwise we skip him
                 if (ServiceFactory.getWorklistQueue().getWorklistItems(participant).size() > 0) {
                     // get an item and complete it
@@ -55,11 +52,12 @@ public class PseudoHumanThread extends Thread {
                     WorklistItem item = items.get(0);
                     ServiceFactory.getWorklistQueue().claimWorklistItemBy(item, participant);
                     // wait some time to simulate working duration
-                    try {
+                    // TODO @Tobi&Jannik implement the waiting stuff
+                    /*try {
                         Thread.sleep(participant.get);
                     } catch (InterruptedException e) {
                         logger.debug("Ths sleep of our PseudoHumanThread " + name + " was somehow interrupted...", e);
-                    }
+                    }*/
                     // waited enough - work completed
                     ServiceFactory.getWorklistQueue().completeWorklistItemBy(item, participant);
                 }

@@ -32,7 +32,7 @@ public interface WorklistService {
      *            - the resources the worklist items shall be searched for
      * @return a map where the key is a {@link AbstractResource} and the value is a list of {@link WorklistItem}s
      */
-    Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(Set<AbstractResource<?>> resources);
+    Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(Set<? extends AbstractResource<?>> resources);
 
     /**
      * Claims a {@link WorklistItem}.
@@ -84,5 +84,5 @@ public interface WorklistService {
      * @param resources the resources
      * @return the int
      */
-    int size(Set<AbstractResource<?>> resources);
+    int size(Set<? extends AbstractResource<?>> resources);
 }
