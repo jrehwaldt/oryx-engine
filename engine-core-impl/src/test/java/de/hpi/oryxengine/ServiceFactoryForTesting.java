@@ -3,7 +3,7 @@ package de.hpi.oryxengine;
 /**
  * Extends {@link ServiceFactory} in order to provide methods for flushing several services.
  */
-public class ServiceFactoryForTesting{
+public final class ServiceFactoryForTesting{
     
     /**
      * Clearing the {@link WorklistManager} in order to reset it.
@@ -21,4 +21,8 @@ public class ServiceFactoryForTesting{
 //        identityService = null;
     }
     
+    /**
+     * Hidden constructor.
+     */
+    private ServiceFactoryForTesting() {  }
 }

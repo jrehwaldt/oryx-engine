@@ -1,7 +1,5 @@
 package de.hpi.oryxengine.rest.api;
 
-import static org.testng.Assert.assertEquals;
-
 import java.net.URISyntaxException;
 
 import org.jboss.resteasy.core.Dispatcher;
