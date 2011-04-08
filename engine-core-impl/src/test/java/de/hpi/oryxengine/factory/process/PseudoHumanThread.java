@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Resource;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
@@ -18,10 +18,10 @@ import de.hpi.oryxengine.resource.worklist.WorklistItem;
  */
 public class PseudoHumanThread extends Thread {
     private String name;
-    
+
     /** worktime is the time this PseudoHumanThread needs to complete one task. */
     private int worktime;
-    
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -44,9 +44,10 @@ public class PseudoHumanThread extends Thread {
      * @see java.lang.Thread#run()
      */
     public void run() {
+
         Set<Participant> participants = ServiceFactory.getIdentityService().getParticipants();
         // create a list with the participants, which is necessary for the size function call
-        List<Resource<?>> listParticipants = new ArrayList<Resource<?>>();
+        List<AbstractResource<?>> listParticipants = new ArrayList<AbstractResource<?>>();
         listParticipants.addAll(participants);
         // repeat as long as there is work to be done for every participant
         while (ServiceFactory.getWorklistQueue().size(listParticipants) > 0) {

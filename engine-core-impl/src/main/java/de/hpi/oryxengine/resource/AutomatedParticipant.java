@@ -3,7 +3,7 @@ package de.hpi.oryxengine.resource;
 /**
  * The Class AutomatedParticipant for the load generator.
  */
-public class AutomatedParticipant extends ParticipantImpl {
+public class AutomatedParticipant extends Participant {
     
     private int waitingTime;
 

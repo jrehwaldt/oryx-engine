@@ -1,6 +1,5 @@
 package de.hpi.oryxengine;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.swing.JSpinner.ListEditor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,7 +121,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
         } catch (DalmatinaException e) {
 
-            // TODO Logger message
+            logger.debug("completeWorklistItemBy in the Worklistmanager encountered a terrible DalmatinaException", e);
             throw new DalmatinaRuntimeException(e.getMessage());
         }
     }
@@ -141,8 +139,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public int size(List<Resource<?>> resources) {
-        Map<Resource<?>, List<WorklistItem>> items = getWorklistItems(resources);
+    public int size(List<AbstractResource<?>> resources) {
+        Map<AbstractResource<?>, List<WorklistItem>> items = getWorklistItems(resources);
         return items.size();
     }
 }

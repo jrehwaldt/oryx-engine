@@ -83,5 +83,5 @@ public interface WorklistService {
      * @param resources the resources
      * @return the int
      */
-    int size(List<Resource<?>> resources);
+    int size(List<AbstractResource<?>> resources);
 }
