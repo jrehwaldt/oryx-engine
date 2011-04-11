@@ -23,7 +23,12 @@ public final class NavigatorStatistic {
     
     @XmlElement
     private int numberOfExecutionThreads;
-
+    
+    /**
+     * Hidden constructor.
+     */
+    protected NavigatorStatistic() { }
+    
     /**
      * Default constructor.
      * 

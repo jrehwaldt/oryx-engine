@@ -7,6 +7,7 @@ import static org.testng.Assert.assertEqualsNoOrder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -33,7 +34,7 @@ public class ProcessTokenImplTest {
      * Set up.     
      * An instance is build.
      */
-    @BeforeTest
+    @BeforeMethod
     public void setUp() {
 
         token = simpleToken();

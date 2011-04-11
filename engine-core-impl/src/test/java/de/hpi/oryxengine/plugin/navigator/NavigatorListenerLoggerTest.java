@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -24,7 +25,7 @@ public class NavigatorListenerLoggerTest {
    /**
     * Setup.
     */
-   @BeforeTest
+   @BeforeMethod
    public void beforeMethod() {
        this.navigator = new NavigatorImpl();
        this.listener = mock(NavigatorListenerLogger.class);

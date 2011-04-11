@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
  * Represents the Worklist that contains several {@link WorklistItem} for a {@link AbstractResource}.
  */
+@XmlRootElement
 public abstract class AbstractWorklist implements Iterable<WorklistItem> {
-
+    
     private List<WorklistItem> lazyWorklistItems;
     
     /**
