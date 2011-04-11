@@ -16,6 +16,11 @@ public class RoleWorklist extends AbstractDefaultWorklist {
     private AbstractRole relatedRole;
     
     /**
+     * Hidden constructor.
+     */
+    protected RoleWorklist() { }
+    
+    /**
      * Instantiates a new role worklist.
      *
      * @param owner the owner

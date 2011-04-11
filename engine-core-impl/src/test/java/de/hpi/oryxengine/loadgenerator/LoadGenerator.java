@@ -169,7 +169,7 @@ public class LoadGenerator {
         // TODO atm first implementation only with the first process in the repository,
         // this should be later changed to a more generic way
         
-        ProcessDefinition definition = ServiceFactory.getRepositoryService().getDefinitions().get(0);
+        ProcessDefinition definition = ServiceFactory.getRepositoryService().getProcessDefinitions().get(0);
         ProcessInstance instance = new ProcessInstanceImpl(definition);
         for (Node startNode : definition.getStartNodes()) {
             tokenList.add(instance.createToken(startNode, navigator));

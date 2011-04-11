@@ -14,7 +14,9 @@ import de.hpi.oryxengine.resource.worklist.WorklistItem;
  * Jersey and JAX-B is possible.
  * 
  * @author Jan Rehwaldt
+ * @deprecated wir wollen die richtige api rausgeben
  */
+@Deprecated
 public interface WorklistServiceFacade {
     
    /**

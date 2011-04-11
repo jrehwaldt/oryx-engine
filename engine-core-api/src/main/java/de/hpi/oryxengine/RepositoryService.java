@@ -6,8 +6,9 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.process.definition.AbstractProcessResource;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.repository.Deployment;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
 
 /**
@@ -24,58 +25,65 @@ public interface RepositoryService {
      * 
      * @return a {@link DeploymentBuilder}
      */
-    DeploymentBuilder createDeployment();
+    DeploymentBuilder getDeploymentBuilder();
 
     /**
-     * Retrieves all {@link Deployment}s that have been deployed previously.
+     * Retrieves all {@link AbstractProcessResource ProcessResources} that have been deployed previously.
      * 
-     * @return a list containing all {@link Deployment}s
+     * @return a list containing all {@link AbstractProcessResource ProcessResources}
      */
-    List<Deployment> getDeployments();
+    List<AbstractProcessResource> getProcessResources();
 
     /**
-     * Retrieves a certain {@link Deployment} with the given deplymentID.
+     * Retrieves a certain {@link AbstractProcessResource ProcessResource} with the given processResourceID.
      * 
-     * @param deploymentID
-     *            - id of the deployment, cannot be null.
-     * @return a {@link Deployment}
+     * @param processResourceID
+     *            - id of the {@link AbstractProcessResource ProcessResource}, cannot be null.
+     * @return a {@link AbstractProcessResource ProcessResource}
      */
-    @Nonnull Deployment getDeployment(@Nonnull UUID deploymentID);
+    @Nonnull
+    AbstractProcessResource getProcessResource(@Nonnull UUID processResourceID);
 
-    /**
-     * Deletes the given deployment.
+/**
+     * Deletes the given {@link AbstractProcessResource ProcessResource.
      * 
-     * @param deploymentID
-     *            - id of the deployment, cannot be null.
+     * @param processResourceID
+     *            - id of the {@link AbstractProcessResource ProcessResource}, cannot be null.
      * 
      * @throws RuntimeException
-     *             if there are still runtime or history process instances or jobs.
+     *             - if there are still runtime or history process instances or jobs.
      */
-    void deleteDeployment(@Nonnull UUID deploymentID);
+    void deleteProcessResource(@Nonnull UUID processResourceID);
+
+/**
+     * Deactivates a {@link ProcessDefinition} with the given processDefinitionID.
+     * It means that no {@link ProcessInstance} of that {@link ProcessDefinition} cannot be instantiated.
+     * 
+     * @param processDefintionID
+     *            - id of the {@link ProcessDefinition}, cannot be null.
+     */
+    void deactivateProcessDefinition(@Nonnull UUID processDefintionID);
+
+/**
+     * Activates a {@link ProcessDefinition} with the given processDefinitionID.
+     * It means that no {@link ProcessInstance} of that {@link ProcessDefinition} can be instantiated.
+     * 
+     * @param processDefintionID
+     *            - id of the {@link ProcessDefinition}, cannot be null.
+     */
+    void activateProcessDefinition(@Nonnull UUID processDefintionID);
 
     /**
-     * Deactivates a {@link Deployment} with a ceratin dep. It means that process in that deployment cannot be instantiated.
+     * Retrieves the {@link ProcessDefinition} with the given processDefinitionID.
      * 
-     * @param id
-     *            the id
-     * @param nav
-     *            the nav
-     */
-    void deactivateDeployment(@Nonnull UUID deploymentID);
-
-    void activateDeployment(@Nonnull UUID deploymentID);
-
-    /**
-     * Retrieves the {@link ProcessDefinition} with the given key within a deployment.
-     * 
-     * @param ID
+     * @param processDefintionID
      *            - the ID of the {@link ProcessDefinition}
      * @return a {@link ProcessDefinition}
      * 
      * @throws DefinitionNotFoundException
      *             - thrown, if the given ID does not exist
      */
-    ProcessDefinition getDefinition(@Nonnull UUID processDefintionID)
+    ProcessDefinition getProcessDefinition(@Nonnull UUID processDefintionID)
     throws DefinitionNotFoundException;
 
     /**
@@ -83,14 +91,14 @@ public interface RepositoryService {
      * 
      * @return a list containing the {@link ProcessDefinition}s
      */
-    List<ProcessDefinition> getDefinitions();
+    List<ProcessDefinition> getProcessDefinitions();
 
     /**
-     * Says YES, whether a certain definition is available.
+     * Says Yes, whether a certain definition is available.
      * 
      * @param id
      *            the definition's id
-     * @return true, ifavailable
+     * @return true, if available
      */
-    boolean containsDefinition(@Nonnull UUID id);
+    boolean containsProcessDefinition(@Nonnull UUID id);
 }

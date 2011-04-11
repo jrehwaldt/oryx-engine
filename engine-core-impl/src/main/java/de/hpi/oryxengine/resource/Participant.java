@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
@@ -17,14 +20,23 @@ import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
  * 
  * @author Gerardo Navarro Suarez
  */
+@XmlRootElement
 public class Participant extends AbstractParticipant {
 
+    @XmlTransient
     private Set<Position> myPositions;
 
+    @XmlTransient
     private Set<AbstractCapability> myCapabilities;
 
+    @XmlTransient
     private Set<Role> myRoles;
-
+    
+    /**
+     * Hidden jaxb constructor.
+     */
+    protected Participant() { }
+    
     /**
      * Instantiates a new {@link Participant}.
      * 

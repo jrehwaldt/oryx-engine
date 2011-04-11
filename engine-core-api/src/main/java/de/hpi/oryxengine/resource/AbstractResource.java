@@ -6,11 +6,15 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
+import de.hpi.oryxengine.rest.provider.UUIDXmlAdapter;
 import de.hpi.oryxengine.util.Identifiable;
 
 /**
@@ -22,29 +26,37 @@ import de.hpi.oryxengine.util.Identifiable;
  *            - extending Resource
  */
 @XmlRootElement
-//@XmlSeeAlso({
-//    OrganizationUnit.class, Participant.class, Position.class, Role.class
-//})
 public abstract class AbstractResource<R extends AbstractResource<?>> implements Identifiable {
 
     protected UUID resourceId;
+
+    // @XmlElement
     protected ResourceType resourceType;
 
     protected String resourceName;
 
-    protected Map<String, Object> propertyTable;
+    protected Map<String, String> propertyTable;
+
     protected AbstractWorklist worklist;
-    
+
+    /**
+     * Hidden jaxb constructor.
+     */
+    protected AbstractResource() {
+
+    }
+
     /**
      * Hidden constructor with provided id.
-     *
-     * @param id - the id of the resource
-     * @param resourceName the resource name
-     * @param resourceType - the type of the {@link AbstractResource}
+     * 
+     * @param id
+     *            - the id of the resource
+     * @param resourceName
+     *            the resource name
+     * @param resourceType
+     *            - the type of the {@link AbstractResource}
      */
-    protected AbstractResource(@Nonnull UUID id,
-                               @Nonnull String resourceName,
-                               @Nonnull ResourceType resourceType) {
+    protected AbstractResource(@Nonnull UUID id, @Nonnull String resourceName, @Nonnull ResourceType resourceType) {
 
         this.resourceId = id;
         this.resourceName = resourceName;
@@ -53,16 +65,19 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
 
     /**
      * Constructor.
-     *
-     * @param resourceName - the resource name
-     * @param resourceType - the type of the {@link AbstractResource}
+     * 
+     * @param resourceName
+     *            - the resource name
+     * @param resourceType
+     *            - the type of the {@link AbstractResource}
      */
-    protected AbstractResource(@Nonnull String resourceName,
-                               @Nonnull ResourceType resourceType) {
+    protected AbstractResource(@Nonnull String resourceName, @Nonnull ResourceType resourceType) {
 
         this(UUID.randomUUID(), resourceName, resourceType);
     }
 
+    @XmlID
+    @XmlJavaTypeAdapter(UUIDXmlAdapter.class)
     @Override
     public UUID getID() {
 
@@ -74,7 +89,8 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      * 
      * @return the name
      */
-    public @Nonnull String getName() {
+    public @Nonnull
+    String getName() {
 
         return resourceName;
     }
@@ -86,7 +102,8 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      *            - the name
      * @return the current Resource object
      */
-    public @Nonnull R setName(@Nonnull String name) {
+    public @Nonnull
+    R setName(@Nonnull String name) {
 
         resourceName = name;
         return extractedThis();
@@ -99,7 +116,8 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      *            - the property id
      * @return the object corresponding to the property id
      */
-    public @Nullable Object getProperty(@Nonnull String propertyId) {
+    public @Nullable
+    Object getProperty(@Nonnull String propertyId) {
 
         return getPropertyTable().get(propertyId);
     }
@@ -109,14 +127,14 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      * 
      * @return the propertyTable
      */
-    protected @Nonnull Map<String, Object> getPropertyTable() {
+    protected @Nonnull Map<String, String> getPropertyTable() {
 
         if (propertyTable == null) {
-            propertyTable = new HashMap<String, Object>();
+            propertyTable = new HashMap<String, String>();
         }
         return propertyTable;
     }
-    
+
     /**
      * Stores a property that consists of a property id and the corresponding object.
      * 
@@ -126,8 +144,8 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      *            - the object that is stored to the property id
      * @return the current Resource object
      */
-    public @Nonnull R setProperty(@Nonnull String propertyKey,
-                                  @Nullable Object propertyValue) {
+    public @Nonnull
+    R setProperty(@Nonnull String propertyKey, @Nullable String propertyValue) {
 
         getPropertyTable().put(propertyKey, propertyValue);
         return extractedThis();
@@ -139,7 +157,8 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      * @return the current Object as instance of the sub class
      */
     @SuppressWarnings("unchecked")
-    private @Nonnull R extractedThis() {
+    private @Nonnull
+    R extractedThis() {
 
         return (R) this;
     }
@@ -154,11 +173,11 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      */
     @Override
     public boolean equals(@Nullable Object objectToCompare) {
-        
+
         if (objectToCompare == null) {
             return false;
         }
-        
+
         if (!(objectToCompare instanceof AbstractResource<?>)) {
             return super.equals(objectToCompare);
         }
@@ -194,16 +213,19 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      * 
      * @return the type of the {@link AbstractResource}, which is an Element of the Enumeration
      */
-    public @Nonnull ResourceType getType() {
+    public @Nonnull
+    ResourceType getType() {
 
         return resourceType;
     }
+
     /**
-     * Retrieves the resource's worklist. 
+     * Retrieves the resource's worklist.
      * 
      * @return the worklist of the resource
      */
-    public @Nonnull AbstractWorklist getWorklist() {
+    public @Nonnull
+    AbstractWorklist getWorklist() {
 
         return new EmptyWorklist();
     }

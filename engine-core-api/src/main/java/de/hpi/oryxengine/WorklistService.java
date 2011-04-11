@@ -23,7 +23,7 @@ public interface WorklistService {
      *            - the resource the {@link Worklist} items shall be searched for
      * @return a list of {@link WorklistItem}s; the list is unmodifiable (read-only)
      */
-    List<WorklistItem> getWorklistItems(AbstractResource<?> resource);
+    @Nonnull List<WorklistItem> getWorklistItems(@Nonnull AbstractResource<?> resource);
     
     /**
      * Resolves all worklist items belonging to the given resources.
@@ -32,7 +32,8 @@ public interface WorklistService {
      *            - the resources the worklist items shall be searched for
      * @return a map where the key is a {@link AbstractResource} and the value is a list of {@link WorklistItem}s
      */
-    Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(Set<? extends AbstractResource<?>> resources);
+    @Nonnull Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(
+        @Nonnull Set<? extends AbstractResource<?>> resources);
 
     /**
      * Claims a {@link WorklistItem}.
@@ -40,7 +41,8 @@ public interface WorklistService {
      * @param worklistItem - {@link WorklistItem} that should be claimed
      * @param resource the resource that triggers this method
      */
-    void claimWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource);
+    void claimWorklistItemBy(@Nonnull WorklistItem worklistItem,
+                             @Nonnull AbstractResource<?> resource);
 
     /**
      * Begin a {@link WorklistItem}.
@@ -48,7 +50,8 @@ public interface WorklistService {
      * @param worklistItem - {@link WorklistItem} that should be claimed
      * @param resource the resource that triggers this method
      */
-    void beginWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource);
+    void beginWorklistItemBy(@Nonnull WorklistItem worklistItem,
+                             @Nonnull AbstractResource<?> resource);
 
     /**
      * Completes a {@link WorklistItem}.
@@ -56,7 +59,8 @@ public interface WorklistService {
      * @param worklistItem - {@link WorklistItem} that was completed
      * @param resource the resource that triggers this method
      */
-    void completeWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource);
+    void completeWorklistItemBy(@Nonnull WorklistItem worklistItem,
+                                @Nonnull AbstractResource<?> resource);
 
     /**
      * Aborts a {@link WorklistItem}.
@@ -64,7 +68,8 @@ public interface WorklistService {
      * @param worklistItem - {@link WorklistItem} that is aborted
      * @param resource the resource that triggers this method
      */
-    void abortWorklistItemBy(WorklistItem worklistItem, AbstractResource<?> resource);
+    void abortWorklistItemBy(@Nonnull WorklistItem worklistItem,
+                             @Nonnull AbstractResource<?> resource);
 
     /**
      * Returns a {@link WorklistItem} by id.
@@ -84,5 +89,5 @@ public interface WorklistService {
      * @param resources the resources
      * @return the int
      */
-    int size(Set<? extends AbstractResource<?>> resources);
+    int size(@Nonnull Set<? extends AbstractResource<?>> resources);
 }

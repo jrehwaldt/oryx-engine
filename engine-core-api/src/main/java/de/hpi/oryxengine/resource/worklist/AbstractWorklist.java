@@ -3,12 +3,14 @@ package de.hpi.oryxengine.resource.worklist;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
  * Represents the Worklist that contains several {@link WorklistItem} for a {@link AbstractResource}.
  */
+@XmlRootElement
 public abstract class AbstractWorklist implements Iterable<WorklistItem> {
 
     /**

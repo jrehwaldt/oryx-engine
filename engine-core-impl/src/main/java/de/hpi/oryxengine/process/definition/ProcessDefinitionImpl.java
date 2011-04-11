@@ -15,6 +15,8 @@ import de.hpi.oryxengine.process.structure.Node;
  */
 public class ProcessDefinitionImpl implements ProcessDefinition {
 
+    
+    
     private String description;
 
     private UUID id;
@@ -39,6 +41,13 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
         this.description = description;
         this.startNodes = startNodes;
         this.startTriggers = new HashMap<StartEvent, Node>();
+    }
+
+    @Override
+    public String getName() {
+        
+        // TODO @Gerardo Hier muss noch eine Implementierung hin
+        return null;
     }
 
     @Override
@@ -82,5 +91,6 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
         }
 
     }
+
 
 }

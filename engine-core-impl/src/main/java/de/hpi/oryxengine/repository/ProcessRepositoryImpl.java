@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.process.definition.AbstractProcessResource;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
@@ -50,7 +51,7 @@ public final class ProcessRepositoryImpl implements RepositoryService, Service {
     }
 
     @Override
-    public ProcessDefinition getDefinition(UUID id)
+    public ProcessDefinition getProcessDefinition(UUID id)
     throws DefinitionNotFoundException {
 
         if (!definitions.containsKey(id)) {
@@ -72,56 +73,55 @@ public final class ProcessRepositoryImpl implements RepositoryService, Service {
     }
 
     @Override
-    public List<ProcessDefinition> getDefinitions() {
+    public List<ProcessDefinition> getProcessDefinitions() {
 
         return new ArrayList<ProcessDefinition>(definitions.values());
     }
     
     @Override
-    public boolean containsDefinition(@Nonnull UUID id) {
+    public boolean containsProcessDefinition(@Nonnull UUID id) {
         return this.definitions.containsKey(id);
     }
 
     @Override
-    public DeploymentBuilder createDeployment() {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Deployment> getDeployments() {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Deployment getDeployment(UUID deploymentID) {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void deleteDeployment(UUID deploymentID) {
+    public void activateProcessDefinition(UUID arg0) {
 
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void deactivateDeployment(UUID deploymentID) {
+    public void deactivateProcessDefinition(UUID arg0) {
 
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void activateDeployment(UUID deploymentID) {
+    public void deleteProcessResource(UUID arg0) {
 
         // TODO Auto-generated method stub
         
     }
 
+    @Override
+    public DeploymentBuilder getDeploymentBuilder() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public AbstractProcessResource getProcessResource(UUID arg0) {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<AbstractProcessResource> getProcessResources() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
