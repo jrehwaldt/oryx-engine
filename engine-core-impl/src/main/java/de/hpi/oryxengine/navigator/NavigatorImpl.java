@@ -6,6 +6,9 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
@@ -61,6 +64,8 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     
     private ProcessRepository repository;
     
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     /**
      * Instantiates a new navigator implementation.
      * 
@@ -91,6 +96,8 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * 
      * @param numberOfThreads
      *            the number of navigator threads
+     * @param repo
+     *              the process repository
      */
     public NavigatorImpl(ProcessRepository repo, int numberOfThreads) {
 
@@ -119,6 +126,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
             addThread();
         }
 
+        logger.debug("AAAHHHHHHH We got those runing instances:"+ runningInstances.toString());
         changeState(NavigatorState.RUNNING);
     }
 
@@ -266,7 +274,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     @Override
     public void signalEndedProcessInstance(ProcessInstance instance) {
-        
+        logger.debug("a process instance ended, running instances:" + runningInstances.toString());
         boolean instanceContained = runningInstances.remove(instance);
         
         // TODO maybe throw an exception if the instance provided is not in the running instances list?
