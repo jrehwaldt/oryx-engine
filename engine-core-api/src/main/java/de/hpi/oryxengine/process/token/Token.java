@@ -124,4 +124,9 @@ public interface Token extends Identifiable {
      * @return the navigator
      */
     Navigator getNavigator();
+    
+    /**
+     * Cancels the currently ongoing activity.
+     */
+    void cancelExecution();
 }
