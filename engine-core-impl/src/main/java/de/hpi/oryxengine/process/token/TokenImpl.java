@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.activity.ActivityState;
 import de.hpi.oryxengine.activity.DeferredActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
@@ -116,7 +118,6 @@ public class TokenImpl implements Token {
         // TODO Add Activity completed here
         List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
-        
         for (Token token : splitedTokens) {
             navigator.addWorkToken(token);
         }
@@ -217,7 +218,7 @@ public class TokenImpl implements Token {
     throws DalmatinaException {
 
         navigator.removeSuspendToken(this);
-        
+
         // The Activity has to be casted into deferred activity because the signal method is only
         // implemented in the interface DeferredActivities.
         // This was done to not force the developer to implement the signal method in every activity.
@@ -234,7 +235,7 @@ public class TokenImpl implements Token {
 
     /**
      * Gets the lazy suspended processing token.
-     *
+     * 
      * @return the lazy suspended processing token
      */
     private List<Token> getLazySuspendedProcessingToken() {
@@ -250,6 +251,17 @@ public class TokenImpl implements Token {
     public Navigator getNavigator() {
 
         return this.navigator;
+    }
+
+    @Override
+    public void cancelExecution() {
+
+        Activity currentActivity = this.getCurrentNode().getActivity();
+        if (currentActivity.getState() == ActivityState.ACTIVE) {
+            currentActivity.cancel();
+        }
+        instance.removeToken(this);
+
     }
 
 }

@@ -68,5 +68,13 @@ implements Activity {
     public void registerPlugin(@Nonnull AbstractActivityLifecyclePlugin plugin) {
         addObserver(plugin);
     }
+    
+    /**
+     * Override this, if need to cleanup, if the activity is cancelled (e.g. event deregistration).
+     */
+    @Override
+    public void cancel() {
+        
+    }
 
 }

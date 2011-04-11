@@ -18,7 +18,7 @@ public abstract class AbstractWorklist implements Iterable<WorklistItem> {
      * 
      * @return a list of {@link WorklistItem}s; the list is instantiated on demand
      */
-    List<WorklistItem> getLazyWorklistItems() {
+    public List<WorklistItem> getLazyWorklistItems() {
 
         if (lazyWorklistItems == null) {
             lazyWorklistItems = new ArrayList<WorklistItem>();

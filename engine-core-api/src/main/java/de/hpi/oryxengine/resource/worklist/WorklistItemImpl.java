@@ -120,4 +120,13 @@ public class WorklistItemImpl implements WorklistItem {
     public UUID getID() {
         return this.id;
     }
+    
+    /**
+     * Gets the underlying task.
+     *
+     * @return the task
+     */
+    public Task getTask() {
+        return this.task;
+    }
 }

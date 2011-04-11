@@ -23,5 +23,10 @@ public interface Activity {
      * @return the activity's state
      */
     @Nonnull ActivityState getState();
+    
+    /**
+     * Do some cleanup, if necessary. Cancellation of the activity's execution is not handled here.
+     */
+    void cancel();
    
 }
