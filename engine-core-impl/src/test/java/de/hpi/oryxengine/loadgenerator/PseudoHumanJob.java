@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.loadgenerator;
 
+import java.util.List;
+
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -7,8 +9,10 @@ import org.quartz.JobExecutionException;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.resource.AutomatedParticipant;
+import de.hpi.oryxengine.factory.process.HumanTaskProcessDeployer;
+import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * The PseudoHumanJob, which is a quartz scheduler Job and gets called whenever it is time that one worker finished its
@@ -16,19 +20,38 @@ import de.hpi.oryxengine.resource.worklist.WorklistItem;
  */
 public class PseudoHumanJob implements Job {
 
+    /**
+     * Executes our PseudoHuman Job which has the task to complete its current item and then claim a new one.
+     * {@inheritDoc}
+     */
     @Override
     public void execute(JobExecutionContext context)
     throws JobExecutionException {
 
+        // get the data we need from the Jobcontext and Participant/WorklistService
         JobDataMap data = context.getJobDetail().getJobDataMap();
-        // TODO change keys? (definitely!)
-        AutomatedParticipant participant = (AutomatedParticipant) data.get("Participant");
-        WorklistItem worklistItem = (WorklistItem) data.get("WorklistItem");
+        Participant participant = (Participant) data.get(HumanTaskProcessDeployer.PARTICIPANT_KEY);
+        List<WorklistItem> itemsInWork = participant.getWorklistItemsCurrentlyInWork();
         WorklistService worklistService = ServiceFactory.getWorklistService();
 
-        worklistService.completeWorklistItemBy(worklistItem, participant);
-        WorklistItem item = worklistService.getWorklistItems(participant)[0];
-        worklistService.claimWorklistItemBy(worklistItem, resource)
+        // if we currently have items in Work, complete the first one
+        if (!itemsInWork.isEmpty()) {
+            WorklistItem worklistItem = itemsInWork.get(0);
+            worklistService.completeWorklistItemBy(worklistItem, participant);
+        }
+
+        // If there are still items left we can work on we claim them and then start working on them
+        List<WorklistItem> itemsToWorkOn = worklistService.getWorklistItems(participant);
+        if (!itemsToWorkOn.isEmpty()) {
+            WorklistItem item = itemsToWorkOn.get(0);
+
+            // Worklistitems can be directly allocated to us, so they might not have the status offered and we can't
+            // claim them
+            if (item.getStatus() == WorklistItemState.OFFERED) {
+                worklistService.claimWorklistItemBy(item, participant);
+            }
+            worklistService.beginWorklistItemBy(item, participant);
+        }
 
     }
 

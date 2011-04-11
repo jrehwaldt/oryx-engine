@@ -37,6 +37,8 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     private static final String LAZY = "lazy guy";
     private static final String ROLE = "DUMMIES";
     
+    public static final String PARTICIPANT_KEY = "Participant";
+    
     /** The node1. */
     private Node node1;
     
