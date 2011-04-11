@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.activity.impl;
 
+import java.util.Iterator;
+
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.ServiceFactory;
@@ -7,6 +9,10 @@ import de.hpi.oryxengine.activity.AbstractDeferredActivity;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.resource.AbstractResource;
+import de.hpi.oryxengine.resource.worklist.AbstractDefaultWorklist;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 
 /**
  * The Implementation of a human task.
@@ -21,7 +27,8 @@ public class HumanTaskActivity extends AbstractDeferredActivity {
     /**
      * Default Constructor.
      * 
-     * @param task - the task to distribute
+     * @param task
+     *            - the task to distribute
      */
     // TODO: CreationPattern einfügen
     public HumanTaskActivity(Task task) {
@@ -32,11 +39,30 @@ public class HumanTaskActivity extends AbstractDeferredActivity {
     @Override
     protected void executeIntern(@Nonnull Token token) {
 
-//        creationPattern.createTask()
-        
+        // creationPattern.createTask()
+
         TaskDistribution taskDistribution = ServiceFactory.getTaskDistribution();
         taskDistribution.distribute(task, token);
-        
+
         token.suspend();
+    }
+
+    @Override
+    public void cancel() {
+
+        // TODO move this to worklist manager
+        for (AbstractResource<?> resource : task.getAssignedResources()) {
+            Iterator<WorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist()).getLazyWorklistItems().iterator();
+
+            while (it.hasNext()) {
+                WorklistItemImpl item = (WorklistItemImpl) it.next();
+                if (item.getTask() == task) {
+                    it.remove();
+                }
+            }
+            // for (WorklistItem item : resource.getWorklist().getLazyWorklistItems())
+            // resource.getWorklist().getLazyWorklistItems().remove(task);
+        }
+
     }
 }

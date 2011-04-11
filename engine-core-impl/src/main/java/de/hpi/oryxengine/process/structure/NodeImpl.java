@@ -1,7 +1,9 @@
 package de.hpi.oryxengine.process.structure;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import de.hpi.oryxengine.activity.Activity;
@@ -26,6 +28,8 @@ public class NodeImpl implements Node {
     private List<Transition> outgoingTransitions, incomingTransitions;
 
     private UUID id;
+    
+    private Map<String, Object> attributeTable;
 
     /**
      * Instantiates a new abstract node.
@@ -33,9 +37,9 @@ public class NodeImpl implements Node {
      * @param activity
      *            the activity to be executed
      * @param incomingBehaviour
-     *            the incoming behaviour
+     *            the incoming behavior
      * @param outgoingBehaviour
-     *            the outgoing behaviour
+     *            the outgoing behavior
      */
     public NodeImpl(Activity activity,
                     IncomingBehaviour incomingBehaviour,
@@ -152,6 +156,27 @@ public class NodeImpl implements Node {
 
         createTransitionWithCondition(node, c);
 
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+
+        if (attributeTable == null) {
+            attributeTable = new HashMap<String, Object>();
+        }
+        return attributeTable;
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+
+        return getAttributes().get(attributeKey);
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+
+        getAttributes().put(attributeKey, attributeValue);
     }
 
 }

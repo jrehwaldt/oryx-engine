@@ -11,7 +11,7 @@ import de.hpi.oryxengine.resource.AbstractResource;
 /**
  * 
  */
-public class ParticipantWorklist extends AbstractWorklist {
+public class ParticipantWorklist extends AbstractDefaultWorklist {
 
     private AbstractParticipant relatedParticipant;
 

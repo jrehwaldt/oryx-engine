@@ -1,7 +1,6 @@
 package de.hpi.oryxengine.factory.process;
 
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.token.Token;
 
 /**
  * A factory for creating Process objects.

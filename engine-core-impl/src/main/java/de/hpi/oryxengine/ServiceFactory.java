@@ -8,7 +8,6 @@ import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.deploy.Deployer;
 import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.repository.ProcessRepository;
 
 /**
  * General service factory, which provides singleton instances for our system.
@@ -50,9 +49,9 @@ public final class ServiceFactory {
         return (Deployer) OryxEngineAppContext.getBean("deployerService");
     }
 
-    public static @Nonnull ProcessRepository getRepositoryService() {
+    public static @Nonnull RepositoryService getRepositoryService() {
 
-        return (ProcessRepository) OryxEngineAppContext.getBean("repositoryService");
+        return (RepositoryService) OryxEngineAppContext.getBean("repositoryService");
     }
 
     /**

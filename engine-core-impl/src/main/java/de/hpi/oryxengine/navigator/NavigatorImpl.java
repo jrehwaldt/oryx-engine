@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
@@ -19,7 +20,6 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.repository.ProcessRepository;
 
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
@@ -59,7 +59,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     
     private int counter;
     
-    private ProcessRepository repository;
+    private RepositoryService repository;
     
     /**
      * Instantiates a new navigator implementation.
@@ -92,9 +92,9 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * @param numberOfThreads
      *            the number of navigator threads
      */
-    public NavigatorImpl(ProcessRepository repo, int numberOfThreads) {
+    public NavigatorImpl(RepositoryService repo, int numberOfThreads) {
 
-        // TODO Lazy initialized, o rly?
+        // TODO Lazy initialized, o rely?
         this.scheduler = new FIFOScheduler();
         this.executionThreads = new ArrayList<NavigationThread>();
         this.state = NavigatorState.INIT;

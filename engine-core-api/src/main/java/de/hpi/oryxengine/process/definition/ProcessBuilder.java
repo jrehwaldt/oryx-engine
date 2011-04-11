@@ -13,7 +13,7 @@ import de.hpi.oryxengine.process.structure.Node;
 /**
  * The Interface ProcessBuilder. The process builder is a comfortable way to construct a process definition.
  * 
- * @author thorben
+ * @author Thorben
  */
 public interface ProcessBuilder {
 

@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -19,7 +20,7 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
  * The Class ProcessRepositoryImpl. The Repository holds the process definitions in the engine. To instantiate these,
  * the repository has to be asked.
  */
-public final class ProcessRepositoryImpl implements ProcessRepository, Service {
+public final class ProcessRepositoryImpl implements RepositoryService, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass()); 
     
@@ -58,14 +59,12 @@ public final class ProcessRepositoryImpl implements ProcessRepository, Service {
         return definitions.get(id);
     }
 
-    @Override
     public void addDefinition(ProcessDefinition definition) {
 
         UUID id = definition.getID();
         definitions.put(id, definition);
     }
 
-    @Override
     public void deleteDefinition(UUID id) {
 
         definitions.remove(id);
@@ -81,6 +80,48 @@ public final class ProcessRepositoryImpl implements ProcessRepository, Service {
     @Override
     public boolean containsDefinition(@Nonnull UUID id) {
         return this.definitions.containsKey(id);
+    }
+
+    @Override
+    public DeploymentBuilder createDeployment() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Deployment> getDeployments() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Deployment getDeployment(UUID deploymentID) {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void deleteDeployment(UUID deploymentID) {
+
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void deactivateDeployment(UUID deploymentID) {
+
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void activateDeployment(UUID deploymentID) {
+
+        // TODO Auto-generated method stub
+        
     }
 
 }

@@ -14,7 +14,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
@@ -98,8 +97,8 @@ public class AssigningToRoleUserStoryTest extends AbstractTestNGSpringContextTes
     @AfterMethod
     public void tearDown() {
 
-        ServiceFactoryForTesting.clearWorklistManager();
-        ServiceFactoryForTesting.clearIdentityService();
+//        ServiceFactoryForTesting.clearWorklistManager();
+//        ServiceFactoryForTesting.clearIdentityService();
     }
 
     /**
