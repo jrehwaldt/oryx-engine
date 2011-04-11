@@ -8,6 +8,7 @@ import static org.testng.Assert.assertFalse;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
@@ -53,7 +54,7 @@ public class ImapMailAdapterTest {
         
         MimeMessage msg = new MimeMessage(Session.getInstance(this.config.toMailProperties()));
         msg.setRecipients(RecipientType.TO, this.address);
-        msg.setFrom();
+        msg.setFrom(new InternetAddress(this.address));
         msg.setText("Huhu");
         Transport.send(msg);
         
