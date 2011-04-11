@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.factory.process;
+package de.hpi.oryxengine.loadgenerator;
 
 import java.util.List;
 import java.util.Set;
@@ -10,7 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.resource.Participant;
+import de.hpi.oryxengine.resource.AbstractParticipant;
+import de.hpi.oryxengine.resource.AutomatedParticipant;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
@@ -46,7 +47,8 @@ public class PseudoHumanThread extends Thread {
     public void run() {
 
         // this has to be freaking substituted :-o
-        Set<Participant> participants = ServiceFactory.getIdentityService().getParticipants();  
+        Set<AbstractParticipant> participants = ServiceFactory.getIdentityService().getParticipants();  
+        AutomatedParticipant a = (AutomatedParticipant) participants.toArray()[0];
         
         // our trigger
         // repeat as long as there is work to be done for every participant

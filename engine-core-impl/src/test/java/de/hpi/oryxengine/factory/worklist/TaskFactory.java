@@ -47,7 +47,7 @@ public final class TaskFactory {
 
         return task;
     }
-
+    
     /**
      * Creates a new Task object, however it does NOT create a participant as a sideffect.
      *
