@@ -1,8 +1,8 @@
 package de.hpi.oryxengine.resource.worklist;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.resource.AbstractResource;
 
@@ -11,28 +11,12 @@ import de.hpi.oryxengine.resource.AbstractResource;
  */
 public abstract class AbstractWorklist implements Iterable<WorklistItem> {
 
-    private List<WorklistItem> lazyWorklistItems;
-    
-    /**
-     * Retrieves the {@link WorklistItem}s that are in this {@link Worklist}.
-     * 
-     * @return a list of {@link WorklistItem}s; the list is instantiated on demand
-     */
-    List<WorklistItem> getLazyWorklistItems() {
-
-        if (lazyWorklistItems == null) {
-            lazyWorklistItems = new ArrayList<WorklistItem>();
-        }
-        
-        return lazyWorklistItems;
-    }
-
     /**
      * Retrieves the contained {@link WorklistItem}s.
      * 
      * @return a list of {@link WorklistItem}s; the list is unmodifiable (read-only) 
      */
-    public abstract List<WorklistItem> getWorklistItems();
+    public abstract @Nonnull List<WorklistItem> getWorklistItems();
     
     /**
      * Notifies this {@link Worklist} that the item has been allocated by a certain resource.
@@ -42,32 +26,27 @@ public abstract class AbstractWorklist implements Iterable<WorklistItem> {
      * @param worklistItem - a {@link WorklistItem} that was allocated
      * @param claimingResource - the {@link AbstractResource} that allocated the {@link WorklistItem}
      */
-    public abstract void itemIsAllocatedBy(WorklistItem worklistItem, AbstractResource<?> claimingResource);
-
-    /**
-     * Notifies this {@link Worklist} that the {@link WorklistItem} has been completed.
-     * 
-     * @param worklistItem - a {@link WorklistItem} that was completed
-     */
-    public abstract void itemIsCompleted(WorklistItem worklistItem);
+    public abstract void itemIsAllocatedBy(@Nonnull WorklistItem worklistItem,
+                           @Nonnull AbstractResource<?> claimingResource);
 
     /**
      * Notifies the {@link Worklist} that the {@link WorklistItem} has been started.
      * 
      * @param worklistItem - a {@link WorklistItem} that has been started
      */
-    public abstract void itemIsStarted(WorklistItem worklistItem);
-    
+    public abstract void itemIsStarted(@Nonnull WorklistItem worklistItem);
+
+    /**
+     * Notifies this {@link Worklist} that the {@link WorklistItem} has been completed.
+     * 
+     * @param worklistItem - a {@link WorklistItem} that was completed
+     */
+    public abstract void itemIsCompleted(@Nonnull WorklistItem worklistItem);
+
     /**
      * Adds a {@link WorklistItem} into the {@link Worklist}.
      * 
      * @param worklistItem - a {@link WorklistItem} to add
      */
-    public abstract void addWorklistItem(WorklistItem worklistItem);
-
-
-    @Override
-    public Iterator<WorklistItem> iterator() {
-        return getWorklistItems().iterator();
-    }
+    public abstract void addWorklistItem(@Nonnull WorklistItem worklistItem);
 }
