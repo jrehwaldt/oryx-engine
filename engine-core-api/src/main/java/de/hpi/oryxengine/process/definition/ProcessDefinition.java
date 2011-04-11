@@ -17,6 +17,13 @@ import de.hpi.oryxengine.util.Identifiable;
 public interface ProcessDefinition extends Identifiable {
 
     /**
+     * Retrieves the name of the {@link ProcessDefinition}.
+     * 
+     * @return the name of the {@link ProcessDefinition}
+     */
+    String getName();
+    
+    /**
      * Gets the description.
      * 
      * @return the description
