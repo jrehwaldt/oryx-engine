@@ -22,9 +22,9 @@ import de.hpi.oryxengine.util.Identifiable;
  *            - extending Resource
  */
 @XmlRootElement
-@XmlSeeAlso({
-    OrganizationUnit.class, Participant.class, Position.class, Role.class
-})
+//@XmlSeeAlso({
+//    OrganizationUnit.class, Participant.class, Position.class, Role.class
+//})
 public abstract class AbstractResource<R extends AbstractResource<?>> implements Identifiable {
 
     protected UUID resourceId;

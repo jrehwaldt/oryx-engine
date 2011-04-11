@@ -5,7 +5,9 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 
 /**
  * Implementation of {@link IdentityBuilder} Interface.
@@ -29,7 +31,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     // -------- Participant Builder Methods -----------
 
     @Override
-    public Participant createParticipant(String participantName) {
+    public AbstractParticipant createParticipant(String participantName) {
 
         Participant participant = new Participant(participantName);
 
@@ -42,9 +44,9 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public IdentityBuilder deleteParticipant(UUID participantId)
     throws DalmatinaException {
 
-        Participant participantImpl = this.identityService.getParticipant(participantId);
+        Participant participantImpl = Participant.asParticipantImpl(participantId);
 
-        for (Position positionImpl: participantImpl.getMyPositions()) {
+        for (Position positionImpl : participantImpl.getMyPositions()) {
             positionImpl.setPositionHolder(null);
         }
 
@@ -53,13 +55,12 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder participantOccupiesPosition(UUID participantId,
-                                                       UUID positionId) {
+    public IdentityBuilder participantOccupiesPosition(UUID participantId, UUID positionId) {
 
-        Position positionImpl = this.identityService.getPosition(positionId);
-        Participant participantImpl = this.identityService.getParticipant(participantId);
+        Position positionImpl = Position.asPositionImpl(positionId);
+        Participant participantImpl = Participant.asParticipantImpl(participantId);
 
-        Participant oldParticiant = positionImpl.getPositionHolder();
+        Participant oldParticiant = (Participant) positionImpl.getPositionHolder();
         if (oldParticiant != null) {
             if (!oldParticiant.equals(participantImpl)) {
                 oldParticiant.getMyPositions().remove(positionImpl);
@@ -73,30 +74,27 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder participantDoesNotOccupyPosition(UUID participantId,
-                                                            UUID positionId) {
+    public IdentityBuilder participantDoesNotOccupyPosition(UUID participantId, UUID positionId) {
 
-        Position positionImpl = this.identityService.getPosition(positionId);
-        Participant participantImpl = this.identityService.getParticipant(participantId);
+        Position positionImpl = Position.asPositionImpl(positionId);
+        Participant participantImpl = Participant.asParticipantImpl(participantId);
 
-        positionImpl.belongsToOrganization(null);
+        positionImpl.belongstoOrganization(null);
         participantImpl.getMyPositions().remove(positionImpl);
         return this;
     }
-    
+
     @Override
-    public IdentityBuilder participantHasCapability(UUID participantId,
-                                                    Capability capability) {
-        
+    public IdentityBuilder participantHasCapability(UUID participantId, AbstractCapability capability) {
+
         return null; // TODO
     }
 
     @Override
-    public IdentityBuilder participantBelongsToRole(UUID participantId,
-                                                    UUID roleId) {
+    public IdentityBuilder participantBelongsToRole(UUID participantId, UUID roleId) {
 
-        Role roleImpl = this.identityService.getRole(roleId);
-        Participant participantImpl = this.identityService.getParticipant(participantId);
+        Role roleImpl = Role.asRoleImpl(roleId);
+        Participant participantImpl = Participant.asParticipantImpl(participantId);
 
         roleImpl.getParticipants().add(participantImpl);
         participantImpl.getMyRoles().add(roleImpl);
@@ -105,11 +103,10 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder participantDoesNotBelongToRole(UUID participantId,
-                                                          UUID roleId) {
+    public IdentityBuilder participantDoesNotBelongToRole(UUID participantId, UUID roleId) {
 
-        Role roleImpl = this.identityService.getRole(roleId);
-        Participant participantImpl = this.identityService.getParticipant(participantId);
+        Role roleImpl = Role.asRoleImpl(roleId);
+        Participant participantImpl = Participant.asParticipantImpl(participantId);
 
         roleImpl.getParticipants().remove(participantImpl);
         participantImpl.getMyRoles().remove(roleImpl);
@@ -119,7 +116,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     // -------- Capability Builder Methods ------------
 
     @Override
-    public Capability createCapability(String capabilityId) {
+    public AbstractCapability createCapability(String capabilityId) {
 
         // hier könnte man das FlyWeight-Pattern verwenden ...
         // Capability capability = new CapabilityImpl(capabilityId);
@@ -143,14 +140,14 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder deleteOrganizationUnit(UUID organizationUnitId) {
 
-        OrganizationUnit organizationUnitImpl = this.identityService.getOrganizationUnit(organizationUnitId);
+        OrganizationUnit organizationUnitImpl = OrganizationUnit.asOrganizationUnitImpl(organizationUnitId);
 
-        for (OrganizationUnit childOrganizationUnitImpl: organizationUnitImpl.getChildOrganisationUnits()) {
+        for (OrganizationUnit childOrganizationUnitImpl : organizationUnitImpl.getChildOrganisationUnits()) {
             childOrganizationUnitImpl.setSuperOrganizationUnit(null);
         }
 
         for (Position positionImpl : organizationUnitImpl.getPositions()) {
-            positionImpl.belongsToOrganization(null);
+            positionImpl.belongstoOrganization(null);
         }
 
         identityService.getOrganizationUnitImpls().remove(organizationUnitImpl.getID());
@@ -158,13 +155,11 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder subOrganizationUnitOf(UUID subOrganizationUnitId,
-                                                 UUID superOrganizationUnitId)
+    public IdentityBuilder subOrganizationUnitOf(UUID subOrganizationUnitId, UUID superOrganizationUnitId)
     throws DalmatinaException {
 
-        OrganizationUnit organizationUnitImpl = this.identityService.getOrganizationUnit(subOrganizationUnitId);
-        OrganizationUnit superOrganizationUnitImpl =
-            this.identityService.getOrganizationUnit(superOrganizationUnitId);
+        OrganizationUnit organizationUnitImpl = OrganizationUnit.asOrganizationUnitImpl(subOrganizationUnitId);
+        OrganizationUnit superOrganizationUnitImpl = OrganizationUnit.asOrganizationUnitImpl(superOrganizationUnitId);
 
         if (organizationUnitImpl.equals(superOrganizationUnitImpl)) {
             throw new DalmatinaException("The OrganizationUnit cannot be the superior of yourself.");
@@ -180,17 +175,17 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder organizationUnitOffersPosition(UUID organizationUnitId, UUID positionId) {
 
-        Position positionImpl = this.identityService.getPosition(positionId);
-        OrganizationUnit organizationUnitImpl = this.identityService.getOrganizationUnit(organizationUnitId);
+        Position positionImpl = Position.asPositionImpl(positionId);
+        OrganizationUnit organizationUnitImpl = OrganizationUnit.asOrganizationUnitImpl(organizationUnitId);
 
-        OrganizationUnit oldOrganizationUnit = (OrganizationUnit) positionImpl.belongsToOrganization();
+        OrganizationUnit oldOrganizationUnit = (OrganizationUnit) positionImpl.belongstoOrganization();
         if (oldOrganizationUnit != null) {
             if (!oldOrganizationUnit.equals(organizationUnitImpl)) {
                 oldOrganizationUnit.getPositions().remove(positionImpl);
             }
         }
 
-        positionImpl.belongsToOrganization(organizationUnitImpl);
+        positionImpl.belongstoOrganization(organizationUnitImpl);
         organizationUnitImpl.getPositions().add(positionImpl);
 
         return this;
@@ -199,10 +194,10 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder organizationUnitDoesNotOfferPosition(UUID organizationUnitId, UUID positionId) {
 
-        Position positionImpl = this.identityService.getPosition(positionId);
-        OrganizationUnit organizationUnitImpl = this.identityService.getOrganizationUnit(organizationUnitId);
+        Position positionImpl = Position.asPositionImpl(positionId);
+        OrganizationUnit organizationUnitImpl = OrganizationUnit.asOrganizationUnitImpl(organizationUnitId);
 
-        positionImpl.belongsToOrganization(null);
+        positionImpl.belongstoOrganization(null);
         organizationUnitImpl.getPositions().remove(positionImpl);
 
         return this;
@@ -224,9 +219,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public IdentityBuilder positionReportsToSuperior(UUID positionId, UUID superiorPositionId)
     throws DalmatinaException {
 
-        Position positionImpl = this.identityService.getPosition(positionId);
-        Position superiorPositionImpl =
-            this.identityService.getPosition(superiorPositionId);
+        Position positionImpl = Position.asPositionImpl(positionId);
+        Position superiorPositionImpl = Position.asPositionImpl(superiorPositionId);
 
         if (positionImpl.equals(superiorPositionImpl)) {
             throw new DalmatinaException("The Position '" + positionImpl.getID()
@@ -244,7 +238,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public IdentityBuilder deletePosition(UUID positionId)
     throws DalmatinaException {
 
-        Position positionImpl = this.identityService.getPosition(positionId);
+        Position positionImpl = Position.asPositionImpl(positionId);
 
         identityService.getPositionImpls().remove(positionImpl.getID());
 
@@ -271,7 +265,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     public IdentityBuilder deleteRole(UUID roleId)
     throws DalmatinaException {
 
-        Role roleImpl = this.identityService.getRole(roleId);
+        Role roleImpl = Role.asRoleImpl(roleId);
 
         for (Participant participantImpl : roleImpl.getParticipants()) {
             participantImpl.getMyRoles().remove(roleImpl);
@@ -284,6 +278,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder subRoleOf(UUID subRole, UUID superRole) {
 
-        return null; // TODO @Scherapo - bin mir nicht sicher ob wir überhaupt Oberrollen brauchen; sollte nochmal diskutiert werden  
+        return null; // TODO @Scherapo - bin mir nicht sicher ob wir überhaupt Oberrollen brauchen; sollte nochmal
+                     // diskutiert werden
     }
 }

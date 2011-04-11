@@ -6,21 +6,21 @@ import java.util.List;
 
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.Role;
+import de.hpi.oryxengine.resource.AbstractRole;
 
 /**
  * The work list for the resource 'role'.
  */
 public class RoleWorklist extends AbstractWorklist {
 
-    private Role relatedRole;
+    private AbstractRole relatedRole;
     
     /**
      * Instantiates a new role worklist.
      *
      * @param owner the owner
      */
-    public RoleWorklist(Role owner) {
+    public RoleWorklist(AbstractRole owner) {
 
         this.relatedRole = owner;
     }
@@ -31,7 +31,6 @@ public class RoleWorklist extends AbstractWorklist {
         List<WorklistItem> worklistItems = new ArrayList<WorklistItem>(getLazyWorklistItems());
         
         if (relatedRole.getSuperRole() != null) {
-            
             worklistItems.addAll(relatedRole.getSuperRole().getWorklist().getWorklistItems());
         }
         

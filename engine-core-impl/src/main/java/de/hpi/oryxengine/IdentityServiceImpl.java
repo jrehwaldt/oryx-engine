@@ -13,6 +13,10 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.resource.AbstractOrganizationUnit;
+import de.hpi.oryxengine.resource.AbstractParticipant;
+import de.hpi.oryxengine.resource.AbstractPosition;
+import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.IdentityBuilderImpl;
 import de.hpi.oryxengine.resource.OrganizationUnit;
@@ -56,9 +60,9 @@ public class IdentityServiceImpl implements IdentityService, Service {
     }
 
     @Override
-    public Set<OrganizationUnit> getOrganizationUnits() {
+    public Set<AbstractOrganizationUnit> getOrganizationUnits() {
 
-        Set<OrganizationUnit> setToReturn = new HashSet<OrganizationUnit>(getOrganizationUnitImpls().values());
+        Set<AbstractOrganizationUnit> setToReturn = new HashSet<AbstractOrganizationUnit>(getOrganizationUnitImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
 
@@ -76,9 +80,9 @@ public class IdentityServiceImpl implements IdentityService, Service {
     }
 
     @Override
-    public Set<Position> getPositions() {
+    public Set<AbstractPosition> getPositions() {
 
-        Set<Position> setToReturn = new HashSet<Position>(getPositionImpls().values());
+        Set<AbstractPosition> setToReturn = new HashSet<AbstractPosition>(getPositionImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
     
@@ -96,9 +100,9 @@ public class IdentityServiceImpl implements IdentityService, Service {
     }
 
     @Override
-    public Set<Participant> getParticipants() {
+    public Set<AbstractParticipant> getParticipants() {
 
-        Set<Participant> setToReturn = new HashSet<Participant>(getParticipantImpls().values());
+        Set<AbstractParticipant> setToReturn = new HashSet<AbstractParticipant>(getParticipantImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
 
@@ -116,9 +120,9 @@ public class IdentityServiceImpl implements IdentityService, Service {
     }
 
     @Override
-    public Set<Role> getRoles() {
+    public Set<AbstractRole> getRoles() {
 
-        Set<Role> setToReturn = new HashSet<Role>(getRoleImpls().values());
+        Set<AbstractRole> setToReturn = new HashSet<AbstractRole>(getRoleImpls().values());
         return Collections.unmodifiableSet(setToReturn);
     }
 
@@ -136,28 +140,28 @@ public class IdentityServiceImpl implements IdentityService, Service {
     }
 
     @Override
-    public @Nullable OrganizationUnit getOrganizationUnit(@Nonnull UUID id) {
+    public @Nullable AbstractOrganizationUnit getOrganizationUnit(@Nonnull UUID id) {
 
         return getOrganizationUnitImpls().get(id);
 //        return find(getOrganizationUnitImpls(), id);
     }
 
     @Override
-    public @Nullable Position getPosition(@Nonnull UUID id) {
+    public @Nullable AbstractPosition getPosition(@Nonnull UUID id) {
 
         return getPositionImpls().get(id);
 //        return find(getPositionImpls(), id);
     }
 
     @Override
-    public @Nullable Participant getParticipant(@Nonnull UUID id) {
+    public @Nullable AbstractParticipant getParticipant(@Nonnull UUID id) {
 
         return getParticipantImpls().get(id);
 //        return find(getParticipants(), id);
     }
 
     @Override
-    public @Nullable Role getRole(@Nonnull UUID id) {
+    public @Nullable AbstractRole getRole(@Nonnull UUID id) {
 
         return getRoleImpls().get(id);
         //        return find(getRoleImpls(), id);

@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.hpi.oryxengine.resource.AbstractParticipant;
+import de.hpi.oryxengine.resource.AbstractPosition;
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Position;
 
 /**
  * 
  */
 public class ParticipantWorklist extends AbstractWorklist {
 
-    private Participant relatedParticipant;
+    private AbstractParticipant relatedParticipant;
 
     /**
      * Instantiates a new participant worklist.
      *
      * @param owner the related participant to the work list 
      */
-    public ParticipantWorklist(Participant owner) {
+    public ParticipantWorklist(AbstractParticipant owner) {
 
         this.relatedParticipant = owner;
     }
@@ -31,9 +31,9 @@ public class ParticipantWorklist extends AbstractWorklist {
         // Extracting the resources related to this owner
         List<AbstractResource<?>> resourcesInView = new ArrayList<AbstractResource<?>>();
         resourcesInView.addAll(relatedParticipant.getMyRolesImmutable());
-        for (Position position: relatedParticipant.getMyPositionsImmutable()) {
+        for (AbstractPosition position: relatedParticipant.getMyPositionsImmutable()) {
             resourcesInView.add(position);
-            resourcesInView.add(position.belongsToOrganization());
+            resourcesInView.add(position.belongstoOrganization());
         }
 
         // Creating the list of worklistItems from the owner and the related resources

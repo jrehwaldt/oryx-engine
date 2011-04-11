@@ -2,9 +2,13 @@ package de.hpi.oryxengine.resource;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 
 /**
  * A Position refers to a unique job within an organization. Examples might include Positions like the CEO, bank
@@ -15,16 +19,16 @@ import javax.annotation.Nullable;
  * 
  * @author Gerardo Navarro Suarez
  */
-public class Position extends AbstractResource<Position> {
-    
-    private Participant positionHolder;
-    
+public class Position extends AbstractPosition {
+
+    private AbstractParticipant positionHolder;
+
     private OrganizationUnit organizationalUnit;
-    
+
     private Position superiorPosition;
-    
+
     private Set<Position> subordinatePositions;
-    
+
     /**
      * The Default Constructor. Creates a position object with the given id.
      * 
@@ -33,15 +37,11 @@ public class Position extends AbstractResource<Position> {
      */
     public Position(String positionName) {
 
-        super(positionName, ResourceType.POSITION);
+        super(positionName);
     }
-    
-    /**
-     * Gets the Participant that occupies this Position.
-     * 
-     * @return a Participant - Participant that occupies this Position
-     */
-    public Participant getPositionHolder() {
+
+    @Override
+    public AbstractParticipant getPositionHolder() {
 
         return positionHolder;
     }
@@ -49,45 +49,42 @@ public class Position extends AbstractResource<Position> {
     /**
      * Sets the position holder position.
      * 
-     * @param participant the participant
+     * @param participant
+     *            the participant
      * @return the subordinate position (this)
      */
-    protected @Nonnull Position setPositionHolder(@Nullable Participant participant) {
+    protected @Nonnull
+    AbstractPosition setPositionHolder(@Nullable AbstractParticipant participant) {
 
         positionHolder = participant;
         return this;
     }
-    
-    /**
-     * Gets the superior position.
-     * 
-     * @return the superior position
-     */
-    public Position getSuperiorPosition() {
+
+    @Override
+    public AbstractPosition getSuperiorPosition() {
 
         return superiorPosition;
     }
-    
+
     /**
      * Sets the superior position.
      * 
-     * @param position the superior position
+     * @param position
+     *            the superior position
      * @return the subordinate position (this)
      */
-    protected @Nonnull Position setSuperiorPosition(@Nullable Position position) {
+    protected @Nonnull
+    Position setSuperiorPosition(@Nullable Position position) {
 
         superiorPosition = position;
 
         return this;
     }
 
-    /**
-     * Return the OrganizationUnit where this Position belongs to.
-     * 
-     * @return the OrganizationUnit where this Position belongs to
-     */
-    public @Nullable OrganizationUnit belongsToOrganization() {
-        
+    @Override
+    public @Nullable
+    OrganizationUnit belongstoOrganization() {
+
         return organizationalUnit;
     }
 
@@ -98,7 +95,8 @@ public class Position extends AbstractResource<Position> {
      *            the organizational unit
      * @return the position (this)
      */
-    public @Nonnull Position belongsToOrganization(@Nullable OrganizationUnit organizationalUnit) {
+    public @Nonnull
+    Position belongstoOrganization(@Nullable OrganizationUnit organizationalUnit) {
 
         this.organizationalUnit = organizationalUnit;
         return this;
@@ -109,11 +107,35 @@ public class Position extends AbstractResource<Position> {
      * 
      * @return the subordinate position
      */
-    public @Nonnull Set<Position> getSubordinatePositions() {
+    public @Nonnull
+    Set<Position> getSubordinatePositions() {
 
         if (subordinatePositions == null) {
             subordinatePositions = new HashSet<Position>();
         }
         return subordinatePositions;
+    }
+
+    /**
+     * Translates a Position into a corresponding PositionImpl object.
+     * 
+     * Furthermore some constrains are checked.
+     * 
+     * @param positionId
+     *            - a Position object
+     * @return positionImpl - the casted {@link Position}
+     */
+    public static Position asPositionImpl(UUID positionId) {
+
+        if (positionId == null) {
+            throw new DalmatinaRuntimeException("The Position parameter is null.");
+        }
+
+        Position positionImpl = (Position) ServiceFactory.getIdentityService().getPosition(positionId);
+
+        if (positionImpl == null) {
+            throw new DalmatinaRuntimeException("There exists no Position with the id " + positionId + ".");
+        }
+        return positionImpl;
     }
 }
