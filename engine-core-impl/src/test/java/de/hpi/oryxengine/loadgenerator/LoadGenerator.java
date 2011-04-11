@@ -29,10 +29,10 @@ public class LoadGenerator {
     private static final long MEGABYTE = 1024L * 1024L;
 
     /** The Constant DEFAULT_PROCESS. */
-    private static final String DEFAULT_PROCESS = "HeavyComputationProcessDeployer";
+    private static final String DEFAULT_PROCESS = "HumanTaskProcessDeployer";
     
     /** The Constant DEFAULT_NUMBER_OF_RUNS. */
-    private static final int DEFAULT_NUMBER_OF_RUNS = 10;
+    private static final int DEFAULT_NUMBER_OF_RUNS = 2;
     
     /** The Constant DEFAULT_NUMBER_OF_THREADS. */
     private static final int DEFAULT_NUMBER_OF_THREADS = 4;
@@ -164,27 +164,28 @@ public class LoadGenerator {
         navigator.registerPlugin(listener);
 
         
-        // Lookup the process Definition and get the start tokens
-        List<Token> tokenList = new ArrayList<Token>();
+        
         // TODO atm first implementation only with the first process in the repository,
         // this should be later changed to a more generic way
-        
-        ProcessDefinition definition = ServiceFactory.getRepositoryService().getDefinitions().get(0);
-        ProcessInstance instance = new ProcessInstanceImpl(definition);
-        for (Node startNode : definition.getStartNodes()) {
-            tokenList.add(instance.createToken(startNode, navigator));
-        }
 
         for (int i = 0; i < this.numberOfRuns; i++) {
+            
+            // Lookup the process Definition and get the start tokens
+            List<Token> tokenList = new ArrayList<Token>();
+            
             // Start the process with all the start tokens
+            ProcessDefinition definition = ServiceFactory.getRepositoryService().getDefinitions().get(0);
+            ProcessInstance instance = new ProcessInstanceImpl(definition);
+            
+            for (Node startNode : definition.getStartNodes()) {
+                tokenList.add(instance.createToken(startNode, navigator));
+            }
+            
             for (Token token : tokenList) {
                 navigator.startArbitraryInstance(token);
             }
 
-            /*
-             * this.logger.info( "Started Process token " + Integer.toString(i + 1) + " of " +
-             * Integer.toString(this.getNumberOfRuns()));
-             */
+             
         }
 
         this.logger.info("Finished putting instances into our navigator!");

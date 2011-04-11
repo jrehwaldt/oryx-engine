@@ -19,8 +19,8 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
      * @throws IllegalStarteventException the illegal startevent exception
      */
     public void deploy() throws IllegalStarteventException {
-        this.initializeNodes();
         this.createPseudoHuman();
+        this.initializeNodes();
         ProcessDefinition definition = this.builder.buildDefinition();
         ServiceFactory.getDeplyomentService().deploy(definition);
     }

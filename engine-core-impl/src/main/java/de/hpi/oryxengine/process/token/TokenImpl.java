@@ -59,6 +59,7 @@ public class TokenImpl implements Token {
         this.currentNode = startNode;
         this.instance = instance;
         this.navigator = navigator;
+        this.id = UUID.randomUUID();
     }
 
     /**

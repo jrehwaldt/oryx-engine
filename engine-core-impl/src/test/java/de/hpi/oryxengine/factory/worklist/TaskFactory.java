@@ -8,7 +8,9 @@ import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.allocation.pattern.DirectPushPattern;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
+import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
+import de.hpi.oryxengine.resource.Participant;
 
 /**
  * Little factory for creating Resources. A short cut for the implementation.
@@ -57,6 +59,29 @@ public final class TaskFactory {
     public static Task createSimpleTask(AbstractResource<?> resourceToAssign) {
 
         Task task = new TaskImpl(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null, resourceToAssign);
+
+        return task;
+    }
+    
+    /**
+     * Creates a new Task object for a given Participant.
+     *
+     * @param p the participant
+     * @return the task
+     */
+    public static Task createParticipantTask(AbstractParticipant p) {
+        
+        Pattern pushPattern = new DirectPushPattern();
+        Pattern pullPattern = new SimplePullPattern();
+
+        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
+
+        AbstractResource<?> resource = p;
+
+        Task task = new TaskImpl(SIMPLE_TASK_SUBJECT,
+                                 SIMPLE_TASK_DESCRIPTION,
+                                 allocationStrategies,
+                                 resource);
 
         return task;
     }
