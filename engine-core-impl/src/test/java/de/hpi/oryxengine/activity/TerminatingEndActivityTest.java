@@ -4,8 +4,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import java.util.List;
-
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,13 +32,10 @@ import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
@@ -51,9 +46,17 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests {
     private HumanTaskActivity humanTask = null;
-    AbstractResource<?> resource = null;
+    private AbstractResource<?> resource = null;
     private Node splitNode, humanTaskNode, terminatingEndNode;
 
+    /**
+     * Test cancelling of human tasks. A simple fork is created that leads to a human task activity and a terminating
+     * end. Then the human task activity is executed and a worklist item created. We expect the TerminatingEndActivity
+     * to remove the worklist item from the corresponding worklists.
+     * 
+     * @throws DalmatinaException
+     *             the dalmatina exception
+     */
     @Test
     public void testCancellingOfHumanTasks()
     throws DalmatinaException {
@@ -61,10 +64,10 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
         NavigatorImplMock nav = new NavigatorImplMock();
         ProcessInstance instance = new ProcessInstanceImpl(null);
         Token token = instance.createToken(splitNode, nav);
-        
+
         // set this instance to running by hand
         nav.getRunningInstances().add(instance);
-        
+
         token.executeStep();
         assertEquals(nav.getWorkQueue().size(), 2, "Split Node should have created two tokens.");
 
@@ -90,6 +93,12 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
         assertFalse(nav.getRunningInstances().contains(instance), "The instance should not be marked as running.");
     }
 
+    /**
+     * Sets the up human task.
+     * 
+     * @throws Exception
+     *             the exception
+     */
     @BeforeClass
     public void setUpHumanTask()
     throws Exception {
@@ -116,10 +125,12 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
         humanTask = new HumanTaskActivity(task);
     }
 
+    /**
+     * Sets the up nodes.
+     */
     @BeforeClass
     public void setUpNodes() {
 
-        ProcessInstance instance = new ProcessInstanceImpl(null);
         ProcessBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl();
         param.setActivity(new NullActivity());

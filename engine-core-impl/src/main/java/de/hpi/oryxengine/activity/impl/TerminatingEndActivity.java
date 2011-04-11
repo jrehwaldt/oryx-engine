@@ -1,7 +1,5 @@
 package de.hpi.oryxengine.activity.impl;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.token.Token;
 
