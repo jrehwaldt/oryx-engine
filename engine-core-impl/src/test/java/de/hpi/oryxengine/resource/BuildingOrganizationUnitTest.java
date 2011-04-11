@@ -25,7 +25,7 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
 
     private IdentityBuilder identityBuilder = null;
 
-    private OrganizationUnit organizationUnit = null;
+    private AbstractOrganizationUnit organizationUnit = null;
 
     /**
      * Setup.
@@ -56,7 +56,7 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testOrganizationUnitCreation()
     throws Exception {
 
-        OrganizationUnit superOrganizationUnit = identityBuilder.createOrganizationUnit("HPI");
+        AbstractOrganizationUnit superOrganizationUnit = identityBuilder.createOrganizationUnit("HPI");
 
         identityBuilder.subOrganizationUnitOf(organizationUnit.getID(), superOrganizationUnit.getID());
 
@@ -75,7 +75,7 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testForUniqueOrganizationUnit() {
 
         // Try to create a new OrganizationUnit with the same Id
-        OrganizationUnit bpt2 = identityBuilder.createOrganizationUnit("BPT");
+        AbstractOrganizationUnit bpt2 = identityBuilder.createOrganizationUnit("BPT");
 
         String failureMessage = "There should still be two OrganizationUnit, but there are "
             + identityService.getOrganizationUnits().size();
@@ -94,18 +94,18 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testRelationshipOrganizationUnitPosition()
     throws DalmatinaException {
 
-        Position pos1 = identityBuilder.createPosition("1");
-        Position pos2 = identityBuilder.createPosition("2");
+        AbstractPosition pos1 = identityBuilder.createPosition("1");
+        AbstractPosition pos2 = identityBuilder.createPosition("2");
 
         identityBuilder.organizationUnitOffersPosition(
             organizationUnit.getID(), pos1.getID()).organizationUnitOffersPosition(
                 organizationUnit.getID(), pos2.getID());
 
         Assert.assertTrue(identityService.getPositions().size() == 2);
-        Assert.assertTrue(organizationUnit.getPositions().size() == 2);
+        Assert.assertTrue(organizationUnit.getPositionsImmutable().size() == 2);
         String failuremessage = "Pos1 should belong to the organization 'bpt'.";
-        Assert.assertEquals(pos1.belongsToOrganization(), organizationUnit, failuremessage);
-        Assert.assertEquals(pos2.belongsToOrganization(), organizationUnit, failuremessage);
+        Assert.assertEquals(pos1.belongstoOrganization(), organizationUnit, failuremessage);
+        Assert.assertEquals(pos2.belongstoOrganization(), organizationUnit, failuremessage);
     }
 
     /**
@@ -114,7 +114,7 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testProhibitedOperations() {
 
-        Position pos1 = identityBuilder.createPosition("1");
+        AbstractPosition pos1 = identityBuilder.createPosition("1");
 
         organizationUnit.getPositionsImmutable().add(pos1);
     }
@@ -129,8 +129,8 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testUniquePositionsInOrganizationUnit()
     throws DalmatinaException {
 
-        Position pos1 = identityBuilder.createPosition("1");
-        Position pos2 = identityBuilder.createPosition("2");
+        AbstractPosition pos1 = identityBuilder.createPosition("1");
+        AbstractPosition pos2 = identityBuilder.createPosition("2");
 
         identityBuilder.organizationUnitOffersPosition(organizationUnit.getID(), pos1.getID())
         // Try to offer the same Position again
@@ -138,15 +138,15 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
 
         // As before, there should be only two positions offered by that OrganizationUnit
         String failureMessage = "Identity Service should have 1 Position Element, but it is "
-            + organizationUnit.getPositions().size() + " .";
-        Assert.assertTrue(organizationUnit.getPositions().size() == 1, failureMessage);
+            + organizationUnit.getPositionsImmutable().size() + " .";
+        Assert.assertTrue(organizationUnit.getPositionsImmutable().size() == 1, failureMessage);
 
         identityBuilder.organizationUnitOffersPosition(
             organizationUnit.getID(), pos2.getID()).organizationUnitOffersPosition(
                 organizationUnit.getID(), pos1.getID());
 
         // Now there should be one more
-        Assert.assertTrue(organizationUnit.getPositions().size() == 2);
+        Assert.assertTrue(organizationUnit.getPositionsImmutable().size() == 2);
     }
 
     /**
@@ -158,9 +158,9 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testChangePositionInOrganizationUnit()
     throws DalmatinaException {
 
-        Position pos1 = identityBuilder.createPosition("1");
+        AbstractPosition pos1 = identityBuilder.createPosition("1");
 
-        OrganizationUnit orgaUnit2 = identityBuilder.createOrganizationUnit("HPI");
+        AbstractOrganizationUnit orgaUnit2 = identityBuilder.createOrganizationUnit("HPI");
 
         identityBuilder.organizationUnitOffersPosition(organizationUnit.getID(), pos1.getID())
         // Now change the Position to another OrganizationUnit
@@ -171,14 +171,14 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
         Assert.assertTrue(identityService.getPositions().contains(pos1));
 
         String failureMessage = "The Position '1' should belong to the OrganizationUnit 'HPI'.";
-        Assert.assertEquals(pos1.belongsToOrganization(), orgaUnit2, failureMessage);
+        Assert.assertEquals(pos1.belongstoOrganization(), orgaUnit2, failureMessage);
 
         failureMessage = "The OrganizationUnit 'HPI' should have the Position '1'.";
-        Assert.assertTrue(orgaUnit2.getPositions().size() == 1);
-        Assert.assertTrue(orgaUnit2.getPositions().contains(pos1), failureMessage);
+        Assert.assertTrue(orgaUnit2.getPositionsImmutable().size() == 1);
+        Assert.assertTrue(orgaUnit2.getPositionsImmutable().contains(pos1), failureMessage);
 
         failureMessage = "The OrganizationUnit 'BPT' should not have any Position.";
-        Assert.assertTrue(organizationUnit.getPositions().size() == 0, failureMessage);
+        Assert.assertTrue(organizationUnit.getPositionsImmutable().size() == 0, failureMessage);
     }
     
     /**
@@ -190,8 +190,8 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testDeleteOrganizationUnit()
     throws DalmatinaException {
 
-        Position pos1 = identityBuilder.createPosition("1");
-        Position pos2 = identityBuilder.createPosition("2");
+        AbstractPosition pos1 = identityBuilder.createPosition("1");
+        AbstractPosition pos2 = identityBuilder.createPosition("2");
 
         identityBuilder.organizationUnitOffersPosition(
             organizationUnit.getID(), pos1.getID()).organizationUnitOffersPosition(
@@ -203,10 +203,10 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
         Assert.assertTrue(identityService.getOrganizationUnits().size() == 0, failureMessage);
         Assert.assertFalse(identityService.getOrganizationUnits().contains(organizationUnit), failureMessage);
 
-        for (Position position : organizationUnit.getPositions()) {
+        for (AbstractPosition position : organizationUnit.getPositionsImmutable()) {
             failureMessage = "The Position '" + position.getID() + " => " + position.getName()
                 + "' should not have an OrganizationUnit. It should be null.";
-            Assert.assertNull(position.belongsToOrganization());
+            Assert.assertNull(position.belongstoOrganization());
         }
     }
 
@@ -218,8 +218,8 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     @Test
     public void testDeleteSuperOrganizationUnit() throws DalmatinaException {
 
-        OrganizationUnit epic = identityBuilder.createOrganizationUnit("EPIC");
-        OrganizationUnit hpi = identityBuilder.createOrganizationUnit("HPI");
+        AbstractOrganizationUnit epic = identityBuilder.createOrganizationUnit("EPIC");
+        AbstractOrganizationUnit hpi = identityBuilder.createOrganizationUnit("HPI");
 
         identityBuilder.subOrganizationUnitOf(
             organizationUnit.getID(),
@@ -245,14 +245,14 @@ public class BuildingOrganizationUnitTest extends AbstractTestNGSpringContextTes
     public void testDeletePositionInOrganizationUnit()
     throws DalmatinaException {
 
-        Position pos1 = identityBuilder.createPosition("1");
+        AbstractPosition pos1 = identityBuilder.createPosition("1");
 
         identityBuilder.organizationUnitOffersPosition(organizationUnit.getID(), pos1.getID());
 
         identityBuilder.organizationUnitDoesNotOfferPosition(organizationUnit.getID(), pos1.getID());
 
         String failureMessage = "The OrganizationUnit 'BPT' doesnot offer any position.";
-        Assert.assertTrue(organizationUnit.getPositions().size() == 0, failureMessage);
+        Assert.assertTrue(organizationUnit.getPositionsImmutable().size() == 0, failureMessage);
 
     }
     /**

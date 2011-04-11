@@ -74,7 +74,7 @@ public class LoadGenerator {
     public LoadGenerator(String className, int numberOfRuns, int numberOfThreads) {
                
         //Initialize the service
-        OryxEngine.startWithConfig("test.oryxengine.cfg.xml");
+        OryxEngine.startWithConfig("/test.oryxengine.cfg.xml");
         
         this.className = PATH_TO_PROCESS_FACTORIES + className;
         this.numberOfRuns = numberOfRuns;

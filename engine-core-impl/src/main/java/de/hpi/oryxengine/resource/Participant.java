@@ -3,7 +3,10 @@ package de.hpi.oryxengine.resource;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
 
@@ -14,15 +17,12 @@ import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
  * 
  * @author Gerardo Navarro Suarez
  */
-public class Participant extends AbstractResource<Participant> {
+public class Participant extends AbstractParticipant {
 
-    /** My {@link AbstractPosition}s. */
     private Set<Position> myPositions;
 
-    /** My {@link AbstractCapability}s. */
-    private Set<Capability> myCapabilities;
+    private Set<AbstractCapability> myCapabilities;
 
-    /** My {@link AbstractRole}s. */
     private Set<Role> myRoles;
 
     /**
@@ -33,20 +33,16 @@ public class Participant extends AbstractResource<Participant> {
      */
     public Participant(String participantName) {
 
-        super(participantName, ResourceType.PARTICIPANT);
+        super(participantName);
     }
 
-    /**
-     * Returns a read-only Set of all Positions occupied by this Participant.
-     *
-     * @return a read-only Set of all Positions occupied by this Participant.
-     */
-    public Set<Position> getMyPositionsImmutable() {
+    @Override
+    public Set<AbstractPosition> getMyPositionsImmutable() {
 
-        Set<Position> setToReturn = new HashSet<Position>(getMyPositions());
+        Set<AbstractPosition> setToReturn = new HashSet<AbstractPosition>(getMyPositions());
         return Collections.unmodifiableSet(setToReturn);
     }
-    
+
     /**
      * Returns a Set of all PositionImpl of this Participant.
      * 
@@ -59,31 +55,25 @@ public class Participant extends AbstractResource<Participant> {
         }
         return myPositions;
     }
-    
-    /**
-     * Returns a read-only Set of all Capabilities of this Participant.
-     * 
-     * @return a read-only Set of all Capabilities of this Participant
-     */
-    protected Set<Capability> getMyCapabilities() {
+
+    @Override
+    public Set<AbstractCapability> getMyCapabilities() {
+
+        // TODO hier muss noch was gemacht werden
 
         if (myCapabilities == null) {
-            myCapabilities = new HashSet<Capability>();
+            myCapabilities = new HashSet<AbstractCapability>();
         }
         return myCapabilities;
     }
-    
-    /**
-     * Returns a read-only Set of all Roles that contains this Participant.
-     * 
-     * @return a read-only Set of all Roles that contains this Participant
-     */
-    public Set<Role> getMyRolesImmutable() {
 
-        Set<Role> setToReturn = new HashSet<Role>(getMyRoles());
+    @Override
+    public Set<AbstractRole> getMyRolesImmutable() {
+
+        Set<AbstractRole> setToReturn = new HashSet<AbstractRole>(getMyRoles());
         return Collections.unmodifiableSet(setToReturn);
     }
-    
+
     /**
      * Returns a Set of all RoleImpl of this Participant.
      * 
@@ -101,9 +91,31 @@ public class Participant extends AbstractResource<Participant> {
     public AbstractWorklist getWorklist() {
 
         if (worklist == null) {
-
             worklist = new ParticipantWorklist(this);
         }
         return worklist;
+    }
+
+    /**
+     * Translates a Participant into a corresponding ParticipantImpl object.
+     * 
+     * Furthermore some constrains are checked.
+     * 
+     * @param participantID
+     *            - a Participant object
+     * @return participantImpl - the casted Participant object
+     */
+    public static Participant asParticipantImpl(UUID participantID) {
+
+        if (participantID == null) {
+            throw new DalmatinaRuntimeException("The Participant parameter is null.");
+        }
+
+        Participant participantImpl = (Participant) ServiceFactory.getIdentityService().getParticipant(participantID);
+
+        if (participantImpl == null) {
+            throw new DalmatinaRuntimeException("There exists no Participant with the id " + participantID + ".");
+        }
+        return participantImpl;
     }
 }

@@ -63,7 +63,7 @@ public final class ServiceFactory {
      */
     public static @Nonnull CorrelationManager getCorrelationService() {
         
-        return  (CorrelationManagerImpl) OryxEngineAppContext.getBean("correlationService");
+        return  (CorrelationManager) OryxEngineAppContext.getBean("correlationService");
     }
     
     /**

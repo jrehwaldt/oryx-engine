@@ -25,7 +25,7 @@ public class BuildingPositionTest extends AbstractTestNGSpringContextTests {
     
     private IdentityBuilder identityBuilder = null;
     
-    private Position position = null;
+    private AbstractPosition position = null;
 
     /**
      * Set up.
@@ -50,7 +50,7 @@ public class BuildingPositionTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testPositionCreation() throws Exception {
 
-        Position superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");
+        AbstractPosition superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");
         identityBuilder.positionReportsToSuperior(position.getID(), superior.getID());
         
         String failureMessage = "The Identity Service should have two Position.";
@@ -65,7 +65,7 @@ public class BuildingPositionTest extends AbstractTestNGSpringContextTests {
     public void testForUniquePosition() {
         
         // Try to create a new position with the same Name
-        Position position2 = identityBuilder.createPosition("Oryx-Engine-Chef");
+        AbstractPosition position2 = identityBuilder.createPosition("Oryx-Engine-Chef");
         
         String failureMessage = "There should stil be one Position";
         Assert.assertTrue(identityService.getPositions().size() == 2, failureMessage);
@@ -92,8 +92,8 @@ public class BuildingPositionTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testDeletePosition() throws DalmatinaException {
         
-        Position position2 = identityBuilder.createPosition("Oryx-Engine-Chef2");
-        Position superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");
+        AbstractPosition position2 = identityBuilder.createPosition("Oryx-Engine-Chef2");
+        AbstractPosition superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");
         
         identityBuilder.positionReportsToSuperior(position.getID(), superior.getID())
                        .positionReportsToSuperior(position2.getID(), superior.getID());

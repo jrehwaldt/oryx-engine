@@ -21,16 +21,16 @@ import de.hpi.oryxengine.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskImpl;
-import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.allocation.pattern.DirectPushPattern;
+import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
+import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
@@ -60,7 +60,7 @@ public class HumanTaskActivityTest extends AbstractTestNGSpringContextTests {
         // Prepare the organisation structure
 
         IdentityBuilder identityBuilder = new IdentityServiceImpl().getIdentityBuilder();
-        Participant participant = identityBuilder.createParticipant("jannik");
+        AbstractParticipant participant = identityBuilder.createParticipant("jannik");
         participant.setName("Jannik Streek");
 
         resource = participant;

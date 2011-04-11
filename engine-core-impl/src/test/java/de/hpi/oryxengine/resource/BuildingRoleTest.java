@@ -24,7 +24,7 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
 
     private IdentityBuilder identityBuilder = null;
 
-    private Role adminRole = null;
+    private AbstractRole adminRole = null;
 
     /**
      * Set up.
@@ -50,7 +50,7 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testRoleCreation() {
 
-        Role secretaryRole = identityBuilder.createRole("Secretaries");
+        AbstractRole secretaryRole = identityBuilder.createRole("Secretaries");
 
         String failuremessage = "There should be two Role.";
         Assert.assertTrue(identityService.getRoles().size() == 2, failuremessage);
@@ -64,7 +64,7 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
     public void testForUniqueRole() {
 
         // Try to create a new Role with the same Name
-        Role adminRole2 = identityBuilder.createRole("Administrators");
+        AbstractRole adminRole2 = identityBuilder.createRole("Administrators");
 
         String failureMessage = "There should still be two Roles, but there are " + identityService.getRoles().size();
         Assert.assertTrue(identityService.getRoles().size() == 2, failureMessage);
@@ -78,20 +78,20 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
     public void testCreationParticipantRoleRelationship()
     throws Exception {
 
-        Participant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
-        Participant participant2 = identityBuilder.createParticipant("Jannik Streek");
+        AbstractParticipant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
+        AbstractParticipant participant2 = identityBuilder.createParticipant("Jannik Streek");
 
         identityBuilder.participantBelongsToRole(participant.getID(), adminRole.getID()).participantBelongsToRole(
             participant2.getID(), adminRole.getID());
 
-        Assert.assertTrue(adminRole.getParticipants().size() == 2);
+        Assert.assertTrue(adminRole.getParticipantsImmutable().size() == 2);
         String failuremessage = "The Participant 'Gerardo Navarro Suarez' should belong to the role 'Administrators'.";
-        Assert.assertTrue(participant.getMyRoles().contains(adminRole), failuremessage);
-        Assert.assertTrue(adminRole.getParticipants().contains(participant), failuremessage);
+        Assert.assertTrue(participant.getMyRolesImmutable().contains(adminRole), failuremessage);
+        Assert.assertTrue(adminRole.getParticipantsImmutable().contains(participant), failuremessage);
 
         failuremessage = "The Participant 'Jannik Streek' should belong to the role 'Administrators'.";
-        Assert.assertTrue(participant.getMyRoles().contains(adminRole), failuremessage);
-        Assert.assertTrue(adminRole.getParticipants().contains(participant), failuremessage);
+        Assert.assertTrue(participant.getMyRolesImmutable().contains(adminRole), failuremessage);
+        Assert.assertTrue(adminRole.getParticipantsImmutable().contains(participant), failuremessage);
     }
 
     /**
@@ -100,7 +100,7 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testProhibitedOperation() {
 
-        Participant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
+        AbstractParticipant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
 
         adminRole.getParticipantsImmutable().add(participant);
     }
@@ -109,8 +109,8 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
     public void testUniqueParticipantRoleRelationship()
     throws Exception {
 
-        Participant participant = identityBuilder.createParticipant("gerardo.navarro-suarez");
-        Participant participant2 = identityBuilder.createParticipant("jannik.streek");
+        AbstractParticipant participant = identityBuilder.createParticipant("gerardo.navarro-suarez");
+        AbstractParticipant participant2 = identityBuilder.createParticipant("jannik.streek");
 
         identityBuilder.participantBelongsToRole(participant.getID(), adminRole.getID())
         // Try to offer the same Position again
@@ -118,23 +118,23 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
 
         // As before, there should be only two positions offered by that Role
         String failureMessage = "Identity Service should have 1 Participant Element, but it is "
-            + adminRole.getParticipants().size() + " .";
-        Assert.assertTrue(adminRole.getParticipants().size() == 1, failureMessage);
+            + adminRole.getParticipantsImmutable().size() + " .";
+        Assert.assertTrue(adminRole.getParticipantsImmutable().size() == 1, failureMessage);
 
         identityBuilder.participantBelongsToRole(participant2.getID(), adminRole.getID()).participantBelongsToRole(participant.getID(),
             adminRole.getID());
 
         // Now there should be one more
-        Assert.assertTrue(adminRole.getParticipants().size() == 2);
+        Assert.assertTrue(adminRole.getParticipantsImmutable().size() == 2);
     }
 
     @Test
     public void testChangeParticipantRoleRelationship()
     throws Exception {
 
-        Participant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
+        AbstractParticipant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
 
-        Role secretaryRole = identityBuilder.createRole("Secretaries");
+        AbstractRole secretaryRole = identityBuilder.createRole("Secretaries");
 
         identityBuilder.participantBelongsToRole(participant.getID(), adminRole.getID())
         // Now change the Position to another Role
@@ -146,24 +146,24 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
 
         String failureMessage = "The Particapant 'Gerardo Navarro Suarez' should belong to"
             + "the Role 'secretaries' and to the Role 'Aministrators'.";
-        Assert.assertTrue(participant.getMyRoles().contains(adminRole), failureMessage);
-        Assert.assertTrue(participant.getMyRoles().contains(secretaryRole), failureMessage);
+        Assert.assertTrue(participant.getMyRolesImmutable().contains(adminRole), failureMessage);
+        Assert.assertTrue(participant.getMyRolesImmutable().contains(secretaryRole), failureMessage);
 
         failureMessage = "The Role 'Secretaries' should have only the Participant 'Gerardo Navarro Suarez'.";
-        Assert.assertTrue(secretaryRole.getParticipants().size() == 1, failureMessage);
-        Assert.assertTrue(secretaryRole.getParticipants().contains(participant), failureMessage);
+        Assert.assertTrue(secretaryRole.getParticipantsImmutable().size() == 1, failureMessage);
+        Assert.assertTrue(secretaryRole.getParticipantsImmutable().contains(participant), failureMessage);
 
         failureMessage = "The Role 'Aministrators' should have only the Participant 'Gerardo Navarro Suarez'.";
-        Assert.assertTrue(adminRole.getParticipants().size() == 1, failureMessage);
-        Assert.assertTrue(adminRole.getParticipants().contains(participant), failureMessage);
+        Assert.assertTrue(adminRole.getParticipantsImmutable().size() == 1, failureMessage);
+        Assert.assertTrue(adminRole.getParticipantsImmutable().contains(participant), failureMessage);
     }
 
     @Test
     public void testDeleteRole()
     throws Exception {
 
-        Participant participant1 = identityBuilder.createParticipant("Gerardo Navarro Suarez");
-        Participant participant2 = identityBuilder.createParticipant("Jannik Streek");
+        AbstractParticipant participant1 = identityBuilder.createParticipant("Gerardo Navarro Suarez");
+        AbstractParticipant participant2 = identityBuilder.createParticipant("Jannik Streek");
 
         identityBuilder.participantBelongsToRole(
             participant1.getID(), adminRole.getID()).participantBelongsToRole(participant2.getID(), adminRole.getID());
@@ -173,10 +173,10 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
         String failureMessage = "The Role 'Administrators' should be deleted, but it is still there.";
         Assert.assertTrue(identityService.getRoles().size() == 0, failureMessage);
 
-        for (Participant participant : adminRole.getParticipants()) {
+        for (AbstractParticipant participant : adminRole.getParticipantsImmutable()) {
             failureMessage = "The Participant '" + participant.getID()
                 + "' should not belong to the Role 'Administrators'.";
-            Assert.assertFalse(participant.getMyRoles().contains(adminRole));
+            Assert.assertFalse(participant.getMyRolesImmutable().contains(adminRole));
         }
     }
 
@@ -190,13 +190,13 @@ public class BuildingRoleTest extends AbstractTestNGSpringContextTests {
     public void testDeleteParticipantRoleRelationship()
     throws Exception {
 
-        Participant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
+        AbstractParticipant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
         identityBuilder.participantBelongsToRole(participant.getID(), adminRole.getID());
 
         identityBuilder.participantDoesNotBelongToRole(participant.getID(), adminRole.getID());
 
         String failureMessage = "The Role 'Administrators' does not contain any participants.";
-        Assert.assertTrue(adminRole.getParticipants().size() == 0, failureMessage);
+        Assert.assertTrue(adminRole.getParticipantsImmutable().size() == 0, failureMessage);
 
     }
 }

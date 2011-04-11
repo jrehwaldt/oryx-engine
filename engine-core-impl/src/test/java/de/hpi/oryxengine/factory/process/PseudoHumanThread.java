@@ -51,7 +51,7 @@ public class PseudoHumanThread extends Thread {
         // our trigger
         // repeat as long as there is work to be done for every participant
         while (ServiceFactory.getWorklistQueue().size(participants) > 0) {
-            for (Participant participant : participants) {
+            for (AbstractParticipant participant : participants) {
                 // we have to check whether the participant has work to do, otherwise we skip him
                 if (ServiceFactory.getWorklistQueue().getWorklistItems(participant).size() > 0) {
                     // get an item and complete it

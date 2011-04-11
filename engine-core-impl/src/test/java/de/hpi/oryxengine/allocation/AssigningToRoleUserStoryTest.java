@@ -29,9 +29,9 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
+import de.hpi.oryxengine.resource.AbstractParticipant;
+import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Role;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
@@ -43,13 +43,13 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 public class AssigningToRoleUserStoryTest extends AbstractTestNGSpringContextTests {
 
     private Token token = null;
-    private Role hamburgGuysRole = null;
-    private Role mecklenRole = null;
-    private Participant jannik = null;
+    private AbstractRole hamburgGuysRole = null;
+    private AbstractRole mecklenRole = null;
+    private AbstractParticipant jannik = null;
     private Node endNode = null;
-    private Participant gerardo = null;
-    private Participant tobi = null;
-    private Participant tobi2 = null;
+    private AbstractParticipant gerardo = null;
+    private AbstractParticipant tobi = null;
+    private AbstractParticipant tobi2 = null;
 
     /**
      * Setup.
