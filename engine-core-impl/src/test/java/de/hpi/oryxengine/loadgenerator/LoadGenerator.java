@@ -32,7 +32,7 @@ public class LoadGenerator {
     private static final String DEFAULT_PROCESS = "HumanTaskProcessDeployer";
     
     /** The Constant DEFAULT_NUMBER_OF_RUNS. */
-    private static final int DEFAULT_NUMBER_OF_RUNS = 2;
+    private static final int DEFAULT_NUMBER_OF_RUNS = 5;
     
     /** The Constant DEFAULT_NUMBER_OF_THREADS. */
     private static final int DEFAULT_NUMBER_OF_THREADS = 4;

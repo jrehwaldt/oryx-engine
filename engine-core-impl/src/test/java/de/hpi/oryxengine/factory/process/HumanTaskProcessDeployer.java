@@ -43,13 +43,15 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     private static final String TOBI = "Tobi";
     private static final String LAZY = "lazy guy";
     private static final String ROLE = "DUMMIES";
+    private static final String JOBGROUP = "dummy";
     private IdentityBuilder identityBuilder;
     
     private IdentityService identityService;
     
     public static final String PARTICIPANT_KEY = "Participant";
     
-    public static final int WAITING_TIME = 1000;
+    /** an array with the waiting times of the different pseudo humans. */ 
+    public static final int[] WAITING_TIME = {1000, 1000, 3000};
     
     private Scheduler scheduler;
     
@@ -114,7 +116,8 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     
     /**
      * Creates our dummy participants with a common role.
-     * Currently 3 of them are created
+     * Those are the ones that will claim and complete activity within a time interval that is determined within
+     * the schedule dummy participants method.
      */
     public void createAutomatedParticipants() {
        
@@ -129,23 +132,31 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         
     }
     
+    /**
+     * Schedule the dummy participants with a given time. A quartz scheduler is used to schedule them.
+     *
+     * @throws SchedulerException the scheduler exception
+     */
     public void scheduleDummyParticipants() throws SchedulerException {
         
+        // Create the quartz scheduler
         final SchedulerFactory factory = new org.quartz.impl.StdSchedulerFactory();
         this.scheduler = factory.getScheduler();
         this.scheduler.start();
         
+        // Schdule the jobs of our participants
         Set<AbstractParticipant> participants = ServiceFactory.getIdentityService().getParticipants();
-        for(AbstractParticipant participant : participants) {
+        int i = 0;
+        for (AbstractParticipant participant : participants) {
             
             JobDetail jobDetail = new JobDetail(
                 participant.getName(),
-                "dummy",
+                JOBGROUP,
                 PseudoHumanJob.class);
             JobDataMap data = jobDetail.getJobDataMap();
             data.put(PARTICIPANT_KEY, participant);
 
-            Trigger trigger = new SimpleTrigger(participant.getID().toString(),-1, WAITING_TIME);
+            Trigger trigger = new SimpleTrigger(participant.getID().toString(), -1, WAITING_TIME[i++]);
             
             try {
                 this.scheduler.scheduleJob(jobDetail, trigger);
@@ -157,13 +168,17 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         
     }
     
+    /**
+     * Really creates Pseudo Humans. @see scheduleDummyParticipants
+     * {@inheritDoc}
+     */
+    @Override
     public void createPseudoHuman() {
         createAutomatedParticipants();
         try {
             scheduleDummyParticipants();
         } catch (SchedulerException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.error("Scheduler Exception when trying to schedule dummy Participants", e);
         }
     }
 
