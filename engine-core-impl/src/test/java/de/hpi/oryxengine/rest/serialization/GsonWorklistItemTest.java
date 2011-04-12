@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.rest.serialization;
 
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
@@ -26,15 +27,14 @@ import com.google.gson.GsonBuilder;
 
 import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
-import de.hpi.oryxengine.rest.api.NavigatorWebService;
 import de.hpi.oryxengine.rest.api.WorklistWebService;
 import de.hpi.oryxengine.rest.provider.ListMessageBodyWriter;
 
@@ -73,6 +73,12 @@ public class GsonWorklistItemTest extends AbstractTestNGSpringContextTests {
         writer.close();
     }
 
+    /**
+     * Tests the serialization of the worklist by accessing the REST api.
+     *
+     * @throws URISyntaxException the uRI syntax exception
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Test
   public void testWebServiceSerialization() throws URISyntaxException, IOException {
       MockHttpRequest request = MockHttpRequest.get("/worklist/items/PARTICIPANT--" + thomas.getID().toString());
@@ -88,6 +94,7 @@ public class GsonWorklistItemTest extends AbstractTestNGSpringContextTests {
       
       writer.close();
       
+      // TODO check the output in a more sophisticated way
       assertFalse("".equals(response.getContentAsString()), "The response should not be empty");
   }
 
@@ -100,8 +107,9 @@ public class GsonWorklistItemTest extends AbstractTestNGSpringContextTests {
         IdentityBuilder builder = ServiceFactory.getIdentityService().getIdentityBuilder();
         thomas = builder.createParticipant("Thomas Strunz");
 
-        Task task = new TaskImpl("Kaffee holen", "Bohnenkaffee", null, thomas);
-        Token token = new TokenImpl(null);
+        
+        Task task = new TaskImpl("Kaffee holen", "Bohnenkaffee", mock(AllocationStrategies.class), thomas);
+        Token token = mock(Token.class);
         WorklistItem item = new WorklistItemImpl(task, token);
         thomas.getWorklist().addWorklistItem(item);
     }
