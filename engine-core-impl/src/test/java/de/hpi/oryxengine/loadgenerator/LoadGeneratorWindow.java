@@ -30,16 +30,16 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
     // window components
     /** The process model box. */
     private JComboBox processModelBox;
-    
+
     /** The number of threads. */
     private JFormattedTextField numberOfThreads;
-    
+
     /** The number of instances. */
     private JFormattedTextField numberOfInstances;
-    
+
     /** The start button. */
     private final JButton startButton;
-    
+
     /** The text area. */
     private JTextArea textArea;
 
@@ -50,20 +50,20 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
     // default values to be shown in window
     /** The Constant DEFAULT_THREAD_AMOUNT. */
     private static final int DEFAULT_THREAD_AMOUNT = 10;
-    
+
     /** The Constant DEFAULT_INSTANCE_AMOUNT. */
     private static final int DEFAULT_INSTANCE_AMOUNT = 10000;
-    
+
     /** The processes. */
     private String[] processes;
 
     // variables to be passed on to Load Generator
     /** The threads. */
     private int threads;
-    
+
     /** The instances. */
     private int instances;
-    
+
     /** The process model. */
     private String processModel;
 
@@ -151,10 +151,10 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
          * File dir = new File(PATH_TO_PROCESSES); File[] fileList = dir.listFiles(); System.out.println(fileList);
          * for(File f : fileList) { System.out.println(f.getName()); }
          * 
-         * new approach:
-         * Class.forName(qualifiedSuperClassName).? <---------- it's your turn to find something!!!!
+         * new approach: Class.forName(qualifiedSuperClassName).? <---------- it's your turn to find something!!!!
          */
-        String[] processModels = {"ExampleProcessDeployer", "HeavyComputationProcessDeployer"};
+        String[] processModels = {"ExampleProcessDeployer", "HeavyComputationProcessDeployer",
+            "HumanTaskProcessDeployer" };
         return processModels;
     }
 

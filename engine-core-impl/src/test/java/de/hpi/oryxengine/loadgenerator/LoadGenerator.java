@@ -24,10 +24,10 @@ public class LoadGenerator {
     private static final long MEGABYTE = 1024L * 1024L;
 
     /** The Constant DEFAULT_PROCESS. */
-    private static final String DEFAULT_PROCESS = "HumanTaskProcessDeployer";
+    private static final String DEFAULT_PROCESS = "ExampleProcessDeployer";
     
     /** The Constant DEFAULT_NUMBER_OF_RUNS. */
-    private static final int DEFAULT_NUMBER_OF_RUNS = 3;
+    private static final int DEFAULT_NUMBER_OF_RUNS = 1000000;
     
     /** The Constant DEFAULT_NUMBER_OF_THREADS. */
     private static final int DEFAULT_NUMBER_OF_THREADS = 4;
@@ -63,7 +63,7 @@ public class LoadGenerator {
      * as an example, Human task processes got pseudo humans working on them, we need to stop
      * the pseudo humans.
      */
-    ProcessDeployer deployer;
+    private ProcessDeployer deployer;
 
     /**
      * Instantiates a new load generator.

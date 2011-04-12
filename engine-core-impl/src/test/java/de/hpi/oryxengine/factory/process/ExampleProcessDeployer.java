@@ -25,9 +25,6 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
     /** The node2. */
     private Node node2;
     
-    /** The builder. */
-    private ProcessBuilder builder;
-    
     /** The start node. */
     private Node startNode;
     

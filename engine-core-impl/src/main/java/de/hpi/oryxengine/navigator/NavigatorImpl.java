@@ -1,6 +1,8 @@
 package de.hpi.oryxengine.navigator;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -110,7 +112,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         //this.repository = ServiceFactory.getRepositoryService();
         this.repository = repo;
         this.suspendedTokens = new ArrayList<Token>();
-        this.runningInstances = new ArrayList<ProcessInstance>();
+        this.runningInstances = Collections.synchronizedList(new ArrayList<ProcessInstance>());
         this.finishedInstances = new ArrayList<ProcessInstance>();
     }
 
@@ -125,8 +127,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         for (int i = 0; i < navigatorThreads; i++) {
             addThread();
         }
-
-        logger.debug("AAAHHHHHHH We got those runing instances:" + runningInstances.toString());
         changeState(NavigatorState.RUNNING);
     }
 
@@ -275,14 +275,13 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     @Override
     public void signalEndedProcessInstance(ProcessInstance instance) {
-        logger.debug("a process instance ended, running instances:" + runningInstances.toString());
         boolean instanceContained = runningInstances.remove(instance);
         
         // TODO maybe throw an exception if the instance provided is not in the running instances list?
         if (instanceContained) {
             finishedInstances.add(instance);
         }
-
+        
         if (runningInstances.isEmpty()) {
             changeState(NavigatorState.CURRENTLY_FINISHED);
         }

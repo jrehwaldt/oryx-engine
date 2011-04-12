@@ -36,7 +36,7 @@ extends AbstractNavigatorListener {
     
 
     @Override
-    protected void stateChanged(Navigator nav, NavigatorState navState) {
+    protected synchronized void stateChanged(Navigator nav, NavigatorState navState) {
         if ((navState == NavigatorState.CURRENTLY_FINISHED) && (!called)) {
             hugene.navigatorCurrentlyFinished();
             called = true;

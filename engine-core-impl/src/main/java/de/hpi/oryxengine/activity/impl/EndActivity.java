@@ -37,7 +37,7 @@ public class EndActivity extends AbstractActivity {
             // the last one).
             token.getNavigator().signalEndedProcessInstance(token.getInstance());
         }
-        logger.info("Completed Process", token.getID());
+        //logger.info("Completed Process", token.getID());
         // TODO Add persistence for process context variables, if we have a method for persistence.
 
     }
