@@ -1,7 +1,8 @@
 package de.hpi.oryxengine.factory.process;
 
+import java.util.UUID;
+
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.token.Token;
 
 /**
  * A factory for creating Process objects.
@@ -10,10 +11,12 @@ import de.hpi.oryxengine.process.token.Token;
 public interface ProcessDeployer {
     
     /**
-     * Creates the Token which starts the process Instance (points to the first node).
      *
-     * @return the token
+     * Deploys the process in the repository.
+     *
+     * @return the UUID of the process instance that you deployed, so you can start it in the Navigator.
+     * @throws IllegalStarteventException the illegal startevent exception
      */
-    void deploy() throws IllegalStarteventException;
+    UUID deploy() throws IllegalStarteventException;
 
 }

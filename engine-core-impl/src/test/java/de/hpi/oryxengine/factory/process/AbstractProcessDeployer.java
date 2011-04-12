@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.factory.process;
 
+import java.util.UUID;
+
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
@@ -14,15 +16,15 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
     protected ProcessBuilder builder;
     
     /**
-     * Deploys the heavy computation process.
-     *
-     * @throws IllegalStarteventException the illegal startevent exception
+     * {@inheritDoc}
      */
-    public void deploy() throws IllegalStarteventException {
+    @Override
+    public UUID deploy() throws IllegalStarteventException {
         this.createPseudoHuman();
         this.initializeNodes();
         ProcessDefinition definition = this.builder.buildDefinition();
         ServiceFactory.getDeplyomentService().deploy(definition);
+        return definition.getID();
     }
     
     /**

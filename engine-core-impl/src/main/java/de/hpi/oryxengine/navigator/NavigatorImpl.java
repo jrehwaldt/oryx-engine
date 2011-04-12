@@ -126,7 +126,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
             addThread();
         }
 
-        logger.debug("AAAHHHHHHH We got those runing instances:"+ runningInstances.toString());
+        logger.debug("AAAHHHHHHH We got those runing instances:" + runningInstances.toString());
         changeState(NavigatorState.RUNNING);
     }
 

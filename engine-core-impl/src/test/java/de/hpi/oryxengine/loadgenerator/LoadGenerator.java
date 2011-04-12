@@ -3,12 +3,14 @@ package de.hpi.oryxengine.loadgenerator;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.OryxEngine;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.factory.process.ProcessDeployer;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
@@ -60,6 +62,9 @@ public class LoadGenerator {
 
     /** The class name of the processfactory which creates the process that simulates the load. */
     private String className;
+    
+    /** the UUID of the definition this process is deploying */
+    private UUID definitionId;
 
     /**
      * Instantiates a new load generator.
@@ -118,7 +123,7 @@ public class LoadGenerator {
         ProcessDeployer factory;
         try {
             factory = (ProcessDeployer) Class.forName(className).newInstance();
-            factory.deploy();
+            this.definitionId = factory.deploy();
         } catch (InstantiationException e) {
             logger.debug("Loading of class " + className + " failed , the name seems to be wrong.", e);
             e.printStackTrace();
@@ -168,24 +173,14 @@ public class LoadGenerator {
         // TODO atm first implementation only with the first process in the repository,
         // this should be later changed to a more generic way
 
+        
         for (int i = 0; i < this.numberOfRuns; i++) {
             
-            // Lookup the process Definition and get the start tokens
-            List<Token> tokenList = new ArrayList<Token>();
-            
-            // Start the process with all the start tokens
-            ProcessDefinition definition = ServiceFactory.getRepositoryService().getDefinitions().get(0);
-            ProcessInstance instance = new ProcessInstanceImpl(definition);
-            
-            for (Node startNode : definition.getStartNodes()) {
-                tokenList.add(instance.createToken(startNode, navigator));
+            try {
+                navigator.startProcessInstance(definitionId);
+            } catch (DefinitionNotFoundException e) {
+                logger.error("Exception not found when starting up our many many instances in the Loadgenerator", e);
             }
-            
-            for (Token token : tokenList) {
-                navigator.startArbitraryInstance(token);
-            }
-
-             
         }
 
         this.logger.info("Finished putting instances into our navigator!");
