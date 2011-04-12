@@ -25,12 +25,20 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
  * The Class ConcurrentActivityStateTest.
  */
 public class ConcurrentActivityStateTest {
-    ProcessDefinition definition;
-    Activity startActivity;
-    Node startNode;
+    private ProcessDefinition definition;
+    private Activity startActivity;
+    private Node startNode;
 
+    /**
+     * One definition, two instances, two tokens that work on the same activities. This test ensures that these
+     * activities do not share their state.
+     * 
+     * @throws DalmatinaException
+     *             the dalmatina exception
+     */
     @Test
-    public void f() throws DalmatinaException {
+    public void testConcurrentAcitivityUse()
+    throws DalmatinaException {
 
         // Create two process instances
         NavigatorImplMock nav = new NavigatorImplMock();
@@ -45,13 +53,18 @@ public class ConcurrentActivityStateTest {
 
         // Execute a step with token1 on instance1. We expect, that the activity state changes for instance1, but not
         // for instance2/token2.
-        
+
         token1.executeStep();
         assertEquals(startNode.getActivity().getState(), ActivityState.COMPLETED);
         assertEquals(token2.getCurrentNode().getActivity().getState(), ActivityState.INIT);
 
     }
 
+    /**
+     * Sets the up process.
+     *
+     * @throws IllegalStarteventException the illegal startevent exception
+     */
     @BeforeClass
     public void setUpProcess()
     throws IllegalStarteventException {
