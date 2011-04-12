@@ -3,6 +3,8 @@ package de.hpi.oryxengine.process.definition;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
@@ -44,6 +46,7 @@ public interface ProcessDefinition extends Identifiable {
      * 
      * @return the start triggers
      */
+    @XmlTransient
     Map<StartEvent, Node> getStartTriggers();
 
     /**

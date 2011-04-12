@@ -9,25 +9,31 @@ import de.hpi.oryxengine.resource.AbstractPosition;
 import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
- * 
+ * Worklist for a participant.
  */
 public class ParticipantWorklist extends AbstractWorklist {
 
+//    @XmlIDREF
     private AbstractParticipant relatedParticipant;
-
+    
+    /**
+     * Hidden constructor.
+     */
+    protected ParticipantWorklist() { }
+    
     /**
      * Instantiates a new participant worklist.
      *
      * @param owner the related participant to the work list 
      */
     public ParticipantWorklist(AbstractParticipant owner) {
-
+        
         this.relatedParticipant = owner;
     }
 
     @Override
     public List<WorklistItem> getWorklistItems() {
-
+        
         // Extracting the resources related to this owner
         List<AbstractResource<?>> resourcesInView = new ArrayList<AbstractResource<?>>();
         resourcesInView.addAll(relatedParticipant.getMyRolesImmutable());

@@ -16,6 +16,11 @@ import de.hpi.oryxengine.resource.worklist.WorklistItem;
  * @author Gerardo Navarro Suarez
  */
 public abstract class AbstractParticipant extends AbstractResource<AbstractParticipant> {
+    
+    /**
+     * Hidden jaxb constructor.
+     */
+    protected AbstractParticipant() { }
 
     /**
      * The Default Constructor. Creates an {@link AbstractParticipant} with the given id.
@@ -47,8 +52,6 @@ public abstract class AbstractParticipant extends AbstractResource<AbstractParti
      * @return a Set of all {@link AbstractPosition}s of this Participant
      */
     public abstract Set<AbstractPosition> getMyPositionsImmutable();
-
-    // Participant addMyPosition(Position position);
 
     /**
      * Returns a read-only Set of all Capabilities of this Participant.
