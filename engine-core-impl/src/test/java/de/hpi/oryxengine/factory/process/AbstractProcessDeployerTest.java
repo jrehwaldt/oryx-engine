@@ -9,6 +9,7 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
@@ -23,15 +24,15 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public abstract class AbstractProcessDeployerTest extends AbstractTestNGSpringContextTests {
 
-    private ProcessDeployer deployer;
-    private UUID uuid;
+    protected ProcessDeployer deployer;
+    protected UUID uuid;
 
     /**
      * Sets the up.
      * If something gos wrong here something in the Process deplyoer is REALLY off.
      * @throws IllegalStarteventException 
      */
-    @BeforeClass
+    @BeforeMethod
     abstract public void setUp() throws IllegalStarteventException;
 
     /**

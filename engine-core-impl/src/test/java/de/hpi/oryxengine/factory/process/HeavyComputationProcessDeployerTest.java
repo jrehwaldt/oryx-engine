@@ -13,7 +13,7 @@ import de.hpi.oryxengine.exception.IllegalStarteventException;
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class ExampleProcessDeployerTest extends AbstractProcessDeployerTest {
+public class HeavyComputationProcessDeployerTest extends AbstractProcessDeployerTest {
 
 
     /**
@@ -24,7 +24,7 @@ public class ExampleProcessDeployerTest extends AbstractProcessDeployerTest {
     @BeforeMethod
     public void setUp() throws IllegalStarteventException {
 
-        this.deployer = new ExampleProcessDeployer();
+        this.deployer = new HeavyComputationProcessDeployer();
         this.uuid = deployer.deploy();
     }
 }
