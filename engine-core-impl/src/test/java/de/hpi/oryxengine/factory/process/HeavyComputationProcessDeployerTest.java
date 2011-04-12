@@ -3,7 +3,6 @@ package de.hpi.oryxengine.factory.process;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import de.hpi.oryxengine.exception.IllegalStarteventException;
