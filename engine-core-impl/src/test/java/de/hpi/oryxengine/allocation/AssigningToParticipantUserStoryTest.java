@@ -2,6 +2,10 @@ package de.hpi.oryxengine.allocation;
 
 import static org.testng.Assert.assertEquals;
 
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -28,7 +32,9 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 /**
  * This test assigns a task directly to a participant. 
  */
-public class AssigningToParticipantUserStoryTest {
+@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+public class AssigningToParticipantUserStoryTest  extends AbstractTestNGSpringContextTests {
 
     private Token token = null;
     private AbstractResource<?> jannik = null;
