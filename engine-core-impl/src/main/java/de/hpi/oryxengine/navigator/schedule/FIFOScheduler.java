@@ -52,7 +52,6 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
     }
 
     @Override
-    // TODO right now we dont care about submitAll plugin/Observerwise
     public void submitAll(List<Token> listOfTokens) {
         this.processtokens.addAll(listOfTokens);  
     }
