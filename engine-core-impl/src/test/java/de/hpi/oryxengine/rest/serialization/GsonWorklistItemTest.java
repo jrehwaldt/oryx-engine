@@ -47,8 +47,7 @@ public class GsonWorklistItemTest extends AbstractTestNGSpringContextTests {
     public static final String TMP_PATH = "./target/";
     private Dispatcher dispatcher;
 
-    /** The thomas. */
-    AbstractResource<?> thomas;
+    private AbstractResource<?> thomas;
 
     /**
      * Test worklist serialization.
