@@ -7,6 +7,10 @@ import static org.testng.Assert.assertTrue;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -23,7 +27,9 @@ import de.hpi.oryxengine.repository.RepositorySetup;
 /**
  * The Class FIFOSchedulerTest. tests our awesome FIFO Scheduler.
  */
-public class FIFOSchedulerTest {
+@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+public class FIFOSchedulerTest extends AbstractTestNGSpringContextTests {
 
     /** The scheduler. */
     private FIFOScheduler scheduler = null;
