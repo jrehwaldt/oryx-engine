@@ -185,6 +185,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     public void startArbitraryInstance(Token token) {
         
         this.scheduler.submit(token);
+        
     }
 
 
