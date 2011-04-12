@@ -1,25 +1,18 @@
 package de.hpi.oryxengine.loadgenerator;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.OryxEngine;
-import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.factory.process.ProcessDeployer;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.navigator.NoRunningInstancesLoadgeneratorCaller;
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.token.Token;
+
 
 /**
  * The Class LoadGenerator. Is used to generate some load and profile it (more or less) Maybe it should be more generic,
@@ -34,7 +27,7 @@ public class LoadGenerator {
     private static final String DEFAULT_PROCESS = "HumanTaskProcessDeployer";
     
     /** The Constant DEFAULT_NUMBER_OF_RUNS. */
-    private static final int DEFAULT_NUMBER_OF_RUNS = 5;
+    private static final int DEFAULT_NUMBER_OF_RUNS = 3;
     
     /** The Constant DEFAULT_NUMBER_OF_THREADS. */
     private static final int DEFAULT_NUMBER_OF_THREADS = 4;
@@ -54,7 +47,6 @@ public class LoadGenerator {
     /** The start time. */
     private long startTime;
 
-    /** The number of threads. */
     private int numberOfThreads;
 
     /** The navigator. */
@@ -63,8 +55,15 @@ public class LoadGenerator {
     /** The class name of the processfactory which creates the process that simulates the load. */
     private String className;
     
-    /** the UUID of the definition this process is deploying */
+    /** the UUID of the definition this process is deploying. */
     private UUID definitionId;
+    
+    /**
+     *  Deploys the selected process and is then further used to cleanup
+     * as an example, Human task processes got pseudo humans working on them, we need to stop
+     * the pseudo humans.
+     */
+    ProcessDeployer deployer;
 
     /**
      * Instantiates a new load generator.
@@ -120,10 +119,9 @@ public class LoadGenerator {
      */
     public void deployProcessDefinition() {
 
-        ProcessDeployer factory;
         try {
-            factory = (ProcessDeployer) Class.forName(className).newInstance();
-            this.definitionId = factory.deploy();
+            this.deployer = (ProcessDeployer) Class.forName(className).newInstance();
+            this.definitionId = this.deployer.deploy();
         } catch (InstantiationException e) {
             logger.debug("Loading of class " + className + " failed , the name seems to be wrong.", e);
             e.printStackTrace();
@@ -167,13 +165,8 @@ public class LoadGenerator {
         navigator = new NavigatorImpl(numberOfThreads);
         NoRunningInstancesLoadgeneratorCaller listener = new NoRunningInstancesLoadgeneratorCaller(this);
         navigator.registerPlugin(listener);
-
         
-        
-        // TODO atm first implementation only with the first process in the repository,
-        // this should be later changed to a more generic way
-
-        
+        // start the number of process Instances with our process definition
         for (int i = 0; i < this.numberOfRuns; i++) {
             
             try {
@@ -195,8 +188,6 @@ public class LoadGenerator {
      * When the scheduler queue is empty, the Load Generator should stop measuring the time for process instances'
      * execution time.
      */
-    
-    
     public void navigatorCurrentlyFinished() {
 
         long stopTime = System.currentTimeMillis();
@@ -206,6 +197,9 @@ public class LoadGenerator {
         this.runtime.gc();
         // Calculate the used memory (in bytes)
         this.logMemoryUsed("Used memory in megabytes (after gc run): ");
+        
+        this.navigator.stop();
+        this.deployer.stop();
 
     }
 

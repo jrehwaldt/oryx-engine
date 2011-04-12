@@ -39,5 +39,9 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
     public void createPseudoHuman() {
 
     }
-
+    
+    @Override
+    public void stop() {
+        // do nothing
+    }
 }

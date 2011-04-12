@@ -27,6 +27,7 @@ import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.resource.AbstractParticipant;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
@@ -51,7 +52,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     public static final String PARTICIPANT_KEY = "Participant";
     
     /** an array with the waiting times of the different pseudo humans. */ 
-    public static final int[] WAITING_TIME = {1000, 1000, 3000};
+    public static final int[] WAITING_TIME = {1000, 1000, 1000};
     
     private Scheduler scheduler;
     
@@ -61,8 +62,8 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     /** The node2. */
     private Node node2;
     
-//    /** The builder. */
-//    private ProcessBuilder builder;
+    /** The node3. */
+    private Node node3;
     
     /** The start node. */
     private Node startNode;
@@ -94,23 +95,31 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         param.makeStartNode(false);
         
         // Create the task
-        task = TaskFactory.createParticipantTask((AbstractParticipant) identityService.getParticipants().toArray()[0]);
+        task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[0]);
         Activity activity  = new HumanTaskActivity(task);
         param.setActivity(activity);
         
         node1 = builder.createNode(param);
         
-        // Create the next task
-        task = TaskFactory.createParticipantTask((AbstractParticipant) identityService.getParticipants().toArray()[1]);
+        // Create the task
+        task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[1]);
         Activity activity2  = new HumanTaskActivity(task);
         param.setActivity(activity2);
         
         node2 = builder.createNode(param);
-        builder.createTransition(startNode, node1).createTransition(node1, node2);
+        
+        // Create the task
+        task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[2]);
+        Activity activity3  = new HumanTaskActivity(task);
+        param.setActivity(activity3);
+        
+        node3 = builder.createNode(param);
+        
+        builder.createTransition(startNode, node1).createTransition(node1, node2).createTransition(node2, node3);
         
         param.setActivity(new EndActivity());
         Node endNode = builder.createNode(param);
-        builder.createTransition(node2, endNode);
+        builder.createTransition(node3, endNode);
 
     }
     
@@ -166,6 +175,15 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
             
         }
         
+    }
+    
+    @Override
+    public void stop() {
+        try {
+            this.scheduler.shutdown();
+        } catch (SchedulerException e) {
+            logger.error("Error when shutting down the scheduler of the Human process", e);
+        }
     }
     
     /**

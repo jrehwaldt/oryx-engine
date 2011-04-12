@@ -34,20 +34,10 @@ public final class TaskFactory {
      */
     public static Task createJannikServesGerardoTask() {
         
-        Pattern pushPattern = new DirectPushPattern();
-        Pattern pullPattern = new SimplePullPattern();
-
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-
         // creates the participant Jannik
         AbstractResource<?> resource = ParticipantFactory.createJannik();
-
-        Task task = new TaskImpl(SIMPLE_TASK_SUBJECT,
-                                 SIMPLE_TASK_DESCRIPTION,
-                                 allocationStrategies,
-                                 resource);
-
-        return task;
+        
+        return createParticipantTask(resource);
     }
     
     /**
@@ -66,22 +56,20 @@ public final class TaskFactory {
     /**
      * Creates a new Task object for a given Participant.
      *
-     * @param p the participant
+     * @param r the resource
      * @return the task
      */
-    public static Task createParticipantTask(AbstractParticipant p) {
+    public static Task createParticipantTask(AbstractResource<?> r) {
         
         Pattern pushPattern = new DirectPushPattern();
         Pattern pullPattern = new SimplePullPattern();
 
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
 
-        AbstractResource<?> resource = p;
-
         Task task = new TaskImpl(SIMPLE_TASK_SUBJECT,
                                  SIMPLE_TASK_DESCRIPTION,
                                  allocationStrategies,
-                                 resource);
+                                 r);
 
         return task;
     }

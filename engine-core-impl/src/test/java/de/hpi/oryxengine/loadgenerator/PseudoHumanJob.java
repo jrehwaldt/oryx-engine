@@ -39,7 +39,7 @@ public class PseudoHumanJob implements Job {
             WorklistItem worklistItem = itemsInWork.get(0);
             worklistService.completeWorklistItemBy(worklistItem, participant);
         }
-
+        
         // If there are still items left we can work on we claim them and then start working on them
         List<WorklistItem> itemsToWorkOn = worklistService.getWorklistItems(participant);
         if (!itemsToWorkOn.isEmpty()) {
