@@ -15,8 +15,8 @@ public class TaskImpl implements Task {
 
     private String description;
 
-    private AllocationStrategies allocationStrategies;
-    private Set<AbstractResource<?>> assignedResources;
+    private transient AllocationStrategies allocationStrategies;
+    private transient Set<AbstractResource<?>> assignedResources;
 
     /**
      * Default Constructor.
