@@ -19,7 +19,7 @@ public class WorklistItemImpl implements WorklistItem {
 
     private WorklistItemState status;
     private Task task;
-    private Token correspondingToken;
+    private transient Token correspondingToken;
     private UUID id;
     
     /**
