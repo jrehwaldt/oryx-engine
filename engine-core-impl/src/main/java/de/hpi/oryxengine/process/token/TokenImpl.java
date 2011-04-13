@@ -22,14 +22,14 @@ public class TokenImpl implements Token {
     private UUID id;
 
     private Node currentNode;
+    
+    private ActivityState currentActivityState = null;
 
     private ProcessInstance instance;
 
     private Transition lastTakenTransition;
 
     private Navigator navigator;
-
-    private boolean suspended;
 
     private List<Token> lazySuspendedProcessingTokens;
 
@@ -62,6 +62,7 @@ public class TokenImpl implements Token {
         this.instance = instance;
         this.navigator = navigator;
         this.id = UUID.randomUUID();
+        this.currentActivityState = ActivityState.INIT;
     }
 
     /**
@@ -110,12 +111,13 @@ public class TokenImpl implements Token {
     throws DalmatinaException {
 
         lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
+        this.currentActivityState = ActivityState.ACTIVE;
         getCurrentNode().getActivity().execute(this);
-
         // Aborting the further execution of the process by the token, because it was suspended
-        if (suspended) {
+        if (this.currentActivityState == ActivityState.SUSPENDED) {
             return;
         }
+        this.currentActivityState = ActivityState.COMPLETED;
         // TODO Add Activity completed here
         List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
@@ -142,6 +144,7 @@ public class TokenImpl implements Token {
             Node node = transition.getDestination();
             this.setCurrentNode(node);
             this.lastTakenTransition = transition;
+            this.currentActivityState = ActivityState.INIT;
             tokensToNavigate.add(this);
         } else {
             for (Transition transition : transitionList) {
@@ -210,7 +213,7 @@ public class TokenImpl implements Token {
     @Override
     public void suspend() {
 
-        suspended = true;
+        this.currentActivityState = ActivityState.SUSPENDED;
         navigator.addSuspendToken(this);
     }
 
@@ -225,6 +228,7 @@ public class TokenImpl implements Token {
         // This was done to not force the developer to implement the signal method in every activity.
         DeferredActivity activity = (DeferredActivity) getCurrentNode().getActivity();
         activity.signal(this);
+        this.currentActivityState = ActivityState.COMPLETED;
         List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
         for (Token token : splittedTokens) {
@@ -258,11 +262,17 @@ public class TokenImpl implements Token {
     public void cancelExecution() {
 
         Activity currentActivity = this.getCurrentNode().getActivity();
-        if (currentActivity.getState() == ActivityState.ACTIVE) {
+        if (this.currentActivityState == ActivityState.ACTIVE) {
             currentActivity.cancel();
         }
         instance.removeToken(this);
 
+    }
+
+    @Override
+    public ActivityState getCurrentActivityState() {
+
+        return currentActivityState;
     }
 
 }

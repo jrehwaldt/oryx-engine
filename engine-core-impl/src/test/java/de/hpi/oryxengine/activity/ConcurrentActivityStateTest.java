@@ -59,15 +59,18 @@ public class ConcurrentActivityStateTest {
         ProcessInstance instance2 = new ProcessInstanceImpl(definition);
         Token token2 = instance2.createToken(startNode, nav);
 
-        assertEquals(token1.getCurrentNode().getActivity().getState(), ActivityState.INIT);
-        assertEquals(token2.getCurrentNode().getActivity().getState(), ActivityState.INIT);
+        assertEquals(token1.getCurrentActivityState(), ActivityState.INIT);
+        assertEquals(token2.getCurrentActivityState(), ActivityState.INIT);
 
         // Execute a step with token1 on instance1. We expect, that the activity state changes for instance1, but not
         // for instance2/token2.
 
         token1.executeStep();
-        assertEquals(startNode.getActivity().getState(), ActivityState.COMPLETED);
-        assertEquals(token2.getCurrentNode().getActivity().getState(), ActivityState.INIT);
+        
+        // TODO implement a method to view the states of formerly executed activities?
+        // otherwise the states are hard to verify
+        assertEquals(token1.getCurrentActivityState(), ActivityState.COMPLETED);
+        assertEquals(token2.getCurrentActivityState(), ActivityState.INIT);
 
     }
 

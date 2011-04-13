@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.activity;
 
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -12,6 +13,8 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
+import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -30,11 +33,11 @@ public class AutomatedDummyActivityTest {
     /** A dummy string. */
     private String s = "I'm dumb";
 
-    /** The dummy activity. */
     private AutomatedDummyActivity a = null;
 
-    /** The process token. */
     private Token token;
+    
+    private Navigator nav;
 
     /**
      * Set up.
@@ -48,7 +51,8 @@ public class AutomatedDummyActivityTest {
         tmp = System.out;
         System.setOut(new PrintStream(out));
         a = new AutomatedDummyActivity(s);
-        token = new TokenImpl(new NodeImpl(a));
+        nav = mock(Navigator.class);
+        token = new TokenImpl(new NodeImpl(a), null, nav);
     }
 
     /**
@@ -81,12 +85,14 @@ public class AutomatedDummyActivityTest {
     /**
      * Test state after execution.
      * After execution the activity should be in state TERMINTAED
+     * @throws DalmatinaException 
      */
     @Test
-    public void testStateAfterExecution() {
+    public void testStateAfterExecution() throws DalmatinaException {
 
-        a.execute(token);
-        assertEquals(a.getState(), ActivityState.COMPLETED, "It should have the state Completed");
+        //a.execute(token);
+        token.executeStep();
+        assertEquals(token.getCurrentActivityState(), ActivityState.COMPLETED, "It should have the state Completed");
     }
 
     /**

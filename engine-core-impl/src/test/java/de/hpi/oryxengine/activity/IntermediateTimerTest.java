@@ -85,7 +85,7 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
       token.executeStep();
       token.executeStep();
       Thread.sleep(SHORT_WAITING_TIME_TEST);
-      assertEquals(token.getCurrentNode().getActivity().getState(), ActivityState.ACTIVE);
+      assertEquals(token.getCurrentActivityState(), ActivityState.SUSPENDED);
   }
   
   
