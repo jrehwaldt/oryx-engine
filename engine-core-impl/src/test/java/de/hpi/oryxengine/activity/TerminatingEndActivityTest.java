@@ -45,9 +45,10 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests {
-    private HumanTaskActivity humanTask = null;
+    private Task task = null;
     private AbstractResource<?> resource = null;
     private Node splitNode, humanTaskNode, terminatingEndNode;
+    private ProcessInstance instance;
 
     /**
      * Test cancelling of human tasks. A simple fork is created that leads to a human task activity and a terminating
@@ -62,7 +63,6 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
     throws DalmatinaException {
 
         NavigatorImplMock nav = new NavigatorImplMock();
-        ProcessInstance instance = new ProcessInstanceImpl(null);
         Token token = instance.createToken(splitNode, nav);
 
         // set this instance to running by hand
@@ -120,16 +120,14 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
 
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
 
-        Task task = new TaskImpl(subject, description, allocationStrategies, participant);
-
-        humanTask = new HumanTaskActivity(task);
+        task = new TaskImpl(subject, description, allocationStrategies, participant);
     }
 
     /**
      * Sets the up nodes.
      */
     @BeforeClass
-    public void setUpNodes() {
+    public void setUpProcessInstance() {
 
         ProcessBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl();
@@ -139,6 +137,7 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
         splitNode = builder.createNode(param);
 
 //        param.setActivity(humanTask); TODO do something with the parameter of humanTask
+        
         param.setActivityClass(HumanTaskActivity.class);
         humanTaskNode = builder.createNode(param);
 
@@ -146,5 +145,12 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
         terminatingEndNode = builder.createNode(param);
 
         builder.createTransition(splitNode, humanTaskNode).createTransition(splitNode, terminatingEndNode);
+        
+        Class<?>[] constructorSig = {Task.class};
+        Object[] params = {task};
+        
+        instance = new ProcessInstanceImpl(null);
+        instance.getContext().setActivityConstructorClasses(humanTaskNode.getID(), constructorSig);
+        instance.getContext().setActivityParameters(humanTaskNode.getID(), params);
     }
 }
