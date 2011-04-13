@@ -7,8 +7,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.OryxEngine;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.bootsstrap.OryxEngine;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.factory.process.ProcessDeployer;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
