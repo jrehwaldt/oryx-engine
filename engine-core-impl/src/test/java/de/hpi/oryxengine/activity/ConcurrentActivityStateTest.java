@@ -90,12 +90,10 @@ public class ConcurrentActivityStateTest {
         param.setActivity(startActivity);
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
-        param.makeStartNode(true);
 
-        startNode = builder.createNode(param);
+        startNode = builder.createStartNode(param);
 
         param.setActivity(new NullActivity());
-        param.makeStartNode(false);
         Node endNode = builder.createNode(param);
 
         definition = builder.createTransition(startNode, endNode).buildDefinition();

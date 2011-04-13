@@ -115,10 +115,8 @@ public class EndActivityTest {
         ProcessBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl(new NullActivity(), new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        param.makeStartNode(true);
-        startNode = builder.createNode(param);
+        startNode = builder.createStartNode(param);
 
-        param.makeStartNode(false);
         param.setActivity(new AddNumbersAndStoreActivity("result1", 1, 1));
         Node forkNode1 = builder.createNode(param);
         param.setActivity(new AddNumbersAndStoreActivity("result2", 2, 2));

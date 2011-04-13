@@ -36,6 +36,15 @@ public interface ProcessBuilder {
      */
     @Nonnull
     Node createNode(NodeParameter param);
+    
+    /**
+     * Creates a new start node for the process
+     *
+     * @param param the param
+     * @return the node
+     */
+    @Nonnull
+    Node createStartNode(NodeParameter param);
 
     // /**
     // * Creates a new start node with the given parameters.

@@ -64,9 +64,14 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     public Node createNode(NodeParameter param) {
 
         Node node = new NodeImpl(param.getActivity(), param.getIncomingBehaviour(), param.getOutgoingBehaviour());
-        if (param.isStartNode()) {
-            startNodes.add(node);
-        }
+        return node;
+    }
+
+    @Override
+    public Node createStartNode(NodeParameter param) {
+
+        Node node = createNode(param);
+        this.startNodes.add(node);
         return node;
     }
 

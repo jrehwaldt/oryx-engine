@@ -262,7 +262,7 @@ public class TokenImpl implements Token {
     public void cancelExecution() {
 
         Activity currentActivity = this.getCurrentNode().getActivity();
-        if (this.currentActivityState == ActivityState.ACTIVE) {
+        if (this.currentActivityState == ActivityState.ACTIVE || this.currentActivityState == ActivityState.SUSPENDED) {
             currentActivity.cancel();
         }
         instance.removeToken(this);

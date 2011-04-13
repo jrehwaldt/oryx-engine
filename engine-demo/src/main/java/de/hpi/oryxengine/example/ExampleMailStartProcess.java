@@ -61,7 +61,6 @@ public final class ExampleMailStartProcess {
 		param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
 		param.setIncomingBehaviour(new SimpleJoinBehaviour());
 		param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
-		param.makeStartNode(true);
 
 		// Create a mail adapater event here. Could create a builder for this
 		// later.
@@ -83,7 +82,7 @@ public final class ExampleMailStartProcess {
 		StartEvent event = new StartEventImpl(EventTypes.Mail, config,
 				conditions, processID);
 
-		Node node1 = builder.createNode(param);
+		Node node1 = builder.createStartNode(param);
 		try {
 			builder.createStartTrigger(event, node1);
 		} catch (DalmatinaException e) {
@@ -91,7 +90,6 @@ public final class ExampleMailStartProcess {
 		}
 
 		param.setActivity(new PrintingVariableActivity("result"));
-		param.makeStartNode(false);
 
 		Node node2 = builder.createNode(param);
 

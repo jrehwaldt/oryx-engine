@@ -90,9 +90,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     public void initializeNodes() {
         NodeParameter param = new NodeParameterImpl(new NullActivity(), new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        param.makeStartNode(true);
-        startNode = builder.createNode(param);
-        param.makeStartNode(false);
+        startNode = builder.createStartNode(param);
         
         // Create the task
         task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[0]);

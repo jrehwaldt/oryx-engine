@@ -53,18 +53,4 @@ public interface NodeParameter {
      */
     OutgoingBehaviour getOutgoingBehaviour();
     
-    /**
-     * Make this a start node.
-     *
-     * @param b the b
-     */
-    void makeStartNode(boolean b);
-    
-    /**
-     * Checks if is start node.
-     *
-     * @return true, if is start node
-     */
-    boolean isStartNode();
-    
 }

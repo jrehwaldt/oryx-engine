@@ -45,8 +45,7 @@ public class DeployerWebService {
         param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
-        param.makeStartNode(true);
-        Node node1 = builder.createNode(param);
+        Node node1 = builder.createStartNode(param);
 
         param.setActivity(new AddNumbersAndStoreActivity("result", 2, 2));
         Node node2 = builder.createNode(param);

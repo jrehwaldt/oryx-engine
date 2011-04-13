@@ -43,9 +43,7 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
     public void initializeNodes() {
         NodeParameter param = new NodeParameterImpl(new NullActivity(), new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        param.makeStartNode(true);
-        startNode = builder.createNode(param);
-        param.makeStartNode(false);
+        startNode = builder.createStartNode(param);
 
         Activity activity  = new AddNumbersAndStoreActivity("result", 1, 1);
         param.setActivity(activity);

@@ -50,11 +50,9 @@ public final class RepositorySetup {
         ProcessBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl(new AddNumbersAndStoreActivity("result", 1, 1),
             new SimpleJoinBehaviour(), new TakeAllSplitBehaviour()); 
-        param.makeStartNode(true);
 
-        Node node1 = builder.createNode(param);
+        Node node1 = builder.createStartNode(param);
         
-        param.makeStartNode(false);
         Node node2 = builder.createNode(param);
         builder.createTransition(node1, node2).setDescription("").setID(FIRST_EXAMPLE_PROCESS_ID);
         return builder.buildDefinition();

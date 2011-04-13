@@ -13,7 +13,6 @@ public class NodeParameterImpl implements NodeParameter {
     private Activity activity;
     private OutgoingBehaviour outgoing;
     private IncomingBehaviour incoming;
-    private boolean startNode;
 
     /**
      * Instantiates a new node parameter impl.
@@ -30,7 +29,6 @@ public class NodeParameterImpl implements NodeParameter {
         this.activity = activity;
         this.incoming = incoming;
         this.outgoing = outgoing;
-        this.startNode = false;
     }
 
     /**
@@ -77,19 +75,6 @@ public class NodeParameterImpl implements NodeParameter {
     public OutgoingBehaviour getOutgoingBehaviour() {
 
         return outgoing;
-    }
-
-    @Override
-    public void makeStartNode(boolean b) {
-
-        startNode = b;
-        
-    }
-
-    @Override
-    public boolean isStartNode() {
-
-        return startNode;
     }
 
 }
