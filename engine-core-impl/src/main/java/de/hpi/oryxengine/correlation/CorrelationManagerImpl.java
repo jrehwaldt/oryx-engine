@@ -40,6 +40,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
 
     private Navigator navigator;
     private TimingManagerImpl timer;
+
     private ErrorAdapter errorAdapter;
     // there may be multiple references to an Adapter configuration (i.e. a mail account)
     // and if these all use the same Configuration Object we can avoid duplicated adapters
@@ -132,16 +133,18 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     }
 
     @Override
-    public void registerIntermediateEvent(@Nonnull IntermediateEvent event) {
-
+    public String registerIntermediateEvent(@Nonnull IntermediateEvent event) {
+        String jobCompleteName = null;
         logger.debug("Registering intermediate event {}", event);
         try {
-            this.timer.registerNonRecurringJob(
+            jobCompleteName = this.timer.registerNonRecurringJob(
                 (TimedConfiguration) event.getEventConfiguration(),
                 event.getToken());
         } catch (AdapterSchedulingException e) {
             e.printStackTrace();
         }
+        
+        return jobCompleteName;
     }
 
     /**
@@ -238,5 +241,11 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     public Collection<InboundAdapter> getInboundAdapters() {
 
         return this.inboundAdapter.values();
+    }
+    
+    @Override
+    public TimingManagerImpl getTimer() {
+        
+        return timer;
     }
 }
