@@ -13,6 +13,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.IntermediateTimer;
 import de.hpi.oryxengine.correlation.timing.TimingManager;
@@ -181,7 +182,7 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
       
       //Assert that the timer job is scheduled
       jobGroups = timer.countScheduledJobGroups();
-      assertFalse(jobGroups == 0);
+      assertEquals(jobGroups, 1);
       
       //Cancel the process, the cancellation should lead to the deletion of all started jobs
       token.cancelExecution();
@@ -196,8 +197,8 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
   @AfterMethod
   public void afterMethod() {
       
-      //Stop the job
-      token.cancelExecution();
+      //Shutdown the scheduler to free resources (due to jenkins problems with old registered events)
+      ServiceFactory.getCorrelationService().getTimer().shutdownScheduler();
       
       node = null;
       node2 = null;

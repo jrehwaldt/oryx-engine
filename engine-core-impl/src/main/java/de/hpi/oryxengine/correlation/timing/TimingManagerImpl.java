@@ -174,4 +174,15 @@ implements TimingManager {
         return jobs;
     }
 
+    @Override
+    public void shutdownScheduler() {
+
+        try {
+            this.scheduler.shutdown();
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
 }

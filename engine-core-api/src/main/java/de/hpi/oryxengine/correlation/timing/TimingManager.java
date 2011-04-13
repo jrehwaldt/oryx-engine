@@ -45,4 +45,9 @@ public interface TimingManager {
      * @return the number of scheduled groups
      */
     int countScheduledJobGroups();
+    
+    /**
+     * Restart the scheduler with cleaned resources.
+     */
+    void shutdownScheduler();
 }
