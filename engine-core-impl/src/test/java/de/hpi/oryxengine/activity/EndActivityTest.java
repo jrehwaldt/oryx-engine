@@ -134,6 +134,18 @@ public class EndActivityTest {
         ProcessDefinition definition = builder.buildDefinition();
 
         instance = new ProcessInstanceImpl(definition);
+        
+        // add constructor signature and parameter information
+        Class<?>[] constructorSig = {String.class, int[].class};        
+        int[] ints = {1, 1};
+        Object[] params = {"result1", ints};
+        
+        instance.getContext().setActivityConstructorClasses(forkNode1.getID(), constructorSig);
+        instance.getContext().setActivityParameters(forkNode1.getID(), params);
+        
+        params[0] = "result2";
+        instance.getContext().setActivityConstructorClasses(forkNode2.getID(), constructorSig);
+        instance.getContext().setActivityParameters(forkNode2.getID(), params);
     }
 
 }

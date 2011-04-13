@@ -36,11 +36,7 @@ public class AddNumbersAndStoreActivityTest {
         node = factory.create();
         ProcessInstance instance = new ProcessInstanceImpl(null);
         p = new TokenImpl(node, instance);
-        Class<?>[] constructorSig = {String.class, int[].class};
-        instance.getContext().setActivityConstructorClasses(node.getID(), constructorSig);
-        int[] ints = {1, 1};
-        Object[] params = {"result", ints};
-        instance.getContext().setActivityParameters(node.getID(), params);
+        factory.registerActivityParameters(instance, node);
 
     }
 

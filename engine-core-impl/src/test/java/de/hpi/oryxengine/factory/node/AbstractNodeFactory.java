@@ -73,5 +73,13 @@ abstract class AbstractNodeFactory {
         this.setBehaviour();
         return new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);
     }
+    
+    /**
+     * Register parameters and the constructor to call for the assigned activity class on the given ProcessInstance.
+     *
+     * @param instance the instance
+     * @param node the node
+     */
+    public abstract void registerActivityParameters(ProcessInstance instance, Node node);
 
 }

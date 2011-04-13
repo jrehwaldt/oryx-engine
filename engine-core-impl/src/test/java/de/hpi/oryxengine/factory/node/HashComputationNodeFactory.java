@@ -1,6 +1,8 @@
 package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.activity.impl.HashComputationActivity;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.structure.Node;
 
 /**
  * A factory for creating HashComputationNode objects.
