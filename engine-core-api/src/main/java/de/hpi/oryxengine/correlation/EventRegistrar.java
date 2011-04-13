@@ -22,5 +22,5 @@ public interface EventRegistrar {
      * 
      * @param event the intermediate event
      */
-    void registerIntermediateEvent(@Nonnull IntermediateEvent event);
+    String registerIntermediateEvent(@Nonnull IntermediateEvent event);
 }

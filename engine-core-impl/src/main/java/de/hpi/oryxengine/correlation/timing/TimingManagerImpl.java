@@ -128,9 +128,10 @@ implements TimingManager {
 
     /**
      * {@inheritDoc}
+     * @return 
      */
     @Override
-    public void registerNonRecurringJob(TimedConfiguration configuration, Token token)
+    public String registerNonRecurringJob(TimedConfiguration configuration, Token token)
     throws AdapterSchedulingException {
         
         JobDetail jobDetail = new JobDetail(
@@ -148,6 +149,29 @@ implements TimingManager {
         registerJob(jobDetail,
            trigger);
         
+        return jobDetail.getFullName();
+        
+    }
+
+    @Override
+    public void unregisterJob(String jobCompleteName) {
+        String[] tmp = jobCompleteName.split("\\.");
+        try {
+            this.scheduler.deleteJob(tmp[1], tmp[0]);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    public int countScheduledJobGroups() {
+        int jobs = 0;
+        try {
+            jobs = this.scheduler.getJobGroupNames().length;
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+        return jobs;
     }
 
 }
