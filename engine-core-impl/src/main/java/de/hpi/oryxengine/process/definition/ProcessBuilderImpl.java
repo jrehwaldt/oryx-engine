@@ -30,8 +30,6 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     private String description;
 
     private Map<StartEvent, Node> temporaryStartTriggers;
-    
-    private Node startNode;
 
     /**
      * Instantiates some temporary datastructures.
@@ -63,7 +61,7 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     @Override
     public Node createNode(NodeParameter param) {
 
-        Node node = new NodeImpl(param.getActivity(), param.getIncomingBehaviour(), param.getOutgoingBehaviour());
+        Node node = new NodeImpl(param.getActivityClass(), param.getIncomingBehaviour(), param.getOutgoingBehaviour());
         return node;
     }
 

@@ -10,23 +10,20 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
  * @author thorben
  */
 public class NodeParameterImpl implements NodeParameter {
-    private Activity activity;
+    private Class<? extends Activity> clazz;
     private OutgoingBehaviour outgoing;
     private IncomingBehaviour incoming;
 
     /**
      * Instantiates a new node parameter impl.
-     * 
-     * @param activity
-     *            the activity
-     * @param incoming
-     *            the incoming
-     * @param outgoing
-     *            the outgoing
+     *
+     * @param clazz the clazz
+     * @param incoming the incoming
+     * @param outgoing the outgoing
      */
-    public NodeParameterImpl(Activity activity, IncomingBehaviour incoming, OutgoingBehaviour outgoing) {
+    public NodeParameterImpl(Class<? extends Activity> clazz, IncomingBehaviour incoming, OutgoingBehaviour outgoing) {
 
-        this.activity = activity;
+        this.clazz = clazz;
         this.incoming = incoming;
         this.outgoing = outgoing;
     }
@@ -39,16 +36,16 @@ public class NodeParameterImpl implements NodeParameter {
     }
 
     @Override
-    public void setActivity(Activity a) {
+    public void setActivityClass(Class<? extends Activity> clazz) {
 
-        this.activity = a;
+        this.clazz = clazz;
 
     }
 
     @Override
-    public Activity getActivity() {
+    public Class<? extends Activity> getActivityClass() {
 
-        return activity;
+        return clazz;
     }
 
     @Override

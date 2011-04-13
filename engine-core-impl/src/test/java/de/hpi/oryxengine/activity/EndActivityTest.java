@@ -113,18 +113,19 @@ public class EndActivityTest {
     throws IllegalStarteventException {
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(new NullActivity(), new SimpleJoinBehaviour(),
+        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
         startNode = builder.createStartNode(param);
 
-        param.setActivity(new AddNumbersAndStoreActivity("result1", 1, 1));
+        param.setActivityClass(AddNumbersAndStoreActivity.class);
+//        param.setActivity(new AddNumbersAndStoreActivity("result1", 1, 1));
         Node forkNode1 = builder.createNode(param);
-        param.setActivity(new AddNumbersAndStoreActivity("result2", 2, 2));
+//        param.setActivity(new AddNumbersAndStoreActivity("result2", 2, 2));
         Node forkNode2 = builder.createNode(param);
 
         builder.createTransition(startNode, forkNode1).createTransition(startNode, forkNode2);
 
-        param.setActivity(new EndActivity());
+        param.setActivityClass(EndActivity.class);
         Node endNode1 = builder.createNode(param);
         Node endNode2 = builder.createNode(param);
 

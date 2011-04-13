@@ -8,6 +8,7 @@ import static org.testng.Assert.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -50,20 +51,21 @@ public class AutomatedDummyActivityTest {
 
         tmp = System.out;
         System.setOut(new PrintStream(out));
-        a = new AutomatedDummyActivity(s);
+//        a = new AutomatedDummyActivity(s);
+        // TODO parameters
         nav = mock(Navigator.class);
-        token = new TokenImpl(new NodeImpl(a), null, nav);
+        token = new TokenImpl(new NodeImpl(AutomatedDummyActivity.class), null, nav);
     }
 
-    /**
-     * Test activity initialization.
-     * The activity should not be null if it was instantiated correctly.
-     */
-    @Test
-    public void testActivityInitialization() {
-
-        assertNotNull(a, "It should not be null since it should be instantiated correctly");
-    }
+//    /**
+//     * Test activity initialization.
+//     * The activity should not be null if it was instantiated correctly.
+//     */
+//    @Test
+//    public void testActivityInitialization() {
+//
+//        assertNotNull(a, "It should not be null since it should be instantiated correctly");
+//    }
 
     // @Test
     // public void testStateAfterActivityInitalization(){
@@ -74,11 +76,12 @@ public class AutomatedDummyActivityTest {
     /**
      * Test execute output.
      * If the activity is executed it should print out the given String.
+     * @throws DalmatinaException 
      */
     @Test
-    public void testExecuteOutput() {
+    public void testExecuteOutput() throws DalmatinaException {
 
-        a.execute(token);
+        token.executeStep();
         assertTrue(out.toString().indexOf(s) != -1, "It should print out the given string when executed");
     }
 
@@ -98,7 +101,7 @@ public class AutomatedDummyActivityTest {
     /**
      * Tear down.
      */
-    @AfterTest
+    @AfterClass
     public void tearDown() {
 
         System.setOut(tmp);

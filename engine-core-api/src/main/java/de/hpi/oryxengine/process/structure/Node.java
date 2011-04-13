@@ -10,48 +10,49 @@ import de.hpi.oryxengine.util.Identifiable;
 /**
  * The Interface for Nodes. Nodes are hubs in the graph representation of a process.
  */
-public interface Node
-extends Identifiable {
+public interface Node extends Identifiable {
 
     /**
      * Gets the activity. The activity is the behavior of a node.
-     * 
-     * @return the activity
+     *
+     * @return the activity's class
      */
-    Activity getActivity();
+    Class<? extends Activity> getActivityClass();
 
     /**
-     * Sets the activity. The activity is the behavior of a node.
-     * 
-     * @param activity
-     *            the new activity
+     * Sets the class of the activity that is instantiated when a token reaches the node. The activity is the behavior
+     * of a node.
+     *
+     * @param clazz the class of the activity
      */
-    void setActivity(Activity activity);
+    void  setActivityClass(Class<? extends Activity> clazz);
 
     /**
      * Sets the outgoing behaviour.
-     *
-     * @param outgoingBehaviour the new outgoing behaviour
+     * 
+     * @param outgoingBehaviour
+     *            the new outgoing behaviour
      */
     void setOutgoingBehaviour(OutgoingBehaviour outgoingBehaviour);
-    
+
     /**
      * Sets the incoming behaviour.
-     *
-     * @param incomingBehaviour the new incoming behaviour
+     * 
+     * @param incomingBehaviour
+     *            the new incoming behaviour
      */
     void setIncomingBehaviour(IncomingBehaviour incomingBehaviour);
-    
+
     /**
      * Gets the incoming behaviour.
-     *
+     * 
      * @return the incoming behaviour
      */
     IncomingBehaviour getIncomingBehaviour();
-    
+
     /**
      * Gets the outgoing behaviour.
-     *
+     * 
      * @return the outgoing behaviour
      */
     OutgoingBehaviour getOutgoingBehaviour();
@@ -62,10 +63,10 @@ extends Identifiable {
      * @return the next Node(s) depending on the node (normal nodes vs. Splits which have multiple next nodes).
      */
     List<Transition> getOutgoingTransitions();
-    
+
     /**
      * Gets the incoming transitions.
-     *
+     * 
      * @return the incoming transitions
      */
     List<Transition> getIncomingTransitions();
@@ -80,9 +81,11 @@ extends Identifiable {
 
     /**
      * Transition to with condition.
-     *
-     * @param node the destination
-     * @param c the condition
+     * 
+     * @param node
+     *            the destination
+     * @param c
+     *            the condition
      */
     void transitionToWithCondition(Node node, Condition c);
 

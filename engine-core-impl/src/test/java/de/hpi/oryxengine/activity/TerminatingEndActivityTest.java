@@ -74,7 +74,7 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
         // get the token that is on the human task activity. The other one is on the end node then.
         Token humanTaskToken = nav.getWorkQueue().get(0);
         Token endToken = nav.getWorkQueue().get(1);
-        if (!(humanTaskToken.getCurrentNode().getActivity() == humanTask)) {
+        if (!(humanTaskToken.getCurrentNode().getActivityClass() == HumanTaskActivity.class)) {
             humanTaskToken = endToken;
             endToken = nav.getWorkQueue().get(0);
         }
@@ -133,15 +133,16 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
 
         ProcessBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl();
-        param.setActivity(new NullActivity());
+        param.setActivityClass(NullActivity.class);
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
         splitNode = builder.createNode(param);
 
-        param.setActivity(humanTask);
+//        param.setActivity(humanTask); TODO do something with the parameter of humanTask
+        param.setActivityClass(HumanTaskActivity.class);
         humanTaskNode = builder.createNode(param);
 
-        param.setActivity(new TerminatingEndActivity());
+        param.setActivityClass(TerminatingEndActivity.class);
         terminatingEndNode = builder.createNode(param);
 
         builder.createTransition(splitNode, humanTaskNode).createTransition(splitNode, terminatingEndNode);

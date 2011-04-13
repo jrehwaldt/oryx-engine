@@ -58,7 +58,9 @@ public final class ExampleMailStartProcess {
 
 		ProcessBuilder builder = new ProcessBuilderImpl();
 		NodeParameter param = new NodeParameterImpl();
-		param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
+//		param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
+		// TODO parameters
+		param.setActivityClass(AddNumbersAndStoreActivity.class);
 		param.setIncomingBehaviour(new SimpleJoinBehaviour());
 		param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
 
@@ -89,7 +91,9 @@ public final class ExampleMailStartProcess {
 			e.printStackTrace();
 		}
 
-		param.setActivity(new PrintingVariableActivity("result"));
+//		param.setActivity(new PrintingVariableActivity("result"));
+		// TODO parameters
+		param.setActivityClass(PrintingVariableActivity.class);
 
 		Node node2 = builder.createNode(param);
 

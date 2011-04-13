@@ -14,16 +14,16 @@ public interface NodeParameter {
     /**
      * Sets the activity.
      *
-     * @param a the new activity
+     * @param clazz the new activity class
      */
-    void setActivity(Activity a);
+    void setActivityClass(Class<? extends Activity> clazz);
     
     /**
      * Gets the activity.
      *
-     * @return the activity
+     * @return the activity's class
      */
-    Activity getActivity();
+    Class<? extends Activity> getActivityClass();
     
     /**
      * Sets the incoming behaviour.

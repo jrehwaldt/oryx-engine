@@ -72,7 +72,7 @@ public final class ExampleProcessForReview {
 
         Node fourthNode = new MailNodeFactory().createWithLogger();
 
-        Node endNode = new NodeImpl(end);
+        Node endNode = new NodeImpl(EndActivity.class);
 
         // Setting the transitions
         startNode.transitionTo(secondNode);

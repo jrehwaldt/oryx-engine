@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.activity.AbstractActivity;
+import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
 import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
@@ -20,7 +21,7 @@ abstract class AbstractNodeFactory {
     /** The behavior. */
     protected OutgoingBehaviour outgoingBehaviour;
     /** The activity. */
-    protected AbstractActivity activity;
+    protected Class<? extends Activity> activityClazz;
 
     /**
      * Creates the.
@@ -31,7 +32,7 @@ abstract class AbstractNodeFactory {
 
         this.setActivity();
         this.setBehaviour();
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);
     }
 
     /**
@@ -39,7 +40,9 @@ abstract class AbstractNodeFactory {
      */
     public void setActivity() {
 
-        activity = new PrintingVariableActivity("result");
+//        activity = new PrintingVariableActivity("result");
+        // TODO add parameter
+        activityClazz = PrintingVariableActivity.class;
     }
 
     /**
@@ -59,9 +62,10 @@ abstract class AbstractNodeFactory {
     public Node createWithLogger() {
         AbstractActivityLifecyclePlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
         this.setActivity();
-        activity.registerPlugin(lifecycleLogger);
+//        activity.registerPlugin(lifecycleLogger);
+        // TODO what to do with plugins?
         this.setBehaviour();
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);
     }
 
 }

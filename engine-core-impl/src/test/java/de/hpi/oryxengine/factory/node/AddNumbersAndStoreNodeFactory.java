@@ -58,7 +58,9 @@ public class AddNumbersAndStoreNodeFactory extends AbstractNodeFactory {
      */
     @Override
     public void setActivity() {
-        activity = new AddNumbersAndStoreActivity(variablename, summand1, summand2);
+//        activity = new AddNumbersAndStoreActivity(variablename, summand1, summand2);
+        // TODO parameters
+        activityClazz = AddNumbersAndStoreActivity.class;
     }
 
 }

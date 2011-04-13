@@ -114,16 +114,17 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
   @BeforeMethod
   public void beforeMethod() {
       ProcessBuilder builder = new ProcessBuilderImpl();
-      IntermediateTimer timer = new IntermediateTimer(WAITING_TIME);
-      lifecycleTester = new ActivityLifecycleAssurancePlugin();
-      timer.registerPlugin(lifecycleTester);
+      // TODO set parameter and somehow register the plugin
+//      IntermediateTimer timer = new IntermediateTimer(WAITING_TIME);
+//      lifecycleTester = new ActivityLifecycleAssurancePlugin();
+//      timer.registerPlugin(lifecycleTester);
       NodeParameter param = new NodeParameterImpl(
-          timer,
+          IntermediateTimer.class,
           new SimpleJoinBehaviour(),
           new TakeAllSplitBehaviour());
       
       NodeParameter nextParam = new NodeParameterImpl(
-          mock(Activity.class),
+          Activity.class,
           new SimpleJoinBehaviour(),
           new TakeAllSplitBehaviour());
 

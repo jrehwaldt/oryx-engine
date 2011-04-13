@@ -71,9 +71,13 @@ public class HashComputationNodeFactory extends AbstractNodeFactory {
     @Override
     public void setActivity() {
         if (hashAlgorithm == null) {
-            activity = new HashComputationActivity(variableName, toBeHashed);
+//            activity = new HashComputationActivity(variableName, toBeHashed);
+            // TODO set parameters
+            activityClazz = HashComputationActivity.class;
         } else {
-            activity = new HashComputationActivity(variableName, toBeHashed, hashAlgorithm);
+//            activity = new HashComputationActivity(variableName, toBeHashed, hashAlgorithm);
+            // TODO set parameters
+            activityClazz = HashComputationActivity.class;
         }
     }
     

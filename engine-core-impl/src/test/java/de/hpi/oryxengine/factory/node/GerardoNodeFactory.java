@@ -22,12 +22,12 @@ public final class GerardoNodeFactory {
         
     }
     
-    public static Node createSimpleNodeWith(Activity activity) {
+    public static Node createSimpleNodeWith(Class<? extends Activity> activityClazz) {
 
         IncomingBehaviour incomingBehaviour = new SimpleJoinBehaviour();
         OutgoingBehaviour outgoingBehaviour = new TakeAllSplitBehaviour();
         
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);
     }
     
     public static Node attachLoggerPluginTo(Node node) {
@@ -36,10 +36,11 @@ public final class GerardoNodeFactory {
 
         try {
 
-            AbstractActivity abstractActivity = ((AbstractActivity) node.getActivity());
-            abstractActivity.registerPlugin(lifecycleLogger);
+//            AbstractActivity abstractActivity = ((AbstractActivity) node.getActivity());
+//            abstractActivity.registerPlugin(lifecycleLogger);
+            // TODO add plugins
         } catch (ClassCastException classCastException) {
-            String exceptionMessage = "The activity class " + node.getActivity().getClass().getName() + " of the node "
+            String exceptionMessage = "The activity class " + node.getActivityClass().getName() + " of the node "
                                         + node.getID() + " is not an AbstractActivity.";
             throw new ClassCastException(exceptionMessage);
         }

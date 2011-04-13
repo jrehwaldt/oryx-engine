@@ -85,12 +85,14 @@ public class NavigatorWebServiceTest extends AbstractTestNGSpringContextTests {
         // create simple process
         ProcessBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl();
-        param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
+//        param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
+        // TODO parameters
+        param.setActivityClass(AddNumbersAndStoreActivity.class);
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         Node startNode = builder.createStartNode(param);
 
-        param.setActivity(new EndActivity());
+        param.setActivityClass(EndActivity.class);
         Node endNode = builder.createNode(param);
 
         builder.createTransition(startNode, endNode);

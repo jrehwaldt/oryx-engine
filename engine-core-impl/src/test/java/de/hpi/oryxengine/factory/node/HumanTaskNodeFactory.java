@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
+import de.hpi.oryxengine.activity.impl.HashComputationActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.AllocationStrategiesImpl;
@@ -35,7 +36,9 @@ public class HumanTaskNodeFactory extends AbstractNodeFactory {
         
         TaskImpl task = new TaskImpl(subject, description, allocationStrategies, participant);
         
-        activity = new HumanTaskActivity(task);
+//        activity = new HumanTaskActivity(task);
+        // TODO parameters
+        activityClazz = HumanTaskActivity.class;
     }
 
 }

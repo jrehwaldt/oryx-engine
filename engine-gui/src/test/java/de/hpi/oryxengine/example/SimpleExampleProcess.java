@@ -73,12 +73,13 @@ public final class SimpleExampleProcess {
      */
     private static TokenImpl sampleProcessInstance(int counter, Navigator navigator) {
 
-        AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);
-        AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course " + counter);
+//        AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);
+//        AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course " + counter);
+        // TODO parameters
         SimpleJoinBehaviour incoming = new SimpleJoinBehaviour();
         TakeAllSplitBehaviour outgoing = new TakeAllSplitBehaviour();
-        NodeImpl startNode = new NodeImpl(activity, incoming, outgoing);
-        NodeImpl secondNode = new NodeImpl(activity2);
+        NodeImpl startNode = new NodeImpl(AutomatedDummyActivity.class, incoming, outgoing);
+        NodeImpl secondNode = new NodeImpl(AutomatedDummyActivity.class);
         startNode.transitionTo(secondNode);
 
         TokenImpl sampleInstance = new TokenImpl(startNode, new ProcessInstanceImpl(null), navigator);

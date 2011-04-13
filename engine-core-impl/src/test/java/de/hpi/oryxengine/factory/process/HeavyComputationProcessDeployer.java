@@ -43,21 +43,22 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodes() {
        
-        NodeParameter param = new NodeParameterImpl(new NullActivity(), new SimpleJoinBehaviour(),
+        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
         startNode = builder.createStartNode(param);
         this.lastNode = startNode;
         
         for (int i = 0; i < NUMBER_OF_NODES; i++) {
-            Activity activity  = new HashComputationActivity("hash" + String.valueOf(i + 1),
-                PASSWORDS[i % PASSWORDS.length], "SHA-512");
-            param.setActivity(activity);
+//            Activity activity  = new HashComputationActivity("hash" + String.valueOf(i + 1),
+//                PASSWORDS[i % PASSWORDS.length], "SHA-512");
+            // TODO parameters
+            param.setActivityClass(HashComputationActivity.class);
             Node tmpNode = builder.createNode(param);
             builder.createTransition(this.lastNode, tmpNode);
             this.lastNode = tmpNode;
         }
         
-        param.setActivity(new EndActivity());
+        param.setActivityClass(EndActivity.class);
         Node endNode = builder.createNode(param);
         builder.createTransition(this.lastNode, endNode);
         

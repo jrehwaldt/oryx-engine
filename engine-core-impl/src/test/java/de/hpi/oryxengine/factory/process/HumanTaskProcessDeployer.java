@@ -88,34 +88,37 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
      * Initializes the nodes.
      */
     public void initializeNodes() {
-        NodeParameter param = new NodeParameterImpl(new NullActivity(), new SimpleJoinBehaviour(),
+        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
         startNode = builder.createStartNode(param);
         
         // Create the task
         task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[0]);
         Activity activity  = new HumanTaskActivity(task);
-        param.setActivity(activity);
+        // TODO parameters
+        param.setActivityClass(HumanTaskActivity.class);
         
         node1 = builder.createNode(param);
         
         // Create the task
         task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[1]);
         Activity activity2  = new HumanTaskActivity(task);
-        param.setActivity(activity2);
+     // TODO parameters
+        param.setActivityClass(HumanTaskActivity.class);
         
         node2 = builder.createNode(param);
         
         // Create the task
         task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[2]);
         Activity activity3  = new HumanTaskActivity(task);
-        param.setActivity(activity3);
+     // TODO parameters
+        param.setActivityClass(HumanTaskActivity.class);
         
         node3 = builder.createNode(param);
         
         builder.createTransition(startNode, node1).createTransition(node1, node2).createTransition(node2, node3);
         
-        param.setActivity(new EndActivity());
+        param.setActivityClass(EndActivity.class);
         Node endNode = builder.createNode(param);
         builder.createTransition(node3, endNode);
 

@@ -3,6 +3,7 @@ package de.hpi.oryxengine.repository;
 import java.util.UUID;
 
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.definition.NodeParameter;
@@ -48,8 +49,10 @@ public final class RepositorySetup {
     private static ProcessDefinition exampleProcess1() throws IllegalStarteventException {
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(new AddNumbersAndStoreActivity("result", 1, 1),
+//        Activity activity = new AddNumbersAndStoreActivity("result", 1, 1);
+        NodeParameter param = new NodeParameterImpl(AddNumbersAndStoreActivity.class,
             new SimpleJoinBehaviour(), new TakeAllSplitBehaviour()); 
+        // TODO parameters
 
         Node node1 = builder.createStartNode(param);
         

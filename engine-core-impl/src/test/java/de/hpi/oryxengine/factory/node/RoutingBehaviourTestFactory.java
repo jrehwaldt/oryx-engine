@@ -26,7 +26,8 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
     @Override
     public void setActivity() {
         
-        this.activity = mock(AbstractActivity.class);
+//        this.activity = mock(AbstractActivity.class);
+        // TODO what to do here?
         
     }
 
@@ -39,7 +40,7 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
         setActivity();
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);
     }
     
     /**
@@ -50,10 +51,11 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
     public Node createWithAndSplitAndLogger() {
         AbstractActivityLifecyclePlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
         setActivity();
-        activity.registerPlugin(lifecycleLogger);
+//        activity.registerPlugin(lifecycleLogger);
+        // TODO register plugin
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);
     }
     
     /**
@@ -65,7 +67,7 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
         setActivity();
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new XORSplitBehaviour();
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);
     }
     
     /**
@@ -77,6 +79,6 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
         setActivity();
         incomingBehaviour = new AndJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);
     }
 }

@@ -31,8 +31,9 @@ public class ActivityLifecyclePluginTest {
      */
     @BeforeTest
     public void setUp() {
-        this.activity = new AutomatedDummyActivity("s.out");
-        this.token = new TokenImpl(new NodeImpl(this.activity));
+//        this.activity = new AutomatedDummyActivity("s.out");
+        // TODO parameters
+        this.token = new TokenImpl(new NodeImpl(AutomatedDummyActivity.class));
         this.eventCapturer = ArgumentCaptor.forClass(ActivityLifecycleChangeEvent.class);
     }
     
