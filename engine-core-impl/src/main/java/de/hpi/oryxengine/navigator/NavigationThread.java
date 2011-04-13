@@ -9,14 +9,14 @@ import de.hpi.oryxengine.process.token.Token;
 /**
  * The Class NavigationThread. Which is one thread to navigate.
  */
-public class NavigationThread
-extends Thread {
+public class NavigationThread extends Thread {
 
     /** The Constant SLEEPTIME defining the time a thread sleeps if it has got nothing to do. */
     private static final int SLEEPTIME = 1000;
 
-    /** The to navigate Queue is common to all Navigation Threads. 
-     * This is where they get the instances to work on from. */
+    /**
+     * The to navigate Queue is common to all Navigation Threads. This is where they get the instances to work on from.
+     */
     private Scheduler scheduler;
 
     /** The logger. */
@@ -25,17 +25,22 @@ extends Thread {
     /** The should stop. Indicates if the Thread should stop executing. See the doWork source for details. */
     private boolean shouldStop = false;
 
+    private boolean threadDone;
+
     /**
      * Instantiates a new navigation thread.
-     *
-     * @param threadname the thread name
-     * @param scheduler the scheduler
+     * 
+     * @param threadname
+     *            the thread name
+     * @param scheduler
+     *            the scheduler
      */
     public NavigationThread(String threadname, Scheduler scheduler) {
-        
+
         super(threadname);
         this.scheduler = scheduler;
         logger.info("Navigator {} initialized", threadname);
+        this.threadDone = false;
     }
 
     /**
@@ -45,7 +50,10 @@ extends Thread {
      */
     public void run() {
 
-        doWork();
+        if (!threadDone) {
+            doWork();
+        }
+        logger.info("Navigator {} terminated", this.getName());
     }
 
     /**
@@ -59,6 +67,7 @@ extends Thread {
         while (true) {
             // TODO Das muss auf jeden fall verändert werden | English please whoever this was
             if (shouldStop) {
+                threadDone = true;
                 break;
             }
 
@@ -66,23 +75,22 @@ extends Thread {
 
             // This has to be an atomic operation on toNavigate, otherwise
             // an IndexOutOfBoundsException might occur
-            
+
             token = this.scheduler.retrieve();
 
-
             if (token != null) {
-//                List<Token> instances;
-//                instances = null;
+                // List<Token> instances;
+                // instances = null;
                 try {
                     // the return value of executeStep are the nodes which shall be executed next
-//                    instances = token.executeStep();
+                    // instances = token.executeStep();
                     token.executeStep();
                 } catch (Exception e) {
-                    
+
                     e.printStackTrace();
                 }
                 // submit all instances to be executed next to the scheduler
-//                scheduler.submitAll(instances);
+                // scheduler.submitAll(instances);
             } else {
                 try {
                     // I simply couldn't take it anymore...
@@ -96,37 +104,37 @@ extends Thread {
         }
     }
 
-//    /**
-//     * Gets the to navigate. The to navigate Queue is common to all Navigation Threads. This is where they get the
-//     * instances to work on from.
-//     * 
-//     * @return the to navigate
-//     */
-//    public Scheduler getScheduler() {
-//
-//        return scheduler;
-//    }
+    // /**
+    // * Gets the to navigate. The to navigate Queue is common to all Navigation Threads. This is where they get the
+    // * instances to work on from.
+    // *
+    // * @return the to navigate
+    // */
+    // public Scheduler getScheduler() {
+    //
+    // return scheduler;
+    // }
 
-//    /**
-//     * Sets the scheduler. The scheduler is common to all Navigation Threads. This is where they get the
-//     * instances to work on from.
-//     *
-//     * @param scheduler the new scheduler
-//     */
-//    public void setToNavigate(Scheduler scheduler) {
-//
-//        this.scheduler = scheduler;
-//    }
+    // /**
+    // * Sets the scheduler. The scheduler is common to all Navigation Threads. This is where they get the
+    // * instances to work on from.
+    // *
+    // * @param scheduler the new scheduler
+    // */
+    // public void setToNavigate(Scheduler scheduler) {
+    //
+    // this.scheduler = scheduler;
+    // }
 
-//    /**
-//     * Checks if it should stop execution.
-//     * 
-//     * @return true, if it should stop execution
-//     */
-//    public boolean isShouldStop() {
-//
-//        return shouldStop;
-//    }
+    // /**
+    // * Checks if it should stop execution.
+    // *
+    // * @return true, if it should stop execution
+    // */
+    // public boolean isShouldStop() {
+    //
+    // return shouldStop;
+    // }
 
     /**
      * Sets the should stop.

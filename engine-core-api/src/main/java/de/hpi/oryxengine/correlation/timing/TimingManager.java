@@ -27,7 +27,27 @@ public interface TimingManager {
      * @param configuration the configuration of the event
      * @param token the process token to continue the process afterwards.
      * @throws AdapterSchedulingException the adapter scheduling exception
+     * @return the name of the job
      */
-    void registerNonRecurringJob(@Nonnull TimedConfiguration configuration, Token token)
+    String registerNonRecurringJob(@Nonnull TimedConfiguration configuration, Token token)
     throws AdapterSchedulingException;
+    
+    /**
+     * Unregister the given job.
+     *
+     * @param jobCompleteName the name of the job from the scheduler
+     */
+    void unregisterJob(String jobCompleteName);
+    
+    /**
+     * Count the scheduled jobGroups.
+     *
+     * @return the number of scheduled groups
+     */
+    int countScheduledJobGroups();
+    
+    /**
+     * Restart the scheduler with cleaned resources.
+     */
+    void shutdownScheduler();
 }

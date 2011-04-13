@@ -2,14 +2,12 @@ package de.hpi.oryxengine.repository;
 
 import java.io.InputStream;
 
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
+
 /**
- * The class helps to define a deployment and to deploy it. At first the {@link DeploymentBuilder} gathers all
- * {@link AbstractProcessResource ProcessResources} that need to be deployed. By calling the method {@link #deploy()
- * Deploy} all added {@link AbstractProcessResource ProcessResources} will be deployed at once.
+ * The class helps to define a deployment and to deploy it.
  * 
  * Be aware that this class does not check whether duplicate!!
- * 
- * @author Gerardo Navarro
  */
 public interface DeploymentBuilder {
 
@@ -22,71 +20,66 @@ public interface DeploymentBuilder {
      *            - the {@link InputStream} that contains the content of the
      * @return a {@link DeploymentBuilder} in order to keep on deploying resources
      */
-    DeploymentBuilder addResourceAsInputStream(String resourceName, InputStream inputStream);
+    DeploymentBuilder deployResourceAsInputStream(String resourceName, InputStream inputStream);
 
     /**
      * Adds a resource to the repository. So that it is available for all {@link ProcessDefinition}s. This method allows
-     * to add the {@link AbstractProcessResource} as ClasspathResource.
+     * to add the {@link AbstractProcessArtifacts} as ClasspathResource.
      * 
      * @param resourceName
-     *            - the name of the {@link AbstractProcessResource} that is deployed
+     *            - the name of the {@link AbstractProcessArtifacts} that is deployed
      * @param resourceClasspath
-     *            - the classpath of the {@link AbstractProcessResource}
+     *            - the classpath of the {@link AbstractProcessArtifacts}
      * @return a {@link DeploymentBuilder} in order to keep on deploying resources
      */
-    DeploymentBuilder addClasspathResource(String resourceName, String resourceClasspath);
+    DeploymentBuilder deployClasspathResource(String resourceName, String resourceClasspath);
 
     /**
      * Adds a resource to the repository. So that it is available for all {@link ProcessDefinition}s. This method allows
-     * to add the {@link AbstractProcessResource} as {@link String}.
+     * to add the {@link AbstractProcessArtifacts} as {@link String}.
      * 
      * @param resourceName
-     *            - the name of the {@link AbstractProcessResource} that is deployed
+     *            - the name of the {@link AbstractProcessArtifacts} that is deployed
      * @param resourceStringContent
-     *            - the {@link String} content of the {@link AbstractProcessResource ProcessResource}
+     *            - the {@link String} content of the {@link AbstractProcessArtifacts ProcessResource}
      * @return a {@link DeploymentBuilder} in order to keep on deploying resources
      */
-    DeploymentBuilder addResourceAsString(String resourceName, String resourceStringContent);
+    DeploymentBuilder deployResourceAsString(String resourceName, String resourceStringContent);
 
     /**
      * Adds a {@link ProcessDefinition} to the repository. So that it is available for instantiation after activation.
-     * So the {@link ProcessDefinition} have to be activated after this deployment. This method allows to add the
-     * {@link ProcessDefinition} as {@link InputStream}.
+     * So the {@link ProcessDefinition} have to be activated after this deployment. This method allows to add a
+     * {@link ProcessDefinition}.
      * 
      * @param processDefinitionName
      *            - the name of the {@link ProcessDefinition}
-     * @param inputStream
-     *            - the {@link InputStream} that contains the {@link ProcessDefinition} in some way
      * @param processDefinitionImporter
-     *            - that is able to translate the {@link InputStream} into our {@link ProcessDefinition}
-     * @return a {@link DeploymentBuilder} in order to keep on deploying resources
+     *            - that is able to create a {@link ProcessDefinition}
+     * @return a {@link DeploymentBuilder} in order to keep on deploying resources {@link ProcessDefinition}.
      */
-    DeploymentBuilder addProcessDefinitionAsInputStream(String processDefinitionName,
-                                                        InputStream inputStream,
-                                                        ProcessDefinitionImporter processDefinitionImporter);
+    DeploymentBuilder deployProcessDefinition(String processDefinitionName,
+                                              ProcessDefinitionImporter processDefinitionImporter);
 
     /**
      * Adds a {@link ProcessDefinition} to the repository. So that it is available for instantiation after activation.
-     * So the {@link ProcessDefinition} have to be activated after this deployment. This method allows to add the
-     * {@link ProcessDefinition} as {@link InputStream}.
+     * So the {@link ProcessDefinition} have to be activated after this deployment. This method allows to add a
+     * {@link ProcessDefinition}.
      * 
      * The name of the {@link ProcessDefinition} will be the name stored in the {@link ProcessDefinition}. If there is
      * no name define then the name will be the processDefintionID.
      * 
-     * @param inputStream
-     *            - the {@link InputStream} that contains the {@link ProcessDefinition} in some way
      * @param processDefinitionImporter
-     *            - that is able to translate the {@link InputStream} into our {@link ProcessDefinition}
+     *            - that is able to create a {@link ProcessDefinition}
      * @return a {@link DeploymentBuilder} in order to keep on deploying resources
      */
-    DeploymentBuilder addProcessDefinitionAsInputStream(InputStream inputStream,
-                                                        ProcessDefinitionImporter processDefinitionImporter);
+    DeploymentBuilder deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter);
 
-    /**
-     * Deploys the added {@link AbstractProcessResource ProcessResources} and {@link ProcessDefinition
-     * ProcessDefinitions} at once. Afterwards the {@link DeploymentBuilder} is reseted.
-     * 
-     * @return a {@link DeploymentBuilder} in order to keep on deploying resources
-     */
-    DeploymentBuilder deploy();
+    // /**
+    // * Deploys the added {@link AbstractProcessResource ProcessResources} and {@link ProcessDefinition
+    // * ProcessDefinitions} at once. Afterwards the {@link DeploymentBuilder} is reseted.
+    // *
+    // * @return a {@link DeploymentBuilder} in order to keep on deploying resources
+    // */
+    // DeploymentBuilder deploy();
+
 }

@@ -1,8 +1,16 @@
 package de.hpi.oryxengine.repository;
 
-public interface ProcessDefinitionImporter {
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
-    void translate();
+/**
+ * A {@link ProcessDefinitionImporter} is capable of importing a {@link ProcessDefinition} from any source.
+ */
+public interface ProcessDefinitionImporter  {
 
-    void deploy();
+    /**
+     * This method creates a {@link ProcessDefinition}.
+     * 
+     * @return the translated {@link ProcessDefinition}
+     */
+    ProcessDefinition createProcessDefinition();
 }

@@ -49,7 +49,8 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
             resultWorklistItems.addAll(resourceInView.getWorklist().getWorklistItems());
         }
 
-        return Collections.unmodifiableList(resultWorklistItems);
+        return resultWorklistItems;
+        //return Collections.unmodifiableList(resultWorklistItems);
     }
 
     @Override

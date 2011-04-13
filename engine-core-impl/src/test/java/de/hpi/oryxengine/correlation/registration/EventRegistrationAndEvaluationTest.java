@@ -15,6 +15,10 @@ import java.util.UUID;
 
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -34,15 +38,19 @@ import de.hpi.oryxengine.repository.RepositorySetup;
 /**
  * The Class EventRegistrationAndEvaluationTest.
  */
-public class EventRegistrationAndEvaluationTest {
+@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+public class EventRegistrationAndEvaluationTest extends AbstractTestNGSpringContextTests {
 
     private StartEvent event, anotherEvent;
     private MailAdapterEvent incomingEvent, anotherIncomingEvent;
+    public static final int MAIL_PORT = 25;
 
     /**
      * Tests that a process instance is started.
      * 
-     * @throws DefinitionNotFoundException fails
+     * @throws DefinitionNotFoundException
+     *             fails
      */
     @Test
     public void shouldAttemptToStartTheSimpleProcessInstance()
@@ -61,7 +69,8 @@ public class EventRegistrationAndEvaluationTest {
     /**
      * Tests that no process is invoked on wrong event.
      * 
-     * @throws DefinitionNotFoundException fails
+     * @throws DefinitionNotFoundException
+     *             fails
      */
     @Test
     public void shouldNotAttemptToStartTheSimpleProcessInstance()
@@ -77,6 +86,13 @@ public class EventRegistrationAndEvaluationTest {
             any(StartEvent.class));
     }
 
+    /**
+     * Test that two similar start events with diferrent configurations work appropiately. That is the process is just
+     * called one time.
+     * 
+     * @throws DefinitionNotFoundException
+     *             the definition not found exception
+     */
     @Test
     public void testTwoSimilarEventsWithDiferrentConfig()
     throws DefinitionNotFoundException {
@@ -91,12 +107,14 @@ public class EventRegistrationAndEvaluationTest {
         verify(navigator, times(1)).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID),
             any(StartEvent.class));
     }
-    
+
     /**
      * Class initialization.
      * 
-     * @throws NoSuchMethodException unlikely to be thrown...
-     * @throws IllegalStarteventException test will fail
+     * @throws NoSuchMethodException
+     *             unlikely to be thrown...
+     * @throws IllegalStarteventException
+     *             test will fail
      */
     @BeforeClass
     public void beforeClass()
@@ -119,7 +137,7 @@ public class EventRegistrationAndEvaluationTest {
         event = new StartEventImpl(mailType, config, conditions1, definitionID);
 
         MailAdapterConfiguration anotherConfig = new MailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin",
-            "imap.horst.de", 80, false);
+            "imap.horst.de", MAIL_PORT, false);
         anotherEvent = new StartEventImpl(mailType, anotherConfig, conditions1, definitionID);
 
         Method method = MailAdapterEvent.class.getMethod("getAdapterConfiguration");
@@ -140,11 +158,13 @@ public class EventRegistrationAndEvaluationTest {
     /**
      * Tear down.
      * 
-     * @throws SchedulerException tear down fails
+     * @throws SchedulerException
+     *             tear down fails
      */
     @AfterMethod
     public void flushJobRepository()
     throws SchedulerException {
+
         new StdSchedulerFactory().getScheduler().shutdown();
     }
 

@@ -1,5 +1,5 @@
 // TODO: [@Gerardo:] mal wieder auskommentieren
-//package de.hpi.oryxengine.deploy;
+package de.hpi.oryxengine.deploy;
 //
 //import static org.testng.Assert.assertEquals;
 //
@@ -14,10 +14,10 @@
 //import de.hpi.oryxengine.factory.definition.SimpleProcessDefinitionFactory;
 //import de.hpi.oryxengine.process.definition.ProcessDefinition;
 //
-///**
-// * The Class DeployerTest.
-// */
-//public class DeployerTest {
+/**
+ * The Class DeployerTest.
+ */
+public class DeployerTest {
 //
 //    private Deployer deployer = null;
 //    private RepositoryService repo = null;
@@ -52,4 +52,4 @@
 //        assertEquals(repo.getDefinition(defID), def,
 //            "The deployed process definition should be avaialable in the repository.");
 //    }
-//}
+}

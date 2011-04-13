@@ -27,10 +27,13 @@ public class ProcessBuilderImpl implements ProcessBuilder {
 
     private UUID id;
 
+    private String name;
+
     private String description;
 
     private Map<StartEvent, Node> temporaryStartTriggers;
     
+    // TODO [@Thorben]: Schau mal ob du das mergen musst 
     private Node startNode;
 
     /**
@@ -45,7 +48,7 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     @Override
     public ProcessDefinition buildDefinition() throws IllegalStarteventException {
 
-        this.definition = new ProcessDefinitionImpl(id, description, startNodes);
+        this.definition = new ProcessDefinitionImpl(id, name, description, startNodes);
 
         for (Map.Entry<StartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
             this.definition.addStartTrigger(entry.getKey(), entry.getValue());
@@ -90,6 +93,13 @@ public class ProcessBuilderImpl implements ProcessBuilder {
         this.id = id;
         return this;
 
+    }
+
+    @Override
+    public ProcessBuilder setName(String processName) {
+        
+        this.name = processName;
+        return this;
     }
 
     @Override

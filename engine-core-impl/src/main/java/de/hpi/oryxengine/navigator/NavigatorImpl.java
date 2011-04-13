@@ -1,10 +1,14 @@
 package de.hpi.oryxengine.navigator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.Service;
@@ -61,6 +65,8 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     
     private RepositoryService repository;
     
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     /**
      * Instantiates a new navigator implementation.
      * 
@@ -91,6 +97,8 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * 
      * @param numberOfThreads
      *            the number of navigator threads
+     * @param repo
+     *              the process repository
      */
     public NavigatorImpl(RepositoryService repo, int numberOfThreads) {
 
@@ -103,7 +111,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         //this.repository = ServiceFactory.getRepositoryService();
         this.repository = repo;
         this.suspendedTokens = new ArrayList<Token>();
-        this.runningInstances = new ArrayList<ProcessInstance>();
+        this.runningInstances = Collections.synchronizedList(new ArrayList<ProcessInstance>());
         this.finishedInstances = new ArrayList<ProcessInstance>();
     }
 
@@ -118,7 +126,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         for (int i = 0; i < navigatorThreads; i++) {
             addThread();
         }
-
         changeState(NavigatorState.RUNNING);
     }
 
@@ -177,6 +184,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     public void startArbitraryInstance(Token token) {
         
         this.scheduler.submit(token);
+        
     }
 
 
@@ -266,14 +274,13 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     @Override
     public void signalEndedProcessInstance(ProcessInstance instance) {
-        
         boolean instanceContained = runningInstances.remove(instance);
         
         // TODO maybe throw an exception if the instance provided is not in the running instances list?
         if (instanceContained) {
             finishedInstances.add(instance);
         }
-
+        
         if (runningInstances.isEmpty()) {
             changeState(NavigatorState.CURRENTLY_FINISHED);
         }

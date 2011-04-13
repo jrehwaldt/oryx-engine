@@ -8,6 +8,7 @@ import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.TimedConfiguration;
 import de.hpi.oryxengine.correlation.adapter.TimerConfigurationImpl;
 import de.hpi.oryxengine.correlation.registration.TimerEventImpl;
+import de.hpi.oryxengine.correlation.timing.TimingManager;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -15,6 +16,7 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class IntermediateTimer extends AbstractDeferredActivity {
     private long time;
+    private String jobCompleteName;
 
     /**
      * Instantiates a new intermediate timer with a given time.
@@ -30,8 +32,14 @@ public class IntermediateTimer extends AbstractDeferredActivity {
         
         CorrelationManager correlationService = ServiceFactory.getCorrelationService();
         TimedConfiguration conf = new TimerConfigurationImpl(this.time);
-        correlationService.registerIntermediateEvent(new TimerEventImpl(conf, token));
+        this.jobCompleteName = correlationService.registerIntermediateEvent(new TimerEventImpl(conf, token));
         token.suspend();
+    }
+    
+    @Override
+    public void cancel() {
+        TimingManager timer = ServiceFactory.getCorrelationService().getTimer();
+        timer.unregisterJob(this.jobCompleteName);
     }
 
 

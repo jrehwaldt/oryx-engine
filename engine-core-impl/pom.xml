@@ -89,7 +89,7 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>1.6</version>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
 
         <!-- JAXB API + Implementation -->

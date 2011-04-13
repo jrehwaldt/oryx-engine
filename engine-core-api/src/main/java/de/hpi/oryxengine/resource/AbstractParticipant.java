@@ -1,9 +1,12 @@
 package de.hpi.oryxengine.resource;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
 
 /**
  * A Participants is a resource which a task can be assigned to.
@@ -64,4 +67,11 @@ public abstract class AbstractParticipant extends AbstractResource<AbstractParti
      * @return a read-only Set of all {@link AbstractRole}s that contains this Participant
      */
     public abstract Set<AbstractRole> getMyRolesImmutable();
+    
+    /**
+     * Gets the worklist items which are currently in work(claimed) by this participant.
+     *
+     * @return the worklist items currently in work (claimed)
+     */
+    public abstract List<WorklistItem> getWorklistItemsCurrentlyInWork();
 }

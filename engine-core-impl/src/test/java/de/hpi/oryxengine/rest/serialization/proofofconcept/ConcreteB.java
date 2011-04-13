@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.rest.serialization.proofofconcept;
 
+
 /**
  * Bidirectional reference.
  */

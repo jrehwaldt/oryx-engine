@@ -1,7 +1,9 @@
 package de.hpi.oryxengine.resource;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -12,6 +14,8 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
+import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * A Participants is a resource which a task can be assigned to.
@@ -129,5 +133,18 @@ public class Participant extends AbstractParticipant {
             throw new DalmatinaRuntimeException("There exists no Participant with the id " + participantID + ".");
         }
         return participantImpl;
+    }
+
+    @Override
+    public List<WorklistItem> getWorklistItemsCurrentlyInWork() {
+        List<WorklistItem> inWork = new ArrayList<WorklistItem>();
+        if (this.worklist != null) {
+            for (WorklistItem w : this.worklist) {
+                if (w.getStatus() == WorklistItemState.EXECUTING) {
+                    inWork.add(w);
+                }
+            }
+        }
+        return inWork;
     }
 }
