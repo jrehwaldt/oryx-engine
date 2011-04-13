@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.factory.process;
 
+import static org.testng.Assert.assertEquals;
+
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +9,11 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.IdentityService;
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 
 /**
@@ -15,9 +21,10 @@ import de.hpi.oryxengine.exception.IllegalStarteventException;
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
+public class HumanTaskProcessDeployerTest extends AbstractProcessDeployerTest {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final static int NUMBER_OF_PARTICIPANTS = 3;
     
     /**
      * Sets the up.
@@ -33,5 +40,15 @@ public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
             logger.error("Scheduling error when creating HumanTaskProcessDeplyoer", e);
         }
         this.uuid = deployer.deploy();
+    }
+    
+    
+    /**
+     * Tests that the participants defined in the processdeployer are created.
+     */
+    @Test
+    public void testParticipantsCreated() {
+        IdentityService identityService = ServiceFactory.getIdentityService();
+        assertEquals(identityService.getParticipants().size(), NUMBER_OF_PARTICIPANTS);
     }
 }

@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.factory.process;
 
+import static org.testng.Assert.assertEquals;
+
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
