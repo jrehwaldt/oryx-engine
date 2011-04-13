@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.IntermediateTimer;
+import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleAssurancePlugin;
@@ -21,7 +22,9 @@ import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -124,7 +127,7 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
           new TakeAllSplitBehaviour());
       
       NodeParameter nextParam = new NodeParameterImpl(
-          Activity.class,
+          NullActivity.class,
           new SimpleJoinBehaviour(),
           new TakeAllSplitBehaviour());
 
@@ -135,7 +138,16 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
       builder.createTransition(node, node2);
       builder.createTransition(node2, node3);
       
-      token = new TokenImpl(node, mock(ProcessInstance.class), nav);
+      ProcessInstance instance = new ProcessInstanceImpl(mock(ProcessDefinition.class));
+      Class<?>[] constructorSig = {long.class};
+      Object[] params = {WAITING_TIME};
+
+      instance.getContext().setActivityConstructorClasses(node2.getID(), constructorSig);
+      instance.getContext().setActivityParameters(node2.getID(), params);
+      
+      token = new TokenImpl(node, instance, nav);
+      
+      
   }
 
   /**
