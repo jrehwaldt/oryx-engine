@@ -16,6 +16,9 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -54,7 +57,13 @@ public class AutomatedDummyActivityTest {
 //        a = new AutomatedDummyActivity(s);
         // TODO parameters
         nav = mock(Navigator.class);
-        token = new TokenImpl(new NodeImpl(AutomatedDummyActivity.class), null, nav);
+        Node node = new NodeImpl(AutomatedDummyActivity.class);
+        ProcessInstance instance = new ProcessInstanceImpl(null);
+        Class<?>[] constructorSig = {String.class};
+        instance.getContext().setActivityConstructorClasses(node.getID(), constructorSig);
+        Object[] params = {s};
+        instance.getContext().setActivityParameters(node.getID(), params);
+        token = new TokenImpl(node, instance, nav);
     }
 
 //    /**
