@@ -90,8 +90,6 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
       Thread.sleep(SHORT_WAITING_TIME_TEST);
       assertEquals(token.getCurrentNode().getActivity().getState(), ActivityState.ACTIVE);
       
-      //Stop the event
-      node2.getActivity().cancel();
   }
   
   
@@ -109,9 +107,6 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
       Thread.sleep(SHORT_WAITING_TIME_TEST);
       assertFalse(token.getCurrentNode() == node3, "Current Node should not be the node after the timer,"
           + " because time wasn't sufficient.");
-      
-      //Stop the event
-      node2.getActivity().cancel();
       
   }
   
@@ -200,10 +195,15 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
    */
   @AfterMethod
   public void afterMethod() {
+      
+      //Stop the job
+      token.cancelExecution();
+      
       node = null;
       node2 = null;
       node3 = null;
       token = null;
+
   }
 
 }
