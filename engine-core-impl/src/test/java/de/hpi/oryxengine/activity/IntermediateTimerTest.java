@@ -180,7 +180,7 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
       
       //Assert that the timer job is scheduled
       jobGroups = timer.countScheduledJobGroups();
-      assertEquals(jobGroups, 1);
+      assertFalse(jobGroups == 0);
       
       //Cancel the process, the cancellation should lead to the deletion of all started jobs
       token.cancelExecution();

@@ -35,7 +35,7 @@ public interface TimingManager {
     /**
      * Unregister the given job.
      *
-     * @param the name of the job, in the form jobName.groupName
+     * @param jobCompleteName the name of the job from the scheduler
      */
     void unregisterJob(String jobCompleteName);
     

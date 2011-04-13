@@ -19,8 +19,9 @@ public interface EventRegistrar {
 
     /**
      * Entry point for registering an event with the {@link CorrelationManager}.
-     * 
+     *
      * @param event the intermediate event
+     * @return the name of the job for the event
      */
     String registerIntermediateEvent(@Nonnull IntermediateEvent event);
 }
