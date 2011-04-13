@@ -45,7 +45,8 @@ public class WorklistItemLifecycleTest {
         Task task = TaskFactory.createJannikServesGerardoTask();
         jannik = (Participant) task.getAssignedResources().iterator().next();
 
-        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(new HumanTaskActivity(null));
+        // TODO parameter: null
+        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(HumanTaskActivity.class);
         Token token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
 
         worklistItem = new WorklistItemImpl(task, token);

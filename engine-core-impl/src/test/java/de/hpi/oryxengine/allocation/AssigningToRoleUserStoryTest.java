@@ -81,11 +81,12 @@ public class AssigningToRoleUserStoryTest extends AbstractTestNGSpringContextTes
 
         Task task = new TaskImpl("Clean the office.", "It is very dirty.", allocationStrategies, hamburgGuysRole);
 
-        Activity humanTaskActivity = new HumanTaskActivity(task);
-        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(humanTaskActivity);
+//        Activity humanTaskActivity = new HumanTaskActivity(task);
+        // TODO parameters
+        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(HumanTaskActivity.class);
 
         AbstractActivity endactivity = new EndActivity();
-        endNode = GerardoNodeFactory.createSimpleNodeWith(endactivity);
+        endNode = GerardoNodeFactory.createSimpleNodeWith(EndActivity.class);
 
         humanTaskNode.transitionTo(endNode);
 

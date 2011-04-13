@@ -5,6 +5,7 @@ import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
 import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
@@ -24,15 +25,19 @@ abstract class AbstractNodeFactory {
     protected Class<? extends Activity> activityClazz;
 
     /**
-     * Creates the.
+     * Creates the activity for a given process instance and puts the constructor signature and the parameter values to
+     * the given process instance.
      * 
+     * @param instance
+     *            the instance
      * @return the node
      */
     public Node create() {
 
         this.setActivity();
         this.setBehaviour();
-        return new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);
+        Node node = new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);
+        return node;
     }
 
     /**
@@ -40,7 +45,7 @@ abstract class AbstractNodeFactory {
      */
     public void setActivity() {
 
-//        activity = new PrintingVariableActivity("result");
+        // activity = new PrintingVariableActivity("result");
         // TODO add parameter
         activityClazz = PrintingVariableActivity.class;
     }
@@ -53,16 +58,17 @@ abstract class AbstractNodeFactory {
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
     }
-    
+
     /**
      * Creates a new Node object with a logger.
-     *
+     * 
      * @return the node
      */
     public Node createWithLogger() {
+
         AbstractActivityLifecyclePlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
         this.setActivity();
-//        activity.registerPlugin(lifecycleLogger);
+        // activity.registerPlugin(lifecycleLogger);
         // TODO what to do with plugins?
         this.setBehaviour();
         return new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);

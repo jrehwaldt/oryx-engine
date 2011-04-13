@@ -23,15 +23,17 @@ public class SimpleProcessDefinitionFactory implements ProcessDefinitionFactory 
     @Override
     public ProcessDefinition create(UUID definitionID) {
 
-        Activity activity = new AddNumbersAndStoreActivity("result", 1, 1);
+//        Activity activity = new AddNumbersAndStoreActivity("result", 1, 1);
+        // TODO parameters
         IncomingBehaviour incomingBehaviour = new SimpleJoinBehaviour();
         OutgoingBehaviour outgoingBehaviour = new TakeAllSplitBehaviour();        
-        Node node1 = new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        Node node1 = new NodeImpl(AddNumbersAndStoreActivity.class, incomingBehaviour, outgoingBehaviour);
         
-        activity = new AddNumbersAndStoreActivity("result", 1, 1);
+//        activity = new AddNumbersAndStoreActivity("result", 1, 1);
+        // TODO parameters
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour(); 
-        Node node2 = new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        Node node2 = new NodeImpl(AddNumbersAndStoreActivity.class, incomingBehaviour, outgoingBehaviour);
         
         node1.transitionTo(node2);
         List<Node> startNodes = new ArrayList<Node>();

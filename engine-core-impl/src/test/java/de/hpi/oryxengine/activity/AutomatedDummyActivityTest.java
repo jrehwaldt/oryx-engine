@@ -54,8 +54,7 @@ public class AutomatedDummyActivityTest {
 
         tmp = System.out;
         System.setOut(new PrintStream(out));
-//        a = new AutomatedDummyActivity(s);
-        // TODO parameters
+        
         nav = mock(Navigator.class);
         Node node = new NodeImpl(AutomatedDummyActivity.class);
         ProcessInstance instance = new ProcessInstanceImpl(null);
