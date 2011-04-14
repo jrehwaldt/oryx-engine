@@ -73,7 +73,18 @@ public class Participant extends AbstractParticipant {
     }
 
     @Override
-    public Set<AbstractCapability> getMyCapabilities() {
+    public Set<AbstractCapability> getMyCapabilitiesImmutable() {
+
+        Set<AbstractCapability> setToReturn = new HashSet<AbstractCapability>(getMyCapabilities());
+        return Collections.unmodifiableSet(setToReturn);
+    }
+    
+    /**
+     * Returns a Set of all {@link Capability}s of this Participant.
+     * 
+     * @return a Set of all {@link Capability}s of this Participant
+     */
+    protected Set<AbstractCapability> getMyCapabilities() {
 
         // TODO hier muss noch was gemacht werden
 

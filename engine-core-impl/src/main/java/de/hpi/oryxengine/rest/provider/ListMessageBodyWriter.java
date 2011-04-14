@@ -19,7 +19,7 @@ import com.google.gson.GsonBuilder;
 /**
  * This Class is used to use Gson to write lists with worklist items.
  */
-@Provider
+//@Provider
 @Produces(MediaType.APPLICATION_JSON)
 public class ListMessageBodyWriter implements MessageBodyWriter<List<?>> {
 

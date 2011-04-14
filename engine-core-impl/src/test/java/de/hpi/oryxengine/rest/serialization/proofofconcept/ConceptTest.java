@@ -15,7 +15,7 @@ import javax.xml.bind.Unmarshaller;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.rest.serialization.SerializationToXmlTest;
+import de.hpi.oryxengine.rest.serialization.SerializationToJsonTest;
 
 import junit.framework.Assert;
 
@@ -109,8 +109,8 @@ public class ConceptTest {
   @Test
   public void testAbstractMarshalling() throws JAXBException, IOException {
 
-      this.marshaller.marshal(this.abstractA, new FileWriter(SerializationToXmlTest.TMP_PATH + "ab_AbstractA.xml"));
-      this.marshaller.marshal(this.concreteA, new FileWriter(SerializationToXmlTest.TMP_PATH + "ab_ConcreteA.xml"));
+      this.marshaller.marshal(this.abstractA, new FileWriter(SerializationToJsonTest.TMP_PATH + "ab_AbstractA.xml"));
+      this.marshaller.marshal(this.concreteA, new FileWriter(SerializationToJsonTest.TMP_PATH + "ab_ConcreteA.xml"));
       
   }
   
@@ -123,9 +123,9 @@ public class ConceptTest {
   public void testAbstractUnmarshalling() throws JAXBException {
       
       AbstractA localAbstractA = (AbstractA) this.unmarshaller.unmarshal(new File(
-                SerializationToXmlTest.TMP_PATH + "ab_AbstractA.xml"));
+                SerializationToJsonTest.TMP_PATH + "ab_AbstractA.xml"));
       ConcreteA localConcreteA = (ConcreteA) this.unmarshaller.unmarshal(
-                new File(SerializationToXmlTest.TMP_PATH + "ab_ConcreteA.xml"));
+                new File(SerializationToJsonTest.TMP_PATH + "ab_ConcreteA.xml"));
       
       Assert.assertEquals(this.abstractA.getText(), localAbstractA.getText());
       Assert.assertEquals(this.concreteA.getText(), localConcreteA.getText());

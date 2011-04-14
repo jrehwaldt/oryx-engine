@@ -3,7 +3,6 @@ package de.hpi.oryxengine.factory.resource;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.Participant;
 
 /**
  * Little factory for creating Resources. A short cut for in the implementation.
@@ -20,14 +19,13 @@ public class ResourceFactory {
     /**
      * Creates a participant.
      * 
-     * @param id participant id
      * @param name participant name
      * @return the participant
      */
-    public static AbstractParticipant createParticipant(String id, String name) {
+    public static AbstractParticipant createParticipant(String name) {
         
         IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
-        AbstractParticipant participant = identityBuilder.createParticipant(id).setName(name);
+        AbstractParticipant participant = identityBuilder.createParticipant(name);
         
         return participant;
     }

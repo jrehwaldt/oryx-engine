@@ -4,16 +4,20 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
- * 
+ * Null Object pattern. This is an empty worklist for resources, which do not have a
+ * worklist.
  */
-public class EmptyWorklist extends AbstractWorklist {
+public final class EmptyWorklist extends AbstractWorklist {
     
     static final String EXCEPTION_MESSAGE = "The resource object has no special type."; 
     
     @Override
+    @JsonIgnore
     public List<WorklistItem> getWorklistItems() {
 
         List<WorklistItem> emptyWorklistItems = Collections.emptyList();

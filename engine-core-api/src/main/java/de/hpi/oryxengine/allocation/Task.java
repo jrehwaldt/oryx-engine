@@ -2,12 +2,19 @@ package de.hpi.oryxengine.allocation;
 
 import java.util.Set;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
+
 import de.hpi.oryxengine.resource.AbstractResource;
 
 
 /**
  * Represents a human task for engine internal use.
  */
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "classifier")
 public interface Task {
     
     /**
@@ -15,6 +22,7 @@ public interface Task {
      * 
      * @return String representing the subject
      */
+    @JsonProperty
     String getSubject();
     
     /**
@@ -22,6 +30,7 @@ public interface Task {
      * 
      * @return String representing the description
      */
+    @JsonProperty
     String getDescription();
     
     /**
@@ -29,6 +38,7 @@ public interface Task {
      * 
      * @return the form that 
      */
+    @JsonProperty
     Form getForm();
     
     /**
@@ -36,6 +46,7 @@ public interface Task {
      * 
      * @return the {@link AllocationStrategies} corresponding to this {@link Task}
      */
+    @JsonIgnore
     AllocationStrategies getAllocationStrategies();
     
     /**
@@ -43,5 +54,6 @@ public interface Task {
      * 
      * @return a list of {@link AbstractResource}s that is assigned to this task
      */
+    @JsonIgnore
     Set<AbstractResource<?>> getAssignedResources();
 }

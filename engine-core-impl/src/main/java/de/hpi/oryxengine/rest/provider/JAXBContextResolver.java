@@ -21,7 +21,7 @@ import de.hpi.oryxengine.resource.AbstractResource;
  *      how-to-control-json-output-format-from-jersey/
  * https://jaxb.dev.java.net/guide/Migrating_JAXB_2_0_applications_to_JavaSE_6.html#Using_JAXB_2_1_with_JavaSE_6
  */
-@Provider
+//@Provider
 @Produces({ MediaType.APPLICATION_JSON })
 public class JAXBContextResolver
 implements ContextResolver<JAXBContext> {

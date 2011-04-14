@@ -3,6 +3,7 @@ package de.hpi.oryxengine.rest.api;
 import java.util.List;
 import java.util.UUID;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -34,7 +35,8 @@ import de.hpi.oryxengine.rest.WorklistServiceFacade;
  * @since 2011-03-24
  */
 @Path("/worklist")
-@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+//@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+//@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public final class WorklistWebService implements WorklistServiceFacade {
 
     private final WorklistService service;
@@ -73,31 +75,31 @@ public final class WorklistWebService implements WorklistServiceFacade {
     // @Path("/items/")
     // @GET
     // // @Override
-    // public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") ResourceImpl<?> resource) {
-    // return this.service.getWorklistItems(resource);
+    // public @Nonnull List<WorklistItem> getWorklistItems(ResourceImpl<?> resource) {
+    //     return this.service.getWorklistItems(resource);
     // }
     //
     // @Path("/items/position/")
     // @GET
     // // @Override
-    // public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") Resource<?> resource) {
-    // return this.service.getWorklistItems(resource);
+    // public @Nonnull List<WorklistItem> getWorklistItems(Resource<?> resource) {
+    //     return this.service.getWorklistItems(resource);
     // }
     //
     // @Path("/items/organization-unit/")
     // @GET
     // // @Override
-    // public @Nonnull List<WorklistItem> getWorklistItems(@QueryParam("resource") OrganizationUnitImpl resource) {
-    // return this.service.getWorklistItems(resource);
+    // public @Nonnull List<WorklistItem> getWorklistItems(OrganizationUnitImpl resource) {
+    //     return this.service.getWorklistItems(resource);
     // }
-
+    
     @Path("/items/{resource-type}/{resource-id}")
     @GET
     @Override
     @Produces(MediaType.APPLICATION_JSON)
     public List<WorklistItem> getWorklistItems(@PathParam("resource-type") ResourceType resourceType,
                                                @PathParam("resource-id") String resourceId) {
-
+        
         UUID resourceUUID = UUID.fromString(resourceId);
         AbstractResource<?> resource = null;
         
@@ -127,17 +129,20 @@ public final class WorklistWebService implements WorklistServiceFacade {
     }
 
 
-//    @Path("/item/claim")
-//    @POST
-//    public void claimWorklistItemBy(@QueryParam("worklist-item") WorklistItem workItem,
-//                                    @QueryParam("resource") AbstractResource<?> resource) {
-//        
-////        UUID resourceUUID = UUID.fromString(resourceId);
-////        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
-////        UUID worklistItemUUID = UUID.fromString(workItem);
-////        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
-//         this.service.claimWorklistItemBy(workItem, resource);
-//    }
+    @Path("/item/claim")
+    @POST
+    public void claimWorklistItemBy(WorklistItem workItem,
+                                    AbstractResource<?> resource) {
+        
+//        UUID resourceUUID = UUID.fromString(resourceId);
+//        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+//        UUID worklistItemUUID = UUID.fromString(workItem);
+//        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
+        System.out.println("YEAAAAAAAAAAAAAAAAAAAAHH");
+        System.out.println(workItem);
+        System.out.println(resource);
+        this.service.claimWorklistItemBy(workItem, resource);
+    }
     
     @Path("/item/{worklist-item-id}/claim/{resource-type}-{resource-id}")
     @POST

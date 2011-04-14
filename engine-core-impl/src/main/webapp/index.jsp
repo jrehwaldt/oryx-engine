@@ -4,6 +4,12 @@
     <head> 
         <link rel="SHORTCUT ICON" href="images/favicon/favicon.ico" type="image/x-icon">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <link rel="stylesheet" type="text/css" href="stylesheets/layout.css">
+        
+        <script type="text/javascript" src="javascripts/lib/jquery-1.5.2.js"></script>
+        <script type="text/javascript" src="javascripts/workitem.js"></script>
+        
         <title>Oryx Engine goes REST</title>
     </head>
     <body>
@@ -24,5 +30,31 @@
                 </ul>
              </li>
         </ul>
+        
+        <div id="demo"></div>
+        
+        <script type="text/javascript">
+        $().ready(function() {
+            /*
+            $.ajax({
+                method: 'POST',
+                url: 'api/worklist/item/claim',
+                data: {workItem: DEMO_WORKITEM, resource: null},
+                success: function(data) {
+                    $('#demo').html(data);
+                },
+                dataType: dataType
+            });
+            */
+            
+            $.post('api/worklist/item/claim', {workItem: DEMO_WORKITEM, resource: null},
+                function(data) {
+                    $('#demo').html(data);
+                },
+                "json"
+            );
+        });
+        </script>
+        
     </body>
 </html>
