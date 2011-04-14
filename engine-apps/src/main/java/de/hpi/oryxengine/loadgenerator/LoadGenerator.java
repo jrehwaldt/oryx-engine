@@ -27,7 +27,7 @@ public class LoadGenerator {
     private static final String DEFAULT_PROCESS = "ExampleProcessDeployer";
     
     /** The Constant DEFAULT_NUMBER_OF_RUNS. */
-    private static final int DEFAULT_NUMBER_OF_RUNS = 1000000;
+    private static final int DEFAULT_NUMBER_OF_RUNS = 100000;
     
     /** The Constant DEFAULT_NUMBER_OF_THREADS. */
     private static final int DEFAULT_NUMBER_OF_THREADS = 4;
