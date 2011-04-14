@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
-import de.hpi.oryxengine.plugin.activity.ActivityLifecycleChangeEvent;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
