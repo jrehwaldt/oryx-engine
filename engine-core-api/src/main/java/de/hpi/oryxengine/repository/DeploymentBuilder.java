@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.repository;
 
 import java.io.InputStream;
+import java.util.UUID;
 
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
@@ -18,9 +19,9 @@ public interface DeploymentBuilder {
      *            - the name of the resource that is deployed
      * @param inputStream
      *            - the {@link InputStream} that contains the content of the
-     * @return a {@link DeploymentBuilder} in order to keep on deploying resources
+     * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifacts ProcessArtifacts
      */
-    DeploymentBuilder deployResourceAsInputStream(String resourceName, InputStream inputStream);
+    UUID deployResourceAsInputStream(String resourceName, InputStream inputStream);
 
     /**
      * Adds a resource to the repository. So that it is available for all {@link ProcessDefinition}s. This method allows
@@ -30,9 +31,9 @@ public interface DeploymentBuilder {
      *            - the name of the {@link AbstractProcessArtifacts} that is deployed
      * @param resourceClasspath
      *            - the classpath of the {@link AbstractProcessArtifacts}
-     * @return a {@link DeploymentBuilder} in order to keep on deploying resources
+     * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifacts ProcessArtifact
      */
-    DeploymentBuilder deployClasspathResource(String resourceName, String resourceClasspath);
+    UUID deployClasspathResource(String resourceName, String resourceClasspath);
 
     /**
      * Adds a resource to the repository. So that it is available for all {@link ProcessDefinition}s. This method allows
@@ -42,9 +43,9 @@ public interface DeploymentBuilder {
      *            - the name of the {@link AbstractProcessArtifacts} that is deployed
      * @param resourceStringContent
      *            - the {@link String} content of the {@link AbstractProcessArtifacts ProcessResource}
-     * @return a {@link DeploymentBuilder} in order to keep on deploying resources
+     * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifacts ProcessArtifact}
      */
-    DeploymentBuilder deployResourceAsString(String resourceName, String resourceStringContent);
+    UUID deployResourceAsString(String resourceName, String resourceStringContent);
 
     /**
      * Adds a {@link ProcessDefinition} to the repository. So that it is available for instantiation after activation.
@@ -55,9 +56,9 @@ public interface DeploymentBuilder {
      *            - the name of the {@link ProcessDefinition}
      * @param processDefinitionImporter
      *            - that is able to create a {@link ProcessDefinition}
-     * @return a {@link DeploymentBuilder} in order to keep on deploying resources {@link ProcessDefinition}.
+     * @return a {@link UUID} representing the internal ID of the {@link ProcessDefinition}
      */
-    DeploymentBuilder deployProcessDefinition(String processDefinitionName,
+    UUID deployProcessDefinition(String processDefinitionName,
                                               ProcessDefinitionImporter processDefinitionImporter);
 
     /**
@@ -70,9 +71,9 @@ public interface DeploymentBuilder {
      * 
      * @param processDefinitionImporter
      *            - that is able to create a {@link ProcessDefinition}
-     * @return a {@link DeploymentBuilder} in order to keep on deploying resources
+     * @return a {@link UUID} representing the internal ID of the {@link ProcessDefinition}
      */
-    DeploymentBuilder deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter);
+    UUID deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter);
 
     // /**
     // * Deploys the added {@link AbstractProcessResource ProcessResources} and {@link ProcessDefinition

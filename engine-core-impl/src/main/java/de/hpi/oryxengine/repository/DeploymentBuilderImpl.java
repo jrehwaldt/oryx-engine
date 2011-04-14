@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.repository;
 
 import java.io.InputStream;
+import java.util.UUID;
 
 import de.hpi.oryxengine.RepositoryServiceImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -19,28 +20,28 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
     }
 
     @Override
-    public DeploymentBuilder deployResourceAsInputStream(String resourceName, InputStream inputStream) {
+    public UUID deployResourceAsInputStream(String resourceName, InputStream inputStream) {
 
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public DeploymentBuilder deployClasspathResource(String resourceName, String resourceClasspath) {
+    public UUID deployClasspathResource(String resourceName, String resourceClasspath) {
 
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public DeploymentBuilder deployResourceAsString(String resourceName, String resourceStringContent) {
+    public UUID deployResourceAsString(String resourceName, String resourceStringContent) {
 
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public DeploymentBuilder deployProcessDefinition(String processDefinitionName,
+    public UUID deployProcessDefinition(String processDefinitionName,
                                                      ProcessDefinitionImporter processDefinitionImporter) {
 
         ProcessDefinition processDefinition = processDefinitionImporter.createProcessDefinition();
@@ -48,17 +49,17 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
 
         repositoryServiceImpl.getProcessDefinitionsTable().put(processDefinition.getID(), processDefinition);
 
-        return this;
+        return processDefinition.getID();
     }
 
     @Override
-    public DeploymentBuilder deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter) {
+    public UUID deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter) {
 
         ProcessDefinition processDefinition = processDefinitionImporter.createProcessDefinition();
         
         repositoryServiceImpl.getProcessDefinitionsTable().put(processDefinition.getID(), processDefinition);
         
-        return this;
+        return processDefinition.getID();
     }
 
 }

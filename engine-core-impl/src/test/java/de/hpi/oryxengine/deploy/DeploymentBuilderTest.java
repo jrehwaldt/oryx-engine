@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.factory.definition.ProcessDefinitionFactory;
 import de.hpi.oryxengine.factory.definition.SimpleProcessDefinitionFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -57,6 +58,23 @@ public class DeploymentBuilderTest extends AbstractTestNGSpringContextTests {
         // Best Regards Tom Baeyens
         deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
         Assert.assertEquals(repo.getProcessDefinition(defID), def,
-                            "The deployed process definition should be avaialable in the repository.");
+            "The deployed process definition should be avaialable in the repository.");
+    }
+
+    /**
+     * Deploy two {@link ProcessDefinition ProcessDefinitions} with the same name.
+     * 
+     * @throws DefinitionNotFoundException
+     */
+    @Test
+    public void testDuplicateDeployment()
+    throws DefinitionNotFoundException {
+
+        // Best Regards Tom Baeyens
+        deploymentBuilder.deployProcessDefinition("processDefinition", new RawProcessDefintionImporter(def));
+        deploymentBuilder.deployProcessDefinition("processDefinition", new RawProcessDefintionImporter(def));
+
+        Assert.assertEquals(repo.getProcessDefinition(defID), def,
+            "The deployed process definition should be avaialable in the repository.");
     }
 }

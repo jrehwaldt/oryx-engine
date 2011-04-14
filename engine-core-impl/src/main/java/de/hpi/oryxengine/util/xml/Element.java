@@ -12,18 +12,20 @@ import org.xml.sax.Locator;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 
 /**
- * Represents one XML element.
- * 
+ * Represents one XML element. * 
  */
 public class Element {
 
     protected String uri;
     protected String tagName;
 
-    /*
-     * Key of map = 'uri':attributeName
+    /**
+     * This {@link Map} stores the attributes of the XML.
      * 
-     * if namespace is empty, key is 'attributeName'
+     * The Key of the {@link Map} consists of the following: nsUri + : + attributeName
+     * E.g. xsl:id , see http://www.w3.org/TR/xml-names/#uniqAttrs
+     * 
+     * If namespace is empty, key is only the attributeName, e.g. id .
      */
     protected Map<String, Attribute> attributeMap = new HashMap<String, Attribute>();
 
@@ -62,12 +64,12 @@ public class Element {
         }
     }
 
-    public List<Element> elements(String tagName) {
+    public List<Element> getElements(String tagName) {
 
-        return elementsNS(null, tagName);
+        return getElementsNS(null, tagName);
     }
 
-    public List<Element> elementsNS(String nameSpaceUri, String tagName) {
+    public List<Element> getElementsNS(String nameSpaceUri, String tagName) {
 
         List<Element> selectedElements = new ArrayList<Element>();
         for (Element element : elements) {
@@ -80,14 +82,14 @@ public class Element {
         return selectedElements;
     }
 
-    public Element element(String tagName) {
+    public Element getElement(String tagName) {
 
-        return elementNS(null, tagName);
+        return getElementNS(null, tagName);
     }
 
-    public Element elementNS(String nameSpaceUri, String tagName) {
+    public Element getElementNS(String nameSpaceUri, String tagName) {
 
-        List<Element> elements = elementsNS(nameSpaceUri, tagName);
+        List<Element> elements = getElementsNS(nameSpaceUri, tagName);
         if (elements.size() == 0) {
             return null;
         } else if (elements.size() > 1) {
@@ -102,7 +104,7 @@ public class Element {
         elements.add(element);
     }
 
-    public String attribute(String name) {
+    public String getAttribute(String name) {
 
         if (attributeMap.containsKey(name)) {
             return attributeMap.get(name).getValue();
@@ -110,17 +112,17 @@ public class Element {
         return null;
     }
 
-    public Set<String> attributes() {
+    public Set<String> getAttributes() {
 
         return attributeMap.keySet();
     }
 
-    public String attributeNS(String namespaceUri, String name) {
+    public String getAttributeNS(String namespaceUri, String name) {
 
-        return attribute(composeMapKey(namespaceUri, name));
+        return getAttribute(composeMapKey(namespaceUri, name));
     }
 
-    public String attribute(String name, String defaultValue) {
+    public String getAttribute(String name, String defaultValue) {
 
         if (attributeMap.containsKey(name)) {
             return attributeMap.get(name).getValue();
@@ -128,9 +130,9 @@ public class Element {
         return defaultValue;
     }
 
-    public String attributeNS(String namespaceUri, String name, String defaultValue) {
+    public String getAttributeNS(String namespaceUri, String name, String defaultValue) {
 
-        return attribute(composeMapKey(namespaceUri, name), defaultValue);
+        return getAttribute(composeMapKey(namespaceUri, name), defaultValue);
     }
 
     protected String composeMapKey(String attributeUri, String attributeName) {
@@ -175,12 +177,16 @@ public class Element {
     }
 
     /**
+     * Appends a certain {@link String} to the text of this {@link Element}.
+     * 
      * Due to the nature of SAX parsing, sometimes the characters of an element are not processed at once. So instead of
      * a setText operation, we need to have an appendText operation.
+     *
+     * @param textToBeAppended - the {@link String} that will be appended.
      */
-    public void appendText(String text) {
+    public void appendText(String textToBeAppended) {
 
-        this.text.append(text);
+        this.text.append(textToBeAppended);
     }
 
     public String getText() {

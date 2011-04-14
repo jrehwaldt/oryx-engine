@@ -68,8 +68,7 @@ public final class RepositorySetup {
 
         param.makeStartNode(false);
         Node node2 = builder.createNode(param);
-        builder.createTransition(node1, node2).setName(processName).setDescription(processDescription)
-        .setID(FIRST_EXAMPLE_PROCESS_ID);
+        builder.createTransition(node1, node2).setName(processName).setDescription(processDescription);
         return builder.buildDefinition();
     }
 }

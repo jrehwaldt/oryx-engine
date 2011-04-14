@@ -7,6 +7,7 @@ import java.util.UUID;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
+import de.hpi.oryxengine.bootsstrap.OryxEngine;
 import de.hpi.oryxengine.correlation.adapter.EventTypes;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
@@ -48,16 +49,17 @@ public final class ExampleMailStartProcess {
 	 * @throws InterruptedException
 	 *             the interrupted exception
 	 */
+	// TODO @Alle Anschauen und auf den aktuellen Stand bringen; Gerardo Fragen was gemacht werden muss!!!
 	public static void main(String[] args) throws InterruptedException {
 
-		UUID processID = UUID.randomUUID();
+		String processName = "exampleMailProcess";
 
 		// the main
-		NavigatorImpl navigator = new NavigatorImpl();
+		OryxEngine.start();
+		NavigatorImpl navigator = (NavigatorImpl) ServiceFactory.getNavigatorService();
 		navigator.registerPlugin(NavigatorListenerLogger.getInstance());
 
-		DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-
+		// Building the processDefintion
 		ProcessBuilder builder = new ProcessBuilderImpl();
 		NodeParameter param = new NodeParameterImpl();
 		param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
@@ -82,9 +84,9 @@ public final class ExampleMailStartProcess {
 		List<EventCondition> conditions = new ArrayList<EventCondition>();
 		conditions.add(subjectCondition);
 
-		StartEvent event = new StartEventImpl(EventTypes.Mail, config,
-				conditions, processID);
+		StartEvent event = new StartEventImpl(EventTypes.Mail, config,conditions, processName);
 
+		DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
 		Node node1 = builder.createNode(param);
 		try {
 			builder.createStartTrigger(event, node1);
@@ -97,8 +99,7 @@ public final class ExampleMailStartProcess {
 
 		Node node2 = builder.createNode(param);
 
-		builder.createTransition(node1, node2).setDescription("description")
-				.setID(processID);
+		builder.createTransition(node1, node2).setDescription("description").setName(processName);
 
 		try {
 			ProcessDefinition def = builder.buildDefinition();

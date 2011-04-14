@@ -1,11 +1,15 @@
 package de.hpi.oryxengine.util.xml;
 
-import java.io.BufferedReader;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.util.IoUtil;
+import de.hpi.oryxengine.util.ReflectionUtil;
 import de.hpi.oryxengine.util.io.ResourceStreamSource;
 
 /**
@@ -14,41 +18,45 @@ import de.hpi.oryxengine.util.io.ResourceStreamSource;
 public class XMLParserTest {
 
     private final static String XML_TEST_RESOURCE = "de/hpi/oryxengine/util/xml/test-xml-for-parser.xml";   
-  
-    private static String FAILURE_MESSAGE = getFaliureMessage();
-
-    public static String getFaliureMessage() {
+ 
+    private String failureMessage;
+    
+    public String getFaliureMessage() {
         
-        StringBuilder stringBuilder = new StringBuilder("The XML test file looks like this: \n");
-        stringBuilder.
-        
-        StringBuffer fileData = new StringBuffer();
-        BufferedReader reader = new BufferedReader(new );
-        char[] buf = new char[1024];
-        int numRead=0;
-        while((numRead=reader.read(buf)) != -1){
-            String readData = String.valueOf(buf, 0, numRead);
-            fileData.append(readData);
-            buf = new char[1024];
+        if (this.failureMessage != null) {
+            return this.failureMessage;
         }
-        reader.close();
-        return fileData.toString();
-        stringBuilder.append(sb)
-        return stringBuilder.toString();
+        
+        String resultString;
+        URL fileURL = ReflectionUtil.getResource(XML_TEST_RESOURCE);
+        try {
+            resultString = "\n" + IoUtil.readFileAsString(new File(fileURL.toURI()));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            resultString ="The the XML test resource can be found here: " + XML_TEST_RESOURCE;
+        }
+        this.failureMessage = resultString;
+        return resultString;
     }
     
     @Test
     public void testProcessingXML() {
 
-        Parser parser = new Parser();
+        XmlParser parser = new XmlParser();
 
-        Parse parse = parser.createParse();
+        XmlParse parse = parser.createParse();
         parse.setStreamSource(new ResourceStreamSource(XML_TEST_RESOURCE));
         parse.execute();
 
-        Assert.assertEquals(parse.rootElement.tagName, "root", FAILURE_MESSAGE);
+        Assert.assertEquals(parse.rootElement.tagName, "root", getFaliureMessage());
         List<Element> elements = parse.rootElement.getElements();
-        Assert.assertTrue(elements.size() == 2, text, FAILURE_MESSAGE);
-        Assert.assertEquals(elements.get(0).getElements().get(0).getText(), "text 1", FAILURE_MESSAGE);
+        Assert.assertTrue(elements.size() == 2, getFaliureMessage());
+        
+        Element firstChild = elements.get(0);
+        Assert.assertEquals(firstChild.getAttribute("id"), "first_child", getFaliureMessage());
+        Assert.assertEquals(elements.get(0).getElements().get(0).getText(), "text 1", getFaliureMessage());
+
+        Element secondChild = elements.get(1);
+        Assert.assertEquals(secondChild.getAttributeNS("ls", "as"), "123", getFaliureMessage());
     }
 }

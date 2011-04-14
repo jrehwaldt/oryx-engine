@@ -87,13 +87,13 @@ public class ProcessBuilderImpl implements ProcessBuilder {
         return this;
     }
 
-    @Override
-    public ProcessBuilder setID(UUID id) {
-
-        this.id = id;
-        return this;
-
-    }
+//    @Override
+//    public ProcessBuilder setID(UUID id) {
+//
+//        this.id = id;
+//        return this;
+//
+//    }
 
     @Override
     public ProcessBuilder setName(String processName) {

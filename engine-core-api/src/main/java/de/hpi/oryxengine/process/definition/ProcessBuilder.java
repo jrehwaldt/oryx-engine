@@ -19,9 +19,10 @@ public interface ProcessBuilder {
 
     /**
      * Gets the definition as the result of the building process.
-     *
+     * 
      * @return the process definition
-     * @throws IllegalStarteventException the exception for an illegal start event
+     * @throws IllegalStarteventException
+     *             the exception for an illegal start event
      */
     @Nonnull
     ProcessDefinition buildDefinition()
@@ -71,15 +72,15 @@ public interface ProcessBuilder {
     @Nonnull
     ProcessBuilder createTransition(@Nonnull Node source, @Nonnull Node destination, @Nonnull Condition condition);
 
-    /**
-     * Sets the iD.
-     * 
-     * @param id
-     *            the new ID
-     * @return the process builder
-     */
-    @Nonnull
-    ProcessBuilder setID(@Nonnull UUID id);
+//    /**
+//     * Sets the iD.
+//     * 
+//     * @param id
+//     *            the new ID
+//     * @return the process builder
+//     */
+//    @Nonnull
+//    ProcessBuilder setID(@Nonnull UUID id);
 
     /**
      * Sets the description.
@@ -93,6 +94,7 @@ public interface ProcessBuilder {
 
     /**
      * S
+     * 
      * @param description
      * @return
      */

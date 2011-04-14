@@ -33,7 +33,7 @@ public class LoadGenerator {
     private static final int DEFAULT_NUMBER_OF_THREADS = 4;
     
     /** The Constant PATH_TO_PROCESS_FACTORIES. */
-    private static final String PATH_TO_PROCESS_FACTORIES = "de.hpi.oryxengine.factory.process.";
+    private static final String PATH_TO_PROCESS_FACTORIES = "de.hpi.oryxengine.factories.process.";
 
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -88,8 +88,22 @@ public class LoadGenerator {
 
         // definitions should be deployed and the appropriate then should be selected...
         deployProcessDefinition();
-        
-
+    }
+    
+    /**
+     * Convenience constructor using all the defaults.
+     */
+    public LoadGenerator() {
+    	this(DEFAULT_PROCESS, DEFAULT_NUMBER_OF_RUNS, DEFAULT_NUMBER_OF_THREADS);
+    }
+    
+    /**
+     * Uses the default values except for the number of runs.
+     *
+     * @param numberOfRuns the number of runs of the instance.
+     */
+    public LoadGenerator(int numberOfRuns) {
+    	this(DEFAULT_PROCESS, numberOfRuns, DEFAULT_NUMBER_OF_THREADS);
     }
 
     /**
@@ -214,7 +228,7 @@ public class LoadGenerator {
     public static void main(String[] args)
     throws FileNotFoundException {
 
-        LoadGenerator gene = new LoadGenerator(DEFAULT_PROCESS, DEFAULT_NUMBER_OF_RUNS, DEFAULT_NUMBER_OF_THREADS);
+        LoadGenerator gene = new LoadGenerator();
         gene.execute();
     }
 }

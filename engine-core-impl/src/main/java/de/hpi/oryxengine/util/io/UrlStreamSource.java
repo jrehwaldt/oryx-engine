@@ -26,4 +26,11 @@ public class UrlStreamSource implements StreamSource {
             throw new DalmatinaRuntimeException(errorMessage, e);
         }
     }
+
+    @Override
+    public String getType() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

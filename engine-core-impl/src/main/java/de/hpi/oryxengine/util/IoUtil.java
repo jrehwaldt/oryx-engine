@@ -13,50 +13,47 @@
 package de.hpi.oryxengine.util;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 
-public class IoUtil {
+/**
+ * Some IO-Utilities.
+ */
+public final class IoUtil {
 
-    public static byte[] readInputStream(InputStream inputStream, String inputStreamName) {
+    public static String readFileAsString(File file) {
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[16 * 1024];
-        try {
-            int bytesRead = inputStream.read(buffer);
-            while (bytesRead != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-                bytesRead = inputStream.read(buffer);
-            }
-        } catch (Exception e) {
-            String errorMessage = "The InputStream '" + inputStreamName + "' could not be read.";
-            throw new DalmatinaRuntimeException(errorMessage, e);
-        }
-        return outputStream.toByteArray();
+        return getStringBufferFromFile(file);
     }
 
     public static String readFileAsString(String filePath) {
 
-        byte[] buffer = new byte[(int) getFile(filePath).length()];
+        return getStringBufferFromFile(getFile(filePath));
+    }
+
+    private static String getStringBufferFromFile(File file) {
+
+        byte[] buffer = new byte[(int) file.length()];
         BufferedInputStream inputStream = null;
+
         try {
-            inputStream = new BufferedInputStream(new FileInputStream(getFile(filePath)));
+            inputStream = new BufferedInputStream(new FileInputStream(file));
+
             inputStream.read(buffer);
         } catch (Exception e) {
-            throw new ActivitiException("Couldn't read file " + filePath + ": " + e.getMessage());
+            String errorMessage = "The file '" + file + "' could not be read. The following error occured: "
+                + e.getMessage();
+            throw new DalmatinaRuntimeException(errorMessage);
         } finally {
             IoUtil.closeSilently(inputStream);
         }
+
         return new String(buffer);
     }
 
@@ -66,21 +63,9 @@ public class IoUtil {
         try {
             return new File(url.toURI());
         } catch (Exception e) {
-            throw new ActivitiException("Couldn't get file " + filePath + ": " + e.getMessage());
-        }
-    }
-
-    public static void writeStringToFile(String content, String filePath) {
-
-        BufferedOutputStream outputStream = null;
-        try {
-            outputStream = new BufferedOutputStream(new FileOutputStream(getFile(filePath)));
-            outputStream.write(content.getBytes());
-            outputStream.flush();
-        } catch (Exception e) {
-            throw new ActivitiException("Couldn't write file " + filePath, e);
-        } finally {
-            IoUtil.closeSilently(outputStream);
+            String errorMessage = "Couldn't get file '" + filePath + "'. The following error occurred: "
+                + e.getMessage();
+            throw new DalmatinaRuntimeException(errorMessage);
         }
     }
 
@@ -88,7 +73,7 @@ public class IoUtil {
      * Closes the given stream. The same as calling {@link InputStream#close()}, but errors while closing are silently
      * ignored.
      */
-    public static void closeSilently(InputStream inputStream) {
+    private static void closeSilently(InputStream inputStream) {
 
         try {
             if (inputStream != null) {
@@ -103,7 +88,7 @@ public class IoUtil {
      * Closes the given stream. The same as calling {@link OutputStream#close()}, but errors while closing are silently
      * ignored.
      */
-    public static void closeSilently(OutputStream outputStream) {
+    private static void closeSilently(OutputStream outputStream) {
 
         try {
             if (outputStream != null) {
@@ -112,5 +97,12 @@ public class IoUtil {
         } catch (IOException ignore) {
             // Exception is silently ignored
         }
+    }
+
+    /**
+     * Hidden.
+     */
+    private IoUtil() {
+
     }
 }

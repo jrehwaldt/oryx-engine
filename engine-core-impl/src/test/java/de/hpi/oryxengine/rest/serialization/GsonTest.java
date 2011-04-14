@@ -8,8 +8,6 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
-import junit.framework.Assert;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -19,6 +17,8 @@ import com.google.gson.GsonBuilder;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.rest.serialization.proofofconcept.ConcreteA;
+
+import junit.framework.Assert;
 
 /**
  * 
