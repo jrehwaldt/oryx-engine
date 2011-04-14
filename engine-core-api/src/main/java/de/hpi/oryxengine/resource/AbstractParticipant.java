@@ -58,7 +58,7 @@ public abstract class AbstractParticipant extends AbstractResource<AbstractParti
      * 
      * @return a read-only Set of all Capabilities of this Participant
      */
-    public abstract Set<AbstractCapability> getMyCapabilities();
+    public abstract Set<AbstractCapability> getMyCapabilitiesImmutable();
     // Participant addMyCapability(Capability capability);
 
     /**

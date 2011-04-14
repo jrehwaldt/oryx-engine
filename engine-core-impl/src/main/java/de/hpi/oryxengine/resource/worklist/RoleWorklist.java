@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.AbstractRole;
@@ -13,6 +15,7 @@ import de.hpi.oryxengine.resource.AbstractRole;
  */
 public class RoleWorklist extends AbstractDefaultWorklist {
 
+    @JsonIgnore
     private AbstractRole relatedRole;
     
     /**

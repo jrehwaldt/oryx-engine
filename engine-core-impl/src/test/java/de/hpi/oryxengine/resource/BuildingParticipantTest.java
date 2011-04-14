@@ -1,22 +1,17 @@
 package de.hpi.oryxengine.resource;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 
 /**
  * Tests the building of {@link Participant}s in the organization structure.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class BuildingParticipantTest extends AbstractTestNGSpringContextTests {
+public class BuildingParticipantTest extends AbstractTest {
 
     private IdentityService identityService = null;
 

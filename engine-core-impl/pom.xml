@@ -83,6 +83,11 @@
             <artifactId>resteasy-jaxrs</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+            <scope>compile</scope>
+        </dependency>
         <!-- Gson: Java to Json conversion -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -110,11 +115,10 @@
         </dependency>
         -->
         <!-- LessCSS -->
-        <!--
         <dependency>
             <groupId>com.asual.lesscss</groupId>
             <artifactId>lesscss-servlet</artifactId>
-            <version>1.2.11</version> <!- - 1.0.41 - ->
+            <version>1.2.11</version> <!-- 1.0.41 -->
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -126,7 +130,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        -->
         <!-- Dependency Injection Issues -->
         <dependency>
             <groupId>org.springframework</groupId>

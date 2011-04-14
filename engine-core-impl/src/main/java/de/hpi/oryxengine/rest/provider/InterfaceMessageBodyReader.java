@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import javax.ws.rs.Produces;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -25,8 +25,8 @@ import de.hpi.oryxengine.resource.AbstractResource;
  * 
  * @author Jan Rehwaldt
  */
-@Provider
-@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+//@Provider
+@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public class InterfaceMessageBodyReader
 implements MessageBodyReader<AbstractResource<?>> {
     
@@ -40,18 +40,18 @@ implements MessageBodyReader<AbstractResource<?>> {
                               Type genericType,
                               Annotation[] annotations,
                               MediaType mediaType) {
-
+        
         logger.info("Using interface body reader for {}?", type);
         return AbstractResource.class.isAssignableFrom(type);
     }
     
     @Override
     public AbstractResource<?> readFrom(Class<AbstractResource<?>> type,
-                                Type genericType,
-                                Annotation[] annotations,
-                                MediaType mediaType,
-                                MultivaluedMap<String, String> httpHeaders,
-                                InputStream entityStream)
+                                        Type genericType,
+                                        Annotation[] annotations,
+                                        MediaType mediaType,
+                                        MultivaluedMap<String, String> httpHeaders,
+                                        InputStream entityStream)
     throws IOException {
         AbstractResource<?> resource = null;
         JAXBContext context = contextResolver.getContext(type);
@@ -64,5 +64,4 @@ implements MessageBodyReader<AbstractResource<?>> {
         }
         return resource;
     }
-
 }

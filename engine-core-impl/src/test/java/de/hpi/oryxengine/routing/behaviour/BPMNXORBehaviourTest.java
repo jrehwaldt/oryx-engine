@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Condition;
@@ -115,8 +115,8 @@ public class BPMNXORBehaviourTest {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("a", 1);
 
-        Condition c = new ConditionImpl(map);
-        ProcessBuilder builder = new ProcessBuilderImpl();
+        Condition c = new ConditionImpl(map, "==");
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
             new XORSplitBehaviour());
 

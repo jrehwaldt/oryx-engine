@@ -4,6 +4,11 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.codehaus.jackson.annotate.JsonAnySetter;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Form;
@@ -21,6 +26,11 @@ public class WorklistItemImpl implements WorklistItem {
     private Task task;
     private transient Token correspondingToken;
     private UUID id;
+    
+    /**
+     * Hidden constructor for deserialization.
+     */
+    protected WorklistItemImpl() { }
     
     /**
      * Default Constructor.
@@ -46,30 +56,35 @@ public class WorklistItemImpl implements WorklistItem {
     }
 
     @Override
+    @JsonIgnore
     public String getSubject() {
 
         return task.getSubject();
     }
 
     @Override
+    @JsonIgnore
     public String getDescription() {
 
         return task.getDescription();
     }
 
     @Override
+    @JsonIgnore
     public Form getForm() {
 
         return task.getForm();
     }
 
     @Override
+    @JsonIgnore
     public AllocationStrategies getAllocationStrategies() {
 
         return task.getAllocationStrategies();
     }
 
     @Override
+    @JsonProperty
     public Set<AbstractResource<?>> getAssignedResources() {
 
         return task.getAssignedResources();
@@ -126,7 +141,37 @@ public class WorklistItemImpl implements WorklistItem {
      *
      * @return the task
      */
+    @JsonProperty
     public Task getTask() {
         return this.task;
+    }
+
+    /**
+     * Sets any other type not recognized by JSON serializer.
+     * This method is indented to be used by Jackson.
+     * 
+     * @param fieldName
+     *            - the fieldName
+     * @param value
+     *            - the value
+     */
+    @JsonAnySetter
+    protected void setOtherJson(@Nonnull String fieldName,
+                                @Nullable String value) {
+        
+        if ("id".equals(fieldName)) {
+            this.id = UUID.fromString(value);
+        }
+    }
+    
+    /**
+     * Sets the underlying task. This method is ONLY used for Jackson.
+     *
+     * @param task - the task to be set
+     */
+    @SuppressWarnings("unused")
+    @JsonProperty
+    private void setTask(@Nonnull Task task) {
+        this.task = task;
     }
 }

@@ -19,7 +19,7 @@ import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleAssurancePlugin;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
@@ -114,7 +114,7 @@ public class IntermediateTimerTest extends AbstractTest {
    */
   @BeforeMethod
   public void beforeMethod() {
-      ProcessBuilder builder = new ProcessBuilderImpl();
+      ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
       // TODO set parameter and somehow register the plugin
 //      IntermediateTimer timer = new IntermediateTimer(WAITING_TIME);
 //      lifecycleTester = new ActivityLifecycleAssurancePlugin();

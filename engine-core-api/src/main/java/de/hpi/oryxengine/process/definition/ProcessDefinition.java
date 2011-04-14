@@ -8,15 +8,16 @@ import javax.xml.bind.annotation.XmlTransient;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.util.Attributable;
 import de.hpi.oryxengine.util.Identifiable;
 
 /**
  * The Interface of the process definition. The process definition holds the essential information of a process and
  * specifies its list of start nodes.
  * 
- * @author thorben
+ * @author Thorben
  */
-public interface ProcessDefinition extends Identifiable {
+public interface ProcessDefinition extends Identifiable, Attributable {
 
     /**
      * Retrieves the name of the {@link ProcessDefinition}.

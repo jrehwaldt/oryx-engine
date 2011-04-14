@@ -12,9 +12,11 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.definition.NodeParameter;
+import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
+import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
@@ -107,18 +109,20 @@ public class BPMNAndJoinTest {
 
         splitNode = mock(Node.class);
 
-        ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
-        node1 = builder.createNode(param);
-        node2 = builder.createNode(param);
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        NodeParameterBuilder nodeParamBuilder =
+            new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
+        node1 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        node2 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
 
-        param.setIncomingBehaviour(new AndJoinBehaviour());
-        joinNode = builder.createNode(param);
+        nodeParamBuilder.setIncomingBehaviour(new AndJoinBehaviour());
+        joinNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        
         builder.createTransition(node1, joinNode).createTransition(node2, joinNode);
         
-        param.setIncomingBehaviour(new SimpleJoinBehaviour());
-        node3 = builder.createNode(param);
+        nodeParamBuilder.setIncomingBehaviour(new SimpleJoinBehaviour());
+        node3 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
         builder.createTransition(joinNode, node3);
 
         Token token = new TokenImpl(splitNode, new ProcessInstanceImpl(null), navigator);

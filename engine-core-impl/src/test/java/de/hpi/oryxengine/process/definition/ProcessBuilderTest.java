@@ -19,7 +19,7 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
  * @author thorben
  */
 public class ProcessBuilderTest {
-    private ProcessBuilder builder;
+    private ProcessDefinitionBuilder builder;
     private Node startNode, endNode;
 
     /**
@@ -29,14 +29,11 @@ public class ProcessBuilderTest {
     @Test
     public void testSimpleBuildProcess() throws IllegalStarteventException {
 
-        NodeParameter param = new NodeParameterImpl();
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
+        startNode = builder.createStartNode(nodeParamBuilder.finishedNodeParameter());
 
-        param.setActivityClassOnly(NullActivity.class);
-        param.setIncomingBehaviour(new SimpleJoinBehaviour());
-        param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
-        startNode = builder.createStartNode(param);
-
-        endNode = builder.createNode(param);
+        endNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
 
         ProcessDefinition definition = builder.createTransition(startNode, endNode).buildDefinition();
 

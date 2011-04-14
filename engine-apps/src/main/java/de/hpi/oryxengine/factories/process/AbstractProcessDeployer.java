@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
 import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
@@ -15,7 +15,7 @@ import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 public abstract class AbstractProcessDeployer implements ProcessDeployer {
     
     /** The builder. */
-    protected ProcessBuilder builder;
+    protected ProcessDefinitionBuilder builder;
     
     @Override
     public UUID deploy() throws IllegalStarteventException {

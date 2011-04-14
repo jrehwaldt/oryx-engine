@@ -19,7 +19,7 @@ import de.hpi.oryxengine.process.structure.NodeImpl;
  * 
  * @author thorben
  */
-public class ProcessBuilderImpl implements ProcessBuilder {
+public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
 
     private ProcessDefinition definition;
 
@@ -32,6 +32,8 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     private String description;
 
     private Map<StartEvent, Node> temporaryStartTriggers;
+    
+    private Map<String, Object> temporaryAttributeTable;
 
     /**
      * Instantiates some temporary datastructures.
@@ -57,6 +59,7 @@ public class ProcessBuilderImpl implements ProcessBuilder {
         this.id = UUID.randomUUID();
         this.description = null;
         this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
+        this.temporaryAttributeTable = null;
 
         return definition;
     }
@@ -78,14 +81,14 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     }
 
     @Override
-    public ProcessBuilder createTransition(Node source, Node destination) {
+    public ProcessDefinitionBuilder createTransition(Node source, Node destination) {
 
         source.transitionTo(destination);
         return this;
     }
 
     @Override
-    public ProcessBuilder createTransition(Node source, Node destination, Condition condition) {
+    public ProcessDefinitionBuilder createTransition(Node source, Node destination, Condition condition) {
 
         source.transitionToWithCondition(destination, condition);
         return this;
@@ -100,14 +103,14 @@ public class ProcessBuilderImpl implements ProcessBuilder {
 //    }
 
     @Override
-    public ProcessBuilder setName(String processName) {
+    public ProcessDefinitionBuilder setName(String processName) {
         
         this.name = processName;
         return this;
     }
 
     @Override
-    public ProcessBuilder setDescription(String description) {
+    public ProcessDefinitionBuilder setDescription(String description) {
 
         this.description = description;
         return this;
@@ -120,6 +123,18 @@ public class ProcessBuilderImpl implements ProcessBuilder {
 
         this.temporaryStartTriggers.put(event, startNode);
 
+    }
+
+    @Override
+    public ProcessDefinitionBuilder setAttribute(String attributeId, Object attibuteValue) {
+
+        if (this.temporaryAttributeTable == null) {
+            this.temporaryAttributeTable = new HashMap<String, Object>();
+        }
+        
+        this.temporaryAttributeTable.put(attributeId, attibuteValue);
+        
+        return this;
     }
 
 }

@@ -11,8 +11,10 @@ import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.definition.NodeParameter;
+import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
+import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -114,20 +116,21 @@ public class BPMNUnstructuredJoinSplitTest {
      */
     private Token initializeToken() {
 
-        ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
+nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
+        Node splitNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        node1 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        node2 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        node3 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
 
-        Node splitNode = builder.createNode(param);
-        node1 = builder.createNode(param);
-        node2 = builder.createNode(param);
-        node3 = builder.createNode(param);
+        nodeParamBuilder.setIncomingBehaviour(new AndJoinBehaviour());
+        innerJoinNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        outerJoinNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
 
-        param.setIncomingBehaviour(new AndJoinBehaviour());
-        innerJoinNode = builder.createNode(param);
-        outerJoinNode = builder.createNode(param);
-
-        param.setIncomingBehaviour(new SimpleJoinBehaviour());
+        nodeParamBuilder.setIncomingBehaviour(new SimpleJoinBehaviour());
         endNode = new RoutingBehaviourTestFactory().createWithAndSplit();
 
         builder.createTransition(splitNode, node1).createTransition(splitNode, node2)

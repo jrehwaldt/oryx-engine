@@ -3,6 +3,8 @@ package de.hpi.oryxengine.repository;
 import java.io.InputStream;
 import java.util.UUID;
 
+import de.hpi.oryxengine.RepositoryService;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
@@ -47,19 +49,19 @@ public interface DeploymentBuilder {
      */
     UUID deployResourceAsString(String resourceName, String resourceStringContent);
 
-    /**
-     * Adds a {@link ProcessDefinition} to the repository. So that it is available for instantiation after activation.
-     * So the {@link ProcessDefinition} have to be activated after this deployment. This method allows to add a
-     * {@link ProcessDefinition}.
-     * 
-     * @param processDefinitionName
-     *            - the name of the {@link ProcessDefinition}
-     * @param processDefinitionImporter
-     *            - that is able to create a {@link ProcessDefinition}
-     * @return a {@link UUID} representing the internal ID of the {@link ProcessDefinition}
-     */
-    UUID deployProcessDefinition(String processDefinitionName,
-                                              ProcessDefinitionImporter processDefinitionImporter);
+    // /**
+    // * Adds a {@link ProcessDefinition} to the repository. So that it is available for instantiation after activation.
+    // * So the {@link ProcessDefinition} have to be activated after this deployment. This method allows to add a
+    // * {@link ProcessDefinition}.
+    // *
+    // * @param processDefinitionName
+    // * - the name of the {@link ProcessDefinition}
+    // * @param processDefinitionImporter
+    // * - that is able to create a {@link ProcessDefinition}
+    // * @return a {@link UUID} representing the internal ID of the {@link ProcessDefinition}
+    // */
+    // UUID deployProcessDefinition(String processDefinitionName,
+    // ProcessDefinitionImporter processDefinitionImporter);
 
     /**
      * Adds a {@link ProcessDefinition} to the repository. So that it is available for instantiation after activation.
@@ -72,6 +74,9 @@ public interface DeploymentBuilder {
      * @param processDefinitionImporter
      *            - that is able to create a {@link ProcessDefinition}
      * @return a {@link UUID} representing the internal ID of the {@link ProcessDefinition}
+     * @throws DalmatinaRuntimeException
+     *             - in case the {@link ProcessDefinition} is already deployed in the {@link RepositoryService
+     *             Repository}
      */
     UUID deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter);
 

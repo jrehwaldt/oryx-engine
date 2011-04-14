@@ -9,36 +9,19 @@ import org.jboss.resteasy.mock.MockHttpResponse;
 import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
-import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.NodeParameter;
-import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.repository.DeploymentBuilder;
-import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class NavigatorWebServiceTest.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class NavigatorWebServiceTest extends AbstractTestNGSpringContextTests {
+public class NavigatorWebServiceTest extends AbstractTest {
 
     // TODO @Jan extend these tests as soon as it is possible to deploy a real process. We need some more integration tests.
     private Dispatcher dispatcher;

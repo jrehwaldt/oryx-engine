@@ -3,22 +3,17 @@ package de.hpi.oryxengine.plugin.navigator;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.navigator.NavigatorState;
 
 /**
  * Test class for various navigator plugin tests.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class NavigatorListenerTest extends AbstractTestNGSpringContextTests {
+public class NavigatorListenerTest extends AbstractTest {
     
     /** The navigator. */
     private NavigatorImpl navigator = null;

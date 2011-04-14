@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
@@ -78,7 +78,7 @@ public class RoutingBehaviourTest {
      */
     private TokenImpl simpleToken() {
 
-        ProcessBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
 

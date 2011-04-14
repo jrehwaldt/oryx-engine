@@ -22,14 +22,12 @@ import de.hpi.oryxengine.allocation.pattern.DirectPushPattern;
 import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.NodeParameter;
-import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
+import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
@@ -126,24 +124,21 @@ public class TerminatingEndActivityTest extends AbstractTest {
     @BeforeClass
     public void setUpProcessInstance() {
 
-        ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl();
-        param.setActivityClassOnly(NullActivity.class);
-        param.setIncomingBehaviour(new SimpleJoinBehaviour());
-        param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
-        splitNode = builder.createNode(param);
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-//        param.setActivity(humanTask); TODO do something with the parameter of humanTask
-        Class<?>[] constructorSig = {Task.class};
-        Object[] params = {task};
-        ActivityBlueprint bp = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, params);
-        param.setActivityBlueprint(bp);
-        humanTaskNode = builder.createNode(param);
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
+            new TakeAllSplitBehaviour());
+        nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
+        splitNode = builder.createNode(nodeParamBuilder.finishNodeParameterAndClear());
 
-        param.setActivityClassOnly(TerminatingEndActivity.class);
-        terminatingEndNode = builder.createNode(param);
+        // param.setActivity(humanTask); TODO do something with the parameter of humanTask
+        nodeParamBuilder.setDefaultActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class,
+            task);
+        humanTaskNode = builder.createNode(nodeParamBuilder.finishNodeParameterAndClear());
+
+        nodeParamBuilder.setDefaultActivityBlueprintFor(TerminatingEndActivity.class);
+        terminatingEndNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
 
         builder.createTransition(splitNode, humanTaskNode).createTransition(splitNode, terminatingEndNode);
-        
     }
 }

@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.UUID;
 
 import de.hpi.oryxengine.RepositoryServiceImpl;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
@@ -40,23 +41,29 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
         return null;
     }
 
-    @Override
-    public UUID deployProcessDefinition(String processDefinitionName,
-                                                     ProcessDefinitionImporter processDefinitionImporter) {
-
-        ProcessDefinition processDefinition = processDefinitionImporter.createProcessDefinition();
-        processDefinition.setName(processDefinitionName);
-
-        repositoryServiceImpl.getProcessDefinitionsTable().put(processDefinition.getID(), processDefinition);
-
-        return processDefinition.getID();
-    }
+    //    @Override
+//    public UUID deployProcessDefinition(String processDefinitionName,
+//                                                     ProcessDefinitionImporter processDefinitionImporter) {
+//
+//        ProcessDefinition processDefinition = processDefinitionImporter.createProcessDefinition();
+//        processDefinition.setName(processDefinitionName);
+//
+//        repositoryServiceImpl.getProcessDefinitionsTable().put(processDefinition.getID(), processDefinition);
+//
+//        return processDefinition.getID();
+//    }
 
     @Override
     public UUID deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter) {
 
         ProcessDefinition processDefinition = processDefinitionImporter.createProcessDefinition();
         
+        // Checking if the ProcessDefintion already exists in the Repository
+        if (repositoryServiceImpl.containsProcessDefinition(processDefinition.getID())) {
+            String errorMessage = "The ProcessDefinition is already deployed.";
+            throw new DalmatinaRuntimeException(errorMessage);
+        }
+            
         repositoryServiceImpl.getProcessDefinitionsTable().put(processDefinition.getID(), processDefinition);
         
         return processDefinition.getID();

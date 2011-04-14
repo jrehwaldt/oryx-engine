@@ -1,7 +1,5 @@
 package de.hpi.oryxengine.process.definition;
 
-import java.util.UUID;
-
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.correlation.registration.StartEvent;
@@ -15,7 +13,7 @@ import de.hpi.oryxengine.process.structure.Node;
  * 
  * @author Thorben
  */
-public interface ProcessBuilder {
+public interface ProcessDefinitionBuilder {
 
     /**
      * Gets the definition as the result of the building process.
@@ -37,11 +35,12 @@ public interface ProcessBuilder {
      */
     @Nonnull
     Node createNode(NodeParameter param);
-    
+
     /**
      * Creates a new start node for the process.
-     *
-     * @param param the param
+     * 
+     * @param param
+     *            the param
      * @return the node
      */
     @Nonnull
@@ -62,10 +61,10 @@ public interface ProcessBuilder {
      *            the source
      * @param destination
      *            the destination
-     * @return the process builder
+     * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
      */
     @Nonnull
-    ProcessBuilder createTransition(@Nonnull Node source, @Nonnull Node destination);
+    ProcessDefinitionBuilder createTransition(@Nonnull Node source, @Nonnull Node destination);
 
     /**
      * Creates the transition.
@@ -76,39 +75,42 @@ public interface ProcessBuilder {
      *            the destination
      * @param condition
      *            the condition
-     * @return the process builder
+     * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
      */
     @Nonnull
-    ProcessBuilder createTransition(@Nonnull Node source, @Nonnull Node destination, @Nonnull Condition condition);
+    ProcessDefinitionBuilder createTransition(@Nonnull Node source,
+                                              @Nonnull Node destination,
+                                              @Nonnull Condition condition);
 
-//    /**
-//     * Sets the iD.
-//     * 
-//     * @param id
-//     *            the new ID
-//     * @return the process builder
-//     */
-//    @Nonnull
-//    ProcessBuilder setID(@Nonnull UUID id);
+    // /**
+    // * Sets the iD.
+    // *
+    // * @param id
+    // * the new ID
+    // * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
+    // */
+    // @Nonnull
+    // ProcessBuilder setID(@Nonnull UUID id);
 
     /**
      * Sets the description.
      * 
      * @param processDescription
      *            the new description
-     * @return the process builder
+     * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
      */
     @Nonnull
-    ProcessBuilder setDescription(String processDescription);
+    ProcessDefinitionBuilder setDescription(String processDescription);
 
     /**
      * sets the name of the process definition to build.
-     *
-     * @param processName the process name
-     * @return the process builder
+     * 
+     * @param processName
+     *            the process name
+     * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
      */
     @Nonnull
-    ProcessBuilder setName(String processName);
+    ProcessDefinitionBuilder setName(String processName);
 
     /**
      * This will create a start trigger for the process definition.
@@ -122,4 +124,16 @@ public interface ProcessBuilder {
      */
     void createStartTrigger(@Nonnull StartEvent event, @Nonnull Node startNode)
     throws DalmatinaException;
+
+    /**
+     * In order to store dynamic attributes to the {@link ProcessDefinition}.
+     * 
+     * @param attributeId
+     *            - the id of the attribute
+     * @param attibuteValue
+     *            - value of the attribute
+     * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
+     */
+    @Nonnull
+    ProcessDefinitionBuilder setAttribute(String attributeId, Object attibuteValue);
 }

@@ -3,14 +3,18 @@ package de.hpi.oryxengine.resource.worklist;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
 import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
  * Represents the Worklist that contains several {@link WorklistItem} for a {@link AbstractResource}.
  */
-@XmlRootElement
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "classifier")
 public abstract class AbstractWorklist implements Iterable<WorklistItem> {
 
     /**
@@ -18,6 +22,7 @@ public abstract class AbstractWorklist implements Iterable<WorklistItem> {
      * 
      * @return a list of {@link WorklistItem}s; the list is unmodifiable (read-only) 
      */
+    @JsonIgnore
     public abstract @Nonnull List<WorklistItem> getWorklistItems();
     
     /**
@@ -29,7 +34,7 @@ public abstract class AbstractWorklist implements Iterable<WorklistItem> {
      * @param claimingResource - the {@link AbstractResource} that allocated the {@link WorklistItem}
      */
     public abstract void itemIsAllocatedBy(@Nonnull WorklistItem worklistItem,
-                           @Nonnull AbstractResource<?> claimingResource);
+                                           @Nonnull AbstractResource<?> claimingResource);
 
     /**
      * Notifies the {@link Worklist} that the {@link WorklistItem} has been started.

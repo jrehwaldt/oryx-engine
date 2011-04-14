@@ -1,7 +1,10 @@
 package de.hpi.oryxengine.resource.worklist;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractPosition;
@@ -11,8 +14,7 @@ import de.hpi.oryxengine.resource.AbstractResource;
  * Worklist for a participant.
  */
 public class ParticipantWorklist extends AbstractDefaultWorklist {
-
-//    @XmlIDREF
+    
     private AbstractParticipant relatedParticipant;
     
     /**
@@ -25,13 +27,18 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
      *
      * @param owner the related participant to the work list 
      */
-    public ParticipantWorklist(AbstractParticipant owner) {
+    public ParticipantWorklist(@Nonnull AbstractParticipant owner) {
         
         this.relatedParticipant = owner;
     }
 
     @Override
     public List<WorklistItem> getWorklistItems() {
+        
+        // this is needed for deserialization to not break the circular dependency
+        if (relatedParticipant == null) {
+            return Collections.emptyList();
+        }
         
         // Extracting the resources related to this owner
         List<AbstractResource<?>> resourcesInView = new ArrayList<AbstractResource<?>>();
@@ -49,7 +56,6 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
         }
 
         return resultWorklistItems;
-        //return Collections.unmodifiableList(resultWorklistItems);
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.factory.definition.ProcessDefinitionFactory;
 import de.hpi.oryxengine.factory.definition.SimpleProcessDefinitionFactory;
@@ -66,15 +67,13 @@ public class DeploymentBuilderTest extends AbstractTestNGSpringContextTests {
      * 
      * @throws DefinitionNotFoundException
      */
-    @Test
-    public void testDuplicateDeployment()
-    throws DefinitionNotFoundException {
+    @Test(expectedExceptions = DalmatinaRuntimeException.class)
+    public void testDuplicateDeployment() {
 
-        // Best Regards Tom Baeyens
-        deploymentBuilder.deployProcessDefinition("processDefinition", new RawProcessDefintionImporter(def));
-        deploymentBuilder.deployProcessDefinition("processDefinition", new RawProcessDefintionImporter(def));
+        deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
+        deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
 
-        Assert.assertEquals(repo.getProcessDefinition(defID), def,
-            "The deployed process definition should be avaialable in the repository.");
+        String failureMessage = "Up to this point a DalmatinaRuntimeException should have been raised.";
+        Assert.fail(failureMessage);
     }
 }
