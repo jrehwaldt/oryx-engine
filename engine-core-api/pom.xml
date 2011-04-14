@@ -19,12 +19,12 @@
             <scope>compile</scope>
         </dependency>
         <!-- JAXB API + Implementation -->
+        <!--
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <scope>compile</scope>
         </dependency>
-        <!--
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.moxy</artifactId>
