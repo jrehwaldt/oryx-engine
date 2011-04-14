@@ -9,7 +9,6 @@ import de.hpi.oryxengine.monitor.Monitor;
 import de.hpi.oryxengine.monitor.MonitorGUI;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -31,6 +30,11 @@ public final class SimpleExampleProcess {
      * executed.
      */
     private static final int INSTANCE_COUNT = 1000000;
+    
+    private static final int STOPPING_MARK_1 = 234000;
+    private static final int STOPPING_MARK_2 = 100000;
+    private static final int STOPPING_MARK_3 = 500000;
+    private static final int STOPPING_MARK_4 = 800000;
 
     /** The logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleExampleProcess.class);
@@ -53,7 +57,7 @@ public final class SimpleExampleProcess {
         LOGGER.info("Engine started");
         for (int i = 0; i < INSTANCE_COUNT; i++) {
             TokenImpl instance = sampleProcessInstance(i, navigator);
-            if (i == 234000 || i == 100000 || i == 500000 || i == 800000) {
+            if (i == STOPPING_MARK_1 || i == STOPPING_MARK_2 || i == STOPPING_MARK_3 || i == STOPPING_MARK_4) {
                 monitor.markSingleInstance(instance);
             }
             navigator.startArbitraryInstance(instance);
@@ -66,9 +70,9 @@ public final class SimpleExampleProcess {
 
     /**
      * Sample process instance.
-     * 
-     * @param counter
-     *            the counter
+     *
+     * @param counter the counter
+     * @param navigator the navigator
      * @return the process instance impl
      */
     private static TokenImpl sampleProcessInstance(int counter, Navigator navigator) {

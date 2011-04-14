@@ -52,7 +52,8 @@ public class HumanTaskActivity extends AbstractDeferredActivity {
 
         // TODO move this to worklist manager
         for (AbstractResource<?> resource : task.getAssignedResources()) {
-            Iterator<WorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist()).getLazyWorklistItems().iterator();
+            Iterator<WorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist()).getLazyWorklistItems()
+            .iterator();
 
             while (it.hasNext()) {
                 WorklistItemImpl item = (WorklistItemImpl) it.next();

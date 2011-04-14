@@ -1,7 +1,6 @@
 package de.hpi.oryxengine.resource.worklist;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import de.hpi.oryxengine.resource.AbstractParticipant;
