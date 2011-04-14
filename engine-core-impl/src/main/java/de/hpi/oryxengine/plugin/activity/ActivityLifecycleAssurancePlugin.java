@@ -2,8 +2,6 @@ package de.hpi.oryxengine.plugin.activity;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.activity.ActivityState;
-
 /**
  * This class is a logger and may be injected to observe
  * the lifecycle of certain activities.
