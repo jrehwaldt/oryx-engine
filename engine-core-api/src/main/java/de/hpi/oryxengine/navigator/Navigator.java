@@ -33,11 +33,9 @@ public interface Navigator {
 
     /**
      * Start the process instance.
-     * 
-     * @param processID
-     *            the process id
-     * @throws DefinitionNotFoundException
-     *            if the process definition can not be found
+     *
+     * @param processID the process id
+     * @throws DefinitionNotFoundException the process definition was not found
      */
     void startProcessInstance(@Nonnull UUID processID)
     throws DefinitionNotFoundException;

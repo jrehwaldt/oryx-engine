@@ -17,9 +17,13 @@ extends AbstractActivity {
         super();
     }
 
+    /**
+     * It's a null activity. It does nothing.
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public void executeIntern(Token instance) {
-        // TODO what is required here?
         // Nothing toDo
     }
 

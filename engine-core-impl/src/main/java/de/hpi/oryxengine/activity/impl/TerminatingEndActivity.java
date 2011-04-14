@@ -13,8 +13,6 @@ public class TerminatingEndActivity extends EndActivity {
     protected void executeIntern(Token token) {
 
         ProcessInstance instance = token.getInstance();
-        // Cancel all ongoing acitivites
-        // TODO Intercept the executing threads. a lot of fun.
 
         // Cancel all ongoing human activites
         for (Token tokenToCancel : instance.getTokens()) {

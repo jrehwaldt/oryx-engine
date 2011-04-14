@@ -51,7 +51,6 @@ public class NodeImpl implements Node {
         this.outgoingTransitions = new ArrayList<Transition>();
         this.incomingTransitions = new ArrayList<Transition>();
 
-        // TODO is it okay, to just create a random one?
         this.id = UUID.randomUUID();
     }
 

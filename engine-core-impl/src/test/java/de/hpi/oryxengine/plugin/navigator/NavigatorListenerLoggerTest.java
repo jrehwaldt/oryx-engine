@@ -16,7 +16,6 @@ import de.hpi.oryxengine.navigator.NavigatorState;
  * 
  * @author Jan Rehwaldt
  */
-// TODO mock it so it really tests something
 public class NavigatorListenerLoggerTest {
     
     private NavigatorImpl navigator = null;
