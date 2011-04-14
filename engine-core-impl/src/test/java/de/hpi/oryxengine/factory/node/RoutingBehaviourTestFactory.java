@@ -1,7 +1,9 @@
 package de.hpi.oryxengine.factory.node;
 
+import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
@@ -22,8 +24,7 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
     @Override
     public void setActivityBlueprint() {
         
-//        this.activity = mock(AbstractActivity.class);
-        // TODO what to do here?
+        blueprint = new ActivityBlueprintImpl(NullActivity.class);
         
     }
 
