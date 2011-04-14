@@ -34,7 +34,7 @@ public class HumanTaskActivity extends AbstractDeferredActivity {
     // TODO: CreationPattern einfügen
     public HumanTaskActivity(Task task) {
 
-        this.task = ((TaskImpl) task).clone();
+        this.task = new TaskImpl(task);
     }
 
     @Override
