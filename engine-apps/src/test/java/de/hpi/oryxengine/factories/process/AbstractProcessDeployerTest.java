@@ -28,8 +28,8 @@ public abstract class AbstractProcessDeployerTest extends AbstractTestNGSpringCo
     protected UUID uuid;
 
     /**
-     * Sets the up.
-     * If something gos wrong here something in the Process deplyoer is REALLY off.
+     * Sets up the specific Process Deployer.
+     * If something gos wrong here something in the Process Deplyoer is REALLY off.
      * @throws IllegalStarteventException 
      */
     @BeforeMethod

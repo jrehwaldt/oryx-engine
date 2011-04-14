@@ -16,11 +16,10 @@ public class ExampleProcessDeployerTest extends AbstractProcessDeployerTest {
 
 
     /**
-     * Sets the up.
-     * If something gos wrong here something in the Process deplyoer is REALLY off.
-     * @throws IllegalStarteventException 
+     * {@inheritDoc}
      */
     @BeforeMethod
+    @Override
     public void setUp() throws IllegalStarteventException {
 
         this.deployer = new ExampleProcessDeployer();

@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.factories.process;
 
+import static org.testng.Assert.assertEquals;
+
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +9,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.IdentityService;
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 
 /**
@@ -18,11 +23,10 @@ import de.hpi.oryxengine.exception.IllegalStarteventException;
 public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final static int NUMBER_OF_PARTICIPANTS = 3;
     
     /**
-     * Sets the up.
-     * If something gos wrong here something in the Process deplyoer is REALLY off.
-     * @throws IllegalStarteventException 
+     * {@inheritDoc}
      */
     @BeforeMethod
     public void setUp() throws IllegalStarteventException {
@@ -33,5 +37,17 @@ public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
             logger.error("Scheduling error when creating HumanTaskProcessDeplyoer", e);
         }
         this.uuid = deployer.deploy();
+    }
+    
+    /**
+     * Tests that the participants which should be created are really created.
+     * This tests breaks if the number of aprticipants in the process deployer is changed.
+     */
+    @Test
+    public void testParticipantsCreated() {
+    	IdentityService identityService = ServiceFactory.getIdentityService();
+    	int actualNumberOfParticipants = identityService.getParticipants().size();
+    	assertEquals(actualNumberOfParticipants, NUMBER_OF_PARTICIPANTS, "Did anybody change the HumanTaskDeployer?");
+    	
     }
 }

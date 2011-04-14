@@ -15,10 +15,8 @@ import de.hpi.oryxengine.exception.IllegalStarteventException;
 public class HeavyComputationProcessDeployerTest extends AbstractProcessDeployerTest {
 
 
-    /**
-     * Sets the up.
-     * If something gos wrong here something in the Process deplyoer is REALLY off.
-     * @throws IllegalStarteventException 
+	/**
+     * {@inheritDoc}
      */
     @BeforeMethod
     public void setUp() throws IllegalStarteventException {
