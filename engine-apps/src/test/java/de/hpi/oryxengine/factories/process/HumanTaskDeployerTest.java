@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.factory.process;
+package de.hpi.oryxengine.factories.process;
 
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.factory.process;
+package de.hpi.oryxengine.factories.process;
 
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.factory.process;
+package de.hpi.oryxengine.factories.process;
 
 import static org.testng.Assert.assertNotNull;
 
@@ -18,6 +18,7 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
  * Parent class for all other Process Deployers tests as otherwise it would  be a lot of code duplication.
+ * Child classes basically just overwrite the setUp-method to use different deployers.
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
@@ -50,7 +51,7 @@ public abstract class AbstractProcessDeployerTest extends AbstractTestNGSpringCo
      */
     @Test
     public void retrieveProcessDefinitionTest() throws DefinitionNotFoundException {
-        ProcessDefinition definition = ServiceFactory.getRepositoryService().getDefinition(uuid);
+        ProcessDefinition definition = ServiceFactory.getRepositoryService().getProcessDefinition(uuid);
         assertNotNull(definition);
     }
 }
