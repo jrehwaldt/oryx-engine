@@ -1,8 +1,7 @@
 package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 
 /**
  * A factory for creating AddNumberAndStoreNode objects. It just sets the activity to the AddNumberAndStoreActivity,
@@ -67,20 +66,11 @@ public class AddNumbersAndStoreNodeFactory extends AbstractNodeFactory {
      * Sets the activity, overwriting the process in the AbstractNodeFactory.
      */
     @Override
-    public void setActivity() {
-
-        activityClazz = AddNumbersAndStoreActivity.class;
-    }
-
-    @Override
-    public void registerActivityParameters(ProcessInstance instance, Node node) {
+    public void setActivityBlueprint() {
 
         Class<?>[] constructorSig = {String.class, int[].class};
-        instance.getContext().setActivityConstructorClasses(node.getID(), constructorSig);
-        int[] ints = {1, 1};
-        Object[] params = {"result", ints};
-        instance.getContext().setActivityParameters(node.getID(), params);
-
+        int[] ints = {summand1, summand2};
+        Object[] params = {variablename, ints};
+        blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, constructorSig, params);
     }
-
 }

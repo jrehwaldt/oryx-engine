@@ -1,11 +1,10 @@
 package de.hpi.oryxengine.factory.node;
 
-import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
 import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
@@ -22,7 +21,7 @@ abstract class AbstractNodeFactory {
     /** The behavior. */
     protected OutgoingBehaviour outgoingBehaviour;
     /** The activity. */
-    protected Class<? extends Activity> activityClazz;
+    protected ActivityBlueprint blueprint;
 
     /**
      * Creates the activity for a given process instance and puts the constructor signature and the parameter values to
@@ -34,20 +33,20 @@ abstract class AbstractNodeFactory {
      */
     public Node create() {
 
-        this.setActivity();
+        this.setActivityBlueprint();
         this.setBehaviour();
-        Node node = new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);
+        Node node = new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
         return node;
     }
 
     /**
      * Sets the activity. It sets a default activity which is the printvariable activity.
      */
-    public void setActivity() {
+    public void setActivityBlueprint() {
 
-        // activity = new PrintingVariableActivity("result");
-        // TODO add parameter
-        activityClazz = PrintingVariableActivity.class;
+        Class<?>[] constructorSig = {String.class};
+        Object[] params = {"result"};
+        blueprint = new ActivityBlueprintImpl(PrintingVariableActivity.class, constructorSig, params);
     }
 
     /**
@@ -67,19 +66,11 @@ abstract class AbstractNodeFactory {
     public Node createWithLogger() {
 
         AbstractActivityLifecyclePlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
-        this.setActivity();
+        this.setActivityBlueprint();
         // activity.registerPlugin(lifecycleLogger);
         // TODO what to do with plugins?
         this.setBehaviour();
-        return new NodeImpl(activityClazz, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
     }
-    
-    /**
-     * Register parameters and the constructor to call for the assigned activity class on the given ProcessInstance.
-     *
-     * @param instance the instance
-     * @param node the node
-     */
-    public abstract void registerActivityParameters(ProcessInstance instance, Node node);
 
 }

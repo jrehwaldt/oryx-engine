@@ -41,7 +41,6 @@ public class HashComputationActivityTest {
         hashNode = factory.create();
         SimpleProcessTokenFactory processFactory = new SimpleProcessTokenFactory();
         p = processFactory.create(hashNode);
-        factory.registerActivityParameters(p.getInstance(), hashNode);
     }
     
     /**

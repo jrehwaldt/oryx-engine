@@ -1,8 +1,7 @@
 package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.activity.impl.HashComputationActivity;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 
 /**
  * A factory for creating HashComputationNode objects. Those nodes are used to compute a specified hash of a given
@@ -80,29 +79,19 @@ public class HashComputationNodeFactory extends AbstractNodeFactory {
      * {@inheritDoc}
      */
     @Override
-    public void setActivity() {
-
-        activityClazz = HashComputationActivity.class;
-    }
-
-    @Override
-    public void registerActivityParameters(ProcessInstance instance, Node node) {
-
+    public void setActivityBlueprint() {
+        
         if (hashAlgorithm == null) {
             Class<?>[] constructorSig = {String.class, String.class};
             Object[] params = {variableName, toBeHashed};
 
-            instance.getContext().setActivityConstructorClasses(node.getID(), constructorSig);
-            instance.getContext().setActivityParameters(node.getID(), params);
+            blueprint = new ActivityBlueprintImpl(HashComputationActivity.class, constructorSig, params);
         } else {
             Class<?>[] constructorSig = {String.class, String.class, String.class};
             Object[] params = {variableName, toBeHashed, hashAlgorithm};
 
-            instance.getContext().setActivityConstructorClasses(node.getID(), constructorSig);
-            instance.getContext().setActivityParameters(node.getID(), params);
+            blueprint = new ActivityBlueprintImpl(HashComputationActivity.class, constructorSig, params);
         }
-        
-
     }
 
 }
