@@ -18,8 +18,6 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     private Map<Node, List<Transition>> waitingTransitions;
 
     private Map<String, Object> contextVariables;
-    private Map<UUID, Object[]> activityParameters;
-    private Map<UUID, Class<?>[]> constructorSignatures;
 
     /**
      * Instantiates a new process instance context impl.
@@ -27,8 +25,6 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     public ProcessInstanceContextImpl() {
 
         waitingTransitions = new HashMap<Node, List<Transition>>();
-        activityParameters = new HashMap<UUID, Object[]>();
-        constructorSignatures = new HashMap<UUID, Class<?>[]>();
     }
 
     @Override
@@ -112,32 +108,6 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
             contextVariables = Collections.synchronizedMap(new HashMap<String, Object>());
         }
         return contextVariables;
-    }
-
-    @Override
-    public void setActivityParameters(UUID nodeID, Object[] params) {
-
-        this.activityParameters.put(nodeID, params);
-
-    }
-
-    @Override
-    public Object[] getActivityParameters(UUID nodeID) {
-
-        return this.activityParameters.get(nodeID);
-    }
-
-    @Override
-    public void setActivityConstructorClasses(UUID nodeID, Class<?>[] constructorClasses) {
-
-        constructorSignatures.put(nodeID, constructorClasses);
-
-    }
-
-    @Override
-    public Class<?>[] getActivityConstructorClasses(UUID nodeID) {
-
-        return constructorSignatures.get(nodeID);
     }
 
 }
