@@ -4,7 +4,6 @@ import static org.testng.Assert.assertEquals;
 
 import org.jvnet.mock_javamail.Mailbox;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.MailNodeFactory;
@@ -38,7 +37,6 @@ public class MailNodeActivityTest {
       p = processfactory.create(node);
       ProcessInstanceContext context = p.getInstance().getContext();
       context.setVariable("result", "Roflcopter123!");
-      factory.registerActivityParameters(p.getInstance(), node);
   }
   
   /**

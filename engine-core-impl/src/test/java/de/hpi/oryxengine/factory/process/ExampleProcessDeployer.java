@@ -1,13 +1,14 @@
 package de.hpi.oryxengine.factory.process;
 
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
+import de.hpi.oryxengine.activity.impl.MailingVariable;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
@@ -45,14 +46,16 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
             new TakeAllSplitBehaviour());
         startNode = builder.createStartNode(param);
 
-//        Activity activity  = new AddNumbersAndStoreActivity("result", 1, 1);
-        // TODO parameters
-        param.setActivityClass(AddNumbersAndStoreActivity.class);
+        Class<?>[] constructorSig = {String.class, int[].class};
+        int[] ints = {1, 1};
+        Object[] params = {"result", ints};
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(MailingVariable.class, constructorSig, params);
+        param.setActivityBlueprint(blueprint);
         node1 = builder.createNode(param);
         node2 = builder.createNode(param);
         builder.createTransition(startNode, node1).createTransition(node1, node2);
         
-        param.setActivityClass(EndActivity.class);
+        param.setActivityClassOnly(EndActivity.class);
         Node endNode = builder.createNode(param);
         builder.createTransition(node2, endNode);
     }
