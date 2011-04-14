@@ -2,14 +2,11 @@ package de.hpi.oryxengine.resource;
 
 import java.util.Set;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 
@@ -18,9 +15,7 @@ import de.hpi.oryxengine.ServiceFactory;
  * 
  *  Especially that retrieved sets are read-only.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class IdentityServiceTest extends AbstractTestNGSpringContextTests {
+public class IdentityServiceTest extends AbstractTest {
     
     /** The identity service. */
     private IdentityService identityService = null;
