@@ -1,18 +1,8 @@
 package de.hpi.oryxengine.deploy.bpmn.xml;
 
-import java.io.InputStream;
-import java.util.List;
-
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.BPMNStartEvent;
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.util.ReflectionUtil;
+import de.hpi.oryxengine.AbstractTest;
 
 /**
  * It tests the deployment of BPMN processes that where serialized as xml. The xml contains the structure the process
@@ -25,9 +15,7 @@ import de.hpi.oryxengine.util.ReflectionUtil;
  * =ce81b965df1ca08e19b4b5e72defb618783191defa3461c81b3e8b05be714
  * 
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class DeploySimpleSequenceAsBpmnXmlTest {
+public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractTest {
 
     private static final String EXECUTABLE_PROCESS_RESOURCE_PATH = 
                                 "/de/hpi/oryxengine/delpoy/bpmn/xml/SimpleSequence.bpmn.xml";

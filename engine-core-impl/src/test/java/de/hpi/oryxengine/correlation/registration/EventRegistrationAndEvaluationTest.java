@@ -15,14 +15,11 @@ import java.util.UUID;
 
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.RepositoryServiceImpl;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.correlation.adapter.EventType;
@@ -38,9 +35,7 @@ import de.hpi.oryxengine.repository.RepositorySetup;
 /**
  * The Class EventRegistrationAndEvaluationTest.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class EventRegistrationAndEvaluationTest extends AbstractTestNGSpringContextTests {
+public class EventRegistrationAndEvaluationTest extends AbstractTest {
 
     private StartEvent event, anotherEvent;
     private MailAdapterEvent incomingEvent, anotherIncomingEvent;
