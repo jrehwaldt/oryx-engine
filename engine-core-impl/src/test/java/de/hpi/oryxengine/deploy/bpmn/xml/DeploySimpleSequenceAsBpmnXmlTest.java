@@ -28,30 +28,29 @@ import de.hpi.oryxengine.util.ReflectionUtil;
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class DeploySimpleSequenceAsBpmnXmlTest {
-    
-    private static final String EXECUTABLE_PROCESS_RESOURCE_PATH = "/de/hpi/oryxengine/delpoy/bpmn/xml/SimpleSequence.bpmn.xml";
-    
+
+    private static final String EXECUTABLE_PROCESS_RESOURCE_PATH = 
+                                "/de/hpi/oryxengine/delpoy/bpmn/xml/SimpleSequence.bpmn.xml";
+
     @Test
     public void importProcessXMlAsStream() {
-     // TODO: [@Gerardo:] mal wieder auskommentieren
-//        InputStream executableProcessInputStream = ReflectionUtil.getResourceAsStream(EXECUTABLE_PROCESS_RESOURCE_PATH);
-//        
-//        ProcessDefinition processDefinition = ProcessImporter.createProcessOutOf(executableProcessInputStream);
-//        
-//        List<Node> startNodes = processDefinition.getStartNodes();
-//        Assert.assertTrue(startNodes.size() == 1);
-//        
-//        Node onlyStartNode = startNodes.get(0);
-//        Assert.assertTrue(onlyStartNode.getActivity() instanceof BPMNStartEvent);
-//        Assert.assertEquals(onlyStartNode.get, "Start");
-        
-        
 
-        
-        
+        // TODO: [@Gerardo:] mal wieder auskommentieren
+        // InputStream executableProcessInputStream =
+        // ReflectionUtil.getResourceAsStream(EXECUTABLE_PROCESS_RESOURCE_PATH);
+        //
+        // ProcessDefinition processDefinition = ProcessImporter.createProcessOutOf(executableProcessInputStream);
+        //
+        // List<Node> startNodes = processDefinition.getStartNodes();
+        // Assert.assertTrue(startNodes.size() == 1);
+        //
+        // Node onlyStartNode = startNodes.get(0);
+        // Assert.assertTrue(onlyStartNode.getActivity() instanceof BPMNStartEvent);
+        // Assert.assertEquals(onlyStartNode.get, "Start");
 
     }
+
     public void importProcessXMlAsSring() {
-        
+
     }
 }

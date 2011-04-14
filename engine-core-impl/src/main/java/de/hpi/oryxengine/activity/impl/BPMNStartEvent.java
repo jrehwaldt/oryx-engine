@@ -8,10 +8,12 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class BPMNStartEvent extends AbstractActivity {
 
+    /**
+     * The start event doesn't really execute something, so it's blank.
+     * {@inheritDoc}
+     */
     @Override
     protected void executeIntern(Token token) {
-
-        // TODO Auto-generated method stub
 
     }
 

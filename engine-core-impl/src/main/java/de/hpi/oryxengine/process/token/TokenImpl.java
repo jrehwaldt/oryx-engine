@@ -124,7 +124,6 @@ public class TokenImpl implements Token {
         try {
             activity = currentNode.getActivityBlueprint().instantiate();
 
-            // TODO these catch clauses look scary...
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
