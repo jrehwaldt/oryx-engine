@@ -24,6 +24,8 @@ import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
@@ -41,7 +43,8 @@ public class NavigatorWebServiceTest extends AbstractTestNGSpringContextTests {
     /**
      * Tests the get statistic method.
      * 
-     * @throws URISyntaxException test fails
+     * @throws URISyntaxException
+     *             test fails
      */
     @Test
     public void testGetStatistic()
@@ -49,50 +52,59 @@ public class NavigatorWebServiceTest extends AbstractTestNGSpringContextTests {
 
         MockHttpRequest request = MockHttpRequest.get("/navigator/statistic");
         MockHttpResponse response = new MockHttpResponse();
-        
+
         dispatcher.invoke(request, response);
-        
+
         // TODO @Jan: we need json first, then we can deserialize the output, because it is no longer just a simple str
-//        assertEquals(Integer.valueOf(response.getContentAsString()).intValue(), 0);
+        // assertEquals(Integer.valueOf(response.getContentAsString()).intValue(), 0);
     }
-    
-//    /**
-//     * Tests the get statistic method.
-//     * 
-//     * @throws URISyntaxException test fails
-//     */
-//    @Test
-//    public void testFinishedInstances()
-//    throws URISyntaxException {
-//
-//        MockHttpRequest request = MockHttpRequest.get("/navigator/endedinstances");
-//        MockHttpResponse response = new MockHttpResponse();
-//
-//        dispatcher.invoke(request, response);
-//
-//        assertEquals(Integer.valueOf(response.getContentAsString()).intValue(), 0);
-//    }
+
+    // /**
+    // * Tests the get statistic method.
+    // *
+    // * @throws URISyntaxException test fails
+    // */
+    // @Test
+    // public void testFinishedInstances()
+    // throws URISyntaxException {
+    //
+    // MockHttpRequest request = MockHttpRequest.get("/navigator/endedinstances");
+    // MockHttpResponse response = new MockHttpResponse();
+    //
+    // dispatcher.invoke(request, response);
+    //
+    // assertEquals(Integer.valueOf(response.getContentAsString()).intValue(), 0);
+    // }
 
     /**
      * Tests the staring of an process instance via our Rest-interface.
-     * @throws IllegalStarteventException test fails
-     * @throws URISyntaxException test fails
-     * @throws InterruptedException test fails
+     * 
+     * @throws IllegalStarteventException
+     *             test fails
+     * @throws URISyntaxException
+     *             test fails
+     * @throws InterruptedException
+     *             test fails
      */
     @Test
-    public void testStartInstance() throws IllegalStarteventException, URISyntaxException, InterruptedException {
+    public void testStartInstance()
+    throws IllegalStarteventException, URISyntaxException, InterruptedException {
 
         // create simple process
         ProcessBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl();
-//        param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
-        // TODO parameters
-        param.setActivityClass(AddNumbersAndStoreActivity.class);
+        
+        Class<?>[] constructorSig = {String.class, int[].class};
+        int[] ints = {1, 1};
+        Object[] params = {"result", ints};
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, constructorSig,
+            params);
+        param.setActivityBlueprint(blueprint);
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         Node startNode = builder.createStartNode(param);
 
-        param.setActivityClass(EndActivity.class);
+        param.setActivityClassOnly(EndActivity.class);
         Node endNode = builder.createNode(param);
 
         builder.createTransition(startNode, endNode);
@@ -106,19 +118,19 @@ public class NavigatorWebServiceTest extends AbstractTestNGSpringContextTests {
         // run it via REST request
         MockHttpRequest request = MockHttpRequest.get(String.format("/navigator/instance/%s/start", id));
         MockHttpResponse response = new MockHttpResponse();
-        
+
         dispatcher.invoke(request, response);
-        
+
         // TODO @Jan: fix, if statistic works with json
-//        // check, if it has finished after two seconds.
-//        Thread.sleep(1500);
-//        
-//        request = MockHttpRequest.get("/navigator/endedinstances");
-//        response = new MockHttpResponse();
-//        
-//        dispatcher.invoke(request, response);
-//        
-//        assertEquals(Integer.valueOf(response.getContentAsString()).intValue(), 1);
+        // // check, if it has finished after two seconds.
+        // Thread.sleep(1500);
+        //
+        // request = MockHttpRequest.get("/navigator/endedinstances");
+        // response = new MockHttpResponse();
+        //
+        // dispatcher.invoke(request, response);
+        //
+        // assertEquals(Integer.valueOf(response.getContentAsString()).intValue(), 1);
     }
 
     /**
@@ -131,7 +143,7 @@ public class NavigatorWebServiceTest extends AbstractTestNGSpringContextTests {
         POJOResourceFactory factory = new POJOResourceFactory(NavigatorWebService.class);
 
         dispatcher.getRegistry().addResourceFactory(factory);
-        
+
         Service nav = (Service) ServiceFactory.getNavigatorService();
         nav.start();
     }

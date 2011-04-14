@@ -98,8 +98,6 @@ public class ProcessTokenImplTest {
      */
     private TokenImpl simpleToken() {
         
-        Activity activity = mock(Activity.class);
-        
         ActivityBlueprint blueprint = new ActivityBlueprintImpl(NullActivity.class);
         node = new NodeImpl(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         node2 = new NodeImpl(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
