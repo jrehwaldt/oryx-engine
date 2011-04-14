@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.repository;
 
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.util.Identifiable;
 
 /**

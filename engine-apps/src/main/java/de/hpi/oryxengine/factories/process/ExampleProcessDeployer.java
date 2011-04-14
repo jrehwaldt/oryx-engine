@@ -1,12 +1,13 @@
 package de.hpi.oryxengine.factories.process;
 
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
@@ -40,19 +41,20 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
      * Initializes the nodes.
      */
     public void initializeNodes() {
-        NodeParameter param = new NodeParameterImpl(new NullActivity(), new SimpleJoinBehaviour(),
+        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        param.makeStartNode(true);
-        startNode = builder.createNode(param);
-        param.makeStartNode(false);
+        startNode = builder.createStartNode(param);
 
-        Activity activity  = new AddNumbersAndStoreActivity("result", 1, 1);
-        param.setActivity(activity);
+        Class<?>[] constructorSig = {String.class, int[].class};
+        int[] ints = {1, 1};
+        Object[] params = {"result", ints};
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, constructorSig, params);
+        param.setActivityBlueprint(blueprint);
         node1 = builder.createNode(param);
         node2 = builder.createNode(param);
         builder.createTransition(startNode, node1).createTransition(node1, node2);
         
-        param.setActivity(new EndActivity());
+        param.setActivityClassOnly(EndActivity.class);
         Node endNode = builder.createNode(param);
         builder.createTransition(node2, endNode);
     }

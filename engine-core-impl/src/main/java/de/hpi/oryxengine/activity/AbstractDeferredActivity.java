@@ -16,7 +16,7 @@ implements DeferredActivity {
      */
     @Override
     public void execute(@Nonnull Token token) {
-        changeState(token, ActivityState.ACTIVE);
+//        changeState(token, ActivityState.ACTIVE);
         executeIntern(token);
     }
     
@@ -25,7 +25,7 @@ implements DeferredActivity {
      */
     @Override
     public void signal(@Nonnull Token token) {
-        changeState(token, ActivityState.COMPLETED);
+//        changeState(token, ActivityState.COMPLETED);
     }
 
 }

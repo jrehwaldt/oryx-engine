@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
-import de.hpi.oryxengine.plugin.activity.ActivityLifecycleChangeEvent;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -15,8 +14,6 @@ public abstract class AbstractActivity
 extends AbstractPluggable<AbstractActivityLifecyclePlugin>
 implements Activity {
     
-    protected ActivityState state = ActivityState.INIT;
-    
     /**
      * Instantiates a new activity. State is set to INIT, but observers will not
      * be notified (since no observer are registered so far).
@@ -25,31 +22,31 @@ implements Activity {
     protected AbstractActivity() {
         
     }
-    
-    @Override
-    public @Nonnull ActivityState getState() {
-        return state;
-    }
-    
-    /**
-     * Changes the state of the node.
-     *
-     * @param token the process token
-     * @param state the new state
-     */
-    protected void changeState(@Nonnull Token token,
-                             @Nonnull ActivityState state) {
-        final ActivityState prevState = this.state;
-        this.state = state;
-        setChanged();
-        notifyObservers(new ActivityLifecycleChangeEvent(this, prevState, this.state, token));
-    }
+
+//    @Override
+//    public @Nonnull ActivityState getState() {
+//        return state;
+//    }
+//    
+//    /**
+//     * Changes the state of the node.
+//     *
+//     * @param token the process token
+//     * @param state the new state
+//     */
+//    protected void changeState(@Nonnull Token token,
+//                             @Nonnull ActivityState state) {
+//        final ActivityState prevState = this.state;
+//        this.state = state;
+//        setChanged();
+//        notifyObservers(new ActivityLifecycleChangeEvent(this, prevState, this.state, token));
+//    }
     
     @Override
     public void execute(@Nonnull Token token) {
-        changeState(token, ActivityState.ACTIVE);
+//        changeState(token, ActivityState.ACTIVE);
         executeIntern(token);
-        changeState(token, ActivityState.COMPLETED);
+//        changeState(token, ActivityState.COMPLETED);
     }
     
     /**

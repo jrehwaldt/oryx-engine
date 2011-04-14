@@ -24,94 +24,89 @@ import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.repository.Deployer;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
 import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
- * The Class ExampleMailStartProcess. This is an example process that is started
- * by an arriving email.
+ * The Class ExampleMailStartProcess. This is an example process that is started by an arriving email.
  */
 public final class ExampleMailStartProcess {
 
-	/** no public/default constructor for this Demothingie. */
-	private ExampleMailStartProcess() {
-	};
+    /** no public/default constructor for this Demothingie. */
+    private ExampleMailStartProcess() {
 
-	/**
-	 * The main method. Run the sh*t.
-	 * 
-	 * @param args
-	 *            the arguments
-	 * @throws InterruptedException
-	 *             the interrupted exception
-	 */
-	// TODO @Alle Anschauen und auf den aktuellen Stand bringen; Gerardo Fragen was gemacht werden muss!!!
-	public static void main(String[] args) throws InterruptedException {
+    };
 
 		String processName = "exampleMailProcess";
 
-		// the main
-		OryxEngine.start();
-		NavigatorImpl navigator = (NavigatorImpl) ServiceFactory.getNavigatorService();
-		navigator.registerPlugin(NavigatorListenerLogger.getInstance());
+        UUID processID = UUID.randomUUID();
 
-		// Building the processDefintion
-		ProcessBuilder builder = new ProcessBuilderImpl();
-		NodeParameter param = new NodeParameterImpl();
-		param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
-		param.setIncomingBehaviour(new SimpleJoinBehaviour());
-		param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
-		param.makeStartNode(true);
+        // the main
+        NavigatorImpl navigator = new NavigatorImpl();
+        navigator.registerPlugin(NavigatorListenerLogger.getInstance());
 
-		// Create a mail adapater event here. Could create a builder for this
-		// later.
-		MailAdapterConfiguration config = MailAdapterConfiguration
-				.dalmatinaGoogleConfiguration();
-		EventCondition subjectCondition = null;
-		try {
-			subjectCondition = new EventConditionImpl(
-					MailAdapterEvent.class.getMethod("getMessageTopic"),
-					"Hallo");
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		}
-		List<EventCondition> conditions = new ArrayList<EventCondition>();
-		conditions.add(subjectCondition);
+        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
 
-		StartEvent event = new StartEventImpl(EventTypes.Mail, config,conditions, processName);
+        ProcessBuilder builder = new ProcessBuilderImpl();
+        NodeParameter param = new NodeParameterImpl();
 
-		DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-		Node node1 = builder.createNode(param);
-		try {
-			builder.createStartTrigger(event, node1);
-		} catch (DalmatinaException e) {
-			e.printStackTrace();
-		}
+        Class<?>[] constructorSig = {String.class, int[].class};
+        int[] ints = {1, 1};
+        Object[] params = {"result", ints};
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, constructorSig,
+            params);
+        param.setActivityBlueprint(blueprint);
+        param.setIncomingBehaviour(new SimpleJoinBehaviour());
+        param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
 
-		param.setActivity(new PrintingVariableActivity("result"));
-		param.makeStartNode(false);
+        // Create a mail adapater event here. Could create a builder for this
+        // later.
+        MailAdapterConfiguration config = MailAdapterConfiguration.dalmatinaGoogleConfiguration();
+        EventCondition subjectCondition = null;
+        try {
+            subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        List<EventCondition> conditions = new ArrayList<EventCondition>();
+        conditions.add(subjectCondition);
 
-		Node node2 = builder.createNode(param);
+        StartEvent event = new StartEventImpl(EventTypes.Mail, config, conditions, processID);
 
-		builder.createTransition(node1, node2).setDescription("description").setName(processName);
+        Node node1 = builder.createStartNode(param);
+        try {
+            builder.createStartTrigger(event, node1);
+        } catch (DalmatinaException e) {
+            e.printStackTrace();
+        }
 
-		try {
-			ProcessDefinition def = builder.buildDefinition();
-			deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
-			navigator.start();
-		} catch (IllegalStarteventException e) {
-			e.printStackTrace();
-		}
+        constructorSig = new Class<?>[] {String.class};
+        params = new Object[] {"result"};
+        blueprint = new ActivityBlueprintImpl(PrintingVariableActivity.class, constructorSig, params);
+        param.setActivityBlueprint(blueprint);
 
-		// Thread.sleep(SLEEP_TIME);
+        Node node2 = builder.createNode(param);
 
-		// navigator.stop();
-	}
+        builder.createTransition(node1, node2).setDescription("description").setID(processID);
+
+        try {
+            ProcessDefinition def = builder.buildDefinition();
+            deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
+            navigator.start();
+        } catch (IllegalStarteventException e) {
+            e.printStackTrace();
+        }
+
+        // Thread.sleep(SLEEP_TIME);
+
+        // navigator.stop();
+    }
 
 }

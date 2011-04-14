@@ -1,9 +1,10 @@
 package de.hpi.oryxengine.factory.node;
 
-import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
 import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
@@ -20,26 +21,32 @@ abstract class AbstractNodeFactory {
     /** The behavior. */
     protected OutgoingBehaviour outgoingBehaviour;
     /** The activity. */
-    protected AbstractActivity activity;
+    protected ActivityBlueprint blueprint;
 
     /**
-     * Creates the.
+     * Creates the activity for a given process instance and puts the constructor signature and the parameter values to
+     * the given process instance.
      * 
+     * @param instance
+     *            the instance
      * @return the node
      */
     public Node create() {
 
-        this.setActivity();
+        this.setActivityBlueprint();
         this.setBehaviour();
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        Node node = new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
+        return node;
     }
 
     /**
      * Sets the activity. It sets a default activity which is the printvariable activity.
      */
-    public void setActivity() {
+    public void setActivityBlueprint() {
 
-        activity = new PrintingVariableActivity("result");
+        Class<?>[] constructorSig = {String.class};
+        Object[] params = {"result"};
+        blueprint = new ActivityBlueprintImpl(PrintingVariableActivity.class, constructorSig, params);
     }
 
     /**
@@ -50,18 +57,20 @@ abstract class AbstractNodeFactory {
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
     }
-    
+
     /**
      * Creates a new Node object with a logger.
-     *
+     * 
      * @return the node
      */
     public Node createWithLogger() {
+
         AbstractActivityLifecyclePlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
-        this.setActivity();
-        activity.registerPlugin(lifecycleLogger);
+        this.setActivityBlueprint();
+        // activity.registerPlugin(lifecycleLogger);
+        // TODO what to do with plugins?
         this.setBehaviour();
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
     }
 
 }

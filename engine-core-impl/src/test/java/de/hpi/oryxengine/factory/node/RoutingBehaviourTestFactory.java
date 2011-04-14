@@ -1,11 +1,9 @@
 package de.hpi.oryxengine.factory.node;
 
-import static org.mockito.Mockito.mock;
-
-import de.hpi.oryxengine.activity.AbstractActivity;
-
+import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
@@ -24,9 +22,9 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
      * {@inheritDoc}
      */
     @Override
-    public void setActivity() {
+    public void setActivityBlueprint() {
         
-        this.activity = mock(AbstractActivity.class);
+        blueprint = new ActivityBlueprintImpl(NullActivity.class);
         
     }
 
@@ -36,10 +34,10 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
      * @return the node
      */
     public Node createWithAndSplit() {
-        setActivity();
+        setActivityBlueprint();
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
     }
     
     /**
@@ -49,11 +47,12 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
      */
     public Node createWithAndSplitAndLogger() {
         AbstractActivityLifecyclePlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
-        setActivity();
-        activity.registerPlugin(lifecycleLogger);
+        setActivityBlueprint();
+//        activity.registerPlugin(lifecycleLogger);
+        // TODO register plugin
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
     }
     
     /**
@@ -62,10 +61,10 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
      * @return the node
      */
     public Node createWithXORSplit() {
-        setActivity();
+        setActivityBlueprint();
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new XORSplitBehaviour();
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
     }
     
     /**
@@ -74,9 +73,9 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
      * @return the node
      */
     public Node createWithAndJoin() {
-        setActivity();
+        setActivityBlueprint();
         incomingBehaviour = new AndJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
-        return new NodeImpl(activity, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
     }
 }

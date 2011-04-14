@@ -32,7 +32,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     /**
      * Holds all the process tokens that are ready to be executed. Also implements some kind of scheduling algorithm.
-     *(Tokens are the uni in which we schedule)
+     * (Tokens are the uni in which we schedule)
      */
     private Scheduler scheduler;
 
@@ -40,33 +40,34 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * All the tokens that are suspended for some reason, for example because of a human task.
      */
     private List<Token> suspendedTokens;
-    
+
     /**
      * All the process Instances (not tokens!) that are currently running for some reason.
      */
     private List<ProcessInstance> runningInstances;
-    
+
     /**
-     * All the process instances that finished i.e. that reached all their end events.
-     * TODO they really shouldn't be kept here they should be destroyed instead. 
+     * All the process instances that finished i.e. that reached all their end events. Temporary until we can save them,
+     * the way they are implemented now, they eat up a huge amount of heap space, as they are the last reference to
+     * stuff the garbage collector would normally eat.
      */
     private List<ProcessInstance> finishedInstances;
 
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
-    
+
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
-    
+
     private int navigatorThreads;
-    
+
     private NavigatorState state;
-    
+
     private int counter;
-    
+
     private RepositoryService repository;
-    
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     /**
      * Instantiates a new navigator implementation.
      * 
@@ -74,18 +75,18 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * So use with caution.
      */
     public NavigatorImpl() {
-        
+
         this(null, NUMBER_OF_NAVIGATOR_THREADS);
     }
 
-    
     /**
      * Instantiates a new navigator implementation.
      * 
      * Be aware however that there is a ServiceFactory which has a Navigator Singleton since this should be a Singleton.
      * So use with caution.
-     *
-     * @param numberOfThreads the number of threads
+     * 
+     * @param numberOfThreads
+     *            the number of threads
      */
     public NavigatorImpl(int numberOfThreads) {
 
@@ -98,7 +99,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * @param numberOfThreads
      *            the number of navigator threads
      * @param repo
-     *              the process repository
+     *            the process repository
      */
     public NavigatorImpl(RepositoryService repo, int numberOfThreads) {
 
@@ -108,7 +109,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         this.state = NavigatorState.INIT;
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
-        //this.repository = ServiceFactory.getRepositoryService();
+        // this.repository = ServiceFactory.getRepositoryService();
         this.repository = repo;
         this.suspendedTokens = new ArrayList<Token>();
         this.runningInstances = Collections.synchronizedList(new ArrayList<ProcessInstance>());
@@ -158,8 +159,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     }
 
     @Override
-    public void startProcessInstance(UUID processID,
-                                     StartEvent event)
+    public void startProcessInstance(UUID processID, StartEvent event)
     throws DefinitionNotFoundException {
 
         ProcessDefinition definition = repository.getProcessDefinition(processID);
@@ -182,11 +182,10 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      *            the token
      */
     public void startArbitraryInstance(Token token) {
-        
-        this.scheduler.submit(token);
-        
-    }
 
+        this.scheduler.submit(token);
+
+    }
 
     /**
      * Stop the Navigator. So in fact you need to stop all the navigation threads.
@@ -200,9 +199,9 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         changeState(NavigatorState.STOPPED);
     }
 
-    
     @Override
     public boolean isIdle() {
+
         return this.scheduler.isEmpty();
     }
 
@@ -274,27 +273,26 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
     @Override
     public void signalEndedProcessInstance(ProcessInstance instance) {
+
         boolean instanceContained = runningInstances.remove(instance);
-        
+
         // TODO maybe throw an exception if the instance provided is not in the running instances list?
         if (instanceContained) {
             finishedInstances.add(instance);
         }
-        
+
         if (runningInstances.isEmpty()) {
             changeState(NavigatorState.CURRENTLY_FINISHED);
         }
 
     }
-    
+
     @Override
     public final NavigatorStatistic getStatistics() {
-        final NavigatorStatistic stat = new NavigatorStatistic(
-            getEndedInstances().size(),
-            getRunningInstances().size(),
-            this.executionThreads.size(),
-            isIdle());
-        
+
+        final NavigatorStatistic stat = new NavigatorStatistic(getEndedInstances().size(),
+            getRunningInstances().size(), this.executionThreads.size(), isIdle());
+
         return stat;
     }
 }

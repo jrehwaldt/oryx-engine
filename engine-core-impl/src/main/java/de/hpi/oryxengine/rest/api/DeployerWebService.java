@@ -16,6 +16,8 @@ import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
 import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
@@ -43,22 +45,28 @@ public class DeployerWebService {
 
         ProcessBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl();
-        param.setActivity(new AddNumbersAndStoreActivity("result", 1, 1));
+        
+//        param.setActivity(AddNumbersAndStoreActivity("result", 1, 1));
+        Class<?>[] conSig = {String.class, int[].class};
+        int[] integers = {1, 1};
+        Object[] conArgs = {"result", integers};
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, conSig, conArgs);
+        param.setActivityBlueprint(blueprint);
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
-        param.makeStartNode(true);
-        Node node1 = builder.createNode(param);
+        Node node1 = builder.createStartNode(param);
 
-        param.setActivity(new AddNumbersAndStoreActivity("result", 2, 2));
+//        param.setActivity(new AddNumbersAndStoreActivity("result", 2, 2));
         Node node2 = builder.createNode(param);
 
-        param.setActivity(new AddNumbersAndStoreActivity("result", 3, 3));
+//        param.setActivity(new AddNumbersAndStoreActivity("result", 3, 3));
         Node node3 = builder.createNode(param);
 
-        param.setActivity(new AddNumbersAndStoreActivity("result", 4, 4));
+//        param.setActivity(new AddNumbersAndStoreActivity("result", 4, 4));
         Node node4 = builder.createNode(param);
 
-        param.setActivity(new EndActivity());
+        
+        param.setActivityClassOnly(EndActivity.class);
         Node endNode = builder.createNode(param);
 
         builder.createTransition(node1, node2).createTransition(node2, node3).createTransition(node3, node4)

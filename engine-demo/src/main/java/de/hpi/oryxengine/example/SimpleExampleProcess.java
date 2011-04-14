@@ -10,10 +10,10 @@ import de.hpi.oryxengine.monitor.MonitorGUI;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
@@ -77,12 +77,20 @@ public final class SimpleExampleProcess {
      */
     private static TokenImpl sampleProcessInstance(int counter, Navigator navigator) {
 
-        AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);
-        AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course " + counter);
-        SimpleJoinBehaviour incoming = new SimpleJoinBehaviour();
-        TakeAllSplitBehaviour outgoing = new TakeAllSplitBehaviour();
-        NodeImpl startNode = new NodeImpl(activity, incoming, outgoing);
-        NodeImpl secondNode = new NodeImpl(activity2);
+//        AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);
+//        AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course " + counter);
+        // TODO parameters
+        Class<?>[] constructorSig = {String.class};
+        Object[] params = {"I suck " + counter};
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig,
+            params);
+        
+        NodeImpl startNode = new NodeImpl(blueprint);
+        
+        params = new Object[] {"I suck of course " + counter};
+        blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig,
+            params);
+        NodeImpl secondNode = new NodeImpl(blueprint);
         startNode.transitionTo(secondNode);
 
         TokenImpl sampleInstance = new TokenImpl(startNode, new ProcessInstanceImpl(null), navigator);

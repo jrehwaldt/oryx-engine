@@ -35,6 +35,7 @@ public final class RepositorySetup {
      * Fill repository.
      * 
      * @throws IllegalStarteventException
+     *             if there is no start event, the exception is thrown
      */
     public static void fillRepository()
     throws IllegalStarteventException {
@@ -52,6 +53,7 @@ public final class RepositorySetup {
      * 
      * @return the process definition
      * @throws IllegalStarteventException
+     *             if there is no start event, the exception is thrown
      */
     private static ProcessDefinition get1Plus1Process()
     throws IllegalStarteventException {
@@ -60,13 +62,12 @@ public final class RepositorySetup {
         String processDescription = "The process stores the result of the calculation '1 + 1' .";
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(new AddNumbersAndStoreActivity("result", 1, 1),
-            new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        param.makeStartNode(true);
+        // Activity activity = new AddNumbersAndStoreActivity("result", 1, 1);
+        NodeParameter param = new NodeParameterImpl(AddNumbersAndStoreActivity.class, new SimpleJoinBehaviour(),
+            new TakeAllSplitBehaviour());
 
-        Node node1 = builder.createNode(param);
+        Node node1 = builder.createStartNode(param);
 
-        param.makeStartNode(false);
         Node node2 = builder.createNode(param);
         builder.createTransition(node1, node2).setName(processName).setDescription(processDescription);
         return builder.buildDefinition();

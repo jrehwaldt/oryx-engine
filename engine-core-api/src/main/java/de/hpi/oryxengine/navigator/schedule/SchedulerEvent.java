@@ -5,7 +5,7 @@ import de.hpi.oryxengine.process.token.Token;
 /**
  * An Event for the scheduler listener, may be extended.
  * For now it contains everything, that it needs to contain.
- * Please referr to the respective getters for more information.
+ * Please refer to the respective getters for more information.
  */
 public final class SchedulerEvent {
     

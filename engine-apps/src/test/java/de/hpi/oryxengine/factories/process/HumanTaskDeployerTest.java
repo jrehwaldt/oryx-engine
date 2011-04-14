@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -52,5 +53,14 @@ public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
         int actualNumberOfParticipants = identityService.getParticipants().size();
         assertEquals(actualNumberOfParticipants, NUMBER_OF_PARTICIPANTS, "Did anybody change the HumanTaskDeployer?");
 
+    }
+
+    /**
+     * Stops the deployer so we don't get those pesky Quartz errors.
+     */
+    @AfterMethod
+    public void shutDown() {
+
+        this.deployer.stop();
     }
 }

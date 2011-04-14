@@ -32,9 +32,6 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     private String description;
 
     private Map<StartEvent, Node> temporaryStartTriggers;
-    
-    // TODO [@Thorben]: Schau mal ob du das mergen musst 
-    private Node startNode;
 
     /**
      * Instantiates some temporary datastructures.
@@ -46,30 +43,37 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     }
 
     @Override
-    public ProcessDefinition buildDefinition() throws IllegalStarteventException {
+    public ProcessDefinition buildDefinition()
+    throws IllegalStarteventException {
 
         this.definition = new ProcessDefinitionImpl(id, name, description, startNodes);
 
         for (Map.Entry<StartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
             this.definition.addStartTrigger(entry.getKey(), entry.getValue());
         }
-        
-        //cleanup
+
+        // cleanup
         this.startNodes = new ArrayList<Node>();
         this.id = UUID.randomUUID();
         this.description = null;
         this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
-        
+
         return definition;
     }
 
     @Override
     public Node createNode(NodeParameter param) {
 
-        Node node = new NodeImpl(param.getActivity(), param.getIncomingBehaviour(), param.getOutgoingBehaviour());
-        if (param.isStartNode()) {
-            startNodes.add(node);
-        }
+        Node node = new NodeImpl(param.getActivityBlueprint(), param.getIncomingBehaviour(),
+            param.getOutgoingBehaviour());
+        return node;
+    }
+
+    @Override
+    public Node createStartNode(NodeParameter param) {
+
+        Node node = createNode(param);
+        this.startNodes.add(node);
         return node;
     }
 

@@ -12,14 +12,8 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
-import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
-import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
@@ -50,8 +44,7 @@ public class WorklistItemLifecycleTest extends AbstractTestNGSpringContextTests 
         Task task = TaskFactory.createJannikServesGerardoTask();
         jannik = (Participant) task.getAssignedResources().iterator().next();
 
-        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(new HumanTaskActivity(null));
-        Token token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
+        Token token = Mockito.mock(Token.class);
 
         worklistItem = new WorklistItemImpl(task, token);
 

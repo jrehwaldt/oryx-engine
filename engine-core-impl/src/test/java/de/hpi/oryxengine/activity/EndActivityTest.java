@@ -21,6 +21,8 @@ import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -85,11 +87,11 @@ public class EndActivityTest {
 
         assertFalse(instance.hasAssignedTokens(),
             "no tokens should be assigned to this instance anymore, as it has finished execution.");
-        
+
         // TODO
         /*
-         * Problem:
-         * Wenn ein Zweig ohne End-Event endet, dann wird dieser ganze Aufräumkram nicht gemacht -> die Instanz endet nicht, Instanz geht verloren
+         * Problem: Wenn ein Zweig ohne End-Event endet, dann wird dieser ganze Aufräumkram nicht gemacht -> die Instanz
+         * endet nicht, Instanz geht verloren
          */
     }
 
@@ -113,20 +115,28 @@ public class EndActivityTest {
     throws IllegalStarteventException {
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(new NullActivity(), new SimpleJoinBehaviour(),
+        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        param.makeStartNode(true);
-        startNode = builder.createNode(param);
+        startNode = builder.createStartNode(param);
 
-        param.makeStartNode(false);
-        param.setActivity(new AddNumbersAndStoreActivity("result1", 1, 1));
+        Class<?>[] conSig = {String.class, int[].class};
+        int[] ints = {1, 1};
+        Object[] conArgs = {"result1", ints};
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, conSig, conArgs);
+        param.setActivityBlueprint(blueprint);
+//        param.setActivity(new AddNumbersAndStoreActivity("result1", 1, 1));
         Node forkNode1 = builder.createNode(param);
-        param.setActivity(new AddNumbersAndStoreActivity("result2", 2, 2));
+        
+        int[] anotherInts = {2, 2};
+        Object[] anotherConArgs = {"result2", anotherInts};
+        blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, conSig, anotherConArgs);
+        param.setActivityBlueprint(blueprint);
+//        param.setActivity(new AddNumbersAndStoreActivity("result2", 2, 2));
         Node forkNode2 = builder.createNode(param);
 
         builder.createTransition(startNode, forkNode1).createTransition(startNode, forkNode2);
 
-        param.setActivity(new EndActivity());
+        param.setActivityClassOnly(EndActivity.class);
         Node endNode1 = builder.createNode(param);
         Node endNode2 = builder.createNode(param);
 

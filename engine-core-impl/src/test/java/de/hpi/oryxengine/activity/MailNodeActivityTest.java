@@ -3,7 +3,7 @@ package de.hpi.oryxengine.activity;
 import static org.testng.Assert.assertEquals;
 
 import org.jvnet.mock_javamail.Mailbox;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.MailNodeFactory;
@@ -29,7 +29,7 @@ public class MailNodeActivityTest {
    * Creates a process token, a mailing node, sets the to-be-sent message
    * and starts the SMTP server on the given port. 
    */
-  @BeforeTest
+  @BeforeClass
   public void setUp() {
       MailNodeFactory factory = new MailNodeFactory();
       node = factory.create();

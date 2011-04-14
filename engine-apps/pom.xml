@@ -3,6 +3,7 @@
   <groupId>de.hpi.oryxengine</groupId>
   <artifactId>engine-apps</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <name>Oryx-Engine Apps</name>
   
   <parent>
@@ -15,7 +16,6 @@
             <groupId>de.hpi.oryxengine</groupId>
             <artifactId>engine-core-impl</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
