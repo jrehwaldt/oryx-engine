@@ -3,7 +3,6 @@ package de.hpi.oryxengine.factory.resource;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.Participant;
 
 /**
  * Little factory for creating Resources. A short cut for in the implementation.

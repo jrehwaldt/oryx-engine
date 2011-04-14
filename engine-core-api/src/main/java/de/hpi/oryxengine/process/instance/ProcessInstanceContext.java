@@ -1,7 +1,6 @@
 package de.hpi.oryxengine.process.instance;
 
 import java.util.List;
-import java.util.UUID;
 
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;

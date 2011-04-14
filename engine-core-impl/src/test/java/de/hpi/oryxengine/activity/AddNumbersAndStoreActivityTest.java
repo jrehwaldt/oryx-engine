@@ -6,7 +6,6 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.AddNumbersAndStoreNodeFactory;
-import de.hpi.oryxengine.factory.token.SimpleProcessTokenFactory;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
