@@ -1,6 +1,9 @@
 package de.hpi.oryxengine.process.definition;
 
+import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
@@ -16,10 +19,13 @@ public class NodeParameterImpl implements NodeParameter {
 
     /**
      * Instantiates a new node parameter impl.
-     *
-     * @param blueprint the blueprint
-     * @param incoming the incoming
-     * @param outgoing the outgoing
+     * 
+     * @param blueprint
+     *            the blueprint
+     * @param incoming
+     *            the incoming
+     * @param outgoing
+     *            the outgoing
      */
     public NodeParameterImpl(ActivityBlueprint blueprint, IncomingBehaviour incoming, OutgoingBehaviour outgoing) {
 
@@ -29,12 +35,30 @@ public class NodeParameterImpl implements NodeParameter {
     }
 
     /**
+     * This is a convenience constructor, if you only need the activity's default constructor.
+     * 
+     * @param clazz
+     *            the clazz
+     * @param incoming
+     *            the incoming
+     * @param outgoing
+     *            the outgoing
+     */
+    public NodeParameterImpl(Class<? extends Activity> clazz, IncomingBehaviour incoming, OutgoingBehaviour outgoing) {
+
+        this.incoming = incoming;
+        this.outgoing = outgoing;
+        Class<?>[] conSig = {};
+        Object[] conArgs = {};
+        this.blueprint = new ActivityBlueprintImpl(clazz, conSig, conArgs);
+    }
+
+    /**
      * Instantiates a new node parameter impl. This is just for convenience, might be removed later.
      */
     public NodeParameterImpl() {
 
     }
-
 
     @Override
     public void setIncomingBehaviour(IncomingBehaviour behaviour) {
@@ -66,13 +90,22 @@ public class NodeParameterImpl implements NodeParameter {
     public void setActivityBlueprint(ActivityBlueprint blueprint) {
 
         this.blueprint = blueprint;
-        
+
     }
 
     @Override
     public ActivityBlueprint getActivityBlueprint() {
 
         return blueprint;
+    }
+
+    @Override
+    public void setActivityClassOnly(Class<? extends Activity> clazz) {
+
+        Class<?>[] conSig = {};
+        Object[] conArgs = {};
+        this.blueprint = new ActivityBlueprintImpl(clazz, conSig, conArgs);
+
     }
 
 }

@@ -18,6 +18,8 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
@@ -56,13 +58,11 @@ public class AutomatedDummyActivityTest {
         System.setOut(new PrintStream(out));
         
         nav = mock(Navigator.class);
-        Node node = new NodeImpl(AutomatedDummyActivity.class);
-        ProcessInstance instance = new ProcessInstanceImpl(null);
         Class<?>[] constructorSig = {String.class};
-        instance.getContext().setActivityConstructorClasses(node.getID(), constructorSig);
         Object[] params = {s};
-        instance.getContext().setActivityParameters(node.getID(), params);
-        token = new TokenImpl(node, instance, nav);
+        ActivityBlueprint bp = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig, params);
+        Node node = new NodeImpl(bp);
+        token = new TokenImpl(node, mock(ProcessInstance.class), nav);
     }
 
 //    /**

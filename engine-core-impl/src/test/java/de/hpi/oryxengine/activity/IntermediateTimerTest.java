@@ -22,9 +22,9 @@ import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -121,8 +121,11 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
 //      IntermediateTimer timer = new IntermediateTimer(WAITING_TIME);
 //      lifecycleTester = new ActivityLifecycleAssurancePlugin();
 //      timer.registerPlugin(lifecycleTester);
+      Class<?>[] constructorSig = {long.class};
+      Object[] params = {WAITING_TIME};
+      ActivityBlueprint bp = new ActivityBlueprintImpl(IntermediateTimer.class, constructorSig, params);
       NodeParameter param = new NodeParameterImpl(
-          IntermediateTimer.class,
+          bp,
           new SimpleJoinBehaviour(),
           new TakeAllSplitBehaviour());
       
@@ -138,14 +141,8 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
       builder.createTransition(node, node2);
       builder.createTransition(node2, node3);
       
-      ProcessInstance instance = new ProcessInstanceImpl(mock(ProcessDefinition.class));
-      Class<?>[] constructorSig = {long.class};
-      Object[] params = {WAITING_TIME};
-
-      instance.getContext().setActivityConstructorClasses(node2.getID(), constructorSig);
-      instance.getContext().setActivityParameters(node2.getID(), params);
       
-      token = new TokenImpl(node, instance, nav);
+      token = new TokenImpl(node, mock(ProcessInstance.class), nav);
       
       
   }

@@ -21,6 +21,8 @@ import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -117,15 +119,24 @@ public class EndActivityTest {
             new TakeAllSplitBehaviour());
         startNode = builder.createStartNode(param);
 
-        param.setActivityClass(AddNumbersAndStoreActivity.class);
+        Class<?>[] conSig = {String.class, int[].class};
+        int[] ints = {1, 1};
+        Object[] conArgs = {"result1", ints};
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, conSig, conArgs);
+        param.setActivityBlueprint(blueprint);
 //        param.setActivity(new AddNumbersAndStoreActivity("result1", 1, 1));
         Node forkNode1 = builder.createNode(param);
+        
+        int[] anotherInts = {2, 2};
+        Object[] anotherConArgs = {"result2", anotherInts};
+        blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, conSig, anotherConArgs);
+        param.setActivityBlueprint(blueprint);
 //        param.setActivity(new AddNumbersAndStoreActivity("result2", 2, 2));
         Node forkNode2 = builder.createNode(param);
 
         builder.createTransition(startNode, forkNode1).createTransition(startNode, forkNode2);
 
-        param.setActivityClass(EndActivity.class);
+        param.setActivityClassOnly(EndActivity.class);
         Node endNode1 = builder.createNode(param);
         Node endNode2 = builder.createNode(param);
 
@@ -134,18 +145,6 @@ public class EndActivityTest {
         ProcessDefinition definition = builder.buildDefinition();
 
         instance = new ProcessInstanceImpl(definition);
-        
-        // add constructor signature and parameter information
-        Class<?>[] constructorSig = {String.class, int[].class};        
-        int[] ints = {1, 1};
-        Object[] params = {"result1", ints};
-        
-        instance.getContext().setActivityConstructorClasses(forkNode1.getID(), constructorSig);
-        instance.getContext().setActivityParameters(forkNode1.getID(), params);
-        
-        params[0] = "result2";
-        instance.getContext().setActivityConstructorClasses(forkNode2.getID(), constructorSig);
-        instance.getContext().setActivityParameters(forkNode2.getID(), params);
     }
 
 }

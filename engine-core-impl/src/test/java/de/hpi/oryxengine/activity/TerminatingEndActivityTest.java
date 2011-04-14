@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
+import de.hpi.oryxengine.activity.impl.IntermediateTimer;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.activity.impl.TerminatingEndActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
@@ -31,6 +32,8 @@ import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
@@ -48,7 +51,6 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
     private Task task = null;
     private AbstractResource<?> resource = null;
     private Node splitNode, humanTaskNode, terminatingEndNode;
-    private ProcessInstance instance;
 
     /**
      * Test cancelling of human tasks. A simple fork is created that leads to a human task activity and a terminating
@@ -62,6 +64,7 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
     public void testCancellingOfHumanTasks()
     throws DalmatinaException {
 
+        ProcessInstance instance = new ProcessInstanceImpl(null);
         NavigatorImplMock nav = new NavigatorImplMock();
         Token token = instance.createToken(splitNode, nav);
 
@@ -74,7 +77,7 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
         // get the token that is on the human task activity. The other one is on the end node then.
         Token humanTaskToken = nav.getWorkQueue().get(0);
         Token endToken = nav.getWorkQueue().get(1);
-        if (!(humanTaskToken.getCurrentNode().getActivityClass() == HumanTaskActivity.class)) {
+        if (!(humanTaskToken.getCurrentNode().getActivityBlueprint().getActivityClass() == HumanTaskActivity.class)) {
             humanTaskToken = endToken;
             endToken = nav.getWorkQueue().get(0);
         }
@@ -131,26 +134,22 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
 
         ProcessBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl();
-        param.setActivityClass(NullActivity.class);
+        param.setActivityClassOnly(NullActivity.class);
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
         splitNode = builder.createNode(param);
 
 //        param.setActivity(humanTask); TODO do something with the parameter of humanTask
-        
-        param.setActivityClass(HumanTaskActivity.class);
+        Class<?>[] constructorSig = {Task.class};
+        Object[] params = {task};
+        ActivityBlueprint bp = new ActivityBlueprintImpl(IntermediateTimer.class, constructorSig, params);
+        param.setActivityBlueprint(bp);
         humanTaskNode = builder.createNode(param);
 
-        param.setActivityClass(TerminatingEndActivity.class);
+        param.setActivityClassOnly(TerminatingEndActivity.class);
         terminatingEndNode = builder.createNode(param);
 
         builder.createTransition(splitNode, humanTaskNode).createTransition(splitNode, terminatingEndNode);
         
-        Class<?>[] constructorSig = {Task.class};
-        Object[] params = {task};
-        
-        instance = new ProcessInstanceImpl(null);
-        instance.getContext().setActivityConstructorClasses(humanTaskNode.getID(), constructorSig);
-        instance.getContext().setActivityParameters(humanTaskNode.getID(), params);
     }
 }

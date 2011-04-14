@@ -17,6 +17,8 @@ import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
@@ -44,7 +46,11 @@ public class DeployerWebService {
         NodeParameter param = new NodeParameterImpl();
         
 //        param.setActivity(AddNumbersAndStoreActivity("result", 1, 1));
-        param.setActivityClass(AddNumbersAndStoreActivity.class);
+        Class<?>[] conSig = {String.class, int[].class};
+        int[] integers = {1, 1};
+        Object[] conArgs = {"result", integers};
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, conSig, conArgs);
+        param.setActivityBlueprint(blueprint);
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
         Node node1 = builder.createStartNode(param);
@@ -58,7 +64,8 @@ public class DeployerWebService {
 //        param.setActivity(new AddNumbersAndStoreActivity("result", 4, 4));
         Node node4 = builder.createNode(param);
 
-        param.setActivityClass(EndActivity.class);
+        
+        param.setActivityClassOnly(EndActivity.class);
         Node endNode = builder.createNode(param);
 
         builder.createTransition(node1, node2).createTransition(node2, node3).createTransition(node3, node4)

@@ -76,7 +76,7 @@ public class NodeImpl implements Node {
     }
 
     /**
-     * Instantiates a new node impl.
+     * This is a convenience constructor, if you only need the standard join- and split-behaviour.
      * 
      * @param blueprint
      *            the blueprint
@@ -84,6 +84,21 @@ public class NodeImpl implements Node {
     public NodeImpl(ActivityBlueprint blueprint) {
 
         this(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+    }
+
+    /**
+     * This is a convenience constructor if you need standard join- and split-behaviour and the default constructor for
+     * the given activity class.
+     * 
+     * @param clazz
+     *            the clazz
+     */
+    public NodeImpl(Class<? extends Activity> clazz) {
+
+        this(null, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        Class<?>[] conSig = {};
+        Object[] conArgs = {};
+        this.blueprint = new ActivityBlueprintImpl(clazz, conSig, conArgs);
     }
 
     @Override
@@ -155,7 +170,7 @@ public class NodeImpl implements Node {
     public void setActivityBlueprint(ActivityBlueprint blueprint) {
 
         this.blueprint = blueprint;
-        
+
     }
 
 }
