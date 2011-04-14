@@ -9,9 +9,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.BPMNStartEvent;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.repository.DeploymentBuilder;
+import de.hpi.oryxengine.repository.ProcessDefinitionImporter;
+import de.hpi.oryxengine.repository.importer.BpmnXmlImporter;
 import de.hpi.oryxengine.util.ReflectionUtil;
 
 /**
@@ -33,10 +37,16 @@ public class DeploySimpleSequenceAsBpmnXmlTest {
     
     @Test
     public void importProcessXMlAsStream() {
-     // TODO: [@Gerardo:] mal wieder auskommentieren
+        
+//        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+//        ProcessDefinitionImporter processDefinitionImporter = new BpmnXmlImporter();
+//        deploymentBuilder.deployProcessDefinition(processDefinitionImporter);
+//        
 //        InputStream executableProcessInputStream = ReflectionUtil.getResourceAsStream(executableProcessResourcePath);
 //        
 //        ProcessDefinition processDefinition = ProcessImporter.createProcessOutOf(executableProcessInputStream);
+//        
+//        
 //        
 //        List<Node> startNodes = processDefinition.getStartNodes();
 //        Assert.assertTrue(startNodes.size() == 1);
@@ -44,12 +54,6 @@ public class DeploySimpleSequenceAsBpmnXmlTest {
 //        Node onlyStartNode = startNodes.get(0);
 //        Assert.assertTrue(onlyStartNode.getActivity() instanceof BPMNStartEvent);
 //        Assert.assertEquals(onlyStartNode.get, "Start");
-        
-        
-
-        
-        
-
     }
     public void importProcessXMlAsSring() {
         

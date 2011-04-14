@@ -1,0 +1,8 @@
+<root>
+    <child>
+        <grandchild>text 1</grandchild>
+    </child>
+    <child>
+        <grandchild>text 2</grandchild>
+    </child>
+</root>
