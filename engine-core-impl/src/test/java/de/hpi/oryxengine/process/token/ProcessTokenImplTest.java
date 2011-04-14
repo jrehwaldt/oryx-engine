@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.process.token;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertEqualsNoOrder;
 
@@ -8,10 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;

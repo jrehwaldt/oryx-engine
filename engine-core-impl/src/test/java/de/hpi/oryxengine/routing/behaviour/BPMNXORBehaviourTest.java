@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.routing.behaviour;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 import java.util.HashMap;
@@ -10,7 +9,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
