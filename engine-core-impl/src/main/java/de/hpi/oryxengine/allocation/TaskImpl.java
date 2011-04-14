@@ -9,7 +9,7 @@ import de.hpi.oryxengine.resource.AbstractResource;
 /**
  * THe implementation of the Task Interface.
  */
-public class TaskImpl implements Task {
+public class TaskImpl implements Task, Cloneable {
 
     private String subject;
 
@@ -97,6 +97,13 @@ public class TaskImpl implements Task {
             assignedResources = new HashSet<AbstractResource<?>>();
         }
         return assignedResources;
+    }
+    
+    @Override
+    public Task clone() {
+        HashSet<AbstractResource<?>> cloneSet = new HashSet<AbstractResource<?>>(assignedResources);
+        return new TaskImpl(subject, description, allocationStrategies, cloneSet);
+        
     }
 
 }

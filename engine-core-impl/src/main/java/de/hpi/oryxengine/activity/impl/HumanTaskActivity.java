@@ -8,6 +8,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.AbstractDeferredActivity;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskDistribution;
+import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractDefaultWorklist;
@@ -33,7 +34,7 @@ public class HumanTaskActivity extends AbstractDeferredActivity {
     // TODO: CreationPattern einfügen
     public HumanTaskActivity(Task task) {
 
-        this.task = task;
+        this.task = ((TaskImpl) task).clone();
     }
 
     @Override
