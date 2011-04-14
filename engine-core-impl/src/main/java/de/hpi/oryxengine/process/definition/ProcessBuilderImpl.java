@@ -41,27 +41,29 @@ public class ProcessBuilderImpl implements ProcessBuilder {
     }
 
     @Override
-    public ProcessDefinition buildDefinition() throws IllegalStarteventException {
+    public ProcessDefinition buildDefinition()
+    throws IllegalStarteventException {
 
         this.definition = new ProcessDefinitionImpl(id, description, startNodes);
 
         for (Map.Entry<StartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
             this.definition.addStartTrigger(entry.getKey(), entry.getValue());
         }
-        
-        //cleanup
+
+        // cleanup
         this.startNodes = new ArrayList<Node>();
         this.id = UUID.randomUUID();
         this.description = null;
         this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
-        
+
         return definition;
     }
 
     @Override
     public Node createNode(NodeParameter param) {
 
-        Node node = new NodeImpl(param.getActivityClass(), param.getIncomingBehaviour(), param.getOutgoingBehaviour());
+        Node node = new NodeImpl(param.getActivityBlueprint(), param.getIncomingBehaviour(),
+            param.getOutgoingBehaviour());
         return node;
     }
 

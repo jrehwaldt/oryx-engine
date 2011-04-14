@@ -17,6 +17,7 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
@@ -54,7 +55,14 @@ public class AssigningToParticipantUserStoryTest {
         
         humanTaskNode.transitionTo(endNode);
                 
-        token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
+        ProcessInstance instance = new ProcessInstanceImpl(null);
+        token = new TokenImpl(humanTaskNode, instance, new NavigatorImplMock());
+        
+        Class<?>[] constructorSig = {Task.class};
+        Object[] params = {task};
+        
+        instance.getContext().setActivityConstructorClasses(humanTaskNode.getID(), constructorSig);
+        instance.getContext().setActivityParameters(humanTaskNode.getID(), params);
     }
 
     /**

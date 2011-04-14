@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.process.definition;
 
-import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
@@ -10,20 +10,20 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
  * @author thorben
  */
 public class NodeParameterImpl implements NodeParameter {
-    private Class<? extends Activity> clazz;
+    private ActivityBlueprint blueprint;
     private OutgoingBehaviour outgoing;
     private IncomingBehaviour incoming;
 
     /**
      * Instantiates a new node parameter impl.
      *
-     * @param clazz the clazz
+     * @param blueprint the blueprint
      * @param incoming the incoming
      * @param outgoing the outgoing
      */
-    public NodeParameterImpl(Class<? extends Activity> clazz, IncomingBehaviour incoming, OutgoingBehaviour outgoing) {
+    public NodeParameterImpl(ActivityBlueprint blueprint, IncomingBehaviour incoming, OutgoingBehaviour outgoing) {
 
-        this.clazz = clazz;
+        this.blueprint = blueprint;
         this.incoming = incoming;
         this.outgoing = outgoing;
     }
@@ -35,18 +35,6 @@ public class NodeParameterImpl implements NodeParameter {
 
     }
 
-    @Override
-    public void setActivityClass(Class<? extends Activity> clazz) {
-
-        this.clazz = clazz;
-
-    }
-
-    @Override
-    public Class<? extends Activity> getActivityClass() {
-
-        return clazz;
-    }
 
     @Override
     public void setIncomingBehaviour(IncomingBehaviour behaviour) {
@@ -72,6 +60,19 @@ public class NodeParameterImpl implements NodeParameter {
     public OutgoingBehaviour getOutgoingBehaviour() {
 
         return outgoing;
+    }
+
+    @Override
+    public void setActivityBlueprint(ActivityBlueprint blueprint) {
+
+        this.blueprint = blueprint;
+        
+    }
+
+    @Override
+    public ActivityBlueprint getActivityBlueprint() {
+
+        return blueprint;
     }
 
 }

@@ -18,7 +18,7 @@ public class NodeImpl implements Node {
     /**
      * The activity. This is the behaviour of the node e.g. what gets executed.
      * */
-    private Class<? extends Activity> clazz;
+    private ActivityBlueprint blueprint;
 
     private OutgoingBehaviour outgoingBehaviour;
     private IncomingBehaviour incomingBehaviour;
@@ -29,21 +29,24 @@ public class NodeImpl implements Node {
 
     /**
      * Instantiates a new abstract node.
-     *
-     * @param clazz the clazz
-     * @param incomingBehaviour the incoming behaviour
-     * @param outgoingBehaviour the outgoing behaviour
+     * 
+     * @param blueprint
+     *            the blueprint of the activity that is to instantiate when the node is reached by a token
+     * @param incomingBehaviour
+     *            the incoming behaviour
+     * @param outgoingBehaviour
+     *            the outgoing behaviour
      */
-    public NodeImpl(Class<? extends Activity> clazz,
+    public NodeImpl(ActivityBlueprint blueprint,
                     IncomingBehaviour incomingBehaviour,
                     OutgoingBehaviour outgoingBehaviour) {
 
-        this.clazz = clazz;
+        this.blueprint = blueprint;
         this.incomingBehaviour = incomingBehaviour;
         this.outgoingBehaviour = outgoingBehaviour;
         this.outgoingTransitions = new ArrayList<Transition>();
         this.incomingTransitions = new ArrayList<Transition>();
-        
+
         // TODO is it okay, to just create a random one?
         this.id = UUID.randomUUID();
     }
@@ -74,12 +77,13 @@ public class NodeImpl implements Node {
 
     /**
      * Instantiates a new node impl.
-     *
-     * @param clazz the clazz
+     * 
+     * @param blueprint
+     *            the blueprint
      */
-    public NodeImpl(Class<? extends Activity> clazz) {
+    public NodeImpl(ActivityBlueprint blueprint) {
 
-        this(clazz, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        this(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
     }
 
     @Override
@@ -142,15 +146,15 @@ public class NodeImpl implements Node {
     }
 
     @Override
-    public Class<? extends Activity> getActivityClass() {
+    public ActivityBlueprint getActivityBlueprint() {
 
-        return clazz;
+        return blueprint;
     }
 
     @Override
-    public void setActivityClass(Class<? extends Activity> clazz) {
+    public void setActivityBlueprint(ActivityBlueprint blueprint) {
 
-        this.clazz = clazz;
+        this.blueprint = blueprint;
         
     }
 

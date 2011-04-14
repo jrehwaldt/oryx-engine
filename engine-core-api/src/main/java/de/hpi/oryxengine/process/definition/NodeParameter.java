@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.process.definition;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
@@ -14,16 +15,16 @@ public interface NodeParameter {
     /**
      * Sets the activity.
      *
-     * @param clazz the new activity class
+     * @param blueprint the new activity blueprint
      */
-    void setActivityClass(Class<? extends Activity> clazz);
+    void setActivityBlueprint(ActivityBlueprint blueprint);
     
     /**
-     * Gets the activity.
+     * Gets the activity blueprint.
      *
-     * @return the activity's class
+     * @return the activity blueprint
      */
-    Class<? extends Activity> getActivityClass();
+    ActivityBlueprint getActivityBlueprint();
     
     /**
      * Sets the incoming behaviour.

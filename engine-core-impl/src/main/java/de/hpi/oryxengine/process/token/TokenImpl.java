@@ -24,7 +24,7 @@ public class TokenImpl implements Token {
     private UUID id;
 
     private Node currentNode;
-    
+
     private ActivityState currentActivityState = null;
 
     private ProcessInstance instance;
@@ -110,31 +110,20 @@ public class TokenImpl implements Token {
 
     /**
      * Instantiates current node's activity class to be able to execute it.
-     *
+     * 
      * @return the activity
      */
     private Activity instantiateCurrentActivityClass() {
+
         Activity activity = null;
-        
+
         // TODO should we catch these exceptions here, or should we propagate it to a higher level?
         // TODO construct the activities with parameters
         try {
-//            activity = currentNode.getActivityClass().newInstance();
-            Class<? extends Activity> activityClass = currentNode.getActivityClass();
-            Class<?>[] constructorSignature = instance.getContext().getActivityConstructorClasses(currentNode.getID());
-            Constructor<? extends Activity> con = activityClass.getConstructor(constructorSignature);
-            
-            // get the parameters that are associated to the activity that is to be instantiated here.
-            Object[] parameters = instance.getContext().getActivityParameters(currentNode.getID());
-            
-            activity = con.newInstance(parameters);
-            
+            activity = currentNode.getActivityBlueprint().instantiate();
+
             // TODO these catch clauses look scary...
-        } catch (SecurityException e) {
-            e.printStackTrace();
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -143,18 +132,18 @@ public class TokenImpl implements Token {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        
+
         return activity;
     }
-    
+
     @Override
     public void executeStep()
     throws DalmatinaException {
 
         lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
         this.currentActivityState = ActivityState.ACTIVE;
-        
-        Activity activity = instantiateCurrentActivityClass();        
+
+        Activity activity = instantiateCurrentActivityClass();
         activity.execute(this);
         // Aborting the further execution of the process by the token, because it was suspended
         if (this.currentActivityState == ActivityState.SUSPENDED) {
@@ -269,7 +258,7 @@ public class TokenImpl implements Token {
         // The Activity has to be casted into deferred activity because the signal method is only
         // implemented in the interface DeferredActivities.
         // This was done to not force the developer to implement the signal method in every activity.
-        
+
         DeferredActivity activity = (DeferredActivity) instantiateCurrentActivityClass();
         activity.signal(this);
         this.currentActivityState = ActivityState.COMPLETED;

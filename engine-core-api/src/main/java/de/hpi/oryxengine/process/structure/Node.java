@@ -14,18 +14,19 @@ public interface Node extends Identifiable {
 
     /**
      * Gets the activity. The activity is the behavior of a node.
-     *
-     * @return the activity's class
+     * 
+     * @return the activity blueprint that is used to instantiate the activity.
      */
-    Class<? extends Activity> getActivityClass();
+    ActivityBlueprint getActivityBlueprint();
 
     /**
-     * Sets the class of the activity that is instantiated when a token reaches the node. The activity is the behavior
-     * of a node.
-     *
-     * @param clazz the class of the activity
+     * Sets the blueprint of the activity that is instantiated when a token reaches the node. The activity is the
+     * behavior of a node.
+     * 
+     * @param blueprint
+     *            the blueprint of the activity to use.
      */
-    void  setActivityClass(Class<? extends Activity> clazz);
+    void setActivityBlueprint(ActivityBlueprint blueprint);
 
     /**
      * Sets the outgoing behaviour.
