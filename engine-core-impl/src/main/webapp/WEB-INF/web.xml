@@ -2,29 +2,40 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-
-	<!-- <servlet> <servlet-name>Engine-REST</servlet-name> <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class> 
-		<init-param> <param-name>com.sun.jersey.config.property.packages</param-name> 
-		<param-value>de.hpi.oryxengine.worklist.gui.api</param-value> </init-param> 
-		<load-on-startup>1</load-on-startup> </servlet> -->
+    
+    <servlet>
+        <servlet-name>Engine-REST</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>de.hpi.oryxengine.restt.api</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
 	<display-name>engine</display-name>
-	<!-- <listener>
+    
+	<!--
+    <listener>
 		<listener-class>
 			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
-	</listener>-->
-
+	</listener>
+    -->
+    
 	<listener>
-		<listener-class>de.hpi.oryxengine.EngineServletListener</listener-class>
+		<listener-class>de.hpi.oryxengine.bootstrap.EngineServletListener</listener-class>
 	</listener>
 
 	<servlet>
 		<servlet-name>EngineREST</servlet-name>
 		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
 	</servlet>
-	<!--  <context-param>
+	<!--
+    <context-param>
 		<param-name>resteasy.providers</param-name>
 		<param-value>de.hpi.oryxengine.worklist.gui.api.WorklistWebService</param-value>
-	</context-param>-->
+	</context-param>
+    -->
 
 	<context-param>
 		<param-name>resteasy.scan</param-name>

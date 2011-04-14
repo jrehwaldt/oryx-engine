@@ -3,6 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.hpi.oryxengine</groupId>
     <artifactId>engine-core-api</artifactId>
+    <packaging>jar</packaging>
     <name>Oryx-Engine API</name>
 
     <parent>
@@ -38,30 +39,4 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.6</version>
-            </plugin>
-        </plugins>
-    </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.2</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.6</version>
-            </plugin>
-        </plugins>
-    </reporting>
-
 </project>
