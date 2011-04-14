@@ -2,7 +2,7 @@ package de.hpi.oryxengine.rest.serialization;
 
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotSame;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -33,6 +33,7 @@ import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
+import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.rest.api.WorklistWebService;
@@ -45,14 +46,14 @@ import de.hpi.oryxengine.rest.provider.ListMessageBodyWriter;
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class GsonWorklistItemTest extends AbstractTestNGSpringContextTests {
     public static final String TMP_PATH = "./target/";
-    private Dispatcher dispatcher;
+    private Dispatcher dispatcher = null;
 
-    private AbstractResource<?> thomas;
+    private AbstractResource<?> thomas = null;
 
     /**
      * Test worklist serialization.
      * 
-     * @throws IOException
+     * @throws IOException test fails
      */
     @Test
     public void testWorklistSerialization()
@@ -80,7 +81,8 @@ public class GsonWorklistItemTest extends AbstractTestNGSpringContextTests {
      */
     @Test
   public void testWebServiceSerialization() throws URISyntaxException, IOException {
-      MockHttpRequest request = MockHttpRequest.get("/worklist/items/PARTICIPANT--" + thomas.getID().toString());
+      MockHttpRequest request = MockHttpRequest.get(
+          "/worklist/items/" + ResourceType.PARTICIPANT + "/" + thomas.getID());
       MockHttpResponse response = new MockHttpResponse();
       
       dispatcher.invoke(request, response);
@@ -94,7 +96,7 @@ public class GsonWorklistItemTest extends AbstractTestNGSpringContextTests {
       writer.close();
       
       // TODO check the output in a more sophisticated way
-      assertFalse("".equals(response.getContentAsString()), "The response should not be empty");
+      assertNotSame("", response.getContentAsString(), "The response should not be empty");
   }
 
     /**
