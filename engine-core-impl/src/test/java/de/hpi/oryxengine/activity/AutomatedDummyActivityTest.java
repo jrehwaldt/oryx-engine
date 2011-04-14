@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.activity;
 
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -7,11 +8,19 @@ import static org.testng.Assert.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
+import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -30,11 +39,11 @@ public class AutomatedDummyActivityTest {
     /** A dummy string. */
     private String s = "I'm dumb";
 
-    /** The dummy activity. */
     private AutomatedDummyActivity a = null;
 
-    /** The process token. */
     private Token token;
+    
+    private Navigator nav;
 
     /**
      * Set up.
@@ -47,19 +56,24 @@ public class AutomatedDummyActivityTest {
 
         tmp = System.out;
         System.setOut(new PrintStream(out));
-        a = new AutomatedDummyActivity(s);
-        token = new TokenImpl(new NodeImpl(a));
+        
+        nav = mock(Navigator.class);
+        Class<?>[] constructorSig = {String.class};
+        Object[] params = {s};
+        ActivityBlueprint bp = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig, params);
+        Node node = new NodeImpl(bp);
+        token = new TokenImpl(node, mock(ProcessInstance.class), nav);
     }
 
-    /**
-     * Test activity initialization.
-     * The activity should not be null if it was instantiated correctly.
-     */
-    @Test
-    public void testActivityInitialization() {
-
-        assertNotNull(a, "It should not be null since it should be instantiated correctly");
-    }
+//    /**
+//     * Test activity initialization.
+//     * The activity should not be null if it was instantiated correctly.
+//     */
+//    @Test
+//    public void testActivityInitialization() {
+//
+//        assertNotNull(a, "It should not be null since it should be instantiated correctly");
+//    }
 
     // @Test
     // public void testStateAfterActivityInitalization(){
@@ -70,29 +84,32 @@ public class AutomatedDummyActivityTest {
     /**
      * Test execute output.
      * If the activity is executed it should print out the given String.
+     * @throws DalmatinaException 
      */
     @Test
-    public void testExecuteOutput() {
+    public void testExecuteOutput() throws DalmatinaException {
 
-        a.execute(token);
+        token.executeStep();
         assertTrue(out.toString().indexOf(s) != -1, "It should print out the given string when executed");
     }
 
     /**
      * Test state after execution.
      * After execution the activity should be in state TERMINTAED
+     * @throws DalmatinaException 
      */
     @Test
-    public void testStateAfterExecution() {
+    public void testStateAfterExecution() throws DalmatinaException {
 
-        a.execute(token);
-        assertEquals(a.getState(), ActivityState.COMPLETED, "It should have the state Completed");
+        //a.execute(token);
+        token.executeStep();
+        assertEquals(token.getCurrentActivityState(), ActivityState.COMPLETED, "It should have the state Completed");
     }
 
     /**
      * Tear down.
      */
-    @AfterTest
+    @AfterClass
     public void tearDown() {
 
         System.setOut(tmp);

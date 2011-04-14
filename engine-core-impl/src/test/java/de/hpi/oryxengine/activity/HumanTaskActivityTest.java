@@ -24,6 +24,7 @@ import de.hpi.oryxengine.allocation.pattern.DirectPushPattern;
 import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -76,7 +77,10 @@ public class HumanTaskActivityTest extends AbstractTestNGSpringContextTests {
         task = new TaskImpl(subject, description, allocationStrategies, participant);
 
         humanTask = new HumanTaskActivity(task);
-        token = new TokenImpl(new NodeImpl(humanTask), new ProcessInstanceImpl(null), new NavigatorImplMock());
+        // TODO set this as a parameter
+        
+        Node node = new NodeImpl(HumanTaskActivity.class);
+        token = new TokenImpl(node, new ProcessInstanceImpl(null), new NavigatorImplMock());
     }
 
     /**

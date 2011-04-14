@@ -3,6 +3,8 @@ package de.hpi.oryxengine.process.token;
 import java.util.List;
 import java.util.UUID;
 
+import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.activity.ActivityState;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
@@ -30,6 +32,14 @@ public interface Token extends Identifiable {
      *            the new current node
      */
     void setCurrentNode(Node node);
+    
+    /**
+     * Gets the state of the activity, that belongs to the node that token currently points to.
+     * The token holds this state, as want to have stateless Activity-obejcts.
+     *
+     * @return the current activity state
+     */
+    ActivityState getCurrentActivityState();
 
     /**
      * Gets the iD.
@@ -129,4 +139,11 @@ public interface Token extends Identifiable {
      * Cancels the currently ongoing activity.
      */
     void cancelExecution();
+    
+    /**
+     * Returns the currently executed activity or null, if there is no such activity.
+     *
+     * @return the current activity
+     */
+    Activity getCurrentActivity();
 }

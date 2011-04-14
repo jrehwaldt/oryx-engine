@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.definition.NodeParameter;
@@ -60,13 +61,13 @@ public final class RepositorySetup {
         String processDescription = "The process stores the result of the calculation '1 + 1' .";
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(new AddNumbersAndStoreActivity("result", 1, 1),
-            new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        param.makeStartNode(true);
+//        Activity activity = new AddNumbersAndStoreActivity("result", 1, 1);
+        NodeParameter param = new NodeParameterImpl(AddNumbersAndStoreActivity.class,
+            new SimpleJoinBehaviour(), new TakeAllSplitBehaviour()); 
+        // TODO parameters
 
-        Node node1 = builder.createNode(param);
-
-        param.makeStartNode(false);
+        Node node1 = builder.createStartNode(param);
+        
         Node node2 = builder.createNode(param);
         builder.createTransition(node1, node2).setName(processName).setDescription(processDescription)
         .setID(FIRST_EXAMPLE_PROCESS_ID);

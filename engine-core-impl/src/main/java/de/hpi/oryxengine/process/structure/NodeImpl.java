@@ -20,7 +20,7 @@ public class NodeImpl implements Node {
     /**
      * The activity. This is the behaviour of the node e.g. what gets executed.
      * */
-    private Activity activity;
+    private ActivityBlueprint blueprint;
 
     private OutgoingBehaviour outgoingBehaviour;
     private IncomingBehaviour incomingBehaviour;
@@ -34,22 +34,25 @@ public class NodeImpl implements Node {
     /**
      * Instantiates a new abstract node.
      * 
-     * @param activity
-     *            the activity to be executed
+     * @param blueprint
+     *            the blueprint of the activity that is to instantiate when the node is reached by a token
      * @param incomingBehaviour
      *            the incoming behavior
      * @param outgoingBehaviour
      *            the outgoing behavior
      */
-    public NodeImpl(Activity activity,
+    public NodeImpl(ActivityBlueprint blueprint,
                     IncomingBehaviour incomingBehaviour,
                     OutgoingBehaviour outgoingBehaviour) {
 
-        this.activity = activity;
+        this.blueprint = blueprint;
         this.incomingBehaviour = incomingBehaviour;
         this.outgoingBehaviour = outgoingBehaviour;
         this.outgoingTransitions = new ArrayList<Transition>();
         this.incomingTransitions = new ArrayList<Transition>();
+
+        // TODO is it okay, to just create a random one?
+        this.id = UUID.randomUUID();
     }
 
     @Override
@@ -77,26 +80,27 @@ public class NodeImpl implements Node {
     }
 
     /**
-     * Instantiates a new node impl.
+     * This is a convenience constructor, if you only need the standard join- and split-behaviour.
      * 
-     * @param activity
-     *            the activity
+     * @param blueprint
+     *            the blueprint
      */
-    public NodeImpl(Activity activity) {
+    public NodeImpl(ActivityBlueprint blueprint) {
 
-        this(activity, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        this(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
     }
 
-    @Override
-    public Activity getActivity() {
+    /**
+     * This is a convenience constructor if you need standard join- and split-behaviour and the default constructor for
+     * the given activity class.
+     * 
+     * @param clazz
+     *            the clazz
+     */
+    public NodeImpl(Class<? extends Activity> clazz) {
 
-        return activity;
-    }
-
-    @Override
-    public void setActivity(Activity activity) {
-
-        this.activity = activity;
+        this(null, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        this.blueprint = new ActivityBlueprintImpl(clazz);
     }
 
     @Override
@@ -159,6 +163,17 @@ public class NodeImpl implements Node {
     }
 
     @Override
+    public ActivityBlueprint getActivityBlueprint() {
+
+        return blueprint;
+    }
+
+    @Override
+    public void setActivityBlueprint(ActivityBlueprint blueprint) {
+
+        this.blueprint = blueprint;
+    }
+
     public Map<String, Object> getAttributes() {
 
         if (attributeTable == null) {
