@@ -6,7 +6,6 @@ import java.net.URL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.bootstrap.OryxEngineAppContext;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 
 /**

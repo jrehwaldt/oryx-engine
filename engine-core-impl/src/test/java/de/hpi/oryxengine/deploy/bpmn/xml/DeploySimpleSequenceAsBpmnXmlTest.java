@@ -29,12 +29,12 @@ import de.hpi.oryxengine.util.ReflectionUtil;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class DeploySimpleSequenceAsBpmnXmlTest {
     
-    private static final String executableProcessResourcePath = "/de/hpi/oryxengine/delpoy/bpmn/xml/SimpleSequence.bpmn.xml";
+    private static final String EXECUTABLE_PROCESS_RESOURCE_PATH = "/de/hpi/oryxengine/delpoy/bpmn/xml/SimpleSequence.bpmn.xml";
     
     @Test
     public void importProcessXMlAsStream() {
      // TODO: [@Gerardo:] mal wieder auskommentieren
-//        InputStream executableProcessInputStream = ReflectionUtil.getResourceAsStream(executableProcessResourcePath);
+//        InputStream executableProcessInputStream = ReflectionUtil.getResourceAsStream(EXECUTABLE_PROCESS_RESOURCE_PATH);
 //        
 //        ProcessDefinition processDefinition = ProcessImporter.createProcessOutOf(executableProcessInputStream);
 //        

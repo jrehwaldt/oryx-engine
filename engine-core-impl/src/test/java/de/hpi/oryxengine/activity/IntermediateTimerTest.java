@@ -13,7 +13,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.IntermediateTimer;
 import de.hpi.oryxengine.correlation.timing.TimingManager;
