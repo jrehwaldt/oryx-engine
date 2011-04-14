@@ -3,16 +3,12 @@ package de.hpi.oryxengine.activity;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.IntermediateTimer;
 import de.hpi.oryxengine.activity.impl.NullActivity;
@@ -38,9 +34,7 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
  * The Class IntermediateTimerTest. Checks if the intermediate timer is working.
  * @author Jannik Streek
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
+public class IntermediateTimerTest extends AbstractTest {
     
     private Token token;
     private Node node;
