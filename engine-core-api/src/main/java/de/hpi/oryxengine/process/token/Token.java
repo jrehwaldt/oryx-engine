@@ -3,6 +3,7 @@ package de.hpi.oryxengine.process.token;
 import java.util.List;
 import java.util.UUID;
 
+import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.ActivityState;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
@@ -138,4 +139,11 @@ public interface Token extends Identifiable {
      * Cancels the currently ongoing activity.
      */
     void cancelExecution();
+    
+    /**
+     * Returns the currently executed activity or null, if there is no such activity.
+     *
+     * @return the current activity
+     */
+    Activity getCurrentActivity();
 }

@@ -18,6 +18,7 @@ import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
@@ -49,8 +50,9 @@ public final class WorklistWebService implements WorklistServiceFacade {
     }
 
     /**
-     * Creates a demo participant with a work item
+     * Creates a demo participant with a work item.
      * 
+     * @return json
      */
     @Path("/demo")
     @GET
@@ -89,7 +91,7 @@ public final class WorklistWebService implements WorklistServiceFacade {
     // return this.service.getWorklistItems(resource);
     // }
 
-    @Path("/items/{resource-type}--{resource-id}")
+    @Path("/items/{resource-type}/{resource-id}")
     @GET
     @Override
     @Produces(MediaType.APPLICATION_JSON)
@@ -97,18 +99,46 @@ public final class WorklistWebService implements WorklistServiceFacade {
                                                @PathParam("resource-id") String resourceId) {
 
         UUID resourceUUID = UUID.fromString(resourceId);
-        AbstractParticipant resource = null;
+        AbstractResource<?> resource = null;
         
-        // TODO refactor this
-        if (resourceType == ResourceType.PARTICIPANT) {
-            resource = this.identity.getParticipant(resourceUUID);
+        switch (resourceType) {
+            case PARTICIPANT:
+                resource = this.identity.getParticipant(resourceUUID);
+                break;
+            case CAPABILITY:
+//                TODO resource = this.identity.getCapability(resourceUUID);
+                break;
+            case POSITION:
+                resource = this.identity.getPosition(resourceUUID);
+                break;
+            case ORGANIZATION_UNIT:
+                resource = this.identity.getOrganizationUnit(resourceUUID);
+                break;
+            case ROLE:
+                resource = this.identity.getRole(resourceUUID);
+                break;
+            default:
+                // will not occur
+                break;
         }
         //AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
         List<WorklistItem> items = this.service.getWorklistItems(resource);
         return items;
-        // return null;
     }
 
+
+//    @Path("/item/claim")
+//    @POST
+//    public void claimWorklistItemBy(@QueryParam("worklist-item") WorklistItem workItem,
+//                                    @QueryParam("resource") AbstractResource<?> resource) {
+//        
+////        UUID resourceUUID = UUID.fromString(resourceId);
+////        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+////        UUID worklistItemUUID = UUID.fromString(workItem);
+////        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
+//         this.service.claimWorklistItemBy(workItem, resource);
+//    }
+    
     @Path("/item/{worklist-item-id}/claim/{resource-type}-{resource-id}")
     @POST
     @Override

@@ -7,23 +7,29 @@ import static org.testng.Assert.assertTrue;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.repository.ProcessRepository;
 import de.hpi.oryxengine.repository.RepositorySetup;
 
 /**
  * The Class FIFOSchedulerTest. tests our awesome FIFO Scheduler.
  */
-public class FIFOSchedulerTest {
+@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+public class FIFOSchedulerTest extends AbstractTestNGSpringContextTests {
 
     /** The scheduler. */
     private FIFOScheduler scheduler = null;
@@ -55,8 +61,8 @@ public class FIFOSchedulerTest {
     throws Exception {
 
         scheduler = new FIFOScheduler();
-        ProcessRepository repo = ServiceFactory.getRepositoryService();
-        ProcessDefinition def = repo.getDefinition(RepositorySetup.FIRST_EXAMPLE_PROCESS_ID);
+        RepositoryService repo = ServiceFactory.getRepositoryService();
+        ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.FIRST_EXAMPLE_PROCESS_ID);
         List<Node> startNodes = def.getStartNodes();
         Node startNode = startNodes.get(0);
         firstToken = new TokenImpl(startNode);

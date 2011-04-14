@@ -11,7 +11,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
@@ -53,11 +52,7 @@ public class WorklistItemLifecycleTest extends AbstractTestNGSpringContextTests 
         Task task = TaskFactory.createJannikServesGerardoTask();
         jannik = (Participant) task.getAssignedResources().iterator().next();
 
-        Class<?>[] constructorSig = {Task.class};
-        Object[] params = {null};
-        ActivityBlueprint bp = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, params);
-        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(bp);
-        Token token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
+        Token token = Mockito.mock(Token.class);
 
         worklistItem = new WorklistItemImpl(task, token);
 
@@ -70,8 +65,8 @@ public class WorklistItemLifecycleTest extends AbstractTestNGSpringContextTests 
     @AfterMethod
     public void tearDown() {
 
-        ServiceFactoryForTesting.clearWorklistManager();
-        ServiceFactoryForTesting.clearIdentityService();
+//        ServiceFactoryForTesting.clearWorklistManager();
+//        ServiceFactoryForTesting.clearIdentityService();
     }
 
     /**

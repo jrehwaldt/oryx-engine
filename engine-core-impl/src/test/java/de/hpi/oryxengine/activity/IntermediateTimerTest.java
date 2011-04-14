@@ -13,8 +13,11 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.IntermediateTimer;
 import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.correlation.timing.TimingManager;
+import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleAssurancePlugin;
@@ -137,6 +140,7 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
 
       Navigator nav = new NavigatorImplMock();
       node = builder.createNode(nextParam);
+      //the intermediateTimer
       node2 = builder.createNode(param);
       node3 = builder.createNode(nextParam);
       builder.createTransition(node, node2);
@@ -147,16 +151,68 @@ public class IntermediateTimerTest extends AbstractTestNGSpringContextTests {
       
       
   }
+  
+  /**
+   * Test the cancellation of the timer. After the timer is canceled the token should not move on.
+   *
+   * @throws DalmatinaException the dalmatina exception
+   * @throws InterruptedException the interrupted exception
+   */
+  @Test
+  public void testCancelNode() throws DalmatinaException, InterruptedException {
+      token.executeStep();
+      token.executeStep();
+      
+      //Timer activated, now cancel the scheduled job
+      token.getCurrentActivity().cancel();
+      
+      //Wait until the timer would resume the token
+      Thread.sleep(LONG_WAITING_TIME_TEST);
+      
+      assertEquals(token.getCurrentNode(), node2);  
+  }
+  
+  /**
+   * Test the cancellation of the process with the timer.
+   * After the process is canceled there should be not scheduled jobs in the quartz.
+   *
+   * @throws DalmatinaException the dalmatina exception
+   * @throws InterruptedException the interrupted exception
+   */
+  @Test
+  public void testCancelProcess() throws DalmatinaException, InterruptedException {
+      int jobGroups;
+      TimingManager timer = ServiceFactory.getCorrelationService().getTimer();
+
+      //Step through the process and activate the timer
+      token.executeStep();
+      token.executeStep();
+      
+      //Assert that the timer job is scheduled
+      jobGroups = timer.countScheduledJobGroups();
+      assertEquals(jobGroups, 1);
+      
+      //Cancel the process, the cancellation should lead to the deletion of all started jobs
+      token.cancelExecution();
+      
+      jobGroups = timer.countScheduledJobGroups();
+      assertEquals(jobGroups, 0);
+  }
 
   /**
    * Delete used objects.
    */
   @AfterMethod
   public void afterMethod() {
+      
+      //Shutdown the scheduler to free resources (due to jenkins problems with old registered events)
+      ServiceFactory.getCorrelationService().getTimer().shutdownScheduler();
+      
       node = null;
       node2 = null;
       node3 = null;
       token = null;
+
   }
 
 }

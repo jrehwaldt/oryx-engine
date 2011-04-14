@@ -14,7 +14,6 @@ import de.hpi.oryxengine.correlation.registration.EventCondition;
 import de.hpi.oryxengine.correlation.registration.EventConditionImpl;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.correlation.registration.StartEventImpl;
-import de.hpi.oryxengine.deploy.Deployer;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
@@ -27,6 +26,9 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.repository.Deployer;
+import de.hpi.oryxengine.repository.DeploymentBuilder;
+import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
@@ -56,7 +58,7 @@ public final class ExampleMailStartProcess {
 		NavigatorImpl navigator = new NavigatorImpl();
 		navigator.registerPlugin(NavigatorListenerLogger.getInstance());
 
-		Deployer deployer = ServiceFactory.getDeplyomentService();
+		DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
 
 		ProcessBuilder builder = new ProcessBuilderImpl();
 		NodeParameter param = new NodeParameterImpl();
@@ -110,7 +112,7 @@ public final class ExampleMailStartProcess {
 
 		try {
 			ProcessDefinition def = builder.buildDefinition();
-			deployer.deploy(def);
+			deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
 			navigator.start();
 		} catch (IllegalStarteventException e) {
 			e.printStackTrace();

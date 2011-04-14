@@ -5,12 +5,13 @@ import java.util.List;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
+import de.hpi.oryxengine.util.Attributable;
 import de.hpi.oryxengine.util.Identifiable;
 
 /**
  * The Interface for Nodes. Nodes are hubs in the graph representation of a process.
  */
-public interface Node extends Identifiable {
+public interface Node extends Identifiable, Attributable {
 
     /**
      * Gets the activity. The activity is the behavior of a node.

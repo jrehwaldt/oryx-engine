@@ -15,6 +15,8 @@ import de.hpi.oryxengine.process.structure.Node;
  */
 public class ProcessDefinitionImpl implements ProcessDefinition {
 
+    private String name;
+
     private String description;
 
     private UUID id;
@@ -24,18 +26,36 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
     private Map<StartEvent, Node> startTriggers;
 
     /**
-     * Instantiates a new process definition. A UUID is generated randomly.
+     * Instantiates a new {@link ProcessDefinition}. The name is the ID of the {@link ProcessDefinition}.
      * 
      * @param id
-     *            the process definition id
+     *            - the internal of the {@link ProcessDefinition}
      * @param description
-     *            the description
+     *            - the description of the {@link ProcessDefinition}
      * @param startNodes
-     *            the initial nodes that refer to the whole node-tree
+     *            - the initial nodes that refer to the whole node-tree
      */
     public ProcessDefinitionImpl(UUID id, String description, List<Node> startNodes) {
 
+        this(id, id.toString(), description, startNodes);
+    }
+
+    /**
+     * Instantiates a new process definition. A UUID is generated randomly.
+     * 
+     * @param id
+     *            - the internal of the {@link ProcessDefinition}
+     * @param name
+     *            - the name of the {@link ProcessDefinition}
+     * @param description
+     *            - the description of the {@link ProcessDefinition}
+     * @param startNodes
+     *            - the initial nodes that refer to the whole node-tree
+     */
+    public ProcessDefinitionImpl(UUID id, String name, String description, List<Node> startNodes) {
+
         this.id = id;
+        this.name = name;
         this.description = description;
         this.startNodes = startNodes;
         this.startTriggers = new HashMap<StartEvent, Node>();
@@ -43,8 +63,21 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
 
     @Override
     public UUID getID() {
-
+    
         return id;
+    }
+
+    @Override
+    public String getName() {
+
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+    
+        this.name = name;
+        
     }
 
     @Override

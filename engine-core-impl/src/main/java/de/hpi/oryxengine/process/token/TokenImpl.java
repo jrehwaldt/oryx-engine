@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.process.token;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +33,8 @@ public class TokenImpl implements Token {
     private Navigator navigator;
 
     private List<Token> lazySuspendedProcessingTokens;
+    
+    private Activity currentActivity;
 
     /**
      * Instantiates a new token impl.
@@ -65,6 +66,7 @@ public class TokenImpl implements Token {
         this.navigator = navigator;
         this.id = UUID.randomUUID();
         this.currentActivityState = ActivityState.INIT;
+        this.currentActivity = null;
     }
 
     /**
@@ -143,8 +145,8 @@ public class TokenImpl implements Token {
         lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
         this.currentActivityState = ActivityState.ACTIVE;
 
-        Activity activity = instantiateCurrentActivityClass();
-        activity.execute(this);
+        currentActivity = instantiateCurrentActivityClass();
+        currentActivity.execute(this);
         // Aborting the further execution of the process by the token, because it was suspended
         if (this.currentActivityState == ActivityState.SUSPENDED) {
             return;
@@ -259,7 +261,7 @@ public class TokenImpl implements Token {
         // implemented in the interface DeferredActivities.
         // This was done to not force the developer to implement the signal method in every activity.
 
-        DeferredActivity activity = (DeferredActivity) instantiateCurrentActivityClass();
+        DeferredActivity activity = (DeferredActivity) currentActivity;
         activity.signal(this);
         this.currentActivityState = ActivityState.COMPLETED;
         List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
@@ -294,7 +296,6 @@ public class TokenImpl implements Token {
     @Override
     public void cancelExecution() {
 
-        Activity currentActivity = instantiateCurrentActivityClass();
         if (this.currentActivityState == ActivityState.ACTIVE || this.currentActivityState == ActivityState.SUSPENDED) {
             currentActivity.cancel();
         }
@@ -306,6 +307,12 @@ public class TokenImpl implements Token {
     public ActivityState getCurrentActivityState() {
 
         return currentActivityState;
+    }
+
+    @Override
+    public Activity getCurrentActivity() {
+
+        return this.currentActivity;
     }
 
 }

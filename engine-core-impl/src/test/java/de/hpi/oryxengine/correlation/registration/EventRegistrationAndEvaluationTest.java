@@ -15,10 +15,15 @@ import java.util.UUID;
 
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.RepositoryServiceImpl;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.correlation.adapter.EventType;
 import de.hpi.oryxengine.correlation.adapter.EventTypes;
@@ -28,21 +33,24 @@ import de.hpi.oryxengine.correlation.adapter.mail.MailProtocol;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
 
 /**
  * The Class EventRegistrationAndEvaluationTest.
  */
-public class EventRegistrationAndEvaluationTest {
+@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+public class EventRegistrationAndEvaluationTest extends AbstractTestNGSpringContextTests {
 
     private StartEvent event, anotherEvent;
     private MailAdapterEvent incomingEvent, anotherIncomingEvent;
+    public static final int MAIL_PORT = 25;
 
     /**
      * Tests that a process instance is started.
      * 
-     * @throws DefinitionNotFoundException fails
+     * @throws DefinitionNotFoundException
+     *             fails
      */
     @Test
     public void shouldAttemptToStartTheSimpleProcessInstance()
@@ -55,13 +63,14 @@ public class EventRegistrationAndEvaluationTest {
         correlation.correlate(incomingEvent);
 
         // we use eq(...) because if you use mockito matchers as the parameters, all parameters have to be matchers.
-        verify(navigator).startProcessInstance(eq(ProcessRepositoryImpl.SIMPLE_PROCESS_ID), any(StartEvent.class));
+        verify(navigator).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID), any(StartEvent.class));
     }
 
     /**
      * Tests that no process is invoked on wrong event.
      * 
-     * @throws DefinitionNotFoundException fails
+     * @throws DefinitionNotFoundException
+     *             fails
      */
     @Test
     public void shouldNotAttemptToStartTheSimpleProcessInstance()
@@ -73,10 +82,17 @@ public class EventRegistrationAndEvaluationTest {
 
         correlation.correlate(anotherIncomingEvent);
 
-        verify(navigator, never()).startProcessInstance(eq(ProcessRepositoryImpl.SIMPLE_PROCESS_ID),
+        verify(navigator, never()).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID),
             any(StartEvent.class));
     }
 
+    /**
+     * Test that two similar start events with diferrent configurations work appropiately. That is the process is just
+     * called one time.
+     * 
+     * @throws DefinitionNotFoundException
+     *             the definition not found exception
+     */
     @Test
     public void testTwoSimilarEventsWithDiferrentConfig()
     throws DefinitionNotFoundException {
@@ -88,15 +104,17 @@ public class EventRegistrationAndEvaluationTest {
 
         correlation.correlate(incomingEvent);
 
-        verify(navigator, times(1)).startProcessInstance(eq(ProcessRepositoryImpl.SIMPLE_PROCESS_ID),
+        verify(navigator, times(1)).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID),
             any(StartEvent.class));
     }
-    
+
     /**
      * Class initialization.
      * 
-     * @throws NoSuchMethodException unlikely to be thrown...
-     * @throws IllegalStarteventException test will fail
+     * @throws NoSuchMethodException
+     *             unlikely to be thrown...
+     * @throws IllegalStarteventException
+     *             test will fail
      */
     @BeforeClass
     public void beforeClass()
@@ -104,7 +122,7 @@ public class EventRegistrationAndEvaluationTest {
 
         RepositorySetup.fillRepository();
         // register some events
-        UUID definitionID = ProcessRepositoryImpl.SIMPLE_PROCESS_ID;
+        UUID definitionID = RepositoryServiceImpl.SIMPLE_PROCESS_ID;
         EventType mailType = EventTypes.Mail;
 
         EventCondition subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"),
@@ -119,7 +137,7 @@ public class EventRegistrationAndEvaluationTest {
         event = new StartEventImpl(mailType, config, conditions1, definitionID);
 
         MailAdapterConfiguration anotherConfig = new MailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin",
-            "imap.horst.de", 80, false);
+            "imap.horst.de", MAIL_PORT, false);
         anotherEvent = new StartEventImpl(mailType, anotherConfig, conditions1, definitionID);
 
         Method method = MailAdapterEvent.class.getMethod("getAdapterConfiguration");
@@ -140,11 +158,13 @@ public class EventRegistrationAndEvaluationTest {
     /**
      * Tear down.
      * 
-     * @throws SchedulerException tear down fails
+     * @throws SchedulerException
+     *             tear down fails
      */
     @AfterMethod
     public void flushJobRepository()
     throws SchedulerException {
+
         new StdSchedulerFactory().getScheduler().shutdown();
     }
 

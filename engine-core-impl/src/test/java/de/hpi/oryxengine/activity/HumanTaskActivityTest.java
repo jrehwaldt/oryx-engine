@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.AllocationStrategiesImpl;
@@ -91,7 +90,7 @@ public class HumanTaskActivityTest extends AbstractTestNGSpringContextTests {
     public void tearDown() {
 
         // Reseting the Worklist Manager after the test case
-        ServiceFactoryForTesting.clearWorklistManager();
+//        ServiceFactoryForTesting.clearWorklistManager();
     }
 
     /**
