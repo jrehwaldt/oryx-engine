@@ -96,9 +96,7 @@ public class NodeImpl implements Node {
     public NodeImpl(Class<? extends Activity> clazz) {
 
         this(null, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        Class<?>[] conSig = {};
-        Object[] conArgs = {};
-        this.blueprint = new ActivityBlueprintImpl(clazz, conSig, conArgs);
+        this.blueprint = new ActivityBlueprintImpl(clazz);
     }
 
     @Override

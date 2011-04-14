@@ -48,9 +48,7 @@ public class NodeParameterImpl implements NodeParameter {
 
         this.incoming = incoming;
         this.outgoing = outgoing;
-        Class<?>[] conSig = {};
-        Object[] conArgs = {};
-        this.blueprint = new ActivityBlueprintImpl(clazz, conSig, conArgs);
+        this.blueprint = new ActivityBlueprintImpl(clazz);
     }
 
     /**
@@ -102,9 +100,7 @@ public class NodeParameterImpl implements NodeParameter {
     @Override
     public void setActivityClassOnly(Class<? extends Activity> clazz) {
 
-        Class<?>[] conSig = {};
-        Object[] conArgs = {};
-        this.blueprint = new ActivityBlueprintImpl(clazz, conSig, conArgs);
+        this.blueprint = new ActivityBlueprintImpl(clazz);
 
     }
 

@@ -34,6 +34,22 @@ public class ActivityBlueprintImpl implements ActivityBlueprint {
 
     }
 
+    /**
+     * This is a convenience constructor to allow easy instantiation of the blueprint for activity's that you want to
+     * instantiate with the default constructor.
+     * 
+     * @param clazz
+     *            the clazz
+     */
+    public ActivityBlueprintImpl(Class<? extends Activity> clazz) {
+
+        this.clazz = clazz;
+        Class<?>[] sig = {};
+        this.constructorSignature = sig;
+        Object[] params = {};
+        this.constructorParams = params;
+    }
+
     @Override
     public Class<? extends Activity> getActivityClass() {
 
@@ -54,10 +70,7 @@ public class ActivityBlueprintImpl implements ActivityBlueprint {
 
     @Override
     public Activity instantiate()
-        throws NoSuchMethodException, 
-        InstantiationException, 
-        IllegalAccessException, 
-        InvocationTargetException {
+    throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
         Constructor<? extends Activity> con = clazz.getConstructor(constructorSignature);
 
