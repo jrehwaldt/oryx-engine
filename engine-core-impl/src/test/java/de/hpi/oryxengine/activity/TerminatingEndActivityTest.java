@@ -142,7 +142,7 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
 //        param.setActivity(humanTask); TODO do something with the parameter of humanTask
         Class<?>[] constructorSig = {Task.class};
         Object[] params = {task};
-        ActivityBlueprint bp = new ActivityBlueprintImpl(IntermediateTimer.class, constructorSig, params);
+        ActivityBlueprint bp = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, params);
         param.setActivityBlueprint(bp);
         humanTaskNode = builder.createNode(param);
 
