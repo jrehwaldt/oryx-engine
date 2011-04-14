@@ -16,6 +16,7 @@ import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HashComputationActivity;
+import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.factories.worklist.TaskFactory;
@@ -99,7 +100,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
 
         Class<?>[] constructorSig = {Task.class};
         Object[] params = {task};
-        ActivityBlueprint blueprint = new ActivityBlueprintImpl(HashComputationActivity.class, constructorSig, params);
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, params);
         param.setActivityBlueprint(blueprint);
 
         node1 = builder.createNode(param);
@@ -107,7 +108,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         // Create the task
         task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[1]);
         Object[] task2params = {task};
-        blueprint = new ActivityBlueprintImpl(HashComputationActivity.class, constructorSig, task2params);
+        blueprint = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, task2params);
         param.setActivityBlueprint(blueprint);
 
         node2 = builder.createNode(param);
@@ -115,7 +116,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         // Create the task
         task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[2]);
         Object[] task3params = {task};
-        blueprint = new ActivityBlueprintImpl(HashComputationActivity.class, constructorSig, task3params);
+        blueprint = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, task3params);
         param.setActivityBlueprint(blueprint);
 
         node3 = builder.createNode(param);

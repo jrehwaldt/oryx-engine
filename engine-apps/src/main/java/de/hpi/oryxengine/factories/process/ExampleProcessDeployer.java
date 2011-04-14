@@ -49,7 +49,7 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
         Class<?>[] constructorSig = {String.class, int[].class};
         int[] ints = {1, 1};
         Object[] params = {"result", ints};
-        ActivityBlueprint blueprint = new ActivityBlueprintImpl(MailingVariable.class, constructorSig, params);
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, constructorSig, params);
         param.setActivityBlueprint(blueprint);
         node1 = builder.createNode(param);
         node2 = builder.createNode(param);
