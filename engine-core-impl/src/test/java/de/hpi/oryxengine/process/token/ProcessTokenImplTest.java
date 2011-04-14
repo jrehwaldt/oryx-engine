@@ -13,6 +13,8 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.structure.Transition;
@@ -98,9 +100,10 @@ public class ProcessTokenImplTest {
         
         Activity activity = mock(Activity.class);
         
-        node = new NodeImpl(NullActivity.class, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        node2 = new NodeImpl(NullActivity.class, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        node3 = new NodeImpl(NullActivity.class, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(NullActivity.class);
+        node = new NodeImpl(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        node2 = new NodeImpl(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        node3 = new NodeImpl(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         node.transitionTo(node2);
         
         transitionToTake = node.getOutgoingTransitions().get(0);

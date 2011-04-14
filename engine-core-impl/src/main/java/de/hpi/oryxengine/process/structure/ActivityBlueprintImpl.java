@@ -10,9 +10,10 @@ import de.hpi.oryxengine.activity.Activity;
  */
 public class ActivityBlueprintImpl implements ActivityBlueprint {
 
-    private Class<? extends Activity> clazz;
-    private Class<?>[] constructorSignature;
-    private Object[] constructorParams;
+    // these variables should never be altered after instantiation
+    private final Class<? extends Activity> clazz;
+    private final Class<?>[] constructorSignature;
+    private final Object[] constructorParams;
 
     /**
      * Instantiates a new activity blueprint impl.

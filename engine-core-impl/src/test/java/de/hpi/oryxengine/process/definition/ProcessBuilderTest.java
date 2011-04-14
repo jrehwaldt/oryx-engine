@@ -31,7 +31,7 @@ public class ProcessBuilderTest {
 
         NodeParameter param = new NodeParameterImpl();
 
-        param.setActivityClass(NullActivity.class);
+        param.setActivityClassOnly(NullActivity.class);
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
         startNode = builder.createStartNode(param);
