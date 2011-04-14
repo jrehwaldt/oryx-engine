@@ -9,12 +9,11 @@ import de.hpi.oryxengine.monitor.Monitor;
 import de.hpi.oryxengine.monitor.MonitorGUI;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
@@ -31,6 +30,11 @@ public final class SimpleExampleProcess {
      * executed.
      */
     private static final int INSTANCE_COUNT = 1000000;
+    
+    private static final int STOPPING_MARK_1 = 234000;
+    private static final int STOPPING_MARK_2 = 100000;
+    private static final int STOPPING_MARK_3 = 500000;
+    private static final int STOPPING_MARK_4 = 800000;
 
     /** The logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleExampleProcess.class);
@@ -53,7 +57,7 @@ public final class SimpleExampleProcess {
         LOGGER.info("Engine started");
         for (int i = 0; i < INSTANCE_COUNT; i++) {
             TokenImpl instance = sampleProcessInstance(i, navigator);
-            if (i == 234000 || i == 100000 || i == 500000 || i == 800000) {
+            if (i == STOPPING_MARK_1 || i == STOPPING_MARK_2 || i == STOPPING_MARK_3 || i == STOPPING_MARK_4) {
                 monitor.markSingleInstance(instance);
             }
             navigator.startArbitraryInstance(instance);
@@ -66,19 +70,27 @@ public final class SimpleExampleProcess {
 
     /**
      * Sample process instance.
-     * 
-     * @param counter
-     *            the counter
+     *
+     * @param counter the counter
+     * @param navigator the navigator
      * @return the process instance impl
      */
     private static TokenImpl sampleProcessInstance(int counter, Navigator navigator) {
 
-        AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);
-        AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course " + counter);
-        SimpleJoinBehaviour incoming = new SimpleJoinBehaviour();
-        TakeAllSplitBehaviour outgoing = new TakeAllSplitBehaviour();
-        NodeImpl startNode = new NodeImpl(activity, incoming, outgoing);
-        NodeImpl secondNode = new NodeImpl(activity2);
+//        AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);
+//        AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course " + counter);
+        // TODO parameters
+        Class<?>[] constructorSig = {String.class};
+        Object[] params = {"I suck " + counter};
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig,
+            params);
+        
+        NodeImpl startNode = new NodeImpl(blueprint);
+        
+        params = new Object[] {"I suck of course " + counter};
+        blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig,
+            params);
+        NodeImpl secondNode = new NodeImpl(blueprint);
         startNode.transitionTo(secondNode);
 
         TokenImpl sampleInstance = new TokenImpl(startNode, new ProcessInstanceImpl(null), navigator);

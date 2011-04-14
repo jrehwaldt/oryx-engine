@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.routing.behaviour;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.definition.NodeParameter;
@@ -36,7 +35,6 @@ public class BPMNUnstructuredJoinSplitTest {
     private Node node1 = null, node2 = null, node3 = null, innerJoinNode = null, outerJoinNode = null, endNode = null;
 
     private NavigatorImplMock navigator = null;
-    private List<Node> workQueue = null;
 
     /**
      * Before test.
@@ -58,7 +56,7 @@ public class BPMNUnstructuredJoinSplitTest {
         try {
             initialToken.executeStep();
             newTokens = navigator.getWorkQueue();
-            assertEquals(newTokens.size(), 3,
+            assertEquals(newTokens.size(), 2 + 1,
                 "Two new tokens have been created, one one the inner join node and one on node3");
 
             // we need to find out, which of the new tokens is on node3 and which on the inner join node
@@ -117,7 +115,7 @@ public class BPMNUnstructuredJoinSplitTest {
     private Token initializeToken() {
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(mock(Activity.class), new SimpleJoinBehaviour(),
+        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
 
         Node splitNode = builder.createNode(param);

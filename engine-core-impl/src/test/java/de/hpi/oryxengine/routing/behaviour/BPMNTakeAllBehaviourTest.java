@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.routing.behaviour;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 import java.util.List;
@@ -9,7 +8,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
@@ -74,7 +73,7 @@ public class BPMNTakeAllBehaviourTest {
     private TokenImpl simpleToken() {
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(mock(Activity.class), new SimpleJoinBehaviour(),
+        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
         Node node = builder.createNode(param);
         Node node2 = builder.createNode(param);

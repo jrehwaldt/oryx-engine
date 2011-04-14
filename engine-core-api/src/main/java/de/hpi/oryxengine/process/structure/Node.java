@@ -2,7 +2,6 @@ package de.hpi.oryxengine.process.structure;
 
 import java.util.List;
 
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 import de.hpi.oryxengine.util.Attributable;
@@ -16,17 +15,18 @@ public interface Node extends Identifiable, Attributable {
     /**
      * Gets the activity. The activity is the behavior of a node.
      * 
-     * @return the activity
+     * @return the activity blueprint that is used to instantiate the activity.
      */
-    Activity getActivity();
+    ActivityBlueprint getActivityBlueprint();
 
     /**
-     * Sets the activity. The activity is the behavior of a node.
+     * Sets the blueprint of the activity that is instantiated when a token reaches the node. The activity is the
+     * behavior of a node.
      * 
-     * @param activity
-     *            the new activity
+     * @param blueprint
+     *            the blueprint of the activity to use.
      */
-    void setActivity(Activity activity);
+    void setActivityBlueprint(ActivityBlueprint blueprint);
 
     /**
      * Sets the outgoing behaviour.

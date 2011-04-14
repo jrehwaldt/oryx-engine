@@ -7,33 +7,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.NoRunningInstancesLoadgeneratorCaller;
-import de.hpi.oryxengine.bootsstrap.OryxEngine;
+import de.hpi.oryxengine.bootstrap.OryxEngine;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.factories.process.ProcessDeployer;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-
 
 /**
  * The Class LoadGenerator. Is used to generate some load and profile it (more or less) Maybe it should be more generic,
  * but we'll see.
  */
 public class LoadGenerator {
-    
+
     /** The Constant MEGABYTE. */
     private static final long MEGABYTE = 1024L * 1024L;
 
     /** The Constant DEFAULT_PROCESS. */
     private static final String DEFAULT_PROCESS = "ExampleProcessDeployer";
-    
+
     /** The Constant DEFAULT_NUMBER_OF_RUNS. */
-    private static final int DEFAULT_NUMBER_OF_RUNS = 1000000;
-    
+    private static final int DEFAULT_NUMBER_OF_RUNS = 100000;
+
     /** The Constant DEFAULT_NUMBER_OF_THREADS. */
     private static final int DEFAULT_NUMBER_OF_THREADS = 4;
-    
+
     /** The Constant PATH_TO_PROCESS_FACTORIES. */
-    private static final String PATH_TO_PROCESS_FACTORIES = "de.hpi.oryxengine.factory.process.";
+    private static final String PATH_TO_PROCESS_FACTORIES = "de.hpi.oryxengine.factories.process.";
 
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -54,14 +53,13 @@ public class LoadGenerator {
 
     /** The class name of the processfactory which creates the process that simulates the load. */
     private String className;
-    
+
     /** the UUID of the definition this process is deploying. */
     private UUID definitionId;
-    
+
     /**
-     *  Deploys the selected process and is then further used to cleanup
-     * as an example, Human task processes got pseudo humans working on them, we need to stop
-     * the pseudo humans.
+     * Deploys the selected process and is then further used to cleanup as an example, Human task processes got pseudo
+     * humans working on them, we need to stop the pseudo humans.
      */
     private ProcessDeployer deployer;
 
@@ -76,25 +74,36 @@ public class LoadGenerator {
      *            the number of threads the navigator should use
      */
     public LoadGenerator(String className, int numberOfRuns, int numberOfThreads) {
-               
-        //Initialize the service
-        OryxEngine.startWithConfig("/test.oryxengine.cfg.xml");
-        
+
+        // Initialize the service
+        OryxEngine.start();
+
         this.className = PATH_TO_PROCESS_FACTORIES + className;
         this.numberOfRuns = numberOfRuns;
         this.numberOfThreads = numberOfThreads;
         this.runtime = Runtime.getRuntime();
-        
 
         // definitions should be deployed and the appropriate then should be selected...
         deployProcessDefinition();
     }
-    
+
     /**
      * Convenience constructor using all the defaults.
      */
     public LoadGenerator() {
-    	this(DEFAULT_PROCESS, DEFAULT_NUMBER_OF_RUNS, DEFAULT_NUMBER_OF_THREADS);
+
+        this(DEFAULT_PROCESS, DEFAULT_NUMBER_OF_RUNS, DEFAULT_NUMBER_OF_THREADS);
+    }
+
+    /**
+     * Uses the default values except for the number of runs.
+     * 
+     * @param numberOfRuns
+     *            the number of runs of the instance.
+     */
+    public LoadGenerator(int numberOfRuns) {
+
+        this(DEFAULT_PROCESS, numberOfRuns, DEFAULT_NUMBER_OF_THREADS);
     }
 
     /**
@@ -166,14 +175,14 @@ public class LoadGenerator {
         this.logMemoryUsed("Used memory in megabytes at the very beginning: ");
         this.logger.info("We start to put " + String.valueOf(numberOfRuns) + "  instances from the Factory "
             + className + " into our navigator!");
-      //  navigator = (NavigatorImpl) ServiceFactory.getNavigatorService(); 
+        // navigator = (NavigatorImpl) ServiceFactory.getNavigatorService();
         navigator = new NavigatorImpl(numberOfThreads);
         NoRunningInstancesLoadgeneratorCaller listener = new NoRunningInstancesLoadgeneratorCaller(this);
         navigator.registerPlugin(listener);
-        
+
         // start the number of process Instances with our process definition
         for (int i = 0; i < this.numberOfRuns; i++) {
-            
+
             try {
                 navigator.startProcessInstance(definitionId);
             } catch (DefinitionNotFoundException e) {
@@ -202,7 +211,7 @@ public class LoadGenerator {
         this.runtime.gc();
         // Calculate the used memory (in bytes)
         this.logMemoryUsed("Used memory in megabytes (after gc run): ");
-        
+
         this.navigator.stop();
         this.deployer.stop();
 
@@ -219,7 +228,7 @@ public class LoadGenerator {
     public static void main(String[] args)
     throws FileNotFoundException {
 
-        LoadGenerator gene = new LoadGenerator(DEFAULT_PROCESS, DEFAULT_NUMBER_OF_RUNS, DEFAULT_NUMBER_OF_THREADS);
+        LoadGenerator gene = new LoadGenerator();
         gene.execute();
     }
 }

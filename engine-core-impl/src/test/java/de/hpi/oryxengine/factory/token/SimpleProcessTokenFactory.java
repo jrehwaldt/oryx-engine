@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.factory.token;
 
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -10,13 +11,13 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 public class SimpleProcessTokenFactory {
     
     /**
-     * Creates the the simple Process Instance starting at a given node.
+     * Creates the the simple Process Token starting at a given node with a new ProcessInstance.
      *
      * @param startNode the start node
      * @return the process instance
      */
     public Token create(Node startNode) {
-        Token p = new TokenImpl(startNode);
+        Token p = new TokenImpl(startNode, new ProcessInstanceImpl(null));
         return p;
     }
 

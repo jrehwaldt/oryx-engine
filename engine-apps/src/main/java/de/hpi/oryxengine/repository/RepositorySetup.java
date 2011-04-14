@@ -11,6 +11,8 @@ import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -58,13 +60,15 @@ public final class RepositorySetup {
         String processDescription = "The process stores the result of the calculation '1 + 1' .";
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(new AddNumbersAndStoreActivity("result", 1, 1),
+        Class<?>[] conSig = {String.class, int[].class};
+        int[] ints = {1, 1};
+        Object[] conArgs = {"result", ints};
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, conSig, conArgs);
+        NodeParameter param = new NodeParameterImpl(blueprint,
             new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        param.makeStartNode(true);
 
-        Node node1 = builder.createNode(param);
+        Node node1 = builder.createStartNode(param);
 
-        param.makeStartNode(false);
         Node node2 = builder.createNode(param);
         builder.createTransition(node1, node2).setName(processName).setDescription(processDescription)
         .setID(FIRST_EXAMPLE_PROCESS_ID);

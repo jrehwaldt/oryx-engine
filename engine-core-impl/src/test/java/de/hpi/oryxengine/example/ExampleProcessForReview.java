@@ -1,7 +1,6 @@
 package de.hpi.oryxengine.example;
 
 
-import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.factory.node.AddNumbersAndStoreNodeFactory;
 import de.hpi.oryxengine.factory.node.MailNodeFactory;
@@ -62,8 +61,6 @@ public final class ExampleProcessForReview {
          */
         
         // Default to gerardo.navarro-suarez@student.hpi.uni-potsdam.de
-        AbstractActivity end = new EndActivity();
-
         Node startNode = new RoutingBehaviourTestFactory().createWithAndSplitAndLogger();
 
         Node secondNode = new AddNumbersAndStoreNodeFactory("result", 5, 5).createWithLogger();
@@ -72,7 +69,7 @@ public final class ExampleProcessForReview {
 
         Node fourthNode = new MailNodeFactory().createWithLogger();
 
-        Node endNode = new NodeImpl(end);
+        Node endNode = new NodeImpl(EndActivity.class);
 
         // Setting the transitions
         startNode.transitionTo(secondNode);

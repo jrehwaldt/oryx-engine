@@ -4,13 +4,10 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
@@ -31,6 +28,8 @@ import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
@@ -42,10 +41,8 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 /**
  * The Class TerminatingEndActivityTest.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests {
-    private HumanTaskActivity humanTask = null;
+public class TerminatingEndActivityTest extends AbstractTest {
+    private Task task = null;
     private AbstractResource<?> resource = null;
     private Node splitNode, humanTaskNode, terminatingEndNode;
 
@@ -61,8 +58,8 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
     public void testCancellingOfHumanTasks()
     throws DalmatinaException {
 
-        NavigatorImplMock nav = new NavigatorImplMock();
         ProcessInstance instance = new ProcessInstanceImpl(null);
+        NavigatorImplMock nav = new NavigatorImplMock();
         Token token = instance.createToken(splitNode, nav);
 
         // set this instance to running by hand
@@ -74,7 +71,7 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
         // get the token that is on the human task activity. The other one is on the end node then.
         Token humanTaskToken = nav.getWorkQueue().get(0);
         Token endToken = nav.getWorkQueue().get(1);
-        if (!(humanTaskToken.getCurrentNode().getActivity() == humanTask)) {
+        if (!(humanTaskToken.getCurrentNode().getActivityBlueprint().getActivityClass() == HumanTaskActivity.class)) {
             humanTaskToken = endToken;
             endToken = nav.getWorkQueue().get(0);
         }
@@ -120,30 +117,33 @@ public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests
 
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
 
-        Task task = new TaskImpl(subject, description, allocationStrategies, participant);
-
-        humanTask = new HumanTaskActivity(task);
+        task = new TaskImpl(subject, description, allocationStrategies, participant);
     }
 
     /**
      * Sets the up nodes.
      */
     @BeforeClass
-    public void setUpNodes() {
+    public void setUpProcessInstance() {
 
         ProcessBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl();
-        param.setActivity(new NullActivity());
+        param.setActivityClassOnly(NullActivity.class);
         param.setIncomingBehaviour(new SimpleJoinBehaviour());
         param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
         splitNode = builder.createNode(param);
 
-        param.setActivity(humanTask);
+//        param.setActivity(humanTask); TODO do something with the parameter of humanTask
+        Class<?>[] constructorSig = {Task.class};
+        Object[] params = {task};
+        ActivityBlueprint bp = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, params);
+        param.setActivityBlueprint(bp);
         humanTaskNode = builder.createNode(param);
 
-        param.setActivity(new TerminatingEndActivity());
+        param.setActivityClassOnly(TerminatingEndActivity.class);
         terminatingEndNode = builder.createNode(param);
 
         builder.createTransition(splitNode, humanTaskNode).createTransition(splitNode, terminatingEndNode);
+        
     }
 }
