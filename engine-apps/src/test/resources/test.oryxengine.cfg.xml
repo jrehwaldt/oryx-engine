@@ -34,6 +34,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	</bean>
 
 
-	<bean id="oryxEngineAppContext" class="de.hpi.oryxengine.bootsstrap.OryxEngineAppContext" />
+	<bean id="oryxEngineAppContext" class="de.hpi.oryxengine.bootstrap.OryxEngineAppContext" />
 
 </beans>

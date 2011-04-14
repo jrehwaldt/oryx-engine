@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.allocation.TaskDistribution;
-import de.hpi.oryxengine.bootsstrap.OryxEngineAppContext;
+import de.hpi.oryxengine.bootstrap.OryxEngineAppContext;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.repository.Deployer;

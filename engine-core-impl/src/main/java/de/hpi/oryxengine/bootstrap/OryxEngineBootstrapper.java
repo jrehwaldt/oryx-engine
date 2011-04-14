@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.bootsstrap;
+package de.hpi.oryxengine.bootstrap;
 
 
 
