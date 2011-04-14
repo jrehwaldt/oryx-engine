@@ -38,14 +38,6 @@ public class ConditionTest {
       assertFalse(condition.evaluate(token), "Condition was true but should be false.");
   }
   
-  /**
-  * Test set false.
-  */
-  @Test
-  public void testSetFalse() {
-    condition.setFalse();
-    assertFalse(condition.evaluate(token), "Set false didnt happened.");
-  }
   
   /**
    * Test true condition on variable.
@@ -66,7 +58,7 @@ public class ConditionTest {
       
       HashMap<String, Object> map = new HashMap<String, Object>();
       map.put("a", 1);
-      condition = new ConditionImpl(map);
+      condition = new ConditionImpl(map, "==");
       context = mock(ProcessInstanceContext.class);
       
       when(token.getInstance()).thenReturn(instance);

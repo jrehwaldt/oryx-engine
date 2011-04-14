@@ -116,7 +116,7 @@ public class BPMNXORBehaviourTest {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("a", 1);
 
-        Condition c = new ConditionImpl(map);
+        Condition c = new ConditionImpl(map, "==");
         ProcessBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl(mock(Activity.class), new SimpleJoinBehaviour(),
             new XORSplitBehaviour());
