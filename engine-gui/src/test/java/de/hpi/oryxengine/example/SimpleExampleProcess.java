@@ -11,6 +11,7 @@ import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -78,7 +79,7 @@ public final class SimpleExampleProcess {
         // TODO parameters
         SimpleJoinBehaviour incoming = new SimpleJoinBehaviour();
         TakeAllSplitBehaviour outgoing = new TakeAllSplitBehaviour();
-        NodeImpl startNode = new NodeImpl(AutomatedDummyActivity.class, incoming, outgoing);
+        NodeImpl startNode = new NodeImpl(AutomatedDummyActivity.class);
         NodeImpl secondNode = new NodeImpl(AutomatedDummyActivity.class);
         startNode.transitionTo(secondNode);
 
