@@ -52,7 +52,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     public static final String PARTICIPANT_KEY = "Participant";
 
     /** an array with the waiting times of the different pseudo humans. */
-    public static final int[] WAITING_TIME = { 1000, 1000, 1000 };
+    public static final int[] WAITING_TIME = {1000, 1000, 1000};
 
     private Scheduler scheduler;
 

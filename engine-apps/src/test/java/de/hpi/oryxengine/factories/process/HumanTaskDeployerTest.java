@@ -54,12 +54,13 @@ public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
         assertEquals(actualNumberOfParticipants, NUMBER_OF_PARTICIPANTS, "Did anybody change the HumanTaskDeployer?");
 
     }
-    
+
     /**
      * Stops the deployer so we don't get those pesky Quartz errors.
      */
     @AfterMethod
     public void shutDown() {
-    	this.deployer.stop();
+
+        this.deployer.stop();
     }
 }
