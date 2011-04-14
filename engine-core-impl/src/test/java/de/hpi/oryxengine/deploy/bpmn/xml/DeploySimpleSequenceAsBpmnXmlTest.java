@@ -20,7 +20,7 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
 import de.hpi.oryxengine.repository.ProcessDefinitionImporter;
-import de.hpi.oryxengine.repository.importer.BpmnXmlImporter;
+import de.hpi.oryxengine.repository.importer.BpmnXmlInpustreamImporter;
 import de.hpi.oryxengine.util.ReflectionUtil;
 
 /**
@@ -41,28 +41,28 @@ public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractTestNGSpringConte
     private static final String EXECUTABLE_PROCESS_RESOURCE_PATH = "de/hpi/oryxengine/delpoy/bpmn/xml/SimpleSequence.bpmn.xml";
 
     @Test
-    public void importProcessXMlAsStream() throws DefinitionNotFoundException {
+    public void importProcessXMlAsStream()
+    throws DefinitionNotFoundException {
 
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
 
         InputStream bpmnXmlInputStream = ReflectionUtil.getResourceAsStream(EXECUTABLE_PROCESS_RESOURCE_PATH);
-        ProcessDefinitionImporter processDefinitionImporter = new BpmnXmlImporter(bpmnXmlInputStream);
-        UUID deployedProcessDefinitionUUID = deploymentBuilder.deployProcessDefinition("simpleProcess",
-            processDefinitionImporter);
+        ProcessDefinitionImporter processDefinitionImporter = new BpmnXmlInpustreamImporter(bpmnXmlInputStream);
+        UUID deployedProcessDefinitionUUID = deploymentBuilder.deployProcessDefinition(processDefinitionImporter);
 
-        ProcessDefinition processDefinition =
-            ServiceFactory.getRepositoryService().getProcessDefinition(deployedProcessDefinitionUUID);
+        ProcessDefinition processDefinition = ServiceFactory.getRepositoryService().getProcessDefinition(
+            deployedProcessDefinitionUUID);
 
         List<Node> startNodes = processDefinition.getStartNodes();
         Assert.assertTrue(startNodes.size() == 1);
 
         Node onlyStartNode = startNodes.get(0);
-        Assert.assertTrue(onlyStartNode.getActivity() instanceof BPMNStartEvent);
+        Assert.assertTrue(onlyStartNode.getActivityBlueprint().getActivityClass() == BPMNStartEvent.class);
         Assert.assertEquals(onlyStartNode.getAttribute("name"), "Start");
         Assert.assertTrue(onlyStartNode.getOutgoingTransitions().size() == 1);
 
         Node nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertTrue(nextNode.getActivity() instanceof AutomatedDummyActivity);
+        Assert.assertTrue(nextNode.getActivityBlueprint().getActivityClass() == AutomatedDummyActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "A");
         Assert.assertTrue(nextNode.getOutgoingTransitions().size() == 1);
 
@@ -75,7 +75,7 @@ public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractTestNGSpringConte
         Assert.assertTrue(nextNode.getOutgoingTransitions().size() == 1);
 
         Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertTrue(endNode.getActivity() instanceof EndActivity);
+        Assert.assertTrue(endNode.getActivityBlueprint().getActivityClass() == EndActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
         Assert.assertTrue(endNode.getOutgoingTransitions().size() == 0);
     }
