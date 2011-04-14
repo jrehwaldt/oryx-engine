@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.repository.AbstractProcessArtifacts;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
 
@@ -61,9 +60,6 @@ public interface RepositoryService {
      * 
      * @param processDefintionID
      *            - id of the {@link ProcessDefinition}, cannot be null.
-     * 
-     * @throws RuntimeException
-     *             - if there are still runtime or history process instances or jobs.
      */
     void deleteProcessDefinition(@Nonnull UUID processDefintionID);
 
@@ -112,9 +108,6 @@ public interface RepositoryService {
      * 
      * @param processResourceID
      *            - id of the {@link AbstractProcessArtifacts ProcessResource}, cannot be null.
-     * 
-     * @throws RuntimeException
-     *             - if there are still runtime or history process instances or jobs.
      */
     void deleteProcessResource(@Nonnull UUID processResourceID);
 }
