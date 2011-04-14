@@ -30,7 +30,7 @@ public interface Navigator {
     @Nonnull
     void startProcessInstance(@Nonnull UUID processID, StartEvent event)
     throws DefinitionNotFoundException;
-    
+
     /**
      * Start the process instance.
      *
@@ -41,7 +41,7 @@ public interface Navigator {
     throws DefinitionNotFoundException;
 
     /**
-     * Increase speed.
+     * Add another thread that works on the to-be-executed instances.
      */
     void addThread();
 
@@ -101,7 +101,17 @@ public interface Navigator {
      */
     void signalEndedProcessInstance(ProcessInstance instance);
 
+    /**
+     * Checks if the navigator is idle, so to say if he still has work to do.
+     * 
+     * @return true, if the navigator is idle
+     */
     boolean isIdle();
 
+    /**
+     * Delivers an overview of some statistics like running and finished instances and more.
+     * 
+     * @return the statistics
+     */
     NavigatorStatistic getStatistics();
 }

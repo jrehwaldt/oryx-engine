@@ -12,8 +12,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
@@ -52,8 +50,6 @@ public class AssigningToParticipantUserStoryTest extends AbstractTestNGSpringCon
         Task task = TaskFactory.createJannikServesGerardoTask();
         jannik = task.getAssignedResources().iterator().next();
 
-//        Activity humanTaskActivity = new HumanTaskActivity(task);
-        // TODO parameters
         Class<?>[] constructorSig = {Task.class};
         Object[] params = {task};
         ActivityBlueprint bp = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, params);
