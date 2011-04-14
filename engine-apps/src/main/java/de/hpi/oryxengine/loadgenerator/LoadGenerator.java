@@ -88,8 +88,13 @@ public class LoadGenerator {
 
         // definitions should be deployed and the appropriate then should be selected...
         deployProcessDefinition();
-        
-
+    }
+    
+    /**
+     * Convenience constructor using all the defaults.
+     */
+    public LoadGenerator() {
+    	this(DEFAULT_PROCESS, DEFAULT_NUMBER_OF_RUNS, DEFAULT_NUMBER_OF_THREADS);
     }
 
     /**
