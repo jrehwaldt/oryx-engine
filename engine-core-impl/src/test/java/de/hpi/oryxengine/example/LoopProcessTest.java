@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.example;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.AddContextNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
@@ -27,6 +25,8 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.ConditionImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -90,11 +90,13 @@ public class LoopProcessTest {
         ProcessBuilder builder = new ProcessBuilderImpl();
         
         //Create StartNode
-        NodeParameter param = new NodeParameterImpl(
-            mock(Activity.class),
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(NullActivity.class);
+        
+        NodeParameter emptyActivityParam = new NodeParameterImpl(
+            blueprint,
             new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
-        start = builder.createNode(param);
+            new XORSplitBehaviour());
+        start = builder.createNode(emptyActivityParam);
         
         //Bootstrap
         Navigator nav = new NavigatorImplMock();
@@ -113,23 +115,29 @@ public class LoopProcessTest {
         Condition condition2 = new ConditionImpl(map, "==");
 
         //Create the XORJoin
-        xorJoin = builder.createNode(param);
+        xorJoin = builder.createNode(emptyActivityParam);
         
         //Create a following Node
-        param.setActivity(new AddContextNumbersAndStoreActivity("counter", "increment", "counter"));
-        node = builder.createNode(param);
-        
-        //Create the XORSplit
-        param = new NodeParameterImpl(new NullActivity(), new SimpleJoinBehaviour(),
-            new XORSplitBehaviour());
-        xorSplit = builder.createNode(param);
-        
-        //Create the end
-        param = new NodeParameterImpl(
-            new EndActivity(),
+        Class<?>[] constructorSig = {String.class, String[].class};
+        Object[] params = {"counter", new String[]{"increment", "counter"}};
+        blueprint = new ActivityBlueprintImpl(AddContextNumbersAndStoreActivity.class, constructorSig,
+            params);
+        NodeParameter addingActivityParam = new NodeParameterImpl(
+            blueprint,
             new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        end = builder.createNode(param);
+        node = builder.createNode(addingActivityParam);
+        
+        //Create the XORSplit
+        xorSplit = builder.createNode(emptyActivityParam);
+        
+        //Create the end
+        blueprint = new ActivityBlueprintImpl(EndActivity.class);
+        NodeParameter endParam = new NodeParameterImpl(
+            blueprint,
+            new SimpleJoinBehaviour(),
+            new TakeAllSplitBehaviour());
+        end = builder.createNode(endParam);
 
         builder.createTransition(start, xorJoin)
         .createTransition(xorJoin, node)
