@@ -4,6 +4,7 @@ package de.hpi.oryxengine.example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.monitor.Monitor;
 import de.hpi.oryxengine.monitor.MonitorGUI;
@@ -11,6 +12,7 @@ import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -77,10 +79,17 @@ public final class SimpleExampleProcess {
 //        AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);
 //        AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course " + counter);
         // TODO parameters
-        SimpleJoinBehaviour incoming = new SimpleJoinBehaviour();
-        TakeAllSplitBehaviour outgoing = new TakeAllSplitBehaviour();
-        NodeImpl startNode = new NodeImpl(AutomatedDummyActivity.class);
-        NodeImpl secondNode = new NodeImpl(AutomatedDummyActivity.class);
+        Class<?>[] constructorSig = {String.class};
+        Object[] params = {"I suck " + counter};
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig,
+            params);
+        
+        NodeImpl startNode = new NodeImpl(blueprint);
+        
+        params = new Object[] {"I suck of course " + counter};
+        blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig,
+            params);
+        NodeImpl secondNode = new NodeImpl(blueprint);
         startNode.transitionTo(secondNode);
 
         TokenImpl sampleInstance = new TokenImpl(startNode, new ProcessInstanceImpl(null), navigator);
