@@ -2,8 +2,8 @@ package de.hpi.oryxengine.correlation.adapter.error;
 
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.AbstractAdapterConfiguration;
-import de.hpi.oryxengine.correlation.adapter.EventTypes;
 import de.hpi.oryxengine.correlation.adapter.CorrelationAdapter;
+import de.hpi.oryxengine.correlation.adapter.EventTypes;
 
 /**
  * The error adapter configuration.

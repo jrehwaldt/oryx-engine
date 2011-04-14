@@ -17,5 +17,5 @@ public interface Deployable {
      * 
      * @return the UUID of the deployed object
      */
-    public UUID deploy(RepositoryService repositoryService);
+    UUID deploy(RepositoryService repositoryService);
 }
