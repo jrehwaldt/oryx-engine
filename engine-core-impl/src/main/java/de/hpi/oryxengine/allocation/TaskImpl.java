@@ -9,7 +9,7 @@ import de.hpi.oryxengine.resource.AbstractResource;
 /**
  * THe implementation of the Task Interface.
  */
-public class TaskImpl implements Task, Cloneable {
+public class TaskImpl implements Task {
 
     private String subject;
 
@@ -65,6 +65,20 @@ public class TaskImpl implements Task, Cloneable {
             allocationStrategies,
             new HashSet<AbstractResource<?>>(Arrays.asList(assignedResource)));
     }
+    
+    /**
+     * Copy constructor.
+     *
+     * @param taskToCopy the task to copy
+     */
+    public TaskImpl(Task taskToCopy) {
+        this.subject = taskToCopy.getSubject();
+        this.description = taskToCopy.getDescription();
+        this.allocationStrategies = taskToCopy.getAllocationStrategies();
+        HashSet<AbstractResource<?>> setCopy = new HashSet<AbstractResource<?>>(taskToCopy.getAssignedResources());
+        this.assignedResources = setCopy;
+        
+    }
 
     @Override
     public String getSubject() {
@@ -97,13 +111,6 @@ public class TaskImpl implements Task, Cloneable {
             assignedResources = new HashSet<AbstractResource<?>>();
         }
         return assignedResources;
-    }
-    
-    @Override
-    public Task clone() {
-        HashSet<AbstractResource<?>> cloneSet = new HashSet<AbstractResource<?>>(assignedResources);
-        return new TaskImpl(subject, description, allocationStrategies, cloneSet);
-        
     }
 
 }
