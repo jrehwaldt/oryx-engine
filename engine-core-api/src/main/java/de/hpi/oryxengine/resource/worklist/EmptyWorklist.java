@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.resource.worklist;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import de.hpi.oryxengine.resource.AbstractResource;
@@ -41,5 +42,11 @@ public class EmptyWorklist extends AbstractWorklist {
     public void itemIsAllocatedBy(WorklistItem worklistItem, AbstractResource<?> claimingResource) {
 
         throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+    }
+
+    @Override
+    public Iterator<WorklistItem> iterator() {
+
+        return getWorklistItems().iterator();
     }
 }

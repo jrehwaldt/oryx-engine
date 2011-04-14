@@ -13,7 +13,7 @@ import de.hpi.oryxengine.process.structure.Node;
 /**
  * The Interface ProcessBuilder. The process builder is a comfortable way to construct a process definition.
  * 
- * @author thorben
+ * @author Thorben
  */
 public interface ProcessBuilder {
 
@@ -84,12 +84,20 @@ public interface ProcessBuilder {
     /**
      * Sets the description.
      * 
-     * @param description
+     * @param processDescription
      *            the new description
      * @return the process builder
      */
     @Nonnull
-    ProcessBuilder setDescription(String description);
+    ProcessBuilder setDescription(String processDescription);
+
+    /**
+     * S
+     * @param description
+     * @return
+     */
+    @Nonnull
+    ProcessBuilder setName(String processName);
 
     /**
      * This will create a start trigger for the process definition.

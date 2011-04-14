@@ -1,4 +1,4 @@
-package de.hpi.oryxengine;
+package de.hpi.oryxengine.bootsstrap;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.ServiceFactoryForTesting;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
@@ -59,8 +58,8 @@ public class WorklistItemLifecycleTest {
     @AfterMethod
     public void tearDown() {
 
-        ServiceFactoryForTesting.clearWorklistManager();
-        ServiceFactoryForTesting.clearIdentityService();
+//        ServiceFactoryForTesting.clearWorklistManager();
+//        ServiceFactoryForTesting.clearIdentityService();
     }
 
     /**

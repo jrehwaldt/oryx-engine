@@ -49,8 +49,9 @@ public final class WorklistWebService implements WorklistServiceFacade {
     }
 
     /**
-     * Creates a demo participant with a work item
+     * Creates a demo participant with a work item.
      * 
+     * @return json
      */
     @Path("/demo")
     @GET
@@ -89,7 +90,7 @@ public final class WorklistWebService implements WorklistServiceFacade {
     // return this.service.getWorklistItems(resource);
     // }
 
-    @Path("/items/{resource-type}--{resource-id}")
+    @Path("/items/{resource-type}/{resource-id}")
     @GET
     @Override
     @Produces(MediaType.APPLICATION_JSON)

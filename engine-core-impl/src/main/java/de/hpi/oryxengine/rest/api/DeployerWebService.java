@@ -1,3 +1,4 @@
+// TODO: [@Gerardo:] mal wieder auskommentieren
 package de.hpi.oryxengine.rest.api;
 
 import java.util.UUID;
@@ -10,7 +11,6 @@ import javax.ws.rs.core.MediaType;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.deploy.Deployer;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
@@ -18,6 +18,8 @@ import de.hpi.oryxengine.process.definition.ProcessBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.repository.DeploymentBuilder;
+import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
@@ -28,11 +30,11 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public class DeployerWebService {
 
-    private Deployer deployer;
+    private DeploymentBuilder deploymentBuilder;
 
     public DeployerWebService() {
 
-        deployer = ServiceFactory.getDeplyomentService();
+        this.deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
     }
 
     @Path("/deploy")
@@ -66,7 +68,7 @@ public class DeployerWebService {
         ProcessDefinition definition = null;
         try {
             definition = builder.buildDefinition();
-            deployer.deploy(definition);
+            deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(definition));
         } catch (IllegalStarteventException e) {
             e.printStackTrace();
         }

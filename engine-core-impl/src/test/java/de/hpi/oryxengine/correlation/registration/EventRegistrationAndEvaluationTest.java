@@ -23,6 +23,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.RepositoryServiceImpl;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.correlation.adapter.EventType;
 import de.hpi.oryxengine.correlation.adapter.EventTypes;
@@ -32,7 +33,6 @@ import de.hpi.oryxengine.correlation.adapter.mail.MailProtocol;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.repository.ProcessRepositoryImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
 
 /**
@@ -63,7 +63,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractTestNGSpringCont
         correlation.correlate(incomingEvent);
 
         // we use eq(...) because if you use mockito matchers as the parameters, all parameters have to be matchers.
-        verify(navigator).startProcessInstance(eq(ProcessRepositoryImpl.SIMPLE_PROCESS_ID), any(StartEvent.class));
+        verify(navigator).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID), any(StartEvent.class));
     }
 
     /**
@@ -82,7 +82,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractTestNGSpringCont
 
         correlation.correlate(anotherIncomingEvent);
 
-        verify(navigator, never()).startProcessInstance(eq(ProcessRepositoryImpl.SIMPLE_PROCESS_ID),
+        verify(navigator, never()).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID),
             any(StartEvent.class));
     }
 
@@ -104,7 +104,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractTestNGSpringCont
 
         correlation.correlate(incomingEvent);
 
-        verify(navigator, times(1)).startProcessInstance(eq(ProcessRepositoryImpl.SIMPLE_PROCESS_ID),
+        verify(navigator, times(1)).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID),
             any(StartEvent.class));
     }
 
@@ -122,7 +122,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractTestNGSpringCont
 
         RepositorySetup.fillRepository();
         // register some events
-        UUID definitionID = ProcessRepositoryImpl.SIMPLE_PROCESS_ID;
+        UUID definitionID = RepositoryServiceImpl.SIMPLE_PROCESS_ID;
         EventType mailType = EventTypes.Mail;
 
         EventCondition subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"),

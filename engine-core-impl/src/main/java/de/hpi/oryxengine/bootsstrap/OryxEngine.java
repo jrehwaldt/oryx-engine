@@ -1,9 +1,11 @@
-package de.hpi.oryxengine;
+package de.hpi.oryxengine.bootsstrap;
 
 import java.util.Iterator;
 import java.util.Map;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import de.hpi.oryxengine.Service;
 
 /**
  * The {@link OryxEngine} class is responsible for the initialization of the whole applicaiton. Therefore we use the

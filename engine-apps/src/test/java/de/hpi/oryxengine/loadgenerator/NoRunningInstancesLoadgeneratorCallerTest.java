@@ -14,16 +14,15 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.NoRunningInstancesLoadgeneratorCaller;
+import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.loadgenerator.LoadGenerator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.repository.ProcessRepository;
 import de.hpi.oryxengine.repository.RepositorySetup;
 
 /**
@@ -62,8 +61,8 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractTestNGSpr
         mockiGene = mock(LoadGenerator.class);
         NoRunningInstancesLoadgeneratorCaller caller = new NoRunningInstancesLoadgeneratorCaller(mockiGene);
         nav.registerPlugin(caller);
-        ProcessRepository repo = ServiceFactory.getRepositoryService();
-        ProcessDefinition def = repo.getDefinition(RepositorySetup.FIRST_EXAMPLE_PROCESS_ID);
+        RepositoryService repo = ServiceFactory.getRepositoryService();
+        ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.FIRST_EXAMPLE_PROCESS_ID);
         List<Node> startNodes = def.getStartNodes();
         Node startNode = startNodes.get(0);
         pi = new TokenImpl(startNode);

@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.NoRunningInstancesLoadgeneratorCaller;
-import de.hpi.oryxengine.OryxEngine;
+import de.hpi.oryxengine.bootsstrap.OryxEngine;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.factories.process.ProcessDeployer;

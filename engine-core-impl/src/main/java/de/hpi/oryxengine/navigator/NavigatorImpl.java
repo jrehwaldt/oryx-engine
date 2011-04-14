@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
@@ -23,7 +24,6 @@ import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.repository.ProcessRepository;
 
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
@@ -63,7 +63,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     
     private int counter;
     
-    private ProcessRepository repository;
+    private RepositoryService repository;
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
@@ -100,9 +100,9 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * @param repo
      *              the process repository
      */
-    public NavigatorImpl(ProcessRepository repo, int numberOfThreads) {
+    public NavigatorImpl(RepositoryService repo, int numberOfThreads) {
 
-        // TODO Lazy initialized, o rly?
+        // TODO Lazy initialized, o rely?
         this.scheduler = new FIFOScheduler();
         this.executionThreads = new ArrayList<NavigationThread>();
         this.state = NavigatorState.INIT;
@@ -146,7 +146,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
         // TODO use the variable repository here. This cannot be used in tests, as it requires the bootstrap to have
         // run first, but we definitely do not want to start the whole engine to test a simple feature.
-        ProcessDefinition definition = ServiceFactory.getRepositoryService().getDefinition(processID);
+        ProcessDefinition definition = ServiceFactory.getRepositoryService().getProcessDefinition(processID);
 
         ProcessInstance instance = new ProcessInstanceImpl(definition);
 
@@ -162,7 +162,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
                                      StartEvent event)
     throws DefinitionNotFoundException {
 
-        ProcessDefinition definition = repository.getDefinition(processID);
+        ProcessDefinition definition = repository.getProcessDefinition(processID);
 
         ProcessInstance instance = new ProcessInstanceImpl(definition);
         Node startNode = definition.getStartTriggers().get(event);

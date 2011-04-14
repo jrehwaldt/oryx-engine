@@ -11,7 +11,7 @@ import de.hpi.oryxengine.resource.AbstractRole;
 /**
  * The work list for the resource 'role'.
  */
-public class RoleWorklist extends AbstractWorklist {
+public class RoleWorklist extends AbstractDefaultWorklist {
 
     private AbstractRole relatedRole;
     

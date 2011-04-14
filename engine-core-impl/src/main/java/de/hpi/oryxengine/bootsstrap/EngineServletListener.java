@@ -1,4 +1,4 @@
-package de.hpi.oryxengine;
+package de.hpi.oryxengine.bootsstrap;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

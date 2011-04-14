@@ -19,7 +19,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	<bean id="deployerService" class="de.hpi.oryxengine.deploy.DeployerImpl"
 		scope="singleton" />
 
-	<bean id="repositoryService" class="de.hpi.oryxengine.repository.ProcessRepositoryImpl"
+	<bean id="repositoryService" class="de.hpi.oryxengine.RepositoryServiceImpl"
 		scope="singleton">
 	</bean>
 
