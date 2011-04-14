@@ -11,7 +11,7 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
- * TODO hää?
+ * A simple dumb Gerardo Node Factory which is sort of lame.
  */
 public final class GerardoNodeFactory {
     /**

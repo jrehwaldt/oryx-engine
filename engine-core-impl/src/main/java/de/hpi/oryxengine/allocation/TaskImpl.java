@@ -75,6 +75,20 @@ public class TaskImpl implements Task {
             allocationStrategies,
             new HashSet<AbstractResource<?>>(Arrays.asList(assignedResource)));
     }
+    
+    /**
+     * Copy constructor.
+     *
+     * @param taskToCopy the task to copy
+     */
+    public TaskImpl(Task taskToCopy) {
+        this.subject = taskToCopy.getSubject();
+        this.description = taskToCopy.getDescription();
+        this.allocationStrategies = taskToCopy.getAllocationStrategies();
+        HashSet<AbstractResource<?>> setCopy = new HashSet<AbstractResource<?>>(taskToCopy.getAssignedResources());
+        this.assignedResources = setCopy;
+        
+    }
 
     @Override
     public String getSubject() {

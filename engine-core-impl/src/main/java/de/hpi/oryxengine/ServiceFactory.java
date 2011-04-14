@@ -6,68 +6,118 @@ import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.bootstrap.OryxEngineAppContext;
 import de.hpi.oryxengine.correlation.CorrelationManager;
-import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
-import de.hpi.oryxengine.repository.Deployer;
 import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.repository.Deployer;
 
 /**
  * General service factory, which provides singleton instances for our system.
  */
 public final class ServiceFactory {
-    
-    protected static @Nonnull WorklistManager getWorklistManagerInstance() {
+
+    /**
+     * Gets the {@link WorklistManager} instance.
+     * 
+     * @return the worklist manager instance
+     */
+    protected static @Nonnull
+    WorklistManager getWorklistManagerInstance() {
 
         return (WorklistManager) OryxEngineAppContext.getBean("worklistService");
     }
 
-    public static @Nonnull WorklistService getWorklistService() {
+    /**
+     * Gets the {@link WorklistService}.
+     * 
+     * @return the worklist service
+     */
+    public static @Nonnull
+    WorklistService getWorklistService() {
 
         return getWorklistManagerInstance();
     }
 
-    public static @Nonnull TaskAllocation getWorklistQueue() {
+    /**
+     * Gets the {@link TaskAllocation} Interface for operating on work lists.
+     * 
+     * @return the worklist queue
+     */
+    public static @Nonnull
+    TaskAllocation getWorklistQueue() {
 
         return getWorklistManagerInstance();
     }
 
-    public static @Nonnull TaskDistribution getTaskDistribution() {
+    /**
+     * Gets the {@link TaskDistribution}.
+     * 
+     * @return the task distribution
+     */
+    public static @Nonnull
+    TaskDistribution getTaskDistribution() {
 
         return getWorklistManagerInstance();
     }
 
-    public static @Nonnull IdentityService getIdentityService() {
+    /**
+     * Gets the {@link IdentityService}.
+     * 
+     * @return the identity service
+     */
+    public static @Nonnull
+    IdentityService getIdentityService() {
 
         return (IdentityService) OryxEngineAppContext.getBean("identityService");
     }
 
-    public static @Nonnull Navigator getNavigatorService() {
+    /**
+     * Gets the {@link Navigator}.
+     * 
+     * @return the navigator service
+     */
+    public static @Nonnull
+    Navigator getNavigatorService() {
 
         return (Navigator) OryxEngineAppContext.getBean("navigatorService");
     }
 
-    public static @Nonnull Deployer getDeplyomentService() {
+    /**
+     * Gets the {@link Deployer}.
+     * 
+     * @return the deplyoment service
+     */
+    public static @Nonnull
+    Deployer getDeplyomentService() {
 
         return (Deployer) OryxEngineAppContext.getBean("deployerService");
     }
 
-    public static @Nonnull RepositoryService getRepositoryService() {
+    /**
+     * Gets the {@link RepositoryService}.
+     * 
+     * @return the repository service
+     */
+    public static @Nonnull
+    RepositoryService getRepositoryService() {
 
         return (RepositoryService) OryxEngineAppContext.getBean("repositoryService");
     }
 
     /**
-     * Gets the correlation service for the supplied navigator. As we do not necessarily have only one navigator, we
-     * need a CorrelationManager for each of them.
+     * Gets the {@link CorrelationManager} for the supplied navigator. As we do not necessarily have only one navigator,
+     * we need a CorrelationManager for each of them.
      * 
      * @return the correlation service
      */
-    public static @Nonnull CorrelationManager getCorrelationService() {
-        
-        return  (CorrelationManager) OryxEngineAppContext.getBean("correlationService");
+    public static @Nonnull
+    CorrelationManager getCorrelationService() {
+
+        return (CorrelationManager) OryxEngineAppContext.getBean("correlationService");
     }
-    
+
     /**
      * Hidden Constructor.
      */
-    private ServiceFactory() { }
+    private ServiceFactory() {
+
+    }
 }

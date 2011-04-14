@@ -1,27 +1,16 @@
 package de.hpi.oryxengine.allocation;
 
 import org.mockito.Mockito;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
-import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
-import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
-import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;
@@ -33,9 +22,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
  * 
  * This test simulates the usages of a {@link WorklistItem}.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class WorklistItemLifecycleTest extends AbstractTestNGSpringContextTests {
+public class WorklistItemLifecycleTest extends AbstractTest {
 
     private WorklistService worklistService = null;
     private WorklistItem worklistItem = null;

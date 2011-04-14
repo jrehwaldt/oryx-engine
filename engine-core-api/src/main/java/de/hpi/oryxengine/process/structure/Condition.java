@@ -18,9 +18,4 @@ public interface Condition {
      */
     boolean evaluate(Token instance);
 
-    /**
-     * Sets condition to false.
-     */
-    void setFalse();
-
 }

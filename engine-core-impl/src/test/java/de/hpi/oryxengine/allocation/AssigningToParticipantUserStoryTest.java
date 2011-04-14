@@ -2,15 +2,12 @@ package de.hpi.oryxengine.allocation;
 
 import static org.testng.Assert.assertEquals;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
@@ -31,9 +28,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 /**
  * This test assigns a task directly to a participant. 
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class AssigningToParticipantUserStoryTest extends AbstractTestNGSpringContextTests {
+public class AssigningToParticipantUserStoryTest extends AbstractTest {
 
     private Token token = null;
     private AbstractResource<?> jannik = null;
@@ -50,8 +45,6 @@ public class AssigningToParticipantUserStoryTest extends AbstractTestNGSpringCon
         Task task = TaskFactory.createJannikServesGerardoTask();
         jannik = task.getAssignedResources().iterator().next();
 
-//        Activity humanTaskActivity = new HumanTaskActivity(task);
-        // TODO parameters
         Class<?>[] constructorSig = {Task.class};
         Object[] params = {task};
         ActivityBlueprint bp = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, params);

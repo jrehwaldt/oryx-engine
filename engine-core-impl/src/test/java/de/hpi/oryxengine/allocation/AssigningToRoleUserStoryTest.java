@@ -4,18 +4,13 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.List;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.allocation.pattern.RolePushPattern;
@@ -39,9 +34,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 /**
  * This test assigns a task to a role or to a resource that contains other resources.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class AssigningToRoleUserStoryTest extends AbstractTestNGSpringContextTests {
+public class AssigningToRoleUserStoryTest extends AbstractTest {
 
     private Token token = null;
     private AbstractRole hamburgGuysRole = null;

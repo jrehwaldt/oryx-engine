@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.HashComputationActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.allocation.Task;
@@ -52,7 +51,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     public static final String PARTICIPANT_KEY = "Participant";
 
     /** an array with the waiting times of the different pseudo humans. */
-    public static final int[] WAITING_TIME = { 1000, 1000, 1000 };
+    public static final int[] WAITING_TIME = {1000, 1000, 1000};
 
     private Scheduler scheduler;
 

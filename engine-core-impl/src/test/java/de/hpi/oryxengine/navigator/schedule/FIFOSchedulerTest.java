@@ -9,12 +9,11 @@ import java.util.List;
 
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
@@ -27,9 +26,8 @@ import de.hpi.oryxengine.repository.RepositorySetup;
 /**
  * The Class FIFOSchedulerTest. tests our awesome FIFO Scheduler.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class FIFOSchedulerTest extends AbstractTestNGSpringContextTests {
+public class FIFOSchedulerTest extends AbstractTest {
 
     /** The scheduler. */
     private FIFOScheduler scheduler = null;

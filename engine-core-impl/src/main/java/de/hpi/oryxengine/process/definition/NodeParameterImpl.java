@@ -1,7 +1,6 @@
 package de.hpi.oryxengine.process.definition;
 
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;

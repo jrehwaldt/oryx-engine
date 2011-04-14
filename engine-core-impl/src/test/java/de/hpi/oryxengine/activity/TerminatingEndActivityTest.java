@@ -4,17 +4,13 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
-import de.hpi.oryxengine.activity.impl.IntermediateTimer;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.activity.impl.TerminatingEndActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
@@ -45,9 +41,7 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 /**
  * The Class TerminatingEndActivityTest.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class TerminatingEndActivityTest extends AbstractTestNGSpringContextTests {
+public class TerminatingEndActivityTest extends AbstractTest {
     private Task task = null;
     private AbstractResource<?> resource = null;
     private Node splitNode, humanTaskNode, terminatingEndNode;

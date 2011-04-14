@@ -17,14 +17,13 @@ import org.jboss.resteasy.mock.MockHttpResponse;
 import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
@@ -42,9 +41,8 @@ import de.hpi.oryxengine.rest.provider.ListMessageBodyWriter;
 /**
  * The Class GsonWorklistItemTest.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class GsonWorklistItemTest extends AbstractTestNGSpringContextTests {
+public class GsonWorklistItemTest extends AbstractTest {
     public static final String TMP_PATH = "./target/";
     private Dispatcher dispatcher = null;
 

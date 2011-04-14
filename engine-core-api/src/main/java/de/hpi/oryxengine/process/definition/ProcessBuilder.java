@@ -38,7 +38,7 @@ public interface ProcessBuilder {
     Node createNode(NodeParameter param);
     
     /**
-     * Creates a new start node for the process
+     * Creates a new start node for the process.
      *
      * @param param the param
      * @return the node
@@ -101,9 +101,10 @@ public interface ProcessBuilder {
     ProcessBuilder setDescription(String processDescription);
 
     /**
-     * S
-     * @param description
-     * @return
+     * sets the name of the process definition to build.
+     *
+     * @param processName the process name
+     * @return the process builder
      */
     @Nonnull
     ProcessBuilder setName(String processName);
