@@ -5,9 +5,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaException;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 
 /**
  * Implementation of {@link IdentityBuilder} Interface.

@@ -12,16 +12,8 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
-import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
-import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
-import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.worklist.WorklistItem;

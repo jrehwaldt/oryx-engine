@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
-import de.hpi.oryxengine.activity.impl.IntermediateTimer;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.activity.impl.TerminatingEndActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
