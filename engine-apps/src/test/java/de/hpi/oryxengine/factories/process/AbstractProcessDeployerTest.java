@@ -19,6 +19,9 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 /**
  * Parent class for all other Process Deployers tests as otherwise it would  be a lot of code duplication.
  * Child classes basically just overwrite the setUp-method to use different deployers.
+ * 
+ * The tests just run the code to verify that there are no erros. More specific tests are likely to break everything
+ * you do a simple thing like adding one node to the process.
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)

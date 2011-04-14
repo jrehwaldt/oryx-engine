@@ -9,6 +9,7 @@ import de.hpi.oryxengine.exception.IllegalStarteventException;
 
 /**
  * Tests the EcampleProcessDeplyoer class.
+ * {@inheritDoc}
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)

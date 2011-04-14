@@ -8,18 +8,19 @@ import org.testng.annotations.BeforeMethod;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 
 /**
- * Tests the EcampleProcessDeplyoer class.
+ * Tests the EcampleProcessDeplyoer class. {@inheritDoc}
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class HeavyComputationProcessDeployerTest extends AbstractProcessDeployerTest {
 
-
-	/**
+    /**
      * {@inheritDoc}
      */
+    @Override
     @BeforeMethod
-    public void setUp() throws IllegalStarteventException {
+    public void setUp()
+    throws IllegalStarteventException {
 
         this.deployer = new HeavyComputationProcessDeployer();
         this.uuid = deployer.deploy();

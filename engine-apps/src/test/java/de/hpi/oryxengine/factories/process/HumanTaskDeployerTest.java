@@ -16,7 +16,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 
 /**
- * Tests the EcampleProcessDeplyoer class.
+ * Tests the EcampleProcessDeplyoer class. {@inheritDoc}
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
@@ -24,12 +24,14 @@ public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final static int NUMBER_OF_PARTICIPANTS = 3;
-    
+
     /**
      * {@inheritDoc}
      */
+    @Override
     @BeforeMethod
-    public void setUp() throws IllegalStarteventException {
+    public void setUp()
+    throws IllegalStarteventException {
 
         try {
             this.deployer = new HumanTaskProcessDeployer();
@@ -38,16 +40,17 @@ public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
         }
         this.uuid = deployer.deploy();
     }
-    
+
     /**
-     * Tests that the participants which should be created are really created.
-     * This tests breaks if the number of aprticipants in the process deployer is changed.
+     * Tests that the participants which should be created are really created. This tests breaks if the number of
+     * aprticipants in the process deployer is changed.
      */
     @Test
     public void testParticipantsCreated() {
-    	IdentityService identityService = ServiceFactory.getIdentityService();
-    	int actualNumberOfParticipants = identityService.getParticipants().size();
-    	assertEquals(actualNumberOfParticipants, NUMBER_OF_PARTICIPANTS, "Did anybody change the HumanTaskDeployer?");
-    	
+
+        IdentityService identityService = ServiceFactory.getIdentityService();
+        int actualNumberOfParticipants = identityService.getParticipants().size();
+        assertEquals(actualNumberOfParticipants, NUMBER_OF_PARTICIPANTS, "Did anybody change the HumanTaskDeployer?");
+
     }
 }
