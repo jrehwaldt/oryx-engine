@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.definition.NodeParameter;
@@ -117,7 +118,7 @@ public class BPMNUnstructuredJoinSplitTest {
     private Token initializeToken() {
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(mock(Activity.class), new SimpleJoinBehaviour(),
+        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
 
         Node splitNode = builder.createNode(param);

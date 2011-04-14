@@ -7,9 +7,12 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.AddNumbersAndStoreNodeFactory;
 import de.hpi.oryxengine.factory.token.SimpleProcessTokenFactory;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
  * The Class AddNumbersAndStoreActivityTest. Tests for the AddNumberblablabla activity. Basically checks whether or not
@@ -31,8 +34,9 @@ public class AddNumbersAndStoreActivityTest {
 
         AddNumbersAndStoreNodeFactory factory = new AddNumbersAndStoreNodeFactory();
         node = factory.create();
-        SimpleProcessTokenFactory processfactory = new SimpleProcessTokenFactory();
-        p = processfactory.create(node);
+        ProcessInstance instance = new ProcessInstanceImpl(null);
+        p = new TokenImpl(node, instance);
+
     }
 
     /**

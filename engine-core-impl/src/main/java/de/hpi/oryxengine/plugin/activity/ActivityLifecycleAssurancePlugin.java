@@ -46,9 +46,9 @@ extends AbstractActivityLifecyclePlugin {
      */
     @Override
     public void stateChanged(@Nonnull ActivityLifecycleChangeEvent event) {
-        if (event.getActivity().getState() == ActivityState.COMPLETED) {
-            this.completedCalled = true;   
-        }
+//        if (event.getActivity().getState() == ActivityState.COMPLETED) {
+//            this.completedCalled = true;   
+//        }
     }
     
 }

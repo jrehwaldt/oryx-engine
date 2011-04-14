@@ -9,7 +9,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
@@ -108,7 +108,7 @@ public class BPMNAndJoinTest {
         splitNode = mock(Node.class);
 
         ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(mock(Activity.class), new SimpleJoinBehaviour(),
+        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
         node1 = builder.createNode(param);
         node2 = builder.createNode(param);

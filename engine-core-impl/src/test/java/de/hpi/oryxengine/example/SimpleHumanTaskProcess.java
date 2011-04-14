@@ -63,8 +63,7 @@ public final class SimpleHumanTaskProcess {
 
         Node thirdNode = new PrintingNodeFactory().createWithLogger();
         
-        AbstractActivity end = new EndActivity();
-        Node endNode = new NodeImpl(end);
+        Node endNode = new NodeImpl(EndActivity.class);
 
         // Setting the transitions
         startNode.transitionTo(secondNode);

@@ -1,6 +1,9 @@
 package de.hpi.oryxengine.process.definition;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.activity.impl.EndActivity;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
@@ -10,27 +13,42 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
  * @author thorben
  */
 public class NodeParameterImpl implements NodeParameter {
-    private Activity activity;
+    private ActivityBlueprint blueprint;
     private OutgoingBehaviour outgoing;
     private IncomingBehaviour incoming;
-    private boolean startNode;
 
     /**
      * Instantiates a new node parameter impl.
      * 
-     * @param activity
-     *            the activity
+     * @param blueprint
+     *            the blueprint
      * @param incoming
      *            the incoming
      * @param outgoing
      *            the outgoing
      */
-    public NodeParameterImpl(Activity activity, IncomingBehaviour incoming, OutgoingBehaviour outgoing) {
+    public NodeParameterImpl(ActivityBlueprint blueprint, IncomingBehaviour incoming, OutgoingBehaviour outgoing) {
 
-        this.activity = activity;
+        this.blueprint = blueprint;
         this.incoming = incoming;
         this.outgoing = outgoing;
-        this.startNode = false;
+    }
+
+    /**
+     * This is a convenience constructor, if you only need the activity's default constructor.
+     * 
+     * @param clazz
+     *            the clazz
+     * @param incoming
+     *            the incoming
+     * @param outgoing
+     *            the outgoing
+     */
+    public NodeParameterImpl(Class<? extends Activity> clazz, IncomingBehaviour incoming, OutgoingBehaviour outgoing) {
+
+        this.incoming = incoming;
+        this.outgoing = outgoing;
+        this.blueprint = new ActivityBlueprintImpl(clazz);
     }
 
     /**
@@ -38,19 +56,6 @@ public class NodeParameterImpl implements NodeParameter {
      */
     public NodeParameterImpl() {
 
-    }
-
-    @Override
-    public void setActivity(Activity a) {
-
-        this.activity = a;
-
-    }
-
-    @Override
-    public Activity getActivity() {
-
-        return activity;
     }
 
     @Override
@@ -80,16 +85,23 @@ public class NodeParameterImpl implements NodeParameter {
     }
 
     @Override
-    public void makeStartNode(boolean b) {
+    public void setActivityBlueprint(ActivityBlueprint blueprint) {
 
-        startNode = b;
-        
+        this.blueprint = blueprint;
+
     }
 
     @Override
-    public boolean isStartNode() {
+    public ActivityBlueprint getActivityBlueprint() {
 
-        return startNode;
+        return blueprint;
+    }
+
+    @Override
+    public void setActivityClassOnly(Class<? extends Activity> clazz) {
+
+        this.blueprint = new ActivityBlueprintImpl(clazz);
+
     }
 
 }

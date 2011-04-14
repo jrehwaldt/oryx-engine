@@ -13,14 +13,16 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -33,7 +35,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class AssigningToParticipantUserStoryTest  extends AbstractTestNGSpringContextTests {
+public class AssigningToParticipantUserStoryTest extends AbstractTestNGSpringContextTests {
 
     private Token token = null;
     private AbstractResource<?> jannik = null;
@@ -50,15 +52,22 @@ public class AssigningToParticipantUserStoryTest  extends AbstractTestNGSpringCo
         Task task = TaskFactory.createJannikServesGerardoTask();
         jannik = task.getAssignedResources().iterator().next();
 
-        Activity humanTaskActivity = new HumanTaskActivity(task);
-        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(humanTaskActivity);
+//        Activity humanTaskActivity = new HumanTaskActivity(task);
+        // TODO parameters
+        Class<?>[] constructorSig = {Task.class};
+        Object[] params = {task};
+        ActivityBlueprint bp = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, params);
+        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(bp);
 
-        AbstractActivity endactivity = new EndActivity();
-        endNode = GerardoNodeFactory.createSimpleNodeWith(endactivity);
+        Class<?>[] emptyConstructorSig = {};
+        Object[] emtpyParams = {};
+        bp = new ActivityBlueprintImpl(HumanTaskActivity.class, emptyConstructorSig, emtpyParams);
+        endNode = GerardoNodeFactory.createSimpleNodeWith(bp);
         
         humanTaskNode.transitionTo(endNode);
                 
-        token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
+        ProcessInstance instance = new ProcessInstanceImpl(null);
+        token = new TokenImpl(humanTaskNode, instance, new NavigatorImplMock());
     }
 
     /**

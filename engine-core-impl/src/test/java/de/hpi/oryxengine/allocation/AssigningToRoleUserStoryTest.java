@@ -25,6 +25,8 @@ import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -80,11 +82,12 @@ public class AssigningToRoleUserStoryTest extends AbstractTestNGSpringContextTes
 
         Task task = new TaskImpl("Clean the office.", "It is very dirty.", allocationStrategies, hamburgGuysRole);
 
-        Activity humanTaskActivity = new HumanTaskActivity(task);
-        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(humanTaskActivity);
+        Class<?>[] constructorSig = {Task.class};
+        Object[] params = {task};
+        ActivityBlueprint bp = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, params);
+        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(bp);
 
-        AbstractActivity endactivity = new EndActivity();
-        endNode = GerardoNodeFactory.createSimpleNodeWith(endactivity);
+        endNode = GerardoNodeFactory.createSimpleNodeWith(new ActivityBlueprintImpl(EndActivity.class));
 
         humanTaskNode.transitionTo(endNode);
 
