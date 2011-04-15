@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     
     <display-name>Oryx Engine</display-name>
-
+    
     
     
     
@@ -32,9 +32,14 @@
     </listener>
     -->
 	<servlet>
-		<servlet-name>EngineREST</servlet-name>
+		<servlet-name>EngineREST API</servlet-name>
 		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
 	</servlet>
+    
+    <servlet>
+        <servlet-name>EngineREST JS-API</servlet-name>
+        <servlet-class>org.jboss.resteasy.jsapi.JSAPIServlet</servlet-class>
+    </servlet>
 
 	<context-param>
 		<param-name>resteasy.scan</param-name>
@@ -59,17 +64,20 @@
     
     
     <!-- URL Mappings -->
-	<servlet-mapping>
-		<servlet-name>EngineREST</servlet-name>
-		<url-pattern>/api/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EngineREST API</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
     
     <servlet-mapping>
         <servlet-name>less</servlet-name>
         <url-pattern>*.css</url-pattern>
     </servlet-mapping>
     
-        
+    <servlet-mapping>
+        <servlet-name>EngineREST JS-API</servlet-name>
+        <url-pattern>/api-js</url-pattern>
+    </servlet-mapping>
     
 	<session-config>
 		<session-timeout>30</session-timeout>
