@@ -69,7 +69,7 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends
 	RepositoryService repo = ServiceFactory.getRepositoryService();
 	// TODO @Alle: Ist das hier wirklich gut (das mit der
 	// RepositorySetup.FIRST_EXAMPLE_PROCESS_ID - ist ja ein Verweis auf
-	// eine externe Lib? Tests sollten doch unabhängig sein
+	// eine externe Lib? Tests sollten doch unabh√§ngig sein
 	ProcessDefinition def = repo
 		.getProcessDefinition(RepositorySetup.process1Plus1ProcessUUID);
 	List<Node> startNodes = def.getStartNodes();
