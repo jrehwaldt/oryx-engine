@@ -30,7 +30,7 @@ public final class RepositorySetup {
 
     /** The Constant PROCESS_1PLUS1PROCESS_UUID. */
     // TODO @Alle Bitte schaut mal warum Checkstyle hier meckert (Fragen an Gerardo stellen)
-    public static UUID PROCESS_1PLUS1PROCESS_UUID;
+    public static UUID process1Plus1ProcessUUID;
 
     /**
      * Fill repository.
@@ -46,7 +46,7 @@ public final class RepositorySetup {
 
         // Deploying the process with a simple ProcessImporter
         ProcessDefinitionImporter rawProDefImporter = new RawProcessDefintionImporter(get1Plus1Process());
-        PROCESS_1PLUS1PROCESS_UUID = deploymentBuilder.deployProcessDefinition(rawProDefImporter);
+        process1Plus1ProcessUUID = deploymentBuilder.deployProcessDefinition(rawProDefImporter);
     }
 
     /**

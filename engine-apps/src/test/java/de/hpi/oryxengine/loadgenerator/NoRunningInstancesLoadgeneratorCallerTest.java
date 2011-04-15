@@ -71,7 +71,7 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends
 	// RepositorySetup.FIRST_EXAMPLE_PROCESS_ID - ist ja ein Verweis auf
 	// eine externe Lib? Tests sollten doch unabhängig sein
 	ProcessDefinition def = repo
-		.getProcessDefinition(RepositorySetup.PROCESS_1PLUS1PROCESS_UUID);
+		.getProcessDefinition(RepositorySetup.process1Plus1ProcessUUID);
 	List<Node> startNodes = def.getStartNodes();
 	Node startNode = startNodes.get(0);
 	pi = new TokenImpl(startNode);
