@@ -6,16 +6,19 @@ import java.net.URL;
 
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 
-// TODO [@Gerado] Javadoc should be added
+/**
+ * A stream source for input via an url access. Provides a wrapper for transparent access.
+ */
 public class UrlStreamSource implements StreamSource {
 
-    URL url;
+    private URL url;
 
     public UrlStreamSource(URL url) {
 
         this.url = url;
     }
-
+    
+    @Override
     public InputStream getInputStream() {
 
         try {

@@ -2,7 +2,9 @@ package de.hpi.oryxengine.util.xml;
 
 import org.xml.sax.SAXParseException;
 
-// TODO @Gerardo JavaDoc
+/**
+ * Parse error class.
+ */
 public class Problem {
 
     protected String errorMessage;

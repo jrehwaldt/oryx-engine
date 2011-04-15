@@ -5,23 +5,37 @@ import java.io.InputStream;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.util.ReflectionUtil;
 
-// TODO [@Gerado] Javadoc should be added
+/**
+ * A source for resources. Provides access to process resources.
+ */
 public class ResourceStreamSource implements StreamSource {
 
-    String resource;
-    ClassLoader classLoader;
-
+    private String resource;
+    private ClassLoader classLoader;
+    
+    /**
+     * Default constructor.
+     * 
+     * @param resource the resource to handle
+     */
     public ResourceStreamSource(String resource) {
 
         this.resource = resource;
     }
-
+    
+    /**
+     * Constructor with classpath extension. Allows to define an class loader.
+     * 
+     * @param resource the resource to handle
+     * @param classLoader the class loader
+     */
     public ResourceStreamSource(String resource, ClassLoader classLoader) {
 
         this.resource = resource;
         this.classLoader = classLoader;
     }
 
+    @Override
     public InputStream getInputStream() {
 
         InputStream inputStream = null;
@@ -39,6 +53,7 @@ public class ResourceStreamSource implements StreamSource {
         return inputStream;
     }
 
+    @Override
     public String toString() {
 
         return "Resource[" + resource + "]";

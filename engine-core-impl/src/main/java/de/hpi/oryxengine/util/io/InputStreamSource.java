@@ -2,21 +2,25 @@ package de.hpi.oryxengine.util.io;
 
 import java.io.InputStream;
 
-// TODO [@Gerado] Javadoc should be added
+/**
+ * A stream source for input streams. Provides a wrapper for transparent access.
+ */
 public class InputStreamSource implements StreamSource {
 
-    InputStream inputStream;
+    private InputStream inputStream;
 
     public InputStreamSource(InputStream inputStream) {
 
         this.inputStream = inputStream;
     }
-
+    
+    @Override
     public InputStream getInputStream() {
 
         return inputStream;
     }
 
+    @Override
     public String toString() {
 
         return "InputStream";
