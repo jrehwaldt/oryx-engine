@@ -47,22 +47,22 @@ public class DeployerWebService {
 
         // param.setActivity(AddNumbersAndStoreActivity("result", 1, 1));
         int[] integers = { 1, 1 };
-        nodeParamBuilder.setDefaultActivityBlueprintFor(AddNumbersAndStoreActivity.class)
+        nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
         .addConstructorParameter(String.class, "result").addConstructorParameter(int[].class, integers);
-        Node node1 = builder.createStartNode(nodeParamBuilder.finishedNodeParameter());
+        Node node1 = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
 
         // param.setActivity(new AddNumbersAndStoreActivity("result", 2, 2));
-        Node node2 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        Node node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         // param.setActivity(new AddNumbersAndStoreActivity("result", 3, 3));
-        Node node3 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        Node node3 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         // param.setActivity(new AddNumbersAndStoreActivity("result", 4, 4));
-        Node node4 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        Node node4 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setDefaultActivityBlueprintFor(EndActivity.class);
-        Node endNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
+        Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         builder.createTransition(node1, node2).createTransition(node2, node3).createTransition(node3, node4)
         .createTransition(node4, endNode);

@@ -11,6 +11,16 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 public interface NodeParameterBuilder {
 
     /**
+     * Sets the activity class only and uses the empty default constructor upon instantiation. This is a convenience
+     * method.
+     * 
+     * @param clazz
+     *            - the new {@link Activity ActivityClass}
+     * @return this {@link NodeParameter} in order to keep on configuring it
+     */
+    NodeParameterBuilder setActivityBlueprintFor(Class<? extends Activity> clazz);
+
+    /**
      * This class added a parameter for the instantiation of the {@link Activity ActivityClass}.
      * 
      * Calling this method for the second time will add the second constructor parameter .
@@ -21,17 +31,7 @@ public interface NodeParameterBuilder {
      *            - the concrete parameter instance, e.g. "Hallo"
      * @return this {@link NodeParameter} in order to keep on configuring it
      */
-    public NodeParameterBuilder addConstructorParameter(Class<?> parameterClazz, Object parameterInstance);
-
-    /**
-     * Sets the activity class only and uses the empty default constructor upon instantiation. This is a convenience
-     * method.
-     * 
-     * @param clazz
-     *            - the new {@link Activity ActivityClass}
-     * @return this {@link NodeParameter} in order to keep on configuring it
-     */
-    public NodeParameterBuilder setDefaultActivityBlueprintFor(Class<? extends Activity> clazz);
+    NodeParameterBuilder addConstructorParameter(Class<?> parameterClazz, Object parameterInstance);
 
     /**
      * Sets the {@link IncomingBehaviour}.
@@ -40,7 +40,7 @@ public interface NodeParameterBuilder {
      *            - the new {@link IncomingBehaviour}
      * @return this {@link NodeParameter} in order to keep on configuring it
      */
-    public NodeParameterBuilder setIncomingBehaviour(IncomingBehaviour behaviour);
+    NodeParameterBuilder setIncomingBehaviour(IncomingBehaviour behaviour);
 
     /**
      * Sets the {@link OutgoingBehaviour}.
@@ -49,7 +49,7 @@ public interface NodeParameterBuilder {
      *            - the new {@link OutgoingBehaviour}
      * @return this {@link NodeParameter} in order to keep on configuring it
      */
-    public NodeParameterBuilder setOutgoingBehaviour(OutgoingBehaviour behaviour);
+    NodeParameterBuilder setOutgoingBehaviour(OutgoingBehaviour behaviour);
 
     /**
      * Finishes configuring and retrieves the {@link NodeParameter}, but does not clear the {@link NodeParameterBuilder
@@ -57,7 +57,7 @@ public interface NodeParameterBuilder {
      * 
      * @return this {@link NodeParameter} in order to keep on configuring it
      */
-    public NodeParameter finishedNodeParameter();
+    NodeParameter buildNodeParameter();
 
     /**
      * Finishes configuring and retrieves the {@link NodeParameter}. Clears the {@link ActivityBlueprint}. That's why we
@@ -65,6 +65,6 @@ public interface NodeParameterBuilder {
      * 
      * @return this {@link NodeParameter} in order to keep on configuring it
      */
-    public NodeParameter finishNodeParameterAndClear();
+    NodeParameter buildNodeParameterAndClear();
 
 }

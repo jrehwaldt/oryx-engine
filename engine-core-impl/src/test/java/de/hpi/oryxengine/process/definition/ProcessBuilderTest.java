@@ -30,10 +30,10 @@ public class ProcessBuilderTest {
     public void testSimpleBuildProcess() throws IllegalStarteventException {
 
         NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
-        startNode = builder.createStartNode(nodeParamBuilder.finishedNodeParameter());
+        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
+        startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
 
-        endNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         ProcessDefinition definition = builder.createTransition(startNode, endNode).buildDefinition();
 

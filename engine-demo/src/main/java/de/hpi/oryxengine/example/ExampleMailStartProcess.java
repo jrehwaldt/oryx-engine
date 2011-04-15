@@ -66,17 +66,17 @@ public final class ExampleMailStartProcess {
 		new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
 	int[] ints = {1, 1};
 	nodeParamBuilder
-		.setDefaultActivityBlueprintFor(AddNumbersAndStoreActivity.class)
+		.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
 		.addConstructorParameter(String.class, "result")
 		.addConstructorParameter(int[].class, ints);
 	Node node1 = builder.createStartNode(nodeParamBuilder
-		.finishedNodeParameter());
+		.buildNodeParameter());
 
 	// Building Node2
 	nodeParamBuilder = new NodeParameterBuilderImpl();
-	nodeParamBuilder.setDefaultActivityBlueprintFor(PrintingVariableActivity.class)
+	nodeParamBuilder.setActivityBlueprintFor(PrintingVariableActivity.class)
 		.addConstructorParameter(String.class, "result");
-	Node node2 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+	Node node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
 	builder.createTransition(node1, node2).setDescription("description")
 		.setName(exampleProcessName);

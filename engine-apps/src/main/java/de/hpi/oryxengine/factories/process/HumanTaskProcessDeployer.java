@@ -94,9 +94,9 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
 
 	NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
 		new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-	nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
+	nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
 	startNode = builder.createStartNode(nodeParamBuilder
-		.finishNodeParameterAndClear());
+		.buildNodeParameterAndClear());
 
 	// Create the task
 	task = TaskFactory
@@ -104,37 +104,37 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
 			.getParticipants().toArray()[0]);
 
 	nodeParamBuilder
-		.setDefaultActivityBlueprintFor(HumanTaskActivity.class)
+		.setActivityBlueprintFor(HumanTaskActivity.class)
 		.addConstructorParameter(Task.class, task);
 	node1 = builder.createNode(nodeParamBuilder
-		.finishNodeParameterAndClear());
+		.buildNodeParameterAndClear());
 
 	// Create the task
 	task = TaskFactory
 		.createParticipantTask((AbstractResource<?>) identityService
 			.getParticipants().toArray()[1]);
 	nodeParamBuilder
-	.setDefaultActivityBlueprintFor(HumanTaskActivity.class)
+	.setActivityBlueprintFor(HumanTaskActivity.class)
 	.addConstructorParameter(Task.class, task);
 
-	node2 = builder.createNode(nodeParamBuilder.finishNodeParameterAndClear());
+	node2 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
 
 	// Create the task
 	task = TaskFactory
 		.createParticipantTask((AbstractResource<?>) identityService
 			.getParticipants().toArray()[2]);
 	nodeParamBuilder
-	.setDefaultActivityBlueprintFor(HumanTaskActivity.class)
+	.setActivityBlueprintFor(HumanTaskActivity.class)
 	.addConstructorParameter(Task.class, task);
 
-	node3 = builder.createNode(nodeParamBuilder.finishNodeParameterAndClear());
+	node3 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
 
 	builder.createTransition(startNode, node1)
 		.createTransition(node1, node2).createTransition(node2, node3);
 
 	nodeParamBuilder = new NodeParameterBuilderImpl();
-	nodeParamBuilder.setDefaultActivityBlueprintFor(EndActivity.class);
-	Node endNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+	nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
+	Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
 	builder.createTransition(node3, endNode);
 
     }

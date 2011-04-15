@@ -22,7 +22,7 @@
     <logger name="de.hpi.oryxengine.example.ExampleProcessForReview">
         <level value="DEBUG" />
     </logger>
-
+    
     <root>
         <priority value="debug" />
         <appender-ref ref="file" />

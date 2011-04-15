@@ -51,9 +51,9 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
 
 	NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
 		new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-	nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
+	nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
 	startNode = builder.createStartNode(nodeParamBuilder
-		.finishedNodeParameter());
+		.buildNodeParameter());
 	this.lastNode = startNode;
 
 	nodeParamBuilder = new NodeParameterBuilderImpl(
@@ -61,21 +61,21 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
 	for (int i = 0; i < NUMBER_OF_NODES; i++) {
 
 	    nodeParamBuilder
-		    .setDefaultActivityBlueprintFor(
+		    .setActivityBlueprintFor(
 			    HashComputationActivity.class)
 		    .addConstructorParameter(String.class,
 			    "hash" + String.valueOf(i + 1))
 		    .addConstructorParameter(String.class,
 			    PASSWORDS[i % PASSWORDS.length])
 		    .addConstructorParameter(String.class, "SHA-512");
-	    Node tmpNode = builder.createNode(nodeParamBuilder.finishNodeParameterAndClear());
+	    Node tmpNode = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
 	    builder.createTransition(this.lastNode, tmpNode);
 	    this.lastNode = tmpNode;
 	}
 
 	nodeParamBuilder = new NodeParameterBuilderImpl();
-	nodeParamBuilder.setDefaultActivityBlueprintFor(EndActivity.class);
-	Node endNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+	nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
+	Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
 	builder.createTransition(this.lastNode, endNode);
 
     }

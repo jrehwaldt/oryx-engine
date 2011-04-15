@@ -49,14 +49,14 @@ public class XMLParserTest {
         parse.execute();
 
         Assert.assertEquals(parse.rootElement.tagName, "root", getFaliureMessage());
-        List<Element> elements = parse.rootElement.getElements();
+        List<XmlElement> elements = parse.rootElement.getElements();
         Assert.assertTrue(elements.size() == 2, getFaliureMessage());
         
-        Element firstChild = elements.get(0);
+        XmlElement firstChild = elements.get(0);
         Assert.assertEquals(firstChild.getAttribute("id"), "first_child", getFaliureMessage());
         Assert.assertEquals(elements.get(0).getElements().get(0).getText(), "text 1", getFaliureMessage());
 
-        Element secondChild = elements.get(1);
+        XmlElement secondChild = elements.get(1);
         Assert.assertEquals(secondChild.getAttributeNS("ls", "as"), "123", getFaliureMessage());
     }
 }
