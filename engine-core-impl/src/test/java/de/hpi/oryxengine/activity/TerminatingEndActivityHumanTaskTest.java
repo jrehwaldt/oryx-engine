@@ -129,16 +129,16 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractTest {
 
         NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
-        splitNode = builder.createNode(nodeParamBuilder.finishNodeParameterAndClear());
+        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
+        splitNode = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
 
         // param.setActivity(humanTask); TODO do something with the parameter of humanTask
-        nodeParamBuilder.setDefaultActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class,
+        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class,
             task);
-        humanTaskNode = builder.createNode(nodeParamBuilder.finishNodeParameterAndClear());
+        humanTaskNode = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
 
-        nodeParamBuilder.setDefaultActivityBlueprintFor(TerminatingEndActivity.class);
-        terminatingEndNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        nodeParamBuilder.setActivityBlueprintFor(TerminatingEndActivity.class);
+        terminatingEndNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         builder.createTransition(splitNode, humanTaskNode).createTransition(splitNode, terminatingEndNode);
     }
