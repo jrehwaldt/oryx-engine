@@ -45,26 +45,26 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
 
 	NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
 		new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-	nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
+	nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
 	startNode = builder.createStartNode(nodeParamBuilder
-		.finishedNodeParameter());
+		.buildNodeParameter());
 
 	nodeParamBuilder = new NodeParameterBuilderImpl(
 		new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
 	int[] ints = { 1, 1 };
 	nodeParamBuilder
-		.setDefaultActivityBlueprintFor(
+		.setActivityBlueprintFor(
 			AddNumbersAndStoreActivity.class)
 		.addConstructorParameter(String.class, "result")
 		.addConstructorParameter(int[].class, ints);
-	node1 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
-	node2 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+	node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+	node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 	builder.createTransition(startNode, node1).createTransition(node1,
 		node2);
 
 	nodeParamBuilder = new NodeParameterBuilderImpl();
-	nodeParamBuilder.setDefaultActivityBlueprintFor(EndActivity.class);
-	Node endNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+	nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
+	Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
 	builder.createTransition(node2, endNode);
     }
 

@@ -52,8 +52,7 @@ public class TaskImpl implements Task {
     }
 
     /**
-     * Default Constructor. 
-     * TODO @Gerardo please describe why some of them may be null and why the hell  are there 2 default constructors? -.-'
+     * Constructor for this class. It can be used when the {@link Task} is assigned to only one {@link AbstractResource Resource}. 
      * 
      * @param subject
      *            - the subject of the task

@@ -32,11 +32,11 @@ public interface Token extends Identifiable {
      *            the new current node
      */
     void setCurrentNode(Node node);
-    
+
     /**
-     * Gets the state of the activity, that belongs to the node that token currently points to.
-     * The token holds this state, as want to have stateless Activity-obejcts.
-     *
+     * Gets the state of the activity, that belongs to the node that token currently points to. The token holds this
+     * state, as want to have stateless Activity-obejcts.
+     * 
      * @return the current activity state
      */
     ActivityState getCurrentActivityState();
@@ -127,22 +127,22 @@ public interface Token extends Identifiable {
     // TODO Info-Object muss übergeben werden von wem das Token resumed wurde
     void resume()
     throws DalmatinaException;
-    
+
     /**
      * Gets the navigator that this token is assigned to.
-     *
+     * 
      * @return the navigator
      */
     Navigator getNavigator();
-    
+
     /**
      * Cancels the currently ongoing activity.
      */
     void cancelExecution();
-    
+
     /**
      * Returns the currently executed activity or null, if there is no such activity.
-     *
+     * 
      * @return the current activity
      */
     Activity getCurrentActivity();

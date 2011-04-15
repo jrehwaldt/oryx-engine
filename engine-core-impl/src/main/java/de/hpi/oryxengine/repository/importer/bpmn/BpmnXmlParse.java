@@ -6,17 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
-import de.hpi.oryxengine.process.definition.NodeParameter;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.util.xml.Element;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
+import de.hpi.oryxengine.util.xml.XmlElement;
 import de.hpi.oryxengine.util.xml.XmlParse;
 
 /**
  * Specific parsing of one BPMN 2.0 XML file, created by the {@link BpmnXmlParser}.
  */
-// TODO @Gerardo JavDoc machen
 public class BpmnXmlParse extends XmlParse {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -354,7 +353,7 @@ public class BpmnXmlParse extends XmlParse {
      */
     public void parseProcessDefinitions() {
 
-        List<Element> processes = rootElement.getElements("process");
+        List<XmlElement> processes = rootElement.getElements("process");
 
         if (processes.size() == 0) {
             String errorMessage = "No process have been defined in the BPMN serialized XMl file.";
@@ -375,10 +374,10 @@ public class BpmnXmlParse extends XmlParse {
      *            The 'process' element.
      * @return The parsed version of the XML: a {@link ProcessDefinitionImpl} object.
      */
-    public void parseProcess(Element processElement) {
+    public void parseProcess(XmlElement processElement) {
 
         // Reset all mappings that are related to one process definition
-//        sequenceFlows = new HashMap<String, TransitionImpl>();
+        // sequenceFlows = new HashMap<String, TransitionImpl>();
 
         // The name of the ProcessDefinition is the value of 'name' attribute, in case that it is defined.
         String processName;
@@ -398,9 +397,9 @@ public class BpmnXmlParse extends XmlParse {
         parseElements(processElement);
 
         // Doing the afterwork
-//        for (BpmnParseListener parseListener : parseListeners) {
-//            parseListener.parseProcess(processElement, processDefinition);
-//        }
+        // for (BpmnParseListener parseListener : parseListeners) {
+        // parseListener.parseProcess(processElement, processDefinition);
+        // }
     }
 
     /**
@@ -411,62 +410,62 @@ public class BpmnXmlParse extends XmlParse {
      * @param processElement
      *            The XML element defining the process
      */
-    public void parseElements(Element processElement) {
+    public void parseElements(XmlElement processElement) {
 
         // Not yet supported on process level (PVM additions needed):
         // parseProperties(processElement);
 
-//        parseStartEvents(processElement);
-//        parseActivities(processElement, parentScope);
-//        parseEndEvents(processElement, parentScope);
-//        parseBoundaryEvents(processElement, parentScope);
-//        parseSequenceFlow(processElement, parentScope);
-//        parseExecutionListenersOnScope(processElement, parentScope);
-//
-//        IOSpecification ioSpecification = parseIOSpecification(processElement.element("ioSpecification"));
-//        parentScope.setIoSpecification(ioSpecification);
+        parseStartEvents(processElement);
+        // parseActivities(processElement, parentScope);
+        // parseEndEvents(processElement, parentScope);
+        // parseBoundaryEvents(processElement, parentScope);
+        // parseSequenceFlow(processElement, parentScope);
+        // parseExecutionListenersOnScope(processElement, parentScope);
+        //
+        // IOSpecification ioSpecification = parseIOSpecification(processElement.element("ioSpecification"));
+        // parentScope.setIoSpecification(ioSpecification);
     }
 
-//    protected IOSpecification parseIOSpecification(Element ioSpecificationElement) {
-//
-//        if (ioSpecificationElement == null) {
-//            return null;
-//        }
-//
-//        IOSpecification ioSpecification = new IOSpecification();
-//
-//        for (Element dataInputElement : ioSpecificationElement.elements("dataInput")) {
-//            String id = dataInputElement.attribute("id");
-//            String itemSubjectRef = this.resolveName(dataInputElement.attribute("itemSubjectRef"));
-//            ItemDefinition itemDefinition = this.itemDefinitions.get(itemSubjectRef);
-//            Data dataInput = new Data(this.targetNamespace + ":" + id, id, itemDefinition);
-//            ioSpecification.addInput(dataInput);
-//        }
-//
-//        for (Element dataOutputElement : ioSpecificationElement.elements("dataOutput")) {
-//            String id = dataOutputElement.attribute("id");
-//            String itemSubjectRef = this.resolveName(dataOutputElement.attribute("itemSubjectRef"));
-//            ItemDefinition itemDefinition = this.itemDefinitions.get(itemSubjectRef);
-//            Data dataOutput = new Data(this.targetNamespace + ":" + id, id, itemDefinition);
-//            ioSpecification.addOutput(dataOutput);
-//        }
-//
-//        for (Element inputSetElement : ioSpecificationElement.elements("inputSet")) {
-//            for (Element dataInputRef : inputSetElement.elements("dataInputRefs")) {
-//                DataRef dataRef = new DataRef(dataInputRef.getText());
-//                ioSpecification.addInputRef(dataRef);
-//            }
-//        }
-//
-//        for (Element outputSetElement : ioSpecificationElement.elements("outputSet")) {
-//            for (Element dataInputRef : outputSetElement.elements("dataOutputRefs")) {
-//                DataRef dataRef = new DataRef(dataInputRef.getText());
-//                ioSpecification.addOutputRef(dataRef);
-//            }
-//        }
-//
-//        return ioSpecification;
-//    }
+    // protected IOSpecification parseIOSpecification(Element ioSpecificationElement) {
+    //
+    // if (ioSpecificationElement == null) {
+    // return null;
+    // }
+    //
+    // IOSpecification ioSpecification = new IOSpecification();
+    //
+    // for (Element dataInputElement : ioSpecificationElement.elements("dataInput")) {
+    // String id = dataInputElement.attribute("id");
+    // String itemSubjectRef = this.resolveName(dataInputElement.attribute("itemSubjectRef"));
+    // ItemDefinition itemDefinition = this.itemDefinitions.get(itemSubjectRef);
+    // Data dataInput = new Data(this.targetNamespace + ":" + id, id, itemDefinition);
+    // ioSpecification.addInput(dataInput);
+    // }
+    //
+    // for (Element dataOutputElement : ioSpecificationElement.elements("dataOutput")) {
+    // String id = dataOutputElement.attribute("id");
+    // String itemSubjectRef = this.resolveName(dataOutputElement.attribute("itemSubjectRef"));
+    // ItemDefinition itemDefinition = this.itemDefinitions.get(itemSubjectRef);
+    // Data dataOutput = new Data(this.targetNamespace + ":" + id, id, itemDefinition);
+    // ioSpecification.addOutput(dataOutput);
+    // }
+    //
+    // for (Element inputSetElement : ioSpecificationElement.elements("inputSet")) {
+    // for (Element dataInputRef : inputSetElement.elements("dataInputRefs")) {
+    // DataRef dataRef = new DataRef(dataInputRef.getText());
+    // ioSpecification.addInputRef(dataRef);
+    // }
+    // }
+    //
+    // for (Element outputSetElement : ioSpecificationElement.elements("outputSet")) {
+    // for (Element dataInputRef : outputSetElement.elements("dataOutputRefs")) {
+    // DataRef dataRef = new DataRef(dataInputRef.getText());
+    // ioSpecification.addOutputRef(dataRef);
+    // }
+    // }
+    //
+    // return ioSpecification;
+    // }
     //
     // protected AbstractDataAssociation parseDataInputAssociation(Element dataAssociationElement) {
     //
@@ -490,28 +489,31 @@ public class BpmnXmlParse extends XmlParse {
     // }
     // }
     //
-//    /**
-//     * Parses the start events of a certain level in the process (process, subprocess or another scope).
-//     * 
-//     * @param parentElement
-//     *            The 'parent' element that contains the start events (process, subprocess).
-//     */
-//    public void parseStartEvents(Element parentElement) {
-//
-//        List<Element> startEventElements = parentElement.getElements("startEvent");
-//        
-//        if (startEventElements.size() > 1) {
-//        
-//            addError("Multiple start events are currently unsupported", parentElement);
+    /**
+     * Parses the start events of a certain level in the process (process, subprocess or another scope).
+     * 
+     * @param parentElement
+     *            The 'parent' element that contains the start events (process, subprocess).
+     */
+    public void parseStartEvents(XmlElement parentElement) {
+
+        List<XmlElement> startEventElements = parentElement.getElements("startEvent");
+        
+        if (startEventElements.size() > 1) {
+        
+//            addError("Multiple start events are currently not supported", parentElement);
 //        } else if (startEventElements.size() > 0) {
 //
-//            Element startEventElement = startEventElements.get(0);
+//            XmlElement startEventElement = startEventElements.get(0);
 //            
-//            
-//            NodeParameter
-//            processBuilder.createNode(null))
+//            NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+//            nodeParameterBuilder.setActivityBlueprintFor(NullActivity.class);
+//
+//            Node startNode = processBuilder.createStartNode(nodeParameterBuilder.buildNodeParameter());
+//            startNode.setAttribute("name", );
 //            
 //            ActivityImpl startEventActivity = createActivityOnScope(startEventElement, scope);
+//            
 //
 //            if (scope instanceof ProcessDefinitionEntity) {
 //                ProcessDefinitionEntity processDefinition = (ProcessDefinitionEntity) scope;
@@ -557,8 +559,9 @@ public class BpmnXmlParse extends XmlParse {
 //            for (BpmnParseListener parseListener : parseListeners) {
 //                parseListener.parseStartEvent(startEventElement, scope, startEventActivity);
 //            }
-//        }
-//    }
+        }
+    }
+
     //
     // /**
     // * Parses the activities of a certain level in the process (process, subprocess or another scope).
@@ -756,9 +759,9 @@ public class BpmnXmlParse extends XmlParse {
     // return activity;
     // }
     //
-    public String parseDocumentation(Element element) {
+    public String parseDocumentation(XmlElement element) {
 
-        Element docElement = element.getElement("documentation");
+        XmlElement docElement = element.getElement("documentation");
         if (docElement != null) {
             return docElement.getText().trim();
         }

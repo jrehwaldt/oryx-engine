@@ -92,13 +92,13 @@ public class ConcurrentActivityStateTest {
 
         NodeParameterBuilder nodeParameterBuilder = 
             new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        nodeParameterBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
+        nodeParameterBuilder.setActivityBlueprintFor(NullActivity.class);
         
         // startActivity = new NullActivity();
-        startNode = builder.createStartNode(nodeParameterBuilder.finishedNodeParameter());
+        startNode = builder.createStartNode(nodeParameterBuilder.buildNodeParameter());
 
         // param.setActivity(new NullActivity());
-        Node endNode = builder.createNode(nodeParameterBuilder.finishedNodeParameter());
+        Node endNode = builder.createNode(nodeParameterBuilder.buildNodeParameter());
 
         definition = builder.createTransition(startNode, endNode).buildDefinition();
     }

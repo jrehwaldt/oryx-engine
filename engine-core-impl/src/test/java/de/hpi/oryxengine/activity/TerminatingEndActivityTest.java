@@ -1,144 +1,136 @@
 package de.hpi.oryxengine.activity;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
-import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
+import de.hpi.oryxengine.activity.impl.HashComputationActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.activity.impl.TerminatingEndActivity;
-import de.hpi.oryxengine.allocation.AllocationStrategies;
-import de.hpi.oryxengine.allocation.AllocationStrategiesImpl;
-import de.hpi.oryxengine.allocation.Pattern;
-import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.allocation.TaskImpl;
-import de.hpi.oryxengine.allocation.pattern.DirectPushPattern;
-import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
+import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
+import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.resource.AbstractParticipant;
-import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class TerminatingEndActivityTest.
  */
-public class TerminatingEndActivityTest extends AbstractTest {
-    private Task task = null;
-    private AbstractResource<?> resource = null;
-    private Node splitNode, humanTaskNode, terminatingEndNode;
+public class TerminatingEndActivityTest {
+    ProcessDefinition definition;
+    Node startNode, xorJoinNode;
 
-    /**
-     * Test cancelling of human tasks. A simple fork is created that leads to a human task activity and a terminating
-     * end. Then the human task activity is executed and a worklist item created. We expect the TerminatingEndActivity
-     * to remove the worklist item from the corresponding worklists.
-     * 
-     * @throws DalmatinaException
-     *             the dalmatina exception
-     */
     @Test
-    public void testCancellingOfHumanTasks()
+    public void f()
     throws DalmatinaException {
 
-        ProcessInstance instance = new ProcessInstanceImpl(null);
         NavigatorImplMock nav = new NavigatorImplMock();
-        Token token = instance.createToken(splitNode, nav);
+        ProcessInstance instance = new ProcessInstanceImpl(definition);
+        Token startToken = instance.createToken(startNode, nav);
 
-        // set this instance to running by hand
-        nav.getRunningInstances().add(instance);
+        startToken.executeStep();
 
-        token.executeStep();
-        assertEquals(nav.getWorkQueue().size(), 2, "Split Node should have created two tokens.");
+        nav.consume(startToken);
+        startToken.executeStep();
 
-        // get the token that is on the human task activity. The other one is on the end node then.
-        Token humanTaskToken = nav.getWorkQueue().get(0);
+        assertEquals(nav.getWorkQueue().size(), 2,
+            "there should be two tokens in the navigator. One on the xorJoinNode, one on the terminating end");
+
+        Token loopToken = nav.getWorkQueue().get(0);
         Token endToken = nav.getWorkQueue().get(1);
-        if (!(humanTaskToken.getCurrentNode().getActivityBlueprint().getActivityClass() == HumanTaskActivity.class)) {
-            humanTaskToken = endToken;
+
+        if (!(loopToken.getCurrentNode() == xorJoinNode)) {
+            loopToken = endToken;
             endToken = nav.getWorkQueue().get(0);
         }
 
-        humanTaskToken.executeStep();
+        // we needed the NavigatorImplMock-Object to get the two produced tokens, now we exchange it by a true mock, in
+        // order to verify that a method is never called.
+        Navigator anotherNav = mock(Navigator.class);
 
-        assertEquals(ServiceFactory.getWorklistService().getWorklistItems(resource).size(), 1,
-            "there should be one offered worklist item.");
+        Whitebox.setInternalState(loopToken, "navigator", anotherNav);
 
+        // go to computation node
+        loopToken.executeStep();
+
+        // execute the computation once
+        loopToken.executeStep();
+
+        // the two executed steps with loopToken should have added the token two times to the navigator.
+        verify(anotherNav, times(2)).addWorkToken(any(Token.class));
+
+        // execute the terminating end
         endToken.executeStep();
-        assertEquals(ServiceFactory.getWorklistService().getWorklistItems(resource).size(), 0,
-            "there should be no offered worklist items anymore.");
 
-        assertEquals(instance.getTokens().size(), 0, "There should be no tokens assigned to this instance.");
-        assertTrue(nav.getEndedInstances().contains(instance), "The instance should be now marked as finished.");
-        assertFalse(nav.getRunningInstances().contains(instance), "The instance should not be marked as running.");
+        // this execution should not add the token to the navigator again
+        loopToken.executeStep();
+
+        // we do not expect the token to be added to the navigator, as it has been cancelled by the terminating end
+        // activity.
+        verify(anotherNav, times(2)).addWorkToken(any(Token.class));
     }
 
     /**
-     * Sets the up human task.
+     * We build a process model that is not sound, as it has an infinite loop on one of the two paths after the parallel
+     * gateway.
      * 
-     * @throws Exception
-     *             the exception
+     * @throws IllegalStarteventException
      */
     @BeforeClass
-    public void setUpHumanTask()
-    throws Exception {
-
-        // Prepare the organisation structure
-
-        IdentityBuilder identityBuilder = new IdentityServiceImpl().getIdentityBuilder();
-        AbstractParticipant participant = identityBuilder.createParticipant("jannik");
-        participant.setName("Jannik Streek");
-
-        resource = participant;
-
-        // Define the task
-        String subject = "Jannik, get Gerardo a cup of coffee!";
-        String description = "You know what I mean.";
-
-        Pattern pushPattern = new DirectPushPattern();
-        Pattern pullPattern = new SimplePullPattern();
-
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-
-        task = new TaskImpl(subject, description, allocationStrategies, participant);
-    }
-
-    /**
-     * Sets the up nodes.
-     */
-    @BeforeClass
-    public void setUpProcessInstance() {
+    public void setupProcessModel()
+    throws IllegalStarteventException {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
+        ActivityBlueprint blueprint = new ActivityBlueprintImpl(NullActivity.class);
+        NodeParameter param = new NodeParameterImpl(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+
+        startNode = builder.createStartNode(param);
+
+        Node andSplitNode = builder.createNode(param);
+
+        xorJoinNode = builder.createNode(param);
+
+        // blueprint = new ActivityBlueprintImpl(TerminatingEndActivity.class);
+        param = new NodeParameterImpl(TerminatingEndActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
-        splitNode = builder.createNode(nodeParamBuilder.finishNodeParameterAndClear());
 
-        // param.setActivity(humanTask); TODO do something with the parameter of humanTask
-        nodeParamBuilder.setDefaultActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class,
-            task);
-        humanTaskNode = builder.createNode(nodeParamBuilder.finishNodeParameterAndClear());
+        NodeParameterBuilder paramBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
+            new TakeAllSplitBehaviour());
 
-        nodeParamBuilder.setDefaultActivityBlueprintFor(TerminatingEndActivity.class);
-        terminatingEndNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        Node terminatingEnd = builder.createNode(param);
 
-        builder.createTransition(splitNode, humanTaskNode).createTransition(splitNode, terminatingEndNode);
+        
+        param = paramBuilder.setActivityBlueprintFor(HashComputationActivity.class)
+        .addConstructorParameter(String.class, "result").addConstructorParameter(String.class, "meinlieblingspasswort")
+        .buildNodeParameter();
+
+        Node computationNode = builder.createNode(param);
+
+        builder.createTransition(startNode, andSplitNode).createTransition(andSplitNode, xorJoinNode)
+        .createTransition(andSplitNode, terminatingEnd).createTransition(xorJoinNode, computationNode)
+        .createTransition(computationNode, xorJoinNode);
+
+        definition = builder.buildDefinition();
     }
 }

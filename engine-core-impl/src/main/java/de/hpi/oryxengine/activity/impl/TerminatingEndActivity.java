@@ -14,10 +14,7 @@ public class TerminatingEndActivity extends EndActivity {
 
         ProcessInstance instance = token.getInstance();
 
-        // Cancel all ongoing human activites
-        for (Token tokenToCancel : instance.getTokens()) {
-            tokenToCancel.cancelExecution();
-        }
+        instance.cancel();
 
         token.getNavigator().signalEndedProcessInstance(instance);
     }
