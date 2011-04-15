@@ -20,12 +20,15 @@ public class ProcessInstanceImpl implements ProcessInstance {
     private UUID id;
     private List<Token> assignedTokens;
 
+    private boolean cancelled;
+
     public ProcessInstanceImpl(ProcessDefinition definition) {
 
         this.definition = definition;
         this.id = UUID.randomUUID();
         this.assignedTokens = new ArrayList<Token>();
         this.context = new ProcessInstanceContextImpl();
+        this.cancelled = false;
     }
 
     @Override
@@ -71,13 +74,35 @@ public class ProcessInstanceImpl implements ProcessInstance {
     public void removeToken(Token t) {
 
         this.assignedTokens.remove(t);
-        
+
     }
 
     @Override
     public boolean hasAssignedTokens() {
 
         return !assignedTokens.isEmpty();
+    }
+
+    @Override
+    public void cancel() {
+
+        cancelled = true;
+        
+        // Cancel all ongoing executions
+        synchronized (assignedTokens) {
+            for (Token tokenToCancel : assignedTokens) {
+                tokenToCancel.cancelExecution();
+            }
+            assignedTokens.clear();
+        }
+        
+
+    }
+
+    @Override
+    public boolean isCancelled() {
+
+        return cancelled;
     }
 
 }

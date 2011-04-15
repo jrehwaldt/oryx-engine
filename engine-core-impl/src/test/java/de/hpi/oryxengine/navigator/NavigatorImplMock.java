@@ -46,4 +46,13 @@ public class NavigatorImplMock extends NavigatorImpl {
 
         return workQueue;
     }
+    
+   /**
+    * Consumes a token from the workQueue, as if a navigator thread fetches a token to execute a step.
+    *
+    * @param t the t
+    */
+   public void consume(Token t) {
+       workQueue.remove(t);
+   }
 }
