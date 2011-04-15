@@ -112,17 +112,17 @@ public class BPMNAndJoinTest {
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         NodeParameterBuilder nodeParamBuilder =
             new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
-        node1 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
-        node2 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
+        node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         nodeParamBuilder.setIncomingBehaviour(new AndJoinBehaviour());
-        joinNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        joinNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
         
         builder.createTransition(node1, joinNode).createTransition(node2, joinNode);
         
         nodeParamBuilder.setIncomingBehaviour(new SimpleJoinBehaviour());
-        node3 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        node3 = builder.createNode(nodeParamBuilder.buildNodeParameter());
         builder.createTransition(joinNode, node3);
 
         Token token = new TokenImpl(splitNode, new ProcessInstanceImpl(null), navigator);

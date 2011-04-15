@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXParseException;
 
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.repository.importer.bpmn.BpmnXmlParse;
 import de.hpi.oryxengine.util.io.InputStreamSource;
 import de.hpi.oryxengine.util.io.ResourceStreamSource;
 import de.hpi.oryxengine.util.io.StreamSource;
@@ -21,10 +22,10 @@ import de.hpi.oryxengine.util.io.StringStreamSource;
 import de.hpi.oryxengine.util.io.UrlStreamSource;
 
 /**
- * This Class 
+ * The {@link XmlParse} triggers the saxParser in order to parse through the xml. This class is designed to be inherited
+ * from in order to implement custom parse behaviour and convert the XML into objects, e.g. see {@link BpmnXmlParse}.
  */
-// TODO @Gerardo JavaDoc
-public class XmlParse /*extends DefaultHandler*/ {
+public class XmlParse {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -37,9 +38,9 @@ public class XmlParse /*extends DefaultHandler*/ {
     protected XmlParser parser;
     protected String name;
     protected StreamSource streamSource;
-    protected Element rootElement = null;
-    protected List<Problem> errors = new ArrayList<Problem>();
-    protected List<Problem> warnings = new ArrayList<Problem>();
+    protected XmlElement rootElement = null;
+    protected List<XmlParsingProblem> errors = new ArrayList<XmlParsingProblem>();
+    protected List<XmlParsingProblem> warnings = new ArrayList<XmlParsingProblem>();
     protected String schemaResource;
 
     public XmlParse(XmlParser parser) {
@@ -141,24 +142,24 @@ public class XmlParse /*extends DefaultHandler*/ {
         return this;
     }
 
-    public Element getRootElement() {
+    public XmlElement getRootElement() {
 
         return rootElement;
     }
 
-    public List<Problem> getProblems() {
+    public List<XmlParsingProblem> getProblems() {
 
         return errors;
     }
 
     public void addError(SAXParseException e) {
 
-        errors.add(new Problem(e, name));
+        errors.add(new XmlParsingProblem(e, name));
     }
 
-    public void addError(String errorMessage, Element element) {
+    public void addError(String errorMessage, XmlElement element) {
 
-        errors.add(new Problem(errorMessage, name, element));
+        errors.add(new XmlParsingProblem(errorMessage, name, element));
     }
 
     public boolean hasErrors() {
@@ -168,12 +169,12 @@ public class XmlParse /*extends DefaultHandler*/ {
 
     public void addWarning(SAXParseException e) {
 
-        warnings.add(new Problem(e, name));
+        warnings.add(new XmlParsingProblem(e, name));
     }
 
-    public void addWarning(String errorMessage, Element element) {
+    public void addWarning(String errorMessage, XmlElement element) {
 
-        warnings.add(new Problem(errorMessage, name, element));
+        warnings.add(new XmlParsingProblem(errorMessage, name, element));
     }
 
     public boolean hasWarnings() {
@@ -183,7 +184,7 @@ public class XmlParse /*extends DefaultHandler*/ {
 
     public void logWarnings() {
 
-        for (Problem warning : warnings) {
+        for (XmlParsingProblem warning : warnings) {
             logger.warn(warning.toString());
         }
     }
@@ -191,7 +192,7 @@ public class XmlParse /*extends DefaultHandler*/ {
     public void throwDalmatinaRuntimeExceptionForErrors() {
 
         StringBuilder strb = new StringBuilder();
-        for (Problem error : errors) {
+        for (XmlParsingProblem error : errors) {
             strb.append(error.toString());
             strb.append(NEW_LINE);
         }

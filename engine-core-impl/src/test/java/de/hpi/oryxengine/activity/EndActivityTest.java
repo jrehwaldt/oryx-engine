@@ -116,29 +116,29 @@ public class EndActivityTest {
 
         NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
-        startNode = builder.createStartNode(nodeParamBuilder.finishNodeParameterAndClear());
+        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
+        startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
 
         nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         int[] ints = { 1, 1 };
-        nodeParamBuilder.setDefaultActivityBlueprintFor(AddNumbersAndStoreActivity.class)
+        nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
         .addConstructorParameter(String.class, "result").addConstructorParameter(int[].class, ints);
         // param.setActivity(new AddNumbersAndStoreActivity("result1", 1, 1));
-        Node forkNode1 = builder.createStartNode(nodeParamBuilder.finishedNodeParameter());
+        Node forkNode1 = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
 
         nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         int[] anotherInts = { 2, 2 };
-        nodeParamBuilder.setDefaultActivityBlueprintFor(AddNumbersAndStoreActivity.class)
+        nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
         .addConstructorParameter(String.class, "result2").addConstructorParameter(int[].class, anotherInts);
         // param.setActivity(new AddNumbersAndStoreActivity("result2", 2, 2));
-        Node forkNode2 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        Node forkNode2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         builder.createTransition(startNode, forkNode1).createTransition(startNode, forkNode2);
 
         nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        nodeParamBuilder.setDefaultActivityBlueprintFor(EndActivity.class);
-        Node endNode1 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
-        Node endNode2 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
+        Node endNode1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        Node endNode2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         builder.createTransition(forkNode1, endNode1).createTransition(forkNode2, endNode2);
 

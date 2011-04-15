@@ -120,15 +120,15 @@ public class BPMNUnstructuredJoinSplitTest {
         
         NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-nodeParamBuilder.setDefaultActivityBlueprintFor(NullActivity.class);
-        Node splitNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
-        node1 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
-        node2 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
-        node3 = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
+        Node splitNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        node3 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         nodeParamBuilder.setIncomingBehaviour(new AndJoinBehaviour());
-        innerJoinNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
-        outerJoinNode = builder.createNode(nodeParamBuilder.finishedNodeParameter());
+        innerJoinNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        outerJoinNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         nodeParamBuilder.setIncomingBehaviour(new SimpleJoinBehaviour());
         endNode = new RoutingBehaviourTestFactory().createWithAndSplit();

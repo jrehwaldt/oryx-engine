@@ -67,12 +67,12 @@ public final class RepositorySetup {
             new TakeAllSplitBehaviour());
         int[] integers = { 1, 1 };
         nodeParameterBuilder
-            .setDefaultActivityBlueprintFor(AddNumbersAndStoreActivity.class)
+            .setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
             .addConstructorParameter(String.class, "result")
             .addConstructorParameter(int[].class, integers);
-        Node node1 = builder.createStartNode(nodeParameterBuilder.finishedNodeParameter());
+        Node node1 = builder.createStartNode(nodeParameterBuilder.buildNodeParameter());
 
-        Node node2 = builder.createNode(nodeParameterBuilder.finishedNodeParameter());
+        Node node2 = builder.createNode(nodeParameterBuilder.buildNodeParameter());
         builder.createTransition(node1, node2).setName(processName).setDescription(processDescription);
         return builder.buildDefinition();
     }

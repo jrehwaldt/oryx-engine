@@ -5,14 +5,14 @@ import org.xml.sax.SAXParseException;
 /**
  * Parse error class.
  */
-public class Problem {
+public class XmlParsingProblem {
 
     protected String errorMessage;
     protected String resource;
     protected int line;
     protected int column;
 
-    public Problem(SAXParseException e, String resource) {
+    public XmlParsingProblem(SAXParseException e, String resource) {
 
         Throwable exception = e;
         while (exception != null) {
@@ -28,7 +28,7 @@ public class Problem {
         this.column = e.getColumnNumber();
     }
 
-    public Problem(String errorMessage, String resourceName, Element element) {
+    public XmlParsingProblem(String errorMessage, String resourceName, XmlElement element) {
 
         this.errorMessage = errorMessage;
         this.resource = resourceName;

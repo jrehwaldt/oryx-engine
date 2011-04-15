@@ -42,7 +42,7 @@ public class NodeParameterBuilderImpl implements NodeParameterBuilder {
     }
 
     @Override
-    public NodeParameterBuilder setDefaultActivityBlueprintFor(Class<? extends Activity> activityClazz) {
+    public NodeParameterBuilder setActivityBlueprintFor(Class<? extends Activity> activityClazz) {
 
         this.blueprintClazz = activityClazz;
 
@@ -75,7 +75,7 @@ public class NodeParameterBuilderImpl implements NodeParameterBuilder {
     }
 
     @Override
-    public NodeParameter finishedNodeParameter() {
+    public NodeParameter buildNodeParameter() {
 
         if (blueprintClazz == null) {
             String errorMessage = "The ActivityClass for the ActivityBlueprint needs to be set. \n"
@@ -97,12 +97,12 @@ public class NodeParameterBuilderImpl implements NodeParameterBuilder {
     }
 
     @Override
-    public NodeParameter finishNodeParameterAndClear() {
+    public NodeParameter buildNodeParameterAndClear() {
 
-        NodeParameter nodeParameterToReturn = finishedNodeParameter();
+        NodeParameter nodeParameterToReturn = buildNodeParameter();
 
         // Cleanup
-        setDefaultActivityBlueprintFor(null);
+        setActivityBlueprintFor(null);
         getBlueprintConstructorSignature().clear();
         getBlueprintConstructorParameters().clear();
 

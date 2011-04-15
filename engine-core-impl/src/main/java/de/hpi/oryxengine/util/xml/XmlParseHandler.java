@@ -20,7 +20,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * See here for further information: http://tutorials.jenkov.com/java-xml/sax-defaulthandler.html
  * 
- * This Handler is capable of creating an object representation of the XMl files using {@link Element Elements}.
+ * This Handler is capable of creating an object representation of the XMl files using {@link XmlElement Elements}.
  */
 public class XmlParseHandler extends DefaultHandler {
 
@@ -29,7 +29,7 @@ public class XmlParseHandler extends DefaultHandler {
     protected String defaultNamespace;
     protected XmlParse parse;
     protected Locator locator;
-    protected Stack<Element> elementStack = new Stack<Element>();
+    protected Stack<XmlElement> elementStack = new Stack<XmlElement>();
 
     public XmlParseHandler(XmlParse parse) {
         super();
@@ -40,7 +40,7 @@ public class XmlParseHandler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName, Attributes attributes)
     throws SAXException {
 
-        Element element = new Element(uri, localName, qName, attributes, locator);
+        XmlElement element = new XmlElement(uri, localName, qName, attributes, locator);
         if (elementStack.isEmpty()) {
             parse.rootElement = element;
         } else {

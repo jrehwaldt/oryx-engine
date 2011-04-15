@@ -115,13 +115,15 @@ public class TerminatingEndActivityTest {
         param = new NodeParameterImpl(TerminatingEndActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
 
-        Node terminatingEnd = builder.createNode(param);
-
         NodeParameterBuilder paramBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        param = paramBuilder.setDefaultActivityBlueprintFor(HashComputationActivity.class)
+
+        Node terminatingEnd = builder.createNode(param);
+
+        
+        param = paramBuilder.setActivityBlueprintFor(HashComputationActivity.class)
         .addConstructorParameter(String.class, "result").addConstructorParameter(String.class, "meinlieblingspasswort")
-        .finishedNodeParameter();
+        .buildNodeParameter();
 
         Node computationNode = builder.createNode(param);
 
