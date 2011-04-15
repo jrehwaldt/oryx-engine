@@ -8,7 +8,10 @@
         <link rel="stylesheet" type="text/css" href="stylesheets/layout.css">
         
         <script type="text/javascript" src="javascripts/lib/jquery-1.5.2.js"></script>
-        <script type="text/javascript" src="javascripts/workitem.js"></script>
+        <script type="text/javascript" src="javascripts/demo/WorkItem1.js"></script>
+        <script type="text/javascript" src="javascripts/demo/ParticipantJannik.js"></script>
+        <script type="text/javascript" src="javascripts/demo/ParticipantWilli.js"></script>
+        <script type="text/javascript" src="javascripts/demo/demo-ajax.js"></script>
         
         <title>Oryx Engine goes REST</title>
     </head>
@@ -31,30 +34,11 @@
              </li>
         </ul>
         
-        <div id="demo"></div>
+        <div id="result_1"></div>
+        <div id="result_2"></div>
+        <div id="result_3"></div>
         
-        <script type="text/javascript">
-        $().ready(function() {
-            /*
-            $.ajax({
-                method: 'POST',
-                url: 'api/worklist/item/claim',
-                data: {workItem: DEMO_WORKITEM, resource: null},
-                success: function(data) {
-                    $('#demo').html(data);
-                },
-                dataType: dataType
-            });
-            */
-            
-            $.post('api/worklist/item/claim', {workItem: DEMO_WORKITEM, resource: null},
-                function(data) {
-                    $('#demo').html(data);
-                },
-                "json"
-            );
-        });
-        </script>
+        <div id="data"></div>
         
     </body>
 </html>

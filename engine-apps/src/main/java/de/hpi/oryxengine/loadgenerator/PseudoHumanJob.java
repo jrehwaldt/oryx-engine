@@ -11,7 +11,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.factories.process.HumanTaskProcessDeployer;
 import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
@@ -31,19 +31,19 @@ public class PseudoHumanJob implements Job {
         // get the data we need from the Jobcontext and Participant/WorklistService
         JobDataMap data = context.getJobDetail().getJobDataMap();
         Participant participant = (Participant) data.get(HumanTaskProcessDeployer.PARTICIPANT_KEY);
-        List<WorklistItem> itemsInWork = participant.getWorklistItemsCurrentlyInWork();
+        List<AbstractWorklistItem> itemsInWork = participant.getWorklistItemsCurrentlyInWork();
         WorklistService worklistService = ServiceFactory.getWorklistService();
 
         // if we currently have items in Work, complete the first one
         if (!itemsInWork.isEmpty()) {
-            WorklistItem worklistItem = itemsInWork.get(0);
+            AbstractWorklistItem worklistItem = itemsInWork.get(0);
             worklistService.completeWorklistItemBy(worklistItem, participant);
         }
         
         // If there are still items left we can work on we claim them and then start working on them
-        List<WorklistItem> itemsToWorkOn = worklistService.getWorklistItems(participant);
+        List<AbstractWorklistItem> itemsToWorkOn = worklistService.getWorklistItems(participant);
         if (!itemsToWorkOn.isEmpty()) {
-            WorklistItem item = itemsToWorkOn.get(0);
+            AbstractWorklistItem item = itemsToWorkOn.get(0);
 
             // Worklistitems can be directly allocated to us, so they might not have the status offered and we can't
             // claim them

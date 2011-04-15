@@ -20,7 +20,7 @@ import de.hpi.oryxengine.resource.AbstractResource;
 /**
  * THe implementation of the Task Interface.
  */
-public class WorklistItemImpl implements WorklistItem {
+public class WorklistItemImpl extends AbstractWorklistItem {
 
     private WorklistItemState status;
     private Task task;
@@ -117,11 +117,11 @@ public class WorklistItemImpl implements WorklistItem {
      * Translates a WorklistItem into a corresponding WorklistItemImpl object.
      * 
      * @param worklistItem
-     *            - a {@link WorklistItem} object
+     *            - a {@link AbstractWorklistItem} object
      * @return worklistItemImpl - the casted {@link WorklistItemImpl} object
      *             - an {@link DalmatinaRuntimeException} if the provided Parameter is null
      */
-    public static WorklistItemImpl asWorklistItemImpl(WorklistItem worklistItem) {
+    public static WorklistItemImpl asWorklistItemImpl(AbstractWorklistItem worklistItem) {
 
         if (worklistItem == null) {
             throw new DalmatinaRuntimeException("The WorklistItem parameter is null.");

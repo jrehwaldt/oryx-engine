@@ -12,7 +12,7 @@ import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
  * A little factory for creating {@link AbstractParticipant}s.
@@ -89,8 +89,8 @@ public class ParticipantFactory extends ResourceFactory {
             taskDistributionService.distribute(task, Mockito.mock(Token.class));
         }
         
-        List<WorklistItem> items = worklistService.getWorklistItems(willi);
-        for (WorklistItem item: items) {
+        List<AbstractWorklistItem> items = worklistService.getWorklistItems(willi);
+        for (AbstractWorklistItem item: items) {
             if (rand.nextBoolean()) {
                 worklistService.claimWorklistItemBy(item, willi);
             }

@@ -33,7 +33,7 @@ import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.ResourceType;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.rest.api.WorklistWebService;
 import de.hpi.oryxengine.rest.provider.ListMessageBodyWriter;
@@ -57,7 +57,7 @@ public class GsonWorklistItemTest extends AbstractTest {
     public void testWorklistSerialization()
     throws IOException {
 
-        List<WorklistItem> items = ServiceFactory.getWorklistService().getWorklistItems(thomas);
+        List<AbstractWorklistItem> items = ServiceFactory.getWorklistService().getWorklistItems(thomas);
         assertEquals(items.size(), 1, "There should be one item in the list");
 
         // write the list to a file
@@ -109,7 +109,7 @@ public class GsonWorklistItemTest extends AbstractTest {
         
         Task task = new TaskImpl("Kaffee holen", "Bohnenkaffee", mock(AllocationStrategies.class), thomas);
         Token token = mock(Token.class);
-        WorklistItem item = new WorklistItemImpl(task, token);
+        AbstractWorklistItem item = new WorklistItemImpl(task, token);
         thomas.getWorklist().addWorklistItem(item);
     }
 

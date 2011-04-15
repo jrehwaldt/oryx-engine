@@ -18,38 +18,38 @@ public final class EmptyWorklist extends AbstractWorklist {
     
     @Override
     @JsonIgnore
-    public List<WorklistItem> getWorklistItems() {
+    public List<AbstractWorklistItem> getWorklistItems() {
 
-        List<WorklistItem> emptyWorklistItems = Collections.emptyList();
+        List<AbstractWorklistItem> emptyWorklistItems = Collections.emptyList();
         return Collections.unmodifiableList(emptyWorklistItems);
     }
 
     @Override
-    public void itemIsCompleted(WorklistItem worklistItem) {
+    public void itemIsCompleted(AbstractWorklistItem worklistItem) {
 
         throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
     }
 
     @Override
-    public void itemIsStarted(WorklistItem worklistItem) {
+    public void itemIsStarted(AbstractWorklistItem worklistItem) {
 
         throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
     }
 
     @Override
-    public void addWorklistItem(WorklistItem worklistItem) {
+    public void addWorklistItem(AbstractWorklistItem worklistItem) {
 
         throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
     }
 
     @Override
-    public void itemIsAllocatedBy(WorklistItem worklistItem, AbstractResource<?> claimingResource) {
+    public void itemIsAllocatedBy(AbstractWorklistItem worklistItem, AbstractResource<?> claimingResource) {
 
         throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
     }
 
     @Override
-    public Iterator<WorklistItem> iterator() {
+    public Iterator<AbstractWorklistItem> iterator() {
 
         return getWorklistItems().iterator();
     }

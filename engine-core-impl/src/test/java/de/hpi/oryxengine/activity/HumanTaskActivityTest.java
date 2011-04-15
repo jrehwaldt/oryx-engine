@@ -28,7 +28,7 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
  * The test for the {@link HumanTaskActivity}.
@@ -111,7 +111,7 @@ public class HumanTaskActivityTest extends AbstractTest {
             + " item(s) in the worklist.";
         assertTrue(worklistSize == 1, failureMessage);
 
-        WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
+        AbstractWorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
         assertEquals(worklistItem.getSubject(), task.getSubject());
         assertEquals(worklistItem.getDescription(), task.getDescription());
     }

@@ -35,7 +35,7 @@ import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
 import de.hpi.oryxengine.resource.worklist.RoleWorklist;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 
 /**
@@ -58,11 +58,9 @@ public class SerializationToJsonTest extends AbstractTestNGSpringContextTests {
     
     /**
      * Setup.
-     * 
-     * @throws JAXBException initialization fails
      */
     @BeforeClass
-    public void setUp() throws JAXBException {
+    public void setUp() {
         this.mapper = new ObjectMapper();
         SerializationConfig config = this.mapper.getSerializationConfig();
         config.setSerializationInclusion(Inclusion.NON_NULL);
@@ -108,10 +106,9 @@ public class SerializationToJsonTest extends AbstractTestNGSpringContextTests {
      * Tests the serialization of an abstract resource.
      * 
      * @throws IOException test fails
-     * @throws JAXBException test fails
      */
     @Test
-    public void testSerializationAndDesirializationOfParticipantBuzyWilli() throws JAXBException, IOException {
+    public void testSerializationAndDesirializationOfParticipantBuzyWilli() throws IOException {
         File xml = new File(TMP_PATH + "ParticipantWilli.js");
         if (xml.exists()) {
             Assert.assertTrue(xml.delete());
@@ -155,7 +152,7 @@ public class SerializationToJsonTest extends AbstractTestNGSpringContextTests {
         //
         // worklist
         //
-        Assert.assertTrue(this.mapper.canSerialize(WorklistItem.class));
+        Assert.assertTrue(this.mapper.canSerialize(AbstractWorklistItem.class));
         Assert.assertTrue(this.mapper.canSerialize(WorklistItemImpl.class));
         Assert.assertTrue(this.mapper.canSerialize(AbstractWorklist.class));
         Assert.assertTrue(this.mapper.canSerialize(AbstractDefaultWorklist.class));

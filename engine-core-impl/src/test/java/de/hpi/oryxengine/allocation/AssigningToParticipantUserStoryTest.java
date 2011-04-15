@@ -22,7 +22,7 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
@@ -80,7 +80,7 @@ public class AssigningToParticipantUserStoryTest extends AbstractTest {
         
         token.executeStep();
         
-        WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
+        AbstractWorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
         assertEquals(worklistItem.getStatus(), WorklistItemState.ALLOCATED);
 
         ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItem, jannik);
@@ -97,7 +97,7 @@ public class AssigningToParticipantUserStoryTest extends AbstractTest {
         
         token.executeStep();
         
-        WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
+        AbstractWorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
         ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItem, jannik);
         assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
         
@@ -118,7 +118,7 @@ public class AssigningToParticipantUserStoryTest extends AbstractTest {
 
         token.executeStep();
         
-        WorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
+        AbstractWorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
         ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItem, jannik);
         
         ServiceFactory.getWorklistService().completeWorklistItemBy(worklistItem, jannik);

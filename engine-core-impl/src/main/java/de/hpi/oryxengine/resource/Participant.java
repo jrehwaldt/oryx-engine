@@ -14,7 +14,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
@@ -147,10 +147,10 @@ public class Participant extends AbstractParticipant {
     }
 
     @Override
-    public List<WorklistItem> getWorklistItemsCurrentlyInWork() {
-        List<WorklistItem> inWork = new ArrayList<WorklistItem>();
+    public List<AbstractWorklistItem> getWorklistItemsCurrentlyInWork() {
+        List<AbstractWorklistItem> inWork = new ArrayList<AbstractWorklistItem>();
         if (this.worklist != null) {
-            for (WorklistItem w : this.worklist) {
+            for (AbstractWorklistItem w : this.worklist) {
                 if (w.getStatus() == WorklistItemState.EXECUTING) {
                     inWork.add(w);
                 }

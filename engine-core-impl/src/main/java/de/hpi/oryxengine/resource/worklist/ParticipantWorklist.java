@@ -33,7 +33,7 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
     }
 
     @Override
-    public List<WorklistItem> getWorklistItems() {
+    public List<AbstractWorklistItem> getWorklistItems() {
         
         // this is needed for deserialization to not break the circular dependency
         if (relatedParticipant == null) {
@@ -49,7 +49,7 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
         }
 
         // Creating the list of worklistItems from the owner and the related resources
-        List<WorklistItem> resultWorklistItems = new ArrayList<WorklistItem>();
+        List<AbstractWorklistItem> resultWorklistItems = new ArrayList<AbstractWorklistItem>();
         resultWorklistItems.addAll(getLazyWorklistItems());
         for (AbstractResource<?> resourceInView : resourcesInView) {
             resultWorklistItems.addAll(resourceInView.getWorklist().getWorklistItems());
@@ -59,7 +59,7 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
     }
 
     @Override
-    public void itemIsAllocatedBy(WorklistItem worklistItem, AbstractResource<?> claimingResource) {
+    public void itemIsAllocatedBy(AbstractWorklistItem worklistItem, AbstractResource<?> claimingResource) {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
 
@@ -79,14 +79,14 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
     }
 
     @Override
-    public void addWorklistItem(WorklistItem worklistItem) {
+    public void addWorklistItem(AbstractWorklistItem worklistItem) {
 
         getLazyWorklistItems().add(worklistItem);
         worklistItem.getAssignedResources().add(relatedParticipant);
     }
 
     @Override
-    public void itemIsCompleted(WorklistItem worklistItem) {
+    public void itemIsCompleted(AbstractWorklistItem worklistItem) {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
 
@@ -96,7 +96,7 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
     }
 
     @Override
-    public void itemIsStarted(WorklistItem worklistItem) {
+    public void itemIsStarted(AbstractWorklistItem worklistItem) {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
         worklistItemImpl.setStatus(WorklistItemState.EXECUTING);

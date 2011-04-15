@@ -2,6 +2,8 @@ package de.hpi.oryxengine;
 
 import javax.annotation.Nonnull;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.bootstrap.OryxEngineAppContext;
@@ -19,8 +21,7 @@ public final class ServiceFactory {
      * 
      * @return the worklist manager instance
      */
-    protected static @Nonnull
-    WorklistManager getWorklistManagerInstance() {
+    protected static @Nonnull WorklistManager getWorklistManagerInstance() {
 
         return (WorklistManager) OryxEngineAppContext.getBean("worklistService");
     }
@@ -30,8 +31,7 @@ public final class ServiceFactory {
      * 
      * @return the worklist service
      */
-    public static @Nonnull
-    WorklistService getWorklistService() {
+    public static @Nonnull WorklistService getWorklistService() {
 
         return getWorklistManagerInstance();
     }
@@ -41,8 +41,7 @@ public final class ServiceFactory {
      * 
      * @return the worklist queue
      */
-    public static @Nonnull
-    TaskAllocation getWorklistQueue() {
+    public static @Nonnull TaskAllocation getWorklistQueue() {
 
         return getWorklistManagerInstance();
     }
@@ -52,8 +51,7 @@ public final class ServiceFactory {
      * 
      * @return the task distribution
      */
-    public static @Nonnull
-    TaskDistribution getTaskDistribution() {
+    public static @Nonnull TaskDistribution getTaskDistribution() {
 
         return getWorklistManagerInstance();
     }
@@ -63,8 +61,7 @@ public final class ServiceFactory {
      * 
      * @return the identity service
      */
-    public static @Nonnull
-    IdentityService getIdentityService() {
+    public static @Nonnull IdentityService getIdentityService() {
 
         return (IdentityService) OryxEngineAppContext.getBean("identityService");
     }
@@ -74,8 +71,7 @@ public final class ServiceFactory {
      * 
      * @return the navigator service
      */
-    public static @Nonnull
-    Navigator getNavigatorService() {
+    public static @Nonnull Navigator getNavigatorService() {
 
         return (Navigator) OryxEngineAppContext.getBean("navigatorService");
     }
@@ -85,8 +81,7 @@ public final class ServiceFactory {
      * 
      * @return the deplyoment service
      */
-    public static @Nonnull
-    Deployer getDeplyomentService() {
+    public static @Nonnull Deployer getDeplyomentService() {
 
         return (Deployer) OryxEngineAppContext.getBean("deployerService");
     }
@@ -96,8 +91,7 @@ public final class ServiceFactory {
      * 
      * @return the repository service
      */
-    public static @Nonnull
-    RepositoryService getRepositoryService() {
+    public static @Nonnull RepositoryService getRepositoryService() {
 
         return (RepositoryService) OryxEngineAppContext.getBean("repositoryService");
     }
@@ -108,16 +102,22 @@ public final class ServiceFactory {
      * 
      * @return the correlation service
      */
-    public static @Nonnull
-    CorrelationManager getCorrelationService() {
+    public static @Nonnull CorrelationManager getCorrelationService() {
 
         return (CorrelationManager) OryxEngineAppContext.getBean("correlationService");
+    }
+    
+    /**
+     * Provides the object mapper.
+     * 
+     * @return the object mapper
+     */
+    public static @Nonnull ObjectMapper getJsonMapper() {
+        return (ObjectMapper) OryxEngineAppContext.getBean("jsonMapper");
     }
 
     /**
      * Hidden Constructor.
      */
-    private ServiceFactory() {
-
-    }
+    private ServiceFactory() { }
 }

@@ -7,29 +7,29 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * Represents a DefaultWorklist that contains several {@link WorklistItem} for a certain {@link AbstractResource}.
+ * Represents a DefaultWorklist that contains several {@link AbstractWorklistItem} for a certain {@link AbstractResource}.
  */
 public abstract class AbstractDefaultWorklist extends AbstractWorklist {
     
-    private List<WorklistItem> lazyWorklistItems;
+    private List<AbstractWorklistItem> lazyWorklistItems;
     
     /**
-     * Retrieves the {@link WorklistItem}s that are in this {@link Worklist}.
+     * Retrieves the {@link AbstractWorklistItem}s that are in this {@link Worklist}.
      * 
-     * @return a list of {@link WorklistItem}s; the list is instantiated on demand
+     * @return a list of {@link AbstractWorklistItem}s; the list is instantiated on demand
      */
     @JsonProperty
-    public List<WorklistItem> getLazyWorklistItems() {
+    public List<AbstractWorklistItem> getLazyWorklistItems() {
         
         if (lazyWorklistItems == null) {
-            lazyWorklistItems = new ArrayList<WorklistItem>();
+            lazyWorklistItems = new ArrayList<AbstractWorklistItem>();
         }
         
         return lazyWorklistItems;
     }
     
     @Override
-    public Iterator<WorklistItem> iterator() {
+    public Iterator<AbstractWorklistItem> iterator() {
         return getWorklistItems().iterator();
     }
 }

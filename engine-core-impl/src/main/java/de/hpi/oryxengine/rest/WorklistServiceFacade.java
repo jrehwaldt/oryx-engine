@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.resource.ResourceType;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
  * This interface if a simpler version of the {@link WorklistService} interface.
@@ -26,7 +26,7 @@ public interface WorklistServiceFacade {
     * @param resourceId the resource's id
     * @return the work items
     */
-   @Nullable List<WorklistItem> getWorklistItems(@Nonnull ResourceType resourceType,
+   @Nullable List<AbstractWorklistItem> getWorklistItems(@Nonnull ResourceType resourceType,
                                                  @Nonnull String resourceId);
    
    /**

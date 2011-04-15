@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.resource.worklist;
 
 /**
- * This Enum represents the different states of a {@link WorklistItem}.
+ * This Enum represents the different states of a {@link AbstractWorklistItem}.
  */
 public enum WorklistItemState {
 

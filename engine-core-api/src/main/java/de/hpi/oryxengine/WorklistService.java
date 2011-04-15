@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
  * The Worklist Service which is used to manage our {@link Worklist}, add tasks and remove them that is.
@@ -21,64 +21,64 @@ public interface WorklistService {
      * 
      * @param resource
      *            - the resource the {@link Worklist} items shall be searched for
-     * @return a list of {@link WorklistItem}s; the list is unmodifiable (read-only)
+     * @return a list of {@link AbstractWorklistItem}s; the list is unmodifiable (read-only)
      */
-    @Nonnull List<WorklistItem> getWorklistItems(@Nonnull AbstractResource<?> resource);
+    @Nonnull List<AbstractWorklistItem> getWorklistItems(@Nonnull AbstractResource<?> resource);
     
     /**
      * Resolves all worklist items belonging to the given resources.
      * 
      * @param resources
      *            - the resources the worklist items shall be searched for
-     * @return a map where the key is a {@link AbstractResource} and the value is a list of {@link WorklistItem}s
+     * @return a map where the key is a {@link AbstractResource} and the value is a list of {@link AbstractWorklistItem}s
      */
-    @Nonnull Map<AbstractResource<?>, List<WorklistItem>> getWorklistItems(
+    @Nonnull Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(
         @Nonnull Set<? extends AbstractResource<?>> resources);
 
     /**
-     * Claims a {@link WorklistItem}.
+     * Claims a {@link AbstractWorklistItem}.
      *
-     * @param worklistItem - {@link WorklistItem} that should be claimed
+     * @param worklistItem - {@link AbstractWorklistItem} that should be claimed
      * @param resource the resource that triggers this method
      */
-    void claimWorklistItemBy(@Nonnull WorklistItem worklistItem,
+    void claimWorklistItemBy(@Nonnull AbstractWorklistItem worklistItem,
                              @Nonnull AbstractResource<?> resource);
 
     /**
-     * Begin a {@link WorklistItem}.
+     * Begin a {@link AbstractWorklistItem}.
      *
-     * @param worklistItem - {@link WorklistItem} that should be claimed
+     * @param worklistItem - {@link AbstractWorklistItem} that should be claimed
      * @param resource the resource that triggers this method
      */
-    void beginWorklistItemBy(@Nonnull WorklistItem worklistItem,
+    void beginWorklistItemBy(@Nonnull AbstractWorklistItem worklistItem,
                              @Nonnull AbstractResource<?> resource);
 
     /**
-     * Completes a {@link WorklistItem}.
+     * Completes a {@link AbstractWorklistItem}.
      *
-     * @param worklistItem - {@link WorklistItem} that was completed
+     * @param worklistItem - {@link AbstractWorklistItem} that was completed
      * @param resource the resource that triggers this method
      */
-    void completeWorklistItemBy(@Nonnull WorklistItem worklistItem,
+    void completeWorklistItemBy(@Nonnull AbstractWorklistItem worklistItem,
                                 @Nonnull AbstractResource<?> resource);
 
     /**
-     * Aborts a {@link WorklistItem}.
+     * Aborts a {@link AbstractWorklistItem}.
      *
-     * @param worklistItem - {@link WorklistItem} that is aborted
+     * @param worklistItem - {@link AbstractWorklistItem} that is aborted
      * @param resource the resource that triggers this method
      */
-    void abortWorklistItemBy(@Nonnull WorklistItem worklistItem,
+    void abortWorklistItemBy(@Nonnull AbstractWorklistItem worklistItem,
                              @Nonnull AbstractResource<?> resource);
 
     /**
-     * Returns a {@link WorklistItem} by id.
+     * Returns a {@link AbstractWorklistItem} by id.
      * 
-     * @param resource the {@link AbstractResource}, to which the {@link WorklistItem} belongs
-     * @param worklistItemId the {@link WorklistItem}'s id
-     * @return the {@link WorklistItem}
+     * @param resource the {@link AbstractResource}, to which the {@link AbstractWorklistItem} belongs
+     * @param worklistItemId the {@link AbstractWorklistItem}'s id
+     * @return the {@link AbstractWorklistItem}
      */
-    @Nullable WorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
+    @Nullable AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
                                            @Nonnull UUID worklistItemId);
     
     // TODO: Observable Interface für die GUI

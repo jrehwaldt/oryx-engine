@@ -13,19 +13,19 @@ import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * Checking the Lifecycle of a WorklistItem.
  * 
- * This test simulates the usages of a {@link WorklistItem}.
+ * This test simulates the usages of a {@link AbstractWorklistItem}.
  */
 public class WorklistItemLifecycleTest extends AbstractTest {
 
     private WorklistService worklistService = null;
-    private WorklistItem worklistItem = null;
+    private AbstractWorklistItem worklistItem = null;
     private AbstractParticipant jannik = null;
 
     /**
@@ -68,7 +68,7 @@ public class WorklistItemLifecycleTest extends AbstractTest {
 
         Token token = Mockito.mock(Token.class);
 
-        WorklistItem worklistItemForGerardo = new WorklistItemImpl(task, token);
+        AbstractWorklistItem worklistItemForGerardo = new WorklistItemImpl(task, token);
 
         Assert.assertEquals(worklistItemForGerardo.getSubject(), "Task Subject!!");
         Assert.assertEquals(worklistItemForGerardo.getDescription(), "Task Decription!!");

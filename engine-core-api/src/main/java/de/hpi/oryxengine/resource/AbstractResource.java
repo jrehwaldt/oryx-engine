@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.resource;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
@@ -254,5 +256,19 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
     protected void setWorklist(@Nonnull AbstractWorklist worklist) {
         
         this.worklist = worklist;
+    }
+    
+    /**
+     * Returns a concrete resource object holding the value of the specified String.
+     * The argument is interpreted as json.
+     * 
+     * @param json json formated object
+     * @return a concrete resource
+     * @throws IOException failed to parse the json
+     */
+    public static @Nonnull AbstractResource<?> valueOf(@Nonnull String json)
+    throws IOException {
+        // TODO we do not have access to the ServiceFactory, so we need a new ObjectMapper every time
+        return (AbstractResource<?>) new ObjectMapper().readValue(json, AbstractResource.class);
     }
 }
