@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
+import de.hpi.oryxengine.process.structure.condition.ConditionImpl;
 import de.hpi.oryxengine.process.token.Token;
 
 /**

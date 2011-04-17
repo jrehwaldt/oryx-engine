@@ -1,5 +1,9 @@
 package de.hpi.oryxengine.repository.importer.bpmn;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.hpi.oryxengine.bootstrap.OryxEngine;
 import de.hpi.oryxengine.util.xml.XmlParser;
 
 /**
@@ -28,8 +32,11 @@ public class BpmnXmlParser extends XmlParser {
 
     /** The Schema-Instance namespace. */
     public static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
+    
+    /** Namesspace for extensions elements of the {@link OryxEngine}. */
+    public static final String JODA_ENGINE_EXTENSIONS_NS = "http://joda-engine.org/bpmn";
 
-//    protected List<BpmnParseListener> parseListeners = new ArrayList<BpmnParseListener>();
+    protected List<BpmnXmlParseListener> parseListeners;
 
     /**
      * Creates a new {@link BpmnParse} instance that can be used to parse only one BPMN 2.0 process definition.
@@ -39,23 +46,11 @@ public class BpmnXmlParser extends XmlParser {
         return new BpmnXmlParse(this);
     }
 
-//    public ExpressionManager getExpressionManager() {
-//
-//        return expressionManager;
-//    }
-//
-//    public void setExpressionManager(ExpressionManager expressionManager) {
-//
-//        this.expressionManager = expressionManager;
-//    }
+    public List<BpmnXmlParseListener> getParseListeners() {
 
-//    public List<BpmnParseListener> getParseListeners() {
-//
-//        return parseListeners;
-//    }
-//
-//    public void setParseListeners(List<BpmnParseListener> parseListeners) {
-//
-//        this.parseListeners = parseListeners;
-//    }
+        if (this.parseListeners == null) {
+            this.parseListeners = new ArrayList<BpmnXmlParseListener>();
+        }
+        return this.parseListeners;
+    }
 }

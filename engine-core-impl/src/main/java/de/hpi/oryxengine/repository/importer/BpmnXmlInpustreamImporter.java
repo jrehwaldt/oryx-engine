@@ -2,6 +2,8 @@ package de.hpi.oryxengine.repository.importer;
 
 import java.io.InputStream;
 
+import javax.annotation.Nonnull;
+
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.repository.importer.bpmn.BpmnXmlParse;
 import de.hpi.oryxengine.repository.importer.bpmn.BpmnXmlParser;
@@ -14,15 +16,15 @@ import de.hpi.oryxengine.repository.importer.bpmn.BpmnXmlParser;
  */
 public class BpmnXmlInpustreamImporter extends AbstractBpmnXmlImporter {
 
-    InputStream xmlInputStream;
+    private InputStream xmlInputStream;
     
-    public BpmnXmlInpustreamImporter(String processDefintionName, InputStream inputStream) {
+    public BpmnXmlInpustreamImporter(String processDefintionName, @Nonnull InputStream inputStream) {
         
         super(processDefintionName);
         this.xmlInputStream = inputStream;
     }
 
-    public BpmnXmlInpustreamImporter(InputStream inputStream) {
+    public BpmnXmlInpustreamImporter(@Nonnull InputStream inputStream) {
 
         super(null);
         this.xmlInputStream = inputStream;
