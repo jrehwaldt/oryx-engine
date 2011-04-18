@@ -87,11 +87,6 @@
             <artifactId>resteasy-jackson-provider</artifactId>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jsapi</artifactId>
-            <scope>runtime</scope>
-        </dependency>
         <!-- Gson: Java to Json conversion -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -147,8 +142,13 @@
         </dependency>
         <!-- Web Templating -->
         <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
+            <groupId>opensymphony</groupId>
+            <artifactId>sitemesh</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.tuckey</groupId>
+            <artifactId>urlrewritefilter</artifactId>
             <scope>runtime</scope>
         </dependency>
     </dependencies>

@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     
-    <display-name>Oryx Engine</display-name>
+    <display-name>Joda Engine</display-name>
     
+    <!-- Site Mesh Template and URL Rewriting -->
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
+    </filter>
     
-    
+    <filter>
+        <filter-name>url-rewrite</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+    </filter>
     
     <!-- Engine bootstrap -->
-	<listener>
-		<listener-class>de.hpi.oryxengine.bootstrap.EngineServletListener</listener-class>
-	</listener>
+    <listener>
+        <listener-class>de.hpi.oryxengine.bootstrap.EngineServletListener</listener-class>
+    </listener>
     
     <!-- Engine REST-API -->
     <!--
@@ -31,27 +39,20 @@
             org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
     </listener>
     -->
-	<servlet>
-		<servlet-name>EngineREST API</servlet-name>
-		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
-	</servlet>
-    
-    <!--
     <servlet>
-        <servlet-name>EngineREST JS-API</servlet-name>
-        <servlet-class>org.jboss.resteasy.jsapi.JSAPIServlet</servlet-class>
+        <servlet-name>rest-api</servlet-name>
+        <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
     </servlet>
-    -->
 
-	<context-param>
-		<param-name>resteasy.scan</param-name>
-		<param-value>true</param-value>
-	</context-param>
+    <context-param>
+        <param-name>resteasy.scan</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
-	<context-param>
-		<param-name>resteasy.servlet.mapping.prefix</param-name>
-		<param-value>/api</param-value>
-	</context-param>
+    <context-param>
+        <param-name>resteasy.servlet.mapping.prefix</param-name>
+        <param-value>/api</param-value>
+    </context-param>
     
     <!-- Less CSS (SaaS-like CSS processor) -->
     <servlet>
@@ -64,74 +65,35 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     
-    <!-- Free Marker -->
-    <servlet>
-        <servlet-name>freemarker</servlet-name>
-        <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>
-        
-        <!-- FreemarkerServlet settings: -->
-        <init-param>
-            <param-name>TemplatePath</param-name>
-            <param-value>/</param-value>
-        </init-param>
-        <init-param>
-            <param-name>NoCache</param-name>
-            <param-value>true</param-value>
-        </init-param>
-        <init-param>
-            <param-name>ContentType</param-name>
-            <param-value>text/html; charset=UTF-8</param-value> <!-- Forces UTF-8 output encoding! -->
-        </init-param>
-        
-        <!-- FreeMarker settings: -->
-        <init-param>
-            <param-name>template_update_delay</param-name>
-            <!-- 0 is for development only! Use higher value otherwise. -->
-            <param-value>0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>default_encoding</param-name>
-            <!-- The encoding of the template files. -->
-            <param-value>UTF-8</param-value>
-        </init-param>
-        <init-param>
-            <param-name>number_format</param-name>
-            <param-value>0.##########</param-value>
-        </init-param>
-        
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    
     <!-- URL Mappings -->
+    <filter-mapping>
+        <filter-name>url-rewrite</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    
     <servlet-mapping>
         <servlet-name>less</servlet-name>
         <url-pattern>*.css</url-pattern>
     </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>freemarker</servlet-name>
-        <url-pattern>*.ftl</url-pattern>
-    </servlet-mapping>
     
     <servlet-mapping>
-        <servlet-name>EngineREST API</servlet-name>
+        <servlet-name>rest-api</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
     
-    <!--
-    <servlet-mapping>
-        <servlet-name>EngineREST JS-API</servlet-name>
-        <url-pattern>/api-js</url-pattern>
-    </servlet-mapping>
-    -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
     
-	<session-config>
-		<session-timeout>30</session-timeout>
-	</session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
     
-	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-
-
 </web-app>
