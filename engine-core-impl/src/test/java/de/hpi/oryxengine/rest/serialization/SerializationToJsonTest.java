@@ -10,7 +10,6 @@ import javax.xml.bind.JAXBException;
 
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -43,8 +42,7 @@ import de.hpi.oryxengine.rest.AbstractJsonServerTest;
  * 
  * @author Jan Rehwaldt
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class SerializationToJsonTest extends AbstractJsonServerTest {
 
     private AbstractResource<?> participantJannik = null;

@@ -39,14 +39,17 @@ public abstract class AbstractJsonServerTest extends AbstractTest {
         //
         // configure the ObjectMapper
         //
+        // See this for a description, why we configured Jackson this way:
+        // http://stackoverflow.com/questions/4822856/does-jackson-without-annotations-absolutely-require-setters
+        //
         this.mapper = new ObjectMapper();
         SerializationConfig config = this.mapper.getSerializationConfig();
         config.setSerializationInclusion(Inclusion.NON_NULL);
         config.enable(SerializationConfig.Feature.INDENT_OUTPUT);
         this.mapper.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(Visibility.ANY));
-        mapper.configure(DeserializationConfig.Feature.CAN_OVERRIDE_ACCESS_MODIFIERS, true);
-        mapper.configure(DeserializationConfig.Feature.AUTO_DETECT_FIELDS, true);
-        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+        this.mapper.configure(DeserializationConfig.Feature.CAN_OVERRIDE_ACCESS_MODIFIERS, true);
+        this.mapper.configure(DeserializationConfig.Feature.AUTO_DETECT_FIELDS, true);
+        this.mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, true);
         
         //
         // configure the server mock
