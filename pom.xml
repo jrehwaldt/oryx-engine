@@ -20,6 +20,8 @@
         <quartz-scheduler.version>1.8.4</quartz-scheduler.version>
         <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
         <resteasy-version>2.0.1.GA</resteasy-version>
+        <sitemesh-version>2.4.2</sitemesh-version>
+        <urlrewrite-version>3.0.4</urlrewrite-version>
     </properties>
 
     <dependencyManagement>
@@ -127,12 +129,17 @@
                 <artifactId>spring-test</artifactId>
                 <version>${org.springframework.version}</version>
             </dependency>
-        <!-- Web Templating -->
-        <dependency>
-            <groupId>opensymphony</groupId>
-            <artifactId>sitemesh</artifactId>
-            <version>2.4.2</version>
-        </dependency>
+            <!-- Web Templating -->
+            <dependency>
+                <groupId>opensymphony</groupId>
+                <artifactId>sitemesh</artifactId>
+                <version>${sitemesh-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.tuckey</groupId>
+                <artifactId>urlrewritefilter</artifactId>
+                <version>${urlrewrite-version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
