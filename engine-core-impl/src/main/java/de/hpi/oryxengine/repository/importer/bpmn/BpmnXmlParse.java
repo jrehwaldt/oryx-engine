@@ -60,10 +60,6 @@ public class BpmnXmlParse extends XmlParse {
         super(parser);
         this.processBuilder = new ProcessBuilderImpl();
         this.parseListeners = parser.getParseListeners();
-        // this.expressionManager = parser.getExpressionManager();
-        // this.parseListeners = parser.getParseListeners();
-        // setSchemaResource(ReflectUtil.getResource(BpmnParser.BPMN_20_SCHEMA_LOCATION).toString());
-        // this.initializeXSDItemDefinitions();
     }
 
     public ProcessDefinition getFinishedProcessDefinition() {
@@ -88,6 +84,8 @@ public class BpmnXmlParse extends XmlParse {
             // Here we start parsing the process model and creating the ProcessDefintion
             parseRootElement();
 
+        } catch (DalmatinaRuntimeException dalmatinaRuntimeException) {
+            throw dalmatinaRuntimeException;
         } catch (Exception e) {
 
             String errorMessage = "Unknown exception";
@@ -131,6 +129,7 @@ public class BpmnXmlParse extends XmlParse {
         // String typeLanguage = rootElement.getAttribute("typeLanguage");
         // String expressionLanguage = rootElement.getAttribute("expressionLanguage");
     }
+
     /**
      * Parses all the process definitions defined within the 'definitions' root element.
      */
@@ -203,19 +202,12 @@ public class BpmnXmlParse extends XmlParse {
      */
     public void parseElements(XmlElement processElement) {
 
-        // Not yet supported on process level (PVM additions needed):
-        // parseProperties(processElement);
-
         parseStartEvents(processElement);
         parseActivities(processElement);
         parseEndEvents(processElement);
-        // parseBoundaryEvents(processElement, parentScope);
         parseSequenceFlow(processElement);
-        // parseExecutionListenersOnScope(processElement, parentScope);
-        //
-        // IOSpecification ioSpecification = parseIOSpecification(processElement.element("ioSpecification"));
-        // parentScope.setIoSpecification(ioSpecification);
     }
+
     /**
      * Parses the start events of a certain level in the process (process, subprocess or another scope).
      * 
@@ -323,7 +315,7 @@ public class BpmnXmlParse extends XmlParse {
         // parseMultiInstanceLoopCharacteristics(activityElement, activity);
         // }
     }
-    
+
     /**
      * Parses the generic information of an activity element (id, name, documentation, etc.), and creates a new
      * {@link ActivityImpl} on the given scope element.
@@ -380,7 +372,6 @@ public class BpmnXmlParse extends XmlParse {
      */
     public void parseParallelGateway(XmlElement parallelGatewayElement) {
 
-       
         NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl(new AndJoinBehaviour(),
             new TakeAllSplitBehaviour());
         nodeParameterBuilder.setActivityBlueprintFor(NullActivity.class);
@@ -403,8 +394,8 @@ public class BpmnXmlParse extends XmlParse {
 
         NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        nodeParameterBuilder.setActivityBlueprintFor(AutomatedDummyActivity.class)
-                            .addConstructorParameter(String.class, "Doing something");
+        nodeParameterBuilder.setActivityBlueprintFor(AutomatedDummyActivity.class).addConstructorParameter(
+            String.class, "Doing something");
 
         Node taskNode = processBuilder.createNode(nodeParameterBuilder.buildNodeParameter());
 
@@ -415,7 +406,7 @@ public class BpmnXmlParse extends XmlParse {
             parseListener.parseTask(taskXmlElement, taskNode);
         }
     }
-    
+
     /**
      * Parses the end events of a certain level in the process (process, subprocess or another scope).
      * 

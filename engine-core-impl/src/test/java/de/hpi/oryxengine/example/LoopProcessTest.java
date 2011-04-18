@@ -63,18 +63,21 @@ public class LoopProcessTest {
         token.executeStep();
         assertEquals(token.getCurrentNode(), node);
         token.executeStep();
+        assertEquals(token.getInstance().getContext().getVariable("counter"),"1");
         assertEquals(token.getCurrentNode(), xorSplit);
         token.executeStep();
         assertEquals(token.getCurrentNode(), xorJoin);
         token.executeStep();
         assertEquals(token.getCurrentNode(), node);
         token.executeStep();
+        assertEquals(token.getInstance().getContext().getVariable("counter"),"2");
         assertEquals(token.getCurrentNode(), xorSplit);
         token.executeStep();
         assertEquals(token.getCurrentNode(), xorJoin);
         token.executeStep();
         assertEquals(token.getCurrentNode(), node);
         token.executeStep();
+        assertEquals(token.getInstance().getContext().getVariable("counter"),"3");
         assertEquals(token.getCurrentNode(), xorSplit);
         token.executeStep();
         assertEquals(token.getCurrentNode(), end);
@@ -139,12 +142,14 @@ public class LoopProcessTest {
             new TakeAllSplitBehaviour());
         end = builder.createNode(endParam);
 
+        //Create Transitions
         builder.createTransition(start, xorJoin)
         .createTransition(xorJoin, node)
         .createTransition(node, xorSplit)
         .createTransition(xorSplit, end, condition2)
         .createTransition(xorSplit, xorJoin, condition1);
         
+        //Set start
         token.setCurrentNode(start);
   
     }

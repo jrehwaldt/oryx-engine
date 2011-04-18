@@ -26,8 +26,23 @@ $().ready(function() {
         contentType: 'application/json', // we send json
         dataType: "json" // we expect json
     });
+    /*
+    $.ajax({
+        type: 'GET',
+        url: 'api/worklist/item/claim',
+        data: idee1,
+        success: function(data) {
+            $('#result_1').html(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $('#result_1').html(jqXHR.responseText).addClass('error');
+        },
+        contentType: 'application/json', // we send json
+        dataType: "json" // we expect json
+    });
+    */
     
-
+    /*
     $.ajax({
         type: 'POST',
         url: 'api/worklist/items/post',
@@ -55,13 +70,5 @@ $().ready(function() {
         contentType: 'application/json', // we send json
         dataType: "json" // we expect json
     });
-    
-    /*
-    $.post('api/worklist/item/claim', {workItem: DEMO_WORKITEM, resource: null},
-        function(data) {
-            $('#demo').html(data);
-        },
-        "json"
-    );
     */
 });

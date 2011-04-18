@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     
-    <display-name>Oryx Engine</display-name>
+    <display-name>Joda Engine</display-name>
     
-    
-    
+    <!-- Site Mesh Template -->
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
+    </filter>
     
     <!-- Engine bootstrap -->
-	<listener>
-		<listener-class>de.hpi.oryxengine.bootstrap.EngineServletListener</listener-class>
-	</listener>
+    <listener>
+        <listener-class>de.hpi.oryxengine.bootstrap.EngineServletListener</listener-class>
+    </listener>
     
     <!-- Engine REST-API -->
     <!--
@@ -31,25 +34,20 @@
             org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
     </listener>
     -->
-	<servlet>
-		<servlet-name>EngineREST API</servlet-name>
-		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
-	</servlet>
-    
     <servlet>
-        <servlet-name>EngineREST JS-API</servlet-name>
-        <servlet-class>org.jboss.resteasy.jsapi.JSAPIServlet</servlet-class>
+        <servlet-name>EngineREST API</servlet-name>
+        <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
     </servlet>
 
-	<context-param>
-		<param-name>resteasy.scan</param-name>
-		<param-value>true</param-value>
-	</context-param>
+    <context-param>
+        <param-name>resteasy.scan</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
-	<context-param>
-		<param-name>resteasy.servlet.mapping.prefix</param-name>
-		<param-value>/api</param-value>
-	</context-param>
+    <context-param>
+        <param-name>resteasy.servlet.mapping.prefix</param-name>
+        <param-value>/api</param-value>
+    </context-param>
     
     <!-- Less CSS (SaaS-like CSS processor) -->
     <servlet>
@@ -62,12 +60,11 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     
-    
     <!-- URL Mappings -->
-    <servlet-mapping>
-        <servlet-name>EngineREST API</servlet-name>
-        <url-pattern>/api/*</url-pattern>
-    </servlet-mapping>
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     
     <servlet-mapping>
         <servlet-name>less</servlet-name>
@@ -75,17 +72,16 @@
     </servlet-mapping>
     
     <servlet-mapping>
-        <servlet-name>EngineREST JS-API</servlet-name>
-        <url-pattern>/api-js</url-pattern>
+        <servlet-name>EngineREST API</servlet-name>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
     
-	<session-config>
-		<session-timeout>30</session-timeout>
-	</session-config>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
     
-	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-
-
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    
 </web-app>

@@ -185,4 +185,18 @@ implements TimingManager {
         
     }
     
+    @Override
+    public void emptyScheduler() throws SchedulerException {
+
+        String[] groups = scheduler.getJobGroupNames();
+        for (String group : groups) {
+            String[] jobs = scheduler.getJobNames(group);
+            for (String job : jobs) {
+                unregisterJob(group + "." + job);  
+            }
+
+        }
+        
+    }
+    
 }

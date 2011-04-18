@@ -35,15 +35,21 @@ public class BpmnXmlParser extends XmlParser {
     
     /** Namesspace for extensions elements of the {@link OryxEngine}. */
     public static final String JODA_ENGINE_EXTENSIONS_NS = "http://joda-engine.org/bpmn";
-
+    
     protected List<BpmnXmlParseListener> parseListeners;
 
+    public BpmnXmlParser() {
+        
+        getParseListeners().add(new BpmnProcessDefinitionValidator());
+    }
+    
     /**
      * Creates a new {@link BpmnParse} instance that can be used to parse only one BPMN 2.0 process definition.
      */
     public BpmnXmlParse createParse() {
 
         return new BpmnXmlParse(this);
+        
     }
 
     public List<BpmnXmlParseListener> getParseListeners() {
