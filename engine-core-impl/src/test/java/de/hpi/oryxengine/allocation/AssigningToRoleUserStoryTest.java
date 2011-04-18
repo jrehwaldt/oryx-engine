@@ -28,7 +28,7 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
@@ -108,28 +108,28 @@ public class AssigningToRoleUserStoryTest extends AbstractTest {
 
         token.executeStep();
 
-        List<WorklistItem> worklistItemsForHamburgGuys =
+        List<AbstractWorklistItem> worklistItemsForHamburgGuys =
             ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         Assert.assertTrue(worklistItemsForHamburgGuys.size() == 1);
 
-        List<WorklistItem> worklistItemsForJannik = ServiceFactory.getWorklistService().getWorklistItems(jannik);
+        List<AbstractWorklistItem> worklistItemsForJannik = ServiceFactory.getWorklistService().getWorklistItems(jannik);
         Assert.assertTrue(worklistItemsForJannik.size() == 1);
         
-        List<WorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService().getWorklistItems(gerardo);
+        List<AbstractWorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService().getWorklistItems(gerardo);
         Assert.assertTrue(worklistItemsForGerardo.size() == 1);
         
         // Tobi doesn't belong to any role so he shouldn't have anything to do
-        List<WorklistItem> worklistItemsForTobi = ServiceFactory.getWorklistService().getWorklistItems(tobi);
+        List<AbstractWorklistItem> worklistItemsForTobi = ServiceFactory.getWorklistService().getWorklistItems(tobi);
         Assert.assertTrue(worklistItemsForTobi.isEmpty());
         
         // Tobi2 doesn't belong to the HamburgGuysRole so he shouldn't have anything to do
-        List<WorklistItem> worklistItemsForTobi2 = ServiceFactory.getWorklistService().getWorklistItems(tobi);
+        List<AbstractWorklistItem> worklistItemsForTobi2 = ServiceFactory.getWorklistService().getWorklistItems(tobi);
         Assert.assertTrue(worklistItemsForTobi2.isEmpty());
         
-        WorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
+        AbstractWorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         Assert.assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.OFFERED);
 
-        WorklistItem worklistItemForJannik = worklistItemsForHamburgGuys.get(0);
+        AbstractWorklistItem worklistItemForJannik = worklistItemsForHamburgGuys.get(0);
         Assert.assertEquals(worklistItemForJannik.getStatus(), WorklistItemState.OFFERED);
         
         Assert.assertEquals(worklistItemForJannik, worklistItemForHamburgGuy);
@@ -146,9 +146,9 @@ public class AssigningToRoleUserStoryTest extends AbstractTest {
      
         token.executeStep();
         
-        List<WorklistItem> worklistItemsForHamburgGuys =
+        List<AbstractWorklistItem> worklistItemsForHamburgGuys =
             ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
-        WorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
+        AbstractWorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         Assert.assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.OFFERED);
         
         ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);
@@ -169,9 +169,9 @@ public class AssigningToRoleUserStoryTest extends AbstractTest {
 
         token.executeStep();
         
-        List<WorklistItem> worklistItemsForHamburgGuys =
+        List<AbstractWorklistItem> worklistItemsForHamburgGuys =
             ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
-        WorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
+        AbstractWorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         
         ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);
         
@@ -190,9 +190,9 @@ public class AssigningToRoleUserStoryTest extends AbstractTest {
 
         token.executeStep();
         
-        List<WorklistItem> worklistItemsForHamburgGuys =
+        List<AbstractWorklistItem> worklistItemsForHamburgGuys =
             ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
-        WorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
+        AbstractWorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         
         ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);        
         ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItemForHamburgGuy, jannik);
@@ -218,9 +218,9 @@ public class AssigningToRoleUserStoryTest extends AbstractTest {
 
         token.executeStep();
         
-        List<WorklistItem> worklistItemsForHamburgGuys =
+        List<AbstractWorklistItem> worklistItemsForHamburgGuys =
             ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
-        WorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
+        AbstractWorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         
         ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);
         ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItemForHamburgGuy, jannik);

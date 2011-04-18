@@ -1,8 +1,24 @@
 package de.hpi.oryxengine.deploy.bpmn.xml;
 
+import java.io.InputStream;
+import java.util.List;
+import java.util.UUID;
+
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
+import de.hpi.oryxengine.activity.impl.BpmnStartEvent;
+import de.hpi.oryxengine.activity.impl.EndActivity;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.repository.DeploymentBuilder;
+import de.hpi.oryxengine.repository.ProcessDefinitionImporter;
+import de.hpi.oryxengine.repository.importer.BpmnXmlInpustreamImporter;
+import de.hpi.oryxengine.util.ReflectionUtil;
 
 /**
  * It tests the deployment of BPMN processes that where serialized as xml. The xml contains the structure the process
@@ -17,28 +33,46 @@ import de.hpi.oryxengine.AbstractTest;
  */
 public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractTest {
 
-    private static final String EXECUTABLE_PROCESS_RESOURCE_PATH = 
-                                "/de/hpi/oryxengine/delpoy/bpmn/xml/SimpleSequence.bpmn.xml";
+    private static final String EXECUTABLE_PROCESS_RESOURCE_PATH = "de/hpi/oryxengine/delpoy/bpmn/xml/SimpleSequence.bpmn.xml";
 
     @Test
-    public void importProcessXMlAsStream() {
+    public void testCorrectProcessParsingOfXml()
+    throws DefinitionNotFoundException {
 
-        // TODO: [@Gerardo:] mal wieder auskommentieren
-        // InputStream executableProcessInputStream =
-        // ReflectionUtil.getResourceAsStream(EXECUTABLE_PROCESS_RESOURCE_PATH);
-        //
-        // ProcessDefinition processDefinition = ProcessImporter.createProcessOutOf(executableProcessInputStream);
-        //
-        // List<Node> startNodes = processDefinition.getStartNodes();
-        // Assert.assertTrue(startNodes.size() == 1);
-        //
-        // Node onlyStartNode = startNodes.get(0);
-        // Assert.assertTrue(onlyStartNode.getActivity() instanceof BPMNStartEvent);
-        // Assert.assertEquals(onlyStartNode.get, "Start");
+        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
 
-    }
+        InputStream bpmnXmlInputStream = ReflectionUtil.getResourceAsStream(EXECUTABLE_PROCESS_RESOURCE_PATH);
+        Assert.assertNotNull(bpmnXmlInputStream);
+        ProcessDefinitionImporter processDefinitionImporter = new BpmnXmlInpustreamImporter(bpmnXmlInputStream);
+        UUID deployedProcessDefinitionUUID = deploymentBuilder.deployProcessDefinition(processDefinitionImporter);
 
-    public void importProcessXMlAsSring() {
+        ProcessDefinition processDefinition = ServiceFactory.getRepositoryService().getProcessDefinition(
+            deployedProcessDefinitionUUID);
 
+        List<Node> startNodes = processDefinition.getStartNodes();
+        Assert.assertEquals(startNodes.size(), 1);
+
+        Node onlyStartNode = startNodes.get(0);
+        Assert.assertEquals(onlyStartNode.getActivityBlueprint().getActivityClass(), BpmnStartEvent.class);
+        Assert.assertEquals(onlyStartNode.getAttribute("name"), "Start");
+        Assert.assertEquals(onlyStartNode.getOutgoingTransitions().size(), 1);
+
+        Node nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
+        Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), AutomatedDummyActivity.class);
+        Assert.assertEquals(nextNode.getAttribute("name"), "A");
+        Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
+
+        nextNode = nextNode.getOutgoingTransitions().get(0).getDestination();
+        Assert.assertEquals(nextNode.getAttribute("name"), "B");
+        Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
+
+        nextNode = nextNode.getOutgoingTransitions().get(0).getDestination();
+        Assert.assertEquals(nextNode.getAttribute("name"), "C");
+        Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
+
+        Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
+        Assert.assertEquals(endNode.getActivityBlueprint().getActivityClass(), EndActivity.class);
+        Assert.assertEquals(endNode.getAttribute("name"), "End");
+        Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
     }
 }

@@ -2,14 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.hpi.oryxengine</groupId>
   <artifactId>engine-apps</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Oryx-Engine Apps</name>
   
   <parent>
     <artifactId>engine-root</artifactId>
     <groupId>de.hpi.oryxengine</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.2.1-SNAPSHOT</version>
   </parent>
   <dependencies>
         <dependency>

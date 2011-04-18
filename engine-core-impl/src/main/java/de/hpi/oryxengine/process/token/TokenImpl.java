@@ -33,7 +33,7 @@ public class TokenImpl implements Token {
     private Navigator navigator;
 
     private List<Token> lazySuspendedProcessingTokens;
-    
+
     private Activity currentActivity;
 
     /**
@@ -141,6 +141,12 @@ public class TokenImpl implements Token {
     public void executeStep()
     throws DalmatinaException {
 
+        if (instance.isCancelled()) {
+            // the following statement was already called, when instance.cancel() was called. Nevertheless, a token
+            // currently in execution might have created new tokens during split that were added to the instance.
+            instance.getTokens().clear();
+            return;
+        }
         lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
         this.currentActivityState = ActivityState.ACTIVE;
 
@@ -151,9 +157,11 @@ public class TokenImpl implements Token {
             return;
         }
         this.currentActivityState = ActivityState.COMPLETED;
-        // TODO Add Activity completed here
-        List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
+        // we need this guard clause here again, as we do not want an already cancelled token to produce new
+        // un-cancelled tokens.
+
+        List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
         for (Token token : splitedTokens) {
             navigator.addWorkToken(token);
         }
@@ -298,7 +306,6 @@ public class TokenImpl implements Token {
         if (this.currentActivityState == ActivityState.ACTIVE || this.currentActivityState == ActivityState.SUSPENDED) {
             currentActivity.cancel();
         }
-        instance.removeToken(this);
 
     }
 

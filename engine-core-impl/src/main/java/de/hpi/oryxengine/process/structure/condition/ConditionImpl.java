@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.process.structure;
+package de.hpi.oryxengine.process.structure.condition;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
+import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -62,6 +63,7 @@ public class ConditionImpl implements Condition {
             }
 
             // TODO Jannik make more generic with Juels, atm only integers allowed with == <= >=
+            // TODO @Jannik: das mit Juels wird aber eine neue Klasse bitte (from Gerardo)
             if (this.compareWith == "=="
                 && !sameAs(Integer.parseInt(contextValue.toString()), Integer.parseInt(me.getValue().toString()))) {
                 

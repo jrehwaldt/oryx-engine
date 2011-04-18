@@ -12,12 +12,12 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Condition;
-import de.hpi.oryxengine.process.structure.ConditionImpl;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.condition.ConditionImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
@@ -116,7 +116,7 @@ public class BPMNXORBehaviourTest {
         map.put("a", 1);
 
         Condition c = new ConditionImpl(map, "==");
-        ProcessBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
             new XORSplitBehaviour());
 

@@ -4,6 +4,15 @@
     <head> 
         <link rel="SHORTCUT ICON" href="images/favicon/favicon.ico" type="image/x-icon">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <link rel="stylesheet" type="text/css" href="stylesheets/layout.css">
+        
+        <script type="text/javascript" src="javascripts/lib/jquery-1.5.2.js"></script>
+        <script type="text/javascript" src="javascripts/demo/WorkItem1.js"></script>
+        <script type="text/javascript" src="javascripts/demo/ParticipantJannik.js"></script>
+        <script type="text/javascript" src="javascripts/demo/ParticipantWilli.js"></script>
+        <script type="text/javascript" src="javascripts/demo/demo-ajax.js"></script>
+        
         <title>Oryx Engine goes REST</title>
     </head>
     <body>
@@ -24,5 +33,12 @@
                 </ul>
              </li>
         </ul>
+        
+        <div id="result_1"></div>
+        <div id="result_2"></div>
+        <div id="result_3"></div>
+        
+        <div id="data"></div>
+        
     </body>
 </html>

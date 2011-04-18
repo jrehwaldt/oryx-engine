@@ -3,52 +3,57 @@ package de.hpi.oryxengine.resource.worklist;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
 import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
- * Represents the Worklist that contains several {@link WorklistItem} for a {@link AbstractResource}.
+ * Represents the Worklist that contains several {@link AbstractWorklistItem} for a {@link AbstractResource}.
  */
-@XmlRootElement
-public abstract class AbstractWorklist implements Iterable<WorklistItem> {
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "classifier")
+public abstract class AbstractWorklist implements Iterable<AbstractWorklistItem> {
 
     /**
-     * Retrieves the contained {@link WorklistItem}s.
+     * Retrieves the contained {@link AbstractWorklistItem}s.
      * 
-     * @return a list of {@link WorklistItem}s; the list is unmodifiable (read-only) 
+     * @return a list of {@link AbstractWorklistItem}s; the list is unmodifiable (read-only) 
      */
-    public abstract @Nonnull List<WorklistItem> getWorklistItems();
+    @JsonIgnore
+    public abstract @Nonnull List<AbstractWorklistItem> getWorklistItems();
     
     /**
      * Notifies this {@link Worklist} that the item has been allocated by a certain resource.
      * 
-     * The resource is now able to move, edit and remove the {@link WorklistItem}. 
+     * The resource is now able to move, edit and remove the {@link AbstractWorklistItem}. 
      * 
-     * @param worklistItem - a {@link WorklistItem} that was allocated
-     * @param claimingResource - the {@link AbstractResource} that allocated the {@link WorklistItem}
+     * @param worklistItem - a {@link AbstractWorklistItem} that was allocated
+     * @param claimingResource - the {@link AbstractResource} that allocated the {@link AbstractWorklistItem}
      */
-    public abstract void itemIsAllocatedBy(@Nonnull WorklistItem worklistItem,
-                           @Nonnull AbstractResource<?> claimingResource);
+    public abstract void itemIsAllocatedBy(@Nonnull AbstractWorklistItem worklistItem,
+                                           @Nonnull AbstractResource<?> claimingResource);
 
     /**
-     * Notifies the {@link Worklist} that the {@link WorklistItem} has been started.
+     * Notifies the {@link Worklist} that the {@link AbstractWorklistItem} has been started.
      * 
-     * @param worklistItem - a {@link WorklistItem} that has been started
+     * @param worklistItem - a {@link AbstractWorklistItem} that has been started
      */
-    public abstract void itemIsStarted(@Nonnull WorklistItem worklistItem);
+    public abstract void itemIsStarted(@Nonnull AbstractWorklistItem worklistItem);
 
     /**
-     * Notifies this {@link Worklist} that the {@link WorklistItem} has been completed.
+     * Notifies this {@link Worklist} that the {@link AbstractWorklistItem} has been completed.
      * 
-     * @param worklistItem - a {@link WorklistItem} that was completed
+     * @param worklistItem - a {@link AbstractWorklistItem} that was completed
      */
-    public abstract void itemIsCompleted(@Nonnull WorklistItem worklistItem);
+    public abstract void itemIsCompleted(@Nonnull AbstractWorklistItem worklistItem);
 
     /**
-     * Adds a {@link WorklistItem} into the {@link Worklist}.
+     * Adds a {@link AbstractWorklistItem} into the {@link Worklist}.
      * 
-     * @param worklistItem - a {@link WorklistItem} to add
+     * @param worklistItem - a {@link AbstractWorklistItem} to add
      */
-    public abstract void addWorklistItem(@Nonnull WorklistItem worklistItem);
+    public abstract void addWorklistItem(@Nonnull AbstractWorklistItem worklistItem);
 }

@@ -8,7 +8,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
- * DirectPushPattern receives a task and converts it to a {@link WorklistItem}. This {@link WorklistItem} is allocated
+ * DirectPushPattern receives a task and converts it to a {@link AbstractWorklistItem}. This {@link AbstractWorklistItem} is allocated
  * directly to a certain resource according to this pattern.
  * 
  * This implementation represents the pattern shown in here:

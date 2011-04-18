@@ -12,7 +12,7 @@ import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractDefaultWorklist;
-import de.hpi.oryxengine.resource.worklist.WorklistItem;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 
 /**
@@ -53,7 +53,7 @@ public class HumanTaskActivity extends AbstractDeferredActivity {
 
         // TODO move this to worklist manager
         for (AbstractResource<?> resource : task.getAssignedResources()) {
-            Iterator<WorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist()).getLazyWorklistItems()
+            Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist()).getLazyWorklistItems()
             .iterator();
 
             while (it.hasNext()) {

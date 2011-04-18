@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.process.structure.condition.ConditionImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;

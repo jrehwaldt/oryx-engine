@@ -1,18 +1,22 @@
 package de.hpi.oryxengine.resource;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.xml.bind.annotation.XmlID;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.codehaus.jackson.annotate.JsonAnySetter;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
-import de.hpi.oryxengine.rest.provider.UUIDXmlAdapter;
 import de.hpi.oryxengine.util.Identifiable;
 
 /**
@@ -23,15 +27,14 @@ import de.hpi.oryxengine.util.Identifiable;
  * @param <R>
  *            - extending Resource
  */
-@XmlRootElement
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "classifier")
 public abstract class AbstractResource<R extends AbstractResource<?>> implements Identifiable {
 
-    protected UUID resourceId;
+    protected UUID id;
 
-    // @XmlElement
-    protected ResourceType resourceType;
+    protected ResourceType type;
 
-    protected String resourceName;
+    protected String name;
 
     protected Map<String, String> propertyTable;
 
@@ -56,9 +59,9 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      */
     protected AbstractResource(@Nonnull UUID id, @Nonnull String resourceName, @Nonnull ResourceType resourceType) {
 
-        this.resourceId = id;
-        this.resourceName = resourceName;
-        this.resourceType = resourceType;
+        this.id = id;
+        this.name = resourceName;
+        this.type = resourceType;
     }
 
     /**
@@ -74,12 +77,11 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
         this(UUID.randomUUID(), resourceName, resourceType);
     }
 
-    @XmlID
-    @XmlJavaTypeAdapter(UUIDXmlAdapter.class)
+    @JsonProperty
     @Override
     public UUID getID() {
 
-        return resourceId;
+        return id;
     }
 
     /**
@@ -87,10 +89,10 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      * 
      * @return the name
      */
-    public @Nonnull
-    String getName() {
+    @JsonProperty
+    public @Nonnull String getName() {
 
-        return resourceName;
+        return name;
     }
 
     /**
@@ -100,10 +102,9 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      *            - the name
      * @return the current Resource object
      */
-    public @Nonnull
-    R setName(@Nonnull String name) {
+    public @Nonnull R setName(@Nonnull String name) {
 
-        resourceName = name;
+        this.name = name;
         return extractedThis();
     }
 
@@ -114,8 +115,7 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      *            - the property id
      * @return the object corresponding to the property id
      */
-    public @Nullable
-    Object getProperty(@Nonnull String propertyId) {
+    public @Nullable Object getProperty(@Nonnull String propertyId) {
 
         return getPropertyTable().get(propertyId);
     }
@@ -125,6 +125,7 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      * 
      * @return the propertyTable
      */
+    @JsonProperty
     protected @Nonnull Map<String, String> getPropertyTable() {
 
         if (propertyTable == null) {
@@ -142,8 +143,8 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      *            - the object that is stored to the property id
      * @return the current Resource object
      */
-    public @Nonnull
-    R setProperty(@Nonnull String propertyKey, @Nullable String propertyValue) {
+    public @Nonnull R setProperty(@Nonnull String propertyKey,
+                                  @Nullable String propertyValue) {
 
         getPropertyTable().put(propertyKey, propertyValue);
         return extractedThis();
@@ -155,15 +156,13 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      * @return the current Object as instance of the sub class
      */
     @SuppressWarnings("unchecked")
-    private @Nonnull
-    R extractedThis() {
+    private @Nonnull R extractedThis() {
 
         return (R) this;
     }
 
     /**
      * Two Resource objects are equal if their {@link ResourceType}s and their IDs an are the same.
-     * 
      * 
      * @param objectToCompare
      *            - if the object is not a Resource object then it is treated like any other object
@@ -211,10 +210,10 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      * 
      * @return the type of the {@link AbstractResource}, which is an Element of the Enumeration
      */
-    public @Nonnull
-    ResourceType getType() {
+    @JsonProperty
+    public @Nonnull ResourceType getType() {
 
-        return resourceType;
+        return type;
     }
 
     /**
@@ -222,9 +221,54 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      * 
      * @return the worklist of the resource
      */
-    public @Nonnull
-    AbstractWorklist getWorklist() {
+//    @JsonIgnore
+    public @Nonnull AbstractWorklist getWorklist() {
 
         return new EmptyWorklist();
+    }
+
+    /**
+     * Sets any other type not recognized by JSON serializer.
+     * This method is indented to be used by Jackson.
+     * 
+     * @param fieldName
+     *            - the fieldName
+     * @param value
+     *            - the value
+     */
+    @JsonAnySetter
+    protected void setOtherJson(@Nonnull String fieldName,
+                                @Nullable String value) {
+        
+        if ("type".equals(fieldName)) {
+            this.type = ResourceType.valueOf(value);
+        } else if ("id".equals(fieldName)) {
+            this.id = UUID.fromString(value);
+        }
+    }
+    
+    /**
+     * Sets a worklist. Used for Jackson deserialization only.
+     * 
+     * @param worklist
+     *            - the worklist
+     */
+    protected void setWorklist(@Nonnull AbstractWorklist worklist) {
+        
+        this.worklist = worklist;
+    }
+    
+    /**
+     * Returns a concrete resource object holding the value of the specified String.
+     * The argument is interpreted as json.
+     * 
+     * @param json json formated object
+     * @return a concrete resource
+     * @throws IOException failed to parse the json
+     */
+    public static @Nonnull AbstractResource<?> valueOf(@Nonnull String json)
+    throws IOException {
+        // TODO we do not have access to the ServiceFactory, so we need a new ObjectMapper every time
+        return (AbstractResource<?>) new ObjectMapper().readValue(json, AbstractResource.class);
     }
 }

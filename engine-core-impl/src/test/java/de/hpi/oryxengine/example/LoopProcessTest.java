@@ -19,7 +19,7 @@ import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
@@ -28,8 +28,8 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Condition;
-import de.hpi.oryxengine.process.structure.ConditionImpl;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.condition.ConditionImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -90,7 +90,7 @@ public class LoopProcessTest {
     @BeforeClass
     public void setUp() {
         
-        ProcessBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         
         //Create StartNode
         ActivityBlueprint blueprint = new ActivityBlueprintImpl(NullActivity.class);

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.AbstractRole;
@@ -13,6 +15,7 @@ import de.hpi.oryxengine.resource.AbstractRole;
  */
 public class RoleWorklist extends AbstractDefaultWorklist {
 
+    @JsonIgnore
     private AbstractRole relatedRole;
     
     /**
@@ -31,9 +34,9 @@ public class RoleWorklist extends AbstractDefaultWorklist {
     }
     
     @Override
-    public List<WorklistItem> getWorklistItems() {
+    public List<AbstractWorklistItem> getWorklistItems() {
 
-        List<WorklistItem> worklistItems = new ArrayList<WorklistItem>(getLazyWorklistItems());
+        List<AbstractWorklistItem> worklistItems = new ArrayList<AbstractWorklistItem>(getLazyWorklistItems());
         
         if (relatedRole.getSuperRole() != null) {
             worklistItems.addAll(relatedRole.getSuperRole().getWorklist().getWorklistItems());
@@ -43,7 +46,7 @@ public class RoleWorklist extends AbstractDefaultWorklist {
     }
 
     @Override
-    public void itemIsAllocatedBy(WorklistItem worklistItem, AbstractResource<?> claimingResource) {
+    public void itemIsAllocatedBy(AbstractWorklistItem worklistItem, AbstractResource<?> claimingResource) {
 
         
         System.out.println("worklistitem: " + worklistItem);
@@ -55,21 +58,21 @@ public class RoleWorklist extends AbstractDefaultWorklist {
     }
 
     @Override
-    public void addWorklistItem(WorklistItem worklistItem) {
+    public void addWorklistItem(AbstractWorklistItem worklistItem) {
 
         getLazyWorklistItems().add(worklistItem);
         worklistItem.getAssignedResources().add(relatedRole);
     }
 
     @Override
-    public void itemIsCompleted(WorklistItem worklistItem) {
+    public void itemIsCompleted(AbstractWorklistItem worklistItem) {
 
         String exceptionMessage = "WorklistItems in a RoleWorklist can nor be executed neither be completed.";
         throw new DalmatinaRuntimeException(exceptionMessage);        
     }
 
     @Override
-    public void itemIsStarted(WorklistItem worklistItem) {
+    public void itemIsStarted(AbstractWorklistItem worklistItem) {
 
         String exceptionMessage = "WorklistItems in a RoleWorklist can nor be executed neither be completed.";
         throw new DalmatinaRuntimeException(exceptionMessage);        

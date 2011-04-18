@@ -24,6 +24,8 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
     private List<Node> startNodes;
 
     private Map<StartEvent, Node> startTriggers;
+    
+    private Map<String, Object> attributeTable;
 
     /**
      * Instantiates a new {@link ProcessDefinition}. The name is the ID of the {@link ProcessDefinition}.
@@ -114,6 +116,27 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
             throw new IllegalStarteventException();
         }
 
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+
+        if (this.attributeTable == null) {
+            this.attributeTable = new HashMap<String, Object>();
+        }
+        return this.attributeTable;
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+
+        return getAttributes().get(attributeKey);
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+
+        getAttributes().put(attributeKey, attributeValue);
     }
 
 }

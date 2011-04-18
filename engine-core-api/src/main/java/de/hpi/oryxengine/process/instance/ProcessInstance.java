@@ -70,5 +70,17 @@ public interface ProcessInstance extends Identifiable {
      * @return true, if there are tokens assigned
      */
     boolean hasAssignedTokens();
+    
+    /**
+     * Cancel the execution of all tokens belonging to this instance.
+     */
+    void cancel();
+    
+    /**
+     * Checks if this instance was cancelled.
+     *
+     * @return true, if is cancelled
+     */
+    boolean isCancelled();
 
 }

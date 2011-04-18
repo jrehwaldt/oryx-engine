@@ -1,8 +1,10 @@
 package de.hpi.oryxengine.repository;
 
 import java.io.InputStream;
+import java.util.UUID;
 
 import de.hpi.oryxengine.RepositoryServiceImpl;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
@@ -19,46 +21,52 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
     }
 
     @Override
-    public DeploymentBuilder deployResourceAsInputStream(String resourceName, InputStream inputStream) {
+    public UUID deployResourceAsInputStream(String resourceName, InputStream inputStream) {
 
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public DeploymentBuilder deployClasspathResource(String resourceName, String resourceClasspath) {
+    public UUID deployClasspathResource(String resourceName, String resourceClasspath) {
 
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public DeploymentBuilder deployResourceAsString(String resourceName, String resourceStringContent) {
+    public UUID deployResourceAsString(String resourceName, String resourceStringContent) {
 
         // TODO Auto-generated method stub
         return null;
     }
 
+    //    @Override
+//    public UUID deployProcessDefinition(String processDefinitionName,
+//                                                     ProcessDefinitionImporter processDefinitionImporter) {
+//
+//        ProcessDefinition processDefinition = processDefinitionImporter.createProcessDefinition();
+//        processDefinition.setName(processDefinitionName);
+//
+//        repositoryServiceImpl.getProcessDefinitionsTable().put(processDefinition.getID(), processDefinition);
+//
+//        return processDefinition.getID();
+//    }
+
     @Override
-    public DeploymentBuilder deployProcessDefinition(String processDefinitionName,
-                                                     ProcessDefinitionImporter processDefinitionImporter) {
-
-        ProcessDefinition processDefinition = processDefinitionImporter.createProcessDefinition();
-        processDefinition.setName(processDefinitionName);
-
-        repositoryServiceImpl.getProcessDefinitionsTable().put(processDefinition.getID(), processDefinition);
-
-        return this;
-    }
-
-    @Override
-    public DeploymentBuilder deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter) {
+    public UUID deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter) {
 
         ProcessDefinition processDefinition = processDefinitionImporter.createProcessDefinition();
         
+        // Checking if the ProcessDefintion already exists in the Repository
+        if (repositoryServiceImpl.containsProcessDefinition(processDefinition.getID())) {
+            String errorMessage = "The ProcessDefinition is already deployed.";
+            throw new DalmatinaRuntimeException(errorMessage);
+        }
+            
         repositoryServiceImpl.getProcessDefinitionsTable().put(processDefinition.getID(), processDefinition);
         
-        return this;
+        return processDefinition.getID();
     }
 
 }

@@ -14,15 +14,13 @@ import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.NodeParameter;
-import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
+import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -114,31 +112,33 @@ public class EndActivityTest {
     public void beforeClass()
     throws IllegalStarteventException {
 
-        ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
-        startNode = builder.createStartNode(param);
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        Class<?>[] conSig = {String.class, int[].class};
-        int[] ints = {1, 1};
-        Object[] conArgs = {"result1", ints};
-        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, conSig, conArgs);
-        param.setActivityBlueprint(blueprint);
-//        param.setActivity(new AddNumbersAndStoreActivity("result1", 1, 1));
-        Node forkNode1 = builder.createNode(param);
-        
-        int[] anotherInts = {2, 2};
-        Object[] anotherConArgs = {"result2", anotherInts};
-        blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, conSig, anotherConArgs);
-        param.setActivityBlueprint(blueprint);
-//        param.setActivity(new AddNumbersAndStoreActivity("result2", 2, 2));
-        Node forkNode2 = builder.createNode(param);
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
+            new TakeAllSplitBehaviour());
+        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
+        startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
+
+        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        int[] ints = { 1, 1 };
+        nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
+        .addConstructorParameter(String.class, "result").addConstructorParameter(int[].class, ints);
+        // param.setActivity(new AddNumbersAndStoreActivity("result1", 1, 1));
+        Node forkNode1 = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
+
+        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        int[] anotherInts = { 2, 2 };
+        nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
+        .addConstructorParameter(String.class, "result2").addConstructorParameter(int[].class, anotherInts);
+        // param.setActivity(new AddNumbersAndStoreActivity("result2", 2, 2));
+        Node forkNode2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         builder.createTransition(startNode, forkNode1).createTransition(startNode, forkNode2);
 
-        param.setActivityClassOnly(EndActivity.class);
-        Node endNode1 = builder.createNode(param);
-        Node endNode2 = builder.createNode(param);
+        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
+        Node endNode1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        Node endNode2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
         builder.createTransition(forkNode1, endNode1).createTransition(forkNode2, endNode2);
 

@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.codehaus.jackson.annotate.JsonAnySetter;
+
 import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
@@ -17,7 +22,12 @@ public class TaskImpl implements Task {
 
     private transient AllocationStrategies allocationStrategies;
     private transient Set<AbstractResource<?>> assignedResources;
-
+    
+    /**
+     * Hidden constructor for deserialization.
+     */
+    protected TaskImpl() { }
+    
     /**
      * Default Constructor.
      * 
@@ -42,8 +52,7 @@ public class TaskImpl implements Task {
     }
 
     /**
-     * Default Constructor. 
-     * TODO @Gerardo please describe why some of them may be null and why the hell  are there 2 default constructors? -.-'
+     * Constructor for this class. It can be used when the {@link Task} is assigned to only one {@link AbstractResource Resource}. 
      * 
      * @param subject
      *            - the subject of the task
@@ -111,6 +120,28 @@ public class TaskImpl implements Task {
             assignedResources = new HashSet<AbstractResource<?>>();
         }
         return assignedResources;
+    }
+
+    /**
+     * Sets any other type not recognized by JSON serializer.
+     * This method is indented to be used by Jackson.
+     * 
+     * @param fieldName
+     *            - the fieldName
+     * @param value
+     *            - the value
+     */
+    @JsonAnySetter
+    protected void setOtherJson(@Nonnull String fieldName,
+                                @Nullable String value) {
+        
+        if ("subject".equals(fieldName)) {
+            this.subject = value;
+        } else if ("description".equals(fieldName)) {
+            this.description = value;
+        } else if ("from".equals(fieldName)) {
+            // still TODO
+        }
     }
 
 }

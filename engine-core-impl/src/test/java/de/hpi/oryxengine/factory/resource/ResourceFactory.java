@@ -19,14 +19,13 @@ public class ResourceFactory {
     /**
      * Creates a participant.
      * 
-     * @param id participant id
      * @param name participant name
      * @return the participant
      */
-    public static AbstractParticipant createParticipant(String id, String name) {
+    public static AbstractParticipant createParticipant(String name) {
         
         IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
-        AbstractParticipant participant = identityBuilder.createParticipant(id).setName(name);
+        AbstractParticipant participant = identityBuilder.createParticipant(name);
         
         return participant;
     }

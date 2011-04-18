@@ -1,7 +1,10 @@
 package de.hpi.oryxengine.resource.worklist;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractPosition;
@@ -11,8 +14,7 @@ import de.hpi.oryxengine.resource.AbstractResource;
  * Worklist for a participant.
  */
 public class ParticipantWorklist extends AbstractDefaultWorklist {
-
-//    @XmlIDREF
+    
     private AbstractParticipant relatedParticipant;
     
     /**
@@ -25,13 +27,18 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
      *
      * @param owner the related participant to the work list 
      */
-    public ParticipantWorklist(AbstractParticipant owner) {
+    public ParticipantWorklist(@Nonnull AbstractParticipant owner) {
         
         this.relatedParticipant = owner;
     }
 
     @Override
-    public List<WorklistItem> getWorklistItems() {
+    public List<AbstractWorklistItem> getWorklistItems() {
+        
+        // this is needed for deserialization to not break the circular dependency
+        if (relatedParticipant == null) {
+            return Collections.emptyList();
+        }
         
         // Extracting the resources related to this owner
         List<AbstractResource<?>> resourcesInView = new ArrayList<AbstractResource<?>>();
@@ -42,18 +49,17 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
         }
 
         // Creating the list of worklistItems from the owner and the related resources
-        List<WorklistItem> resultWorklistItems = new ArrayList<WorklistItem>();
+        List<AbstractWorklistItem> resultWorklistItems = new ArrayList<AbstractWorklistItem>();
         resultWorklistItems.addAll(getLazyWorklistItems());
         for (AbstractResource<?> resourceInView : resourcesInView) {
             resultWorklistItems.addAll(resourceInView.getWorklist().getWorklistItems());
         }
 
         return resultWorklistItems;
-        //return Collections.unmodifiableList(resultWorklistItems);
     }
 
     @Override
-    public void itemIsAllocatedBy(WorklistItem worklistItem, AbstractResource<?> claimingResource) {
+    public void itemIsAllocatedBy(AbstractWorklistItem worklistItem, AbstractResource<?> claimingResource) {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
 
@@ -73,14 +79,14 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
     }
 
     @Override
-    public void addWorklistItem(WorklistItem worklistItem) {
+    public void addWorklistItem(AbstractWorklistItem worklistItem) {
 
         getLazyWorklistItems().add(worklistItem);
         worklistItem.getAssignedResources().add(relatedParticipant);
     }
 
     @Override
-    public void itemIsCompleted(WorklistItem worklistItem) {
+    public void itemIsCompleted(AbstractWorklistItem worklistItem) {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
 
@@ -90,7 +96,7 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
     }
 
     @Override
-    public void itemIsStarted(WorklistItem worklistItem) {
+    public void itemIsStarted(AbstractWorklistItem worklistItem) {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
         worklistItemImpl.setStatus(WorklistItemState.EXECUTING);

@@ -1,0 +1,8 @@
+<root>
+    <child id="first_child">
+        <grandchild>text 1</grandchild>
+    </child>
+    <child id="second_child" ls:as="123" >
+        <grandchild>text 2</grandchild>
+    </child>
+</root>

@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * This is a runtime exception stating, that the initialization of
+ * This is a runtime exception stating that the initialization of
  * an engine part failed. Check proper logging if you use this exception.
  * 
  * The error should be severe / fatal and a proper working of the engine not be possible.
@@ -13,8 +13,7 @@ import javax.annotation.Nullable;
  * 
  * @author Jan Rehwaldt
  */
-public final class EngineInitializationFailedException
-extends DalmatinaRuntimeException {
+public final class EngineInitializationFailedException extends DalmatinaRuntimeException {
     private static final long serialVersionUID = 6061861852349667735L;
     
     /**

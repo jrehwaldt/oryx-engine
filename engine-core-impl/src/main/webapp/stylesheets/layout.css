@@ -8,3 +8,7 @@
 h2 {
   color: @color;
 }
+
+.error {
+   color: red;
+}

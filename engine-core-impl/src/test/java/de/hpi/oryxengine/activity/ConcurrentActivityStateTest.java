@@ -5,13 +5,16 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.definition.NodeParameter;
+import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
+import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
@@ -66,11 +69,11 @@ public class ConcurrentActivityStateTest {
         // for instance2/token2.
 
         token1.executeStep();
-        
+
         // TODO implement a method to view the states of formerly executed activities?
         // otherwise the states are hard to verify
         // TODO add the following line again as soon as we have activity plugins
-        //assertEquals(token1.getCurrentActivityState(), ActivityState.COMPLETED);
+        // assertEquals(token1.getCurrentActivityState(), ActivityState.COMPLETED);
         assertEquals(token2.getCurrentActivityState(), ActivityState.INIT);
 
     }
@@ -85,19 +88,18 @@ public class ConcurrentActivityStateTest {
     public void setUpProcess()
     throws IllegalStarteventException {
 
-        ProcessBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl();
-//        startActivity = new NullActivity();
-        param.setActivityClassOnly(NullActivity.class);
-        param.setIncomingBehaviour(new SimpleJoinBehaviour());
-        param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        startNode = builder.createStartNode(param);
+        NodeParameterBuilder nodeParameterBuilder = 
+            new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        nodeParameterBuilder.setActivityBlueprintFor(NullActivity.class);
+        
+        // startActivity = new NullActivity();
+        startNode = builder.createStartNode(nodeParameterBuilder.buildNodeParameter());
 
-//        param.setActivity(new NullActivity());
-        Node endNode = builder.createNode(param);
+        // param.setActivity(new NullActivity());
+        Node endNode = builder.createNode(nodeParameterBuilder.buildNodeParameter());
 
         definition = builder.createTransition(startNode, endNode).buildDefinition();
-
     }
 }
