@@ -2,6 +2,8 @@ package de.hpi.oryxengine.correlation.timing;
 
 import javax.annotation.Nonnull;
 
+import org.quartz.SchedulerException;
+
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.TimedConfiguration;
 import de.hpi.oryxengine.exception.AdapterSchedulingException;
@@ -50,4 +52,11 @@ public interface TimingManager {
      * Restart the scheduler with cleaned resources.
      */
     void shutdownScheduler();
+    
+    /**
+     * Empty scheduler. Removes all jobs
+     *
+     * @throws SchedulerException the scheduler exception
+     */
+    void emptyScheduler() throws SchedulerException;
 }

@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
+import org.quartz.SchedulerException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -19,8 +20,8 @@ import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleAssurancePlugin;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.ProcessInstance;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
@@ -114,6 +115,7 @@ public class IntermediateTimerTest extends AbstractTest {
    */
   @BeforeMethod
   public void beforeMethod() {
+      
       ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
       // TODO set parameter and somehow register the plugin
 //      IntermediateTimer timer = new IntermediateTimer(WAITING_TIME);
@@ -143,7 +145,13 @@ public class IntermediateTimerTest extends AbstractTest {
       
       token = new TokenImpl(node, mock(ProcessInstance.class), nav);
       
-      
+      //Cleanup the scheduler, remove old jobs to avoid testing problems
+      try {
+          ServiceFactory.getCorrelationService().getTimer().emptyScheduler();
+      } catch (SchedulerException e) {
+          e.printStackTrace();
+      }
+
   }
   
   /**
@@ -175,6 +183,8 @@ public class IntermediateTimerTest extends AbstractTest {
    */
   @Test
   public void testCancelProcess() throws DalmatinaException, InterruptedException {
+      
+      
       int jobGroups;
       TimingManager timer = ServiceFactory.getCorrelationService().getTimer();
 
@@ -198,9 +208,6 @@ public class IntermediateTimerTest extends AbstractTest {
    */
   @AfterMethod
   public void afterMethod() {
-      
-      //Shutdown the scheduler to free resources (due to jenkins problems with old registered events)
-      ServiceFactory.getCorrelationService().getTimer().shutdownScheduler();
       
       node = null;
       node2 = null;

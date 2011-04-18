@@ -16,6 +16,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
@@ -44,7 +47,9 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 @Consumes({ MediaType.APPLICATION_JSON })
 public final class WorklistWebService {
 //implements WorklistServiceFacade {
-
+    
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     private final WorklistService service;
     private final IdentityService identity;
 
@@ -105,6 +110,9 @@ public final class WorklistWebService {
     // @POST schicken und OHNE @QueryParam
     public List<AbstractWorklistItem> getWorklistItems(@QueryParam("resource") AbstractResource<?> resource)
     throws ResourceNotAvailableException {
+
+        logger.debug("GET: {}", resource);
+        
         resource = refreshResource(resource);
         List<AbstractWorklistItem> items = this.service.getWorklistItems(resource);
         return items;
@@ -113,17 +121,16 @@ public final class WorklistWebService {
     @Path("/items")
     @POST
     // Qual der Wahl! So soll's sein.
-    public void getWorklistItemsAsPost(@Context HttpServletRequest request)
+    public List<AbstractWorklistItem> getWorklistItemsAsPost(AbstractResource<?> resource)
     throws ResourceNotAvailableException {
-        //AbstractResource<?> resource
-        //List<AbstractWorklistItem>
-        System.out.println(request);
-        //return getWorklistItems(resource);
+        logger.debug("POST: {}", resource);
+		logger.debug("Request: {}", request);
+        return getWorklistItems(resource);
     }
     
     @Path("/item/claim")
-    @POST
-    // TODO @Pfeiffer: Realisiere diese Methodensignatur OHNE @QueryParam als @POST. Danke.
+    @GET
+    // Wieder unüblich. Ideal siehe "claimWorklistItemByPost"
     public void claimWorklistItemBy(@QueryParam("workItem") AbstractWorklistItem workItem,
                                     @QueryParam("resource") AbstractResource<?> resource) {
         
@@ -132,12 +139,28 @@ public final class WorklistWebService {
 //        UUID worklistItemUUID = UUID.fromString(workItem);
 //        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
         
-        System.out.println("YEAAAAAAAAAAAAAAAAAAAAHH");
-        System.out.println(workItem);
-        System.out.println(resource);
+        logger.debug("POST-claim WI: {}", workItem);
+        logger.debug("POST-claim Res: {}", resource);
         
+//        this.service.claimWorklistItemBy(workItem, resource);
         
-       // this.service.claimWorklistItemBy(workItem, resource);
+    }
+    
+    @Path("/item/claim")
+    @POST
+    // TODO @Pfeiffer: Realisiere diese Methodensignatur OHNE @QueryParam als @POST. Danke.
+    public void claimWorklistItemByPost(AbstractWorklistItem workItem,
+                                        AbstractResource<?> resource) {
+        
+//        UUID resourceUUID = UUID.fromString(resourceId);
+//        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+//        UUID worklistItemUUID = UUID.fromString(workItem);
+//        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
+        
+        logger.debug("POST-claim WI: {}", workItem);
+        logger.debug("POST-claim Res: {}", resource);
+        
+//        this.service.claimWorklistItemBy(workItem, resource);
         
     }
     
