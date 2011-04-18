@@ -92,8 +92,8 @@ public class NodeParameterBuilderImpl implements NodeParameterBuilder {
         List<Class<?>> tempList = getBlueprintConstructorSignature();
         Class<?>[] constructorSignature = (Class<?>[]) tempList.toArray(new Class<?>[tempList.size()]);
         Object[] constructorParameter = getBlueprintConstructorParameters().toArray();
-        ActivityBlueprint activityBlueprint = new ActivityBlueprintImpl(blueprintClazz, constructorSignature,
-            constructorParameter);
+        ActivityBlueprint activityBlueprint = new ActivityBlueprintImpl(
+            blueprintClazz, constructorSignature, constructorParameter);
 
         return new NodeParameterImpl(activityBlueprint, incomingBehaviour, outgoingBehaviour);
     }

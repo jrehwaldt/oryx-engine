@@ -3,13 +3,9 @@ package de.hpi.oryxengine.factories.process;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
-import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
-import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
@@ -59,7 +55,10 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
 		node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 		node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 		builder.createTransition(startNode, node1).createTransition(node1, node2);
-	
+		
+		//
+		// TODO: Split-behavior macht hier keinen Sinn.
+		//
 		nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
 		nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
 		Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
