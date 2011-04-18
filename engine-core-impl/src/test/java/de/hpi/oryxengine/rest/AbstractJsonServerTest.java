@@ -46,6 +46,7 @@ public abstract class AbstractJsonServerTest extends AbstractTest {
         SerializationConfig config = this.mapper.getSerializationConfig();
         config.setSerializationInclusion(Inclusion.NON_NULL);
         config.enable(SerializationConfig.Feature.INDENT_OUTPUT);
+        config.set(SerializationConfig.Feature.AUTO_DETECT_FIELDS, false);
         this.mapper.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(Visibility.ANY));
         this.mapper.configure(DeserializationConfig.Feature.CAN_OVERRIDE_ACCESS_MODIFIERS, true);
         this.mapper.configure(DeserializationConfig.Feature.AUTO_DETECT_FIELDS, true);
