@@ -8,19 +8,16 @@ import java.util.UUID;
 
 import javax.xml.bind.JAXBException;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.SerializationConfig.Feature;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
+import de.hpi.oryxengine.navigator.NavigatorState;
+import de.hpi.oryxengine.navigator.NavigatorStatistic;
 import de.hpi.oryxengine.resource.AbstractCapability;
 import de.hpi.oryxengine.resource.AbstractOrganizationUnit;
 import de.hpi.oryxengine.resource.AbstractParticipant;
@@ -32,11 +29,12 @@ import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
 import de.hpi.oryxengine.resource.worklist.AbstractDefaultWorklist;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
 import de.hpi.oryxengine.resource.worklist.RoleWorklist;
-import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
+import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 
 /**
  * This class tests the serialization of our resource classes.
@@ -47,25 +45,16 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class SerializationToJsonTest extends AbstractTestNGSpringContextTests {
-    
-    public static final String TMP_PATH = "./target/";
+public class SerializationToJsonTest extends AbstractJsonServerTest {
 
     private AbstractResource<?> participantJannik = null;
     private AbstractResource<?> participantBuzyWilli = null;
-    
-    private ObjectMapper mapper = null;
     
     /**
      * Setup.
      */
     @BeforeClass
     public void setUp() {
-        this.mapper = new ObjectMapper();
-        SerializationConfig config = this.mapper.getSerializationConfig();
-        config.setSerializationInclusion(Inclusion.NON_NULL);
-        config.enable(Feature.INDENT_OUTPUT);
-        
         this.participantJannik = ParticipantFactory.createJannik();
         this.participantBuzyWilli = ParticipantFactory.createBusyWilli();
     }
@@ -88,13 +77,13 @@ public class SerializationToJsonTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(xml.exists());
         Assert.assertTrue(xml.length() > 0);
         
-        AbstractResource<?> localConcreteParticipantHarry = mapper.readValue(xml, Participant.class);
+        AbstractResource<?> localConcreteParticipantHarry = this.mapper.readValue(xml, Participant.class);
         Assert.assertNotNull(localConcreteParticipantHarry);
         
-        AbstractResource<?> localAbstractParticipantHarry2 = mapper.readValue(xml, AbstractResource.class);
+        AbstractResource<?> localAbstractParticipantHarry2 = this.mapper.readValue(xml, AbstractResource.class);
         Assert.assertNotNull(localAbstractParticipantHarry2);
         
-        AbstractResource<?> localAbstractParticipantHarry = mapper.readValue(xml, AbstractParticipant.class);
+        AbstractResource<?> localAbstractParticipantHarry = this.mapper.readValue(xml, AbstractParticipant.class);
         Assert.assertNotNull(localAbstractParticipantHarry);
         
         Assert.assertEquals(localAbstractParticipantHarry, localConcreteParticipantHarry);
@@ -119,7 +108,7 @@ public class SerializationToJsonTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(xml.exists());
         Assert.assertTrue(xml.length() > 0);
         
-        AbstractResource<?> localParticipant = mapper.readValue(xml, AbstractResource.class);
+        AbstractResource<?> localParticipant = this.mapper.readValue(xml, AbstractResource.class);
         Assert.assertNotNull(localParticipant);
         
         Assert.assertEquals(this.participantBuzyWilli.getClass(), localParticipant.getClass());
@@ -161,11 +150,21 @@ public class SerializationToJsonTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(this.mapper.canSerialize(EmptyWorklist.class));
         
         //
+        // navigator
+        //
+        Assert.assertTrue(this.mapper.canSerialize(NavigatorStatistic.class));
+        Assert.assertTrue(this.mapper.canSerialize(NavigatorState.class));
+        
+        //
         // util
         //
         Assert.assertTrue(this.mapper.canSerialize(UUID.class));
         Assert.assertTrue(this.mapper.canSerialize(List.class));
         Assert.assertTrue(this.mapper.canSerialize(Map.class));
-        
+    }
+
+    @Override
+    protected Class<?> getResource() {
+        return null;
     }
 }
