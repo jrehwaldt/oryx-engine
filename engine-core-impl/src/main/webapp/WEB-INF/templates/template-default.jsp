@@ -9,7 +9,7 @@ String uri = request.getRequestURI();
 if (uri != null) {
     navigation = uri.substring(uri.indexOf('/') + 1).split("/");
     
-    if (navigation.length > 0 && !"".equals(navigation[0])) {
+    if (navigation.length > 0 && !"".equals(navigation[0]) && !navigation[0].endsWith(".jsp")) {
         class_for_selected_item = String.format("item_%s", navigation[0]).toLowerCase();
     }
 }
