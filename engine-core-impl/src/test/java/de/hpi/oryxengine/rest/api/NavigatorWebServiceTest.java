@@ -1,67 +1,116 @@
 package de.hpi.oryxengine.rest.api;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
-import org.jboss.resteasy.core.Dispatcher;
-import org.jboss.resteasy.mock.MockDispatcherFactory;
+import javax.xml.bind.JAXBException;
+
 import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
-import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
-import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.navigator.NavigatorStatistic;
+import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 
 /**
  * The Class NavigatorWebServiceTest.
  */
-@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class NavigatorWebServiceTest extends AbstractTest {
-
-    // TODO @Jan extend these tests as soon as it is possible to deploy a real process. We need some more integration tests.
-    private Dispatcher dispatcher;
-
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+public class NavigatorWebServiceTest extends AbstractJsonServerTest {
+    
+    private Navigator navigator = null;
+    
     /**
-     * Tests the get statistic method.
+     * Set up.
+     */
+    @BeforeClass
+    public void setUpNavigatorService() {
+        this.logger.debug("Start navigator");
+        
+        this.navigator = ServiceFactory.getNavigatorService();
+        this.navigator.start();
+    }
+    
+    @Override
+    protected Class<?> getResource() {
+        return NavigatorWebService.class;
+    }
+    
+    
+    /**
+     * Tests the get statistic method with json deserialization.
      * 
-     * @throws URISyntaxException
-     *             test fails
+     * @throws URISyntaxException test fails
+     * @throws IOException test fails
      */
     @Test
     public void testGetStatistic()
-    throws URISyntaxException {
-
+    throws URISyntaxException, IOException {
+        
         MockHttpRequest request = MockHttpRequest.get("/navigator/statistic");
         MockHttpResponse response = new MockHttpResponse();
-
-        dispatcher.invoke(request, response);
-
-        // TODO @Jan: we need json first, then we can deserialize the output, because it is no longer just a simple str
-        // assertEquals(Integer.valueOf(response.getContentAsString()).intValue(), 0);
+        
+        NavigatorStatistic stats;
+        synchronized (this.navigator) {
+            stats = this.navigator.getStatistics();
+            dispatcher.invoke(request, response);
+        }
+        
+        String json = response.getContentAsString();
+        logger.debug(json);
+        
+        NavigatorStatistic callStats = this.mapper.readValue(json, NavigatorStatistic.class);
+        
+        Assert.assertNotNull(callStats);
+        Assert.assertEquals(
+            callStats.getNumberOfFinishedInstances(), stats.getNumberOfFinishedInstances());
+        Assert.assertEquals(
+            callStats.getNumberOfExecutionThreads(), stats.getNumberOfExecutionThreads());
+        Assert.assertEquals(
+            callStats.getNumberOfRunningInstances(), stats.getNumberOfRunningInstances());
+        Assert.assertEquals(callStats.isNavigatorIdle(), stats.isNavigatorIdle());
     }
+    
+    /**
+     * Tests the serialization of our navigation statistics. This is necessary because occasionally
+     * serializing of "boolean x = true" was not correctly deserialized.
+     * 
+     * @throws IOException test fails
+     * @throws JAXBException test fails
+     */
+    @Test
+    public void testSerializationAndDesirializationOfNavigationStatistics() throws JAXBException, IOException {
+        File xml = new File(TMP_PATH + "NavigatorStatistics.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        NavigatorStatistic stats = new NavigatorStatistic(1, 1, 1, true);
+        this.mapper.writeValue(xml, stats);
+        
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        NavigatorStatistic desStats = this.mapper.readValue(xml, NavigatorStatistic.class);
+        Assert.assertNotNull(desStats);
 
-    // /**
-    // * Tests the get statistic method.
-    // *
-    // * @throws URISyntaxException test fails
-    // */
-    // @Test
-    // public void testFinishedInstances()
-    // throws URISyntaxException {
-    //
-    // MockHttpRequest request = MockHttpRequest.get("/navigator/endedinstances");
-    // MockHttpResponse response = new MockHttpResponse();
-    //
-    // dispatcher.invoke(request, response);
-    //
-    // assertEquals(Integer.valueOf(response.getContentAsString()).intValue(), 0);
-    // }
-
+        Assert.assertEquals(
+            desStats.getNumberOfFinishedInstances(), stats.getNumberOfFinishedInstances());
+        Assert.assertEquals(
+            desStats.getNumberOfExecutionThreads(), stats.getNumberOfExecutionThreads());
+        Assert.assertEquals(
+            desStats.getNumberOfRunningInstances(), stats.getNumberOfRunningInstances());
+        Assert.assertEquals(desStats.isNavigatorIdle(), stats.isNavigatorIdle());
+    }
+    
     /**
      * Tests the staring of an process instance via our Rest-interface.
      * 
@@ -76,8 +125,8 @@ public class NavigatorWebServiceTest extends AbstractTest {
     public void testStartInstance()
     throws IllegalStarteventException, URISyntaxException, InterruptedException {
 
-// TODO: [@Gerardo:] mal wieder auskommentieren
-        // create simple process
+    // TODO: [@Gerardo:] mal wieder auskommentieren
+// create simple process
 //        ProcessBuilder builder = new ProcessBuilderImpl();
 //        NodeParameter param = new NodeParameterImpl();
 //        
@@ -118,20 +167,5 @@ public class NavigatorWebServiceTest extends AbstractTest {
         // dispatcher.invoke(request, response);
         //
         // assertEquals(Integer.valueOf(response.getContentAsString()).intValue(), 1);
-    }
-
-    /**
-     * Set up.
-     */
-    @BeforeClass
-    public void setUpAndStartServer() {
-
-        dispatcher = MockDispatcherFactory.createDispatcher();
-        POJOResourceFactory factory = new POJOResourceFactory(NavigatorWebService.class);
-
-        dispatcher.getRegistry().addResourceFactory(factory);
-
-        Service nav = (Service) ServiceFactory.getNavigatorService();
-        nav.start();
     }
 }

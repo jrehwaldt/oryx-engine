@@ -1,27 +1,22 @@
 package de.hpi.oryxengine.navigator;
 
 import javax.annotation.Nonnegative;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container class for statistic information.
  * 
  * @author Jan Rehwaldt
  */
-@XmlRootElement
 public final class NavigatorStatistic {
-
-    @XmlElement
+    
     private int numberOfFinishedInstances;
     
-    @XmlElement
     private int numberOfRunningInstances;
     
-    @XmlElement
-    private boolean isNavigatorIdle;
+    private boolean navigatorIdle;
     
-    @XmlElement
     private int numberOfExecutionThreads;
     
     /**
@@ -34,17 +29,17 @@ public final class NavigatorStatistic {
      * 
      * @param numberOfFinishedInstances the number of finished instances
      * @param numberOfRunningInstances the number of running instances
-     * @param isNavigatorIdle whether the the navigator is idle
+     * @param navigatorIdle whether the the navigator is idle
      * @param numberOfExecutionThreads number of execution threads
      */
     public NavigatorStatistic(@Nonnegative int numberOfFinishedInstances,
                               @Nonnegative int numberOfRunningInstances,
                               @Nonnegative int numberOfExecutionThreads,
-                              boolean isNavigatorIdle) {
+                              boolean navigatorIdle) {
         
         this.numberOfFinishedInstances = numberOfFinishedInstances;
         this.numberOfRunningInstances = numberOfRunningInstances;
-        this.isNavigatorIdle = isNavigatorIdle;
+        this.navigatorIdle = navigatorIdle;
         this.numberOfExecutionThreads = numberOfExecutionThreads;
     }
 
@@ -53,6 +48,7 @@ public final class NavigatorStatistic {
      * 
      * @return the number of finished instances
      */
+    @JsonProperty
     public int getNumberOfFinishedInstances() {
         return numberOfFinishedInstances;
     }
@@ -62,6 +58,7 @@ public final class NavigatorStatistic {
      * 
      * @return the number of running instances
      */
+    @JsonProperty
     public int getNumberOfRunningInstances() {
         return numberOfRunningInstances;
     }
@@ -71,8 +68,9 @@ public final class NavigatorStatistic {
      * 
      * @return true, if the navigator is idle
      */
+    @JsonProperty
     public boolean isNavigatorIdle() {
-        return isNavigatorIdle;
+        return navigatorIdle;
     }
     
     /**
@@ -80,8 +78,8 @@ public final class NavigatorStatistic {
      * 
      * @return the number of execution threads
      */
+    @JsonProperty
     public int getNumberOfExecutionThreads() {
         return numberOfExecutionThreads;
     }
-    
 }
