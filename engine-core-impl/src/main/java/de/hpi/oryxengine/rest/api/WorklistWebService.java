@@ -99,6 +99,8 @@ public final class WorklistWebService {
     
     @Path("/items")
     @GET
+    // Das hier ist unüblich. Bei @GET wird kein "Content" mitgeschickt. Komplexe Objecte immer als
+    // @POST schicken und OHNE @QueryParam
     public List<AbstractWorklistItem> getWorklistItems(@QueryParam("resource") AbstractResource<?> resource)
     throws ResourceNotAvailableException {
         resource = refreshResource(resource);
@@ -108,13 +110,15 @@ public final class WorklistWebService {
 
     @Path("/items/post")
     @POST
+    // Qual der Wahl! So soll's sein.
     public List<AbstractWorklistItem> getWorklistItemsAsPost(AbstractResource<?> resource)
     throws ResourceNotAvailableException {
         return getWorklistItems(resource);
     }
-        
+    
     @Path("/item/claim")
     @POST
+    // TODO @Pfeiffer: Realisiere diese Methodensignatur OHNE @QueryParam als @POST. Danke.
     public void claimWorklistItemBy(@QueryParam("workItem") AbstractWorklistItem workItem,
                                     @QueryParam("resource") AbstractResource<?> resource) {
         
