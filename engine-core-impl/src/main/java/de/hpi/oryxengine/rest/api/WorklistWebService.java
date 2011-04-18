@@ -145,7 +145,8 @@ public final class WorklistWebService {
     
     @Path("/item/claim")
     @POST
-    // TODO @Pfeiffer: Realisiere diese Methodensignatur OHNE @QueryParam als @POST. Danke.
+    // EXTODO @Pfeiffer: Realisiere diese Methodensignatur OHNE @QueryParam als @POST. Danke.
+    // Geht nicht: http://stackoverflow.com/questions/5553218/jax-rs-post-multiple-objects
     public void claimWorklistItemByPost(AbstractWorklistItem workItem,
                                         AbstractResource<?> resource) {
         

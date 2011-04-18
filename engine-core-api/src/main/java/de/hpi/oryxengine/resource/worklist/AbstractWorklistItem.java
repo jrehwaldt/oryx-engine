@@ -52,10 +52,6 @@ public abstract class AbstractWorklistItem implements Task, Identifiable {
     public static @Nonnull AbstractWorklistItem valueOf(@Nonnull String json)
     throws IOException {
         // TODO we do not have access to the ServiceFactory, so we need a new ObjectMapper every time
-        System.out.println("looool");
-        System.out.println("looool");
-        System.out.println("looool");
-        System.out.println("looool: " + json);
         return (AbstractWorklistItem) new ObjectMapper().readValue(json, AbstractWorklistItem.class);
     }
 }
