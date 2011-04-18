@@ -69,7 +69,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
 		// system task, pre-editing of objection
 		Node system1 = builder.createNode(createParamBuilderFor(
-				PrintingVariableActivity.class,
+				PrintingVariableActivity.class, String.class,
 				"Widerspruch wird vorbearbeitet").buildNodeParameter());
 
 		// human task for objection clerk, task is to check
@@ -78,30 +78,33 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 				"Positionen auf Anspruch prüfen",
 				"Anspruchspositionen überprüfen", objectionClerk);
 		Node human1 = builder.createNode(createParamBuilderFor(
-				HumanTaskActivity.class, task, new SimpleJoinBehaviour(),
-				new XORSplitBehaviour()).buildNodeParameter());
+				HumanTaskActivity.class, Task.class, task,
+				new SimpleJoinBehaviour(), new XORSplitBehaviour())
+				.buildNodeParameter());
 
 		// XOR Split, condition is objection existence
 		Node xor1 = builder.createNode(createParamBuilderFor(
-				NullActivity.class, null, new SimpleJoinBehaviour(),
+				NullActivity.class, null, null, new SimpleJoinBehaviour(),
 				new XORSplitBehaviour()).buildNodeParameter());
 
 		// human task for objection clerk, task is to check redress
 		task = TaskFactory.createRoleTask("Abhilfebescheid prüfen",
 				"Prüfen des Abhilfebescheids", objectionClerk);
-		Node human2 = builder.createNode(createParamBuilderFor(
-				HumanTaskActivity.class, task).buildNodeParameter());
+		Node human2 = builder
+				.createNode(createParamBuilderFor(HumanTaskActivity.class,
+						Task.class, task).buildNodeParameter());
 
 		// human task for objection clerk, task is to check objection
 		task = TaskFactory.createRoleTask("Widerspruch prüfen",
 				"Widerspruch erneut prüfen auf neue Ansprüche", objectionClerk);
 		Node human3 = builder.createNode(createParamBuilderFor(
-				HumanTaskActivity.class, task, new SimpleJoinBehaviour(),
-				new XORSplitBehaviour()).buildNodeParameter());
+				HumanTaskActivity.class, Task.class, task,
+				new SimpleJoinBehaviour(), new XORSplitBehaviour())
+				.buildNodeParameter());
 
 		// XOR Split, condition is new relevant aspects existence
 		Node xor2 = builder.createNode(createParamBuilderFor(
-				NullActivity.class, null, new SimpleJoinBehaviour(),
+				NullActivity.class, null, null, new SimpleJoinBehaviour(),
 				new XORSplitBehaviour()).buildNodeParameter());
 
 		// human task for objection clerk, task is to create a new report
@@ -109,15 +112,16 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 				.createRoleTask("neues Gutachten erstellen",
 						"Anspruchspunkte in neues Gutachten übertragen",
 						objectionClerk);
-		Node human4 = builder.createNode(createParamBuilderFor(
-				HumanTaskActivity.class, task).buildNodeParameter());
+		Node human4 = builder
+				.createNode(createParamBuilderFor(HumanTaskActivity.class,
+						Task.class, task).buildNodeParameter());
 
 		// TODO intermediate mail event, customer answer
 		// needs to be implemented and inserted here
 
 		// XOR Split, condition is existence of objection in answer of customer
 		Node xor3 = builder.createNode(createParamBuilderFor(
-				NullActivity.class, null, new SimpleJoinBehaviour(),
+				NullActivity.class, null, null, new SimpleJoinBehaviour(),
 				new XORSplitBehaviour()).buildNodeParameter());
 
 		// XOR Join
@@ -128,14 +132,16 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 		// human task for objection clerk, task is to do final work
 		task = TaskFactory.createRoleTask("Nachbearbeitung",
 				"abschließende Nachbearbeitung des Falls", objectionClerk);
-		Node human5 = builder.createNode(createParamBuilderFor(
-				HumanTaskActivity.class, task).buildNodeParameter());
+		Node human5 = builder
+				.createNode(createParamBuilderFor(HumanTaskActivity.class,
+						Task.class, task).buildNodeParameter());
 
 		// human task for allowance clerk, task is to enforce allowance
 		task = TaskFactory.createRoleTask("Leistungsgewährung umsetzen",
 				"Leistungsansprüche durchsetzen", allowanceClerk);
-		Node human6 = builder.createNode(createParamBuilderFor(
-				HumanTaskActivity.class, task).buildNodeParameter());
+		Node human6 = builder
+				.createNode(createParamBuilderFor(HumanTaskActivity.class,
+						Task.class, task).buildNodeParameter());
 
 		// final XOR Join
 		Node xor5 = builder
@@ -144,8 +150,8 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
 		// system task, close file
 		Node system2 = builder.createNode(createParamBuilderFor(
-				PrintingVariableActivity.class, "Akte wird geschlossen")
-				.buildNodeParameter());
+				PrintingVariableActivity.class, String.class,
+				"Akte wird geschlossen").buildNodeParameter());
 
 		// end node
 		Node endNode = builder.createNode(createParamBuilderFor(
@@ -154,14 +160,20 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 		// connect the nodes
 		builder.createTransition(startNode, system1)
 				.createTransition(system1, human1)
-				.createTransition(human1, xor1).createTransition(xor1, human2)
-				.createTransition(xor1, human3).createTransition(human2, xor5)
-				.createTransition(human3, xor2).createTransition(xor2, human4)
-				.createTransition(xor2, xor4).createTransition(human4, xor3)
-				.createTransition(xor3, xor4).createTransition(xor3, xor5)
+				.createTransition(human1, xor1)
+				.createTransition(xor1, human2)
+				.createTransition(xor1, human3)
+				.createTransition(human2, xor5)
+				.createTransition(human3, xor2)
+				.createTransition(xor2, human4)
+				.createTransition(xor2, xor4)
+				.createTransition(human4, xor3)
+				.createTransition(xor3, xor4)
+				.createTransition(xor3, xor5)
 				.createTransition(xor4, human5)
 				.createTransition(human5, human6)
-				.createTransition(human6, xor5).createTransition(xor5, system2)
+				.createTransition(human6, xor5)
+				.createTransition(xor5, system2)
 				.createTransition(system2, endNode);
 	}
 
@@ -175,7 +187,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 	 */
 	private NodeParameterBuilder createParamBuilderFor(
 			Class<? extends AbstractActivity> activityClass) {
-		return createParamBuilderFor(activityClass, null,
+		return createParamBuilderFor(activityClass, null, null,
 				new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
 	}
 
@@ -192,8 +204,9 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 	 */
 	private NodeParameterBuilder createParamBuilderFor(
 			Class<? extends AbstractActivity> activityClass,
+			Class<? extends Object> paramClass,
 			Object constructorParam) {
-		return createParamBuilderFor(activityClass, constructorParam,
+		return createParamBuilderFor(activityClass, paramClass, constructorParam,
 				new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
 	}
 
@@ -215,6 +228,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 	 */
 	private NodeParameterBuilder createParamBuilderFor(
 			Class<? extends AbstractActivity> activityClass,
+			Class<? extends Object> paramClass,
 			Object constructorParam, IncomingBehaviour in, OutgoingBehaviour out) {
 
 		NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
@@ -222,7 +236,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 		nodeParamBuilder.setActivityBlueprintFor(activityClass);
 		if (constructorParam != null) {
 			nodeParamBuilder.addConstructorParameter(
-					constructorParam.getClass(), constructorParam);
+					paramClass, constructorParam);
 		}
 		return nodeParamBuilder;
 	}

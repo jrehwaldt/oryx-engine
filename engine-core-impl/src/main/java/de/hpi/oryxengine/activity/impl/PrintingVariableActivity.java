@@ -32,7 +32,6 @@ extends AbstractActivity {
     public void executeIntern(Token token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
-        String variableValue = (String) context.getVariable(variableName).toString();
-        logger.info(variableValue);
+        logger.info("%s", context.getVariable(variableName));
     }
 }
