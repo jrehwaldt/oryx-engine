@@ -24,7 +24,8 @@
         </ul>
         
         <div id="result_1"></div>
-        <div id="result_2"></div>
+		<p>Participants </p>
+        <div id="participants"></div>
         <div id="result_3"></div>
         
         <div id="data"></div>

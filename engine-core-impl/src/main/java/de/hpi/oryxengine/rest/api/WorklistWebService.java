@@ -59,6 +59,8 @@ public final class WorklistWebService {
         this.service = ServiceFactory.getWorklistService();
         this.identity = ServiceFactory.getIdentityService();
     }
+    
+    
 
     /**
      * Creates a demo participant with a work item.
@@ -125,6 +127,23 @@ public final class WorklistWebService {
         return getWorklistItems(resource);
     }
     
+    @Path("/{worklistItem-id}/claim")
+    @Consumes(MediaType.APPLICATION_JSON) 
+    @POST
+    // Qual der Wahl! So soll's sein.
+    public void claimWorklistItemBy(@PathParam("worklistItem-id") String worklistItemId, AbstractResource<?> resource)
+    throws ResourceNotAvailableException {
+        logger.debug("POST: {}", resource);
+        logger.debug("Request: {}",worklistItemId);
+        UUID id = UUID.fromString(worklistItemId);
+        
+        AbstractWorklistItem item = service.getWorklistItem(resource, id);
+
+        service.claimWorklistItemBy(item, resource);
+    }
+    
+    
+    
     @Path("/item/claim")
     @GET
     // Wieder unüblich. Ideal siehe "claimWorklistItemByPost"
@@ -143,23 +162,23 @@ public final class WorklistWebService {
         
     }
     
-    @Path("/item/claim")
-    @POST
-    // TODO @Pfeiffer: Realisiere diese Methodensignatur OHNE @QueryParam als @POST. Danke.
-    public void claimWorklistItemByPost(AbstractWorklistItem workItem,
-                                        AbstractResource<?> resource) {
-        
-//        UUID resourceUUID = UUID.fromString(resourceId);
-//        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
-//        UUID worklistItemUUID = UUID.fromString(workItem);
-//        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
-        
-        logger.debug("POST-claim WI: {}", workItem);
-        logger.debug("POST-claim Res: {}", resource);
-        
-//        this.service.claimWorklistItemBy(workItem, resource);
-        
-    }
+//    @Path("/item/claim")
+//    @POST
+//    // TODO @Pfeiffer: Realisiere diese Methodensignatur OHNE @QueryParam als @POST. Danke.
+//    public void claimWorklistItemByPost(AbstractWorklistItem workItem,
+//                                        AbstractResource<?> resource) {
+//        
+////        UUID resourceUUID = UUID.fromString(resourceId);
+////        AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+////        UUID worklistItemUUID = UUID.fromString(workItem);
+////        WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
+//        
+//        logger.debug("POST-claim WI: {}", workItem);
+//        logger.debug("POST-claim Res: {}", resource);
+//        
+////        this.service.claimWorklistItemBy(workItem, resource);
+//        
+//    }
     
     @Path("/items/{resource-type}/{resource-id}")
     @GET
