@@ -21,7 +21,7 @@ import de.hpi.oryxengine.navigator.NavigatorStatistic;
  * API servlet providing an interface for the navigator. It can be used to start/stop process instances.
  */
 @Path("/navigator")
-@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_JSON })
 public class NavigatorWebService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
