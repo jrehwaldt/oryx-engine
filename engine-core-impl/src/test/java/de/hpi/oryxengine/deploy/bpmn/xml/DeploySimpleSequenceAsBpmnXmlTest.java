@@ -31,23 +31,16 @@ import de.hpi.oryxengine.util.ReflectionUtil;
  * =ce81b965df1ca08e19b4b5e72defb618783191defa3461c81b3e8b05be714
  * 
  */
-public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractTest {
+public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractBPMNDeployerTest {
 
-    private static final String EXECUTABLE_PROCESS_RESOURCE_PATH = "de/hpi/oryxengine/delpoy/bpmn/xml/SimpleSequence.bpmn.xml";
 
-    @Test
-    public void testCorrectProcessParsingOfXml()
-    throws DefinitionNotFoundException {
+    public DeploySimpleSequenceAsBpmnXmlTest() {
 
-        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        executableProcessResourcePath = "de/hpi/oryxengine/delpoy/bpmn/xml/SimpleSequence.bpmn.xml";
+    }
 
-        InputStream bpmnXmlInputStream = ReflectionUtil.getResourceAsStream(EXECUTABLE_PROCESS_RESOURCE_PATH);
-        Assert.assertNotNull(bpmnXmlInputStream);
-        ProcessDefinitionImporter processDefinitionImporter = new BpmnXmlInpustreamImporter(bpmnXmlInputStream);
-        UUID deployedProcessDefinitionUUID = deploymentBuilder.deployProcessDefinition(processDefinitionImporter);
-
-        ProcessDefinition processDefinition = ServiceFactory.getRepositoryService().getProcessDefinition(
-            deployedProcessDefinitionUUID);
+    @Override
+    protected void assertProcessDefintion(ProcessDefinition processDefinition) {
 
         List<Node> startNodes = processDefinition.getStartNodes();
         Assert.assertEquals(startNodes.size(), 1);
