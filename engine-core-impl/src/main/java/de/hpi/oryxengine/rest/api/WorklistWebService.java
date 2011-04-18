@@ -127,6 +127,13 @@ public final class WorklistWebService {
         return getWorklistItems(resource);
     }
     
+    /**
+     * Claims a worklist item via POST request.
+     *
+     * @param worklistItemId the id for the worklist item, given in the request
+     * @param resource the json version of a resource
+     * @throws ResourceNotAvailableException the resource not available exception
+     */
     @Path("/{worklistItem-id}/claim")
     @Consumes(MediaType.APPLICATION_JSON) 
     @POST
@@ -134,7 +141,8 @@ public final class WorklistWebService {
     public void claimWorklistItemBy(@PathParam("worklistItem-id") String worklistItemId, AbstractResource<?> resource)
     throws ResourceNotAvailableException {
         logger.debug("POST: {}", resource);
-        logger.debug("Request: {}",worklistItemId);
+        logger.debug("Request: {}", worklistItemId);
+//      AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
         UUID id = UUID.fromString(worklistItemId);
         
         AbstractWorklistItem item = service.getWorklistItem(resource, id);

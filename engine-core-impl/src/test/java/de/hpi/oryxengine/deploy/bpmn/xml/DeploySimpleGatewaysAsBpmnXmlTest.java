@@ -37,22 +37,15 @@ import de.hpi.oryxengine.util.ReflectionUtil;
  * /png?inline&authkey=eb5d7e6bdadc19a3878bdfb0e31f93844160d2b779efe74d3a64a188a5ce31ff
  * 
  */
-public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractTest {
-    
-    private static final String EXECUTABLE_PROCESS_RESOURCE_PATH = "de/hpi/oryxengine/delpoy/bpmn/xml/SimpleGateways.bpmn.xml";
+public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractBPMNDeployerTest {
 
-    @Test
-    public void testCorrectProcessParsingOfXml() throws DefinitionNotFoundException {
+    public DeploySimpleGatewaysAsBpmnXmlTest() {
 
-        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        executableProcessResourcePath = "de/hpi/oryxengine/delpoy/bpmn/xml/SimpleGateways.bpmn.xml";
+    }
 
-        InputStream bpmnXmlInputStream = ReflectionUtil.getResourceAsStream(EXECUTABLE_PROCESS_RESOURCE_PATH);
-        Assert.assertNotNull(bpmnXmlInputStream);
-        ProcessDefinitionImporter processDefinitionImporter = new BpmnXmlInpustreamImporter(bpmnXmlInputStream);
-        UUID deployedProcessDefinitionUUID = deploymentBuilder.deployProcessDefinition(processDefinitionImporter);
-
-        ProcessDefinition processDefinition = ServiceFactory.getRepositoryService().getProcessDefinition(
-            deployedProcessDefinitionUUID);
+    @Override
+    protected void assertProcessDefintion(ProcessDefinition processDefinition) {
 
         List<Node> startNodes = processDefinition.getStartNodes();
         Assert.assertEquals(startNodes.size(), 1);
@@ -82,40 +75,41 @@ public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractTest {
         Assert.assertNull(nextNode.getAttribute("name"));
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 2);
         Node parallelGateway = nextNode;
-        
+
         nextNode = parallelGateway.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), AutomatedDummyActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "B");
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
         Node parallelJoinNode = nextNode.getOutgoingTransitions().get(0).getDestination();
-        
+
         nextNode = parallelGateway.getOutgoingTransitions().get(1).getDestination();
         Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), AutomatedDummyActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "C");
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
-        
+
         nextNode = nextNode.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(nextNode, parallelJoinNode);
         Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), NullActivity.class);
         Assert.assertEquals(nextNode.getIncomingBehaviour().getClass(), AndJoinBehaviour.class);
         Assert.assertEquals(nextNode.getOutgoingBehaviour().getClass(), TakeAllSplitBehaviour.class);
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
-        
+
         Node xorGatewayJoinNode = xorGatewayNode.getOutgoingTransitions().get(1).getDestination();
         nextNode = nextNode.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(nextNode, xorGatewayJoinNode);
         Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), NullActivity.class);
         Assert.assertEquals(nextNode.getIncomingBehaviour().getClass(), SimpleJoinBehaviour.class);
         Assert.assertEquals(nextNode.getOutgoingBehaviour().getClass(), XORSplitBehaviour.class);
-        
+
         nextNode = xorGatewayJoinNode.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), AutomatedDummyActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "D");
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
-            
+
         Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(endNode.getActivityBlueprint().getActivityClass(), EndActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
         Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
     }
+
 }
