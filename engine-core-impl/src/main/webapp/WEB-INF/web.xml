@@ -5,10 +5,15 @@
     
     <display-name>Joda Engine</display-name>
     
-    <!-- Site Mesh Template -->
+    <!-- Site Mesh Template and URL Rewriting -->
     <filter>
         <filter-name>sitemesh</filter-name>
         <filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
+    </filter>
+    
+    <filter>
+        <filter-name>url-rewrite</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
     </filter>
     
     <!-- Engine bootstrap -->
@@ -35,7 +40,7 @@
     </listener>
     -->
     <servlet>
-        <servlet-name>EngineREST API</servlet-name>
+        <servlet-name>rest-api</servlet-name>
         <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
     </servlet>
 
@@ -62,8 +67,15 @@
     
     <!-- URL Mappings -->
     <filter-mapping>
+        <filter-name>url-rewrite</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <filter-mapping>
         <filter-name>sitemesh</filter-name>
         <url-pattern>/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     
     <servlet-mapping>
@@ -72,7 +84,7 @@
     </servlet-mapping>
     
     <servlet-mapping>
-        <servlet-name>EngineREST API</servlet-name>
+        <servlet-name>rest-api</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
     

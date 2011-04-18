@@ -146,5 +146,10 @@
             <artifactId>sitemesh</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.tuckey</groupId>
+            <artifactId>urlrewritefilter</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 </project>

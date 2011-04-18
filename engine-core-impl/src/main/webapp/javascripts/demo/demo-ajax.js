@@ -42,7 +42,7 @@ $().ready(function() {
     });
     */
     
-    /*
+//    /*
     $.ajax({
         type: 'POST',
         url: 'api/worklist/items/post',
@@ -70,5 +70,5 @@ $().ready(function() {
         contentType: 'application/json', // we send json
         dataType: "json" // we expect json
     });
-    */
+//    */
 });
