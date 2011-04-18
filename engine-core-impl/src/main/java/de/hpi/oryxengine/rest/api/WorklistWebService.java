@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -12,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import de.hpi.oryxengine.IdentityService;
@@ -108,12 +110,15 @@ public final class WorklistWebService {
         return items;
     }
 
-    @Path("/items/post")
+    @Path("/items")
     @POST
     // Qual der Wahl! So soll's sein.
-    public List<AbstractWorklistItem> getWorklistItemsAsPost(AbstractResource<?> resource)
+    public void getWorklistItemsAsPost(@Context HttpServletRequest request)
     throws ResourceNotAvailableException {
-        return getWorklistItems(resource);
+        //AbstractResource<?> resource
+        //List<AbstractWorklistItem>
+        System.out.println(request);
+        //return getWorklistItems(resource);
     }
     
     @Path("/item/claim")
@@ -132,7 +137,7 @@ public final class WorklistWebService {
         System.out.println(resource);
         
         
-        this.service.claimWorklistItemBy(workItem, resource);
+       // this.service.claimWorklistItemBy(workItem, resource);
         
     }
     
