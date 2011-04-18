@@ -43,29 +43,27 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodes() {
 
-	NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
-		new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-	nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-	startNode = builder.createStartNode(nodeParamBuilder
-		.buildNodeParameter());
-
-	nodeParamBuilder = new NodeParameterBuilderImpl(
-		new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-	int[] ints = { 1, 1 };
-	nodeParamBuilder
-		.setActivityBlueprintFor(
-			AddNumbersAndStoreActivity.class)
-		.addConstructorParameter(String.class, "result")
-		.addConstructorParameter(int[].class, ints);
-	node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-	node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-	builder.createTransition(startNode, node1).createTransition(node1,
-		node2);
-
-	nodeParamBuilder = new NodeParameterBuilderImpl();
-	nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
-	Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
-	builder.createTransition(node2, endNode);
+		NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
+			new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+		nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
+		startNode = builder.createStartNode(nodeParamBuilder
+			.buildNodeParameter());
+	
+		nodeParamBuilder = new NodeParameterBuilderImpl(
+			new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+		int[] ints = { 1, 1 };
+		nodeParamBuilder
+			.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
+			.addConstructorParameter(String.class, "result")
+			.addConstructorParameter(int[].class, ints);
+		node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+		node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+		builder.createTransition(startNode, node1).createTransition(node1, node2);
+	
+		nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+		nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
+		Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
+		builder.createTransition(node2, endNode);
     }
 
 }
