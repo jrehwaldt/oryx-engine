@@ -18,19 +18,27 @@ $().ready(function() {
         contentType: 'application/json', // we send json
         dataType: "json" // we expect json
     });
-    
-    $('#data').html(
+
+  /*  $('#data').html(
         JSON.stringify(idee1) + "<br/>" + "<br/>" + "<br/>" + "<br/>" +
         idee2 + "<br/>" + "<br/>" + "<br/>" + "<br/>" +
         idee3 + "<br/>" + "<br/>"
     );
-
+*/
 
     $.ajax({
         type: 'GET',
         url: 'api/identity/participants',
         success: function(data) {
-            $('#participants').html(data);
+            var participants = data;
+            var otherParticipants = $.parseJSON(data);
+            $.each(participants, function(i, participant) {
+
+
+                $("#participants").append(participant);
+                $("#participantnames").append(participant.name);
+            });
+
         },
         error: function(jqXHR, textStatus, errorThrown) {
             $('#participants').html(jqXHR.responseText).addClass('error');
@@ -81,7 +89,7 @@ $().ready(function() {
         contentType: 'application/json', // we send json
         dataType: "json" // we expect json
     });
-    
+
     $.ajax({
         type: 'GET',
         url: 'api/worklist/items',
@@ -97,3 +105,4 @@ $().ready(function() {
     });
     */
 });
+

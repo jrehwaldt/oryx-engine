@@ -30,7 +30,7 @@ public final class IdentityWebService {
      */
     public IdentityWebService() {
         this.identity = ServiceFactory.getIdentityService();
-        DemoDataForWebservice.generate();
+        //DemoDataForWebservice.generate();
     }
     
     /**
@@ -40,7 +40,7 @@ public final class IdentityWebService {
      */
     @Path("/participants")
     @GET
-    @Produces("text/plain")
+    @Produces(MediaType.APPLICATION_JSON)
     public Set<AbstractParticipant> getParticipants() {
         
         Set<AbstractParticipant> participants = this.identity.getParticipants();

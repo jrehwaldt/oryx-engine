@@ -65,7 +65,7 @@ public final class WorklistWebService {
     /**
      * Creates a demo participant with a work item.
      * 
-     * @return json
+     * @return ID of the created participant
      */
     @Path("/demo")
     @GET
