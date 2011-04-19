@@ -3,7 +3,6 @@ package de.hpi.oryxengine.factories.process;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.AbstractActivity;
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
