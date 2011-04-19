@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.util.IoUtil;
 import de.hpi.oryxengine.util.ReflectionUtil;
-import de.hpi.oryxengine.util.io.ResourceStreamSource;
 
 /**
  * Tests the XMLParser with a simple xml file.
@@ -44,12 +43,13 @@ public class XMLParserTest {
 
         XmlParser parser = new XmlParser();
 
-        XmlParse parse = parser.createParse();
-        parse.setStreamSource(new ResourceStreamSource(XML_TEST_RESOURCE));
-        parse.execute();
+        XmlParseBuilder parseBuilder = parser.getXmlParseBuilder();
+        parseBuilder.defineSourceAsResource(XML_TEST_RESOURCE);
+        XmlParse xmlParse = (XmlParse) parseBuilder.buildXmlParse();
+        xmlParse.execute();
 
-        Assert.assertEquals(parse.rootElement.tagName, "root", getFaliureMessage());
-        List<XmlElement> elements = parse.rootElement.getElements();
+        Assert.assertEquals(xmlParse.getRootElement().tagName, "root", getFaliureMessage());
+        List<XmlElement> elements = xmlParse.getRootElement().getElements();
         Assert.assertTrue(elements.size() == 2, getFaliureMessage());
         
         XmlElement firstChild = elements.get(0);
