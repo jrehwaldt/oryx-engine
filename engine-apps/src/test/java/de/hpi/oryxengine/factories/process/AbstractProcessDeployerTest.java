@@ -4,13 +4,10 @@ import static org.testng.Assert.assertNotNull;
 
 import java.util.UUID;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
@@ -23,9 +20,7 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
  * The tests just run the code to verify that there are no erros. More specific tests are likely to break everything
  * you do a simple thing like adding one node to the process.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public abstract class AbstractProcessDeployerTest extends AbstractTestNGSpringContextTests {
+public abstract class AbstractProcessDeployerTest extends AbstractTest {
 
     protected ProcessDeployer deployer;
     protected UUID uuid;

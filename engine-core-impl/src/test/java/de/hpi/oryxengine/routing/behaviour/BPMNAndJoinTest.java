@@ -11,10 +11,8 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
-import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
