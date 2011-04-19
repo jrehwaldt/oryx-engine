@@ -20,7 +20,7 @@ import de.hpi.oryxengine.navigator.schedule.Scheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
@@ -44,14 +44,14 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     /**
      * All the process Instances (not tokens!) that are currently running for some reason.
      */
-    private List<ProcessInstance> runningInstances;
+    private List<AbstractProcessInstance> runningInstances;
 
     /**
      * All the process instances that finished i.e. that reached all their end events. Temporary until we can save them,
      * the way they are implemented now, they eat up a huge amount of heap space, as they are the last reference to
      * stuff the garbage collector would normally eat.
      */
-    private List<ProcessInstance> finishedInstances;
+    private List<AbstractProcessInstance> finishedInstances;
 
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
@@ -112,8 +112,8 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         // this.repository = ServiceFactory.getRepositoryService();
         this.repository = repo;
         this.suspendedTokens = new ArrayList<Token>();
-        this.runningInstances = Collections.synchronizedList(new ArrayList<ProcessInstance>());
-        this.finishedInstances = new ArrayList<ProcessInstance>();
+        this.runningInstances = Collections.synchronizedList(new ArrayList<AbstractProcessInstance>());
+        this.finishedInstances = new ArrayList<AbstractProcessInstance>();
     }
 
     /**
@@ -142,14 +142,14 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     }
 
     @Override
-    public ProcessInstance startProcessInstance(UUID processID)
+    public AbstractProcessInstance startProcessInstance(UUID processID)
     throws DefinitionNotFoundException {
 
         // TODO use the variable repository here. This cannot be used in tests, as it requires the bootstrap to have
         // run first, but we definitely do not want to start the whole engine to test a simple feature.
         ProcessDefinition definition = ServiceFactory.getRepositoryService().getProcessDefinition(processID);
 
-        ProcessInstance instance = new ProcessInstanceImpl(definition);
+        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
 
         for (Node node : definition.getStartNodes()) {
             Token newToken = instance.createToken(node, this);
@@ -161,12 +161,12 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     }
 
     @Override
-    public ProcessInstance startProcessInstance(UUID processID, StartEvent event)
+    public AbstractProcessInstance startProcessInstance(UUID processID, StartEvent event)
     throws DefinitionNotFoundException {
 
         ProcessDefinition definition = repository.getProcessDefinition(processID);
 
-        ProcessInstance instance = new ProcessInstanceImpl(definition);
+        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
         Node startNode = definition.getStartTriggers().get(event);
         Token newToken = instance.createToken(startNode, this);
         startArbitraryInstance(newToken);
@@ -263,19 +263,19 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     }
 
     @Override
-    public List<ProcessInstance> getRunningInstances() {
+    public List<AbstractProcessInstance> getRunningInstances() {
 
         return runningInstances;
     }
 
     @Override
-    public List<ProcessInstance> getEndedInstances() {
+    public List<AbstractProcessInstance> getEndedInstances() {
 
         return finishedInstances;
     }
 
     @Override
-    public void signalEndedProcessInstance(ProcessInstance instance) {
+    public void signalEndedProcessInstance(AbstractProcessInstance instance) {
 
         boolean instanceContained = runningInstances.remove(instance);
 

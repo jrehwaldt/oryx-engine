@@ -24,7 +24,7 @@ import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
@@ -45,7 +45,7 @@ public class TerminatingEndActivityTest {
     throws DalmatinaException {
 
         NavigatorImplMock nav = new NavigatorImplMock();
-        ProcessInstance instance = new ProcessInstanceImpl(definition);
+        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
         Token startToken = instance.createToken(startNode, nav);
 
         startToken.executeStep();

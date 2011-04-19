@@ -19,11 +19,11 @@ import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
@@ -63,21 +63,21 @@ public class LoopProcessTest {
         token.executeStep();
         assertEquals(token.getCurrentNode(), node);
         token.executeStep();
-        assertEquals(token.getInstance().getContext().getVariable("counter"),"1");
+        assertEquals(token.getInstance().getContext().getVariable("counter"), "1");
         assertEquals(token.getCurrentNode(), xorSplit);
         token.executeStep();
         assertEquals(token.getCurrentNode(), xorJoin);
         token.executeStep();
         assertEquals(token.getCurrentNode(), node);
         token.executeStep();
-        assertEquals(token.getInstance().getContext().getVariable("counter"),"2");
+        assertEquals(token.getInstance().getContext().getVariable("counter"), "2");
         assertEquals(token.getCurrentNode(), xorSplit);
         token.executeStep();
         assertEquals(token.getCurrentNode(), xorJoin);
         token.executeStep();
         assertEquals(token.getCurrentNode(), node);
         token.executeStep();
-        assertEquals(token.getInstance().getContext().getVariable("counter"),"3");
+        assertEquals(token.getInstance().getContext().getVariable("counter"), "3");
         assertEquals(token.getCurrentNode(), xorSplit);
         token.executeStep();
         assertEquals(token.getCurrentNode(), end);
@@ -106,10 +106,11 @@ public class LoopProcessTest {
         List<Node> startNodes = new ArrayList<Node>();
         startNodes.add(start);
         ProcessDefinition definition = new ProcessDefinitionImpl(UUID.randomUUID(), "testLoop", startNodes);
-        ProcessInstance instance = new ProcessInstanceImpl(definition);
+        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
         instance.getContext().setVariable("counter", "0");
         instance.getContext().setVariable("increment", "1");
-        token = new TokenImpl(node, instance, nav);
+        // start node for token is set later on
+        token = new TokenImpl(null, instance, nav);
         
         //Setup XOR DATA
         HashMap<String, Object> map = new HashMap<String, Object>();

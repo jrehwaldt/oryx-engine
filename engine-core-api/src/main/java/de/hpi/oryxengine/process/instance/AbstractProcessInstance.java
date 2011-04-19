@@ -2,6 +2,11 @@ package de.hpi.oryxengine.process.instance;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
+
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
@@ -12,7 +17,8 @@ import de.hpi.oryxengine.util.Identifiable;
  * The Interface ProcessInstance that represents what you actually call a process instance. It has several execution
  * threads, represented as tokens and a context that holds variables.
  */
-public interface ProcessInstance extends Identifiable {
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
+public abstract class AbstractProcessInstance implements Identifiable {
 
     /**
      * Assigns the token to this instance.
@@ -20,7 +26,7 @@ public interface ProcessInstance extends Identifiable {
      * @param t
      *            the t
      */
-    void addToken(Token t);
+    public abstract void addToken(Token t);
 
     /**
      * Removes a token from the instance, for example, if it has finished execution.
@@ -28,28 +34,31 @@ public interface ProcessInstance extends Identifiable {
      * @param t
      *            the t
      */
-    void removeToken(Token t);
+    public abstract void removeToken(Token t);
 
     /**
      * Gets the instance context that is shared among all tokens that belong to this instance.
      * 
      * @return the context
      */
-    ProcessInstanceContext getContext();
+    @JsonProperty
+    public abstract ProcessInstanceContext getContext();
 
     /**
      * Gets the tokens that belong to this instance.
      * 
      * @return the tokens
      */
-    List<Token> getTokens();
+    @JsonProperty
+    public abstract List<Token> getAssignedTokens();
 
     /**
      * Gets the definition this instance was created for.
      * 
      * @return the definition
      */
-    ProcessDefinition getDefinition();
+    @JsonProperty
+    public abstract ProcessDefinition getDefinition();
 
     /**
      * Creates the token referencing the given navigator and places it on the supplied node.
@@ -60,7 +69,7 @@ public interface ProcessInstance extends Identifiable {
      *            the nav
      * @return the token
      */
-    Token createToken(Node node, Navigator nav);
+    public abstract Token createToken(Node node, Navigator nav);
 
     /**
      * Checks if there tokens assigned to this instance. This indicates, that this instance is still running. If this
@@ -69,18 +78,19 @@ public interface ProcessInstance extends Identifiable {
      * 
      * @return true, if there are tokens assigned
      */
-    boolean hasAssignedTokens();
+    public abstract boolean hasAssignedTokens();
     
     /**
      * Cancel the execution of all tokens belonging to this instance.
      */
-    void cancel();
+    public abstract void cancel();
     
     /**
      * Checks if this instance was cancelled.
      *
      * @return true, if is cancelled
      */
-    boolean isCancelled();
+    @JsonProperty
+    public abstract boolean isCancelled();
 
 }

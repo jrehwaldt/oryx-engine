@@ -14,7 +14,7 @@ import de.hpi.oryxengine.resource.AbstractResource;
 /**
  * Represents the Worklist that contains several {@link AbstractWorklistItem} for a {@link AbstractResource}.
  */
-@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "classifier")
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public abstract class AbstractWorklist implements Iterable<AbstractWorklistItem> {
 
     /**

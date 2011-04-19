@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hpi.oryxengine.bootstrap.OryxEngine;
+import de.hpi.oryxengine.util.xml.XmlParseBuilder;
 import de.hpi.oryxengine.util.xml.XmlParser;
 
 /**
@@ -43,15 +44,12 @@ public class BpmnXmlParser extends XmlParser {
         getParseListeners().add(new BpmnProcessDefinitionValidator());
     }
     
-    /**
-     * Creates a new {@link BpmnParse} instance that can be used to parse only one BPMN 2.0 process definition.
-     */
-    public BpmnXmlParse createParse() {
-
-        return new BpmnXmlParse(this);
-        
+    @Override
+    public XmlParseBuilder getXmlParseBuilder() {
+    
+        return new BpmnXmlParseBuilder(this);
     }
-
+    
     public List<BpmnXmlParseListener> getParseListeners() {
 
         if (this.parseListeners == null) {

@@ -1,7 +1,7 @@
 var DEMO_PARTICIPANT_JANNIK = {
-  "classifier" : "de.hpi.oryxengine.resource.Participant",
+  "@classifier" : "de.hpi.oryxengine.resource.Participant",
   "worklist" : {
-    "classifier" : "de.hpi.oryxengine.resource.worklist.ParticipantWorklist",
+    "@classifier" : "de.hpi.oryxengine.resource.worklist.ParticipantWorklist",
     "lazyWorklistItems" : [ ]
   },
   "myPositionsImmutable" : [ ],

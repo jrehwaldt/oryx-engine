@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.activity.impl;
 
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -12,7 +12,7 @@ public class TerminatingEndActivity extends EndActivity {
     @Override
     protected void executeIntern(Token token) {
 
-        ProcessInstance instance = token.getInstance();
+        AbstractProcessInstance instance = token.getInstance();
 
         instance.cancel();
 

@@ -11,9 +11,9 @@ import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
- * The Class ProcessInstanceImpl. See {@link ProcessInstance}
+ * The Class ProcessInstanceImpl. See {@link AbstractProcessInstance}
  */
-public class ProcessInstanceImpl implements ProcessInstance {
+public class ProcessInstanceImpl extends AbstractProcessInstance {
 
     private ProcessDefinition definition;
     private ProcessInstanceContext context;
@@ -21,7 +21,17 @@ public class ProcessInstanceImpl implements ProcessInstance {
     private List<Token> assignedTokens;
 
     private boolean cancelled;
+    
+    /**
+     * Hidden constructor.
+     */
+    protected ProcessInstanceImpl() { }
 
+    /**
+     * Default constructor.
+     * 
+     * @param definition the process definition of this instance
+     */
     public ProcessInstanceImpl(ProcessDefinition definition) {
 
         this.definition = definition;
@@ -45,7 +55,7 @@ public class ProcessInstanceImpl implements ProcessInstance {
     }
 
     @Override
-    public List<Token> getTokens() {
+    public List<Token> getAssignedTokens() {
 
         return assignedTokens;
     }

@@ -94,11 +94,9 @@ public interface WorklistService {
      *            the {@link AbstractWorklistItem}'s id
      * @return the {@link AbstractWorklistItem}
      */
-    @Nullable
-    AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource, @Nonnull UUID worklistItemId);
-
+    @Nullable AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
+                                                   @Nonnull UUID worklistItemId);
     // TODO: Observable Interface für die GUI
-
     /**
      * Returns the number of worklist items which are offered or allocated? to the given resources
      * 

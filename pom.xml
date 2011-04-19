@@ -22,6 +22,7 @@
         <resteasy-version>2.0.1.GA</resteasy-version>
         <sitemesh-version>2.4.2</sitemesh-version>
         <urlrewrite-version>3.1.0</urlrewrite-version>
+        <jackson-version>1.7.6</jackson-version> <!-- 1.5.3 version is default; 1.7.6 is newest -->
     </properties>
 
     <dependencyManagement>
@@ -62,6 +63,34 @@
                 <groupId>org.jboss.resteasy</groupId>
                 <artifactId>resteasy-jackson-provider</artifactId>
                 <version>${resteasy-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-xc</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-jaxrs</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-mapper-asl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-core-asl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-xc</artifactId>
+                <version>${jackson-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-jaxrs</artifactId>
+                <version>${jackson-version}</version>
             </dependency>
             <!-- JSR305 (@Nonnull/@Nullable) -->
             <dependency>

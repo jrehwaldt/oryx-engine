@@ -18,7 +18,7 @@ import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -52,7 +52,7 @@ public class NavigatorWebService implements Navigator {
      * Starts a process instance according to the given process definition ID.
      * 
      * TODO version 2.0.1.GA of RESTeasy does not support UUID, version 2.2-beta-1 works, but has a problem with Jackson
-     * Remove this method once RESTeasy 2.2 is stable or beta-2 fixed this problem.
+     * Remove this method once RESTeasy 2.2 is stable or beta-2? fixed this problem.
      * 
      * @param definitionID
      *            the id of the process definition to be instantiated and started
@@ -60,9 +60,9 @@ public class NavigatorWebService implements Navigator {
      *            thrown if the process definition is not found
      * @return returns the created instance
      */
-    @Path("/process_alt/{definition-id}/start")
+    @Path("/process/{definition-id}/start")
     @POST
-    public ProcessInstance startProcessInstance(@PathParam("definition-id") String definitionID)
+    public AbstractProcessInstance startProcessInstance(@PathParam("definition-id") String definitionID)
     throws DefinitionNotFoundException {
         
         return startProcessInstance(UUID.fromString(definitionID));
@@ -71,7 +71,7 @@ public class NavigatorWebService implements Navigator {
 //    @Path("/process/{definition-id}/start")
 //    @GET
     @Override
-    public ProcessInstance startProcessInstance(@PathParam("definition-id") UUID definitionID)
+    public AbstractProcessInstance startProcessInstance(@PathParam("definition-id") UUID definitionID)
     throws DefinitionNotFoundException {
         
         return navigatorService.startProcessInstance(definitionID);
@@ -81,28 +81,30 @@ public class NavigatorWebService implements Navigator {
     @GET
     @Override
     public boolean isIdle() {
-
+        
         return this.navigatorService.isIdle();
     }
 
 
+    @Path("/status/running-instances")
+    @GET
     @Override
-    public List<ProcessInstance> getRunningInstances() {
-
-        // TODO Auto-generated method stub
-        return null;
+    public List<AbstractProcessInstance> getRunningInstances() {
+        
+        return this.navigatorService.getRunningInstances();
     }
 
+    @Path("/status/finished-instances")
+    @GET
     @Override
-    public List<ProcessInstance> getEndedInstances() {
-
-        // TODO Auto-generated method stub
-        return null;
+    public List<AbstractProcessInstance> getEndedInstances() {
+        
+        return this.navigatorService.getEndedInstances();
     }
 
     @Override
     public void start() {
-
+        
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
 
@@ -113,13 +115,13 @@ public class NavigatorWebService implements Navigator {
     }
 
     @Override
-    public void signalEndedProcessInstance(ProcessInstance instance) {
+    public void signalEndedProcessInstance(AbstractProcessInstance instance) {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
 
     @Override
-    public ProcessInstance startProcessInstance(UUID processID, StartEvent event)
+    public AbstractProcessInstance startProcessInstance(UUID processID, StartEvent event)
     throws DefinitionNotFoundException {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);

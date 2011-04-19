@@ -1,13 +1,18 @@
 package de.hpi.oryxengine.process.token;
 
 import java.util.List;
-import java.util.UUID;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.ActivityState;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.util.Identifiable;
@@ -16,6 +21,7 @@ import de.hpi.oryxengine.util.Identifiable;
  * The Interface Token. A Token is able to navigate through the process, but does not make up the whole process
  * instance. Moreover it is a single strand of execution.
  */
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface Token extends Identifiable {
 
     /**
@@ -23,6 +29,7 @@ public interface Token extends Identifiable {
      * 
      * @return the current node
      */
+    @JsonIgnore
     Node getCurrentNode();
 
     /**
@@ -39,15 +46,8 @@ public interface Token extends Identifiable {
      * 
      * @return the current activity state
      */
+    @JsonProperty
     ActivityState getCurrentActivityState();
-
-    /**
-     * Gets the iD.
-     * 
-     * @return the iD {@inheritDoc}
-     */
-    @Override
-    UUID getID();
 
     /**
      * Executes a step for the given instance, which is usually a single step beginning with the current node.
@@ -96,13 +96,15 @@ public interface Token extends Identifiable {
      * 
      * @return the context
      */
-    ProcessInstance getInstance();
+    @JsonIgnore
+    AbstractProcessInstance getInstance();
 
     /**
      * Gets the last taken transition of the token.
      * 
      * @return the last taken transition
      */
+    @JsonIgnore
     Transition getLastTakenTransition();
 
     /**
@@ -133,6 +135,7 @@ public interface Token extends Identifiable {
      * 
      * @return the navigator
      */
+    @JsonIgnore
     Navigator getNavigator();
 
     /**
@@ -145,5 +148,6 @@ public interface Token extends Identifiable {
      * 
      * @return the current activity
      */
+    @JsonProperty
     Activity getCurrentActivity();
 }

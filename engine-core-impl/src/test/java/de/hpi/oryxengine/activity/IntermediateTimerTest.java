@@ -22,7 +22,7 @@ import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -143,7 +143,7 @@ public class IntermediateTimerTest extends AbstractTest {
       builder.createTransition(node2, node3);
       
       
-      token = new TokenImpl(node, mock(ProcessInstance.class), nav);
+      token = new TokenImpl(node, mock(AbstractProcessInstance.class), nav);
       
       //Cleanup the scheduler, remove old jobs to avoid testing problems
       try {

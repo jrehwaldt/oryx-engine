@@ -2,6 +2,10 @@ package de.hpi.oryxengine.process.instance;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
+
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 
@@ -10,6 +14,7 @@ import de.hpi.oryxengine.process.structure.Transition;
  * the same subprocess. This makes it possible to synchronize them at parallel joins and share process instance
  * variables.
  */
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface ProcessInstanceContext {
 
     /**

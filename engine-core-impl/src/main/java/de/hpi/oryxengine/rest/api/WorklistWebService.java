@@ -151,11 +151,9 @@ public final class WorklistWebService {
         UUID id = UUID.fromString(worklistItemId);
         
         AbstractWorklistItem item = service.getWorklistItem(resource, id);
-
+        
         service.claimWorklistItemBy(item, resource);
     }
-    
-    
     
     @Path("/item/claim")
     @GET

@@ -27,7 +27,7 @@ import de.hpi.oryxengine.util.Identifiable;
  * @param <R>
  *            - extending Resource
  */
-@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "classifier")
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public abstract class AbstractResource<R extends AbstractResource<?>> implements Identifiable {
 
     protected UUID id;

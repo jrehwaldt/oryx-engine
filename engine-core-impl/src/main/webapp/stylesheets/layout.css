@@ -281,6 +281,27 @@ legend:hover {
     background-image: url(../images/layout/tab-level-1.png);
 }
 
+#tab-level-1 {
+    display: none;
+}
+
+#tab-level-1.item_0,
+#tab-level-1.item_dashboard,
+#tab-level-1.item_1,
+#tab-level-1.item_explorer,
+#tab-level-1.item_2,
+#tab-level-1.item_worklist,
+#tab-level-1.item_3,
+#tab-level-1.item_resources,
+#tab-level-1.item_4,
+#tab-level-1.item_settings,
+#tab-level-1.item_5,
+#tab-level-1.item_6,
+#tab-level-1.item_7,
+#tab-level-1.item_8 {
+    display: block;
+}
+
 #tab-level-1.item_0,
 #tab-level-1.item_dashboard {
     left: 134px;

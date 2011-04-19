@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.repository.importer.bpmn;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.XORSplitBehaviour;
+import de.hpi.oryxengine.util.io.StreamSource;
 import de.hpi.oryxengine.util.xml.XmlElement;
 import de.hpi.oryxengine.util.xml.XmlParse;
 
@@ -55,13 +57,15 @@ public class BpmnXmlParse extends XmlParse {
      * @param parser
      *            - in order to have general configuration for parsing through the XML
      */
-    public BpmnXmlParse(BpmnXmlParser parser) {
+    public BpmnXmlParse(BpmnXmlParser parser, StreamSource streamSource) {
 
-        super(parser);
+        
+        super(parser, streamSource);
         this.processBuilder = new ProcessBuilderImpl();
         this.parseListeners = parser.getParseListeners();
     }
 
+    @Override
     public ProcessDefinition getFinishedProcessDefinition() {
 
         if (finishedProcessDefinition == null) {
@@ -110,24 +114,7 @@ public class BpmnXmlParse extends XmlParse {
 
         // This is the Activiti method body for parsing through the XML object model
         // The Joda Engine needs less information than Activiti. That's why some methods are commented out.
-        parseDefinitionsAttributes();
-        // parseImports();
-        // parseItemDefinitions();
-        // parseMessages();
-        // parseInterfaces();
-        // parseErrors();
         parseProcessDefinitions();
-
-        // Diagram interchange parsing must be after parseProcessDefinitions,
-        // since it depends and sets values on existing process definition objects
-        // parseDiagramInterchangeElements();
-    }
-
-    protected void parseDefinitionsAttributes() {
-
-        // Example for extracting informations of the rootElement, which would be the definitions-Tag
-        // String typeLanguage = rootElement.getAttribute("typeLanguage");
-        // String expressionLanguage = rootElement.getAttribute("expressionLanguage");
     }
 
     /**
@@ -150,7 +137,7 @@ public class BpmnXmlParse extends XmlParse {
     }
 
     /**
-     * Parses one process (ie anything inside a &lt;process&gt; element).
+     * Parses one process (e.g. anything inside a &lt;process&gt; element).
      * 
      * @param processElement
      *            The 'process' element.
@@ -233,7 +220,7 @@ public class BpmnXmlParse extends XmlParse {
 
             parseGeneralNodeInformation(startEventXmlElement, startEventNode);
 
-            getNodeXmlIdTable().put((String) startEventNode.getAttribute("id"), startEventNode);
+            getNodeXmlIdTable().put((String) startEventNode.getAttribute("idXml"), startEventNode);
 
             // We should think about forms for the startEvent
             // Maybe we can implement that as startTrigger
@@ -317,37 +304,6 @@ public class BpmnXmlParse extends XmlParse {
     }
 
     /**
-     * Parses the generic information of an activity element (id, name, documentation, etc.), and creates a new
-     * {@link ActivityImpl} on the given scope element.
-     */
-    public void parseGeneralNodeInformation(XmlElement activityElement, Node node) {
-
-        String id = activityElement.getAttribute("id");
-        if (logger.isDebugEnabled()) {
-            logger.debug("Parsing activity " + id);
-        }
-
-        node.setAttribute("id", id);
-        node.setAttribute("name", activityElement.getAttribute("name"));
-        node.setAttribute("descrption", parseDocumentation(activityElement));
-        node.setAttribute("default", activityElement.getAttribute("default"));
-        node.setAttribute("type", activityElement.getTagName());
-        node.setAttribute("line", activityElement.getLine());
-    }
-
-    /**
-     * Extracting the documentation Attribute in the {@link XmlElement}.
-     */
-    public String parseDocumentation(XmlElement element) {
-
-        XmlElement docElement = element.getElement("documentation");
-        if (docElement != null) {
-            return docElement.getText().trim();
-        }
-        return null;
-    }
-
-    /**
      * Parses an exclusive gateway declaration.
      */
     public void parseExclusiveGateway(XmlElement exclusiveGwElement) {
@@ -360,7 +316,7 @@ public class BpmnXmlParse extends XmlParse {
 
         parseGeneralNodeInformation(exclusiveGwElement, exclusiveGatewayNode);
 
-        getNodeXmlIdTable().put((String) exclusiveGatewayNode.getAttribute("id"), exclusiveGatewayNode);
+        getNodeXmlIdTable().put((String) exclusiveGatewayNode.getAttribute("idXml"), exclusiveGatewayNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
             parseListener.parseExclusiveGateway(exclusiveGwElement, exclusiveGatewayNode);
@@ -380,7 +336,7 @@ public class BpmnXmlParse extends XmlParse {
 
         parseGeneralNodeInformation(parallelGatewayElement, parallelGatewayNode);
 
-        getNodeXmlIdTable().put((String) parallelGatewayNode.getAttribute("id"), parallelGatewayNode);
+        getNodeXmlIdTable().put((String) parallelGatewayNode.getAttribute("idXml"), parallelGatewayNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
             parseListener.parseParallelGateway(parallelGatewayElement, parallelGatewayNode);
@@ -400,7 +356,7 @@ public class BpmnXmlParse extends XmlParse {
         Node taskNode = processBuilder.createNode(nodeParameterBuilder.buildNodeParameter());
 
         parseGeneralNodeInformation(taskXmlElement, taskNode);
-        getNodeXmlIdTable().put((String) taskNode.getAttribute("id"), taskNode);
+        getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
             parseListener.parseTask(taskXmlElement, taskNode);
@@ -425,7 +381,7 @@ public class BpmnXmlParse extends XmlParse {
 
             parseGeneralNodeInformation(endEventXmlElement, endEventNode);
 
-            getNodeXmlIdTable().put((String) endEventNode.getAttribute("id"), endEventNode);
+            getNodeXmlIdTable().put((String) endEventNode.getAttribute("idXml"), endEventNode);
 
             // Doing some afterwork
             for (BpmnXmlParseListener parseListener : parseListeners) {
@@ -503,6 +459,37 @@ public class BpmnXmlParse extends XmlParse {
         String expression = conditionExprElement.getText().trim();
         Condition expressionCondition = new CheckVariableTrueCondition(expression);
         return expressionCondition;
+    }
+
+    /**
+     * Extracting the documentation Attribute in the {@link XmlElement}.
+     */
+    public String parseDocumentation(XmlElement element) {
+    
+        XmlElement docElement = element.getElement("documentation");
+        if (docElement != null) {
+            return docElement.getText().trim();
+        }
+        return null;
+    }
+
+    /**
+     * Parses the generic information of an activity element (id, name, documentation, etc.), and creates a new
+     * {@link ActivityImpl} on the given scope element.
+     */
+    public void parseGeneralNodeInformation(XmlElement activityElement, Node node) {
+    
+        String id = activityElement.getAttribute("id");
+        if (logger.isDebugEnabled()) {
+            logger.debug("Parsing activity " + id);
+        }
+    
+        node.setAttribute("idXml", id);
+        node.setAttribute("name", activityElement.getAttribute("name"));
+        node.setAttribute("descrption", parseDocumentation(activityElement));
+        node.setAttribute("default", activityElement.getAttribute("default"));
+        node.setAttribute("type", activityElement.getTagName());
+        node.setAttribute("line", activityElement.getLine());
     }
 
     private Map<String, Node> getNodeXmlIdTable() {

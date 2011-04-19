@@ -3,7 +3,11 @@ package de.hpi.oryxengine.process.definition;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
@@ -17,6 +21,7 @@ import de.hpi.oryxengine.util.Identifiable;
  * 
  * @author Thorben
  */
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface ProcessDefinition extends Identifiable, Attributable {
 
     /**
@@ -24,6 +29,7 @@ public interface ProcessDefinition extends Identifiable, Attributable {
      * 
      * @return the name of the {@link ProcessDefinition}
      */
+    @JsonProperty
     String getName();
 
     /**
@@ -38,6 +44,7 @@ public interface ProcessDefinition extends Identifiable, Attributable {
      * 
      * @return the description
      */
+    @JsonProperty
     String getDescription();
 
     /**
@@ -50,10 +57,11 @@ public interface ProcessDefinition extends Identifiable, Attributable {
 
     /**
      * Gets the start nodes of the process. Tokens can be placed there. As the process definition consists of a tree
-     * structure of nodes, this is enough to reference the whole defnition.
+     * structure of nodes, this is enough to reference the whole definition.
      * 
      * @return the start nodes
      */
+    @JsonProperty
     List<Node> getStartNodes();
 
     /**
@@ -61,7 +69,7 @@ public interface ProcessDefinition extends Identifiable, Attributable {
      * 
      * @return the start triggers
      */
-    @XmlTransient
+    @JsonIgnore
     Map<StartEvent, Node> getStartTriggers();
 
     /**
