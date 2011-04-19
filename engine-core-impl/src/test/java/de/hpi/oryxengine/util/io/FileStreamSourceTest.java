@@ -16,7 +16,7 @@ import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
  */
 public class FileStreamSourceTest {
 
-    private static final String TEST_FILE_PATH = "src/test/resources/de/hpi/oryxengine/util/io/filestreamsource-test.file";
+    private static final String TEST_FILE_PATH = "src/test/resources/de/hpi/oryxengine/util/io/file-streamsource-test.file";
 
     @Test
     public void testCorrectInputStream() throws IOException {

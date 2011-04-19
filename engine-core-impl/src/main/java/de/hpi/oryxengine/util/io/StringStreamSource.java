@@ -39,6 +39,6 @@ public class StringStreamSource implements StreamSource {
     @Override
     public String getName() {
 
-        return "StringSource starting with '" + string.substring(0, SUBSTRING_THRESHOLD) + "'";
+        return "String[" + string.substring(0, SUBSTRING_THRESHOLD) + "...]";
     }
 }

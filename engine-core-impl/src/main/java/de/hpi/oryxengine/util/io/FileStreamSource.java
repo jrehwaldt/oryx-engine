@@ -38,7 +38,7 @@ public class FileStreamSource implements StreamSource {
     @Override
     public String getName() {
 
-        return file.getPath();
+        return "File" + file.getPath() + "]";
     }
 
     @Override

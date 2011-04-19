@@ -31,7 +31,7 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
     }
 
     @Override
-    public UUID deployResourceAsInputStream(String resourceName, InputStream inputStream) {
+    public UUID deployArtifactAsInputStream(String resourceName, InputStream inputStream) {
 
         StreamSource inputStreamSource = new InputStreamSource(inputStream);
         AbstractProcessArtifact processArtifact = new ProcessArtifact(resourceName, inputStreamSource);
@@ -42,7 +42,7 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
     }
 
     @Override
-    public UUID deployClasspathResource(String resourceName, String resourceClasspath) {
+    public UUID deployArtifactAsClasspathResource(String resourceName, String resourceClasspath) {
 
         StreamSource classpathResourceStreamSource = new ClassPathResourceStreamSource(resourceClasspath);
         AbstractProcessArtifact processArtifact = new ProcessArtifact(resourceName, classpathResourceStreamSource);
@@ -53,7 +53,7 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
     }
 
     @Override
-    public UUID deployResourceAsString(String resourceName, String resourceStringContent) {
+    public UUID deployArtifactAsString(String resourceName, String resourceStringContent) {
 
         StreamSource stringStreamSource = new StringStreamSource(resourceStringContent);
         AbstractProcessArtifact processArtifact = new ProcessArtifact(resourceName, stringStreamSource);
@@ -64,7 +64,7 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
     }
 
     @Override
-    public UUID deployResourceAsFile(String resourceName, File file) {
+    public UUID deployArtifactAsFile(String resourceName, File file) {
 
         StreamSource fileStreamSource = new FileStreamSource(file);
         AbstractProcessArtifact processArtifact = new ProcessArtifact(resourceName, fileStreamSource);

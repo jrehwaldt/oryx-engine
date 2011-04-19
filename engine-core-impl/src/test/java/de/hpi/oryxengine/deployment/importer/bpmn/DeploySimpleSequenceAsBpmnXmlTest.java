@@ -26,7 +26,7 @@ public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractBPMNDeployerTest 
 
     public DeploySimpleSequenceAsBpmnXmlTest() {
 
-        executableProcessResourcePath = "de/hpi/oryxengine/delpoyment/bpmn/SimpleSequence.bpmn.xml";
+        executableProcessResourcePath = "de/hpi/oryxengine/deployment/bpmn/SimpleSequence.bpmn.xml";
     }
 
     @Override

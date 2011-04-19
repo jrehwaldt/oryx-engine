@@ -14,7 +14,7 @@ public class DeployInvalidProcessDefinitionAsBpmnXmlTest extends AbstractBPMNDep
 
     public DeployInvalidProcessDefinitionAsBpmnXmlTest() {
 
-        executableProcessResourcePath = "de/hpi/oryxengine/delpoyment/bpmn/InvalidProcessDefinition.bpmn.xml";
+        executableProcessResourcePath = "de/hpi/oryxengine/deployment/bpmn/InvalidProcessDefinition.bpmn.xml";
     }
 
     @Override

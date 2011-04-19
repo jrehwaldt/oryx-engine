@@ -26,7 +26,7 @@ public interface DeploymentBuilder {
      *            - the {@link InputStream} that contains the content of the
      * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifact ProcessArtifacts
      */
-    UUID deployResourceAsInputStream(String resourceName, InputStream inputStream);
+    UUID deployArtifactAsInputStream(String resourceName, InputStream inputStream);
 
     /**
      * Adds a resource to the repository. So that it is available for all {@link ProcessDefinition}s. This method allows
@@ -38,7 +38,7 @@ public interface DeploymentBuilder {
      *            - the classpath of the {@link AbstractProcessArtifact}
      * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifact ProcessArtifact
      */
-    UUID deployClasspathResource(String resourceName, String resourceClasspath);
+    UUID deployArtifactAsClasspathResource(String resourceName, String resourceClasspath);
 
     /**
      * Adds a resource to the repository. So that it is available for all {@link ProcessDefinition}s. This method allows
@@ -50,7 +50,7 @@ public interface DeploymentBuilder {
      *            - the {@link String} content of the {@link AbstractProcessArtifact ProcessResource}
      * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifact ProcessArtifact}
      */
-    UUID deployResourceAsString(String resourceName, String resourceStringContent);
+    UUID deployArtifactAsString(String resourceName, String resourceStringContent);
 
     /**
      * Adds a resource to the repository. So that it is available for all {@link ProcessDefinition}s. This method allows
@@ -62,7 +62,7 @@ public interface DeploymentBuilder {
      *            - the {@link File File Object} that contains the {@link AbstractProcessArtifact ProcessArtifact}
      * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifact ProcessArtifact}
      */
-    UUID deployResourceAsFile(String resourceName, File file);
+    UUID deployArtifactAsFile(String resourceName, File file);
 
     // /**
     // * Adds a {@link ProcessDefinition} to the repository. So that it is available for instantiation after activation.

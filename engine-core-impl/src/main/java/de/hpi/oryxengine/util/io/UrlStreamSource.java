@@ -32,7 +32,7 @@ public class UrlStreamSource implements StreamSource {
     @Override
     public String getName() {
 
-        return url.toString();
+        return "URL[" + url.toString() + "]";
     }
 
     @Override
