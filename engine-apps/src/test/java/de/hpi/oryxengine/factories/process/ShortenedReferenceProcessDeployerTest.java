@@ -14,7 +14,7 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -28,7 +28,7 @@ import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeployerTest {
 
     private Token token = null;
-    private ProcessInstance processInstance = null;
+    private AbstractProcessInstance processInstance = null;
     private ShortenedReferenceProcessDeployer instanceDefinition = null;
     private Participant tobi = null;
     private WorklistService worklistManager = null;
