@@ -15,10 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.exception.DefinitionNotFoundException;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
-import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorState;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -47,7 +44,6 @@ import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
 import de.hpi.oryxengine.resource.worklist.RoleWorklist;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
-import de.hpi.oryxengine.rest.TestUtils;
 
 /**
  * This class tests the serialization of our resource classes.
