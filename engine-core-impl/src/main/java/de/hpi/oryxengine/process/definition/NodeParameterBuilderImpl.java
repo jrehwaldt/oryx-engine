@@ -8,7 +8,9 @@ import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * Implementation of the {@link NodeParameterBuilder}. See {@link NodeParameterBuilder here} for more Information.
@@ -38,7 +40,7 @@ public class NodeParameterBuilderImpl implements NodeParameterBuilder {
 
     /** Default Constructor. */
     public NodeParameterBuilderImpl() {
-
+        this(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
     }
 
     @Override
@@ -90,8 +92,8 @@ public class NodeParameterBuilderImpl implements NodeParameterBuilder {
         List<Class<?>> tempList = getBlueprintConstructorSignature();
         Class<?>[] constructorSignature = (Class<?>[]) tempList.toArray(new Class<?>[tempList.size()]);
         Object[] constructorParameter = getBlueprintConstructorParameters().toArray();
-        ActivityBlueprint activityBlueprint = new ActivityBlueprintImpl(blueprintClazz, constructorSignature,
-            constructorParameter);
+        ActivityBlueprint activityBlueprint = new ActivityBlueprintImpl(
+            blueprintClazz, constructorSignature, constructorParameter);
 
         return new NodeParameterImpl(activityBlueprint, incomingBehaviour, outgoingBehaviour);
     }

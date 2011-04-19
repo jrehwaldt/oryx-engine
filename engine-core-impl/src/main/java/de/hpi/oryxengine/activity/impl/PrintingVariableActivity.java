@@ -1,5 +1,8 @@
 package de.hpi.oryxengine.activity.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.token.Token;
@@ -12,6 +15,8 @@ public class PrintingVariableActivity
 extends AbstractActivity {
 
     private String variableName;
+    
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Instantiates a new printing variable activity.
@@ -27,7 +32,6 @@ extends AbstractActivity {
     public void executeIntern(Token token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
-        String variableValue = (String) context.getVariable(variableName).toString();
+        logger.info("%s", context.getVariable(variableName));
     }
-
 }

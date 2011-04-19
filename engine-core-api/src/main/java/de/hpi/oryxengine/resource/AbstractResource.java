@@ -269,10 +269,6 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
     public static @Nonnull AbstractResource<?> valueOf(@Nonnull String json)
     throws IOException {
         // TODO we do not have access to the ServiceFactory, so we need a new ObjectMapper every time
-        System.out.println("haha");
-        System.out.println("haha");
-        System.out.println("haha");
-        System.out.println("haha: " + json);
         return (AbstractResource<?>) new ObjectMapper().readValue(json, AbstractResource.class);
     }
 }

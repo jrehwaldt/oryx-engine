@@ -5,29 +5,6 @@
         <title>Oryx Engine goes REST</title>
     </head>
     <body>
-        <h1>REST-interface working ;-)</h1>
-        <ul>
-            <li>
-                <h2>Navigator</h2>
-                <ul>
-                    <li><a href="api/navigator/statistic">Statistik</a></li>
-                    <li><a href="api/navigator/start">Start the engine</a></li>
-                    <li><a href="api/navigator/stop">Stop the engine</a></li>
-                </ul>
-             </li>
-             <li>
-                <h2>Worklist</h2>
-                <ul>
-                    <li><a href="api/worklist/todo">TODO</a></li>
-                </ul>
-             </li>
-        </ul>
-        
-        <div id="result_1"></div>
-        <div id="result_2"></div>
-        <div id="result_3"></div>
-        
-        <div id="data"></div>
-        
+        <%-- Pages could be found in /pages/... --%>
     </body>
 </html>

@@ -22,12 +22,14 @@ public class TaskImpl implements Task {
 
     private transient AllocationStrategies allocationStrategies;
     private transient Set<AbstractResource<?>> assignedResources;
-    
+
     /**
      * Hidden constructor for deserialization.
      */
-    protected TaskImpl() { }
-    
+    protected TaskImpl() {
+
+    }
+
     /**
      * Default Constructor.
      * 
@@ -41,7 +43,7 @@ public class TaskImpl implements Task {
      *            - a list of {@link AbstractResource}s that should be assigned to a this task
      */
     public TaskImpl(String subject,
-                    String description, 
+                    String description,
                     AllocationStrategies allocationStrategies,
                     Set<AbstractResource<?>> set) {
 
@@ -52,7 +54,8 @@ public class TaskImpl implements Task {
     }
 
     /**
-     * Constructor for this class. It can be used when the {@link Task} is assigned to only one {@link AbstractResource Resource}. 
+     * Constructor for this class. It can be used when the {@link Task} is assigned to only one {@link AbstractResource
+     * Resource}.
      * 
      * @param subject
      *            - the subject of the task
@@ -69,24 +72,24 @@ public class TaskImpl implements Task {
                     AllocationStrategies allocationStrategies,
                     AbstractResource<?> assignedResource) {
 
-        this(subject,
-            description,
-            allocationStrategies,
-            new HashSet<AbstractResource<?>>(Arrays.asList(assignedResource)));
+        this(subject, description, allocationStrategies, new HashSet<AbstractResource<?>>(
+            Arrays.asList(assignedResource)));
     }
-    
+
     /**
      * Copy constructor.
-     *
-     * @param taskToCopy the task to copy
+     * 
+     * @param taskToCopy
+     *            the task to copy
      */
     public TaskImpl(Task taskToCopy) {
+
         this.subject = taskToCopy.getSubject();
         this.description = taskToCopy.getDescription();
         this.allocationStrategies = taskToCopy.getAllocationStrategies();
         HashSet<AbstractResource<?>> setCopy = new HashSet<AbstractResource<?>>(taskToCopy.getAssignedResources());
         this.assignedResources = setCopy;
-        
+
     }
 
     @Override
@@ -123,8 +126,7 @@ public class TaskImpl implements Task {
     }
 
     /**
-     * Sets any other type not recognized by JSON serializer.
-     * This method is indented to be used by Jackson.
+     * Sets any other type not recognized by JSON serializer. This method is indented to be used by Jackson.
      * 
      * @param fieldName
      *            - the fieldName
@@ -132,9 +134,8 @@ public class TaskImpl implements Task {
      *            - the value
      */
     @JsonAnySetter
-    protected void setOtherJson(@Nonnull String fieldName,
-                                @Nullable String value) {
-        
+    protected void setOtherJson(@Nonnull String fieldName, @Nullable String value) {
+
         if ("subject".equals(fieldName)) {
             this.subject = value;
         } else if ("description".equals(fieldName)) {
