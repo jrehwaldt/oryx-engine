@@ -11,9 +11,10 @@ import javax.xml.bind.JAXBException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.navigator.NavigatorState;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
@@ -31,6 +32,7 @@ import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.Capability;
+import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.OrganizationUnit;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
@@ -50,106 +52,85 @@ import de.hpi.oryxengine.rest.AbstractJsonServerTest;
  * 
  * @author Jan Rehwaldt
  */
-@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class SerializationToJsonTest extends AbstractJsonServerTest {
-
+    
     private AbstractResource<?> participantJannik = null;
     private AbstractResource<?> participantBuzyWilli = null;
-    
+
     /**
      * Setup.
      */
-    @BeforeClass
+    @BeforeMethod
     public void setUp() {
+
         this.participantJannik = ParticipantFactory.createJannik();
         this.participantBuzyWilli = ParticipantFactory.createBusyWilli();
     }
-    
+
     /**
      * Tests the serialization of an abstract resource.
      * 
-     * @throws IOException test fails
-     * @throws JAXBException test fails
+     * @throws IOException
+     *             test fails
+     * @throws JAXBException
+     *             test fails
      */
     @Test
-    public void testSerializationAndDesirializationOfParticipantJannik() throws JAXBException, IOException {
+    public void testSerializationAndDesirializationOfParticipantJannik()
+    throws JAXBException, IOException {
+
         File xml = new File(TMP_PATH + "ParticipantJannik.js");
         if (xml.exists()) {
             Assert.assertTrue(xml.delete());
         }
-        
+
         this.mapper.writeValue(xml, this.participantJannik);
-        
+
         Assert.assertTrue(xml.exists());
         Assert.assertTrue(xml.length() > 0);
-        
+
         AbstractResource<?> localConcreteParticipantHarry = this.mapper.readValue(xml, Participant.class);
         Assert.assertNotNull(localConcreteParticipantHarry);
-        
+
         AbstractResource<?> localAbstractParticipantHarry2 = this.mapper.readValue(xml, AbstractResource.class);
         Assert.assertNotNull(localAbstractParticipantHarry2);
-        
+
         AbstractResource<?> localAbstractParticipantHarry = this.mapper.readValue(xml, AbstractParticipant.class);
         Assert.assertNotNull(localAbstractParticipantHarry);
-        
+
         Assert.assertEquals(localAbstractParticipantHarry, localConcreteParticipantHarry);
         Assert.assertEquals(this.participantJannik.getClass(), localAbstractParticipantHarry.getClass());
         Assert.assertEquals(this.participantJannik, localAbstractParticipantHarry);
     }
-    
+
     /**
      * Tests the serialization of an abstract resource.
      * 
-     * @throws IOException test fails
+     * @throws IOException
+     *             test fails
      */
     @Test
-    public void testSerializationAndDesirializationOfParticipantBuzyWilli() throws IOException {
+    public void testSerializationAndDesirializationOfParticipantBuzyWilli()
+    throws IOException {
+
         File xml = new File(TMP_PATH + "ParticipantWilli.js");
         if (xml.exists()) {
             Assert.assertTrue(xml.delete());
         }
-        
+
         this.mapper.writeValue(xml, this.participantBuzyWilli);
-        
+
         Assert.assertTrue(xml.exists());
         Assert.assertTrue(xml.length() > 0);
-        
+
         AbstractResource<?> localParticipant = this.mapper.readValue(xml, AbstractResource.class);
         Assert.assertNotNull(localParticipant);
-        
+
         Assert.assertEquals(this.participantBuzyWilli.getClass(), localParticipant.getClass());
         Assert.assertEquals(this.participantBuzyWilli, localParticipant);
     }
-    
-    /**
-     * Tests the serialization of a {@link ProcessInstanceContext}.
-     * 
-     * @throws IOException test fails
-     */
-    @Test
-    public void testSerializationAndDesirializationOfProcessInstanceContext() throws IOException {
-        File xml = new File(TMP_PATH + "ProcessInstanceContext.js");
-        if (xml.exists()) {
-            Assert.assertTrue(xml.delete());
-        }
-        
-        ProcessInstanceContext context = new ProcessInstanceContextImpl();
-        context.setVariable("Harry", "ist ein Harry.");
-        context.setVariable("Susi", "ist eine Frau.");
-        context.setVariable("Joachim", "ärgert immer alle.");
-        
-        this.mapper.writeValue(xml, context);
-        
-        Assert.assertTrue(xml.exists());
-        Assert.assertTrue(xml.length() > 0);
-        
-        ProcessInstanceContext localContext = this.mapper.readValue(xml, ProcessInstanceContext.class);
-        Assert.assertNotNull(localContext);
-        
-        Assert.assertEquals(context.getClass(), localContext.getClass());
-        Assert.assertEquals(context, localContext);
-    }
-    
+
     /**
      * Tests the serialization of our navigation statistics. This is necessary because occasionally
      * serializing of "boolean x = true" was not correctly deserialized.
@@ -180,28 +161,137 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
     }
     
     /**
+     * Tests the serialization of a {@link ProcessInstanceContext}.
+     * 
+     * @throws IOException test fails
+     */
+    @Test
+    public void testSerializationAndDesirializationOfProcessInstanceContext() throws IOException {
+        File xml = new File(TMP_PATH + "ProcessInstanceContext.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        ProcessInstanceContext context = new ProcessInstanceContextImpl();
+        context.setVariable("Harry", "ist ein Harry.");
+        context.setVariable("Susi", "ist eine Frau.");
+        context.setVariable("Joachim", "ärgert immer alle.");
+        
+        this.mapper.writeValue(xml, context);
+        
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        ProcessInstanceContext localContext = this.mapper.readValue(xml, ProcessInstanceContext.class);
+        Assert.assertNotNull(localContext);
+        
+        Assert.assertEquals(context.getClass(), localContext.getClass());
+        Assert.assertEquals(context, localContext);
+    }
+
+    /**
+     * It is a bug that the serialization participants with a role doesn't work. Isolate it. Fix it. Go.
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    @Test
+    public void testSerializationOfParticipantsWithRole()
+    throws IOException {
+        
+        // Setting up one Participant with a role
+        IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
+        AbstractRole role = identityBuilder.createRole("Participant with Role-Test");
+        
+        identityBuilder.participantBelongsToRole(this.participantJannik.getID(), role.getID());
+        
+        // create a new file to write in
+        File xml = new File(TMP_PATH + "ParticipantJannikWithRole.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        // write Participant Jannik in the file
+        this.mapper.writeValue(xml, this.participantJannik);
+        
+        // do a couple of asserts on this xml.
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        AbstractResource<?> localConcreteParticipant = this.mapper.readValue(xml, Participant.class);
+        Assert.assertNotNull(localConcreteParticipant);
+        
+        AbstractResource<?> localAbstractParticipant2 = this.mapper.readValue(xml, AbstractResource.class);
+        Assert.assertNotNull(localAbstractParticipant2);
+        
+        AbstractResource<?> localAbstractParticipant = this.mapper.readValue(xml, AbstractParticipant.class);
+        Assert.assertNotNull(localAbstractParticipant);
+        
+        Assert.assertEquals(localAbstractParticipant, localConcreteParticipant);
+        Assert.assertEquals(this.participantJannik.getClass(), localAbstractParticipant.getClass());
+        Assert.assertEquals(this.participantJannik, localAbstractParticipant);
+    }
+
+    /**
+     * Serializes and deserializes a role.
+     * 
+     * @throws IOException
+     *             test fails
+     */
+    @Test
+    public void testSerializationOfRole()
+    throws IOException {
+        
+        // Setting up one Participant with a role
+        IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
+        AbstractRole role = identityBuilder.createRole("Role with Participant-Test");
+        identityBuilder.participantBelongsToRole(this.participantJannik.getID(), role.getID());
+        
+        // create a new file to write in
+        File xml = new File(TMP_PATH + "RoleWithParticipantJannik.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        this.mapper.writeValue(xml, role);
+//        
+//        SimpleModule module = new SimpleModule("test", new Version(1, 0, 0, null));
+//        module.addSerializer(ser);
+//        this.mapper.registerModule(module);
+        
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        AbstractResource<?> desRole = this.mapper.readValue(xml, AbstractRole.class);
+        Assert.assertNotNull(desRole);
+        
+        Assert.assertEquals(desRole.getClass(), role.getClass());
+        Assert.assertEquals(desRole, role);
+    }
+    
+    /**
      * Tests the serializability of our resource classes.
      */
     @Test
     public void testClassSerializability() {
-        
+
         //
         // resources
         //
         Assert.assertTrue(this.mapper.canSerialize(AbstractResource.class));
-        
+
         Assert.assertTrue(this.mapper.canSerialize(AbstractParticipant.class));
         Assert.assertTrue(this.mapper.canSerialize(Participant.class));
-        
+
         Assert.assertTrue(this.mapper.canSerialize(AbstractRole.class));
         Assert.assertTrue(this.mapper.canSerialize(Role.class));
-        
+
         Assert.assertTrue(this.mapper.canSerialize(AbstractOrganizationUnit.class));
         Assert.assertTrue(this.mapper.canSerialize(OrganizationUnit.class));
-        
+
         Assert.assertTrue(this.mapper.canSerialize(AbstractCapability.class));
         Assert.assertTrue(this.mapper.canSerialize(Capability.class));
-        
+
         //
         // worklist
         //
@@ -212,7 +302,7 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         Assert.assertTrue(this.mapper.canSerialize(ParticipantWorklist.class));
         Assert.assertTrue(this.mapper.canSerialize(RoleWorklist.class));
         Assert.assertTrue(this.mapper.canSerialize(EmptyWorklist.class));
-        
+
         //
         // navigator
         //
@@ -226,7 +316,7 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         Assert.assertTrue(this.mapper.canSerialize(ProcessDefinitionImpl.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessInstanceContext.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessInstanceContextImpl.class));
-        
+
         //
         // util
         //
@@ -237,6 +327,7 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
 
     @Override
     protected Class<?> getResource() {
+
         return null;
     }
 }

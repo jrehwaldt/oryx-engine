@@ -21,9 +21,13 @@ import de.hpi.oryxengine.resource.worklist.RoleWorklist;
  */
 public class Role extends AbstractRole {
 
-    /** The participants. */
     private Set<Participant> participants;
-
+    
+    /**
+     * Hidden constructor.
+     */
+    protected Role() { }
+    
     /**
      * The Default Constructor for the RoleImpl.
      * 

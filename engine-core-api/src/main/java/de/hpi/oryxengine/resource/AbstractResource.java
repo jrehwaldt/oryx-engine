@@ -221,7 +221,7 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      * 
      * @return the worklist of the resource
      */
-//    @JsonIgnore
+    @JsonProperty
     public @Nonnull AbstractWorklist getWorklist() {
 
         return new EmptyWorklist();

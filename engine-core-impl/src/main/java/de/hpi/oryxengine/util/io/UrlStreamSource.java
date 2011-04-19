@@ -17,12 +17,11 @@ public class UrlStreamSource implements StreamSource {
 
         this.url = url;
     }
-    
+
     @Override
     public InputStream getInputStream() {
 
         try {
-            
             return url.openStream();
         } catch (IOException e) {
             String errorMessage = "The URL '" + url + "' could not be opened.";
@@ -31,9 +30,14 @@ public class UrlStreamSource implements StreamSource {
     }
 
     @Override
-    public String getType() {
+    public String getName() {
 
-        // TODO Auto-generated method stub
-        return null;
+        return url.toString();
+    }
+
+    @Override
+    public String toString() {
+    
+        return getName();
     }
 }

@@ -23,13 +23,12 @@ public class InputStreamSource implements StreamSource {
     @Override
     public String toString() {
 
-        return "InputStream";
+        return getName();
     }
 
     @Override
-    public String getType() {
+    public String getName() {
 
-        // TODO Auto-generated method stub
-        return null;
+        return "InputStream["+ inputStream.toString() + "]";
     }
 }

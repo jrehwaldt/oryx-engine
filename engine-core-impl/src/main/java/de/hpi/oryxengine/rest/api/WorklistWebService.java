@@ -104,28 +104,33 @@ public final class WorklistWebService {
     //     return this.service.getWorklistItems(resource);
     // }
     
+    /**
+     * Gets the worklist items for a given resource (defined by a uuid which is a String and needs to be converted).
+     *
+     * @param id the id as a String
+     * @return the worklist items for the specified resource
+     * @throws ResourceNotAvailableException the resource not available exception
+     */
     @Path("/items")
     @GET
-    // Das hier ist unüblich. Bei @GET wird kein "Content" mitgeschickt. Komplexe Objecte immer als
-    // @POST schicken und OHNE @QueryParam
-    public List<AbstractWorklistItem> getWorklistItems(@QueryParam("resource") AbstractResource<?> resource)
+    public List<AbstractWorklistItem> getWorklistItems(@QueryParam("id") String id)
     throws ResourceNotAvailableException {
 
-        logger.debug("GET: {}", resource);
+        logger.debug("GET: {}", id);
         
-        resource = refreshResource(resource);
-        List<AbstractWorklistItem> items = this.service.getWorklistItems(resource);
+        UUID uuid = UUID.fromString(id);
+        List<AbstractWorklistItem> items = this.service.getWorklistItems(uuid);
         return items;
     }
 
-    @Path("/items/post")
+ /*   @Path("/items")
     @POST
     // Qual der Wahl! So soll's sein.
     public List<AbstractWorklistItem> getWorklistItemsAsPost(AbstractResource<?> resource)
     throws ResourceNotAvailableException {
         logger.debug("POST: {}", resource);
         return getWorklistItems(resource);
-    }
+    }*/
     
     /**
      * Claims a worklist item via POST request.
@@ -150,6 +155,12 @@ public final class WorklistWebService {
         service.claimWorklistItemBy(item, resource);
     }
     
+    /**
+     * Claim a worklist item by aresource parameteres subject to change.
+     *
+     * @param workItem the work item
+     * @param resource the resource
+     */
     @Path("/item/claim")
     @GET
     // Wieder unüblich. Ideal siehe "claimWorklistItemByPost"
@@ -170,7 +181,6 @@ public final class WorklistWebService {
     
 //    @Path("/item/claim")
 //    @POST
-//    // TODO @Pfeiffer: Realisiere diese Methodensignatur OHNE @QueryParam als @POST. Danke.
 //    public void claimWorklistItemByPost(AbstractWorklistItem workItem,
 //                                        AbstractResource<?> resource) {
 //        
@@ -186,18 +196,18 @@ public final class WorklistWebService {
 //        
 //    }
     
-    @Path("/items/{resource-type}/{resource-id}")
-    @GET
-//    @Override
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<AbstractWorklistItem> getWorklistItems(@PathParam("resource-type") ResourceType resourceType,
-                                                       @PathParam("resource-id") String resourceId)
-    throws ResourceNotAvailableException {
-        
-        UUID resourceUUID = UUID.fromString(resourceId);
-        AbstractResource<?> resource = getResource(resourceType, resourceUUID);
-        return getWorklistItems(resource);
-    }
+//    @Path("/items/{resource-type}/{resource-id}")
+//    @GET
+////    @Override
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public List<AbstractWorklistItem> getWorklistItems(@PathParam("resource-type") ResourceType resourceType,
+//                                                       @PathParam("resource-id") String resourceId)
+//    throws ResourceNotAvailableException {
+//        
+//        UUID resourceUUID = UUID.fromString(resourceId);
+//        AbstractResource<?> resource = getResource(resourceType, resourceUUID);
+//        return getWorklistItems(resource);
+//    }
     
 //    @Path("/item/{worklist-item-id}/claim/{resource-type}-{resource-id}")
 //    @POST
@@ -297,7 +307,7 @@ public final class WorklistWebService {
      * @return the resource or null, if none found
      * @throws ResourceNotAvailableException thrown if the requested resource could not be found
      */
-    private @Nonnull AbstractResource<?> refreshResource(@Nonnull AbstractResource<?> resource)
+    /*private @Nonnull AbstractResource<?> refreshResource(@Nonnull AbstractResource<?> resource)
     throws ResourceNotAvailableException {
         resource = getResource(resource.getType(), resource.getID());
         
@@ -306,5 +316,5 @@ public final class WorklistWebService {
         }
         
         return resource;
-    }
+    }*/
 }

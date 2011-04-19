@@ -2,6 +2,7 @@ package de.hpi.oryxengine.process.instance;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
@@ -49,7 +50,7 @@ public abstract class AbstractProcessInstance implements Identifiable {
      * 
      * @return the tokens
      */
-    @JsonProperty
+    @JsonManagedReference
     public abstract List<Token> getAssignedTokens();
 
     /**

@@ -1,11 +1,12 @@
 package de.hpi.oryxengine.rest.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.UUID;
 
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBException;
 
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
@@ -18,24 +19,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
-import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.repository.DeploymentBuilder;
-import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
+import de.hpi.oryxengine.rest.TestUtils;
 
 /**
  * The Class NavigatorWebServiceTest.
@@ -44,10 +35,6 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     
     private Navigator navigator = null;
-    
-    private static final int WAIT_FOR_PROCESSES_TO_FINISH = 100;
-    private static final int TRIES_UNTIL_PROCESSES_FINISH = 100;
-    private static final short NUMBER_OF_INSTANCES_TO_START = 2;
     
     /**
      * Set up.
@@ -134,40 +121,14 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     public void testStartInstance()
     throws IllegalStarteventException, URISyntaxException, InterruptedException, IOException {
         
-        // create simple process
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
-            new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        Node startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
-        
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        int[] ints = {1, 1};
-        nodeParamBuilder
-            .setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
-            .addConstructorParameter(String.class, "result")
-            .addConstructorParameter(int[].class, ints);
-        Node node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        Node node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        builder.createTransition(startNode, node1).createTransition(node1, node2);
-        
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
-        Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        builder.createTransition(node2, endNode);
-
-        // deploy it
-        ProcessDefinition definition = builder.buildDefinition();
-
-        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-        UUID processId = deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(definition));
+        ProcessDefinition definition = TestUtils.deploySimpleProcess();
         
         Assert.assertTrue(this.navigator.isIdle());
         // run it via REST request
         MockHttpRequest request;
         MockHttpResponse response;
         for (int i = 0; i < NUMBER_OF_INSTANCES_TO_START; i++) {
-            request = MockHttpRequest.post(String.format("/navigator/process/%s/start", processId));
+            request = MockHttpRequest.post(String.format("/navigator/process/%s/start", definition.getID()));
             response = new MockHttpResponse();
             
             this.dispatcher.invoke(request, response);
@@ -201,7 +162,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         
         Assert.assertEquals(finInstances.size(), NUMBER_OF_INSTANCES_TO_START);
         for (AbstractProcessInstance ins: finInstances) {
-            Assert.assertEquals(ins.getDefinition().getID(), processId);
+            Assert.assertEquals(ins.getDefinition().getID(), definition.getID());
         }
         
         //
@@ -250,5 +211,54 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(stats.getNumberOfFinishedInstances(), NUMBER_OF_INSTANCES_TO_START);
         Assert.assertEquals(stats.getNumberOfRunningInstances(), 0);
         Assert.assertTrue(stats.isNavigatorIdle());
+    }
+    
+    /**
+     * Tests the serialization of our navigation statistics. This is necessary because occasionally
+     * serializing of "boolean x = true" was not correctly deserialized.
+     * 
+     * @throws IOException test fails
+     * @throws JAXBException test fails
+     * @throws IllegalStarteventException test fails (someone killed the process definition)
+     * @throws InterruptedException test fails
+     * @throws DefinitionNotFoundException test fails
+     */
+    @Test
+    public void testSerializationAndDesirializationOfRealWorldProcessInstance()
+    throws JAXBException, IOException, IllegalStarteventException, InterruptedException, DefinitionNotFoundException {
+        File xml = new File(TMP_PATH + "RealWorldProcessInstance.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        ProcessDefinition definition = TestUtils.deploySimpleProcess();
+        
+        this.navigator = ServiceFactory.getNavigatorService();
+        this.navigator.start();
+        
+        this.navigator.startProcessInstance(definition.getID());
+        
+        // wait for the service to be finished
+        for (int i = 0; !this.navigator.isIdle() && this.navigator.getEndedInstances().size() == 0; i++) {
+            Thread.sleep(WAIT_FOR_PROCESSES_TO_FINISH);
+            
+            if (i == TRIES_UNTIL_PROCESSES_FINISH) {
+                this.logger.error("Process instance never finished");
+                throw new IllegalStateException("Process instance never finished");
+            }
+        }
+        
+        Assert.assertTrue(this.navigator.getEndedInstances().size() > 0);
+        AbstractProcessInstance instance = this.navigator.getEndedInstances().get(0);
+        
+        this.mapper.writeValue(xml, instance);
+        
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        AbstractProcessInstance desInstance = this.mapper.readValue(xml, AbstractProcessInstance.class);
+        Assert.assertNotNull(desInstance);
+        
+        Assert.assertEquals(instance.getDefinition().getID(), definition.getID());
     }
 }

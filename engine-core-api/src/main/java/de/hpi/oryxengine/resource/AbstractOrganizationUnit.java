@@ -8,6 +8,9 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * An Organization Unit is a functional grouping of positions. Common examples might include departments like Marketing,
  * Sales, Human Resource, etc. .
@@ -17,6 +20,11 @@ import javax.annotation.Nonnull;
  * @author Gerardo Navarro Suarez
  */
 public abstract class AbstractOrganizationUnit extends AbstractResource<AbstractOrganizationUnit> {
+    
+    /**
+     * Hidden constructor.
+     */
+    protected AbstractOrganizationUnit() { }
 
     /**
      * Instantiates a new {@link OrganizationUnit}.
@@ -47,6 +55,7 @@ public abstract class AbstractOrganizationUnit extends AbstractResource<Abstract
      * 
      * @return OrganizationUnit - is the superior OrganzationUnit
      */
+    @JsonProperty
     public abstract AbstractOrganizationUnit getSuperOrganizationUnit();
 
     // Das werde ich vielleicht noch ändern.
@@ -57,5 +66,7 @@ public abstract class AbstractOrganizationUnit extends AbstractResource<Abstract
      * 
      * @return a set of all Positions belonging to that OrganizationUnit
      */
+    @JsonProperty
+    @JsonManagedReference
     public abstract Set<AbstractPosition> getPositionsImmutable();
 }
