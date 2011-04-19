@@ -5,18 +5,15 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.NodeParameter;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
-import de.hpi.oryxengine.process.definition.NodeParameterImpl;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -39,20 +36,18 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
  * HumanTaskActivity has to be copied). I don't have a clue how to implement this cleanly.
  */
 public class ConcurrentActivityStateTest {
-    private ProcessDefinition definition;
-    private Activity startActivity;
-    private Node startNode;
+    private ProcessDefinition definition = null;
+    private Node startNode = null;
 
     /**
      * One definition, two instances, two tokens that work on the same activities. This test ensures that these
      * activities do not share their state.
      * 
      * @throws DalmatinaException
-     *             the dalmatina exception
+     *             test fails
      */
     @Test
-    public void testConcurrentAcitivityUse()
-    throws DalmatinaException {
+    public void testConcurrentAcitivityUse() throws DalmatinaException {
 
         // Create two process instances
         NavigatorImplMock nav = new NavigatorImplMock();

@@ -30,7 +30,6 @@ import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
 import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
@@ -197,7 +196,6 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         Assert.assertNotNull(jsonFinished);
         
         JavaType typeRef = TypeFactory.collectionType(List.class, AbstractProcessInstance.class);
-//        TypeReference<List<ProcessInstance>> typeRef = new TypeReference<List<ProcessInstance>>() { };
         List<AbstractProcessInstance> finInstances = this.mapper.readValue(jsonFinished, typeRef);
         Assert.assertNotNull(finInstances);
         
@@ -217,8 +215,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         this.logger.debug(jsonRunning);
         Assert.assertNotNull(jsonRunning);
         
-        @SuppressWarnings("unchecked")
-        List<AbstractProcessInstance> runInstances = (List<AbstractProcessInstance>) this.mapper.readValue(jsonRunning, typeRef);
+        List<AbstractProcessInstance> runInstances = this.mapper.readValue(jsonRunning, typeRef);
         Assert.assertNotNull(runInstances);
         
         Assert.assertEquals(runInstances.size(), 0);

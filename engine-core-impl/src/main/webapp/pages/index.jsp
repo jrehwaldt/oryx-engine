@@ -3,6 +3,7 @@
 <html>
     <head>
         <title>Oryx Engine goes REST</title>
+        <script type="text/javascript" src="/javascripts/demo/demo-ajax.js"></script>
     </head>
     <body>
         <h1>REST-interface working ;-)</h1>
@@ -28,9 +29,15 @@
         <div id="participants"></div>
         <p> Names </p>
         <div id="participantnames"></div>
-        <div id="result_3"></div>
+        <div id="loginpart">
+          <p>Here goes our login stuff </p>
+          <select id="loginBox">
+          </select>
+          <button id="loginButton" href="worklist">Login</button>
 
-        <div id="data"></div>
+        </div>
+
+        <div id="datay"></div>
 
     </body>
 </html>

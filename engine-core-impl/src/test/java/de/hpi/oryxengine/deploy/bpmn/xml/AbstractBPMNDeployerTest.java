@@ -24,11 +24,12 @@ public abstract class AbstractBPMNDeployerTest extends AbstractTest {
     protected String executableProcessResourcePath;
 
     @Test
-    public void testCorrectProcessParsingOfXml() throws DefinitionNotFoundException {
+    public void testCorrectProcessParsingOfXml()
+    throws DefinitionNotFoundException {
 
         if (executableProcessResourcePath == null) {
             String failureMessage = "Please set the varibale 'executableProcessResourcePath' in the Test '"
-                                    + this.getClass().getName() + "'.";
+                + this.getClass().getName() + "'.";
             Assert.fail(failureMessage);
         }
 
@@ -38,12 +39,19 @@ public abstract class AbstractBPMNDeployerTest extends AbstractTest {
         Assert.assertNotNull(bpmnXmlInputStream);
         ProcessDefinitionImporter processDefinitionImporter = new BpmnXmlInpustreamImporter(bpmnXmlInputStream);
         UUID deployedProcessDefinitionUUID = deploymentBuilder.deployProcessDefinition(processDefinitionImporter);
-        
+
         ProcessDefinition processDefinition = ServiceFactory.getRepositoryService().getProcessDefinition(
             deployedProcessDefinitionUUID);
 
         assertProcessDefintion(processDefinition);
     }
-    
+
+    /**
+     * Asserting the created {@link ProcessDefinition}. In this method you can check whether all properties have been
+     * set correctly.
+     * 
+     * @param processDefinition
+     *            - the {@link ProcessDefinition} that should be asserted
+     */
     protected abstract void assertProcessDefintion(ProcessDefinition processDefinition);
 }

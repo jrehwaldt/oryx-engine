@@ -104,7 +104,7 @@ public class NavigatorWebService implements Navigator {
 
     @Override
     public void start() {
-
+        
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
 

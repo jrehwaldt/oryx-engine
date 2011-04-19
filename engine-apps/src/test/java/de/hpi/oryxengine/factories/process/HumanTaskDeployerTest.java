@@ -43,8 +43,8 @@ public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
     }
 
     /**
-     * Tests that the participants which should be created are really created. This tests breaks if the number of
-     * aprticipants in the process deployer is changed.
+     * Tests that the participants which should be created are really created. This test breaks if the number of
+     * participants in the process deployer is changed.
      */
     @Test
     public void testParticipantsCreated() {
