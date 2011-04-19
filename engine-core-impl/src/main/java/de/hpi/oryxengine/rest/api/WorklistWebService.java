@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,7 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
@@ -118,7 +116,7 @@ public final class WorklistWebService {
         return items;
     }
 
-    @Path("/items")
+    @Path("/items/post")
     @POST
     // Qual der Wahl! So soll's sein.
     public List<AbstractWorklistItem> getWorklistItemsAsPost(AbstractResource<?> resource)
