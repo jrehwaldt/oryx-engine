@@ -17,7 +17,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
+import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorState;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -46,6 +49,7 @@ import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
 import de.hpi.oryxengine.resource.worklist.RoleWorklist;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
+import de.hpi.oryxengine.rest.TestUtils;
 
 /**
  * This class tests the serialization of our resource classes.
@@ -132,72 +136,7 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         Assert.assertEquals(this.participantBuzyWilli.getClass(), localParticipant.getClass());
         Assert.assertEquals(this.participantBuzyWilli, localParticipant);
     }
-
-    /**
-     * Tests the serialization of a {@link ProcessInstanceContext}.
-     * 
-     * @throws IOException
-     *             test fails
-     */
-    @Test
-    public void testSerializationAndDesirializationOfProcessInstanceContext()
-    throws IOException {
-
-        File xml = new File(TMP_PATH + "ProcessInstanceContext.js");
-        if (xml.exists()) {
-            Assert.assertTrue(xml.delete());
-        }
-
-        ProcessInstanceContext context = new ProcessInstanceContextImpl();
-        context.setVariable("Harry", "ist ein Harry.");
-        context.setVariable("Susi", "ist eine Frau.");
-        context.setVariable("Joachim", "ärgert immer alle.");
-
-        this.mapper.writeValue(xml, context);
-
-        Assert.assertTrue(xml.exists());
-        Assert.assertTrue(xml.length() > 0);
-
-        ProcessInstanceContext localContext = this.mapper.readValue(xml, ProcessInstanceContext.class);
-        Assert.assertNotNull(localContext);
-
-        Assert.assertEquals(context.getClass(), localContext.getClass());
-        Assert.assertEquals(context, localContext);
-    }
-
-    /**
-     * Tests the serialization of our navigation statistics. This is necessary because occasionally serializing of
-     * "boolean x = true" was not correctly deserialized.
-     * 
-     * @throws IOException
-     *             test fails
-     * @throws JAXBException
-     *             test fails
-     */
-    @Test
-    public void testSerializationAndDesirializationOfNavigationStatistics()
-    throws JAXBException, IOException {
-
-        File xml = new File(TMP_PATH + "NavigatorStatistics.js");
-        if (xml.exists()) {
-            Assert.assertTrue(xml.delete());
-        }
-
-        NavigatorStatistic stats = new NavigatorStatistic(1, 1, 1, true);
-        this.mapper.writeValue(xml, stats);
-
-        Assert.assertTrue(xml.exists());
-        Assert.assertTrue(xml.length() > 0);
-
-        NavigatorStatistic desStats = this.mapper.readValue(xml, NavigatorStatistic.class);
-        Assert.assertNotNull(desStats);
-
-        Assert.assertEquals(desStats.getNumberOfFinishedInstances(), stats.getNumberOfFinishedInstances());
-        Assert.assertEquals(desStats.getNumberOfExecutionThreads(), stats.getNumberOfExecutionThreads());
-        Assert.assertEquals(desStats.getNumberOfRunningInstances(), stats.getNumberOfRunningInstances());
-        Assert.assertEquals(desStats.isNavigatorIdle(), stats.isNavigatorIdle());
-    }
-
+    
     /**
      * It is a bug that the serialization participants with a role doesn't work. Isolate it. Fix it. Go.
      *
@@ -241,6 +180,112 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
 
     }
 
+    /**
+     * Tests the serialization of our navigation statistics. This is necessary because occasionally
+     * serializing of "boolean x = true" was not correctly deserialized.
+     * 
+     * @throws IOException test fails
+     * @throws JAXBException test fails
+     */
+    @Test
+    public void testSerializationAndDesirializationOfNavigationStatistics() throws JAXBException, IOException {
+        File xml = new File(TMP_PATH + "NavigatorStatistics.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        NavigatorStatistic stats = new NavigatorStatistic(1, 1, 1, true);
+        this.mapper.writeValue(xml, stats);
+        
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        NavigatorStatistic desStats = this.mapper.readValue(xml, NavigatorStatistic.class);
+        Assert.assertNotNull(desStats);
+        
+        Assert.assertEquals(desStats.getNumberOfFinishedInstances(), stats.getNumberOfFinishedInstances());
+        Assert.assertEquals(desStats.getNumberOfExecutionThreads(), stats.getNumberOfExecutionThreads());
+        Assert.assertEquals(desStats.getNumberOfRunningInstances(), stats.getNumberOfRunningInstances());
+        Assert.assertEquals(desStats.isNavigatorIdle(), stats.isNavigatorIdle());
+    }
+    
+    /**
+     * Tests the serialization of a {@link ProcessInstanceContext}.
+     * 
+     * @throws IOException test fails
+     */
+    @Test
+    public void testSerializationAndDesirializationOfProcessInstanceContext() throws IOException {
+        File xml = new File(TMP_PATH + "ProcessInstanceContext.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        ProcessInstanceContext context = new ProcessInstanceContextImpl();
+        context.setVariable("Harry", "ist ein Harry.");
+        context.setVariable("Susi", "ist eine Frau.");
+        context.setVariable("Joachim", "ärgert immer alle.");
+        
+        this.mapper.writeValue(xml, context);
+        
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        ProcessInstanceContext localContext = this.mapper.readValue(xml, ProcessInstanceContext.class);
+        Assert.assertNotNull(localContext);
+        
+        Assert.assertEquals(context.getClass(), localContext.getClass());
+        Assert.assertEquals(context, localContext);
+    }
+    
+    /**
+     * Tests the serialization of our navigation statistics. This is necessary because occasionally
+     * serializing of "boolean x = true" was not correctly deserialized.
+     * 
+     * @throws IOException test fails
+     * @throws JAXBException test fails
+     * @throws IllegalStarteventException test fails (someone killed the process definition)
+     * @throws InterruptedException test fails
+     * @throws DefinitionNotFoundException test fails
+     */
+    @Test
+    public void testSerializationAndDesirializationOfRealWorldProcessInstance()
+    throws JAXBException, IOException, IllegalStarteventException, InterruptedException, DefinitionNotFoundException {
+        File xml = new File(TMP_PATH + "RealWorldProcessInstance.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        ProcessDefinition definition = TestUtils.deploySimpleProcess();
+
+        
+        Navigator navigator = ServiceFactory.getNavigatorService();
+        navigator.start();
+        
+        navigator.startProcessInstance(definition.getID());
+        
+        // wait for the service to be finished
+        for (int i = 0; !navigator.isIdle(); i++) {
+            Thread.sleep(WAIT_FOR_PROCESSES_TO_FINISH);
+            
+            if (i == TRIES_UNTIL_PROCESSES_FINISH) {
+                this.logger.error("Process instance never finished");
+                throw new IllegalStateException("Process instance never finished");
+            }
+        }
+        
+        AbstractProcessInstance instance = navigator.getEndedInstances().get(0);
+        this.mapper.writeValue(xml, instance);
+        
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        AbstractProcessInstance desInstance = this.mapper.readValue(xml, AbstractProcessInstance.class);
+        Assert.assertNotNull(desInstance);
+        
+        Assert.assertEquals(instance.getDefinition().getID(), definition.getID());
+    }
+    
     /**
      * Tests the serializability of our resource classes.
      */

@@ -3,7 +3,6 @@ package de.hpi.oryxengine.rest.api;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.UUID;
 
 import javax.ws.rs.core.Response;
 
@@ -18,24 +17,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
-import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.repository.DeploymentBuilder;
-import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
+import de.hpi.oryxengine.rest.TestUtils;
 
 /**
  * The Class NavigatorWebServiceTest.
@@ -44,10 +32,6 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     
     private Navigator navigator = null;
-    
-    private static final int WAIT_FOR_PROCESSES_TO_FINISH = 100;
-    private static final int TRIES_UNTIL_PROCESSES_FINISH = 100;
-    private static final short NUMBER_OF_INSTANCES_TO_START = 2;
     
     /**
      * Set up.
@@ -134,40 +118,14 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     public void testStartInstance()
     throws IllegalStarteventException, URISyntaxException, InterruptedException, IOException {
         
-        // create simple process
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
-            new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        Node startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
-        
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        int[] ints = {1, 1};
-        nodeParamBuilder
-            .setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
-            .addConstructorParameter(String.class, "result")
-            .addConstructorParameter(int[].class, ints);
-        Node node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        Node node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        builder.createTransition(startNode, node1).createTransition(node1, node2);
-        
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
-        Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        builder.createTransition(node2, endNode);
-
-        // deploy it
-        ProcessDefinition definition = builder.buildDefinition();
-
-        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-        UUID processId = deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(definition));
+        ProcessDefinition definition = TestUtils.deploySimpleProcess();
         
         Assert.assertTrue(this.navigator.isIdle());
         // run it via REST request
         MockHttpRequest request;
         MockHttpResponse response;
         for (int i = 0; i < NUMBER_OF_INSTANCES_TO_START; i++) {
-            request = MockHttpRequest.post(String.format("/navigator/process/%s/start", processId));
+            request = MockHttpRequest.post(String.format("/navigator/process/%s/start", definition.getID()));
             response = new MockHttpResponse();
             
             this.dispatcher.invoke(request, response);
@@ -201,7 +159,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         
         Assert.assertEquals(finInstances.size(), NUMBER_OF_INSTANCES_TO_START);
         for (AbstractProcessInstance ins: finInstances) {
-            Assert.assertEquals(ins.getDefinition().getID(), processId);
+            Assert.assertEquals(ins.getDefinition().getID(), definition.getID());
         }
         
         //
