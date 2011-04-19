@@ -31,7 +31,6 @@ public class XmlParse implements XmlParseable {
     private static final String NEW_LINE = System.getProperty("line.separator");
 
     protected XmlParser parser;
-    protected String name;
     protected StreamSource streamSource;
     protected XmlElement rootElement = null;
     protected List<XmlParsingProblem> lazyErrors;
@@ -88,7 +87,7 @@ public class XmlParse implements XmlParseable {
             saxParser.parse(inputStream, new XmlParseHandler(this));
 
         } catch (Exception e) {
-            String errorMessage = "The Stream '" + name + "' could not be parsed. Following error ocurred: "
+            String errorMessage = "The Stream '" + streamSource.getName() + "' could not be parsed. Following error ocurred: "
                 + e.getMessage();
             throw new DalmatinaRuntimeException(errorMessage, e);
         }
@@ -124,7 +123,7 @@ public class XmlParse implements XmlParseable {
      */
     protected void addWarning(SAXParseException saxE) {
 
-        getWarnings().add(new XmlParsingProblem(saxE, name));
+        getWarnings().add(new XmlParsingProblem(saxE, streamSource.getName()));
     }
 
     /**
@@ -137,7 +136,7 @@ public class XmlParse implements XmlParseable {
      */
     protected void addWarning(String warningMessage, XmlElement element) {
 
-        getWarnings().add(new XmlParsingProblem(warningMessage, name, element));
+        getWarnings().add(new XmlParsingProblem(warningMessage, streamSource.getName(), element));
     }
 
     /**
@@ -170,12 +169,12 @@ public class XmlParse implements XmlParseable {
 
     protected void addError(SAXParseException e) {
 
-        getErrors().add(new XmlParsingProblem(e, name));
+        getErrors().add(new XmlParsingProblem(e, streamSource.getName()));
     }
 
     protected void addError(String errorMessage, XmlElement element) {
 
-        getErrors().add(new XmlParsingProblem(errorMessage, name, element));
+        getErrors().add(new XmlParsingProblem(errorMessage, streamSource.getName(), element));
     }
 
     /**

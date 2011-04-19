@@ -9,12 +9,15 @@ import java.io.InputStream;
  */
 public class StringStreamSource implements StreamSource {
 
-    String string;
+    private static final int SUBSTRING_THRESHOLD = 30;
+
+    private String string;
 
     /**
      * Instantiates a new {@link StringStreamSource}.
-     *
-     * @param string - the {@link String} that represents the {@link StreamSource}
+     * 
+     * @param string
+     *            - the {@link String} that represents the {@link StreamSource}
      */
     public StringStreamSource(String string) {
 
@@ -24,7 +27,7 @@ public class StringStreamSource implements StreamSource {
     @Override
     public String toString() {
 
-        return "String";
+        return getName();
     }
 
     @Override
@@ -34,8 +37,8 @@ public class StringStreamSource implements StreamSource {
     }
 
     @Override
-    public String getType() {
+    public String getName() {
 
-        return "String";
+        return "StringSource starting with '" + string.substring(0, SUBSTRING_THRESHOLD) + "'";
     }
 }
