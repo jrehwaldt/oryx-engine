@@ -228,7 +228,9 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
             }
         }
         
+        Assert.assertTrue(navigator.getEndedInstances().size() > 0);
         AbstractProcessInstance instance = navigator.getEndedInstances().get(0);
+        
         this.mapper.writeValue(xml, instance);
         
         Assert.assertTrue(xml.exists());
