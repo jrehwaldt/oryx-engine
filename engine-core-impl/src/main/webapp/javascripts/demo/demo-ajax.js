@@ -36,6 +36,7 @@ $().ready(function() {
         type: 'GET',
         url: 'api/identity/participants',
         success: function(data) {
+            console.log(data);
             var participants = data;
             $.each(participants, function(i, participant) {
                 $("#participantnames").append(participant.name);
