@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
-import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
+import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
@@ -24,16 +24,12 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
  * 
  * @author Gerardo Navarro Suarez
  */
-@XmlRootElement
 public class Participant extends AbstractParticipant {
 
-    @XmlTransient
     private Set<Position> myPositions;
 
-    @XmlTransient
     private Set<AbstractCapability> myCapabilities;
 
-    @XmlTransient
     private Set<Role> myRoles;
     
     /**
@@ -64,6 +60,8 @@ public class Participant extends AbstractParticipant {
      * 
      * @return a Set of all PositionImpl of this Participant
      */
+    @JsonProperty
+    @JsonManagedReference
     protected Set<Position> getMyPositions() {
 
         if (myPositions == null) {
@@ -84,10 +82,12 @@ public class Participant extends AbstractParticipant {
      * 
      * @return a Set of all {@link Capability}s of this Participant
      */
+    @JsonProperty
+    @JsonManagedReference
     protected Set<AbstractCapability> getMyCapabilities() {
-
+        
         // TODO hier muss noch was gemacht werden
-
+        
         if (myCapabilities == null) {
             myCapabilities = new HashSet<AbstractCapability>();
         }
@@ -106,6 +106,8 @@ public class Participant extends AbstractParticipant {
      * 
      * @return a Set of all RoleImpl of this Participant
      */
+    @JsonProperty
+    @JsonManagedReference
     protected Set<Role> getMyRoles() {
 
         if (myRoles == null) {

@@ -8,12 +8,10 @@ import java.util.UUID;
 
 import javax.xml.bind.JAXBException;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
@@ -58,16 +56,16 @@ import de.hpi.oryxengine.rest.TestUtils;
  * 
  * @author Jan Rehwaldt
  */
-@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class SerializationToJsonTest extends AbstractJsonServerTest {
-
+    
     private AbstractResource<?> participantJannik = null;
     private AbstractResource<?> participantBuzyWilli = null;
 
     /**
      * Setup.
      */
-    @BeforeClass
+    @BeforeMethod
     public void setUp() {
 
         this.participantJannik = ParticipantFactory.createJannik();
@@ -135,49 +133,6 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
 
         Assert.assertEquals(this.participantBuzyWilli.getClass(), localParticipant.getClass());
         Assert.assertEquals(this.participantBuzyWilli, localParticipant);
-    }
-    
-    /**
-     * It is a bug that the serialization participants with a role doesn't work. Isolate it. Fix it. Go.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
-     */
-    @Test
-    public void testSerializationOfParticipantsWithRole()
-    throws IOException {
-
-        // Setting up one Participant with a role
-        IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
-        AbstractRole role = identityBuilder.createRole("test");
-        identityBuilder.participantBelongsToRole(participantJannik.getID(), role.getID());
-
-        // create a new file to write in
-        File xml = new File(TMP_PATH + "ParticipantJannik.js");
-        if (xml.exists()) {
-            Assert.assertTrue(xml.delete());
-        }
-
-        // write Participant Jannik in the file
-        this.mapper.writeValue(xml, this.participantJannik);
-
-        // do a couple of asserts on this xml.
-
-        Assert.assertTrue(xml.exists());
-        Assert.assertTrue(xml.length() > 0);
-
-        AbstractResource<?> localConcreteParticipantHarry = this.mapper.readValue(xml, Participant.class);
-        Assert.assertNotNull(localConcreteParticipantHarry);
-
-        AbstractResource<?> localAbstractParticipantHarry2 = this.mapper.readValue(xml, AbstractResource.class);
-        Assert.assertNotNull(localAbstractParticipantHarry2);
-
-        AbstractResource<?> localAbstractParticipantHarry = this.mapper.readValue(xml, AbstractParticipant.class);
-        Assert.assertNotNull(localAbstractParticipantHarry);
-
-        Assert.assertEquals(localAbstractParticipantHarry, localConcreteParticipantHarry);
-        Assert.assertEquals(this.participantJannik.getClass(), localAbstractParticipantHarry.getClass());
-        Assert.assertEquals(this.participantJannik, localAbstractParticipantHarry);
-
     }
 
     /**
@@ -257,7 +212,6 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         }
         
         ProcessDefinition definition = TestUtils.deploySimpleProcess();
-
         
         Navigator navigator = ServiceFactory.getNavigatorService();
         navigator.start();
@@ -284,6 +238,86 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         Assert.assertNotNull(desInstance);
         
         Assert.assertEquals(instance.getDefinition().getID(), definition.getID());
+    }
+
+    /**
+     * It is a bug that the serialization participants with a role doesn't work. Isolate it. Fix it. Go.
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    @Test
+    public void testSerializationOfParticipantsWithRole()
+    throws IOException {
+        
+        // Setting up one Participant with a role
+        IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
+        AbstractRole role = identityBuilder.createRole("Participant with Role-Test");
+        
+        identityBuilder.participantBelongsToRole(this.participantJannik.getID(), role.getID());
+        
+        // create a new file to write in
+        File xml = new File(TMP_PATH + "ParticipantJannikWithRole.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        // write Participant Jannik in the file
+        this.mapper.writeValue(xml, this.participantJannik);
+        
+        // do a couple of asserts on this xml.
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        AbstractResource<?> localConcreteParticipant = this.mapper.readValue(xml, Participant.class);
+        Assert.assertNotNull(localConcreteParticipant);
+        
+        AbstractResource<?> localAbstractParticipant2 = this.mapper.readValue(xml, AbstractResource.class);
+        Assert.assertNotNull(localAbstractParticipant2);
+        
+        AbstractResource<?> localAbstractParticipant = this.mapper.readValue(xml, AbstractParticipant.class);
+        Assert.assertNotNull(localAbstractParticipant);
+        
+        Assert.assertEquals(localAbstractParticipant, localConcreteParticipant);
+        Assert.assertEquals(this.participantJannik.getClass(), localAbstractParticipant.getClass());
+        Assert.assertEquals(this.participantJannik, localAbstractParticipant);
+    }
+
+    /**
+     * Serializes and deserializes a role.
+     * 
+     * @throws IOException
+     *             test fails
+     */
+    @Test
+    public void testSerializationOfRole()
+    throws IOException {
+        
+        // Setting up one Participant with a role
+        IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
+        AbstractRole role = identityBuilder.createRole("Role with Participant-Test");
+        identityBuilder.participantBelongsToRole(this.participantJannik.getID(), role.getID());
+        
+        // create a new file to write in
+        File xml = new File(TMP_PATH + "RoleWithParticipantJannik.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        this.mapper.writeValue(xml, role);
+//        
+//        SimpleModule module = new SimpleModule("test", new Version(1, 0, 0, null));
+//        module.addSerializer(ser);
+//        this.mapper.registerModule(module);
+        
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        AbstractResource<?> desRole = this.mapper.readValue(xml, AbstractRole.class);
+        Assert.assertNotNull(desRole);
+        
+        Assert.assertEquals(desRole.getClass(), role.getClass());
+        Assert.assertEquals(desRole, role);
     }
     
     /**

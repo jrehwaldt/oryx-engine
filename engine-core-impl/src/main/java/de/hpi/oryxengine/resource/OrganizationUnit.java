@@ -26,6 +26,11 @@ public class OrganizationUnit extends AbstractOrganizationUnit {
     private OrganizationUnit superOrganizationalUnit;
 
     private Set<OrganizationUnit> childOrganizationUnits;
+    
+    /**
+     * Hidden constructor.
+     */
+    protected OrganizationUnit() { }
 
     /**
      * Instantiates a new {@link OrganizationUnit}.

@@ -67,14 +67,10 @@ public final class SchedulerEvent {
         return schedulerAction;
     }
 
-    // TODO does this work (write a test bitch!)
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
-
-        return "SchedulerEvent [numberOfTokens=" + numberOfTokens + "schedulerAction=" + schedulerAction + "]";
+        
+        return String.format("SchedulerEvent [numberOfTokens=%d; schedulerAction=%s]", numberOfTokens, schedulerAction);
     }
     
 

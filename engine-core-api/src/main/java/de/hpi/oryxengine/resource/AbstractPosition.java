@@ -4,6 +4,9 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * A Position refers to a unique job within an organization. Examples might include Positions like the CEO, bank
  * manager, secretary, etc. .
@@ -14,6 +17,11 @@ import javax.annotation.Nonnull;
  * @author Gerardo Navarro Suarez
  */
 public abstract class AbstractPosition extends AbstractResource<AbstractPosition> {
+    
+    /**
+     * Hidden constructor.
+     */
+    protected AbstractPosition() { }
 
     /**
      * The Default Constructor. Creates a position object with the given id.
@@ -46,6 +54,7 @@ public abstract class AbstractPosition extends AbstractResource<AbstractPosition
      * 
      * @return a Participant - {@link AbstractParticipant} that occupies this {@link AbstractPosition}
      */
+    @JsonBackReference
     public abstract AbstractParticipant getPositionHolder();
 
     /**
@@ -53,6 +62,7 @@ public abstract class AbstractPosition extends AbstractResource<AbstractPosition
      * 
      * @return the superior position
      */
+    @JsonProperty
     public abstract AbstractPosition getSuperiorPosition();
 
     /**
@@ -60,5 +70,6 @@ public abstract class AbstractPosition extends AbstractResource<AbstractPosition
      * 
      * @return the {@link AbstractOrganizationUnit} where this {@link AbstractPosition} belongs to
      */
+    @JsonBackReference
     public abstract AbstractOrganizationUnit belongstoOrganization();
 }
