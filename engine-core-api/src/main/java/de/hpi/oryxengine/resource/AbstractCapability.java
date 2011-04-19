@@ -10,6 +10,6 @@ package de.hpi.oryxengine.resource;
  */
 public abstract class AbstractCapability extends AbstractResource<AbstractCapability> {
     
-    // TODO @Gerardo&MeetiA godd damn class has to be created damn it.
+    // TODO da muss irgend eine bestimmte Methode rein die dann immer aufgerufen wird
 
 }

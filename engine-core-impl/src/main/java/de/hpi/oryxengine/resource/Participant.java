@@ -10,13 +10,11 @@ import java.util.UUID;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.codehaus.jackson.annotate.JsonManagedReference;
-
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
-import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
@@ -36,7 +34,7 @@ public class Participant extends AbstractParticipant {
     private Set<AbstractCapability> myCapabilities;
 
     @XmlTransient
-    @JsonManagedReference("participant-role") private Set<Role> myRoles;
+    private Set<Role> myRoles;
     
     /**
      * Hidden jaxb constructor.
