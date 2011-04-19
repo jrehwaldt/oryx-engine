@@ -12,6 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
@@ -31,7 +32,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     /**
      * Set up.
      */
-    @BeforeClass
+    @BeforeMethod
     public void setUpNavigatorService() {
         this.logger.debug("Start navigator");
         
