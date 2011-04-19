@@ -1,10 +1,12 @@
 package de.hpi.oryxengine.rest.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBException;
 
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
@@ -17,6 +19,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
@@ -208,5 +211,54 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(stats.getNumberOfFinishedInstances(), NUMBER_OF_INSTANCES_TO_START);
         Assert.assertEquals(stats.getNumberOfRunningInstances(), 0);
         Assert.assertTrue(stats.isNavigatorIdle());
+    }
+    
+    /**
+     * Tests the serialization of our navigation statistics. This is necessary because occasionally
+     * serializing of "boolean x = true" was not correctly deserialized.
+     * 
+     * @throws IOException test fails
+     * @throws JAXBException test fails
+     * @throws IllegalStarteventException test fails (someone killed the process definition)
+     * @throws InterruptedException test fails
+     * @throws DefinitionNotFoundException test fails
+     */
+    @Test
+    public void testSerializationAndDesirializationOfRealWorldProcessInstance()
+    throws JAXBException, IOException, IllegalStarteventException, InterruptedException, DefinitionNotFoundException {
+        File xml = new File(TMP_PATH + "RealWorldProcessInstance.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        ProcessDefinition definition = TestUtils.deploySimpleProcess();
+        
+        this.navigator = ServiceFactory.getNavigatorService();
+        this.navigator.start();
+        
+        this.navigator.startProcessInstance(definition.getID());
+        
+        // wait for the service to be finished
+        for (int i = 0; !this.navigator.isIdle() && this.navigator.getEndedInstances().size() == 0; i++) {
+            Thread.sleep(WAIT_FOR_PROCESSES_TO_FINISH);
+            
+            if (i == TRIES_UNTIL_PROCESSES_FINISH) {
+                this.logger.error("Process instance never finished");
+                throw new IllegalStateException("Process instance never finished");
+            }
+        }
+        
+        Assert.assertTrue(this.navigator.getEndedInstances().size() > 0);
+        AbstractProcessInstance instance = this.navigator.getEndedInstances().get(0);
+        
+        this.mapper.writeValue(xml, instance);
+        
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        AbstractProcessInstance desInstance = this.mapper.readValue(xml, AbstractProcessInstance.class);
+        Assert.assertNotNull(desInstance);
+        
+        Assert.assertEquals(instance.getDefinition().getID(), definition.getID());
     }
 }

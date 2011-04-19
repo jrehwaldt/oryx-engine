@@ -192,55 +192,6 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         Assert.assertEquals(context.getClass(), localContext.getClass());
         Assert.assertEquals(context, localContext);
     }
-    
-    /**
-     * Tests the serialization of our navigation statistics. This is necessary because occasionally
-     * serializing of "boolean x = true" was not correctly deserialized.
-     * 
-     * @throws IOException test fails
-     * @throws JAXBException test fails
-     * @throws IllegalStarteventException test fails (someone killed the process definition)
-     * @throws InterruptedException test fails
-     * @throws DefinitionNotFoundException test fails
-     */
-    @Test
-    public void testSerializationAndDesirializationOfRealWorldProcessInstance()
-    throws JAXBException, IOException, IllegalStarteventException, InterruptedException, DefinitionNotFoundException {
-        File xml = new File(TMP_PATH + "RealWorldProcessInstance.js");
-        if (xml.exists()) {
-            Assert.assertTrue(xml.delete());
-        }
-        
-        ProcessDefinition definition = TestUtils.deploySimpleProcess();
-        
-        Navigator navigator = ServiceFactory.getNavigatorService();
-        navigator.start();
-        
-        navigator.startProcessInstance(definition.getID());
-        
-        // wait for the service to be finished
-        for (int i = 0; !navigator.isIdle(); i++) {
-            Thread.sleep(WAIT_FOR_PROCESSES_TO_FINISH);
-            
-            if (i == TRIES_UNTIL_PROCESSES_FINISH) {
-                this.logger.error("Process instance never finished");
-                throw new IllegalStateException("Process instance never finished");
-            }
-        }
-        
-        Assert.assertTrue(navigator.getEndedInstances().size() > 0);
-        AbstractProcessInstance instance = navigator.getEndedInstances().get(0);
-        
-        this.mapper.writeValue(xml, instance);
-        
-        Assert.assertTrue(xml.exists());
-        Assert.assertTrue(xml.length() > 0);
-        
-        AbstractProcessInstance desInstance = this.mapper.readValue(xml, AbstractProcessInstance.class);
-        Assert.assertNotNull(desInstance);
-        
-        Assert.assertEquals(instance.getDefinition().getID(), definition.getID());
-    }
 
     /**
      * It is a bug that the serialization participants with a role doesn't work. Isolate it. Fix it. Go.
