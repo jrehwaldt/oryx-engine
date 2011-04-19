@@ -5,9 +5,8 @@ import java.io.InputStream;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.repository.importer.bpmn.BpmnXmlParse;
 import de.hpi.oryxengine.repository.importer.bpmn.BpmnXmlParser;
-
+import de.hpi.oryxengine.util.xml.XmlParseable;
 
 /**
  * It is capable of importing an XML file that represents a BPMN process.
@@ -17,9 +16,9 @@ import de.hpi.oryxengine.repository.importer.bpmn.BpmnXmlParser;
 public class BpmnXmlInpustreamImporter extends AbstractBpmnXmlImporter {
 
     private InputStream xmlInputStream;
-    
+
     public BpmnXmlInpustreamImporter(String processDefintionName, @Nonnull InputStream inputStream) {
-        
+
         super(processDefintionName);
         this.xmlInputStream = inputStream;
     }
@@ -29,19 +28,19 @@ public class BpmnXmlInpustreamImporter extends AbstractBpmnXmlImporter {
         super(null);
         this.xmlInputStream = inputStream;
     }
-    
+
     @Override
     public ProcessDefinition createProcessDefinition() {
 
         BpmnXmlParser bpmnXmlParser = new BpmnXmlParser();
-        BpmnXmlParse bpmnXmlParse = bpmnXmlParser.createParse();
-        bpmnXmlParse.name(processDefinitionName);
-        bpmnXmlParse.sourceInputStream(xmlInputStream);
-        
+        XmlParseable bpmnXmlParse = bpmnXmlParser.getXmlParseBuilder()
+                                                 .defineSourceAsInputStream(xmlInputStream)
+                                                 .buildXmlParse();
+
         bpmnXmlParse.execute();
-        
+
         ProcessDefinition processDefinition = bpmnXmlParse.getFinishedProcessDefinition();
-        
+
         return processDefinition;
     }
 

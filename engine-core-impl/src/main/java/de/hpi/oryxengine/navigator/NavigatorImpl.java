@@ -142,7 +142,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     }
 
     @Override
-    public void startProcessInstance(UUID processID)
+    public ProcessInstance startProcessInstance(UUID processID)
     throws DefinitionNotFoundException {
 
         // TODO use the variable repository here. This cannot be used in tests, as it requires the bootstrap to have
@@ -156,10 +156,12 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
             startArbitraryInstance(newToken);
         }
         runningInstances.add(instance);
+        
+        return instance;
     }
 
     @Override
-    public void startProcessInstance(UUID processID, StartEvent event)
+    public ProcessInstance startProcessInstance(UUID processID, StartEvent event)
     throws DefinitionNotFoundException {
 
         ProcessDefinition definition = repository.getProcessDefinition(processID);
@@ -171,6 +173,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         runningInstances.add(instance);
 
         // TODO we need a method that allows the starting on a list of nodes.
+        return instance;
     }
 
     // this method is for first testing only, as we do not have ProcessDefinitions yet

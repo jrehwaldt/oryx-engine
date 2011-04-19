@@ -11,7 +11,7 @@ import org.jboss.resteasy.mock.MockHttpResponse;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
@@ -31,7 +31,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     /**
      * Set up.
      */
-    @BeforeClass
+    @BeforeMethod
     public void setUpNavigatorService() {
         this.logger.debug("Start navigator");
         
@@ -44,7 +44,6 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         return NavigatorWebService.class;
     }
     
-    
     /**
      * Tests the get statistic method with json deserialization.
      * 
@@ -55,28 +54,47 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     public void testGetStatistic()
     throws URISyntaxException, IOException {
         
-        MockHttpRequest request = MockHttpRequest.get("/navigator/statistic");
+        MockHttpRequest request = MockHttpRequest.get("/navigator/status/statistic");
         MockHttpResponse response = new MockHttpResponse();
         
-        NavigatorStatistic stats;
-        synchronized (this.navigator) {
-            stats = this.navigator.getStatistics();
-            dispatcher.invoke(request, response);
-        }
+        NavigatorStatistic stats = this.navigator.getStatistics();
+        dispatcher.invoke(request, response);
         
         String json = response.getContentAsString();
         logger.debug(json);
+        Assert.assertNotNull(json);
         
         NavigatorStatistic callStats = this.mapper.readValue(json, NavigatorStatistic.class);
-        
         Assert.assertNotNull(callStats);
-        Assert.assertEquals(
-            callStats.getNumberOfFinishedInstances(), stats.getNumberOfFinishedInstances());
-        Assert.assertEquals(
-            callStats.getNumberOfExecutionThreads(), stats.getNumberOfExecutionThreads());
-        Assert.assertEquals(
-            callStats.getNumberOfRunningInstances(), stats.getNumberOfRunningInstances());
+        
+        Assert.assertEquals(callStats.getNumberOfFinishedInstances(), stats.getNumberOfFinishedInstances());
+        Assert.assertEquals(callStats.getNumberOfExecutionThreads(), stats.getNumberOfExecutionThreads());
+        Assert.assertEquals(callStats.getNumberOfRunningInstances(), stats.getNumberOfRunningInstances());
         Assert.assertEquals(callStats.isNavigatorIdle(), stats.isNavigatorIdle());
+    }
+    
+    /**
+     * Tests the get statistic method with json deserialization.
+     * 
+     * @throws URISyntaxException test fails
+     * @throws IOException test fails
+     */
+    @Test
+    public void testGetIsIdle()
+    throws URISyntaxException, IOException {
+        
+        MockHttpRequest request = MockHttpRequest.get("/navigator/status/is-idle");
+        MockHttpResponse response = new MockHttpResponse();
+        
+        boolean isIdle = this.navigator.isIdle();
+        dispatcher.invoke(request, response);
+        
+        String result = response.getContentAsString();
+        logger.debug(result);
+        Assert.assertNotNull(result);
+        
+        boolean callIdIdle = Boolean.valueOf(result);
+        Assert.assertEquals(isIdle, callIdIdle);
     }
     
     /**
@@ -152,7 +170,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
 //        String id = definition.getID().toString();
 //
 //        // run it via REST request
-//        MockHttpRequest request = MockHttpRequest.get(String.format("/navigator/instance/%s/start", id));
+//        MockHttpRequest request = MockHttpRequest.get(String.format("/navigator/process/%s/start", id));
 //        MockHttpResponse response = new MockHttpResponse();
 //
 //        dispatcher.invoke(request, response);

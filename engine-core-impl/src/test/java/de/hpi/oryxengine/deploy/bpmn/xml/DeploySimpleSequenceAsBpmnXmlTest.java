@@ -1,24 +1,14 @@
 package de.hpi.oryxengine.deploy.bpmn.xml;
 
-import java.io.InputStream;
 import java.util.List;
-import java.util.UUID;
 
 import org.testng.Assert;
-import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
-import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.activity.impl.BpmnStartEvent;
 import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.repository.DeploymentBuilder;
-import de.hpi.oryxengine.repository.ProcessDefinitionImporter;
-import de.hpi.oryxengine.repository.importer.BpmnXmlInpustreamImporter;
-import de.hpi.oryxengine.util.ReflectionUtil;
 
 /**
  * It tests the deployment of BPMN processes that where serialized as xml. The xml contains the structure the process

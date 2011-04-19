@@ -5,7 +5,7 @@ $().ready(function() {
     var idee3 = JSON.stringify({workItem: DEMO_WORK_ITEM_1, resource: DEMO_PARTICIPANT_BUZY_WILLI});
     var idee6 = JSON.stringify(DEMO_PARTICIPANT_BUZY_WILLI);
 
-    $.ajax({
+  /*  $.ajax({
         type: 'POST',
         url: 'api/worklist/1/claim',
         data: idee6,
@@ -18,25 +18,28 @@ $().ready(function() {
         contentType: 'application/json', // we send json
         dataType: "json" // we expect json
     });
-
+*/
   /*  $('#data').html(
         JSON.stringify(idee1) + "<br/>" + "<br/>" + "<br/>" + "<br/>" +
         idee2 + "<br/>" + "<br/>" + "<br/>" + "<br/>" +
         idee3 + "<br/>" + "<br/>"
     );
 */
+    $("#loginButton").click(function(){
+
+        var uuid = $('#loginBox option:selected').attr('value');
+        $.Storage.set("participantUUID", uuid);
+        $(location).attr('href', 'worklist/');
+    });
 
     $.ajax({
         type: 'GET',
         url: 'api/identity/participants',
         success: function(data) {
             var participants = data;
-            var otherParticipants = $.parseJSON(data);
             $.each(participants, function(i, participant) {
-
-
-                $("#participants").append(participant);
                 $("#participantnames").append(participant.name);
+                $("#loginBox").append("<option value=\"" + participant.id + "\">" + participant.name + "</option>");
             });
 
         },
@@ -105,3 +108,4 @@ $().ready(function() {
     });
 	*/
 });
+
