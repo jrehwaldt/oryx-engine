@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.util.io.InputStreamSource;
-import de.hpi.oryxengine.util.io.ResourceStreamSource;
+import de.hpi.oryxengine.util.io.ClassPathResourceStreamSource;
 import de.hpi.oryxengine.util.io.StreamSource;
 import de.hpi.oryxengine.util.io.StringStreamSource;
 import de.hpi.oryxengine.util.io.UrlStreamSource;
@@ -58,7 +58,7 @@ public class XmlParseBuilderImpl implements XmlParseBuilder {
     @Override
     public XmlParseBuilder defineSourceAsResource(String resource, ClassLoader classLoader) {
 
-        defineSourceAsStreamSource(new ResourceStreamSource(resource, classLoader));
+        defineSourceAsStreamSource(new ClassPathResourceStreamSource(resource, classLoader));
         return this;
     }
 

@@ -9,7 +9,6 @@ import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.bootstrap.OryxEngineAppContext;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.repository.Deployer;
 
 /**
  * General service factory, which provides singleton instances for our system.
@@ -74,16 +73,6 @@ public final class ServiceFactory {
     public static @Nonnull Navigator getNavigatorService() {
 
         return (Navigator) OryxEngineAppContext.getBean("navigatorService");
-    }
-
-    /**
-     * Gets the {@link Deployer}.
-     * 
-     * @return the deplyoment service
-     */
-    public static @Nonnull Deployer getDeplyomentService() {
-
-        return (Deployer) OryxEngineAppContext.getBean("deployerService");
     }
 
     /**

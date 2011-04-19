@@ -12,10 +12,10 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.RepositoryServiceImpl;
+import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
-import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 
 /**
  * Test implementation for {@link RepositoryService} class.

@@ -8,7 +8,7 @@ import de.hpi.oryxengine.util.ReflectionUtil;
 /**
  * A source for resources. Provides access to process resources.
  */
-public class ResourceStreamSource implements StreamSource {
+public class ClassPathResourceStreamSource implements StreamSource {
 
     private String resource;
     private ClassLoader classLoader;
@@ -18,7 +18,7 @@ public class ResourceStreamSource implements StreamSource {
      * 
      * @param resource the resource to handle
      */
-    public ResourceStreamSource(String resource) {
+    public ClassPathResourceStreamSource(String resource) {
 
         this.resource = resource;
     }
@@ -29,7 +29,7 @@ public class ResourceStreamSource implements StreamSource {
      * @param resource the resource to handle
      * @param classLoader the class loader
      */
-    public ResourceStreamSource(String resource, ClassLoader classLoader) {
+    public ClassPathResourceStreamSource(String resource, ClassLoader classLoader) {
 
         this.resource = resource;
         this.classLoader = classLoader;

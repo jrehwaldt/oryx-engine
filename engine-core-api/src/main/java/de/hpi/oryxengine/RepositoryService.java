@@ -6,8 +6,9 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.repository.AbstractProcessArtifacts;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
 
 /**
@@ -82,32 +83,32 @@ public interface RepositoryService {
     void activateProcessDefinition(@Nonnull UUID processDefintionID);
 
     /**
-     * Retrieves a certain {@link AbstractProcessArtifacts ProcessResource} with the given processResourceID.
+     * Retrieves a certain {@link AbstractProcessArtifact ProcessResource} with the given processResourceID.
      * 
      * @param processResourceID
-     *            - id of the {@link AbstractProcessArtifacts ProcessResource}, cannot be null.
+     *            - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
      * 
-     * @return a {@link AbstractProcessArtifacts ProcessResource}
+     * @return a {@link AbstractProcessArtifact ProcessResource}
      * 
      * @throws DefinitionNotFoundException
      *             - thrown, if the given ID does not exist
      */
     @Nonnull
-    AbstractProcessArtifacts getProcessResource(@Nonnull UUID processResourceID)
+    AbstractProcessArtifact getProcessResource(@Nonnull UUID processResourceID)
     throws DefinitionNotFoundException;
 
     /**
-     * Retrieves all {@link AbstractProcessArtifacts ProcessResources} that have been deployed previously.
+     * Retrieves all {@link AbstractProcessArtifact ProcessResources} that have been deployed previously.
      * 
-     * @return a list containing all {@link AbstractProcessArtifacts ProcessResources}
+     * @return a list containing all {@link AbstractProcessArtifact ProcessResources}
      */
-    List<AbstractProcessArtifacts> getProcessResources();
+    List<AbstractProcessArtifact> getProcessResources();
 
     /**
-     * Deletes the given {@link AbstractProcessArtifacts ProcessResource}.
+     * Deletes the given {@link AbstractProcessArtifact ProcessResource}.
      * 
      * @param processResourceID
-     *            - id of the {@link AbstractProcessArtifacts ProcessResource}, cannot be null.
+     *            - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
      */
     void deleteProcessResource(@Nonnull UUID processResourceID);
 }

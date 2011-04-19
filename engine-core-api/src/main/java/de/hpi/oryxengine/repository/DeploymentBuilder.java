@@ -1,10 +1,12 @@
 package de.hpi.oryxengine.repository;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.UUID;
 
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
@@ -21,33 +23,45 @@ public interface DeploymentBuilder {
      *            - the name of the resource that is deployed
      * @param inputStream
      *            - the {@link InputStream} that contains the content of the
-     * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifacts ProcessArtifacts
+     * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifact ProcessArtifacts
      */
     UUID deployResourceAsInputStream(String resourceName, InputStream inputStream);
 
     /**
      * Adds a resource to the repository. So that it is available for all {@link ProcessDefinition}s. This method allows
-     * to add the {@link AbstractProcessArtifacts} as ClasspathResource.
+     * to add the {@link AbstractProcessArtifact} as ClasspathResource.
      * 
      * @param resourceName
-     *            - the name of the {@link AbstractProcessArtifacts} that is deployed
+     *            - the name of the {@link AbstractProcessArtifact} that is deployed
      * @param resourceClasspath
-     *            - the classpath of the {@link AbstractProcessArtifacts}
-     * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifacts ProcessArtifact
+     *            - the classpath of the {@link AbstractProcessArtifact}
+     * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifact ProcessArtifact
      */
     UUID deployClasspathResource(String resourceName, String resourceClasspath);
 
     /**
      * Adds a resource to the repository. So that it is available for all {@link ProcessDefinition}s. This method allows
-     * to add the {@link AbstractProcessArtifacts} as {@link String}.
+     * to add the {@link AbstractProcessArtifact} as {@link String}.
      * 
      * @param resourceName
-     *            - the name of the {@link AbstractProcessArtifacts} that is deployed
+     *            - the name of the {@link AbstractProcessArtifact} that is deployed
      * @param resourceStringContent
-     *            - the {@link String} content of the {@link AbstractProcessArtifacts ProcessResource}
-     * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifacts ProcessArtifact}
+     *            - the {@link String} content of the {@link AbstractProcessArtifact ProcessResource}
+     * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifact ProcessArtifact}
      */
     UUID deployResourceAsString(String resourceName, String resourceStringContent);
+
+    /**
+     * Adds a resource to the repository. So that it is available for all {@link ProcessDefinition}s. This method allows
+     * to add the {@link AbstractProcessArtifact} as {@link String}.
+     * 
+     * @param resourceName
+     *            - the name of the {@link AbstractProcessArtifact} that is deployed
+     * @param file
+     *            - the {@link File File Object} that contains the {@link AbstractProcessArtifact ProcessArtifact}
+     * @return a {@link UUID} representing the internal ID of the {@link AbstractProcessArtifact ProcessArtifact}
+     */
+    UUID deployResourceAsFile(String resourceName, File file);
 
     // /**
     // * Adds a {@link ProcessDefinition} to the repository. So that it is available for instantiation after activation.
@@ -70,6 +84,9 @@ public interface DeploymentBuilder {
      * 
      * The name of the {@link ProcessDefinition} will be the name stored in the {@link ProcessDefinition}. If there is
      * no name define then the name will be the processDefintionID.
+     * 
+     * {@link ProcessDefinition ProcessDefinitions} are imported using a {@link ProcessDefinitionImporter}. The
+     * {@link ProcessDefinitionImporter} allows to create a {@link ProcessDefinition} using several different types.
      * 
      * @param processDefinitionImporter
      *            - that is able to create a {@link ProcessDefinition}

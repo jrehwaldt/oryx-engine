@@ -12,11 +12,14 @@ import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.correlation.CorrelationManager;
+import de.hpi.oryxengine.correlation.registration.StartEvent;
+import de.hpi.oryxengine.deployment.DeploymentBuilderImpl;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.repository.AbstractProcessArtifacts;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
-import de.hpi.oryxengine.repository.DeploymentBuilderImpl;
 
 /**
  * The Class ProcessRepositoryImpl. The Repository holds the process definitions in the engine. To instantiate these,
@@ -30,7 +33,7 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
 
     private Map<UUID, ProcessDefinition> processDefinitionsTable;
 
-    private Map<UUID, AbstractProcessArtifacts> processArtifactsTable;
+    private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
 
     @Override
     public void start() {
@@ -90,8 +93,20 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
     @Override
     public void activateProcessDefinition(UUID processDefintionID) {
 
-        // TODO Auto-generated method stub
-
+        ProcessDefinition processDefintion;
+        try {
+            processDefintion = getProcessDefinition(processDefintionID);
+        } catch (DefinitionNotFoundException exception) {
+            String errorMessage = "The processDefinition '" + processDefintionID + "' have not been deployed yet.";
+            logger.error(errorMessage, exception);
+            throw new DalmatinaRuntimeException(errorMessage, exception);
+        }
+        
+        // Register start events at event manager.
+        CorrelationManager correlation = ServiceFactory.getCorrelationService();
+        for (StartEvent event : processDefintion.getStartTriggers().keySet()) {
+            correlation.registerStartEvent(event);
+        }
     }
 
     @Override
@@ -108,10 +123,10 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
     }
 
     @Override
-    public AbstractProcessArtifacts getProcessResource(UUID id)
+    public AbstractProcessArtifact getProcessResource(UUID id)
     throws DefinitionNotFoundException {
 
-        AbstractProcessArtifacts processArtifact = getProcessArtifactsTable().get(id);
+        AbstractProcessArtifact processArtifact = getProcessArtifactsTable().get(id);
         if (processArtifact == null) {
             throw new DefinitionNotFoundException("The ProcessArtifact (with the ID: '" + id + "') "
                 + "has not been deployed.");
@@ -120,18 +135,18 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
     }
 
     @Override
-    public List<AbstractProcessArtifacts> getProcessResources() {
+    public List<AbstractProcessArtifact> getProcessResources() {
 
-        List<AbstractProcessArtifacts> listToReturn = new ArrayList<AbstractProcessArtifacts>(
+        List<AbstractProcessArtifact> listToReturn = new ArrayList<AbstractProcessArtifact>(
             getProcessArtifactsTable().values());
         return Collections.unmodifiableList(listToReturn);
     }
 
     @Override
     public void deleteProcessResource(UUID processArtifact) {
-    
+
         getProcessArtifactsTable().remove(processArtifact);
-    
+
     }
 
     public Map<UUID, ProcessDefinition> getProcessDefinitionsTable() {
@@ -142,10 +157,10 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
         return this.processDefinitionsTable;
     }
 
-    public Map<UUID, AbstractProcessArtifacts> getProcessArtifactsTable() {
+    public Map<UUID, AbstractProcessArtifact> getProcessArtifactsTable() {
 
         if (processArtifactsTable == null) {
-            this.processArtifactsTable = new HashMap<UUID, AbstractProcessArtifacts>();
+            this.processArtifactsTable = new HashMap<UUID, AbstractProcessArtifact>();
         }
         return this.processArtifactsTable;
     }

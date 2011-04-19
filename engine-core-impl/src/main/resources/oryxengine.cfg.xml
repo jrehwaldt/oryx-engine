@@ -19,9 +19,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	<bean id="worklistService" class="de.hpi.oryxengine.WorklistManager"
 		scope="singleton" />
 
-	<bean id="deployerService" class="de.hpi.oryxengine.repository.DeployerImpl"
-		scope="singleton" />
-
 	<bean id="repositoryService" class="de.hpi.oryxengine.RepositoryServiceImpl"
 		scope="singleton">
 	</bean>

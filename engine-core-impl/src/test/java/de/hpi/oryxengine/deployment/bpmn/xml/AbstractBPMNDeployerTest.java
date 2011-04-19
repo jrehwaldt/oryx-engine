@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.deploy.bpmn.xml;
+package de.hpi.oryxengine.deployment.bpmn.xml;
 
 import java.io.InputStream;
 import java.util.UUID;
@@ -8,11 +8,11 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.AbstractTest;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.deployment.importer.BpmnXmlInpustreamImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
 import de.hpi.oryxengine.repository.ProcessDefinitionImporter;
-import de.hpi.oryxengine.repository.importer.BpmnXmlInpustreamImporter;
 import de.hpi.oryxengine.util.ReflectionUtil;
 
 /**

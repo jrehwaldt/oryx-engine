@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.deploy;
+package de.hpi.oryxengine.deployment;
 
 import java.util.UUID;
 
@@ -12,13 +12,13 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.factory.definition.ProcessDefinitionFactory;
 import de.hpi.oryxengine.factory.definition.SimpleProcessDefinitionFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
-import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 
 /**
  * The Class DeployerTest.

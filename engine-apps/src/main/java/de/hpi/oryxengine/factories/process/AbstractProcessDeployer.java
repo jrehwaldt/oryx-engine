@@ -3,11 +3,11 @@ package de.hpi.oryxengine.factories.process;
 import java.util.UUID;
 
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
-import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 
 /**
  * The Class AbstractProcessDeployer.

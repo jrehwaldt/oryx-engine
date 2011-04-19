@@ -1,4 +1,6 @@
-package de.hpi.oryxengine.repository;
+package de.hpi.oryxengine.process.definition;
+
+import java.io.InputStream;
 
 import de.hpi.oryxengine.util.Identifiable;
 
@@ -16,7 +18,7 @@ import de.hpi.oryxengine.util.Identifiable;
  * 
  * @author Gerardo Navarro Suarez
  */
-public abstract class AbstractProcessArtifacts implements Identifiable {
+public abstract class AbstractProcessArtifact implements Identifiable {
 
     /**
      * Retrieves the name of the {@link ProcessResource}.
@@ -24,4 +26,11 @@ public abstract class AbstractProcessArtifacts implements Identifiable {
      * @return the name of the {@link ProcessResource}
      */
     public abstract String getName();
+    
+    /**
+     * Retrieves the content of the {@link ProcessArtifact} as {@link InputStream}.
+     * 
+     * @return the {@link InputStream} contianing the content of the {@link ProcessArtifact}
+     */
+    public abstract InputStream getInputStream();
 }

@@ -8,6 +8,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
@@ -16,7 +17,6 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.repository.DeploymentBuilder;
-import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
