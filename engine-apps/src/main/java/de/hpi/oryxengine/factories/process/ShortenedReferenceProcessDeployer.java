@@ -75,8 +75,8 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 		// human task for objection clerk, task is to check
 		// positions of objection
 		Task task = TaskFactory.createRoleTask(
-				"Positionen auf Anspruch prüfen",
-				"Anspruchspositionen überprüfen", objectionClerk);
+				"Positionen auf Anspruch prÃ¼fen",
+				"Anspruchspositionen Ã¼berprÃ¼fen", objectionClerk);
 		Node human1 = builder.createNode(createParamBuilderFor(
 				HumanTaskActivity.class, Task.class, task,
 				new SimpleJoinBehaviour(), new XORSplitBehaviour())
@@ -88,15 +88,15 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 				new XORSplitBehaviour()).buildNodeParameter());
 
 		// human task for objection clerk, task is to check redress
-		task = TaskFactory.createRoleTask("Abhilfebescheid prüfen",
-				"Prüfen des Abhilfebescheids", objectionClerk);
+		task = TaskFactory.createRoleTask("Abhilfebescheid prÃ¼fen",
+				"PrÃ¼fen des Abhilfebescheids", objectionClerk);
 		Node human2 = builder
 				.createNode(createParamBuilderFor(HumanTaskActivity.class,
 						Task.class, task).buildNodeParameter());
 
 		// human task for objection clerk, task is to check objection
-		task = TaskFactory.createRoleTask("Widerspruch prüfen",
-				"Widerspruch erneut prüfen auf neue Ansprüche", objectionClerk);
+		task = TaskFactory.createRoleTask("Widerspruch prÃ¼fen",
+				"Widerspruch erneut prÃ¼fen auf neue AnsprÃ¼che", objectionClerk);
 		Node human3 = builder.createNode(createParamBuilderFor(
 				HumanTaskActivity.class, Task.class, task,
 				new SimpleJoinBehaviour(), new XORSplitBehaviour())
@@ -110,7 +110,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 		// human task for objection clerk, task is to create a new report
 		task = TaskFactory
 				.createRoleTask("neues Gutachten erstellen",
-						"Anspruchspunkte in neues Gutachten übertragen",
+						"Anspruchspunkte in neues Gutachten Ã¼bertragen",
 						objectionClerk);
 		Node human4 = builder
 				.createNode(createParamBuilderFor(HumanTaskActivity.class,
@@ -131,14 +131,14 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
 		// human task for objection clerk, task is to do final work
 		task = TaskFactory.createRoleTask("Nachbearbeitung",
-				"abschließende Nachbearbeitung des Falls", objectionClerk);
+				"abschlieÃŸende Nachbearbeitung des Falls", objectionClerk);
 		Node human5 = builder
 				.createNode(createParamBuilderFor(HumanTaskActivity.class,
 						Task.class, task).buildNodeParameter());
 
 		// human task for allowance clerk, task is to enforce allowance
-		task = TaskFactory.createRoleTask("Leistungsgewährung umsetzen",
-				"Leistungsansprüche durchsetzen", allowanceClerk);
+		task = TaskFactory.createRoleTask("LeistungsgewÃ¤hrung umsetzen",
+				"LeistungsansprÃ¼che durchsetzen", allowanceClerk);
 		Node human6 = builder
 				.createNode(createParamBuilderFor(HumanTaskActivity.class,
 						Task.class, task).buildNodeParameter());
