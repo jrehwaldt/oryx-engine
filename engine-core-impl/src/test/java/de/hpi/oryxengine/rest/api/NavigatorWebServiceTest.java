@@ -1,11 +1,14 @@
 package de.hpi.oryxengine.rest.api;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.UUID;
 
-import javax.xml.bind.JAXBException;
+import javax.ws.rs.core.Response;
 
+import org.codehaus.jackson.map.type.TypeFactory;
+import org.codehaus.jackson.type.JavaType;
 import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.springframework.test.annotation.DirtiesContext;
@@ -15,10 +18,25 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
+import de.hpi.oryxengine.activity.impl.EndActivity;
+import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
+import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
+import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.repository.DeploymentBuilder;
+import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
+import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class NavigatorWebServiceTest.
@@ -27,6 +45,10 @@ import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     
     private Navigator navigator = null;
+    
+    private static final int WAIT_FOR_PROCESSES_TO_FINISH = 100;
+    private static final int TRIES_UNTIL_PROCESSES_FINISH = 100;
+    private static final short NUMBER_OF_INSTANCES_TO_START = 2;
     
     /**
      * Set up.
@@ -98,38 +120,6 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     }
     
     /**
-     * Tests the serialization of our navigation statistics. This is necessary because occasionally
-     * serializing of "boolean x = true" was not correctly deserialized.
-     * 
-     * @throws IOException test fails
-     * @throws JAXBException test fails
-     */
-    @Test
-    public void testSerializationAndDesirializationOfNavigationStatistics() throws JAXBException, IOException {
-        File xml = new File(TMP_PATH + "NavigatorStatistics.js");
-        if (xml.exists()) {
-            Assert.assertTrue(xml.delete());
-        }
-        
-        NavigatorStatistic stats = new NavigatorStatistic(1, 1, 1, true);
-        this.mapper.writeValue(xml, stats);
-        
-        Assert.assertTrue(xml.exists());
-        Assert.assertTrue(xml.length() > 0);
-        
-        NavigatorStatistic desStats = this.mapper.readValue(xml, NavigatorStatistic.class);
-        Assert.assertNotNull(desStats);
-
-        Assert.assertEquals(
-            desStats.getNumberOfFinishedInstances(), stats.getNumberOfFinishedInstances());
-        Assert.assertEquals(
-            desStats.getNumberOfExecutionThreads(), stats.getNumberOfExecutionThreads());
-        Assert.assertEquals(
-            desStats.getNumberOfRunningInstances(), stats.getNumberOfRunningInstances());
-        Assert.assertEquals(desStats.isNavigatorIdle(), stats.isNavigatorIdle());
-    }
-    
-    /**
      * Tests the staring of an process instance via our Rest-interface.
      * 
      * @throws IllegalStarteventException
@@ -138,52 +128,130 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
      *             test fails
      * @throws InterruptedException
      *             test fails
+     * @throws IOException
+     *             test fails
      */
     @Test
     public void testStartInstance()
-    throws IllegalStarteventException, URISyntaxException, InterruptedException {
+    throws IllegalStarteventException, URISyntaxException, InterruptedException, IOException {
+        
+        // create simple process
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
+            new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
+        Node startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
+        
+        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        int[] ints = {1, 1};
+        nodeParamBuilder
+            .setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
+            .addConstructorParameter(String.class, "result")
+            .addConstructorParameter(int[].class, ints);
+        Node node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        Node node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        builder.createTransition(startNode, node1).createTransition(node1, node2);
+        
+        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
+        Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        builder.createTransition(node2, endNode);
 
-    // TODO: [@Gerardo:] mal wieder auskommentieren
-// create simple process
-//        ProcessBuilder builder = new ProcessBuilderImpl();
-//        NodeParameter param = new NodeParameterImpl();
-//        
-//        Class<?>[] constructorSig = {String.class, int[].class};
-//        int[] ints = {1, 1};
-//        Object[] params = {"result", ints};
-//        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, constructorSig,
-//            params);
-//        param.setActivityBlueprint(blueprint);
-//        param.setOutgoingBehaviour(new TakeAllSplitBehaviour());
-//        param.setIncomingBehaviour(new SimpleJoinBehaviour());
-//        Node startNode = builder.createStartNode(param);
-//
-//        param.setActivityClassOnly(EndActivity.class);
-//        Node endNode = builder.createNode(param);
-//
-//        builder.createTransition(startNode, endNode);
-//        ProcessDefinition definition = builder.buildDefinition();
-//
-//        // deploy it
-//
-//        ServiceFactory.getDeplyomentService().deploy(definition);
-//        String id = definition.getID().toString();
-//
-//        // run it via REST request
-//        MockHttpRequest request = MockHttpRequest.get(String.format("/navigator/process/%s/start", id));
-//        MockHttpResponse response = new MockHttpResponse();
-//
-//        dispatcher.invoke(request, response);
+        // deploy it
+        ProcessDefinition definition = builder.buildDefinition();
 
-        // TODO @Jan: fix, if statistic works with json
-        // // check, if it has finished after two seconds.
-        // Thread.sleep(1500);
+        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        UUID processId = deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(definition));
+        
+        Assert.assertTrue(this.navigator.isIdle());
+        // run it via REST request
+        MockHttpRequest request;
+        MockHttpResponse response;
+        for (int i = 0; i < NUMBER_OF_INSTANCES_TO_START; i++) {
+            request = MockHttpRequest.post(String.format("/navigator/process/%s/start", processId));
+            response = new MockHttpResponse();
+            
+            this.dispatcher.invoke(request, response);
+            Assert.assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        }
+        
+        // wait for the service to be finished
+        for (int i = 0; !this.navigator.isIdle(); i++) {
+            Thread.sleep(WAIT_FOR_PROCESSES_TO_FINISH);
+            
+            if (i == TRIES_UNTIL_PROCESSES_FINISH) {
+                this.logger.error("Process instance never finished");
+                throw new IllegalStateException("Process instance never finished");
+            }
+        }
+        
         //
-        // request = MockHttpRequest.get("/navigator/endedinstances");
-        // response = new MockHttpResponse();
+        // test finished instances
         //
-        // dispatcher.invoke(request, response);
+        request = MockHttpRequest.get("/navigator/status/finished-instances");
+        response = new MockHttpResponse();
+        
+        this.dispatcher.invoke(request, response);
+        String jsonFinished = response.getContentAsString();
+        this.logger.debug(jsonFinished);
+        Assert.assertNotNull(jsonFinished);
+        
+        JavaType typeRef = TypeFactory.collectionType(List.class, AbstractProcessInstance.class);
+//        TypeReference<List<ProcessInstance>> typeRef = new TypeReference<List<ProcessInstance>>() { };
+        List<AbstractProcessInstance> finInstances = this.mapper.readValue(jsonFinished, typeRef);
+        Assert.assertNotNull(finInstances);
+        
+        Assert.assertEquals(finInstances.size(), NUMBER_OF_INSTANCES_TO_START);
+        for (AbstractProcessInstance ins: finInstances) {
+            Assert.assertEquals(ins.getDefinition().getID(), processId);
+        }
+        
         //
-        // assertEquals(Integer.valueOf(response.getContentAsString()).intValue(), 1);
+        // test running instances
+        //
+        request = MockHttpRequest.get("/navigator/status/running-instances");
+        response = new MockHttpResponse();
+        
+        this.dispatcher.invoke(request, response);
+        String jsonRunning = response.getContentAsString();
+        this.logger.debug(jsonRunning);
+        Assert.assertNotNull(jsonRunning);
+        
+        @SuppressWarnings("unchecked")
+        List<AbstractProcessInstance> runInstances = (List<AbstractProcessInstance>) this.mapper.readValue(jsonRunning, typeRef);
+        Assert.assertNotNull(runInstances);
+        
+        Assert.assertEquals(runInstances.size(), 0);
+        
+        //
+        // test running instances
+        //
+        request = MockHttpRequest.get("/navigator/status/is-idle");
+        response = new MockHttpResponse();
+        
+        this.dispatcher.invoke(request, response);
+        String jsonIdle = response.getContentAsString();
+        this.logger.debug(jsonIdle);
+        Assert.assertNotNull(jsonIdle);
+        
+        boolean isIdle = this.mapper.readValue(jsonIdle, boolean.class);
+        Assert.assertTrue(isIdle);
+        
+        //
+        // test statistics
+        //
+        request = MockHttpRequest.get("/navigator/status/statistic");
+        response = new MockHttpResponse();
+        
+        this.dispatcher.invoke(request, response);
+        String jsonStats = response.getContentAsString();
+        this.logger.debug(jsonStats);
+        Assert.assertNotNull(jsonStats);
+        NavigatorStatistic stats = this.mapper.readValue(jsonStats, NavigatorStatistic.class);
+        Assert.assertNotNull(stats);
+        
+        Assert.assertEquals(stats.getNumberOfFinishedInstances(), NUMBER_OF_INSTANCES_TO_START);
+        Assert.assertEquals(stats.getNumberOfRunningInstances(), 0);
+        Assert.assertTrue(stats.isNavigatorIdle());
     }
 }

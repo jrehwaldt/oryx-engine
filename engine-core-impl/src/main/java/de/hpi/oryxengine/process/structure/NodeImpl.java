@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.process.structure.condition.ConditionImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
@@ -29,9 +31,13 @@ public class NodeImpl implements Node {
     private List<Transition> outgoingTransitions, incomingTransitions;
 
     private UUID id;
+    private Map<String, Object> attributes;
     
-    private Map<String, Object> attributeTable;
-
+    /**
+     * Hidden constructor.
+     */
+    protected NodeImpl() { }
+    
     /**
      * Instantiates a new abstract node.
      * 
@@ -173,13 +179,15 @@ public class NodeImpl implements Node {
 
         this.blueprint = blueprint;
     }
-
+    
+    @JsonProperty
+    @Override
     public Map<String, Object> getAttributes() {
 
-        if (attributeTable == null) {
-            attributeTable = new HashMap<String, Object>();
+        if (attributes == null) {
+            attributes = new HashMap<String, Object>();
         }
-        return attributeTable;
+        return attributes;
     }
 
     @Override

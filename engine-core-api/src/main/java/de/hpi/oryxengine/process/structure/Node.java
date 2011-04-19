@@ -2,6 +2,11 @@ package de.hpi.oryxengine.process.structure;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
+
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 import de.hpi.oryxengine.util.Attributable;
@@ -10,6 +15,7 @@ import de.hpi.oryxengine.util.Identifiable;
 /**
  * The Interface for Nodes. Nodes are hubs in the graph representation of a process.
  */
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface Node extends Identifiable, Attributable {
 
     /**
@@ -17,6 +23,7 @@ public interface Node extends Identifiable, Attributable {
      * 
      * @return the activity blueprint that is used to instantiate the activity.
      */
+    @JsonIgnore
     ActivityBlueprint getActivityBlueprint();
 
     /**
@@ -49,6 +56,7 @@ public interface Node extends Identifiable, Attributable {
      * 
      * @return the incoming behaviour
      */
+    @JsonIgnore
     IncomingBehaviour getIncomingBehaviour();
 
     /**
@@ -56,6 +64,7 @@ public interface Node extends Identifiable, Attributable {
      * 
      * @return the outgoing behaviour
      */
+    @JsonIgnore
     OutgoingBehaviour getOutgoingBehaviour();
 
     /**
@@ -63,6 +72,7 @@ public interface Node extends Identifiable, Attributable {
      * 
      * @return the next Node(s) depending on the node (normal nodes vs. Splits which have multiple next nodes).
      */
+    @JsonIgnore
     List<Transition> getOutgoingTransitions();
 
     /**
@@ -70,6 +80,7 @@ public interface Node extends Identifiable, Attributable {
      * 
      * @return the incoming transitions
      */
+    @JsonIgnore
     List<Transition> getIncomingTransitions();
 
     /**

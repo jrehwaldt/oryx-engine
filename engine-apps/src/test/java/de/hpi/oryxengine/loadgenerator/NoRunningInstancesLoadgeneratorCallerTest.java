@@ -19,7 +19,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -85,7 +85,7 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends
     public void testMethodInvokedOnLoadGenerator() {
 
 	nav.startArbitraryInstance(pi);
-	ProcessInstance instance = pi.getInstance();
+	AbstractProcessInstance instance = pi.getInstance();
 	nav.signalEndedProcessInstance(instance);
 
 	// verify that the method we want is called on the load generator

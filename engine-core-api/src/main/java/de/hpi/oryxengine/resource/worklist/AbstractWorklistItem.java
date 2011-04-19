@@ -21,7 +21,7 @@ import de.hpi.oryxengine.util.Identifiable;
 /**
  * The Interface WorklistItem.
  */
-@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "classifier")
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public abstract class AbstractWorklistItem implements Task, Identifiable {
     
     /**

@@ -17,6 +17,14 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.navigator.NavigatorState;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractCapability;
 import de.hpi.oryxengine.resource.AbstractOrganizationUnit;
 import de.hpi.oryxengine.resource.AbstractParticipant;
@@ -114,6 +122,64 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
     }
     
     /**
+     * Tests the serialization of a {@link ProcessInstanceContext}.
+     * 
+     * @throws IOException test fails
+     */
+    @Test
+    public void testSerializationAndDesirializationOfProcessInstanceContext() throws IOException {
+        File xml = new File(TMP_PATH + "ProcessInstanceContext.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        ProcessInstanceContext context = new ProcessInstanceContextImpl();
+        context.setVariable("Harry", "ist ein Harry.");
+        context.setVariable("Susi", "ist eine Frau.");
+        context.setVariable("Joachim", "ärgert immer alle.");
+        
+        this.mapper.writeValue(xml, context);
+        
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        ProcessInstanceContext localContext = this.mapper.readValue(xml, ProcessInstanceContext.class);
+        Assert.assertNotNull(localContext);
+        
+        Assert.assertEquals(context.getClass(), localContext.getClass());
+        Assert.assertEquals(context, localContext);
+    }
+    
+    /**
+     * Tests the serialization of our navigation statistics. This is necessary because occasionally
+     * serializing of "boolean x = true" was not correctly deserialized.
+     * 
+     * @throws IOException test fails
+     * @throws JAXBException test fails
+     */
+    @Test
+    public void testSerializationAndDesirializationOfNavigationStatistics() throws JAXBException, IOException {
+        File xml = new File(TMP_PATH + "NavigatorStatistics.js");
+        if (xml.exists()) {
+            Assert.assertTrue(xml.delete());
+        }
+        
+        NavigatorStatistic stats = new NavigatorStatistic(1, 1, 1, true);
+        this.mapper.writeValue(xml, stats);
+        
+        Assert.assertTrue(xml.exists());
+        Assert.assertTrue(xml.length() > 0);
+        
+        NavigatorStatistic desStats = this.mapper.readValue(xml, NavigatorStatistic.class);
+        Assert.assertNotNull(desStats);
+        
+        Assert.assertEquals(desStats.getNumberOfFinishedInstances(), stats.getNumberOfFinishedInstances());
+        Assert.assertEquals(desStats.getNumberOfExecutionThreads(), stats.getNumberOfExecutionThreads());
+        Assert.assertEquals(desStats.getNumberOfRunningInstances(), stats.getNumberOfRunningInstances());
+        Assert.assertEquals(desStats.isNavigatorIdle(), stats.isNavigatorIdle());
+    }
+    
+    /**
      * Tests the serializability of our resource classes.
      */
     @Test
@@ -152,6 +218,14 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         //
         Assert.assertTrue(this.mapper.canSerialize(NavigatorStatistic.class));
         Assert.assertTrue(this.mapper.canSerialize(NavigatorState.class));
+        Assert.assertTrue(this.mapper.canSerialize(AbstractProcessInstance.class));
+        Assert.assertTrue(this.mapper.canSerialize(ProcessInstanceImpl.class));
+        Assert.assertTrue(this.mapper.canSerialize(Token.class));
+        Assert.assertTrue(this.mapper.canSerialize(TokenImpl.class));
+        Assert.assertTrue(this.mapper.canSerialize(ProcessDefinition.class));
+        Assert.assertTrue(this.mapper.canSerialize(ProcessDefinitionImpl.class));
+        Assert.assertTrue(this.mapper.canSerialize(ProcessInstanceContext.class));
+        Assert.assertTrue(this.mapper.canSerialize(ProcessInstanceContextImpl.class));
         
         //
         // util

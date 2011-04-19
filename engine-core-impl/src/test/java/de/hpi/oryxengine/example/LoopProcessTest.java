@@ -23,7 +23,7 @@ import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
@@ -106,7 +106,7 @@ public class LoopProcessTest {
         List<Node> startNodes = new ArrayList<Node>();
         startNodes.add(start);
         ProcessDefinition definition = new ProcessDefinitionImpl(UUID.randomUUID(), "testLoop", startNodes);
-        ProcessInstance instance = new ProcessInstanceImpl(definition);
+        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
         instance.getContext().setVariable("counter", "0");
         instance.getContext().setVariable("increment", "1");
         token = new TokenImpl(node, instance, nav);

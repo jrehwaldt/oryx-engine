@@ -17,7 +17,7 @@ import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
@@ -56,10 +56,10 @@ public class ConcurrentActivityStateTest {
 
         // Create two process instances
         NavigatorImplMock nav = new NavigatorImplMock();
-        ProcessInstance instance1 = new ProcessInstanceImpl(definition);
+        AbstractProcessInstance instance1 = new ProcessInstanceImpl(definition);
         Token token1 = instance1.createToken(startNode, nav);
 
-        ProcessInstance instance2 = new ProcessInstanceImpl(definition);
+        AbstractProcessInstance instance2 = new ProcessInstanceImpl(definition);
         Token token2 = instance2.createToken(startNode, nav);
 
         assertEquals(token1.getCurrentActivityState(), ActivityState.INIT);

@@ -11,6 +11,7 @@
 <module name="Checker">
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
+    <module name="FileContentsHolder"/>
     <module name="JavadocMethod">
       <property name="suppressLoadErrors" value="true"/>
     </module>
@@ -132,4 +133,5 @@
   <module name="Translation"/>
   <module name="FileLength"/>
   <module name="FileTabCharacter"/>
+  <module name="SuppressionCommentFilter"/>
 </module>

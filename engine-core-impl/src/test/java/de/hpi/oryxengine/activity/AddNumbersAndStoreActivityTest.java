@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.factory.node.AddNumbersAndStoreNodeFactory;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -33,7 +33,7 @@ public class AddNumbersAndStoreActivityTest {
 
         AddNumbersAndStoreNodeFactory factory = new AddNumbersAndStoreNodeFactory();
         node = factory.create();
-        ProcessInstance instance = new ProcessInstanceImpl(null);
+        AbstractProcessInstance instance = new ProcessInstanceImpl(null);
         p = new TokenImpl(node, instance);
 
     }

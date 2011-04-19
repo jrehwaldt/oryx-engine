@@ -20,23 +20,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jackson-provider</artifactId>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
             <scope>compile</scope>
         </dependency>
-        <!-- JAXB API + Implementation -->
-        <!--
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.moxy</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        -->
         <!-- Others -->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>

@@ -19,7 +19,7 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class ProcessInstanceImplTest {
 
-    private ProcessInstance instance;
+    private AbstractProcessInstance instance = null;
 
     /**
      * F.
@@ -31,7 +31,7 @@ public class ProcessInstanceImplTest {
         Node node = mock(Node.class);
         Token token = instance.createToken(node, nav);
 
-        assertTrue(instance.getTokens().contains(token), "The instance should contain the token now.");
+        assertTrue(instance.getAssignedTokens().contains(token), "The instance should contain the token now.");
 
         assertNotNull(token.getInstance().getContext(), "The token should have a context to write to.");
     }

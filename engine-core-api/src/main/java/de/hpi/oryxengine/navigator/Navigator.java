@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -28,7 +28,7 @@ public interface Navigator extends Service {
      * @return the started instance
      */
     @Nonnull
-    ProcessInstance startProcessInstance(@Nonnull UUID processID, StartEvent event)
+    AbstractProcessInstance startProcessInstance(@Nonnull UUID processID, StartEvent event)
     throws DefinitionNotFoundException;
 
     /**
@@ -39,7 +39,7 @@ public interface Navigator extends Service {
      * @return the started instance
      */
     @Nonnull
-    ProcessInstance startProcessInstance(@Nonnull UUID processID)
+    AbstractProcessInstance startProcessInstance(@Nonnull UUID processID)
     throws DefinitionNotFoundException;
 
     /**
@@ -86,14 +86,14 @@ public interface Navigator extends Service {
      * 
      * @return the instances
      */
-    List<ProcessInstance> getRunningInstances();
+    List<AbstractProcessInstance> getRunningInstances();
 
     /**
      * Gets the instances that were processed by this navigator and have ended.
      * 
      * @return the ended instances
      */
-    List<ProcessInstance> getEndedInstances();
+    List<AbstractProcessInstance> getEndedInstances();
 
     /**
      * Signal that a formerly running process instance has ended.
@@ -101,7 +101,7 @@ public interface Navigator extends Service {
      * @param instance
      *            the instance
      */
-    void signalEndedProcessInstance(ProcessInstance instance);
+    void signalEndedProcessInstance(AbstractProcessInstance instance);
 
     /**
      * Checks if the navigator is idle, so to say if he still has work to do.

@@ -14,7 +14,7 @@ import de.hpi.oryxengine.resource.AbstractResource;
 /**
  * Represents a human task for engine internal use.
  */
-@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "classifier")
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface Task {
     
     /**
