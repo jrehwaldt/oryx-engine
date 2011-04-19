@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.rest.api;
 
+import java.util.UUID;
+
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistManager;
 import de.hpi.oryxengine.activity.impl.EndActivity;
@@ -11,10 +13,14 @@ import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.allocation.pattern.DirectPushPattern;
 import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.repository.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
@@ -70,7 +76,13 @@ public final class DemoDataForWebservice {
     public static void generate() {
 
         generateDemoParticipants();
-        generateDemoWorklistItems();
+        try {
+            generateDemoWorklistItems();
+        } catch (DefinitionNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalStarteventException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -94,8 +106,10 @@ public final class DemoDataForWebservice {
 
     /**
      * Generate demo worklist items for our participants.
+     * @throws IllegalStarteventException 
+     * @throws DefinitionNotFoundException 
      */
-    private static void generateDemoWorklistItems() {
+    private static void generateDemoWorklistItems() throws IllegalStarteventException, DefinitionNotFoundException {
 
         // TODO Use Example Process to create some tasks for the role demo
 
@@ -129,6 +143,15 @@ public final class DemoDataForWebservice {
         nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
         endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
         builder.createTransition(node3, endNode);
+        
+        //Start Process
+        ProcessDefinition processDefinition = builder.buildDefinition();
+        
+        UUID processID = ServiceFactory
+                            .getRepositoryService()
+                            .getDeploymentBuilder()
+                            .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
+        ServiceFactory.getNavigatorService().startProcessInstance(processID);
 
     }
 
