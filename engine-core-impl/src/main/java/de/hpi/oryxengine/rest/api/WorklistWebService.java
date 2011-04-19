@@ -155,6 +155,12 @@ public final class WorklistWebService {
         service.claimWorklistItemBy(item, resource);
     }
     
+    /**
+     * Claim a worklist item by aresource parameteres subject to change.
+     *
+     * @param workItem the work item
+     * @param resource the resource
+     */
     @Path("/item/claim")
     @GET
     // Wieder unüblich. Ideal siehe "claimWorklistItemByPost"
@@ -175,7 +181,6 @@ public final class WorklistWebService {
     
 //    @Path("/item/claim")
 //    @POST
-//    // TODO @Pfeiffer: Realisiere diese Methodensignatur OHNE @QueryParam als @POST. Danke.
 //    public void claimWorklistItemByPost(AbstractWorklistItem workItem,
 //                                        AbstractResource<?> resource) {
 //        
