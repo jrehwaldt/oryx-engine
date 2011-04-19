@@ -27,8 +27,6 @@ public interface Navigator extends Service {
      *             thrown if process with given id does not exist in repo
      * @return the started instance
      */
-    // TODO This should return the id of the created process instance. Unfortunately, we do not have a process instance
-    // class yet, so we cannot do this.
     @Nonnull
     ProcessInstance startProcessInstance(@Nonnull UUID processID, StartEvent event)
     throws DefinitionNotFoundException;

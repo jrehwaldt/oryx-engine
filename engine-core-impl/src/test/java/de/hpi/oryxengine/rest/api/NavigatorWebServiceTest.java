@@ -65,8 +65,8 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         Assert.assertNotNull(json);
         
         NavigatorStatistic callStats = this.mapper.readValue(json, NavigatorStatistic.class);
-        
         Assert.assertNotNull(callStats);
+        
         Assert.assertEquals(callStats.getNumberOfFinishedInstances(), stats.getNumberOfFinishedInstances());
         Assert.assertEquals(callStats.getNumberOfExecutionThreads(), stats.getNumberOfExecutionThreads());
         Assert.assertEquals(callStats.getNumberOfRunningInstances(), stats.getNumberOfRunningInstances());
