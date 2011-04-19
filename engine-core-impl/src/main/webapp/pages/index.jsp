@@ -3,6 +3,7 @@
 <html>
     <head>
         <title>Oryx Engine goes REST</title>
+        <script type="text/javascript" src="/javascripts/demo/demo-ajax.js"></script>
     </head>
     <body>
         <h1>REST-interface working ;-)</h1>
