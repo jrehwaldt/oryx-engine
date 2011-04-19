@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.deployment.bpmn.xml;
+package de.hpi.oryxengine.deployment.importer.bpmn;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractBPMNDeployerTest 
 
     public DeploySimpleGatewaysAsBpmnXmlTest() {
 
-        executableProcessResourcePath = "de/hpi/oryxengine/delpoy/bpmn/xml/SimpleGateways.bpmn.xml";
+        executableProcessResourcePath = "de/hpi/oryxengine/delpoyment/bpmn/SimpleGateways.bpmn.xml";
     }
 
     @Override

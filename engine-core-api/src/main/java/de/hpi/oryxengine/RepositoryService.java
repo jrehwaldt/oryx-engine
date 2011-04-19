@@ -5,11 +5,11 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.repository.DeploymentBuilder;
 
 /**
  * The RepositoryService offers method to manage the processes that have been deployed to the navigator.

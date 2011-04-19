@@ -9,7 +9,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.IntermediateTimer;
 import de.hpi.oryxengine.activity.impl.NullActivity;
@@ -35,7 +35,7 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
  * The Class IntermediateTimerTest. Checks if the intermediate timer is working.
  * @author Jannik Streek
  */
-public class IntermediateTimerTest extends AbstractTest {
+public class IntermediateTimerTest extends AbstractJodaEngineTest {
     
     private Token token;
     private Node node;

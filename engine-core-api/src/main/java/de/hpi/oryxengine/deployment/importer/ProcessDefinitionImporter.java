@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.repository;
+package de.hpi.oryxengine.deployment.importer;
 
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 

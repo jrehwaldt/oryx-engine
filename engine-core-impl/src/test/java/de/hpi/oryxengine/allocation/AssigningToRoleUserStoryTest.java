@@ -9,7 +9,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
@@ -34,7 +34,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 /**
  * This test assigns a task to a role or to a resource that contains other resources.
  */
-public class AssigningToRoleUserStoryTest extends AbstractTest {
+public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 
     private Token token = null;
     private AbstractRole hamburgGuysRole = null;

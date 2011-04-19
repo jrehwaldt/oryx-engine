@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 
@@ -15,7 +15,7 @@ import de.hpi.oryxengine.ServiceFactory;
  * 
  *  Especially that retrieved sets are read-only.
  */
-public class IdentityServiceTest extends AbstractTest {
+public class IdentityServiceTest extends AbstractJodaEngineTest {
     
     /** The identity service. */
     private IdentityService identityService = null;

@@ -13,7 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
@@ -27,7 +27,7 @@ import de.hpi.oryxengine.repository.RepositorySetup;
  * The Class FIFOSchedulerTest. tests our awesome FIFO Scheduler.
  */
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class FIFOSchedulerTest extends AbstractTest {
+public class FIFOSchedulerTest extends AbstractJodaEngineTest {
 
     /** The scheduler. */
     private FIFOScheduler scheduler = null;

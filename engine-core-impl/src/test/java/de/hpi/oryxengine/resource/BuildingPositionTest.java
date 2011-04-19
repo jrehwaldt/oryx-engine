@@ -4,7 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaException;
@@ -12,7 +12,7 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 /**
  * Tests the building of {@link Position}s in the organization structure.
  */
-public class BuildingPositionTest extends AbstractTest {
+public class BuildingPositionTest extends AbstractJodaEngineTest {
 
     private IdentityService identityService = null;
     

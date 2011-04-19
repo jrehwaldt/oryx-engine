@@ -4,14 +4,14 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 
 /**
  * Tests the building of {@link Participant}s in the organization structure.
  */
-public class BuildingParticipantTest extends AbstractTest {
+public class BuildingParticipantTest extends AbstractJodaEngineTest {
 
     private IdentityService identityService = null;
 

@@ -6,14 +6,14 @@ import static org.mockito.Mockito.verify;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.navigator.NavigatorState;
 
 /**
  * Test class for various navigator plugin tests.
  */
-public class NavigatorListenerTest extends AbstractTest {
+public class NavigatorListenerTest extends AbstractJodaEngineTest {
     
     /** The navigator. */
     private NavigatorImpl navigator = null;

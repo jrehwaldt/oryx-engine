@@ -12,6 +12,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public abstract class AbstractTest extends AbstractTestNGSpringContextTests {
+public abstract class AbstractJodaEngineTest extends AbstractTestNGSpringContextTests {
 
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 }

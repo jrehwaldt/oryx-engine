@@ -13,14 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 
 /**
  * Abstract class providing anything necessary for server api tests.
  * 
  * @author Jan Rehwaldt
  */
-public abstract class AbstractJsonServerTest extends AbstractTest {
+public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     
     protected static final int WAIT_FOR_PROCESSES_TO_FINISH = 100;
     protected static final int TRIES_UNTIL_PROCESSES_FINISH = 100;

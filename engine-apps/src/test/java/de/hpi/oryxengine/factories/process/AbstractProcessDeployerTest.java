@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
@@ -20,7 +20,7 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
  * The tests just run the code to verify that there are no erros. More specific tests are likely to break everything
  * you do a simple thing like adding one node to the process.
  */
-public abstract class AbstractProcessDeployerTest extends AbstractTest {
+public abstract class AbstractProcessDeployerTest extends AbstractJodaEngineTest {
 
     protected ProcessDeployer deployer;
     protected UUID uuid;

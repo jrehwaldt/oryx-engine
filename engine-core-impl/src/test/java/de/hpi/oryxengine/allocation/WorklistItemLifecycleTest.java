@@ -6,7 +6,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
@@ -22,7 +22,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
  * 
  * This test simulates the usages of a {@link AbstractWorklistItem}.
  */
-public class WorklistItemLifecycleTest extends AbstractTest {
+public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
 
     private WorklistService worklistService = null;
     private AbstractWorklistItem worklistItem = null;

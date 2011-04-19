@@ -8,7 +8,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
@@ -34,7 +34,7 @@ import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
  * The test for the {@link HumanTaskActivity}.
  */
 
-public class HumanTaskActivityTest extends AbstractTest {
+public class HumanTaskActivityTest extends AbstractJodaEngineTest {
 
     private Task task = null;
     private AbstractResource<?> resource = null;

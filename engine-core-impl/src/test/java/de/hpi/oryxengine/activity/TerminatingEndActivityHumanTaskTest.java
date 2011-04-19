@@ -7,7 +7,7 @@ import static org.testng.Assert.assertTrue;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
@@ -39,7 +39,7 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 /**
  * The Class TerminatingEndActivityTest.
  */
-public class TerminatingEndActivityHumanTaskTest extends AbstractTest {
+public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest {
     private Task task = null;
     private AbstractResource<?> resource = null;
     private Node splitNode, humanTaskNode, terminatingEndNode;

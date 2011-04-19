@@ -14,12 +14,12 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
+import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.DeploymentBuilderImpl;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.repository.DeploymentBuilder;
 
 /**
  * The Class ProcessRepositoryImpl. The Repository holds the process definitions in the engine. To instantiate these,

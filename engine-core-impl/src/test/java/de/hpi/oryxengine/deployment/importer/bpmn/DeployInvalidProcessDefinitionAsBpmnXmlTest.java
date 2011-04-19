@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.deployment.bpmn.xml;
+package de.hpi.oryxengine.deployment.importer.bpmn;
 
 import org.testng.annotations.Test;
 
@@ -14,7 +14,7 @@ public class DeployInvalidProcessDefinitionAsBpmnXmlTest extends AbstractBPMNDep
 
     public DeployInvalidProcessDefinitionAsBpmnXmlTest() {
 
-        executableProcessResourcePath = "de/hpi/oryxengine/delpoy/bpmn/xml/InvalidProcessDefinition.bpmn.xml";
+        executableProcessResourcePath = "de/hpi/oryxengine/delpoyment/bpmn/InvalidProcessDefinition.bpmn.xml";
     }
 
     @Override

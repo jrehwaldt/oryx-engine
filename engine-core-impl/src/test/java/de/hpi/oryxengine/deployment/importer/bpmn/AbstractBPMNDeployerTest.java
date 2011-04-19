@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.deployment.bpmn.xml;
+package de.hpi.oryxengine.deployment.importer.bpmn;
 
 import java.io.InputStream;
 import java.util.UUID;
@@ -6,20 +6,20 @@ import java.util.UUID;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractTest;
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.BpmnXmlInpustreamImporter;
+import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.repository.DeploymentBuilder;
-import de.hpi.oryxengine.repository.ProcessDefinitionImporter;
 import de.hpi.oryxengine.util.ReflectionUtil;
 
 /**
  * This class is designed to be inherited from. It provides a basic method body for testing the import of BPMN
  * serialized XML files.
  */
-public abstract class AbstractBPMNDeployerTest extends AbstractTest {
+public abstract class AbstractBPMNDeployerTest extends AbstractJodaEngineTest {
 
     protected String executableProcessResourcePath;
 
