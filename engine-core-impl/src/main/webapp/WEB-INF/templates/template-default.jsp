@@ -8,34 +8,35 @@ String[] navigation = null;
 String uri = request.getRequestURI();
 if (uri != null) {
     navigation = uri.replaceAll("/pages/", "").split("/");
-    
+
     if (navigation.length > 0 && !"".equals(navigation[0]) && !navigation[0].endsWith(".jsp")) {
         class_for_selected_item = String.format("item_%s", navigation[0]).toLowerCase();
     }
 }
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html> 
-    <head> 
+<html>
+    <head>
         <link rel="SHORTCUT ICON" href="/images/favicon/favicon.ico" type="image/x-icon">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+
         <link rel="stylesheet" type="text/css" href="/stylesheets/layout.css">
-        
+
         <script type="text/javascript" src="/javascripts/lib/jquery-1.5.2.js"></script>
+        <script type="text/javascript" src="/javascripts/lib/jquery.Storage.js"></script>
         <script type="text/javascript" src="/javascripts/demo/WorkItem1.js"></script>
         <script type="text/javascript" src="/javascripts/demo/ParticipantJannik.js"></script>
         <script type="text/javascript" src="/javascripts/demo/ParticipantWilli.js"></script>
         <script type="text/javascript" src="/javascripts/demo/demo-ajax.js"></script>
-        
+
         <title>Joda Engine goes REST</title>
-        
+
         <title><decorator:title default="Joda Engine" /></title>
         <decorator:head />
-        
+
     </head>
     <body>
-        
+
         <div id="spacer-top">
         </div>
         <div class="colmask threecol">
@@ -119,7 +120,7 @@ if (uri != null) {
                   <div id ="border-bottom">
                     <div id="frame-left-bottom"></div>
                     <div id="frame-right-bottom"></div>
-                  </div>  
+                  </div>
                 </div>
               </div>
               <div class="col2">
@@ -135,7 +136,8 @@ if (uri != null) {
           <div id="footer-extender-left"></div>
           <div id="footer-extender-right"></div>
         </div>
-        
-        
+
+
     </body>
 </html>
+
