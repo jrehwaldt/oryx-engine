@@ -10,7 +10,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -22,7 +22,7 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeployerTest {
 
     private Token token;
-    private ProcessInstance processInstance = null;
+    private AbstractProcessInstance processInstance = null;
     private ShortenedReferenceProcessDeployer instanceDefinition;
 
     @BeforeMethod
