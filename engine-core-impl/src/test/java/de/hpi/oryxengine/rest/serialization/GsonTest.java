@@ -21,7 +21,7 @@ import de.hpi.oryxengine.rest.serialization.proofofconcept.ConcreteA;
 import junit.framework.Assert;
 
 /**
- * 
+ * Gson = Google JSON.
  * @author Jan.Rehwaldt
  * 
  */
