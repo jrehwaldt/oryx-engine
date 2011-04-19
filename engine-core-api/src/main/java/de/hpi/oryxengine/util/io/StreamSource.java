@@ -8,11 +8,11 @@ import java.io.InputStream;
 public interface StreamSource {
     
     /**
-     * Retrieves the type of the {@link StreamSource}.
+     * Retrieves the name of the {@link StreamSource}.
      * 
-     * @return a {@link String} representing the type of the {@link StreamSource}
+     * @return a {@link String} representing the name of the {@link StreamSource}
      */
-    String getType();
+    String getName();
     
     /**
      * Makes the source available via {@link InputStream}.

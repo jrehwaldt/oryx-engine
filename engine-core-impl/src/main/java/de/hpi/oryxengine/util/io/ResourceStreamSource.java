@@ -56,13 +56,12 @@ public class ResourceStreamSource implements StreamSource {
     @Override
     public String toString() {
 
-        return "Resource[" + resource + "]";
+        return getName();
     }
 
     @Override
-    public String getType() {
+    public String getName() {
 
-        // TODO Auto-generated method stub
-        return null;
+        return "Resource[" + resource + "]";
     }
 }
