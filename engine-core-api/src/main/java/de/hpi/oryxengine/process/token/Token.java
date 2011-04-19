@@ -2,6 +2,7 @@ package de.hpi.oryxengine.process.token;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
@@ -96,7 +97,7 @@ public interface Token extends Identifiable {
      * 
      * @return the context
      */
-    @JsonIgnore
+    @JsonBackReference
     AbstractProcessInstance getInstance();
 
     /**

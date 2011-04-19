@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
@@ -51,6 +53,7 @@ public abstract class AbstractParticipant extends AbstractResource<AbstractParti
      * 
      * @return a Set of all {@link AbstractPosition}s of this Participant
      */
+    @JsonIgnore
     public abstract Set<AbstractPosition> getMyPositionsImmutable();
 
     /**
@@ -58,6 +61,7 @@ public abstract class AbstractParticipant extends AbstractResource<AbstractParti
      * 
      * @return a read-only Set of all Capabilities of this Participant
      */
+    @JsonIgnore
     public abstract Set<AbstractCapability> getMyCapabilitiesImmutable();
     // Participant addMyCapability(Capability capability);
 
@@ -66,6 +70,7 @@ public abstract class AbstractParticipant extends AbstractResource<AbstractParti
      * 
      * @return a read-only Set of all {@link AbstractRole}s that contains this Participant
      */
+    @JsonIgnore
     public abstract Set<AbstractRole> getMyRolesImmutable();
     
     /**

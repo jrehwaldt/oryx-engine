@@ -28,6 +28,11 @@ public class Position extends AbstractPosition {
     private Position superiorPosition;
 
     private Set<Position> subordinatePositions;
+    
+    /**
+     * Hidden constructor.
+     */
+    protected Position() { }
 
     /**
      * The Default Constructor. Creates a position object with the given id.
