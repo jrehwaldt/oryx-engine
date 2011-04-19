@@ -8,6 +8,8 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
@@ -22,7 +24,7 @@ import de.hpi.oryxengine.resource.worklist.RoleWorklist;
 public class Role extends AbstractRole {
 
     /** The participants. */
-    private Set<Participant> participants;
+    @JsonBackReference("participant-role") private Set<Participant> participants;
 
     /**
      * The Default Constructor for the RoleImpl.
