@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
@@ -23,9 +26,10 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
 
     private List<Node> startNodes;
 
+    @JsonIgnore
     private Map<StartEvent, Node> startTriggers;
     
-    private Map<String, Object> attributeTable;
+    private Map<String, Object> attributes;
 
     /**
      * Instantiates a new {@link ProcessDefinition}. The name is the ID of the {@link ProcessDefinition}.
@@ -41,7 +45,12 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
 
         this(id, id.toString(), description, startNodes);
     }
-
+    
+    /**
+     * Hidden constructor.
+     */
+    protected ProcessDefinitionImpl() { }
+    
     /**
      * Instantiates a new process definition. A UUID is generated randomly.
      * 
@@ -118,13 +127,14 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
 
     }
 
+    @JsonProperty
     @Override
     public Map<String, Object> getAttributes() {
 
-        if (this.attributeTable == null) {
-            this.attributeTable = new HashMap<String, Object>();
+        if (this.attributes == null) {
+            this.attributes = new HashMap<String, Object>();
         }
-        return this.attributeTable;
+        return this.attributes;
     }
 
     @Override

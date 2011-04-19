@@ -10,7 +10,7 @@ import de.hpi.oryxengine.activity.ActivityState;
 import de.hpi.oryxengine.activity.DeferredActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
@@ -26,7 +26,7 @@ public class TokenImpl implements Token {
 
     private ActivityState currentActivityState = null;
 
-    private ProcessInstance instance;
+    private AbstractProcessInstance instance;
 
     private Transition lastTakenTransition;
 
@@ -44,7 +44,7 @@ public class TokenImpl implements Token {
      * @param instance
      *            the instance
      */
-    public TokenImpl(Node startNode, ProcessInstance instance) {
+    public TokenImpl(Node startNode, AbstractProcessInstance instance) {
 
         this(startNode, instance, null);
     }
@@ -59,7 +59,7 @@ public class TokenImpl implements Token {
      * @param navigator
      *            the navigator
      */
-    public TokenImpl(Node startNode, ProcessInstance instance, Navigator navigator) {
+    public TokenImpl(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
 
         this.currentNode = startNode;
         this.instance = instance;
@@ -144,7 +144,7 @@ public class TokenImpl implements Token {
         if (instance.isCancelled()) {
             // the following statement was already called, when instance.cancel() was called. Nevertheless, a token
             // currently in execution might have created new tokens during split that were added to the instance.
-            instance.getTokens().clear();
+            instance.getAssignedTokens().clear();
             return;
         }
         
@@ -235,7 +235,7 @@ public class TokenImpl implements Token {
     }
 
     @Override
-    public ProcessInstance getInstance() {
+    public AbstractProcessInstance getInstance() {
 
         return instance;
     }

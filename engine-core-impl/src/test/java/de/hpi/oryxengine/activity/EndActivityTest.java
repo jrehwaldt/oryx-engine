@@ -19,7 +19,7 @@ import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
@@ -30,8 +30,8 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
  * The Class EndActivityTest.
  */
 public class EndActivityTest {
-    private ProcessInstance instance;
-    private Node startNode;
+    private AbstractProcessInstance instance = null;
+    private Node startNode = null;
 
     /**
      * Process instance finalization test.
@@ -57,7 +57,7 @@ public class EndActivityTest {
         assertEquals(newTokens.size(), 2);
 
         // don't reference the token that was splitted, which remains on the splitNode
-        assertEquals(instance.getTokens().size(), 2,
+        assertEquals(instance.getAssignedTokens().size(), 2,
             "should not be 3. if 3, the token on the splitNode might still be referenced.");
 
         // we need to explicitly reference these two tokens, as newTokens will probably change upon the next

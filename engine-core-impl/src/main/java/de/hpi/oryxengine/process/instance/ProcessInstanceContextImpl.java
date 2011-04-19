@@ -6,6 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 
@@ -13,7 +18,8 @@ import de.hpi.oryxengine.process.structure.Transition;
  * The Class ProcessInstanceContextImpl.
  */
 public class ProcessInstanceContextImpl implements ProcessInstanceContext {
-
+    
+    @JsonIgnore
     private Map<Node, List<Transition>> waitingTransitions;
 
     private Map<String, Object> contextVariables;
@@ -101,12 +107,44 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
      * 
      * @return the instance variables
      */
+    @JsonProperty
     private Map<String, Object> getInstanceVariables() {
-
+        
         if (contextVariables == null) {
             contextVariables = Collections.synchronizedMap(new HashMap<String, Object>());
         }
         return contextVariables;
     }
-
+    
+    
+    @Override
+    public boolean equals(@Nullable Object object) {
+        
+        if (object instanceof ProcessInstanceContextImpl) {
+            ProcessInstanceContextImpl context = (ProcessInstanceContextImpl) object;
+            
+            if (getInstanceVariables().equals(context.getInstanceVariables())) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public int hashCode() {
+// CHECKSTYLE:OFF
+        int hash = 7;
+// CHECKSTYLE:ON
+        
+        Object o;
+        for (String key: getInstanceVariables().keySet()) {
+            o = getInstanceVariables().get(key);
+// CHECKSTYLE:OFF
+            hash = 31 * hash + (null == o ? 0 : o.hashCode());
+// CHECKSTYLE:ON
+        }
+        
+        return hash;
+    }
 }

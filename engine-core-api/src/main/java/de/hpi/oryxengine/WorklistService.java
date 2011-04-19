@@ -30,7 +30,7 @@ public interface WorklistService {
      * 
      * @param resources
      *            - the resources the worklist items shall be searched for
-     * @return a map where the key is a {@link AbstractResource} and the value is a list of {@link AbstractWorklistItem}s
+     * @return a map where the key is a {@link AbstractResource} and the value is a list of {@link AbstractWorklistItem}
      */
     @Nonnull Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(
         @Nonnull Set<? extends AbstractResource<?>> resources);
@@ -79,9 +79,7 @@ public interface WorklistService {
      * @return the {@link AbstractWorklistItem}
      */
     @Nullable AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
-                                           @Nonnull UUID worklistItemId);
-    
-    // TODO: Observable Interface für die GUI
+                                                   @Nonnull UUID worklistItemId);
     
     /**
      * Returns the number of worklist items which are offered or allocated? to the given resources

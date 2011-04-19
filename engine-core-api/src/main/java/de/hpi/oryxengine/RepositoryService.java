@@ -65,7 +65,7 @@ public interface RepositoryService {
 
     /**
      * Deactivates a {@link ProcessDefinition} with the given processDefinitionID. It means that no
-     * {@link ProcessInstance} of that {@link ProcessDefinition} cannot be instantiated.
+     * {@link AbstractProcessInstance} of that {@link ProcessDefinition} cannot be instantiated.
      * 
      * @param processDefintionID
      *            - id of the {@link ProcessDefinition}, cannot be null.
@@ -74,7 +74,7 @@ public interface RepositoryService {
 
     /**
      * Activates a {@link ProcessDefinition} with the given processDefinitionID. It means that no
-     * {@link ProcessInstance} of that {@link ProcessDefinition} can be instantiated.
+     * {@link AbstractProcessInstance} of that {@link ProcessDefinition} can be instantiated.
      * 
      * @param processDefintionID
      *            - id of the {@link ProcessDefinition}, cannot be null.

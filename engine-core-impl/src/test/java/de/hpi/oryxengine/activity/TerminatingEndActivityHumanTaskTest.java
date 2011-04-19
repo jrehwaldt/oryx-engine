@@ -26,7 +26,7 @@ import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
@@ -56,7 +56,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractTest {
     public void testCancellingOfHumanTasks()
     throws DalmatinaException {
 
-        ProcessInstance instance = new ProcessInstanceImpl(null);
+        AbstractProcessInstance instance = new ProcessInstanceImpl(null);
         NavigatorImplMock nav = new NavigatorImplMock();
         Token token = instance.createToken(splitNode, nav);
 
@@ -84,7 +84,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractTest {
         assertEquals(ServiceFactory.getWorklistService().getWorklistItems(resource).size(), 0,
             "there should be no offered worklist items anymore.");
 
-        assertEquals(instance.getTokens().size(), 0, "There should be no tokens assigned to this instance.");
+        assertEquals(instance.getAssignedTokens().size(), 0, "There should be no tokens assigned to this instance.");
         assertTrue(nav.getEndedInstances().contains(instance), "The instance should be now marked as finished.");
         assertFalse(nav.getRunningInstances().contains(instance), "The instance should not be marked as running.");
     }

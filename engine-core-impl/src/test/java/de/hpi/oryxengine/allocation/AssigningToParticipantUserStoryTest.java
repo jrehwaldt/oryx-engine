@@ -14,7 +14,7 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.instance.ProcessInstance;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
@@ -57,7 +57,7 @@ public class AssigningToParticipantUserStoryTest extends AbstractTest {
         
         humanTaskNode.transitionTo(endNode);
                 
-        ProcessInstance instance = new ProcessInstanceImpl(null);
+        AbstractProcessInstance instance = new ProcessInstanceImpl(null);
         token = new TokenImpl(humanTaskNode, instance, new NavigatorImplMock());
     }
 
