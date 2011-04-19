@@ -26,7 +26,7 @@ import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
  * Some IO-Utilities.
  */
 public final class IoUtil {
-
+//  CHECKSTYLE:OFF
     public static String readFileAsString(File file) {
 
         return getStringBufferFromFile(file);
@@ -98,7 +98,7 @@ public final class IoUtil {
             // Exception is silently ignored
         }
     }
-
+//  CHECKSTYLE:ON
     /**
      * Hidden.
      */
