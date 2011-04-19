@@ -42,8 +42,9 @@ public final class IdentityWebService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Set<AbstractParticipant> getParticipants() {
-        
+        System.out.println("drinne");
         Set<AbstractParticipant> participants = this.identity.getParticipants();
+
         return participants;
     
     }

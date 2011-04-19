@@ -20,6 +20,7 @@ import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
@@ -29,17 +30,19 @@ import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 public class WorklistManager implements WorklistService, TaskDistribution, TaskAllocation, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private IdentityService identityService;
 
     @Override
     public void start() {
 
-        logger.info("Starting the correlation manager");
+        logger.info("Starting the worklist manager");
+        identityService  = ServiceFactory.getIdentityService();
     }
 
     @Override
     public void stop() {
 
-        logger.info("Stopping the correlation manager");
+        logger.info("Stopping the worklist manager");
     }
 
     @Override
@@ -48,7 +51,6 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         // The worklistItem is added to the worklist of a certain resource
         resourceToFillIn.getWorklist().addWorklistItem(worklistItem);
     }
-    
 
     @Override
     public void addWorklistItem(AbstractWorklistItem worklistItem, Set<AbstractResource<?>> resourcesToFillIn) {
@@ -74,7 +76,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public @Nullable AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource, @Nonnull UUID worklistItemId) {
+    public @Nullable
+    AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource, @Nonnull UUID worklistItemId) {
 
         for (final AbstractWorklistItem item : resource.getWorklist()) {
             if (worklistItemId.equals(item.getID())) {
@@ -104,8 +107,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         Set<AbstractResource<?>> resourcesToNotify = new HashSet<AbstractResource<?>>();
         resourcesToNotify.add(resource);
         resourcesToNotify.addAll(worklistItem.getAssignedResources());
-        
-        // Notifying the worklist of each resource. Each worklist implements another behavior 
+
+        // Notifying the worklist of each resource. Each worklist implements another behavior
         for (AbstractResource<?> resourceToNotify : resourcesToNotify) {
             resourceToNotify.getWorklist().itemIsAllocatedBy(worklistItem, resource);
         }
@@ -120,7 +123,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     @Override
     public void completeWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
 
-        // Others resources' worklists don't need to be notifyed because there is only one resource that has this worklistItem
+        // Others resources' worklists don't need to be notifyed because there is only one resource that has this
+        // worklistItem
         resource.getWorklist().itemIsCompleted(worklistItem);
 
         // Resuming the token
@@ -149,7 +153,16 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
     @Override
     public int size(Set<? extends AbstractResource<?>> resources) {
+
         Map<AbstractResource<?>, List<AbstractWorklistItem>> items = getWorklistItems(resources);
         return items.size();
+    }
+
+    
+    @Override
+    public List<AbstractWorklistItem> getWorklistItems(UUID id) {
+        // TODO @Myself write a god damn test damn it!!!
+        AbstractParticipant resource = identityService.getParticipant(id);
+        return this.getWorklistItems(resource);
     }
 }
