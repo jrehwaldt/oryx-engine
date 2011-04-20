@@ -5,6 +5,7 @@
     </head>
     <body>
         <h1>Worklist</h1>
+        <p id="welcomeMessage"></p>
         <table id="worklist" border="1">
           <tr>
             <th>task name</th>

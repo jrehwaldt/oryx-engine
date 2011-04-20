@@ -1,5 +1,7 @@
 $().ready(function(){
 
+    $("#welcomeMessage").append("Welcome " + $.Storage.get("participantName") + ", here is your worklist:");
+
     // AJAX request to get the worklist for the selected participant
     $.ajax({
         type: 'GET',

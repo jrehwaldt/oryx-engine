@@ -28,7 +28,9 @@ $().ready(function() {
     $("#loginButton").click(function(){
 
         var uuid = $('#loginBox option:selected').attr('value');
+        var name = $('#loginBox option:selected').html();
         $.Storage.set("participantUUID", uuid);
+        $.Storage.set("participantName", name);
         $(location).attr('href', 'worklist/');
     });
 
