@@ -8,8 +8,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.util.io.InputStreamSource;
 import de.hpi.oryxengine.util.io.ClassPathResourceStreamSource;
+import de.hpi.oryxengine.util.io.InputStreamSource;
 import de.hpi.oryxengine.util.io.StreamSource;
 import de.hpi.oryxengine.util.io.StringStreamSource;
 import de.hpi.oryxengine.util.io.UrlStreamSource;

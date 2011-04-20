@@ -3,9 +3,7 @@ package de.hpi.oryxengine.plugin.navigator;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.navigator.NavigatorImpl;
@@ -50,11 +48,4 @@ public class NavigatorListenerLoggerTest {
         navigator.stop();
         verify(listener).update(this.navigator, NavigatorState.STOPPED);
     }
-    
-    
-    
-    
-    
-    
-
 }

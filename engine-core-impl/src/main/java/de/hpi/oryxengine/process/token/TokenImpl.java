@@ -148,9 +148,6 @@ public class TokenImpl implements Token {
             return;
         }
         
-        //
-        // TODO @Jan/Thorben/Tobi2: We are getting NPEs in case the incoming or outgoing behavior (start/end event) is null
-        //
         lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
         this.currentActivityState = ActivityState.ACTIVE;
 

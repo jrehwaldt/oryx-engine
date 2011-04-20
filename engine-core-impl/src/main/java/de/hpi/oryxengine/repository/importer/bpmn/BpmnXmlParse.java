@@ -292,8 +292,9 @@ public class BpmnXmlParse extends XmlParse {
                 || ("subProcess").equals(activityElement.getTagName())
                 || ("receiveTask").equals(activityElement.getTagName())
                 || ("userTask").equals(activityElement.getTagName())
-                || ("sendTask").equals(activityElement.getTagName()))
+                || ("sendTask").equals(activityElement.getTagName())) {
                 addWarning("Ignoring unsupported activity type", activityElement);
+            }
         }
 
         // Parse stuff common to activities above, e.g. something like markers
@@ -304,6 +305,9 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Parses an exclusive gateway declaration.
+     * 
+     * @param exclusiveGwElement
+     *            the exclusive gateway element
      */
     public void parseExclusiveGateway(XmlElement exclusiveGwElement) {
 
@@ -324,6 +328,9 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Parses a parallel gateway declaration.
+     * 
+     * @param parallelGatewayElement
+     *            the parallel gateway element
      */
     public void parseParallelGateway(XmlElement parallelGatewayElement) {
 
