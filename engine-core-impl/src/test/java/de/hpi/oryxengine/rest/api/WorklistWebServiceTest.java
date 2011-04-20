@@ -13,8 +13,6 @@ import org.jboss.resteasy.mock.MockHttpResponse;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import bsh.Console;
-import bsh.Token;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.bootstrap.OryxEngine;
