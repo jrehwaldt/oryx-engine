@@ -118,6 +118,7 @@ public final class WorklistWebService {
         
         UUID uuid = UUID.fromString(id);
         List<AbstractWorklistItem> items = this.service.getWorklistItems(uuid);
+        logger.debug("Jannik hacks");
         return items;
     }
 
