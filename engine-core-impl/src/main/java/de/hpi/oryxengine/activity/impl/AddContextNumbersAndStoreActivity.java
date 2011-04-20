@@ -43,6 +43,6 @@ extends AbstractActivity {
             result +=  Integer.valueOf(context.getVariable(value).toString());
         }
 
-        context.setVariable(resultVariableName, String.valueOf(result));
+        context.setVariable(resultVariableName, result);
     }
 }
