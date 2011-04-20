@@ -86,7 +86,7 @@ public class ConcurrentActivityStateTest {
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
         NodeParameterBuilder nodeParameterBuilder = 
-            new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+            new NodeParameterBuilderImpl();
         nodeParameterBuilder.setActivityBlueprintFor(NullActivity.class);
         
         // startActivity = new NullActivity();

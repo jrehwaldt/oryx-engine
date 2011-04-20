@@ -109,7 +109,7 @@ public class BPMNAndJoinTest {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         NodeParameterBuilder nodeParamBuilder =
-            new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+            new NodeParameterBuilderImpl();
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
         node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());

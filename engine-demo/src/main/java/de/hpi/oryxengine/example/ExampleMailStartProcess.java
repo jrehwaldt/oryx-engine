@@ -62,8 +62,7 @@ public final class ExampleMailStartProcess {
 	ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
 	// Building Node1
-	NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
-		new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+	NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
 	int[] ints = {1, 1};
 	nodeParamBuilder
 		.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)

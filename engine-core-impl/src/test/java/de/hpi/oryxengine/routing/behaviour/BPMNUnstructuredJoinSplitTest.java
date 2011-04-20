@@ -116,8 +116,7 @@ public class BPMNUnstructuredJoinSplitTest {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
 nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         Node splitNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
         node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());

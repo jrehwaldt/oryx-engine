@@ -65,8 +65,7 @@ public final class RepositorySetup {
         String processDescription = "The process stores the result of the calculation '1 + 1' .";
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl();
         int[] integers = { 1, 1 };
         nodeParameterBuilder
             .setActivityBlueprintFor(AddNumbersAndStoreActivity.class)

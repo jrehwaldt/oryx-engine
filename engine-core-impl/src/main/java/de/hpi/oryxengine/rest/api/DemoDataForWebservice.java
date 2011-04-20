@@ -102,8 +102,7 @@ public final class DemoDataForWebservice {
 
         ProcessBuilderImpl builder = new ProcessBuilderImpl();
         Node startNode, node1, node2, node3, endNode;
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
 

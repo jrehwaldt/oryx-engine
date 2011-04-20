@@ -48,8 +48,7 @@ public class DeployerWebService {
     public String deployInstance() {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
 
         // param.setActivity(AddNumbersAndStoreActivity("result", 1, 1));
         int[] integers = {1, 1};

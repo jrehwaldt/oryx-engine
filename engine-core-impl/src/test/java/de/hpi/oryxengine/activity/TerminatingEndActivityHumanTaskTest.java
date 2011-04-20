@@ -127,8 +127,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         splitNode = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
 
