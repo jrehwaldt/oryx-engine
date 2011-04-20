@@ -33,6 +33,7 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
     private Participant tobi = null;
     private WorklistService worklistManager = null;
     private Participant jannik = null;
+    private Participant jan = null;
 
     @BeforeMethod
     @Override
@@ -51,13 +52,12 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         token = new TokenImpl(processInstance.getDefinition().getStartNodes().get(0), processInstance, navigator);
         tobi = instanceDefinition.getTobi();
         jannik = instanceDefinition.getJannik();
-        instanceDefinition.getJannik();
-        instanceDefinition.getJan();
+        jan = instanceDefinition.getJan();
         worklistManager = ServiceFactory.getWorklistService();
     }
 
     /**
-     * Test if process runs correctly.
+     * Tests if the process can be executed on the whole.
      * 
      * @throws DalmatinaException
      *             thrown if token can't be executed
@@ -72,43 +72,53 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         token.executeStep();
         assertEquals(token.getCurrentNode(), instanceDefinition.getHuman1());
         token.executeStep();
-        // first human task to be done now, let somebody do it
-        List<AbstractWorklistItem> items = tobi.getWorklist().getWorklistItems();
-        assertEquals(items.size(), 1);
-        worklistManager.claimWorklistItemBy(items.get(0), tobi);
-        worklistManager.beginWorklistItemBy(items.get(0), tobi);
-        worklistManager.completeWorklistItemBy(items.get(0), tobi);
-        items = tobi.getWorklist().getWorklistItems();
-        assertEquals(items.size(), 0);
+        executeHumanTaskBy(tobi);
         assertEquals(token.getCurrentNode(), instanceDefinition.getXor1());
         // let the XOR take the "false" way
         token.getInstance().getContext().setVariable("widerspruch", "abgelehnt");
         token.executeStep();
         assertEquals(token.getCurrentNode(), instanceDefinition.getHuman2());
         token.executeStep();
-        // second human task to be done now, let somebody do it
-        items = jannik.getWorklist().getWorklistItems();
-        assertEquals(items.size(), 1);
-        worklistManager.claimWorklistItemBy(items.get(0), jannik);
-        worklistManager.beginWorklistItemBy(items.get(0), jannik);
-        worklistManager.completeWorklistItemBy(items.get(0), jannik);
-        items = jannik.getWorklist().getWorklistItems();
-        assertEquals(items.size(), 0);
+        executeHumanTaskBy(jannik);
         assertEquals(token.getCurrentNode(), instanceDefinition.getXor2());
         // let the XOR take the "true" way
         token.getInstance().getContext().setVariable("neue Aspekte", "ja");
         token.executeStep();
         assertEquals(token.getCurrentNode(), instanceDefinition.getHuman3());
         token.executeStep();
-        // second human task to be done now, let somebody do it
-        items = tobi.getWorklist().getWorklistItems();
-        assertEquals(items.size(), 1);
-        worklistManager.claimWorklistItemBy(items.get(0), tobi);
-        worklistManager.beginWorklistItemBy(items.get(0), tobi);
-        worklistManager.completeWorklistItemBy(items.get(0), tobi);
-        items = tobi.getWorklist().getWorklistItems();
-        assertEquals(items.size(), 0);
+        executeHumanTaskBy(tobi);
         assertEquals(token.getCurrentNode(), instanceDefinition.getXor3());
+        // let the XOR take the "true" way
+        token.getInstance().getContext().setVariable("aufrecht", "ja");
+        token.executeStep();
+        assertEquals(token.getCurrentNode(), instanceDefinition.getXor4());
+        token.executeStep();
+        assertEquals(token.getCurrentNode(), instanceDefinition.getHuman4());
+        token.executeStep();
+        executeHumanTaskBy(jannik);
+        assertEquals(token.getCurrentNode(), instanceDefinition.getHuman5());
+        token.executeStep();
+        executeHumanTaskBy(jan);
+        assertEquals(token.getCurrentNode(), instanceDefinition.getXor5());
+        token.executeStep();
+        assertEquals(token.getCurrentNode(), instanceDefinition.getSystem2());
+        token.executeStep();
+        assertEquals(token.getCurrentNode(), instanceDefinition.getEndNode());
     }
 
+    /**
+     * Execute human task by.
+     *
+     * @param participant the participant
+     */
+    private void executeHumanTaskBy(Participant participant) {
+
+        List<AbstractWorklistItem> items = participant.getWorklist().getWorklistItems();
+        assertEquals(items.size(), 1);
+        worklistManager.claimWorklistItemBy(items.get(0), participant);
+        worklistManager.beginWorklistItemBy(items.get(0), participant);
+        worklistManager.completeWorklistItemBy(items.get(0), participant);
+        items = participant.getWorklist().getWorklistItems();
+        assertEquals(items.size(), 0);
+    }
 }
