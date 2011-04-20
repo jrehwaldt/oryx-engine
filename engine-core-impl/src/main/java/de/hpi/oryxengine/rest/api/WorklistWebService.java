@@ -3,8 +3,7 @@ package de.hpi.oryxengine.rest.api;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -28,7 +27,6 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.ResourceType;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 
@@ -264,7 +262,7 @@ public final class WorklistWebService {
 //        // WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
 //        // this.service.abortWorklistItemBy(worklistItem, resource);
 //    }
-    
+   
     /**
      * Gets a resource by id.
      * 
@@ -272,7 +270,7 @@ public final class WorklistWebService {
      * @param resourceId the resource's id
      * @return the resource or null, if none found
      */
-    private @Nullable AbstractResource<?> getResource(@Nonnull ResourceType resourceType,
+/*    private @Nullable AbstractResource<?> getResource(@Nonnull ResourceType resourceType,
                                                       @Nonnull UUID resourceId) {
         
         AbstractResource<?> resource = null;
@@ -281,7 +279,7 @@ public final class WorklistWebService {
                 resource = this.identity.getParticipant(resourceId);
                 break;
             case CAPABILITY:
-//                TODO resource = this.identity.getCapability(resourceUUID);
+//                TODO what is this stuff? resource = this.identity.getCapability(resourceUUID);
                 break;
             case POSITION:
                 resource = this.identity.getPosition(resourceId);
@@ -299,7 +297,7 @@ public final class WorklistWebService {
         
         return resource;
     }
-    
+    */
     /**
      * Refreshs a resource with its detached counterpart.
      * 

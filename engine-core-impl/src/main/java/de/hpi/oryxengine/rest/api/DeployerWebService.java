@@ -16,8 +16,6 @@ import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
@@ -31,11 +29,19 @@ public class DeployerWebService {
 
     private DeploymentBuilder deploymentBuilder;
 
+    /**
+     * Instantiates a new deployer web service. Initializes the Deplyoment builder.
+     */
     public DeployerWebService() {
 
         this.deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
     }
 
+    /**
+     * Deploys an instance, more customizable version to come.
+     *
+     * @return the string
+     */
     @Path("/deploy")
     @GET
     @Produces("text/plain")
@@ -46,7 +52,7 @@ public class DeployerWebService {
             new TakeAllSplitBehaviour());
 
         // param.setActivity(AddNumbersAndStoreActivity("result", 1, 1));
-        int[] integers = { 1, 1 };
+        int[] integers = {1, 1};
         nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
         .addConstructorParameter(String.class, "result").addConstructorParameter(int[].class, integers);
         Node node1 = builder.createStartNode(nodeParamBuilder.buildNodeParameter());

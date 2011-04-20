@@ -34,8 +34,8 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 public final class DemoDataForWebservice {
 
     private static IdentityBuilder builder;
-    private static WorklistManager worklist;
     private static AbstractRole r;
+    private final static int NUMBER_OF_PROCESSINSTANCES = 10;
 
     /**
      * Instantiates a new demo data for webservice.
@@ -55,19 +55,6 @@ public final class DemoDataForWebservice {
             builder = ServiceFactory.getIdentityService().getIdentityBuilder();
         }
         return builder;
-    }
-
-    /**
-     * Gets the builder.
-     * 
-     * @return the builder
-     */
-    private static WorklistManager getWorklistManager() {
-
-        if (worklist == null) {
-            worklist = (WorklistManager) ServiceFactory.getWorklistService();
-        }
-        return worklist;
     }
 
     /**
@@ -123,7 +110,7 @@ public final class DemoDataForWebservice {
         // Create the task
         AllocationStrategies strategies = new AllocationStrategiesImpl(new DirectPushPattern(),
             new SimplePullPattern(), null, null);
-        Task task = new TaskImpl("do something", "bla", strategies, r);
+        Task task = new TaskImpl("do something", "Really do something we got a demo coming up guys!", strategies, r);
 
         nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
         node1 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
@@ -151,7 +138,10 @@ public final class DemoDataForWebservice {
                             .getRepositoryService()
                             .getDeploymentBuilder()
                             .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
+        // Tobi wants more tasks
+        for (int i = 0; i < NUMBER_OF_PROCESSINSTANCES; i++) {
         ServiceFactory.getNavigatorService().startProcessInstance(processID);
+        }
 
     }
 

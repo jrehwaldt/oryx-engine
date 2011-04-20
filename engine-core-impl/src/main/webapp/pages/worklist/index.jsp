@@ -5,8 +5,12 @@
     </head>
     <body>
         <h1>Worklist</h1>
-        <ul id="worklist">
-        </ul>
+        <table id="worklist" border="1">
+          <tr>
+            <th>task name</th>
+            <th>task description</th>
+          </tr>
+        </table>
 
     </body>
 </html>
