@@ -20,7 +20,6 @@ import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class BPMNUnstructuredJoinSplitTest. We want to test that unstructured AND splits and joins are handled
@@ -116,8 +115,7 @@ public class BPMNUnstructuredJoinSplitTest {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
 nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         Node splitNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
         node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());

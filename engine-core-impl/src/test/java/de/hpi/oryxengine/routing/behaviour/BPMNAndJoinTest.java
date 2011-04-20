@@ -21,7 +21,6 @@ import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * This class tests the BPMNAndJoin-Class.
@@ -109,7 +108,7 @@ public class BPMNAndJoinTest {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         NodeParameterBuilder nodeParamBuilder =
-            new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+            new NodeParameterBuilderImpl();
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
         node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());

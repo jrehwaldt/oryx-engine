@@ -18,8 +18,6 @@ import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class ConcurrentActivityStateTest. It tackles a problem with our process definition, nodes and the contained
@@ -86,7 +84,7 @@ public class ConcurrentActivityStateTest {
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
         NodeParameterBuilder nodeParameterBuilder = 
-            new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+            new NodeParameterBuilderImpl();
         nodeParameterBuilder.setActivityBlueprintFor(NullActivity.class);
         
         // startActivity = new NullActivity();

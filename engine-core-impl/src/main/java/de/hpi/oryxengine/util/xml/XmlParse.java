@@ -8,7 +8,6 @@ import javax.xml.parsers.SAXParser;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;

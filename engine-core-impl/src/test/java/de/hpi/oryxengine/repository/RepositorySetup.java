@@ -15,8 +15,6 @@ import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * It helps previously fill the RepositoryService.
@@ -65,8 +63,7 @@ public final class RepositorySetup {
         String processDescription = "The process stores the result of the calculation '1 + 1' .";
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl();
         int[] integers = { 1, 1 };
         nodeParameterBuilder
             .setActivityBlueprintFor(AddNumbersAndStoreActivity.class)

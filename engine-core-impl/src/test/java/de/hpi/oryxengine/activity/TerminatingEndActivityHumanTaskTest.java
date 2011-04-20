@@ -33,8 +33,6 @@ import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class TerminatingEndActivityTest.
@@ -127,8 +125,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         splitNode = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
 

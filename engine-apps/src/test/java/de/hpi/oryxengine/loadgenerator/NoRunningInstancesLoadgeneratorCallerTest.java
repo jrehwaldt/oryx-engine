@@ -26,13 +26,12 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
 
 /**
- * Tests the SchedulerEmptyListener Plugin, that invokes a method on a
- * loadgenerator when the queue of the Scheduler is. empty
+ * Tests the SchedulerEmptyListener Plugin, that invokes a method on a loadgenerator when the queue of the Scheduler is.
+ * empty
  */
 @ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class NoRunningInstancesLoadgeneratorCallerTest extends
-	AbstractTestNGSpringContextTests {
+public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractTestNGSpringContextTests {
 
     private NavigatorImpl nav = null;
 
@@ -44,52 +43,51 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends
      * Sets the up repo.
      * 
      * @throws IllegalStarteventException
+     *             thrown if an illegal start event is given
      */
     @BeforeClass
-    public void setUpRepo() throws IllegalStarteventException {
+    public void setUpRepo()
+    throws IllegalStarteventException {
 
-	RepositorySetup.fillRepository();
+        RepositorySetup.fillRepository();
     }
 
     /**
-     * Creates everything that we need (a Scheduler with the Plugin), a
-     * processtoken and a mocked loadGenerator.
+     * Creates everything that we need (a Scheduler with the Plugin), a processtoken and a mocked loadGenerator.
      * 
      * @throws Exception
      *             the exception
      */
     @BeforeMethod
-    public void setUp() throws Exception {
+    public void setUp()
+    throws Exception {
 
-	nav = new NavigatorImpl();
-	mockiGene = mock(LoadGenerator.class);
-	NoRunningInstancesLoadgeneratorCaller caller = new NoRunningInstancesLoadgeneratorCaller(
-		mockiGene);
-	nav.registerPlugin(caller);
-	RepositoryService repo = ServiceFactory.getRepositoryService();
-	// TODO @Alle: Ist das hier wirklich gut (das mit der
-	// RepositorySetup.FIRST_EXAMPLE_PROCESS_ID - ist ja ein Verweis auf
-	// eine externe Lib? Tests sollten doch unabhängig sein
-	ProcessDefinition def = repo
-		.getProcessDefinition(RepositorySetup.process1Plus1ProcessUUID);
-	List<Node> startNodes = def.getStartNodes();
-	Node startNode = startNodes.get(0);
-	pi = new TokenImpl(startNode);
+        nav = new NavigatorImpl();
+        mockiGene = mock(LoadGenerator.class);
+        NoRunningInstancesLoadgeneratorCaller caller = new NoRunningInstancesLoadgeneratorCaller(mockiGene);
+        nav.registerPlugin(caller);
+        RepositoryService repo = ServiceFactory.getRepositoryService();
+        // TODO @Alle: Ist das hier wirklich gut (das mit der
+        // RepositorySetup.FIRST_EXAMPLE_PROCESS_ID - ist ja ein Verweis auf
+        // eine externe Lib? Tests sollten doch unabhängig sein
+        ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.process1Plus1ProcessUUID);
+        List<Node> startNodes = def.getStartNodes();
+        Node startNode = startNodes.get(0);
+        pi = new TokenImpl(startNode);
     }
 
     /**
-     * Test that the method navigatorCurrentlyFinished() is invoked on load
-     * generator.
+     * Test that the method navigatorCurrentlyFinished() is invoked on load generator.
      */
     @Test
     public void testMethodInvokedOnLoadGenerator() {
 
-	nav.startArbitraryInstance(pi);
-	AbstractProcessInstance instance = pi.getInstance();
-	nav.signalEndedProcessInstance(instance);
+        nav.startArbitraryInstance(pi);
+        AbstractProcessInstance instance = pi.getInstance();
+        nav.signalEndedProcessInstance(instance);
 
-	// verify that the method we want is called on the load generator
-	verify(mockiGene).navigatorCurrentlyFinished();
+        // verify that the method we want is called on the load generator
+        verify(mockiGene).navigatorCurrentlyFinished();
 
     }
 }

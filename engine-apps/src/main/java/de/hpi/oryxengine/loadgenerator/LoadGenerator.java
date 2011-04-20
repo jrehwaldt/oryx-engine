@@ -23,7 +23,7 @@ public class LoadGenerator {
     private static final long MEGABYTE = 1024L * 1024L;
 
     /** The Constant DEFAULT_PROCESS. */
-    private static final String DEFAULT_PROCESS = "ShortenedReferenceProcessDeployer";
+    private static final String DEFAULT_PROCESS = "ExampleProcessDeployer";
 
     /** The Constant DEFAULT_NUMBER_OF_RUNS. */
     private static final int DEFAULT_NUMBER_OF_RUNS = 10;
