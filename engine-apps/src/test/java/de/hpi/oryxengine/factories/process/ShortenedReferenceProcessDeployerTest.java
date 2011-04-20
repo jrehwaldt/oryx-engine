@@ -32,6 +32,7 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
     private ShortenedReferenceProcessDeployer instanceDefinition = null;
     private Participant tobi = null;
     private WorklistService worklistManager = null;
+    private Participant jannik = null;
 
     @BeforeMethod
     @Override
@@ -49,6 +50,7 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         Navigator navigator = new NavigatorImplMock();
         token = new TokenImpl(processInstance.getDefinition().getStartNodes().get(0), processInstance, navigator);
         tobi = instanceDefinition.getTobi();
+        jannik = instanceDefinition.getJannik();
         instanceDefinition.getJannik();
         instanceDefinition.getJan();
         worklistManager = ServiceFactory.getWorklistService();
@@ -56,8 +58,9 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
 
     /**
      * Test if process runs correctly.
-     *
-     * @throws DalmatinaException thrown if token can't be executed
+     * 
+     * @throws DalmatinaException
+     *             thrown if token can't be executed
      */
     @Test
     public void testProcessRuns()
@@ -69,7 +72,7 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         token.executeStep();
         assertEquals(token.getCurrentNode(), instanceDefinition.getHuman1());
         token.executeStep();
-        // first human task, let somebody do it
+        // first human task to be done now, let somebody do it
         List<AbstractWorklistItem> items = tobi.getWorklist().getWorklistItems();
         assertEquals(items.size(), 1);
         worklistManager.claimWorklistItemBy(items.get(0), tobi);
@@ -78,7 +81,34 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         items = tobi.getWorklist().getWorklistItems();
         assertEquals(items.size(), 0);
         assertEquals(token.getCurrentNode(), instanceDefinition.getXor1());
-        // can't go on testing here, because XOR and Conditions need to be refactored first
+        // let the XOR take the "false" way
+        token.getInstance().getContext().setVariable("widerspruch", "abgelehnt");
+        token.executeStep();
+        assertEquals(token.getCurrentNode(), instanceDefinition.getHuman2());
+        token.executeStep();
+        // second human task to be done now, let somebody do it
+        items = jannik.getWorklist().getWorklistItems();
+        assertEquals(items.size(), 1);
+        worklistManager.claimWorklistItemBy(items.get(0), jannik);
+        worklistManager.beginWorklistItemBy(items.get(0), jannik);
+        worklistManager.completeWorklistItemBy(items.get(0), jannik);
+        items = jannik.getWorklist().getWorklistItems();
+        assertEquals(items.size(), 0);
+        assertEquals(token.getCurrentNode(), instanceDefinition.getXor2());
+        // let the XOR take the "true" way
+        token.getInstance().getContext().setVariable("neue Aspekte", "ja");
+        token.executeStep();
+        assertEquals(token.getCurrentNode(), instanceDefinition.getHuman3());
+        token.executeStep();
+        // second human task to be done now, let somebody do it
+        items = tobi.getWorklist().getWorklistItems();
+        assertEquals(items.size(), 1);
+        worklistManager.claimWorklistItemBy(items.get(0), tobi);
+        worklistManager.beginWorklistItemBy(items.get(0), tobi);
+        worklistManager.completeWorklistItemBy(items.get(0), tobi);
+        items = tobi.getWorklist().getWorklistItems();
+        assertEquals(items.size(), 0);
+        assertEquals(token.getCurrentNode(), instanceDefinition.getXor3());
     }
 
 }

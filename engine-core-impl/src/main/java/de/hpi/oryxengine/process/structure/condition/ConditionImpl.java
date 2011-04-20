@@ -39,13 +39,7 @@ public class ConditionImpl implements Condition {
         set = Collections.EMPTY_SET;
     }
 
-    /**
-     * evaluates a Condition, returning true or false.
-     *
-     * @param token the token
-     * @return true or false depending on the condition.
-     * @see de.hpi.oryxengine.process.structure.Condition#evaluate()
-     */
+    @Override
     public boolean evaluate(Token token) {
 
         Iterator<?> i = set.iterator();
@@ -60,23 +54,25 @@ public class ConditionImpl implements Condition {
             if (contextValue == null || me.getValue() == null) {
                 result = false;
                 break;
-            }
-
+            } 
             // TODO Jannik make more generic with Juels, atm only integers allowed with == <= >=
             // TODO @Jannik: das mit Juels wird aber eine neue Klasse bitte (from Gerardo)
-            if (this.compareWith == "=="
+            if (contextValue instanceof java.lang.String && !contextValue.equals(me.getValue())) {
+                result = false;
+                break;
+            } else if (!(contextValue instanceof java.lang.String) && this.compareWith.equals("==")
                 && !sameAs(Integer.parseInt(contextValue.toString()), Integer.parseInt(me.getValue().toString()))) {
                 
                 result = false;
                 break;
                 
-            } else if (this.compareWith == ">="
+            } else if (!(contextValue instanceof java.lang.String) && this.compareWith.equals(">=")
                 && !greaterThan(Integer.parseInt((String) contextValue), Integer.parseInt((String) me.getValue()))) {
                 
                 result = false;
                 break;
                 
-            } else if (this.compareWith == "<="
+            } else if (!(contextValue instanceof java.lang.String) && this.compareWith.endsWith("<=")
                 && !lowerThan(Integer.parseInt(contextValue.toString()), Integer.parseInt(me.getValue().toString()))) {
                 
                 result = false;
