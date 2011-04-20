@@ -48,6 +48,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
      */
     @Test
     public void testGetWorklist() throws URISyntaxException, IOException {
+        // We need to start the engine in order to start the WorklistManager who then gets the identityService
         OryxEngine.start();
         task = TaskFactory.createJannikServesGerardoTask();
         TokenImpl token = mock(TokenImpl.class);

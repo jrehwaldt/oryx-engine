@@ -1,6 +1,9 @@
-package de.hpi.oryxengine.allocation;
+package de.hpi.oryxengine.resource.allocation;
 
 import javax.annotation.Nonnull;
+
+import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.Pattern;
 
 /**
  * The implementation of the {@link AllocationStrategies}.
