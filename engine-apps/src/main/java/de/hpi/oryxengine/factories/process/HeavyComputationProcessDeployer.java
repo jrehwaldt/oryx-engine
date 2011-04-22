@@ -45,8 +45,7 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodes() {
 
-	NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
-		new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+	NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
 	nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
 	startNode = builder.createStartNode(nodeParamBuilder
 		.buildNodeParameter());

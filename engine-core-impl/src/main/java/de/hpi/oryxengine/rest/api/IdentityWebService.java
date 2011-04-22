@@ -56,7 +56,7 @@ public final class IdentityWebService {
      */
     @Path("/roles")
     @GET
-    @Produces("text/plain")
+    @Produces(MediaType.APPLICATION_JSON)
     public Set<AbstractRole> getRoles() {
         
         Set<AbstractRole> roles = this.identity.getRoles();

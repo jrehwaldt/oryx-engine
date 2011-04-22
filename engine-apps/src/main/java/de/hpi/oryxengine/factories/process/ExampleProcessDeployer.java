@@ -8,11 +8,11 @@ import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.EmptyOutgoingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
- * A factory for creating ExampleProcessToken objects. These objects just have 2
- * add Number activities.
+ * A factory for creating ExampleProcessToken objects. These objects just have 2 add Number activities.
  */
 public class ExampleProcessDeployer extends AbstractProcessDeployer {
 
@@ -29,6 +29,7 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
      * Instantiates a new example process token factory.
      */
     public ExampleProcessDeployer() {
+
         builder = new ProcessBuilderImpl();
     }
 
@@ -36,26 +37,20 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
      * Initializes the nodes.
      */
     public void initializeNodes() {
-        
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
-            new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
-        
+
         nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        int[] ints = { 1, 1 };
-        nodeParamBuilder
-            .setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
-            .addConstructorParameter(String.class, "result")
-            .addConstructorParameter(int[].class, ints);
+        int[] ints = {1, 1};
+        nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
+        .addConstructorParameter(String.class, "result").addConstructorParameter(int[].class, ints);
         node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
         node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
         builder.createTransition(startNode, node1).createTransition(node1, node2);
-        
-        //
-        // TODO: Split-behavior macht hier keinen Sinn.
-        //
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+
+        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new EmptyOutgoingBehaviour());
         nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
         Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
         builder.createTransition(node2, endNode);

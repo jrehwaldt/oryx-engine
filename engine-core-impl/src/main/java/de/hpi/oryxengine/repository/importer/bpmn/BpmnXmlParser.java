@@ -3,7 +3,6 @@ package de.hpi.oryxengine.repository.importer.bpmn;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hpi.oryxengine.bootstrap.OryxEngine;
 import de.hpi.oryxengine.util.xml.XmlParseBuilder;
 import de.hpi.oryxengine.util.xml.XmlParser;
 

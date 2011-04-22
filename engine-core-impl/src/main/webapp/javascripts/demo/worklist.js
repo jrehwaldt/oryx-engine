@@ -11,7 +11,31 @@ $().ready(function(){
             var worklist = data;
             $.each(worklist, function(i, worklistitem){
 
-                $('#worklist').append("<tr><td>" + worklistitem.task.subject + "</td><td> " + worklistitem.task.description + "</td></tr>");
+                // TODO determine whether we have to claim a task or to start one
+                $('#worklist').append("<tr><td>" + worklistitem.task.subject + "</td><td> " + worklistitem.task.description + "</td><td><button class=\"claim\">Claim</button></td></tr>");
+            });
+
+            // Now add the click handlers to the freshly created buttons
+            // Click handlers shall claim an item
+            $("button.claim").click(function() {
+
+                // TODO go find the freaking item ID and fix this stuff
+                var worklistItemId = "";
+                alert("Click works!");
+                $.ajax({
+                    type: 'POST',
+                    url: 'api/worklist/items/' + worklistId + '/claim',
+                    data: $.Storage.get("participantUUID"), // maybe go back to queryparam (id= bla) for the participant UUID
+                    success: function(data) {
+                        console.log(data);
+                        // be happy and do stuff (like morph button to start task or stuff like that)
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#participants').html(jqXHR.responseText).addClass('error');
+                    },
+                    contentType: "json" // we send json
+    });
             });
 
         },

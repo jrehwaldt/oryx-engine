@@ -37,8 +37,8 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
  * The Class TerminatingEndActivityTest.
  */
 public class TerminatingEndActivityTest {
-    ProcessDefinition definition;
-    Node startNode, xorJoinNode;
+    private ProcessDefinition definition;
+    private Node startNode, xorJoinNode;
 
     @Test
     public void f()
@@ -95,6 +95,7 @@ public class TerminatingEndActivityTest {
      * gateway.
      * 
      * @throws IllegalStarteventException
+     *      thrown if an illegal start event is given
      */
     @BeforeClass
     public void setupProcessModel()
@@ -115,8 +116,7 @@ public class TerminatingEndActivityTest {
         param = new NodeParameterImpl(TerminatingEndActivity.class, new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
 
-        NodeParameterBuilder paramBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        NodeParameterBuilder paramBuilder = new NodeParameterBuilderImpl();
 
         Node terminatingEnd = builder.createNode(param);
 

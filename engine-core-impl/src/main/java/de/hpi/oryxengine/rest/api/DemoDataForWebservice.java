@@ -3,16 +3,11 @@ package de.hpi.oryxengine.rest.api;
 import java.util.UUID;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.WorklistManager;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
-import de.hpi.oryxengine.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.allocation.TaskImpl;
-import de.hpi.oryxengine.allocation.pattern.DirectPushPattern;
-import de.hpi.oryxengine.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
@@ -24,8 +19,10 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
+import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
+import de.hpi.oryxengine.resource.allocation.TaskImpl;
+import de.hpi.oryxengine.resource.allocation.pattern.DirectPushPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 /**
  * The Class DemoDataForWebservice generates some example data when called.
@@ -102,8 +99,7 @@ public final class DemoDataForWebservice {
 
         ProcessBuilderImpl builder = new ProcessBuilderImpl();
         Node startNode, node1, node2, node3, endNode;
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
 

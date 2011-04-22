@@ -11,15 +11,13 @@ import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class ProcessBuilderTest.
  * @author thorben
  */
 public class ProcessBuilderTest {
-    private ProcessDefinitionBuilder builder;
+    private ProcessDefinitionBuilder builder = null;
     private Node startNode, endNode;
 
     /**
@@ -29,7 +27,7 @@ public class ProcessBuilderTest {
     @Test
     public void testSimpleBuildProcess() throws IllegalStarteventException {
 
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
 

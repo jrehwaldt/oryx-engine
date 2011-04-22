@@ -24,6 +24,7 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.condition.CheckVariableTrueCondition;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.EmptyOutgoingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.XORSplitBehaviour;
 import de.hpi.oryxengine.util.io.StreamSource;
@@ -59,7 +60,6 @@ public class BpmnXmlParse extends XmlParse {
      */
     public BpmnXmlParse(BpmnXmlParser parser, StreamSource streamSource) {
 
-        
         super(parser, streamSource);
         this.processBuilder = new ProcessBuilderImpl();
         this.parseListeners = parser.getParseListeners();
@@ -212,8 +212,7 @@ public class BpmnXmlParse extends XmlParse {
 
             XmlElement startEventXmlElement = startEventXmlElements.get(0);
 
-            NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-                new TakeAllSplitBehaviour());
+            NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl();
             nodeParameterBuilder.setActivityBlueprintFor(BpmnStartEvent.class);
 
             Node startEventNode = processBuilder.createStartNode(nodeParameterBuilder.buildNodeParameter());
@@ -293,8 +292,9 @@ public class BpmnXmlParse extends XmlParse {
                 || ("subProcess").equals(activityElement.getTagName())
                 || ("receiveTask").equals(activityElement.getTagName())
                 || ("userTask").equals(activityElement.getTagName())
-                || ("sendTask").equals(activityElement.getTagName()))
+                || ("sendTask").equals(activityElement.getTagName())) {
                 addWarning("Ignoring unsupported activity type", activityElement);
+            }
         }
 
         // Parse stuff common to activities above, e.g. something like markers
@@ -305,6 +305,9 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Parses an exclusive gateway declaration.
+     * 
+     * @param exclusiveGwElement
+     *            the exclusive gateway element
      */
     public void parseExclusiveGateway(XmlElement exclusiveGwElement) {
 
@@ -325,6 +328,9 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Parses a parallel gateway declaration.
+     * 
+     * @param parallelGatewayElement
+     *            the parallel gateway element
      */
     public void parseParallelGateway(XmlElement parallelGatewayElement) {
 
@@ -348,8 +354,7 @@ public class BpmnXmlParse extends XmlParse {
      */
     public void parseTask(XmlElement taskXmlElement) {
 
-        NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl();
         nodeParameterBuilder.setActivityBlueprintFor(AutomatedDummyActivity.class).addConstructorParameter(
             String.class, "Doing something");
 
@@ -374,7 +379,8 @@ public class BpmnXmlParse extends XmlParse {
         for (XmlElement endEventXmlElement : parentElement.getElements("endEvent")) {
 
             // EndActvities does not need a specific OutgoingBehaviour
-            NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), null);
+            NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
+                new EmptyOutgoingBehaviour());
             nodeParameterBuilder.setActivityBlueprintFor(EndActivity.class);
 
             Node endEventNode = processBuilder.createNode(nodeParameterBuilder.buildNodeParameter());
@@ -465,7 +471,7 @@ public class BpmnXmlParse extends XmlParse {
      * Extracting the documentation Attribute in the {@link XmlElement}.
      */
     public String parseDocumentation(XmlElement element) {
-    
+
         XmlElement docElement = element.getElement("documentation");
         if (docElement != null) {
             return docElement.getText().trim();
@@ -478,12 +484,12 @@ public class BpmnXmlParse extends XmlParse {
      * {@link ActivityImpl} on the given scope element.
      */
     public void parseGeneralNodeInformation(XmlElement activityElement, Node node) {
-    
+
         String id = activityElement.getAttribute("id");
         if (logger.isDebugEnabled()) {
             logger.debug("Parsing activity " + id);
         }
-    
+
         node.setAttribute("idXml", id);
         node.setAttribute("name", activityElement.getAttribute("name"));
         node.setAttribute("descrption", parseDocumentation(activityElement));

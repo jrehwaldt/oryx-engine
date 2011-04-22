@@ -24,7 +24,7 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.EmptyOutgoingBehaviour;
 
 /**
  * The Class EndActivityTest.
@@ -56,7 +56,7 @@ public class EndActivityTest {
         List<Token> newTokens = nav.getWorkQueue();
         assertEquals(newTokens.size(), 2);
 
-        // don't reference the token that was splitted, which remains on the splitNode
+        // don't reference the token that was split, which remains on the splitNode
         assertEquals(instance.getAssignedTokens().size(), 2,
             "should not be 3. if 3, the token on the splitNode might still be referenced.");
 
@@ -114,20 +114,19 @@ public class EndActivityTest {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
 
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        int[] ints = { 1, 1 };
+        nodeParamBuilder = new NodeParameterBuilderImpl();
+        int[] ints = {1, 1};
         nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
         .addConstructorParameter(String.class, "result").addConstructorParameter(int[].class, ints);
         // param.setActivity(new AddNumbersAndStoreActivity("result1", 1, 1));
         Node forkNode1 = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
 
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        int[] anotherInts = { 2, 2 };
+        nodeParamBuilder = new NodeParameterBuilderImpl();
+        int[] anotherInts = {2, 2};
         nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
         .addConstructorParameter(String.class, "result2").addConstructorParameter(int[].class, anotherInts);
         // param.setActivity(new AddNumbersAndStoreActivity("result2", 2, 2));
@@ -135,7 +134,7 @@ public class EndActivityTest {
 
         builder.createTransition(startNode, forkNode1).createTransition(startNode, forkNode2);
 
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new EmptyOutgoingBehaviour());
         nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
         Node endNode1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
         Node endNode2 = builder.createNode(nodeParamBuilder.buildNodeParameter());

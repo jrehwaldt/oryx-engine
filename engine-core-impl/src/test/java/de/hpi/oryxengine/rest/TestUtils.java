@@ -43,12 +43,11 @@ public final class TestUtils {
 
         // create simple process
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(
-            new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         Node startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
         
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        nodeParamBuilder = new NodeParameterBuilderImpl();
         int[] ints = {1, 1};
         nodeParamBuilder
             .setActivityBlueprintFor(AddNumbersAndStoreActivity.class)

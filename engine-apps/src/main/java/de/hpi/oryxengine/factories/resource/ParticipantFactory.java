@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.factories.resource;
 
-import de.hpi.oryxengine.factories.resource.ResourceFactory;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 
 /**
