@@ -9,7 +9,7 @@ import java.util.UUID;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.process.structure.condition.ConditionImpl;
+import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
@@ -112,7 +112,7 @@ public class NodeImpl implements Node {
     @Override
     public void transitionTo(Node node) {
 
-        Condition c = new ConditionImpl();
+        Condition c = new HashMapCondition();
         createTransitionWithCondition(node, c);
     }
 

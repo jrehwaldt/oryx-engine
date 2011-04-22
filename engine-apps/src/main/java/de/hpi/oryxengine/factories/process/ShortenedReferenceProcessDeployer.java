@@ -17,7 +17,7 @@ import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.condition.ConditionImpl;
+import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
@@ -290,10 +290,10 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
             new XORSplitBehaviour()).buildNodeParameter());
         Map<String, Object> map1 = new HashMap<String, Object>();
         map1.put("widerspruch", "stattgegeben");
-        Condition condition1 = new ConditionImpl(map1, "==");
+        Condition condition1 = new HashMapCondition(map1, "==");
         Map<String, Object> map2 = new HashMap<String, Object>();
         map2.put("widerspruch", "abgelehnt");
-        Condition condition2 = new ConditionImpl(map2, "==");
+        Condition condition2 = new HashMapCondition(map2, "==");
 
         // human task for objection clerk, task is to check objection
         task = TaskFactory.createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche",
@@ -306,10 +306,10 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
             new XORSplitBehaviour()).buildNodeParameter());
         map1 = new HashMap<String, Object>();
         map1.put("neue Aspekte", "ja");
-        Condition condition3 = new ConditionImpl(map1, "==");
+        Condition condition3 = new HashMapCondition(map1, "==");
         map2 = new HashMap<String, Object>();
         map2.put("neue Aspekte", "nein");
-        Condition condition4 = new ConditionImpl(map1, "==");
+        Condition condition4 = new HashMapCondition(map1, "==");
 
         // human task for objection clerk, task is to create a new report
         task = TaskFactory.createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen",
@@ -325,10 +325,10 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
             new XORSplitBehaviour()).buildNodeParameter());
         map1 = new HashMap<String, Object>();
         map1.put("aufrecht", "ja");
-        Condition condition5 = new ConditionImpl(map1, "==");
+        Condition condition5 = new HashMapCondition(map1, "==");
         map2 = new HashMap<String, Object>();
         map2.put("aufrecht", "nein");
-        Condition condition6 = new ConditionImpl(map1, "==");
+        Condition condition6 = new HashMapCondition(map1, "==");
 
         // XOR Join
         xor4 = builder.createNode(createParamBuilderFor(NullActivity.class).buildNodeParameter());
