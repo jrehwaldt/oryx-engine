@@ -28,9 +28,27 @@ public final class RepositorySetup {
 
     }
 
-    /** The Constant PROCESS_1PLUS1PROCESS_UUID. */
-    // TODO @Alle Bitte schaut mal warum Checkstyle hier meckert (Fragen an Gerardo stellen)
-    public static UUID process1Plus1ProcessUUID;
+    private static UUID process1Plus1ProcessUUID;
+
+    /**
+     * Gets the process1 plus1 process uuid.
+     *
+     * @return the process1 plus1 process uuid
+     */
+    public static UUID getProcess1Plus1ProcessUUID() {
+    
+        return process1Plus1ProcessUUID;
+    }
+
+    /**
+     * Sets the process1 plus1 process uuid.
+     *
+     * @param process1Plus1ProcessUUID the new process1 plus1 process uuid
+     */
+    public static void setProcess1Plus1ProcessUUID(UUID process1Plus1ProcessUUID) {
+    
+        RepositorySetup.process1Plus1ProcessUUID = process1Plus1ProcessUUID;
+    }
 
     /**
      * Fill repository.
