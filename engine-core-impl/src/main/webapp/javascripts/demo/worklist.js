@@ -20,11 +20,16 @@ $().ready(function(){
             $("button.claim").click(function() {
 
                 var worklistItemId = $(this).parent().parent().find('.id').html();
+				var wrapper = {};
+				wrapper["participantId"] = $.Storage.get("participantUUID");
+				wrapper["action"] = "CLAIM";
+				wrapper["@classifier"] = "de.hpi.oryxengine.rest.WrapperObject";
+				console.log(wrapper);
 
                 $.ajax({
-                    type: 'POST',
-                    url: '/api/worklist/items/' + worklistItemId + '/claim',
-                    data: $.Storage.get("participantUUID"), // maybe go back to queryparam (id= bla) for the participant UUID
+                    type: 'PUT',
+                    url: '/api/worklist/items/' + worklistItemId + '/state',
+                    data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
                     success: function(data) {
                         console.log(data);
                         // be happy and do stuff (like morph button to start task or stuff like that)
@@ -33,7 +38,7 @@ $().ready(function(){
                     error: function(jqXHR, textStatus, errorThrown) {
                         $('#participants').html(jqXHR.responseText).addClass('error');
                     },
-                    contentType: 'text/html', // we send json
+                    contentType: 'application/json', // we send json
     });
             });
 

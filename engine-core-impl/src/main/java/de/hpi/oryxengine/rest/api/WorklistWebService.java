@@ -3,10 +3,10 @@ package de.hpi.oryxengine.rest.api;
 import java.util.List;
 import java.util.UUID;
 
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -29,6 +29,7 @@ import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
+import de.hpi.oryxengine.rest.WrapperObject;
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -130,6 +131,30 @@ public final class WorklistWebService {
         logger.debug("POST: {}", resource);
         return getWorklistItems(resource);
     }*/
+    
+    /**
+     * Checks what to do
+     *
+     * @param worklistItemId the id for the worklist item, given in the request
+     * @param participantUUIDString the participant uuid as a string
+     * @throws ResourceNotAvailableException the resource not available exception
+     */
+       @Path("/items/{worklistItem-id}/state")
+       @Consumes(MediaType.APPLICATION_JSON)
+       @PUT
+       
+       public void intitializeNextSteps(@PathParam("worklistItem-id") String worklistItemId, WrapperObject wrapper) {
+           logger.debug("entered method");
+           switch (wrapper.getAction()) {
+            case CLAIM:
+                logger.debug("success");
+                break;
+
+            default:
+                logger.debug("crap");
+                break;
+           }
+        }
     
     /**
   * Claims a worklist item via POST request.
