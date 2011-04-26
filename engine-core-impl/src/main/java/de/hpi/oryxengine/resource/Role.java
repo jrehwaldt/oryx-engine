@@ -74,7 +74,7 @@ public class Role extends AbstractRole {
     }
     
     @Override
-    public AbstractWorklist getWorklist() {
+    public synchronized AbstractWorklist getWorklist() {
 
         if (worklist == null) {
             worklist = new RoleWorklist(this);

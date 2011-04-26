@@ -117,7 +117,7 @@ public class Participant extends AbstractParticipant {
     }
 
     @Override
-    public AbstractWorklist getWorklist() {
+    public synchronized AbstractWorklist getWorklist() {
 
         if (worklist == null) {
             worklist = new ParticipantWorklist(this);
