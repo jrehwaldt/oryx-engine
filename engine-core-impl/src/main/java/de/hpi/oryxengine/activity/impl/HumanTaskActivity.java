@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import javax.annotation.Nonnull;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.ServiceFactory;

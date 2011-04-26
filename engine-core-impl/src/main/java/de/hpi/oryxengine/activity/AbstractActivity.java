@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.activity;
 
+import java.util.UUID;
+
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.plugin.AbstractPluggable;
@@ -20,7 +22,6 @@ implements Activity {
      * 
      */
     protected AbstractActivity() {
-        
     }
     
     @Override
@@ -52,5 +53,4 @@ implements Activity {
     public void cancel() {
         
     }
-
 }

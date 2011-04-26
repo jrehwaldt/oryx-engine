@@ -10,9 +10,10 @@
         <h1>Process Engine Status </h1>
         <table id="runningInstances">
           <tr>
+           <th>ID</th>
            <th>Name</th>
            <th>Description</th>
-           <th>Action</th>
+           <th>Token Status</th>
          </tr>
         </table>
       </div>
