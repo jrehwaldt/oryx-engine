@@ -54,7 +54,7 @@ if (uri != null) {
                     <!--begin nav-level-1-->
                     <ul>
                         <li><a class="dashboard" href="/dashboard">Dashboard</a></li>
-                        <li><a class="explorer" href="/repository">Engine Management</a></li>
+                        <li><a class="explorer" href="/management">Engine Management</a></li>
                         <li><a class="worklist" href="/worklist">Worklist Management</a></li>
                         <!--<li><a class="reports" href="/reports">Reports</a></li>-->
                         <li><a class="resources" href="/resources">Resource Management</a></li>

@@ -4,6 +4,8 @@ import java.util.Iterator;
 
 import javax.annotation.Nonnull;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.allocation.Task;
@@ -23,6 +25,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
  */
 public class HumanTaskActivity extends AbstractActivity {
 
+    @JsonProperty
     private Task task;
 
     /**
