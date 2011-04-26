@@ -12,19 +12,18 @@ $().ready(function(){
             $.each(worklist, function(i, worklistitem){
 
                 // TODO determine whether we have to claim a task or to start one
-                $('#worklist').append("<tr><td>" + worklistitem.task.subject + "</td><td> " + worklistitem.task.description + "</td><td><button class=\"claim\">Claim</button></td></tr>");
+                $('#worklist').append("<tr><td class=\"id\">" + worklistitem.id + "</td><td>" + worklistitem.task.subject + "</td><td> " + worklistitem.task.description + "</td><td><button class=\"claim\">Claim</button></td></tr>");
             });
 
             // Now add the click handlers to the freshly created buttons
             // Click handlers shall claim an item
             $("button.claim").click(function() {
 
-                // TODO go find the freaking item ID and fix this stuff
-                var worklistItemId = "";
-                alert("Click works!");
+                var worklistItemId = $(this).parent().parent().find('.id').html();
+
                 $.ajax({
                     type: 'POST',
-                    url: 'api/worklist/items/' + worklistId + '/claim',
+                    url: '/api/worklist/items/' + worklistItemId + '/claim',
                     data: $.Storage.get("participantUUID"), // maybe go back to queryparam (id= bla) for the participant UUID
                     success: function(data) {
                         console.log(data);
@@ -34,7 +33,7 @@ $().ready(function(){
                     error: function(jqXHR, textStatus, errorThrown) {
                         $('#participants').html(jqXHR.responseText).addClass('error');
                     },
-                    contentType: "json" // we send json
+                    contentType: 'text/html', // we send json
     });
             });
 

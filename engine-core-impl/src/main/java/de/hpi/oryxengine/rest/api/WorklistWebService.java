@@ -140,7 +140,7 @@ public final class WorklistWebService {
   * @throws ResourceNotAvailableException the resource not available exception
   */
     @Path("/items/{worklistItem-id}/claim")
-    @Consumes(MediaType.APPLICATION_JSON) 
+    @Consumes(MediaType.TEXT_HTML)
     @POST
     // maybe go back to Queryparam
     public void claimWorklistItemBy(@PathParam("worklistItem-id") String worklistItemId, String participantUUIDString)
@@ -152,7 +152,7 @@ public final class WorklistWebService {
         AbstractResource<?> resource = identity.getParticipant(participantUUID);        
         
         AbstractWorklistItem item = service.getWorklistItem(resource, id);
-        
+        logger.debug(item.toString());
         service.claimWorklistItemBy(item, resource);
     }
     

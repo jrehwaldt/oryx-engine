@@ -8,6 +8,7 @@
         <p id="welcomeMessage"></p>
         <table id="worklist" border="1">
           <tr>
+            <th>Item ID</th>
             <th>Task Name</th>
             <th>Task Description</th>
             <th>Actions</th>
