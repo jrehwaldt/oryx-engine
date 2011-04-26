@@ -33,8 +33,8 @@ $().ready(function(){
                     error: function(jqXHR, textStatus, errorThrown) {
                         $('#participants').html(jqXHR.responseText).addClass('error');
                     },
-                    contentType: 'text/html', // we send json
-    });
+                    contentType: 'text/html'
+                });
             });
 
         },
