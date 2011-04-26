@@ -7,8 +7,8 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.ActivityState;
-import de.hpi.oryxengine.activity.DeferredActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.NoValidPathException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
@@ -157,17 +157,7 @@ public class TokenImpl implements Token {
         if (this.currentActivityState == ActivityState.SUSPENDED) {
             return;
         }
-        this.currentActivityState = ActivityState.COMPLETED;
-
-        // we need this guard clause here again, as we do not want an already cancelled token to produce new
-        // un-cancelled tokens.
-
-        List<Token> splitedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
-        for (Token token : splitedTokens) {
-            navigator.addWorkToken(token);
-        }
-
-        lazySuspendedProcessingTokens = null;
+        completeExecution();
     }
 
     /**
@@ -264,13 +254,17 @@ public class TokenImpl implements Token {
     throws DalmatinaException {
 
         navigator.removeSuspendToken(this);
+        completeExecution();
+    }
 
-        // The Activity has to be casted into deferred activity because the signal method is only
-        // implemented in the interface DeferredActivities.
-        // This was done to not force the developer to implement the signal method in every activity.
+    /**
+     * Completes the execution of the activity.
+     * @throws NoValidPathException
+     *      thrown if there is no valid path to be executed
+     */
+    private void completeExecution()
+    throws NoValidPathException {
 
-        DeferredActivity activity = (DeferredActivity) currentActivity;
-        activity.signal(this);
         this.currentActivityState = ActivityState.COMPLETED;
         List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
