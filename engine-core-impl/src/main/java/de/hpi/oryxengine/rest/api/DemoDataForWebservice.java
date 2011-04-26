@@ -22,6 +22,7 @@ import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.DirectPushPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.RolePushPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 /**
@@ -104,7 +105,7 @@ public final class DemoDataForWebservice {
         startNode = processBuilder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
 
         // Create the task
-        AllocationStrategies strategies = new AllocationStrategiesImpl(new DirectPushPattern(),
+        AllocationStrategies strategies = new AllocationStrategiesImpl(new RolePushPattern(),
             new SimplePullPattern(), null, null);
         Task task = new TaskImpl("do something", "Really do something we got a demo coming up guys!", strategies, r);
 
