@@ -12,14 +12,14 @@ $().ready(function(){
             $.each(worklist, function(i, worklistitem){
 
                 // TODO determine whether we have to claim a task or to start one
-                $('#worklist').append("<tr><td class=\"id\">" + worklistitem.id + "</td><td>" + worklistitem.task.subject + "</td><td> " + worklistitem.task.description + "</td><td><button class=\"claim\">Claim</button></td></tr>");
+                $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\"> <td>" + worklistitem.task.subject + "</td><td> " + worklistitem.task.description + "</td><td><button class=\"claim\">Claim</button></td></tr>");
             });
 
             // Now add the click handlers to the freshly created buttons
             // Click handlers shall claim an item
             $("button.claim").click(function() {
 
-                var worklistItemId = $(this).parent().parent().find('.id').html();
+                var worklistItemId = $(this).parents(".worklistitem").attr("id");
 
                 $.ajax({
                     type: 'POST',
