@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.allocation.pattern;
+package de.hpi.oryxengine.resource.allocation.pattern;
 
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;

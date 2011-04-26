@@ -29,7 +29,7 @@ import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.condition.ConditionImpl;
+import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -115,8 +115,8 @@ public class LoopProcessTest {
         //Setup XOR DATA
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("counter", RUNTIMES);
-        Condition condition1 = new ConditionImpl(map, "<=");
-        Condition condition2 = new ConditionImpl(map, "==");
+        Condition condition1 = new HashMapCondition(map, "<=");
+        Condition condition2 = new HashMapCondition(map, "==");
 
         //Create the XORJoin
         xorJoin = builder.createNode(emptyActivityParam);

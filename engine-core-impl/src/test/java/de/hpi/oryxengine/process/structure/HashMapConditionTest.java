@@ -13,13 +13,13 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
-import de.hpi.oryxengine.process.structure.condition.ConditionImpl;
+import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class ConditionTest.
  */
-public class ConditionTest {
+public class HashMapConditionTest {
     
     /** The condition. */
     private Condition condition = null;
@@ -54,12 +54,13 @@ public class ConditionTest {
    */
   @BeforeMethod
   public void beforeMethod() {
+
       token = mock(Token.class);
       AbstractProcessInstance instance = mock(AbstractProcessInstance.class);
       
       HashMap<String, Object> map = new HashMap<String, Object>();
       map.put("a", 1);
-      condition = new ConditionImpl(map, "==");
+      condition = new HashMapCondition(map, "==");
       context = mock(ProcessInstanceContext.class);
       
       when(token.getInstance()).thenReturn(instance);

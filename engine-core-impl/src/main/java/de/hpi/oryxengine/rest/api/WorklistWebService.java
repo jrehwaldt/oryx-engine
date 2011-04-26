@@ -20,13 +20,13 @@ import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.allocation.TaskImpl;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
+import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 
@@ -118,6 +118,7 @@ public final class WorklistWebService {
         
         UUID uuid = UUID.fromString(id);
         List<AbstractWorklistItem> items = this.service.getWorklistItems(uuid);
+        logger.debug("Jannik hacks");
         return items;
     }
 
@@ -131,22 +132,23 @@ public final class WorklistWebService {
     }*/
     
     /**
-     * Claims a worklist item via POST request.
-     *
-     * @param worklistItemId the id for the worklist item, given in the request
-     * @param resource the json version of a resource
-     * @throws ResourceNotAvailableException the resource not available exception
-     */
-    @Path("/{worklistItem-id}/claim")
+  * Claims a worklist item via POST request.
+  *
+  * @param worklistItemId the id for the worklist item, given in the request
+  * @param participantUUIDString the participant uuid as a string
+  * @throws ResourceNotAvailableException the resource not available exception
+  */
+    @Path("/items/{worklistItem-id}/claim")
     @Consumes(MediaType.APPLICATION_JSON) 
     @POST
-    // Qual der Wahl! So soll's sein.
-    public void claimWorklistItemBy(@PathParam("worklistItem-id") String worklistItemId, AbstractResource<?> resource)
+    // maybe go back to Queryparam
+    public void claimWorklistItemBy(@PathParam("worklistItem-id") String worklistItemId, String participantUUIDString)
     throws ResourceNotAvailableException {
-        logger.debug("POST: {}", resource);
-        logger.debug("Request: {}", worklistItemId);
-//      AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
+        logger.debug("POST participantID: {}", participantUUIDString);
+        logger.debug("worklistItemID: {}", worklistItemId);
+        UUID participantUUID = UUID.fromString(participantUUIDString);
         UUID id = UUID.fromString(worklistItemId);
+        AbstractResource<?> resource = identity.getParticipant(participantUUID);        
         
         AbstractWorklistItem item = service.getWorklistItem(resource, id);
         

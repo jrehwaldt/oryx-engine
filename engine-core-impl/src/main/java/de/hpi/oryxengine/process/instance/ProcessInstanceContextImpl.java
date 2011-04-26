@@ -91,6 +91,12 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     @Override
+    public Map<String, Object> getVariableMap() {
+    
+        return getInstanceVariables();
+    }
+
+    @Override
     public void setVariable(String name, Object value) {
 
         getInstanceVariables().put(name, value);

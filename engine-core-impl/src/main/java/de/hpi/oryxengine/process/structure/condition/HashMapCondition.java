@@ -14,7 +14,7 @@ import de.hpi.oryxengine.process.token.Token;
  * It should be a Condition and it should be evaluated properly. (to true or false)
  * @author Jannik Streek
  */
-public class ConditionImpl implements Condition {
+public class HashMapCondition implements Condition {
     
     private String compareWith;
     
@@ -26,7 +26,7 @@ public class ConditionImpl implements Condition {
      * @param variablesToCheck the variables to check
      * @param compareWith the comparator, yet == <= >= are possible for integers only
      */
-    public ConditionImpl(Map<String, Object> variablesToCheck, String compareWith) {
+    public HashMapCondition(Map<String, Object> variablesToCheck, String compareWith) {
 
         this.set = variablesToCheck.entrySet();
         this.compareWith = compareWith;
@@ -35,7 +35,7 @@ public class ConditionImpl implements Condition {
     /**
      * Instantiates a new condition impl.
      */
-    public ConditionImpl() {
+    public HashMapCondition() {
         set = Collections.EMPTY_SET;
     }
 

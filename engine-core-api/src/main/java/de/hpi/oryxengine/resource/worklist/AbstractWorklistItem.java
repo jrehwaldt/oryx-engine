@@ -21,6 +21,7 @@ import de.hpi.oryxengine.util.Identifiable;
 /**
  * The Interface WorklistItem.
  */
+// TODO worklistitem has a task?
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public abstract class AbstractWorklistItem implements Task, Identifiable {
     

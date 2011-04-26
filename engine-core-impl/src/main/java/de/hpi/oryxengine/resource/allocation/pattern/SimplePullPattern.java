@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.allocation.pattern;
+package de.hpi.oryxengine.resource.allocation.pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

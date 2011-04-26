@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.process.instance;
 
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
@@ -16,6 +17,9 @@ import de.hpi.oryxengine.process.structure.Transition;
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface ProcessInstanceContext {
+
+    // TODO @ALLE: -> I think I spider ^^ - Das ist doch nicht euer ernst. Ich verfluche dieses blöde Spiel auf dem
+    // Hudson und jAutoDoc. Ganz ehrlich schaut euch doch mal die Kommentare in dieser Klasse an.
 
     /**
      * Sets the waiting execution.
@@ -54,21 +58,31 @@ public interface ProcessInstanceContext {
     /**
      * Sets the variable.
      * 
-     * @param name
+     * @param variableId
      *            the name
-     * @param value
+     * @param variableValue
      *            the value
      */
-    void setVariable(String name, Object value);
+    void setVariable(String variableId, Object variableValue);
 
     /**
-     * Gets the variable.
+     * Retrieves the variable that is associated to the name.
      * 
      * @param name
-     *            the name
-     * @return the variable
+     *            {@link String} representing the id of the variable that can be used for acces later
+     * @return an {@link Object} representing the value of the variable
      * @see de.hpi.oryxengine.process.token.Token#getVariable(java.lang.String)
      */
     Object getVariable(String name);
 
+    /**
+     * Retrieves all defined variables.
+     * <ul>
+     * <li>Map Key: the variableID</li>
+     * <li>Map Value: the variableValue</li>
+     * </ul>
+     * 
+     * @return a {@link Map} with varibaleId and variableValues
+     */
+    Map<String, Object> getVariableMap();
 }
