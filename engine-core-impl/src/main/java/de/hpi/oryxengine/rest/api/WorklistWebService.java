@@ -12,7 +12,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
+import org.jboss.resteasy.annotations.ResponseObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,13 +140,15 @@ public final class WorklistWebService {
      *            the id for the worklist item, given in the request
      * @param wrapper
      *            wrapper object for multiple parameters
+     * @return returns an empty response with a http status
      * @throws ResourceNotAvailableException
      *             the resource not available exception
      */
     @Path("/items/{worklistItem-id}/state")
     @Consumes(MediaType.APPLICATION_JSON)
     @PUT
-    public void intitializeNextSteps(@PathParam("worklistItem-id") String worklistItemId, WorklistActionWrapper wrapper)
+    public Response intitializeNextSteps(@PathParam("worklistItem-id") String worklistItemId,
+                                         WorklistActionWrapper wrapper)
     throws ResourceNotAvailableException {
 
         logger.debug("entered method");
@@ -153,14 +157,19 @@ public final class WorklistWebService {
                 logger.debug("success");
                 UUID id = UUID.fromString(worklistItemId);
                 claimWorklistItem(id, wrapper.getParticipantId());
-                break;
+
+                // make these numbers constants
+                return Response.status(200).build();
 
             default:
                 logger.debug("crap");
-                break;
+                return Response.status(500).build();
+
         }
+
+        
     }
-    
+
     /**
      * Processes the claim action for the given user and the worklist item.
      * 
