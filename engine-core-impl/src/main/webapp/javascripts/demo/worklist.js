@@ -2,6 +2,12 @@
 /*  Adds the click handlers for all the buttons.
 */
 function addButtonClickHandler() {
+
+	addClaimButtonClickHandler();
+	addBeginButtonClickHandler();
+}
+	function addClaimButtonClickHandler() {
+	
     // Now add the click handlers to the freshly created buttons
     // Click handlers shall claim an item
     $("button.claim").click(function() {
@@ -30,6 +36,40 @@ function addButtonClickHandler() {
     });
 }
 
+/**
+/*  Adds the click handlers for all the buttons.
+*/
+function addBeginButtonClickHandler() {
+	
+    // Now add the click handlers to the freshly created buttons
+    // Click handlers shall claim an item
+    $("button.complete").click(function() {
+    	
+    	var worklistItemId = $(this).parents(".worklistitem").attr("id");
+	    var wrapper = {};
+	    wrapper["participantId"] = $.Storage.get("participantUUID");
+	    wrapper["action"] = "BEGIN";
+	    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
+	    console.log(wrapper);
+	    
+	    $.ajax({
+	    	type: 'PUT',
+	    	url: '/api/worklist/items/' + worklistItemId + '/state',
+	    	data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
+	    	success: function(data) {
+	    		console.log(data);
+	    		// be happy and do stuff (like morph button to start task or stuff like that)
+	    		
+	    	},
+	    	error: function(jqXHR, textStatus, errorThrown) {
+	    		$('#participants').html(jqXHR.responseText).addClass('error');
+	    	},
+	    	contentType: 'application/json'
+	    });
+
+    });
+}
+
 
 $().ready(function(){
 
@@ -39,13 +79,18 @@ $().ready(function(){
     $.ajax({
         type: 'GET',
         url: '/api/worklist/items',
-        data: 'id='+$.Storage.get("participantUUID"),
+        data: 'id=' + $.Storage.get("participantUUID"),
         success: function(data) {
             var worklist = data;
             $.each(worklist, function(i, worklistitem){
 
                 // TODO determine whether we have to claim a task or to start one
-                $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\"> <td>" + worklistitem.task.subject + "</td><td> " + worklistitem.task.description + "</td><td><button class=\"claim\">Claim</button></td></tr>");
+                $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\">"
+                					  + "<td>" + worklistitem.task.subject + "</td>"
+                					  + "<td>" + worklistitem.task.description + "</td>"
+                					  + "<td><button class=\"claim\">Claim</button></td>"
+                					  + "<td><button class=\"complete\">Complete</button></td>"
+                					  + "</tr>");
             })
             addButtonClickHandler();
         },
@@ -56,4 +101,3 @@ $().ready(function(){
         dataType: "json" // we expect json
     });
 })
-

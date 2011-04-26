@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.rest.api;
 
+import java.io.File;
 import java.util.UUID;
 
 import de.hpi.oryxengine.ServiceFactory;
@@ -7,7 +8,9 @@ import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
@@ -20,6 +23,7 @@ import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
+import de.hpi.oryxengine.resource.allocation.FormImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.DirectPushPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
@@ -30,6 +34,7 @@ import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 public final class DemoDataForWebservice {
 
+    private static final String PATH_TO_WEBFORMS = "/Users/Gery/Entwicklung/BachelorprojektWorkspace/Oryx-Engine-Git/oryx_engine/engine-apps/src/main/java/de/hpi/oryxengine/webforms";
     private static IdentityBuilder builder;
     private static AbstractRole r;
     private final static int NUMBER_OF_PROCESSINSTANCES = 10;
@@ -90,10 +95,12 @@ public final class DemoDataForWebservice {
 
     /**
      * Generate demo worklist items for our participants.
-     * @throws IllegalStarteventException 
-     * @throws DefinitionNotFoundException 
+     * 
+     * @throws IllegalStarteventException
+     * @throws DefinitionNotFoundException
      */
-    private static void generateDemoWorklistItems() throws IllegalStarteventException, DefinitionNotFoundException {
+    private static void generateDemoWorklistItems()
+    throws IllegalStarteventException, DefinitionNotFoundException {
 
         // TODO Use Example Process to create some tasks for the role demo
 
@@ -103,10 +110,16 @@ public final class DemoDataForWebservice {
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         startNode = processBuilder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
 
+        // Creating the Webform for the task
+        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        UUID processArtifactID = deploymentBuilder.deployArtifactAsFile("form1", new File(PATH_TO_WEBFORMS + "/Form1.html"));
+        Form form = new FormImpl(ServiceFactory.getRepositoryService().getProcessResource(processArtifactID));
+
         // Create the task
         AllocationStrategies strategies = new AllocationStrategiesImpl(new DirectPushPattern(),
             new SimplePullPattern(), null, null);
-        Task task = new TaskImpl("do something", "Really do something we got a demo coming up guys!", strategies, r);
+
+        Task task = new TaskImpl("do something", "Really do something we got a demo coming up guys!", form, strategies, r);
 
         nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
         node1 = processBuilder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
@@ -125,23 +138,18 @@ public final class DemoDataForWebservice {
         nodeParamBuilder = new NodeParameterBuilderImpl();
         nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
         endNode = processBuilder.createNode(nodeParamBuilder.buildNodeParameter());
-        processBuilder
-                    .createTransition(node3, endNode)
-                    .setName("Demoprocess")
-                    .setDescription("A wonderful demo process definition by Master Jannik himself");
-        
-        //Start Process
+        processBuilder.createTransition(node3, endNode).setName("Demoprocess")
+        .setDescription("A wonderful demo process definition by Master Jannik himself");
+
+        // Start Process
         ProcessDefinition processDefinition = processBuilder.buildDefinition();
-        
-        UUID processID = ServiceFactory
-                            .getRepositoryService()
-                            .getDeploymentBuilder()
-                            .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
+
+        UUID processID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
+        .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
         // Tobi wants more tasks
         for (int i = 0; i < NUMBER_OF_PROCESSINSTANCES; i++) {
-        ServiceFactory.getNavigatorService().startProcessInstance(processID);
+            ServiceFactory.getNavigatorService().startProcessInstance(processID);
         }
 
     }
-
 }

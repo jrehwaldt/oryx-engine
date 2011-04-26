@@ -38,7 +38,7 @@ public interface Task {
      * 
      * @return the form that 
      */
-    @JsonProperty
+    @JsonIgnore
     Form getForm();
     
     /**

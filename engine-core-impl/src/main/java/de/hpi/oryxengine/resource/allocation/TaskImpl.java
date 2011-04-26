@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonAnySetter;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Form;
@@ -22,6 +23,7 @@ public class TaskImpl implements Task {
     private String subject;
 
     private String description;
+    private Form form;
 
     private transient AllocationStrategies allocationStrategies;
     private transient Set<AbstractResource<?>> assignedResources;
@@ -50,10 +52,7 @@ public class TaskImpl implements Task {
                     AllocationStrategies allocationStrategies,
                     Set<AbstractResource<?>> set) {
 
-        this.subject = subject;
-        this.description = description;
-        this.allocationStrategies = allocationStrategies;
-        this.assignedResources = set;
+        this(subject, description, null, allocationStrategies, set);
     }
 
     /**
@@ -78,6 +77,30 @@ public class TaskImpl implements Task {
         this(subject, description, allocationStrategies, new HashSet<AbstractResource<?>>(
             Arrays.asList(assignedResource)));
     }
+    
+    @SuppressWarnings("unchecked")
+    public TaskImpl(String subject,
+                    String description,
+                    Form form,
+                    AllocationStrategies allocationStrategies,
+                    AbstractResource<?> assignedResource) {
+
+        this(subject, description, form, allocationStrategies, new HashSet<AbstractResource<?>>(
+            Arrays.asList(assignedResource)));
+    }
+    
+    public TaskImpl(String subject,
+                    String description,
+                    Form form,
+                    AllocationStrategies allocationStrategies,
+                    Set<AbstractResource<?>> set) {
+
+        this.subject = subject;
+        this.description = description;
+        this.form = form;
+        this.allocationStrategies = allocationStrategies;
+        this.assignedResources = set;
+    }
 
     /**
      * Copy constructor.
@@ -87,11 +110,17 @@ public class TaskImpl implements Task {
      */
     public TaskImpl(Task taskToCopy) {
 
-        this.subject = taskToCopy.getSubject();
-        this.description = taskToCopy.getDescription();
-        this.allocationStrategies = taskToCopy.getAllocationStrategies();
-        HashSet<AbstractResource<?>> setCopy = new HashSet<AbstractResource<?>>(taskToCopy.getAssignedResources());
-        this.assignedResources = setCopy;
+        this(taskToCopy.getSubject(),
+             taskToCopy.getDescription(),
+             taskToCopy.getForm(),
+             taskToCopy.getAllocationStrategies(),
+             taskToCopy.getAssignedResources());
+        
+//        this.subject = taskToCopy.getSubject();
+//        this.description = taskToCopy.getDescription();
+//        this.allocationStrategies = taskToCopy.getAllocationStrategies();
+//        HashSet<AbstractResource<?>> setCopy = new HashSet<AbstractResource<?>>(taskToCopy.getAssignedResources());
+//        this.assignedResources = setCopy;
 
     }
 
@@ -108,9 +137,12 @@ public class TaskImpl implements Task {
     }
 
     @Override
+    // It is a bit of a hack, but it is necessary because otherwise the form would be in the JSON, although it is
+    // annotated as '@JsonIgnore' in the Task Interface.
+    @JsonIgnore
     public Form getForm() {
 
-        return null;
+        return form;
     }
 
     @Override

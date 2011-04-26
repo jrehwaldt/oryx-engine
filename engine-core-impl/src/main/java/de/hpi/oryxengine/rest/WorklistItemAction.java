@@ -1,9 +1,13 @@
 package de.hpi.oryxengine.rest;
 
 /**
- * This enum contains all actions that can be performed on worklist items.
+ * This enum contains all actions that can be performed on {@link WorklistItem WorklistItems}.
  */
 public enum WorklistItemAction {
 
-    CLAIM;
+    /** Action for claiming a worklistItem. */
+    CLAIM,
+    
+    /** Action for beginning a worklistItem. */
+    BEGIN;
 }

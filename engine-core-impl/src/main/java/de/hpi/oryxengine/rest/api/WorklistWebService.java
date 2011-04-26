@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -14,13 +13,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jboss.resteasy.annotations.ResponseObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
+import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.token.Token;
@@ -151,15 +150,24 @@ public final class WorklistWebService {
                                          WorklistActionWrapper wrapper)
     throws ResourceNotAvailableException {
 
+        UUID id = UUID.fromString(worklistItemId);
         logger.debug("entered method");
         switch (wrapper.getAction()) {
             case CLAIM:
-                logger.debug("success");
-                UUID id = UUID.fromString(worklistItemId);
-                claimWorklistItem(id, wrapper.getParticipantId());
 
+                logger.debug("success");
+                claimWorklistItem(id, wrapper.getParticipantId());
                 // make these numbers constants
                 return Response.status(200).build();
+                
+            case BEGIN:
+                
+                logger.debug("success");
+                Form form = beginWorklistItem(id, wrapper.getParticipantId());
+                // make these numbers constants
+                
+                return Response.ok(form.getFormContentAsHTML()).build();
+                
 
             default:
                 logger.debug("crap");
@@ -190,6 +198,20 @@ public final class WorklistWebService {
         AbstractWorklistItem item = service.getWorklistItem(resource, worklistItemId);
         logger.debug(item.toString());
         service.claimWorklistItemBy(item, resource);
+    }
+    
+    private Form beginWorklistItem(UUID worklistItemId, UUID participantUUID)
+    throws ResourceNotAvailableException {
+        
+        logger.debug("POST participantID: {}", participantUUID);
+        logger.debug("worklistItemID: {}", worklistItemId);
+        AbstractResource<?> resource = identity.getParticipant(participantUUID);
+        
+        AbstractWorklistItem item = service.getWorklistItem(resource, worklistItemId);
+        logger.debug(item.toString());
+        service.beginWorklistItemBy(item, resource);
+        
+        return item.getForm();
     }
 
     /**

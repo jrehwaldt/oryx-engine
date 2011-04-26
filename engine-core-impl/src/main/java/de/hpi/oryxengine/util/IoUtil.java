@@ -13,11 +13,16 @@
 package de.hpi.oryxengine.util;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.net.URL;
 
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
@@ -26,7 +31,7 @@ import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
  * Some IO-Utilities.
  */
 public final class IoUtil {
-//  CHECKSTYLE:OFF
+    // CHECKSTYLE:OFF
     public static String readFileAsString(File file) {
 
         return getStringBufferFromFile(file);
@@ -98,11 +103,42 @@ public final class IoUtil {
             // Exception is silently ignored
         }
     }
-//  CHECKSTYLE:ON
+
+    // CHECKSTYLE:ON
     /**
      * Hidden.
      */
     private IoUtil() {
 
     }
+
+    public static String convertStreamToString(InputStream inputStream)
+    throws IOException {
+
+        /*
+         * To convert the InputStream to String we use the
+         * Reader.read(char[] buffer) method. We iterate until the
+         * Reader return -1 which means there's no more data to
+         * read. We use the StringWriter class to produce the string.
+         */
+        if (inputStream != null) {
+            Writer writer = new StringWriter();
+
+            char[] buffer = new char[1024];
+            try {
+                Reader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                int n;
+                while ((n = reader.read(buffer)) != -1) {
+                    writer.write(buffer, 0, n);
+                }
+            } finally {
+                closeSilently(inputStream);
+            }
+            
+            return writer.toString();
+        } else {
+            return "";
+        }
+    }
+
 }
