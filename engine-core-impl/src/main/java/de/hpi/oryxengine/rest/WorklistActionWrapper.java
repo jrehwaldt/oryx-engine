@@ -18,12 +18,12 @@ import org.slf4j.LoggerFactory;
  * The Class WrapperObject.
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public class WrapperObject {
+public class WorklistActionWrapper {
     
     /**
      * Hidden constructor for deserialization.
      */
-    protected WrapperObject() { }
+    protected WorklistActionWrapper() { }
     
     private WorklistItemAction action;
     private String participantId;
@@ -80,11 +80,11 @@ public class WrapperObject {
      * @return a concrete resource
      * @throws IOException failed to parse the json
      */
-    public static @Nonnull WrapperObject valueOf(@Nonnull String json)
+    public static @Nonnull WorklistActionWrapper valueOf(@Nonnull String json)
     throws IOException {
         System.out.println("valueOf called");
         // TODO we do not have access to the ServiceFactory, so we need a new ObjectMapper every time
-        WrapperObject returnValue = (WrapperObject) new ObjectMapper().readValue(json, WrapperObject.class);
+        WorklistActionWrapper returnValue = (WorklistActionWrapper) new ObjectMapper().readValue(json, WorklistActionWrapper.class);
         System.out.println("valueOf returning");
         return returnValue;
     }
