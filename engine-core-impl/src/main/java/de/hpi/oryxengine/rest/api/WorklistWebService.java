@@ -132,23 +132,27 @@ public final class WorklistWebService {
      */
 
     /**
-     * Checks what to do
+     * Checks what to do.
      * 
      * @param worklistItemId
      *            the id for the worklist item, given in the request
      * @param wrapper
      *            wrapper object for multiple parameters
-     * 
+     * @throws ResourceNotAvailableException
+     *             the resource not available exception
      */
     @Path("/items/{worklistItem-id}/state")
     @Consumes(MediaType.APPLICATION_JSON)
     @PUT
-    public void intitializeNextSteps(@PathParam("worklistItem-id") String worklistItemId, WorklistActionWrapper wrapper) {
+    public void intitializeNextSteps(@PathParam("worklistItem-id") String worklistItemId, WorklistActionWrapper wrapper)
+    throws ResourceNotAvailableException {
 
         logger.debug("entered method");
         switch (wrapper.getAction()) {
             case CLAIM:
                 logger.debug("success");
+                UUID id = UUID.fromString(worklistItemId);
+                claimWorklistItem(id, wrapper.getParticipantId());
                 break;
 
             default:
@@ -156,31 +160,25 @@ public final class WorklistWebService {
                 break;
         }
     }
-
+    
     /**
-     * Claims a worklist item via POST request.
+     * Processes the claim action for the given user and the worklist item.
      * 
      * @param worklistItemId
-     *            the id for the worklist item, given in the request
-     * @param participantUUIDString
-     *            the participant uuid as a string
+     *            the worklist item id
+     * @param participantUUID
+     *            the participant uuid
      * @throws ResourceNotAvailableException
      *             the resource not available exception
      */
-    @Path("/items/{worklistItem-id}/claim")
-    @Consumes(MediaType.TEXT_HTML)
-    @POST
-    // maybe go back to Queryparam
-    public void claimWorklistItemBy(@PathParam("worklistItem-id") String worklistItemId, String participantUUIDString)
+    private void claimWorklistItem(UUID worklistItemId, UUID participantUUID)
     throws ResourceNotAvailableException {
 
-        logger.debug("POST participantID: {}", participantUUIDString);
+        logger.debug("POST participantID: {}", participantUUID);
         logger.debug("worklistItemID: {}", worklistItemId);
-        UUID participantUUID = UUID.fromString(participantUUIDString);
-        UUID id = UUID.fromString(worklistItemId);
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
 
-        AbstractWorklistItem item = service.getWorklistItem(resource, id);
+        AbstractWorklistItem item = service.getWorklistItem(resource, worklistItemId);
         logger.debug(item.toString());
         service.claimWorklistItemBy(item, resource);
     }
