@@ -82,7 +82,7 @@ public final class RepositorySetup {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl();
-        int[] integers = { 1, 1 };
+        int[] integers = {1, 1 };
         nodeParameterBuilder
             .setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
             .addConstructorParameter(String.class, "result")
