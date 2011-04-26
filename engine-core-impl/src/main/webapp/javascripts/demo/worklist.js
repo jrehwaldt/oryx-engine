@@ -4,6 +4,9 @@
 function addButtonClickHandler() {
     // Now add the click handlers to the freshly created buttons
     // Click handlers shall claim an item
+	addBeginClickHandler("button.begin");
+
+	//TODO make a method out of this shit
     $("button.claim").click(function() {
 
         var worklistItemId = $(this).parents(".worklistitem").attr("id");
@@ -22,6 +25,8 @@ function addButtonClickHandler() {
                 console.log(data);
                 // be happy and do stuff (like morph button to start task or stuff like that)
 				$(button).removeClass("claim").addClass("begin").html("Begin");
+				$(button).unbind();
+				addBeginClickHandler(button);
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -30,6 +35,13 @@ function addButtonClickHandler() {
             contentType: 'application/json'
         });
     });
+}
+
+function addBeginClickHandler(button) {
+	$(button).click(function() {
+		//TODO insert server logic here
+		alert('haha gerardo muss arbeiten, :D');
+	});
 }
 
 
