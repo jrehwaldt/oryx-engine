@@ -1,10 +1,13 @@
 package de.hpi.oryxengine.rest.api;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.EndActivity;
@@ -19,20 +22,35 @@ import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
 
 /**
- * API servlet providing an interface for the deployer. It can be used to deploy process definitions.
+ * API servlet providing an interface for the repository. It can be used to deploy process definitions.
  */
-@Path("/deployer")
+@Path("/repository")
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public class DeployerWebService {
 
     private DeploymentBuilder deploymentBuilder;
+    private RepositoryService repositoryService;
 
     /**
      * Instantiates a new deployer web service. Initializes the Deplyoment builder.
      */
     public DeployerWebService() {
-
-        this.deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        
+        this.repositoryService = ServiceFactory.getRepositoryService();
+        this.deploymentBuilder = this.repositoryService.getDeploymentBuilder();
+    }
+    
+    // return status codes
+    /**
+     * Gets the process definitions via REST API.
+     *
+     * @return the process definitions
+     */
+    @Path("/processdefinitions")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ProcessDefinition> getProcessDefinitions() {
+        return this.repositoryService.getProcessDefinitions();
     }
 
     /**
