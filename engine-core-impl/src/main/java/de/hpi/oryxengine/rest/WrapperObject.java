@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
@@ -19,6 +20,11 @@ import org.slf4j.LoggerFactory;
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public class WrapperObject {
     
+    /**
+     * Hidden constructor for deserialization.
+     */
+    protected WrapperObject() { }
+    
     private WorklistItemAction action;
     private String participantId;
     
@@ -27,7 +33,7 @@ public class WrapperObject {
      *
      * @return the action
      */
-    @JsonProperty
+    @JsonProperty("action")
     public WorklistItemAction getAction() {
     
         return action;
@@ -38,7 +44,7 @@ public class WrapperObject {
      *
      * @param action the new action
      */
-    @JsonProperty
+    @JsonIgnore
     public void setAction(WorklistItemAction action) {
     
         this.action = action;
@@ -49,7 +55,7 @@ public class WrapperObject {
      *
      * @return the partcipant id
      */
-    @JsonProperty
+    @JsonProperty("participantId")
     public String getParticipantId() {
     
         return participantId;
@@ -60,7 +66,7 @@ public class WrapperObject {
      *
      * @param partcipantId the new partcipant id
      */
-    @JsonProperty
+    @JsonIgnore
     public void setPartcipantId(String participantId) {
     
         this.participantId = participantId;
