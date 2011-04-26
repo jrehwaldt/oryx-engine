@@ -112,7 +112,6 @@ public final class WorklistWebService {
      */
     @Path("/items")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public List<AbstractWorklistItem> getWorklistItems(@QueryParam("id") String id)
     throws ResourceNotAvailableException {
 
