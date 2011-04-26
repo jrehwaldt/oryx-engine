@@ -26,6 +26,7 @@ import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.DirectPushPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.RolePushPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 /**
@@ -116,7 +117,7 @@ public final class DemoDataForWebservice {
         Form form = new FormImpl(ServiceFactory.getRepositoryService().getProcessResource(processArtifactID));
 
         // Create the task
-        AllocationStrategies strategies = new AllocationStrategiesImpl(new DirectPushPattern(),
+        AllocationStrategies strategies = new AllocationStrategiesImpl(new RolePushPattern(),
             new SimplePullPattern(), null, null);
 
         Task task = new TaskImpl("do something", "Really do something we got a demo coming up guys!", form, strategies, r);

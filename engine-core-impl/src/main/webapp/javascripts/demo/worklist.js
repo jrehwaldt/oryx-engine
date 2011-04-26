@@ -1,15 +1,12 @@
-/**
-/*  Adds the click handlers for all the buttons.
-*/
 function addButtonClickHandler() {
 
 	addClaimButtonClickHandler();
 	addBeginButtonClickHandler();
 }
-	function addClaimButtonClickHandler() {
+
+function addClaimButtonClickHandler() {
 	
-    // Now add the click handlers to the freshly created buttons
-    // Click handlers shall claim an item
+	//TODO make a method out of this shit
     $("button.claim").click(function() {
 
         var worklistItemId = $(this).parents(".worklistitem").attr("id");
@@ -18,6 +15,7 @@ function addButtonClickHandler() {
 	    wrapper["action"] = "CLAIM";
 	    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
 	    console.log(wrapper);
+		var button = this;
 
         $.ajax({
             type: 'PUT',
@@ -26,6 +24,9 @@ function addButtonClickHandler() {
             success: function(data) {
                 console.log(data);
                 // be happy and do stuff (like morph button to start task or stuff like that)
+				$(button).removeClass("claim").addClass("begin").html("Begin");
+				$(button).unbind();
+				addBeginButtonClickHandler();
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -36,39 +37,36 @@ function addButtonClickHandler() {
     });
 }
 
-/**
-/*  Adds the click handlers for all the buttons.
-*/
-function addBeginButtonClickHandler() {
-	
-    // Now add the click handlers to the freshly created buttons
-    // Click handlers shall claim an item
-    $("button.complete").click(function() {
-    	
-    	var worklistItemId = $(this).parents(".worklistitem").attr("id");
-	    var wrapper = {};
-	    wrapper["participantId"] = $.Storage.get("participantUUID");
-	    wrapper["action"] = "BEGIN";
-	    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
-	    console.log(wrapper);
-	    
-	    $.ajax({
-	    	type: 'PUT',
-	    	url: '/api/worklist/items/' + worklistItemId + '/state',
-	    	data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
-	    	success: function(data) {
-	    		console.log(data);
-	    		// be happy and do stuff (like morph button to start task or stuff like that)
-	    		
-	    	},
-	    	error: function(jqXHR, textStatus, errorThrown) {
-	    		$('#participants').html(jqXHR.responseText).addClass('error');
-	    	},
-	    	contentType: 'application/json'
-	    });
+	function addBeginButtonClickHandler() {
+		
+	    // Now add the click handlers to the freshly created buttons
+	    // Click handlers shall claim an item
+	    $("button.begin").click(function() {
+	    	
+	    	var worklistItemId = $(this).parents(".worklistitem").attr("id");
+		    var wrapper = {};
+		    wrapper["participantId"] = $.Storage.get("participantUUID");
+		    wrapper["action"] = "BEGIN";
+		    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
+		    console.log(wrapper);
+		    
+		    $.ajax({
+		    	type: 'PUT',
+		    	url: '/api/worklist/items/' + worklistItemId + '/state',
+		    	data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
+		    	success: function(data) {
+		    		console.log(data);
+		    		// be happy and do stuff (like morph button to start task or stuff like that)
+		    		
+		    	},
+		    	error: function(jqXHR, textStatus, errorThrown) {
+		    		$('#participants').html(jqXHR.responseText).addClass('error');
+		    	},
+		    	contentType: 'application/json'
+		    });
 
-    });
-}
+	    });
+	}
 
 
 $().ready(function(){
@@ -85,11 +83,11 @@ $().ready(function(){
             $.each(worklist, function(i, worklistitem){
 
                 // TODO determine whether we have to claim a task or to start one
+				var button = generateButton(worklistitem.status);
                 $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\">"
                 					  + "<td>" + worklistitem.task.subject + "</td>"
                 					  + "<td>" + worklistitem.task.description + "</td>"
-                					  + "<td><button class=\"claim\">Claim</button></td>"
-                					  + "<td><button class=\"complete\">Complete</button></td>"
+                					  + "<td>" + button + "</td>"
                 					  + "</tr>");
             })
             addButtonClickHandler();
@@ -100,4 +98,14 @@ $().ready(function(){
         contentType: 'application/json', // we send json
         dataType: "json" // we expect json
     });
+
 })
+
+function generateButton(state) {
+	var button;
+	switch(state) {
+		case "ALLOCATED": button = "<button class=\"begin\">Begin</button>"; break;
+		case "OFFERED": button = "<button class=\"claim\">Claim</button>"; break;
+	}
+	return button;
+}

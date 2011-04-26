@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.resource.worklist;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public abstract class AbstractDefaultWorklist extends AbstractWorklist {
     public List<AbstractWorklistItem> getLazyWorklistItems() {
         
         if (lazyWorklistItems == null) {
-            lazyWorklistItems = new ArrayList<AbstractWorklistItem>();
+            lazyWorklistItems = Collections.synchronizedList(new ArrayList<AbstractWorklistItem>());
         }
         
         return lazyWorklistItems;

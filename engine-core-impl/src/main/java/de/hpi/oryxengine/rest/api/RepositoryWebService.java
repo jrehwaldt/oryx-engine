@@ -26,7 +26,7 @@ import de.hpi.oryxengine.process.structure.Node;
  */
 @Path("/repository")
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-public class DeployerWebService {
+public class RepositoryWebService {
 
     private DeploymentBuilder deploymentBuilder;
     private RepositoryService repositoryService;
@@ -34,7 +34,7 @@ public class DeployerWebService {
     /**
      * Instantiates a new deployer web service. Initializes the Deplyoment builder.
      */
-    public DeployerWebService() {
+    public RepositoryWebService() {
         
         this.repositoryService = ServiceFactory.getRepositoryService();
         this.deploymentBuilder = this.repositoryService.getDeploymentBuilder();
