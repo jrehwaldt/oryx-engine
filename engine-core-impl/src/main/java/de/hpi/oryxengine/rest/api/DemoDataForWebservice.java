@@ -142,7 +142,6 @@ public final class DemoDataForWebservice {
         for (int i = 0; i < NUMBER_OF_PROCESSINSTANCES; i++) {
         ServiceFactory.getNavigatorService().startProcessInstance(processID);
         }
-
     }
 
 }

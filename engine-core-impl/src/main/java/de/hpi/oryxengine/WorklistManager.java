@@ -22,6 +22,7 @@ import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
@@ -47,7 +48,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
     @Override
     public void addWorklistItem(AbstractWorklistItem worklistItem, AbstractResource<?> resourceToFillIn) {
-
+        
         // The worklistItem is added to the worklist of a certain resource
         resourceToFillIn.getWorklist().addWorklistItem(worklistItem);
     }
