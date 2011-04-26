@@ -23,7 +23,7 @@ $().ready(function(){
 				var wrapper = {};
 				wrapper["participantId"] = $.Storage.get("participantUUID");
 				wrapper["action"] = "CLAIM";
-				wrapper["@classifier"] = "de.hpi.oryxengine.rest.WrapperObject";
+				wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
 				console.log(wrapper);
 
                 $.ajax({

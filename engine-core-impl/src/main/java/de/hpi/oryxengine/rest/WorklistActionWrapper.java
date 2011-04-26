@@ -26,7 +26,7 @@ public class WorklistActionWrapper {
     protected WorklistActionWrapper() { }
     
     private WorklistItemAction action;
-    private String participantId;
+    private UUID participantId;
     
     /**
      * Gets the action.
@@ -56,7 +56,7 @@ public class WorklistActionWrapper {
      * @return the partcipant id
      */
     @JsonProperty("participantId")
-    public String getParticipantId() {
+    public UUID getParticipantId() {
     
         return participantId;
     }
@@ -64,10 +64,10 @@ public class WorklistActionWrapper {
     /**
      * Sets the partcipant id.
      *
-     * @param partcipantId the new partcipant id
+     * @param participantId the new partcipant id
      */
     @JsonProperty("participantId")
-    public void setPartcipantId(String participantId) {
+    public void setPartcipantId(UUID participantId) {
     
         this.participantId = participantId;
     }
