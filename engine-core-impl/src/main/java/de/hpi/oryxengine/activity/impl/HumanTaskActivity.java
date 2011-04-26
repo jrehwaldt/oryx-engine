@@ -5,7 +5,7 @@ import java.util.Iterator;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.AbstractDeferredActivity;
+import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.allocation.TaskImpl;
@@ -21,7 +21,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
  * A user task is a typical workflow Task where a human performer performs the Task with the assistance of a software
  * application.
  */
-public class HumanTaskActivity extends AbstractDeferredActivity {
+public class HumanTaskActivity extends AbstractActivity {
 
     private Task task;
 
@@ -53,8 +53,8 @@ public class HumanTaskActivity extends AbstractDeferredActivity {
 
         // TODO move this to worklist manager
         for (AbstractResource<?> resource : task.getAssignedResources()) {
-            Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist()).getLazyWorklistItems()
-            .iterator();
+            Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
+            .getLazyWorklistItems().iterator();
 
             while (it.hasNext()) {
                 WorklistItemImpl item = (WorklistItemImpl) it.next();

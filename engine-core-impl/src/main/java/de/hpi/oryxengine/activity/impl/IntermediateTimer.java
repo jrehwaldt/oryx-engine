@@ -3,7 +3,7 @@ package de.hpi.oryxengine.activity.impl;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.AbstractDeferredActivity;
+import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.TimedConfiguration;
 import de.hpi.oryxengine.correlation.adapter.TimerConfigurationImpl;
@@ -14,7 +14,7 @@ import de.hpi.oryxengine.process.token.Token;
 /**
  * The actvity IntermediateTimer is used to wait a specific amount of time before execution is continued.
  */
-public class IntermediateTimer extends AbstractDeferredActivity {
+public class IntermediateTimer extends AbstractActivity {
     private long time;
     private String jobCompleteName;
 
