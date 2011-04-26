@@ -12,6 +12,7 @@ function addButtonClickHandler() {
 	    wrapper["action"] = "CLAIM";
 	    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
 	    console.log(wrapper);
+		var button = this;
 
         $.ajax({
             type: 'PUT',
@@ -20,7 +21,7 @@ function addButtonClickHandler() {
             success: function(data) {
                 console.log(data);
                 // be happy and do stuff (like morph button to start task or stuff like that)
-				$("button.claim").removeClass("claim").addClass("begin");
+				$(button).removeClass("claim").addClass("begin").html("Begin");
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -47,7 +48,6 @@ $().ready(function(){
 
                 // TODO determine whether we have to claim a task or to start one
 				var button = generateButton(worklistitem.status);
-				console.log(button);
                 $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\"> <td>" + worklistitem.task.subject + "</td><td> " + worklistitem.task.description + "</td><td>"+button+"</td></tr>");
             })
             addButtonClickHandler();
