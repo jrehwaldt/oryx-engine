@@ -47,7 +47,6 @@ $().ready(function(){
 
                 // TODO determine whether we have to claim a task or to start one
 				var button = generateButton(worklistitem.status);
-				console.log(button);
                 $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\"> <td>" + worklistitem.task.subject + "</td><td> " + worklistitem.task.description + "</td><td>"+button+"</td></tr>");
             })
             addButtonClickHandler();
