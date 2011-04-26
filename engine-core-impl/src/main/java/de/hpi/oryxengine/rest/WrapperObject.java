@@ -44,7 +44,7 @@ public class WrapperObject {
      *
      * @param action the new action
      */
-    @JsonIgnore
+    @JsonProperty("action")
     public void setAction(WorklistItemAction action) {
     
         this.action = action;
@@ -66,7 +66,7 @@ public class WrapperObject {
      *
      * @param partcipantId the new partcipant id
      */
-    @JsonIgnore
+    @JsonProperty("participantId")
     public void setPartcipantId(String participantId) {
     
         this.participantId = participantId;

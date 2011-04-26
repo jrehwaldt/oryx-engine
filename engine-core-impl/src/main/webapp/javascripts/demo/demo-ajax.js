@@ -4,7 +4,7 @@ $().ready(function() {
     var idee2 = JSON.stringify({workItem: DEMO_WORK_ITEM_1, resource: DEMO_PARTICIPANT_BUZY_WILLI});
     var idee3 = JSON.stringify({workItem: DEMO_WORK_ITEM_1, resource: DEMO_PARTICIPANT_BUZY_WILLI});
     var idee6 = JSON.stringify(DEMO_PARTICIPANT_BUZY_WILLI);
-
+console.log(idee6);
   /*  $.ajax({
         type: 'POST',
         url: 'api/worklist/1/claim',
