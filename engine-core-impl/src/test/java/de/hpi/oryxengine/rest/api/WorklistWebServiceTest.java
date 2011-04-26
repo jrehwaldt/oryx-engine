@@ -39,6 +39,9 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         return WorklistWebService.class;
     }
 
+    /**
+     * Sets the users and worklists up.
+     */
     @BeforeMethod
     public void setUpUsersAndWorklists() {
 

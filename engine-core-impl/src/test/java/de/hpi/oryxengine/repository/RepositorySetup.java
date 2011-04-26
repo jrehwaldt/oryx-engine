@@ -51,7 +51,7 @@ public final class RepositorySetup {
     }
 
     /**
-     * Fill repository.
+     * Fill repository with one process definition.
      * 
      * @throws IllegalStarteventException
      *             if there is no start event, the exception is thrown
