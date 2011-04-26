@@ -20,6 +20,7 @@ function addButtonClickHandler() {
             success: function(data) {
                 console.log(data);
                 // be happy and do stuff (like morph button to start task or stuff like that)
+				$("button.claim").removeClass("claim").addClass("begin");
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -45,7 +46,9 @@ $().ready(function(){
             $.each(worklist, function(i, worklistitem){
 
                 // TODO determine whether we have to claim a task or to start one
-                $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\"> <td>" + worklistitem.task.subject + "</td><td> " + worklistitem.task.description + "</td><td><button class=\"claim\">Claim</button></td></tr>");
+				var button = generateButton(worklistitem.status);
+				console.log(button);
+                $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\"> <td>" + worklistitem.task.subject + "</td><td> " + worklistitem.task.description + "</td><td>"+button+"</td></tr>");
             })
             addButtonClickHandler();
         },
@@ -55,5 +58,14 @@ $().ready(function(){
         contentType: 'application/json', // we send json
         dataType: "json" // we expect json
     });
+
 })
 
+function generateButton(state) {
+	var button;
+	switch(state) {
+		case "ALLOCATED": button = "<button class=\"begin\">Begin</button>";break;
+		case "OFFERED": button = "<button class=\"claim\">Claim</button>";break;
+	}
+	return button;
+}
