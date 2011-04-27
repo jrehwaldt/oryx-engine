@@ -1,5 +1,6 @@
 $().ready(function() {
 
+    // the loginbutton checks which participant is selected and then stores this data and changes the site
     $("#loginButton").click(function(){
 
         var uuid = $('#loginBox option:selected').attr('value');
