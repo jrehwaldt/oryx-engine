@@ -1,11 +1,9 @@
 package de.hpi.oryxengine.activity;
 
-import java.util.UUID;
-
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.plugin.AbstractPluggable;
-import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
+import de.hpi.oryxengine.plugin.activity.AbstractTokenPlugin;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -13,7 +11,7 @@ import de.hpi.oryxengine.process.token.Token;
  * An activity is the behaviour of a node. So to say what it does.
  */
 public abstract class AbstractActivity
-extends AbstractPluggable<AbstractActivityLifecyclePlugin>
+extends AbstractPluggable<AbstractTokenPlugin>
 implements Activity {
     
     /**
@@ -42,7 +40,7 @@ implements Activity {
     }
     
     @Override
-    public void registerPlugin(@Nonnull AbstractActivityLifecyclePlugin plugin) {
+    public void registerPlugin(@Nonnull AbstractTokenPlugin plugin) {
         addObserver(plugin);
     }
     

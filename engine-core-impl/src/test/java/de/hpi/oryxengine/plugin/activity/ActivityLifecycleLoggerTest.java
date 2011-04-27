@@ -17,7 +17,7 @@ import de.hpi.oryxengine.process.token.Token;
 public class ActivityLifecycleLoggerTest {
     
     private AutomatedDummyActivity activity = null;
-    private AbstractActivityLifecyclePlugin listener = null;
+    private AbstractTokenPlugin listener = null;
     private Token token = null;
     private ActivityLifecycleChangeEvent event = null;
     
