@@ -52,7 +52,7 @@ public interface Task {
     /**
      * Retrieves the {@link AbstractResource}s that is assigned to this task.
      * 
-     * @return a list of {@link AbstractResource}s that is assigned to this task
+     * @return a set of {@link AbstractResource}s that is assigned to this task
      */
     @JsonIgnore
     Set<AbstractResource<?>> getAssignedResources();

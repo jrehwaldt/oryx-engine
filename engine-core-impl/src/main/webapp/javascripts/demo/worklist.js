@@ -24,9 +24,8 @@ function addClaimButtonClickHandler() {
             success: function(data) {
                 console.log(data);
                 // be happy and do stuff (like morph button to start task or stuff like that)
-				$(button).removeClass("claim").addClass("begin").html("Begin");
 				$(button).unbind();
-				addBeginButtonClickHandler();
+				$(button).remove();
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -42,7 +41,7 @@ function addClaimButtonClickHandler() {
 	    // Now add the click handlers to the freshly created buttons
 	    // Click handlers shall claim an item
 	    $("button.begin").click(function() {
-	    	
+	    	var button = this;
 	    	var worklistItemId = $(this).parents(".worklistitem").attr("id");
 		    var wrapper = {};
 		    wrapper["participantId"] = $.Storage.get("participantUUID");
@@ -56,6 +55,16 @@ function addClaimButtonClickHandler() {
 		    	data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
 		    	success: function(data) {
 		    		console.log(data);
+					$(button).unbind();
+					$(button).removeClass("begin").addClass("end").html("End");
+					
+					//only remove the claim button if the button is still there
+					var element = $(button).parent().find(".claim");
+					if(element.length){
+						element.unbind();
+						element.remove();
+					}			
+
 		    		// be happy and do stuff (like morph button to start task or stuff like that)
 		    		
 		    	},
@@ -105,7 +114,7 @@ function generateButton(state) {
 	var button;
 	switch(state) {
 		case "ALLOCATED": button = "<button class=\"begin\">Begin</button>"; break;
-		case "OFFERED": button = "<button class=\"claim\">Claim</button>"; break;
+		case "OFFERED": button = "<button class=\"claim\">Claim</button><button class=\"begin\">Begin</button>"; break;
 	}
 	return button;
 }
