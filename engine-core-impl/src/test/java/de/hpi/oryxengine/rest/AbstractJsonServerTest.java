@@ -26,9 +26,6 @@ import de.hpi.oryxengine.AbstractJodaEngineTest;
  */
 public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     
-    protected static final int WAIT_FOR_PROCESSES_TO_FINISH = 100;
-    protected static final int TRIES_UNTIL_PROCESSES_FINISH = 100;
-    protected static final short NUMBER_OF_INSTANCES_TO_START = 2;
     protected static final int HTTP_STATUS_OK = 200;
     
     public static final String TMP_PATH = "./target/";

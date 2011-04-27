@@ -37,6 +37,10 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     private Navigator navigator = null;
     private final static String STATISTIC_URL = "/navigator/status/statistic";  
     private final static String STATUS_IDLE_URL = "/navigator/status/is-idle";
+    
+    protected static final int WAIT_FOR_PROCESSES_TO_FINISH = 100;
+    protected static final int TRIES_UNTIL_PROCESSES_FINISH = 100;
+    protected static final short NUMBER_OF_INSTANCES_TO_START = 2;
 
     /**
      * Set up.
@@ -215,7 +219,10 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         this.navigator.startProcessInstance(definition.getID());
 
         // wait for the service to be finished
-        for (int i = 0; !this.navigator.isIdle() && this.navigator.getEndedInstances().size() == 0; i++) {
+        // TODO needs to be viewed again, got a strange bug there:
+        // assert on ended instances fails on my machine, when we change the
+        // guard clause in the for loop by removing the brackets of the two conditions 
+        for (int i = 0; (!this.navigator.isIdle()) && (this.navigator.getEndedInstances().size() == 0); i++) {
             Thread.sleep(WAIT_FOR_PROCESSES_TO_FINISH);
 
             if (i == TRIES_UNTIL_PROCESSES_FINISH) {
