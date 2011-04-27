@@ -24,9 +24,6 @@ if (uri != null) {
 
         <script type="text/javascript" src="/javascripts/lib/jquery-1.5.2.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.Storage.js"></script>
-        <script type="text/javascript" src="/javascripts/demo/WorkItem1.js"></script>
-        <script type="text/javascript" src="/javascripts/demo/ParticipantJannik.js"></script>
-        <script type="text/javascript" src="/javascripts/demo/ParticipantWilli.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.getQueryParam.1.0.0.min.js"></script>
 
 
