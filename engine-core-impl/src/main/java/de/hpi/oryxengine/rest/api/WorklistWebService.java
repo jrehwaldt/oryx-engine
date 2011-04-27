@@ -125,12 +125,12 @@ public final class WorklistWebService {
     }
     
     /**
-     * Gets the worklist items for a given resource (defined by a uuid which is a String and needs to be converted).
+     * Gets the form that is held by the {@link WorklistItemImpl Worklist Item}.
      *
      * @param id the worklist item id
      * @param pId the participant id
-     * @return the worklist items for the specified resource
-     * @throws ResourceNotAvailableException the resource not available exception
+     * @return the form held by the worklist item
+     * @throws ResourceNotAvailableException if the resource is not available
      */
     @Path("/items/{worklistItem-id}/form")
     @GET
