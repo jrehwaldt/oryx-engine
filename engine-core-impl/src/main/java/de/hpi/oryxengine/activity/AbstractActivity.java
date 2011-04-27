@@ -11,7 +11,6 @@ import de.hpi.oryxengine.process.token.Token;
  * An activity is the behaviour of a node. So to say what it does.
  */
 public abstract class AbstractActivity
-extends AbstractPluggable<AbstractTokenPlugin>
 implements Activity {
     
     /**
@@ -37,11 +36,6 @@ implements Activity {
     @Override
     public String toString() {
         return getClass().getSimpleName();
-    }
-    
-    @Override
-    public void registerPlugin(@Nonnull AbstractTokenPlugin plugin) {
-        addObserver(plugin);
     }
     
     /**

@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.activity.ActivityState;
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
  * Tests the activity logger.
@@ -18,7 +19,7 @@ public class ActivityLifecycleLoggerTest {
     
     private AutomatedDummyActivity activity = null;
     private AbstractTokenPlugin listener = null;
-    private Token token = null;
+    private TokenImpl token = null;
     private ActivityLifecycleChangeEvent event = null;
     
     /**
@@ -26,7 +27,7 @@ public class ActivityLifecycleLoggerTest {
      */
     @Test
     public void testLoggingNavigatorStopped() {
-        this.listener.update(this.activity, this.event);
+        this.listener.update(this.token, this.event);
         this.listener.stateChanged(this.event);
     }
     
@@ -37,7 +38,7 @@ public class ActivityLifecycleLoggerTest {
    public void beforeMethod() {
        this.activity = mock(AutomatedDummyActivity.class);
        this.listener = ActivityLifecycleLogger.getInstance();
-       this.token = mock(Token.class);
+       this.token = mock(TokenImpl.class);
        this.event = new ActivityLifecycleChangeEvent(
            this.activity, ActivityState.ACTIVE, ActivityState.COMPLETED, this.token);
    }

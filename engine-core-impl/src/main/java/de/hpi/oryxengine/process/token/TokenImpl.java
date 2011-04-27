@@ -40,6 +40,8 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     private List<Token> lazySuspendedProcessingTokens;
 
     private Activity currentActivity;
+    
+    private List<AbstractTokenPlugin> plugins;
 
     /**
      * Instantiates a new token impl.
@@ -72,6 +74,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
         this.currentActivity = null;
+        this.plugins = new ArrayList<AbstractTokenPlugin>();
     }
 
     /**
@@ -208,6 +211,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     public Token createNewToken(Node node) {
 
         Token newToken = instance.createToken(node, navigator);
+        
         return newToken;
     }
 
@@ -220,7 +224,12 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     @Override
     public Token performJoin() {
 
-        Token token = new TokenImpl(currentNode, instance, navigator);
+        TokenImpl token = new TokenImpl(currentNode, instance, navigator);
+        // give all of this token's observers to the newly created ones.
+        for (AbstractTokenPlugin plugin : plugins) {
+            token.registerPlugin(plugin);
+        }
+        
         instance.getContext().removeIncomingTransitions(currentNode);
         return token;
     }
@@ -325,6 +334,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     
     @Override
     public void registerPlugin(@Nonnull AbstractTokenPlugin plugin) {
+        this.plugins.add(plugin);
         addObserver(plugin);
     }
 
@@ -336,7 +346,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     private void changeActivityState(ActivityState newState) {
 
         final ActivityState prevState = currentActivityState;
-        System.out.println(newState.toString());
         this.currentActivityState = newState;
         setChanged();
         
