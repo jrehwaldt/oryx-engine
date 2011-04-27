@@ -11,7 +11,7 @@ import de.hpi.oryxengine.plugin.ObserverPlugin;
  * This class may be injected to observe
  * the lifecycle of certain activities.
  */
-public abstract class AbstractActivityLifecyclePlugin
+public abstract class AbstractTokenPlugin
 implements ObserverPlugin, ActivityLifecyclePlugin {
     
     /**
@@ -22,6 +22,7 @@ implements ObserverPlugin, ActivityLifecyclePlugin {
     @Override
     public void update(@Nonnull Observable observable,
                        @Nonnull Object event) {
+        // TODO if several different events might occur here, the type of the event should be checked here
         stateChanged((ActivityLifecycleChangeEvent) event);
     }
 }

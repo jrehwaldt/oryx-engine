@@ -151,4 +151,5 @@ public interface Token extends Identifiable {
      */
     @JsonProperty
     Activity getCurrentActivity();
+    
 }

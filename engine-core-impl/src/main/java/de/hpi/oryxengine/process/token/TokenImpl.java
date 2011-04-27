@@ -5,11 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.ActivityState;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.NoValidPathException;
 import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.plugin.AbstractPluggable;
+import de.hpi.oryxengine.plugin.activity.AbstractTokenPlugin;
+import de.hpi.oryxengine.plugin.activity.ActivityLifecycleChangeEvent;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -18,7 +23,7 @@ import de.hpi.oryxengine.process.structure.Transition;
 /**
  * The implementation of a process token.
  */
-public class TokenImpl implements Token {
+public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements Token {
 
     private UUID id;
 
@@ -35,6 +40,8 @@ public class TokenImpl implements Token {
     private List<Token> lazySuspendedProcessingTokens;
 
     private Activity currentActivity;
+    
+    private List<AbstractTokenPlugin> plugins;
 
     /**
      * Instantiates a new token impl.
@@ -65,8 +72,9 @@ public class TokenImpl implements Token {
         this.instance = instance;
         this.navigator = navigator;
         this.id = UUID.randomUUID();
-        this.currentActivityState = ActivityState.INIT;
+        changeActivityState(ActivityState.INIT);
         this.currentActivity = null;
+        this.plugins = new ArrayList<AbstractTokenPlugin>();
     }
 
     /**
@@ -120,7 +128,6 @@ public class TokenImpl implements Token {
         Activity activity = null;
 
         // TODO should we catch these exceptions here, or should we propagate it to a higher level?
-        // TODO construct the activities with parameters
         try {
             activity = currentNode.getActivityBlueprint().instantiate();
 
@@ -149,7 +156,7 @@ public class TokenImpl implements Token {
         }
         
         lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
-        this.currentActivityState = ActivityState.ACTIVE;
+        changeActivityState(ActivityState.ACTIVE);
 
         currentActivity = instantiateCurrentActivityClass();
         currentActivity.execute(this);
@@ -176,7 +183,7 @@ public class TokenImpl implements Token {
             Node node = transition.getDestination();
             this.setCurrentNode(node);
             this.lastTakenTransition = transition;
-            this.currentActivityState = ActivityState.INIT;
+            changeActivityState(ActivityState.INIT);
             tokensToNavigate.add(this);
         } else {
             for (Transition transition : transitionList) {
@@ -204,6 +211,7 @@ public class TokenImpl implements Token {
     public Token createNewToken(Node node) {
 
         Token newToken = instance.createToken(node, navigator);
+        
         return newToken;
     }
 
@@ -216,7 +224,12 @@ public class TokenImpl implements Token {
     @Override
     public Token performJoin() {
 
-        Token token = new TokenImpl(currentNode, instance, navigator);
+        TokenImpl token = new TokenImpl(currentNode, instance, navigator);
+        // give all of this token's observers to the newly created ones.
+        for (AbstractTokenPlugin plugin : plugins) {
+            token.registerPlugin(plugin);
+        }
+        
         instance.getContext().removeIncomingTransitions(currentNode);
         return token;
     }
@@ -245,7 +258,7 @@ public class TokenImpl implements Token {
     @Override
     public void suspend() {
 
-        this.currentActivityState = ActivityState.SUSPENDED;
+        changeActivityState(ActivityState.SUSPENDED);
         navigator.addSuspendToken(this);
     }
 
@@ -265,7 +278,9 @@ public class TokenImpl implements Token {
     private void completeExecution()
     throws NoValidPathException {
 
-        this.currentActivityState = ActivityState.COMPLETED;
+        changeActivityState(ActivityState.COMPLETED);
+        currentActivity = null;
+        
         List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
         for (Token token : splittedTokens) {
@@ -273,6 +288,7 @@ public class TokenImpl implements Token {
         }
 
         lazySuspendedProcessingTokens = null;
+        
     }
 
     /**
@@ -314,6 +330,28 @@ public class TokenImpl implements Token {
     public Activity getCurrentActivity() {
 
         return this.currentActivity;
+    }
+    
+    @Override
+    public void registerPlugin(@Nonnull AbstractTokenPlugin plugin) {
+        this.plugins.add(plugin);
+        addObserver(plugin);
+    }
+
+    /**
+     * Changes the state of the activity that the token currently points to.
+     *
+     * @param newState the new state
+     */
+    private void changeActivityState(ActivityState newState) {
+
+        final ActivityState prevState = currentActivityState;
+        this.currentActivityState = newState;
+        setChanged();
+        
+        // TODO maybe change the ActivityLifecycleChangeEvent, as we provide the currentActivity here, but it might not be instantiated yet.
+        notifyObservers(new ActivityLifecycleChangeEvent(currentActivity, prevState, newState, this));
+        
     }
 
 }

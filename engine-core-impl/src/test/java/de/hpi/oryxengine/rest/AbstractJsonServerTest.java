@@ -82,17 +82,29 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     protected abstract Class<?> getResource();
     
     /**
+     * Make a simple get request returning the response.
+     *
+     * @param url the url
+     * @return the mock http response
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    protected MockHttpResponse makeGETRequest(String url) throws URISyntaxException {
+        // set up our request
+        MockHttpRequest request = MockHttpRequest.get(url);
+        
+        return invokeRequest(request);
+    }
+    
+    /**
      * Make a get request to the specified url.
      *
      * @param url the url as a String
      * @return the answer of the webservice as a String (usually JSON)
      * @throws URISyntaxException the uRI syntax exception
      */
-    protected String makeGETRequest(String url) throws URISyntaxException {
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.get(url);
-        
-        return invokeRequest(request).getContentAsString();
+    protected String makeGETRequestReturningJson(String url) throws URISyntaxException {
+        // Make it a String so we can read the Json
+        return makeGETRequest(url).getContentAsString();
     }
     
     /**
@@ -107,6 +119,20 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         MockHttpRequest request = MockHttpRequest.get(url);
         
         return invokeRequest(request).getContentAsString();
+    }
+    
+    /**
+     * Make a simple post request.
+     *
+     * @param url the url
+     * @return the mock http response
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    protected MockHttpResponse makePOSTRequest(String url) throws URISyntaxException {
+        // set up our request
+        MockHttpRequest request = MockHttpRequest.post(url);
+        
+        return invokeRequest(request);
     }
     
     /**

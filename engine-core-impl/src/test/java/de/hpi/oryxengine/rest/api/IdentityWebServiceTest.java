@@ -61,7 +61,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
     public void testGetParticipants() throws URISyntaxException, IOException {
         create2Participants();
                
-        String json = makeGETRequest(PARTICIPANT_URL);
+        String json = makeGETRequestReturningJson(PARTICIPANT_URL);
         Assert.assertNotNull(json);
         
         //TODO jackson can return a set/map directly (but jannik was unable to get this working) (see also other stuff)
@@ -83,7 +83,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      */
     @Test
     public void testGetParticipantsWithNoParticipants() throws URISyntaxException {        
-        String json = makeGETRequest(PARTICIPANT_URL);
+        String json = makeGETRequestReturningJson(PARTICIPANT_URL);
         
         // [] is an empty JSON
         Assert.assertEquals(json, "[]");
@@ -99,7 +99,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
     public void testGetRoles() throws URISyntaxException, IOException {
         create2Roles();
         
-        String json = makeGETRequest(ROLES_URL);        
+        String json = makeGETRequestReturningJson(ROLES_URL);        
                 
         // Same hack as above
         AbstractRole[] roles = this.mapper.readValue(json, AbstractRole[].class);
@@ -119,7 +119,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      */
     @Test
     public void testGetRolesWithNoRoles() throws URISyntaxException {
-        String json = makeGETRequest(ROLES_URL);
+        String json = makeGETRequestReturningJson(ROLES_URL);
         // [] is an empty JSON.
         Assert.assertEquals(json, "[]");
     }

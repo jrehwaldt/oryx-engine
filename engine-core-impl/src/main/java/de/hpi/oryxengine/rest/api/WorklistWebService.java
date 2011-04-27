@@ -82,27 +82,6 @@ public final class WorklistWebService {
         return thomas.getID().toString();
     }
 
-    // @Path("/items/")
-    // @GET
-    // // @Override
-    // public @Nonnull List<WorklistItem> getWorklistItems(ResourceImpl<?> resource) {
-    // return this.service.getWorklistItems(resource);
-    // }
-    //
-    // @Path("/items/position/")
-    // @GET
-    // // @Override
-    // public @Nonnull List<WorklistItem> getWorklistItems(Resource<?> resource) {
-    // return this.service.getWorklistItems(resource);
-    // }
-    //
-    // @Path("/items/organization-unit/")
-    // @GET
-    // // @Override
-    // public @Nonnull List<WorklistItem> getWorklistItems(OrganizationUnitImpl resource) {
-    // return this.service.getWorklistItems(resource);
-    // }
-
     /**
      * Gets the worklist items for a given resource (defined by a uuid which is a String and needs to be converted).
      * 
@@ -146,16 +125,6 @@ public final class WorklistWebService {
         return item.getForm().getFormContentAsHTML();
     }
     
- 
-
-    /*
-     * @Path("/items")
-     * 
-     * @POST // Qual der Wahl! So soll's sein. public List<AbstractWorklistItem>
-     * getWorklistItemsAsPost(AbstractResource<?> resource) throws ResourceNotAvailableException {
-     * logger.debug("POST: {}", resource); return getWorklistItems(resource); }
-     */
-
     /**
      * Checks what to do.
      * 
@@ -284,131 +253,4 @@ public final class WorklistWebService {
         // this.service.claimWorklistItemBy(workItem, resource);
 
     }
-
-    // @Path("/item/claim")
-    // @POST
-    // public void claimWorklistItemByPost(AbstractWorklistItem workItem,
-    // AbstractResource<?> resource) {
-    //
-    // // UUID resourceUUID = UUID.fromString(resourceId);
-    // // AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
-    // // UUID worklistItemUUID = UUID.fromString(workItem);
-    // // WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
-    //
-    // logger.debug("POST-claim WI: {}", workItem);
-    // logger.debug("POST-claim Res: {}", resource);
-    //
-    // // this.service.claimWorklistItemBy(workItem, resource);
-    //
-    // }
-
-    // @Path("/items/{resource-type}/{resource-id}")
-    // @GET
-    // // @Override
-    // @Produces(MediaType.APPLICATION_JSON)
-    // public List<AbstractWorklistItem> getWorklistItems(@PathParam("resource-type") ResourceType resourceType,
-    // @PathParam("resource-id") String resourceId)
-    // throws ResourceNotAvailableException {
-    //
-    // UUID resourceUUID = UUID.fromString(resourceId);
-    // AbstractResource<?> resource = getResource(resourceType, resourceUUID);
-    // return getWorklistItems(resource);
-    // }
-
-    // @Path("/item/{worklist-item-id}/claim/{resource-type}-{resource-id}")
-    // @POST
-    // @Override
-    // public void claimWorklistItemBy(@PathParam("worklist-item-id") String worklistItemId,
-    // @PathParam("resource-type") ResourceType resourceType,
-    // @PathParam("resource-id") String resourceId) {
-    //
-    // UUID resourceUUID = UUID.fromString(resourceId);
-    // // AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
-    // UUID worklistItemUUID = UUID.fromString(worklistItemId);
-    // // WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
-    // // this.service.claimWorklistItemBy(worklistItem, resource);
-    // }
-    //
-    // @Path("/item/{worklist-item-id}/begin/{resource-type}-{resource-id}")
-    // @POST
-    // @Override
-    // public void beginWorklistItemBy(@PathParam("worklist-item-id") String worklistItemId,
-    // @PathParam("resource-type") ResourceType resourceType,
-    // @PathParam("resource-id") String resourceId) {
-    //
-    // UUID resourceUUID = UUID.fromString(resourceId);
-    // // AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
-    // UUID worklistItemUUID = UUID.fromString(worklistItemId);
-    // // WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
-    // // this.service.beginWorklistItemBy(worklistItem, resource);
-    // }
-    //
-    // @Path("/item/{worklist-item-id}/complete/{resource-type}-{resource-id}")
-    // @POST
-    // @Override
-    // public void completeWorklistItemBy(@PathParam("worklist-item-id") String worklistItemId,
-    // @PathParam("resource-type") ResourceType resourceType,
-    // @PathParam("resource-id") String resourceId) {
-    //
-    // UUID resourceUUID = UUID.fromString(resourceId);
-    // UUID worklistItemUUID = UUID.fromString(worklistItemId);
-    // // AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
-    // // WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
-    // // this.service.completeWorklistItemBy(worklistItem, resource);
-    // }
-    //
-    // @Path("/item/{worklist-item-id}/abort/{resource-type}-{resource-id}")
-    // @POST
-    // @Override
-    // public void abortWorklistItemBy(@PathParam("worklist-item-id") String worklistItemId,
-    // @PathParam("resource-type") ResourceType resourceType,
-    // @PathParam("resource-id") String resourceId) {
-    //
-    // UUID resourceUUID = UUID.fromString(resourceId);
-    // UUID worklistItemUUID = UUID.fromString(worklistItemId);
-    // // AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
-    // // WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
-    // // this.service.abortWorklistItemBy(worklistItem, resource);
-    // }
-
-    /**
-     * Gets a resource by id.
-     * 
-     * @param resourceType
-     *            the resource's type
-     * @param resourceId
-     *            the resource's id
-     * @return the resource or null, if none found
-     */
-    /*
-     * private @Nullable AbstractResource<?> getResource(@Nonnull ResourceType resourceType,
-     * 
-     * @Nonnull UUID resourceId) {
-     * 
-     * AbstractResource<?> resource = null; switch (resourceType) { case PARTICIPANT: resource =
-     * this.identity.getParticipant(resourceId); break; case CAPABILITY: resource =
-     * this.identity.getCapability(resourceUUID); break; case POSITION: resource =
-     * this.identity.getPosition(resourceId); break; case ORGANIZATION_UNIT: resource =
-     * this.identity.getOrganizationUnit(resourceId); break; case ROLE: resource = this.identity.getRole(resourceId);
-     * break; default: // will not occur break; }
-     * 
-     * return resource; }
-     */
-    /**
-     * Refreshs a resource with its detached counterpart.
-     * 
-     * @param resource
-     *            the resource
-     * @return the resource or null, if none found
-     * @throws ResourceNotAvailableException
-     *             thrown if the requested resource could not be found
-     */
-    /*
-     * private @Nonnull AbstractResource<?> refreshResource(@Nonnull AbstractResource<?> resource) throws
-     * ResourceNotAvailableException { resource = getResource(resource.getType(), resource.getID());
-     * 
-     * if (resource == null) { throw new ResourceNotAvailableException(); }
-     * 
-     * return resource; }
-     */
 }
