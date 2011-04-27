@@ -6,9 +6,7 @@ import java.net.URISyntaxException;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.ws.rs.core.MediaType;
 
-import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -51,23 +49,16 @@ public class WorklistItemClaimingTest extends AbstractJsonServerTest {
 
         List<AbstractWorklistItem> participantItems = ServiceFactory.getWorklistService().getWorklistItems(participant);
         AbstractWorklistItem item = participantItems.get(0);
-
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.put("/worklist/items/" + item.getID() + "/state");
-        request.contentType(MediaType.APPLICATION_JSON);
-
+        
         String json = "{"             
         + "\"participantId\" : \"" + participant.getID() + "\","
         + "\"action\" : \"CLAIM\","
         + "\"@classifier\" : \"de.hpi.oryxengine.rest.WorklistActionWrapper\""
         + "}";
 
-        request.content(json.getBytes());
-        MockHttpResponse response = new MockHttpResponse();
-        // invoke the request
-        dispatcher.invoke(request, response);
+        MockHttpResponse response = makePUTRequestWithJson("/worklist/items/" + item.getID() + "/state", json);
 
-        Assert.assertEquals(response.getStatus(), 200, 
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK, 
             "the result should be OK, that means, the request should have suceeded.");
         
         Assert.assertEquals(item.getStatus(), WorklistItemState.ALLOCATED, "the item should be allocated now.");

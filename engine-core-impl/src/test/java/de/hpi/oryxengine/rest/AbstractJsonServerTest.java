@@ -1,5 +1,9 @@
 package de.hpi.oryxengine.rest;
 
+import java.net.URISyntaxException;
+
+import javax.ws.rs.core.MediaType;
+
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -8,9 +12,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.codehaus.jackson.map.introspect.VisibilityChecker;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.mock.MockDispatcherFactory;
+import org.jboss.resteasy.mock.MockHttpRequest;
+import org.jboss.resteasy.mock.MockHttpResponse;
 import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
 
 import de.hpi.oryxengine.AbstractJodaEngineTest;
@@ -25,11 +29,10 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     protected static final int WAIT_FOR_PROCESSES_TO_FINISH = 100;
     protected static final int TRIES_UNTIL_PROCESSES_FINISH = 100;
     protected static final short NUMBER_OF_INSTANCES_TO_START = 2;
+    protected static final int HTTP_STATUS_OK = 200;
     
     public static final String TMP_PATH = "./target/";
-    
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-    
+        
     protected Dispatcher dispatcher = null;
     protected ObjectMapper mapper = null;
     
@@ -77,4 +80,62 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      * @return the resource factory to register within the server
      */
     protected abstract Class<?> getResource();
+    
+    /**
+     * Make a get request to the specified url.
+     *
+     * @param url the url as a String
+     * @return the answer of the webservice as a String (usually JSON)
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    protected String makeGETRequest(String url) throws URISyntaxException {
+        // set up our request
+        MockHttpRequest request = MockHttpRequest.get(url);
+        
+        return invokeRequest(request).getContentAsString();
+    }
+    
+    /**
+     * Make a get request to the specified url.
+     *
+     * @param url the url as a String
+     * @return the answer of the webservice as a String (usually JSON)
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    protected String makeDELETERequest(String url) throws URISyntaxException {
+        // set up our request
+        MockHttpRequest request = MockHttpRequest.get(url);
+        
+        return invokeRequest(request).getContentAsString();
+    }
+    
+    /**
+     * Make a PUT request with JSON content.
+     *
+     * @param url the url the PUT request is send to
+     * @param json the json which should be transferred as a String
+     * @return the mock http response (in case you need it for check if it is ok)
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    protected MockHttpResponse makePUTRequestWithJson(String url, String json) throws URISyntaxException {
+        MockHttpRequest request = MockHttpRequest.put(url);
+        request.contentType(MediaType.APPLICATION_JSON);
+        request.content(json.getBytes());
+        
+        return invokeRequest(request);
+    }
+    
+    /**
+     * Helper method which invokes the Request and returns the answer as a String.
+     *
+     * @param request the request
+     * @return the answer as a String
+     */
+    private MockHttpResponse invokeRequest(MockHttpRequest request) {
+        MockHttpResponse response = new MockHttpResponse();
+        // invoke the request
+        dispatcher.invoke(request, response);
+        
+        return response;
+    }
 }

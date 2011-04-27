@@ -35,6 +35,8 @@ import de.hpi.oryxengine.rest.TestUtils;
 public class NavigatorWebServiceTest extends AbstractJsonServerTest {
 
     private Navigator navigator = null;
+    private final static String STATISTIC_URL = "/navigator/status/statistic";  
+    private final static String STATUS_IDLE_URL = "/navigator/status/is-idle";
 
     /**
      * Set up.
@@ -65,15 +67,9 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     @Test
     public void testGetStatistic()
     throws URISyntaxException, IOException {
-
-        MockHttpRequest request = MockHttpRequest.get("/navigator/status/statistic");
-        MockHttpResponse response = new MockHttpResponse();
-
+        String json = makeGETRequest(STATISTIC_URL);
+        
         NavigatorStatistic stats = this.navigator.getStatistics();
-        dispatcher.invoke(request, response);
-
-        String json = response.getContentAsString();
-        logger.debug(json);
         Assert.assertNotNull(json);
 
         NavigatorStatistic callStats = this.mapper.readValue(json, NavigatorStatistic.class);
@@ -96,15 +92,9 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     @Test
     public void testGetIsIdle()
     throws URISyntaxException, IOException {
-
-        MockHttpRequest request = MockHttpRequest.get("/navigator/status/is-idle");
-        MockHttpResponse response = new MockHttpResponse();
-
         boolean isIdle = this.navigator.isIdle();
-        dispatcher.invoke(request, response);
-
-        String result = response.getContentAsString();
-        logger.debug(result);
+        String result = makeGETRequest(STATUS_IDLE_URL);
+        
         Assert.assertNotNull(result);
 
         boolean callIdIdle = Boolean.valueOf(result);
@@ -152,15 +142,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
             }
         }
 
-        //
-        // test finished instances
-        //
-        request = MockHttpRequest.get("/navigator/status/finished-instances");
-        response = new MockHttpResponse();
-
-        this.dispatcher.invoke(request, response);
-        String jsonFinished = response.getContentAsString();
-        this.logger.debug(jsonFinished);
+        String jsonFinished = makeGETRequest("/navigator/status/finished-instances");
         Assert.assertNotNull(jsonFinished);
 
         JavaType typeRef = TypeFactory.collectionType(List.class, AbstractProcessInstance.class);
@@ -172,15 +154,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
             Assert.assertEquals(ins.getDefinition().getID(), definition.getID());
         }
 
-        //
-        // test running instances
-        //
-        request = MockHttpRequest.get("/navigator/status/running-instances");
-        response = new MockHttpResponse();
-
-        this.dispatcher.invoke(request, response);
-        String jsonRunning = response.getContentAsString();
-        this.logger.debug(jsonRunning);
+        String jsonRunning = makeGETRequest("/navigator/status/running-instances");
         Assert.assertNotNull(jsonRunning);
 
         List<AbstractProcessInstance> runInstances = this.mapper.readValue(jsonRunning, typeRef);
@@ -188,14 +162,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
 
         Assert.assertEquals(runInstances.size(), 0);
 
-        //
-        // test running instances
-        //
-        request = MockHttpRequest.get("/navigator/status/is-idle");
-        response = new MockHttpResponse();
-
-        this.dispatcher.invoke(request, response);
-        String jsonIdle = response.getContentAsString();
+        String jsonIdle = makeGETRequest(STATUS_IDLE_URL);
         this.logger.debug(jsonIdle);
         Assert.assertNotNull(jsonIdle);
 
@@ -205,11 +172,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         //
         // test statistics
         //
-        request = MockHttpRequest.get("/navigator/status/statistic");
-        response = new MockHttpResponse();
-
-        this.dispatcher.invoke(request, response);
-        String jsonStats = response.getContentAsString();
+        String jsonStats = makeGETRequest(STATISTIC_URL);
         this.logger.debug(jsonStats);
         Assert.assertNotNull(jsonStats);
         NavigatorStatistic stats = this.mapper.readValue(jsonStats, NavigatorStatistic.class);

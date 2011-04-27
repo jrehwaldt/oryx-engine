@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jboss.resteasy.mock.MockHttpRequest;
-import org.jboss.resteasy.mock.MockHttpResponse;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -29,14 +27,31 @@ import de.hpi.oryxengine.rest.AbstractJsonServerTest;
  */
 public class RepositoryWebServiceTest extends AbstractJsonServerTest {
 
+    private final static String URL = "/repository/processdefinitions";
+    
     @Override
     protected Class<?> getResource() {
 
         return RepositoryWebService.class;
     }
+    
+    /**
+     * Creates another process definition, which is empty but deployed into the repository.
+     *
+     * @throws IllegalStarteventException the illegal startevent exception
+     */
+    public void createAnotherProcessDefinition() throws IllegalStarteventException {
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        builder.setName("Empty").setDescription("Really an empty dummy process");
+        ProcessDefinition definition = builder.buildDefinition();
+        ProcessDefinitionImporter rawProDefImporter = new RawProcessDefintionImporter(definition);
+        
+        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        deploymentBuilder.deployProcessDefinition(rawProDefImporter);
+    }
 
     /**
-     * Test get process definitions.
+     * Test get process definitions with 1 definition deployed.
      * 
      * @throws URISyntaxException
      *             the uRI syntax exception
@@ -50,17 +65,10 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
     @Test
     public void testGetProcessDefinitions()
     throws URISyntaxException, IOException, DefinitionNotFoundException, IllegalStarteventException {
-
-        // fille the process Repository with one simple process
+        // fills repository with one processdefinition
         RepositorySetup.fillRepository();
-
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.get("/repository/processdefinitions");
-        MockHttpResponse response = new MockHttpResponse();
-        // invoke the request
-        dispatcher.invoke(request, response);
-
-        String json = response.getContentAsString();
+        
+        String json = makeGETRequest(URL);
         Assert.assertNotNull(json);
         // assert we don't get back an empty JSON set.
         Assert.assertFalse("[]".equals(json));
@@ -88,14 +96,7 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
     @Test
     public void testGetProcessDefinitionsWhenEmpty()
     throws IllegalStarteventException, URISyntaxException, IOException {
-
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.get("/repository/processdefinitions");
-        MockHttpResponse response = new MockHttpResponse();
-        // invoke the request
-        dispatcher.invoke(request, response);
-
-        String json = response.getContentAsString();
+        String json = makeGETRequest(URL);
         // nothing therer
         Assert.assertEquals(json, "[]");
 
@@ -104,21 +105,6 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
         Set<ProcessDefinition> set = new HashSet<ProcessDefinition>(Arrays.asList(definitions));
 
         Assert.assertEquals(set.size(), 0);
-    }
-    
-    /**
-     * Creates another process definition, which is empty but deployed into the repository.
-     *
-     * @throws IllegalStarteventException the illegal startevent exception
-     */
-    public void createAnotherProcessDefinition() throws IllegalStarteventException {
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        builder.setName("Empty").setDescription("Really an empty dummy process");
-        ProcessDefinition definition = builder.buildDefinition();
-        ProcessDefinitionImporter rawProDefImporter = new RawProcessDefintionImporter(definition);
-        
-        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-        deploymentBuilder.deployProcessDefinition(rawProDefImporter);
     }
     
     /**
@@ -132,14 +118,7 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
     public void testGetMultipleProcessDefinitions() throws IllegalStarteventException, URISyntaxException, IOException {
         RepositorySetup.fillRepository();
         createAnotherProcessDefinition(); 
-        
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.get("/repository/processdefinitions");
-        MockHttpResponse response = new MockHttpResponse();
-        // invoke the request
-        dispatcher.invoke(request, response);
-
-        String json = response.getContentAsString();
+        String json = makeGETRequest(URL);
         Assert.assertNotNull(json);
         // assert we don't get back an empty JSON set.
         Assert.assertFalse("[]".equals(json));
