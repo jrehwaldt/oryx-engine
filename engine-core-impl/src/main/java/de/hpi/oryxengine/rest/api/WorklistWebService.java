@@ -233,7 +233,6 @@ public final class WorklistWebService {
 
         logger.debug("POST participantID: {}", participantUUID);
         logger.debug("worklistItemID: {}", worklistItemId);
-        logger.debug(item.toString());
         service.claimWorklistItemBy(item, resource);
 
     }
