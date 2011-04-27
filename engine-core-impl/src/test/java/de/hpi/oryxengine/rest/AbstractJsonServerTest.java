@@ -101,34 +101,6 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      * @return the answer of the webservice as a String (usually JSON)
      * @throws URISyntaxException the uRI syntax exception
      */
-    protected String makePOSTRequest(String url) throws URISyntaxException {
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.get(url);
-        
-        return invokeRequest(request);
-    }
-    
-    /**
-     * Make a get request to the specified url.
-     *
-     * @param url the url as a String
-     * @return the answer of the webservice as a String (usually JSON)
-     * @throws URISyntaxException the uRI syntax exception
-     */
-    protected String makePUTRequest(String url) throws URISyntaxException {
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.get(url);
-        
-        return invokeRequest(request);
-    }
-    
-    /**
-     * Make a get request to the specified url.
-     *
-     * @param url the url as a String
-     * @return the answer of the webservice as a String (usually JSON)
-     * @throws URISyntaxException the uRI syntax exception
-     */
     protected String makeDELETERequest(String url) throws URISyntaxException {
         // set up our request
         MockHttpRequest request = MockHttpRequest.get(url);
