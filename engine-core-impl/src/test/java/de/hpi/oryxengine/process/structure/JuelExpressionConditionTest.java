@@ -124,7 +124,7 @@ public class JuelExpressionConditionTest {
     }
 
     /**
-     * This methods tests simple expression like '1 < 2' or '(2+2) == 4' and assert that they become false.
+     * This methods tests simple expression like '1 < 2' or '(2+2) == 4' and assert that they become true.
      */
     @Test
     public void testTrueSimpleCondition() {
