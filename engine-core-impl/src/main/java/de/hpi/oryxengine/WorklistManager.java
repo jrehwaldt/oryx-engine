@@ -161,6 +161,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
                 logger.debug("thou shalt not beign worklist items that are not your own: {}", resource.getName());
                 return;
             }
+            claimWorklistItemBy(worklistItem, resource);
             resource.getWorklist().itemIsStarted(worklistItem);
         }
         

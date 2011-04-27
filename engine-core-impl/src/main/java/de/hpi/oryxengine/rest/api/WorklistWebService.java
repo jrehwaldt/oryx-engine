@@ -120,14 +120,6 @@ public final class WorklistWebService {
 
         UUID uuid = UUID.fromString(id);
         List<AbstractWorklistItem> items = this.service.getWorklistItems(uuid);
-        for(AbstractWorklistItem item : items) {
-            AbstractResource resource = (AbstractResource) item.getAssignedResources().toArray()[0];
-            logger.debug("R name: "+resource.getName());
-            logger.debug("R id: "+resource.getID().toString());
-            logger.debug("itemID: "+item.getID().toString());
-        }
-
-        logger.debug("Jannik hacks");
         return items;
     }
     
@@ -221,19 +213,14 @@ public final class WorklistWebService {
      */
     private void claimWorklistItem(UUID worklistItemId, UUID participantUUID)
     throws ResourceNotAvailableException {
+        
+        AbstractResource<?> resource = identity.getParticipant(participantUUID);
+        AbstractWorklistItem item = service.getWorklistItem(resource, worklistItemId);
 
         logger.debug("POST participantID: {}", participantUUID);
         logger.debug("worklistItemID: {}", worklistItemId);
-        AbstractResource<?> resource = identity.getParticipant(participantUUID);
-
-        AbstractWorklistItem item = service.getWorklistItem(resource, worklistItemId);
         logger.debug(item.toString());
         service.claimWorklistItemBy(item, resource);
-        
-        for(AbstractWorklistItem itema : service.getWorklistItems(resource)) {
-            logger.debug("itemID: "+item.getID().toString());
-            logger.debug("itemSDtatus: "+item.getAssignedResources());
-        }
 
     }
     
