@@ -26,9 +26,6 @@
 
         <div id="result_1"></div>
 		<p>Participants </p>
-        <div id="participants"></div>
-        <p> Names </p>
-        <div id="participantnames"></div>
         <div id="loginpart">
           <p>Here goes our login stuff </p>
           <select id="loginBox">
@@ -36,8 +33,6 @@
           <button id="loginButton" href="worklist">Login</button>
 
         </div>
-
-        <div id="datay"></div>
 
     </body>
 </html>
