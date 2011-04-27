@@ -104,15 +104,22 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     @Override
     public void claimWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
 
-        // Defining which resources' worklists should be notified when the worklist item is claimed
-        Set<AbstractResource<?>> resourcesToNotify = new HashSet<AbstractResource<?>>();
-        resourcesToNotify.add(resource);
-        resourcesToNotify.addAll(worklistItem.getAssignedResources());
+        synchronized (worklistItem) {
+            if (!getWorklistItems(resource).contains(worklistItem)) {
+                logger.debug("thou shalt not steal worklist items: {}", resource.getName());
+                return;
+            }
+         // Defining which resources' worklists should be notified when the worklist item is claimed
+            Set<AbstractResource<?>> resourcesToNotify = new HashSet<AbstractResource<?>>();
+            resourcesToNotify.add(resource);
+            resourcesToNotify.addAll(worklistItem.getAssignedResources());
 
-        // Notifying the worklist of each resource. Each worklist implements another behavior
-        for (AbstractResource<?> resourceToNotify : resourcesToNotify) {
-            resourceToNotify.getWorklist().itemIsAllocatedBy(worklistItem, resource);
+            // Notifying the worklist of each resource. Each worklist implements another behavior
+            for (AbstractResource<?> resourceToNotify : resourcesToNotify) {
+                resourceToNotify.getWorklist().itemIsAllocatedBy(worklistItem, resource);
+            }
         }
+        
     }
 
     @Override
@@ -149,7 +156,14 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     @Override
     public void beginWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
 
-        resource.getWorklist().itemIsStarted(worklistItem);
+        synchronized (worklistItem) {
+            if (!getWorklistItems(resource).contains(worklistItem)) {
+                logger.debug("thou shalt not beign worklist items that are not your own: {}", resource.getName());
+                return;
+            }
+            resource.getWorklist().itemIsStarted(worklistItem);
+        }
+        
     }
 
     @Override

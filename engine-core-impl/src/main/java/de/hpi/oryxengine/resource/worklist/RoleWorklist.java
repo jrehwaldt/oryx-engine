@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.resource.AbstractResource;
@@ -17,6 +19,8 @@ public class RoleWorklist extends AbstractDefaultWorklist {
 
     @JsonIgnore
     private AbstractRole relatedRole;
+    
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**
      * Hidden constructor.
@@ -49,12 +53,12 @@ public class RoleWorklist extends AbstractDefaultWorklist {
     public void itemIsAllocatedBy(AbstractWorklistItem worklistItem, AbstractResource<?> claimingResource) {
 
         
-        System.out.println("worklistitem: " + worklistItem);
-        System.out.println("My List: " + getLazyWorklistItems());
+        logger.debug("worklistitem: {}", worklistItem);
+        logger.debug("My List: {}", getLazyWorklistItems());
         getLazyWorklistItems().remove(worklistItem);
         worklistItem.getAssignedResources().remove(relatedRole);
-        System.out.println("My List: " + getLazyWorklistItems());
-        System.out.println("My whole list: " + getWorklistItems());
+        logger.debug("My List: {}", getLazyWorklistItems());
+        logger.debug("My whole list: {}", getWorklistItems());
     }
 
     @Override
@@ -67,14 +71,14 @@ public class RoleWorklist extends AbstractDefaultWorklist {
     @Override
     public void itemIsCompleted(AbstractWorklistItem worklistItem) {
 
-        String exceptionMessage = "WorklistItems in a RoleWorklist can nor be executed neither be completed.";
+        String exceptionMessage = "WorklistItems in a RoleWorklist can be neither executed nor completed.";
         throw new DalmatinaRuntimeException(exceptionMessage);        
     }
 
     @Override
     public void itemIsStarted(AbstractWorklistItem worklistItem) {
 
-        String exceptionMessage = "WorklistItems in a RoleWorklist can nor be executed neither be completed.";
+        String exceptionMessage = "WorklistItems in a RoleWorklist can be neither executed nor completed.";
         throw new DalmatinaRuntimeException(exceptionMessage);        
     }
 

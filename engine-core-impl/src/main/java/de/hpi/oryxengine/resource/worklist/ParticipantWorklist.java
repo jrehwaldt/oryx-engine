@@ -74,6 +74,7 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
         } else {
 
             getLazyWorklistItems().remove(worklistItemImpl);
+            
             worklistItemImpl.getAssignedResources().remove(relatedParticipant);
         }
     }

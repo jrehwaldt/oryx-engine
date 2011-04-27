@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.resource.allocation;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -114,13 +115,9 @@ public class TaskImpl implements Task {
              taskToCopy.getDescription(),
              taskToCopy.getForm(),
              taskToCopy.getAllocationStrategies(),
-             taskToCopy.getAssignedResources());
-        
-//        this.subject = taskToCopy.getSubject();
-//        this.description = taskToCopy.getDescription();
-//        this.allocationStrategies = taskToCopy.getAllocationStrategies();
-//        HashSet<AbstractResource<?>> setCopy = new HashSet<AbstractResource<?>>(taskToCopy.getAssignedResources());
-//        this.assignedResources = setCopy;
+             new HashSet<AbstractResource<?>>(taskToCopy.getAssignedResources()));
+        // it is very important that a new hash set is created here!!! Otherwise, two concurrently executing human task 
+        // activities work on the same datastructure for assigned resources (which they manipulate; not cool).
 
     }
 
@@ -155,7 +152,7 @@ public class TaskImpl implements Task {
     public Set<AbstractResource<?>> getAssignedResources() {
 
         if (assignedResources == null) {
-            assignedResources = new HashSet<AbstractResource<?>>();
+            assignedResources = Collections.synchronizedSet(new HashSet<AbstractResource<?>>());
         }
         return assignedResources;
     }

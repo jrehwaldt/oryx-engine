@@ -63,9 +63,9 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     /** The start node. */
     private Node startNode;
 
-    private Task task = null;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    
+    private Role role;
 
     /**
      * Instantiates a new example process token factory.
@@ -81,30 +81,35 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         identityBuilder = identityService.getIdentityBuilder();
 
     }
+    
+    public void initializeNodes() {
+        initializeNodesWithRoleTasks();
+    }
 
     /**
      * Initializes the nodes.
      */
-    public void initializeNodes() {
+    public void initializeNodesWithDirectAlloc() {
 
         NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
 
+        Object[] participants = identityService.getParticipants().toArray();
         // Create the task
-        task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[0]);
+        Task task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[0]);
 
         nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
         node1 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
 
         // Create the task
-        task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[1]);
+        task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[1]);
         nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
 
         node2 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
 
         // Create the task
-        task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[2]);
+        task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[2]);
         nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
 
         node3 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
@@ -117,6 +122,33 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         builder.createTransition(node3, endNode);
 
     }
+    
+    public void initializeNodesWithRoleTasks() {
+        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
+        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
+        startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
+
+        // Create the task
+        Task roleTask = TaskFactory.createRoleTask("Do stuff", "Do it cool", role);
+
+        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, roleTask);
+        node1 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+
+        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, roleTask);
+
+        node2 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+
+        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, roleTask);
+
+        node3 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+
+        builder.createTransition(startNode, node1).createTransition(node1, node2).createTransition(node2, node3);
+
+        nodeParamBuilder = new NodeParameterBuilderImpl();
+        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
+        Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        builder.createTransition(node3, endNode);
+    }
 
     /**
      * Creates our dummy participants with a common role. Those are the ones that will claim and complete activity
@@ -127,7 +159,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         Participant jannik = (Participant) identityBuilder.createParticipant(JANNIK);
         Participant tobi = (Participant) identityBuilder.createParticipant(TOBI);
         Participant lazy = (Participant) identityBuilder.createParticipant(LAZY);
-        Role role = (Role) identityBuilder.createRole(ROLE);
+        role = (Role) identityBuilder.createRole(ROLE);
         identityBuilder.participantBelongsToRole(jannik.getID(), role.getID())
         .participantBelongsToRole(tobi.getID(), role.getID()).participantBelongsToRole(lazy.getID(), role.getID());
 
