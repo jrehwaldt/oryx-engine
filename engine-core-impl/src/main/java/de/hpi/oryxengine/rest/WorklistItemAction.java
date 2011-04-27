@@ -9,5 +9,7 @@ public enum WorklistItemAction {
     CLAIM,
     
     /** Action for beginning a worklistItem. */
-    BEGIN;
+    BEGIN,
+    
+    END;
 }

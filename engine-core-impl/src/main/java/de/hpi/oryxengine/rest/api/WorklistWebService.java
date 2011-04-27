@@ -179,18 +179,23 @@ public final class WorklistWebService {
         switch (wrapper.getAction()) {
             case CLAIM:
 
-                logger.debug("success");
+                logger.debug("success, now claiming");
                 claimWorklistItem(id, wrapper.getParticipantId());
                 // make these numbers constants
                 return Response.ok().build();
                 
             case BEGIN:
                 
-                logger.debug("success");
+                logger.debug("success, now beginning");
                 // make these numbers constants
                 beginWorklistItem(id, wrapper.getParticipantId());
                 return Response.ok().build();
                 
+            case END:
+                
+                logger.debug("success, now ");
+                endWorklistItem(id, wrapper.getParticipantId());
+                return Response.ok().build();
 
             default:
                 logger.debug("crap");
@@ -198,6 +203,15 @@ public final class WorklistWebService {
 
         }
 
+        
+    }
+
+    private void endWorklistItem(UUID id, UUID participantId) {
+        
+        AbstractResource<?> resource = identity.getParticipant(participantId);
+        AbstractWorklistItem item = service.getWorklistItem(resource, id);
+
+        service.completeWorklistItemBy(item, resource);
         
     }
 
@@ -223,6 +237,7 @@ public final class WorklistWebService {
         service.claimWorklistItemBy(item, resource);
 
     }
+    
     
     /**
      * Begin a worklist item. By beginning the item gets also claimed.
@@ -264,6 +279,7 @@ public final class WorklistWebService {
 
         logger.debug("POST-claim WI: {}", workItem);
         logger.debug("POST-claim Res: {}", resource);
+        
 
         // this.service.claimWorklistItemBy(workItem, resource);
 
