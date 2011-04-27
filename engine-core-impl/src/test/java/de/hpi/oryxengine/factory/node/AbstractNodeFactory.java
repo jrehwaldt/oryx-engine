@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
-import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
+import de.hpi.oryxengine.plugin.activity.AbstractTokenPlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
@@ -65,7 +65,7 @@ abstract class AbstractNodeFactory {
      */
     public Node createWithLogger() {
 
-        AbstractActivityLifecyclePlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
+        AbstractTokenPlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
         this.setActivityBlueprint();
         // activity.registerPlugin(lifecycleLogger);
         // TODO what to do with plugins?

@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.factory.node;
 
-import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
+import de.hpi.oryxengine.plugin.activity.AbstractTokenPlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.Node;
@@ -31,7 +31,7 @@ public final class GerardoNodeFactory {
 
     public static Node attachLoggerPluginTo(Node node) {
 
-        AbstractActivityLifecyclePlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
+        AbstractTokenPlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
 
         try {
 

@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
  * the lifecycle of certain activities.
  */
 public final class ActivityLifecycleAssurancePlugin
-extends AbstractActivityLifecyclePlugin {
+extends AbstractTokenPlugin {
     
     /** The completed called. */
     private boolean completedCalled;
