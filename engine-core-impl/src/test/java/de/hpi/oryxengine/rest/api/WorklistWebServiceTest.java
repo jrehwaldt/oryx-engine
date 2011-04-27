@@ -4,13 +4,7 @@ import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import org.jboss.resteasy.mock.MockHttpRequest;
-import org.jboss.resteasy.mock.MockHttpResponse;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -22,7 +16,6 @@ import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
-import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 
 /**
@@ -66,18 +59,10 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
     public void testGetWorklist()
     throws URISyntaxException, IOException {
 
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.get("/worklist/items?id=" + jannik.getID());
-        MockHttpResponse response = new MockHttpResponse();
-        // invoke the request
-        dispatcher.invoke(request, response);
-
-        String json = response.getContentAsString();
+        String json = makeGETRequest("/worklist/items?id=" + jannik.getID());
         Assert.assertNotSame(json, "[]");
 
-        // komischer Jannikhack
         AbstractWorklistItem[] items = this.mapper.readValue(json, AbstractWorklistItem[].class);
-        Set<AbstractWorklistItem> set = new HashSet<AbstractWorklistItem>(Arrays.asList(items));
 
         Assert.assertNotNull(items);
         Assert.assertEquals(items.length, 1);
