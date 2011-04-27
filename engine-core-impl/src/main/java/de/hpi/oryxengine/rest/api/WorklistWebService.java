@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.token.Token;
@@ -45,6 +44,8 @@ import de.hpi.oryxengine.rest.WorklistActionWrapper;
 @Consumes({ MediaType.APPLICATION_JSON })
 public final class WorklistWebService {
     // implements WorklistServiceFacade {
+
+    private static final int RESPONSE_FAIL = 500;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -125,12 +126,11 @@ public final class WorklistWebService {
     
     /**
      * Gets the worklist items for a given resource (defined by a uuid which is a String and needs to be converted).
-     * 
-     * @param id
-     *            the id as a String
+     *
+     * @param id the worklist item id
+     * @param pId the participant id
      * @return the worklist items for the specified resource
-     * @throws ResourceNotAvailableException
-     *             the resource not available exception
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     @Path("/items/{worklistItem-id}/form")
     @GET
@@ -194,7 +194,7 @@ public final class WorklistWebService {
 
             default:
                 logger.debug("crap");
-                return Response.status(500).build();
+                return Response.status(RESPONSE_FAIL).build();
 
         }
 
@@ -224,6 +224,13 @@ public final class WorklistWebService {
 
     }
     
+    /**
+     * Begin a worklist item. By beginning the item gets also claimed.
+     *
+     * @param worklistItemId the id of the worklist item
+     * @param participantUUID the participant uuid
+     * @throws ResourceNotAvailableException the resource not available exception
+     */
     private void beginWorklistItem(UUID worklistItemId, UUID participantUUID)
     throws ResourceNotAvailableException {
         
@@ -363,7 +370,7 @@ public final class WorklistWebService {
      * @Nonnull UUID resourceId) {
      * 
      * AbstractResource<?> resource = null; switch (resourceType) { case PARTICIPANT: resource =
-     * this.identity.getParticipant(resourceId); break; case CAPABILITY: // TODO what is this stuff? resource =
+     * this.identity.getParticipant(resourceId); break; case CAPABILITY: resource =
      * this.identity.getCapability(resourceUUID); break; case POSITION: resource =
      * this.identity.getPosition(resourceId); break; case ORGANIZATION_UNIT: resource =
      * this.identity.getOrganizationUnit(resourceId); break; case ROLE: resource = this.identity.getRole(resourceId);
