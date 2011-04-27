@@ -35,7 +35,7 @@ import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 public final class DemoDataForWebservice {
 
-    private static final String PATH_TO_WEBFORMS = "/Users/Gery/Entwicklung/BachelorprojektWorkspace/Oryx-Engine-Git/oryx_engine/engine-apps/src/main/java/de/hpi/oryxengine/webforms";
+    private static final String PATH_TO_WEBFORMS = "src/main/resources/forms";
     private static IdentityBuilder builder;
     private static AbstractRole r;
     private final static int NUMBER_OF_PROCESSINSTANCES = 10;
