@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.rest;
 
+import java.net.URISyntaxException;
+
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -8,6 +10,8 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.codehaus.jackson.map.introspect.VisibilityChecker;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.mock.MockDispatcherFactory;
+import org.jboss.resteasy.mock.MockHttpRequest;
+import org.jboss.resteasy.mock.MockHttpResponse;
 import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +31,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     protected static final short NUMBER_OF_INSTANCES_TO_START = 2;
     
     public static final String TMP_PATH = "./target/";
-    
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-    
+        
     protected Dispatcher dispatcher = null;
     protected ObjectMapper mapper = null;
     
@@ -77,4 +79,74 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      * @return the resource factory to register within the server
      */
     protected abstract Class<?> getResource();
+    
+    /**
+     * Make a get request to the specified url.
+     *
+     * @param url the url as a String
+     * @return the answer of the webservice as a String (usually JSON)
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    protected String makeGETRequest(String url) throws URISyntaxException {
+        // set up our request
+        MockHttpRequest request = MockHttpRequest.get(url);
+        
+        return invokeRequest(request);
+    }
+    
+    /**
+     * Make a get request to the specified url.
+     *
+     * @param url the url as a String
+     * @return the answer of the webservice as a String (usually JSON)
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    protected String makePOSTRequest(String url) throws URISyntaxException {
+        // set up our request
+        MockHttpRequest request = MockHttpRequest.get(url);
+        
+        return invokeRequest(request);
+    }
+    
+    /**
+     * Make a get request to the specified url.
+     *
+     * @param url the url as a String
+     * @return the answer of the webservice as a String (usually JSON)
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    protected String makePUTRequest(String url) throws URISyntaxException {
+        // set up our request
+        MockHttpRequest request = MockHttpRequest.get(url);
+        
+        return invokeRequest(request);
+    }
+    
+    /**
+     * Make a get request to the specified url.
+     *
+     * @param url the url as a String
+     * @return the answer of the webservice as a String (usually JSON)
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    protected String makeDELETERequest(String url) throws URISyntaxException {
+        // set up our request
+        MockHttpRequest request = MockHttpRequest.get(url);
+        
+        return invokeRequest(request);
+    }
+    
+    /**
+     * Helper method which invokes the Request and returns the answer as a String.
+     *
+     * @param request the request
+     * @return the answer as a String
+     */
+    private String invokeRequest(MockHttpRequest request) {
+        MockHttpResponse response = new MockHttpResponse();
+        // invoke the request
+        dispatcher.invoke(request, response);
+        
+        return response.getContentAsString();
+    }
 }
