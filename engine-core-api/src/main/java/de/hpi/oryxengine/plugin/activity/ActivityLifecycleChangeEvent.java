@@ -21,7 +21,7 @@ public final class ActivityLifecycleChangeEvent {
     private final @Nonnull ActivityState newState;
     
     /** The instance. */
-    private final @Nonnull Token instance;
+    private final @Nonnull Token token;
     
     /**
      * Default constructor. All fields are non-null.
@@ -38,7 +38,7 @@ public final class ActivityLifecycleChangeEvent {
         this.activity = activity;
         this.prevState = prevState;
         this.newState = newState;
-        this.instance = instance;
+        this.token = instance;
     }
     
     /**
@@ -73,8 +73,8 @@ public final class ActivityLifecycleChangeEvent {
      * 
      * @return the process instance
      */
-    public @Nonnull Token getProcessInstance() {
-        return instance;
+    public @Nonnull Token getProcessToken() {
+        return token;
     }
     
     /**
