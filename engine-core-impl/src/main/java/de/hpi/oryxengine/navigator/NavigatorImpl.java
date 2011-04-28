@@ -171,7 +171,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         startArbitraryInstance(newToken);
         runningInstances.add(instance);
 
-        // TODO we need a method that allows the starting on a list of nodes.
         return instance;
     }
 
