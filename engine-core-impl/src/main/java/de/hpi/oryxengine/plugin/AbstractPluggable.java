@@ -17,4 +17,9 @@ implements Pluggable<P> {
     public void registerPlugin(P plugin) {
         this.addObserver(plugin);
     }
+    
+    @Override
+    public void deregisterPlugin(P plugin) {
+        this.deleteObserver(plugin);
+    }
 }

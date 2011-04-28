@@ -3,6 +3,7 @@ package de.hpi.oryxengine.activity;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import org.quartz.SchedulerException;
 import org.testng.annotations.AfterMethod;
@@ -67,15 +68,15 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
    *
    * @throws Exception the exception
    */
-  // TODO add this again as soon as we have a solution for activity plugins
-//  @Test
-//  public void testActivityStateCompleted() throws Exception {
-//      token.executeStep();
-//      token.executeStep();
-//      assertFalse(lifecycleTester.isCompletedCalled());
-//      Thread.sleep(LONG_WAITING_TIME_TEST);
-//      assertTrue(lifecycleTester.isCompletedCalled());
-//  }
+  @Test
+  public void testActivityStateCompleted() throws Exception {
+      token.executeStep();
+      ((TokenImpl) token).registerPlugin(lifecycleTester);
+      token.executeStep();
+      assertFalse(lifecycleTester.isCompletedCalled());
+      Thread.sleep(LONG_WAITING_TIME_TEST);
+      assertTrue(lifecycleTester.isCompletedCalled());
+  }
   
   /**
    * Test activity ACTIVE activity state.
@@ -117,10 +118,10 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
   public void beforeMethod() {
       
       ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-      // TODO set parameter and somehow register the plugin
-//      IntermediateTimer timer = new IntermediateTimer(WAITING_TIME);
-//      lifecycleTester = new ActivityLifecycleAssurancePlugin();
-//      timer.registerPlugin(lifecycleTester);
+      
+      IntermediateTimer timer = new IntermediateTimer(WAITING_TIME);
+      lifecycleTester = new ActivityLifecycleAssurancePlugin();
+      
       Class<?>[] constructorSig = {long.class};
       Object[] params = {WAITING_TIME};
       ActivityBlueprint bp = new ActivityBlueprintImpl(IntermediateTimer.class, constructorSig, params);
@@ -144,6 +145,7 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
       
       
       token = new TokenImpl(node, mock(AbstractProcessInstance.class), nav);
+      
       
       //Cleanup the scheduler, remove old jobs to avoid testing problems
       try {

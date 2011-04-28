@@ -27,6 +27,7 @@ import de.hpi.oryxengine.AbstractJodaEngineTest;
 public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     
     protected static final int HTTP_STATUS_OK = 200;
+    protected static final int HTTP_STATUS_FAIL = 404;
     
     public static final String TMP_PATH = "./target/";
         

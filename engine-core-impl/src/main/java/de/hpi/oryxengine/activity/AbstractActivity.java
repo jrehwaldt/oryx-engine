@@ -2,8 +2,6 @@ package de.hpi.oryxengine.activity;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.plugin.AbstractPluggable;
-import de.hpi.oryxengine.plugin.activity.AbstractTokenPlugin;
 import de.hpi.oryxengine.process.token.Token;
 
 /**

@@ -124,12 +124,9 @@ public interface Token extends Identifiable {
     /**
      * Continuing the token navigation.
      * 
-     * @throws DalmatinaException
-     *             thrown if navigation fails
      */
     // TODO Info-Object muss übergeben werden von wem das Token resumed wurde
-    void resume()
-    throws DalmatinaException;
+    void resume();
 
     /**
      * Gets the navigator that this token is assigned to.

@@ -211,6 +211,10 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     public Token createNewToken(Node node) {
 
         Token newToken = instance.createToken(node, navigator);
+        // give all of this token's observers to the newly created ones.
+        for (AbstractTokenPlugin plugin : plugins) {
+            ((TokenImpl) newToken).registerPlugin(plugin);
+        }
         
         return newToken;
     }
@@ -224,11 +228,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     @Override
     public Token performJoin() {
 
-        TokenImpl token = new TokenImpl(currentNode, instance, navigator);
-        // give all of this token's observers to the newly created ones.
-        for (AbstractTokenPlugin plugin : plugins) {
-            token.registerPlugin(plugin);
-        }
+        Token token = createNewToken(currentNode);       
         
         instance.getContext().removeIncomingTransitions(currentNode);
         return token;
@@ -263,11 +263,15 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     }
 
     @Override
-    public void resume()
-    throws DalmatinaException {
+    public void resume() {
 
         navigator.removeSuspendToken(this);
-        completeExecution();
+        
+        try {
+            completeExecution();
+        } catch (NoValidPathException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -336,6 +340,12 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     public void registerPlugin(@Nonnull AbstractTokenPlugin plugin) {
         this.plugins.add(plugin);
         addObserver(plugin);
+    }
+    
+    @Override
+    public void deregisterPlugin(@Nonnull AbstractTokenPlugin plugin) {
+        this.plugins.remove(plugin);
+        deleteObserver(plugin);
     }
 
     /**

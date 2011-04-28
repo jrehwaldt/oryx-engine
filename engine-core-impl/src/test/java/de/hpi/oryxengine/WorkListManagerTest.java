@@ -3,6 +3,7 @@ package de.hpi.oryxengine;
 import static org.mockito.Mockito.mock;
 
 import java.util.List;
+import java.util.UUID;
 
 
 import org.testng.Assert;
@@ -13,6 +14,7 @@ import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.bootstrap.OryxEngine;
+import de.hpi.oryxengine.exception.InvalidItemException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -22,6 +24,7 @@ import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.DirectPushPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * The Class WorkListManagerTest.
@@ -94,6 +97,42 @@ public class WorkListManagerTest {
         createAnotherParticipantWithAnotherTask();
         testAndAssertThatJannikHasOneTask();
         
+    }
+    
+    /**
+     * Test the getWorklistItem method, which is heavily used in the webservice.
+     * An item is created and then a lookup with the id of the item is done.
+     *
+     * @throws InvalidItemException the invalid item exception
+     */
+    @Test
+    public void testGettingAWorklistItem() throws InvalidItemException {
+        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
+        AbstractWorklistItem serviceItem = ServiceFactory.getWorklistService().getWorklistItem(jannik, item.getID());
+        Assert.assertEquals(item, serviceItem);
+    }
+    
+    /**
+     * Test the getWorklistItem method, which is heavily used in the webservice.
+     * In this case, we use an invalid item id, so an exception should occur.
+     *
+     * @throws InvalidItemException the invalid item exception
+     */
+    @Test(expectedExceptions = InvalidItemException.class)
+    public void testGettingAWorklistItemException() throws InvalidItemException {
+        UUID itemId = UUID.randomUUID();
+        ServiceFactory.getWorklistService().getWorklistItem(jannik, itemId);
+    }
+    
+    /**
+     * Test completing an item.
+     *
+     */
+    @Test
+    public void testCompleteWorklistItemBy() {
+        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
+        ServiceFactory.getWorklistService().completeWorklistItemBy(item, jannik);
+        Assert.assertEquals(item.getStatus(), WorklistItemState.COMPLETED);
     }
     
 

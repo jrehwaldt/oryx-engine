@@ -7,7 +7,7 @@ $().ready(function(){
         success: function(data) {
         	$("#formContent").append(data);
         	console.log(window.location.pathname + window.location.search);
-        	$("form").attr("action","api" + window.location.pathname + window.location.search + "&participantId=" + participantId);
+        	$("form").attr("action","/api" + window.location.pathname + window.location.search + "&participantId=" + participantId);
         }
 	});
 });
