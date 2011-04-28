@@ -20,6 +20,7 @@ import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.exception.InvalidItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -45,7 +46,7 @@ import de.hpi.oryxengine.rest.WorklistActionWrapper;
 public final class WorklistWebService {
     // implements WorklistServiceFacade {
 
-    private static final int RESPONSE_FAIL = 500;
+    private static final int RESPONSE_FAIL = 404;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -134,16 +135,24 @@ public final class WorklistWebService {
      */
     @Path("/items/{worklistItem-id}/form")
     @GET
-    public String getForm(@QueryParam("worklistItem-id") String id, @QueryParam("participantId") String pId)
+    public Response getForm(@QueryParam("worklistItem-id") String id, @QueryParam("participantId") String pId)
     throws ResourceNotAvailableException {
         UUID participantId = UUID.fromString(pId);
         UUID itemId = UUID.fromString(id);
         logger.debug("GET: {}", id);
         
         AbstractResource<?> resource = identity.getParticipant(participantId);
-        AbstractWorklistItem item = service.getWorklistItem(resource, itemId);
+        AbstractWorklistItem item;
+        try {
+            item = service.getWorklistItem(resource, itemId);
+            return Response.ok(item.getForm().getFormContentAsHTML()).build();
+        } catch (InvalidItemException e) {
+            
+            e.printStackTrace();
+            return Response.status(RESPONSE_FAIL).build();
+        }
 
-        return item.getForm().getFormContentAsHTML();
+
     }
     
  
@@ -176,43 +185,56 @@ public final class WorklistWebService {
 
         UUID id = UUID.fromString(worklistItemId);
         logger.debug("entered method");
-        switch (wrapper.getAction()) {
-            case CLAIM:
-
-                logger.debug("success, now claiming");
-                claimWorklistItem(id, wrapper.getParticipantId());
-                // make these numbers constants
-                return Response.ok().build();
-                
-            case BEGIN:
-                
-                logger.debug("success, now beginning");
-                // make these numbers constants
-                beginWorklistItem(id, wrapper.getParticipantId());
-                return Response.ok().build();
-                
-            case END:
-                
-                logger.debug("success, now ");
-                endWorklistItem(id, wrapper.getParticipantId());
-                return Response.ok().build();
-
-            default:
-                logger.debug("crap");
-                return Response.status(RESPONSE_FAIL).build();
-
+        try {
+            switch (wrapper.getAction()) {
+                case CLAIM:
+    
+                    logger.debug("success, now claiming");
+                    claimWorklistItem(id, wrapper.getParticipantId());
+                    // make these numbers constants
+                    return Response.ok().build();
+                    
+                case BEGIN:
+                    
+                    logger.debug("success, now beginning");
+                    // make these numbers constants
+                    beginWorklistItem(id, wrapper.getParticipantId());
+                    return Response.ok().build();
+                    
+                case END:
+                    
+                    logger.debug("success, now ");
+                    endWorklistItem(id, wrapper.getParticipantId());
+    
+                    return Response.ok().build();
+    
+                default:
+                    logger.debug("crap");
+                    return Response.status(RESPONSE_FAIL).build();
+    
+            }
+        } catch (InvalidItemException e1) {
+            logger.debug("Invalid Item!");
+            e1.printStackTrace();
+            return Response.status(RESPONSE_FAIL).build();
         }
 
         
     }
 
-    private void endWorklistItem(UUID id, UUID participantId) {
+    /**
+     * Complete the worklist item.
+     *
+     * @param id the item id
+     * @param participantId the participant id
+     * @throws InvalidItemException the invalid item exception
+     */
+    private void endWorklistItem(UUID id, UUID participantId) throws InvalidItemException {
         
         AbstractResource<?> resource = identity.getParticipant(participantId);
-        AbstractWorklistItem item = service.getWorklistItem(resource, id);
-
+        AbstractWorklistItem item;
+        item = service.getWorklistItem(resource, id);
         service.completeWorklistItemBy(item, resource);
-        
     }
 
     /**
@@ -224,16 +246,23 @@ public final class WorklistWebService {
      *            the participant uuid
      * @throws ResourceNotAvailableException
      *             the resource not available exception
+     * @throws InvalidItemException 
      */
     private void claimWorklistItem(UUID worklistItemId, UUID participantUUID)
-    throws ResourceNotAvailableException {
+    throws ResourceNotAvailableException, InvalidItemException {
         
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
-        AbstractWorklistItem item = service.getWorklistItem(resource, worklistItemId);
+        AbstractWorklistItem item;
+        
 
+        item = service.getWorklistItem(resource, worklistItemId);
         logger.debug("POST participantID: {}", participantUUID);
         logger.debug("worklistItemID: {}", worklistItemId);
         service.claimWorklistItemBy(item, resource);
+            
+
+
+
 
     }
     
@@ -244,15 +273,16 @@ public final class WorklistWebService {
      * @param worklistItemId the id of the worklist item
      * @param participantUUID the participant uuid
      * @throws ResourceNotAvailableException the resource not available exception
+     * @throws InvalidItemException 
      */
     private void beginWorklistItem(UUID worklistItemId, UUID participantUUID)
-    throws ResourceNotAvailableException {
+    throws ResourceNotAvailableException, InvalidItemException {
         
         logger.debug("POST participantID: {}", participantUUID);
         logger.debug("worklistItemID: {}", worklistItemId);
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
-        AbstractWorklistItem item = service.getWorklistItem(resource, worklistItemId);
-
+        AbstractWorklistItem item;
+        item = service.getWorklistItem(resource, worklistItemId);
         logger.debug(item.toString());
         service.beginWorklistItemBy(item, resource);
     }

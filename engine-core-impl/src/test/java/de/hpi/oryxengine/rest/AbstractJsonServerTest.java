@@ -30,7 +30,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     protected static final int TRIES_UNTIL_PROCESSES_FINISH = 100;
     protected static final short NUMBER_OF_INSTANCES_TO_START = 2;
     protected static final int HTTP_STATUS_OK = 200;
-    protected static final int HTTP_STATUS_FAIL = 500;
+    protected static final int HTTP_STATUS_FAIL = 404;
     
     public static final String TMP_PATH = "./target/";
         

@@ -155,7 +155,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
         response = makePUTRequestWithJson("/worklist/items/" + item.getID() + "/state", json);
         
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL, 
-        "the result should be OK, that means, the request should have suceeded.");
+        "the result should be a status code 404, that means, the request has failed.");
 
     }
 

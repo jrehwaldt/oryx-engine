@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import de.hpi.oryxengine.exception.InvalidItemException;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
@@ -93,9 +94,10 @@ public interface WorklistService {
      * @param worklistItemId
      *            the {@link AbstractWorklistItem}'s id
      * @return the {@link AbstractWorklistItem}
+     * @throws InvalidItemException 
      */
     @Nullable AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
-                                                   @Nonnull UUID worklistItemId);
+                                                   @Nonnull UUID worklistItemId) throws InvalidItemException;
     // TODO: Observable Interface für die GUI
     /**
      * Returns the number of worklist items which are offered or allocated? to the given resources
