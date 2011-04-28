@@ -157,5 +157,5 @@ function generateButton(item) {
 
 function addFormularLinkFor(handler) {
 	var itemID = $(handler).parents(".worklistitem").attr("id");
-	$(handler).parent().prepend("<a href=\"/worklist/form/index.jsp?=worklistitemId=" + itemID + "\">Formular</a>");
+	$(handler).parent().prepend("<a href=\"/worklist/items/form?worklistitemId=" + itemID + "\">Formular</a>");
 }

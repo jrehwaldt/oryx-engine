@@ -107,23 +107,25 @@ public final class WorklistWebService {
     /**
      * Gets the form that is held by the {@link WorklistItemImpl Worklist Item}.
      *
-     * @param id the worklist item id
-     * @param pId the participant id
+     * @param worklistitemId the worklist item id
+     * @param participantId the participant id
      * @return the form held by the worklist item
      * @throws ResourceNotAvailableException if the resource is not available
      */
-    @Path("/items/{worklistItem-id}/form")
+    @Path("/items/{worklistitemId}/form")
+    @Produces("text/plain")
     @GET
-    public Response getForm(@QueryParam("worklistItem-id") String id, @QueryParam("participantId") String pId)
+    public Response getForm(@PathParam("worklistitemId") String worklistitemId, 
+                          @QueryParam("participantId") String participantId)
     throws ResourceNotAvailableException {
-        UUID participantId = UUID.fromString(pId);
-        UUID itemId = UUID.fromString(id);
-        logger.debug("GET: {}", id);
+        UUID participantUUID = UUID.fromString(participantId);
+        UUID itemUUID = UUID.fromString(worklistitemId);
+        logger.debug("GET: {}", worklistitemId);
         
-        AbstractResource<?> resource = identity.getParticipant(participantId);
-        AbstractWorklistItem item;
+        AbstractResource<?> resource = identity.getParticipant(participantUUID);
         try {
-            item = service.getWorklistItem(resource, itemId);
+            AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);
+            item = service.getWorklistItem(resource, itemUUID);
             return Response.ok(item.getForm().getFormContentAsHTML()).build();
         } catch (InvalidItemException e) {
             
@@ -135,7 +137,7 @@ public final class WorklistWebService {
     }
     
     /**
-     * Checks what to do.
+     * It claims, begins or ends the item.
      * 
      * @param worklistItemId
      *            the id for the worklist item, given in the request
@@ -148,7 +150,7 @@ public final class WorklistWebService {
     @Path("/items/{worklistItem-id}/state")
     @Consumes(MediaType.APPLICATION_JSON)
     @PUT
-    public Response intitializeNextSteps(@PathParam("worklistItem-id") String worklistItemId,
+    public Response actionOnWorklistitem(@PathParam("worklistItem-id") String worklistItemId,
                                          WorklistActionWrapper wrapper)
     throws ResourceNotAvailableException {
 
@@ -192,13 +194,12 @@ public final class WorklistWebService {
     }
 
     /**
-     * Complete the worklist item.
+     * Ends (finishes/completes) the worklist item. It is implemented by setting the state accordingly.
      *
-     * @param id the item id
+     * @param id the id
      * @param participantId the participant id
-     * @throws InvalidItemException the invalid item exception
      */
-    private void endWorklistItem(UUID id, UUID participantId) throws InvalidItemException {
+    private void endWorklistItem(UUID id, UUID participantId)  throws InvalidItemException {
         
         AbstractResource<?> resource = identity.getParticipant(participantId);
         AbstractWorklistItem item;
@@ -221,9 +222,8 @@ public final class WorklistWebService {
     throws ResourceNotAvailableException, InvalidItemException {
         
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
-        AbstractWorklistItem item;
-        
-        item = service.getWorklistItem(resource, worklistItemId);
+        AbstractWorklistItem item = service.getWorklistItem(resource, worklistItemId);
+
         logger.debug("POST participantID: {}", participantUUID);
         logger.debug("worklistItemID: {}", worklistItemId);
         service.claimWorklistItemBy(item, resource);
@@ -245,36 +245,9 @@ public final class WorklistWebService {
         logger.debug("POST participantID: {}", participantUUID);
         logger.debug("worklistItemID: {}", worklistItemId);
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
-        AbstractWorklistItem item;
-        item = service.getWorklistItem(resource, worklistItemId);
+        AbstractWorklistItem item = service.getWorklistItem(resource, worklistItemId);
+
         logger.debug(item.toString());
         service.beginWorklistItemBy(item, resource);
-    }
-
-    /**
-     * Claim a worklist item by aresource parameteres subject to change.
-     * 
-     * @param workItem
-     *            the work item
-     * @param resource
-     *            the resource
-     */
-    @Path("/item/claim")
-    @GET
-    // Wieder unüblich. Ideal siehe "claimWorklistItemByPost"
-    public void claimWorklistItemBy(@QueryParam("workItem") AbstractWorklistItem workItem,
-                                    @QueryParam("resource") AbstractResource<?> resource) {
-
-        // UUID resourceUUID = UUID.fromString(resourceId);
-        // AbstractResource<?> resource = this.identity.findResource(resourceType, resourceUUID);
-        // UUID worklistItemUUID = UUID.fromString(workItem);
-        // WorklistItem worklistItem = this.service.getWorklistItem(resource, worklistItemUUID);
-
-        logger.debug("POST-claim WI: {}", workItem);
-        logger.debug("POST-claim Res: {}", resource);
-        
-
-        // this.service.claimWorklistItemBy(workItem, resource);
-
     }
 }

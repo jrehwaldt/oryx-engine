@@ -1,25 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Anspruchspositionen überprüfen</title>
-</head>
-<body>
-<h1>Anspruchspunkte (Widerspruch stattgegeben, wenn allen Punkten stattgegeben wird)</h1>
+<form name="claimPoints" method="post">
 <table>
-	<tr>
-		<th>Anspruchspunkte</th>
-		<th>stattgegeben?</th>
-	</tr>
-	<tr>
-		<th>Erster Anspruchspunkt</th>
-		<th><input id="point1" type="checkbox" /></th>
-	</tr>
-	<tr>
-		<th>Zweiter Anspruchspunkt</th>
-		<th><input id="point2" type="checkbox" /></th>
-	</tr>
+    <tr>
+        <th>Anspruchspunkte</th>
+        <th>stattgegeben?</th>
+    </tr>
+    <tr>
+        <td>Erster Anspruchspunkt</td>
+        <td><input name="point1" type="checkbox" value="point1Accepted"/></td>
+    </tr>
+    <tr>
+        <td>Zweiter Anspruchspunkt</td>
+        <td><input name="point2" type="checkbox" value="point2Accepted"/></td>
+    </tr>
 </table>
-<input type="submit">
-</body>
-</html>
+
+<input type="submit" value="Abschicken"/>
+</form>
