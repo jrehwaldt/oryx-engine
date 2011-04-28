@@ -55,8 +55,6 @@ public class HashMapCondition implements Condition {
                 result = false;
                 break;
             } 
-            // TODO Jannik make more generic with Juels, atm only integers allowed with == <= >=
-            // TODO @Jannik: das mit Juels wird aber eine neue Klasse bitte (from Gerardo)
             if (contextValue instanceof java.lang.String && !contextValue.equals(me.getValue())) {
                 result = false;
                 break;
