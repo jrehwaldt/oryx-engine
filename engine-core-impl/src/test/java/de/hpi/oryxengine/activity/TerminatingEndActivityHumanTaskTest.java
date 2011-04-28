@@ -129,7 +129,6 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
         nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         splitNode = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
 
-        // param.setActivity(humanTask); TODO do something with the parameter of humanTask
         nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class,
             task);
         humanTaskNode = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());

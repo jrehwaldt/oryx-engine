@@ -103,7 +103,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      */
     public NavigatorImpl(RepositoryService repo, int numberOfThreads) {
 
-        // TODO Lazy initialized, o rely?
         this.scheduler = new FIFOScheduler();
         this.executionThreads = new ArrayList<NavigationThread>();
         this.state = NavigatorState.INIT;

@@ -44,10 +44,8 @@ public class ProcessTokenImplTest {
 
     /**
      * Test for taking all transitions.
-     * TODO see if description is correct
      * Two new tokens shall be ready for execution if the parent token goes along all edges.
-     * Both of them should have the same parent token.
-     * The new tokens should then point to the succeeding nodes of the parent token's node.
+     * The new tokens should then point to the succeeding nodes of the initial token's node.
      *
      * @throws Exception the exception
      */

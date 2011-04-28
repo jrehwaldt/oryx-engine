@@ -106,9 +106,10 @@ public class BPMNUnstructuredJoinSplitTest {
 
     /**
      * Initialize tokens and graph structure.
-     * 
-     * ->N1->->-> S->N2->IJ->OJ->E ->N3->
-     * 
+     *   /-> N1-\
+     * SN        -> IJN -> OJN -> EN
+     *  \\-> N2-/      /
+     *   \-> N3-------/
      * @return the list
      */
     private Token initializeToken() {
@@ -116,7 +117,7 @@ public class BPMNUnstructuredJoinSplitTest {
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         
         NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
-nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
+        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
         Node splitNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
         node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
         node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
