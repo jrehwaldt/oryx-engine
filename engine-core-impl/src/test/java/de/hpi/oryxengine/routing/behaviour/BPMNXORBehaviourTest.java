@@ -10,8 +10,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.NullActivity;
-import de.hpi.oryxengine.process.definition.NodeParameter;
-import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
@@ -112,18 +110,25 @@ public class BPMNXORBehaviourTest {
      */
     private TokenImpl simpleToken() {
 
+
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        
+        Node node = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
+        .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBlueprintFor(NullActivity.class).buildNode();
+        
+        Node node2 = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
+        .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBlueprintFor(NullActivity.class).buildNode();
+        
+        Node node3 = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
+        .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBlueprintFor(NullActivity.class).buildNode();
+        
+        
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("a", 1);
-
         Condition c = new HashMapCondition(map, "==");
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
-            new XORSplitBehaviour());
 
-        Node node = builder.createNode(param);
-        Node node2 = builder.createNode(param);
-        Node node3 = builder.createNode(param);
-        builder.createTransition(node, node2, c).createTransition(node, node3);
+        builder.getTransitionBuilder().transitionGoesFromTo(node, node2).setCondition(c).buildTransition();
+        builder.getTransitionBuilder().transitionGoesFromTo(node, node3).buildTransition();
 
         return new TokenImpl(node);
     }

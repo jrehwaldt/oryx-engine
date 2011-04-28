@@ -9,9 +9,7 @@ import java.util.UUID;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeImpl;
 
 /**
  * The Class ProcessBuilderImpl. As you would think, only nodes that were created using createStartNode() become
@@ -23,7 +21,7 @@ public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
 
     private ProcessDefinition definition;
 
-    private List<Node> startNodes = new ArrayList<Node>();
+    private List<Node> startNodes;
 
     private UUID id;
 
@@ -41,6 +39,7 @@ public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
     public ProcessBuilderImpl() {
 
         this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
+        this.startNodes = new ArrayList<Node>();
         this.id = UUID.randomUUID();
     }
 
@@ -65,44 +64,6 @@ public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
     }
 
     @Override
-    public Node createNode(NodeParameter param) {
-
-        Node node = new NodeImpl(param.getActivityBlueprint(), param.getIncomingBehaviour(),
-            param.getOutgoingBehaviour());
-        return node;
-    }
-
-    @Override
-    public Node createStartNode(NodeParameter param) {
-
-        Node node = createNode(param);
-        this.startNodes.add(node);
-        return node;
-    }
-
-    @Override
-    public ProcessDefinitionBuilder createTransition(Node source, Node destination) {
-
-        source.transitionTo(destination);
-        return this;
-    }
-
-    @Override
-    public ProcessDefinitionBuilder createTransition(Node source, Node destination, Condition condition) {
-
-        source.transitionToWithCondition(destination, condition);
-        return this;
-    }
-
-//    @Override
-//    public ProcessBuilder setID(UUID id) {
-//
-//        this.id = id;
-//        return this;
-//
-//    }
-
-    @Override
     public ProcessDefinitionBuilder setName(String processName) {
         
         this.name = processName;
@@ -118,11 +79,10 @@ public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
     }
 
     @Override
-    public void createStartTrigger(StartEvent event, Node startNode)
-    throws DalmatinaException {
+    public ProcessDefinitionBuilder createStartTrigger(StartEvent event, Node startNode) {
 
         this.temporaryStartTriggers.put(event, startNode);
-
+        return this;
     }
 
     @Override
@@ -137,4 +97,21 @@ public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
         return this;
     }
 
+    @Override
+    public NodeBuilder getNodeBuilder() {
+
+        return new NodeBuilderImpl();
+    }
+
+    @Override
+    public TransitionBuilder getTransitionBuilder() {
+
+        return new TransitionBuilderImpl();
+    }
+
+    @Override
+    public NodeBuilder getStartNodeBuilder() {
+
+        return new StartNodeBuilderImpl(startNodes);
+    }
 }

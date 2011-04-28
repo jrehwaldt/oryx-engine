@@ -10,28 +10,18 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.HashComputationActivity;
-import de.hpi.oryxengine.activity.impl.NullActivity;
-import de.hpi.oryxengine.activity.impl.TerminatingEndActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.NodeParameter;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
-import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class TerminatingEndActivityTest.
@@ -41,7 +31,7 @@ public class TerminatingEndActivityTest {
     private Node startNode, xorJoinNode;
 
     @Test
-    public void f()
+    public void testingTerminatingEndActivity()
     throws DalmatinaException {
 
         NavigatorImplMock nav = new NavigatorImplMock();
@@ -103,34 +93,22 @@ public class TerminatingEndActivityTest {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        ActivityBlueprint blueprint = new ActivityBlueprintImpl(NullActivity.class);
-        NodeParameter param = new NodeParameterImpl(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        startNode = BPMNActivityFactory.createBPMNNullNode(builder);
 
-        startNode = builder.createStartNode(param);
+        Node andSplitNode = BPMNActivityFactory.createBPMNNullNode(builder);
 
-        Node andSplitNode = builder.createNode(param);
+        xorJoinNode = BPMNActivityFactory.createBPMNNullNode(builder);
 
-        xorJoinNode = builder.createNode(param);
+        Node terminatingEnd = BPMNActivityFactory.createBPMNTerminatingEndEventNode(builder);
 
-        // blueprint = new ActivityBlueprintImpl(TerminatingEndActivity.class);
-        param = new NodeParameterImpl(TerminatingEndActivity.class, new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
+        Node computationNode = BPMNActivityFactory.createBPMNHashComputationNode(builder, "result", "meinlieblingspasswort");
 
-        NodeParameterBuilder paramBuilder = new NodeParameterBuilderImpl();
-
-        Node terminatingEnd = builder.createNode(param);
-
+        BPMNActivityFactory.createTransitionFromTo(builder, startNode, andSplitNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, andSplitNode, xorJoinNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, andSplitNode, terminatingEnd);
+        BPMNActivityFactory.createTransitionFromTo(builder, xorJoinNode, computationNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, computationNode, xorJoinNode);
         
-        param = paramBuilder.setActivityBlueprintFor(HashComputationActivity.class)
-        .addConstructorParameter(String.class, "result").addConstructorParameter(String.class, "meinlieblingspasswort")
-        .buildNodeParameter();
-
-        Node computationNode = builder.createNode(param);
-
-        builder.createTransition(startNode, andSplitNode).createTransition(andSplitNode, xorJoinNode)
-        .createTransition(andSplitNode, terminatingEnd).createTransition(xorJoinNode, computationNode)
-        .createTransition(computationNode, xorJoinNode);
-
         definition = builder.buildDefinition();
     }
 }

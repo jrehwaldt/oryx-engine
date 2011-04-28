@@ -5,12 +5,10 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
@@ -83,16 +81,12 @@ public class ConcurrentActivityStateTest {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        NodeParameterBuilder nodeParameterBuilder = 
-            new NodeParameterBuilderImpl();
-        nodeParameterBuilder.setActivityBlueprintFor(NullActivity.class);
+        startNode = BPMNActivityFactory.createBPMNStartEventNode(builder);
+
+        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
+
+        BPMNActivityFactory.createTransitionFromTo(builder, startNode, endNode);
         
-        // startActivity = new NullActivity();
-        startNode = builder.createStartNode(nodeParameterBuilder.buildNodeParameter());
-
-        // param.setActivity(new NullActivity());
-        Node endNode = builder.createNode(nodeParameterBuilder.buildNodeParameter());
-
-        definition = builder.createTransition(startNode, endNode).buildDefinition();
+        definition = builder.buildDefinition();
     }
 }

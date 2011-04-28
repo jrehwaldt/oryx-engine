@@ -10,16 +10,13 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
-import de.hpi.oryxengine.activity.impl.NullActivity;
-import de.hpi.oryxengine.activity.impl.TerminatingEndActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
@@ -125,18 +122,14 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        splitNode = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+        splitNode = BPMNActivityFactory.createBPMNNullNode(builder);
 
         // param.setActivity(humanTask); TODO do something with the parameter of humanTask
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class,
-            task);
-        humanTaskNode = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+        humanTaskNode = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
 
-        nodeParamBuilder.setActivityBlueprintFor(TerminatingEndActivity.class);
-        terminatingEndNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        terminatingEndNode = BPMNActivityFactory.createBPMNTerminatingEndEventNode(builder);
 
-        builder.createTransition(splitNode, humanTaskNode).createTransition(splitNode, terminatingEndNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, splitNode, humanTaskNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, splitNode, terminatingEndNode);
     }
 }

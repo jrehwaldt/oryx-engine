@@ -6,13 +6,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
-import de.hpi.oryxengine.activity.impl.EndActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
@@ -46,29 +43,22 @@ public class DeployerWebService {
     public String deployInstance() {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
 
-        // param.setActivity(AddNumbersAndStoreActivity("result", 1, 1));
         int[] integers = {1, 1};
-        nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
-        .addConstructorParameter(String.class, "result").addConstructorParameter(int[].class, integers);
-        Node node1 = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
+        Node node1 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", integers);
 
-        // param.setActivity(new AddNumbersAndStoreActivity("result", 2, 2));
-        Node node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        Node node2 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", integers);
 
-        // param.setActivity(new AddNumbersAndStoreActivity("result", 3, 3));
-        Node node3 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        Node node3 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", integers);
 
-        // param.setActivity(new AddNumbersAndStoreActivity("result", 4, 4));
-        Node node4 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        Node node4 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", integers);
 
-        nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
-        Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
 
-        builder.createTransition(node1, node2).createTransition(node2, node3).createTransition(node3, node4)
-        .createTransition(node4, endNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
+        BPMNActivityFactory.createTransitionFromTo(builder, node2, node3);
+        BPMNActivityFactory.createTransitionFromTo(builder, node3, node4);
+        BPMNActivityFactory.createTransitionFromTo(builder, node4, endNode);
 
         ProcessDefinition definition = null;
         try {

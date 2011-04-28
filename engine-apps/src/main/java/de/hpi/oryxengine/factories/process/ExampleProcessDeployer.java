@@ -1,10 +1,9 @@
 package de.hpi.oryxengine.factories.process;
 
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -38,22 +37,17 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodes() {
 
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
+        startNode = BPMNActivityFactory.createBPMNNullStartNode(builder);
 
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         int[] ints = {1, 1};
-        nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
-        .addConstructorParameter(String.class, "result").addConstructorParameter(int[].class, ints);
-        node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        builder.createTransition(startNode, node1).createTransition(node1, node2);
-
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new EmptyOutgoingBehaviour());
-        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
-        Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        builder.createTransition(node2, endNode);
+        node1 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", ints);
+        node2 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", ints);
+        
+        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
+        
+        BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
+        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
+        BPMNActivityFactory.createTransitionFromTo(builder, node2, endNode);
     }
 
 }

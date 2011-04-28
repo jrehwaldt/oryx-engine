@@ -3,18 +3,15 @@ package de.hpi.oryxengine.rest.api;
 import java.util.UUID;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
@@ -90,53 +87,49 @@ public final class DemoDataForWebservice {
 
     /**
      * Generate demo worklist items for our participants.
-     * @throws IllegalStarteventException 
-     * @throws DefinitionNotFoundException 
+     * 
+     * @throws IllegalStarteventException
+     * @throws DefinitionNotFoundException
      */
-    private static void generateDemoWorklistItems() throws IllegalStarteventException, DefinitionNotFoundException {
+    private static void generateDemoWorklistItems()
+    throws IllegalStarteventException, DefinitionNotFoundException {
 
         // TODO Use Example Process to create some tasks for the role demo
 
-        ProcessBuilderImpl builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+
         Node startNode, node1, node2, node3, endNode;
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
+        
+        startNode = BPMNActivityFactory.createBPMNStartEventNode(builder);
 
         // Create the task
         AllocationStrategies strategies = new AllocationStrategiesImpl(new DirectPushPattern(),
             new SimplePullPattern(), null, null);
         Task task = new TaskImpl("do something", "Really do something we got a demo coming up guys!", strategies, r);
 
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
-        node1 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+        node1 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
 
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
-
-        node2 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+        node2 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
 
         // Create the task
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
+        node3 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
 
-        node3 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+        endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
 
-        builder.createTransition(startNode, node1).createTransition(node1, node2).createTransition(node2, node3);
+        BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
+        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
+        BPMNActivityFactory.createTransitionFromTo(builder, node2, node3);
+        BPMNActivityFactory.createTransitionFromTo(builder, node3, endNode);
 
-        nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
-        endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        builder.createTransition(node3, endNode);
-        
-        //Start Process
+        // Start Process
         ProcessDefinition processDefinition = builder.buildDefinition();
+
+        UUID processID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
+        .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
         
-        UUID processID = ServiceFactory
-                            .getRepositoryService()
-                            .getDeploymentBuilder()
-                            .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
         // Tobi wants more tasks
         for (int i = 0; i < NUMBER_OF_PROCESSINSTANCES; i++) {
-        ServiceFactory.getNavigatorService().startProcessInstance(processID);
+            ServiceFactory.getNavigatorService().startProcessInstance(processID);
         }
 
     }

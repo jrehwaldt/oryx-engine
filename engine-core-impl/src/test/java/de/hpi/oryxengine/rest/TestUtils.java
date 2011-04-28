@@ -5,20 +5,14 @@ import java.util.UUID;
 import org.testng.Assert;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
-import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * Helper class for web server tests.
@@ -43,24 +37,18 @@ public final class TestUtils {
 
         // create simple process
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        Node startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
+
+        Node startNode = BPMNActivityFactory.createBPMNNullStartNode(builder);
         
-        nodeParamBuilder = new NodeParameterBuilderImpl();
         int[] ints = {1, 1};
-        nodeParamBuilder
-            .setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
-            .addConstructorParameter(String.class, "result")
-            .addConstructorParameter(int[].class, ints);
-        Node node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        Node node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        builder.createTransition(startNode, node1).createTransition(node1, node2);
+        Node node1 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", ints);
+        Node node2 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", ints);
+
+        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
         
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
-        Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        builder.createTransition(node2, endNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
+        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
+        BPMNActivityFactory.createTransitionFromTo(builder, node2, endNode);
 
         // deploy it
         ProcessDefinition definition = builder.buildDefinition();
