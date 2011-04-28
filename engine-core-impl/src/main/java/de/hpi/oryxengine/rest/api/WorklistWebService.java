@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -132,8 +133,30 @@ public final class WorklistWebService {
             e.printStackTrace();
             return Response.status(RESPONSE_FAIL).build();
         }
+    }
 
-
+    /**
+     * Post the form to the engine and process the given arguments, so to say set process instance variables according
+     * to the changes in the form.
+     * 
+     * @param worklistitemId
+     *            the worklistitem id
+     * @param participantId
+     *            the participant id
+     * @param lol
+     *            the lol
+     * @return the response
+     */
+    @Path("/items/{worklistitemId}/form")
+    @Produces("text/plain")
+    @Consumes("application/x-www-form-urlencoded")
+    @POST
+    public Response postForm(@PathParam("worklistitemId") String worklistitemId, 
+                             @QueryParam("participantId") String participantId, 
+                             String lol) {
+        
+        
+        return Response.ok().build();
     }
     
     /**
@@ -198,6 +221,7 @@ public final class WorklistWebService {
      *
      * @param id the id
      * @param participantId the participant id
+     * @throws InvalidItemException the invalid item exception
      */
     private void endWorklistItem(UUID id, UUID participantId)  throws InvalidItemException {
         
