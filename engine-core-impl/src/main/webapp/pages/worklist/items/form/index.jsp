@@ -2,6 +2,7 @@
 <html>
     <head>
     <script type="text/javascript" src="/javascripts/demo/form.js"></script>
+    <script type="text/javascript" src="/javascripts/lib/jquery.form.js"></script>
     </head>
     <body>
         <h1>Formular</h1>
@@ -9,3 +10,4 @@
         </div>
     </body>
 </html>
+
