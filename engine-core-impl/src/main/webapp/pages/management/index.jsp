@@ -8,18 +8,17 @@
     <body>
       <div id="engineStatus">
         <h1>Process Engine Status </h1>
-        <table id="runningInstances">
+        <table id="runningInstances" style="width:100%;">
           <tr>
            <th>ID</th>
            <th>Name</th>
            <th>Description</th>
-           <th>Token Status</th>
          </tr>
         </table>
       </div>
       <div id="definitionExplorer">
         <h1>Process Definition Explorer</h1>
-        <table id="processDefinitionList">
+        <table id="processDefinitionList" style="width:100%;">
           <tr>
             <th>Name</th>
             <th>Description</th>
