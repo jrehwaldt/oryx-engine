@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.activity.ActivityState;
 import de.hpi.oryxengine.exception.DalmatinaException;
