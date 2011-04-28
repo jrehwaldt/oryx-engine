@@ -80,6 +80,7 @@ function addBeginButtonClickHandler() {
 }
 
 function addEndButtonClickHandler(handler) {
+	addFormularLinkFor(handler);
 	$(handler).click(function() {
     	var button = this;
     	var worklistItemId = $(this).parents(".worklistitem").attr("id");
@@ -126,7 +127,7 @@ $().ready(function(){
             $.each(worklist, function(i, worklistitem){
 
                 // TODO determine whether we have to claim a task or to start one
-				var button = generateButton(worklistitem.status);
+				var button = generateButton(worklistitem);
                 $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\">"
                 					  + "<td>" + worklistitem.task.subject + "</td>"
                 					  + "<td>" + worklistitem.task.description + "</td>"
@@ -144,12 +145,17 @@ $().ready(function(){
 
 })
 
-function generateButton(state) {
+function generateButton(item) {
 	var button;
-	switch(state) {
+	switch(item.status) {
 		case "ALLOCATED": button = "<button class=\"begin\">Begin</button>"; break;
 		case "OFFERED": button = "<button class=\"claim\">Claim</button><button class=\"begin\">Begin</button>"; break;
-		case "EXECUTING": button = "<button class=\"end\">End</button>"; break;
+		case "EXECUTING": button = "<button class=\"end\">End</button>"; addFormularLinkFor(button); break;
 	}
 	return button;
+}
+
+function addFormularLinkFor(handler) {
+	var itemID = $(handler).parents(".worklistitem").attr("id");
+	$(handler).parent().prepend("<a href=\"/worklist/form/index.jsp?=worklistitemId=" + itemID + "\">Formular</a>");
 }

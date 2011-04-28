@@ -68,7 +68,7 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
         // fills repository with one processdefinition
         RepositorySetup.fillRepository();
         
-        String json = makeGETRequest(URL);
+        String json = makeGETRequestReturningJson(URL);
         Assert.assertNotNull(json);
         // assert we don't get back an empty JSON set.
         Assert.assertFalse("[]".equals(json));
@@ -96,7 +96,7 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
     @Test
     public void testGetProcessDefinitionsWhenEmpty()
     throws IllegalStarteventException, URISyntaxException, IOException {
-        String json = makeGETRequest(URL);
+        String json = makeGETRequestReturningJson(URL);
         // nothing therer
         Assert.assertEquals(json, "[]");
 
@@ -118,7 +118,7 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
     public void testGetMultipleProcessDefinitions() throws IllegalStarteventException, URISyntaxException, IOException {
         RepositorySetup.fillRepository();
         createAnotherProcessDefinition(); 
-        String json = makeGETRequest(URL);
+        String json = makeGETRequestReturningJson(URL);
         Assert.assertNotNull(json);
         // assert we don't get back an empty JSON set.
         Assert.assertFalse("[]".equals(json));

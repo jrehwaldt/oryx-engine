@@ -3,6 +3,9 @@ package de.hpi.oryxengine.rest.api;
 import java.io.File;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
@@ -25,7 +28,6 @@ import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectPushPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.RolePushPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
@@ -38,13 +40,21 @@ public final class DemoDataForWebservice {
     private static final String PATH_TO_WEBFORMS = "src/main/resources/forms";
     private static IdentityBuilder builder;
     private static AbstractRole r;
-    private final static int NUMBER_OF_PROCESSINSTANCES = 10;
+    public final static int NUMBER_OF_PROCESSINSTANCES = 10;
+    private static boolean invoked = false;
 
     /**
      * Instantiates a new demo data for webservice.
      */
     private DemoDataForWebservice() {
 
+    }
+    
+    /**
+     * Resets invoked, to be honest mostly for testign purposed after each method.
+     */
+    public synchronized static void resetInvoked() {
+        invoked = false;
     }
 
     /**
@@ -54,26 +64,26 @@ public final class DemoDataForWebservice {
      */
     private static IdentityBuilder getBuilder() {
 
-        if (builder == null) {
-            builder = ServiceFactory.getIdentityService().getIdentityBuilder();
-        }
+        builder = ServiceFactory.getIdentityService().getIdentityBuilder();
         return builder;
     }
 
     /**
      * Generate example Participants.
      */
-    public static void generate() {
-
-        generateDemoParticipants();
-        try {
-            generateDemoWorklistItems();
-        } catch (DefinitionNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalStarteventException e) {
-            e.printStackTrace();
+    public static synchronized void generate() {
+        if (!invoked) {
+            invoked = true;
+            generateDemoParticipants();
+            try {
+                generateDemoWorklistItems();
+            } catch (DefinitionNotFoundException e) {
+                e.printStackTrace();
+            } catch (IllegalStarteventException e) {
+                e.printStackTrace();
+            }
         }
-
+        
     }
 
     /**

@@ -59,7 +59,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
     public void testGetWorklist()
     throws URISyntaxException, IOException {
 
-        String json = makeGETRequest("/worklist/items?id=" + jannik.getID());
+        String json = makeGETRequestReturningJson("/worklist/items?id=" + jannik.getID());
         Assert.assertNotSame(json, "[]");
 
         AbstractWorklistItem[] items = this.mapper.readValue(json, AbstractWorklistItem[].class);

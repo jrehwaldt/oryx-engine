@@ -45,7 +45,6 @@ public class ActivityLifecyclePluginTest {
      * It's final state will be completed.
      * @throws DalmatinaException 
      */
-    // TODO add this test again, as soon as we have a solution for activity plugins
     @Test
     public void testStartedTrigger() throws DalmatinaException {
         AbstractTokenPlugin mock = mock(AbstractTokenPlugin.class);
