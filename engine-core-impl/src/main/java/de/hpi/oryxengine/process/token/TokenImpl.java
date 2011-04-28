@@ -263,11 +263,15 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     }
 
     @Override
-    public void resume()
-    throws DalmatinaException {
+    public void resume() {
 
         navigator.removeSuspendToken(this);
-        completeExecution();
+        
+        try {
+            completeExecution();
+        } catch (NoValidPathException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

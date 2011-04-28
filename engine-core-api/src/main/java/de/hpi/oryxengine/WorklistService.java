@@ -44,7 +44,8 @@ public interface WorklistService {
      * @return a map where the key is a {@link AbstractResource} and the value is a list of {@link AbstractWorklistItem}
      */
     @Nonnull
-    Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(@Nonnull Set<? extends AbstractResource<?>> resources);
+    Map<AbstractResource<?>,
+    List<AbstractWorklistItem>> getWorklistItems(@Nonnull Set<? extends AbstractResource<?>> resources);
 
     /**
      * Claims a {@link AbstractWorklistItem}.

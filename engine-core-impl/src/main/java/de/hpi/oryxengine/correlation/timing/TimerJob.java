@@ -5,7 +5,6 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -25,11 +24,8 @@ implements Job {
         
         JobDataMap data = context.getJobDetail().getJobDataMap();
         Token token = (Token) data.get(TimingManagerImpl.TOKEN_KEY);
-        try {
-            token.resume();
-        } catch (DalmatinaException e) {
-            e.printStackTrace();
-        }
+        token.resume();
+
         
         
     }

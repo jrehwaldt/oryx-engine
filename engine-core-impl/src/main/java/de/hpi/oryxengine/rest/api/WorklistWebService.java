@@ -223,15 +223,10 @@ public final class WorklistWebService {
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
         AbstractWorklistItem item;
         
-
         item = service.getWorklistItem(resource, worklistItemId);
         logger.debug("POST participantID: {}", participantUUID);
         logger.debug("worklistItemID: {}", worklistItemId);
         service.claimWorklistItemBy(item, resource);
-            
-
-
-
 
     }
     

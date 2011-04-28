@@ -132,6 +132,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
     
     /**
      * Make a REST concurrent call to claim a worklist item which was already claimed.
+     * The bad participant should get a 404 http response, because the item is not longer 
      *
      * @throws URISyntaxException the uRI syntax exception
      */

@@ -142,15 +142,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         resource.getWorklist().itemIsCompleted(worklistItem);
 
         // Resuming the token
-        try {
+        worklistItem.getCorrespondingToken().resume();
 
-            worklistItem.getCorrespondingToken().resume();
-
-        } catch (DalmatinaException e) {
-
-            logger.error("The token didn't resumed properly.", e);
-            throw new DalmatinaRuntimeException(e.getMessage());
-        }
     }
 
     @Override
@@ -183,7 +176,6 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     
     @Override
     public List<AbstractWorklistItem> getWorklistItems(UUID id) {
-        // TODO @Myself write a god damn test damn it!!!
         AbstractParticipant resource = identityService.getParticipant(id);
         return this.getWorklistItems(resource);
     }
