@@ -23,22 +23,23 @@ public final class ActivityLifecycleChangeEvent {
     /** The instance. */
     private final @Nonnull Token token;
     
+    // TODO add the node that this activity was executed on to the event?
     /**
      * Default constructor. All fields are non-null.
      * 
      * @param activity the fired activity
      * @param prevState the previous state
      * @param newState the new state
-     * @param instance the process instance
+     * @param token the process token
      */
     public ActivityLifecycleChangeEvent(@Nonnull Activity activity,
                                         @Nonnull ActivityState prevState,
                                         @Nonnull ActivityState newState,
-                                        @Nonnull Token instance) {
+                                        @Nonnull Token token) {
         this.activity = activity;
         this.prevState = prevState;
         this.newState = newState;
-        this.token = instance;
+        this.token = token;
     }
     
     /**
