@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.activity;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -9,6 +10,7 @@ import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.plugin.activity.ActivityLifecycleAssurancePlugin;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
 import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
@@ -18,6 +20,7 @@ import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
  * The Class ConcurrentActivityStateTest. It tackles a problem with our process definition, nodes and the contained
@@ -61,12 +64,11 @@ public class ConcurrentActivityStateTest {
         // Execute a step with token1 on instance1. We expect, that the activity state changes for instance1, but not
         // for instance2/token2.
 
+        ActivityLifecycleAssurancePlugin plugin = new ActivityLifecycleAssurancePlugin();
+        ((TokenImpl) token1).registerPlugin(plugin);
         token1.executeStep();
-
-        // TODO implement a method to view the states of formerly executed activities?
-        // otherwise the states are hard to verify
-        // TODO add the following line again as soon as we have activity plugins
-        // assertEquals(token1.getCurrentActivityState(), ActivityState.COMPLETED);
+        
+        assertTrue(plugin.isCompletedCalled());
         assertEquals(token2.getCurrentActivityState(), ActivityState.INIT);
 
     }
