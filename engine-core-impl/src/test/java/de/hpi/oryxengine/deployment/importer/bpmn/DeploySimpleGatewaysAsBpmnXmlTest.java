@@ -4,16 +4,16 @@ import java.util.List;
 
 import org.testng.Assert;
 
-import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
-import de.hpi.oryxengine.activity.impl.BpmnStartEvent;
-import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.node.activity.NullActivity;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnStartEvent;
+import de.hpi.oryxengine.node.activity.fun.AutomatedDummyActivity;
+import de.hpi.oryxengine.node.incomingbehaviour.AndJoinBehaviour;
+import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.XORSplitBehaviour;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.XORSplitBehaviour;
 
 /**
  * It tests the deployment of BPMN processes that where serialized as xml. The xml contains the structure the process
@@ -97,7 +97,7 @@ public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
         Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(endNode.getActivityBlueprint().getActivityClass(), EndActivity.class);
+        Assert.assertEquals(endNode.getActivityBlueprint().getActivityClass(), BpmnEndActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
         Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
     }

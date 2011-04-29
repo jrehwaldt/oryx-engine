@@ -11,11 +11,11 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
@@ -31,7 +31,7 @@ import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
- * The test for the {@link HumanTaskActivity}.
+ * The test for the {@link BpmnHumanTaskActivity}.
  */
 
 public class HumanTaskActivityTest extends AbstractJodaEngineTest {
@@ -39,7 +39,7 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
     private Task task = null;
     private AbstractResource<?> resource = null;
 
-    private HumanTaskActivity humanTask = null;
+    private BpmnHumanTaskActivity humanTask = null;
 
     private Token token;
 
@@ -72,10 +72,10 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
 
         task = new TaskImpl(subject, description, allocationStrategies, participant);
 
-        humanTask = new HumanTaskActivity(task);
+        humanTask = new BpmnHumanTaskActivity(task);
         // TODO set this as a parameter
         
-        Node node = new NodeImpl(HumanTaskActivity.class);
+        Node node = new NodeImpl(BpmnHumanTaskActivity.class);
         token = new TokenImpl(node, new ProcessInstanceImpl(null), new NavigatorImplMock());
     }
 

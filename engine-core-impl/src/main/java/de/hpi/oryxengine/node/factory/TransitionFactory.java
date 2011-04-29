@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.activity.impl;
+package de.hpi.oryxengine.node.factory;
 
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Condition;

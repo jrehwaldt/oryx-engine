@@ -1,14 +1,21 @@
-package de.hpi.oryxengine.activity.impl;
+package de.hpi.oryxengine.node.factory.bpmn;
 
 import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.node.activity.NullActivity;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnIntermediateTimerActivity;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnStartEvent;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnTerminatingEndActivity;
+import de.hpi.oryxengine.node.factory.TransitionFactory;
+import de.hpi.oryxengine.node.incomingbehaviour.AndJoinBehaviour;
+import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.EmptyOutgoingBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.XORSplitBehaviour;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeBuilder;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.EmptyOutgoingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.XORSplitBehaviour;
 
 /**
  * This Factory is able to create {@link Node Nodes} for specific BPMN constructs like an BPMN-XOR-Gateway or ...
@@ -39,23 +46,23 @@ public final class BpmnNodeFactory extends TransitionFactory {
     }
 
     /**
-     * Creates a {@link Node EndNode} that represents the {@link EndActivity}.
+     * Creates a {@link Node EndNode} that represents the {@link BpmnEndActivity}.
      * 
      * The IncomingBehaviour is a {@link AndJoinBehaviour} and the OutgoingBehaviour is a {@link EmptyOutgoingBehaviour}
      * .
      * 
      * @param builder
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
-     * @return a {@link Node} representing an {@link EndActivity}
+     * @return a {@link Node} representing an {@link BpmnEndActivity}
      */
     public static Node createBpmnEndEventNode(ProcessDefinitionBuilder builder) {
 
         return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
-        .setOutgoingBehaviour(new EmptyOutgoingBehaviour()).setActivityBlueprintFor(EndActivity.class).buildNode();
+        .setOutgoingBehaviour(new EmptyOutgoingBehaviour()).setActivityBlueprintFor(BpmnEndActivity.class).buildNode();
     }
 
     /**
-     * Creates a {@link Node} that represents the {@link IntermediateTimer}.
+     * Creates a {@link Node} that represents the {@link BpmnIntermediateTimerActivity}.
      * 
      * It has the default BPMN Incoming- and OutgoingBehaviour as specified
      * {@link BpmnNodeFactory#decorateBpmnDefaultRouting(NodeBuilder) here}.
@@ -64,17 +71,17 @@ public final class BpmnNodeFactory extends TransitionFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @param waitingTime
      *            - the time (in milliseconds) to wait for
-     * @return a {@link Node} representing an {@link IntermediateTimer}
+     * @return a {@link Node} representing an {@link BpmnIntermediateTimerActivity}
      */
     public static Node createBpmnIntermediateTimerEventNode(ProcessDefinitionBuilder builder, long waitingTime) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(IntermediateTimer.class)
+        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(BpmnIntermediateTimerActivity.class)
         .addConstructorParameter(long.class, waitingTime).buildNode();
     }
 
     /**
-     * Creates a {@link Node} that represents the {@link HumanTaskActivity}.
+     * Creates a {@link Node} that represents the {@link BpmnHumanTaskActivity}.
      * 
      * It has the default BPMN Incoming- and OutgoingBehaviour as specified
      * {@link BpmnNodeFactory#decorateBpmnDefaultRouting(NodeBuilder) here}.
@@ -83,29 +90,29 @@ public final class BpmnNodeFactory extends TransitionFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @param task
      *            - the task to distribute
-     * @return a {@link Node} representing an {@link HumanTaskActivity}
+     * @return a {@link Node} representing an {@link BpmnHumanTaskActivity}
      */
     public static Node createBpmnUserTaskNode(ProcessDefinitionBuilder builder, Task task) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(HumanTaskActivity.class)
+        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(BpmnHumanTaskActivity.class)
         .addConstructorParameter(Task.class, task).buildNode();
     }
 
     /**
-     * Creates a {@link Node EndNode} that represents the {@link TerminatingEndActivity}.
+     * Creates a {@link Node EndNode} that represents the {@link BpmnTerminatingEndActivity}.
      * 
      * The IncomingBehaviour is a {@link AndJoinBehaviour} and the OutgoingBehaviour is a {@link EmptyOutgoingBehaviour}
      * .
      * 
      * @param builder
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
-     * @return a {@link Node} representing an {@link EndActivity}
+     * @return a {@link Node} representing an {@link BpmnEndActivity}
      */
     public static Node createBpmnTerminatingEndEventNode(ProcessDefinitionBuilder builder) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(TerminatingEndActivity.class)
+        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(BpmnTerminatingEndActivity.class)
         .buildNode();
     }
 

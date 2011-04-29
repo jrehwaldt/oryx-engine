@@ -1,5 +1,11 @@
-package de.hpi.oryxengine.activity.impl;
+package de.hpi.oryxengine.node.factory.bpmn;
 
+import de.hpi.oryxengine.node.activity.NullActivity;
+import de.hpi.oryxengine.node.activity.fun.AddContextNumbersAndStoreActivity;
+import de.hpi.oryxengine.node.activity.fun.AddNumbersAndStoreActivity;
+import de.hpi.oryxengine.node.activity.fun.HashComputationActivity;
+import de.hpi.oryxengine.node.activity.fun.PrintingVariableActivity;
+import de.hpi.oryxengine.node.factory.TransitionFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeBuilder;

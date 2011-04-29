@@ -11,8 +11,6 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
@@ -20,6 +18,8 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
@@ -82,10 +82,10 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 
         Class<?>[] constructorSig = {Task.class};
         Object[] params = {task};
-        ActivityBlueprint bp = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, params);
+        ActivityBlueprint bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
         Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(bp);
 
-        endNode = GerardoNodeFactory.createSimpleNodeWith(new ActivityBlueprintImpl(EndActivity.class));
+        endNode = GerardoNodeFactory.createSimpleNodeWith(new ActivityBlueprintImpl(BpmnEndActivity.class));
 
         humanTaskNode.transitionTo(endNode);
 

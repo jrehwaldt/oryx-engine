@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.activity.impl;
+package de.hpi.oryxengine.node.activity.bpmn;
 
 import java.util.Iterator;
 
@@ -8,9 +8,9 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskDistribution;
+import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
@@ -24,7 +24,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
  * A user task is a typical workflow Task where a human performer performs the Task with the assistance of a software
  * application.
  */
-public class HumanTaskActivity extends AbstractActivity {
+public class BpmnHumanTaskActivity extends AbstractActivity {
 
     @JsonProperty
     private Task task;
@@ -36,7 +36,7 @@ public class HumanTaskActivity extends AbstractActivity {
      *            - the task to distribute
      */
     // TODO: CreationPattern einfügen
-    public HumanTaskActivity(Task task) {
+    public BpmnHumanTaskActivity(Task task) {
 
         this.task = new TaskImpl(task);
     }
