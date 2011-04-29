@@ -11,12 +11,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
-import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
-import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.node.activity.NullActivity;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;

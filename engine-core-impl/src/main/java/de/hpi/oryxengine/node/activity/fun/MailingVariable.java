@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.activity.impl;
+package de.hpi.oryxengine.node.activity.fun;
 
 import java.util.Properties;
 
@@ -10,7 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import de.hpi.oryxengine.activity.AbstractActivity;
+import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.token.Token;
 

@@ -10,14 +10,14 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
-import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
-import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
@@ -66,7 +66,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
         // get the token that is on the human task activity. The other one is on the end node then.
         Token humanTaskToken = nav.getWorkQueue().get(0);
         Token endToken = nav.getWorkQueue().get(1);
-        if (!(humanTaskToken.getCurrentNode().getActivityBlueprint().getActivityClass() == HumanTaskActivity.class)) {
+        if (!(humanTaskToken.getCurrentNode().getActivityBlueprint().getActivityClass() == BpmnHumanTaskActivity.class)) {
             humanTaskToken = endToken;
             endToken = nav.getWorkQueue().get(0);
         }

@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.factory.node;
 
-import de.hpi.oryxengine.activity.impl.MailingVariable;
+import de.hpi.oryxengine.node.activity.fun.MailingVariable;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 
 /**

@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.factories.process;
 
-import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
-import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 

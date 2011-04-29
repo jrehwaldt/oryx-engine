@@ -9,14 +9,14 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.node.activity.NullActivity;
+import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.structure.Transition;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The test for the process instance.

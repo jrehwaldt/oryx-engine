@@ -9,12 +9,12 @@ import javax.ws.rs.core.MediaType;
 
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
-import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
-import de.hpi.oryxengine.activity.impl.TransitionFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.node.factory.TransitionFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;

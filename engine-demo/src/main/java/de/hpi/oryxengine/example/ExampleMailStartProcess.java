@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
-import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.bootstrap.OryxEngine;
 import de.hpi.oryxengine.correlation.adapter.EventTypes;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
@@ -23,6 +21,8 @@ import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;

@@ -1,7 +1,8 @@
-package de.hpi.oryxengine.activity;
+package de.hpi.oryxengine.node.activity;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.process.token.Token;
 
 /**

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
+import de.hpi.oryxengine.node.activity.fun.AddNumbersAndStoreActivity;
+import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
@@ -12,9 +14,7 @@ import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * A factory for creating SimpleProcessDefinition objects.

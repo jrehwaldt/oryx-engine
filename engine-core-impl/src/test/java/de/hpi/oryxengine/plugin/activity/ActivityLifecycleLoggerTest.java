@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.ActivityState;
-import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
+import de.hpi.oryxengine.node.activity.fun.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 

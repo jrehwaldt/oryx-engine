@@ -1,9 +1,10 @@
-package de.hpi.oryxengine.routing.behaviour.incoming;
+package de.hpi.oryxengine.node.incomingbehaviour;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 
 /**
  * The Class AbstractJoinBehaviour.

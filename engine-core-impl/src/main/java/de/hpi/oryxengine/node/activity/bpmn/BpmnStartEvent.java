@@ -1,6 +1,6 @@
-package de.hpi.oryxengine.activity.impl;
+package de.hpi.oryxengine.node.activity.bpmn;
 
-import de.hpi.oryxengine.activity.AbstractActivity;
+import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
 
 /**

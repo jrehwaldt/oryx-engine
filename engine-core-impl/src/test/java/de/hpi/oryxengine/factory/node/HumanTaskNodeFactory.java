@@ -1,10 +1,10 @@
 package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.IdentityBuilder;
@@ -39,7 +39,7 @@ public class HumanTaskNodeFactory extends AbstractNodeFactory {
                 
         Class<?>[] constructorSig = {Task.class};
         Object[] params = {task};
-        blueprint = new ActivityBlueprintImpl(HumanTaskActivity.class, constructorSig, params);
+        blueprint = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
     }
 
 }

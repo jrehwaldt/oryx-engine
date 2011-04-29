@@ -5,10 +5,10 @@ import java.util.Map;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
-import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.factories.worklist.TaskFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;

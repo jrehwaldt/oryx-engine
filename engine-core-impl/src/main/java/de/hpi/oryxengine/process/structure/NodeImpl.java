@@ -9,11 +9,11 @@ import java.util.UUID;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class AbstractNode. Which is used for the graph representation of a Process

@@ -1,20 +1,20 @@
-package de.hpi.oryxengine.activity.impl;
+package de.hpi.oryxengine.node.activity.bpmn;
 
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.AbstractActivity;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.TimedConfiguration;
 import de.hpi.oryxengine.correlation.adapter.TimerConfigurationImpl;
 import de.hpi.oryxengine.correlation.registration.TimerEventImpl;
 import de.hpi.oryxengine.correlation.timing.TimingManager;
+import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The actvity IntermediateTimer is used to wait a specific amount of time before execution is continued.
  */
-public class IntermediateTimer extends AbstractActivity {
+public class BpmnIntermediateTimerActivity extends AbstractActivity {
     private long time;
     private String jobCompleteName;
 
@@ -24,7 +24,7 @@ public class IntermediateTimer extends AbstractActivity {
      * @param time
      *            - the time (in ms) to wait for
      */
-    public IntermediateTimer(long time) {
+    public BpmnIntermediateTimerActivity(long time) {
 
         this.time = time;
     }

@@ -1,11 +1,10 @@
-package de.hpi.oryxengine.routing.behaviour.incoming.impl;
+package de.hpi.oryxengine.node.incomingbehaviour;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.routing.behaviour.incoming.AbstractIncomingBehaviour;
 
 /**
  * The Class AndJoinBehaviour. Realizes the joining of more than one incoming path.

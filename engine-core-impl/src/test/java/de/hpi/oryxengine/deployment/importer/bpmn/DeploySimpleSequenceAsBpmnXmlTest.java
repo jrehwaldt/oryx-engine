@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.testng.Assert;
 
-import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
-import de.hpi.oryxengine.activity.impl.BpmnStartEvent;
-import de.hpi.oryxengine.activity.impl.EndActivity;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnStartEvent;
+import de.hpi.oryxengine.node.activity.fun.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
 
@@ -54,7 +54,7 @@ public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
         Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(endNode.getActivityBlueprint().getActivityClass(), EndActivity.class);
+        Assert.assertEquals(endNode.getActivityBlueprint().getActivityClass(), BpmnEndActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
         Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
     }

@@ -1,12 +1,12 @@
 package de.hpi.oryxengine.example;
 
 
-import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.factory.node.AddNumbersAndStoreNodeFactory;
 import de.hpi.oryxengine.factory.node.MailNodeFactory;
 import de.hpi.oryxengine.factory.node.PrintingNodeFactory;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
@@ -69,7 +69,7 @@ public final class ExampleProcessForReview {
 
         Node fourthNode = new MailNodeFactory().createWithLogger();
 
-        Node endNode = new NodeImpl(EndActivity.class);
+        Node endNode = new NodeImpl(BpmnEndActivity.class);
 
         // Setting the transitions
         startNode.transitionTo(secondNode);

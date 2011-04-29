@@ -1,15 +1,15 @@
 package de.hpi.oryxengine.factory.node;
 
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.node.activity.NullActivity;
+import de.hpi.oryxengine.node.incomingbehaviour.AndJoinBehaviour;
+import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.XORSplitBehaviour;
 import de.hpi.oryxengine.plugin.activity.AbstractTokenPlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.XORSplitBehaviour;
 
 /**
  * A factory for creating RoutingBeavhiourTest objects.

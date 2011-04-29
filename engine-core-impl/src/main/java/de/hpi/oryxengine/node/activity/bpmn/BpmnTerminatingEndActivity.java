@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.activity.impl;
+package de.hpi.oryxengine.node.activity.bpmn;
 
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.token.Token;
@@ -7,7 +7,7 @@ import de.hpi.oryxengine.process.token.Token;
  * This activity corresponds to the BPMN terminating end event. Upon its execution, all ongoing activities have to be
  * cancelled.
  */
-public class TerminatingEndActivity extends EndActivity {
+public class BpmnTerminatingEndActivity extends BpmnEndActivity {
 
     @Override
     protected void executeIntern(Token token) {
