@@ -3,9 +3,9 @@ package de.hpi.oryxengine.node.outgoingbehaviour;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
 /**
  * The Class TakeAllSplitBehaviour. Will signalize all outgoing transitions.

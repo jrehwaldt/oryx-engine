@@ -2,10 +2,10 @@ package de.hpi.oryxengine.process.structure;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
-import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
+import de.hpi.oryxengine.node.activity.Activity;
+import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
 
 /**
  * The Interface {@link NodeBuilder}. The {@link NodeBuilder} is a comfortable way to construct a {@link Node}.

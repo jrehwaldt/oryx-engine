@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.activity;
+package de.hpi.oryxengine.node.activity;
 
 import static org.testng.Assert.assertEquals;
 

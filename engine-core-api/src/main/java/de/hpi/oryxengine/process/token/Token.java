@@ -9,10 +9,10 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
-import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.activity.ActivityState;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.node.activity.Activity;
+import de.hpi.oryxengine.node.activity.ActivityState;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.activity;
+package de.hpi.oryxengine.node.activity;
 
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.node.activity.ActivityState;
 import de.hpi.oryxengine.node.activity.fun.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;

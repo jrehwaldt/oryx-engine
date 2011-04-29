@@ -2,7 +2,7 @@ package de.hpi.oryxengine.plugin.activity;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.activity.ActivityState;
+import de.hpi.oryxengine.node.activity.ActivityState;
 
 /**
  * This class is a logger and may be injected to observe

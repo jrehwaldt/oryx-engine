@@ -6,13 +6,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.node.activity.Activity;
+import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeBuilder;
-import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
 /**
  * The implementation of the {@link NodeBuilder}.

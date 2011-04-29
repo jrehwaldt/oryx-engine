@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.activity;
+package de.hpi.oryxengine.node.activity;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;

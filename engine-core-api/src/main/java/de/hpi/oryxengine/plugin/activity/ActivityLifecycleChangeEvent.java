@@ -2,8 +2,8 @@ package de.hpi.oryxengine.plugin.activity;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.activity.ActivityState;
+import de.hpi.oryxengine.node.activity.Activity;
+import de.hpi.oryxengine.node.activity.ActivityState;
 import de.hpi.oryxengine.process.token.Token;
 
 /**

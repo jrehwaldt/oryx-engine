@@ -7,8 +7,8 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
-import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
+import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
 import de.hpi.oryxengine.util.Attributable;
 import de.hpi.oryxengine.util.Identifiable;
 

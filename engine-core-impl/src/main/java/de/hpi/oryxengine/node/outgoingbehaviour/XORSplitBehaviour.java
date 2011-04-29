@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hpi.oryxengine.exception.NoValidPathException;
+import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
 /**
  * The Class TakeAllSplitBehaviour. Will signal all outgoing transitions.

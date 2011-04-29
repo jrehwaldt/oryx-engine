@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.activity;
+package de.hpi.oryxengine.node.activity;
 
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
@@ -16,6 +16,7 @@ import de.hpi.oryxengine.correlation.timing.TimingManager;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
+import de.hpi.oryxengine.node.activity.ActivityState;
 import de.hpi.oryxengine.node.factory.TransitionFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;

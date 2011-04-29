@@ -1,7 +1,9 @@
 package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.node.activity.fun.PrintingVariableActivity;
+import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
 import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.plugin.activity.AbstractTokenPlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
@@ -9,8 +11,6 @@ import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
 /**
  * A factory for creating AbstractNode objects.

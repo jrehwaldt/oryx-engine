@@ -3,8 +3,8 @@ package de.hpi.oryxengine.node.incomingbehaviour;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 
 /**
  * The Class AbstractJoinBehaviour.
@@ -16,7 +16,7 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
      *
      * @param instance instance to perform the join on
      * @return the list of joined instances
-     * @see de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour
+     * @see de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour
      * #join(de.hpi.oryxengine.process.token.Token) Do not override this, as it is a template method.
      * Only join, if a join is possible.
      */

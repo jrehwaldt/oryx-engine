@@ -9,11 +9,11 @@ import javax.annotation.Nonnull;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import de.hpi.oryxengine.activity.Activity;
-import de.hpi.oryxengine.activity.ActivityState;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.NoValidPathException;
 import de.hpi.oryxengine.navigator.Navigator;
+import de.hpi.oryxengine.node.activity.Activity;
+import de.hpi.oryxengine.node.activity.ActivityState;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.activity.AbstractTokenPlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleChangeEvent;

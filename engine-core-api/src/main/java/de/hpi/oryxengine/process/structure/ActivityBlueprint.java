@@ -2,7 +2,7 @@ package de.hpi.oryxengine.process.structure;
 
 import java.lang.reflect.InvocationTargetException;
 
-import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.node.activity.Activity;
 
 /**
  * The ActivityBlueprint is used, when a token encounters a node. Then it can read the blueprint in order to instantiate

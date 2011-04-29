@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.routing.behaviour.incoming;
+package de.hpi.oryxengine.node.incomingbehaviour;
 
 import java.util.List;
 

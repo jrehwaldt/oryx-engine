@@ -3,7 +3,7 @@ package de.hpi.oryxengine.process.structure;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import de.hpi.oryxengine.activity.Activity;
+import de.hpi.oryxengine.node.activity.Activity;
 
 /**
  * The Class ActivityBlueprintImpl. See {@see ActivityBlueprint}.

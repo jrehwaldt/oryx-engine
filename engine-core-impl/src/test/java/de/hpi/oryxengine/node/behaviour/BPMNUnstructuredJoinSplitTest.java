@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.routing.behaviour;
+package de.hpi.oryxengine.node.behaviour;
 
 import static org.testng.Assert.assertEquals;
 
