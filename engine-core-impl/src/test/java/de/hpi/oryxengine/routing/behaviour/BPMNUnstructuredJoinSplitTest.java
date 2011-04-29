@@ -7,11 +7,10 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
@@ -116,25 +115,26 @@ public class BPMNUnstructuredJoinSplitTest {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        Node splitNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        node3 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        Node splitNode = BPMNActivityFactory.createBPMNNullNode(builder);
+        node1 = BPMNActivityFactory.createBPMNNullNode(builder);
+        node2 = BPMNActivityFactory.createBPMNNullNode(builder);
+        node3 = BPMNActivityFactory.createBPMNNullNode(builder);
 
-        nodeParamBuilder.setIncomingBehaviour(new AndJoinBehaviour());
-        innerJoinNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        outerJoinNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        innerJoinNode = BPMNActivityFactory.createBPMNAndGatewayNode(builder);
+        outerJoinNode = BPMNActivityFactory.createBPMNAndGatewayNode(builder);
 
-        nodeParamBuilder.setIncomingBehaviour(new SimpleJoinBehaviour());
-        endNode = new RoutingBehaviourTestFactory().createWithAndSplit();
+//        endNode = new RoutingBehaviourTestFactory().createWithAndSplit();
+        endNode = BPMNActivityFactory.createBPMNNullNode(builder);
 
-        builder.createTransition(splitNode, node1).createTransition(splitNode, node2)
-        .createTransition(splitNode, node3).createTransition(node1, innerJoinNode)
-        .createTransition(node2, innerJoinNode).createTransition(innerJoinNode, outerJoinNode)
-        .createTransition(node3, outerJoinNode).createTransition(outerJoinNode, endNode);
-
+        BPMNActivityFactory.createTransitionFromTo(builder, splitNode, node1);
+        BPMNActivityFactory.createTransitionFromTo(builder, splitNode, node2);
+        BPMNActivityFactory.createTransitionFromTo(builder, splitNode, node3);
+        BPMNActivityFactory.createTransitionFromTo(builder, node1, innerJoinNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, node2, innerJoinNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, innerJoinNode, outerJoinNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, node3, outerJoinNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, outerJoinNode, endNode);
+        
         navigator = new NavigatorImplMock();
 
         Token token = new TokenImpl(splitNode, new ProcessInstanceImpl(null), navigator);

@@ -4,13 +4,11 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
@@ -84,16 +82,18 @@ public final class RepositorySetup {
         String processDescription = "The process stores the result of the calculation '1 + 1' .";
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl();
-        int[] integers = {1, 1 };
-        nodeParameterBuilder
-            .setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
-            .addConstructorParameter(String.class, "result")
-            .addConstructorParameter(int[].class, integers);
-        Node node1 = builder.createStartNode(nodeParameterBuilder.buildNodeParameter());
+        
+        Node startNode = BPMNActivityFactory.createBPMNNullStartNode(builder);
+        
+        int[] integers = { 1, 1 };
+        Node node1 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", integers);
 
-        Node node2 = builder.createNode(nodeParameterBuilder.buildNodeParameter());
-        builder.createTransition(node1, node2).setName(processName).setDescription(processDescription);
+        Node node2 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", integers);
+        
+        BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
+        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
+        
+        builder.setName(processName).setDescription(processDescription);
         return builder.buildDefinition();
     }
 }

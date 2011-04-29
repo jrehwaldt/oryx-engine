@@ -3,15 +3,13 @@ package de.hpi.oryxengine.process.definition;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.correlation.registration.StartEvent;
-import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.NodeBuilder;
+import de.hpi.oryxengine.process.structure.TransitionBuilder;
 
 /**
  * The Interface ProcessBuilder. The process builder is a comfortable way to construct a process definition.
- * 
- * @author Thorben
  */
 public interface ProcessDefinitionBuilder {
 
@@ -27,103 +25,63 @@ public interface ProcessDefinitionBuilder {
     throws IllegalStarteventException;
 
     /**
-     * Creates a new node with the given parameters.
+     * Creates a {@link NodeBuilder} in order to customize and build a {@link Node}.
      * 
-     * @param param
-     *            the param
-     * @return the node
+     * @return a {@link NodeBuilder}
      */
     @Nonnull
-    Node createNode(NodeParameter param);
+    NodeBuilder getNodeBuilder();
 
     /**
-     * Creates a new start node for the process.
+     * Creates a {@link NodeBuilder} in order to customize and build a {@link Node StartNode}. So a {@link Node} that is
+     * created by this {@link NodeBuilder Builder} is a {@link Node StartNode}.
      * 
-     * @param param
-     *            the param
-     * @return the node
+     * @return a {@link NodeBuilder}
      */
     @Nonnull
-    Node createStartNode(NodeParameter param);
-
-    // /**
-    // * Creates a new start node with the given parameters.
-    // *
-    // * @param param the param
-    // * @return the node
-    // */
-    // @Nonnull StartNode createStartNode(StartNodeParameter param);
+    NodeBuilder getStartNodeBuilder();
 
     /**
-     * Creates the transition.
+     * Creates a {@link TransitionBuilder} in order to customize and build a {@link Transition}.
      * 
-     * @param source
-     *            the source
-     * @param destination
-     *            the destination
-     * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
+     * @return a {@link TransitionBuilder}
      */
     @Nonnull
-    ProcessDefinitionBuilder createTransition(@Nonnull Node source, @Nonnull Node destination);
-
-    /**
-     * Creates the transition.
-     * 
-     * @param source
-     *            the source
-     * @param destination
-     *            the destination
-     * @param condition
-     *            the condition
-     * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
-     */
-    @Nonnull
-    ProcessDefinitionBuilder createTransition(@Nonnull Node source,
-                                              @Nonnull Node destination,
-                                              @Nonnull Condition condition);
-
-    // /**
-    // * Sets the iD.
-    // *
-    // * @param id
-    // * the new ID
-    // * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
-    // */
-    // @Nonnull
-    // ProcessBuilder setID(@Nonnull UUID id);
+    TransitionBuilder getTransitionBuilder();
 
     /**
      * Sets the description.
      * 
      * @param processDescription
-     *            the new description
+     *            - the description of the {@link ProcessDefinition}
      * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
      */
     @Nonnull
     ProcessDefinitionBuilder setDescription(String processDescription);
 
     /**
-     * sets the name of the process definition to build.
+     * Sets the name of the {@link ProcessDefinition} to build.
      * 
      * @param processName
-     *            the process name
+     *            - the name of the {@link ProcessDefinition}
      * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
      */
     @Nonnull
     ProcessDefinitionBuilder setName(String processName);
 
     /**
-     * This will create a start trigger for the process definition.
+     * This will create a start trigger for the {@link ProcessDefinition}.
      * 
      * @param event
      *            the event
      * @param startNode
      *            the start node
-     * @throws DalmatinaException
+     * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
+     * @throws DalmatinaRuntimeException
      *             thrown if the provided node isn't a startNode.
      */
-    void createStartTrigger(@Nonnull StartEvent event, @Nonnull Node startNode)
-    throws DalmatinaException;
+    @Nonnull
+    ProcessDefinitionBuilder createStartTrigger(@Nonnull StartEvent event, @Nonnull Node startNode);
 
     /**
      * In order to store dynamic attributes to the {@link ProcessDefinition}.

@@ -89,7 +89,7 @@ public interface Node extends Identifiable, Attributable {
      * @param node
      *            the node to which a new transition shall be established
      */
-    void transitionTo(Node node);
+    Transition transitionTo(Node node);
 
     /**
      * Transition to with condition.
@@ -99,6 +99,6 @@ public interface Node extends Identifiable, Attributable {
      * @param c
      *            the condition
      */
-    void transitionToWithCondition(Node node, Condition c);
+    Transition transitionToWithCondition(Node node, Condition c);
 
 }

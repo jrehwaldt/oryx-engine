@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
-import de.hpi.oryxengine.activity.impl.PrintingVariableActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.bootstrap.OryxEngine;
 import de.hpi.oryxengine.correlation.adapter.EventTypes;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
@@ -17,12 +19,10 @@ import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.correlation.registration.StartEventImpl;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
@@ -34,6 +34,8 @@ import de.hpi.oryxengine.process.structure.Node;
  */
 public final class ExampleMailStartProcess {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExampleMailStartProcess.class);
+	
 	/** no public/default constructor for this Demothingie. */
 	private ExampleMailStartProcess() {
 
@@ -64,25 +66,21 @@ public final class ExampleMailStartProcess {
 		// Building the ProcessDefintion
 		ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
+		Node startNode = BPMNActivityFactory.createBPMNNullStartNode(builder);
+
 		// Building Node1
-		NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
-		int[] ints = {1, 1};
-		nodeParamBuilder
-				.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
-				.addConstructorParameter(String.class, "result")
-				.addConstructorParameter(int[].class, ints);
-		Node node1 = builder.createStartNode(nodeParamBuilder
-				.buildNodeParameter());
+		int[] ints = { 1, 1 };
+		Node node1 = BPMNActivityFactory
+				.createBPMNAddNumbersAndStoreNode(builder, "result", ints);
 
 		// Building Node2
-		nodeParamBuilder = new NodeParameterBuilderImpl();
-		nodeParamBuilder
-				.setActivityBlueprintFor(PrintingVariableActivity.class)
-				.addConstructorParameter(String.class, "result");
-		Node node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+		Node node2 = BPMNActivityFactory
+				.createBPMNPrintingVariableNode(builder, "result");
 
-		builder.createTransition(node1, node2).setDescription("description")
-				.setName(exampleProcessName);
+		BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
+		BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
+
+		builder.setDescription("description").setName(exampleProcessName);
 
 		ProcessDefinition def = builder.buildDefinition();
 		UUID exampleProcessUUID = deploymentBuilder
@@ -94,9 +92,8 @@ public final class ExampleMailStartProcess {
 				.dalmatinaGoogleConfiguration();
 		EventCondition subjectCondition = null;
 		try {
-			subjectCondition = new EventConditionImpl(
-					MailAdapterEvent.class.getMethod("getMessageTopic"),
-					"Hallo");
+			subjectCondition = new EventConditionImpl(	MailAdapterEvent.class.getMethod("getMessageTopic"),
+														"Hallo");
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
@@ -105,13 +102,16 @@ public final class ExampleMailStartProcess {
 		List<EventCondition> conditions = new ArrayList<EventCondition>();
 		conditions.add(subjectCondition);
 
-		StartEvent event = new StartEventImpl(EventTypes.Mail, config,
-				conditions, exampleProcessUUID);
+		StartEvent event = new StartEventImpl(	EventTypes.Mail,
+												config,
+												conditions,
+												exampleProcessUUID);
 
 		try {
 			builder.createStartTrigger(event, node1);
-		} catch (DalmatinaException e) {
-			e.printStackTrace();
+		} catch (DalmatinaRuntimeException e) {
+			
+			LOGGER.error(e.getMessage(), e);
 		}
 
 		navigator.start();

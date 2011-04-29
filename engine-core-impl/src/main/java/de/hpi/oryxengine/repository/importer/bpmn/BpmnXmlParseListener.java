@@ -2,6 +2,7 @@ package de.hpi.oryxengine.repository.importer.bpmn;
 
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.util.xml.XmlElement;
 
 /**
@@ -71,4 +72,15 @@ public interface BpmnXmlParseListener {
      *            - the created {@link Node endEventNode}
      */
     void parseEndEvent(XmlElement endEventXmlElemnt, Node endEventNode);
+    
+    
+    /**
+     * Is called when the {@link BpmnXmlParser} finished creating the {@link Transition transition}.
+     * 
+     * @param sequenceFlowElement
+     *            - the original {@link XmlElement sequenceFlowElement}
+     * @param transition
+     *            - the created {@link Transition transition}
+     */
+    void parseSequenceFlow(XmlElement sequenceFlowElement, Transition transition);
 }

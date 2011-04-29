@@ -9,10 +9,9 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
@@ -105,20 +104,17 @@ public class BPMNAndJoinTest {
         splitNode = mock(Node.class);
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        NodeParameterBuilder nodeParamBuilder =
-            new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        node1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        node2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
 
-        nodeParamBuilder.setIncomingBehaviour(new AndJoinBehaviour());
-        joinNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        node1 = BPMNActivityFactory.createBPMNNullNode(builder);
+        node2 = BPMNActivityFactory.createBPMNNullNode(builder);
+
+        joinNode = BPMNActivityFactory.createBPMNAndGatewayNode(builder);
         
-        builder.createTransition(node1, joinNode).createTransition(node2, joinNode);
+        node3 = BPMNActivityFactory.createBPMNNullNode(builder);
         
-        nodeParamBuilder.setIncomingBehaviour(new SimpleJoinBehaviour());
-        node3 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        builder.createTransition(joinNode, node3);
+        BPMNActivityFactory.createTransitionFromTo(builder, node1, joinNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, node2, joinNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, joinNode, node3);
 
         Token token = new TokenImpl(splitNode, new ProcessInstanceImpl(null), navigator);
 

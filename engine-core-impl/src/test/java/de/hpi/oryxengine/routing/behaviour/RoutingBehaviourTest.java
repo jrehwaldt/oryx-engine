@@ -9,8 +9,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.NullActivity;
-import de.hpi.oryxengine.process.definition.NodeParameter;
-import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
@@ -51,9 +49,9 @@ public class RoutingBehaviourTest {
 
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
-        
+
         List<Token> joinedTokens = incomingBehaviour.join(token);
-        
+
         try {
             outgoingBehaviour.split(joinedTokens);
         } catch (Exception e) {
@@ -79,12 +77,14 @@ public class RoutingBehaviourTest {
     private TokenImpl simpleToken() {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-        NodeParameter param = new NodeParameterImpl(NullActivity.class, new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour());
 
-        Node node = builder.createNode(param);
-        Node node2 = builder.createNode(param);
-        builder.createTransition(node, node2);
+        Node node = builder.getNodeBuilder().setActivityBlueprintFor(NullActivity.class)
+        .setIncomingBehaviour(new SimpleJoinBehaviour()).setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
+
+        Node node2 = builder.getNodeBuilder().setActivityBlueprintFor(NullActivity.class)
+        .setIncomingBehaviour(new SimpleJoinBehaviour()).setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
+
+        builder.getTransitionBuilder().transitionGoesFromTo(node, node2).buildTransition();
 
         return new TokenImpl(node);
     }

@@ -7,9 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
@@ -17,10 +15,9 @@ import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
@@ -49,11 +46,12 @@ public final class DemoDataForWebservice {
     private DemoDataForWebservice() {
 
     }
-    
+
     /**
      * Resets invoked, to be honest mostly for testign purposed after each method.
      */
     public synchronized static void resetInvoked() {
+
         invoked = false;
     }
 
@@ -72,6 +70,7 @@ public final class DemoDataForWebservice {
      * Generate example Participants.
      */
     public static synchronized void generate() {
+
         if (!invoked) {
             invoked = true;
             generateDemoParticipants();
@@ -115,48 +114,45 @@ public final class DemoDataForWebservice {
 
         // TODO Use Example Process to create some tasks for the role demo
 
-        ProcessBuilderImpl processBuilder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+
         Node startNode, node1, node2, node3, endNode;
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        startNode = processBuilder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
+
+        startNode = BPMNActivityFactory.createBPMNStartEventNode(builder);
 
         // Creating the Webform for the task
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-        UUID processArtifactID = deploymentBuilder.deployArtifactAsFile("form1", new File(PATH_TO_WEBFORMS + "/Form1.html"));
+        UUID processArtifactID = deploymentBuilder.deployArtifactAsFile("form1", new File(PATH_TO_WEBFORMS
+            + "/Form1.html"));
         Form form = new FormImpl(ServiceFactory.getRepositoryService().getProcessResource(processArtifactID));
 
         // Create the task
-        AllocationStrategies strategies = new AllocationStrategiesImpl(new RolePushPattern(),
-            new SimplePullPattern(), null, null);
+        AllocationStrategies strategies = new AllocationStrategiesImpl(new RolePushPattern(), new SimplePullPattern(),
+            null, null);
+        Task task = new TaskImpl("do something", "Really do something we got a demo coming up guys!", form, strategies,
+            r);
 
-        Task task = new TaskImpl("do something", "Really do something we got a demo coming up guys!", form, strategies, r);
+        node1 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
 
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
-        node1 = processBuilder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
-
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
-
-        node2 = processBuilder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+        node2 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
 
         // Create the task
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
+        node3 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
 
-        node3 = processBuilder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+        endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
 
-        processBuilder.createTransition(startNode, node1).createTransition(node1, node2).createTransition(node2, node3);
-
-        nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
-        endNode = processBuilder.createNode(nodeParamBuilder.buildNodeParameter());
-        processBuilder.createTransition(node3, endNode).setName("Demoprocess")
-        .setDescription("A simple demo process with three human tasks.");
+        BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
+        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
+        BPMNActivityFactory.createTransitionFromTo(builder, node2, node3);
+        BPMNActivityFactory.createTransitionFromTo(builder, node3, endNode);
 
         // Start Process
-        ProcessDefinition processDefinition = processBuilder.buildDefinition();
+        ProcessDefinition processDefinition = builder.setName("Demoprocess")
+        .setDescription("A simple demo process with three human tasks.").buildDefinition();
 
         UUID processID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
         .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
+
         // Tobi wants more tasks
         for (int i = 0; i < NUMBER_OF_PROCESSINSTANCES; i++) {
             ServiceFactory.getNavigatorService().startProcessInstance(processID);
