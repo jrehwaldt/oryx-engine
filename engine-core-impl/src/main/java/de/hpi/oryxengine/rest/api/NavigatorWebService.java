@@ -27,9 +27,9 @@ import de.hpi.oryxengine.process.token.Token;
 @Path("/navigator")
 @Produces({ MediaType.APPLICATION_JSON })
 public class NavigatorWebService implements Navigator {
-    
+
     private static final String NOT_ACCESSIBLE_VIA_WEBSERVICE = "This method is not accessible via web service.";
-    
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Navigator navigatorService;
 
@@ -37,14 +37,16 @@ public class NavigatorWebService implements Navigator {
      * Default Constructor.
      */
     public NavigatorWebService() {
+
         logger.info("NavigatorWebService is initializing");
         navigatorService = ServiceFactory.getNavigatorService();
     }
-    
+
     @Path("/status/statistic")
     @GET
     @Override
     public NavigatorStatistic getStatistics() {
+
         return this.navigatorService.getStatistics();
     }
 
@@ -57,40 +59,42 @@ public class NavigatorWebService implements Navigator {
      * @param definitionID
      *            the id of the process definition to be instantiated and started
      * @throws DefinitionNotFoundException
-     *            thrown if the process definition is not found
+     *             thrown if the process definition is not found
      * @return returns the created instance
      */
-    @Path("/process/{definition-id}/start")
+    @Path("/processdefinitions/{definition-id}/instances")
     @POST
     public AbstractProcessInstance startProcessInstance(@PathParam("definition-id") String definitionID)
     throws DefinitionNotFoundException {
-        
+
         return startProcessInstance(UUID.fromString(definitionID));
     }
 
-//    @Path("/process/{definition-id}/start")
-//    @GET
+    /**
+     * <code> Here this method needs to be implemented due to implementation of the interface's methods.</code>
+     * <br/>
+     * {@inheritDoc}
+     */
     @Override
     public AbstractProcessInstance startProcessInstance(@PathParam("definition-id") UUID definitionID)
     throws DefinitionNotFoundException {
-        
+
         return navigatorService.startProcessInstance(definitionID);
     }
-    
+
     @Path("/status/is-idle")
     @GET
     @Override
     public boolean isIdle() {
-        
+
         return this.navigatorService.isIdle();
     }
-
 
     @Path("/status/running-instances")
     @GET
     @Override
     public List<AbstractProcessInstance> getRunningInstances() {
-        
+
         return this.navigatorService.getRunningInstances();
     }
 
@@ -98,13 +102,13 @@ public class NavigatorWebService implements Navigator {
     @GET
     @Override
     public List<AbstractProcessInstance> getEndedInstances() {
-        
+
         return this.navigatorService.getEndedInstances();
     }
 
     @Override
     public void start() {
-        
+
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
 
@@ -132,7 +136,7 @@ public class NavigatorWebService implements Navigator {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
-    
+
     @Override
     public void addWorkToken(Token t) {
 

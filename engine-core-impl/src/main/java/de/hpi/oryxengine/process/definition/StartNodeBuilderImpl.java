@@ -16,7 +16,6 @@ public class StartNodeBuilderImpl extends NodeBuilderImpl {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private List<Node> startNodes;
-
     
     public StartNodeBuilderImpl(List<Node> startNodes) {
 

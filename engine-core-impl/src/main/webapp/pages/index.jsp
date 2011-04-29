@@ -6,14 +6,12 @@
         <script type="text/javascript" src="/javascripts/demo/demo-ajax.js"></script>
     </head>
     <body>
-        <h1>REST-interface working ;-)</h1>
+        <h1>REST-interface</h1>
         <ul>
             <li>
                 <h2>Navigator</h2>
                 <ul>
-                    <li><a href="api/navigator/statistic">Statistik</a></li>
-                    <li><a href="api/navigator/start">Start the engine</a></li>
-                    <li><a href="api/navigator/stop">Stop the engine</a></li>
+                    <li><a href="demo/">Generate Demo Data</a></li>
                 </ul>
              </li>
              <li>
@@ -24,20 +22,13 @@
              </li>
         </ul>
 
-        <div id="result_1"></div>
 		<p>Participants </p>
-        <div id="participants"></div>
-        <p> Names </p>
-        <div id="participantnames"></div>
         <div id="loginpart">
-          <p>Here goes our login stuff </p>
           <select id="loginBox">
           </select>
           <button id="loginButton" href="worklist">Login</button>
 
         </div>
-
-        <div id="datay"></div>
 
     </body>
 </html>

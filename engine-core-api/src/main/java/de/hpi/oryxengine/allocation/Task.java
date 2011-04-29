@@ -38,7 +38,7 @@ public interface Task {
      * 
      * @return the form that 
      */
-    @JsonProperty
+    @JsonIgnore
     Form getForm();
     
     /**
@@ -52,7 +52,7 @@ public interface Task {
     /**
      * Retrieves the {@link AbstractResource}s that is assigned to this task.
      * 
-     * @return a list of {@link AbstractResource}s that is assigned to this task
+     * @return a set of {@link AbstractResource}s that is assigned to this task
      */
     @JsonIgnore
     Set<AbstractResource<?>> getAssignedResources();

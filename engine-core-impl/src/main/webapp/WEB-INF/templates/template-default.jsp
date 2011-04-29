@@ -24,9 +24,8 @@ if (uri != null) {
 
         <script type="text/javascript" src="/javascripts/lib/jquery-1.5.2.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.Storage.js"></script>
-        <script type="text/javascript" src="/javascripts/demo/WorkItem1.js"></script>
-        <script type="text/javascript" src="/javascripts/demo/ParticipantJannik.js"></script>
-        <script type="text/javascript" src="/javascripts/demo/ParticipantWilli.js"></script>
+        <script type="text/javascript" src="/javascripts/lib/jquery.getQueryParam.1.0.0.min.js"></script>
+
 
         <title>Joda Engine goes REST</title>
 
@@ -54,7 +53,7 @@ if (uri != null) {
                     <!--begin nav-level-1-->
                     <ul>
                         <li><a class="dashboard" href="/dashboard">Dashboard</a></li>
-                        <li><a class="explorer" href="/explorer">Engine Management</a></li>
+                        <li><a class="explorer" href="/management">Engine Management</a></li>
                         <li><a class="worklist" href="/worklist">Worklist Management</a></li>
                         <!--<li><a class="reports" href="/reports">Reports</a></li>-->
                         <li><a class="resources" href="/resources">Resource Management</a></li>
@@ -84,7 +83,7 @@ if (uri != null) {
                         <span class="name"><%= current_user %></span>
                         <a href="/logout">Logout</a>
                       <% } else { %>
-                        <a href="/login">Login</a>
+                        <a href="/">Login</a>
                       <% } %>
                     </div>
                   </div>

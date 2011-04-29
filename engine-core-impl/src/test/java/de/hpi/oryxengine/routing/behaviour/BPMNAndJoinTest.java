@@ -92,8 +92,6 @@ public class BPMNAndJoinTest {
         assertEquals(newToken.getCurrentNode(), node3, "The new token should be on the node following the join node");
     }
 
-    // TODO Test with nested and splits and joins to simulate the situation that there are grandparents, etc.
-
     /**
      * Initialize tokens.
      * 

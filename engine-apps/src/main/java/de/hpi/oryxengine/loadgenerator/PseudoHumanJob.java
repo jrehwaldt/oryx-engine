@@ -6,6 +6,8 @@ import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
@@ -19,6 +21,8 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
  * work.
  */
 public class PseudoHumanJob implements Job {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     /**
      * Executes our PseudoHuman Job which has the task to complete its current item and then claim a new one.
@@ -38,8 +42,9 @@ public class PseudoHumanJob implements Job {
         if (!itemsInWork.isEmpty()) {
             AbstractWorklistItem worklistItem = itemsInWork.get(0);
             worklistService.completeWorklistItemBy(worklistItem, participant);
+            log.debug("completed worklistitem");
         }
-        
+
         // If there are still items left we can work on we claim them and then start working on them
         List<AbstractWorklistItem> itemsToWorkOn = worklistService.getWorklistItems(participant);
         if (!itemsToWorkOn.isEmpty()) {
@@ -50,6 +55,7 @@ public class PseudoHumanJob implements Job {
             if (item.getStatus() == WorklistItemState.OFFERED) {
                 worklistService.claimWorklistItemBy(item, participant);
             }
+
             worklistService.beginWorklistItemBy(item, participant);
         }
 

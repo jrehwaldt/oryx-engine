@@ -29,6 +29,6 @@ public class InputStreamSource implements StreamSource {
     @Override
     public String getName() {
 
-        return "InputStream["+ inputStream.toString() + "]";
+        return "InputStream[" + inputStream.toString() + "]";
     }
 }

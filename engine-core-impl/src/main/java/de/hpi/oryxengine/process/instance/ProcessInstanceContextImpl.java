@@ -100,6 +100,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     public void setVariable(String name, Object value) {
 
         getInstanceVariables().put(name, value);
+        
     }
 
     @Override

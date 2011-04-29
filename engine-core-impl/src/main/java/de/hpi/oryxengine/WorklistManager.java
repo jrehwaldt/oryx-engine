@@ -19,6 +19,7 @@ import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.InvalidItemException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
@@ -47,7 +48,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
     @Override
     public void addWorklistItem(AbstractWorklistItem worklistItem, AbstractResource<?> resourceToFillIn) {
-
+        
         // The worklistItem is added to the worklist of a certain resource
         resourceToFillIn.getWorklist().addWorklistItem(worklistItem);
     }
@@ -77,21 +78,27 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
     @Override
     public @Nullable
-    AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource, @Nonnull UUID worklistItemId) {
+    AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
+                                         @Nonnull UUID worklistItemId)
+    throws InvalidItemException {
 
         for (final AbstractWorklistItem item : resource.getWorklist()) {
             if (worklistItemId.equals(item.getID())) {
                 return item;
             }
         }
+        
+        //Throw an exception, if the item was not found
+        throw new InvalidItemException();
 
-        return null;
     }
 
     @Override
-    public Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(Set<? extends AbstractResource<?>> resources) {
+    public Map<AbstractResource<?>,
+    List<AbstractWorklistItem>> getWorklistItems(Set<? extends AbstractResource<?>> resources) {
 
-        Map<AbstractResource<?>, List<AbstractWorklistItem>> result = new HashMap<AbstractResource<?>, List<AbstractWorklistItem>>();
+        Map<AbstractResource<?>, List<AbstractWorklistItem>> result = new HashMap<AbstractResource<?>,
+                                                                          List<AbstractWorklistItem>>();
 
         for (AbstractResource<?> r : resources) {
             result.put(r, getWorklistItems(r));
@@ -103,15 +110,22 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     @Override
     public void claimWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
 
-        // Defining which resources' worklists should be notified when the worklist item is claimed
-        Set<AbstractResource<?>> resourcesToNotify = new HashSet<AbstractResource<?>>();
-        resourcesToNotify.add(resource);
-        resourcesToNotify.addAll(worklistItem.getAssignedResources());
+        synchronized (worklistItem) {
+            if (!getWorklistItems(resource).contains(worklistItem)) {
+                logger.debug("thou shalt not steal worklist items: {}", resource.getName());
+                return;
+            }
+            // Defining which resources' worklists should be notified when the worklist item is claimed
+            Set<AbstractResource<?>> resourcesToNotify = new HashSet<AbstractResource<?>>();
+            resourcesToNotify.add(resource);
+            resourcesToNotify.addAll(worklistItem.getAssignedResources());
 
-        // Notifying the worklist of each resource. Each worklist implements another behavior
-        for (AbstractResource<?> resourceToNotify : resourcesToNotify) {
-            resourceToNotify.getWorklist().itemIsAllocatedBy(worklistItem, resource);
+            // Notifying the worklist of each resource. Each worklist implements another behavior
+            for (AbstractResource<?> resourceToNotify : resourcesToNotify) {
+                resourceToNotify.getWorklist().itemIsAllocatedBy(worklistItem, resource);
+            }
         }
+        
     }
 
     @Override
@@ -128,15 +142,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         resource.getWorklist().itemIsCompleted(worklistItem);
 
         // Resuming the token
-        try {
+        worklistItem.getCorrespondingToken().resume();
 
-            worklistItem.getCorrespondingToken().resume();
-
-        } catch (DalmatinaException e) {
-
-            logger.error("The token didn't resumed properly.", e);
-            throw new DalmatinaRuntimeException(e.getMessage());
-        }
     }
 
     @Override
@@ -148,7 +155,15 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     @Override
     public void beginWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
 
-        resource.getWorklist().itemIsStarted(worklistItem);
+        synchronized (worklistItem) {
+            if (!getWorklistItems(resource).contains(worklistItem)) {
+                logger.debug("thou shalt not beign worklist items that are not your own: {}", resource.getName());
+                return;
+            }
+            claimWorklistItemBy(worklistItem, resource);
+            resource.getWorklist().itemIsStarted(worklistItem);
+        }
+        
     }
 
     @Override
@@ -161,7 +176,6 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     
     @Override
     public List<AbstractWorklistItem> getWorklistItems(UUID id) {
-        // TODO @Myself write a god damn test damn it!!!
         AbstractParticipant resource = identityService.getParticipant(id);
         return this.getWorklistItems(resource);
     }

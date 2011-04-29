@@ -18,23 +18,21 @@ import de.hpi.oryxengine.process.structure.Transition;
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface ProcessInstanceContext {
 
-    // TODO @ALLE: -> I think I spider ^^ - Das ist doch nicht euer ernst. Ich verfluche dieses blöde Spiel auf dem
-    // Hudson und jAutoDoc. Ganz ehrlich schaut euch doch mal die Kommentare in dieser Klasse an.
-
     /**
-     * Sets the waiting execution.
+     * Signals that the declared transition has been taken.
+     * If all transitions (e.g. for an AND-join) have been signaled the process can continue execution.
      * 
      * @param t
-     *            the new waiting execution
+     *            the transition that is signaled
      */
     void setWaitingExecution(Transition t);
 
     /**
-     * Gets the waiting executions.
+     * Gets all transitions that are incoming to a node and that have been signaled.
      * 
      * @param n
-     *            the Node
-     * @return the waiting executions
+     *            the node that the signaled transitions are checked for
+     * @return a list of all incoming transitions that have been signaled so far
      */
     List<Transition> getWaitingExecutions(Node n);
 
@@ -42,21 +40,22 @@ public interface ProcessInstanceContext {
      * Determines, whether all incoming transitions for the given node haven been signaled.
      * 
      * @param n
-     *            the n
+     *            the node that is checked
      * @return true, if successful
      */
     boolean allIncomingTransitionsSignaled(Node n);
 
     /**
-     * Removes the incoming transitions.
+     * Removes all incoming transitions of a node from the internal storage of all signaled incoming transitions.
+     * This is used in the case, e.g. that the AND-Join triggers. Then the signaled transitions have to be reset.
      * 
      * @param n
-     *            the n
+     *            the node that triggered
      */
     void removeIncomingTransitions(Node n);
 
     /**
-     * Sets the variable.
+     * Sets the variable in the process context.
      * 
      * @param variableId
      *            the name

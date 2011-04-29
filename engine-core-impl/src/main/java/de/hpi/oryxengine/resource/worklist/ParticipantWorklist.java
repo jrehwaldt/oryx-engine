@@ -74,12 +74,13 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
         } else {
 
             getLazyWorklistItems().remove(worklistItemImpl);
+            
             worklistItemImpl.getAssignedResources().remove(relatedParticipant);
         }
     }
 
     @Override
-    public void addWorklistItem(AbstractWorklistItem worklistItem) {
+    public synchronized void addWorklistItem(AbstractWorklistItem worklistItem) {
 
         getLazyWorklistItems().add(worklistItem);
         worklistItem.getAssignedResources().add(relatedParticipant);

@@ -2,12 +2,14 @@ package de.hpi.oryxengine.plugin.activity;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.activity.ActivityState;
+
 /**
  * This class is a logger and may be injected to observe
  * the lifecycle of certain activities.
  */
 public final class ActivityLifecycleAssurancePlugin
-extends AbstractActivityLifecyclePlugin {
+extends AbstractTokenPlugin {
     
     /** The completed called. */
     private boolean completedCalled;
@@ -44,9 +46,9 @@ extends AbstractActivityLifecyclePlugin {
      */
     @Override
     public void stateChanged(@Nonnull ActivityLifecycleChangeEvent event) {
-//        if (event.getActivity().getState() == ActivityState.COMPLETED) {
-//            this.completedCalled = true;   
-//        }
+        if (event.getNewState() == ActivityState.COMPLETED) {
+            this.completedCalled = true;   
+        }
     }
     
 }

@@ -1,7 +1,7 @@
 package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.activity.impl.NullActivity;
-import de.hpi.oryxengine.plugin.activity.AbstractActivityLifecyclePlugin;
+import de.hpi.oryxengine.plugin.activity.AbstractTokenPlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -46,7 +46,7 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
      * @return the node
      */
     public Node createWithAndSplitAndLogger() {
-        AbstractActivityLifecyclePlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
+        AbstractTokenPlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
         setActivityBlueprint();
 //        activity.registerPlugin(lifecycleLogger);
         // TODO register plugin

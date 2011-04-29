@@ -18,7 +18,6 @@ public class RolePushPattern implements Pattern {
         WorklistItemImpl worklistItem = new WorklistItemImpl(task, token);
         worklistItem.setStatus(WorklistItemState.OFFERED);
         worklistService.addWorklistItem(worklistItem, task.getAssignedResources());
-
     }
 
 }

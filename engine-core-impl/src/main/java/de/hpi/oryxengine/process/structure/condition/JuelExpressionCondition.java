@@ -4,11 +4,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.el.ExpressionFactory;
+import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.token.Token;
 import de.odysseus.el.ExpressionFactoryImpl;
@@ -37,18 +39,28 @@ public class JuelExpressionCondition implements Condition {
         Map<String, Object> variableMap = token.getInstance().getContext().getVariableMap();
         if (variableMap != null) {
 
-            // Binding the variables that are in the processContext with the declared variabxles in the expression
+            // Binding the variables that are in the processContext with the declared variables in the expression
             for (Entry<String, Object> theEntry : variableMap.entrySet()) {
                 String theEntryKey = theEntry.getKey();
                 Object theEntryValue = theEntry.getValue();
-                ValueExpression valueExpression =
-                    factory.createValueExpression(theEntryValue, theEntryValue.getClass());
+                ValueExpression valueExpression = factory
+                .createValueExpression(theEntryValue, theEntryValue.getClass());
                 context.setVariable(theEntryKey, valueExpression);
             }
         }
 
         ValueExpression e = factory.createValueExpression(context, juelExpression, boolean.class);
 
-        return (Boolean) e.getValue(context);
+        try {
+
+            return (Boolean) e.getValue(context);
+
+        } catch (PropertyNotFoundException propertyNotFoundException) {
+
+            String errorMessage = "The expression '" + juelExpression + "'contains a variable that could not be resolved properly. See message: "
+                + propertyNotFoundException.getMessage();
+            logger.error(errorMessage, propertyNotFoundException);
+            throw new DalmatinaRuntimeException(errorMessage, propertyNotFoundException);
+        }
     }
 }

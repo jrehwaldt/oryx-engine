@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * the lifecycle of certain activities.
  */
 public final class ActivityLifecycleLogger
-extends AbstractActivityLifecyclePlugin {
+extends AbstractTokenPlugin {
     
     /** The instance. */
     private static ActivityLifecycleLogger instance;

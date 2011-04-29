@@ -31,12 +31,14 @@ public class Participant extends AbstractParticipant {
     private Set<AbstractCapability> myCapabilities;
 
     private Set<Role> myRoles;
-    
+
     /**
      * Hidden jaxb constructor.
      */
-    protected Participant() { }
-    
+    protected Participant() {
+
+    }
+
     /**
      * Instantiates a new {@link Participant}.
      * 
@@ -76,7 +78,7 @@ public class Participant extends AbstractParticipant {
         Set<AbstractCapability> setToReturn = new HashSet<AbstractCapability>(getMyCapabilities());
         return Collections.unmodifiableSet(setToReturn);
     }
-    
+
     /**
      * Returns a Set of all {@link Capability}s of this Participant.
      * 
@@ -85,9 +87,9 @@ public class Participant extends AbstractParticipant {
     @JsonProperty
     @JsonManagedReference
     protected Set<AbstractCapability> getMyCapabilities() {
-        
+
         // TODO hier muss noch was gemacht werden
-        
+
         if (myCapabilities == null) {
             myCapabilities = new HashSet<AbstractCapability>();
         }
@@ -108,7 +110,7 @@ public class Participant extends AbstractParticipant {
      */
     @JsonProperty
     @JsonManagedReference
-    protected Set<Role> getMyRoles() {
+    protected synchronized Set<Role> getMyRoles() {
 
         if (myRoles == null) {
             myRoles = new HashSet<Role>();
@@ -117,11 +119,12 @@ public class Participant extends AbstractParticipant {
     }
 
     @Override
-    public AbstractWorklist getWorklist() {
+    public synchronized AbstractWorklist getWorklist() {
 
         if (worklist == null) {
             worklist = new ParticipantWorklist(this);
         }
+
         return worklist;
     }
 
@@ -150,6 +153,7 @@ public class Participant extends AbstractParticipant {
 
     @Override
     public List<AbstractWorklistItem> getWorklistItemsCurrentlyInWork() {
+
         List<AbstractWorklistItem> inWork = new ArrayList<AbstractWorklistItem>();
         if (this.worklist != null) {
             for (AbstractWorklistItem w : this.worklist) {

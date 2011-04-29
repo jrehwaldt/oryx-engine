@@ -59,9 +59,9 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     /** The start node. */
     private Node startNode;
 
-    private Task task = null;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    
+    private Role role;
 
     /**
      * Instantiates a new example process token factory.
@@ -77,16 +77,21 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         identityBuilder = identityService.getIdentityBuilder();
 
     }
+    
+    public void initializeNodes() {
+        initializeNodesWithRoleTasks();
+    }
 
     /**
      * Initializes the nodes.
      */
-    public void initializeNodes() {
+    public void initializeNodesWithDirectAlloc() {
 
         startNode = BPMNActivityFactory.createBPMNNullStartNode(builder);
         
         // Create the task
-        task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[0]);
+        Object[] participants = identityService.getParticipants().toArray();
+        Task task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[0]);
 
         node1 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
 
@@ -107,6 +112,27 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         BPMNActivityFactory.createTransitionFromTo(builder, node2, node3);
         BPMNActivityFactory.createTransitionFromTo(builder, node3, endNode);
     }
+    
+    public void initializeNodesWithRoleTasks() {
+        
+        startNode = BPMNActivityFactory.createBPMNNullStartNode(builder);
+
+        // Create the task
+        Task roleTask = TaskFactory.createRoleTask("Do stuff", "Do it cool", role);
+
+        node1 = BPMNActivityFactory.createBPMNUserTaskNode(builder, roleTask);
+
+        node2 = BPMNActivityFactory.createBPMNUserTaskNode(builder, roleTask);
+
+        node3 = BPMNActivityFactory.createBPMNUserTaskNode(builder, roleTask);
+
+        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
+
+        BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
+        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
+        BPMNActivityFactory.createTransitionFromTo(builder, node2, node3);
+        BPMNActivityFactory.createTransitionFromTo(builder, node3, endNode);
+    }
 
     /**
      * Creates our dummy participants with a common role. Those are the ones that will claim and complete activity
@@ -117,7 +143,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         Participant jannik = (Participant) identityBuilder.createParticipant(JANNIK);
         Participant tobi = (Participant) identityBuilder.createParticipant(TOBI);
         Participant lazy = (Participant) identityBuilder.createParticipant(LAZY);
-        Role role = (Role) identityBuilder.createRole(ROLE);
+        role = (Role) identityBuilder.createRole(ROLE);
         identityBuilder.participantBelongsToRole(jannik.getID(), role.getID())
         .participantBelongsToRole(tobi.getID(), role.getID()).participantBelongsToRole(lazy.getID(), role.getID());
 

@@ -103,7 +103,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      */
     public NavigatorImpl(RepositoryService repo, int numberOfThreads) {
 
-        // TODO Lazy initialized, o rely?
         this.scheduler = new FIFOScheduler();
         this.executionThreads = new ArrayList<NavigationThread>();
         this.state = NavigatorState.INIT;
@@ -172,7 +171,6 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         startArbitraryInstance(newToken);
         runningInstances.add(instance);
 
-        // TODO we need a method that allows the starting on a list of nodes.
         return instance;
     }
 

@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.resource.allocation;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonAnySetter;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Form;
@@ -22,6 +24,7 @@ public class TaskImpl implements Task {
     private String subject;
 
     private String description;
+    private Form form;
 
     private transient AllocationStrategies allocationStrategies;
     private transient Set<AbstractResource<?>> assignedResources;
@@ -50,10 +53,7 @@ public class TaskImpl implements Task {
                     AllocationStrategies allocationStrategies,
                     Set<AbstractResource<?>> set) {
 
-        this.subject = subject;
-        this.description = description;
-        this.allocationStrategies = allocationStrategies;
-        this.assignedResources = set;
+        this(subject, description, null, allocationStrategies, set);
     }
 
     /**
@@ -78,6 +78,30 @@ public class TaskImpl implements Task {
         this(subject, description, allocationStrategies, new HashSet<AbstractResource<?>>(
             Arrays.asList(assignedResource)));
     }
+    
+    @SuppressWarnings("unchecked")
+    public TaskImpl(String subject,
+                    String description,
+                    Form form,
+                    AllocationStrategies allocationStrategies,
+                    AbstractResource<?> assignedResource) {
+
+        this(subject, description, form, allocationStrategies, new HashSet<AbstractResource<?>>(
+            Arrays.asList(assignedResource)));
+    }
+    
+    public TaskImpl(String subject,
+                    String description,
+                    Form form,
+                    AllocationStrategies allocationStrategies,
+                    Set<AbstractResource<?>> set) {
+
+        this.subject = subject;
+        this.description = description;
+        this.form = form;
+        this.allocationStrategies = allocationStrategies;
+        this.assignedResources = set;
+    }
 
     /**
      * Copy constructor.
@@ -87,11 +111,13 @@ public class TaskImpl implements Task {
      */
     public TaskImpl(Task taskToCopy) {
 
-        this.subject = taskToCopy.getSubject();
-        this.description = taskToCopy.getDescription();
-        this.allocationStrategies = taskToCopy.getAllocationStrategies();
-        HashSet<AbstractResource<?>> setCopy = new HashSet<AbstractResource<?>>(taskToCopy.getAssignedResources());
-        this.assignedResources = setCopy;
+        this(taskToCopy.getSubject(),
+             taskToCopy.getDescription(),
+             taskToCopy.getForm(),
+             taskToCopy.getAllocationStrategies(),
+             new HashSet<AbstractResource<?>>(taskToCopy.getAssignedResources()));
+        // it is very important that a new hash set is created here!!! Otherwise, two concurrently executing human task 
+        // activities work on the same datastructure for assigned resources (which they manipulate; not cool).
 
     }
 
@@ -108,9 +134,12 @@ public class TaskImpl implements Task {
     }
 
     @Override
+    // It is a bit of a hack, but it is necessary because otherwise the form would be in the JSON, although it is
+    // annotated as '@JsonIgnore' in the Task Interface.
+    @JsonIgnore
     public Form getForm() {
 
-        return null;
+        return form;
     }
 
     @Override
@@ -123,13 +152,13 @@ public class TaskImpl implements Task {
     public Set<AbstractResource<?>> getAssignedResources() {
 
         if (assignedResources == null) {
-            assignedResources = new HashSet<AbstractResource<?>>();
+            assignedResources = Collections.synchronizedSet(new HashSet<AbstractResource<?>>());
         }
         return assignedResources;
     }
 
     /**
-     * Sets any other type not recognized by JSON serializer. This method is indented to be used by Jackson.
+     * Sets any other type not recognized by JSON serializer. This method should be used by Jackson.
      * 
      * @param fieldName
      *            - the fieldName
@@ -143,7 +172,7 @@ public class TaskImpl implements Task {
             this.subject = value;
         } else if ("description".equals(fieldName)) {
             this.description = value;
-        } else if ("from".equals(fieldName)) {
+        } else if ("form".equals(fieldName)) {
             // still TODO
         }
     }

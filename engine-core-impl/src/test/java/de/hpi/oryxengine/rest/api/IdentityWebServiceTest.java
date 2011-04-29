@@ -6,9 +6,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jboss.resteasy.mock.MockHttpRequest;
-import org.jboss.resteasy.mock.MockHttpResponse;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -26,7 +23,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
     private AbstractParticipant jannik;
     private AbstractParticipant tobi;
     private AbstractRole r1;
-    private AbstractRole r2;    
+    private AbstractRole r2;   
+    private static final String PARTICIPANT_URL = "/identity/participants";
+    private static final String ROLES_URL = "/identity/roles";
 
     /**
      * Creates 2 participants.
@@ -61,19 +60,11 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
     @Test
     public void testGetParticipants() throws URISyntaxException, IOException {
         create2Participants();
-        
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.get("/identity/participants");
-        MockHttpResponse response = new MockHttpResponse();
-        // invoke the request
-        dispatcher.invoke(request, response);
-        
-        String json = response.getContentAsString();
+               
+        String json = makeGETRequestReturningJson(PARTICIPANT_URL);
         Assert.assertNotNull(json);
         
-        //TODO jackson can return a set/map directly (but jannik was unable to get this working) (see also other stuff)
-        // Yeah thanks for the todo to get my points down
-        // so this is some kind of workaround ... ask jan how to make this better
+        // cannot be directly deserialized to a set, as it is a container type. See documentation of .readValue()
         AbstractParticipant[] participants = this.mapper.readValue(json, AbstractParticipant[].class);
         Set<AbstractParticipant> set = new HashSet<AbstractParticipant>(Arrays.asList(participants));
         
@@ -89,14 +80,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * @throws URISyntaxException the uRI syntax exception
      */
     @Test
-    public void testGetParticipantsWithNoParticipants() throws URISyntaxException {
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.get("/identity/participants");
-        MockHttpResponse response = new MockHttpResponse();
-        // invoke the request
-        dispatcher.invoke(request, response);
+    public void testGetParticipantsWithNoParticipants() throws URISyntaxException {        
+        String json = makeGETRequestReturningJson(PARTICIPANT_URL);
         
-        String json = response.getContentAsString();
         // [] is an empty JSON
         Assert.assertEquals(json, "[]");
     }
@@ -111,15 +97,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
     public void testGetRoles() throws URISyntaxException, IOException {
         create2Roles();
         
-        
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.get("/identity/roles");
-        MockHttpResponse response = new MockHttpResponse();
-        // invoke the request
-        dispatcher.invoke(request, response);
-        String json = response.getContentAsString();
-        logger.debug("Roles: " + json);
-        
+        String json = makeGETRequestReturningJson(ROLES_URL);        
                 
         // Same hack as above
         AbstractRole[] roles = this.mapper.readValue(json, AbstractRole[].class);
@@ -139,12 +117,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      */
     @Test
     public void testGetRolesWithNoRoles() throws URISyntaxException {
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.get("/identity/roles");
-        MockHttpResponse response = new MockHttpResponse();
-        // invoke the request
-        dispatcher.invoke(request, response);
-        String json = response.getContentAsString();
+        String json = makeGETRequestReturningJson(ROLES_URL);
         // [] is an empty JSON.
         Assert.assertEquals(json, "[]");
     }

@@ -17,4 +17,11 @@ public interface Pluggable<P extends Plugin> {
      * @param plugin the plugin to register
      */
     void registerPlugin(@Nonnull P plugin);
+    
+    /**
+     * This method will deregister the given plugin from the pluggable. It will not be notified in the future.
+     *
+     * @param plugin the plugin
+     */
+    void deregisterPlugin(@Nonnull P plugin);
 }

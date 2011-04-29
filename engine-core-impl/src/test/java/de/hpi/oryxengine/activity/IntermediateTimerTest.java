@@ -3,6 +3,7 @@ package de.hpi.oryxengine.activity;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import org.quartz.SchedulerException;
 import org.testng.annotations.AfterMethod;
@@ -60,15 +61,15 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
    *
    * @throws Exception the exception
    */
-  // TODO add this again as soon as we have a solution for activity plugins
-//  @Test
-//  public void testActivityStateCompleted() throws Exception {
-//      token.executeStep();
-//      token.executeStep();
-//      assertFalse(lifecycleTester.isCompletedCalled());
-//      Thread.sleep(LONG_WAITING_TIME_TEST);
-//      assertTrue(lifecycleTester.isCompletedCalled());
-//  }
+  @Test
+  public void testActivityStateCompleted() throws Exception {
+      token.executeStep();
+      ((TokenImpl) token).registerPlugin(lifecycleTester);
+      token.executeStep();
+      assertFalse(lifecycleTester.isCompletedCalled());
+      Thread.sleep(LONG_WAITING_TIME_TEST);
+      assertTrue(lifecycleTester.isCompletedCalled());
+  }
   
   /**
    * Test activity ACTIVE activity state.
@@ -108,32 +109,17 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
    */
   @BeforeMethod
   public void beforeMethod() {
+
+      // Defining the LifeCycle Plugin
+      lifecycleTester = new ActivityLifecycleAssurancePlugin();
       
       ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-      // TODO @Jannik set parameter and somehow register the plugin
-//      IntermediateTimer timer = new IntermediateTimer(WAITING_TIME);
-//      lifecycleTester = new ActivityLifecycleAssurancePlugin();
-//      timer.registerPlugin(lifecycleTester);
-      
-      
-//      Class<?>[] constructorSig = {long.class};
-//      Object[] params = {WAITING_TIME};
-//      ActivityBlueprint bp = new ActivityBlueprintImpl(IntermediateTimer.class, constructorSig, params);
-//      NodeParameter param = new NodeParameterImpl(
-//          bp,
-//          new SimpleJoinBehaviour(),
-//          new TakeAllSplitBehaviour());
-//      
-//      NodeParameter nextParam = new NodeParameterImpl(
-//          NullActivity.class,
-//          new SimpleJoinBehaviour(),
-//          new TakeAllSplitBehaviour());
 
       Navigator nav = new NavigatorImplMock();
 
       node = BPMNActivityFactory.createBPMNNullNode(builder);
       
-      //the intermediateTimer
+      // Building the IntermediateTimer
       node2 = BPMNActivityFactory.createBPMNIntermediateTimerEventNode(builder, WAITING_TIME);
       
       node3 = BPMNActivityFactory.createBPMNNullNode(builder);
@@ -143,7 +129,8 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
       
       token = new TokenImpl(node, mock(AbstractProcessInstance.class), nav);
       
-      //Cleanup the scheduler, remove old jobs to avoid testing problems
+      
+      // Cleanup the scheduler, remove old jobs to avoid testing problems
       try {
           ServiceFactory.getCorrelationService().getTimer().emptyScheduler();
       } catch (SchedulerException e) {

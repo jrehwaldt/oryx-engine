@@ -161,6 +161,12 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
         
         worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         Assert.assertEquals(worklistItemsForHamburgGuys.size(), 0);
+        
+        List<AbstractWorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService().getWorklistItems(gerardo);
+        Assert.assertEquals(worklistItemsForGerardo.size(), 0);
+        
+        List<AbstractWorklistItem> worklistItemsForJannik = ServiceFactory.getWorklistService().getWorklistItems(jannik);
+        Assert.assertEquals(worklistItemsForJannik.size(), 1);
     }
     
     /**
