@@ -83,7 +83,7 @@ if (uri != null) {
                         <span class="name"><%= current_user %></span>
                         <a href="/logout">Logout</a>
                       <% } else { %>
-                        <a href="/login">Login</a>
+                        <a href="/">Login</a>
                       <% } %>
                     </div>
                   </div>

@@ -91,13 +91,13 @@ public final class DemoDataForWebservice {
      */
     private static void generateDemoParticipants() {
 
-        r = getBuilder().createRole("demo");
-        AbstractParticipant p1 = getBuilder().createParticipant("Peter");
-        AbstractParticipant p2 = getBuilder().createParticipant("Pfeiffer");
-        AbstractParticipant p3 = getBuilder().createParticipant("Kumpel von Pfeiffer");
-        AbstractParticipant p4 = getBuilder().createParticipant("Pfeiffers Hund");
-        AbstractParticipant p5 = getBuilder().createParticipant("Pfeiffers Mutter");
-        AbstractParticipant p6 = getBuilder().createParticipant("Pfeiffers Vaddi");
+        r = getBuilder().createRole("BPT");
+        AbstractParticipant p1 = getBuilder().createParticipant("Thorben");
+        AbstractParticipant p2 = getBuilder().createParticipant("Tobi P.");
+        AbstractParticipant p3 = getBuilder().createParticipant("Tobi M.");
+        AbstractParticipant p4 = getBuilder().createParticipant("Gerardo");
+        AbstractParticipant p5 = getBuilder().createParticipant("Jan");
+        AbstractParticipant p6 = getBuilder().createParticipant("Jannik");
         getBuilder().participantBelongsToRole(p1.getID(), r.getID()).participantBelongsToRole(p2.getID(), r.getID())
         .participantBelongsToRole(p3.getID(), r.getID()).participantBelongsToRole(p4.getID(), r.getID())
         .participantBelongsToRole(p5.getID(), r.getID()).participantBelongsToRole(p6.getID(), r.getID());
@@ -150,7 +150,7 @@ public final class DemoDataForWebservice {
         nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
         endNode = processBuilder.createNode(nodeParamBuilder.buildNodeParameter());
         processBuilder.createTransition(node3, endNode).setName("Demoprocess")
-        .setDescription("A wonderful demo process definition by Master Jannik himself");
+        .setDescription("A simple demo process with three human tasks.");
 
         // Start Process
         ProcessDefinition processDefinition = processBuilder.buildDefinition();

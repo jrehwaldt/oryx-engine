@@ -77,9 +77,6 @@ public final class SimpleExampleProcess {
      */
     private static TokenImpl sampleProcessInstance(int counter, Navigator navigator) {
 
-//        AutomatedDummyActivity activity = new AutomatedDummyActivity("I suck " + counter);
-//        AutomatedDummyActivity activity2 = new AutomatedDummyActivity("I suck of course " + counter);
-        // TODO parameters
         Class<?>[] constructorSig = {String.class};
         Object[] params = {"I suck " + counter};
         ActivityBlueprint blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig,

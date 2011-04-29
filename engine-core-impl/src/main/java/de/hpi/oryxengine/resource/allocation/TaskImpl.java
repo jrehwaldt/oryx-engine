@@ -158,7 +158,7 @@ public class TaskImpl implements Task {
     }
 
     /**
-     * Sets any other type not recognized by JSON serializer. This method is indented to be used by Jackson.
+     * Sets any other type not recognized by JSON serializer. This method should be used by Jackson.
      * 
      * @param fieldName
      *            - the fieldName
@@ -172,7 +172,7 @@ public class TaskImpl implements Task {
             this.subject = value;
         } else if ("description".equals(fieldName)) {
             this.description = value;
-        } else if ("from".equals(fieldName)) {
+        } else if ("form".equals(fieldName)) {
             // still TODO
         }
     }

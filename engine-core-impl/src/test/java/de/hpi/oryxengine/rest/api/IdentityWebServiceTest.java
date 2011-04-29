@@ -64,9 +64,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String json = makeGETRequestReturningJson(PARTICIPANT_URL);
         Assert.assertNotNull(json);
         
-        //TODO jackson can return a set/map directly (but jannik was unable to get this working) (see also other stuff)
-        // Yeah thanks for the todo to get my points down
-        // so this is some kind of workaround ... ask jan how to make this better
+        // cannot be directly deserialized to a set, as it is a container type. See documentation of .readValue()
         AbstractParticipant[] participants = this.mapper.readValue(json, AbstractParticipant[].class);
         Set<AbstractParticipant> set = new HashSet<AbstractParticipant>(Arrays.asList(participants));
         

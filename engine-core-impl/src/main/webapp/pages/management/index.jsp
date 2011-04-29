@@ -25,6 +25,8 @@
             <th>Action</th>
           </tr>
         </table>
+		<h2>Demoprocess</h2>
+		<img src="../../images/exampleProcess.png" />
       </div>
     </body>
 </html>
