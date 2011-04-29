@@ -1,13 +1,9 @@
 package de.hpi.oryxengine.factories.process;
 
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
-import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.HashComputationActivity;
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * A factory for creating HeavyComputationProcessToken objects / process instances.
@@ -40,22 +36,22 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodes() {
 
-        startNode = BPMNActivityFactory.createBPMNNullStartNode(builder);
+        startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
 
         this.lastNode = startNode;
 
         for (int i = 0; i < NUMBER_OF_NODES; i++) {
 
-            Node tmpNode = BPMNActivityFactory.createBPMNHashComputationNode(builder, "hash", PASSWORDS[i
+            Node tmpNode = BpmnFunNodeFactory.createBpmnHashComputationNode(builder, "hash", PASSWORDS[i
                 % PASSWORDS.length]);
 
-            BPMNActivityFactory.createTransitionFromTo(builder, this.lastNode, tmpNode);
+            BpmnNodeFactory.createTransitionFromTo(builder, this.lastNode, tmpNode);
             this.lastNode = tmpNode;
         }
 
-        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
+        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        BPMNActivityFactory.createTransitionFromTo(builder, this.lastNode, endNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, this.lastNode, endNode);
     }
 
 }

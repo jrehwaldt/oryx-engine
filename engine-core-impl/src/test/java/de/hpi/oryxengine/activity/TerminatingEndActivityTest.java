@@ -10,7 +10,8 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
+import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
@@ -93,21 +94,21 @@ public class TerminatingEndActivityTest {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        startNode = BPMNActivityFactory.createBPMNNullNode(builder);
+        startNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
 
-        Node andSplitNode = BPMNActivityFactory.createBPMNNullNode(builder);
+        Node andSplitNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
 
-        xorJoinNode = BPMNActivityFactory.createBPMNNullNode(builder);
+        xorJoinNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
 
-        Node terminatingEnd = BPMNActivityFactory.createBPMNTerminatingEndEventNode(builder);
+        Node terminatingEnd = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);
 
-        Node computationNode = BPMNActivityFactory.createBPMNHashComputationNode(builder, "result", "meinlieblingspasswort");
+        Node computationNode = BpmnFunNodeFactory.createBpmnHashComputationNode(builder, "result", "meinlieblingspasswort");
 
-        BPMNActivityFactory.createTransitionFromTo(builder, startNode, andSplitNode);
-        BPMNActivityFactory.createTransitionFromTo(builder, andSplitNode, xorJoinNode);
-        BPMNActivityFactory.createTransitionFromTo(builder, andSplitNode, terminatingEnd);
-        BPMNActivityFactory.createTransitionFromTo(builder, xorJoinNode, computationNode);
-        BPMNActivityFactory.createTransitionFromTo(builder, computationNode, xorJoinNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, startNode, andSplitNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, andSplitNode, xorJoinNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, andSplitNode, terminatingEnd);
+        BpmnNodeFactory.createTransitionFromTo(builder, xorJoinNode, computationNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, computationNode, xorJoinNode);
         
         definition = builder.buildDefinition();
     }

@@ -6,7 +6,8 @@ import static org.testng.Assert.assertTrue;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
+import de.hpi.oryxengine.activity.impl.TransitionFactory;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
@@ -83,11 +84,11 @@ public class ConcurrentActivityStateTest {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        startNode = BPMNActivityFactory.createBPMNStartEventNode(builder);
+        startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
 
-        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
+        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        BPMNActivityFactory.createTransitionFromTo(builder, startNode, endNode);
+        TransitionFactory.createTransitionFromTo(builder, startNode, endNode);
         
         definition = builder.buildDefinition();
     }

@@ -7,17 +7,17 @@ import java.util.Map;
 import java.util.UUID;
 
 import de.hpi.oryxengine.correlation.registration.StartEvent;
-import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeBuilder;
+import de.hpi.oryxengine.process.structure.NodeBuilderImpl;
+import de.hpi.oryxengine.process.structure.StartNodeBuilderImpl;
 import de.hpi.oryxengine.process.structure.TransitionBuilder;
+import de.hpi.oryxengine.process.structure.TransitionBuilderImpl;
 
 /**
  * The Class ProcessBuilderImpl. As you would think, only nodes that were created using createStartNode() become
  * actually start nodes.
- * 
- * @author thorben
  */
 public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
 
@@ -32,7 +32,7 @@ public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
     private String description;
 
     private Map<StartEvent, Node> temporaryStartTriggers;
-    
+
     private Map<String, Object> temporaryAttributeTable;
 
     /**
@@ -67,7 +67,7 @@ public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
 
     @Override
     public ProcessDefinitionBuilder setName(String processName) {
-        
+
         this.name = processName;
         return this;
     }
@@ -93,9 +93,9 @@ public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
         if (this.temporaryAttributeTable == null) {
             this.temporaryAttributeTable = new HashMap<String, Object>();
         }
-        
+
         this.temporaryAttributeTable.put(attributeId, attibuteValue);
-        
+
         return this;
     }
 
@@ -114,6 +114,16 @@ public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
     @Override
     public NodeBuilder getStartNodeBuilder() {
 
-        return new StartNodeBuilderImpl(startNodes);
+        return new StartNodeBuilderImpl(this);
+    }
+
+    /**
+     * Getter for the StartNodes-List.
+     * 
+     * @return a {@link List} of {@link Node}
+     */
+    public List<Node> getStartNodes() {
+
+        return startNodes;
     }
 }

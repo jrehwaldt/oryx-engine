@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.activity.impl.BpmnStartEvent;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
@@ -212,7 +212,7 @@ public class BpmnXmlParse extends XmlParse {
 
             XmlElement startEventXmlElement = startEventXmlElements.get(0);
 
-            Node startEventNode = BPMNActivityFactory.createBPMNStartEventNode(processBuilder);
+            Node startEventNode = BpmnNodeFactory.createBpmnStartEventNode(processBuilder);
 
             parseGeneralNodeInformation(startEventXmlElement, startEventNode);
 
@@ -308,7 +308,7 @@ public class BpmnXmlParse extends XmlParse {
      */
     public void parseExclusiveGateway(XmlElement exclusiveGwElement) {
 
-        Node exclusiveGatewayNode = BPMNActivityFactory.createBPMNXorGatewayNode(processBuilder);
+        Node exclusiveGatewayNode = BpmnNodeFactory.createBpmnXorGatewayNode(processBuilder);
 
         parseGeneralNodeInformation(exclusiveGwElement, exclusiveGatewayNode);
 
@@ -327,7 +327,7 @@ public class BpmnXmlParse extends XmlParse {
      */
     public void parseParallelGateway(XmlElement parallelGatewayElement) {
 
-        Node parallelGatewayNode = BPMNActivityFactory.createBPMNAndGatewayNode(processBuilder);
+        Node parallelGatewayNode = BpmnNodeFactory.createBpmnAndGatewayNode(processBuilder);
 
         parseGeneralNodeInformation(parallelGatewayElement, parallelGatewayNode);
 
@@ -365,7 +365,7 @@ public class BpmnXmlParse extends XmlParse {
 
         for (XmlElement endEventXmlElement : parentElement.getElements("endEvent")) {
 
-            Node endEventNode = BPMNActivityFactory.createBPMNEndEventNode(processBuilder);
+            Node endEventNode = BpmnNodeFactory.createBpmnEndEventNode(processBuilder);
 
             parseGeneralNodeInformation(endEventXmlElement, endEventNode);
 

@@ -4,7 +4,8 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
+import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
@@ -80,14 +81,14 @@ public final class RepositorySetup {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
         
-        Node startNode = BPMNActivityFactory.createBPMNStartEventNode(builder);
+        Node startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
         
         int[] integers = {1, 1 };
-        Node node1 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", integers);
-        Node node2 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", integers);
+        Node node1 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
+        Node node2 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
         
-        BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
-        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
+        BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
+        BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
         
         builder.setName(processName).setDescription(processDescription);
         

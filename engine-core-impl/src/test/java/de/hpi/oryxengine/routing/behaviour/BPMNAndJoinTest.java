@@ -9,8 +9,8 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
@@ -18,8 +18,6 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 
 /**
  * This class tests the BPMNAndJoin-Class.
@@ -105,16 +103,16 @@ public class BPMNAndJoinTest {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        node1 = BPMNActivityFactory.createBPMNNullNode(builder);
-        node2 = BPMNActivityFactory.createBPMNNullNode(builder);
+        node1 = BpmnFunNodeFactory.createBpmnNullNode(builder);
+        node2 = BpmnFunNodeFactory.createBpmnNullNode(builder);
 
-        joinNode = BPMNActivityFactory.createBPMNAndGatewayNode(builder);
+        joinNode = BpmnNodeFactory.createBpmnAndGatewayNode(builder);
         
-        node3 = BPMNActivityFactory.createBPMNNullNode(builder);
+        node3 = BpmnFunNodeFactory.createBpmnNullNode(builder);
         
-        BPMNActivityFactory.createTransitionFromTo(builder, node1, joinNode);
-        BPMNActivityFactory.createTransitionFromTo(builder, node2, joinNode);
-        BPMNActivityFactory.createTransitionFromTo(builder, joinNode, node3);
+        BpmnNodeFactory.createTransitionFromTo(builder, node1, joinNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, node2, joinNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, joinNode, node3);
 
         Token token = new TokenImpl(splitNode, new ProcessInstanceImpl(null), navigator);
 

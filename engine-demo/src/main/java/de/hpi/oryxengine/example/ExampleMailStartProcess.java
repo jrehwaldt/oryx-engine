@@ -8,7 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
+import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.bootstrap.OryxEngine;
 import de.hpi.oryxengine.correlation.adapter.EventTypes;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
@@ -66,19 +67,19 @@ public final class ExampleMailStartProcess {
 		// Building the ProcessDefintion
 		ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-		Node startNode = BPMNActivityFactory.createBPMNNullStartNode(builder);
+		Node startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
 
 		// Building Node1
 		int[] ints = { 1, 1 };
-		Node node1 = BPMNActivityFactory
-				.createBPMNAddNumbersAndStoreNode(builder, "result", ints);
+		Node node1 = BpmnFunNodeFactory
+				.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
 
 		// Building Node2
-		Node node2 = BPMNActivityFactory
-				.createBPMNPrintingVariableNode(builder, "result");
+		Node node2 = BpmnFunNodeFactory
+				.createBpmnPrintingVariableNode(builder, "result");
 
-		BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
-		BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
+		BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
+		BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
 
 		builder.setDescription("description").setName(exampleProcessName);
 

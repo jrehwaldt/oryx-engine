@@ -22,7 +22,7 @@ extends AbstractActivity {
     /**
      * Instantiates a "new adds the numbers and store" activity.
      *
-     * @param variableName the variable name
+     * @param variableName - the name of the variable for accessing the result
      * @param summands summands
      */
     public AddNumbersAndStoreActivity(String variableName,

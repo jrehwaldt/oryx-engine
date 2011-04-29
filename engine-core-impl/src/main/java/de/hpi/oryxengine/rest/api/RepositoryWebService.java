@@ -9,7 +9,9 @@ import javax.ws.rs.core.MediaType;
 
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
+import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
+import de.hpi.oryxengine.activity.impl.TransitionFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
@@ -63,20 +65,20 @@ public class RepositoryWebService {
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
         int[] integers = {1, 1};
-        Node node1 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", integers);
+        Node node1 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
 
-        Node node2 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", integers);
+        Node node2 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
 
-        Node node3 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", integers);
+        Node node3 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
 
-        Node node4 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", integers);
+        Node node4 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
 
-        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
+        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
-        BPMNActivityFactory.createTransitionFromTo(builder, node2, node3);
-        BPMNActivityFactory.createTransitionFromTo(builder, node3, node4);
-        BPMNActivityFactory.createTransitionFromTo(builder, node4, endNode);
+        TransitionFactory.createTransitionFromTo(builder, node1, node2);
+        TransitionFactory.createTransitionFromTo(builder, node2, node3);
+        TransitionFactory.createTransitionFromTo(builder, node3, node4);
+        TransitionFactory.createTransitionFromTo(builder, node4, endNode);
 
         ProcessDefinition definition = null;
         try {

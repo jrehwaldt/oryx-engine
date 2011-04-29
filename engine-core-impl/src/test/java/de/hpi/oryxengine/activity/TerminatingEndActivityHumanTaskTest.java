@@ -10,7 +10,8 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
+import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
@@ -122,14 +123,14 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        splitNode = BPMNActivityFactory.createBPMNNullNode(builder);
+        splitNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
 
         // param.setActivity(humanTask); TODO do something with the parameter of humanTask
-        humanTaskNode = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
+        humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
-        terminatingEndNode = BPMNActivityFactory.createBPMNTerminatingEndEventNode(builder);
+        terminatingEndNode = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);
 
-        BPMNActivityFactory.createTransitionFromTo(builder, splitNode, humanTaskNode);
-        BPMNActivityFactory.createTransitionFromTo(builder, splitNode, terminatingEndNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, splitNode, humanTaskNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, splitNode, terminatingEndNode);
     }
 }
