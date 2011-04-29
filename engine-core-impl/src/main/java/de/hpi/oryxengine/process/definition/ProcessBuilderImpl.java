@@ -10,6 +10,8 @@ import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.NodeBuilder;
+import de.hpi.oryxengine.process.structure.TransitionBuilder;
 
 /**
  * The Class ProcessBuilderImpl. As you would think, only nodes that were created using createStartNode() become

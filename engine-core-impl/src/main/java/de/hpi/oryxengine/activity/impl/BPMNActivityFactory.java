@@ -1,10 +1,10 @@
 package de.hpi.oryxengine.activity.impl;
 
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.process.definition.NodeBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.NodeBuilder;
 import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -12,6 +12,11 @@ import de.hpi.oryxengine.routing.behaviour.outgoing.impl.EmptyOutgoingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.XORSplitBehaviour;
 
+/**
+ * 
+ * @author Gery
+ *
+ */
 // TODO @Gerardo aus BPMN Bpmn machen
 public class BPMNActivityFactory {
 

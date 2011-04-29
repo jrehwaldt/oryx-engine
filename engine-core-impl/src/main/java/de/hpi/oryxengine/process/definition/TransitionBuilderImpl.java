@@ -7,7 +7,13 @@ import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
+import de.hpi.oryxengine.process.structure.TransitionBuilder;
 
+/**
+ * 
+ * @author Gery
+ *
+ */
 public class TransitionBuilderImpl implements TransitionBuilder {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());

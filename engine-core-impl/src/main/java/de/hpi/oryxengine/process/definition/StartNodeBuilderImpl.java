@@ -7,12 +7,17 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.process.structure.Node;
 
+/**
+ * The implementation of the {@link NodeBuilder} for StartNodes. So this class configures and creates a {@link Node
+ * StartNode}.
+ */
 public class StartNodeBuilderImpl extends NodeBuilderImpl {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private List<Node> startNodes;
 
+    
     public StartNodeBuilderImpl(List<Node> startNodes) {
 
         this.startNodes = startNodes;

@@ -11,10 +11,14 @@ import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.NodeBuilder;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
+/**
+ * The implementation of the {@link NodeBuilder}.
+ */
 public class NodeBuilderImpl implements NodeBuilder {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
