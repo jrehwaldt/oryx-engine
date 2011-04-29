@@ -104,6 +104,7 @@ if (uri != null) {
                     <% end %>
                 --%>
                     <div id="main-content">
+                     <!-- <div id="notice"></div> -->
                 <%--
                       <% flash.each do |key, msg| %>
                         <% unless key == :product_params %>

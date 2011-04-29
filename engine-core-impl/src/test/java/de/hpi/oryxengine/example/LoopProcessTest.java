@@ -11,14 +11,13 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.AddContextNumbersAndStoreActivity;
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
-import de.hpi.oryxengine.activity.impl.EndActivity;
+import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
@@ -31,9 +30,6 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.XORSplitBehaviour;
 
 /**
  * The Class LoopProcessTest.
@@ -91,26 +87,26 @@ public class LoopProcessTest {
     @BeforeClass
     public void setUp() {
 
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
         // Create StartNode
         ActivityBlueprint blueprint = new ActivityBlueprintImpl(NullActivity.class);
 
-        start = BPMNActivityFactory.createBPMNNullNode(builder);
+        start = BpmnFunNodeFactory.createBpmnNullNode(builder);
 
 
         // Create the XORJoin
-        xorJoin = BPMNActivityFactory.createBPMNXorGatewayNode(builder);
+        xorJoin = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
 
         // Create a following Node
-        node = BPMNActivityFactory.createBPMNAddContextNumbersAndStoreNode(builder, "counter", new String[] {
+        node = BpmnFunNodeFactory.createBpmnAddContextNumbersAndStoreNode(builder, "counter", new String[] {
             "increment", "counter" });
 
         // Create the XORSplit
-        xorSplit = BPMNActivityFactory.createBPMNXorGatewayNode(builder);
+        xorSplit = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
 
         // Create the end
-        end = BPMNActivityFactory.createBPMNEndEventNode(builder);
+        end = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
         // Setup XOR DATA
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -119,11 +115,11 @@ public class LoopProcessTest {
         Condition condition2 = new HashMapCondition(map, "==");
 
         // Create Transitions
-        BPMNActivityFactory.createTransitionFromTo(builder, start, xorJoin);
-        BPMNActivityFactory.createTransitionFromTo(builder, xorJoin, node);
-        BPMNActivityFactory.createTransitionFromTo(builder, node, xorSplit);
-        BPMNActivityFactory.createTransitionFor(builder, xorSplit, end, condition2);
-        BPMNActivityFactory.createTransitionFor(builder, xorSplit, xorJoin, condition1);
+        BpmnNodeFactory.createTransitionFromTo(builder, start, xorJoin);
+        BpmnNodeFactory.createTransitionFromTo(builder, xorJoin, node);
+        BpmnNodeFactory.createTransitionFromTo(builder, node, xorSplit);
+        BpmnNodeFactory.createTransitionFromTo(builder, xorSplit, end, condition2);
+        BpmnNodeFactory.createTransitionFromTo(builder, xorSplit, xorJoin, condition1);
 
         // Bootstrap
         Navigator nav = new NavigatorImplMock();

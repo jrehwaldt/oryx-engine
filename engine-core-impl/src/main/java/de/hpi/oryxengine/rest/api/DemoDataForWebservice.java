@@ -3,11 +3,9 @@ package de.hpi.oryxengine.rest.api;
 import java.io.File;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
+import de.hpi.oryxengine.activity.impl.TransitionFactory;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
@@ -15,7 +13,7 @@ import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
@@ -114,11 +112,11 @@ public final class DemoDataForWebservice {
 
         // TODO Use Example Process to create some tasks for the role demo
 
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
         Node startNode, node1, node2, node3, endNode;
 
-        startNode = BPMNActivityFactory.createBPMNStartEventNode(builder);
+        startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
 
         // Creating the Webform for the task
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
@@ -131,19 +129,19 @@ public final class DemoDataForWebservice {
         Task task = new TaskImpl("do something", "Really do something we got a demo coming up guys!", form, strategies,
             r);
 
-        node1 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
+        node1 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
-        node2 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
+        node2 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
         // Create the task
-        node3 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
+        node3 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
-        endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
+        endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
-        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
-        BPMNActivityFactory.createTransitionFromTo(builder, node2, node3);
-        BPMNActivityFactory.createTransitionFromTo(builder, node3, endNode);
+        TransitionFactory.createTransitionFromTo(builder, startNode, node1);
+        TransitionFactory.createTransitionFromTo(builder, node1, node2);
+        TransitionFactory.createTransitionFromTo(builder, node2, node3);
+        TransitionFactory.createTransitionFromTo(builder, node3, endNode);
 
         // Start Process
         ProcessDefinition processDefinition = builder.setName("Demoprocess")

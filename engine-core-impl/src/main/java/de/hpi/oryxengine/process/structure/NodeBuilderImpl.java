@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.process.definition;
+package de.hpi.oryxengine.process.structure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,8 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.activity.Activity;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeBuilder;
-import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.routing.behaviour.incoming.IncomingBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.OutgoingBehaviour;
 
@@ -62,14 +60,19 @@ public class NodeBuilderImpl implements NodeBuilder {
     @Override
     public Node buildNode() {
 
-        return getResultNode();
+        checkingNodeConstraints();
+        
+        return buildResultNode();
     }
 
-    protected Node getResultNode() {
+    /**
+     * Builds the node to be retrieved. This method encapsulates the creation of the {@link Node}.
+     * 
+     * @return the {@link Node} to be retrieved
+     */
+    protected Node buildResultNode() {
 
-        checkingNodeConstraints();
-
-        if (getBlueprintConstructorParameters().isEmpty() & getBlueprintConstructorSignature().isEmpty()) {
+        if (getBlueprintConstructorParameters().isEmpty() && getBlueprintConstructorSignature().isEmpty()) {
             ActivityBlueprintImpl activityBlueprint = new ActivityBlueprintImpl(blueprintClazz);
             return new NodeImpl(activityBlueprint, incomingBehaviour, outgoingBehaviour);
         }
@@ -83,6 +86,9 @@ public class NodeBuilderImpl implements NodeBuilder {
         return new NodeImpl(activityBlueprint, incomingBehaviour, outgoingBehaviour);
     }
 
+    /**
+     * This method checks the constraints for creating a node.
+     */
     protected void checkingNodeConstraints() {
 
         if (blueprintClazz == null) {
@@ -93,8 +99,14 @@ public class NodeBuilderImpl implements NodeBuilder {
             logger.error(errorMessage);
             throw new DalmatinaRuntimeException(errorMessage);
         }
-    }
 
+        // TODO @Gerardo Maybe we can do here some meta programming in order to check wether the specified constructor
+        // exists
+    }
+    
+    /**
+     * Lazy Initialization Getter.
+     */
     protected List<Object> getBlueprintConstructorParameters() {
 
         if (this.blueprintConstructorParameters == null) {
@@ -103,6 +115,9 @@ public class NodeBuilderImpl implements NodeBuilder {
         return blueprintConstructorParameters;
     }
 
+    /**
+     * Lazy Initialization Getter.
+     */
     protected List<Class<?>> getBlueprintConstructorSignature() {
 
         if (this.blueprintConstructorSignature == null) {

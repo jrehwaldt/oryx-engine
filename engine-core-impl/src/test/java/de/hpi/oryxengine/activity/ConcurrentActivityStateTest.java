@@ -6,12 +6,13 @@ import static org.testng.Assert.assertTrue;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
+import de.hpi.oryxengine.activity.impl.TransitionFactory;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleAssurancePlugin;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
@@ -81,13 +82,13 @@ public class ConcurrentActivityStateTest {
     public void setUpProcess()
     throws IllegalStarteventException {
 
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-        startNode = BPMNActivityFactory.createBPMNStartEventNode(builder);
+        startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
 
-        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
+        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        BPMNActivityFactory.createTransitionFromTo(builder, startNode, endNode);
+        TransitionFactory.createTransitionFromTo(builder, startNode, endNode);
         
         definition = builder.buildDefinition();
     }

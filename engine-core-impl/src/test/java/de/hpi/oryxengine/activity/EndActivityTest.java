@@ -9,22 +9,18 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
-import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
+import de.hpi.oryxengine.activity.impl.TransitionFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.EmptyOutgoingBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class EndActivityTest.
@@ -104,25 +100,23 @@ public class EndActivityTest {
     public void prepareProcessForTest()
     throws IllegalStarteventException {
 
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-        startNode = BPMNActivityFactory.createBPMNStartEventNode(builder);
+        startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
         
         int[] ints = {1, 1};
-        Node forkNode1 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", ints);
+        Node forkNode1 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
 
         int[] anotherInts = {2, 2};
-        Node forkNode2 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result2", anotherInts);
+        Node forkNode2 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result2", anotherInts);
 
-        BPMNActivityFactory.createTransitionFromTo(builder, startNode, forkNode1);
-        BPMNActivityFactory.createTransitionFromTo(builder, startNode, forkNode2);
-        
+        Node endNode1 = BpmnNodeFactory.createBpmnEndEventNode(builder); 
+        Node endNode2 = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        Node endNode1 = BPMNActivityFactory.createBPMNEndEventNode(builder); 
-        Node endNode2 = BPMNActivityFactory.createBPMNEndEventNode(builder);
-
-        BPMNActivityFactory.createTransitionFromTo(builder, forkNode1, endNode1);
-        BPMNActivityFactory.createTransitionFromTo(builder, forkNode2, endNode2);
+        TransitionFactory.createTransitionFromTo(builder, startNode, forkNode1);
+        TransitionFactory.createTransitionFromTo(builder, startNode, forkNode2);
+        TransitionFactory.createTransitionFromTo(builder, forkNode1, endNode1);
+        TransitionFactory.createTransitionFromTo(builder, forkNode2, endNode2);
 
         ProcessDefinition definition = builder.buildDefinition();
 

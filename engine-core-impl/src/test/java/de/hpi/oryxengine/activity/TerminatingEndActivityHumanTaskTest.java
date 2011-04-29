@@ -10,14 +10,15 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
+import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
@@ -120,16 +121,16 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
     @BeforeClass
     public void setUpProcessInstance() {
 
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-        splitNode = BPMNActivityFactory.createBPMNNullNode(builder);
+        splitNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
 
         // param.setActivity(humanTask); TODO do something with the parameter of humanTask
-        humanTaskNode = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
+        humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
-        terminatingEndNode = BPMNActivityFactory.createBPMNTerminatingEndEventNode(builder);
+        terminatingEndNode = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);
 
-        BPMNActivityFactory.createTransitionFromTo(builder, splitNode, humanTaskNode);
-        BPMNActivityFactory.createTransitionFromTo(builder, splitNode, terminatingEndNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, splitNode, humanTaskNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, splitNode, terminatingEndNode);
     }
 }

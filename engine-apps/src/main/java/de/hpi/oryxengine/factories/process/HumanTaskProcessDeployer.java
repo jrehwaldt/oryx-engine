@@ -14,11 +14,12 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
+import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
+import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.factories.worklist.TaskFactory;
 import de.hpi.oryxengine.loadgenerator.PseudoHumanJob;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
@@ -73,7 +74,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     throws SchedulerException {
 
         identityService = ServiceFactory.getIdentityService();
-        builder = new ProcessBuilderImpl();
+        builder = new ProcessDefinitionBuilderImpl();
         identityBuilder = identityService.getIdentityBuilder();
 
     }
@@ -87,51 +88,51 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodesWithDirectAlloc() {
 
-        startNode = BPMNActivityFactory.createBPMNNullStartNode(builder);
+        startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
         
         // Create the task
         Object[] participants = identityService.getParticipants().toArray();
         Task task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[0]);
 
-        node1 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
+        node1 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
         // Create the task
         task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[1]);
 
-        node2 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
+        node2 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
         // Create the task
         task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[2]);
         
-        node3 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
+        node3 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
-        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
+        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
-        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
-        BPMNActivityFactory.createTransitionFromTo(builder, node2, node3);
-        BPMNActivityFactory.createTransitionFromTo(builder, node3, endNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
+        BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
+        BpmnNodeFactory.createTransitionFromTo(builder, node2, node3);
+        BpmnNodeFactory.createTransitionFromTo(builder, node3, endNode);
     }
     
     public void initializeNodesWithRoleTasks() {
         
-        startNode = BPMNActivityFactory.createBPMNNullStartNode(builder);
+        startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
 
         // Create the task
         Task roleTask = TaskFactory.createRoleTask("Do stuff", "Do it cool", role);
 
-        node1 = BPMNActivityFactory.createBPMNUserTaskNode(builder, roleTask);
+        node1 = BpmnNodeFactory.createBpmnUserTaskNode(builder, roleTask);
 
-        node2 = BPMNActivityFactory.createBPMNUserTaskNode(builder, roleTask);
+        node2 = BpmnNodeFactory.createBpmnUserTaskNode(builder, roleTask);
 
-        node3 = BPMNActivityFactory.createBPMNUserTaskNode(builder, roleTask);
+        node3 = BpmnNodeFactory.createBpmnUserTaskNode(builder, roleTask);
 
-        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
+        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
-        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
-        BPMNActivityFactory.createTransitionFromTo(builder, node2, node3);
-        BPMNActivityFactory.createTransitionFromTo(builder, node3, endNode);
+        BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
+        BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
+        BpmnNodeFactory.createTransitionFromTo(builder, node2, node3);
+        BpmnNodeFactory.createTransitionFromTo(builder, node3, endNode);
     }
 
     /**

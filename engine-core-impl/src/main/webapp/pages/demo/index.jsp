@@ -4,16 +4,12 @@
     Demo data created
     </head>
     <body>
-        <h1>Demodata got created!</h1>
-        <script>
-          $().ready(function() {
-          // this Ajay request just generates the demodata
-            $.ajax({
-              type: 'POST',
-              url: '/api/demo/generate'
-            })
-          });
-        </script>
+        <h1>Demodata</h1>
+        <script type="text/javascript" src="/javascripts/demo/demoGenerator.js"></script>
+
+        <button id="demoGenerate">Generate Demo Process Data</button>
+        <br/>
+        <button id="referenceGenerate">Generate Reference Process Data</button>
 
     </body>
 </html>

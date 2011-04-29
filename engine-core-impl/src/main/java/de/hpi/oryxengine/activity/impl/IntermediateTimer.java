@@ -20,27 +20,29 @@ public class IntermediateTimer extends AbstractActivity {
 
     /**
      * Instantiates a new intermediate timer with a given time.
-     *
-     * @param time the time in ms
+     * 
+     * @param time
+     *            - the time (in ms) to wait for
      */
     public IntermediateTimer(long time) {
+
         this.time = time;
     }
-    
+
     @Override
     protected void executeIntern(@Nonnull Token token) {
-        
+
         CorrelationManager correlationService = ServiceFactory.getCorrelationService();
         TimedConfiguration conf = new TimerConfigurationImpl(this.time);
         this.jobCompleteName = correlationService.registerIntermediateEvent(new TimerEventImpl(conf, token));
         token.suspend();
     }
-    
+
     @Override
     public void cancel() {
+
         TimingManager timer = ServiceFactory.getCorrelationService().getTimer();
         timer.unregisterJob(this.jobCompleteName);
     }
-
 
 }

@@ -6,8 +6,7 @@ function addButtonClickHandler() {
 }
 
 function addClaimButtonClickHandler() {
-	
-	//TODO make a method out of this shit
+
     $("button.claim").click(function() {
 
         var worklistItemId = $(this).parents(".worklistitem").attr("id");
@@ -38,7 +37,7 @@ function addClaimButtonClickHandler() {
 }
 
 function addBeginButtonClickHandler() {
-	
+
     // Now add the click handlers to the freshly created buttons
     // Click handlers shall claim an item
     $("button.begin").click(function() {
@@ -49,7 +48,7 @@ function addBeginButtonClickHandler() {
 	    wrapper["action"] = "BEGIN";
 	    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
 	    console.log(wrapper);
-	    
+
 	    $.ajax({
 	    	type: 'PUT',
 	    	url: '/api/worklist/items/' + worklistItemId + '/state',
@@ -59,16 +58,16 @@ function addBeginButtonClickHandler() {
 				$(button).unbind();
 				$(button).removeClass("begin").addClass("end").html("End");
 				addEndButtonClickHandler(button);
-				
+
 				//only remove the claim button if the button is still there
 				var element = $(button).parent().find(".claim");
 				if(element.length){
 					element.unbind();
 					element.remove();
-				}			
+				}
 
 	    		// be happy and do stuff (like morph button to start task or stuff like that)
-	    		
+
 	    	},
 	    	error: function(jqXHR, textStatus, errorThrown) {
 	    		$('#participants').html(jqXHR.responseText).addClass('error');
@@ -78,6 +77,23 @@ function addBeginButtonClickHandler() {
 
     });
 }
+
+
+function generateButton(item) {
+	var button;
+	switch(item.status) {
+		case "ALLOCATED": button = "<button class=\"begin\">Begin</button>"; break;
+		case "OFFERED": button = "<button class=\"claim\">Claim</button><button class=\"begin\">Begin</button>"; break;
+		case "EXECUTING": button = "<button class=\"end\">End</button>"; addFormularLinkFor(button); break;
+	}
+	return button;
+}
+
+function addFormularLinkFor(handler) {
+	var itemID = $(handler).parents(".worklistitem").attr("id");
+	$(handler).parent().prepend("<a href=\"/worklist/items/form?worklistitemId=" + itemID + "\">Formular</a>");
+}
+
 
 function addEndButtonClickHandler(handler) {
 	addFormularLinkFor(handler);
@@ -97,10 +113,10 @@ function addEndButtonClickHandler(handler) {
 				console.log(data);
 				//TODO implement mechanism to refresh items for other clients;
 				$(button).unbind();
-				$(button).parent().parent().remove();	
+				$(button).parent().parent().remove();
 
 				// be happy and do stuff (like morph button to start task or stuff like that)
-				
+
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				$('#participants').html(jqXHR.responseText).addClass('error');
@@ -109,13 +125,11 @@ function addEndButtonClickHandler(handler) {
 		});
 
 		});
-		
+
 }
 
 
 $().ready(function(){
-
-    $("#welcomeMessage").append("Welcome " + $.Storage.get("participantName") + ", here is your worklist:");
 
     // AJAX request to get the worklist for the selected participant
     $.ajax({
@@ -123,10 +137,10 @@ $().ready(function(){
         url: '/api/worklist/items',
         data: 'id=' + $.Storage.get("participantUUID"),
         success: function(data) {
+            $("#welcomeMessage").append("Welcome " + $.Storage.get("participantName") + ", here is your worklist:");
             var worklist = data;
             $.each(worklist, function(i, worklistitem){
 
-                // TODO determine whether we have to claim a task or to start one
 				var button = generateButton(worklistitem);
                 $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\">"
                 					  + "<td>" + worklistitem.task.subject + "</td>"
@@ -137,7 +151,8 @@ $().ready(function(){
             addButtonClickHandler();
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            $('#worklist').html(jqXHR.responseText).addClass('error');
+            $("#welcomeMessage").append("You need to log in before you can see your worklist").addClass("error");
+
         },
         contentType: 'application/json', // we send json
         dataType: "json" // we expect json
@@ -145,17 +160,3 @@ $().ready(function(){
 
 })
 
-function generateButton(item) {
-	var button;
-	switch(item.status) {
-		case "ALLOCATED": button = "<button class=\"begin\">Begin</button>"; break;
-		case "OFFERED": button = "<button class=\"claim\">Claim</button><button class=\"begin\">Begin</button>"; break;
-		case "EXECUTING": button = "<button class=\"end\">End</button>"; addFormularLinkFor(button); break;
-	}
-	return button;
-}
-
-function addFormularLinkFor(handler) {
-	var itemID = $(handler).parents(".worklistitem").attr("id");
-	$(handler).parent().prepend("<a href=\"/worklist/items/form?worklistitemId=" + itemID + "\">Formular</a>");
-}

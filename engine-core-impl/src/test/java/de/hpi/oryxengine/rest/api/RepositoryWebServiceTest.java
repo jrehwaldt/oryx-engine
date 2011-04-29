@@ -15,7 +15,7 @@ import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
@@ -41,7 +41,7 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
      * @throws IllegalStarteventException the illegal startevent exception
      */
     public void createAnotherProcessDefinition() throws IllegalStarteventException {
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
         builder.setName("Empty").setDescription("Really an empty dummy process");
         ProcessDefinition definition = builder.buildDefinition();
         ProcessDefinitionImporter rawProDefImporter = new RawProcessDefintionImporter(definition);

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.process.definition;
+package de.hpi.oryxengine.process.structure;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +10,7 @@ import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.process.structure.TransitionBuilder;
 
 /**
- * 
- * @author Gery
- *
+ * The implementation of the {@link TransitionBuilder}.
  */
 public class TransitionBuilderImpl implements TransitionBuilder {
 
@@ -43,10 +41,15 @@ public class TransitionBuilderImpl implements TransitionBuilder {
 
         checkingTransitionConstraints();
 
-        return getResultTransition();
+        return buildResultTransition();
     }
 
-    private Transition getResultTransition() {
+    /**
+     * Builds the transition to be retrieved. This method encapsulates the creation of the {@link Transition}.
+     * 
+     * @return the {@link Transition} to be retrieved
+     */
+    private Transition buildResultTransition() {
 
         Transition resultTransition;
 
@@ -59,6 +62,9 @@ public class TransitionBuilderImpl implements TransitionBuilder {
         return resultTransition;
     }
 
+    /**
+     * This method checks the constraints for creating a node.
+     */
     private void checkingTransitionConstraints() {
 
         if (source == null || destination == null) {
