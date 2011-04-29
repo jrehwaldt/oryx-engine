@@ -4,7 +4,7 @@ import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.HashComputationActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
@@ -32,7 +32,7 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
      */
     public HeavyComputationProcessDeployer() {
 
-        builder = new ProcessBuilderImpl();
+        builder = new ProcessDefinitionBuilderImpl();
     }
 
     /**

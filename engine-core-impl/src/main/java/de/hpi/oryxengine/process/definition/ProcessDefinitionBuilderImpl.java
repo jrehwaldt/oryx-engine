@@ -19,7 +19,7 @@ import de.hpi.oryxengine.process.structure.TransitionBuilder;
  * 
  * @author thorben
  */
-public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
+public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
 
     private ProcessDefinition definition;
 
@@ -38,7 +38,7 @@ public class ProcessBuilderImpl implements ProcessDefinitionBuilder {
     /**
      * Instantiates some temporary datastructures.
      */
-    public ProcessBuilderImpl() {
+    public ProcessDefinitionBuilderImpl() {
 
         this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
         this.startNodes = new ArrayList<Node>();

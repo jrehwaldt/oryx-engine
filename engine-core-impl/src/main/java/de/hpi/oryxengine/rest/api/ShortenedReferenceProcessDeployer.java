@@ -11,7 +11,7 @@ import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Condition;
@@ -41,7 +41,7 @@ public class ShortenedReferenceProcessDeployer {
     private static final String ALLOWANCE_CLERK = "Allowance Clerk";
 
     private static IdentityService identityService = ServiceFactory.getIdentityService();
-    private static ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+    private static ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
     private static IdentityBuilder identityBuilder = identityService.getIdentityBuilder();
 
     // Nodes

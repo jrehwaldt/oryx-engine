@@ -18,7 +18,7 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleAssurancePlugin;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
@@ -113,7 +113,7 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
       // Defining the LifeCycle Plugin
       lifecycleTester = new ActivityLifecycleAssurancePlugin();
       
-      ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+      ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
       Navigator nav = new NavigatorImplMock();
 

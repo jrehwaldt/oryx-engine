@@ -58,7 +58,7 @@ public class ProcessBuilderTest {
     @BeforeClass
     public void setUp() {
 
-        builder = new ProcessBuilderImpl();
+        builder = new ProcessDefinitionBuilderImpl();
     }
 
 }

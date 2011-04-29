@@ -4,7 +4,7 @@ import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.EmptyOutgoingBehaviour;
@@ -29,7 +29,7 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
      */
     public ExampleProcessDeployer() {
 
-        builder = new ProcessBuilderImpl();
+        builder = new ProcessDefinitionBuilderImpl();
     }
 
     /**
