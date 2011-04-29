@@ -15,7 +15,7 @@
                 </ul>
              </li>
         </ul>
-
+    <h2>Login</h2>
 		<p>Participants </p>
         <div id="loginpart">
           <select id="loginBox">
