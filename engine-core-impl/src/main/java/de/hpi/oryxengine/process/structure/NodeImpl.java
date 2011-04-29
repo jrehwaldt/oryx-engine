@@ -32,12 +32,14 @@ public class NodeImpl implements Node {
 
     private UUID id;
     private Map<String, Object> attributes;
-    
+
     /**
      * Hidden constructor.
      */
-    protected NodeImpl() { }
-    
+    protected NodeImpl() {
+
+    }
+
     /**
      * Instantiates a new abstract node.
      * 
@@ -93,6 +95,8 @@ public class NodeImpl implements Node {
      */
     public NodeImpl(ActivityBlueprint blueprint) {
 
+        // TODO @Alle das muss raus hier, weil es sich hierbei um Verhalten handelt; Die Node-Klasse sollte eine
+        // Grundlage für diverse Ausführungssprachen bilden. Bei Fragen an Gerardo wenden.
         this(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
     }
 
@@ -105,15 +109,23 @@ public class NodeImpl implements Node {
      */
     public NodeImpl(Class<? extends Activity> clazz) {
 
+        // TODO @Alle das muss raus hier, weil es sich hierbei um Verhalten handelt; Die Node-Klasse sollte eine
+        // Grundlage für diverse Ausführungssprachen bilden. Bei Fragen an Gerardo wenden.
         this(null, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         this.blueprint = new ActivityBlueprintImpl(clazz);
     }
 
     @Override
-    public void transitionTo(Node node) {
+    public Transition transitionTo(Node node) {
 
-        Condition c = new HashMapCondition();
-        createTransitionWithCondition(node, c);
+        Condition condition = new HashMapCondition();
+        return createTransitionWithCondition(node, condition);
+    }
+
+    @Override
+    public Transition transitionToWithCondition(Node node, Condition c) {
+
+        return createTransitionWithCondition(node, c);
     }
 
     /**
@@ -124,12 +136,14 @@ public class NodeImpl implements Node {
      * @param c
      *            the condition
      */
-    private void createTransitionWithCondition(Node node, Condition c) {
+    private Transition createTransitionWithCondition(Node node, Condition c) {
 
-        Transition t = new TransitionImpl(this, node, c);
-        this.outgoingTransitions.add(t);
+        Transition transition = new TransitionImpl(this, node, c);
+        this.outgoingTransitions.add(transition);
         List<Transition> nextIncoming = node.getIncomingTransitions();
-        nextIncoming.add(t);
+        nextIncoming.add(transition);
+
+        return transition;
     }
 
     @Override
@@ -162,13 +176,6 @@ public class NodeImpl implements Node {
     }
 
     @Override
-    public void transitionToWithCondition(Node node, Condition c) {
-
-        createTransitionWithCondition(node, c);
-
-    }
-
-    @Override
     public ActivityBlueprint getActivityBlueprint() {
 
         return blueprint;
@@ -179,7 +186,7 @@ public class NodeImpl implements Node {
 
         this.blueprint = blueprint;
     }
-    
+
     @JsonProperty
     @Override
     public Map<String, Object> getAttributes() {

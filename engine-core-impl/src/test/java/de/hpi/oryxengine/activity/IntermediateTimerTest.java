@@ -12,25 +12,18 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.IntermediateTimer;
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.correlation.timing.TimingManager;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleAssurancePlugin;
-import de.hpi.oryxengine.process.definition.NodeParameter;
-import de.hpi.oryxengine.process.definition.NodeParameterImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
-import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class IntermediateTimerTest. Checks if the intermediate timer is working.
@@ -116,38 +109,28 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
    */
   @BeforeMethod
   public void beforeMethod() {
-      
-      ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
-      
-      IntermediateTimer timer = new IntermediateTimer(WAITING_TIME);
+
+      // Defining the LifeCycle Plugin
       lifecycleTester = new ActivityLifecycleAssurancePlugin();
       
-      Class<?>[] constructorSig = {long.class};
-      Object[] params = {WAITING_TIME};
-      ActivityBlueprint bp = new ActivityBlueprintImpl(IntermediateTimer.class, constructorSig, params);
-      NodeParameter param = new NodeParameterImpl(
-          bp,
-          new SimpleJoinBehaviour(),
-          new TakeAllSplitBehaviour());
-      
-      NodeParameter nextParam = new NodeParameterImpl(
-          NullActivity.class,
-          new SimpleJoinBehaviour(),
-          new TakeAllSplitBehaviour());
+      ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
       Navigator nav = new NavigatorImplMock();
-      node = builder.createNode(nextParam);
-      //the intermediateTimer
-      node2 = builder.createNode(param);
-      node3 = builder.createNode(nextParam);
-      builder.createTransition(node, node2);
-      builder.createTransition(node2, node3);
+
+      node = BPMNActivityFactory.createBPMNNullNode(builder);
       
+      // Building the IntermediateTimer
+      node2 = BPMNActivityFactory.createBPMNIntermediateTimerEventNode(builder, WAITING_TIME);
+      
+      node3 = BPMNActivityFactory.createBPMNNullNode(builder);
+      
+      BPMNActivityFactory.createTransitionFromTo(builder, node, node2);
+      BPMNActivityFactory.createTransitionFromTo(builder, node2, node3);
       
       token = new TokenImpl(node, mock(AbstractProcessInstance.class), nav);
       
       
-      //Cleanup the scheduler, remove old jobs to avoid testing problems
+      // Cleanup the scheduler, remove old jobs to avoid testing problems
       try {
           ServiceFactory.getCorrelationService().getTimer().emptyScheduler();
       } catch (SchedulerException e) {

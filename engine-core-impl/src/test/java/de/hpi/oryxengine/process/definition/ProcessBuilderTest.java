@@ -14,6 +14,7 @@ import de.hpi.oryxengine.process.structure.Transition;
 
 /**
  * The Class ProcessBuilderTest.
+ * 
  * @author thorben
  */
 public class ProcessBuilderTest {
@@ -22,18 +23,20 @@ public class ProcessBuilderTest {
 
     /**
      * Test simple build process.
-     * @throws IllegalStarteventException 
+     * 
+     * @throws IllegalStarteventException
      */
     @Test
-    public void testSimpleBuildProcess() throws IllegalStarteventException {
+    public void testSimpleBuildProcess()
+    throws IllegalStarteventException {
 
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
+        startNode = builder.getStartNodeBuilder().setActivityBlueprintFor(NullActivity.class).buildNode();
 
-        endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        endNode = builder.getNodeBuilder().setActivityBlueprintFor(NullActivity.class).buildNode();
 
-        ProcessDefinition definition = builder.createTransition(startNode, endNode).buildDefinition();
+        builder.getTransitionBuilder().transitionGoesFromTo(startNode, endNode).buildTransition();
+        
+        ProcessDefinition definition = builder.buildDefinition();
 
         List<Node> startNodes = definition.getStartNodes();
         assertEquals(startNodes.size(), 1, "There should be one start node");
@@ -54,6 +57,7 @@ public class ProcessBuilderTest {
      */
     @BeforeClass
     public void setUp() {
+
         builder = new ProcessBuilderImpl();
     }
 

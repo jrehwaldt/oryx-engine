@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.util.xml.XmlElement;
 
 /**
@@ -92,5 +93,10 @@ public class BpmnProcessDefinitionValidator implements BpmnXmlParseListener {
         DalmatinaRuntimeException validationErrorException = new DalmatinaRuntimeException(errorMessage);
         logger.error(errorMessage, validationErrorException);
         throw validationErrorException;
+    }
+
+    @Override
+    public void parseSequenceFlow(XmlElement sequenceFlowElement, Transition transition) {
+
     }
 }
