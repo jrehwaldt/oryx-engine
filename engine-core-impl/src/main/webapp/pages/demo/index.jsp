@@ -4,10 +4,11 @@
     Demo data created
     </head>
     <body>
-        <h1>Demodata got created!</h1>
+        <h1>Demodata</h1>
         <script type="text/javascript" src="/javascripts/demo/demoGenerator.js"></script>
 
         <button id="demoGenerate">Generate Demo Process Data</button>
+        <br/>
         <button id="referenceGenerate">Generate Reference Process Data</button>
 
     </body>

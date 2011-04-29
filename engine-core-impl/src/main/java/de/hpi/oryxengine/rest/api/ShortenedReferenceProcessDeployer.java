@@ -40,9 +40,9 @@ public class ShortenedReferenceProcessDeployer {
     private static final String OBJECTION_CLERK = "Objection Clerk";
     private static final String ALLOWANCE_CLERK = "Allowance Clerk";
 
-    private static IdentityBuilder identityBuilder;
-
-    private IdentityService identityService;
+    private static IdentityService identityService = ServiceFactory.getIdentityService();
+    private static ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+    private static IdentityBuilder identityBuilder = identityService.getIdentityBuilder();
 
     // Nodes
     private static Node startNode;
@@ -62,7 +62,13 @@ public class ShortenedReferenceProcessDeployer {
     
     private static boolean invoked = false;
 
-    private static ProcessDefinitionBuilder builder;
+    /**
+     * Hidden constructor, as this class only provides static methods.
+     */
+    private ShortenedReferenceProcessDeployer() {
+        // do nothing
+    }
+    
     //
     // /**
     // * Gets the start node.
@@ -263,16 +269,6 @@ public class ShortenedReferenceProcessDeployer {
     // }
 
     /**
-     * Default constructor.
-     */
-    public ShortenedReferenceProcessDeployer() {
-
-        identityService = ServiceFactory.getIdentityService();
-        builder = new ProcessBuilderImpl();
-        identityBuilder = identityService.getIdentityBuilder();
-    }
-
-    /**
      * Initialize nodes.
      */
     public static void initializeNodes() {
@@ -429,7 +425,7 @@ public class ShortenedReferenceProcessDeployer {
     // }
 
     /**
-     * Creates the participants,
+     * Creates the participants.
      */
     public static void createParticipants() {
 
