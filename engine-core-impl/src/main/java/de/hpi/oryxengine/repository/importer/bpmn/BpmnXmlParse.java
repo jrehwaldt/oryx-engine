@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.repository.importer.bpmn;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,18 +8,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.activity.impl.AutomatedDummyActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.activity.impl.BpmnStartEvent;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.Transition;
+import de.hpi.oryxengine.process.structure.TransitionBuilder;
 import de.hpi.oryxengine.process.structure.condition.CheckVariableTrueCondition;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.AndJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
@@ -212,10 +212,7 @@ public class BpmnXmlParse extends XmlParse {
 
             XmlElement startEventXmlElement = startEventXmlElements.get(0);
 
-            NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl();
-            nodeParameterBuilder.setActivityBlueprintFor(BpmnStartEvent.class);
-
-            Node startEventNode = processBuilder.createStartNode(nodeParameterBuilder.buildNodeParameter());
+            Node startEventNode = BPMNActivityFactory.createBPMNStartEventNode(processBuilder);
 
             parseGeneralNodeInformation(startEventXmlElement, startEventNode);
 
@@ -311,11 +308,7 @@ public class BpmnXmlParse extends XmlParse {
      */
     public void parseExclusiveGateway(XmlElement exclusiveGwElement) {
 
-        NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-            new XORSplitBehaviour());
-        nodeParameterBuilder.setActivityBlueprintFor(NullActivity.class);
-
-        Node exclusiveGatewayNode = processBuilder.createNode(nodeParameterBuilder.buildNodeParameter());
+        Node exclusiveGatewayNode = BPMNActivityFactory.createBPMNXorGatewayNode(processBuilder);
 
         parseGeneralNodeInformation(exclusiveGwElement, exclusiveGatewayNode);
 
@@ -334,11 +327,7 @@ public class BpmnXmlParse extends XmlParse {
      */
     public void parseParallelGateway(XmlElement parallelGatewayElement) {
 
-        NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl(new AndJoinBehaviour(),
-            new TakeAllSplitBehaviour());
-        nodeParameterBuilder.setActivityBlueprintFor(NullActivity.class);
-
-        Node parallelGatewayNode = processBuilder.createNode(nodeParameterBuilder.buildNodeParameter());
+        Node parallelGatewayNode = BPMNActivityFactory.createBPMNAndGatewayNode(processBuilder);
 
         parseGeneralNodeInformation(parallelGatewayElement, parallelGatewayNode);
 
@@ -354,11 +343,9 @@ public class BpmnXmlParse extends XmlParse {
      */
     public void parseTask(XmlElement taskXmlElement) {
 
-        NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl();
-        nodeParameterBuilder.setActivityBlueprintFor(AutomatedDummyActivity.class).addConstructorParameter(
-            String.class, "Doing something");
-
-        Node taskNode = processBuilder.createNode(nodeParameterBuilder.buildNodeParameter());
+        Node taskNode = processBuilder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
+        .setOutgoingBehaviour(new TakeAllSplitBehaviour()).setActivityBlueprintFor(AutomatedDummyActivity.class)
+        .addConstructorParameter(String.class, "Doing something").buildNode();
 
         parseGeneralNodeInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
@@ -378,12 +365,7 @@ public class BpmnXmlParse extends XmlParse {
 
         for (XmlElement endEventXmlElement : parentElement.getElements("endEvent")) {
 
-            // EndActvities does not need a specific OutgoingBehaviour
-            NodeParameterBuilder nodeParameterBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(),
-                new EmptyOutgoingBehaviour());
-            nodeParameterBuilder.setActivityBlueprintFor(EndActivity.class);
-
-            Node endEventNode = processBuilder.createNode(nodeParameterBuilder.buildNodeParameter());
+            Node endEventNode = BPMNActivityFactory.createBPMNEndEventNode(processBuilder);
 
             parseGeneralNodeInformation(endEventXmlElement, endEventNode);
 
@@ -435,16 +417,17 @@ public class BpmnXmlParse extends XmlParse {
 
             Condition transitionCondition = parseSequenceFlowCondition(sequenceFlowElement);
 
+            TransitionBuilder transitionBuilder = processBuilder.getTransitionBuilder().transitionGoesFromTo(
+                sourceNode, destinationNode);
             if (transitionCondition != null) {
-                processBuilder.createTransition(sourceNode, destinationNode, transitionCondition);
-            } else {
-                processBuilder.createTransition(sourceNode, destinationNode);
+                transitionBuilder.setCondition(transitionCondition);
             }
-
-            // TODO @Gerardo&PairprogrammingPartner umstellen das mit dem Builder
-            // for (BpmnXmlParseListener parseListener : parseListeners) {
-            // parseListener.parseSequenceFlow(sequenceFlowElement, transition);
-            // }
+             
+            Transition transition = transitionBuilder.buildTransition();
+                
+             for (BpmnXmlParseListener parseListener : parseListeners) {
+             parseListener.parseSequenceFlow(sequenceFlowElement, transition);
+             }
         }
     }
 

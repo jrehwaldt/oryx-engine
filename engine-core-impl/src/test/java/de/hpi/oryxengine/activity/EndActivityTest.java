@@ -10,12 +10,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.AddNumbersAndStoreActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
@@ -25,6 +24,7 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.routing.behaviour.incoming.impl.SimpleJoinBehaviour;
 import de.hpi.oryxengine.routing.behaviour.outgoing.impl.EmptyOutgoingBehaviour;
+import de.hpi.oryxengine.routing.behaviour.outgoing.impl.TakeAllSplitBehaviour;
 
 /**
  * The Class EndActivityTest.
@@ -98,43 +98,31 @@ public class EndActivityTest {
     }
 
     /**
-     * Before class.
-     * 
-     * @throws IllegalStarteventException
-     *             the illegal startevent exception
+     * This method prepares a process for this test.
      */
     @BeforeClass
-    public void beforeClass()
+    public void prepareProcessForTest()
     throws IllegalStarteventException {
 
         ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
 
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
-
-        nodeParamBuilder = new NodeParameterBuilderImpl();
+        startNode = BPMNActivityFactory.createBPMNStartEventNode(builder);
+        
         int[] ints = {1, 1};
-        nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
-        .addConstructorParameter(String.class, "result").addConstructorParameter(int[].class, ints);
-        // param.setActivity(new AddNumbersAndStoreActivity("result1", 1, 1));
-        Node forkNode1 = builder.createStartNode(nodeParamBuilder.buildNodeParameter());
+        Node forkNode1 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result", ints);
 
-        nodeParamBuilder = new NodeParameterBuilderImpl();
         int[] anotherInts = {2, 2};
-        nodeParamBuilder.setActivityBlueprintFor(AddNumbersAndStoreActivity.class)
-        .addConstructorParameter(String.class, "result2").addConstructorParameter(int[].class, anotherInts);
-        // param.setActivity(new AddNumbersAndStoreActivity("result2", 2, 2));
-        Node forkNode2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        Node forkNode2 = BPMNActivityFactory.createBPMNAddNumbersAndStoreNode(builder, "result2", anotherInts);
 
-        builder.createTransition(startNode, forkNode1).createTransition(startNode, forkNode2);
+        BPMNActivityFactory.createTransitionFromTo(builder, startNode, forkNode1);
+        BPMNActivityFactory.createTransitionFromTo(builder, startNode, forkNode2);
+        
 
-        nodeParamBuilder = new NodeParameterBuilderImpl(new SimpleJoinBehaviour(), new EmptyOutgoingBehaviour());
-        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
-        Node endNode1 = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        Node endNode2 = builder.createNode(nodeParamBuilder.buildNodeParameter());
+        Node endNode1 = BPMNActivityFactory.createBPMNEndEventNode(builder); 
+        Node endNode2 = BPMNActivityFactory.createBPMNEndEventNode(builder);
 
-        builder.createTransition(forkNode1, endNode1).createTransition(forkNode2, endNode2);
+        BPMNActivityFactory.createTransitionFromTo(builder, forkNode1, endNode1);
+        BPMNActivityFactory.createTransitionFromTo(builder, forkNode2, endNode2);
 
         ProcessDefinition definition = builder.buildDefinition();
 

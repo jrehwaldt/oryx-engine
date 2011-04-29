@@ -14,14 +14,10 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.activity.impl.EndActivity;
-import de.hpi.oryxengine.activity.impl.HumanTaskActivity;
-import de.hpi.oryxengine.activity.impl.NullActivity;
+import de.hpi.oryxengine.activity.impl.BPMNActivityFactory;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.factories.worklist.TaskFactory;
 import de.hpi.oryxengine.loadgenerator.PseudoHumanJob;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilder;
-import de.hpi.oryxengine.process.definition.NodeParameterBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.resource.AbstractParticipant;
@@ -91,63 +87,51 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodesWithDirectAlloc() {
 
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
-
-        Object[] participants = identityService.getParticipants().toArray();
+        startNode = BPMNActivityFactory.createBPMNNullStartNode(builder);
+        
         // Create the task
+        Object[] participants = identityService.getParticipants().toArray();
         Task task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[0]);
 
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
-        node1 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+        node1 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
 
         // Create the task
-        task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[1]);
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
+        task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[1]);
 
-        node2 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+        node2 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
 
         // Create the task
-        task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[2]);
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, task);
+        task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[2]);
+        
+        node3 = BPMNActivityFactory.createBPMNUserTaskNode(builder, task);
 
-        node3 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
 
-        builder.createTransition(startNode, node1).createTransition(node1, node2).createTransition(node2, node3);
-
-        nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
-        Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        builder.createTransition(node3, endNode);
-
+        BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
+        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
+        BPMNActivityFactory.createTransitionFromTo(builder, node2, node3);
+        BPMNActivityFactory.createTransitionFromTo(builder, node3, endNode);
     }
     
     public void initializeNodesWithRoleTasks() {
-        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(NullActivity.class);
-        startNode = builder.createStartNode(nodeParamBuilder.buildNodeParameterAndClear());
+        
+        startNode = BPMNActivityFactory.createBPMNNullStartNode(builder);
 
         // Create the task
         Task roleTask = TaskFactory.createRoleTask("Do stuff", "Do it cool", role);
 
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, roleTask);
-        node1 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+        node1 = BPMNActivityFactory.createBPMNUserTaskNode(builder, roleTask);
 
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, roleTask);
+        node2 = BPMNActivityFactory.createBPMNUserTaskNode(builder, roleTask);
 
-        node2 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
+        node3 = BPMNActivityFactory.createBPMNUserTaskNode(builder, roleTask);
 
-        nodeParamBuilder.setActivityBlueprintFor(HumanTaskActivity.class).addConstructorParameter(Task.class, roleTask);
+        Node endNode = BPMNActivityFactory.createBPMNEndEventNode(builder);
 
-        node3 = builder.createNode(nodeParamBuilder.buildNodeParameterAndClear());
-
-        builder.createTransition(startNode, node1).createTransition(node1, node2).createTransition(node2, node3);
-
-        nodeParamBuilder = new NodeParameterBuilderImpl();
-        nodeParamBuilder.setActivityBlueprintFor(EndActivity.class);
-        Node endNode = builder.createNode(nodeParamBuilder.buildNodeParameter());
-        builder.createTransition(node3, endNode);
+        BPMNActivityFactory.createTransitionFromTo(builder, startNode, node1);
+        BPMNActivityFactory.createTransitionFromTo(builder, node1, node2);
+        BPMNActivityFactory.createTransitionFromTo(builder, node2, node3);
+        BPMNActivityFactory.createTransitionFromTo(builder, node3, endNode);
     }
 
     /**
