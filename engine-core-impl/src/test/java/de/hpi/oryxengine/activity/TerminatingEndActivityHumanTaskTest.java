@@ -18,7 +18,7 @@ import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
@@ -121,7 +121,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
     @BeforeClass
     public void setUpProcessInstance() {
 
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
         splitNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
 

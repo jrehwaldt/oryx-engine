@@ -13,7 +13,7 @@ import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
@@ -112,7 +112,7 @@ public final class DemoDataForWebservice {
 
         // TODO Use Example Process to create some tasks for the role demo
 
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
         Node startNode, node1, node2, node3, endNode;
 
@@ -120,8 +120,7 @@ public final class DemoDataForWebservice {
 
         // Creating the Webform for the task
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-        UUID processArtifactID = deploymentBuilder.deployArtifactAsFile("form1", new File(PATH_TO_WEBFORMS
-            + "/Form1.html"));
+        UUID processArtifactID = deploymentBuilder.deployArtifactAsFile("form1", new File(PATH_TO_WEBFORMS + "/claimPoints.html"));
         Form form = new FormImpl(ServiceFactory.getRepositoryService().getProcessResource(processArtifactID));
 
         // Create the task

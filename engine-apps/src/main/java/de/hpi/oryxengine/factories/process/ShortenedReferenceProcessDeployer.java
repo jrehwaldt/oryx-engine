@@ -9,7 +9,7 @@ import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
 import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.factories.worklist.TaskFactory;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
@@ -255,7 +255,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     public ShortenedReferenceProcessDeployer() {
 
         identityService = ServiceFactory.getIdentityService();
-        builder = new ProcessBuilderImpl();
+        builder = new ProcessDefinitionBuilderImpl();
         identityBuilder = identityService.getIdentityBuilder();
     }
 

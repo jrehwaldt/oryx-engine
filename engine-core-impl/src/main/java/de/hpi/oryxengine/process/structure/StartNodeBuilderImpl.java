@@ -3,9 +3,7 @@ package de.hpi.oryxengine.process.structure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 
 /**
  * The implementation of the {@link NodeBuilder} for StartNodes. So this class configures and creates a {@link Node
@@ -15,14 +13,14 @@ public class StartNodeBuilderImpl extends NodeBuilderImpl {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private ProcessBuilderImpl processDefinitionBuilder;
+    private ProcessDefinitionBuilderImpl processDefinitionBuilder;
 
     /**
      * Default Constructor.
      * 
      * @param processDefinitionBuilderImpl - a {@link ProcessBuilderImpl}
      */
-    public StartNodeBuilderImpl(ProcessBuilderImpl processDefinitionBuilderImpl) {
+    public StartNodeBuilderImpl(ProcessDefinitionBuilderImpl processDefinitionBuilderImpl) {
 
         this.processDefinitionBuilder = processDefinitionBuilderImpl;
     }

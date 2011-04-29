@@ -14,7 +14,7 @@ import de.hpi.oryxengine.activity.impl.EndActivity;
 import de.hpi.oryxengine.activity.impl.NullActivity;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Condition;
@@ -61,7 +61,7 @@ public class BpmnXmlParse extends XmlParse {
     public BpmnXmlParse(BpmnXmlParser parser, StreamSource streamSource) {
 
         super(parser, streamSource);
-        this.processBuilder = new ProcessBuilderImpl();
+        this.processBuilder = new ProcessDefinitionBuilderImpl();
         this.parseListeners = parser.getParseListeners();
     }
 

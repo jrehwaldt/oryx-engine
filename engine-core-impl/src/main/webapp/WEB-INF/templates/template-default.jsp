@@ -25,6 +25,7 @@ if (uri != null) {
         <script type="text/javascript" src="/javascripts/lib/jquery-1.5.2.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.Storage.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.getQueryParam.1.0.0.min.js"></script>
+        <script type="text/javascript" src="/javascripts/lib/jquery.form.js"></script>
 
 
         <title>Joda Engine goes REST</title>
@@ -52,7 +53,7 @@ if (uri != null) {
                   <div id="menu-level-1">
                     <!--begin nav-level-1-->
                     <ul>
-                        <!--<li><a class="dashboard" href="/dashboard">Dashboard</a></li>-->
+                        <li><a class="dashboard" href="/dashboard">Dashboard</a></li>
                         <li><a class="explorer" href="/management">Engine Management</a></li>
                         <li><a class="worklist" href="/worklist">Worklist Management</a></li>
                         <!--<li><a class="reports" href="/reports">Reports</a></li>-->
@@ -103,6 +104,7 @@ if (uri != null) {
                     <% end %>
                 --%>
                     <div id="main-content">
+                     <!-- <div id="notice"></div> -->
                 <%--
                       <% flash.each do |key, msg| %>
                         <% unless key == :product_params %>

@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.activity.impl.NullActivity;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Condition;
@@ -111,7 +111,7 @@ public class BPMNXORBehaviourTest {
     private TokenImpl simpleToken() {
 
 
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
         
         Node node = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
         .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBlueprintFor(NullActivity.class).buildNode();

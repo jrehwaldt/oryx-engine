@@ -2,7 +2,7 @@ package de.hpi.oryxengine.factories.process;
 
 import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
 import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 
 /**
@@ -28,7 +28,7 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
      */
     public HeavyComputationProcessDeployer() {
 
-        builder = new ProcessBuilderImpl();
+        builder = new ProcessDefinitionBuilderImpl();
     }
 
     /**

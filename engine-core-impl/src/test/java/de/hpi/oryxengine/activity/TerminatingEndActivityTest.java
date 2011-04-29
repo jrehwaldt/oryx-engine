@@ -16,7 +16,7 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
@@ -92,7 +92,7 @@ public class TerminatingEndActivityTest {
     public void setupProcessModel()
     throws IllegalStarteventException {
 
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
         startNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
 

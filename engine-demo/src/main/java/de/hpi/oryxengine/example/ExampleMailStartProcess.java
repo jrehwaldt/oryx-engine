@@ -24,7 +24,7 @@ import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
@@ -65,7 +65,7 @@ public final class ExampleMailStartProcess {
 				.getRepositoryService().getDeploymentBuilder();
 
 		// Building the ProcessDefintion
-		ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+		ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
 		Node startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
 

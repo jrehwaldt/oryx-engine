@@ -1,20 +1,28 @@
 package de.hpi.oryxengine.rest.api;
 
+import java.security.KeyStore.Entry;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.kenai.jaffl.mapper.FromNativeContext;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
@@ -22,6 +30,7 @@ import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.InvalidItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
@@ -129,11 +138,58 @@ public final class WorklistWebService {
             return Response.ok(item.getForm().getFormContentAsHTML()).build();
         } catch (InvalidItemException e) {
             
-            e.printStackTrace();
+            logger.error("Failed fetching the item", e);
             return Response.status(RESPONSE_FAIL).build();
         }
+    }
 
-
+    /**
+     * Post the form to the engine and process the given arguments, so to say set process instance variables according
+     * to the changes in the form.
+     * !!! Be aware, every form data is saved as a String! !!! 
+     * 
+     * @param worklistItemId
+     *            the worklistitem id
+     * @param participantId
+     *            the participant id
+     * @param form
+     *            the form that gets send to us
+     * @return the response
+     */
+    @Path("/items/{worklistitemId}/form")
+    @Consumes("application/x-www-form-urlencoded")
+    @POST
+    public Response postForm(@PathParam("worklistitemId") String worklistItemId, 
+                             @QueryParam("participantId") String participantId, 
+                             MultivaluedMap<String, String> form) {
+        
+        UUID participantUUID = UUID.fromString(participantId);
+        UUID itemUUID = UUID.fromString(worklistItemId);
+        AbstractResource<?> resource = identity.getParticipant(participantUUID);
+                
+        // try to get the worklistitem and its token and thereby the context to put in the new data
+        try {
+            AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);
+            item = service.getWorklistItem(resource, itemUUID);
+            ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
+            
+            
+            
+            Set<Map.Entry<String, List<String>>> entrySet = form.entrySet();
+            for (Map.Entry<String, List<String>> entry : entrySet) {
+                // We just get the first value since values shall be unique
+                context.setVariable(entry.getKey(), entry.getValue().get(0));
+            }
+            
+            logger.debug(context.getVariableMap().toString());
+            return Response.ok().build();
+            
+        } catch (InvalidItemException e) {
+            
+            logger.error("Failed fetching the item", e);
+            return Response.status(RESPONSE_FAIL).build();
+        }
+        
     }
     
     /**
@@ -198,6 +254,7 @@ public final class WorklistWebService {
      *
      * @param id the id
      * @param participantId the participant id
+     * @throws InvalidItemException the invalid item exception
      */
     private void endWorklistItem(UUID id, UUID participantId)  throws InvalidItemException {
         

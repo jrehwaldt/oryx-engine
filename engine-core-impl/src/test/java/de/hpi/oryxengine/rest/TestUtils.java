@@ -10,7 +10,7 @@ import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
@@ -37,7 +37,7 @@ public final class TestUtils {
     throws IllegalStarteventException {
 
         // create simple process
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
         Node startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
         

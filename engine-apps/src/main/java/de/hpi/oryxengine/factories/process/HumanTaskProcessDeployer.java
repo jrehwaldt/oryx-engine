@@ -19,7 +19,7 @@ import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.factories.worklist.TaskFactory;
 import de.hpi.oryxengine.loadgenerator.PseudoHumanJob;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
@@ -74,7 +74,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     throws SchedulerException {
 
         identityService = ServiceFactory.getIdentityService();
-        builder = new ProcessBuilderImpl();
+        builder = new ProcessDefinitionBuilderImpl();
         identityBuilder = identityService.getIdentityBuilder();
 
     }

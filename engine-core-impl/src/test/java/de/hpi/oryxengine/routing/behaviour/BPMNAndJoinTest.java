@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.activity.impl.BpmnFunNodeFactory;
 import de.hpi.oryxengine.activity.impl.BpmnNodeFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -101,7 +101,7 @@ public class BPMNAndJoinTest {
 
         splitNode = mock(Node.class);
 
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
         node1 = BpmnFunNodeFactory.createBpmnNullNode(builder);
         node2 = BpmnFunNodeFactory.createBpmnNullNode(builder);

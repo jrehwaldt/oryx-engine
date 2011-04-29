@@ -14,14 +14,8 @@
                     <li><a href="demo/">Generate Demo Data</a></li>
                 </ul>
              </li>
-             <li>
-                <h2>Worklist</h2>
-                <ul>
-                    <li><a href="api/worklist/todo">TODO</a></li>
-                </ul>
-             </li>
         </ul>
-
+    <h2>Login</h2>
 		<p>Participants </p>
         <div id="loginpart">
           <select id="loginBox">

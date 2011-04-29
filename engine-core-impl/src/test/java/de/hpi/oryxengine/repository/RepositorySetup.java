@@ -10,7 +10,7 @@ import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.ProcessBuilderImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
@@ -79,7 +79,7 @@ public final class RepositorySetup {
         String processName = "1Plus1Process";
         String processDescription = "The process stores the result of the calculation '1 + 1' .";
 
-        ProcessDefinitionBuilder builder = new ProcessBuilderImpl();
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
         
         Node startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
         

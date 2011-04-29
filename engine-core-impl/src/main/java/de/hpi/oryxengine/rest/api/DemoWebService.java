@@ -4,6 +4,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
+import de.hpi.oryxengine.exception.IllegalStarteventException;
+
 
 /**
  * Offers demo methods (like creating demo users) to the user, should be deactivated in deployment.
@@ -30,6 +32,23 @@ public class DemoWebService {
         DemoDataForWebservice.generate();
         // we always return ok as the demo data was already created and that is ok
         return Response.ok().build();        
+    }
+    
+    /**
+     * Generates (deploys) the reference process.
+     *
+     * @return the response
+     */
+    @Path("/reference")
+    @POST
+    public Response reference() {
+        try {
+            ShortenedReferenceProcessDeployer.generate();
+            return Response.ok().build();  
+        } catch (IllegalStarteventException e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+        }
     }
 
 }
