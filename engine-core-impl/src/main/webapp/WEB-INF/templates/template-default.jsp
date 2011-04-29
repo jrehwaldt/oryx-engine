@@ -46,13 +46,13 @@ if (uri != null) {
                 <div id="header">
                   <div id="logo">
                     <a href="/" alt="Joda Engine home">
-                        <img src="/images/logo.png" height="69" width="133" border="0" alt="Joda Engine home" />
+                        <img src="/images/logo.jpg" height="69" width="185" border="0" alt="Joda Engine home" />
                     </a>
                   </div>
                   <div id="menu-level-1">
                     <!--begin nav-level-1-->
                     <ul>
-                        <li><a class="dashboard" href="/dashboard">Dashboard</a></li>
+                        <!--<li><a class="dashboard" href="/dashboard">Dashboard</a></li>-->
                         <li><a class="explorer" href="/management">Engine Management</a></li>
                         <li><a class="worklist" href="/worklist">Worklist Management</a></li>
                         <!--<li><a class="reports" href="/reports">Reports</a></li>-->
