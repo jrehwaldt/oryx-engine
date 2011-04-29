@@ -30,7 +30,7 @@ import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
  * The Class ShortenedReferenceProcessDeployer. This is the implementation of the shortened version of the AOK reference
  * process.
  */
-public class ShortenedReferenceProcessDeployer {
+public final class ShortenedReferenceProcessDeployer {
 
     // configuration constants
     private static final String JANNIK = "Jannik";
