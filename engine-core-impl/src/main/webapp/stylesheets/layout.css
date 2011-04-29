@@ -269,7 +269,7 @@ legend:hover {
     position: relative;
     left: 0px;
     top: 0px;
-    width: 150px;
+    width: 185px;
     height: 69px;
 }
 
@@ -337,7 +337,7 @@ legend:hover {
 
 #menu-level-1 {
     position: absolute;
-    left: 100px;
+    left: 150px;
     top: 0px;
     height: 69px;
     width: 91%;  
