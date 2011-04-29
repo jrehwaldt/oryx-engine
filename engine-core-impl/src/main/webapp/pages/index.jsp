@@ -14,12 +14,6 @@
                     <li><a href="demo/">Generate Demo Data</a></li>
                 </ul>
              </li>
-             <li>
-                <h2>Worklist</h2>
-                <ul>
-                    <li><a href="api/worklist/todo">TODO</a></li>
-                </ul>
-             </li>
         </ul>
 
 		<p>Participants </p>
