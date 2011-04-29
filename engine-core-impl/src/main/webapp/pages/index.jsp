@@ -7,22 +7,10 @@
     </head>
     <body>
         <h1>REST-interface</h1>
-        <ul>
-            <li>
-                <h2>Navigator</h2>
-                <ul>
-                    <li><a href="demo/">Generate Demo Data</a></li>
-                </ul>
-             </li>
-             <li>
-                <h2>Worklist</h2>
-                <ul>
-                    <li><a href="api/worklist/todo">TODO</a></li>
-                </ul>
-             </li>
-        </ul>
-
-		<p>Participants </p>
+       
+      <a href="demo/">Generate Demo Data</a>
+<br /> <br />
+		<h2>Participant Login</h2>
         <div id="loginpart">
           <select id="loginBox">
           </select>
