@@ -8,14 +8,19 @@ $().ready(function(){
         url: '/api/worklist/items/' + itemId + '/form?participantId=' + participantId,
         success: function(data) {
         	$("#formContent").append(data);
-        	console.log(window.location.pathname + window.location.search);
-        	$("div form").attr("action","/api/worklist/items/" + itemId + "/form/?participantId=" + participantId);
+        	$("div form")
+        	    .attr("action","/api/worklist/items/" + itemId + "/form/?participantId=" + participantId)
+        	    .submit(function(){
+	            $(this).ajaxSubmit();
+
+	            // redirect
+	            $(location).attr('href', 'worklist/');
+
+	            // somehow this is important
+	            return false;
+	        });
         }
 	});
-
-
-
-
 
 });
 

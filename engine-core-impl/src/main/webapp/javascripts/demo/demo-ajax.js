@@ -7,7 +7,9 @@ $().ready(function() {
         var name = $('#loginBox option:selected').html();
         $.Storage.set("participantUUID", uuid);
         $.Storage.set("participantName", name);
+        // redirect
         $(location).attr('href', 'worklist/');
+
     });
 
     // GETs all the participants
