@@ -22,6 +22,11 @@ public class FormImpl implements Form {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private AbstractProcessArtifact processArtifact;
     
+    /**
+     * Instantiates a new form impl. with a process artifact.
+     *
+     * @param processArtifact the process artifact
+     */
     public FormImpl(@Nonnull AbstractProcessArtifact processArtifact) {
 
         this.processArtifact = processArtifact;
