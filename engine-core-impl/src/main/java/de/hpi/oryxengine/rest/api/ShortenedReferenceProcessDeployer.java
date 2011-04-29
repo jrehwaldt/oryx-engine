@@ -1,14 +1,18 @@
 package de.hpi.oryxengine.rest.api;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
@@ -23,6 +27,7 @@ import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
+import de.hpi.oryxengine.resource.allocation.FormImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.RolePushPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
@@ -45,6 +50,8 @@ public final class ShortenedReferenceProcessDeployer {
     private static ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
     private static IdentityBuilder identityBuilder = identityService.getIdentityBuilder();
 
+    private static final String PATH_TO_WEBFORMS = "src/main/resources/forms";
+
     // Nodes
     private static Node startNode;
     private static Node system1;
@@ -60,16 +67,16 @@ public final class ShortenedReferenceProcessDeployer {
     private static Node xor4;
     private static Node xor5;
     private static Node endNode;
-    
+
     private static boolean invoked = false;
 
     /**
      * Hidden constructor, as this class only provides static methods.
      */
     private ShortenedReferenceProcessDeployer() {
+
         // do nothing
     }
-    
 
     // roles and participants
     private static Role objectionClerk;
@@ -79,11 +86,11 @@ public final class ShortenedReferenceProcessDeployer {
     private static Participant tobi;
     private static Participant jannik;
 
- 
     /**
      * Initialize nodes.
+     * @throws DefinitionNotFoundException 
      */
-    public static void initializeNodes() {
+    public static void initializeNodes() throws DefinitionNotFoundException {
 
         // start node, blank
         startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
@@ -92,7 +99,8 @@ public final class ShortenedReferenceProcessDeployer {
 
         // human task for objection clerk, task is to check
         // positions of objection
-        Task task = createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen", objectionClerk);
+        Form form = extractForm("form1", "claimPoints.html");
+        Task task = createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen", form, objectionClerk);
         human1 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
         // XOR Split, condition is objection existence
@@ -105,7 +113,8 @@ public final class ShortenedReferenceProcessDeployer {
         Condition condition2 = new HashMapCondition(map2, "==");
 
         // human task for objection clerk, task is to check objection
-        task = createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche", objectionClerk);
+        form = extractForm("form2", "claimPoints.html");
+        task = createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche", form, objectionClerk);
         human2 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
         // XOR Split, condition is new relevant aspects existence
@@ -118,7 +127,8 @@ public final class ShortenedReferenceProcessDeployer {
         Condition condition4 = new HashMapCondition(map1, "==");
 
         // human task for objection clerk, task is to create a new report
-        task = createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen",
+        form = extractForm("form3", "claimPoints.html");
+        task = createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen", form,
             objectionClerk);
         human3 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
@@ -132,17 +142,19 @@ public final class ShortenedReferenceProcessDeployer {
         Condition condition5 = new HashMapCondition(map1, "==");
         map2 = new HashMap<String, Object>();
         map2.put("aufrecht", "nein");
-//        Condition condition6 = new HashMapCondition(map1, "==");
+        // Condition condition6 = new HashMapCondition(map1, "==");
 
         // XOR Join
         xor4 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
 
         // human task for objection clerk, task is to do final work
-        task = createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", objectionClerk);
+        form = extractForm("form4", "claimPoints.html");
+        task = createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", form, objectionClerk);
         human4 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
         // human task for allowance clerk, task is to enforce allowance
-        task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", allowanceClerk);
+        form = extractForm("form5", "claimPoints.html");
+        task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", form, allowanceClerk);
         human5 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
         // final XOR Join
@@ -170,8 +182,9 @@ public final class ShortenedReferenceProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(builder, xor5, system2);
         BpmnNodeFactory.createTransitionFromTo(builder, human5, xor5);
         BpmnNodeFactory.createTransitionFromTo(builder, system2, endNode);
+        
+        builder.setName("Shortened Reference Process").setDescription("Shortened Reference Process");
     }
-
 
     /**
      * Creates the participants.
@@ -196,44 +209,66 @@ public final class ShortenedReferenceProcessDeployer {
 
     /**
      * Creates the role task.
-     *
-     * @param subject the subject
-     * @param description the description
-     * @param resource the resource
+     * 
+     * @param subject
+     *            the subject
+     * @param description
+     *            the description
+     * @param resource
+     *            the resource
      * @return the task
      */
-    private static Task createRoleTask(String subject, String description, AbstractResource<?> resource) {
+    private static Task createRoleTask(String subject, String description, Form form, AbstractResource<?> resource) {
 
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new RolePushPattern(),
             new SimplePullPattern(), null, null);
 
-        return createTask(subject, description, allocationStrategies, resource);
+        return createTask(subject, description, form, allocationStrategies, resource);
     }
 
     /**
      * Creates the task - qucikn dirty helper.
-     *
-     * @param subject the subject
-     * @param description the description
-     * @param allocationStrategies the allocation strategies
-     * @param resource the resource
+     * 
+     * @param subject
+     *            the subject
+     * @param description
+     *            the description
+     * @param allocationStrategies
+     *            the allocation strategies
+     * @param resource
+     *            the resource
      * @return the task
      */
     private static Task createTask(String subject,
-                           String description,
-                           AllocationStrategies allocationStrategies,
-                           AbstractResource<?> resource) {
+                                   String description,
+                                   Form form,
+                                   AllocationStrategies allocationStrategies,
+                                   AbstractResource<?> resource) {
 
-        Task task = new TaskImpl(subject, description, allocationStrategies, resource);
+        Task task = new TaskImpl(subject, description, form, allocationStrategies, resource);
         return task;
     }
-    
+
+    private static Form extractForm(String formName, String formPath) throws DefinitionNotFoundException {
+
+        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        UUID processArtifactID = deploymentBuilder.deployArtifactAsFile(formName, new File(PATH_TO_WEBFORMS + "/"
+            + formPath));
+        Form form;
+        form = new FormImpl(ServiceFactory.getRepositoryService().getProcessResource(processArtifactID));
+        return form;
+    }
+
     /**
      * Generates/deploys the shortened reference process.
-     *
-     * @throws IllegalStarteventException the illegal startevent exception
+     * 
+     * @throws IllegalStarteventException
+     *             the illegal startevent exception
+     * @throws DefinitionNotFoundException 
      */
-    public static synchronized void generate() throws IllegalStarteventException {
+    public static synchronized void generate()
+    throws IllegalStarteventException, DefinitionNotFoundException {
+
         if (!invoked) {
             createParticipants();
             initializeNodes();

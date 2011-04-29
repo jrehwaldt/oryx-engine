@@ -4,6 +4,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 
 
@@ -43,9 +44,14 @@ public class DemoWebService {
     @POST
     public Response reference() {
         try {
+            
             ShortenedReferenceProcessDeployer.generate();
+            
             return Response.ok().build();  
         } catch (IllegalStarteventException e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+        } catch (DefinitionNotFoundException e) {
             e.printStackTrace();
             return Response.serverError().build();
         }
