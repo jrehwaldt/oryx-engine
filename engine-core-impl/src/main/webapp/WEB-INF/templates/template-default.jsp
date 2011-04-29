@@ -53,7 +53,7 @@ if (uri != null) {
                   <div id="menu-level-1">
                     <!--begin nav-level-1-->
                     <ul>
-                        <!--<li><a class="dashboard" href="/dashboard">Dashboard</a></li>-->
+                        <li><a class="dashboard" href="/dashboard">Dashboard</a></li>
                         <li><a class="explorer" href="/management">Engine Management</a></li>
                         <li><a class="worklist" href="/worklist">Worklist Management</a></li>
                         <!--<li><a class="reports" href="/reports">Reports</a></li>-->
