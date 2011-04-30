@@ -14,7 +14,7 @@ $().ready(function(){
 	            $(this).ajaxSubmit();
 
 	            // redirect
-	            $(location).attr('href', 'worklist/');
+	            $(location).attr('href', '/worklist/');
 
 	            // somehow this is important
 	            return false;

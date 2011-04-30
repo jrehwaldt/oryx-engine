@@ -88,9 +88,11 @@ public final class ShortenedReferenceProcessDeployer {
 
     /**
      * Initialize nodes.
-     * @throws DefinitionNotFoundException 
+     *
+     * @throws DefinitionNotFoundException the definition not found exception
      */
-    public static void initializeNodes() throws DefinitionNotFoundException {
+    public static void initializeNodes()
+    throws DefinitionNotFoundException {
 
         // start node, blank
         startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
@@ -100,7 +102,8 @@ public final class ShortenedReferenceProcessDeployer {
         // human task for objection clerk, task is to check
         // positions of objection
         Form form = extractForm("form1", "claimPoints.html");
-        Task task = createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen", form, objectionClerk);
+        Task task = createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen", form,
+            objectionClerk);
         human1 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
         // XOR Split, condition is objection existence
@@ -114,7 +117,8 @@ public final class ShortenedReferenceProcessDeployer {
 
         // human task for objection clerk, task is to check objection
         form = extractForm("form2", "claimPoints.html");
-        task = createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche", form, objectionClerk);
+        task = createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche", form,
+            objectionClerk);
         human2 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
         // XOR Split, condition is new relevant aspects existence
@@ -182,7 +186,7 @@ public final class ShortenedReferenceProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(builder, xor5, system2);
         BpmnNodeFactory.createTransitionFromTo(builder, human5, xor5);
         BpmnNodeFactory.createTransitionFromTo(builder, system2, endNode);
-        
+
         builder.setName("Shortened Reference Process").setDescription("Shortened Reference Process");
     }
 
@@ -249,7 +253,8 @@ public final class ShortenedReferenceProcessDeployer {
         return task;
     }
 
-    private static Form extractForm(String formName, String formPath) throws DefinitionNotFoundException {
+    private static Form extractForm(String formName, String formPath)
+    throws DefinitionNotFoundException {
 
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
         UUID processArtifactID = deploymentBuilder.deployArtifactAsFile(formName, new File(PATH_TO_WEBFORMS + "/"
@@ -264,7 +269,7 @@ public final class ShortenedReferenceProcessDeployer {
      * 
      * @throws IllegalStarteventException
      *             the illegal startevent exception
-     * @throws DefinitionNotFoundException 
+     * @throws DefinitionNotFoundException
      */
     public static synchronized void generate()
     throws IllegalStarteventException, DefinitionNotFoundException {
