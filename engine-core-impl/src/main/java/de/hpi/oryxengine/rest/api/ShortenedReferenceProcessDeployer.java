@@ -213,13 +213,11 @@ public final class ShortenedReferenceProcessDeployer {
 
     /**
      * Creates the role task.
-     * 
-     * @param subject
-     *            the subject
-     * @param description
-     *            the description
-     * @param resource
-     *            the resource
+     *
+     * @param subject the subject
+     * @param description the description
+     * @param form the form
+     * @param resource the resource
      * @return the task
      */
     private static Task createRoleTask(String subject, String description, Form form, AbstractResource<?> resource) {
@@ -232,15 +230,12 @@ public final class ShortenedReferenceProcessDeployer {
 
     /**
      * Creates the task - qucikn dirty helper.
-     * 
-     * @param subject
-     *            the subject
-     * @param description
-     *            the description
-     * @param allocationStrategies
-     *            the allocation strategies
-     * @param resource
-     *            the resource
+     *
+     * @param subject the subject
+     * @param description the description
+     * @param form the form
+     * @param allocationStrategies the allocation strategies
+     * @param resource the resource
      * @return the task
      */
     private static Task createTask(String subject,
@@ -253,6 +248,14 @@ public final class ShortenedReferenceProcessDeployer {
         return task;
     }
 
+    /**
+     * Extract form.
+     *
+     * @param formName the form name
+     * @param formPath the form path
+     * @return the form
+     * @throws DefinitionNotFoundException the definition not found exception
+     */
     private static Form extractForm(String formName, String formPath)
     throws DefinitionNotFoundException {
 
@@ -266,10 +269,9 @@ public final class ShortenedReferenceProcessDeployer {
 
     /**
      * Generates/deploys the shortened reference process.
-     * 
-     * @throws IllegalStarteventException
-     *             the illegal startevent exception
-     * @throws DefinitionNotFoundException
+     *
+     * @throws IllegalStarteventException the illegal startevent exception
+     * @throws DefinitionNotFoundException the definition not found exception
      */
     public static synchronized void generate()
     throws IllegalStarteventException, DefinitionNotFoundException {

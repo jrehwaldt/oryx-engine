@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.token.Token;
@@ -19,6 +22,7 @@ public class HashMapCondition implements Condition {
     private String compareWith;
     
     private Set<?> set;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**
      * Instantiates a new condition with a given comparator.
@@ -44,6 +48,8 @@ public class HashMapCondition implements Condition {
 
         Iterator<?> i = set.iterator();
         boolean result = true;
+        logger.debug("HashmapCondition variables to check: " + set.toString());
+        logger.debug("instance context widerspruch: " + token.getInstance().getContext().getVariable("widerspruch"));
         
         while (i.hasNext()) {
             ProcessInstanceContext context = token.getInstance().getContext();

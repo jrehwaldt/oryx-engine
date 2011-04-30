@@ -1,7 +1,5 @@
 package de.hpi.oryxengine.rest.api;
 
-import java.security.KeyStore.Entry;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,8 +19,6 @@ import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.kenai.jaffl.mapper.FromNativeContext;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;

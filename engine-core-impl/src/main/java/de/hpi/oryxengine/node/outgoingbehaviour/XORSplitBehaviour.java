@@ -3,8 +3,10 @@ package de.hpi.oryxengine.node.outgoingbehaviour;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.hpi.oryxengine.exception.NoValidPathException;
-import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.process.token.Token;
@@ -14,8 +16,10 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class XORSplitBehaviour implements OutgoingBehaviour {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     /**
-     * Split.
+     * Split according to the transitions.
      *
      * @param instances the instances
      * @return the list
@@ -29,6 +33,7 @@ public class XORSplitBehaviour implements OutgoingBehaviour {
             return instances;
         }
         List<Transition> transitionList = new ArrayList<Transition>();
+        logger.debug("XOR Transitionlist: " + transitionList.toString());
         List<Token> transitionsToNavigate = null;
         
         for (Token instance : instances) {
