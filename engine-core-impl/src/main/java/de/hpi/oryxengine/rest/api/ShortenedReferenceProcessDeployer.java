@@ -146,7 +146,7 @@ public final class ShortenedReferenceProcessDeployer {
         Condition condition5 = new HashMapCondition(map1, "==");
         map2 = new HashMap<String, Object>();
         map2.put("aufrecht", "nein");
-        // Condition condition6 = new HashMapCondition(map1, "==");
+        Condition condition6 = new HashMapCondition(map2, "==");
 
         // XOR Join
         xor4 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
@@ -181,6 +181,7 @@ public final class ShortenedReferenceProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(builder, xor2, xor4, condition4);
         BpmnNodeFactory.createTransitionFromTo(builder, human3, xor3);
         BpmnNodeFactory.createTransitionFromTo(builder, xor3, xor4, condition5);
+        BpmnNodeFactory.createTransitionFromTo(builder, xor3, xor5, condition6);
         BpmnNodeFactory.createTransitionFromTo(builder, xor4, human4);
         BpmnNodeFactory.createTransitionFromTo(builder, human4, human5);
         BpmnNodeFactory.createTransitionFromTo(builder, xor5, system2);
