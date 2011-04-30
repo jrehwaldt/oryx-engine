@@ -128,7 +128,7 @@ public final class ShortenedReferenceProcessDeployer {
         Condition condition3 = new HashMapCondition(map1, "==");
         map2 = new HashMap<String, Object>();
         map2.put("neue Aspekte", "nein");
-        Condition condition4 = new HashMapCondition(map1, "==");
+        Condition condition4 = new HashMapCondition(map2, "==");
 
         // human task for objection clerk, task is to create a new report
         form = extractForm("form3", "createReport.html");
