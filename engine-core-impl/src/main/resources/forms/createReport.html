@@ -2,28 +2,34 @@
 <form id="checkClaims" name="claims" method="post">
 	<div>
 	<h2>Anspruchspunkte:</h2>
-	<table>
-	    <tr>
-	        <th>Anspruchspunkte</th>
-	    </tr>
-	    <tr>
-	        <th><input name="newPoint1" type="text" /></th>
-	    </tr>
-	    <tr>
-	        <th><input name="newPoint2" type="text" /></th>
-	    </tr>
-	    <tr>
-	        <th><input name="newPoint3" type="text" /></th>
-	    </tr>
-	    <tr>
-	        <th><input name="newPoint4" type="text" /></th>
-	    </tr>
-	    <tr>
-	        <th><input name="newPoint5" type="text" /></th>
-	    </tr>
-	</table>
+	<ul>
+	    <h3>
+	        Anspruchspunkte:
+	    </h3>
+	    <li>
+	        <input name="newPoint1" type="text" />
+	    </li>
+	    <li>
+	        <input name="newPoint2" type="text" />
+	    </li>
+	    <li>
+	        <input name="newPoint3" type="text" />
+	    </li>
+	    <li>
+	        <input name="newPoint4" type="text" />
+	    </li>
+	    <li>
+	        <input name="newPoint5" type="text" />
+	    </li>
+	</ul>
 	<h2>Weitere Angaben:</h2>
 	<textarea id="textarea" name="anmerkungen"></textarea>
+	</div>
+	
+	<div>
+		<h2>Aufrecht?</h2>
+		<input type="radio" name="aufrecht" value="ja" /> Ja<br />
+		<input type="radio" name="aufrecht" value="nein" /> Nein
 	</div>
 	<input type="submit" value="Abschicken">
 </form>

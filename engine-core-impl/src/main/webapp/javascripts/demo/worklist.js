@@ -114,6 +114,9 @@ function addEndButtonClickHandler(handler) {
 				//TODO implement mechanism to refresh items for other clients;
 				$(button).unbind();
 				$(button).parent().parent().remove();
+				// refresh worklistitems
+				// possibly do some kind of wait because sometimes the items dont seem to be loaded.
+		        getWorklistItems();
 
 				// be happy and do stuff (like morph button to start task or stuff like that)
 
@@ -124,17 +127,12 @@ function addEndButtonClickHandler(handler) {
 			contentType: 'application/json'
 		});
 
-		// refresh page
-		location.reload(true);
-
 	});
 
 }
 
-
-$().ready(function(){
-
-    // AJAX request to get the worklist for the selected participant
+// AJAX request to get the worklist for the selected participant
+function getWorklistItems() {
     $.ajax({
         type: 'GET',
         url: '/api/worklist/items',
@@ -160,6 +158,9 @@ $().ready(function(){
         contentType: 'application/json', // we send json
         dataType: "json" // we expect json
     });
+}
 
+$().ready(function(){
+    getWorklistItems;
 })
 

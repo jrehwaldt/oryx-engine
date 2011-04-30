@@ -2,8 +2,7 @@
 <html>
     <head>
       Process Definitions Explorer
-      <script type="text/javascript" src="/javascripts/demo/repository.js"></script>
-      <script type="text/javascript" src="/javascripts/demo/engineStatus.js"></script>
+      <script type="text/javascript" src="/javascripts/demo/engineManagement.js"></script>
     </head>
     <body>
       <div id="engineStatus">
