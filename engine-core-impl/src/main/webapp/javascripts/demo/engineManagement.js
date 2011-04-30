@@ -12,8 +12,11 @@ function enableButtonClickHandler() {
             url: '/api/navigator/processdefinitions/' + definitionId + '/instances',
             success: function(data) {
                 console.log(data);
+                // TODO make this without using append so doing ajax again works or clear content before
                 // refresh the list of running process instances (since we just added one)
-                getRunningProcessinstances();
+                //getRunningProcessInstances();
+
+                location.reload(true);
 
 
             },

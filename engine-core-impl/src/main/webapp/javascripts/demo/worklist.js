@@ -114,9 +114,10 @@ function addEndButtonClickHandler(handler) {
 				//TODO implement mechanism to refresh items for other clients;
 				$(button).unbind();
 				$(button).parent().parent().remove();
+				// TODO this does fuck with append to.. clear? I don't have time...
 				// refresh worklistitems
-				// possibly do some kind of wait because sometimes the items dont seem to be loaded.
-		        getWorklistItems();
+		        //getWorklistItems();
+		        location.reload(true);
 
 				// be happy and do stuff (like morph button to start task or stuff like that)
 
@@ -161,6 +162,6 @@ function getWorklistItems() {
 }
 
 $().ready(function(){
-    getWorklistItems;
+    getWorklistItems();
 })
 
