@@ -4,14 +4,18 @@ $().ready(function() {
         $.ajax({
               type: 'POST',
               url: '/api/demo/generate'
-        })
+        });
+        // redirect
+        $(location).attr('href', '/')
       });
 
       $('#referenceGenerate').click(function() {
         $.ajax({
               type: 'POST',
               url: '/api/demo/reference'
-        })
+        });
+        // redirect
+	    $(location).attr('href', '/management/')
       });
 
 
