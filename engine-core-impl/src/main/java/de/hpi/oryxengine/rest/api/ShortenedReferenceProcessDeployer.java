@@ -152,7 +152,7 @@ public final class ShortenedReferenceProcessDeployer {
         xor4 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
 
         // human task for objection clerk, task is to do final work
-        form = extractForm("form4", "claimPoints.html");
+        form = extractForm("form4", "postEditingClaim.html");
         task = createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", form, objectionClerk);
         human4 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
