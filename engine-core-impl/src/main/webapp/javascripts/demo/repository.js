@@ -19,6 +19,9 @@ function enableButtonClickHandler() {
                 // $('#participants').html(jqXHR.responseText).addClass('error');
             }
         });
+
+        // refresh page
+		location.reload(true);
     })
 }
 

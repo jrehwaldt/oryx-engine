@@ -124,7 +124,10 @@ function addEndButtonClickHandler(handler) {
 			contentType: 'application/json'
 		});
 
-		});
+		// refresh page
+		location.reload(true);
+
+	});
 
 }
 
