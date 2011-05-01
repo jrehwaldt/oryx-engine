@@ -42,6 +42,8 @@ public abstract class AbstractBPMNDeployerTest extends AbstractJodaEngineTest {
 
         ProcessDefinition processDefinition = ServiceFactory.getRepositoryService().getProcessDefinition(
             deployedProcessDefinitionUUID);
+        
+        Assert.assertEquals(processDefinition.getID(), deployedProcessDefinitionUUID);
 
         assertProcessDefintion(processDefinition);
     }

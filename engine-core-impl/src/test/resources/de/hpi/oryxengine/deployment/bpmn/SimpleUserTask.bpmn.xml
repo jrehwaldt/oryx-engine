@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:signavio="http://www.signavio.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com"
+	exporterVersion="4.7.0" expressionLanguage="http://www.w3.org/1999/XPath"
+	id="sid-2df90b30-882d-4163-abb8-47193ab71949" targetNamespace="http://www.signavio.com/bpmn20"
+	typeLanguage="http://www.w3.org/2001/XMLSchema"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+
+	<process id="sid-6a6d3e3c-8d4b-485d-a347-26908e12c8b2" name="SimpleUserTask"
+		isExecutable="false">
+
+		<startEvent id="sid-FFAF533D-C7C0-4C82-A2DF-948A394058E1"
+			name="Start" />
+
+		<userTask id="sid-322C7191-C5C0-4792-9952-3411BAE90963" name="Get Gerardo a cup of coffee!">
+			<documentation>It stands for itself.</documentation>
+			<humanPerformer resourceRef="Jannik">
+				<resourceAssignmentExpression>
+					<formalExpression>participant(Jannik3)</formalExpression>
+				</resourceAssignmentExpression>
+			</humanPerformer>
+		</userTask>
+
+		<endEvent id="sid-8D686A5B-55C5-4E70-B25E-DBFDC1FB5B99" name="End" />
+
+		<sequenceFlow id="sid-91629CF5-190E-4DF7-869F-39E72F71DD4E"
+			sourceRef="sid-FFAF533D-C7C0-4C82-A2DF-948A394058E1" targetRef="sid-322C7191-C5C0-4792-9952-3411BAE90963" />
+
+		<sequenceFlow id="sid-9A83B56D-836B-4BAB-9741-1414556BCE39"
+			sourceRef="sid-322C7191-C5C0-4792-9952-3411BAE90963" targetRef="sid-8D686A5B-55C5-4E70-B25E-DBFDC1FB5B99" />
+	</process>
+</definitions>

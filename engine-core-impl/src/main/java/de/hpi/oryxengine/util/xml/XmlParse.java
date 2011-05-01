@@ -1,18 +1,15 @@
 package de.hpi.oryxengine.util.xml;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXParseException;
 
+import de.hpi.oryxengine.deployment.importer.bpmn.BpmnXmlParse;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.repository.importer.bpmn.BpmnXmlParse;
 import de.hpi.oryxengine.util.io.StreamSource;
 
 /**
@@ -27,15 +24,16 @@ public class XmlParse implements XmlParseable {
     private static final String JAXP_SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
     private static final String W3C_XML_SCHEMA = "http://www.w3.org/2001/XMLSchema";
 
-    private static final String NEW_LINE = System.getProperty("line.separator");
-
     protected XmlParser parser;
+    
     protected StreamSource streamSource;
-    protected XmlElement rootElement = null;
-    protected List<XmlParsingProblem> lazyErrors;
-    protected List<XmlParsingProblem> lazyWarnings;
-    protected String schemaResource;
+    
+    protected XmlElement rootElement;
+    
+    private XmlProblemLogger problemLogger;
 
+    protected String schemaResource;
+    
     public XmlParse(XmlParser parser, StreamSource streamSource) {
 
         this(parser, streamSource, null);
@@ -56,6 +54,10 @@ public class XmlParse implements XmlParseable {
         this.parser = xmlParser;
         this.streamSource = streamSource;
         this.schemaResource = schemaResource;
+        
+        // Prepare fields for execution
+        this.rootElement = null;
+        this.problemLogger = new XmlProblemLogger(streamSource.getName());
     }
 
     @Override
@@ -88,6 +90,7 @@ public class XmlParse implements XmlParseable {
         } catch (Exception e) {
             String errorMessage = "The Stream '" + streamSource.getName() + "' could not be parsed. Following error ocurred: "
                 + e.getMessage();
+            logger.error(errorMessage, e);
             throw new DalmatinaRuntimeException(errorMessage, e);
         }
 
@@ -105,99 +108,8 @@ public class XmlParse implements XmlParseable {
         return rootElement;
     }
 
-    protected List<XmlParsingProblem> getWarnings() {
-
-        if (lazyWarnings == null) {
-            lazyWarnings = new ArrayList<XmlParsingProblem>();
-        }
-        return lazyWarnings;
-    }
-
-    /**
-     * In case a {@link SAXException} occurred this method will can be called in order to warn that something happens
-     * while parsing through a XMl.
-     * 
-     * @param saxE
-     *            - the {@link SAXException} that occurred
-     */
-    protected void addWarning(SAXParseException saxE) {
-
-        getWarnings().add(new XmlParsingProblem(saxE, streamSource.getName()));
-    }
-
-    /**
-     * This method can be used to log a warning.
-     * 
-     * @param warningMessage
-     *            - the message that describes the warning
-     * @param element
-     *            - the {@link XmlElement} where the warning occurres
-     */
-    protected void addWarning(String warningMessage, XmlElement element) {
-
-        getWarnings().add(new XmlParsingProblem(warningMessage, streamSource.getName(), element));
-    }
-
-    /**
-     * Says whether there warnings occurred while parsing through the XMl.
-     * 
-     * @return a {@link Boolean} saying whether there warnings occurred or not.
-     */
-    public boolean hasWarnings() {
-
-        return !getWarnings().isEmpty();
-    }
-
-    /**
-     * Logs all warnings that appear while parsing trough the XML.
-     */
-    public void logWarnings() {
-
-        for (XmlParsingProblem warning : getWarnings()) {
-            logger.warn(warning.toString());
-        }
-    }
-
-    protected List<XmlParsingProblem> getErrors() {
-
-        if (lazyErrors == null) {
-            lazyErrors = new ArrayList<XmlParsingProblem>();
-        }
-        return lazyErrors;
-    }
-
-    protected void addError(SAXParseException e) {
-
-        getErrors().add(new XmlParsingProblem(e, streamSource.getName()));
-    }
-
-    protected void addError(String errorMessage, XmlElement element) {
-
-        getErrors().add(new XmlParsingProblem(errorMessage, streamSource.getName(), element));
-    }
-
-    /**
-     * Says whether there errors occurred while parsing through the XMl.
-     * 
-     * @return a {@link Boolean} saying whether there errors occurred or not.
-     */
-    public boolean hasErrors() {
-
-        return !getErrors().isEmpty();
-    }
-
-    /**
-     * Logs all Errors while parsing through the XML. Finally an {@link DalmatinaRuntimeException} is thrown.
-     */
-    public void throwDalmatinaRuntimeExceptionForErrors() {
-
-        StringBuilder stringBuilder = new StringBuilder();
-        for (XmlParsingProblem error : getErrors()) {
-            stringBuilder.append(error.toString());
-            stringBuilder.append(NEW_LINE);
-        }
-
-        logger.error(stringBuilder.toString());
-        throw new DalmatinaRuntimeException(stringBuilder.toString());
+    public XmlProblemLogger getProblemLogger() {
+    
+        return problemLogger;
     }
 }

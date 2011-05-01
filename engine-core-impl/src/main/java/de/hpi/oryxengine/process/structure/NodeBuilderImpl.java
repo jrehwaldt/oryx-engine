@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.process.structure;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class NodeBuilderImpl implements NodeBuilder {
     public Node buildNode() {
 
         checkingNodeConstraints();
-        
+
         return buildResultNode();
     }
 
@@ -100,10 +101,30 @@ public class NodeBuilderImpl implements NodeBuilder {
             throw new DalmatinaRuntimeException(errorMessage);
         }
 
-        // TODO @Gerardo Maybe we can do here some meta programming in order to check wether the specified constructor
-        // exists
+        Class<?>[] constructorSignature = null;
+        try {
+            List<Class<?>> tempList = getBlueprintConstructorSignature();
+            constructorSignature = (Class<?>[]) tempList.toArray(new Class<?>[tempList.size()]);
+            blueprintClazz.getConstructor(constructorSignature);
+        } catch (NoSuchMethodException noSuchMethodException) {
+
+            StringBuilder errorMessageBuilder = new StringBuilder();
+            errorMessageBuilder.append("The ActivityClass '" + blueprintClazz.getName()
+                + "' does not have a constructor for the signature (");
+            for (Class<?> clazz : getBlueprintConstructorSignature()) {
+                errorMessageBuilder.append(clazz.getName() + ", ");
+            }
+
+            // Delete the last two chars
+            errorMessageBuilder.deleteCharAt(errorMessageBuilder.length() - 1);
+            errorMessageBuilder.deleteCharAt(errorMessageBuilder.length() - 1);
+            errorMessageBuilder.append(").");
+
+            logger.error(errorMessageBuilder.toString());
+            throw new DalmatinaRuntimeException(errorMessageBuilder.toString());
+        }
     }
-    
+
     /**
      * Lazy Initialization Getter.
      */

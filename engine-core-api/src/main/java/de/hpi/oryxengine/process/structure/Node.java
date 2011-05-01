@@ -27,31 +27,6 @@ public interface Node extends Identifiable, Attributable {
     ActivityBlueprint getActivityBlueprint();
 
     /**
-     * Sets the blueprint of the activity that is instantiated when a token reaches the node. The activity is the
-     * behavior of a node.
-     * 
-     * @param blueprint
-     *            the blueprint of the activity to use.
-     */
-    void setActivityBlueprint(ActivityBlueprint blueprint);
-
-    /**
-     * Sets the outgoing behaviour.
-     * 
-     * @param outgoingBehaviour
-     *            the new outgoing behaviour
-     */
-    void setOutgoingBehaviour(OutgoingBehaviour outgoingBehaviour);
-
-    /**
-     * Sets the incoming behaviour.
-     * 
-     * @param incomingBehaviour
-     *            the new incoming behaviour
-     */
-    void setIncomingBehaviour(IncomingBehaviour incomingBehaviour);
-
-    /**
      * Gets the incoming behaviour.
      * 
      * @return the incoming behaviour

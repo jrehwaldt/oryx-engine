@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.repository.importer.bpmn;
+package de.hpi.oryxengine.deployment.importer.bpmn;
 
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
@@ -57,11 +57,21 @@ public interface BpmnXmlParseListener {
      * Is called when the {@link BpmnXmlParser} finished creating the {@link Node taskNode}.
      * 
      * @param taskXmlElement
-     *            - the original {@link XmlElement parallelGatewayXmlElement}
+     *            - the original {@link XmlElement taskXmlElement}
      * @param taskNode
      *            - the created {@link Node taskNode}
      */
     void parseTask(XmlElement taskXmlElement, Node taskNode);
+
+    /**
+     * Is called when the {@link BpmnXmlParser} finished creating the {@link Node userTaskNode}.
+     * 
+     * @param userTaskXmlElement
+     *            - the original {@link XmlElement userTaskXmlElement}
+     * @param userTaskNode
+     *            - the created {@link Node userTaskNode}
+     */
+    void parseUserTask(XmlElement userTaskXmlElement, Node userTaskNode);
     
     /**
      * Is called when the {@link BpmnXmlParser} finished creating the {@link Node endEventNode}.

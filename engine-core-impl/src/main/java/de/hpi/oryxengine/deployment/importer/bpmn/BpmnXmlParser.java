@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.repository.importer.bpmn;
+package de.hpi.oryxengine.deployment.importer.bpmn;
 
 import java.util.ArrayList;
 import java.util.List;

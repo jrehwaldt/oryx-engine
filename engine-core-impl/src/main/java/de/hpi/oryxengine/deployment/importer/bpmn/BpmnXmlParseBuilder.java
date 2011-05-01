@@ -1,6 +1,5 @@
-package de.hpi.oryxengine.repository.importer.bpmn;
+package de.hpi.oryxengine.deployment.importer.bpmn;
 
-import de.hpi.oryxengine.util.xml.XmlParseBuilder;
 import de.hpi.oryxengine.util.xml.XmlParseBuilderImpl;
 
 /**

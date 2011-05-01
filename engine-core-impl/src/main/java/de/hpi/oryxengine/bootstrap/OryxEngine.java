@@ -64,6 +64,18 @@ public final class OryxEngine {
      */
     public static void shutdown() {
 
+     // Extracting all Service Beans
+        Map<String, Service> serviceTable = OryxEngineAppContext.getAppContext().getBeansOfType(Service.class);
+
+        if (serviceTable != null) {
+
+            Iterator<Service> serviceIterator = serviceTable.values().iterator();
+            while (serviceIterator.hasNext()) {
+
+                Service service = serviceIterator.next();
+                service.stop();
+            }
+        }
     }
 
     /**

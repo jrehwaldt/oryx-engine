@@ -35,6 +35,14 @@ public class DemoWebService {
         return Response.ok().build();        
     }
     
+    @Path("/generate-xml-process")
+    @POST
+    public Response generateXmlProcess() {
+        LoadDemoProcessAsXmlForWebservice.generate();
+        // we always return ok as the demo data was already created and that is ok
+        return Response.ok().build();        
+    }
+    
     /**
      * Generates (deploys) the reference process.
      *

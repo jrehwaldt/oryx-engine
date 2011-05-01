@@ -70,21 +70,9 @@ public class NodeImpl implements Node {
     }
 
     @Override
-    public void setOutgoingBehaviour(OutgoingBehaviour outgoingBehaviour) {
-
-        this.outgoingBehaviour = outgoingBehaviour;
-    }
-
-    @Override
     public IncomingBehaviour getIncomingBehaviour() {
 
         return incomingBehaviour;
-    }
-
-    @Override
-    public void setIncomingBehaviour(IncomingBehaviour incomingBehaviour) {
-
-        this.incomingBehaviour = incomingBehaviour;
     }
 
     /**
@@ -179,12 +167,6 @@ public class NodeImpl implements Node {
     public ActivityBlueprint getActivityBlueprint() {
 
         return blueprint;
-    }
-
-    @Override
-    public void setActivityBlueprint(ActivityBlueprint blueprint) {
-
-        this.blueprint = blueprint;
     }
 
     @JsonProperty

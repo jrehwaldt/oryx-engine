@@ -1,11 +1,10 @@
 package de.hpi.oryxengine.deployment.importer;
 
-import java.io.InputStream;
-
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.deployment.importer.bpmn.BpmnXmlParser;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.util.io.FileStreamSource;
 import de.hpi.oryxengine.util.xml.XmlParseable;
 
 /**
@@ -13,20 +12,20 @@ import de.hpi.oryxengine.util.xml.XmlParseable;
  * 
  * In order to parse through the XML we use some classes of the Activiti Project (activiti.org).
  */
-public class BpmnXmlInpustreamImporter extends AbstractBpmnXmlImporter {
+public class BpmnXmlFileImporter extends AbstractBpmnXmlImporter {
 
-    private InputStream xmlInputStream;
+    private String filePath;
 
-    public BpmnXmlInpustreamImporter(String processDefintionName, @Nonnull InputStream inputStream) {
+    public BpmnXmlFileImporter(String processDefintionName, @Nonnull String filePath) {
 
         super(processDefintionName);
-        this.xmlInputStream = inputStream;
+        this.filePath = filePath;
     }
 
-    public BpmnXmlInpustreamImporter(@Nonnull InputStream inputStream) {
+    public BpmnXmlFileImporter(@Nonnull String filePath) {
 
         super(null);
-        this.xmlInputStream = inputStream;
+        this.filePath = filePath;
     }
 
     @Override
@@ -34,7 +33,7 @@ public class BpmnXmlInpustreamImporter extends AbstractBpmnXmlImporter {
 
         BpmnXmlParser bpmnXmlParser = new BpmnXmlParser();
         XmlParseable bpmnXmlParse = bpmnXmlParser.getXmlParseBuilder()
-                                                 .defineSourceAsInputStream(xmlInputStream)
+                                                 .defineSourceAsStreamSource(new FileStreamSource(filePath))
                                                  .buildXmlParse();
 
         bpmnXmlParse.execute();

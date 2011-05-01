@@ -63,15 +63,6 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
     }
 
     /**
-     * Tear Down.
-     */
-    @AfterMethod
-    public void tearDown() {
-//        ServiceFactoryForTesting.clearWorklistManager();
-//        ServiceFactoryForTesting.clearIdentityService();
-    }
-    
-    /**
      * Test that the assigned user begins with the humanTask.
      * @throws DalmatinaException 
      */

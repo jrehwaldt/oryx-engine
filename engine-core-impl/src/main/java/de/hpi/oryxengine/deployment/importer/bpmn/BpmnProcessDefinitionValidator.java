@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.repository.importer.bpmn;
+package de.hpi.oryxengine.deployment.importer.bpmn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +97,11 @@ public class BpmnProcessDefinitionValidator implements BpmnXmlParseListener {
 
     @Override
     public void parseSequenceFlow(XmlElement sequenceFlowElement, Transition transition) {
+
+    }
+
+    @Override
+    public void parseUserTask(XmlElement userTaskXmlElement, Node userTaskNode) {
 
     }
 }

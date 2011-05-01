@@ -2,8 +2,6 @@ package de.hpi.oryxengine.util.xml;
 
 import java.util.Stack;
 
-import javax.xml.parsers.SAXParser;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
@@ -65,12 +63,12 @@ public class XmlParseHandler extends DefaultHandler {
 
     public void error(SAXParseException e) {
 
-        parse.addError(e);
+        parse.getProblemLogger().addError(e);
     }
 
     public void fatalError(SAXParseException e) {
 
-        parse.addError(e);
+        parse.getProblemLogger().addError(e);
     }
 
     public void warning(SAXParseException e) {
