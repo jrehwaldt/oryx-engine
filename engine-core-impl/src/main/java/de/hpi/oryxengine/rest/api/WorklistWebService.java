@@ -17,13 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import net.htmlparser.jericho.Config;
-import net.htmlparser.jericho.FormControlType;
-import net.htmlparser.jericho.FormField;
-import net.htmlparser.jericho.FormFields;
-import net.htmlparser.jericho.OutputDocument;
-import net.htmlparser.jericho.Source;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +37,12 @@ import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.rest.WorklistActionWrapper;
+
+import net.htmlparser.jericho.Config;
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.FormFields;
+import net.htmlparser.jericho.OutputDocument;
+import net.htmlparser.jericho.Source;
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -82,7 +81,7 @@ public final class WorklistWebService {
      */
     @Path("/demo")
     @GET
-    @Produces("text/plain")
+    @Produces(MediaType.TEXT_PLAIN)
     public String demoParticipant() {
 
         IdentityBuilder builder = this.identity.getIdentityBuilder();
@@ -126,10 +125,10 @@ public final class WorklistWebService {
      * @throws ResourceNotAvailableException if the resource is not available
      */
     @Path("/items/{worklistitemId}/form")
-    @Produces("text/plain")
+    @Produces(MediaType.TEXT_PLAIN)
     @GET
     public Response getForm(@PathParam("worklistitemId") String worklistitemId, 
-                          @QueryParam("participantId") String participantId)
+                            @QueryParam("participantId") String participantId)
     throws ResourceNotAvailableException {
         UUID participantUUID = UUID.fromString(participantId);
         UUID itemUUID = UUID.fromString(worklistitemId);
@@ -192,7 +191,7 @@ public final class WorklistWebService {
      * @return the response
      */
     @Path("/items/{worklistitemId}/form")
-    @Consumes("application/x-www-form-urlencoded")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @POST
     public Response postForm(@PathParam("worklistitemId") String worklistItemId, 
                              @QueryParam("participantId") String participantId, 
