@@ -12,13 +12,9 @@ function enableButtonClickHandler() {
             url: '/api/navigator/processdefinitions/' + definitionId + '/instances',
             success: function(data) {
                 console.log(data);
-                // TODO make this without using append so doing ajax again works or clear content before
+
                 // refresh the list of running process instances (since we just added one)
-                //getRunningProcessInstances();
-
-                location.reload(true);
-
-
+                getRunningProcessInstances();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // should be displayed in notification area or some like that
@@ -38,6 +34,9 @@ function getRunningProcessInstances() {
         success: function(data) {
             console.log(data);
             var runningInstances = data;
+            // clean up before we load them
+            // TODO maybe remember the opened trs/tokens before that
+            $('#runningInstances').empty();
             $.each(runningInstances, function(i, instance) {
                 $("#runningInstances").append("<tr id= " + instance.id + " class=\"instance\"><td> " + instance.id + "</td><td> " + instance.definition.name + "</td><td> " + instance.definition.description + "</td></tr>");
 
