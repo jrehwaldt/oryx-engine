@@ -39,7 +39,7 @@ function getRunningProcessInstances() {
             console.log(data);
             var runningInstances = data;
             $.each(runningInstances, function(i, instance) {
-                $("#runningInstances").append("<tr id= " + instance.id + " class=\"instance\"><td> " + instance.id + "</td><td> " + instance.definition.name + "</td><td> " + instance.definition.description + "</td></tr>");
+                $("#runningInstances").append("<tr id= " + instance.id + " class=\"instance clickable\"><td> " + instance.id + "</td><td> " + instance.definition.name + "</td><td> " + instance.definition.description + "</td></tr>");
 
 			var include = "<tr style=\"display:none;\"  id=\""+instance.id+"-tokenTable\"><td colspan=\"3\"><div style=\"margin-left:30px;\"> <table style=\"width:100%;\"><tr><th>Token UUID</th><th>State</th><th>Activity</th><th>Node</th></tr><tr>";
 //style=\"display:none;\"

@@ -699,3 +699,9 @@ legend:hover {
 
 /* END Larry's basic styles */
 
+.clickable {
+   cursor: pointer;
+}
+#notice:empty {
+   display: none;
+} 
