@@ -127,21 +127,19 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
      *             the uRI syntax exception
      * @throws IOException
      *             Signals that an I/O exception has occurred.
-    
+     */
     @Test
     public void testGetFormWithMissingWorkitem()
     throws URISyntaxException, IOException {
         
         UUID falseID = UUID.randomUUID();
         MockHttpResponse response = makeGETRequest(
-            "/worklist/items/"
-            + falseID
-            + "/form?participantId="
-            + jannik.getID());
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL, 
-        "the result should be a status code 404, that means, the request has failed.");
+            String.format("worklist/items/%s/form?participantId=%s", falseID, jannik.getID()));
+        Assert.assertEquals(
+            response.getStatus(), HTTP_STATUS_FAIL,
+            "the result should be a status code 404, that means, the request has failed.");
     }
-     */
+
     /**
      * Get the form for the worklist item with a false participant id. An 404 Error should be returned.
      * 
