@@ -17,9 +17,9 @@
 
 		<userTask id="sid-322C7191-C5C0-4792-9952-3411BAE90963" name="Get Gerardo a cup of coffee!">
 			<documentation>It stands for itself.</documentation>
-			<humanPerformer resourceRef="Jannik">
+			<humanPerformer resourceRef="Thorben">
 				<resourceAssignmentExpression>
-					<formalExpression>participant(Jannik3)</formalExpression>
+					<formalExpression>participant(Thorben)</formalExpression>
 				</resourceAssignmentExpression>
 			</humanPerformer>
 		</userTask>
@@ -33,3 +33,4 @@
 			sourceRef="sid-322C7191-C5C0-4792-9952-3411BAE90963" targetRef="sid-8D686A5B-55C5-4E70-B25E-DBFDC1FB5B99" />
 	</process>
 </definitions>
+

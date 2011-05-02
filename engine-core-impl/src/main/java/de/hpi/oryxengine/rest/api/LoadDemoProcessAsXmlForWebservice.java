@@ -1,11 +1,6 @@
 package de.hpi.oryxengine.rest.api;
 
-import java.util.UUID;
-
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.deployment.importer.BpmnXmlImporter;
-import de.hpi.oryxengine.exception.DefinitionNotFoundException;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 
 /**
@@ -13,12 +8,11 @@ import de.hpi.oryxengine.resource.IdentityBuilder;
  */
 public final class LoadDemoProcessAsXmlForWebservice {
 
-    private static final String PATH_TO_XML = "/home/thorben/oryx-engine/engine-core-impl/src/test/resources/de/hpi/oryxengine/deployment/bpmn/SimpleUserTask.bpmn.xml";
     private static IdentityBuilder builder;
     private static boolean invoked = false;
 
     /**
-     * Instantiates a new demo data for webservice.
+     * singleton.
      */
     private LoadDemoProcessAsXmlForWebservice() {
         
@@ -51,13 +45,6 @@ public final class LoadDemoProcessAsXmlForWebservice {
         if (!invoked) {
             invoked = true;
             generateDemoParticipants();
-            try {
-                generateDemoWorklistItems();
-            } catch (DefinitionNotFoundException e) {
-                e.printStackTrace();
-            } catch (IllegalStarteventException e) {
-                e.printStackTrace();
-            }
         }
 
     }
@@ -67,23 +54,6 @@ public final class LoadDemoProcessAsXmlForWebservice {
      */
     private static void generateDemoParticipants() {
 
-        getBuilder().createParticipant("Jannik3");
-    }
-
-    /**
-     * Generate demo worklist items for our participants.
-     * 
-     * @throws IllegalStarteventException illegal model
-     * @throws DefinitionNotFoundException no such definition found
-     */
-    private static void generateDemoWorklistItems()
-    throws IllegalStarteventException, DefinitionNotFoundException {
-        
-        UUID processID = ServiceFactory.getRepositoryService()
-                                       .getDeploymentBuilder()
-                                       .deployProcessDefinition(new BpmnXmlImporter(PATH_TO_XML));
-        
-        ServiceFactory.getNavigatorService().startProcessInstance(processID);
-
+        getBuilder().createParticipant("Thorben");
     }
 }

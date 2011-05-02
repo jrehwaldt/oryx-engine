@@ -1,4 +1,3 @@
-
 /**
 /*  Enables the button to do his work - start a process instance that is.
 /*  This is called after all the elements and buttons have been added to the DOM.
