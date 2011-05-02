@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
-import de.hpi.oryxengine.deployment.importer.BpmnXmlInpustreamImporter;
+import de.hpi.oryxengine.deployment.importer.BpmnXmlImporter;
 import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -23,6 +23,11 @@ public abstract class AbstractBPMNDeployerTest extends AbstractJodaEngineTest {
 
     protected String executableProcessResourcePath;
 
+    /**
+     * Test correct process parsing of xml.
+     *
+     * @throws DefinitionNotFoundException the definition not found exception
+     */
     @Test
     public void testCorrectProcessParsingOfXml()
     throws DefinitionNotFoundException {
@@ -37,7 +42,7 @@ public abstract class AbstractBPMNDeployerTest extends AbstractJodaEngineTest {
 
         InputStream bpmnXmlInputStream = ReflectionUtil.getResourceAsStream(executableProcessResourcePath);
         Assert.assertNotNull(bpmnXmlInputStream);
-        ProcessDefinitionImporter processDefinitionImporter = new BpmnXmlInpustreamImporter(bpmnXmlInputStream);
+        ProcessDefinitionImporter processDefinitionImporter = new BpmnXmlImporter(bpmnXmlInputStream);
         UUID deployedProcessDefinitionUUID = deploymentBuilder.deployProcessDefinition(processDefinitionImporter);
 
         ProcessDefinition processDefinition = ServiceFactory.getRepositoryService().getProcessDefinition(

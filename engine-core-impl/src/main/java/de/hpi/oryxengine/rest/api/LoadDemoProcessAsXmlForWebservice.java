@@ -3,7 +3,7 @@ package de.hpi.oryxengine.rest.api;
 import java.util.UUID;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.deployment.importer.BpmnXmlFileImporter;
+import de.hpi.oryxengine.deployment.importer.BpmnXmlImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.resource.IdentityBuilder;
@@ -82,7 +82,7 @@ public final class LoadDemoProcessAsXmlForWebservice {
         
         UUID processID = ServiceFactory.getRepositoryService()
                                        .getDeploymentBuilder()
-                                       .deployProcessDefinition(new BpmnXmlFileImporter(PATH_TO_XML));
+                                       .deployProcessDefinition(new BpmnXmlImporter(PATH_TO_XML));
         
         ServiceFactory.getNavigatorService().startProcessInstance(processID);
 
