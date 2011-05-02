@@ -7,12 +7,16 @@
     <body>
       <div id="engineStatus">
         <h1>Process Engine Status </h1>
-        <table id="runningInstances" style="width:100%;">
-          <tr>
-           <th>ID</th>
-           <th>Name</th>
-           <th>Description</th>
-         </tr>
+        <table style="width:100%;">
+          <thead>
+            <tr>
+             <th>ID</th>
+             <th>Name</th>
+             <th>Description</th>
+            </tr>
+          </thead>
+          <tbody id="runningInstances">
+          </tbody>
         </table>
       </div>
       <div id="definitionExplorer">

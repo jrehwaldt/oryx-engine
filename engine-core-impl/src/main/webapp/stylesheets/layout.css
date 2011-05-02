@@ -1,5 +1,12 @@
 // LessCSS-file
 
+@logo-color: #14AE02;
+@highlight-color: #00AADD;
+
+@base-color: #cccccc;
+@base-color-light: #e8edff;
+@base-color-dark: #1c1c1c;
+
 /*  Larry CRM
  *
  *  Software Engineering II,
@@ -102,7 +109,7 @@ th:nth-child(even) {
 }
 
 td {
-  background: #e8edff;
+  background: @base-color-light;
   border-bottom: 1px solid #fff;
   color: #346;
   border-top: 1px solid transparent;
@@ -110,7 +117,7 @@ td {
 }
 
 table td {
-  background: #e8edff;
+  background: @base-color-light;
   border-bottom: 1px solid #fff;
   border-top: 1px solid transparent;
   padding: 8px;
@@ -163,6 +170,11 @@ th, td { text-align: left; }
 div.field, div.actions {
   margin-bottom: 10px;
 }
+
+
+#notice:empty {
+   display: none;
+} 
 
 #notice {
     width: 40%;  
@@ -288,7 +300,7 @@ legend:hover {
 #tab-level-1.item_0,
 #tab-level-1.item_dashboard,
 #tab-level-1.item_1,
-#tab-level-1.item_explorer,
+#tab-level-1.item_management,
 #tab-level-1.item_2,
 #tab-level-1.item_worklist,
 #tab-level-1.item_3,
@@ -307,7 +319,7 @@ legend:hover {
     left: 184px;
 }
 #tab-level-1.item_1,
-#tab-level-1.item_explorer {
+#tab-level-1.item_management {
     left: 258px;
 }
 #tab-level-1.item_2,
@@ -378,8 +390,8 @@ legend:hover {
 #menu-level-1 .dashboard {
     background-image: url(../images/layout/icon-dashboard.png);
 }
-#menu-level-1 .explorer {
-    background-image: url(../images/layout/icon-explorer.png);
+#menu-level-1 .management {
+    background-image: url(../images/layout/icon-management.png);
 }
 #menu-level-1 .worklist {
     background-image: url(../images/layout/icon-worklist.png);
@@ -699,3 +711,28 @@ legend:hover {
 
 /* END Larry's basic styles */
 
+.clickable {
+    cursor: pointer;
+}
+
+form {
+    input[type=text], input[type=password],
+    textarea {
+        border-radius: 4px;
+        border: 1px solid @base-color;
+        padding-left: 2px;
+    }
+    
+    input[type=text]:hover, input[type=password]:hover,
+    textarea:hover {
+        border-color: @highlight-color;
+    }
+    
+    ul {
+       padding-left: 0;
+       
+       li {
+           padding-bottom: 3px;
+       }
+    }
+}
