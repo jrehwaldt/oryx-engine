@@ -1,6 +1,9 @@
 package de.hpi.oryxengine.rest;
 
 import java.net.URISyntaxException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.core.MediaType;
 
@@ -90,7 +93,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         // set up our request
         MockHttpRequest request = MockHttpRequest.get(url);
         
-        return invokeRequest(request);
+        return invokeRequest(request, null);
     }
     
     /**
@@ -116,21 +119,22 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         // set up our request
         MockHttpRequest request = MockHttpRequest.get(url);
         
-        return invokeRequest(request).getContentAsString();
+        return invokeRequest(request, null).getContentAsString();
     }
     
     /**
      * Make a simple post request.
      *
      * @param url the url
+     * @param content the POST content, which should be processed
      * @return the mock http response
      * @throws URISyntaxException the uRI syntax exception
      */
-    protected MockHttpResponse makePOSTRequest(String url) throws URISyntaxException {
+    protected MockHttpResponse makePOSTRequest(String url, Map<String, String> content) throws URISyntaxException {
         // set up our request
         MockHttpRequest request = MockHttpRequest.post(url);
         
-        return invokeRequest(request);
+        return invokeRequest(request, content);
     }
     
     /**
@@ -146,17 +150,28 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         request.contentType(MediaType.APPLICATION_JSON);
         request.content(json.getBytes());
         
-        return invokeRequest(request);
+        return invokeRequest(request, null);
     }
     
     /**
      * Helper method which invokes the Request and returns the answer as a String.
      *
-     * @param request the request
-     * @return the answer as a String
+     * @param request the mocked Request
+     * @param content the POST content, which should be processed
+     * @return the answer as a MockHttpResponse
      */
-    private MockHttpResponse invokeRequest(MockHttpRequest request) {
+    private MockHttpResponse invokeRequest(MockHttpRequest request, Map<String, String> content) {
         MockHttpResponse response = new MockHttpResponse();
+
+        //Only for Requests, that need data to be sent with
+        if (content != null) {
+            Iterator<Entry<String, String>> iterator = content.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Entry<String, String> e = iterator.next();
+                request.addFormHeader(e.getKey(), e.getValue());
+            }
+
+        }
         // invoke the request
         dispatcher.invoke(request, response);
         
