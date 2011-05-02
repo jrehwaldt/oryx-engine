@@ -6,6 +6,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 
@@ -18,7 +19,7 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
     protected ProcessDefinitionBuilder builder;
     
     @Override
-    public UUID deploy() throws IllegalStarteventException {
+    public UUID deploy() throws IllegalStarteventException, ResourceNotAvailableException {
         this.createPseudoHuman();
         this.initializeNodes();
         ProcessDefinition definition = this.builder.buildDefinition();
@@ -35,8 +36,9 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
     /**
      * Creates a thread to complete human tasks. So human task Process deployers shall overwrite this method.
      * Nothing happens here for automated task nodes, so they must not overwrite this method.
+     * @throws ResourceNotAvailableException 
      */
-    public void createPseudoHuman() {
+    public void createPseudoHuman() throws ResourceNotAvailableException {
 
     }
     

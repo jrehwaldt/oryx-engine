@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 
 /**
  * Tests the EcampleProcessDeplyoer class. {@inheritDoc}
@@ -28,11 +29,12 @@ public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
 
     /**
      * {@inheritDoc}
+     * @throws ResourceNotAvailableException 
      */
     @Override
     @BeforeMethod
     public void setUp()
-    throws IllegalStarteventException {
+    throws IllegalStarteventException, ResourceNotAvailableException {
 
         try {
             this.deployer = new HumanTaskProcessDeployer();

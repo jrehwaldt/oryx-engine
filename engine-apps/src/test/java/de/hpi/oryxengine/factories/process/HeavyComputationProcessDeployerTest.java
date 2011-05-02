@@ -6,6 +6,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.testng.annotations.BeforeMethod;
 
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 
 /**
  * Tests the EcampleProcessDeplyoer class. {@inheritDoc}
@@ -16,11 +17,12 @@ public class HeavyComputationProcessDeployerTest extends AbstractProcessDeployer
 
     /**
      * {@inheritDoc}
+     * @throws ResourceNotAvailableException 
      */
     @Override
     @BeforeMethod
     public void setUp()
-    throws IllegalStarteventException {
+    throws IllegalStarteventException, ResourceNotAvailableException {
 
         this.deployer = new HeavyComputationProcessDeployer();
         this.uuid = deployer.deploy();

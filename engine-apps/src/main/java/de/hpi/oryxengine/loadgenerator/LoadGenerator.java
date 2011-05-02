@@ -10,6 +10,7 @@ import de.hpi.oryxengine.NoRunningInstancesLoadgeneratorCaller;
 import de.hpi.oryxengine.bootstrap.OryxEngine;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factories.process.ProcessDeployer;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 
@@ -147,6 +148,9 @@ public class LoadGenerator {
             e.printStackTrace();
         } catch (IllegalStarteventException e) {
             logger.debug("Loading of class " + className + " failed , start node was wrong.", e);
+            e.printStackTrace();
+        } catch (ResourceNotAvailableException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
