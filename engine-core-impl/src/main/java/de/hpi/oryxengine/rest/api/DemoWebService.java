@@ -37,6 +37,11 @@ public class DemoWebService {
         return Response.ok().build();        
     }
     
+    /**
+     * Generates the xml process.
+     *
+     * @return the response
+     */
     @Path("/generate-xml-process")
     @POST
     public Response generateXmlProcess() {

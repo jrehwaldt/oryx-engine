@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
+import de.hpi.oryxengine.deployment.importer.BpmnXmlImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
@@ -89,6 +90,12 @@ public class NavigatorWebService implements Navigator {
         int xmlEnd = file.indexOf(XML_END) + XML_END.length();
         String xmlContent = file.substring(xmlStart, xmlEnd);
         logger.debug(xmlContent);
+        
+        BpmnXmlImporter importer = new BpmnXmlImporter(xmlContent);
+        
+        // deploys the process definition
+        ServiceFactory.getRepositoryService().getDeploymentBuilder()
+        .deployProcessDefinition(importer);
         
 
     }
