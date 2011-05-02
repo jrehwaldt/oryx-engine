@@ -29,7 +29,7 @@ function addClaimButtonClickHandler() {
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                $('#participants').html(jqXHR.responseText).addClass('error');
+                $('#notice').html(jqXHR.responseText).addClass('error');
             },
             contentType: 'application/json'
         });
@@ -70,7 +70,7 @@ function addBeginButtonClickHandler() {
 
 	    	},
 	    	error: function(jqXHR, textStatus, errorThrown) {
-	    		$('#participants').html(jqXHR.responseText).addClass('error');
+	    		$('#notice').html(jqXHR.responseText).addClass('error');
 	    	},
 	    	contentType: 'application/json'
 	    });
@@ -118,7 +118,7 @@ function addEndButtonClickHandler(handler) {
 		        getWorklistItems();
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				$('#participants').html(jqXHR.responseText).addClass('error');
+				$('#notice').html(jqXHR.responseText).addClass('error');
 			},
 			contentType: 'application/json'
 		});
@@ -134,7 +134,7 @@ function getWorklistItems() {
         url: '/api/worklist/items',
         data: 'id=' + $.Storage.get("participantUUID"),
         success: function(data) {
-            $("#notice").html("Welcome " + $.Storage.get("participantName") + ", here is your worklist:");
+            $("#welcomeMessage").html("Welcome " + $.Storage.get("participantName") + ", here is your worklist:");
             var worklist = data;
             // delete all contents before loading new contents
             $('#worklist').empty();
@@ -150,7 +150,8 @@ function getWorklistItems() {
             addButtonClickHandler();
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            $("#welcomeMessage").append("You need to log in before you can see your worklist").addClass("error");
+            // TODO more specific error
+            $("#notice").html("You need to log in before you can see your worklist (or other server error).").addClass("error");
 
         },
         contentType: 'application/json', // we send json

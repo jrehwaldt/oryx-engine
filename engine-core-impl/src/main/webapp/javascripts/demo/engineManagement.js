@@ -17,8 +17,7 @@ function enableButtonClickHandler() {
                 getRunningProcessInstances();
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                // should be displayed in notification area or some like that
-                // $('#participants').html(jqXHR.responseText).addClass('error');
+                 $('#notice').html(jqXHR.responseText).addClass('error');
             }
         });
     })
@@ -58,6 +57,9 @@ function getRunningProcessInstances() {
             });
 
         },
+       error: function(jqXHR, textStatus, errorThrown) {
+            $('#notice').html(jqXHR.responseText).addClass('error');
+        },
         dataType: "json" // we expect json
     });
 }
@@ -80,7 +82,7 @@ function getProcessDefinitions() {
 
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            $('#participants').html(jqXHR.responseText).addClass('error');
+            $('#notice').html(jqXHR.responseText).addClass('error');
         },
         dataType: "json" // we expect json
     });
