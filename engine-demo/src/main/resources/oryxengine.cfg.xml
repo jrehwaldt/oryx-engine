@@ -30,7 +30,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		</constructor-arg>
 	</bean>
 
-
-	<bean id="oryxEngineAppContext" class="de.hpi.oryxengine.bootsstrap.OryxEngineAppContext" />
-
+    <bean id="jsonMapper" class="org.codehaus.jackson.map.ObjectMapper"
+        scope="singleton">
+    </bean>
+    
+	<bean id="oryxEngineAppContext" class="de.hpi.oryxengine.bootstrap.OryxEngineAppContext" />
+    
 </beans>
