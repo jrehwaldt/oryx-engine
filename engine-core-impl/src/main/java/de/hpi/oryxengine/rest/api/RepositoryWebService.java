@@ -15,9 +15,9 @@ import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.node.factory.TransitionFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 
 /**

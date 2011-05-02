@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.rest.api;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,6 +30,9 @@ import de.hpi.oryxengine.process.token.Token;
 public class NavigatorWebService implements Navigator {
 
     private static final String NOT_ACCESSIBLE_VIA_WEBSERVICE = "This method is not accessible via web service.";
+    
+    private static final String XML_START = "<?xml";
+    private static final String XML_END = "</definitions>";
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Navigator navigatorService;
@@ -68,6 +72,25 @@ public class NavigatorWebService implements Navigator {
     throws DefinitionNotFoundException {
 
         return startProcessInstance(UUID.fromString(definitionID));
+    }
+    
+    /**
+     * Deploy a definition from an uploaded xml.
+     *
+     * @param file the xml representation
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    @Path("/processdefinitions")
+    @POST
+    public void deployDefinitionFromXML(String file) throws IOException {
+        logger.debug(file.toString());
+        int xmlStart = file.indexOf(XML_START);
+        // it is the end so we need to add back the length of the found element
+        int xmlEnd = file.indexOf(XML_END) + XML_END.length();
+        String xmlContent = file.substring(xmlStart, xmlEnd);
+        logger.debug(xmlContent);
+        
+
     }
 
     /**

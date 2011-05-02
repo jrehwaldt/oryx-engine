@@ -101,5 +101,9 @@ function makeToggle(runningInstance) {
 
 }
 
+function out(input) {
+    console.log(input);
+}
+
 //<td> " + instance.assignedTokens[0].currentActivityState + "</td>
 

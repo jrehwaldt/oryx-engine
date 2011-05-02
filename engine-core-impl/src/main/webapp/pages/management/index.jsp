@@ -30,7 +30,18 @@
             </tr>
           </thead>
           <tbody id="processDefinitionList"></tbody>
-        </table>
+       </table>
+    </div>
+
+    <div id="processUpload">
+      <h2>Processupload</h2>
+      <form id="xmlUpload" method="post" action="/api/navigator/processdefinitions" accept="application/xml" enctype="multipart/form-data">
+        <input type="file" name="xmlRepresentation" size="40"/>
+        <br/>
+        <input type="submit" value="Hochladen"/>
+      </form>
+    </div>
+
 		<h2>Demoprocess</h2>
 		<img src="../../images/exampleProcess.png" />
       </div>
