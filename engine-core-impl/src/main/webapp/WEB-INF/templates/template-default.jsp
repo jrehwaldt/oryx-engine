@@ -22,6 +22,11 @@ if (uri != null) {
         
         <link rel="stylesheet" type="text/css" href="/stylesheets/layout.css">
         
+        <%--begin-development-only--%>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/dev/fauxconsole.css">
+        <script type="text/javascript" src="/javascripts/dev/fauxconsole.js"></script>
+        <%--end-development-only--%>
+        
         <script type="text/javascript" src="/javascripts/lib/jquery-1.5.2.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.Storage.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.getQueryParam.1.0.0.min.js"></script>
