@@ -1,9 +1,12 @@
 package de.hpi.oryxengine.rest.api;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
@@ -18,6 +21,10 @@ import de.hpi.oryxengine.bootstrap.OryxEngine;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessArtifact;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
+import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
@@ -32,6 +39,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
     private Task task;
     private AbstractParticipant jannik;
+    private ProcessInstanceContext context;
 
     @Override
     protected Class<?> getResource() {
@@ -55,6 +63,10 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         Whitebox.setInternalState(task, "form", new FormImpl(processArtifact));
         
         TokenImpl token = mock(TokenImpl.class);
+        context = new ProcessInstanceContextImpl();
+        AbstractProcessInstance instance = mock(ProcessInstanceImpl.class);
+        when(instance.getContext()).thenReturn(context);
+        when(token.getInstance()).thenReturn(instance);
         ServiceFactory.getTaskDistribution().distribute(task, token);
         // System.out.println(ServiceFactory.getIdentityService().getParticipants());
         jannik = (AbstractParticipant) task.getAssignedResources().toArray()[0];
@@ -159,11 +171,29 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
      *             the uRI syntax exception
      * @throws IOException
      *             Signals that an I/O exception has occurred.
-     
+     */
     @Test
     public void postForm()
     throws URISyntaxException, IOException {
         
+        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
+        Map<String, String> content = new HashMap<String, String>();
+        
+        //Simulate form data input
+        content.put("form1", "checked");
+        content.put("form2", "yes");
+        
+        MockHttpResponse response = makePOSTRequest(
+            "/worklist/items/"
+            + item.getID()
+            + "/form?participantId="
+            + jannik.getID(),
+            content);
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK, 
+        "the result should be OK, that means, the request should have suceeded.");
+        Assert.assertEquals(context.getVariable("form1"), "checked");
+        Assert.assertEquals(context.getVariable("form2"), "yes");
+        
     }
-     */
+     
 }
