@@ -38,7 +38,7 @@
       <form id="xmlUpload" method="post" action="/api/navigator/processdefinitions" accept="application/xml" enctype="multipart/form-data">
         <input type="file" name="xmlRepresentation" size="40"/>
         <br/>
-        <input type="submit" value="Hochladen"/>
+        <input type="submit" value="Deploy!"/>
       </form>
     </div>
 
