@@ -149,7 +149,7 @@ public class BpmnXmlParse extends XmlParse {
 
         // The name of the ProcessDefinition is the value of 'name' attribute, in case that it is defined.
         String processName;
-        if (processElement.getAttribute("name") != null && processElement.getAttribute("name").isEmpty()) {
+        if (processElement.getAttribute("name") != null || processElement.getAttribute("name").isEmpty()) {
 
             processName = processElement.getAttribute("name");
         } else {

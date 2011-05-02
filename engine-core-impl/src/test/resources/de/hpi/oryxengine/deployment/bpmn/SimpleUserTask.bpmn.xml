@@ -10,6 +10,7 @@
 
 	<process id="sid-6a6d3e3c-8d4b-485d-a347-26908e12c8b2" name="SimpleUserTask"
 		isExecutable="false">
+		<documentation>Process loaded from xml file. Ene-mene-mu: Joda Engine better than Activiti.</documentation>
 
 		<startEvent id="sid-FFAF533D-C7C0-4C82-A2DF-948A394058E1"
 			name="Start" />
