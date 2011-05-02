@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.rest.api;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -18,6 +19,8 @@ import de.hpi.oryxengine.bootstrap.OryxEngine;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessArtifact;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
+import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
@@ -55,6 +58,11 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         Whitebox.setInternalState(task, "form", new FormImpl(processArtifact));
         
         TokenImpl token = mock(TokenImpl.class);
+        AbstractProcessInstance instance = mock(AbstractProcessInstance.class);
+        ProcessInstanceContext context = mock(ProcessInstanceContext.class);
+        when(token.getInstance()).thenReturn(instance);
+        when(instance.getContext()).thenReturn(context);
+        
         ServiceFactory.getTaskDistribution().distribute(task, token);
         // System.out.println(ServiceFactory.getIdentityService().getParticipants());
         jannik = (AbstractParticipant) task.getAssignedResources().toArray()[0];
@@ -127,6 +135,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL, 
         "the result should be a status code 404, that means, the request has failed.");
     }
+    
     /* TODO @Jannik Broken Test, TDD ftw!
     /**
      * Get the form for the worklist item with a false participant id. An 404 Error should be returned.
