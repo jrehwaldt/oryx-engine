@@ -1,5 +1,12 @@
 // LessCSS-file
 
+@logo-color: #14AE02;
+@highlight-color: #00AADD;
+
+@base-color: #cccccc;
+@base-color-light: #e8edff;
+@base-color-dark: #1c1c1c;
+
 /*  Larry CRM
  *
  *  Software Engineering II,
@@ -102,7 +109,7 @@ th:nth-child(even) {
 }
 
 td {
-  background: #e8edff;
+  background: @base-color-light;
   border-bottom: 1px solid #fff;
   color: #346;
   border-top: 1px solid transparent;
@@ -110,7 +117,7 @@ td {
 }
 
 table td {
-  background: #e8edff;
+  background: @base-color-light;
   border-bottom: 1px solid #fff;
   border-top: 1px solid transparent;
   padding: 8px;
@@ -163,6 +170,11 @@ th, td { text-align: left; }
 div.field, div.actions {
   margin-bottom: 10px;
 }
+
+
+#notice:empty {
+   display: none;
+} 
 
 #notice {
     width: 40%;  
@@ -700,8 +712,27 @@ legend:hover {
 /* END Larry's basic styles */
 
 .clickable {
-   cursor: pointer;
+    cursor: pointer;
 }
-#notice:empty {
-   display: none;
-} 
+
+form {
+    input[type=text], input[type=password],
+    textarea {
+        border-radius: 4px;
+        border: 1px solid @base-color;
+        padding-left: 2px;
+    }
+    
+    input[type=text]:hover, input[type=password]:hover,
+    textarea:hover {
+        border-color: @highlight-color;
+    }
+    
+    ul {
+       padding-left: 0;
+       
+       li {
+           padding-bottom: 3px;
+       }
+    }
+}

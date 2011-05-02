@@ -11,7 +11,6 @@ import de.hpi.oryxengine.resource.IdentityBuilder;
 /**
  * The Class DemoDataForWebservice generates some example data when called.
  */
-
 public final class LoadDemoProcessAsXmlForWebservice {
 
     private static final String PATH_TO_XML = 
@@ -23,7 +22,7 @@ public final class LoadDemoProcessAsXmlForWebservice {
      * Instantiates a new demo data for webservice.
      */
     private LoadDemoProcessAsXmlForWebservice() {
-
+        
     }
 
     /**
@@ -75,15 +74,16 @@ public final class LoadDemoProcessAsXmlForWebservice {
     /**
      * Generate demo worklist items for our participants.
      * 
-     * @throws IllegalStarteventException
-     * @throws DefinitionNotFoundException
+     * @throws IllegalStarteventException illegal model
+     * @throws DefinitionNotFoundException no such definition found
      */
     private static void generateDemoWorklistItems()
     throws IllegalStarteventException, DefinitionNotFoundException {
-
-        UUID processID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
-        .deployProcessDefinition(new BpmnXmlFileImporter(PATH_TO_XML));
-
+        
+        UUID processID = ServiceFactory.getRepositoryService()
+                                       .getDeploymentBuilder()
+                                       .deployProcessDefinition(new BpmnXmlFileImporter(PATH_TO_XML));
+        
         ServiceFactory.getNavigatorService().startProcessInstance(processID);
 
     }

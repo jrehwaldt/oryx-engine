@@ -84,11 +84,11 @@ public class RepositoryWebService {
         try {
             definition = builder.buildDefinition();
             deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(definition));
+            return definition.getID().toString();
         } catch (IllegalStarteventException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return definition.getID().toString();
     }
 
 }

@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
+import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.InvalidItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
@@ -36,6 +37,12 @@ import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.rest.WorklistActionWrapper;
+
+import net.htmlparser.jericho.Config;
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.FormFields;
+import net.htmlparser.jericho.OutputDocument;
+import net.htmlparser.jericho.Source;
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -74,7 +81,7 @@ public final class WorklistWebService {
      */
     @Path("/demo")
     @GET
-    @Produces("text/plain")
+    @Produces(MediaType.TEXT_PLAIN)
     public String demoParticipant() {
 
         IdentityBuilder builder = this.identity.getIdentityBuilder();
@@ -118,10 +125,10 @@ public final class WorklistWebService {
      * @throws ResourceNotAvailableException if the resource is not available
      */
     @Path("/items/{worklistitemId}/form")
-    @Produces("text/plain")
+    @Produces(MediaType.TEXT_PLAIN)
     @GET
     public Response getForm(@PathParam("worklistitemId") String worklistitemId, 
-                          @QueryParam("participantId") String participantId)
+                            @QueryParam("participantId") String participantId)
     throws ResourceNotAvailableException {
         UUID participantUUID = UUID.fromString(participantId);
         UUID itemUUID = UUID.fromString(worklistitemId);
@@ -129,14 +136,45 @@ public final class WorklistWebService {
         
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
         try {
-            AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);
-            item = service.getWorklistItem(resource, itemUUID);
-            return Response.ok(item.getForm().getFormContentAsHTML()).build();
+            AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);            
+            ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
+            
+            String html = populateForm(item.getForm(), context);
+            return Response.ok(html).build();
         } catch (InvalidItemException e) {
             
             logger.error("Failed fetching the item", e);
             return Response.status(RESPONSE_FAIL).build();
         }
+    }
+    
+    /**
+     * This method populates the given form with data from the context.
+     * It is required, that the input fields in the form and the context variables have exactly the same name.
+     *
+     * @param form the form
+     * @param context the context
+     * @return the string
+     */
+    private String populateForm(Form form, ProcessInstanceContext context) {
+        // TODO move this configuration to a place, where it is only executed once
+        Config.CurrentCompatibilityMode.setFormFieldNameCaseInsensitive(false);
+        String unpopulatedFormHtml = form.getFormContentAsHTML();
+        Source source = new Source(unpopulatedFormHtml);
+        FormFields formFields = source.getFormFields();
+        formFields.clearValues();
+        
+        
+        for (FormField field : formFields) {
+            String fieldName = field.getName();
+            Object variable = context.getVariable(fieldName);
+            if (variable != null) {
+                formFields.addValue(fieldName, variable.toString());
+            }
+        }
+        OutputDocument output = new OutputDocument(source);
+        output.replace(formFields);
+        return output.toString();
     }
 
     /**
@@ -153,7 +191,7 @@ public final class WorklistWebService {
      * @return the response
      */
     @Path("/items/{worklistitemId}/form")
-    @Consumes("application/x-www-form-urlencoded")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @POST
     public Response postForm(@PathParam("worklistitemId") String worklistItemId, 
                              @QueryParam("participantId") String participantId, 
