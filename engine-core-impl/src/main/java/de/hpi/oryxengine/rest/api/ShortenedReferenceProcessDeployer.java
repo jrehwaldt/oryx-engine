@@ -205,9 +205,9 @@ public final class ShortenedReferenceProcessDeployer {
         objectionClerk = (Role) identityBuilder.createRole(OBJECTION_CLERK);
         allowanceClerk = (Role) identityBuilder.createRole(ALLOWANCE_CLERK);
         identityBuilder.participantBelongsToRole(jannik.getID(), objectionClerk.getID())
-        .participantBelongsToRole(tobi.getID(), objectionClerk.getID())
-        .participantBelongsToRole(gerardo.getID(), objectionClerk.getID())
-        .participantBelongsToRole(jan.getID(), allowanceClerk.getID());
+                       .participantBelongsToRole(tobi.getID(), objectionClerk.getID())
+                       .participantBelongsToRole(gerardo.getID(), objectionClerk.getID())
+                       .participantBelongsToRole(jan.getID(), allowanceClerk.getID());
     }
 
     /*
@@ -232,7 +232,7 @@ public final class ShortenedReferenceProcessDeployer {
     }
 
     /**
-     * Creates the task - qucikn dirty helper.
+     * Creates the task - quick'n'dirty helper.
      *
      * @param subject the subject
      * @param description the description

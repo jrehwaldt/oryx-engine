@@ -20,8 +20,8 @@ import de.hpi.oryxengine.exception.DalmatinaException;
  * 
  * {@link CorrelationManager}.
  */
-public class InboundImapMailAdapterImpl extends AbstractCorrelationAdapter<MailAdapterConfiguration> implements
-InboundPullAdapter {
+public class InboundImapMailAdapterImpl extends AbstractCorrelationAdapter<MailAdapterConfiguration>
+implements InboundPullAdapter {
 
     /**
      * Default constructor.
