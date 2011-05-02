@@ -21,7 +21,6 @@ $().ready(function(){
 	        });
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        // TODO NOTIFICATION AREA
             $('#notice').html(jqXHR.responseText).addClass('error');
         }
 	});

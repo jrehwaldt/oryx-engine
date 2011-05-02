@@ -21,12 +21,15 @@
       </div>
       <div id="definitionExplorer">
         <h1>Process Definition Explorer</h1>
-        <table id="processDefinitionList" style="width:100%;">
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Action</th>
-          </tr>
+        <table style="width:100%;">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="processDefinitionList"></tbody>
         </table>
 		<h2>Demoprocess</h2>
 		<img src="../../images/exampleProcess.png" />
