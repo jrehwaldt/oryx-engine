@@ -19,6 +19,10 @@ $().ready(function(){
 	            // somehow this is important
 	            return false;
 	        });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        // TODO NOTIFICATION AREA
+            $('#notice').html(jqXHR.responseText).addClass('error');
         }
 	});
 

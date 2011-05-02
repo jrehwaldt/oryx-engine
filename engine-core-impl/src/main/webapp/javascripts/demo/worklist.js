@@ -29,7 +29,7 @@ function addClaimButtonClickHandler() {
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                $('#participants').html(jqXHR.responseText).addClass('error');
+                $('#notice').html(jqXHR.responseText).addClass('error');
             },
             contentType: 'application/json'
         });
@@ -70,7 +70,7 @@ function addBeginButtonClickHandler() {
 
 	    	},
 	    	error: function(jqXHR, textStatus, errorThrown) {
-	    		$('#participants').html(jqXHR.responseText).addClass('error');
+	    		$('#notice').html(jqXHR.responseText).addClass('error');
 	    	},
 	    	contentType: 'application/json'
 	    });
@@ -111,19 +111,14 @@ function addEndButtonClickHandler(handler) {
 			data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
 			success: function(data) {
 				console.log(data);
-				//TODO implement mechanism to refresh items for other clients;
 				$(button).unbind();
 				$(button).parent().parent().remove();
-				// TODO this does fuck with append to.. clear? I don't have time...
+
 				// refresh worklistitems
-		        //getWorklistItems();
-		        location.reload(true);
-
-				// be happy and do stuff (like morph button to start task or stuff like that)
-
+		        getWorklistItems();
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				$('#participants').html(jqXHR.responseText).addClass('error');
+				$('#notice').html(jqXHR.responseText).addClass('error');
 			},
 			contentType: 'application/json'
 		});
@@ -139,8 +134,10 @@ function getWorklistItems() {
         url: '/api/worklist/items',
         data: 'id=' + $.Storage.get("participantUUID"),
         success: function(data) {
-            $("#welcomeMessage").append("Welcome " + $.Storage.get("participantName") + ", here is your worklist:");
+            $("#welcomeMessage").html("Welcome " + $.Storage.get("participantName") + ", here is your worklist:");
             var worklist = data;
+            // delete all contents before loading new contents
+            $('#worklist').empty();
             $.each(worklist, function(i, worklistitem){
 
 				var button = generateButton(worklistitem);
@@ -153,7 +150,8 @@ function getWorklistItems() {
             addButtonClickHandler();
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            $("#welcomeMessage").append("You need to log in before you can see your worklist").addClass("error");
+            // TODO more specific error
+            $("#notice").html("You need to log in before you can see your worklist (or other server error).").addClass("error");
 
         },
         contentType: 'application/json', // we send json

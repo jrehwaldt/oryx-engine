@@ -25,8 +25,7 @@ $().ready(function() {
             });
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        // TODO NOTIFICATION AREA
-            $('#participants').html(jqXHR.responseText).addClass('error');
+            $('#notice').html(jqXHR.responseText).addClass('error');
         },
         dataType: "json" // we expect json
     });
