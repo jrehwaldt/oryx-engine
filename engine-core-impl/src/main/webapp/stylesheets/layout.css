@@ -164,6 +164,11 @@ div.field, div.actions {
   margin-bottom: 10px;
 }
 
+
+#notice:empty {
+   display: none;
+} 
+
 #notice {
     width: 40%;  
     padding: 5px;
@@ -702,6 +707,3 @@ legend:hover {
 .clickable {
    cursor: pointer;
 }
-#notice:empty {
-   display: none;
-} 

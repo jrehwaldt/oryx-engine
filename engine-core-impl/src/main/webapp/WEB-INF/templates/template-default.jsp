@@ -104,7 +104,8 @@ if (uri != null) {
                 --%>
                     <div id="main-content">
                       <%-- leave #notice empty (no spaces even), if it should not be displayed --%>
-                      <div id="notice"></div>
+                      <%-- possible status types are: success, error, and, warning --%>
+                      <div id="notice" class=""></div>
                 <%--
                       <% flash.each do |key, msg| %>
                         <% unless key == :product_params %>
