@@ -8,7 +8,7 @@ import javax.ws.rs.ext.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.exception.ResourceNotAvailableException;
+import de.hpi.oryxengine.exception.InvalidItemException;
 
 /**
  * This provider maps the {@link ResourceNotAvailableException} to a HTTP status code.
@@ -16,13 +16,17 @@ import de.hpi.oryxengine.exception.ResourceNotAvailableException;
  * @author Jan Rehwaldt
  */
 @Provider
-public class ResourceNotFoundMapper implements ExceptionMapper<ResourceNotAvailableException> {
+public class ItemNotFoundMapper implements ExceptionMapper<InvalidItemException> {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
+    public ItemNotFoundMapper() {
+        System.out.println("-------------------");
+    }
+    
     @Override
-    public Response toResponse(ResourceNotAvailableException exception) {
-        logger.error("Failed fetching the resource");
+    public Response toResponse(InvalidItemException exception) {
+        logger.error("Failed fetching the item");
         return Response.status(Status.NOT_FOUND).build();
     }
 }

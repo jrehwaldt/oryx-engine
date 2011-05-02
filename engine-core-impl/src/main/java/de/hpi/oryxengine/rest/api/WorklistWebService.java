@@ -17,6 +17,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import net.htmlparser.jericho.Config;
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.FormFields;
+import net.htmlparser.jericho.OutputDocument;
+import net.htmlparser.jericho.Source;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,12 +43,6 @@ import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.rest.WorklistActionWrapper;
-
-import net.htmlparser.jericho.Config;
-import net.htmlparser.jericho.FormField;
-import net.htmlparser.jericho.FormFields;
-import net.htmlparser.jericho.OutputDocument;
-import net.htmlparser.jericho.Source;
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -123,29 +123,25 @@ public final class WorklistWebService {
      * @param participantId the participant id
      * @return the form held by the worklist item
      * @throws ResourceNotAvailableException if the resource is not available
+     * @throws InvalidItemException  if the item was not available
      */
     @Path("/items/{worklistitemId}/form")
     @Produces(MediaType.TEXT_PLAIN)
     @GET
     public Response getForm(@PathParam("worklistitemId") String worklistitemId, 
-                            @QueryParam("participantId") String participantId)
-    throws ResourceNotAvailableException {
+                          @QueryParam("participantId") String participantId)
+    throws ResourceNotAvailableException, InvalidItemException {
         UUID participantUUID = UUID.fromString(participantId);
         UUID itemUUID = UUID.fromString(worklistitemId);
         logger.debug("GET: {}", worklistitemId);
         
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
-        try {
-            AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);            
-            ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
-            
-            String html = populateForm(item.getForm(), context);
-            return Response.ok(html).build();
-        } catch (InvalidItemException e) {
-            
-            logger.error("Failed fetching the item", e);
-            return Response.status(RESPONSE_FAIL).build();
-        }
+        AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);            
+        ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
+        
+        String html = populateForm(item.getForm(), context);
+        return Response.ok(html).build();
+
     }
     
     /**
@@ -189,40 +185,38 @@ public final class WorklistWebService {
      * @param form
      *            the form that gets send to us
      * @return the response
+     * @throws ResourceNotAvailableException 
+     * @throws InvalidItemException 
      */
     @Path("/items/{worklistitemId}/form")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @POST
     public Response postForm(@PathParam("worklistitemId") String worklistItemId, 
                              @QueryParam("participantId") String participantId, 
-                             MultivaluedMap<String, String> form) {
+                             MultivaluedMap<String, String> form)
+    throws ResourceNotAvailableException, InvalidItemException {
         
         UUID participantUUID = UUID.fromString(participantId);
         UUID itemUUID = UUID.fromString(worklistItemId);
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
                 
         // try to get the worklistitem and its token and thereby the context to put in the new data
-        try {
-            AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);
-            item = service.getWorklistItem(resource, itemUUID);
-            ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
-            
-            
-            
-            Set<Map.Entry<String, List<String>>> entrySet = form.entrySet();
-            for (Map.Entry<String, List<String>> entry : entrySet) {
-                // We just get the first value since values shall be unique
-                context.setVariable(entry.getKey(), entry.getValue().get(0));
-            }
-            
-            logger.debug(context.getVariableMap().toString());
-            return Response.ok().build();
-            
-        } catch (InvalidItemException e) {
-            
-            logger.error("Failed fetching the item", e);
-            return Response.status(RESPONSE_FAIL).build();
+        AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);
+        item = service.getWorklistItem(resource, itemUUID);
+        ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
+        
+        
+        
+        Set<Map.Entry<String, List<String>>> entrySet = form.entrySet();
+        for (Map.Entry<String, List<String>> entry : entrySet) {
+            // We just get the first value since values shall be unique
+            context.setVariable(entry.getKey(), entry.getValue().get(0));
         }
+        
+        logger.debug(context.getVariableMap().toString());
+        return Response.ok().build();
+            
+
         
     }
     
@@ -289,8 +283,10 @@ public final class WorklistWebService {
      * @param id the id
      * @param participantId the participant id
      * @throws InvalidItemException the invalid item exception
+     * @throws ResourceNotAvailableException 
      */
-    private void endWorklistItem(UUID id, UUID participantId)  throws InvalidItemException {
+    private void endWorklistItem(UUID id, UUID participantId)
+    throws InvalidItemException, ResourceNotAvailableException {
         
         AbstractResource<?> resource = identity.getParticipant(participantId);
         AbstractWorklistItem item;

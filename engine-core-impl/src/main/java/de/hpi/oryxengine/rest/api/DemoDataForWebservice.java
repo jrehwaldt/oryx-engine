@@ -11,6 +11,7 @@ import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.node.factory.TransitionFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -66,8 +67,9 @@ public final class DemoDataForWebservice {
 
     /**
      * Generate example Participants.
+     * @throws ResourceNotAvailableException 
      */
-    public static synchronized void generate() {
+    public static synchronized void generate() throws ResourceNotAvailableException {
 
         if (!invoked) {
             invoked = true;
@@ -85,8 +87,9 @@ public final class DemoDataForWebservice {
 
     /**
      * Generate demo participants.
+     * @throws ResourceNotAvailableException 
      */
-    private static void generateDemoParticipants() {
+    private static void generateDemoParticipants() throws ResourceNotAvailableException {
 
         r = getBuilder().createRole("BPT");
         AbstractParticipant p1 = getBuilder().createParticipant("Thorben");

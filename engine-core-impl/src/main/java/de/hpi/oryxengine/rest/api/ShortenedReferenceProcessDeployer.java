@@ -14,6 +14,7 @@ import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -193,8 +194,9 @@ public final class ShortenedReferenceProcessDeployer {
 
     /**
      * Creates the participants.
+     * @throws ResourceNotAvailableException 
      */
-    public static void createParticipants() {
+    public static void createParticipants() throws ResourceNotAvailableException {
 
         jannik = (Participant) identityBuilder.createParticipant(JANNIK);
         tobi = (Participant) identityBuilder.createParticipant(TOBI);
@@ -273,9 +275,10 @@ public final class ShortenedReferenceProcessDeployer {
      *
      * @throws IllegalStarteventException the illegal startevent exception
      * @throws DefinitionNotFoundException the definition not found exception
+     * @throws ResourceNotAvailableException 
      */
     public static synchronized void generate()
-    throws IllegalStarteventException, DefinitionNotFoundException {
+    throws IllegalStarteventException, DefinitionNotFoundException, ResourceNotAvailableException {
 
         if (!invoked) {
             createParticipants();

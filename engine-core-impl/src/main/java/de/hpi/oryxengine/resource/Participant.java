@@ -12,6 +12,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
@@ -136,8 +137,9 @@ public class Participant extends AbstractParticipant {
      * @param participantID
      *            - a Participant object
      * @return participantImpl - the casted Participant object
+     * @throws ResourceNotAvailableException 
      */
-    public static Participant asParticipantImpl(UUID participantID) {
+    public static Participant asParticipantImpl(UUID participantID) throws ResourceNotAvailableException {
 
         if (participantID == null) {
             throw new DalmatinaRuntimeException("The Participant parameter is null.");

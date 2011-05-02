@@ -11,6 +11,7 @@ import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
@@ -29,9 +30,10 @@ public abstract class AbstractProcessDeployerTest extends AbstractJodaEngineTest
      * Sets up the specific Process Deployer.
      * If something gos wrong here something in the Process Deplyoer is REALLY off.
      * @throws IllegalStarteventException 
+     * @throws ResourceNotAvailableException 
      */
     @BeforeMethod
-    abstract public void setUp() throws IllegalStarteventException;
+    abstract public void setUp() throws IllegalStarteventException, ResourceNotAvailableException;
 
     /**
      * Tests that the UUID after the deployment isn't null.

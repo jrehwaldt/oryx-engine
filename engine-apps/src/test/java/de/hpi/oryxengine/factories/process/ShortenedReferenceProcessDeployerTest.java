@@ -13,6 +13,7 @@ import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
@@ -38,7 +39,7 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
     @BeforeMethod
     @Override
     public void setUp()
-    throws IllegalStarteventException {
+    throws IllegalStarteventException, ResourceNotAvailableException {
 
         instanceDefinition = new ShortenedReferenceProcessDeployer();
         this.uuid = instanceDefinition.deploy();

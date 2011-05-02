@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.RoleWorklist;
 
@@ -90,8 +91,9 @@ public class Role extends AbstractRole {
      * @param roleId
      *            - a Role object
      * @return role - the casted {@link Role}
+     * @throws ResourceNotAvailableException 
      */
-    public static Role asRoleImpl(UUID roleId) {
+    public static Role asRoleImpl(UUID roleId) throws ResourceNotAvailableException {
  
         if (roleId == null) {
             throw new DalmatinaRuntimeException("The Role parameter is null.");

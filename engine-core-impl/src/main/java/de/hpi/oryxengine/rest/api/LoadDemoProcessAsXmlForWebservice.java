@@ -13,8 +13,7 @@ import de.hpi.oryxengine.resource.IdentityBuilder;
  */
 public final class LoadDemoProcessAsXmlForWebservice {
 
-    private static final String PATH_TO_XML = 
-        "/Users/Gery/Entwicklung/BachelorprojektWorkspace/Oryx-Engine-Git/oryx_engine/engine-core-impl/src/test/resources/de/hpi/oryxengine/deployment/bpmn/SimpleUserTask.bpmn.xml";
+    private static final String PATH_TO_XML = "/home/thorben/oryx-engine/engine-core-impl/src/test/resources/de/hpi/oryxengine/deployment/bpmn/SimpleUserTask.bpmn.xml";
     private static IdentityBuilder builder;
     private static boolean invoked = false;
 

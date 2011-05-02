@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 
 /**
  * Implementation of {@link IdentityBuilder} Interface.
@@ -58,7 +59,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder participantOccupiesPosition(UUID participantId, UUID positionId) {
+    public IdentityBuilder participantOccupiesPosition(UUID participantId, UUID positionId)
+    throws ResourceNotAvailableException {
 
         Position positionImpl = Position.asPositionImpl(positionId);
         Participant participantImpl = Participant.asParticipantImpl(participantId);
@@ -77,7 +79,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder participantDoesNotOccupyPosition(UUID participantId, UUID positionId) {
+    public IdentityBuilder participantDoesNotOccupyPosition(UUID participantId, UUID positionId)
+    throws ResourceNotAvailableException {
 
         Position positionImpl = Position.asPositionImpl(positionId);
         Participant participantImpl = Participant.asParticipantImpl(participantId);
@@ -94,7 +97,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder participantBelongsToRole(UUID participantId, UUID roleId) {
+    public IdentityBuilder participantBelongsToRole(UUID participantId, UUID roleId)
+    throws ResourceNotAvailableException {
 
         Role roleImpl = Role.asRoleImpl(roleId);
         Participant participantImpl = Participant.asParticipantImpl(participantId);
@@ -106,7 +110,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder participantDoesNotBelongToRole(UUID participantId, UUID roleId) {
+    public IdentityBuilder participantDoesNotBelongToRole(UUID participantId, UUID roleId)
+    throws ResourceNotAvailableException {
 
         Role roleImpl = Role.asRoleImpl(roleId);
         Participant participantImpl = Participant.asParticipantImpl(participantId);
@@ -141,7 +146,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder deleteOrganizationUnit(UUID organizationUnitId) {
+    public IdentityBuilder deleteOrganizationUnit(UUID organizationUnitId)
+    throws ResourceNotAvailableException {
 
         OrganizationUnit organizationUnitImpl = OrganizationUnit.asOrganizationUnitImpl(organizationUnitId);
 
@@ -176,7 +182,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder organizationUnitOffersPosition(UUID organizationUnitId, UUID positionId) {
+    public IdentityBuilder organizationUnitOffersPosition(UUID organizationUnitId, UUID positionId)
+    throws ResourceNotAvailableException {
 
         Position positionImpl = Position.asPositionImpl(positionId);
         OrganizationUnit organizationUnitImpl = OrganizationUnit.asOrganizationUnitImpl(organizationUnitId);
@@ -195,7 +202,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     }
 
     @Override
-    public IdentityBuilder organizationUnitDoesNotOfferPosition(UUID organizationUnitId, UUID positionId) {
+    public IdentityBuilder organizationUnitDoesNotOfferPosition(UUID organizationUnitId, UUID positionId)
+    throws ResourceNotAvailableException  {
 
         Position positionImpl = Position.asPositionImpl(positionId);
         OrganizationUnit organizationUnitImpl = OrganizationUnit.asOrganizationUnitImpl(organizationUnitId);

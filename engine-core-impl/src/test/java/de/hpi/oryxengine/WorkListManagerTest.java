@@ -15,6 +15,7 @@ import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.bootstrap.OryxEngine;
 import de.hpi.oryxengine.exception.InvalidItemException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -51,8 +52,9 @@ public class WorkListManagerTest {
     
     /**
      * Test and assert that Jannik has one task with the description and subject given in the factory.
+     * @throws ResourceNotAvailableException 
      */
-    public void testAndAssertThatJannikHasOneTask() {
+    public void testAndAssertThatJannikHasOneTask() throws ResourceNotAvailableException {
         List<AbstractWorklistItem> items = ServiceFactory.getWorklistService().getWorklistItems(jannik.getID());
         
         Assert.assertEquals(items.size(), 1);
@@ -64,9 +66,10 @@ public class WorkListManagerTest {
     
     /**
      * Test get worklist items by the id of the participant.
+     * @throws ResourceNotAvailableException 
      */
     @Test
-    public void testGetWorklistItemsByIDOfParticipant() {        
+    public void testGetWorklistItemsByIDOfParticipant() throws ResourceNotAvailableException {        
         testAndAssertThatJannikHasOneTask();
         
         
@@ -90,9 +93,10 @@ public class WorkListManagerTest {
     
     /**
      * Test get worklist items returns just items of this participant, not the ones of another participant.
+     * @throws ResourceNotAvailableException 
      */
     @Test
-    public void testGetWorklistItemsReturnsJustItemsOfThisParticipant() {   
+    public void testGetWorklistItemsReturnsJustItemsOfThisParticipant() throws ResourceNotAvailableException {   
         // first one gets created in setUp
         createAnotherParticipantWithAnotherTask();
         testAndAssertThatJannikHasOneTask();
