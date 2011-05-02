@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -162,9 +163,10 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
 
     /**
      * Sets the up task and gets the assigned role and one of the participants that belongs to this role.
+     * @throws ResourceNotAvailableException 
      */
     @BeforeMethod
-    public void setUpTask() {
+    public void setUpTask() throws ResourceNotAvailableException {
 
         task = TaskFactory.createRoleTask();
         TokenImpl token = mock(TokenImpl.class);

@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.exception.InvalidItemException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
@@ -33,8 +34,10 @@ public interface WorklistService {
      *
      * @param id the UUID of the resource
      * @return the worklist items for the resource
+     * @throws ResourceNotAvailableException the resource not available exception
      */
-    List<AbstractWorklistItem> getWorklistItems(@Nonnull UUID id);
+    List<AbstractWorklistItem> getWorklistItems(@Nonnull UUID id)
+    throws ResourceNotAvailableException;
 
     /**
      * Resolves all worklist items belonging to the given resources.

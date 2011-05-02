@@ -18,6 +18,7 @@ import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.exception.InvalidItemException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
@@ -173,7 +174,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
     
     @Override
-    public List<AbstractWorklistItem> getWorklistItems(UUID id) {
+    public List<AbstractWorklistItem> getWorklistItems(UUID id) throws ResourceNotAvailableException {
         AbstractParticipant resource = identityService.getParticipant(id);
         return this.getWorklistItems(resource);
     }

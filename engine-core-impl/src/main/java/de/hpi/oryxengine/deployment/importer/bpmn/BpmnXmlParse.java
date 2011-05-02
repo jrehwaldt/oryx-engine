@@ -439,13 +439,18 @@ public class BpmnXmlParse extends XmlParse {
                     
                     for (AbstractParticipant participant : ServiceFactory.getIdentityService().getParticipants()) {
                        
-                        if (participant.getName().equals(formalExpression.substring(USER_PREFIX.length(), formalExpression.length() - 1))) {
+                        if (participant.getName().equals(
+                            formalExpression.substring(USER_PREFIX.length(),
+                            formalExpression.length() - 1))) {
+                            
                             participantAssignedToTask = participant;
                         }
                     }
                     
                     if (participantAssignedToTask == null) {
-                        String errorMessage = "The spedified Performer '" + formalExpression + "' is not available in the IdentityService.";
+                        String errorMessage = "The spedified Performer '"
+                            + formalExpression 
+                            + "' is not available in the IdentityService.";
                         getProblemLogger().addError(errorMessage, performerElement);
                     }
                         
@@ -493,7 +498,10 @@ public class BpmnXmlParse extends XmlParse {
             String destinationRef = sequenceFlowElement.getAttribute("targetRef");
 
             if (sourceRef == null && destinationRef == null) {
-                String errorMessage = "Each SequenceFlow XML tag must have a sourceRef and a destinationRef corresponding to a XML activity. One of these attributes are not set correctly. Please do that!!";
+                String errorMessage = "Each SequenceFlow XML tag must have a sourceRef"
+                    + " and a destinationRef corresponding to a XML activity."
+                    + " One of these attributes are not set correctly. Please do that!!";
+
                 getProblemLogger().addError(errorMessage, sequenceFlowElement);
                 return;
             }

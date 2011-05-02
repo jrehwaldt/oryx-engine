@@ -6,6 +6,8 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import de.hpi.oryxengine.exception.InvalidItemException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.resource.AbstractOrganizationUnit;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractPosition;
@@ -71,33 +73,38 @@ public interface IdentityService {
     
     /**
      * Returns the requested role.
-     * 
+     *
      * @param roleId the role's id
      * @return the {@link AbstractRole}
+     * @throws ResourceNotAvailableException the resource not available exception
      */
-    @Nullable AbstractRole getRole(@Nonnull UUID roleId);
+    @Nullable AbstractRole getRole(@Nonnull UUID roleId) throws ResourceNotAvailableException;
     
     /**
      * Returns the requested positions.
-     * 
+     *
      * @param positionId the position's id
      * @return the {@link AbstractPosition}
+     * @throws ResourceNotAvailableException the resource not available exception
      */
-    @Nullable AbstractPosition getPosition(@Nonnull UUID positionId);
+    @Nullable AbstractPosition getPosition(@Nonnull UUID positionId) throws ResourceNotAvailableException;
     
     /**
      * Returns the requested organizational units.
-     * 
+     *
      * @param organizationUnitId the organization's id
      * @return the {@link AbstractOrganizationUnit}
+     * @throws ResourceNotAvailableException the resource not available exception
      */
-    @Nullable AbstractOrganizationUnit getOrganizationUnit(@Nonnull UUID organizationUnitId);
+    @Nullable AbstractOrganizationUnit getOrganizationUnit(@Nonnull UUID organizationUnitId)
+    throws ResourceNotAvailableException;
     
     /**
      * Returns the requested participants.
-     * 
+     *
      * @param participantId the participant's id
      * @return the {@link AbstractParticipant}
+     * @throws ResourceNotAvailableException the resource not available exception
      */
-    @Nullable AbstractParticipant getParticipant(@Nonnull UUID participantId);
+    @Nullable AbstractParticipant getParticipant(@Nonnull UUID participantId) throws ResourceNotAvailableException;
 }

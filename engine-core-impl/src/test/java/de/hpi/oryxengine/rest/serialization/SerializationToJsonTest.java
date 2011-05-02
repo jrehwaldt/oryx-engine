@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.navigator.NavigatorState;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
@@ -194,10 +195,11 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
      * 
      * @throws IOException
      *             Signals that an I/O exception has occurred.
+     * @throws ResourceNotAvailableException 
      */
     @Test
     public void testSerializationOfParticipantsWithRole()
-    throws IOException {
+    throws IOException, ResourceNotAvailableException {
         
         // Setting up one Participant with a role
         IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
@@ -237,10 +239,11 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
      * 
      * @throws IOException
      *             test fails
+     * @throws ResourceNotAvailableException 
      */
     @Test
     public void testSerializationOfRole()
-    throws IOException {
+    throws IOException, ResourceNotAvailableException {
         
         // Setting up one Participant with a role
         IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();

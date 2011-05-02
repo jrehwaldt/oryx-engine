@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.resource.AbstractOrganizationUnit;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractPosition;
@@ -154,9 +155,13 @@ public class IdentityServiceImpl implements IdentityService, Service {
     }
 
     @Override
-    public @Nullable AbstractParticipant getParticipant(@Nonnull UUID id) {
+    public @Nullable AbstractParticipant getParticipant(@Nonnull UUID id) throws ResourceNotAvailableException {
 
-        return getParticipantImpls().get(id);
+        AbstractParticipant participant = getParticipantImpls().get(id);
+        if (participant == null) {
+            throw new ResourceNotAvailableException();
+        }
+        return participant;
 //        return find(getParticipants(), id);
     }
 

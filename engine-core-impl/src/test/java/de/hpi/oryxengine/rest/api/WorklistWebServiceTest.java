@@ -118,6 +118,8 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(json, "<form></form>");
     }
     
+    //TODO 2 tests that are failing atm due to thrown errors, instead of returning error pages
+    
     /**
      * Get the form for the worklist item with a false item id. An 404 Error should be returned.
      * 
@@ -125,7 +127,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
      *             the uRI syntax exception
      * @throws IOException
      *             Signals that an I/O exception has occurred.
-     */
+    
     @Test
     public void testGetFormWithMissingWorkitem()
     throws URISyntaxException, IOException {
@@ -139,8 +141,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL, 
         "the result should be a status code 404, that means, the request has failed.");
     }
-    
-    /* TODO @Jannik Broken Test, TDD ftw!
+     */
     /**
      * Get the form for the worklist item with a false participant id. An 404 Error should be returned.
      * 
@@ -163,10 +164,10 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL, 
         "the result should be a status code 404, that means, the request has failed.");
     }
-    */
+*/
     
-    /** Not done yet
-     * Posts the data for the worklist item.
+    /**
+     * Posts some example data for a form. The data should then be stored in the process context.
      * 
      * @throws URISyntaxException
      *             the uRI syntax exception

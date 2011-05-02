@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 
 /**
  * A Position refers to a unique job within an organization. Examples might include Positions like the CEO, bank
@@ -129,8 +130,9 @@ public class Position extends AbstractPosition {
      * @param positionId
      *            - a Position object
      * @return positionImpl - the casted {@link Position}
+     * @throws ResourceNotAvailableException 
      */
-    public static Position asPositionImpl(UUID positionId) {
+    public static Position asPositionImpl(UUID positionId) throws ResourceNotAvailableException {
 
         if (positionId == null) {
             throw new DalmatinaRuntimeException("The Position parameter is null.");
