@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.process.structure;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +10,6 @@ import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeBuilder;
 
 /**
  * The implementation of the {@link NodeBuilder}.

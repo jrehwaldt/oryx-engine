@@ -7,8 +7,6 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.NoValidPathException;
 import de.hpi.oryxengine.navigator.Navigator;

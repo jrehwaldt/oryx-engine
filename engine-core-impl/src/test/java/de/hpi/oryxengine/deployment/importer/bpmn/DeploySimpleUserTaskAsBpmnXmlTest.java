@@ -7,14 +7,12 @@ import org.testng.annotations.BeforeMethod;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnStartEvent;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.resource.AbstractParticipant;
-import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
  * It tests the deployment of BPMN processes that where serialized as xml. The xml contains the structure the process

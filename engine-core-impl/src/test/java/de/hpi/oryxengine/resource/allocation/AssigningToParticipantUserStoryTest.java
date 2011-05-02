@@ -3,7 +3,6 @@ package de.hpi.oryxengine.resource.allocation;
 import static org.testng.Assert.assertEquals;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
