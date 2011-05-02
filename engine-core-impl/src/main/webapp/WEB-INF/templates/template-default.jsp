@@ -19,17 +19,16 @@ if (uri != null) {
     <head>
         <link rel="SHORTCUT ICON" href="/images/favicon/favicon.ico" type="image/x-icon">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+        
         <link rel="stylesheet" type="text/css" href="/stylesheets/layout.css">
-
+        
         <script type="text/javascript" src="/javascripts/lib/jquery-1.5.2.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.Storage.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.getQueryParam.1.0.0.min.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.form.js"></script>
-
-
+        
         <title>Joda Engine goes REST</title>
-
+        
         <title><decorator:title default="Joda Engine" /></title>
         <decorator:head />
 
@@ -54,7 +53,7 @@ if (uri != null) {
                     <!--begin nav-level-1-->
                     <ul>
                         <li><a class="dashboard" href="/dashboard">Dashboard</a></li>
-                        <li><a class="explorer" href="/management">Engine Management</a></li>
+                        <li><a class="management" href="/management">Engine Management</a></li>
                         <li><a class="worklist" href="/worklist">Worklist Management</a></li>
                         <!--<li><a class="reports" href="/reports">Reports</a></li>-->
                         <li><a class="resources" href="/resources">Resource Management</a></li>
@@ -104,7 +103,8 @@ if (uri != null) {
                     <% end %>
                 --%>
                     <div id="main-content">
-                     <!-- <div id="notice"></div> -->
+                      <%-- leave #notice empty (no spaces even), if it should not be displayed --%>
+                      <div id="notice"></div>
                 <%--
                       <% flash.each do |key, msg| %>
                         <% unless key == :product_params %>
