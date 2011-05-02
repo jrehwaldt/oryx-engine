@@ -23,8 +23,11 @@ import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessArtifact;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
+<<<<<<< HEAD
 import de.hpi.oryxengine.process.instance.ProcessInstanceContextImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+=======
+>>>>>>> 0c55433bae351005a5d98544751de01632e89057
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
@@ -139,6 +142,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL, 
         "the result should be a status code 404, that means, the request has failed.");
     }
+    
     /* TODO @Jannik Broken Test, TDD ftw!
     /**
      * Get the form for the worklist item with a false participant id. An 404 Error should be returned.

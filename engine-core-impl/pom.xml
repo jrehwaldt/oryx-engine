@@ -97,18 +97,10 @@
 			<artifactId>jackson-jaxrs</artifactId>
 			<scope>compile</scope>
 		</dependency>
-
-		<!-- JAXB API + Implementation -->
-		<!-- <dependency> <groupId>javax.xml.bind</groupId> <artifactId>jaxb-api</artifactId> 
-			<scope>compile</scope> </dependency> <dependency> <groupId>org.codehaus.jackson</groupId> 
-			<artifactId>jackson-jaxrs</artifactId> <version>1.7.5</version> </dependency> 
-			<dependency> <groupId>org.eclipse.persistence</groupId> <artifactId>org.eclipse.persistence.moxy</artifactId> 
-			<scope>compile</scope> </dependency> -->
-		<!-- LessCSS -->
 		<dependency>
 			<groupId>com.asual.lesscss</groupId>
 			<artifactId>lesscss-servlet</artifactId>
-			<version>1.2.11</version> <!-- 1.0.41 -->
+			<version>1.2.11</version><!-- 1.0.41 -->
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -147,5 +139,11 @@
 			<artifactId>juel</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		<!-- Html Parser -->
+		<dependency>
+    		<groupId>net.htmlparser.jericho</groupId>
+    		<artifactId>jericho-html</artifactId>
+    	<version>3.1</version>
+</dependency>
 	</dependencies>
 </project>

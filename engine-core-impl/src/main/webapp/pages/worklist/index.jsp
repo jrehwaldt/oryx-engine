@@ -6,12 +6,16 @@
     <body>
         <h1>Worklist</h1>
         <p id="welcomeMessage"></p>
-        <table id="worklist" border="1" style="width:100%;">
-          <tr>
-            <th>Task Name</th>
-            <th>Task Description</th>
-            <th>Actions</th>
-          </tr>
+        <table  border="1" style="width:100%;">
+          <theader>
+            <tr>
+              <th>Task Name</th>
+              <th>Task Description</th>
+              <th>Actions</th>
+            </tr>
+          </theader>
+          <tbody id="worklist">
+          </tbody>
         </table>
 
     </body>

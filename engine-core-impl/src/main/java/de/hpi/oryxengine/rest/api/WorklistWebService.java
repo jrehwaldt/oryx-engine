@@ -17,12 +17,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import net.htmlparser.jericho.Config;
+import net.htmlparser.jericho.FormControlType;
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.FormFields;
+import net.htmlparser.jericho.OutputDocument;
+import net.htmlparser.jericho.Source;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
+import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.InvalidItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
@@ -129,14 +137,45 @@ public final class WorklistWebService {
         
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
         try {
-            AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);
-            item = service.getWorklistItem(resource, itemUUID);
-            return Response.ok(item.getForm().getFormContentAsHTML()).build();
+            AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);            
+            ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
+            
+            String html = populateForm(item.getForm(), context);
+            return Response.ok(html).build();
         } catch (InvalidItemException e) {
             
             logger.error("Failed fetching the item", e);
             return Response.status(RESPONSE_FAIL).build();
         }
+    }
+    
+    /**
+     * This method populates the given form with data from the context.
+     * It is required, that the input fields in the form and the context variables have exactly the same name.
+     *
+     * @param form the form
+     * @param context the context
+     * @return the string
+     */
+    private String populateForm(Form form, ProcessInstanceContext context) {
+        // TODO move this configuration to a place, where it is only executed once
+        Config.CurrentCompatibilityMode.setFormFieldNameCaseInsensitive(false);
+        String unpopulatedFormHtml = form.getFormContentAsHTML();
+        Source source = new Source(unpopulatedFormHtml);
+        FormFields formFields = source.getFormFields();
+        formFields.clearValues();
+        
+        
+        for (FormField field : formFields) {
+            String fieldName = field.getName();
+            Object variable = context.getVariable(fieldName);
+            if (variable != null) {
+                formFields.addValue(fieldName, variable.toString());
+            }
+        }
+        OutputDocument output = new OutputDocument(source);
+        output.replace(formFields);
+        return output.toString();
     }
 
     /**
