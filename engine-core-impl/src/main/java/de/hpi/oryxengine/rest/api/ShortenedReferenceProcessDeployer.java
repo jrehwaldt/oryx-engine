@@ -157,7 +157,7 @@ public final class ShortenedReferenceProcessDeployer {
         human4 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
         // human task for allowance clerk, task is to enforce allowance
-        form = extractForm("form5", "claimPoints.html");
+        form = extractForm("form5", "enforceAllowance.html");
         task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", form, allowanceClerk);
         human5 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
