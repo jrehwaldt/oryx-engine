@@ -288,7 +288,7 @@ legend:hover {
 #tab-level-1.item_0,
 #tab-level-1.item_dashboard,
 #tab-level-1.item_1,
-#tab-level-1.item_explorer,
+#tab-level-1.item_management,
 #tab-level-1.item_2,
 #tab-level-1.item_worklist,
 #tab-level-1.item_3,
@@ -307,7 +307,7 @@ legend:hover {
     left: 184px;
 }
 #tab-level-1.item_1,
-#tab-level-1.item_explorer {
+#tab-level-1.item_management {
     left: 258px;
 }
 #tab-level-1.item_2,
@@ -378,8 +378,8 @@ legend:hover {
 #menu-level-1 .dashboard {
     background-image: url(../images/layout/icon-dashboard.png);
 }
-#menu-level-1 .explorer {
-    background-image: url(../images/layout/icon-explorer.png);
+#menu-level-1 .management {
+    background-image: url(../images/layout/icon-management.png);
 }
 #menu-level-1 .worklist {
     background-image: url(../images/layout/icon-worklist.png);
@@ -699,3 +699,9 @@ legend:hover {
 
 /* END Larry's basic styles */
 
+.clickable {
+   cursor: pointer;
+}
+#notice:empty {
+   display: none;
+} 
