@@ -19,14 +19,16 @@ import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 /**
  * Tests the interaction with our identity web service.
  */
-public class IdentityWebServiceTest extends AbstractJsonServerTest {    
-    private AbstractParticipant jannik;
-    private AbstractParticipant tobi;
-    private AbstractRole r1;
-    private AbstractRole r2;   
+public class IdentityWebServiceTest extends AbstractJsonServerTest {
+    
+    private AbstractParticipant jannik = null;
+    private AbstractParticipant tobi = null;
+    private AbstractRole r1 = null;
+    private AbstractRole r2 = null;
+    
     private static final String PARTICIPANT_URL = "/identity/participants";
     private static final String ROLES_URL = "/identity/roles";
-
+    
     /**
      * Creates 2 participants.
      */

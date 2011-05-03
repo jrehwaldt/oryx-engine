@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.rest.api;
+package de.hpi.oryxengine.rest.demo;
 
 import java.io.File;
 import java.util.UUID;
@@ -30,27 +30,23 @@ import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 /**
  * The Class DemoDataForWebservice generates some example data when called.
  */
-
 public final class DemoDataForWebservice {
-
+    
     private static final String PATH_TO_WEBFORMS = "src/main/resources/forms";
     private static IdentityBuilder builder;
     private static AbstractRole r;
     public final static int NUMBER_OF_PROCESSINSTANCES = 10;
     private static boolean invoked = false;
-
+    
     /**
-     * Instantiates a new demo data for webservice.
+     * Hidden constructor.
      */
-    private DemoDataForWebservice() {
-
-    }
-
+    private DemoDataForWebservice() { }
+    
     /**
-     * Resets invoked, to be honest mostly for testign purposed after each method.
+     * Resets invoked, to be honest mostly for testing purposed after each method.
      */
     public synchronized static void resetInvoked() {
-
         invoked = false;
     }
 
@@ -60,17 +56,17 @@ public final class DemoDataForWebservice {
      * @return the builder
      */
     private static IdentityBuilder getBuilder() {
-
         builder = ServiceFactory.getIdentityService().getIdentityBuilder();
         return builder;
     }
 
     /**
      * Generate example Participants.
+     * 
      * @throws ResourceNotAvailableException 
      */
     public static synchronized void generate() throws ResourceNotAvailableException {
-
+        
         if (!invoked) {
             invoked = true;
             generateDemoParticipants();
@@ -82,7 +78,6 @@ public final class DemoDataForWebservice {
                 e.printStackTrace();
             }
         }
-        
     }
 
     /**
@@ -90,7 +85,7 @@ public final class DemoDataForWebservice {
      * @throws ResourceNotAvailableException 
      */
     private static void generateDemoParticipants() throws ResourceNotAvailableException {
-
+        
         r = getBuilder().createRole("BPT");
         AbstractParticipant p1 = getBuilder().createParticipant("Thorben-demo");
         AbstractParticipant p2 = getBuilder().createParticipant("Tobi P.-demo");
@@ -98,28 +93,30 @@ public final class DemoDataForWebservice {
         AbstractParticipant p4 = getBuilder().createParticipant("Gerardo-demo");
         AbstractParticipant p5 = getBuilder().createParticipant("Jan-demo");
         AbstractParticipant p6 = getBuilder().createParticipant("Jannik-demo");
-        getBuilder().participantBelongsToRole(p1.getID(), r.getID()).participantBelongsToRole(p2.getID(), r.getID())
-        .participantBelongsToRole(p3.getID(), r.getID()).participantBelongsToRole(p4.getID(), r.getID())
-        .participantBelongsToRole(p5.getID(), r.getID()).participantBelongsToRole(p6.getID(), r.getID());
-
+        getBuilder().participantBelongsToRole(p1.getID(), r.getID())
+                    .participantBelongsToRole(p2.getID(), r.getID())
+                    .participantBelongsToRole(p3.getID(), r.getID())
+                    .participantBelongsToRole(p4.getID(), r.getID())
+                    .participantBelongsToRole(p5.getID(), r.getID())
+                    .participantBelongsToRole(p6.getID(), r.getID());
     }
 
     /**
      * Generate demo worklist items for our participants.
      * 
-     * @throws IllegalStarteventException
-     * @throws DefinitionNotFoundException
+     * @throws DefinitionNotFoundException the requested definition was not found
+     * @throws IllegalStarteventException the registered start event was missing or not legally defined
      */
     private static void generateDemoWorklistItems()
-    throws IllegalStarteventException, DefinitionNotFoundException {
+    throws DefinitionNotFoundException, IllegalStarteventException {
 
         // TODO Use Example Process to create some tasks for the role demo
 
-        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
+        ProcessDefinitionBuilder processBuilder = new ProcessDefinitionBuilderImpl();
 
         Node startNode, node1, node2, node3, endNode;
 
-        startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
+        startNode = BpmnNodeFactory.createBpmnStartEventNode(processBuilder);
 
         // Creating the Webform for the task
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
@@ -132,28 +129,30 @@ public final class DemoDataForWebservice {
         Task task = new TaskImpl("do something", "Really do something we got a demo coming up guys!", form, strategies,
             r);
 
-        node1 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
+        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, task);
 
-        node2 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
+        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, task);
 
         // Create the task
-        node3 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
+        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, task);
 
-        endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
+        endNode = BpmnNodeFactory.createBpmnEndEventNode(processBuilder);
 
-        TransitionFactory.createTransitionFromTo(builder, startNode, node1);
-        TransitionFactory.createTransitionFromTo(builder, node1, node2);
-        TransitionFactory.createTransitionFromTo(builder, node2, node3);
-        TransitionFactory.createTransitionFromTo(builder, node3, endNode);
-
+        TransitionFactory.createTransitionFromTo(processBuilder, startNode, node1);
+        TransitionFactory.createTransitionFromTo(processBuilder, node1, node2);
+        TransitionFactory.createTransitionFromTo(processBuilder, node2, node3);
+        TransitionFactory.createTransitionFromTo(processBuilder, node3, endNode);
+        
         // Start Process
-        ProcessDefinition processDefinition = builder.setName("Demoprocess")
-        .setDescription("A simple demo process with three human tasks.").buildDefinition();
-
-        UUID processID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
-        .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
-
-        // Tobi wants more tasks
+        ProcessDefinition processDefinition = processBuilder.setName("Demoprocess")
+                                       .setDescription("A simple demo process with three human tasks.")
+                                       .buildDefinition();
+        
+        UUID processID = ServiceFactory.getRepositoryService()
+                                       .getDeploymentBuilder()
+                                       .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
+        
+        // create more tasks
         for (int i = 0; i < NUMBER_OF_PROCESSINSTANCES; i++) {
             ServiceFactory.getNavigatorService().startProcessInstance(processID);
         }
