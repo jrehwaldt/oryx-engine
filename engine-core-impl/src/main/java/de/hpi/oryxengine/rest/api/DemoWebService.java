@@ -6,6 +6,7 @@ import javax.ws.rs.core.Response;
 
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 
 /**
  * Offers demo methods (like creating demo users) to the user, should be deactivated in deployment.
@@ -26,16 +27,21 @@ public class DemoWebService {
      * It should only be invoked once.
      * 
      * @return the response (OK = 200)
+     * @throws ResourceNotAvailableException 
      */
     @Path("/generate")
     @POST
-    public Response generate() {
-
+    public Response generate() throws ResourceNotAvailableException {
         DemoDataForWebservice.generate();
         // we always return ok as the demo data was already created and that is ok
         return Response.ok().build();
     }
-
+    
+    /**
+     * Generates the xml process.
+     *
+     * @return the response
+     */
     @Path("/generate-xml-process")
     @POST
     public Response generateXmlProcess() {
@@ -59,11 +65,11 @@ public class DemoWebService {
      * Generates (deploys) the reference process.
      * 
      * @return the response
+     * @throws ResourceNotAvailableException 
      */
     @Path("/reference")
     @POST
-    public Response reference() {
-
+    public Response reference() throws ResourceNotAvailableException {
         try {
 
             ShortenedReferenceProcessDeployer.generate();

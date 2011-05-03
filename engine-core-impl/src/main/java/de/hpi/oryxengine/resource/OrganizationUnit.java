@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 
 /**
  * An Organization Unit is a functional grouping of positions. Common examples might include departments like Marketing,
@@ -106,8 +107,10 @@ public class OrganizationUnit extends AbstractOrganizationUnit {
      * @param organizationUnitId
      *            - a OrganizationUnit object
      * @return organizationUnitImpl - the casted OrganizationUnit object
+     * @throws ResourceNotAvailableException 
      */
-    public static OrganizationUnit asOrganizationUnitImpl(UUID organizationUnitId) {
+    public static OrganizationUnit asOrganizationUnitImpl(UUID organizationUnitId)
+    throws ResourceNotAvailableException {
 
         if (organizationUnitId == null) {
             throw new DalmatinaRuntimeException("The OrganizationUnit parameter is null.");

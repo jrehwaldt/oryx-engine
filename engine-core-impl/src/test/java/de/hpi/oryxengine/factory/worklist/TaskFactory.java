@@ -4,6 +4,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
@@ -82,8 +83,9 @@ public final class TaskFactory {
      * Creates a Task that is offered to a single role that two participants are assigned to.
      * 
      * @return the task
+     * @throws ResourceNotAvailableException 
      */
-    public static Task createRoleTask() {
+    public static Task createRoleTask() throws ResourceNotAvailableException {
 
         // The organization structure is already prepared in the factory
         // There is role containing Gerardo and Jannik

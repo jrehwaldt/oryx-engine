@@ -6,6 +6,7 @@ import java.util.Map;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factories.worklist.TaskFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
@@ -416,7 +417,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 //    }
 
     @Override
-    public void createPseudoHuman() {
+    public void createPseudoHuman() throws ResourceNotAvailableException {
 
         jannik = (Participant) identityBuilder.createParticipant(JANNIK);
         tobi = (Participant) identityBuilder.createParticipant(TOBI);

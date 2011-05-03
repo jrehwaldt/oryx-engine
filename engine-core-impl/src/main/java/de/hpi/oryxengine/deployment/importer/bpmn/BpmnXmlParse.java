@@ -54,9 +54,9 @@ public class BpmnXmlParse extends XmlParse {
      * Constructor to be called by the {@link BpmnXmlParser}.
      * 
      * Note the package modifier here: only the {@link BpmnXmlParser} is allowed to create instances.
-     * 
-     * @param parser
-     *            - in order to have general configuration for parsing through the XML
+     *
+     * @param parser - in order to have general configuration for parsing through the XML
+     * @param streamSource the stream source
      */
     public BpmnXmlParse(BpmnXmlParser parser, StreamSource streamSource) {
 
@@ -70,12 +70,11 @@ public class BpmnXmlParse extends XmlParse {
 
         if (finishedProcessDefinition == null) {
 
-            String errorMessage = "Building the ProcessDefinition does not finished.";
+            String errorMessage = "Building the ProcessDefinition does not finish.";
             throw new DalmatinaRuntimeException(errorMessage);
         }
 
         return this.finishedProcessDefinition;
-
     }
 
     @Override
@@ -94,6 +93,7 @@ public class BpmnXmlParse extends XmlParse {
 
             String errorMessage = "Unknown exception";
             logger.error(errorMessage, e);
+            // TODO: @Gerardo Schmeiß die Exception weiter
         } finally {
 
             if (getProblemLogger().hasWarnings()) {
@@ -149,12 +149,12 @@ public class BpmnXmlParse extends XmlParse {
 
         // The name of the ProcessDefinition is the value of 'name' attribute, in case that it is defined.
         String processName;
-        if (processElement.getAttribute("name") != null && processElement.getAttribute("name").isEmpty()) {
-
-            processName = processElement.getAttribute("name");
-        } else {
+        if (processElement.getAttribute("name") == null || processElement.getAttribute("name").isEmpty()) {
 
             processName = processElement.getAttribute("id");
+        } else {
+
+            processName = processElement.getAttribute("name");
         }
         processBuilder.setName(processName);
 
@@ -439,13 +439,18 @@ public class BpmnXmlParse extends XmlParse {
                     
                     for (AbstractParticipant participant : ServiceFactory.getIdentityService().getParticipants()) {
                        
-                        if (participant.getName().equals(formalExpression.substring(USER_PREFIX.length(), formalExpression.length() - 1))) {
+                        if (participant.getName().equals(
+                            formalExpression.substring(USER_PREFIX.length(),
+                            formalExpression.length() - 1))) {
+                            
                             participantAssignedToTask = participant;
                         }
                     }
                     
                     if (participantAssignedToTask == null) {
-                        String errorMessage = "The spedified Performer '" + formalExpression + "' is not available in the IdentityService.";
+                        String errorMessage = "The spedified Performer '"
+                            + formalExpression 
+                            + "' is not available in the IdentityService.";
                         getProblemLogger().addError(errorMessage, performerElement);
                     }
                         
@@ -493,7 +498,10 @@ public class BpmnXmlParse extends XmlParse {
             String destinationRef = sequenceFlowElement.getAttribute("targetRef");
 
             if (sourceRef == null && destinationRef == null) {
-                String errorMessage = "Each SequenceFlow XML tag must have a sourceRef and a destinationRef corresponding to a XML activity. One of these attributes are not set correctly. Please do that!!";
+                String errorMessage = "Each SequenceFlow XML tag must have a sourceRef"
+                    + " and a destinationRef corresponding to a XML activity."
+                    + " One of these attributes are not set correctly. Please do that!!";
+
                 getProblemLogger().addError(errorMessage, sequenceFlowElement);
                 return;
             }

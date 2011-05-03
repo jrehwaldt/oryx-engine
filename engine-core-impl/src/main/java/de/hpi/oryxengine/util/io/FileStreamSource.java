@@ -18,6 +18,11 @@ public class FileStreamSource implements StreamSource {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private File file;
 
+    /**
+     * Instantiates a new file stream source, thereby checking that the file consists.
+     *
+     * @param file the file
+     */
     public FileStreamSource(File file) {
 
         if (!file.exists()) {
@@ -30,6 +35,11 @@ public class FileStreamSource implements StreamSource {
         
     }
 
+    /**
+     * Instantiates a new file stream source, thereby checking that the file consists.
+     *
+     * @param filePathName the file path name
+     */
     public FileStreamSource(String filePathName) {
 
         this(new File(filePathName));

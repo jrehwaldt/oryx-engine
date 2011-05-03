@@ -21,8 +21,8 @@ $().ready(function(){
 	        });
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        // TODO NOTIFICATION AREA
-            $('#notice').html(jqXHR.responseText).addClass('error');
+            $('#notice').append("There seems to be no formular, just go back and hit End :-)").addClass('error');
+            //$('#notice').html(jqXHR.responseText).addClass('error');
         }
 	});
 

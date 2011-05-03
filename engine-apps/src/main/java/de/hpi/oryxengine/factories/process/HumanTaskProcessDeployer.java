@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factories.worklist.TaskFactory;
 import de.hpi.oryxengine.loadgenerator.PseudoHumanJob;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
@@ -138,8 +139,9 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     /**
      * Creates our dummy participants with a common role. Those are the ones that will claim and complete activity
      * within a time interval that is determined within the schedule dummy participants method.
+     * @throws ResourceNotAvailableException 
      */
-    public void createAutomatedParticipants() {
+    public void createAutomatedParticipants() throws ResourceNotAvailableException {
 
         Participant jannik = (Participant) identityBuilder.createParticipant(JANNIK);
         Participant tobi = (Participant) identityBuilder.createParticipant(TOBI);
@@ -197,9 +199,10 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
 
     /**
      * Really creates Pseudo Humans. @see scheduleDummyParticipants {@inheritDoc}
+     * @throws ResourceNotAvailableException 
      */
     @Override
-    public void createPseudoHuman() {
+    public void createPseudoHuman() throws ResourceNotAvailableException {
 
         createAutomatedParticipants();
         try {

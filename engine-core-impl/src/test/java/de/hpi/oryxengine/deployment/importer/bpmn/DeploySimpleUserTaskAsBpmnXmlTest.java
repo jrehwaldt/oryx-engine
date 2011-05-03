@@ -28,16 +28,22 @@ import de.hpi.oryxengine.resource.AbstractParticipant;
  */
 public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest {
 
-    AbstractParticipant jannik;
+    private AbstractParticipant thorben;
     
+    /**
+     * Instantiates a new deploy simple user task as bpmn xml test, setting the path to the XML representation.
+     */
     public DeploySimpleUserTaskAsBpmnXmlTest() {
 
         executableProcessResourcePath = "de/hpi/oryxengine/deployment/bpmn/SimpleUserTask.bpmn.xml";
     }
 
+    /**
+     * Creates the participant needed by the process.
+     */
     @BeforeMethod
     public void setUp() {
-        jannik = ServiceFactory.getIdentityService().getIdentityBuilder().createParticipant("Jannik3");
+        thorben = ServiceFactory.getIdentityService().getIdentityBuilder().createParticipant("Thorben");
     }
     
     @Override
@@ -60,7 +66,7 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Task task = (Task) nextNode.getActivityBlueprint().getParameters()[0];
         Assert.assertEquals(task.getSubject(), "Get Gerardo a cup of coffee!");
         Assert.assertEquals(task.getDescription(), "It stands for itself.");
-        Assert.assertEquals(task.getAssignedResources().iterator().next(), jannik);
+        Assert.assertEquals(task.getAssignedResources().iterator().next(), thorben);
         
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 

@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 
 /**
  * The ResourceBuilder provides an easy and intuitive way to define and customize the enterprise's organization
@@ -48,29 +49,29 @@ public interface IdentityBuilder {
      * 
      * Calling this method requires that the participantID and the positionID already exist in the organization
      * structure.
-     * 
-     * @param participantID
-     *            - {@link AbstractparticipantID} that occupies the {@link AbstractpositionID}
-     * @param positionID
-     *            - {@link AbstractpositionID} that is occupied by the {@link AbstractparticipantID}
+     *
+     * @param participantID - {@link AbstractparticipantID} that occupies the {@link AbstractpositionID}
+     * @param positionID - {@link AbstractpositionID} that is occupied by the {@link AbstractparticipantID}
      * @return the current IdentityBuilder in order to continue building the organization structure
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     @Nonnull
-    IdentityBuilder participantOccupiesPosition(@Nonnull UUID participantID, @Nonnull UUID positionID);
+    IdentityBuilder participantOccupiesPosition(@Nonnull UUID participantID, @Nonnull UUID positionID)
+    throws ResourceNotAvailableException;
 
     /**
      * Removes the relationship between a certain participantID and a certain positionID.
      * 
      * The given objects are not removed, only the relationship between them is removed.
-     * 
-     * @param participantID
-     *            - {@link AbstractparticipantID} that occupies the {@link AbstractpositionID}
-     * @param positionID
-     *            - {@link AbstractpositionID} that is occupied by the {@link AbstractparticipantID}
+     *
+     * @param participantID - {@link AbstractparticipantID} that occupies the {@link AbstractpositionID}
+     * @param positionID - {@link AbstractpositionID} that is occupied by the {@link AbstractparticipantID}
      * @return the current IdentityBuilder in order to continue building the organization structure
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     @Nonnull
-    IdentityBuilder participantDoesNotOccupyPosition(@Nonnull UUID participantID, @Nonnull UUID positionID);
+    IdentityBuilder participantDoesNotOccupyPosition(@Nonnull UUID participantID, @Nonnull UUID positionID)
+    throws ResourceNotAvailableException;
 
     /**
      * Builds a relationship between a participantID and a roleID which represents that a participantIDs belongs to an
@@ -82,29 +83,29 @@ public interface IdentityBuilder {
      * participantID parameter does not create two relationships cause the second participantID is already there.
      * 
      * Be also aware that a roleIDs could have several participantIDs, too.
-     * 
-     * @param participantID
-     *            - {@link AbstractparticipantID} that should belong to a {@link AbstractroleID}
-     * @param roleID
-     *            - {@link AbstractroleID} that contains the {@link AbstractparticipantID}
+     *
+     * @param participantID - {@link AbstractparticipantID} that should belong to a {@link AbstractroleID}
+     * @param roleID - {@link AbstractroleID} that contains the {@link AbstractparticipantID}
      * @return the current IdentityBuilder in order to continue building the organization structure
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     @Nonnull
-    IdentityBuilder participantBelongsToRole(@Nonnull UUID participantID, @Nonnull UUID roleID);
+    IdentityBuilder participantBelongsToRole(@Nonnull UUID participantID, @Nonnull UUID roleID)
+    throws ResourceNotAvailableException;
 
     /**
      * Removes the relationship between a certain participantID and a certain roleID.
      * 
      * The given objects are not removed, only the relationship between them is removed.
-     * 
-     * @param participantID
-     *            - {@link AbstractparticipantID} that belongs to the {@link AbstractroleID}
-     * @param roleID
-     *            - {@link AbstractroleID} that contains the {@link AbstractparticipantID}
+     *
+     * @param participantID - {@link AbstractparticipantID} that belongs to the {@link AbstractroleID}
+     * @param roleID - {@link AbstractroleID} that contains the {@link AbstractparticipantID}
      * @return the current IdentityBuilder in order to continue building the organization structure
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     @Nonnull
-    IdentityBuilder participantDoesNotBelongToRole(@Nonnull UUID participantID, @Nonnull UUID roleID);
+    IdentityBuilder participantDoesNotBelongToRole(@Nonnull UUID participantID, @Nonnull UUID roleID)
+    throws ResourceNotAvailableException;
 
     /**
      * participantID has capability.
@@ -153,29 +154,29 @@ public interface IdentityBuilder {
      * 
      * Be also aware that, only one positionID is related to an OrganizationUnit. Using this method assures this
      * constraint.
-     * 
-     * @param organizationUnit
-     *            - part of the relationship
-     * @param positionID
-     *            - that belongs to the organizationUnit
+     *
+     * @param organizationUnit - part of the relationship
+     * @param positionID - that belongs to the organizationUnit
      * @return the current IdentityBuilder in order to continue building the organization structure
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     @Nonnull
-    IdentityBuilder organizationUnitOffersPosition(@Nonnull UUID organizationUnit, @Nonnull UUID positionID);
+    IdentityBuilder organizationUnitOffersPosition(@Nonnull UUID organizationUnit, @Nonnull UUID positionID)
+    throws ResourceNotAvailableException;
 
     /**
      * Removes the relationship between the certain OrganizationUnit and the certain positionID.
      * 
      * The given objects are not removed, only the relationship between them is removed.
-     * 
-     * @param organizationUnit
-     *            - part of the relationship
-     * @param positionID
-     *            - part of the relationship
+     *
+     * @param organizationUnit - part of the relationship
+     * @param positionID - part of the relationship
      * @return the current IdentityBuilder in order to continue building the organization structure
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     @Nonnull
-    IdentityBuilder organizationUnitDoesNotOfferPosition(@Nonnull UUID organizationUnit, @Nonnull UUID positionID);
+    IdentityBuilder organizationUnitDoesNotOfferPosition(@Nonnull UUID organizationUnit, @Nonnull UUID positionID)
+    throws ResourceNotAvailableException;
 
     /**
      * Defines the relationship between two OrganizationUnits.

@@ -139,5 +139,11 @@
 			<artifactId>juel</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		<!-- Html Parser -->
+		<dependency>
+    		<groupId>net.htmlparser.jericho</groupId>
+    		<artifactId>jericho-html</artifactId>
+    	<version>3.1</version>
+</dependency>
 	</dependencies>
 </project>
