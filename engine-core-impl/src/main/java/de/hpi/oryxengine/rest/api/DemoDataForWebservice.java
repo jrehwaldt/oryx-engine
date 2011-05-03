@@ -33,7 +33,7 @@ import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 public final class DemoDataForWebservice {
 
     private static final String PATH_TO_WEBFORMS = "src/main/resources/forms";
-    private static IdentityBuilder builder;
+    private static IdentityBuilder identityBuilder;
     private static AbstractRole r;
     public final static int NUMBER_OF_PROCESSINSTANCES = 10;
     private static boolean invoked = false;
@@ -60,8 +60,8 @@ public final class DemoDataForWebservice {
      */
     private static IdentityBuilder getBuilder() {
 
-        builder = ServiceFactory.getIdentityService().getIdentityBuilder();
-        return builder;
+        identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
+        return identityBuilder;
     }
 
     /**

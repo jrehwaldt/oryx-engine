@@ -1,9 +1,11 @@
 package de.hpi.oryxengine.correlation.adapter.error;
 
+import de.hpi.oryxengine.correlation.AdapterRegistrar;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.AbstractAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.CorrelationAdapter;
 import de.hpi.oryxengine.correlation.adapter.EventTypes;
+import de.hpi.oryxengine.correlation.adapter.InboundAdapter;
 
 /**
  * The error adapter configuration.
@@ -25,10 +27,18 @@ extends AbstractAdapterConfiguration {
         return "Error";
     }
     
-    @Override
-    public CorrelationAdapter createAdapter(CorrelationManager c) {
+    private InboundAdapter createAdapter(CorrelationManager c) {
         ErrorAdapter e = new ErrorAdapter(c, this);
         return e;
+    }
+
+    @Override
+    public CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar) {
+        
+        InboundAdapter adapter = createAdapter(adapterRegistrar);
+        adapterRegistrar.registerAdapter(adapter);
+        
+        return adapter;
     }
 
 

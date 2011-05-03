@@ -18,7 +18,7 @@ $().ready(function() {
 		$(location).attr('href', '/management/')
 	});
 
-	$('#generate-xml-processGenerate').click(function() {
+	$('#xml-processGenerate').click(function() {
 		$.ajax({
 			type : 'POST',
 			url : '/api/demo/generate-xml-process'
@@ -26,4 +26,14 @@ $().ready(function() {
 		// redirect
 		$(location).attr('href', '/management/')
 	});
+
+	$('#process-start-emailGenerate').click(function() {
+		$.ajax({
+			type : 'POST',
+			url : '/api/demo/generate-process-start-email'
+		});
+		// redirect
+		$(location).attr('href', '/management/')
+	});
+	
 });

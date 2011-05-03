@@ -65,18 +65,6 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
         return processDefinition;
     }
 
-    // public void addDefinition(ProcessDefinition definition) {
-    //
-    // UUID id = definition.getID();
-    // definitions.put(id, definition);
-    // }
-    //
-    // public void deleteDefinition(UUID id) {
-    //
-    // definitions.remove(id);
-    //
-    // }
-
     @Override
     public List<ProcessDefinition> getProcessDefinitions() {
 

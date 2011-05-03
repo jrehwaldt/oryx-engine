@@ -35,8 +35,9 @@ import de.hpi.oryxengine.process.structure.Node;
  */
 public final class ExampleMailStartProcess {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ExampleMailStartProcess.class);
-	
+	private static final Logger	LOGGER	= LoggerFactory
+												.getLogger(ExampleMailStartProcess.class);
+
 	/** no public/default constructor for this Demothingie. */
 	private ExampleMailStartProcess() {
 
@@ -83,10 +84,6 @@ public final class ExampleMailStartProcess {
 
 		builder.setDescription("description").setName(exampleProcessName);
 
-		ProcessDefinition def = builder.buildDefinition();
-		UUID exampleProcessUUID = deploymentBuilder
-				.deployProcessDefinition(new RawProcessDefintionImporter(def));
-
 		// Create a mail adapater event here.
 		// TODO @TobiP Could create a builder for this later.
 		MailAdapterConfiguration config = MailAdapterConfiguration
@@ -103,15 +100,26 @@ public final class ExampleMailStartProcess {
 		List<EventCondition> conditions = new ArrayList<EventCondition>();
 		conditions.add(subjectCondition);
 
-		StartEvent event = new StartEventImpl(	EventTypes.Mail,
-												config,
-												conditions,
-												exampleProcessUUID);
+//		StartEvent event = new StartEventImpl(	EventTypes.Mail,
+//												config,
+//												conditions,
+//												exampleProcessUUID);
 
 		try {
-			builder.createStartTrigger(event, node1);
+
+			builder.createStartTrigger(	EventTypes.Mail,
+										config,
+										conditions,
+										node1);
+			ProcessDefinition def = builder.buildDefinition();
+
+			UUID exampleProcessUUID = deploymentBuilder
+					.deployProcessDefinition(new RawProcessDefintionImporter(def));
+
+			ServiceFactory.getRepositoryService()
+					.activateProcessDefinition(exampleProcessUUID);
 		} catch (DalmatinaRuntimeException e) {
-			
+
 			LOGGER.error(e.getMessage(), e);
 		}
 

@@ -53,9 +53,6 @@ implements TimingManager {
         this.scheduler.start();
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
     throws AdapterSchedulingException {

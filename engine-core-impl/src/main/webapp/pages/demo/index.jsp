@@ -11,7 +11,9 @@
         <br/>
         <button id="referenceGenerate">Generate Reference Process Data</button>
         <br/>
-        <button id="generate-xml-processGenerate">Load Xml Process Data</button>
+        <button id="xml-processGenerate">Load Xml Process Data</button>
+        <br/>
+        <button id="process-start-emailGenerate">Generate Process with EmailStartEvent</button>
 
     </body>
 </html>
