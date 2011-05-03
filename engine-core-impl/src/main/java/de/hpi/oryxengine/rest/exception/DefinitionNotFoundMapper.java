@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.rest.exception;
 
+import javax.annotation.Nonnull;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -16,7 +17,7 @@ import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 public class DefinitionNotFoundMapper implements ExceptionMapper<DefinitionNotFoundException> {
     
     @Override
-    public Response toResponse(DefinitionNotFoundException exception) {
+    public Response toResponse(@Nonnull DefinitionNotFoundException exception) {
         return Response.status(Status.NOT_FOUND).build();
     }
 }

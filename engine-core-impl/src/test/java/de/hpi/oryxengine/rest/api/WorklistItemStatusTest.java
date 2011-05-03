@@ -62,7 +62,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
 
         MockHttpResponse response = makePUTRequestWithJson("/worklist/items/" + item.getID() + "/state", json);
 
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK, 
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), 
             "the result should be OK, that means, the request should have suceeded.");
         
         Assert.assertEquals(item.getStatus(), WorklistItemState.COMPLETED, "the item should be completed now.");
@@ -95,7 +95,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
 
         MockHttpResponse response = makePUTRequestWithJson("/worklist/items/" + item.getID() + "/state", json);
 
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK, 
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), 
             "the result should be OK, that means, the request should have suceeded.");
         
         Assert.assertEquals(item.getStatus(), WorklistItemState.EXECUTING, "the item should be completed now.");
@@ -121,7 +121,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
 
         MockHttpResponse response = makePUTRequestWithJson("/worklist/items/" + item.getID() + "/state", json);
 
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK, 
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), 
             "the result should be OK, that means, the request should have suceeded.");
         
         Assert.assertEquals(item.getStatus(), WorklistItemState.ALLOCATED, "the item should be allocated now.");
@@ -148,7 +148,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
 
         MockHttpResponse response = makePUTRequestWithJson("/worklist/items/" + item.getID() + "/state", json);
 
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK, 
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), 
             "the result should be OK, that means, the request should have suceeded.");
         
         
@@ -156,7 +156,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
         
         response = makePUTRequestWithJson("/worklist/items/" + item.getID() + "/state", json);
         
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL, 
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), 
         "the result should be a status code 404, that means, the request has failed.");
 
     }

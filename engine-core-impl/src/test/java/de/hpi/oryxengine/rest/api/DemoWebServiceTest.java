@@ -43,7 +43,7 @@ public class DemoWebServiceTest extends AbstractJsonServerTest {
 
         MockHttpResponse response = makePOSTRequest(DEMO_URL, null);
 
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK);
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode());
         // one process should be defined
         Assert.assertEquals(ServiceFactory.getRepositoryService().getProcessDefinitions().size(),
             1);

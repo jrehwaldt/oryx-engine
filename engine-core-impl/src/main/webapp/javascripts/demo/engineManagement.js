@@ -10,7 +10,6 @@ function enableButtonClickHandler() {
             type: 'POST',
             url: '/api/navigator/processdefinitions/' + definitionId + '/instances',
             success: function(data) {
-                console.log(data);
 
                 // refresh the list of running process instances (since we just added one)
                 getRunningProcessInstances();
@@ -30,7 +29,6 @@ function getRunningProcessInstances() {
         type: 'GET',
         url: '/api/navigator/status/running-instances',
         success: function(data) {
-            console.log(data);
             var runningInstances = data;
             // clean up before we load them
             // TODO maybe remember the opened trs/tokens before that
@@ -71,7 +69,6 @@ function getProcessDefinitions() {
         type: 'GET',
         url: '/api/repository/processdefinitions',
         success: function(data) {
-            console.log(data);
             var processdefinitions = data;
             $.each(processdefinitions, function(i, definition) {
                 $("#processDefinitionList").append("<tr id= " + definition.id + " class=\"definition\"><td>" + definition.name + "</td><td> " + definition.description + "</td><td><button class=\"start\">Start</button></td></tr>");
@@ -101,7 +98,7 @@ function makeToggle(runningInstance) {
 }
 
 function out(input) {
-    console.log(input);
+    //console.log(input);
 }
 
 //<td> " + instance.assignedTokens[0].currentActivityState + "</td>

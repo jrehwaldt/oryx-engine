@@ -1,11 +1,15 @@
 package de.hpi.oryxengine.rest;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.ext.ExceptionMapper;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -21,6 +25,9 @@ import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
 import org.testng.annotations.BeforeClass;
 
 import de.hpi.oryxengine.AbstractJodaEngineTest;
+import de.hpi.oryxengine.rest.exception.DefinitionNotFoundMapper;
+import de.hpi.oryxengine.rest.exception.InvalidWorkItemMapper;
+import de.hpi.oryxengine.rest.exception.ResourceNotAvailableMapper;
 
 /**
  * Abstract class providing anything necessary for server api tests.
@@ -29,13 +36,22 @@ import de.hpi.oryxengine.AbstractJodaEngineTest;
  */
 public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     
-    protected static final int HTTP_STATUS_OK = 200;
-    protected static final int HTTP_STATUS_FAIL = 404;
+    protected static final Status HTTP_STATUS_OK = Status.OK;
+    protected static final Status HTTP_STATUS_FAIL = Status.NOT_FOUND;
     
     public static final String TMP_PATH = "./target/";
         
     protected Dispatcher dispatcher = null;
     protected ObjectMapper mapper = null;
+
+    private static final List<Class<? extends ExceptionMapper<?>>> PROVIDERS
+        = new ArrayList<Class<? extends ExceptionMapper<?>>>();
+    
+    static {
+        PROVIDERS.add(DefinitionNotFoundMapper.class);
+        PROVIDERS.add(InvalidWorkItemMapper.class);
+        PROVIDERS.add(ResourceNotAvailableMapper.class);
+    }
     
     /**
      * Set up.
@@ -66,10 +82,15 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         // configure the server mock
         //
         if (getResource() != null) {
+            
             POJOResourceFactory factory = new POJOResourceFactory(getResource());
             
             this.dispatcher = MockDispatcherFactory.createDispatcher();
             this.dispatcher.getRegistry().addResourceFactory(factory);
+            
+            for (Class<? extends ExceptionMapper<?>> provider: PROVIDERS) {
+                this.dispatcher.getProviderFactory().addExceptionMapper(provider);
+            }
         } else {
             logger.debug("Server is not available");
         }
