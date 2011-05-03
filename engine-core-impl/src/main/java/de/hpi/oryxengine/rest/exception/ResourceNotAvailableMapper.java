@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.rest.exception;
 
+import javax.annotation.Nonnull;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -16,12 +17,12 @@ import de.hpi.oryxengine.exception.ResourceNotAvailableException;
  * @author Jan Rehwaldt
  */
 @Provider
-public class ResourceNotFoundMapper implements ExceptionMapper<ResourceNotAvailableException> {
+public class ResourceNotAvailableMapper implements ExceptionMapper<ResourceNotAvailableException> {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     @Override
-    public Response toResponse(ResourceNotAvailableException exception) {
+    public Response toResponse(@Nonnull ResourceNotAvailableException exception) {
         logger.error("Failed fetching the resource");
         return Response.status(Status.NOT_FOUND).build();
     }

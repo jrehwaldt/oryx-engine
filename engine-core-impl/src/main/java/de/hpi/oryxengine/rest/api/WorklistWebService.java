@@ -17,12 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import net.htmlparser.jericho.Config;
-import net.htmlparser.jericho.FormField;
-import net.htmlparser.jericho.FormFields;
-import net.htmlparser.jericho.OutputDocument;
-import net.htmlparser.jericho.Source;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +25,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.exception.InvalidItemException;
+import de.hpi.oryxengine.exception.InvalidWorkItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.token.Token;
@@ -43,6 +37,12 @@ import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.rest.WorklistActionWrapper;
+
+import net.htmlparser.jericho.Config;
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.FormFields;
+import net.htmlparser.jericho.OutputDocument;
+import net.htmlparser.jericho.Source;
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -123,14 +123,14 @@ public final class WorklistWebService {
      * @param participantId the participant id
      * @return the form held by the worklist item
      * @throws ResourceNotAvailableException if the resource is not available
-     * @throws InvalidItemException  if the item was not available
+     * @throws InvalidWorkItemException  if the item was not available
      */
     @Path("/items/{worklistitemId}/form")
     @Produces(MediaType.TEXT_PLAIN)
     @GET
     public Response getForm(@PathParam("worklistitemId") String worklistitemId, 
                           @QueryParam("participantId") String participantId)
-    throws ResourceNotAvailableException, InvalidItemException {
+    throws ResourceNotAvailableException, InvalidWorkItemException {
         UUID participantUUID = UUID.fromString(participantId);
         UUID itemUUID = UUID.fromString(worklistitemId);
         logger.debug("GET: {}", worklistitemId);
@@ -186,7 +186,7 @@ public final class WorklistWebService {
      *            the form that gets send to us
      * @return the response
      * @throws ResourceNotAvailableException 
-     * @throws InvalidItemException 
+     * @throws InvalidWorkItemException 
      */
     @Path("/items/{worklistitemId}/form")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -194,18 +194,16 @@ public final class WorklistWebService {
     public Response postForm(@PathParam("worklistitemId") String worklistItemId, 
                              @QueryParam("participantId") String participantId, 
                              MultivaluedMap<String, String> form)
-    throws ResourceNotAvailableException, InvalidItemException {
+    throws ResourceNotAvailableException, InvalidWorkItemException {
         
         UUID participantUUID = UUID.fromString(participantId);
         UUID itemUUID = UUID.fromString(worklistItemId);
-        AbstractResource<?> resource = identity.getParticipant(participantUUID);
+        AbstractResource<?> resource = this.identity.getParticipant(participantUUID);
                 
         // try to get the worklistitem and its token and thereby the context to put in the new data
-        AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);
-        item = service.getWorklistItem(resource, itemUUID);
+        AbstractWorklistItem item = this.service.getWorklistItem(resource, itemUUID);
+        item = this.service.getWorklistItem(resource, itemUUID);
         ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
-        
-        
         
         Set<Map.Entry<String, List<String>>> entrySet = form.entrySet();
         for (Map.Entry<String, List<String>> entry : entrySet) {
@@ -268,7 +266,7 @@ public final class WorklistWebService {
                     return Response.status(RESPONSE_FAIL).build();
     
             }
-        } catch (InvalidItemException e1) {
+        } catch (InvalidWorkItemException e1) {
             logger.debug("Invalid Item!");
             e1.printStackTrace();
             return Response.status(RESPONSE_FAIL).build();
@@ -282,11 +280,11 @@ public final class WorklistWebService {
      *
      * @param id the id
      * @param participantId the participant id
-     * @throws InvalidItemException the invalid item exception
+     * @throws InvalidWorkItemException the invalid item exception
      * @throws ResourceNotAvailableException 
      */
     private void endWorklistItem(UUID id, UUID participantId)
-    throws InvalidItemException, ResourceNotAvailableException {
+    throws InvalidWorkItemException, ResourceNotAvailableException {
         
         AbstractResource<?> resource = identity.getParticipant(participantId);
         AbstractWorklistItem item;
@@ -303,10 +301,10 @@ public final class WorklistWebService {
      *            the participant uuid
      * @throws ResourceNotAvailableException
      *             the resource not available exception
-     * @throws InvalidItemException 
+     * @throws InvalidWorkItemException 
      */
     private void claimWorklistItem(UUID worklistItemId, UUID participantUUID)
-    throws ResourceNotAvailableException, InvalidItemException {
+    throws ResourceNotAvailableException, InvalidWorkItemException {
         
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
         AbstractWorklistItem item = service.getWorklistItem(resource, worklistItemId);
@@ -324,10 +322,10 @@ public final class WorklistWebService {
      * @param worklistItemId the id of the worklist item
      * @param participantUUID the participant uuid
      * @throws ResourceNotAvailableException the resource not available exception
-     * @throws InvalidItemException 
+     * @throws InvalidWorkItemException 
      */
     private void beginWorklistItem(UUID worklistItemId, UUID participantUUID)
-    throws ResourceNotAvailableException, InvalidItemException {
+    throws ResourceNotAvailableException, InvalidWorkItemException {
         
         logger.debug("POST participantID: {}", participantUUID);
         logger.debug("worklistItemID: {}", worklistItemId);
