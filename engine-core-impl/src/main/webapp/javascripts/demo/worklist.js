@@ -14,7 +14,6 @@ function addClaimButtonClickHandler() {
 	    wrapper["participantId"] = $.Storage.get("participantUUID");
 	    wrapper["action"] = "CLAIM";
 	    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
-	    console.log(wrapper);
 		var button = this;
 
         $.ajax({
@@ -22,7 +21,6 @@ function addClaimButtonClickHandler() {
             url: '/api/worklist/items/' + worklistItemId + '/state',
             data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
             success: function(data) {
-                console.log(data);
                 // be happy and do stuff (like morph button to start task or stuff like that)
 				$(button).unbind();
 				$(button).remove();
@@ -47,14 +45,12 @@ function addBeginButtonClickHandler() {
 	    wrapper["participantId"] = $.Storage.get("participantUUID");
 	    wrapper["action"] = "BEGIN";
 	    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
-	    console.log(wrapper);
 
 	    $.ajax({
 	    	type: 'PUT',
 	    	url: '/api/worklist/items/' + worklistItemId + '/state',
 	    	data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
 	    	success: function(data) {
-	    		console.log(data);
 				$(button).unbind();
 				$(button).removeClass("begin").addClass("end").html("End");
 				addEndButtonClickHandler(button);
@@ -104,13 +100,11 @@ function addEndButtonClickHandler(handler) {
 	    wrapper["participantId"] = $.Storage.get("participantUUID");
 	    wrapper["action"] = "END";
 	    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
-	    console.log(wrapper);
 		$.ajax({
 			type: 'PUT',
 			url: '/api/worklist/items/' + worklistItemId + '/state',
 			data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
 			success: function(data) {
-				console.log(data);
 				$(button).unbind();
 				$(button).parent().parent().remove();
 

@@ -17,7 +17,6 @@ $().ready(function() {
         type: 'GET',
         url: 'api/identity/participants',
         success: function(data) {
-            console.log(data);
             var participants = data;
             // add each participant to the loginbox
             $.each(participants, function(i, participant) {
