@@ -92,12 +92,12 @@ public final class DemoDataForWebservice {
     private static void generateDemoParticipants() throws ResourceNotAvailableException {
 
         r = getBuilder().createRole("BPT");
-        AbstractParticipant p1 = getBuilder().createParticipant("Thorben");
-        AbstractParticipant p2 = getBuilder().createParticipant("Tobi P.");
-        AbstractParticipant p3 = getBuilder().createParticipant("Tobi M.");
-        AbstractParticipant p4 = getBuilder().createParticipant("Gerardo");
-        AbstractParticipant p5 = getBuilder().createParticipant("Jan");
-        AbstractParticipant p6 = getBuilder().createParticipant("Jannik");
+        AbstractParticipant p1 = getBuilder().createParticipant("Thorben-demo");
+        AbstractParticipant p2 = getBuilder().createParticipant("Tobi P.-demo");
+        AbstractParticipant p3 = getBuilder().createParticipant("Tobi M.-demo");
+        AbstractParticipant p4 = getBuilder().createParticipant("Gerardo-demo");
+        AbstractParticipant p5 = getBuilder().createParticipant("Jan-demo");
+        AbstractParticipant p6 = getBuilder().createParticipant("Jannik-demo");
         getBuilder().participantBelongsToRole(p1.getID(), r.getID()).participantBelongsToRole(p2.getID(), r.getID())
         .participantBelongsToRole(p3.getID(), r.getID()).participantBelongsToRole(p4.getID(), r.getID())
         .participantBelongsToRole(p5.getID(), r.getID()).participantBelongsToRole(p6.getID(), r.getID());
