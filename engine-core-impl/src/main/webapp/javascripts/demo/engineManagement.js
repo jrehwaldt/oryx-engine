@@ -8,7 +8,7 @@ function enableButtonClickHandler() {
 
         $.ajax({
             type: 'POST',
-            url: '/api/navigator/processdefinitions/' + definitionId + '/instances',
+            url: '/api/navigator/process-definitions/' + definitionId + '/start',
             success: function(data) {
 
                 // refresh the list of running process instances (since we just added one)
@@ -67,7 +67,7 @@ function getRunningProcessInstances() {
 function getProcessDefinitions() {
     $.ajax({
         type: 'GET',
-        url: '/api/repository/processdefinitions',
+        url: '/api/repository/process-definitions',
         success: function(data) {
             var processdefinitions = data;
             $.each(processdefinitions, function(i, definition) {
