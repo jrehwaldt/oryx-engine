@@ -20,7 +20,7 @@ import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 public class ResourceNotAvailableMapper implements ExceptionMapper<ResourceNotAvailableException> {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     @Override
     public Response toResponse(@Nonnull ResourceNotAvailableException exception) {
         logger.error("Failed fetching the resource");

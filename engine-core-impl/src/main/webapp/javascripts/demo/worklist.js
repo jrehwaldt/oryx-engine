@@ -38,6 +38,9 @@ function addClaimButtonClickHandler(button) {
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
+				$("#"+worklistItemId).fadeOut(function() {
+					$("#"+worklistItemId).remove()
+				});
                 $('#notice').html(jqXHR.responseText).addClass('error');
             },
             contentType: 'application/json'
