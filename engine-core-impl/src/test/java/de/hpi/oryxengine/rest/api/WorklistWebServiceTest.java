@@ -179,7 +179,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         content.put("form1", "checked");
         content.put("form2", "yes");
         
-        MockHttpResponse response = makePOSTRequest(
+        MockHttpResponse response = makePOSTFormRequest(
             String.format("/worklist/items/%s/form?participantId=%s", item.getID(), jannik.getID()), content);
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), 
         "the result should be OK, that means, the request should have suceeded.");
