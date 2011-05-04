@@ -61,10 +61,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
     /**
      * Test get participants. It should get all participants.
-     * 
-     * @throws URISyntaxException
-     *             the uRI syntax exception
-     * @throws IOException
+     *
+     * @throws URISyntaxException the uRI syntax exception
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     @Test
     public void testGetParticipants()
@@ -268,7 +267,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         
         String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
 //        String json = "{participantIDs : []}";
-        String json = "[\""+ participant.getID() +"\"]";
+        String json = "[\"" + participant.getID() + "\"]";
         MockHttpResponse response = makePOSTRequestWithJson(requestUrl, json);
         
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), "the result should be ok");
@@ -294,7 +293,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         AbstractParticipant participant = builder.createParticipant(participantName);
         
         String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
-        String json = "[\""+ participant.getID() +"\"]";
+        String json = "[\"" + participant.getID() + "\"]";
         MockHttpResponse response = makePOSTRequestWithJson(requestUrl, json);
         
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be a 404");
