@@ -88,7 +88,6 @@ public final class IdentityWebService {
     @DELETE
     public void deleteParticipant(@QueryParam("participant-id") String id) throws Exception {
         // TODO write an Exception-Provider
-        logger.debug("deleteParticipant called");
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
         
         IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
@@ -110,6 +109,40 @@ public final class IdentityWebService {
         Set<AbstractRole> roles = this.identity.getRoles();
         return roles;
     
+    }
+    
+    /**
+     * Creates a role with a given name.
+     *
+     * @param roleName the name of the role
+     */
+    @Path("/roles")
+    @POST
+    @Consumes("text/plain")
+    public void createRole(String roleName) {
+        IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
+        
+        IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
+        builder.createRole(roleName);
+    
+        
+    }
+    
+    /**
+     * Deletes a role with the given id.
+     *
+     * @param id the id of the role to delete
+     * @throws Exception the exception
+     */
+    @Path("/roles")
+    @DELETE
+    public void deleteRole(@QueryParam("role-id") String id) throws Exception {
+        IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
+        
+        IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
+        UUID roleID = UUID.fromString(id);
+        builder.deleteRole(roleID);    
+        
     }
 
 }
