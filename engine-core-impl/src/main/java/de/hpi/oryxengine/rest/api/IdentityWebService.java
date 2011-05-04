@@ -35,7 +35,8 @@ import de.hpi.oryxengine.resource.IdentityBuilderImpl;
 public final class IdentityWebService {
 
     private final IdentityService identity;
-//    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    // private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Default constructor.
@@ -196,6 +197,8 @@ public final class IdentityWebService {
             try {
                 builder.participantBelongsToRole(participantUUID, roleUUID);
             } catch (ResourceNotAvailableException e) {
+                // depending on whether the role or some of the specified participants are missing, we want to react
+                // differently.
                 if (e.getClass().equals(AbstractParticipant.class)) {
                     nonExistingParticipants.add(e.getResourceID().toString());
                 } else if (e.getResourceClass().equals(AbstractRole.class)) {
