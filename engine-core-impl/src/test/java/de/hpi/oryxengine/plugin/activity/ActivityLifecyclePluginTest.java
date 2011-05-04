@@ -10,7 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.node.activity.ActivityState;
 import de.hpi.oryxengine.node.activity.fun.AutomatedDummyActivity;
@@ -43,10 +43,10 @@ public class ActivityLifecyclePluginTest {
     /**
      * Tests that the plugin is called twice during activity lifecycle (active, completed).
      * It's final state will be completed.
-     * @throws DalmatinaException 
+     * @throws JodaEngineException 
      */
     @Test
-    public void testStartedTrigger() throws DalmatinaException {
+    public void testStartedTrigger() throws JodaEngineException {
         AbstractTokenPlugin mock = mock(AbstractTokenPlugin.class);
         this.token.registerPlugin(mock);
         token.executeStep();

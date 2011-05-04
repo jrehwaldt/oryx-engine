@@ -267,7 +267,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         AbstractParticipant participant = builder.createParticipant(participantName);
         
         String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
-        MockHttpResponse response = makePOSTRequest(requestUrl, participant.getID().toString());
+//        String json = "{participantIDs : []}";
+        String json = "[\""+ participant.getID() +"\"]";
+        MockHttpResponse response = makePOSTRequestWithJson(requestUrl, json);
         
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), "the result should be ok");
         
@@ -292,9 +294,10 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         AbstractParticipant participant = builder.createParticipant(participantName);
         
         String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
-        MockHttpResponse response = makePOSTRequest(requestUrl, participant.getID().toString());
+        String json = "[\""+ participant.getID() +"\"]";
+        MockHttpResponse response = makePOSTRequestWithJson(requestUrl, json);
         
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be ok");
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be a 404");
     }
 
 }

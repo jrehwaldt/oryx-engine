@@ -2,7 +2,7 @@ package de.hpi.oryxengine.exception;
 /**
  * The Class InvalidItemException.
  */
-public class InvalidWorkItemException extends DalmatinaException {
+public class InvalidWorkItemException extends JodaEngineException {
     
     private static final String MESSAGE = "The requested item is (no longer) available.";
 

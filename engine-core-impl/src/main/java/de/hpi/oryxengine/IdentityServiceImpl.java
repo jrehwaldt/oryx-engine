@@ -159,7 +159,7 @@ public class IdentityServiceImpl implements IdentityService, Service {
 
         AbstractParticipant participant = getParticipantImpls().get(id);
         if (participant == null) {
-            throw new ResourceNotAvailableException();
+            throw new ResourceNotAvailableException(AbstractParticipant.class, id);
         }
         return participant;
 //        return find(getParticipants(), id);
@@ -170,7 +170,7 @@ public class IdentityServiceImpl implements IdentityService, Service {
 
         Role roleToReturn = getRoleImpls().get(id);
         if (roleToReturn == null) {
-            throw new ResourceNotAvailableException();
+            throw new ResourceNotAvailableException(AbstractRole.class, id);
         }
         return roleToReturn;
     }

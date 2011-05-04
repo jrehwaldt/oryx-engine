@@ -1,5 +1,7 @@
 package de.hpi.oryxengine.rest.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -13,9 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.ws.rs.core.Response.Status;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
@@ -35,7 +35,7 @@ import de.hpi.oryxengine.resource.IdentityBuilderImpl;
 public final class IdentityWebService {
 
     private final IdentityService identity;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+//    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Default constructor.
@@ -170,23 +170,44 @@ public final class IdentityWebService {
 
     /**
      * Adds the participant as specified in the post request body to the role.
-     *
-     * @param roleID the role id
-     * @param participantID the participant id
+     * 
+     * @param roleID
+     *            the role id
+     * @param participantIDs
+     *            a list of ids of the participants that are to be added to the role
      * @return the response whether the API call was successful
-     * @throws ResourceNotAvailableException the resource not available exception
+     * @throws ResourceNotAvailableException
+     *             the resource not available exception
      */
     @Path("/roles/{roleID}/participants")
     @POST
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Response addParticipantToRole(@PathParam("roleID") String roleID, String participantID)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addParticipantsToRole(@PathParam("roleID") String roleID, List<String> participantIDs)
     throws ResourceNotAvailableException {
 
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
         UUID roleUUID = UUID.fromString(roleID);
-        UUID participantUUID = UUID.fromString(participantID);
-        IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
-        builder.participantBelongsToRole(participantUUID, roleUUID);
+
+        List<String> nonExistingParticipants = new ArrayList<String>();
+        for (String participantID : participantIDs) {
+            UUID participantUUID = UUID.fromString(participantID);
+            IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
+
+            try {
+                builder.participantBelongsToRole(participantUUID, roleUUID);
+            } catch (ResourceNotAvailableException e) {
+                if (e.getClass().equals(AbstractParticipant.class)) {
+                    nonExistingParticipants.add(e.getResourceID().toString());
+                } else if (e.getResourceClass().equals(AbstractRole.class)) {
+                    throw e;
+                }
+            }
+        }
+
+        if (!nonExistingParticipants.isEmpty()) {
+            // TODO add the ids of the unfound participants to the response
+            return Response.status(Status.NOT_FOUND).build();
+        }
 
         return Response.ok().build();
     }

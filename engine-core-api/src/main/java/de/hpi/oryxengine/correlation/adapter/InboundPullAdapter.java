@@ -2,7 +2,7 @@ package de.hpi.oryxengine.correlation.adapter;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 
 /**
  * This interface should be implemented by {@link EventManager} adapters,
@@ -15,10 +15,10 @@ extends InboundAdapter {
     /**
      * This method is invoked whenever pulling is requested.
      * 
-     * @throws DalmatinaException thrown if pulling fails
+     * @throws JodaEngineException thrown if pulling fails
      */
     void pull()
-    throws DalmatinaException;
+    throws JodaEngineException;
     
     @Override
     @Nonnull PullAdapterConfiguration getConfiguration();
