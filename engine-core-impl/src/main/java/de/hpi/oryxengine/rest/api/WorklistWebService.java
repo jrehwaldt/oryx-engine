@@ -198,48 +198,43 @@ public final class WorklistWebService {
      * @return returns an empty response with a http status
      * @throws ResourceNotAvailableException
      *             the resource not available exception
+     * @throws InvalidWorkItemException 
      */
     @Path("/items/{worklistItem-id}/state")
     @Consumes(MediaType.APPLICATION_JSON)
     @PUT
     public Response actionOnWorklistitem(@PathParam("worklistItem-id") String worklistItemId,
                                          WorklistActionWrapper wrapper)
-    throws ResourceNotAvailableException {
+    throws ResourceNotAvailableException, InvalidWorkItemException {
 
         UUID id = UUID.fromString(worklistItemId);
         logger.debug("entered action choosing");
-        try {
-            switch (wrapper.getAction()) {
-                case CLAIM:
-    
-                    logger.debug("success, now claiming");
-                    claimWorklistItem(id, wrapper.getParticipantId());
-                    // make these numbers constants
-                    return Response.ok().build();
-                    
-                case BEGIN:
-                    
-                    logger.debug("success, now beginning");
-                    // make these numbers constants
-                    beginWorklistItem(id, wrapper.getParticipantId());
-                    return Response.ok().build();
-                    
-                case END:
-                    
-                    logger.debug("success, now ending");
-                    endWorklistItem(id, wrapper.getParticipantId());
-    
-                    return Response.ok().build();
-    
-                default:
-                    logger.debug("no valid action could be found");
-                    return Response.status(RESPONSE_FAIL).build();
-    
-            }
-        } catch (InvalidWorkItemException e1) {
-            logger.debug("Invalid Item!");
-            e1.printStackTrace();
-            return Response.status(RESPONSE_FAIL).build();
+        switch (wrapper.getAction()) {
+            case CLAIM:
+
+                logger.debug("success, now claiming");
+                claimWorklistItem(id, wrapper.getParticipantId());
+                // make these numbers constants
+                return Response.ok().build();
+                
+            case BEGIN:
+                
+                logger.debug("success, now beginning");
+                // make these numbers constants
+                beginWorklistItem(id, wrapper.getParticipantId());
+                return Response.ok().build();
+                
+            case END:
+                
+                logger.debug("success, now ending");
+                endWorklistItem(id, wrapper.getParticipantId());
+
+                return Response.ok().build();
+
+            default:
+                logger.debug("no valid action could be found");
+                return Response.status(RESPONSE_FAIL).build();
+
         }
 
         

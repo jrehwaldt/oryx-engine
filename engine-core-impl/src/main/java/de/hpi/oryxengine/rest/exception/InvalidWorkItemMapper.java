@@ -24,6 +24,6 @@ public class InvalidWorkItemMapper implements ExceptionMapper<InvalidWorkItemExc
     @Override
     public Response toResponse(@Nonnull InvalidWorkItemException exception) {
         logger.error("Failed fetching the item");
-        return Response.status(Status.NOT_FOUND).build();
+        return Response.status(Status.NOT_FOUND).entity(exception.getMessage()).build();
     }
 }
