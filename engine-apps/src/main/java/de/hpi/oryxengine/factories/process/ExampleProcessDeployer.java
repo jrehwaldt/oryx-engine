@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.factories.process;
 
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -32,11 +32,11 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodes() {
 
-        startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
+        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
 
         int[] ints = {1, 1};
-        node1 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
-        node2 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
+        node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
+        node2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
         
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
         

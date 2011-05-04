@@ -37,6 +37,6 @@ public class FileStreamSourceTest {
         File file = new File("123" + TEST_FILE_PATH); 
         StreamSource fileStreamSource = new FileStreamSource(file);
         
-        Assert.fail("The 'DalmatinaRuntinmeException' should already been thrown.'");
+        Assert.fail("The 'JodaEngineRuntinmeException' should already been thrown.'");
     }
 }

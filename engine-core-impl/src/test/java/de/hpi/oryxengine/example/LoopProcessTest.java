@@ -15,7 +15,7 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.NullActivity;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -92,14 +92,14 @@ public class LoopProcessTest {
         // Create StartNode
         ActivityBlueprint blueprint = new ActivityBlueprintImpl(NullActivity.class);
 
-        start = BpmnFunNodeFactory.createBpmnNullNode(builder);
+        start = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
 
         // Create the XORJoin
         xorJoin = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
 
         // Create a following Node
-        node = BpmnFunNodeFactory.createBpmnAddContextNumbersAndStoreNode(builder, "counter", new String[] {
+        node = BpmnCustomNodeFactory.createBpmnAddContextNumbersAndStoreNode(builder, "counter", new String[] {
             "increment", "counter" });
 
         // Create the XORSplit

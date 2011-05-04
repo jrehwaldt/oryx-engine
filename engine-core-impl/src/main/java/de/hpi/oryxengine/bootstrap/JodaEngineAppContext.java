@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContextAware;
  * 
  * Found here: http://sujitpal.blogspot.com/2007/03/accessing-spring-beans-from-legacy-code.html
  */
-public class OryxEngineAppContext implements ApplicationContextAware {
+public class JodaEngineAppContext implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 

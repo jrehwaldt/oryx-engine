@@ -6,7 +6,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.allocation.TaskDistribution;
-import de.hpi.oryxengine.bootstrap.OryxEngineAppContext;
+import de.hpi.oryxengine.bootstrap.JodaEngineAppContext;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.navigator.Navigator;
 
@@ -22,7 +22,7 @@ public final class ServiceFactory {
      */
     protected static @Nonnull WorklistManager getWorklistManagerInstance() {
 
-        return (WorklistManager) OryxEngineAppContext.getBean("worklistService");
+        return (WorklistManager) JodaEngineAppContext.getBean("worklistService");
     }
 
     /**
@@ -62,7 +62,7 @@ public final class ServiceFactory {
      */
     public static @Nonnull IdentityService getIdentityService() {
 
-        return (IdentityService) OryxEngineAppContext.getBean("identityService");
+        return (IdentityService) JodaEngineAppContext.getBean("identityService");
     }
 
     /**
@@ -72,7 +72,7 @@ public final class ServiceFactory {
      */
     public static @Nonnull Navigator getNavigatorService() {
 
-        return (Navigator) OryxEngineAppContext.getBean("navigatorService");
+        return (Navigator) JodaEngineAppContext.getBean("navigatorService");
     }
 
     /**
@@ -82,7 +82,7 @@ public final class ServiceFactory {
      */
     public static @Nonnull RepositoryService getRepositoryService() {
 
-        return (RepositoryService) OryxEngineAppContext.getBean("repositoryService");
+        return (RepositoryService) JodaEngineAppContext.getBean("repositoryService");
     }
 
     /**
@@ -93,7 +93,7 @@ public final class ServiceFactory {
      */
     public static @Nonnull CorrelationManager getCorrelationService() {
 
-        return (CorrelationManager) OryxEngineAppContext.getBean("correlationService");
+        return (CorrelationManager) JodaEngineAppContext.getBean("correlationService");
     }
     
     /**
@@ -102,7 +102,7 @@ public final class ServiceFactory {
      * @return the object mapper
      */
     public static @Nonnull ObjectMapper getJsonMapper() {
-        return (ObjectMapper) OryxEngineAppContext.getBean("jsonMapper");
+        return (ObjectMapper) JodaEngineAppContext.getBean("jsonMapper");
     }
 
     /**

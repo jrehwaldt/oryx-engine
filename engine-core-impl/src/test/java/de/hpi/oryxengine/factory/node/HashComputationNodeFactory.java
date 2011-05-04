@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.factory.node;
 
-import de.hpi.oryxengine.node.activity.fun.HashComputationActivity;
+import de.hpi.oryxengine.node.activity.custom.HashComputationActivity;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 
 /**

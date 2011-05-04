@@ -16,7 +16,7 @@ import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
-import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
+import de.hpi.oryxengine.factory.node.SimpleNodeFactory;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
@@ -85,9 +85,9 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
         Class<?>[] constructorSig = {Task.class};
         Object[] params = {task};
         ActivityBlueprint bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
-        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(bp);
+        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(bp);
 
-        endNode = GerardoNodeFactory.createSimpleNodeWith(new ActivityBlueprintImpl(BpmnEndActivity.class));
+        endNode = SimpleNodeFactory.createSimpleNodeWith(new ActivityBlueprintImpl(BpmnEndActivity.class));
 
         humanTaskNode.transitionTo(endNode);
 

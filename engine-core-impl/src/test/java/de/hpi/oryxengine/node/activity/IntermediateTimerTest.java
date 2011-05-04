@@ -17,7 +17,7 @@ import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.factory.TransitionFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleAssurancePlugin;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
@@ -119,12 +119,12 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
 
       Navigator nav = new NavigatorImplMock();
 
-      node = BpmnFunNodeFactory.createBpmnNullNode(builder);
+      node = BpmnCustomNodeFactory.createBpmnNullNode(builder);
       
       // Building the IntermediateTimer
       node2 = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(builder, WAITING_TIME);
       
-      node3 = BpmnFunNodeFactory.createBpmnNullNode(builder);
+      node3 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
       
       TransitionFactory.createTransitionFromTo(builder, node, node2);
       TransitionFactory.createTransitionFromTo(builder, node2, node3);
