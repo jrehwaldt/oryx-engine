@@ -24,6 +24,6 @@ public class ResourceNotAvailableMapper implements ExceptionMapper<ResourceNotAv
     @Override
     public Response toResponse(@Nonnull ResourceNotAvailableException exception) {
         logger.error("Failed fetching the resource");
-        return Response.status(Status.NOT_FOUND).build();
+        return Response.status(Status.NOT_FOUND).entity(exception.getMessage()).build();
     }
 }
