@@ -75,27 +75,6 @@ public final class WorklistWebService {
     }
 
     /**
-     * Creates a demo participant with a work item.
-     * 
-     * @return ID of the created participant
-     */
-    @Path("/demo")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String demoParticipant() {
-
-        IdentityBuilder builder = this.identity.getIdentityBuilder();
-        AbstractParticipant thomas = builder.createParticipant("Thomas Strunz");
-
-        Task task = new TaskImpl("Kaffee holen", "Bohnenkaffee", null, thomas);
-        Token token = new TokenImpl(null);
-        AbstractWorklistItem item = new WorklistItemImpl(task, token);
-        thomas.getWorklist().addWorklistItem(item);
-
-        return thomas.getID().toString();
-    }
-
-    /**
      * Gets the worklist items for a given resource (defined by a uuid which is a String and needs to be converted).
      * 
      * @param id
