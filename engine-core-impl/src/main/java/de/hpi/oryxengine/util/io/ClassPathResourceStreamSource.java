@@ -2,7 +2,7 @@ package de.hpi.oryxengine.util.io;
 
 import java.io.InputStream;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.util.ReflectionUtil;
 
 /**
@@ -47,7 +47,7 @@ public class ClassPathResourceStreamSource implements StreamSource {
 
         if (inputStream == null) {
             String errorMessage = "The resource '" + resource + "' does not exist.";
-            throw new DalmatinaRuntimeException(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         }
 
         return inputStream;

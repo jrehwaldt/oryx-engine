@@ -8,7 +8,7 @@ import java.io.InputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 
 /**
  * A stream source for input via a {@link File}. Provides a wrapper for transparent access.
@@ -28,7 +28,7 @@ public class FileStreamSource implements StreamSource {
         if (!file.exists()) {
             String errorMessage = "The file '" + file.getPath() + "' is not a file or does not exist.";
             logger.error(errorMessage);
-            throw new DalmatinaRuntimeException(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         }
             
         this.file = file;
@@ -66,7 +66,7 @@ public class FileStreamSource implements StreamSource {
 
             String errorMessage = "The file '" + getName() + "' is not a file or does not exist.";
             logger.error(errorMessage, e);
-            throw new DalmatinaRuntimeException(errorMessage, e);
+            throw new JodaEngineRuntimeException(errorMessage, e);
         }
     }
 }

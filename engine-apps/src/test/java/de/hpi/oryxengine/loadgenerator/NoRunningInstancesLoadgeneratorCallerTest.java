@@ -5,14 +5,11 @@ import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.NoRunningInstancesLoadgeneratorCaller;
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
@@ -29,9 +26,7 @@ import de.hpi.oryxengine.repository.RepositorySetup;
  * Tests the SchedulerEmptyListener Plugin, that invokes a method on a loadgenerator when the queue of the Scheduler is.
  * empty
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractTestNGSpringContextTests {
+public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngineTest {
 
     private NavigatorImpl nav = null;
 

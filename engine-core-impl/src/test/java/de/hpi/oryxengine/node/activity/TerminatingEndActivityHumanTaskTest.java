@@ -16,10 +16,10 @@ import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -123,7 +123,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-        splitNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
+        splitNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
         // param.setActivity(humanTask); TODO do something with the parameter of humanTask
         humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);

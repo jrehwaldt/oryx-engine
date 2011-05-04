@@ -13,7 +13,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
 
@@ -119,12 +119,12 @@ public class WorklistItemImpl extends AbstractWorklistItem {
      * @param worklistItem
      *            - a {@link AbstractWorklistItem} object
      * @return worklistItemImpl - the casted {@link WorklistItemImpl} object
-     *             - an {@link DalmatinaRuntimeException} if the provided Parameter is null
+     *             - an {@link JodaEngineRuntimeException} if the provided Parameter is null
      */
     public static WorklistItemImpl asWorklistItemImpl(AbstractWorklistItem worklistItem) {
 
         if (worklistItem == null) {
-            throw new DalmatinaRuntimeException("The WorklistItem parameter is null.");
+            throw new JodaEngineRuntimeException("The WorklistItem parameter is null.");
         }
         WorklistItemImpl worklistItemImpl = (WorklistItemImpl) worklistItem;
 

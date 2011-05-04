@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.token.Token;
@@ -50,7 +50,7 @@ public class CheckVariableTrueCondition implements Condition {
             String errorMessage = "The processVariable corresponding to the ID '" + processVariableID
                 + "' cannnot be casted to a Boolean Type.";
             logger.error(errorMessage, classCastException);
-            new DalmatinaRuntimeException(errorMessage, classCastException);
+            new JodaEngineRuntimeException(errorMessage, classCastException);
         }
 
         return returnBooleanValue;

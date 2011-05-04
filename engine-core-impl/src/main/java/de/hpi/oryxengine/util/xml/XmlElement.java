@@ -9,7 +9,7 @@ import java.util.Set;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 
 /**
  * Represents one XML element. * 
@@ -94,7 +94,7 @@ public class XmlElement {
             return null;
         } else if (elements.size() > 1) {
             String errorMessage = "Parsing exception: multiple elements with tag name " + tagName + " found.";
-            throw new DalmatinaRuntimeException(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         }
         return elements.get(0);
     }

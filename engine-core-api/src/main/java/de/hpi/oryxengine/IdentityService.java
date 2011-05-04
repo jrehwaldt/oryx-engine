@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import de.hpi.oryxengine.exception.InvalidWorkItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.resource.AbstractOrganizationUnit;
 import de.hpi.oryxengine.resource.AbstractParticipant;

@@ -5,9 +5,6 @@ import static org.testng.Assert.assertEquals;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,8 +17,6 @@ import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 /**
  * Tests the EcampleProcessDeplyoer class. {@inheritDoc}
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());

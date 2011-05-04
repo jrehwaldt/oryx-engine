@@ -6,7 +6,7 @@ import org.testng.Assert;
 
 import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnStartEvent;
-import de.hpi.oryxengine.node.activity.fun.AutomatedDummyActivity;
+import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
 

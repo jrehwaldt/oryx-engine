@@ -8,12 +8,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import de.hpi.oryxengine.Service;
 
 /**
- * The {@link OryxEngine} class is responsible for the initialization of the whole applicaiton. Therefore we use the
+ * The {@link JodaEngine} class is responsible for the initialization of the whole applicaiton. Therefore we use the
  * "Inversion of Control" pattern provided by the Spring.net Framework.
  */
-public final class OryxEngine {
+public final class JodaEngine {
 
-    public static final String DEFAULT_SPRING_CONFIG_FILE = "oryxengine.cfg.xml";
+    public static final String DEFAULT_SPRING_CONFIG_FILE = "jodaengine.cfg.xml";
 
     /**
      * Starts the engine using the default dependency injection file (oryxengine.cfg.xml).
@@ -35,7 +35,7 @@ public final class OryxEngine {
         initializeApplicationContext(configurationFile);
 
         // Extracting all Service Beans
-        Map<String, Service> serviceTable = OryxEngineAppContext.getAppContext().getBeansOfType(Service.class);
+        Map<String, Service> serviceTable = JodaEngineAppContext.getAppContext().getBeansOfType(Service.class);
 
         if (serviceTable != null) {
 
@@ -49,7 +49,7 @@ public final class OryxEngine {
     }
 
     /**
-     * Initializes the {@link ApplicationContext} of the {@link OryxEngine}.
+     * Initializes the {@link ApplicationContext} of the {@link JodaEngine}.
      * 
      * @param configurationFile
      *            - file where the dependencies are defined
@@ -60,12 +60,12 @@ public final class OryxEngine {
     }
 
     /**
-     * Stops the {@link OryxEngine}.
+     * Stops the {@link JodaEngine}.
      */
     public static void shutdown() {
 
      // Extracting all Service Beans
-        Map<String, Service> serviceTable = OryxEngineAppContext.getAppContext().getBeansOfType(Service.class);
+        Map<String, Service> serviceTable = JodaEngineAppContext.getAppContext().getBeansOfType(Service.class);
 
         if (serviceTable != null) {
 
@@ -81,5 +81,5 @@ public final class OryxEngine {
     /**
      * Hidden Constructor.
      */
-    private OryxEngine() { }
+    private JodaEngine() { }
 }

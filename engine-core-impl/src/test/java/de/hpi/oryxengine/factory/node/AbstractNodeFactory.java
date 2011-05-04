@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.factory.node;
 
-import de.hpi.oryxengine.node.activity.fun.PrintingVariableActivity;
+import de.hpi.oryxengine.node.activity.custom.PrintingVariableActivity;
 import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
 import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;

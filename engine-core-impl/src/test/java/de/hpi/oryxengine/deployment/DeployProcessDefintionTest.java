@@ -2,9 +2,6 @@ package de.hpi.oryxengine.deployment;
 
 import java.util.UUID;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -13,8 +10,8 @@ import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.factory.definition.ProcessDefinitionFactory;
 import de.hpi.oryxengine.factory.definition.SimpleProcessDefinitionFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -22,8 +19,6 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 /**
  * Test class for deploying a {@link ProcessDefinition}.
  */
-@ContextConfiguration(locations = "/test.oryxengine.cfg.xml")
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class DeployProcessDefintionTest extends AbstractJodaEngineTest {
 
     private DeploymentBuilder deploymentBuilder = null;
@@ -60,7 +55,7 @@ public class DeployProcessDefintionTest extends AbstractJodaEngineTest {
      * 
      * @throws DefinitionNotFoundException
      */
-    @Test(expectedExceptions = DalmatinaRuntimeException.class)
+    @Test(expectedExceptions = JodaEngineRuntimeException.class)
     public void testDuplicateDeployment() {
 
         deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));

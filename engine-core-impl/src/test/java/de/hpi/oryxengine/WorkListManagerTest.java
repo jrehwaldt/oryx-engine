@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.bootstrap.OryxEngine;
+import de.hpi.oryxengine.bootstrap.JodaEngine;
 import de.hpi.oryxengine.exception.InvalidWorkItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
@@ -42,7 +42,7 @@ public class WorkListManagerTest {
     @BeforeMethod
     public void createParticipantAndTaskAndInitialize() {
      // We need to start the engine in order to start the WorklistManager who then gets the identityService
-        OryxEngine.start();
+        JodaEngine.start();
         task = TaskFactory.createJannikServesGerardoTask();
         TokenImpl token = mock(TokenImpl.class);
         ServiceFactory.getTaskDistribution().distribute(task, token);

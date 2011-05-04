@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
  * 
  * @author Jan Rehwaldt
  */
-public final class EngineInitializationFailedException extends DalmatinaRuntimeException {
+public final class EngineInitializationFailedException extends JodaEngineRuntimeException {
     private static final long serialVersionUID = 6061861852349667735L;
     
     /**

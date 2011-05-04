@@ -16,7 +16,7 @@ import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
-import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
+import de.hpi.oryxengine.factory.node.SimpleNodeFactory;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
@@ -30,8 +30,6 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
-import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.RolePushPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
@@ -85,9 +83,9 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
         Class<?>[] constructorSig = {Task.class};
         Object[] params = {task};
         ActivityBlueprint bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
-        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(bp);
+        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(bp);
 
-        endNode = GerardoNodeFactory.createSimpleNodeWith(new ActivityBlueprintImpl(BpmnEndActivity.class));
+        endNode = SimpleNodeFactory.createSimpleNodeWith(new ActivityBlueprintImpl(BpmnEndActivity.class));
 
         humanTaskNode.transitionTo(endNode);
 

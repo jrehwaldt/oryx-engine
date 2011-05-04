@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.RepositoryServiceImpl;
 import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -99,7 +99,7 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
         // Checking if the ProcessDefintion already exists in the Repository
         if (repositoryServiceImpl.containsProcessDefinition(processDefinition.getID())) {
             String errorMessage = "The ProcessDefinition is already deployed.";
-            throw new DalmatinaRuntimeException(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         }
 
         repositoryServiceImpl.getProcessDefinitionsTable().put(processDefinition.getID(), processDefinition);
@@ -112,7 +112,7 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
         // Checking if the ProcessArtifact already exists in the Repository
         if (repositoryServiceImpl.containsProcessDefinition(processArtifact.getID())) {
             String errorMessage = "The ProcessDefinition is already deployed.";
-            throw new DalmatinaRuntimeException(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         }
 
         repositoryServiceImpl.getProcessArtifactsTable().put(processArtifact.getID(), processArtifact);

@@ -8,7 +8,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.AbstractRole;
 
@@ -72,14 +72,14 @@ public class RoleWorklist extends AbstractDefaultWorklist {
     public void itemIsCompleted(AbstractWorklistItem worklistItem) {
 
         String exceptionMessage = "WorklistItems in a RoleWorklist can be neither executed nor completed.";
-        throw new DalmatinaRuntimeException(exceptionMessage);        
+        throw new JodaEngineRuntimeException(exceptionMessage);        
     }
 
     @Override
     public void itemIsStarted(AbstractWorklistItem worklistItem) {
 
         String exceptionMessage = "WorklistItems in a RoleWorklist can be neither executed nor completed.";
-        throw new DalmatinaRuntimeException(exceptionMessage);        
+        throw new JodaEngineRuntimeException(exceptionMessage);        
     }
 
 }
