@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 
 /**
@@ -113,14 +113,14 @@ public class OrganizationUnit extends AbstractOrganizationUnit {
     throws ResourceNotAvailableException {
 
         if (organizationUnitId == null) {
-            throw new DalmatinaRuntimeException("The OrganizationUnit parameter is null.");
+            throw new JodaEngineRuntimeException("The OrganizationUnit parameter is null.");
         }
 
         OrganizationUnit organizationUnitImpl = (OrganizationUnit) ServiceFactory.getIdentityService()
         .getOrganizationUnit(organizationUnitId);
      
         if (organizationUnitImpl == null) {
-            throw new DalmatinaRuntimeException("There exists no OrganizationUnit with the id " + organizationUnitId
+            throw new JodaEngineRuntimeException("There exists no OrganizationUnit with the id " + organizationUnitId
                 + ".");
         }
         return organizationUnitImpl;

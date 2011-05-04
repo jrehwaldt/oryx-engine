@@ -17,7 +17,7 @@ public class EngineServletListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
 
-        OryxEngine.start();
+        JodaEngine.start();
     }
 
 }

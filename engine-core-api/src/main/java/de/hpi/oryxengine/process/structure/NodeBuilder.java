@@ -2,7 +2,6 @@ package de.hpi.oryxengine.process.structure;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
@@ -61,7 +60,7 @@ public interface NodeBuilder {
      * Builds the {@link Node} and returns it.
      * 
      * @return a configured {@link Node}
-     * @thorws {@link DalmatinaRuntimeException} in case some contraints are not fulfilled.
+     * @thorws {@link JodaEngineRuntimeException} in case some contraints are not fulfilled.
      */
     @Nonnull
     Node buildNode();

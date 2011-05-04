@@ -12,11 +12,11 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.factory.TransitionFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -105,10 +105,10 @@ public class EndActivityTest {
         startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
         
         int[] ints = {1, 1};
-        Node forkNode1 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
+        Node forkNode1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
 
         int[] anotherInts = {2, 2};
-        Node forkNode2 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result2", anotherInts);
+        Node forkNode2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result2", anotherInts);
 
         Node endNode1 = BpmnNodeFactory.createBpmnEndEventNode(builder); 
         Node endNode2 = BpmnNodeFactory.createBpmnEndEventNode(builder);

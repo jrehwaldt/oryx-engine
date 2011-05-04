@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 
 /**
  * A stream source for input via an url access. Provides a wrapper for transparent access.
@@ -25,7 +25,7 @@ public class UrlStreamSource implements StreamSource {
             return url.openStream();
         } catch (IOException e) {
             String errorMessage = "The URL '" + url + "' could not be opened.";
-            throw new DalmatinaRuntimeException(errorMessage, e);
+            throw new JodaEngineRuntimeException(errorMessage, e);
         }
     }
 

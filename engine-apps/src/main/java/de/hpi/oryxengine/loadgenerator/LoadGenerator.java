@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.NoRunningInstancesLoadgeneratorCaller;
-import de.hpi.oryxengine.bootstrap.OryxEngine;
+import de.hpi.oryxengine.bootstrap.JodaEngine;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
@@ -77,7 +77,7 @@ public class LoadGenerator {
     public LoadGenerator(String className, int numberOfRuns, int numberOfThreads) {
 
         // Initialize the service
-        OryxEngine.start();
+        JodaEngine.start();
 
         this.className = PATH_TO_PROCESS_FACTORIES + className;
         this.numberOfRuns = numberOfRuns;
