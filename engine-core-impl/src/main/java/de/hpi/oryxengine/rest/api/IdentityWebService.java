@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -16,6 +17,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import ch.qos.logback.classic.Logger;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
@@ -71,8 +74,8 @@ public final class IdentityWebService {
      * @return the response whether the API call was successful
      */
     @Path("/participants")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @POST
-    @Consumes(MediaType.TEXT_PLAIN)
     public Response createParticipant(String participantName) {
 
         // TODO ask Gerardo, why we need the Impl here/why the Impl has methods that are not specified in the interface.
@@ -81,7 +84,7 @@ public final class IdentityWebService {
         IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
         builder.createParticipant(participantName);
 
-        return Response.ok().build();
+        return Response.ok("Role " + participantName + " was created.").build();
 
     }
 
@@ -133,8 +136,8 @@ public final class IdentityWebService {
      * @return the response whether the API call was successful
      */
     @Path("/roles")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @POST
-    @Consumes(MediaType.TEXT_PLAIN)
     public Response createRole(String roleName) {
 
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
@@ -142,7 +145,7 @@ public final class IdentityWebService {
         IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
         builder.createRole(roleName);
 
-        return Response.ok().build();
+        return Response.ok("Role " + roleName + " was created.").build();
 
     }
 

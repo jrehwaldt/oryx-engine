@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.ws.rs.core.MediaType;
+
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -155,7 +157,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String participantName = "Participant";
         String requestUrl = PARTICIPANT_URL;
 
-        makePOSTRequest(requestUrl, participantName);
+        makeGenericPOSTRequest(requestUrl, participantName, MediaType.APPLICATION_FORM_URLENCODED);
 
         IdentityService identity = ServiceFactory.getIdentityService();
         Set<AbstractParticipant> actualParticipants = identity.getParticipants();
@@ -208,7 +210,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String roleName = "Role";
         String requestUrl = ROLES_URL;
 
-        makePOSTRequest(requestUrl, roleName);
+        makeGenericPOSTRequest(requestUrl, roleName, MediaType.APPLICATION_FORM_URLENCODED);
 
         IdentityService identity = ServiceFactory.getIdentityService();
         Set<AbstractRole> actualRoles = identity.getRoles();

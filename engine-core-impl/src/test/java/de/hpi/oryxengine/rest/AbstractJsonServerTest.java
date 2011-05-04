@@ -103,6 +103,8 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      */
     protected abstract Class<?> getResource();
     
+    // TODO @Thorben: Refactor the request/invoke-structure.
+    
     /**
      * Make a simple get request returning the response.
      *
@@ -182,6 +184,12 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         return invokeSimpleRequest(request);
     }
     
+    protected MockHttpResponse makeGenericPOSTRequest(String url, String content, String contentType) throws URISyntaxException{
+        MockHttpRequest request = MockHttpRequest.post(url);
+        
+        return invokeGenericRequest(request, content, contentType);
+    }
+    
     /**
      * Make a PUT request with JSON content.
      *
@@ -250,6 +258,20 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      */
     private MockHttpResponse invokeSimpleRequest(MockHttpRequest request) {
         MockHttpResponse response = new MockHttpResponse();
+        dispatcher.invoke(request, response);
+        
+        return response;
+    }
+    
+
+    
+    private MockHttpResponse invokeGenericRequest(MockHttpRequest request, String content, String contentType) {
+        MockHttpResponse response = new MockHttpResponse();
+
+        request.contentType(contentType);
+        request.content(content.getBytes());
+        
+        // invoke the request
         dispatcher.invoke(request, response);
         
         return response;
