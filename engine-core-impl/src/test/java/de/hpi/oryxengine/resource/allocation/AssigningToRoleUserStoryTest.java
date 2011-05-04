@@ -30,8 +30,6 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
-import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.RolePushPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;

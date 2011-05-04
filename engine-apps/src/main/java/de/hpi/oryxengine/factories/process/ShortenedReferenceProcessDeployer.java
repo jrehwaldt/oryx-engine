@@ -312,7 +312,6 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         Condition condition5 = new HashMapCondition(map1, "==");
         map2 = new HashMap<String, Object>();
         map2.put("aufrecht", "nein");
-        Condition condition6 = new HashMapCondition(map1, "==");
 
         // XOR Join
         xor4 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);

@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;

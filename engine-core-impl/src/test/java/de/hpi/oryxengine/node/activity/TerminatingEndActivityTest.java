@@ -10,15 +10,15 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;

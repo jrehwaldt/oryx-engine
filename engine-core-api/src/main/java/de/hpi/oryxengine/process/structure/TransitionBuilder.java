@@ -2,7 +2,6 @@ package de.hpi.oryxengine.process.structure;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 
 /**
  * The Interface {@link TransitionBuilder}. The {@link TransitionBuilder} is a comfortable way to construct a

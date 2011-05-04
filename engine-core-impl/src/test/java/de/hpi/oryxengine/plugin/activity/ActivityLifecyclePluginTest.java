@@ -11,7 +11,6 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.exception.JodaEngineException;
-import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.node.activity.ActivityState;
 import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
@@ -24,7 +23,6 @@ import de.hpi.oryxengine.process.token.TokenImpl;
  */
 public class ActivityLifecyclePluginTest {
     
-    private AbstractActivity activity = null;
     private TokenImpl token = null;
     private ArgumentCaptor<ActivityLifecycleChangeEvent> eventCapturer = null;
     
