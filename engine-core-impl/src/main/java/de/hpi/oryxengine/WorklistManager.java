@@ -17,7 +17,7 @@ import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.allocation.TaskDistribution;
-import de.hpi.oryxengine.exception.InvalidItemException;
+import de.hpi.oryxengine.exception.InvalidWorkItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
@@ -76,10 +76,9 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public @Nullable
-    AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
+    public @Nullable AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
                                          @Nonnull UUID worklistItemId)
-    throws InvalidItemException {
+    throws InvalidWorkItemException {
 
         for (final AbstractWorklistItem item : resource.getWorklist()) {
             if (worklistItemId.equals(item.getID())) {
@@ -88,13 +87,13 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         }
         
         //Throw an exception, if the item was not found
-        throw new InvalidItemException();
+        throw new InvalidWorkItemException();
 
     }
 
     @Override
-    public Map<AbstractResource<?>,
-    List<AbstractWorklistItem>> getWorklistItems(Set<? extends AbstractResource<?>> resources) {
+    public Map<AbstractResource<?>, List<AbstractWorklistItem>>
+            getWorklistItems(Set<? extends AbstractResource<?>> resources) {
 
         Map<AbstractResource<?>, List<AbstractWorklistItem>> result = new HashMap<AbstractResource<?>,
                                                                           List<AbstractWorklistItem>>();

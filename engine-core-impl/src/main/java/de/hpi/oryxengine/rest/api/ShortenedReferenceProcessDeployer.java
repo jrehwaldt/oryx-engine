@@ -38,7 +38,9 @@ import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
  * process.
  */
 public final class ShortenedReferenceProcessDeployer {
-
+    
+    // TODO move somewhere else
+    
     // configuration constants
     private static final String JANNIK = "Jannik";
     private static final String TOBI = "Tobi";

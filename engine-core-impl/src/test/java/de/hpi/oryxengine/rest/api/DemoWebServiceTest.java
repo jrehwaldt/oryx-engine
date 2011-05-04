@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
+import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
 
 /**
  * Tests our Demo WebService. It shall not generate data twice and it shall return a sucessful response.
@@ -43,7 +44,7 @@ public class DemoWebServiceTest extends AbstractJsonServerTest {
 
         MockHttpResponse response = makePOSTRequest(DEMO_URL, null);
 
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK);
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode());
         // one process should be defined
         Assert.assertEquals(ServiceFactory.getRepositoryService().getProcessDefinitions().size(),
             1);

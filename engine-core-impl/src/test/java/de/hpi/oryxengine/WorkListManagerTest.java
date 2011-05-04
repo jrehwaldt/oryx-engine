@@ -14,7 +14,7 @@ import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.bootstrap.OryxEngine;
-import de.hpi.oryxengine.exception.InvalidItemException;
+import de.hpi.oryxengine.exception.InvalidWorkItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
@@ -107,10 +107,10 @@ public class WorkListManagerTest {
      * Test the getWorklistItem method, which is heavily used in the webservice.
      * An item is created and then a lookup with the id of the item is done.
      *
-     * @throws InvalidItemException the invalid item exception
+     * @throws InvalidWorkItemException the invalid item exception
      */
     @Test
-    public void testGettingAWorklistItem() throws InvalidItemException {
+    public void testGettingAWorklistItem() throws InvalidWorkItemException {
         AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
         AbstractWorklistItem serviceItem = ServiceFactory.getWorklistService().getWorklistItem(jannik, item.getID());
         Assert.assertEquals(item, serviceItem);
@@ -120,10 +120,10 @@ public class WorkListManagerTest {
      * Test the getWorklistItem method, which is heavily used in the webservice.
      * In this case, we use an invalid item id, so an exception should occur.
      *
-     * @throws InvalidItemException the invalid item exception
+     * @throws InvalidWorkItemException the invalid item exception
      */
-    @Test(expectedExceptions = InvalidItemException.class)
-    public void testGettingAWorklistItemException() throws InvalidItemException {
+    @Test(expectedExceptions = InvalidWorkItemException.class)
+    public void testGettingAWorklistItemException() throws InvalidWorkItemException {
         UUID itemId = UUID.randomUUID();
         ServiceFactory.getWorklistService().getWorklistItem(jannik, itemId);
     }

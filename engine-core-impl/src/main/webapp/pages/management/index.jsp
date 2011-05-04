@@ -35,7 +35,7 @@
 
     <div id="processUpload">
       <h2>Processupload</h2>
-      <form id="xmlUpload" method="post" action="/api/navigator/processdefinitions" accept="application/xml" enctype="multipart/form-data">
+      <form id="xmlUpload" method="post" action="/api/repository/process-definitions/deploy" accept="application/xml" enctype="multipart/form-data">
         <input type="file" name="xmlRepresentation" size="40"/>
         <br/>
         <input type="submit" value="Deploy!"/>

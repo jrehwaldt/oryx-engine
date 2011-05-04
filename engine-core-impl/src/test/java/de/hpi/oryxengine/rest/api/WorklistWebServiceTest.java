@@ -37,16 +37,15 @@ import de.hpi.oryxengine.util.io.StringStreamSource;
  */
 public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
-    private Task task;
-    private AbstractParticipant jannik;
-    private ProcessInstanceContext context;
+    private Task task = null;
+    private AbstractParticipant jannik = null;
+    private ProcessInstanceContext context = null;
 
     @Override
     protected Class<?> getResource() {
-
         return WorklistWebService.class;
     }
-
+    
     /**
      * Sets the users and worklists up.
      */
@@ -118,8 +117,6 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(json, "<form></form>");
     }
     
-    //TODO 2 tests that are failing atm due to thrown errors, instead of returning error pages
-    
     /**
      * Get the form for the worklist item with a false item id. An 404 Error should be returned.
      * 
@@ -127,7 +124,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
      *             the uRI syntax exception
      * @throws IOException
      *             Signals that an I/O exception has occurred.
-     * /
+     */
     @Test
     public void testGetFormWithMissingWorkitem()
     throws URISyntaxException, IOException {
@@ -135,19 +132,20 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         UUID falseID = UUID.randomUUID();
         MockHttpResponse response = makeGETRequest(
             String.format("worklist/items/%s/form?participantId=%s", falseID, jannik.getID()));
+        
         Assert.assertEquals(
-            response.getStatus(), HTTP_STATUS_FAIL,
+            response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(),
             "the result should be a status code 404, that means, the request has failed.");
     }
     
     /**
-     * Get the form for the worklist item with a false participant id. An 404 Error should be returned.
+     * Get the form for the worklist item with a wrong participant id. An 404 Error should be returned.
      * 
      * @throws URISyntaxException
      *             the uRI syntax exception
      * @throws IOException
      *             Signals that an I/O exception has occurred.
-     
+     */
     @Test
     public void testGetFormWithMissingParticipantId()
     throws URISyntaxException, IOException {
@@ -155,14 +153,12 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         UUID falseID = UUID.randomUUID();
         AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
         MockHttpResponse response = makeGETRequest(
-            "/worklist/items/"
-            + item.getID()
-            + "/form?participantId="
-            + falseID);
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL, 
-        "the result should be a status code 404, that means, the request has failed.");
+            String.format("worklist/items/%s/form?participantId=%s", item.getID(), falseID));
+        
+        Assert.assertEquals(
+            response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), 
+            "the result should be a status code 404, that means, the request has failed.");
     }
-*/
     
     /**
      * Posts some example data for a form. The data should then be stored in the process context.
@@ -184,12 +180,8 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         content.put("form2", "yes");
         
         MockHttpResponse response = makePOSTRequest(
-            "/worklist/items/"
-            + item.getID()
-            + "/form?participantId="
-            + jannik.getID(),
-            content);
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK, 
+            String.format("/worklist/items/%s/form?participantId=%s", item.getID(), jannik.getID()), content);
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), 
         "the result should be OK, that means, the request should have suceeded.");
         Assert.assertEquals(context.getVariable("form1"), "checked");
         Assert.assertEquals(context.getVariable("form2"), "yes");

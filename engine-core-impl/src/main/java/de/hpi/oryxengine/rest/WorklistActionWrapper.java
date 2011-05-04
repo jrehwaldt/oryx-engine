@@ -9,7 +9,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-import org.codehaus.jackson.map.ObjectMapper;
+
+import de.hpi.oryxengine.ServiceFactory;
 
 /**
  * The Class WrapperObject.
@@ -79,13 +80,9 @@ public class WorklistActionWrapper {
      */
     public static @Nonnull WorklistActionWrapper valueOf(@Nonnull String json)
     throws IOException {
-        System.out.println("valueOf called");
-        // TODO we do not have access to the ServiceFactory, so we need a new ObjectMapper every time
-        WorklistActionWrapper returnValue = (WorklistActionWrapper) new ObjectMapper().readValue(json, WorklistActionWrapper.class);
-        System.out.println("valueOf returning");
+        WorklistActionWrapper returnValue = ServiceFactory.getJsonMapper().readValue(json, WorklistActionWrapper.class);
         return returnValue;
     }
     
-
 }
 

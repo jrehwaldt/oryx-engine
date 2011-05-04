@@ -128,7 +128,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         MockHttpRequest request;
         MockHttpResponse response;
         for (int i = 0; i < NUMBER_OF_INSTANCES_TO_START; i++) {
-            request = MockHttpRequest.post(String.format("/navigator/processdefinitions/%s/instances",
+            request = MockHttpRequest.post(String.format("/navigator/process-definitions/%s/start",
                 definition.getID()));
             response = new MockHttpResponse();
 
