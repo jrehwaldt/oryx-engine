@@ -1,6 +1,5 @@
 /**
-/*  Enables the button to do his work - start a process instance that is.
-/*  This is called after all the elements and buttons have been added to the DOM.
+*  Enables the button to do his work - start a process instance that is.
 */
 function enableButtonClickHandler() {
     $("button.start").click(function() {
@@ -22,7 +21,7 @@ function enableButtonClickHandler() {
 }
 
 /**
-/* Gets the running instances AJAX-style
+* Gets the running instances AJAX-style
 */
 function getRunningProcessInstances() {
     $.ajax({
@@ -90,6 +89,7 @@ $().ready(function() {
     getProcessDefinitions();
 });
 
+// makes the running instance togglable
 function makeToggle(runningInstance) {
     $("#"+runningInstance.id).click(function(){
         $("#"+runningInstance.id+"-tokenTable").toggle();
@@ -100,6 +100,4 @@ function makeToggle(runningInstance) {
 function out(input) {
     //console.log(input);
 }
-
-//<td> " + instance.assignedTokens[0].currentActivityState + "</td>
 
