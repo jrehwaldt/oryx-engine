@@ -5,7 +5,9 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
+import org.jboss.resteasy.mock.MockHttpResponse;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -245,6 +247,57 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         actualRoles = identity.getRoles();
         Assert.assertEquals(actualRoles.size(), 0, "There should be no role left.");
 
+    }
+    
+    /**
+     * Test the assignment of a participant to an existing role.
+     * @throws URISyntaxException 
+     */
+    @Test
+    public void testParticipantToRoleAssignment() throws URISyntaxException {
+        // Create a role
+        String roleName = "role";
+        String participantName = "participant";
+        
+        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
+
+        IdentityBuilder builder = new IdentityBuilderImpl(identity);
+        AbstractRole role = builder.createRole(roleName);
+        
+        AbstractParticipant participant = builder.createParticipant(participantName);
+        
+        String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
+//        String json = "{participantIDs : []}";
+        String json = "[\""+ participant.getID() +"\"]";
+        MockHttpResponse response = makePOSTRequestWithJson(requestUrl, json);
+        
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), "the result should be ok");
+        
+        Set<AbstractParticipant> assignedParticipants = role.getParticipantsImmutable();
+        Assert.assertEquals(assignedParticipants.size(), 1, "the role has now one participant");
+        
+        AbstractParticipant assignedParticipant = assignedParticipants.iterator().next();
+        Assert.assertEquals(assignedParticipant, participant, "it should be the participant we created");
+    }
+    
+    /**
+     * Tests that an error code is returned, if the role does not exist.
+     * @throws URISyntaxException 
+     */
+    @Test
+    public void testParticipantToNonExistingRoleAssignment() throws URISyntaxException {
+        UUID randomRoleID = UUID.randomUUID();
+        String participantName = "participant";
+        
+        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
+        IdentityBuilder builder = new IdentityBuilderImpl(identity);        
+        AbstractParticipant participant = builder.createParticipant(participantName);
+        
+        String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
+        String json = "[\""+ participant.getID() +"\"]";
+        MockHttpResponse response = makePOSTRequestWithJson(requestUrl, json);
+        
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be a 404");
     }
 
 }

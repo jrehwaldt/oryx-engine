@@ -7,7 +7,7 @@ package de.hpi.oryxengine.exception;
  * @deprecated No one uses it... remove if used.
  */
 @Deprecated
-public class IllegalNavigationException extends DalmatinaException {
+public class IllegalNavigationException extends JodaEngineException {
     private static final long serialVersionUID = -8543624402152145386L;
     
     private static final String DEFAULT_EXCEPTION_MESSAGE = "Please. Don't try to take this way.";

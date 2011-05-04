@@ -101,9 +101,6 @@ public class Role extends AbstractRole {
 
         Role roleImpl = (Role) ServiceFactory.getIdentityService().getRole(roleId);
         
-        if (roleImpl == null) {
-            throw new DalmatinaRuntimeException("There exists no Role with the id " + roleId + ".");
-        }
         return roleImpl;
     }
 }
