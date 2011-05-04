@@ -1,13 +1,16 @@
 package de.hpi.oryxengine.rest.api;
 
 import java.util.Set;
+import java.util.UUID;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
@@ -66,12 +69,28 @@ public final class IdentityWebService {
     @Consumes("text/plain")
     public void createParticipant(String participantName) {
         // TODO ask Gerardo, why we need the Impl here/why the Impl has methods that are not specified in the interface.
-        logger.debug("Creating participant called {}", participantName);
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
         
         IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
         builder.createParticipant(participantName);
     
+        
+    }
+    
+    /**
+     * Deletes a participant with the given id.
+     * @throws Exception 
+     */
+    @Path("/participants")
+    @DELETE
+    public void deleteParticipant(@QueryParam("participant-id") String id) throws Exception {
+        // TODO write an Exception-Provider
+        logger.debug("deleteParticipant called");
+        IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
+        
+        IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
+        UUID participantID = UUID.fromString(id);
+        builder.deleteParticipant(participantID);    
         
     }
     

@@ -3,20 +3,20 @@ package de.hpi.oryxengine.rest.api;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityService;
+import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
+import de.hpi.oryxengine.resource.IdentityBuilderImpl;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 
 /**
@@ -141,15 +141,15 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
     /**
      * Tests the participant creation via the REST API.
-     * 
-     * @throws URISyntaxException
+     *
+     * @throws URISyntaxException the uRI syntax exception
      */
     @Test
     public void testParticipantCreation()
     throws URISyntaxException {
 
         String participantName = "Participant";
-        String requestUrl = PARTICIPANT_URL + "?name=" + participantName;
+        String requestUrl = PARTICIPANT_URL;
 
         makePOSTRequest(requestUrl, participantName);
 
@@ -159,6 +159,33 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         AbstractParticipant createdParticipant = actualParticipants.iterator().next();
         Assert.assertEquals(createdParticipant.getName(), participantName,
             "The newly created participant should have the desired name.");
+    }
+    
+    /**
+     * Tests the participant deletion via the REST API.
+     *
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    @Test
+    public void testParticipantDeletion() throws URISyntaxException {
+        String participantName = "Participant";        
+
+        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
+                
+        IdentityBuilder builder = new IdentityBuilderImpl(identity);
+        AbstractParticipant participant = builder.createParticipant(participantName);
+        
+        Set<AbstractParticipant> actualParticipants = identity.getParticipants();
+        Assert.assertEquals(actualParticipants.size(), 1, "Assure that the participant has been created sucessfully.");
+        
+        String requestUrl = PARTICIPANT_URL + "?participant-id=" + participant.getID();
+                
+        makeDELETERequest(requestUrl);
+      
+        // we need to redo the call here, as the getParticipants()-method always returns a new set.
+        actualParticipants = identity.getParticipants();
+        Assert.assertEquals(actualParticipants.size(), 0, "There should be no participant left.");
+        
     }
 
 }

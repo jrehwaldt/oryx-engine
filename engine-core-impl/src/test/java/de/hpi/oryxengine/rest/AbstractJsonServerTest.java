@@ -114,7 +114,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         // set up our request
         MockHttpRequest request = MockHttpRequest.get(url);
         
-        return invokeFormRequest(request, null);
+        return invokeSimpleRequest(request);
     }
     
     /**
@@ -138,9 +138,9 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      */
     protected String makeDELETERequest(String url) throws URISyntaxException {
         // set up our request
-        MockHttpRequest request = MockHttpRequest.get(url);
+        MockHttpRequest request = MockHttpRequest.delete(url);
         
-        return invokeFormRequest(request, null).getContentAsString();
+        return invokeSimpleRequest(request).getContentAsString();
     }
     
     /**
@@ -186,7 +186,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         request.contentType(MediaType.APPLICATION_JSON);
         request.content(json.getBytes());
         
-        return invokeFormRequest(request, null);
+        return invokeSimpleRequest(request);
     }
     
     /**
@@ -228,6 +228,19 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         request.content(content.getBytes());
         
         // invoke the request
+        dispatcher.invoke(request, response);
+        
+        return response;
+    }
+    
+    /**
+     * Invokes a mock request without any form content or plain text content, etc.
+     *
+     * @param request the request
+     * @return the mock http response
+     */
+    private MockHttpResponse invokeSimpleRequest(MockHttpRequest request) {
+        MockHttpResponse response = new MockHttpResponse();
         dispatcher.invoke(request, response);
         
         return response;
