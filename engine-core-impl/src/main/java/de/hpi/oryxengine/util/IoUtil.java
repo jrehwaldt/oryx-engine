@@ -25,7 +25,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URL;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 
 /**
  * Some IO-Utilities.
@@ -54,7 +54,7 @@ public final class IoUtil {
         } catch (Exception e) {
             String errorMessage = "The file '" + file + "' could not be read. The following error occured: "
                 + e.getMessage();
-            throw new DalmatinaRuntimeException(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         } finally {
             IoUtil.closeSilently(inputStream);
         }
@@ -70,7 +70,7 @@ public final class IoUtil {
         } catch (Exception e) {
             String errorMessage = "Couldn't get file '" + filePath + "'. The following error occurred: "
                 + e.getMessage();
-            throw new DalmatinaRuntimeException(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         }
     }
 

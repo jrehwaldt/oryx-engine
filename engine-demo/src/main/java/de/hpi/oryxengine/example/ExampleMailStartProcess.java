@@ -18,7 +18,7 @@ import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.correlation.registration.StartEventImpl;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
@@ -110,7 +110,7 @@ public final class ExampleMailStartProcess {
 
 		try {
 			builder.createStartTrigger(event, node1);
-		} catch (DalmatinaRuntimeException e) {
+		} catch (JodaEngineRuntimeException e) {
 			
 			LOGGER.error(e.getMessage(), e);
 		}

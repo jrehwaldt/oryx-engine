@@ -6,7 +6,7 @@ import java.net.URL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 
 /**
  * This utility class offers methods for reflection mechanisms, and things like instantiating a class when given the
@@ -115,7 +115,7 @@ public final class ReflectionUtil {
         } catch (Exception e) {
             String errorMessage = "Class " + className + " could not be instantiated.";
             logger.error(errorMessage, e);
-            throw new DalmatinaRuntimeException(errorMessage, e);
+            throw new JodaEngineRuntimeException(errorMessage, e);
         }
     }
 

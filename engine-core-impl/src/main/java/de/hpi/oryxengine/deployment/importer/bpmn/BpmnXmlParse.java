@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.node.activity.fun.AutomatedDummyActivity;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
@@ -71,7 +71,7 @@ public class BpmnXmlParse extends XmlParse {
         if (finishedProcessDefinition == null) {
 
             String errorMessage = "Building the ProcessDefinition does not finish.";
-            throw new DalmatinaRuntimeException(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         }
 
         return this.finishedProcessDefinition;
@@ -87,7 +87,7 @@ public class BpmnXmlParse extends XmlParse {
             // Here we start parsing the process model and creating the ProcessDefintion
             parseRootElement();
 
-        } catch (DalmatinaRuntimeException dalmatinaRuntimeException) {
+        } catch (JodaEngineRuntimeException dalmatinaRuntimeException) {
             throw dalmatinaRuntimeException;
         } catch (Exception e) {
 
@@ -126,11 +126,11 @@ public class BpmnXmlParse extends XmlParse {
 
         if (processes.size() == 0) {
             String errorMessage = "No process have been defined in the BPMN serialized XMl file.";
-            throw new DalmatinaRuntimeException(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         }
         if (processes.size() > 1) {
             String errorMessage = "Joda Engine cannot read more than one process in a BPMN serialized XMl file.";
-            throw new DalmatinaRuntimeException(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         }
 
         parseProcess(processes.get(0));

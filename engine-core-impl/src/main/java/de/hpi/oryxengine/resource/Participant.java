@@ -11,7 +11,7 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
@@ -142,13 +142,13 @@ public class Participant extends AbstractParticipant {
     public static Participant asParticipantImpl(UUID participantID) throws ResourceNotAvailableException {
 
         if (participantID == null) {
-            throw new DalmatinaRuntimeException("The Participant parameter is null.");
+            throw new JodaEngineRuntimeException("The Participant parameter is null.");
         }
 
         Participant participantImpl = (Participant) ServiceFactory.getIdentityService().getParticipant(participantID);
 
         if (participantImpl == null) {
-            throw new DalmatinaRuntimeException("There exists no Participant with the id " + participantID + ".");
+            throw new JodaEngineRuntimeException("There exists no Participant with the id " + participantID + ".");
         }
         return participantImpl;
     }

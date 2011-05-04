@@ -6,14 +6,14 @@ import javax.annotation.Nullable;
 /**
  * General engine runtime exception superclass.
  */
-public class DalmatinaRuntimeException extends RuntimeException {
+public class JodaEngineRuntimeException extends RuntimeException {
 
     private static final long serialVersionUID = -9013077025674998578L;
 
     /**
      * Default constructor.
      */
-    public DalmatinaRuntimeException() {
+    public JodaEngineRuntimeException() {
 
         super();
     }
@@ -24,7 +24,7 @@ public class DalmatinaRuntimeException extends RuntimeException {
      * @param message
      *            the error message
      */
-    public DalmatinaRuntimeException(@Nonnull String message) {
+    public JodaEngineRuntimeException(@Nonnull String message) {
 
         this(message, null);
     }
@@ -37,7 +37,7 @@ public class DalmatinaRuntimeException extends RuntimeException {
      * @param exception
      *            the underlying exception
      */
-    public DalmatinaRuntimeException(@Nonnull String message, @Nullable Throwable exception) {
+    public JodaEngineRuntimeException(@Nonnull String message, @Nullable Throwable exception) {
 
         super(message, exception);
     }

@@ -3,7 +3,7 @@ package de.hpi.oryxengine.process.structure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
@@ -73,7 +73,7 @@ public class TransitionBuilderImpl implements TransitionBuilder {
                 + "Perform setActivityBlueprintFor(...) before.";
 
             logger.error(errorMessage);
-            throw new DalmatinaRuntimeException(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         }
     }
 }
