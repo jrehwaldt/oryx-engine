@@ -159,7 +159,7 @@ function getWorklistItems() {
     });
 }
 
-// at the beginning get all worklist items
+// At the beginning get all worklist items
 $().ready(function(){
     getWorklistItems();
 })

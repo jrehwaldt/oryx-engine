@@ -14,7 +14,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.node.SimpleNodeFactory;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
@@ -107,11 +107,11 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
     /**
      * Test receive work item.
      * 
-     * @throws DalmatinaException test fails
+     * @throws JodaEngineException test fails
      */
     @Test
     public void testHamburgGuysReceiveWorkItem()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         token.executeStep();
 
@@ -145,11 +145,11 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
     /**
      * Test work item claim.
      * 
-     * @throws DalmatinaException test fails
+     * @throws JodaEngineException test fails
      */
     @Test
     public void testJannikClaimsWorklistItem()
-    throws DalmatinaException {
+    throws JodaEngineException {
      
         token.executeStep();
         
@@ -174,11 +174,11 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
     /**
      * Test that Jannik begins the work on the work item.
      * 
-     * @throws DalmatinaException test fails
+     * @throws JodaEngineException test fails
      */
     @Test
     public void testJannikBeginsWorklistItem()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         token.executeStep();
         
@@ -195,11 +195,11 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
     /**
      * Test the case that Jannik completes the work item.
      * 
-     * @throws DalmatinaException test fails
+     * @throws JodaEngineException test fails
      */
     @Test
     public void testJannikCompletesTheWorkItem()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         token.executeStep();
         
@@ -223,11 +223,11 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
     /**
      * Test work item resume.
      * 
-     * @throws DalmatinaException test fails
+     * @throws JodaEngineException test fails
      */
     @Test
     public void testResumptionOfProcess()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         token.executeStep();
         

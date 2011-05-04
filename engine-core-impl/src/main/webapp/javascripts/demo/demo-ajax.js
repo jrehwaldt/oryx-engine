@@ -1,18 +1,5 @@
-$().ready(function() {
-
-    // the loginbutton checks which participant is selected and then stores this data and changes the site
-    $("#loginButton").click(function(){
-
-        var uuid = $('#loginBox option:selected').attr('value');
-        var name = $('#loginBox option:selected').html();
-        $.Storage.set("participantUUID", uuid);
-        $.Storage.set("participantName", name);
-        // redirect
-        $(location).attr('href', 'worklist/');
-
-    });
-
-    // GETs all the participants
+// Gets all Participants that the engine knows.
+function getAllParticipants() {
     $.ajax({
         type: 'GET',
         url: 'api/identity/participants',
@@ -28,5 +15,23 @@ $().ready(function() {
         },
         dataType: "json" // we expect json
     });
+}
+
+// the loginbutton checks which participant is selected and then stores this data using the jQuery storage plugin and changes the site
+function assignLoginButtonFunctionality() {
+    $("#loginButton").click(function(){
+        var participantUUID = $('#loginBox option:selected').attr('value');
+        var participantName = $('#loginBox option:selected').html();
+        $.Storage.set("participantUUID", participantUUID);
+        $.Storage.set("participantName", participantName);
+        // redirect the usert to the worklist so he may start working
+        $(location).attr('href', '/worklist/');
+    });
+}
+
+
+$().ready(function() {
+    getAllParticipants();
+    assignLoginButtonFunctionality();
 });
 

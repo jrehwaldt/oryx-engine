@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.timing.TimingManager;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.factory.TransitionFactory;
@@ -144,11 +144,11 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
   /**
    * Test the cancellation of the timer. After the timer is canceled the token should not move on.
    *
-   * @throws DalmatinaException the dalmatina exception
+   * @throws JodaEngineException the dalmatina exception
    * @throws InterruptedException the interrupted exception
    */
   @Test
-  public void testCancelNode() throws DalmatinaException, InterruptedException {
+  public void testCancelNode() throws JodaEngineException, InterruptedException {
       token.executeStep();
       token.executeStep();
       
@@ -165,11 +165,11 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
    * Test the cancellation of the process with the timer.
    * After the process is canceled there should be not scheduled jobs in the quartz.
    *
-   * @throws DalmatinaException the dalmatina exception
+   * @throws JodaEngineException the dalmatina exception
    * @throws InterruptedException the interrupted exception
    */
   @Test
-  public void testCancelProcess() throws DalmatinaException, InterruptedException {
+  public void testCancelProcess() throws JodaEngineException, InterruptedException {
       
       
       int jobGroups;

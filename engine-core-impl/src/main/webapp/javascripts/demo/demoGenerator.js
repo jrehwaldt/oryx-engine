@@ -9,7 +9,7 @@ $().ready(function() {
 		$(location).attr('href', '/')
 	});
 
-	// This Ajax request deploys the reference process.
+    // AJAX request for generating the reference process data and participants
 	$('#referenceGenerate').click(function() {
 		$.ajax({
 			type : 'POST',
@@ -29,3 +29,4 @@ $().ready(function() {
 		$(location).attr('href', '/management/')
 	});
 });
+

@@ -11,7 +11,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.NullActivity;
@@ -47,12 +47,12 @@ public class LoopProcessTest {
     /**
      * Test the example loopProcess. It should execute several RUNTIMES and then end.
      * 
-     * @throws DalmatinaException
+     * @throws JodaEngineException
      *             the dalmatina exception
      */
     @Test
     public void testLoop()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         assertEquals(token.getCurrentNode(), start);
         token.executeStep();

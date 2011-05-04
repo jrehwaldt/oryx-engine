@@ -10,7 +10,7 @@ import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
@@ -46,10 +46,10 @@ public class TokenPluginTest {
   /**
    * Test the deregistration of the plugin.
    *
-   * @throws DalmatinaException the dalmatina exception
+   * @throws JodaEngineException the dalmatina exception
    */
   @Test
-  public void testDeregistration() throws DalmatinaException {
+  public void testDeregistration() throws JodaEngineException {
       token.deregisterPlugin(mock);
       token.executeStep();
       verify(mock, never()).update(eq(this.token), this.eventCapturer.capture());
@@ -58,10 +58,10 @@ public class TokenPluginTest {
   /**
    * Tests that new tokens that are created by this token receive the same plugins the creator has.
    *
-   * @throws DalmatinaException the dalmatina exception
+   * @throws JodaEngineException the dalmatina exception
    */
   @Test
-  public void testPluginRegistrationInheritance() throws DalmatinaException {
+  public void testPluginRegistrationInheritance() throws JodaEngineException {
       TokenImpl newToken = (TokenImpl) token.createNewToken(token.getCurrentNode());
       newToken.executeStep();
       verify(mock, times(2)).update(eq(newToken), this.eventCapturer.capture());
@@ -70,10 +70,10 @@ public class TokenPluginTest {
   /**
    * Tests that newly created tokens do not receive plugins that were deregistered before.
    *
-   * @throws DalmatinaException the dalmatina exception
+   * @throws JodaEngineException the dalmatina exception
    */
   @Test
-  public void testPluginDeregistrationInheritance() throws DalmatinaException {
+  public void testPluginDeregistrationInheritance() throws JodaEngineException {
       token.deregisterPlugin(mock);
       TokenImpl newToken = (TokenImpl) token.createNewToken(token.getCurrentNode());
       newToken.executeStep();

@@ -159,16 +159,19 @@ public class IdentityServiceImpl implements IdentityService, Service {
 
         AbstractParticipant participant = getParticipantImpls().get(id);
         if (participant == null) {
-            throw new ResourceNotAvailableException();
+            throw new ResourceNotAvailableException(AbstractParticipant.class, id);
         }
         return participant;
 //        return find(getParticipants(), id);
     }
 
     @Override
-    public @Nullable AbstractRole getRole(@Nonnull UUID id) {
+    public @Nullable AbstractRole getRole(@Nonnull UUID id) throws ResourceNotAvailableException {
 
-        return getRoleImpls().get(id);
-        //        return find(getRoleImpls(), id);
+        Role roleToReturn = getRoleImpls().get(id);
+        if (roleToReturn == null) {
+            throw new ResourceNotAvailableException(AbstractRole.class, id);
+        }
+        return roleToReturn;
     }
 }

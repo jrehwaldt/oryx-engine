@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
  * @author Jan Rehwaldt
  */
 public class AdapterSchedulingException
-extends DalmatinaException {
+extends JodaEngineException {
     private static final long serialVersionUID = 1357635984944880234L;
     
     private static final String DEFAULT_EXCEPTION_MESSAGE = "Unable to schedule the pulling adapter.";

@@ -10,7 +10,7 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
@@ -33,7 +33,7 @@ public class TerminatingEndActivityTest {
 
     @Test
     public void testingTerminatingEndActivity()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         NavigatorImplMock nav = new NavigatorImplMock();
         AbstractProcessInstance instance = new ProcessInstanceImpl(definition);

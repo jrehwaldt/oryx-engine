@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 /**
  * The Class DefinitionNotFoundException.
  */
-public class DefinitionNotFoundException extends DalmatinaException {
+public class DefinitionNotFoundException extends JodaEngineException {
     private static final long serialVersionUID = 5826993901901839412L;
 
     /** The Constant DEFAULT_EXCEPTION_MESSAGE. */

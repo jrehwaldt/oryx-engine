@@ -173,6 +173,15 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         return invokePlainTextRequest(request, content);
     }
     
+    protected MockHttpResponse makePOSTRequestWithJson(String url, String json) throws URISyntaxException {
+        // set up our request
+        MockHttpRequest request = MockHttpRequest.post(url);
+        request.contentType(MediaType.APPLICATION_JSON);
+        request.content(json.getBytes());
+        
+        return invokeSimpleRequest(request);
+    }
+    
     /**
      * Make a PUT request with JSON content.
      *

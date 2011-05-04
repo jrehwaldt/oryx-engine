@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 /**
  * General engine exception superclass.
  */
-public class DalmatinaException
+public class JodaEngineException
 extends Exception {
     private static final long serialVersionUID = 1570011344525950859L;
     
@@ -15,7 +15,7 @@ extends Exception {
      * 
      * @param message the error message
      */
-    public DalmatinaException(@Nonnull String message) {
+    public JodaEngineException(@Nonnull String message) {
         super(message);
     }
     
@@ -25,7 +25,7 @@ extends Exception {
      * @param message the error message
      * @param exception the underlying exception
      */
-    public DalmatinaException(@Nonnull String message,
+    public JodaEngineException(@Nonnull String message,
                               @Nullable Throwable exception) {
         super(message, exception);
     }
