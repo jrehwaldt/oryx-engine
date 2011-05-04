@@ -85,12 +85,12 @@ public final class WorklistWebService {
      */
     @Path("/items")
     @GET
-    public List<AbstractWorklistItem> getWorklistItems(@QueryParam("id") String id)
+    public List<AbstractWorklistItem> getWorklistItems(@QueryParam("id") String itemId)
     throws ResourceNotAvailableException {
 
-        logger.debug("GET: {}", id);
+        logger.debug("GET: {}", itemId);
 
-        UUID uuid = UUID.fromString(id);
+        UUID uuid = UUID.fromString(itemId);
         List<AbstractWorklistItem> items = this.service.getWorklistItems(uuid);
         return items;
     }
@@ -193,8 +193,6 @@ public final class WorklistWebService {
         logger.debug(context.getVariableMap().toString());
         return Response.ok().build();
             
-
-        
     }
     
     /**
@@ -216,7 +214,7 @@ public final class WorklistWebService {
     throws ResourceNotAvailableException {
 
         UUID id = UUID.fromString(worklistItemId);
-        logger.debug("entered method");
+        logger.debug("entered action choosing");
         try {
             switch (wrapper.getAction()) {
                 case CLAIM:
@@ -235,13 +233,13 @@ public final class WorklistWebService {
                     
                 case END:
                     
-                    logger.debug("success, now ");
+                    logger.debug("success, now ending");
                     endWorklistItem(id, wrapper.getParticipantId());
     
                     return Response.ok().build();
     
                 default:
-                    logger.debug("crap");
+                    logger.debug("no valid action could be found");
                     return Response.status(RESPONSE_FAIL).build();
     
             }

@@ -3,6 +3,7 @@ $().ready(function(){
 	var itemId = $.getQueryParam("worklistitemId");
 	var participantId = $.Storage.get("participantUUID");
 
+	// Get the form data. If the submit button was pressed, the client will be redirected and data will be saved with an ajax request.
 	$.ajax({
         type: 'GET',
         url: '/api/worklist/items/' + itemId + '/form?participantId=' + participantId,
@@ -16,7 +17,7 @@ $().ready(function(){
 	            // redirect
 	            $(location).attr('href', '/worklist/');
 
-	            // somehow this is important
+	            // don't follow the form action
 	            return false;
 	        });
         },
