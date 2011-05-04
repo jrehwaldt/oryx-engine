@@ -1,10 +1,12 @@
+// Adds the click handlers at the start for the claim,begin and end buttons.
 function addButtonClickHandler() {
 
 	addClaimButtonClickHandler();
 	addBeginButtonClickHandler();
+	// TODO Better to assign functions here instead of elements?
 	addEndButtonClickHandler("button.end");
 }
-
+// Adds the claim button click handler. If the button was pressed it is removed (=> we can do that, because the begin button is already there)
 function addClaimButtonClickHandler() {
 
     $("button.claim").click(function() {
@@ -34,6 +36,7 @@ function addClaimButtonClickHandler() {
     });
 }
 
+// Adds the begin button click handler. If the button was pressed, it will change to an end button and the claim button will be removed (if present).
 function addBeginButtonClickHandler() {
 
     // Now add the click handlers to the freshly created buttons
@@ -49,7 +52,7 @@ function addBeginButtonClickHandler() {
 	    $.ajax({
 	    	type: 'PUT',
 	    	url: '/api/worklist/items/' + worklistItemId + '/state',
-	    	data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
+	    	data: JSON.stringify(wrapper), // TODO maybe go back to queryparam (id= bla) for the participant UUID
 	    	success: function(data) {
 				$(button).unbind();
 				$(button).removeClass("begin").addClass("end").html("End");
@@ -74,28 +77,30 @@ function addBeginButtonClickHandler() {
     });
 }
 
-
+// Generate the appropriate button for the workitem, e.g. only a begin button if the status is allocated. 
 function generateButton(item) {
 	var button;
 	switch(item.status) {
 		case "ALLOCATED": button = "<button class=\"begin\">Begin</button>"; break;
 		case "OFFERED": button = "<button class=\"claim\">Claim</button><button class=\"begin\">Begin</button>"; break;
-		case "EXECUTING": button = "<button class=\"end\">End</button>"; addFormularLinkFor(button); break;
+		case "EXECUTING": button = "<button class=\"end\">End</button>"; addFormLinkFor(button); break;
 	}
 	return button;
 }
 
-function addFormularLinkFor(handler) {
+// Adds the form link before the end button in the worklist item row 
+function addFormLinkFor(handler) {
 	var itemID = $(handler).parents(".worklistitem").attr("id");
-	$(handler).parent().prepend("<a href=\"/worklist/items/form?worklistitemId=" + itemID + "\">Formular</a>");
+	$(handler).parent().prepend("<a href=\"/worklist/items/form?worklistitemId=" + itemID + "\">Form</a>");
 }
 
-
+// Adds the end click handler to a given element. It then uses a put request with a JSON wrapper end the item.
 function addEndButtonClickHandler(handler) {
-	addFormularLinkFor(handler);
+	addFormLinkFor(handler);
 	$(handler).click(function() {
     	var button = this;
     	var worklistItemId = $(this).parents(".worklistitem").attr("id");
+		// here a wrapper object is used, to have the possibility to send multiple variables in one request.
 	    var wrapper = {};
 	    wrapper["participantId"] = $.Storage.get("participantUUID");
 	    wrapper["action"] = "END";
@@ -106,9 +111,10 @@ function addEndButtonClickHandler(handler) {
 			data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
 			success: function(data) {
 				$(button).unbind();
-				$(button).parent().parent().remove();
+				// remove the data row, because the worklist item was finished
+				//$(button).parents("#"+worklistItemId).remove();
 
-				// refresh worklistitems
+				// refresh worklistitems, so the clerk sees the all new worklist items
 		        getWorklistItems();
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -153,6 +159,7 @@ function getWorklistItems() {
     });
 }
 
+// At the beginning get all worklist items
 $().ready(function(){
     getWorklistItems();
 })

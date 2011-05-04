@@ -1,5 +1,5 @@
 $().ready(function() {
-	// this Ajax request just generates the demodata
+	// This Ajax request just generates the simple example process demo data.
 	$('#demoGenerate').click(function() {
 		$.ajax({
 			type : 'POST',
@@ -19,7 +19,7 @@ $().ready(function() {
 		$(location).attr('href', '/management/')
 	});
 
-    // generates just the participant needed to execute the simple Human task XML defined process
+	// Creates a participant which can be used for uploading processes.
 	$('#generate-xml-processGenerate').click(function() {
 		$.ajax({
 			type : 'POST',
