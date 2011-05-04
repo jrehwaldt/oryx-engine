@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
+import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
 
 /**
  * Tests our Demo WebService. It shall not generate data twice and it shall return a sucessful response.

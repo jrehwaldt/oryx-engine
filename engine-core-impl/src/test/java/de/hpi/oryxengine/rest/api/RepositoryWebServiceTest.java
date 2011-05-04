@@ -15,9 +15,9 @@ import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
@@ -27,7 +27,7 @@ import de.hpi.oryxengine.rest.AbstractJsonServerTest;
  */
 public class RepositoryWebServiceTest extends AbstractJsonServerTest {
 
-    private final static String URL = "/repository/processdefinitions";
+    private final static String URL = "/repository/process-definitions";
     
     @Override
     protected Class<?> getResource() {

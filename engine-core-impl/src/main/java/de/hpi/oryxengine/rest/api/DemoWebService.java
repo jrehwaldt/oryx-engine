@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
+import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
 
 
 /**
@@ -14,6 +15,8 @@ import de.hpi.oryxengine.exception.ResourceNotAvailableException;
  */
 @Path("/demo")
 public class DemoWebService {
+
+    // TODO move somewhere else
     
     /**
      * Instantiates a new demo web service.
@@ -34,7 +37,7 @@ public class DemoWebService {
     public Response generate() throws ResourceNotAvailableException {
         DemoDataForWebservice.generate();
         // we always return ok as the demo data was already created and that is ok
-        return Response.ok().build();        
+        return Response.ok().build();
     }
     
     /**
