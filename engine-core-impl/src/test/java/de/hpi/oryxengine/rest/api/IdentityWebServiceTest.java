@@ -23,15 +23,15 @@ import de.hpi.oryxengine.rest.AbstractJsonServerTest;
  * Tests the interaction with our identity web service.
  */
 public class IdentityWebServiceTest extends AbstractJsonServerTest {
-    
+
     private AbstractParticipant jannik = null;
     private AbstractParticipant tobi = null;
     private AbstractRole r1 = null;
     private AbstractRole r2 = null;
-    
+
     private static final String PARTICIPANT_URL = "/identity/participants";
     private static final String ROLES_URL = "/identity/roles";
-    
+
     /**
      * Creates 2 participants.
      */
@@ -143,8 +143,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
     /**
      * Tests the participant creation via the REST API.
-     *
-     * @throws URISyntaxException the uRI syntax exception
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
      */
     @Test
     public void testParticipantCreation()
@@ -162,32 +163,88 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(createdParticipant.getName(), participantName,
             "The newly created participant should have the desired name.");
     }
-    
+
     /**
      * Tests the participant deletion via the REST API.
-     *
-     * @throws URISyntaxException the uRI syntax exception
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
      */
     @Test
-    public void testParticipantDeletion() throws URISyntaxException {
-        String participantName = "Participant";        
+    public void testParticipantDeletion()
+    throws URISyntaxException {
+
+        String participantName = "Participant";
 
         IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
-                
+
         IdentityBuilder builder = new IdentityBuilderImpl(identity);
         AbstractParticipant participant = builder.createParticipant(participantName);
-        
+
         Set<AbstractParticipant> actualParticipants = identity.getParticipants();
         Assert.assertEquals(actualParticipants.size(), 1, "Assure that the participant has been created sucessfully.");
-        
+
         String requestUrl = PARTICIPANT_URL + "?participant-id=" + participant.getID();
-                
+
         makeDELETERequest(requestUrl);
-      
+
         // we need to redo the call here, as the getParticipants()-method always returns a new set.
         actualParticipants = identity.getParticipants();
         Assert.assertEquals(actualParticipants.size(), 0, "There should be no participant left.");
-        
+
+    }
+
+    /**
+     * Tests the role creation via the REST API.
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
+     */
+    @Test
+    public void testRoleCreation()
+    throws URISyntaxException {
+
+        String roleName = "Role";
+        String requestUrl = ROLES_URL;
+
+        makePOSTRequest(requestUrl, roleName);
+
+        IdentityService identity = ServiceFactory.getIdentityService();
+        Set<AbstractRole> actualRoles = identity.getRoles();
+        Assert.assertEquals(actualRoles.size(), 1, "There should be one role.");
+        AbstractRole createdParticipant = actualRoles.iterator().next();
+        Assert.assertEquals(createdParticipant.getName(), roleName,
+            "The newly created role should have the desired name.");
+    }
+
+    /**
+     * Test the deletion of a role via the REST API. We do not check, if any assigned participants still exist, etc., as
+     * this should be done in the IdentityService/Builder tests.
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
+     */
+    @Test
+    public void testRoleDeletion()
+    throws URISyntaxException {
+
+        String roleName = "Role";
+
+        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
+
+        IdentityBuilder builder = new IdentityBuilderImpl(identity);
+        AbstractRole role = builder.createRole(roleName);
+
+        Set<AbstractRole> actualRoles = identity.getRoles();
+        Assert.assertEquals(actualRoles.size(), 1, "Assure that the role has been created sucessfully.");
+
+        String requestUrl = ROLES_URL + "?role-id=" + role.getID();
+
+        makeDELETERequest(requestUrl);
+
+        actualRoles = identity.getRoles();
+        Assert.assertEquals(actualRoles.size(), 0, "There should be no role left.");
+
     }
 
 }
