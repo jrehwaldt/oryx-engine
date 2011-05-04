@@ -17,6 +17,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import net.htmlparser.jericho.Config;
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.FormFields;
+import net.htmlparser.jericho.OutputDocument;
+import net.htmlparser.jericho.Source;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,25 +30,14 @@ import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.InvalidWorkItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
-import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
-import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.rest.WorklistActionWrapper;
 
-import net.htmlparser.jericho.Config;
-import net.htmlparser.jericho.FormField;
-import net.htmlparser.jericho.FormFields;
-import net.htmlparser.jericho.OutputDocument;
-import net.htmlparser.jericho.Source;
+
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -76,12 +71,10 @@ public final class WorklistWebService {
 
     /**
      * Gets the worklist items for a given resource (defined by a uuid which is a String and needs to be converted).
-     * 
-     * @param id
-     *            the id as a String
+     *
+     * @param itemId the item id
      * @return the worklist items for the specified resource
-     * @throws ResourceNotAvailableException
-     *             the resource not available exception
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     @Path("/items")
     @GET
