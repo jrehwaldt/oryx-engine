@@ -71,7 +71,7 @@ public final class IdentityWebService {
      */
     @Path("/participants")
     @POST
-    @Consumes("text/plain")
+    @Consumes(MediaType.TEXT_PLAIN)
     public Response createParticipant(String participantName) {
 
         // TODO ask Gerardo, why we need the Impl here/why the Impl has methods that are not specified in the interface.
@@ -133,7 +133,7 @@ public final class IdentityWebService {
      */
     @Path("/roles")
     @POST
-    @Consumes("text/plain")
+    @Consumes(MediaType.TEXT_PLAIN)
     public Response createRole(String roleName) {
 
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
@@ -178,7 +178,7 @@ public final class IdentityWebService {
      */
     @Path("/roles/{roleID}/participants")
     @POST
-    @Consumes("text/plain")
+    @Consumes(MediaType.TEXT_PLAIN)
     public Response addParticipantToRole(@PathParam("roleID") String roleID, String participantID)
     throws ResourceNotAvailableException {
 
