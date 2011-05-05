@@ -157,7 +157,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String participantName = "Participant";
         String requestUrl = PARTICIPANT_URL;
 
-        makeGenericPOSTRequest(requestUrl, participantName, MediaType.APPLICATION_FORM_URLENCODED);
+        makePOSTRequest(requestUrl, participantName, MediaType.APPLICATION_FORM_URLENCODED);
 
         IdentityService identity = ServiceFactory.getIdentityService();
         Set<AbstractParticipant> actualParticipants = identity.getParticipants();
@@ -210,7 +210,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String roleName = "Role";
         String requestUrl = ROLES_URL;
 
-        makeGenericPOSTRequest(requestUrl, roleName, MediaType.APPLICATION_FORM_URLENCODED);
+        makePOSTRequest(requestUrl, roleName, MediaType.APPLICATION_FORM_URLENCODED);
 
         IdentityService identity = ServiceFactory.getIdentityService();
         Set<AbstractRole> actualRoles = identity.getRoles();
@@ -270,7 +270,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
 //        String json = "{participantIDs : []}";
         String json = "[\"" + participant.getID() + "\"]";
-        MockHttpResponse response = makePOSTRequestWithJson(requestUrl, json);
+        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
         
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), "the result should be ok");
         
@@ -296,7 +296,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         
         String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
         String json = "[\"" + participant.getID() + "\"]";
-        MockHttpResponse response = makePOSTRequestWithJson(requestUrl, json);
+        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
         
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be a 404");
     }
