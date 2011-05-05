@@ -3,16 +3,16 @@ var unassignedParticipants;
 var assignedParticipants;
 $().ready(function() {
 	var additions = [];
-	var removals = [];	
-	
+	var removals = [];
+
 	// reset the search field on site load
 	$("#searchParticipant").val("");
-	
+
 	console.log([1,2,3]);
 	getParticipantsAndFillBoxes();
 	fillRolesBox();
-	
-	
+
+
 	// create the participant with the name given in the name field
 	$("#createParticipant").click(function() {
         $.ajax({
@@ -21,7 +21,7 @@ $().ready(function() {
             data: $("#newParticipant").val()
         });
     });
-	
+
 	// create the participant with the name given in the name field
 	$("#createRole").click(function() {
         $.ajax({
@@ -30,21 +30,21 @@ $().ready(function() {
             data: $("#newRole").val()
         });
     })
-    
+
     // instant search for participants that shall be added to a role
     $("#searchParticipant").keyup(function(event) {
     	console.log(participants);
     	$("#unassignedParticipants").empty();
     	var $textField = $(this);
     	$.each(participants, function(i, participant) {
-    		
+
             if (participant.name.indexOf($textField.val())!= (-1)) {
             	$("#unassignedParticipants").append("<option value=\"" + participant.id + "\">" + participant.name + "</option>");
 			}
         });
-    	
+
     })
-    
+
     // add the selected participants to the list of to-be-added participants for a role
     $("#addParticipant").click(function() {
     	var selectedParticipants = $("#unassignedParticipants :selected");
@@ -54,7 +54,7 @@ $().ready(function() {
     		$("#assignedParticipants").append(option);
     	})
     })
-    
+
     // add the selected participants to the list of to-be-removed participants for a role
     $("#removeParticipant").click(function() {
     	var selectedParticipants = $("#assignedParticipants :selected");
@@ -64,15 +64,15 @@ $().ready(function() {
     		$("#unassignedParticipants").append(option);
     	})
     })
-    
+
     //
     $("#roles").change(function() {
     	$("#assignedParticipants").empty();
     	fillBoxes(participants);
 	})
-    
-	
-	
+
+
+
     // submit the two lists of to-be-added and to-be-removed participants
     $("#submitChanges").click(function() {
     	var changeSet = {};
@@ -113,12 +113,12 @@ function fillBoxes(allParticipants) {
         success: function(data) {
         	assignedParticipants = data;
 //        	$.merge(unassignedParticipants, participants);
-        	
+
         	$("#unassignedParticipants").empty();
         	$.each(participants, function(i, participant) {
                 $("#unassignedParticipants").append("<option value=\"" + participant.id + "\">" + participant.name + "</option>");
             });
-        	
+
 //            // add each role to the select box
             $.each(roleParticipants, function(i, roleParticipant) {
             	console.log(roleParticipant.id);
@@ -144,3 +144,4 @@ function fillRolesBox() {
         dataType: "json"
     });
 }
+

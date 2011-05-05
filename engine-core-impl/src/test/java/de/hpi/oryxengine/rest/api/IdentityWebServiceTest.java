@@ -251,7 +251,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         Set<AbstractRole> actualRoles = identity.getRoles();
         Assert.assertEquals(actualRoles.size(), 1, "Assure that the role has been created sucessfully.");
 
-        String requestUrl = ROLES_URL + "?roleId=" + role.getID();
+        String requestUrl = ROLES_URL + "/" + role.getID();
 
         makeDELETERequest(requestUrl);
 

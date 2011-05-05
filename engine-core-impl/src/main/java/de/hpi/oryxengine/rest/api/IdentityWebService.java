@@ -156,9 +156,9 @@ public final class IdentityWebService {
      * @throws Exception
      *             the exception
      */
-    @Path("/roles")
+    @Path("/roles/{roleId}")
     @DELETE
-    public Response deleteRole(@QueryParam("roleId") String id)
+    public Response deleteRole(@PathParam("roleId") String id)
     throws Exception {
 
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
