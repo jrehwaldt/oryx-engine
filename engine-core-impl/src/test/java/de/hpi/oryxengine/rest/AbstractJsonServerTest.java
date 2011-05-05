@@ -168,14 +168,24 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      * @return the mock http response
      * @throws URISyntaxException the uRI syntax exception
      */
-    protected MockHttpResponse makePOSTRequest(String url, String content) throws URISyntaxException {
+    protected MockHttpResponse makePOSTRequest(String url,
+                                               String content) throws URISyntaxException {
         // set up our request
         MockHttpRequest request = MockHttpRequest.post(url);
         
         return invokePlainTextRequest(request, content);
     }
     
-    protected MockHttpResponse makePOSTRequestWithJson(String url, String json) throws URISyntaxException {
+    /**
+     * Executes a post-request. 
+     * 
+     * @param url the url to request
+     * @param json json data
+     * @return the response
+     * @throws URISyntaxException thrown if uri is wrong
+     */
+    protected MockHttpResponse makePOSTRequestWithJson(String url,
+                                                       String json) throws URISyntaxException {
         // set up our request
         MockHttpRequest request = MockHttpRequest.post(url);
         request.contentType(MediaType.APPLICATION_JSON);
@@ -184,7 +194,18 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         return invokeSimpleRequest(request);
     }
     
-    protected MockHttpResponse makeGenericPOSTRequest(String url, String content, String contentType) throws URISyntaxException{
+    /**
+     * Executes a post-request with content type modification possible.. 
+     * 
+     * @param url the url to request
+     * @param content the data
+     * @param contentType the content type.
+     * @return the response
+     * @throws URISyntaxException thrown if uri is wrong
+     */
+    protected MockHttpResponse makeGenericPOSTRequest(String url,
+                                                      String content,
+                                                      String contentType) throws URISyntaxException {
         MockHttpRequest request = MockHttpRequest.post(url);
         
         return invokeGenericRequest(request, content, contentType);
@@ -198,7 +219,8 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      * @return the mock http response (in case you need it for check if it is ok)
      * @throws URISyntaxException the uRI syntax exception
      */
-    protected MockHttpResponse makePUTRequestWithJson(String url, String json) throws URISyntaxException {
+    protected MockHttpResponse makePUTRequestWithJson(String url,
+                                                      String json) throws URISyntaxException {
         MockHttpRequest request = MockHttpRequest.put(url);
         request.contentType(MediaType.APPLICATION_JSON);
         request.content(json.getBytes());
@@ -207,7 +229,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     }
     
     /**
-     * Helper method which invokes the Request and returns the answer as a String.
+     * Helper method which invokes the Request and returns the answer as a {@link MockHttpResponse}.
      *
      * @param request the mocked Request
      * @param content the POST content, which should be processed
@@ -264,8 +286,17 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     }
     
 
-    
-    private MockHttpResponse invokeGenericRequest(MockHttpRequest request, String content, String contentType) {
+    /**
+     * Helper method which invokes a request on the mock.
+     *
+     * @param request the mocked Request
+     * @param content the POST content, which should be processed
+     * @param contentType the request's content type
+     * @return the answer as a MockHttpResponse
+     */
+    private MockHttpResponse invokeGenericRequest(MockHttpRequest request,
+                                                  String content,
+                                                  String contentType) {
         MockHttpResponse response = new MockHttpResponse();
 
         request.contentType(contentType);

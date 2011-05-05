@@ -2,10 +2,10 @@ package de.hpi.oryxengine.rest.api;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
+import org.codehaus.jackson.map.type.TypeFactory;
+import org.codehaus.jackson.type.JavaType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -18,7 +18,6 @@ import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 
@@ -28,6 +27,8 @@ import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 public class RepositoryWebServiceTest extends AbstractJsonServerTest {
 
     private final static String URL = "/repository/process-definitions";
+    
+    private final static JavaType TYPE_REF = TypeFactory.collectionType(Set.class, ProcessDefinition.class);
     
     @Override
     protected Class<?> getResource() {
@@ -72,14 +73,12 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
         Assert.assertNotNull(json);
         // assert we don't get back an empty JSON set.
         Assert.assertFalse("[]".equals(json));
-
-        // TODO again this pesky damn hack to deserialize Lists/Sets
-        ProcessDefinition[] definitions = this.mapper.readValue(json, ProcessDefinitionImpl[].class);
-        Set<ProcessDefinition> set = new HashSet<ProcessDefinition>(Arrays.asList(definitions));
-
-        Assert.assertEquals(set.size(), 1);
+        
+        Set<ProcessDefinition> definitions = this.mapper.readValue(json, TYPE_REF);
+        
+        Assert.assertEquals(definitions.size(), 1);
         // it is really our Element
-        Assert.assertEquals(definitions[0].getID(), RepositorySetup.getProcess1Plus1ProcessUUID());
+        Assert.assertEquals(definitions.iterator().next().getID(), RepositorySetup.getProcess1Plus1ProcessUUID());
 
     }
 
@@ -99,12 +98,9 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
         String json = makeGETRequestReturningJson(URL);
         // nothing therer
         Assert.assertEquals(json, "[]");
-
-        // pesky deserialization as above
-        ProcessDefinition[] definitions = this.mapper.readValue(json, ProcessDefinitionImpl[].class);
-        Set<ProcessDefinition> set = new HashSet<ProcessDefinition>(Arrays.asList(definitions));
-
-        Assert.assertEquals(set.size(), 0);
+        
+        Set<ProcessDefinition> definitions = this.mapper.readValue(json, TYPE_REF);
+        Assert.assertEquals(definitions.size(), 0);
     }
     
     /**
@@ -122,12 +118,9 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
         Assert.assertNotNull(json);
         // assert we don't get back an empty JSON set.
         Assert.assertFalse("[]".equals(json));
-
-        // pesky hacky the hack
-        ProcessDefinition[] definitions = this.mapper.readValue(json, ProcessDefinitionImpl[].class);
-        Set<ProcessDefinition> set = new HashSet<ProcessDefinition>(Arrays.asList(definitions));
-
-        Assert.assertEquals(set.size(), 2);
+        
+        Set<ProcessDefinition> definitions = this.mapper.readValue(json, TYPE_REF);
+        Assert.assertEquals(definitions.size(), 2);
     }
 
 }
