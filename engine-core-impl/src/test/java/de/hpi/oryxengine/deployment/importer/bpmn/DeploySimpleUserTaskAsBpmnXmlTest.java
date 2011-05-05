@@ -59,13 +59,13 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
 
         Node nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), BpmnHumanTaskActivity.class);
-        Assert.assertEquals(nextNode.getAttribute("name"), "Get Gerardo a cup of coffee!");
-        Assert.assertEquals(nextNode.getAttribute("description"), "It stands for itself.");
+        Assert.assertEquals(nextNode.getAttribute("name"), "Thorben, please process this task!");
+        Assert.assertEquals(nextNode.getAttribute("description"), "It is only a demo task.");
         
         // Asserting the task
         Task task = (Task) nextNode.getActivityBlueprint().getParameters()[0];
-        Assert.assertEquals(task.getSubject(), "Get Gerardo a cup of coffee!");
-        Assert.assertEquals(task.getDescription(), "It stands for itself.");
+        Assert.assertEquals(task.getSubject(), "Thorben, please process this task!");
+        Assert.assertEquals(task.getDescription(), "It is only a demo task.");
         Assert.assertEquals(task.getAssignedResources().iterator().next(), thorben);
         
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);

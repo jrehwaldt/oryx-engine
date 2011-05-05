@@ -56,10 +56,10 @@ function addBeginButtonClickHandler(button) {
 	    $.ajax({
 	    	type: 'PUT',
 	    	url: '/api/worklist/items/' + worklistItemId + '/state?participantId='+$.Storage.get("participantUUID"),
-	    	data: 'EXECUTING', // WIP = Work In Progress
+	    	data: 'EXECUTING',
 	    	success: function(data) {
 				$(button).unbind();
-				$(button).removeClass("begin").addClass("end").html("End");
+				$(button).removeClass("begin").addClass("end").html("End"); //TODO perhaps better to delete and then add a new button, instead of changing the old one
 				addEndButtonClickHandler(button);
 
 				//only remove the claim button if the button is still there
