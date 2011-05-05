@@ -23,7 +23,7 @@
 		<form method="get" action="">
 		Search for participants: <input type="text" id="searchParticipant" name="searchParticipant"/><br>
 		<select id="resultParticipants" multiple></select>
-		<div><button id="removeParticipant"><</button><button id="addParticipant">></button></div>		
+		<div><input type="button" id="addParticipant" value="&gt;"/><input type="button" id="removeParticipant" value="&lt;"/></div>
 		<select id="relatedParticipants" multiple></select>
 		</form>
 		</div>

@@ -1,6 +1,9 @@
 $().ready(function() {
 	var participants;
+	var toAddToRole;
+	var toDeleteFromRole;
 	$("#searchParticipant").val("");
+	
 	$.ajax({
         type: 'GET',
         url: '/api/identity/roles',
@@ -53,5 +56,19 @@ $().ready(function() {
 			}
         });
     	
+    })
+    
+    $("#addParticipant").click(function() {
+    	var participants = {};
+    	$("#resultParticipants :selected").each(function(i, option) {
+    		participants["participant1"] = option;
+    	})
+    	console.log(participants);
+    	var roleID = $("#roles :selected").val();
+    	$.ajax({
+            type: 'POST',
+            url: '/api/identity/roles/' + roleID + '/participants' ,
+            data: participants
+        });
     })
 })
