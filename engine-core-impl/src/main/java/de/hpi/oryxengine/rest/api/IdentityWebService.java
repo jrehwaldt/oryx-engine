@@ -89,10 +89,12 @@ public final class IdentityWebService {
 
     /**
      * Deletes a participant with the given id.
-     *
-     * @param id the id
+     * 
+     * @param id
+     *            the id
      * @return the response whether the API call was successful
-     * @throws ResourceNotAvailableException the resource not available exception
+     * @throws ResourceNotAvailableException
+     *             the resource not available exception
      */
     @Path("/participants/{participantId}")
     @DELETE
@@ -156,7 +158,7 @@ public final class IdentityWebService {
      */
     @Path("/roles")
     @DELETE
-    public Response deleteRole(@QueryParam("role-id") String id)
+    public Response deleteRole(@QueryParam("roleId") String id)
     throws Exception {
 
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
@@ -167,34 +169,42 @@ public final class IdentityWebService {
 
         return Response.ok().build();
     }
-    
+
     /**
      * Gets all participants for the specified role.
-     *
-     * @param roleID the role id
+     * 
+     * @param roleId
+     *            the role id
      * @return the participants for role
-     * @throws ResourceNotAvailableException thrown if the specified role does not exist
+     * @throws ResourceNotAvailableException
+     *             thrown if the specified role does not exist
      */
     @Path("/roles/{roleID}/participants")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Set<AbstractParticipant> getParticipantsForRole(@PathParam("roleID") String roleID) throws ResourceNotAvailableException {
-        UUID roleUUID = UUID.fromString(roleID);
+    public Set<AbstractParticipant> getParticipantsForRole(@PathParam("roleId") String roleId)
+    throws ResourceNotAvailableException {
+
+        UUID roleUUID = UUID.fromString(roleId);
         return identity.getRole(roleUUID).getParticipantsImmutable();
     }
 
     /**
      * Adds the participant as specified in the post request body to the role.
-     *
-     * @param roleID the role id
-     * @param changeset the changeset that contains the UUIDs (as Strings) of the participants to add/remove 
+     * 
+     * @param roleID
+     *            the role id
+     * @param changeset
+     *            the changeset that contains the UUIDs (as Strings) of the participants to add/remove
      * @return the response whether the API call was successful
-     * @throws ResourceNotAvailableException the resource not available exception
+     * @throws ResourceNotAvailableException
+     *             the resource not available exception
      */
     @Path("/roles/{roleID}/participants")
     @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response changeParticipantRoleAssignment(@PathParam("roleID") String roleID, PatchCollectionChangeset<String> changeset)
+    public Response changeParticipantRoleAssignment(@PathParam("roleID") String roleID,
+                                                    PatchCollectionChangeset<String> changeset)
     throws ResourceNotAvailableException {
 
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
@@ -202,13 +212,13 @@ public final class IdentityWebService {
 
         List<String> additions = changeset.getAdditions();
         List<String> removals = changeset.getRemovals();
-        
+
         if (!Collections.disjoint(additions, removals)) {
             // additions and removals have some elements in common
             // do error handling here
             return Response.status(Status.BAD_REQUEST).build();
         }
-        
+
         IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
         for (String participantID : additions) {
             UUID participantUUID = UUID.fromString(participantID);

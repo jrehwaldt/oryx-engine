@@ -51,10 +51,10 @@ public class NavigatorWebService implements Navigator {
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(@PathParam("definition-id") UUID definitionID)
+    public AbstractProcessInstance startProcessInstance(@PathParam("definitionId") UUID definitionId)
     throws DefinitionNotFoundException {
 
-        return navigatorService.startProcessInstance(definitionID);
+        return navigatorService.startProcessInstance(definitionId);
     }
 
     /**
@@ -69,9 +69,9 @@ public class NavigatorWebService implements Navigator {
      *             thrown if the process definition is not found
      * @return returns the created instance
      */
-    @Path("/process-definitions/{definition-id}/start")
+    @Path("/process-definitions/{definitionId}/start")
     @POST
-    public AbstractProcessInstance startProcessInstance(@PathParam("definition-id") String definitionID)
+    public AbstractProcessInstance startProcessInstance(@PathParam("definitionId") String definitionID)
     throws DefinitionNotFoundException {
 
         return startProcessInstance(UUID.fromString(definitionID));
