@@ -5,7 +5,11 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
+import javax.ws.rs.core.MediaType;
+
+import org.jboss.resteasy.mock.MockHttpResponse;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -23,15 +27,15 @@ import de.hpi.oryxengine.rest.AbstractJsonServerTest;
  * Tests the interaction with our identity web service.
  */
 public class IdentityWebServiceTest extends AbstractJsonServerTest {
-    
+
     private AbstractParticipant jannik = null;
     private AbstractParticipant tobi = null;
     private AbstractRole r1 = null;
     private AbstractRole r2 = null;
-    
+
     private static final String PARTICIPANT_URL = "/identity/participants";
     private static final String ROLES_URL = "/identity/roles";
-    
+
     /**
      * Creates 2 participants.
      */
@@ -59,10 +63,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
     /**
      * Test get participants. It should get all participants.
-     * 
-     * @throws URISyntaxException
-     *             the uRI syntax exception
-     * @throws IOException
+     *
+     * @throws URISyntaxException the uRI syntax exception
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     @Test
     public void testGetParticipants()
@@ -143,8 +146,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
     /**
      * Tests the participant creation via the REST API.
-     *
-     * @throws URISyntaxException the uRI syntax exception
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
      */
     @Test
     public void testParticipantCreation()
@@ -153,7 +157,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String participantName = "Participant";
         String requestUrl = PARTICIPANT_URL;
 
-        makePOSTRequest(requestUrl, participantName);
+        makePOSTRequest(requestUrl, participantName, MediaType.APPLICATION_FORM_URLENCODED);
 
         IdentityService identity = ServiceFactory.getIdentityService();
         Set<AbstractParticipant> actualParticipants = identity.getParticipants();
@@ -162,32 +166,139 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(createdParticipant.getName(), participantName,
             "The newly created participant should have the desired name.");
     }
-    
+
     /**
      * Tests the participant deletion via the REST API.
-     *
-     * @throws URISyntaxException the uRI syntax exception
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
      */
     @Test
-    public void testParticipantDeletion() throws URISyntaxException {
-        String participantName = "Participant";        
+    public void testParticipantDeletion()
+    throws URISyntaxException {
+
+        String participantName = "Participant";
 
         IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
-                
+
         IdentityBuilder builder = new IdentityBuilderImpl(identity);
         AbstractParticipant participant = builder.createParticipant(participantName);
-        
+
         Set<AbstractParticipant> actualParticipants = identity.getParticipants();
         Assert.assertEquals(actualParticipants.size(), 1, "Assure that the participant has been created sucessfully.");
-        
+
         String requestUrl = PARTICIPANT_URL + "?participant-id=" + participant.getID();
-                
+
         makeDELETERequest(requestUrl);
-      
+
         // we need to redo the call here, as the getParticipants()-method always returns a new set.
         actualParticipants = identity.getParticipants();
         Assert.assertEquals(actualParticipants.size(), 0, "There should be no participant left.");
+
+    }
+
+    /**
+     * Tests the role creation via the REST API.
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
+     */
+    @Test
+    public void testRoleCreation()
+    throws URISyntaxException {
+
+        String roleName = "Role";
+        String requestUrl = ROLES_URL;
+
+        makePOSTRequest(requestUrl, roleName, MediaType.APPLICATION_FORM_URLENCODED);
+
+        IdentityService identity = ServiceFactory.getIdentityService();
+        Set<AbstractRole> actualRoles = identity.getRoles();
+        Assert.assertEquals(actualRoles.size(), 1, "There should be one role.");
+        AbstractRole createdParticipant = actualRoles.iterator().next();
+        Assert.assertEquals(createdParticipant.getName(), roleName,
+            "The newly created role should have the desired name.");
+    }
+
+    /**
+     * Test the deletion of a role via the REST API. We do not check, if any assigned participants still exist, etc., as
+     * this should be done in the IdentityService/Builder tests.
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
+     */
+    @Test
+    public void testRoleDeletion()
+    throws URISyntaxException {
+
+        String roleName = "Role";
+
+        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
+
+        IdentityBuilder builder = new IdentityBuilderImpl(identity);
+        AbstractRole role = builder.createRole(roleName);
+
+        Set<AbstractRole> actualRoles = identity.getRoles();
+        Assert.assertEquals(actualRoles.size(), 1, "Assure that the role has been created sucessfully.");
+
+        String requestUrl = ROLES_URL + "?role-id=" + role.getID();
+
+        makeDELETERequest(requestUrl);
+
+        actualRoles = identity.getRoles();
+        Assert.assertEquals(actualRoles.size(), 0, "There should be no role left.");
+
+    }
+    
+    /**
+     * Test the assignment of a participant to an existing role.
+     * @throws URISyntaxException 
+     */
+    @Test
+    public void testParticipantToRoleAssignment() throws URISyntaxException {
+        // Create a role
+        String roleName = "role";
+        String participantName = "participant";
         
+        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
+
+        IdentityBuilder builder = new IdentityBuilderImpl(identity);
+        AbstractRole role = builder.createRole(roleName);
+        
+        AbstractParticipant participant = builder.createParticipant(participantName);
+        
+        String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
+//        String json = "{participantIDs : []}";
+        String json = "[\"" + participant.getID() + "\"]";
+        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
+        
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), "the result should be ok");
+        
+        Set<AbstractParticipant> assignedParticipants = role.getParticipantsImmutable();
+        Assert.assertEquals(assignedParticipants.size(), 1, "the role has now one participant");
+        
+        AbstractParticipant assignedParticipant = assignedParticipants.iterator().next();
+        Assert.assertEquals(assignedParticipant, participant, "it should be the participant we created");
+    }
+    
+    /**
+     * Tests that an error code is returned, if the role does not exist.
+     * @throws URISyntaxException 
+     */
+    @Test
+    public void testParticipantToNonExistingRoleAssignment() throws URISyntaxException {
+        UUID randomRoleID = UUID.randomUUID();
+        String participantName = "participant";
+        
+        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
+        IdentityBuilder builder = new IdentityBuilderImpl(identity);        
+        AbstractParticipant participant = builder.createParticipant(participantName);
+        
+        String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
+        String json = "[\"" + participant.getID() + "\"]";
+        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
+        
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be a 404");
     }
 
 }

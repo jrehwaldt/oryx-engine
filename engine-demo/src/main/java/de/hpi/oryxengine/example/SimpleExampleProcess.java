@@ -8,7 +8,7 @@ import de.hpi.oryxengine.monitor.Monitor;
 import de.hpi.oryxengine.monitor.MonitorGUI;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.node.activity.fun.AutomatedDummyActivity;
+import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
@@ -78,13 +78,13 @@ public final class SimpleExampleProcess {
     private static TokenImpl sampleProcessInstance(int counter, Navigator navigator) {
 
         Class<?>[] constructorSig = {String.class};
-        Object[] params = {"I suck " + counter};
+        Object[] params = {"counter: " + counter};
         ActivityBlueprint blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig,
             params);
         
         NodeImpl startNode = new NodeImpl(blueprint);
         
-        params = new Object[] {"I suck of course " + counter};
+        params = new Object[] {"counter 2: " + counter};
         blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig,
             params);
         NodeImpl secondNode = new NodeImpl(blueprint);

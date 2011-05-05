@@ -7,7 +7,7 @@ import org.testng.Assert;
 import de.hpi.oryxengine.node.activity.NullActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnStartEvent;
-import de.hpi.oryxengine.node.activity.fun.AutomatedDummyActivity;
+import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
 import de.hpi.oryxengine.node.incomingbehaviour.AndJoinBehaviour;
 import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;

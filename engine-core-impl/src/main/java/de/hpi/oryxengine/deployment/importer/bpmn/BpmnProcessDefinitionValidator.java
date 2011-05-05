@@ -6,7 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
@@ -90,7 +90,7 @@ public class BpmnProcessDefinitionValidator implements BpmnXmlParseListener {
             errorMessage = errorMessage.concat(theErrorMessage).concat("\n");
         }
 
-        DalmatinaRuntimeException validationErrorException = new DalmatinaRuntimeException(errorMessage);
+        JodaEngineRuntimeException validationErrorException = new JodaEngineRuntimeException(errorMessage);
         logger.error(errorMessage, validationErrorException);
         throw validationErrorException;
     }

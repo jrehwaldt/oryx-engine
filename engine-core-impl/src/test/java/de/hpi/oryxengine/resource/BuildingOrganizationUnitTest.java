@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 
 /**
  * Tests the building of {@link OrganizationUnit}s in the organization structure.
@@ -72,11 +72,11 @@ public class BuildingOrganizationUnitTest extends AbstractJodaEngineTest {
     /**
      * Tests the relationship between orga unit and position.
      * 
-     * @exception DalmatinaException test fails
+     * @exception JodaEngineException test fails
      */
     @Test
     public void testRelationshipOrganizationUnitPosition()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         AbstractPosition pos1 = identityBuilder.createPosition("1");
         AbstractPosition pos2 = identityBuilder.createPosition("2");
@@ -106,12 +106,12 @@ public class BuildingOrganizationUnitTest extends AbstractJodaEngineTest {
     /**
      * An OrganzationUnit should only have unique Positions.
      * 
-     * @throws DalmatinaException
+     * @throws JodaEngineException
      *             the exception
      */
     @Test
     public void testUniquePositionsInOrganizationUnit()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         AbstractPosition pos1 = identityBuilder.createPosition("1");
         AbstractPosition pos2 = identityBuilder.createPosition("2");
@@ -136,11 +136,11 @@ public class BuildingOrganizationUnitTest extends AbstractJodaEngineTest {
     /**
      * Tests changing orga unit's position relationship.
      * 
-     * @throws DalmatinaException test fails
+     * @throws JodaEngineException test fails
      */
     @Test
     public void testChangePositionInOrganizationUnit()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         AbstractPosition pos1 = identityBuilder.createPosition("1");
 
@@ -168,11 +168,11 @@ public class BuildingOrganizationUnitTest extends AbstractJodaEngineTest {
     /**
      * Tests deleting orga units.
      * 
-     * @throws DalmatinaException test fails
+     * @throws JodaEngineException test fails
      */
     @Test
     public void testDeleteOrganizationUnit()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         AbstractPosition pos1 = identityBuilder.createPosition("1");
         AbstractPosition pos2 = identityBuilder.createPosition("2");
@@ -197,10 +197,10 @@ public class BuildingOrganizationUnitTest extends AbstractJodaEngineTest {
     /**
      * Tests deleting orga unit's super relationship.
      * 
-     * @throws DalmatinaException test fails
+     * @throws JodaEngineException test fails
      */
     @Test
-    public void testDeleteSuperOrganizationUnit() throws DalmatinaException {
+    public void testDeleteSuperOrganizationUnit() throws JodaEngineException {
 
         AbstractOrganizationUnit epic = identityBuilder.createOrganizationUnit("EPIC");
         AbstractOrganizationUnit hpi = identityBuilder.createOrganizationUnit("HPI");
@@ -223,11 +223,11 @@ public class BuildingOrganizationUnitTest extends AbstractJodaEngineTest {
     /**
      * Tests deleting orga units.
      * 
-     * @throws DalmatinaException test fails
+     * @throws JodaEngineException test fails
      */
     @Test
     public void testDeletePositionInOrganizationUnit()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         AbstractPosition pos1 = identityBuilder.createPosition("1");
 
@@ -242,11 +242,11 @@ public class BuildingOrganizationUnitTest extends AbstractJodaEngineTest {
     /**
      * Tests wrong sub orga unit dependency.
      * 
-     * @throws DalmatinaException expected
+     * @throws JodaEngineException expected
      */
-    @Test(expectedExceptions = DalmatinaException.class)
+    @Test(expectedExceptions = JodaEngineException.class)
     public void testNotBeingSuperOrganizationUnitOfYourself()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         identityBuilder.subOrganizationUnitOf(organizationUnit.getID(), organizationUnit.getID());
     }

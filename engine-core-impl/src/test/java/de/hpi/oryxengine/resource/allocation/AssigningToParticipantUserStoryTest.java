@@ -9,8 +9,8 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.exception.DalmatinaException;
-import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
+import de.hpi.oryxengine.exception.JodaEngineException;
+import de.hpi.oryxengine.factory.node.SimpleNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
@@ -48,12 +48,12 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
         Class<?>[] constructorSig = {Task.class};
         Object[] params = {task};
         ActivityBlueprint bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
-        Node humanTaskNode = GerardoNodeFactory.createSimpleNodeWith(bp);
+        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(bp);
 
         Class<?>[] emptyConstructorSig = {};
         Object[] emtpyParams = {};
         bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, emptyConstructorSig, emtpyParams);
-        endNode = GerardoNodeFactory.createSimpleNodeWith(bp);
+        endNode = SimpleNodeFactory.createSimpleNodeWith(bp);
         
         humanTaskNode.transitionTo(endNode);
                 
@@ -63,11 +63,11 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
 
     /**
      * Test that the assigned user begins with the humanTask.
-     * @throws DalmatinaException 
+     * @throws JodaEngineException 
      */
     @Test
     public void testJannikBeginsTheWorkItem()
-    throws DalmatinaException {
+    throws JodaEngineException {
         
         token.executeStep();
         
@@ -80,11 +80,11 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
 
     /**
      * Test that the assigned user completes with the humanTask.
-     * @throws DalmatinaException 
+     * @throws JodaEngineException 
      */
     @Test
     public void testJannikCompletesTheWorkItem()
-    throws DalmatinaException {
+    throws JodaEngineException {
         
         token.executeStep();
         
@@ -101,11 +101,11 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
     /**
      * Test resume of a process instance.
      * 
-     * @throws DalmatinaException test fails
+     * @throws JodaEngineException test fails
      */
     @Test
     public void testResumptionOfProcess()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         token.executeStep();
         

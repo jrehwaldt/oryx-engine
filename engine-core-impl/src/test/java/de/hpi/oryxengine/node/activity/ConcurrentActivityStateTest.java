@@ -6,16 +6,15 @@ import static org.testng.Assert.assertTrue;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.node.activity.ActivityState;
 import de.hpi.oryxengine.node.factory.TransitionFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleAssurancePlugin;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -44,11 +43,11 @@ public class ConcurrentActivityStateTest {
      * One definition, two instances, two tokens that work on the same activities. This test ensures that these
      * activities do not share their state.
      * 
-     * @throws DalmatinaException
+     * @throws JodaEngineException
      *             test fails
      */
     @Test
-    public void testConcurrentAcitivityUse() throws DalmatinaException {
+    public void testConcurrentAcitivityUse() throws JodaEngineException {
 
         // Create two process instances
         NavigatorImplMock nav = new NavigatorImplMock();

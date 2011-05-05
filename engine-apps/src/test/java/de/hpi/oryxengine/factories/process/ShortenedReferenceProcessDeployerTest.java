@@ -10,9 +10,9 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.NavigatorImplMock;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.exception.DalmatinaException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
@@ -60,12 +60,12 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
     /**
      * Tests if the process can be executed on the whole.
      * 
-     * @throws DalmatinaException
+     * @throws JodaEngineException
      *             thrown if token can't be executed
      */
     @Test
     public void testProcessRuns()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         assertEquals(token.getCurrentNode(), instanceDefinition.getStartNode());
         token.executeStep();

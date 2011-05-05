@@ -36,7 +36,7 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
 
     private final MailProtocol protocol;
 
-    private static final long DEFAULT_INTERVAL = 1000L;
+    private static final long DEFAULT_INTERVAL = 6000L;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -202,6 +202,8 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     public static MailAdapterConfiguration dalmatinaGoogleConfiguration() {
 
         return new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!", "imap.googlemail.com",
+        // return new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine@googlemail.com", "dalmatina!",
+        // "imap.googlemail.com",
             MailProtocol.IMAP.getPort(true), true);
     }
 
@@ -226,11 +228,12 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     }
 
     @Override
-    public CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar) throws AdapterSchedulingException {
+    public CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar)
+    throws AdapterSchedulingException {
 
         InboundPullAdapter adapter = createAdapter(adapterRegistrar);
         adapterRegistrar.registerPullAdapter(adapter);
-        
+
         return adapter;
     }
 }

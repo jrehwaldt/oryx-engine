@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklist;
 import de.hpi.oryxengine.resource.worklist.RoleWorklist;
@@ -96,13 +96,13 @@ public class Role extends AbstractRole {
     public static Role asRoleImpl(UUID roleId) throws ResourceNotAvailableException {
  
         if (roleId == null) {
-            throw new DalmatinaRuntimeException("The Role parameter is null.");
+            throw new JodaEngineRuntimeException("The Role parameter is null.");
         }
 
         Role roleImpl = (Role) ServiceFactory.getIdentityService().getRole(roleId);
         
         if (roleImpl == null) {
-            throw new DalmatinaRuntimeException("There exists no Role with the id " + roleId + ".");
+            throw new JodaEngineRuntimeException("There exists no Role with the id " + roleId + ".");
         }
         return roleImpl;
     }

@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXParseException;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 
 /**
  * This class helps to log {@link XmlParsingProblem problems} occurring while parsing an XML.
@@ -151,7 +151,7 @@ public class XmlProblemLogger {
     }
 
     /**
-     * Logs all Errors while parsing through the XML. Finally an {@link DalmatinaRuntimeException} is thrown.
+     * Logs all Errors while parsing through the XML. Finally an {@link JodaEngineRuntimeException} is thrown.
      */
     public void throwDalmatinaRuntimeExceptionForErrors() {
 
@@ -162,6 +162,6 @@ public class XmlProblemLogger {
         }
 
         logger.error(stringBuilder.toString());
-        throw new DalmatinaRuntimeException(stringBuilder.toString());
+        throw new JodaEngineRuntimeException(stringBuilder.toString());
     }
 }

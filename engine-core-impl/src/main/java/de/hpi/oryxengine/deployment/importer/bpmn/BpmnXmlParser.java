@@ -54,7 +54,7 @@ public class BpmnXmlParser extends XmlParser {
     /** The Schema-Instance namespace. */
     public static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
     
-    /** Namesspace for extensions elements of the {@link OryxEngine}. */
+    /** Namesspace for extensions elements of the {@link JodaEngine}. */
     public static final String JODA_ENGINE_EXTENSIONS_NS = "http://joda-engine.org/bpmn";
     
     protected List<BpmnXmlParseListener> parseListeners;

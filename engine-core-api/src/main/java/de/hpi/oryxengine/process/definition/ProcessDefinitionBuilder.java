@@ -7,8 +7,8 @@ import javax.annotation.Nonnull;
 import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.EventType;
 import de.hpi.oryxengine.correlation.registration.EventCondition;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeBuilder;
 import de.hpi.oryxengine.process.structure.Transition;
@@ -87,6 +87,8 @@ public interface ProcessDefinitionBuilder {
      * @param startNode
      *            - the {@link Node startNode}
      * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
+     * @throws JodaEngineRuntimeException
+     *             thrown if the provided node isn't a startNode.
      */
     @Nonnull
     ProcessDefinitionBuilder createStartTrigger(@Nonnull EventType eventType,

@@ -6,17 +6,17 @@ $().ready(function() {
 			url : '/api/demo/generate'
 		});
 		// redirect
-		$(location).attr('href', '/')
+		$(location).prop('href', '/')
 	});
 
-	// This Ajax request deploys the reference process.
+    // AJAX request for generating the reference process data and participants
 	$('#referenceGenerate').click(function() {
 		$.ajax({
 			type : 'POST',
 			url : '/api/demo/reference'
 		});
 		// redirect
-		$(location).attr('href', '/management/')
+		$(location).prop('href', '/management/')
 	});
 
 	$('#xml-processGenerate').click(function() {
@@ -25,7 +25,7 @@ $().ready(function() {
 			url : '/api/demo/generate-xml-process'
 		});
 		// redirect
-		$(location).attr('href', '/management/')
+		$(location).prop('href', '/management/')
 	});
 
 	$('#process-start-emailGenerate').click(function() {
@@ -38,3 +38,4 @@ $().ready(function() {
 	});
 	
 });
+

@@ -13,11 +13,11 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.timing.TimingManager;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.factory.TransitionFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleAssurancePlugin;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
@@ -119,12 +119,12 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
 
       Navigator nav = new NavigatorImplMock();
 
-      node = BpmnFunNodeFactory.createBpmnNullNode(builder);
+      node = BpmnCustomNodeFactory.createBpmnNullNode(builder);
       
       // Building the IntermediateTimer
       node2 = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(builder, WAITING_TIME);
       
-      node3 = BpmnFunNodeFactory.createBpmnNullNode(builder);
+      node3 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
       
       TransitionFactory.createTransitionFromTo(builder, node, node2);
       TransitionFactory.createTransitionFromTo(builder, node2, node3);
@@ -144,11 +144,11 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
   /**
    * Test the cancellation of the timer. After the timer is canceled the token should not move on.
    *
-   * @throws DalmatinaException the dalmatina exception
+   * @throws JodaEngineException the dalmatina exception
    * @throws InterruptedException the interrupted exception
    */
   @Test
-  public void testCancelNode() throws DalmatinaException, InterruptedException {
+  public void testCancelNode() throws JodaEngineException, InterruptedException {
       token.executeStep();
       token.executeStep();
       
@@ -165,11 +165,11 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
    * Test the cancellation of the process with the timer.
    * After the process is canceled there should be not scheduled jobs in the quartz.
    *
-   * @throws DalmatinaException the dalmatina exception
+   * @throws JodaEngineException the dalmatina exception
    * @throws InterruptedException the interrupted exception
    */
   @Test
-  public void testCancelProcess() throws DalmatinaException, InterruptedException {
+  public void testCancelProcess() throws JodaEngineException, InterruptedException {
       
       
       int jobGroups;

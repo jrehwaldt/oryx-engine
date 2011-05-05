@@ -34,6 +34,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         scope="singleton">
     </bean>
 
-	<bean id="oryxEngineAppContext" class="de.hpi.oryxengine.bootstrap.OryxEngineAppContext" />
+	<bean id="jodaEngineAppContext" class="de.hpi.oryxengine.bootstrap.JodaEngineAppContext" />
 
 </beans>

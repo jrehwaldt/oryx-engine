@@ -1,16 +1,25 @@
 // Adds the click handlers at the start for the claim,begin and end buttons.
-function addButtonClickHandler() {
+function addButtonClickHandler(workListItem) {
 
-	addClaimButtonClickHandler();
-	addBeginButtonClickHandler();
-	// TODO Better to assign functions here instead of elements?
-	addEndButtonClickHandler("button.end");
+	var button;
+	button = $("#"+workListItem).find(".claim");
+	if(button.length) {
+		addClaimButtonClickHandler(button);
+	}
+	button = $("#"+workListItem).find(".begin");
+	if(button.length) {
+		addBeginButtonClickHandler(button);
+	}
+	button = $("#"+workListItem).find(".end");
+	if(button.length) {
+		addEndButtonClickHandler(button);
+	}
+
 }
 // Adds the claim button click handler. If the button was pressed it is removed (=> we can do that, because the begin button is already there)
-function addClaimButtonClickHandler() {
+function addClaimButtonClickHandler(button) {
 
-    $("button.claim").click(function() {
-
+    button.click(function() {
         var worklistItemId = $(this).parents(".worklistitem").attr("id");
 	    var wrapper = {};
 	    wrapper["participantId"] = $.Storage.get("participantUUID");
@@ -29,6 +38,9 @@ function addClaimButtonClickHandler() {
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
+				$("#"+worklistItemId).fadeOut(function() {
+					$("#"+worklistItemId).remove()
+				});
                 $('#notice').html(jqXHR.responseText).addClass('error');
             },
             contentType: 'application/json'
@@ -37,11 +49,11 @@ function addClaimButtonClickHandler() {
 }
 
 // Adds the begin button click handler. If the button was pressed, it will change to an end button and the claim button will be removed (if present).
-function addBeginButtonClickHandler() {
-
+function addBeginButtonClickHandler(button) {
+	
     // Now add the click handlers to the freshly created buttons
     // Click handlers shall claim an item
-    $("button.begin").click(function() {
+    $(button).click(function() {
     	var button = this;
     	var worklistItemId = $(this).parents(".worklistitem").attr("id");
 	    var wrapper = {};
@@ -85,6 +97,7 @@ function generateButton(item) {
 		case "OFFERED": button = "<button class=\"claim\">Claim</button><button class=\"begin\">Begin</button>"; break;
 		case "EXECUTING": button = "<button class=\"end\">End</button>"; addFormLinkFor(button); break;
 	}
+
 	return button;
 }
 
@@ -146,8 +159,10 @@ function getWorklistItems() {
                 					  + "<td>" + worklistitem.task.description + "</td>"
                 					  + "<td>" + button + "</td>"
                 					  + "</tr>");
+
+				addButtonClickHandler(worklistitem.id);
             })
-            addButtonClickHandler();
+
         },
         error: function(jqXHR, textStatus, errorThrown) {
             // TODO more specific error
@@ -159,7 +174,7 @@ function getWorklistItems() {
     });
 }
 
-// at the beginning get all worklist items
+// At the beginning get all worklist items
 $().ready(function(){
     getWorklistItems();
 })

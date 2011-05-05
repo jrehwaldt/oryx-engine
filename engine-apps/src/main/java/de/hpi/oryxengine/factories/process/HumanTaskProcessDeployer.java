@@ -18,7 +18,7 @@ import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factories.worklist.TaskFactory;
 import de.hpi.oryxengine.loadgenerator.PseudoHumanJob;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -89,7 +89,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodesWithDirectAlloc() {
 
-        startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
+        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
         
         // Create the task
         Object[] participants = identityService.getParticipants().toArray();
@@ -117,7 +117,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     
     public void initializeNodesWithRoleTasks() {
         
-        startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
+        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
 
         // Create the task
         Task roleTask = TaskFactory.createRoleTask("Do stuff", "Do it cool", role);

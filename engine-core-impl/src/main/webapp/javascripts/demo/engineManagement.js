@@ -5,8 +5,7 @@ $().ready(function() {
 });
 
 /**
-/*  Enables the button to do his work - start a process instance that is.
-/*  This is called after all the elements and buttons have been added to the DOM.
+*  Enables the button to do his work - start a process instance that is.
 */
 function enableButtonClickHandler() {
     $("button.start").click(function() {
@@ -28,7 +27,7 @@ function enableButtonClickHandler() {
 }
 
 /**
-/* Gets the running instances AJAX-style
+* Gets the running instances AJAX-style
 */
 function getRunningProcessInstances() {
     $.ajax({

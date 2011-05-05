@@ -16,8 +16,8 @@ import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.DeploymentBuilderImpl;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
@@ -87,7 +87,7 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
         } catch (DefinitionNotFoundException exception) {
             String errorMessage = "The processDefinition '" + processDefintionID + "' have not been deployed yet.";
             logger.error(errorMessage, exception);
-            throw new DalmatinaRuntimeException(errorMessage, exception);
+            throw new JodaEngineRuntimeException(errorMessage, exception);
         }
         
         // Register start events at event manager.

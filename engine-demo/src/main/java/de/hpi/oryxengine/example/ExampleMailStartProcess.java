@@ -8,25 +8,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.bootstrap.OryxEngine;
+import de.hpi.oryxengine.bootstrap.JodaEngine;
 import de.hpi.oryxengine.correlation.adapter.EventTypes;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
 import de.hpi.oryxengine.correlation.registration.EventCondition;
 import de.hpi.oryxengine.correlation.registration.EventConditionImpl;
-import de.hpi.oryxengine.correlation.registration.StartEvent;
-import de.hpi.oryxengine.correlation.registration.StartEventImpl;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 
 /**
@@ -57,7 +55,7 @@ public final class ExampleMailStartProcess {
 		String exampleProcessName = "exampleMailProcess";
 
 		// the main
-		OryxEngine.start();
+		JodaEngine.start();
 		NavigatorImpl navigator = (NavigatorImpl) ServiceFactory
 				.getNavigatorService();
 		navigator.registerPlugin(NavigatorListenerLogger.getInstance());
@@ -68,15 +66,15 @@ public final class ExampleMailStartProcess {
 		// Building the ProcessDefintion
 		ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-		Node startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
+		Node startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
 
 		// Building Node1
-		int[] ints = { 1, 1 };
-		Node node1 = BpmnFunNodeFactory
+		int[] ints = {1, 1};
+		Node node1 = BpmnCustomNodeFactory
 				.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
 
 		// Building Node2
-		Node node2 = BpmnFunNodeFactory
+		Node node2 = BpmnCustomNodeFactory
 				.createBpmnPrintingVariableNode(builder, "result");
 
 		BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
@@ -90,7 +88,7 @@ public final class ExampleMailStartProcess {
 				.dalmatinaGoogleConfiguration();
 		EventCondition subjectCondition = null;
 		try {
-			subjectCondition = new EventConditionImpl(	MailAdapterEvent.class.getMethod("getMessageTopic"),
+			subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"),
 														"Hallo");
 		} catch (SecurityException e) {
 			e.printStackTrace();
@@ -118,7 +116,7 @@ public final class ExampleMailStartProcess {
 
 			ServiceFactory.getRepositoryService()
 					.activateProcessDefinition(exampleProcessUUID);
-		} catch (DalmatinaRuntimeException e) {
+		} catch (JodaEngineRuntimeException e) {
 
 			LOGGER.error(e.getMessage(), e);
 		}

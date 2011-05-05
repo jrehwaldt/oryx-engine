@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 
 /**
  * Tests the building of {@link Position}s in the organization structure.
@@ -62,7 +62,7 @@ public class BuildingPositionTest extends AbstractJodaEngineTest {
      *
      * @throws Exception the exception
      */
-    @Test(expectedExceptions = DalmatinaException.class)
+    @Test(expectedExceptions = JodaEngineException.class)
     public void testNotBeingSuperiorOfYourself() throws Exception {
 
         identityBuilder.positionReportsToSuperior(position.getID(), position.getID());
@@ -71,10 +71,10 @@ public class BuildingPositionTest extends AbstractJodaEngineTest {
     /**
      * Test the deletion of a position.
      * 
-     * @throws DalmatinaException test fails
+     * @throws JodaEngineException test fails
      */
     @Test
-    public void testDeletePosition() throws DalmatinaException {
+    public void testDeletePosition() throws JodaEngineException {
         
         AbstractPosition position2 = identityBuilder.createPosition("Oryx-Engine-Chef2");
         AbstractPosition superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");

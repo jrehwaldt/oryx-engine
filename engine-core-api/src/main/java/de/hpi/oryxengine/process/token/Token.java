@@ -9,7 +9,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.activity.ActivityState;
@@ -54,11 +54,11 @@ public interface Token extends Identifiable {
     /**
      * Executes a step for the given instance, which is usually a single step beginning with the current node.
      * 
-     * @throws DalmatinaException
+     * @throws JodaEngineException
      *             the exception
      */
     void executeStep()
-    throws DalmatinaException;
+    throws JodaEngineException;
 
     /**
      * Create a new to navigate instance for every node. Therefore it is possible to use this generic for e.g. and,

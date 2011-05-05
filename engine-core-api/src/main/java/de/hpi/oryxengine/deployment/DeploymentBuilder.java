@@ -4,11 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.UUID;
 
-import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
-import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
  * The class helps to define a deployment and to deploy it.
@@ -92,7 +88,6 @@ public interface DeploymentBuilder {
      * @param processDefinitionImporter
      *            - that is able to create a {@link ProcessDefinition}
      * @return a {@link UUID} representing the internal ID of the {@link ProcessDefinition}
-     * @throws DalmatinaRuntimeException
      *             - in case the {@link ProcessDefinition} is already deployed in the {@link RepositoryService
      *             Repository}
      */

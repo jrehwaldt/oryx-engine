@@ -10,7 +10,7 @@ import javax.el.ValueExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.token.Token;
 import de.odysseus.el.ExpressionFactoryImpl;
@@ -66,7 +66,7 @@ public class JuelExpressionCondition implements Condition {
                 + "'contains a variable that could not be resolved properly. See message: "
                 + propertyNotFoundException.getMessage();
             logger.error(errorMessage, propertyNotFoundException);
-            throw new DalmatinaRuntimeException(errorMessage, propertyNotFoundException);
+            throw new JodaEngineRuntimeException(errorMessage, propertyNotFoundException);
         }
     }
 }

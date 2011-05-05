@@ -9,7 +9,7 @@ import org.quartz.JobExecutionException;
 
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 
 /**
  * This is a quartz-scheduler job implementation for
@@ -26,13 +26,12 @@ implements Job {
     @Override
     public void execute(@Nonnull JobExecutionContext context)
     throws JobExecutionException {
-        
         JobDataMap data = context.getJobDetail().getJobDataMap();
         
         InboundPullAdapter adapter = (InboundPullAdapter) data.get(ADAPTER_KEY);
         try {
             adapter.pull();
-        } catch (DalmatinaException e) {
+        } catch (JodaEngineException e) {
             ErrorAdapter error = (ErrorAdapter) data.get(ERROR_HANDLER_KEY);
             error.exceptionOccured("Adapter failed while pulling.", e);
         }
