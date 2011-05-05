@@ -1,33 +1,44 @@
 package de.hpi.oryxengine.exception;
 
+import java.util.UUID;
+
 import javax.annotation.Nonnull;
 
 /**
- * The Class DefinitionNotFoundException.
+ * This is an exception stating that a definition does not exist.
+ * 
+ * @author Jan Rehwaldt
  */
 public class DefinitionNotFoundException extends JodaEngineException {
     private static final long serialVersionUID = 5826993901901839412L;
 
-    /** The Constant DEFAULT_EXCEPTION_MESSAGE. */
-    private static final String DEFAULT_EXCEPTION_MESSAGE =
-            "ProcessDefinition or ProcessArtifact with given UUID not found in repository.";
+    private static final String MESSAGE = "The requested process definition is not available or was removed.";
 
+    private final UUID definitionID;
+    
     /**
      * Default Constructor.
-     */
-    public DefinitionNotFoundException() {
-
-        super(DEFAULT_EXCEPTION_MESSAGE);
-    }
-
-    /**
-     * Instantiates a new {@link DefinitionNotFoundException}.
      * 
-     * @param errorMessage
-     *            - the error message that describes the exception
+     * @param definitionID the id of the resource that is not available
      */
-    public DefinitionNotFoundException(@Nonnull String errorMessage) {
-
-        super(errorMessage);
+    public DefinitionNotFoundException(@Nonnull UUID definitionID) {
+       super(MESSAGE);
+       
+       this.definitionID = definitionID;
+    }
+    
+    /**
+     * Gets the definition id.
+     *
+     * @return the definition id
+     */
+    public UUID getProcessDefinitionID() {
+        return definitionID;
+    }
+    
+    @Override
+    @Nonnull
+    public String toString() {
+        return String.format("ProcessDefinition[id: %s]", getProcessDefinitionID());
     }
 }

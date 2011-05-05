@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.EventType;
+import de.hpi.oryxengine.correlation.registration.EventCondition;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
+import de.hpi.oryxengine.correlation.registration.StartEventImpl;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeBuilder;
@@ -81,9 +85,14 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     }
 
     @Override
-    public ProcessDefinitionBuilder createStartTrigger(StartEvent event, Node startNode) {
+    public ProcessDefinitionBuilder createStartTrigger(EventType eventType,
+                                                       AdapterConfiguration adapterConfig,
+                                                       List<EventCondition> eventConditions,
+                                                       Node startNode) {
 
+        StartEvent event = new StartEventImpl(eventType, adapterConfig, eventConditions, id);
         this.temporaryStartTriggers.put(event, startNode);
+
         return this;
     }
 
@@ -126,4 +135,5 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
 
         return startNodes;
     }
+
 }

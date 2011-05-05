@@ -1,11 +1,17 @@
 package de.hpi.oryxengine.process.definition;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.correlation.registration.StartEvent;
+import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.EventType;
+import de.hpi.oryxengine.correlation.registration.EventCondition;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeBuilder;
+import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.process.structure.TransitionBuilder;
 
 /**
@@ -72,16 +78,23 @@ public interface ProcessDefinitionBuilder {
     /**
      * This will create a start trigger for the {@link ProcessDefinition}.
      * 
-     * @param event
-     *            the event
+     * @param eventType
+     *            - the {@link EventType}
+     * @param adapterConfig
+     *            - the {@link AdapterConfiguration}
+     * @param eventConditions
+     *            - the {@link EventCondition}
      * @param startNode
-     *            the start node
+     *            - the {@link Node startNode}
      * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
      * @throws JodaEngineRuntimeException
      *             thrown if the provided node isn't a startNode.
      */
     @Nonnull
-    ProcessDefinitionBuilder createStartTrigger(@Nonnull StartEvent event, @Nonnull Node startNode);
+    ProcessDefinitionBuilder createStartTrigger(@Nonnull EventType eventType,
+                                                @Nonnull AdapterConfiguration adapterConfig,
+                                                @Nonnull List<EventCondition> eventConditions,
+                                                @Nonnull Node startNode);
 
     /**
      * In order to store dynamic attributes to the {@link ProcessDefinition}.
@@ -94,4 +107,5 @@ public interface ProcessDefinitionBuilder {
      */
     @Nonnull
     ProcessDefinitionBuilder setAttribute(String attributeId, Object attibuteValue);
+
 }

@@ -21,16 +21,12 @@ function addClaimButtonClickHandler(button) {
 
     button.click(function() {
         var worklistItemId = $(this).parents(".worklistitem").attr("id");
-	    var wrapper = {};
-	    wrapper["participantId"] = $.Storage.get("participantUUID");
-	    wrapper["action"] = "CLAIM";
-	    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
 		var button = this;
 
         $.ajax({
             type: 'PUT',
-            url: '/api/worklist/items/' + worklistItemId + '/state',
-            data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
+            url: '/api/worklist/items/' + worklistItemId + '/state?participantId='+$.Storage.get("participantUUID"),
+            data: 'ALLOCATED', // maybe go back to queryparam (id= bla) for the participant UUID
             success: function(data) {
                 // be happy and do stuff (like morph button to start task or stuff like that)
 				$(button).unbind();
@@ -43,28 +39,24 @@ function addClaimButtonClickHandler(button) {
 				});
                 $('#notice').html(jqXHR.responseText).addClass('error');
             },
-            contentType: 'application/json'
+            contentType: 'text/plain'
         });
     });
 }
 
 // Adds the begin button click handler. If the button was pressed, it will change to an end button and the claim button will be removed (if present).
 function addBeginButtonClickHandler(button) {
-	
+
     // Now add the click handlers to the freshly created buttons
     // Click handlers shall claim an item
     $(button).click(function() {
     	var button = this;
     	var worklistItemId = $(this).parents(".worklistitem").attr("id");
-	    var wrapper = {};
-	    wrapper["participantId"] = $.Storage.get("participantUUID");
-	    wrapper["action"] = "BEGIN"; // TODO rename to status_type or something and the wrapper to state
-	    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
 
 	    $.ajax({
 	    	type: 'PUT',
-	    	url: '/api/worklist/items/' + worklistItemId + '/state',
-	    	data: JSON.stringify(wrapper), // TODO maybe go back to queryparam (id= bla) for the participant UUID
+	    	url: '/api/worklist/items/' + worklistItemId + '/state?participantId='+$.Storage.get("participantUUID"),
+	    	data: 'EXECUTING',
 	    	success: function(data) {
 				$(button).unbind();
 				$(button).removeClass("begin").addClass("end").html("End"); //TODO perhaps better to delete and then add a new button, instead of changing the old one
@@ -83,13 +75,13 @@ function addBeginButtonClickHandler(button) {
 	    	error: function(jqXHR, textStatus, errorThrown) {
 	    		$('#notice').html(jqXHR.responseText).addClass('error');
 	    	},
-	    	contentType: 'application/json'
+	    	contentType: 'text/plain'
 	    });
 
     });
 }
 
-// Generate the appropriate button for the workitem, e.g. only a begin button if the status is allocated. 
+// Generate the appropriate button for the workitem, e.g. only a begin button if the status is allocated.
 function generateButton(item) {
 	var button;
 	switch(item.status) {
@@ -101,7 +93,7 @@ function generateButton(item) {
 	return button;
 }
 
-// Adds the form link before the end button in the worklist item row 
+// Adds the form link before the end button in the worklist item row
 function addFormLinkFor(handler) {
 	var itemID = $(handler).parents(".worklistitem").attr("id");
 	$(handler).parent().prepend("<a href=\"/worklist/items/form?worklistitemId=" + itemID + "\">Form</a>");
@@ -113,15 +105,10 @@ function addEndButtonClickHandler(handler) {
 	$(handler).click(function() {
     	var button = this;
     	var worklistItemId = $(this).parents(".worklistitem").attr("id");
-		// here a wrapper object is used, to have the possibility to send multiple variables in one request.
-	    var wrapper = {};
-	    wrapper["participantId"] = $.Storage.get("participantUUID");
-	    wrapper["action"] = "END";
-	    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
 		$.ajax({
 			type: 'PUT',
-			url: '/api/worklist/items/' + worklistItemId + '/state',
-			data: JSON.stringify(wrapper), // maybe go back to queryparam (id= bla) for the participant UUID
+			url: '/api/worklist/items/' + worklistItemId + '/state?participantId='+$.Storage.get("participantUUID"),
+			data: 'COMPLETED', // maybe go back to queryparam (id= bla) for the participant UUID
 			success: function(data) {
 				$(button).unbind();
 				// remove the data row, because the worklist item was finished
@@ -133,7 +120,7 @@ function addEndButtonClickHandler(handler) {
 			error: function(jqXHR, textStatus, errorThrown) {
 				$('#notice').html(jqXHR.responseText).addClass('error');
 			},
-			contentType: 'application/json'
+			contentType: 'text/plain'
 		});
 
 	});
@@ -144,7 +131,7 @@ function addEndButtonClickHandler(handler) {
 function getWorklistItems() {
     $.ajax({
         type: 'GET',
-        url: '/api/worklist/items',
+        url: '/api/worklist/items?id=' + $.Storage.get("participantUUID"),
         data: 'id=' + $.Storage.get("participantUUID"),
         success: function(data) {
             $("#welcomeMessage").html("Welcome " + $.Storage.get("participantName") + ", here is your worklist:");
@@ -169,7 +156,6 @@ function getWorklistItems() {
             $("#notice").html("You need to log in before you can see your worklist (or other server error).").addClass("error");
 
         },
-        contentType: 'application/json', // we send json
         dataType: "json" // we expect json
     });
 }

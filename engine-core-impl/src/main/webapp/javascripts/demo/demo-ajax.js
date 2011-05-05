@@ -20,12 +20,12 @@ function getAllParticipants() {
 // the loginbutton checks which participant is selected and then stores this data using the jQuery storage plugin and changes the site
 function assignLoginButtonFunctionality() {
     $("#loginButton").click(function(){
-        var participantUUID = $('#loginBox option:selected').attr('value');
+        var participantUUID = $('#loginBox option:selected').prop('value');
         var participantName = $('#loginBox option:selected').html();
         $.Storage.set("participantUUID", participantUUID);
         $.Storage.set("participantName", participantName);
         // redirect the usert to the worklist so he may start working
-        $(location).attr('href', '/worklist/');
+        $(location).prop('href', '/worklist/');
     });
 }
 

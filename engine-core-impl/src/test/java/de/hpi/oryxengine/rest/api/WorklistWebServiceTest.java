@@ -85,12 +85,12 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
         String json = makeGETRequestReturningJson("/worklist/items?id=" + jannik.getID());
         Assert.assertNotSame(json, "[]");
-
+        
         AbstractWorklistItem[] items = this.mapper.readValue(json, AbstractWorklistItem[].class);
-
+        
         Assert.assertNotNull(items);
         Assert.assertEquals(items.length, 1);
-        // worklistitem is a task, tasks don't have an ID so we deceide to test it that way
+        // worklist item is a task, tasks don't have an ID so we decide to test it that way
         // compare against the values from the Factory
         Assert.assertEquals(items[0].getSubject(), TaskFactory.SIMPLE_TASK_SUBJECT);
         Assert.assertEquals(items[0].getDescription(), TaskFactory.SIMPLE_TASK_DESCRIPTION);

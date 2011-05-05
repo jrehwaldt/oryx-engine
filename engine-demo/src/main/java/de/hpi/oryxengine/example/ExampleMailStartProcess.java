@@ -14,8 +14,6 @@ import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
 import de.hpi.oryxengine.correlation.registration.EventCondition;
 import de.hpi.oryxengine.correlation.registration.EventConditionImpl;
-import de.hpi.oryxengine.correlation.registration.StartEvent;
-import de.hpi.oryxengine.correlation.registration.StartEventImpl;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
@@ -35,8 +33,9 @@ import de.hpi.oryxengine.process.structure.Node;
  */
 public final class ExampleMailStartProcess {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ExampleMailStartProcess.class);
-	
+	private static final Logger	LOGGER	= LoggerFactory
+												.getLogger(ExampleMailStartProcess.class);
+
 	/** no public/default constructor for this Demothingie. */
 	private ExampleMailStartProcess() {
 
@@ -83,10 +82,6 @@ public final class ExampleMailStartProcess {
 
 		builder.setDescription("description").setName(exampleProcessName);
 
-		ProcessDefinition def = builder.buildDefinition();
-		UUID exampleProcessUUID = deploymentBuilder
-				.deployProcessDefinition(new RawProcessDefintionImporter(def));
-
 		// Create a mail adapater event here.
 		// TODO @TobiP Could create a builder for this later.
 		MailAdapterConfiguration config = MailAdapterConfiguration
@@ -103,15 +98,26 @@ public final class ExampleMailStartProcess {
 		List<EventCondition> conditions = new ArrayList<EventCondition>();
 		conditions.add(subjectCondition);
 
-		StartEvent event = new StartEventImpl(EventTypes.Mail,
-												config,
-												conditions,
-												exampleProcessUUID);
+//		StartEvent event = new StartEventImpl(	EventTypes.Mail,
+//												config,
+//												conditions,
+//												exampleProcessUUID);
 
 		try {
-			builder.createStartTrigger(event, node1);
+
+			builder.createStartTrigger(	EventTypes.Mail,
+										config,
+										conditions,
+										startNode);
+			ProcessDefinition def = builder.buildDefinition();
+
+			UUID exampleProcessUUID = deploymentBuilder
+					.deployProcessDefinition(new RawProcessDefintionImporter(def));
+
+			ServiceFactory.getRepositoryService()
+					.activateProcessDefinition(exampleProcessUUID);
 		} catch (JodaEngineRuntimeException e) {
-			
+
 			LOGGER.error(e.getMessage(), e);
 		}
 

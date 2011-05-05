@@ -3,6 +3,7 @@ package de.hpi.oryxengine.correlation.registration;
 import java.util.List;
 
 import de.hpi.oryxengine.correlation.EventConfiguration;
+import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.EventType;
 import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 
@@ -11,7 +12,7 @@ import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
  */
 public class ProcessEventImpl implements ProcessEvent {
     
-    private PullAdapterConfiguration config;
+    private AdapterConfiguration config;
 
     private List<EventCondition> conditions;
 
@@ -25,7 +26,7 @@ public class ProcessEventImpl implements ProcessEvent {
      * @param conditions
      *            the conditions
      */
-    protected ProcessEventImpl(EventType type, PullAdapterConfiguration config, List<EventCondition> conditions) {
+    protected ProcessEventImpl(EventType type, AdapterConfiguration config, List<EventCondition> conditions) {
 
         this.config = config;
         this.conditions = conditions;

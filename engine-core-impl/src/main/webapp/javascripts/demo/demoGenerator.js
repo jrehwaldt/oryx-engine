@@ -6,7 +6,7 @@ $().ready(function() {
 			url : '/api/demo/generate'
 		});
 		// redirect
-		$(location).attr('href', '/')
+		$(location).prop('href', '/')
 	});
 
     // AJAX request for generating the reference process data and participants
@@ -16,17 +16,26 @@ $().ready(function() {
 			url : '/api/demo/reference'
 		});
 		// redirect
-		$(location).attr('href', '/management/')
+		$(location).prop('href', '/management/')
 	});
 
-	// Creates a participant which can be used for uploading processes.
-	$('#generate-xml-processGenerate').click(function() {
+	$('#xml-processGenerate').click(function() {
 		$.ajax({
 			type : 'POST',
 			url : '/api/demo/generate-xml-process'
 		});
 		// redirect
+		$(location).prop('href', '/management/')
+	});
+
+	$('#process-start-emailGenerate').click(function() {
+		$.ajax({
+			type : 'POST',
+			url : '/api/demo/generate-process-start-email'
+		});
+		// redirect
 		$(location).attr('href', '/management/')
 	});
+	
 });
 

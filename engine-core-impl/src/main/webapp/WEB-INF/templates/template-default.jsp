@@ -1,25 +1,40 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 String current_user = null;
 
 String class_for_selected_item = null;
-String[] navigation = null;
+String main_path = null;
+String[] path = null;
 String uri = request.getRequestURI();
 if (uri != null) {
-    navigation = uri.replaceAll("/pages/", "").split("/");
-
-    if (navigation.length > 0 && !"".equals(navigation[0]) && !navigation[0].endsWith(".jsp")) {
-        class_for_selected_item = String.format("item_%s", navigation[0]).toLowerCase();
+    path = uri.replaceAll("/pages/", "").split("/");
+    
+    if (path.length > 0 && !"".equals(path[0]) && !path[0].endsWith(".jsp")) {
+        main_path = path[0].toLowerCase();
+        class_for_selected_item = String.format("item_%s", main_path);
     }
 }
+
+/*
+Map<String, String[]> navigation = new HashMap<String, String[]>();
+navigation.put("dashboard", new String[] {});
+navigation.put("management", new String[] {"instances", "definitions"});
+navigation.put("worklist", new String[] {});
+navigation.put("resources", new String[] {});
+navigation.put("settings", new String[] {});
+*/
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
         <link rel="SHORTCUT ICON" href="/images/favicon/favicon.ico" type="image/x-icon">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+
         <link rel="stylesheet" type="text/css" href="/stylesheets/layout.css">
         
         <%--begin-development-only--%>
@@ -27,11 +42,11 @@ if (uri != null) {
         <script type="text/javascript" src="/javascripts/dev/fauxconsole.js"></script>
         <%--end-development-only--%>
         
-        <script type="text/javascript" src="/javascripts/lib/jquery-1.5.2.js"></script>
+        <script type="text/javascript" src="/javascripts/lib/jquery-1.6.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.Storage.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.getQueryParam.1.0.0.min.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.form.js"></script>
-        
+
         <title><decorator:title default="Joda Engine" /></title>
         <decorator:head />
 
@@ -73,12 +88,21 @@ if (uri != null) {
                   <div id="main-frame-top">
                     <div id="menu-level-2">
                       <!--begin nav-level-2-->
-                <%--
+                  <%--
+                      <% if (navigation.containsKey(main_path)) { %>
+                        <ul>
+                          <% for (String entry: navigation.get(main_path)) { %>
+                            <li><a class="<%=entry %>" href="/<%=main_path %>/<%=entry %>"><%=entry %></a></li>
+                          <% } %>
+                        </ul>
+                      <% } %>
+                  --%>
+                  <%--
                       <ul>
                         <li><a class="ex1" href="/ex1">Example 1</a></li>
                         <li><a class="ex2" href="/ex2">Example 2</a></li>
                       </ul>
-                --%>
+                  --%>
                       <!--end nav-level-2-->
                     </div>
                     <div id="logged-in-statement">
