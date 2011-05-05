@@ -1,6 +1,7 @@
 var participants;
 var unassignedParticipants;
 var assignedParticipants;
+
 $().ready(function() {
 	var additions = [];
 	var removals = [];	
@@ -131,10 +132,9 @@ function fillBoxes(allParticipants) {
             });
         	
             // add each role to the select box
-            $.each(roleParticipants, function(i, roleParticipant) {
-            	console.log(roleParticipant.id);
-            	$("#unassignedParticipants").removeOption(roleParticipant.id);
-                $("#assignedParticipants").append("<option value=\"" + roleParticipant.id + "\">" + roleParticipant.name + "</option>");
+            $.each(assignedParticipants, function(i, assignedParticipant) {
+            	$("#unassignedParticipants").removeOption(assignedParticipant.id);
+                $("#assignedParticipants").append("<option value=\"" + assignedParticipant.id + "\">" + assignedParticipant.name + "</option>");
             });
         },
         dataType: "json"
