@@ -179,7 +179,7 @@ public final class IdentityWebService {
      * @throws ResourceNotAvailableException
      *             thrown if the specified role does not exist
      */
-    @Path("/roles/{roleID}/participants")
+    @Path("/roles/{roleId}/participants")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Set<AbstractParticipant> getParticipantsForRole(@PathParam("roleId") String roleId)
@@ -192,7 +192,7 @@ public final class IdentityWebService {
     /**
      * Adds the participant as specified in the post request body to the role.
      * 
-     * @param roleID
+     * @param roleId
      *            the role id
      * @param changeset
      *            the changeset that contains the UUIDs (as Strings) of the participants to add/remove
@@ -200,15 +200,15 @@ public final class IdentityWebService {
      * @throws ResourceNotAvailableException
      *             the resource not available exception
      */
-    @Path("/roles/{roleID}/participants")
+    @Path("/roles/{roleId}/participants")
     @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response changeParticipantRoleAssignment(@PathParam("roleID") String roleID,
+    public Response changeParticipantRoleAssignment(@PathParam("roleId") String roleId,
                                                     PatchCollectionChangeset<String> changeset)
     throws ResourceNotAvailableException {
 
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
-        UUID roleUUID = UUID.fromString(roleID);
+        UUID roleUUID = UUID.fromString(roleId);
 
         List<String> additions = changeset.getAdditions();
         List<String> removals = changeset.getRemovals();
