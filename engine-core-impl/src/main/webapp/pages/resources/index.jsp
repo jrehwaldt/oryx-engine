@@ -15,13 +15,13 @@
         
         <h2>Create Roles</h2>
         <form action="" method="post">
-            Name of the new role:<input type="text" id ="newRole" name="newRole"/>
+            Name of the new role: <input type="text" id ="newRole" name="newRole"/>
             <input type="button" id="createRole" value="Create Role"/>
         </form>
         
         <h2>Relate participants to roles</h2>
         <div>
-            Select a role:<br><select id="roles"></select>
+            Select a role: <br><select id="roles"></select>
             <form method="get" action="">
                 
                 Search for participants: <input type="text" id="searchParticipant" name="searchParticipant"/>
