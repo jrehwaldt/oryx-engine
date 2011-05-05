@@ -14,6 +14,7 @@ import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
+import de.hpi.oryxengine.process.structure.condition.JuelExpressionCondition;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
@@ -276,12 +277,16 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
         // XOR Split, condition is objection existence
         xor1 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
+        
         Map<String, Object> map1 = new HashMap<String, Object>();
         map1.put("widerspruch", "stattgegeben");
-        Condition condition1 = new HashMapCondition(map1, "==");
+//        Condition condition1 = new HashMapCondition(map1, "==");
+        Condition condition1 = new JuelExpressionCondition("${widerspruch  == \"stattgegeben\"}");
+        
         Map<String, Object> map2 = new HashMap<String, Object>();
         map2.put("widerspruch", "abgelehnt");
-        Condition condition2 = new HashMapCondition(map2, "==");
+//        Condition condition2 = new HashMapCondition(map2, "==");
+        Condition condition2 = new JuelExpressionCondition("${widerspruch  == \"abgelehnt\"}");
 
         // human task for objection clerk, task is to check objection
         task = TaskFactory.createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche",
@@ -309,7 +314,8 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         xor3 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
         map1 = new HashMap<String, Object>();
         map1.put("aufrecht", "ja");
-        Condition condition5 = new HashMapCondition(map1, "==");
+//        Condition condition5 = new HashMapCondition(map1, "==");
+        Condition condition5 = new JuelExpressionCondition("${aufrecht  == \"ja\"}");
         map2 = new HashMap<String, Object>();
         map2.put("aufrecht", "nein");
 

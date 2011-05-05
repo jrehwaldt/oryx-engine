@@ -106,6 +106,35 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         token.executeStep();
         assertEquals(token.getCurrentNode(), instanceDefinition.getEndNode());
     }
+    
+    /**
+     * Tests if the process can be executed on the whole.
+     * 
+     * @throws JodaEngineException
+     *             thrown if token can't be executed
+     */
+    @Test
+    public void testProcessRuns2()
+    throws JodaEngineException {
+
+        token.executeStep();
+        token.executeStep();
+        token.executeStep();
+        executeHumanTaskBy(tobi);
+        assertEquals(token.getCurrentNode(), instanceDefinition.getXor1());
+        // let the XOR take the "right" way
+        token.getInstance().getContext().setVariable("widerspruch", "stattgegeben");
+        token.executeStep();
+        
+        assertEquals(token.getCurrentNode(), instanceDefinition.getHuman5());
+        token.executeStep();
+        executeHumanTaskBy(jan);
+        assertEquals(token.getCurrentNode(), instanceDefinition.getXor5());
+        token.executeStep();
+        assertEquals(token.getCurrentNode(), instanceDefinition.getSystem2());
+        token.executeStep();
+        assertEquals(token.getCurrentNode(), instanceDefinition.getEndNode());
+    }
 
     /**
      * Execute human task by.
