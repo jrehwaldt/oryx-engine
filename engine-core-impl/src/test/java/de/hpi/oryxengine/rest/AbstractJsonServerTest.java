@@ -103,8 +103,6 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      */
     protected abstract Class<?> getResource();
     
-    // TODO @Thorben: Refactor the request/invoke-structure.
-    
     /**
      * Make a simple get request returning the response.
      *
@@ -160,48 +158,70 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         return invokeFormRequest(request, content);
     }
     
+    
     /**
-     * Make a post request with plain text in the content.
+     * Make a mock post request with a specific contentType and content.
      *
      * @param url the url
      * @param content the content
+     * @param contentType the content type
      * @return the mock http response
      * @throws URISyntaxException the uRI syntax exception
      */
-    protected MockHttpResponse makePOSTRequest(String url, String content) throws URISyntaxException {
-        // set up our request
+    protected MockHttpResponse makePOSTRequest(String url,
+                                               String content,
+                                               String contentType) throws URISyntaxException {
         MockHttpRequest request = MockHttpRequest.post(url);
-        
-        return invokePlainTextRequest(request, content);
-    }
-    
-    protected MockHttpResponse makePOSTRequestWithJson(String url, String json) throws URISyntaxException {
-        // set up our request
-        MockHttpRequest request = MockHttpRequest.post(url);
-        request.contentType(MediaType.APPLICATION_JSON);
-        request.content(json.getBytes());
+        request.content(content.getBytes());
+        request.contentType(contentType);
         
         return invokeSimpleRequest(request);
     }
     
-    protected MockHttpResponse makeGenericPOSTRequest(String url, String content, String contentType) throws URISyntaxException{
-        MockHttpRequest request = MockHttpRequest.post(url);
+    /**
+     * Make patch request.
+     *
+     * @param url the url
+     * @param content the content
+     * @param contentType the content type
+     * @return the mock http response
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    protected MockHttpResponse makePATCHRequest(String url, String content, String contentType) throws URISyntaxException{
+        MockHttpRequest request = MockHttpRequest.create("PATCH", url);
+        request.content(content.getBytes());
+        request.contentType(contentType);
         
-        return invokeGenericRequest(request, content, contentType);
+        return invokeSimpleRequest(request);
     }
-    
     /**
      * Make a PUT request with JSON content.
      *
      * @param url the url the PUT request is send to
      * @param json the json which should be transferred as a String
      * @return the mock http response (in case you need it for check if it is ok)
-     * @throws URISyntaxException the uRI syntax exception
+     * @throws URISyntaxException the URI syntax exception
      */
     protected MockHttpResponse makePUTRequestWithJson(String url, String json) throws URISyntaxException {
         MockHttpRequest request = MockHttpRequest.put(url);
         request.contentType(MediaType.APPLICATION_JSON);
         request.content(json.getBytes());
+        
+        return invokeSimpleRequest(request);
+    }
+    
+    /**
+     * Make a PUT request with plain text content.
+     *
+     * @param url the url the PUT request is send to
+     * @param data the string which should be passed with the put request
+     * @return the mock http response (in case you need it for check if it is ok)
+     * @throws URISyntaxException the URI syntax exception
+     */
+    protected MockHttpResponse makePUTRequestWithText(String url, String data) throws URISyntaxException {
+        MockHttpRequest request = MockHttpRequest.put(url);
+        request.contentType(MediaType.TEXT_PLAIN);
+        request.content(data.getBytes());
         
         return invokeSimpleRequest(request);
     }
@@ -232,25 +252,6 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     }
     
     /**
-     * Invokes a plain text request.
-     *
-     * @param request the request
-     * @param content the content
-     * @return the mock http response
-     */
-    private MockHttpResponse invokePlainTextRequest(MockHttpRequest request, String content) {
-        MockHttpResponse response = new MockHttpResponse();
-
-        request.contentType("text/plain");
-        request.content(content.getBytes());
-        
-        // invoke the request
-        dispatcher.invoke(request, response);
-        
-        return response;
-    }
-    
-    /**
      * Invokes a mock request without any form content or plain text content, etc.
      *
      * @param request the request
@@ -263,17 +264,4 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         return response;
     }
     
-
-    
-    private MockHttpResponse invokeGenericRequest(MockHttpRequest request, String content, String contentType) {
-        MockHttpResponse response = new MockHttpResponse();
-
-        request.contentType(contentType);
-        request.content(content.getBytes());
-        
-        // invoke the request
-        dispatcher.invoke(request, response);
-        
-        return response;
-    }
 }
