@@ -2,13 +2,13 @@ package de.hpi.oryxengine.rest.api;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jackson.map.type.TypeFactory;
+import org.codehaus.jackson.type.JavaType;
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -88,14 +88,13 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String json = makeGETRequestReturningJson(PARTICIPANT_URL);
         Assert.assertNotNull(json);
 
-        // cannot be directly deserialized to a set, as it is a container type. See documentation of .readValue()
-        AbstractParticipant[] participants = this.mapper.readValue(json, AbstractParticipant[].class);
-        Set<AbstractParticipant> set = new HashSet<AbstractParticipant>(Arrays.asList(participants));
+        JavaType typeRef = TypeFactory.collectionType(Set.class, AbstractParticipant.class);
+        Set<AbstractParticipant> participants = this.mapper.readValue(json, typeRef);
 
         Assert.assertNotNull(participants);
-        Assert.assertEquals(participants.length, 2);
-        Assert.assertTrue(set.contains(jannik));
-        Assert.assertTrue(set.contains(tobi));
+        Assert.assertEquals(participants.size(), 2);
+        Assert.assertTrue(participants.contains(jannik));
+        Assert.assertTrue(participants.contains(tobi));
     }
 
     /**
@@ -130,15 +129,14 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
         String json = makeGETRequestReturningJson(ROLES_URL);
 
-        // Same hack as above
-        AbstractRole[] roles = this.mapper.readValue(json, AbstractRole[].class);
-        Set<AbstractRole> set = new HashSet<AbstractRole>(Arrays.asList(roles));
+        JavaType typeRef = TypeFactory.collectionType(Set.class, AbstractRole.class);
+        Set<AbstractRole> roles = this.mapper.readValue(json, typeRef);
 
         Assert.assertNotNull(json);
         Assert.assertNotNull(roles);
-        Assert.assertEquals(roles.length, 2);
-        Assert.assertTrue(set.contains(r1));
-        Assert.assertTrue(set.contains(r2));
+        Assert.assertEquals(roles.size(), 2);
+        Assert.assertTrue(roles.contains(r1));
+        Assert.assertTrue(roles.contains(r2));
     }
 
     /**
