@@ -184,12 +184,28 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      * @param url the url the PUT request is send to
      * @param json the json which should be transferred as a String
      * @return the mock http response (in case you need it for check if it is ok)
-     * @throws URISyntaxException the uRI syntax exception
+     * @throws URISyntaxException the URI syntax exception
      */
     protected MockHttpResponse makePUTRequestWithJson(String url, String json) throws URISyntaxException {
         MockHttpRequest request = MockHttpRequest.put(url);
         request.contentType(MediaType.APPLICATION_JSON);
         request.content(json.getBytes());
+        
+        return invokeSimpleRequest(request);
+    }
+    
+    /**
+     * Make a PUT request with plain text content.
+     *
+     * @param url the url the PUT request is send to
+     * @param data the string which should be passed with the put request
+     * @return the mock http response (in case you need it for check if it is ok)
+     * @throws URISyntaxException the URI syntax exception
+     */
+    protected MockHttpResponse makePUTRequestWithText(String url, String data) throws URISyntaxException {
+        MockHttpRequest request = MockHttpRequest.put(url);
+        request.contentType(MediaType.TEXT_PLAIN);
+        request.content(data.getBytes());
         
         return invokeSimpleRequest(request);
     }

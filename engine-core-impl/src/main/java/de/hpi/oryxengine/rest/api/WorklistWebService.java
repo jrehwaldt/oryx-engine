@@ -199,7 +199,7 @@ public final class WorklistWebService {
      * @throws InvalidWorkItemException the invalid work item exception
      */
     @Path("/items/{worklistItem-id}/state")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
     @PUT
     public Response actionOnWorklistitem(@PathParam("worklistItem-id") String worklistItemId,
                                          @QueryParam("participantId") String participantId,
