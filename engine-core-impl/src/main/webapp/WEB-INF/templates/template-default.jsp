@@ -46,6 +46,7 @@ navigation.put("settings", new String[] {});
         <script type="text/javascript" src="/javascripts/lib/jquery.Storage.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.getQueryParam.1.0.0.min.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.form.js"></script>
+        <script type="text/javascript" src="/javascripts/lib/jquery.selectboxes.js"></script>
 
         <title><decorator:title default="Joda Engine" /></title>
         <decorator:head />

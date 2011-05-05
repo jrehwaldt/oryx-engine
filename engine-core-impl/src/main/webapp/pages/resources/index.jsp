@@ -3,6 +3,7 @@
 <html>
     <head>
         <script type="text/javascript" src="/javascripts/demo/resources.js"></script>
+        
     </head>
     <body>
         <h1>Resources</h1>
@@ -26,14 +27,15 @@
                 
                 Search for participants: <input type="text" id="searchParticipant" name="searchParticipant"/>
                 <div>
-                    <div><select id="resultParticipants" multiple="multiple" style="float: left;"></select></div>
+                    <div><select id=unassignedParticipants multiple="multiple" style="float: left;"></select></div>
                     <div style="float: left;">
-                        <button id="removeParticipant">&lt;</button>
+                        <input type="button" id="removeParticipant" value="&lt;"/>
                         <br/>
-                        <button id="addParticipant">&gt;</button>
+                        <input type="button" id="addParticipant" value="&gt;"/>
                     </div>
-                    <div><select id="relatedParticipants" multiple="multiple" style="float: left;"></select></div>
+                    <div><select id="assignedParticipants" multiple="multiple" style="float: left;"></select></div>
                 </div>
+                <input type="button" id="submitChanges" value="Submit Changes"/>
             </form>
         </div>
         
