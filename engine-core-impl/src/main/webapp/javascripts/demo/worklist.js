@@ -58,7 +58,7 @@ function addBeginButtonClickHandler(button) {
     	var worklistItemId = $(this).parents(".worklistitem").attr("id");
 	    var wrapper = {};
 	    wrapper["participantId"] = $.Storage.get("participantUUID");
-	    wrapper["action"] = "BEGIN";
+	    wrapper["action"] = "BEGIN"; // TODO rename to status_type or something and the wrapper to state
 	    wrapper["@classifier"] = "de.hpi.oryxengine.rest.WorklistActionWrapper";
 
 	    $.ajax({
@@ -67,7 +67,7 @@ function addBeginButtonClickHandler(button) {
 	    	data: JSON.stringify(wrapper), // TODO maybe go back to queryparam (id= bla) for the participant UUID
 	    	success: function(data) {
 				$(button).unbind();
-				$(button).removeClass("begin").addClass("end").html("End");
+				$(button).removeClass("begin").addClass("end").html("End"); //TODO perhaps better to delete and then add a new button, instead of changing the old one
 				addEndButtonClickHandler(button);
 
 				//only remove the claim button if the button is still there
