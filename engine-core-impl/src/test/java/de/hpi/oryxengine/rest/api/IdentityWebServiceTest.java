@@ -201,7 +201,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         Set<AbstractParticipant> actualParticipants = identity.getParticipants();
         Assert.assertEquals(actualParticipants.size(), 1, "Assure that the participant has been created sucessfully.");
 
-        String requestUrl = PARTICIPANT_URL + "?participant-id=" + participant.getID();
+        String requestUrl = PARTICIPANT_URL + "/" + participant.getID();
 
         makeDELETERequest(requestUrl);
 
@@ -251,7 +251,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         Set<AbstractRole> actualRoles = identity.getRoles();
         Assert.assertEquals(actualRoles.size(), 1, "Assure that the role has been created sucessfully.");
 
-        String requestUrl = ROLES_URL + "?role-id=" + role.getID();
+        String requestUrl = ROLES_URL + "?roleId=" + role.getID();
 
         makeDELETERequest(requestUrl);
 
@@ -267,16 +267,12 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      *             the resource not available exception
      * @throws URISyntaxException
      *             the uRI syntax exception
-     * @throws JsonParseException
-     *             the json parse exception
-     * @throws JsonMappingException
-     *             the json mapping exception
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
     @Test
     public void testGetParticipantsForRole()
-    throws ResourceNotAvailableException, URISyntaxException, JsonParseException, JsonMappingException, IOException {
+    throws ResourceNotAvailableException, URISyntaxException, IOException {
 
         String roleName = "Role";
         String participantName = "Participant";
