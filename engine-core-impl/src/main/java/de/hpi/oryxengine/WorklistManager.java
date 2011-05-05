@@ -76,8 +76,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public @Nullable
-    AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
+    public @Nullable AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
                                          @Nonnull UUID worklistItemId)
     throws InvalidWorkItemException {
 
@@ -93,8 +92,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public Map<AbstractResource<?>,
-    List<AbstractWorklistItem>> getWorklistItems(Set<? extends AbstractResource<?>> resources) {
+    public Map<AbstractResource<?>, List<AbstractWorklistItem>>
+            getWorklistItems(Set<? extends AbstractResource<?>> resources) {
 
         Map<AbstractResource<?>, List<AbstractWorklistItem>> result = new HashMap<AbstractResource<?>,
                                                                           List<AbstractWorklistItem>>();

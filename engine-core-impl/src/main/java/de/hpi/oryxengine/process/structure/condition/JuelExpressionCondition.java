@@ -36,13 +36,18 @@ public class JuelExpressionCondition implements Condition {
         ExpressionFactory factory = new ExpressionFactoryImpl();
         SimpleContext context = new SimpleContext();
 
+        // TODO @Alle: Improve implementation of the JuelEspression; Isn't there a batter way to set the variables into
+        // the JuelFactory? Other then extracting all variables from the process context.
+
         Map<String, Object> variableMap = token.getInstance().getContext().getVariableMap();
         if (variableMap != null) {
 
             // Binding the variables that are in the processContext with the declared variables in the expression
             for (Entry<String, Object> theEntry : variableMap.entrySet()) {
+
                 String theEntryKey = theEntry.getKey();
                 Object theEntryValue = theEntry.getValue();
+
                 ValueExpression valueExpression = factory
                 .createValueExpression(theEntryValue, theEntryValue.getClass());
                 context.setVariable(theEntryKey, valueExpression);
@@ -57,7 +62,8 @@ public class JuelExpressionCondition implements Condition {
 
         } catch (PropertyNotFoundException propertyNotFoundException) {
 
-            String errorMessage = "The expression '" + juelExpression + "'contains a variable that could not be resolved properly. See message: "
+            String errorMessage = "The expression '" + juelExpression
+                + "'contains a variable that could not be resolved properly. See message: "
                 + propertyNotFoundException.getMessage();
             logger.error(errorMessage, propertyNotFoundException);
             throw new DalmatinaRuntimeException(errorMessage, propertyNotFoundException);

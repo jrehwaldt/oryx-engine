@@ -95,7 +95,7 @@ public class JuelExpressionConditionTest {
     public void testErrorInCondition() {
         
         addProcessVariable("testBoolean", true);
-        String juelEspression = "${testBoolean2}";
+        String juelEspression = "${testBoolean2==12312}";
         Condition condition = new JuelExpressionCondition(juelEspression);
         
         Assert.assertTrue(condition.evaluate(token));

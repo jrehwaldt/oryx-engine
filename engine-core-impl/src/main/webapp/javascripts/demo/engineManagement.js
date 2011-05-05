@@ -1,3 +1,9 @@
+// At the beginning load all running process instances and all available process definitions.
+$().ready(function() {
+    getRunningProcessInstances();
+    getProcessDefinitions();
+});
+
 /**
 /*  Enables the button to do his work - start a process instance that is.
 /*  This is called after all the elements and buttons have been added to the DOM.
@@ -8,7 +14,7 @@ function enableButtonClickHandler() {
 
         $.ajax({
             type: 'POST',
-            url: '/api/navigator/processdefinitions/' + definitionId + '/instances',
+            url: '/api/navigator/process-definitions/' + definitionId + '/start',
             success: function(data) {
 
                 // refresh the list of running process instances (since we just added one)
@@ -38,6 +44,8 @@ function getRunningProcessInstances() {
 
             var include = "<tr style=\"display:none;\"  id=\""+instance.id+"-tokenTable\"><td colspan=\"3\"><div style=\"margin-left:30px;\"> <table style=\"width:100%;\"><tr><th>Token UUID</th><th>State</th><th>Activity</th><th>Node</th></tr>";
 //style=\"display:none;\"
+
+			// Add for each process instance a table which contains all available tokens.
             $.each(instance.assignedTokens, function(n, token) {
                 include += "<tr><td style=\"width:25%;\">"+token.id+"</td>";
                 if(token.currentActivity) {
@@ -67,7 +75,7 @@ function getRunningProcessInstances() {
 function getProcessDefinitions() {
     $.ajax({
         type: 'GET',
-        url: '/api/repository/processdefinitions',
+        url: '/api/repository/process-definitions',
         success: function(data) {
             var processdefinitions = data;
             $.each(processdefinitions, function(i, definition) {
@@ -84,22 +92,9 @@ function getProcessDefinitions() {
     });
 }
 
-
-$().ready(function() {
-    getRunningProcessInstances();
-    getProcessDefinitions();
-});
-
+// Hide/Unhide the token table.
 function makeToggle(runningInstance) {
     $("#"+runningInstance.id).click(function(){
         $("#"+runningInstance.id+"-tokenTable").toggle();
     });
-
 }
-
-function out(input) {
-    //console.log(input);
-}
-
-//<td> " + instance.assignedTokens[0].currentActivityState + "</td>
-

@@ -32,8 +32,6 @@ if (uri != null) {
         <script type="text/javascript" src="/javascripts/lib/jquery.getQueryParam.1.0.0.min.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.form.js"></script>
         
-        <title>Joda Engine goes REST</title>
-        
         <title><decorator:title default="Joda Engine" /></title>
         <decorator:head />
 

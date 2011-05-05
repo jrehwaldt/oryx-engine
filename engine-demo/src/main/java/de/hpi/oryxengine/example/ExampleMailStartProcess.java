@@ -110,7 +110,7 @@ public final class ExampleMailStartProcess {
 			builder.createStartTrigger(	EventTypes.Mail,
 										config,
 										conditions,
-										node1);
+										startNode);
 			ProcessDefinition def = builder.buildDefinition();
 
 			UUID exampleProcessUUID = deploymentBuilder

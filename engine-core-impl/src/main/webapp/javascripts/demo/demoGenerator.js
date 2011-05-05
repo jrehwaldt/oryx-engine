@@ -1,5 +1,5 @@
 $().ready(function() {
-	// this Ajay request just generates the demodata
+	// This Ajax request just generates the simple example process demo data.
 	$('#demoGenerate').click(function() {
 		$.ajax({
 			type : 'POST',
@@ -9,6 +9,7 @@ $().ready(function() {
 		$(location).attr('href', '/')
 	});
 
+	// This Ajax request deploys the reference process.
 	$('#referenceGenerate').click(function() {
 		$.ajax({
 			type : 'POST',
