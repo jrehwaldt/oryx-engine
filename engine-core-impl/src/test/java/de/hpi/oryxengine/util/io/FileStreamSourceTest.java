@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 
 /**
  * Tests {@link FileStreamSource}. I hate Checkstyle ;-D.
@@ -31,12 +31,12 @@ public class FileStreamSourceTest {
         Assert.assertEquals(line, "Hello Joda-Engine");
     }
 
-    @Test(expectedExceptions = DalmatinaRuntimeException.class)
+    @Test(expectedExceptions = JodaEngineRuntimeException.class)
     public void testIntantiationWithNoExistingFile() {
 
         File file = new File("123" + TEST_FILE_PATH); 
         StreamSource fileStreamSource = new FileStreamSource(file);
         
-        Assert.fail("The 'DalmatinaRuntinmeException' should already been thrown.'");
+        Assert.fail("The 'JodaEngineRuntinmeException' should already been thrown.'");
     }
 }

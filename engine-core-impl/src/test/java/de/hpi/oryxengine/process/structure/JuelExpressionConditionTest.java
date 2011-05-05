@@ -8,7 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.process.structure.condition.JuelExpressionCondition;
@@ -91,7 +91,7 @@ public class JuelExpressionConditionTest {
      * This method tests a expression that binds a variable that is available in the {@link ProcessInstanceContext
      * ProcessContext}.
      */
-    @Test(expectedExceptions = DalmatinaRuntimeException.class)
+    @Test(expectedExceptions = JodaEngineRuntimeException.class)
     public void testErrorInCondition() {
         
         addProcessVariable("testBoolean", true);

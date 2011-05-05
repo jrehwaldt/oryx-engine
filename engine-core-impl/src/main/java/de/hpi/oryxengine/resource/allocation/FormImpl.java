@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.util.IoUtil;
 
@@ -43,7 +43,7 @@ public class FormImpl implements Form {
           
             String errorMessage = "The InputStream '" + processArtifact + "' could not be converted into a String.";
             logger.error(errorMessage, ioException);
-            throw new DalmatinaRuntimeException(errorMessage, ioException);
+            throw new JodaEngineRuntimeException(errorMessage, ioException);
         }
     }
 }

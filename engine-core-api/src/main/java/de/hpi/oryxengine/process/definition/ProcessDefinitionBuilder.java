@@ -77,7 +77,7 @@ public interface ProcessDefinitionBuilder {
      * @param startNode
      *            the start node
      * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
-     * @throws DalmatinaRuntimeException
+     * @throws JodaEngineRuntimeException
      *             thrown if the provided node isn't a startNode.
      */
     @Nonnull

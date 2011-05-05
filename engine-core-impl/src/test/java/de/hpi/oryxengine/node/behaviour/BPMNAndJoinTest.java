@@ -10,10 +10,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
@@ -103,12 +103,12 @@ public class BPMNAndJoinTest {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-        node1 = BpmnFunNodeFactory.createBpmnNullNode(builder);
-        node2 = BpmnFunNodeFactory.createBpmnNullNode(builder);
+        node1 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
+        node2 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
         joinNode = BpmnNodeFactory.createBpmnAndGatewayNode(builder);
         
-        node3 = BpmnFunNodeFactory.createBpmnNullNode(builder);
+        node3 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
         
         BpmnNodeFactory.createTransitionFromTo(builder, node1, joinNode);
         BpmnNodeFactory.createTransitionFromTo(builder, node2, joinNode);

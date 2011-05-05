@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.node.activity.fun;
+package de.hpi.oryxengine.node.activity.custom;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

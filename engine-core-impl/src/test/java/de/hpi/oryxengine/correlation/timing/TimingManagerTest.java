@@ -17,7 +17,7 @@ import de.hpi.oryxengine.correlation.adapter.TimedConfiguration;
 import de.hpi.oryxengine.correlation.adapter.TimerConfigurationImpl;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
@@ -35,10 +35,10 @@ public class TimingManagerTest {
     /**
      * Tests the registering of a pull adapter and its invocation.
      * 
-     * @throws DalmatinaException test fails if either pulling or registering fails
+     * @throws JodaEngineException test fails if either pulling or registering fails
      */
     @Test
-    public void testRegisteringAPullAdapter() throws DalmatinaException {
+    public void testRegisteringAPullAdapter() throws JodaEngineException {
         InboundPullAdapter adapter = mock(InboundPullAdapter.class);
         // Unfortunately mocking doesn't seem to work with classes as return value,
         // therefore the PullAdapterConfiguration is instantiated manually
@@ -55,11 +55,11 @@ public class TimingManagerTest {
      * The test waits some time, until the timer should be done and then an assertion is used to test
      * if resume was called on the token.
      *
-     * @throws DalmatinaException the dalmatina exception
+     * @throws JodaEngineException the dalmatina exception
      * @throws InterruptedException the interrupted exception for thread sleeping
      */
     @Test
-    public void testRegisteringANonRecurringEvent() throws DalmatinaException, InterruptedException {
+    public void testRegisteringANonRecurringEvent() throws JodaEngineException, InterruptedException {
         Token token = mock(TokenImpl.class);
         TimedConfiguration configuration = new TimerConfigurationImpl(TIMER);
         this.timer.registerNonRecurringJob(configuration, token);
@@ -71,11 +71,11 @@ public class TimingManagerTest {
      * Test registering a non recurring event, in this case a simple timer. Because waiting time is not long enough,
      * the token should not be resumed.
      *
-     * @throws DalmatinaException the dalmatina exception
+     * @throws JodaEngineException the dalmatina exception
      * @throws InterruptedException the interrupted exception for thread sleeping
      */
     @Test
-    public void testFailingRegisteringANonRecurringEvent() throws DalmatinaException, InterruptedException {
+    public void testFailingRegisteringANonRecurringEvent() throws JodaEngineException, InterruptedException {
         Token token = mock(TokenImpl.class);
         TimedConfiguration configuration = new TimerConfigurationImpl(TIMER);
         this.timer.registerNonRecurringJob(configuration, token);

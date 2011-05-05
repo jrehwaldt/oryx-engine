@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.bootstrap.OryxEngine;
+import de.hpi.oryxengine.bootstrap.JodaEngine;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessArtifact;
@@ -53,7 +53,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
     public void setUpUsersAndWorklists() {
 
         // We need to start the engine in order to start the WorklistManager who then gets the identityService
-        OryxEngine.start();
+        JodaEngine.start();
         task = TaskFactory.createJannikServesGerardoTask();
         
        
@@ -179,7 +179,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         content.put("form1", "checked");
         content.put("form2", "yes");
         
-        MockHttpResponse response = makePOSTRequest(
+        MockHttpResponse response = makePOSTFormRequest(
             String.format("/worklist/items/%s/form?participantId=%s", item.getID(), jannik.getID()), content);
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), 
         "the result should be OK, that means, the request should have suceeded.");

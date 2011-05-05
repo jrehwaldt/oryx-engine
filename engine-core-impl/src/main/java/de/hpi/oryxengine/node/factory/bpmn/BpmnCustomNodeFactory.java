@@ -1,10 +1,10 @@
 package de.hpi.oryxengine.node.factory.bpmn;
 
 import de.hpi.oryxengine.node.activity.NullActivity;
-import de.hpi.oryxengine.node.activity.fun.AddContextNumbersAndStoreActivity;
-import de.hpi.oryxengine.node.activity.fun.AddNumbersAndStoreActivity;
-import de.hpi.oryxengine.node.activity.fun.HashComputationActivity;
-import de.hpi.oryxengine.node.activity.fun.PrintingVariableActivity;
+import de.hpi.oryxengine.node.activity.custom.AddContextNumbersAndStoreActivity;
+import de.hpi.oryxengine.node.activity.custom.AddNumbersAndStoreActivity;
+import de.hpi.oryxengine.node.activity.custom.HashComputationActivity;
+import de.hpi.oryxengine.node.activity.custom.PrintingVariableActivity;
 import de.hpi.oryxengine.node.factory.TransitionFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
@@ -13,12 +13,12 @@ import de.hpi.oryxengine.process.structure.NodeBuilder;
 /**
  * This Factory is able to create {@link Node} for specific Activity.
  */
-public final class BpmnFunNodeFactory extends TransitionFactory {
+public final class BpmnCustomNodeFactory extends TransitionFactory {
 
     /**
      * Hidden Constructor.
      */
-    private BpmnFunNodeFactory() {
+    private BpmnCustomNodeFactory() {
 
     }
 

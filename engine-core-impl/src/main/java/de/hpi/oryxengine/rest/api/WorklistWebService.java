@@ -17,6 +17,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import net.htmlparser.jericho.Config;
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.FormFields;
+import net.htmlparser.jericho.OutputDocument;
+import net.htmlparser.jericho.Source;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,25 +30,14 @@ import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.InvalidWorkItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
-import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
-import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.rest.WorklistActionWrapper;
 
-import net.htmlparser.jericho.Config;
-import net.htmlparser.jericho.FormField;
-import net.htmlparser.jericho.FormFields;
-import net.htmlparser.jericho.OutputDocument;
-import net.htmlparser.jericho.Source;
+
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -75,43 +70,20 @@ public final class WorklistWebService {
     }
 
     /**
-     * Creates a demo participant with a work item.
-     * 
-     * @return ID of the created participant
-     */
-    @Path("/demo")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String demoParticipant() {
-
-        IdentityBuilder builder = this.identity.getIdentityBuilder();
-        AbstractParticipant thomas = builder.createParticipant("Thomas Strunz");
-
-        Task task = new TaskImpl("Kaffee holen", "Bohnenkaffee", null, thomas);
-        Token token = new TokenImpl(null);
-        AbstractWorklistItem item = new WorklistItemImpl(task, token);
-        thomas.getWorklist().addWorklistItem(item);
-
-        return thomas.getID().toString();
-    }
-
-    /**
      * Gets the worklist items for a given resource (defined by a uuid which is a String and needs to be converted).
-     * 
-     * @param id
-     *            the id as a String
+     *
+     * @param itemId the item id
      * @return the worklist items for the specified resource
-     * @throws ResourceNotAvailableException
-     *             the resource not available exception
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     @Path("/items")
     @GET
-    public List<AbstractWorklistItem> getWorklistItems(@QueryParam("id") String id)
+    public List<AbstractWorklistItem> getWorklistItems(@QueryParam("id") String itemId)
     throws ResourceNotAvailableException {
 
-        logger.debug("GET: {}", id);
+        logger.debug("GET: {}", itemId);
 
-        UUID uuid = UUID.fromString(id);
+        UUID uuid = UUID.fromString(itemId);
         List<AbstractWorklistItem> items = this.service.getWorklistItems(uuid);
         return items;
     }
@@ -214,8 +186,6 @@ public final class WorklistWebService {
         logger.debug(context.getVariableMap().toString());
         return Response.ok().build();
             
-
-        
     }
     
     /**
@@ -228,48 +198,43 @@ public final class WorklistWebService {
      * @return returns an empty response with a http status
      * @throws ResourceNotAvailableException
      *             the resource not available exception
+     * @throws InvalidWorkItemException 
      */
     @Path("/items/{worklistItem-id}/state")
     @Consumes(MediaType.APPLICATION_JSON)
     @PUT
     public Response actionOnWorklistitem(@PathParam("worklistItem-id") String worklistItemId,
                                          WorklistActionWrapper wrapper)
-    throws ResourceNotAvailableException {
+    throws ResourceNotAvailableException, InvalidWorkItemException {
 
         UUID id = UUID.fromString(worklistItemId);
-        logger.debug("entered method");
-        try {
-            switch (wrapper.getAction()) {
-                case CLAIM:
-    
-                    logger.debug("success, now claiming");
-                    claimWorklistItem(id, wrapper.getParticipantId());
-                    // make these numbers constants
-                    return Response.ok().build();
-                    
-                case BEGIN:
-                    
-                    logger.debug("success, now beginning");
-                    // make these numbers constants
-                    beginWorklistItem(id, wrapper.getParticipantId());
-                    return Response.ok().build();
-                    
-                case END:
-                    
-                    logger.debug("success, now ");
-                    endWorklistItem(id, wrapper.getParticipantId());
-    
-                    return Response.ok().build();
-    
-                default:
-                    logger.debug("crap");
-                    return Response.status(RESPONSE_FAIL).build();
-    
-            }
-        } catch (InvalidWorkItemException e1) {
-            logger.debug("Invalid Item!");
-            e1.printStackTrace();
-            return Response.status(RESPONSE_FAIL).build();
+        logger.debug("entered action choosing");
+        switch (wrapper.getAction()) {
+            case CLAIM:
+
+                logger.debug("success, now claiming");
+                claimWorklistItem(id, wrapper.getParticipantId());
+                // make these numbers constants
+                return Response.ok().build();
+                
+            case BEGIN:
+                
+                logger.debug("success, now beginning");
+                // make these numbers constants
+                beginWorklistItem(id, wrapper.getParticipantId());
+                return Response.ok().build();
+                
+            case END:
+                
+                logger.debug("success, now ending");
+                endWorklistItem(id, wrapper.getParticipantId());
+
+                return Response.ok().build();
+
+            default:
+                logger.debug("no valid action could be found");
+                return Response.status(RESPONSE_FAIL).build();
+
         }
 
         

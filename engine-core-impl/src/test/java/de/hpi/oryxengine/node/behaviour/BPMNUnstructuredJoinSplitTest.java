@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -112,16 +112,16 @@ public class BPMNUnstructuredJoinSplitTest {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
         
-        Node splitNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
-        node1 = BpmnFunNodeFactory.createBpmnNullNode(builder);
-        node2 = BpmnFunNodeFactory.createBpmnNullNode(builder);
-        node3 = BpmnFunNodeFactory.createBpmnNullNode(builder);
+        Node splitNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
+        node1 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
+        node2 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
+        node3 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
         innerJoinNode = BpmnNodeFactory.createBpmnAndGatewayNode(builder);
         outerJoinNode = BpmnNodeFactory.createBpmnAndGatewayNode(builder);
 
 //        endNode = new RoutingBehaviourTestFactory().createWithAndSplit();
-        endNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
+        endNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
         BpmnNodeFactory.createTransitionFromTo(builder, splitNode, node1);
         BpmnNodeFactory.createTransitionFromTo(builder, splitNode, node2);

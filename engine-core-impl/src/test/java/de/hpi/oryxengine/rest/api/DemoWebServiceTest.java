@@ -42,7 +42,7 @@ public class DemoWebServiceTest extends AbstractJsonServerTest {
     public void testNormalInvocation()
     throws URISyntaxException {
 
-        MockHttpResponse response = makePOSTRequest(DEMO_URL, null);
+        MockHttpResponse response = makePOSTFormRequest(DEMO_URL, null);
 
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode());
         // one process should be defined
@@ -62,8 +62,8 @@ public class DemoWebServiceTest extends AbstractJsonServerTest {
      */
     @Test
     public void testInvokedTwice() throws URISyntaxException {
-        makePOSTRequest(DEMO_URL, null);
-        makePOSTRequest(DEMO_URL, null);
+        makePOSTFormRequest(DEMO_URL, null);
+        makePOSTFormRequest(DEMO_URL, null);
         
      // one process should be defined
         Assert.assertEquals(ServiceFactory.getRepositoryService().getProcessDefinitions().size(),

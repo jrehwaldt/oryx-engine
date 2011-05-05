@@ -5,9 +5,8 @@ import static org.mockito.Mockito.mock;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.activity.ActivityState;
-import de.hpi.oryxengine.node.activity.fun.AutomatedDummyActivity;
+import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
