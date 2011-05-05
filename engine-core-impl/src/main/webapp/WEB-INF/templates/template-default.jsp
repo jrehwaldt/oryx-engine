@@ -19,19 +19,19 @@ if (uri != null) {
     <head>
         <link rel="SHORTCUT ICON" href="/images/favicon/favicon.ico" type="image/x-icon">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+
         <link rel="stylesheet" type="text/css" href="/stylesheets/layout.css">
-        
+
         <%--begin-development-only--%>
         <link rel="stylesheet" type="text/css" href="/stylesheets/dev/fauxconsole.css">
         <script type="text/javascript" src="/javascripts/dev/fauxconsole.js"></script>
         <%--end-development-only--%>
-        
-        <script type="text/javascript" src="/javascripts/lib/jquery-1.5.2.js"></script>
+
+        <script type="text/javascript" src="/javascripts/lib/jquery-1.6.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.Storage.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.getQueryParam.1.0.0.min.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.form.js"></script>
-        
+
         <title><decorator:title default="Joda Engine" /></title>
         <decorator:head />
 

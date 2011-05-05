@@ -16,7 +16,7 @@ function getTheForm() {
         	    .submit(function(){
 	            $(this).ajaxSubmit();
 	            // redirect to the worklist
-	            $(location).attr('href', '/worklist/');
+	            $(location).prop('href', '/worklist/');
 
 	            // don't follow the form action
 	            return false;
