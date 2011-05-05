@@ -35,7 +35,7 @@ import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
-import de.hpi.oryxengine.rest.WorklistActionWrapper;
+import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 
 
@@ -190,44 +190,45 @@ public final class WorklistWebService {
     
     /**
      * It claims, begins or ends the item.
-     * 
-     * @param worklistItemId
-     *            the id for the worklist item, given in the request
-     * @param wrapper
-     *            wrapper object for multiple parameters
+     *
+     * @param worklistItemId the id for the worklist item, given in the request
+     * @param participantId the participant id given in the request
+     * @param status the status of the worklistitem (allocated, executing or completed)
      * @return returns an empty response with a http status
-     * @throws ResourceNotAvailableException
-     *             the resource not available exception
-     * @throws InvalidWorkItemException 
+     * @throws ResourceNotAvailableException the resource not available exception
+     * @throws InvalidWorkItemException the invalid work item exception
      */
     @Path("/items/{worklistItem-id}/state")
     @Consumes(MediaType.APPLICATION_JSON)
     @PUT
     public Response actionOnWorklistitem(@PathParam("worklistItem-id") String worklistItemId,
-                                         WorklistActionWrapper wrapper)
+                                         @QueryParam("participantId") String participantId,
+                                         String status)
     throws ResourceNotAvailableException, InvalidWorkItemException {
-
-        UUID id = UUID.fromString(worklistItemId);
+        // generates an enum from the given string value
+        WorklistItemState state = WorklistItemState.valueOf(status);
+        UUID itemUUID = UUID.fromString(worklistItemId);
+        UUID participantUUID = UUID.fromString(participantId);
         logger.debug("entered action choosing");
-        switch (wrapper.getAction()) {
-            case CLAIM:
+        switch (state) {
+            case ALLOCATED:
 
                 logger.debug("success, now claiming");
-                claimWorklistItem(id, wrapper.getParticipantId());
+                claimWorklistItem(itemUUID, participantUUID);
                 // make these numbers constants
                 return Response.ok().build();
                 
-            case BEGIN:
+            case EXECUTING:
                 
                 logger.debug("success, now beginning");
                 // make these numbers constants
-                beginWorklistItem(id, wrapper.getParticipantId());
+                beginWorklistItem(itemUUID, participantUUID);
                 return Response.ok().build();
                 
-            case END:
+            case COMPLETED:
                 
                 logger.debug("success, now ending");
-                endWorklistItem(id, wrapper.getParticipantId());
+                endWorklistItem(itemUUID, participantUUID);
 
                 return Response.ok().build();
 
