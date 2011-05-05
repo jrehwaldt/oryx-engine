@@ -79,8 +79,20 @@ $().ready(function() {
     })
     
     //
-    $("roles").change(function() {
-		
+    $("#roles").change(function() {
+    	var roleID = $(this + ":selected").val();
+    	$.ajax({
+            type: 'GET',
+            url: '/api/identity/roles/' + roleID + '/participants',
+            success: function(data) {
+            	participants = data;
+                // add each role to the select box
+                $.each(participants, function(i, participant) {
+                    $("#relatedParticipants").append("<option value=\"" + participant.id + "\">" + participant.name + "</option>");
+                });
+            },
+            dataType: "json"
+        });
 	})
     
     // submit the two lists of to-be-added and to-be-removed participants
