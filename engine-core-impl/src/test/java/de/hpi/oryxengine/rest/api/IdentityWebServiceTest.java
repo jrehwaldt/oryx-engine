@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
@@ -63,6 +64,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         return IdentityWebService.class;
     }
     
+    /**
+     * Sets the identity service and builder that is used in most of the tests.
+     */
     @BeforeMethod
     public void setUp() {
         identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
@@ -266,8 +270,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         
         String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
 //        String json = "{participantIDs : []}";
-        String json = "[\"" + participant.getID() + "\"]";
-        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
+        String json = "{ \"additions\": [\"" + participant.getID() + "\"]," +
+        		"\"removals\": [], \"@classifier\": \"de.hpi.oryxengine.rest.PatchCollectionChangeset\"}";
+        MockHttpResponse response = makePATCHRequest(requestUrl, json, MediaType.APPLICATION_JSON);
         
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), "the result should be ok");
         
@@ -278,29 +283,42 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(assignedParticipant, participant, "it should be the participant we created");
     }
     
-    /**
-     * Tests that an error code is returned, if the role does not exist.
-     * @throws URISyntaxException 
-     */
-    @Test
-    public void testParticipantToNonExistingRoleAssignment() throws URISyntaxException {
-        UUID randomRoleID = UUID.randomUUID();
-        String participantName = "participant";
-        
-               
-        AbstractParticipant participant = builder.createParticipant(participantName);
-        
-        String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
-        String json = "[\"" + participant.getID() + "\"]";
-        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
-        
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be a 404");
-    }
+//    /**
+//     * Tests that an error code is returned, if the role does not exist.
+//     * @throws URISyntaxException 
+//     */
+//    @Test
+//    public void testParticipantToNonExistingRoleAssignment() throws URISyntaxException {
+//        UUID randomRoleID = UUID.randomUUID();
+//        String participantName = "participant";        
+//               
+//        AbstractParticipant participant = builder.createParticipant(participantName);
+//        
+//        String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
+//        String json = "[\"" + participant.getID() + "\"]";
+//        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
+//        
+//        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be a 404");
+//    }
     
-    @Test
-    public void testRemovalOfParticipantFromRole() {
-        // Create a role with an assigned participant
-        
-    }
+//    /**
+//     * Test the removal of participants from a role.
+//     *
+//     * @throws ResourceNotAvailableException the resource not available exception
+//     */
+//    @Test
+//    public void testRemovalOfParticipantFromRole() throws ResourceNotAvailableException {
+//        // Create a role with an assigned participant
+//        String roleName = "Role";
+//        String participantName = "Participant";
+//        
+//        AbstractRole role = builder.createRole(roleName);
+//        AbstractParticipant participant = builder.createParticipant(participantName);
+//        
+//        builder.participantBelongsToRole(participant.getID(), role.getID());
+//        
+//        String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
+//        String json = "[\"" + participant.getID() + "\"]";
+//    }
 
 }

@@ -28,6 +28,8 @@ import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.IdentityBuilderImpl;
+import de.hpi.oryxengine.rest.PatchCollectionChangeset;
+import de.hpi.oryxengine.util.annotations.PATCH;
 
 /**
  * The Class IdentityWebService.
@@ -171,49 +173,63 @@ public final class IdentityWebService {
 
         return Response.ok().build();
     }
+    
+    
 
     /**
      * Adds the participant as specified in the post request body to the role.
-     * 
-     * @param roleID
-     *            the role id
-     * @param participantIDs
-     *            a list of ids of the participants that are to be added to the role
+     *
+     * @param roleID the role id
+     * @param changeset the changeset that contains the UUIDs (as Strings) of the participants to add/remove 
      * @return the response whether the API call was successful
-     * @throws ResourceNotAvailableException
-     *             the resource not available exception
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     @Path("/roles/{roleID}/participants")
-    @POST
+    @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addParticipantsToRole(@PathParam("roleID") String roleID, List<String> participantIDs)
+    public Response addParticipantsToRole(@PathParam("roleID") String roleID, PatchCollectionChangeset<String> changeset)
     throws ResourceNotAvailableException {
 
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
         UUID roleUUID = UUID.fromString(roleID);
 
-        List<String> nonExistingParticipants = new ArrayList<String>();
-        for (String participantID : participantIDs) {
+        List<String> additions = changeset.getAdditions();
+        List<String> removals = changeset.getRemovals();
+        
+        IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
+        for (String participantID : additions) {
             UUID participantUUID = UUID.fromString(participantID);
-            IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
-
-            try {
-                builder.participantBelongsToRole(participantUUID, roleUUID);
-            } catch (ResourceNotAvailableException e) {
-                // depending on whether the role or some of the specified participants are missing, we want to react
-                // differently.
-                if (e.getClass().equals(AbstractParticipant.class)) {
-                    nonExistingParticipants.add(e.getResourceID().toString());
-                } else if (e.getResourceClass().equals(AbstractRole.class)) {
-                    throw e;
-                }
-            }
+            builder.participantBelongsToRole(participantUUID, roleUUID);
         }
-
-        if (!nonExistingParticipants.isEmpty()) {
-            // TODO add the ids of the unfound participants to the response
-            return Response.status(Status.NOT_FOUND).build();
+        for (String participantID : removals) {
+            UUID participantUUID = UUID.fromString(participantID);
+            builder.participantDoesNotBelongToRole(participantUUID, roleUUID);
         }
+        
+        // TODO error handling
+        
+//        List<String> nonExistingParticipants = new ArrayList<String>();
+//        for (String participantID : participantIDs) {
+//            UUID participantUUID = UUID.fromString(participantID);
+//            IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
+//
+//            try {
+//                builder.participantBelongsToRole(participantUUID, roleUUID);
+//            } catch (ResourceNotAvailableException e) {
+//                // depending on whether the role or some of the specified participants are missing, we want to react
+//                // differently.
+//                if (e.getClass().equals(AbstractParticipant.class)) {
+//                    nonExistingParticipants.add(e.getResourceID().toString());
+//                } else if (e.getResourceClass().equals(AbstractRole.class)) {
+//                    throw e;
+//                }
+//            }
+//        }
+//
+//        if (!nonExistingParticipants.isEmpty()) {
+//            // TODO add the ids of the unfound participants to the response
+//            return Response.status(Status.NOT_FOUND).build();
+//        }
 
         return Response.ok().build();
     }

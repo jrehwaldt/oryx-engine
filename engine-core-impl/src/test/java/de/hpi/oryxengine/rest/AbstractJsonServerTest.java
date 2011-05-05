@@ -177,6 +177,22 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     }
     
     /**
+     * Make patch request.
+     *
+     * @param url the url
+     * @param content the content
+     * @param contentType the content type
+     * @return the mock http response
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    protected MockHttpResponse makePATCHRequest(String url, String content, String contentType) throws URISyntaxException{
+        MockHttpRequest request = MockHttpRequest.create("PATCH", url);
+        request.content(content.getBytes());
+        request.contentType(contentType);
+        
+        return invokeSimpleRequest(request);
+    }
+    /**
      * Make a PUT request with JSON content.
      *
      * @param url the url the PUT request is send to
