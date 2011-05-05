@@ -38,13 +38,13 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     protected static final int WAIT_FOR_PROCESSES_TO_FINISH = 100;
     protected static final int TRIES_UNTIL_PROCESSES_FINISH = 100;
     protected static final short NUMBER_OF_INSTANCES_TO_START = 2;
-
+    
     /**
      * Set up.
      */
     @BeforeMethod
     public void setUpNavigatorService() {
-
+        
         this.logger.debug("Start navigator");
 
         this.navigator = ServiceFactory.getNavigatorService();
@@ -53,7 +53,6 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
 
     @Override
     protected Class<?> getResource() {
-
         return NavigatorWebService.class;
     }
 
