@@ -361,6 +361,7 @@ legend:hover {
 #menu-level-1 ul {
     position: absolute;  
     top: -12px;
+    padding-left: 5px;
 }
 
 #menu-level-1 li {

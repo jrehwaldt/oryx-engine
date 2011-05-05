@@ -2,20 +2,21 @@ package de.hpi.oryxengine.rest.api;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jackson.map.type.TypeFactory;
+import org.codehaus.jackson.type.JavaType;
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
@@ -35,6 +36,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
     private static final String PARTICIPANT_URL = "/identity/participants";
     private static final String ROLES_URL = "/identity/roles";
+    
+    private IdentityServiceImpl identity = null;
+    private IdentityBuilder builder = null; 
 
     /**
      * Creates 2 participants.
@@ -50,7 +54,6 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      */
     public void create2Roles() {
 
-        IdentityBuilder builder = ServiceFactory.getIdentityService().getIdentityBuilder();
         r1 = builder.createRole("test1");
         r2 = builder.createRole("test2");
     }
@@ -59,6 +62,15 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
     protected Class<?> getResource() {
 
         return IdentityWebService.class;
+    }
+    
+    /**
+     * Sets the identity service and builder that is used in most of the tests.
+     */
+    @BeforeMethod
+    public void setUp() {
+        identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
+        builder = new IdentityBuilderImpl(identity);
     }
 
     /**
@@ -76,14 +88,13 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String json = makeGETRequestReturningJson(PARTICIPANT_URL);
         Assert.assertNotNull(json);
 
-        // cannot be directly deserialized to a set, as it is a container type. See documentation of .readValue()
-        AbstractParticipant[] participants = this.mapper.readValue(json, AbstractParticipant[].class);
-        Set<AbstractParticipant> set = new HashSet<AbstractParticipant>(Arrays.asList(participants));
+        JavaType typeRef = TypeFactory.collectionType(Set.class, AbstractParticipant.class);
+        Set<AbstractParticipant> participants = this.mapper.readValue(json, typeRef);
 
         Assert.assertNotNull(participants);
-        Assert.assertEquals(participants.length, 2);
-        Assert.assertTrue(set.contains(jannik));
-        Assert.assertTrue(set.contains(tobi));
+        Assert.assertEquals(participants.size(), 2);
+        Assert.assertTrue(participants.contains(jannik));
+        Assert.assertTrue(participants.contains(tobi));
     }
 
     /**
@@ -118,15 +129,14 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
         String json = makeGETRequestReturningJson(ROLES_URL);
 
-        // Same hack as above
-        AbstractRole[] roles = this.mapper.readValue(json, AbstractRole[].class);
-        Set<AbstractRole> set = new HashSet<AbstractRole>(Arrays.asList(roles));
+        JavaType typeRef = TypeFactory.collectionType(Set.class, AbstractRole.class);
+        Set<AbstractRole> roles = this.mapper.readValue(json, typeRef);
 
         Assert.assertNotNull(json);
         Assert.assertNotNull(roles);
-        Assert.assertEquals(roles.length, 2);
-        Assert.assertTrue(set.contains(r1));
-        Assert.assertTrue(set.contains(r2));
+        Assert.assertEquals(roles.size(), 2);
+        Assert.assertTrue(roles.contains(r1));
+        Assert.assertTrue(roles.contains(r2));
     }
 
     /**
@@ -159,7 +169,6 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
         makePOSTRequest(requestUrl, participantName, MediaType.APPLICATION_FORM_URLENCODED);
 
-        IdentityService identity = ServiceFactory.getIdentityService();
         Set<AbstractParticipant> actualParticipants = identity.getParticipants();
         Assert.assertEquals(actualParticipants.size(), 1, "There should be one participant.");
         AbstractParticipant createdParticipant = actualParticipants.iterator().next();
@@ -179,9 +188,6 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
         String participantName = "Participant";
 
-        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
-
-        IdentityBuilder builder = new IdentityBuilderImpl(identity);
         AbstractParticipant participant = builder.createParticipant(participantName);
 
         Set<AbstractParticipant> actualParticipants = identity.getParticipants();
@@ -212,7 +218,6 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
         makePOSTRequest(requestUrl, roleName, MediaType.APPLICATION_FORM_URLENCODED);
 
-        IdentityService identity = ServiceFactory.getIdentityService();
         Set<AbstractRole> actualRoles = identity.getRoles();
         Assert.assertEquals(actualRoles.size(), 1, "There should be one role.");
         AbstractRole createdParticipant = actualRoles.iterator().next();
@@ -233,9 +238,6 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
         String roleName = "Role";
 
-        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
-
-        IdentityBuilder builder = new IdentityBuilderImpl(identity);
         AbstractRole role = builder.createRole(roleName);
 
         Set<AbstractRole> actualRoles = identity.getRoles();
@@ -260,17 +262,15 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String roleName = "role";
         String participantName = "participant";
         
-        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
-
-        IdentityBuilder builder = new IdentityBuilderImpl(identity);
         AbstractRole role = builder.createRole(roleName);
         
         AbstractParticipant participant = builder.createParticipant(participantName);
         
         String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
 //        String json = "{participantIDs : []}";
-        String json = "[\"" + participant.getID() + "\"]";
-        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
+        String json = "{ \"additions\": [\"" + participant.getID() + "\"]," +
+        		"\"removals\": [], \"@classifier\": \"de.hpi.oryxengine.rest.PatchCollectionChangeset\"}";
+        MockHttpResponse response = makePATCHRequest(requestUrl, json, MediaType.APPLICATION_JSON);
         
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), "the result should be ok");
         
@@ -281,24 +281,42 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(assignedParticipant, participant, "it should be the participant we created");
     }
     
-    /**
-     * Tests that an error code is returned, if the role does not exist.
-     * @throws URISyntaxException 
-     */
-    @Test
-    public void testParticipantToNonExistingRoleAssignment() throws URISyntaxException {
-        UUID randomRoleID = UUID.randomUUID();
-        String participantName = "participant";
-        
-        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
-        IdentityBuilder builder = new IdentityBuilderImpl(identity);        
-        AbstractParticipant participant = builder.createParticipant(participantName);
-        
-        String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
-        String json = "[\"" + participant.getID() + "\"]";
-        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
-        
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be a 404");
-    }
+//    /**
+//     * Tests that an error code is returned, if the role does not exist.
+//     * @throws URISyntaxException 
+//     */
+//    @Test
+//    public void testParticipantToNonExistingRoleAssignment() throws URISyntaxException {
+//        UUID randomRoleID = UUID.randomUUID();
+//        String participantName = "participant";        
+//               
+//        AbstractParticipant participant = builder.createParticipant(participantName);
+//        
+//        String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
+//        String json = "[\"" + participant.getID() + "\"]";
+//        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
+//        
+//        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be a 404");
+//    }
+    
+//    /**
+//     * Test the removal of participants from a role.
+//     *
+//     * @throws ResourceNotAvailableException the resource not available exception
+//     */
+//    @Test
+//    public void testRemovalOfParticipantFromRole() throws ResourceNotAvailableException {
+//        // Create a role with an assigned participant
+//        String roleName = "Role";
+//        String participantName = "Participant";
+//        
+//        AbstractRole role = builder.createRole(roleName);
+//        AbstractParticipant participant = builder.createParticipant(participantName);
+//        
+//        builder.participantBelongsToRole(participant.getID(), role.getID());
+//        
+//        String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
+//        String json = "[\"" + participant.getID() + "\"]";
+//    }
 
 }

@@ -60,8 +60,9 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
         ProcessDefinition processDefinition = getProcessDefinitionsTable().get(processDefintionID);
 
         if (processDefinition == null) {
-            throw new DefinitionNotFoundException();
+            throw new DefinitionNotFoundException(processDefintionID);
         }
+        
         return processDefinition;
     }
 
@@ -99,9 +100,7 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
 
     @Override
     public void deactivateProcessDefinition(UUID processDefintionID) {
-
         // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -111,15 +110,14 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
     }
 
     @Override
-    public AbstractProcessArtifact getProcessResource(UUID id)
+    public AbstractProcessArtifact getProcessResource(UUID processDefinitionID)
     throws DefinitionNotFoundException {
-
-        AbstractProcessArtifact processArtifact = getProcessArtifactsTable().get(id);
+        
+        AbstractProcessArtifact processArtifact = getProcessArtifactsTable().get(processDefinitionID);
         if (processArtifact == null) {
-            throw new DefinitionNotFoundException("The ProcessArtifact (with the ID: '" + id + "') "
-                + "has not been deployed.");
+            throw new DefinitionNotFoundException(processDefinitionID);
         }
-        return getProcessArtifactsTable().get(id);
+        return getProcessArtifactsTable().get(processDefinitionID);
     }
 
     @Override
@@ -132,21 +130,19 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
 
     @Override
     public void deleteProcessResource(UUID processArtifact) {
-
         getProcessArtifactsTable().remove(processArtifact);
-
     }
-
+    
     public Map<UUID, ProcessDefinition> getProcessDefinitionsTable() {
-
+        
         if (processDefinitionsTable == null) {
             this.processDefinitionsTable = new HashMap<UUID, ProcessDefinition>();
         }
         return this.processDefinitionsTable;
     }
-
+    
     public Map<UUID, AbstractProcessArtifact> getProcessArtifactsTable() {
-
+        
         if (processArtifactsTable == null) {
             this.processArtifactsTable = new HashMap<UUID, AbstractProcessArtifact>();
         }
