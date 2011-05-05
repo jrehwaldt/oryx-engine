@@ -198,10 +198,10 @@ public final class WorklistWebService {
      * @throws ResourceNotAvailableException the resource not available exception
      * @throws InvalidWorkItemException the invalid work item exception
      */
-    @Path("/items/{worklistItem-id}/state")
+    @Path("/items/{worklistItemId}/state")
     @Consumes(MediaType.TEXT_PLAIN)
     @PUT
-    public Response actionOnWorklistitem(@PathParam("worklistItem-id") String worklistItemId,
+    public Response actionOnWorklistitem(@PathParam("worklistItemId") String worklistItemId,
                                          @QueryParam("participantId") String participantId,
                                          String status)
     throws ResourceNotAvailableException, InvalidWorkItemException {
