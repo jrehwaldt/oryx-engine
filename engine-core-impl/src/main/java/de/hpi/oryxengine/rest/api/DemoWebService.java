@@ -9,7 +9,6 @@ import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
 
-
 /**
  * Offers demo methods (like creating demo users) to the user, should be deactivated in deployment.
  */
@@ -22,13 +21,14 @@ public class DemoWebService {
      * Instantiates a new demo web service.
      */
     public DemoWebService() {
+
         super();
     }
-    
+
     /**
      * Generates demo participants using the DemoDataForWebservice class.
      * It should only be invoked once.
-     *
+     * 
      * @return the response (OK = 200)
      * @throws ResourceNotAvailableException 
      */
@@ -48,14 +48,25 @@ public class DemoWebService {
     @Path("/generate-xml-process")
     @POST
     public Response generateXmlProcess() {
+
         LoadDemoProcessAsXmlForWebservice.generate();
         // we always return ok as the demo data was already created and that is ok
-        return Response.ok().build();        
+        return Response.ok().build();
     }
-    
+
+    @Path("/generate-process-start-email")
+    @POST
+    public Response generateProcessStartEmail() {
+
+        DemoProcessStartEmailForWebservice.generate();
+        // LoadDemoProcessAsXmlForWebservice.generate();
+        // we always return ok as the demo data was already created and that is ok
+        return Response.status(402).build();
+    }
+
     /**
      * Generates (deploys) the reference process.
-     *
+     * 
      * @return the response
      * @throws ResourceNotAvailableException 
      */
@@ -63,10 +74,10 @@ public class DemoWebService {
     @POST
     public Response reference() throws ResourceNotAvailableException {
         try {
-            
+
             ShortenedReferenceProcessDeployer.generate();
-            
-            return Response.ok().build();  
+
+            return Response.ok().build();
         } catch (IllegalStarteventException e) {
             e.printStackTrace();
             return Response.serverError().build();
