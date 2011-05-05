@@ -8,7 +8,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factories.worklist.TaskFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Condition;
@@ -266,7 +266,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         // start node, blank
         startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
 
-        system1 = BpmnFunNodeFactory.createBpmnPrintingVariableNode(builder, "Widerspruch wird vorbearbeitet");
+        system1 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(builder, "Widerspruch wird vorbearbeitet");
 
         // human task for objection clerk, task is to check
         // positions of objection
@@ -330,7 +330,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         xor5 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
 
         // system task, close file
-        system2 = BpmnFunNodeFactory.createBpmnPrintingVariableNode(builder, "Akte wird geschlossen");
+        system2 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(builder, "Akte wird geschlossen");
 
         // end node
         endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);

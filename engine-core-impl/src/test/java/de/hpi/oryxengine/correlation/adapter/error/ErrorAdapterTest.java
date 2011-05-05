@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.correlation.CorrelationManager;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 
 /**
  * Test class for {@link ErrorAdapter} tests.
@@ -37,7 +37,7 @@ public class ErrorAdapterTest {
      */
     @Test
     public void testExceptionCorrelation() {
-        this.adapter.exceptionOccured("Some message", new DalmatinaException("huhu"));
+        this.adapter.exceptionOccured("Some message", new JodaEngineException("huhu"));
         ArgumentCaptor<ErrorAdapterEvent> event = ArgumentCaptor.forClass(ErrorAdapterEvent.class);
         verify(this.mock).correlate(event.capture());
         assertFalse(event.getValue() == null, "event should not be null");

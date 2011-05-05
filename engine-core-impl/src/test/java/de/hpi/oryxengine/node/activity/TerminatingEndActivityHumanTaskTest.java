@@ -13,10 +13,10 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
@@ -45,12 +45,12 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
      * end. Then the human task activity is executed and a worklist item created. We expect the TerminatingEndActivity
      * to remove the worklist item from the corresponding worklists.
      * 
-     * @throws DalmatinaException
+     * @throws JodaEngineException
      *             the dalmatina exception
      */
     @Test
     public void testCancellingOfHumanTasks()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         AbstractProcessInstance instance = new ProcessInstanceImpl(null);
         NavigatorImplMock nav = new NavigatorImplMock();
@@ -123,7 +123,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-        splitNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
+        splitNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
         // param.setActivity(humanTask); TODO do something with the parameter of humanTask
         humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);

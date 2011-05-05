@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.factory.node;
 
-import de.hpi.oryxengine.node.activity.fun.AddNumbersAndStoreActivity;
+import de.hpi.oryxengine.node.activity.custom.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 
 /**

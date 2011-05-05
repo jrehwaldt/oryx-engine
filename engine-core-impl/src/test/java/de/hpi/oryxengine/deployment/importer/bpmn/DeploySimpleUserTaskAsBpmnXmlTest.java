@@ -29,7 +29,7 @@ import de.hpi.oryxengine.resource.AbstractParticipant;
 public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest {
 
     private AbstractParticipant thorben;
-    
+
     /**
      * Instantiates a new deploy simple user task as bpmn xml test, setting the path to the XML representation.
      */
@@ -43,9 +43,10 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
      */
     @BeforeMethod
     public void setUp() {
+
         thorben = ServiceFactory.getIdentityService().getIdentityBuilder().createParticipant("Thorben");
     }
-    
+
     @Override
     protected void assertProcessDefintion(ProcessDefinition processDefinition) {
 
@@ -59,15 +60,15 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
 
         Node nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), BpmnHumanTaskActivity.class);
-        Assert.assertEquals(nextNode.getAttribute("name"), "Get Gerardo a cup of coffee!");
-        Assert.assertEquals(nextNode.getAttribute("description"), "It stands for itself.");
-        
+        Assert.assertEquals(nextNode.getAttribute("name"), "Thorben, please process this task!");
+        Assert.assertEquals(nextNode.getAttribute("description"), "It is only a demo task.");
+
         // Asserting the task
         Task task = (Task) nextNode.getActivityBlueprint().getParameters()[0];
-        Assert.assertEquals(task.getSubject(), "Get Gerardo a cup of coffee!");
-        Assert.assertEquals(task.getDescription(), "It stands for itself.");
+        Assert.assertEquals(task.getSubject(), "Thorben, please process this task!");
+        Assert.assertEquals(task.getDescription(), "It is only a demo task.");
         Assert.assertEquals(task.getAssignedResources().iterator().next(), thorben);
-        
+
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
         Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();

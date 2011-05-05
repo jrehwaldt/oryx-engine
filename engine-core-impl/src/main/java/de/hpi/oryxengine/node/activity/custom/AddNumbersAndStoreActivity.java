@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.node.activity.fun;
+package de.hpi.oryxengine.node.activity.custom;
 
 import javax.annotation.Nonnull;
 
@@ -10,11 +10,11 @@ import de.hpi.oryxengine.process.token.Token;
  * The Class AddNumbersAndStoreActivity.
  * As the name indicates, an activity that adds any number of summands and stores the result.
  */
-public class AddContextNumbersAndStoreActivity
+public class AddNumbersAndStoreActivity
 extends AbstractActivity {
 
     /** Summands. */
-    private String[] summands;
+    private int[] summands;
 
     /** The name the resulting variable should have. */
     private String resultVariableName;
@@ -22,11 +22,11 @@ extends AbstractActivity {
     /**
      * Instantiates a "new adds the numbers and store" activity.
      *
-     * @param variableName the variable name
+     * @param variableName - the name of the variable for accessing the result
      * @param summands summands
      */
-    public AddContextNumbersAndStoreActivity(String variableName,
-                                      String... summands) {
+    public AddNumbersAndStoreActivity(String variableName,
+                                      int... summands) {
         super();
         this.summands = summands;
         resultVariableName = variableName;
@@ -35,14 +35,11 @@ extends AbstractActivity {
     @Override
     protected void executeIntern(@Nonnull Token token) {
         
-        ProcessInstanceContext context = token.getInstance().getContext();
-        
         int result = 0;
-        for (String value : this.summands) {
-            
-            result +=  Integer.valueOf(context.getVariable(value).toString());
+        for (int value: this.summands) {
+            result += value;
         }
-
-        context.setVariable(resultVariableName, result);
+        ProcessInstanceContext context = token.getInstance().getContext();
+        context.setVariable(resultVariableName, String.valueOf(result));
     }
 }

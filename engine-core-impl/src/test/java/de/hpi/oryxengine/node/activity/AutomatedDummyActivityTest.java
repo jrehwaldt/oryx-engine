@@ -11,10 +11,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.node.activity.ActivityState;
-import de.hpi.oryxengine.node.activity.fun.AutomatedDummyActivity;
+import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
@@ -82,10 +82,10 @@ public class AutomatedDummyActivityTest {
     /**
      * Test execute output.
      * If the activity is executed it should print out the given String.
-     * @throws DalmatinaException 
+     * @throws JodaEngineException 
      */
     @Test
-    public void testExecuteOutput() throws DalmatinaException {
+    public void testExecuteOutput() throws JodaEngineException {
 
         token.executeStep();
         assertTrue(out.toString().indexOf(s) != -1, "It should print out the given string when executed");
@@ -94,10 +94,10 @@ public class AutomatedDummyActivityTest {
     /**
      * Test state after execution.
      * After execution the activity should be in state TERMINTAED
-     * @throws DalmatinaException 
+     * @throws JodaEngineException 
      */
     @Test
-    public void testStateAfterExecution() throws DalmatinaException {
+    public void testStateAfterExecution() throws JodaEngineException {
 
         //a.execute(token);
         token.executeStep();

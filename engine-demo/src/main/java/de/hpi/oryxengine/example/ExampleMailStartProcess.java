@@ -18,10 +18,10 @@ import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.correlation.registration.StartEventImpl;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -67,15 +67,15 @@ public final class ExampleMailStartProcess {
 		// Building the ProcessDefintion
 		ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-		Node startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
+		Node startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
 
 		// Building Node1
 		int[] ints = { 1, 1 };
-		Node node1 = BpmnFunNodeFactory
+		Node node1 = BpmnCustomNodeFactory
 				.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
 
 		// Building Node2
-		Node node2 = BpmnFunNodeFactory
+		Node node2 = BpmnCustomNodeFactory
 				.createBpmnPrintingVariableNode(builder, "result");
 
 		BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
@@ -110,7 +110,7 @@ public final class ExampleMailStartProcess {
 
 		try {
 			builder.createStartTrigger(event, node1);
-		} catch (DalmatinaRuntimeException e) {
+		} catch (JodaEngineRuntimeException e) {
 			
 			LOGGER.error(e.getMessage(), e);
 		}

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.node.activity.fun;
+package de.hpi.oryxengine.node.activity.custom;
 
 import java.util.Properties;
 

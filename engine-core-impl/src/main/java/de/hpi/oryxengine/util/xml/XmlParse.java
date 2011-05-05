@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.deployment.importer.bpmn.BpmnXmlParse;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.util.io.StreamSource;
 
@@ -91,7 +91,7 @@ public class XmlParse implements XmlParseable {
             String errorMessage = "The Stream '" + streamSource.getName() + "' could not be parsed. Following error ocurred: "
                 + e.getMessage();
             logger.error(errorMessage, e);
-            throw new DalmatinaRuntimeException(errorMessage, e);
+            throw new JodaEngineRuntimeException(errorMessage, e);
         }
 
         return this;

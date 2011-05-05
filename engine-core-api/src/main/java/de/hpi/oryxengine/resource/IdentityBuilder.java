@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 
 /**
@@ -135,12 +135,12 @@ public interface IdentityBuilder {
      * @param organizationUnit
      *            - object that should be deleted.
      * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws DalmatinaException
+     * @throws JodaEngineException
      *             the exception
      */
     @Nonnull
     IdentityBuilder deleteOrganizationUnit(@Nonnull UUID organizationUnit)
-    throws DalmatinaException;
+    throws JodaEngineException;
 
     /**
      * Builds a relationship between an OrganizationUnit and a positionID which represents that a positionID belongs to
@@ -191,12 +191,12 @@ public interface IdentityBuilder {
      * @param superOrganizationUnit
      *            - {@link AbstractOrganizationUnit} above the superOrganizationUnit
      * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws DalmatinaException
+     * @throws JodaEngineException
      *             - in case the sub and super OrganizationUnit are the same
      */
     @Nonnull
     IdentityBuilder subOrganizationUnitOf(@Nonnull UUID subOrganizationUnit, @Nonnull UUID superOrganizationUnit)
-    throws DalmatinaException;
+    throws JodaEngineException;
 
     /**
      * Creates a new positionID, no matter if there exists already a {@link AbstractpositionID} with the same name.
@@ -213,12 +213,12 @@ public interface IdentityBuilder {
      * @param positionID
      *            - object that should be deleted.
      * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws DalmatinaException
+     * @throws JodaEngineException
      *             the exception
      */
     @Nonnull
     IdentityBuilder deletePosition(@Nonnull UUID positionID)
-    throws DalmatinaException;
+    throws JodaEngineException;
 
     /**
      * Defines the relationship between two positionIDs that one positionID is the superior positionID of the other
@@ -234,12 +234,12 @@ public interface IdentityBuilder {
      * @param superiorpositionID
      *            - {@link AbstractpositionID} that is the superior positionID of the other one
      * @return the current IdentityBuilder in order to continue building the organization structures
-     * @throws DalmatinaException
+     * @throws JodaEngineException
      *             - in case the positionID and its superior positionID are the same
      */
     @Nonnull
     IdentityBuilder positionReportsToSuperior(@Nonnull UUID positionID, @Nonnull UUID superiorpositionID)
-    throws DalmatinaException;
+    throws JodaEngineException;
 
     /**
      * Creates a new roleID, no matter if there exists already a {@link AbstractroleID} with the same name.

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import de.hpi.oryxengine.node.activity.fun.AddNumbersAndStoreActivity;
+import de.hpi.oryxengine.node.activity.custom.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
 import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;

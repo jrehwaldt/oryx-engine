@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 
 /**
@@ -46,7 +46,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder deleteParticipant(UUID participantId)
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         Participant participantImpl = Participant.asParticipantImpl(participantId);
 
@@ -165,13 +165,13 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder subOrganizationUnitOf(UUID subOrganizationUnitId, UUID superOrganizationUnitId)
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         OrganizationUnit organizationUnitImpl = OrganizationUnit.asOrganizationUnitImpl(subOrganizationUnitId);
         OrganizationUnit superOrganizationUnitImpl = OrganizationUnit.asOrganizationUnitImpl(superOrganizationUnitId);
 
         if (organizationUnitImpl.equals(superOrganizationUnitImpl)) {
-            throw new DalmatinaException("The OrganizationUnit cannot be the superior of yourself.");
+            throw new JodaEngineException("The OrganizationUnit cannot be the superior of yourself.");
         }
 
         organizationUnitImpl.setSuperOrganizationUnit(superOrganizationUnitImpl);
@@ -228,13 +228,13 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder positionReportsToSuperior(UUID positionId, UUID superiorPositionId)
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         Position positionImpl = Position.asPositionImpl(positionId);
         Position superiorPositionImpl = Position.asPositionImpl(superiorPositionId);
 
         if (positionImpl.equals(superiorPositionImpl)) {
-            throw new DalmatinaException("The Position '" + positionImpl.getID()
+            throw new JodaEngineException("The Position '" + positionImpl.getID()
                 + "' cannot be the superior of yourself.");
         }
 
@@ -247,7 +247,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder deletePosition(UUID positionId)
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         Position positionImpl = Position.asPositionImpl(positionId);
 
@@ -274,7 +274,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder deleteRole(UUID roleId)
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         Role roleImpl = Role.asRoleImpl(roleId);
 
@@ -289,7 +289,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder subRoleOf(UUID subRole, UUID superRole) {
 
-        return null; // TODO @Scherapo - bin mir nicht sicher ob wir überhaupt Oberrollen brauchen; sollte nochmal
+        return null; // TODO @Gerardo - bin mir nicht sicher ob wir überhaupt Oberrollen brauchen; sollte nochmal
                      // diskutiert werden
     }
 }

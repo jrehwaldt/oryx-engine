@@ -8,7 +8,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -39,11 +39,11 @@ public final class TestUtils {
         // create simple process
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-        Node startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
+        Node startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
         
         int[] ints = {1, 1};
-        Node node1 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
-        Node node2 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
+        Node node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
+        Node node2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
         

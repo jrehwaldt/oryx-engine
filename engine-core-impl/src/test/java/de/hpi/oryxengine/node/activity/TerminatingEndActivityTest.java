@@ -10,11 +10,11 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -33,7 +33,7 @@ public class TerminatingEndActivityTest {
 
     @Test
     public void testingTerminatingEndActivity()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         NavigatorImplMock nav = new NavigatorImplMock();
         AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
@@ -94,15 +94,15 @@ public class TerminatingEndActivityTest {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-        startNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
+        startNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
-        Node andSplitNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
+        Node andSplitNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
-        xorJoinNode = BpmnFunNodeFactory.createBpmnNullNode(builder);
+        xorJoinNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
         Node terminatingEnd = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);
 
-        Node computationNode = BpmnFunNodeFactory.createBpmnHashComputationNode(builder, "result", "meinlieblingspasswort");
+        Node computationNode = BpmnCustomNodeFactory.createBpmnHashComputationNode(builder, "result", "meinlieblingspasswort");
 
         BpmnNodeFactory.createTransitionFromTo(builder, startNode, andSplitNode);
         BpmnNodeFactory.createTransitionFromTo(builder, andSplitNode, xorJoinNode);

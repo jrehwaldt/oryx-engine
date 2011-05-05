@@ -13,7 +13,7 @@ import javax.mail.Store;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.adapter.AbstractCorrelationAdapter;
 import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 
 /**
  * This is the default imap mail client implementation and acts as {@link CorrelationAdapter} for the.
@@ -51,7 +51,7 @@ implements InboundPullAdapter {
      */
     @Override
     public void pull()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         try {
             Session session = Session.getInstance(this.configuration.toMailProperties());
@@ -92,9 +92,9 @@ implements InboundPullAdapter {
             // Close the message store
             store.close();
         } catch (MessagingException me) {
-            throw new DalmatinaException("Processing the server's messages failed.", me);
+            throw new JodaEngineException("Processing the server's messages failed.", me);
         } catch (IOException ioe) {
-            throw new DalmatinaException("Communication error during mail fetching.", ioe);
+            throw new JodaEngineException("Communication error during mail fetching.", ioe);
         }
     }
 

@@ -2,7 +2,7 @@ package de.hpi.oryxengine.deployment.importer.bpmn;
 
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
@@ -18,7 +18,7 @@ public class DeployInvalidProcessDefinitionAsBpmnXmlTest extends AbstractBPMNDep
     }
 
     @Override
-    @Test(expectedExceptions = DalmatinaRuntimeException.class)
+    @Test(expectedExceptions = JodaEngineRuntimeException.class)
     public void testCorrectProcessParsingOfXml()
     throws DefinitionNotFoundException {
     

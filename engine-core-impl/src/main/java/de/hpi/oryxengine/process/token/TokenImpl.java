@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.NoValidPathException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.node.activity.Activity;
@@ -146,7 +146,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
     @Override
     public void executeStep()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         if (instance.isCancelled()) {
             // the following statement was already called, when instance.cancel() was called. Nevertheless, a token

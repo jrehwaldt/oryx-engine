@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.exception.DalmatinaException;
+import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.factory.node.GerardoNodeFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
@@ -63,11 +63,11 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
 
     /**
      * Test that the assigned user begins with the humanTask.
-     * @throws DalmatinaException 
+     * @throws JodaEngineException 
      */
     @Test
     public void testJannikBeginsTheWorkItem()
-    throws DalmatinaException {
+    throws JodaEngineException {
         
         token.executeStep();
         
@@ -80,11 +80,11 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
 
     /**
      * Test that the assigned user completes with the humanTask.
-     * @throws DalmatinaException 
+     * @throws JodaEngineException 
      */
     @Test
     public void testJannikCompletesTheWorkItem()
-    throws DalmatinaException {
+    throws JodaEngineException {
         
         token.executeStep();
         
@@ -101,11 +101,11 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
     /**
      * Test resume of a process instance.
      * 
-     * @throws DalmatinaException test fails
+     * @throws JodaEngineException test fails
      */
     @Test
     public void testResumptionOfProcess()
-    throws DalmatinaException {
+    throws JodaEngineException {
 
         token.executeStep();
         

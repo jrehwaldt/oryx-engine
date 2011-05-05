@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.factories.process;
 
-import de.hpi.oryxengine.node.factory.bpmn.BpmnFunNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -36,13 +36,13 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodes() {
 
-        startNode = BpmnFunNodeFactory.createBpmnNullStartNode(builder);
+        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
 
         this.lastNode = startNode;
 
         for (int i = 0; i < NUMBER_OF_NODES; i++) {
 
-            Node tmpNode = BpmnFunNodeFactory.createBpmnHashComputationNode(builder, "hash", PASSWORDS[i
+            Node tmpNode = BpmnCustomNodeFactory.createBpmnHashComputationNode(builder, "hash", PASSWORDS[i
                 % PASSWORDS.length]);
 
             BpmnNodeFactory.createTransitionFromTo(builder, this.lastNode, tmpNode);

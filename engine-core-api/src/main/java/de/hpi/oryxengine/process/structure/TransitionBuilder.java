@@ -2,7 +2,7 @@ package de.hpi.oryxengine.process.structure;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 
 /**
  * The Interface {@link TransitionBuilder}. The {@link TransitionBuilder} is a comfortable way to construct a
@@ -35,7 +35,7 @@ public interface TransitionBuilder {
      * Builds the {@link Transition} and returns it.
      * 
      * @return a configured {@link Transition}
-     * @thorws {@link DalmatinaRuntimeException} in case some constraints are not fulfilled.
+     * @thorws {@link JodaEngineRuntimeException} in case some constraints are not fulfilled.
      */
     @Nonnull
     Transition buildTransition();

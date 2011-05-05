@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 
 /**
@@ -135,13 +135,13 @@ public class Position extends AbstractPosition {
     public static Position asPositionImpl(UUID positionId) throws ResourceNotAvailableException {
 
         if (positionId == null) {
-            throw new DalmatinaRuntimeException("The Position parameter is null.");
+            throw new JodaEngineRuntimeException("The Position parameter is null.");
         }
 
         Position positionImpl = (Position) ServiceFactory.getIdentityService().getPosition(positionId);
 
         if (positionImpl == null) {
-            throw new DalmatinaRuntimeException("There exists no Position with the id " + positionId + ".");
+            throw new JodaEngineRuntimeException("There exists no Position with the id " + positionId + ".");
         }
         return positionImpl;
     }

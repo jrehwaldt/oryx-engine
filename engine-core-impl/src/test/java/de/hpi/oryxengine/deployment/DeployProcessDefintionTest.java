@@ -13,7 +13,7 @@ import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.factory.definition.ProcessDefinitionFactory;
 import de.hpi.oryxengine.factory.definition.SimpleProcessDefinitionFactory;
@@ -60,7 +60,7 @@ public class DeployProcessDefintionTest extends AbstractJodaEngineTest {
      * 
      * @throws DefinitionNotFoundException
      */
-    @Test(expectedExceptions = DalmatinaRuntimeException.class)
+    @Test(expectedExceptions = JodaEngineRuntimeException.class)
     public void testDuplicateDeployment() {
 
         deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));

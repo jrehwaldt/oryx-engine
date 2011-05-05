@@ -6,7 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.exception.DalmatinaRuntimeException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
@@ -94,7 +94,7 @@ public class NodeBuilderImpl implements NodeBuilder {
                 + "Perform setActivityBlueprintFor(...) before.";
 
             logger.error(errorMessage);
-            throw new DalmatinaRuntimeException(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         }
 
         Class<?>[] constructorSignature = null;
@@ -117,7 +117,7 @@ public class NodeBuilderImpl implements NodeBuilder {
             errorMessageBuilder.append(").");
 
             logger.error(errorMessageBuilder.toString());
-            throw new DalmatinaRuntimeException(errorMessageBuilder.toString());
+            throw new JodaEngineRuntimeException(errorMessageBuilder.toString());
         }
     }
 
