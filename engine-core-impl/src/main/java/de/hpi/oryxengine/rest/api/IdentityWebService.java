@@ -184,7 +184,7 @@ public final class IdentityWebService {
     @Path("/roles/{roleID}/participants")
     @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addParticipantsToRole(@PathParam("roleID") String roleID, PatchCollectionChangeset<String> changeset)
+    public Response changeParticipantRoleAssignment(@PathParam("roleID") String roleID, PatchCollectionChangeset<String> changeset)
     throws ResourceNotAvailableException {
 
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
