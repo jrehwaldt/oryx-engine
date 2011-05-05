@@ -11,9 +11,9 @@ import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
@@ -35,6 +35,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
     private static final String PARTICIPANT_URL = "/identity/participants";
     private static final String ROLES_URL = "/identity/roles";
+    
+    private IdentityServiceImpl identity = null;
+    private IdentityBuilder builder = null; 
 
     /**
      * Creates 2 participants.
@@ -50,7 +53,6 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      */
     public void create2Roles() {
 
-        IdentityBuilder builder = ServiceFactory.getIdentityService().getIdentityBuilder();
         r1 = builder.createRole("test1");
         r2 = builder.createRole("test2");
     }
@@ -59,6 +61,15 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
     protected Class<?> getResource() {
 
         return IdentityWebService.class;
+    }
+    
+    /**
+     * Setup.
+     */
+    @BeforeMethod
+    public void setUp() {
+        identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
+        builder = new IdentityBuilderImpl(identity);
     }
 
     /**
@@ -155,9 +166,8 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String participantName = "Participant";
         String requestUrl = PARTICIPANT_URL;
 
-        makeGenericPOSTRequest(requestUrl, participantName, MediaType.APPLICATION_FORM_URLENCODED);
+        makePOSTRequest(requestUrl, participantName, MediaType.APPLICATION_FORM_URLENCODED);
 
-        IdentityService identity = ServiceFactory.getIdentityService();
         Set<AbstractParticipant> actualParticipants = identity.getParticipants();
         Assert.assertEquals(actualParticipants.size(), 1, "There should be one participant.");
         AbstractParticipant createdParticipant = actualParticipants.iterator().next();
@@ -177,9 +187,6 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
         String participantName = "Participant";
 
-        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
-
-        IdentityBuilder builder = new IdentityBuilderImpl(identity);
         AbstractParticipant participant = builder.createParticipant(participantName);
 
         Set<AbstractParticipant> actualParticipants = identity.getParticipants();
@@ -208,9 +215,8 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String roleName = "Role";
         String requestUrl = ROLES_URL;
 
-        makeGenericPOSTRequest(requestUrl, roleName, MediaType.APPLICATION_FORM_URLENCODED);
+        makePOSTRequest(requestUrl, roleName, MediaType.APPLICATION_FORM_URLENCODED);
 
-        IdentityService identity = ServiceFactory.getIdentityService();
         Set<AbstractRole> actualRoles = identity.getRoles();
         Assert.assertEquals(actualRoles.size(), 1, "There should be one role.");
         AbstractRole createdParticipant = actualRoles.iterator().next();
@@ -231,9 +237,6 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
         String roleName = "Role";
 
-        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
-
-        IdentityBuilder builder = new IdentityBuilderImpl(identity);
         AbstractRole role = builder.createRole(roleName);
 
         Set<AbstractRole> actualRoles = identity.getRoles();
@@ -258,9 +261,6 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String roleName = "role";
         String participantName = "participant";
         
-        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
-
-        IdentityBuilder builder = new IdentityBuilderImpl(identity);
         AbstractRole role = builder.createRole(roleName);
         
         AbstractParticipant participant = builder.createParticipant(participantName);
@@ -268,7 +268,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
 //        String json = "{participantIDs : []}";
         String json = "[\"" + participant.getID() + "\"]";
-        MockHttpResponse response = makePOSTRequestWithJson(requestUrl, json);
+        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
         
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), "the result should be ok");
         
@@ -288,15 +288,24 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         UUID randomRoleID = UUID.randomUUID();
         String participantName = "participant";
         
-        IdentityServiceImpl identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
-        IdentityBuilder builder = new IdentityBuilderImpl(identity);
-        AbstractParticipant participant = builder.createParticipant(participantName);
+        IdentityServiceImpl identityService = (IdentityServiceImpl) ServiceFactory.getIdentityService();
+        IdentityBuilder identityBuilder = new IdentityBuilderImpl(identityService);
+        AbstractParticipant participant = identityBuilder.createParticipant(participantName);
         
         String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
         String json = "[\"" + participant.getID() + "\"]";
-        MockHttpResponse response = makePOSTRequestWithJson(requestUrl, json);
+        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
         
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be a 404");
+    }
+    
+    /**
+     * Tests the removal of an participant from an role.
+     */
+    @Test
+    public void testRemovalOfParticipantFromRole() {
+        // Create a role with an assigned participant
+        // TODO
     }
 
 }

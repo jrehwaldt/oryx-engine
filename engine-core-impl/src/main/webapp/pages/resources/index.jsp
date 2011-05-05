@@ -12,22 +12,28 @@
             Name of the new participant: <input type="text" id ="newParticipant" name="newParticipant"/>
             <input type="button" id="createParticipant" value="Create Participant"/>
         </form>
+        
         <h2>Create Roles</h2>
         <form action="" method="post">
             Name of the new role:<input type="text" id ="newRole" name="newRole"/>
             <input type="button" id="createRole" value="Create Role"/>
         </form>
+        
         <h2>Relate participants to roles</h2>
         <div>
             Select a role:<br><select id="roles"></select>
             <form method="get" action="">
                 
                 Search for participants: <input type="text" id="searchParticipant" name="searchParticipant"/>
-                <p>
-                    <div style="float: left;width: 40px;"><select id="resultParticipants" multiple="multiple"></select></div>
-                    <div style="float: left;width: 40px;"><button id="removeParticipant">&lt;</button><button id="addParticipant">&gt;</button></div>
-                    <div style="float: left;width: 40px;"><select id="relatedParticipants" multiple="multiple" style="float: left;"></select></div>
-                </p>
+                <div>
+                    <div><select id="resultParticipants" multiple="multiple" style="float: left;"></select></div>
+                    <div style="float: left;">
+                        <button id="removeParticipant">&lt;</button>
+                        <br/>
+                        <button id="addParticipant">&gt;</button>
+                    </div>
+                    <div><select id="relatedParticipants" multiple="multiple" style="float: left;"></select></div>
+                </div>
             </form>
         </div>
         
