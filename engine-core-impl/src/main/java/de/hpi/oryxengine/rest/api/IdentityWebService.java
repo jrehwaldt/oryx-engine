@@ -89,19 +89,16 @@ public final class IdentityWebService {
 
     /**
      * Deletes a participant with the given id.
-     * 
-     * @param id
-     *            the id
+     *
+     * @param id the id
      * @return the response whether the API call was successful
-     * @throws Exception
-     *             the exception
+     * @throws ResourceNotAvailableException the resource not available exception
      */
-    @Path("/participants")
+    @Path("/participants/{participantId}")
     @DELETE
-    public Response deleteParticipant(@QueryParam("participant-id") String id)
-    throws Exception {
+    public Response deleteParticipant(@PathParam("participantId") String id)
+    throws ResourceNotAvailableException {
 
-        // TODO write an Exception-Provider
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
 
         IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);

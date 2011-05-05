@@ -46,7 +46,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder deleteParticipant(UUID participantId)
-    throws JodaEngineException {
+    throws ResourceNotAvailableException {
 
         Participant participantImpl = Participant.asParticipantImpl(participantId);
 
@@ -54,7 +54,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
             positionImpl.setPositionHolder(null);
         }
 
-        identityService.getParticipantImpls().remove(participantImpl.getID());
+            identityService.getParticipantImpls().remove(participantImpl.getID());
         return this;
     }
 
@@ -203,7 +203,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder organizationUnitDoesNotOfferPosition(UUID organizationUnitId, UUID positionId)
-    throws ResourceNotAvailableException  {
+    throws ResourceNotAvailableException {
 
         Position positionImpl = Position.asPositionImpl(positionId);
         OrganizationUnit organizationUnitImpl = OrganizationUnit.asOrganizationUnitImpl(organizationUnitId);
