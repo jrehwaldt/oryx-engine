@@ -19,8 +19,7 @@ $().ready(function() {
 		$(location).prop('href', '/management/')
 	});
 
-	// Creates a participant which can be used for uploading processes.
-	$('#generate-xml-processGenerate').click(function() {
+	$('#xml-processGenerate').click(function() {
 		$.ajax({
 			type : 'POST',
 			url : '/api/demo/generate-xml-process'
@@ -28,5 +27,15 @@ $().ready(function() {
 		// redirect
 		$(location).prop('href', '/management/')
 	});
+
+	$('#process-start-emailGenerate').click(function() {
+		$.ajax({
+			type : 'POST',
+			url : '/api/demo/generate-process-start-email'
+		});
+		// redirect
+		$(location).attr('href', '/management/')
+	});
+	
 });
 

@@ -34,7 +34,7 @@ import de.hpi.oryxengine.navigator.Navigator;
 /**
  * A concrete implementation of our engines Event Manager.
  */
-public class CorrelationManagerImpl implements CorrelationManager, EventRegistrar, Service {
+public class CorrelationManagerImpl implements CorrelationManager, EventRegistrar, AdapterRegistrar, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -81,7 +81,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
 
     @Override
     public void stop() {
-        
+
         logger.info("Stopping the correlation manager");
     }
 
@@ -102,23 +102,22 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
 
         logger.debug("Registering start event {}", event);
         try {
-            createAdapaterForEvent(event);
+            registerAdapaterForEvent(event);
             this.startEvents.add(event);
         } catch (AdapterSchedulingException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
-     * Creates the adapater for an event according to its event type.
+     * Creates the adapter for an event according to its event type.
      * 
      * @param event
      *            the event
      * @throws AdapterSchedulingException
      *             the adapter scheduling exception
      */
-    private void createAdapaterForEvent(ProcessEvent event)
+    private void registerAdapaterForEvent(ProcessEvent event)
     throws AdapterSchedulingException {
 
         // TODO: Implement Comparable for Adapter configurations
@@ -128,51 +127,34 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
         }
         // Maybe it is possible to do this better.
         AdapterConfiguration configuration = (AdapterConfiguration) event.getEventConfiguration();
-        configuration.createAdapter(this);
-            
+        configuration.registerAdapter(this);
     }
 
     @Override
     public String registerIntermediateEvent(@Nonnull IntermediateEvent event) {
+
         String jobCompleteName = null;
         logger.debug("Registering intermediate event {}", event);
         try {
-            jobCompleteName = this.timer.registerNonRecurringJob(
-                (TimedConfiguration) event.getEventConfiguration(),
+            jobCompleteName = this.timer.registerNonRecurringJob((TimedConfiguration) event.getEventConfiguration(),
                 event.getToken());
         } catch (AdapterSchedulingException e) {
             e.printStackTrace();
         }
-        
+
         return jobCompleteName;
     }
 
-    /**
-     * A call to this method registers the corresponding adapter.
-     * 
-     * @param adapter
-     *            the {@link InboundAdapter} to register
-     * @param <Adapter>
-     *            the adapter's type, generally {@link InboundAdapter} or {@link InboundPullAdapter}
-     * @return the registered {@link InboundAdapter}
-     */
-    private @Nonnull
+    @Override
+    public @Nonnull
     <Adapter extends InboundAdapter> Adapter registerAdapter(@Nonnull Adapter adapter) {
 
         this.inboundAdapter.put(adapter.getConfiguration(), adapter);
         return adapter;
     }
 
-    /**
-     * A call to this method registers the corresponding adapter.
-     * 
-     * @param adapter
-     *            the {@link InboundAdapter} to register
-     * @return the registered {@link InboundAdapter}
-     * @throws AdapterSchedulingException
-     *             thrown if the scheduling fails
-     */
-    private @Nonnull
+    @Override
+    public @Nonnull
     InboundPullAdapter registerPullAdapter(@Nonnull InboundPullAdapter adapter)
     throws AdapterSchedulingException {
 
@@ -197,17 +179,17 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
 
         for (StartEvent event : startEvents) {
             boolean triggerEvent = true;
-            
+
             // don't correlate events of different types.
             if (e.getAdapterType() != event.getEventConfiguration().getEventType()) {
                 continue;
             }
-            
+
             // don't correlate events that were assigned to different configurations.
             if (e.getAdapterConfiguration() != event.getEventConfiguration()) {
                 continue;
             }
-            
+
             for (EventCondition condition : event.getConditions()) {
                 Method method = condition.getMethod();
                 Object returnValue = method.invoke(e);
@@ -242,10 +224,10 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
 
         return this.inboundAdapter.values();
     }
-    
+
     @Override
     public TimingManagerImpl getTimer() {
-        
+
         return timer;
     }
 }

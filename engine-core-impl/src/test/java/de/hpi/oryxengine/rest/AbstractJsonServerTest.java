@@ -38,7 +38,8 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     
     protected static final Status HTTP_STATUS_OK = Status.OK;
     protected static final Status HTTP_STATUS_FAIL = Status.NOT_FOUND;
-    
+    protected static final Status HTTP_BAD_REQUEST = Status.BAD_REQUEST;
+        
     public static final String TMP_PATH = "./target/";
         
     protected Dispatcher dispatcher = null;

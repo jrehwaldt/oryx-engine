@@ -1,13 +1,12 @@
 package de.hpi.oryxengine.rest.api;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,8 +16,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import ch.qos.logback.classic.Logger;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
@@ -187,7 +184,7 @@ public final class IdentityWebService {
     @Path("/roles/{roleID}/participants")
     @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addParticipantsToRole(@PathParam("roleID") String roleID, PatchCollectionChangeset<String> changeset)
+    public Response changeParticipantRoleAssignment(@PathParam("roleID") String roleID, PatchCollectionChangeset<String> changeset)
     throws ResourceNotAvailableException {
 
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
@@ -195,6 +192,12 @@ public final class IdentityWebService {
 
         List<String> additions = changeset.getAdditions();
         List<String> removals = changeset.getRemovals();
+        
+        if (!Collections.disjoint(additions, removals)) {
+            // additions and removals have some elements in common
+            // do error handling here
+            return Response.status(Status.BAD_REQUEST).build();
+        }
         
         IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
         for (String participantID : additions) {
@@ -205,31 +208,6 @@ public final class IdentityWebService {
             UUID participantUUID = UUID.fromString(participantID);
             builder.participantDoesNotBelongToRole(participantUUID, roleUUID);
         }
-        
-        // TODO error handling
-        
-//        List<String> nonExistingParticipants = new ArrayList<String>();
-//        for (String participantID : participantIDs) {
-//            UUID participantUUID = UUID.fromString(participantID);
-//            IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
-//
-//            try {
-//                builder.participantBelongsToRole(participantUUID, roleUUID);
-//            } catch (ResourceNotAvailableException e) {
-//                // depending on whether the role or some of the specified participants are missing, we want to react
-//                // differently.
-//                if (e.getClass().equals(AbstractParticipant.class)) {
-//                    nonExistingParticipants.add(e.getResourceID().toString());
-//                } else if (e.getResourceClass().equals(AbstractRole.class)) {
-//                    throw e;
-//                }
-//            }
-//        }
-//
-//        if (!nonExistingParticipants.isEmpty()) {
-//            // TODO add the ids of the unfound participants to the response
-//            return Response.status(Status.NOT_FOUND).build();
-//        }
 
         return Response.ok().build();
     }
