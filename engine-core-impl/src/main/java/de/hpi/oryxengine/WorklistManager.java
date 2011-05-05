@@ -77,7 +77,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
     @Override
     public @Nullable AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
-                                         @Nonnull UUID worklistItemId)
+                                                          @Nonnull UUID worklistItemId)
     throws InvalidWorkItemException {
 
         for (final AbstractWorklistItem item : resource.getWorklist()) {
@@ -86,9 +86,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
             }
         }
         
-        //Throw an exception, if the item was not found
-        throw new InvalidWorkItemException();
-
+        // throw an exception, if the item was not found
+        throw new InvalidWorkItemException(worklistItemId);
     }
 
     @Override
