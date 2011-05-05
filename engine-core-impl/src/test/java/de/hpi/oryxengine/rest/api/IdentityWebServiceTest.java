@@ -3,12 +3,15 @@ package de.hpi.oryxengine.rest.api;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 import org.jboss.resteasy.mock.MockHttpResponse;
@@ -255,6 +258,60 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         actualRoles = identity.getRoles();
         Assert.assertEquals(actualRoles.size(), 0, "There should be no role left.");
 
+    }
+
+    /**
+     * Test the API function to get all participants of a specific role.
+     * 
+     * @throws ResourceNotAvailableException
+     *             the resource not available exception
+     * @throws URISyntaxException
+     *             the uRI syntax exception
+     * @throws JsonParseException
+     *             the json parse exception
+     * @throws JsonMappingException
+     *             the json mapping exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    @Test
+    public void testGetParticipantsForRole()
+    throws ResourceNotAvailableException, URISyntaxException, JsonParseException, JsonMappingException, IOException {
+
+        String roleName = "Role";
+        String participantName = "Participant";
+
+        AbstractParticipant participant = builder.createParticipant(participantName);
+        AbstractRole role = builder.createRole(roleName);
+
+        builder.participantBelongsToRole(participant.getID(), role.getID());
+
+        String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
+        MockHttpResponse response = makeGETRequest(requestUrl);
+        String json = response.getContentAsString();
+
+        JavaType typeRef = TypeFactory.collectionType(Set.class, AbstractParticipant.class);
+        Set<AbstractParticipant> result = this.mapper.readValue(json, typeRef);
+
+        Set<AbstractParticipant> expectedResult = new HashSet<AbstractParticipant>();
+        expectedResult.add(participant);
+
+        Assert.assertEquals(result, expectedResult, "there should be one participant in the result");
+    }
+
+    /**
+     * Test that checks, if a 404 is thrown, if the requested role does not exist.
+     *
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    @Test
+    public void testGetParticipantsForNonExistingRole()
+    throws URISyntaxException {
+
+        String requestUrl = ROLES_URL + "/" + UUID.randomUUID() + "/participants";
+        MockHttpResponse response = makeGETRequest(requestUrl);
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(),
+            "If the role does not exists, a 404 should be returned");
     }
 
     /**

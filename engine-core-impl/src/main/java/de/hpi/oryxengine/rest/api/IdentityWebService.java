@@ -171,7 +171,20 @@ public final class IdentityWebService {
         return Response.ok().build();
     }
     
-    
+    /**
+     * Gets all participants for the specified role.
+     *
+     * @param roleID the role id
+     * @return the participants for role
+     * @throws ResourceNotAvailableException thrown if the specified role does not exist
+     */
+    @Path("/roles/{roleID}/participants")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Set<AbstractParticipant> getParticipantsForRole(@PathParam("roleID") String roleID) throws ResourceNotAvailableException {
+        UUID roleUUID = UUID.fromString(roleID);
+        return identity.getRole(roleUUID).getParticipantsImmutable();
+    }
 
     /**
      * Adds the participant as specified in the post request body to the role.
