@@ -2,6 +2,8 @@ package de.hpi.oryxengine.rest.api;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -36,9 +38,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
     private static final String PARTICIPANT_URL = "/identity/participants";
     private static final String ROLES_URL = "/identity/roles";
-    
+
     private IdentityServiceImpl identity = null;
-    private IdentityBuilder builder = null; 
+    private IdentityBuilder builder = null;
 
     /**
      * Creates 2 participants.
@@ -63,21 +65,24 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
         return IdentityWebService.class;
     }
-    
+
     /**
      * Sets the identity service and builder that is used in most of the tests.
      */
     @BeforeMethod
     public void setUp() {
+
         identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
         builder = new IdentityBuilderImpl(identity);
     }
 
     /**
      * Test get participants. It should get all participants.
-     *
-     * @throws URISyntaxException the uRI syntax exception
-     * @throws IOException Signals that an I/O exception has occurred.
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     @Test
     public void testGetParticipants()
@@ -251,72 +256,121 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(actualRoles.size(), 0, "There should be no role left.");
 
     }
-    
+
     /**
      * Test the assignment of a participant to an existing role.
-     * @throws URISyntaxException 
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
      */
     @Test
-    public void testParticipantToRoleAssignment() throws URISyntaxException {
+    public void testParticipantToRoleAssignment()
+    throws URISyntaxException {
+
         // Create a role
         String roleName = "role";
         String participantName = "participant";
-        
+
         AbstractRole role = builder.createRole(roleName);
-        
+
         AbstractParticipant participant = builder.createParticipant(participantName);
-        
+
         String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
-//        String json = "{participantIDs : []}";
-        String json = "{ \"additions\": [\"" + participant.getID() + "\"]," +
-        		"\"removals\": [], \"@classifier\": \"de.hpi.oryxengine.rest.PatchCollectionChangeset\"}";
+        // String json = "{participantIDs : []}";
+        String json = "{ \"additions\": [\"" + participant.getID() + "\"],"
+            + "\"removals\": [], \"@classifier\": \"de.hpi.oryxengine.rest.PatchCollectionChangeset\"}";
         MockHttpResponse response = makePATCHRequest(requestUrl, json, MediaType.APPLICATION_JSON);
-        
+
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), "the result should be ok");
-        
+
         Set<AbstractParticipant> assignedParticipants = role.getParticipantsImmutable();
         Assert.assertEquals(assignedParticipants.size(), 1, "the role has now one participant");
-        
+
         AbstractParticipant assignedParticipant = assignedParticipants.iterator().next();
         Assert.assertEquals(assignedParticipant, participant, "it should be the participant we created");
     }
-    
-//    /**
-//     * Tests that an error code is returned, if the role does not exist.
-//     * @throws URISyntaxException 
-//     */
-//    @Test
-//    public void testParticipantToNonExistingRoleAssignment() throws URISyntaxException {
-//        UUID randomRoleID = UUID.randomUUID();
-//        String participantName = "participant";        
-//               
-//        AbstractParticipant participant = builder.createParticipant(participantName);
-//        
-//        String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
-//        String json = "[\"" + participant.getID() + "\"]";
-//        MockHttpResponse response = makePOSTRequest(requestUrl, json, MediaType.APPLICATION_JSON);
-//        
-//        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be a 404");
-//    }
-    
-//    /**
-//     * Test the removal of participants from a role.
-//     *
-//     * @throws ResourceNotAvailableException the resource not available exception
-//     */
-//    @Test
-//    public void testRemovalOfParticipantFromRole() throws ResourceNotAvailableException {
-//        // Create a role with an assigned participant
-//        String roleName = "Role";
-//        String participantName = "Participant";
-//        
-//        AbstractRole role = builder.createRole(roleName);
-//        AbstractParticipant participant = builder.createParticipant(participantName);
-//        
-//        builder.participantBelongsToRole(participant.getID(), role.getID());
-//        
-//        String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
-//        String json = "[\"" + participant.getID() + "\"]";
-//    }
+
+    /**
+     * Tests that an error code is returned, if the role does not exist.
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
+     */
+    @Test
+    public void testParticipantToNonExistingRoleAssignment()
+    throws URISyntaxException {
+
+        UUID randomRoleID = UUID.randomUUID();
+        String participantName = "participant";
+
+        AbstractParticipant participant = builder.createParticipant(participantName);
+
+        String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
+        String json = "{ \"additions\": [\"" + participant.getID() + "\"],"
+            + "\"removals\": [], \"@classifier\": \"de.hpi.oryxengine.rest.PatchCollectionChangeset\"}";
+        MockHttpResponse response = makePATCHRequest(requestUrl, json, MediaType.APPLICATION_JSON);
+
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_FAIL.getStatusCode(), "the result should be a 404");
+    }
+
+    /**
+     * Test the removal of participants from a role.
+     * 
+     * @throws ResourceNotAvailableException
+     *             the resource not available exception
+     * @throws URISyntaxException
+     */
+    @Test
+    public void testRemovalOfParticipantFromRole()
+    throws ResourceNotAvailableException, URISyntaxException {
+
+        // Create a role with an assigned participant
+        String roleName = "Role";
+        String participantName = "Participant";
+
+        AbstractRole role = builder.createRole(roleName);
+        AbstractParticipant participant = builder.createParticipant(participantName);
+
+        builder.participantBelongsToRole(participant.getID(), role.getID());
+
+        String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
+        String json = "{ \"additions\": []," + "\"removals\": [\"" + participant.getID()
+            + "\"], \"@classifier\": \"de.hpi.oryxengine.rest.PatchCollectionChangeset\"}";
+
+        MockHttpResponse response = makePATCHRequest(requestUrl, json, MediaType.APPLICATION_JSON);
+        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), "the result should be ok");
+
+        Set<AbstractParticipant> assignedParticipants = role.getParticipantsImmutable();
+        Assert.assertEquals(assignedParticipants.size(), 0, "the role has now one participant");
+    }
+
+    @Test
+    public void testConcurrentRemovalAndAddition()
+    throws ResourceNotAvailableException, URISyntaxException {
+
+        // Create a role with an assigned participant
+        String roleName = "Role";
+        String participantName = "Participant";
+
+        AbstractRole role = builder.createRole(roleName);
+        AbstractParticipant participant = builder.createParticipant(participantName);
+
+        builder.participantBelongsToRole(participant.getID(), role.getID());
+
+        String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
+        // we try to add AND remove the participant from the role
+        String json = "{ \"additions\": [\"" + participant.getID() + "\"]," + "\"removals\": [\"" + participant.getID()
+            + "\"], \"@classifier\": \"de.hpi.oryxengine.rest.PatchCollectionChangeset\"}";
+
+        MockHttpResponse response = makePATCHRequest(requestUrl, json, MediaType.APPLICATION_JSON);
+        Assert.assertEquals(response.getStatus(), HTTP_BAD_REQUEST.getStatusCode(),
+            "the request should not have been processed");
+
+        Set<AbstractParticipant> assignedParticipants = role.getParticipantsImmutable();
+        List<AbstractParticipant> expectedAssignedParticipants = new ArrayList<AbstractParticipant>();
+        expectedAssignedParticipants.add(participant);
+        Assert.assertEquals(assignedParticipants, expectedAssignedParticipants,
+            "the role assignement should not have changed");
+    }
 
 }
