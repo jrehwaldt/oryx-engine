@@ -1,9 +1,12 @@
 $().ready(function() {
 	var participants;
-	var toAddToRole;
-	var toDeleteFromRole;
+	var additions = [];
+	var removals = [];
+	
+	// reset the search field on site load
 	$("#searchParticipant").val("");
 	
+	// get all roles existing in the engine on site load
 	$.ajax({
         type: 'GET',
         url: '/api/identity/roles',
@@ -17,6 +20,7 @@ $().ready(function() {
         dataType: "json"
     });
 	
+	// get all participants existing in the engine on site load
 	$.ajax({
         type: 'GET',
         url: '/api/identity/participants',
@@ -30,6 +34,7 @@ $().ready(function() {
         dataType: "json"
     });
 	
+	// create the participant with the name given in the name field
 	$("#createParticipant").click(function() {
         $.ajax({
             type: 'POST',
@@ -38,6 +43,7 @@ $().ready(function() {
         });
     });
 	
+	// create the participant with the name given in the name field
 	$("#createRole").click(function() {
         $.ajax({
             type: 'POST',
@@ -46,10 +52,10 @@ $().ready(function() {
         });
     })
     
+    // instant search for participants that shall be added to a role
     $("#searchParticipant").keyup(function(event) {
     	$("#resultParticipants").empty();
     	var $textField = $(this);
-    	console.log($("#resultParticipants"));
     	$.each(participants, function(i, participant) {
             if (participant.name.indexOf($textField.val())!= (-1)) {
             	$("#resultParticipants").append("<option value=\"" + participant.id + "\">" + participant.name + "</option>");
@@ -58,17 +64,38 @@ $().ready(function() {
     	
     })
     
+    // add the selected participants to the list of to-be-added participants for a role
     $("#addParticipant").click(function() {
-    	var participants = {};
     	$("#resultParticipants :selected").each(function(i, option) {
-    		participants["participant1"] = option;
+    		$.merge(additions,[option.value]);
     	})
-    	console.log(participants);
+    })
+    
+    // add the selected participants to the list of to-be-removed participants for a role
+    $("#removeParticipant").click(function() {
+    	$("#relatedParticipants :selected").each(function(i, option) {
+    		$.merge(removals,[option.value]);
+    	})
+    })
+    
+    //
+    $("roles").change(function() {
+		
+	})
+    
+    // submit the two lists of to-be-added and to-be-removed participants
+    $("#submitChanges").click(function() {
+    	var changeSet = {};
+    	changeSet["@classifier"] = "de.hpi.oryxengine.rest.PatchCollectionChangeset";
+    	changeSet["additions"] = additions;
+    	changeSet["removals"] = removals;
+    	console.log(changeSet);
     	var roleID = $("#roles :selected").val();
     	$.ajax({
-            type: 'POST',
+            type: 'PATCH',
             url: '/api/identity/roles/' + roleID + '/participants' ,
-            data: participants
-        });
+            data: JSON.stringify(changeSet),
+            contentType: "application/json"
+        })
     })
 })

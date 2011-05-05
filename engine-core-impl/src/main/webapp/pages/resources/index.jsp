@@ -34,6 +34,7 @@
                     </div>
                     <div><select id="relatedParticipants" multiple="multiple" style="float: left;"></select></div>
                 </div>
+                <input type="button" id="submitChanges" value="Submit Changes"/>
             </form>
         </div>
         
