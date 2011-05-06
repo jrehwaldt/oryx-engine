@@ -17,12 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import net.htmlparser.jericho.Config;
-import net.htmlparser.jericho.FormField;
-import net.htmlparser.jericho.FormFields;
-import net.htmlparser.jericho.OutputDocument;
-import net.htmlparser.jericho.Source;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +37,12 @@ import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.rest.WorklistActionWrapper;
+
+import net.htmlparser.jericho.Config;
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.FormFields;
+import net.htmlparser.jericho.OutputDocument;
+import net.htmlparser.jericho.Source;
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -200,7 +200,7 @@ public final class WorklistWebService {
         UUID itemUUID = UUID.fromString(worklistItemId);
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
                 
-        // try to get the worklistitem and its token and thereby the context to put in the new data
+        // try to get the worklist item and its token and thereby the context to put in the new data
         AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);
         item = service.getWorklistItem(resource, itemUUID);
         ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
