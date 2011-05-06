@@ -4,7 +4,6 @@
     <script type="text/javascript" src="/javascripts/demo/form.js"></script>
     </head>
     <body>
-        <h1>Formular</h1>
         <div id="formContent">
         </div>
     </body>

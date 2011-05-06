@@ -4,6 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
+import de.hpi.oryxengine.process.structure.Condition;
+import de.hpi.oryxengine.process.structure.Node;
+import de.hpi.oryxengine.process.structure.Transition;
+import de.hpi.oryxengine.process.structure.TransitionBuilder;
 
 /**
  * The implementation of the {@link TransitionBuilder}.

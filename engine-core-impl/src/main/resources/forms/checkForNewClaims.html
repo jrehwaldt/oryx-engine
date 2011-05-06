@@ -1,33 +1,41 @@
-<h1>Widerspruch auf bestehende Ansprüche überprüfen</h1>
+<h1>Widerspruch auf bestehende Ansprueche ueberpruefen</h1>
+
 <form id="checkClaims" name="newClaims" method="post">
-	
-    <h2>
-        Widerspruchspunkte:
-    </h2>
-	<ul>
-	    <li>
-	        <input name="newClaimPoint1" type="text" />
-	    </li>
-	    <li>
-	        <input name="newClaimPoint2" type="text" />
-	    </li>
-	    <li>
-	        <input name="newClaimPoint3" type="text" />
-	    </li>
-	    <li>
-	        <input name="newClaimPoint4" type="text" />
-	    </li>
-	    <li>
-	        <input name="newClaimPoint5" type="text" />
-	    </li>
-	</ul>
-	
-	<div id="decideOnNewClaims">
-		<h3>Neue Widerspruchspunkte?</h3>
-		<input type="radio" name="neue Aspekte" value="ja" /> Ja<br />
-		<input type="radio" name="neue Aspekte" value="nein" /> Nein 
-	</div>
-	
-	
-	<input type="submit" value="Abschicken"/>
+    
+    <table>
+        
+        <tr><th colspan="2">Widerspruchspunkte</th></tr>
+        <tr>
+            <td>Punkt 1</td>
+            <td><input name="newClaimPoint1" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Punkt 2</td>
+            <td><input name="newClaimPoint2" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Punkt 3</td>
+            <td><input name="newClaimPoint3" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Punkt 4</td>
+            <td><input name="newClaimPoint4" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Punkt 5</td>
+            <td><input name="newClaimPoint5" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Widerspruchspunkte neu?</td>
+            <td>
+                <input type="radio" name="neue Aspekte" value="ja" checked="checked" id="neu_ja" />
+                <label for="neu_ja">Ja</label>
+                <br />
+                <input type="radio" name="neue Aspekte" value="nein" id="neu_nein" />
+                <label for="neu_nein">Nein</label>
+            </td>
+        </tr>
+    </table>
+    
+    <input type="submit" value="Abschicken"/>
 </form>

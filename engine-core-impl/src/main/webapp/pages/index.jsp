@@ -6,15 +6,15 @@
         <script type="text/javascript" src="/javascripts/demo/demo-ajax.js"></script>
     </head>
     <body>
-        <h1>Prototype REST-interface</h1>
+        <h1>Web-Prototyp</h1>
         <a href="demo/">Generate Demo Data</a>
-        
         <br /><br />
         
         <h2>Participant Login</h2>
         <div id="loginpart">
-            <select id="loginBox"></select>
-            <button id="loginButton" href="worklist">Login</button>
+          <select id="loginBox">
+          </select>
+          <button id="loginButton" href="worklist">Login</button>
         </div>
     </body>
 </html>

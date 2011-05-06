@@ -46,7 +46,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
     @Override
     public IdentityBuilder deleteParticipant(UUID participantId)
-    throws ResourceNotAvailableException {
+    throws JodaEngineException {
 
         Participant participantImpl = Participant.asParticipantImpl(participantId);
 
@@ -289,7 +289,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder subRoleOf(UUID subRole, UUID superRole) {
 
-        return null; // TODO @Gerardo - bin mir nicht sicher, ob wir überhaupt Oberrollen brauchen; dies sollte nochmal
+        return null; // TODO @Gerardo - bin mir nicht sicher ob wir überhaupt Oberrollen brauchen; sollte nochmal
                      // diskutiert werden
     }
 }

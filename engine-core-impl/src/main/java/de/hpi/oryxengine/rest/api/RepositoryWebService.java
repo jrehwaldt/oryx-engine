@@ -15,7 +15,11 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
-import de.hpi.oryxengine.deployment.importer.BpmnXmlImporter;
+import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.node.factory.TransitionFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
@@ -91,10 +95,10 @@ public class RepositoryWebService {
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
         int[] integers = {1, 1};
-        Node node1 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
-        Node node2 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
-        Node node3 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
-        Node node4 = BpmnFunNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
+        Node node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
+        Node node2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
+        Node node3 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
+        Node node4 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
         TransitionFactory.createTransitionFromTo(builder, node1, node2);

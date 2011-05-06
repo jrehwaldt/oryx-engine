@@ -20,6 +20,7 @@ import de.hpi.oryxengine.process.token.Token;
 public class HashMapCondition implements Condition {
     
     private String compareWith;
+    private boolean nullEvaluatesToTrue;
     
     private Set<?> set;
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -29,11 +30,24 @@ public class HashMapCondition implements Condition {
      *
      * @param variablesToCheck the variables to check
      * @param compareWith the comparator, yet == <= >= are possible for integers only
+     * @param nullEvaluatesToTrue weather null evaluates to true
      */
-    public HashMapCondition(Map<String, Object> variablesToCheck, String compareWith) {
+    public HashMapCondition(Map<String, Object> variablesToCheck, String compareWith, boolean nullEvaluatesToTrue) {
 
         this.set = variablesToCheck.entrySet();
         this.compareWith = compareWith;
+        this.nullEvaluatesToTrue = nullEvaluatesToTrue;
+    }
+
+    /**
+     * Instantiates a new condition with a given comparator.
+     *
+     * @param variablesToCheck the variables to check
+     * @param compareWith the comparator, yet == <= >= are possible for integers only
+     */
+    public HashMapCondition(Map<String, Object> variablesToCheck, String compareWith) {
+        
+        this(variablesToCheck, compareWith, false);
     }
 
     /**
@@ -48,8 +62,8 @@ public class HashMapCondition implements Condition {
 
         Iterator<?> i = set.iterator();
         boolean result = true;
-        logger.debug("HashmapCondition variables to check: " + set.toString());
-        logger.debug("instance context widerspruch: " + token.getInstance().getContext().getVariable("widerspruch"));
+        logger.debug("HashMapCondition variables to check: {}", set);
+        logger.debug("instance context variables: {}", token.getInstance().getContext().getVariableMap());
         
         while (i.hasNext()) {
             ProcessInstanceContext context = token.getInstance().getContext();
@@ -57,13 +71,27 @@ public class HashMapCondition implements Condition {
             Map.Entry<String, Object> me = (Map.Entry<String, Object>) i.next();
             Object contextValue = context.getVariable((String) me.getKey());
             
-            if (contextValue == null || me.getValue() == null) {
+            if ((!this.nullEvaluatesToTrue && contextValue == null) || me.getValue() == null) {
+                
                 result = false;
                 break;
-            } 
-            if (contextValue instanceof java.lang.String && !contextValue.equals(me.getValue())) {
+            } else if (this.nullEvaluatesToTrue && contextValue == null) {
+                
+                break;
+            }
+            
+            if (contextValue instanceof java.lang.String && this.compareWith.equals("==")
+                && !contextValue.equals(me.getValue())) {
+                
                 result = false;
                 break;
+                
+            } else if (contextValue instanceof java.lang.String && this.compareWith.equals("!=")
+                && contextValue.equals(me.getValue())) {
+                
+                result = false;
+                break;
+                
             } else if (!(contextValue instanceof java.lang.String) && this.compareWith.equals("==")
                 && !sameAs(Integer.parseInt(contextValue.toString()), Integer.parseInt(me.getValue().toString()))) {
                 
@@ -83,7 +111,6 @@ public class HashMapCondition implements Condition {
                 break;
                 
             }
-                 
             
         }
         return result;

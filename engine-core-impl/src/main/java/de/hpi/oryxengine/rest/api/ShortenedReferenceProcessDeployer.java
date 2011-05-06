@@ -95,7 +95,7 @@ public final class ShortenedReferenceProcessDeployer {
         // human task for objection clerk, task is to check
         // positions of objection
         Form form = extractForm("form1", "claimPoints.html");
-        Task task = createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen", form,
+        Task task = createRoleTask("Positionen auf Anspruch pruefen", "Anspruchspositionen ueberpruefen", form,
             objectionClerk);
         human1Node = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
@@ -105,12 +105,13 @@ public final class ShortenedReferenceProcessDeployer {
         map1.put("widerspruch", "stattgegeben");
         Condition condition1 = new HashMapCondition(map1, "==");
         Map<String, Object> map2 = new HashMap<String, Object>();
-        map2.put("widerspruch", "abgelehnt");
-        Condition condition2 = new HashMapCondition(map2, "==");
+        // == abgelehnt or null
+        map2.put("widerspruch", "stattgegeben");
+        Condition condition2 = new HashMapCondition(map2, "!=", true);
 
         // human task for objection clerk, task is to check objection
         form = extractForm("form2", "checkForNewClaims.html");
-        task = createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche", form,
+        task = createRoleTask("Widerspruch pruefen", "Widerspruch erneut pruefen auf neue Ansprueche", form,
             objectionClerk);
         human2Node = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
@@ -120,12 +121,12 @@ public final class ShortenedReferenceProcessDeployer {
         map1.put("neue Aspekte", "ja");
         Condition condition3 = new HashMapCondition(map1, "==");
         map2 = new HashMap<String, Object>();
-        map2.put("neue Aspekte", "nein");
-        Condition condition4 = new HashMapCondition(map2, "==");
+        map2.put("neue Aspekte", "ja");
+        Condition condition4 = new HashMapCondition(map2, "!=", true);
 
         // human task for objection clerk, task is to create a new report
         form = extractForm("form3", "createReport.html");
-        task = createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen", form,
+        task = createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten uebertragen", form,
             objectionClerk);
         human3Node = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
@@ -138,20 +139,20 @@ public final class ShortenedReferenceProcessDeployer {
         map1.put("aufrecht", "ja");
         Condition condition5 = new HashMapCondition(map1, "==");
         map2 = new HashMap<String, Object>();
-        map2.put("aufrecht", "nein");
-        Condition condition6 = new HashMapCondition(map2, "==");
+        map2.put("aufrecht", "ja");
+        Condition condition6 = new HashMapCondition(map2, "!=", true);
 
         // XOR Join
         xor4Node = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
 
         // human task for objection clerk, task is to do final work
         form = extractForm("form4", "postEditingClaim.html");
-        task = createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", form, objectionClerk);
+        task = createRoleTask("Nachbearbeitung", "Nachbearbeitung des Falls", form, objectionClerk);
         human4Node = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
         // human task for allowance clerk, task is to enforce allowance
         form = extractForm("form5", "enforceAllowance.html");
-        task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", form, allowanceClerk);
+        task = createRoleTask("Leistungsgewaehrung umsetzen", "Leistungsansprueche durchsetzen", form, allowanceClerk);
         human5Node = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
         // final XOR Join

@@ -1,18 +1,34 @@
-<h1>Widerspruch auf bestehende Ansprüche überprüfen</h1>
+<h1>Widerspruch auf bestehende Ansprueche ueberpruefen</h1>
+
 <form id="checkClaims" name="newClaims" method="post">
-
-<ul>
-	<h3>Widerspruchspunkte:</h3>
-	<li><input name="newClaimPoint1" type="text" /></li>
-	<li><input name="newClaimPoint2" type="text" /></li>
-	<li><input name="newClaimPoint3" type="text" /></li>
-	<li><input name="newClaimPoint4" type="text" /></li>
-	<li><input name="newClaimPoint5" type="text" /></li>
-</ul>
-
-<div id="allowance">
-    Zu gewährende Leistung: <input type="text" name="Leistung"/>
-</div>
-
-<input type="submit" value="Abschicken" /></form>
-
+    
+    <table>
+        <tr><th colspan="2">Widerspruchspunkte</th></tr>
+        <tr>
+            <td>Punkt 1</td>
+            <td><input name="newClaimPoint1" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Punkt 2</td>
+            <td><input name="newClaimPoint2" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Punkt 3</td>
+            <td><input name="newClaimPoint3" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Punkt 4</td>
+            <td><input name="newClaimPoint4" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Punkt 5</td>
+            <td><input name="newClaimPoint5" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Zu gewaehrende Leistung</td>
+            <td><input type="text" name="Leistung" style="width: 90%"/> &euro;</td>
+        </tr>
+    </table>
+    
+    <input type="submit" value="Abschicken" />
+</form>

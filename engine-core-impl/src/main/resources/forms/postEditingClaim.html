@@ -1,29 +1,38 @@
 <h1>Nachbearbeitung des Widerspruchs</h1>
-<div>
 
-<h2>Widerspruchspunkte:</h2>
 <form id="checkClaims" name="claims" method="post">
-	<ul>
-	    <li>
-	        <input name="newClaimPoint1" type="text" />
-	    </li>
-	    <li>
-	        <input name="newClaimPoint2" type="text" />
-	    </li>
-	    <li>
-	        <input name="newClaimPoint3" type="text" />
-	    </li>
-	    <li>
-	        <input name="newClaimPoint4" type="text" />
-	    </li>
-	    <li>
-	        <input name="newClaimPoint5" type="text" />
-	    </li>
-	</ul>
-	<h2>Anmerkungen zum Fall:</h2>
-	<textarea id="textarea" name="comments"></textarea>
-	<h2>Bemerkungen zur internen Weiterverarbeitung:</h2>
-	<textarea id="textarea" name="internalRemarks"></textarea>
-	<input type="submit" value="Abschicken">
+    <table>
+        <tr><th colspan="2">Widerspruchspunkte</th></tr>
+        <tr>
+            <td>Punkt 1</td>
+            <td><input name="newClaimPoint1" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Punkt 2</td>
+            <td><input name="newClaimPoint2" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Punkt 3</td>
+            <td><input name="newClaimPoint3" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Punkt 4</td>
+            <td><input name="newClaimPoint4" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Punkt 5</td>
+            <td><input name="newClaimPoint5" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Anmerkung</td>
+            <td><textarea id="textarea" name="comments"></textarea></td>
+        </tr>
+        <tr>
+            <td>Bemerkung zur internen Weiterverarbeitung</td>
+            <td><textarea id="textarea" name="internalRemarks"></textarea></td>
+        </tr>
+    </table>
+    
+    <input type="submit" value="Abschicken">
 </form>
 
