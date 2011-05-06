@@ -105,8 +105,9 @@ public final class ShortenedReferenceProcessDeployer {
         map1.put("widerspruch", "stattgegeben");
         Condition condition1 = new HashMapCondition(map1, "==");
         Map<String, Object> map2 = new HashMap<String, Object>();
-        map2.put("widerspruch", "abgelehnt");
-        Condition condition2 = new HashMapCondition(map2, "==");
+        // == abgelehnt or null
+        map2.put("widerspruch", "stattgegeben");
+        Condition condition2 = new HashMapCondition(map2, "!=", true);
 
         // human task for objection clerk, task is to check objection
         form = extractForm("form2", "checkForNewClaims.html");
@@ -120,8 +121,8 @@ public final class ShortenedReferenceProcessDeployer {
         map1.put("neue Aspekte", "ja");
         Condition condition3 = new HashMapCondition(map1, "==");
         map2 = new HashMap<String, Object>();
-        map2.put("neue Aspekte", "nein");
-        Condition condition4 = new HashMapCondition(map2, "==");
+        map2.put("neue Aspekte", "ja");
+        Condition condition4 = new HashMapCondition(map2, "!=", true);
 
         // human task for objection clerk, task is to create a new report
         form = extractForm("form3", "createReport.html");
@@ -138,8 +139,8 @@ public final class ShortenedReferenceProcessDeployer {
         map1.put("aufrecht", "ja");
         Condition condition5 = new HashMapCondition(map1, "==");
         map2 = new HashMap<String, Object>();
-        map2.put("aufrecht", "nein");
-        Condition condition6 = new HashMapCondition(map2, "==");
+        map2.put("aufrecht", "ja");
+        Condition condition6 = new HashMapCondition(map2, "!=", true);
 
         // XOR Join
         xor4Node = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
@@ -188,7 +189,7 @@ public final class ShortenedReferenceProcessDeployer {
     /**
      * Creates the participants.
      * 
-     * @throws ResourceNotAvailableException
+     * @throws ResourceNotAvailableException bla bla
      */
     public static void createParticipants()
     throws ResourceNotAvailableException {
