@@ -1,7 +1,6 @@
 package de.hpi.oryxengine.correlation.adapter;
 
 import de.hpi.oryxengine.correlation.AdapterRegistrar;
-import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.EventConfiguration;
 import de.hpi.oryxengine.exception.AdapterSchedulingException;
 
@@ -10,20 +9,13 @@ import de.hpi.oryxengine.exception.AdapterSchedulingException;
  */
 public interface AdapterConfiguration extends EventConfiguration {
 
-    // /**
-    // * Creates the adapter for this configuration.
-    // *
-    // * @param c
-    // * the Correlation Manager
-    // * @return the correlation adapter for this config
-    // */
-    // CorrelationAdapter createAdapter(CorrelationManager c);
-
     /**
      * Registers the adapter for this configuration.
      * 
      * @param adapterRegistrar
      *            - the {@link CorrelationManager}
+     * @return the schedule {@link CorrelationAdapter}
+     * @exception AdapterSchedulingException thrown if scheduling the adapter failed
      */
     CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar)
     throws AdapterSchedulingException;

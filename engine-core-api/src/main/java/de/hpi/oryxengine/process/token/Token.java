@@ -30,7 +30,6 @@ public interface Token extends Identifiable {
      * 
      * @return the current node
      */
-    //@JsonIgnore
     @JsonProperty
     Node getCurrentNode();
 

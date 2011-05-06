@@ -23,8 +23,10 @@ public interface TaskAllocation extends WorklistService {
     /**
      * Adds a {@link AbstractWorklistItem} to the specified {@link AbstractResource}s.
      *
-     * @param worklistItem - {@link AbstractWorklistItem} that should be added to the queue.
-     * @param resourcesToFillIn - the {@link AbstractResource}s where the {@link AbstractWorklistItem} should be added to
+     * @param worklistItem
+     *          - {@link AbstractWorklistItem} that should be added to the queue.
+     * @param resourcesToFillIn
+     *          - the {@link AbstractResource}s where the {@link AbstractWorklistItem} should be added to
      */
     void addWorklistItem(AbstractWorklistItem worklistItem, Set<AbstractResource<?>> resourcesToFillIn);
 }

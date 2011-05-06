@@ -61,7 +61,7 @@ public class NavigatorWebService implements Navigator {
      * Starts a process instance according to the given process definition ID.
      * 
      * TODO version 2.0.1.GA of RESTeasy does not support UUID, version 2.2-beta-1 works, but has a problem with Jackson
-     * Remove this method once RESTeasy 2.2 is stable or beta-2? fixed this problem.
+     *      Remove this method once RESTeasy 2.2 is stable or beta-2? fixed this problem.
      * 
      * @param definitionID
      *            the id of the process definition to be instantiated and started

@@ -102,6 +102,7 @@ public interface WorklistService {
      */
     @Nullable AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
                                                    @Nonnull UUID worklistItemId) throws InvalidWorkItemException;
+    
     // TODO: Observable Interface für die GUI
     /**
      * Returns the number of worklist items which are offered or allocated? to the given resources

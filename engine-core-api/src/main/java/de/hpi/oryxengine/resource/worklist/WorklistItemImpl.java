@@ -169,9 +169,8 @@ public class WorklistItemImpl extends AbstractWorklistItem {
      *
      * @param task - the task to be set
      */
-    @SuppressWarnings("unused")
     @JsonProperty
-    private void setTask(@Nonnull Task task) {
+    protected void setTask(@Nonnull Task task) {
         this.task = task;
     }
 }

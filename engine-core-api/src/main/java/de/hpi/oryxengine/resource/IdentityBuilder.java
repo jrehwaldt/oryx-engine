@@ -34,7 +34,7 @@ public interface IdentityBuilder {
      * @param participantID
      *            object that should be deleted.
      * @return the current IdentityBuilder in order to continue building the organization structure
-     * @throws ResourceNotAvailableException TODO
+     * @throws ResourceNotAvailableException thrown if the participant is missing
      */
     @Nonnull
     IdentityBuilder deleteParticipant(@Nonnull UUID participantID)

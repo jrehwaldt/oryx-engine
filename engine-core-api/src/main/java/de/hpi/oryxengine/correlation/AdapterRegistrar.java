@@ -29,6 +29,7 @@ public interface AdapterRegistrar extends CorrelationManager {
      * @param adapter
      *            the {@link InboundAdapter} to register
      * @return the registered {@link InboundAdapter}
+     * @exception AdapterSchedulingException thrown if scheduling the adapter failed
      */
     @Nonnull
     InboundPullAdapter registerPullAdapter(@Nonnull InboundPullAdapter adapter) throws AdapterSchedulingException;

@@ -2,7 +2,6 @@ package de.hpi.oryxengine.process.structure;
 
 import javax.annotation.Nonnull;
 
-import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;

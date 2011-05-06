@@ -117,10 +117,12 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
             ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         Assert.assertTrue(worklistItemsForHamburgGuys.size() == 1);
 
-        List<AbstractWorklistItem> worklistItemsForJannik = ServiceFactory.getWorklistService().getWorklistItems(jannik);
+        List<AbstractWorklistItem> worklistItemsForJannik = ServiceFactory.getWorklistService()
+                                                                          .getWorklistItems(jannik);
         Assert.assertTrue(worklistItemsForJannik.size() == 1);
         
-        List<AbstractWorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService().getWorklistItems(gerardo);
+        List<AbstractWorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService()
+                                                                           .getWorklistItems(gerardo);
         Assert.assertTrue(worklistItemsForGerardo.size() == 1);
         
         // Tobi doesn't belong to any role so he shouldn't have anything to do
@@ -162,10 +164,12 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
         worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         Assert.assertEquals(worklistItemsForHamburgGuys.size(), 0);
         
-        List<AbstractWorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService().getWorklistItems(gerardo);
+        List<AbstractWorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService()
+                                                                           .getWorklistItems(gerardo);
         Assert.assertEquals(worklistItemsForGerardo.size(), 0);
         
-        List<AbstractWorklistItem> worklistItemsForJannik = ServiceFactory.getWorklistService().getWorklistItems(jannik);
+        List<AbstractWorklistItem> worklistItemsForJannik = ServiceFactory.getWorklistService()
+                                                                          .getWorklistItems(jannik);
         Assert.assertEquals(worklistItemsForJannik.size(), 1);
     }
     
