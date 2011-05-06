@@ -108,9 +108,9 @@ public final class WorklistWebService {
     @GET
     public List<AbstractWorklistItem> getWorklistItems(@QueryParam("id") String id)
     throws ResourceNotAvailableException {
-
+        
         logger.debug("GET: {}", id);
-
+        
         UUID uuid = UUID.fromString(id);
         List<AbstractWorklistItem> items = this.service.getWorklistItems(uuid);
         return items;

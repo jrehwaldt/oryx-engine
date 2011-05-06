@@ -21,6 +21,7 @@ if (uri != null) {
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
         <link rel="stylesheet" type="text/css" href="/stylesheets/layout.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/form.css">
         
         <%--begin-development-only--%>
         <link rel="stylesheet" type="text/css" href="/stylesheets/dev/fauxconsole.css">

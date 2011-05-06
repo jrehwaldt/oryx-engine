@@ -44,13 +44,15 @@ p {
 }
 
 a, a:link, a:visited {
-  color: #08c;
+//  color: #08c;
+  color: #008A34;
   text-decoration: none;
 }
 
 a:active, a:hover, a:focus {
   text-decoration: underline;
-  color: #0ad;
+//  color: #0ad;
+  color: #015C23;
 }
 
 ul { list-style: none outside; }
@@ -95,21 +97,26 @@ table {
 th, thead {
   font-size: 13px;
   font-weight: normal;
-  background: #bad0f9;
-  border-top: 4px solid #4069b7;
+//  background-color: #bad0f9;
+  background-color: #008A34;
+//  border-top: 4px solid #4069b7;
+  border-top: 4px solid #015C23;
   border-bottom: 1px solid #fff;
-  color: #059;
+//  color: #059;
+  color: white;
   padding: 8px;
   font-weight: bold;
 }
 
 th:nth-child(even) {
-  background: #c4d4ff;
-  border-top: 4px solid #5079c7;
+//  background-color: #c4d4ff;
+  background-color: #009137;
+  border-top-color: #015C23;
+//  border-top: 4px solid #5079c7;
 }
 
 td {
-  background: @base-color-light;
+  background-color: @base-color-light;
   border-bottom: 1px solid #fff;
   color: #346;
   border-top: 1px solid transparent;
@@ -712,26 +719,4 @@ legend:hover {
 
 .clickable {
     cursor: pointer;
-}
-
-form {
-    input[type=text], input[type=password],
-    textarea {
-        border-radius: 4px;
-        border: 1px solid @base-color;
-        padding-left: 2px;
-    }
-    
-    input[type=text]:hover, input[type=password]:hover,
-    textarea:hover {
-        border-color: @highlight-color;
-    }
-    
-    ul {
-       padding-left: 0;
-       
-       li {
-           padding-bottom: 3px;
-       }
-    }
 }
