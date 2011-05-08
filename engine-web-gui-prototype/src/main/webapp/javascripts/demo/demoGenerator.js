@@ -19,7 +19,7 @@ $().ready(function() {
 		$(location).prop('href', '/management/')
 	});
 
-	$('#xml-processGenerate').click(function() {
+	$('#generate-xml-processGenerate').click(function() {
 		$.ajax({
 			type : 'POST',
 			url : '/api/demo/generate-xml-process'

@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.rest.api;
+package de.hpi.oryxengine.rest.demo;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.resource.IdentityBuilder;

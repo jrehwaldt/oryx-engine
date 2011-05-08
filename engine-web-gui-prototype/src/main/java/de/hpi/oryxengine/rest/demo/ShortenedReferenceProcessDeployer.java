@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.rest.api;
+package de.hpi.oryxengine.rest.demo;
 
 import java.io.File;
 import java.util.HashMap;

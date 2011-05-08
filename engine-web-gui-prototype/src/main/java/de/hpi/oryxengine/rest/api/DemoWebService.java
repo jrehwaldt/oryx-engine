@@ -8,6 +8,9 @@ import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
+import de.hpi.oryxengine.rest.demo.DemoProcessStartEmailForWebservice;
+import de.hpi.oryxengine.rest.demo.LoadDemoProcessAsXmlForWebservice;
+import de.hpi.oryxengine.rest.demo.ShortenedReferenceProcessDeployer;
 
 /**
  * Offers demo methods (like creating demo users) to the user, should be deactivated in deployment.
@@ -86,5 +89,4 @@ public class DemoWebService {
             return Response.serverError().build();
         }
     }
-
 }
