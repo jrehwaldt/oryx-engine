@@ -1,10 +1,12 @@
-<h1>Widerspruchspunkte ueberpruefen</h1>
+<h1>Fristen des Widerspruchs ueberpruefen</h1>
+<div>
+    Eine Mail mit zwei Widerspruchspunkten ist gerade angekommen. Fristgerechter Widerspruch muss ueberprueft werden.
+</div>
 
 <form id="claimPointsForm" name="claimPoints" method="post">
     <table>
         <tr>
-            <th>Widerspruchspunkte</th>
-            <th>Stattgegeben?</th>
+            <th colspan="2">Widerspruchsdetails</th>
         </tr>
         <tr>
             <td>Sachbearbeiter</td>
@@ -15,15 +17,15 @@
             <td><input name="dateClaim" id="dateClaim" type="text" /></td>
         </tr>
         <tr>
-            <td>Erster Widerspruchspunkt</td>
+            <td>Erster Widerspruchspunkt fristgerecht?</td>
             <td><input name="claimPoint1" type="checkbox" value="true"/></td>
         </tr>
         <tr>
-            <td>Zweiter Widerspruchspunkte</td>
+            <td>Zweiter Widerspruchspunkt fristgerecht?</td>
             <td><input name="claimPoint2" type="checkbox" value="true"/></td>
         </tr>
         <tr>
-            <td>Beschlussempfehlung</td>
+            <td>Resultat</td>
             <td>
                 <input type="radio" name="widerspruch" value="stattgegeben" /> Stattgegeben
                 <br />

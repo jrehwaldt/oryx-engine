@@ -476,7 +476,8 @@ legend:hover {
 }
 
 #whitespace h1 {
-    margin-top: -5px;
+    //margin-top: -5px;
+    margin-bottom: -3px;
 }
 
 #main-frame-top {

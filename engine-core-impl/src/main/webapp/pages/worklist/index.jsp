@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
     <head>
-    <script type="text/javascript" src="/javascripts/demo/worklist.js"></script>
+        <script type="text/javascript" src="/javascripts/demo/worklist.js"></script>
     </head>
     <body>
         <h1>Worklist</h1>
-        <p id="welcomeMessage"></p>
+        <div id="welcomeMessage"></div>
         <table  border="0" style="width:100%;">
           <thead>
             <tr>
