@@ -40,4 +40,14 @@
     </table>
     
     <input type="submit" value="Abschicken"/>
+    
+    <script type="text/javascript">
+    $('input[type=text]').bind('keyup', function(event) {
+        if($('input[type=text]').attr('value') != "") {
+            $('#neu_ja').attr('checked', true);
+        } else {
+            $('#neu_nein').attr('checked', true);;
+        }
+    });
+    </script>
 </form>

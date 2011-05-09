@@ -18,18 +18,18 @@
         </tr>
         <tr>
             <td>Erster Widerspruchspunkt fristgerecht?</td>
-            <td><input name="claimPoint1" type="checkbox" value="true"/></td>
+            <td><input name="claimPoint1" type="checkbox" class="claims" value="true"/></td>
         </tr>
         <tr>
             <td>Zweiter Widerspruchspunkt fristgerecht?</td>
-            <td><input name="claimPoint2" type="checkbox" value="true"/></td>
+            <td><input name="claimPoint2" type="checkbox" class="claims" value="true"/></td>
         </tr>
         <tr>
             <td>Resultat</td>
             <td>
-                <input type="radio" name="widerspruch" value="stattgegeben" /> Stattgegeben
+                <input type="radio" name="widerspruch" value="stattgegeben" id="widerspruch_stattgegeben" /> Stattgegeben
                 <br />
-                <input type="radio" name="widerspruch" value="abgelehnt" checked="checked" /> Abgelehnt
+                <input type="radio" name="widerspruch" value="abgelehnt" id="widerspruch_abgelehnt" checked="checked" /> Abgelehnt
             </td>
     </table>
     
@@ -38,10 +38,18 @@
     <script type="text/javascript">
         $('#sachbearbeiter').attr('value', $.Storage.get('participantName'));
         $('#dateClaim').attr('value', $.datepicker.formatDate('DD, d MM yy', new Date(), {
-        	dayNamesShort: $.datepicker.regional['de'].dayNamesShort,
-        	dayNames: $.datepicker.regional['de'].dayNames,
-        	monthNamesShort: $.datepicker.regional['de'].monthNamesShort,
-        	monthNames: $.datepicker.regional['de'].monthNames
+            dayNamesShort: $.datepicker.regional['de'].dayNamesShort,
+            dayNames: $.datepicker.regional['de'].dayNames,
+            monthNamesShort: $.datepicker.regional['de'].monthNamesShort,
+            monthNames: $.datepicker.regional['de'].monthNames
         }));
+        
+        $('input.claims').bind('change', function(event) {
+            if($('input.claims').is(':checked')) {
+                $('#widerspruch_stattgegeben').attr('checked', true);
+            } else {
+                $('#widerspruch_abgelehnt').attr('checked', true);
+            }
+        });
     </script>
 </form>
