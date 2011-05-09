@@ -10,7 +10,7 @@
         <div id="content">
 			This page shall be visited only once to set up the benchmark (deploying a process and stuff like that).
 			If you are a normal participant and you are seeing this page, then you are doing it WRONG.
-			go aheader and go to <a href="index.jsp">the real benchmark page</a> 
+			go aheader and go to <a href="index.jsp">the real benchmark page</a>
         </div>
     </body>
 </html>
