@@ -6,7 +6,7 @@ import de.hpi.oryxengine.process.token.Token;
 
 /**
  * The Class AbstractActivityImpl.
- * An activity is the behaviour of a node. So to say what it does.
+ * An activity is the behaviour of a node. It does not perform any control flow routing operations.
  */
 public abstract class AbstractActivity
 implements Activity {

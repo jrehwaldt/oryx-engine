@@ -12,7 +12,7 @@ import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
- * The Class TakeAllSplitBehaviour. Will signal all outgoing transitions.
+ * The Class TakeAllSplitBehaviour. Will signal the first outgoing transition, of which the condition evaluates to true.
  */
 public class XORSplitBehaviour implements OutgoingBehaviour {
 

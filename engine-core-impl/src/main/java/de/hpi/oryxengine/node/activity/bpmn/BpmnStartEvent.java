@@ -4,7 +4,7 @@ import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
- * This class represents the BPMN-StartEvent. The BPMN-StartEvent indicate when does a BPMN process starts.
+ * This class represents the BPMN-StartEvent. It indicates the start of a BPMN process.
  */
 public class BpmnStartEvent extends AbstractActivity {
 
