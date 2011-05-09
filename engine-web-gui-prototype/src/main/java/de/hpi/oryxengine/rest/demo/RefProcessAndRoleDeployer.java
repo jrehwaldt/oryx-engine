@@ -15,7 +15,6 @@ public class RefProcessAndRoleDeployer {
     throws IllegalStarteventException, DefinitionNotFoundException, ResourceNotAvailableException {
 
         if (!invoked) {
-            ShortenedReferenceProcessDeployer.createParticipants();
             ShortenedReferenceProcessDeployer.initializeNodes();
             ProcessDefinition definition = ShortenedReferenceProcessDeployer.buildDefinition();
             DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
