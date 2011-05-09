@@ -10,7 +10,7 @@ import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
 import de.hpi.oryxengine.rest.demo.DemoProcessStartEmailForWebservice;
 import de.hpi.oryxengine.rest.demo.LoadDemoProcessAsXmlForWebservice;
-import de.hpi.oryxengine.rest.demo.RefProcessAndRoleDeployer;
+import de.hpi.oryxengine.rest.demo.BenchmarkDeployer;
 import de.hpi.oryxengine.rest.demo.ShortenedReferenceProcessDeployer;
 
 /**
@@ -96,7 +96,7 @@ public class DemoWebService {
     public Response referenceWithoutParticipants() throws ResourceNotAvailableException {
         try {
 
-            RefProcessAndRoleDeployer.generate();
+            BenchmarkDeployer.generate();
 
             return Response.ok().build();
         } catch (IllegalStarteventException e) {
