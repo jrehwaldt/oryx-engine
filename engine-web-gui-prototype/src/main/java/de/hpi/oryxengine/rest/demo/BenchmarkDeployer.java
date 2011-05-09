@@ -27,6 +27,9 @@ import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.RolePushPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
+/**
+ * This class deploys the benchmark process as specified in signavio.
+ */
 public class BenchmarkDeployer {
     private static boolean invoked = false;
     private static final String PATH_TO_WEBFORMS = "src/main/resources/forms/benchmark";
