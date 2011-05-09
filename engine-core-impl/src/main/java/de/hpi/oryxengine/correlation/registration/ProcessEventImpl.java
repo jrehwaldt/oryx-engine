@@ -5,7 +5,6 @@ import java.util.List;
 import de.hpi.oryxengine.correlation.EventConfiguration;
 import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.EventType;
-import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 
 /**
  * The Class ProcessEventImpl. Have a look at {@link ProcessEvent}.

@@ -24,6 +24,11 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
 
     private RepositoryServiceImpl repositoryServiceImpl;
 
+    /**
+     * Creates a new deployment builder that works on the given repository.
+     *
+     * @param repositoryServiceImpl the repository to work on (deploy process definitions to, etc.)
+     */
     public DeploymentBuilderImpl(RepositoryServiceImpl repositoryServiceImpl) {
 
         this.repositoryServiceImpl = repositoryServiceImpl;

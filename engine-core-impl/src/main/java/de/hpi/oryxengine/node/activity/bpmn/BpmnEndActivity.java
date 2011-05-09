@@ -11,16 +11,6 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class BpmnEndActivity extends AbstractActivity {
 
-    // private final Logger logger = LoggerFactory.getLogger(getClass());;
-
-//    /**
-//     * Instantiates a new end activity.
-//     */
-//    public EndActivity() {
-//
-//        super();
-//    }
-
     @Override
     protected void executeIntern(@Nonnull Token token) {
 
