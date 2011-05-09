@@ -10,7 +10,9 @@
 ******************************************************/
 
 // constants
-JODA_ENGINE_ADRESS = 'localhost:8380';
+JODA_ENGINE_ADRESS = '';
+PARTICIPANTS_PER_ROLE = 5;
+NUMBER_OF_INSTANCES = 1;
 
 // GET Land
 
@@ -67,24 +69,57 @@ function getRunningProcessInstances(func) {
 */
 
 function generateParticipantname() {
-	time = new Date.getTime();
+	time = new Date().getTime();
 	return "participant: " + time;
 }
 
 // create participant with the role
-function createParticipantWithRole(name, roleID) {
+function createParticipantWithRole(roleId) {
 	$.ajax({
 		type: 'POST',
-		url: '/api/identity/participants',
-		data: name,
-		success: function(data) {
-			participantID = data;
-			assignParticipantToRole(participantID, roleID);
-		}
+		url: JODA_ENGINE_ADRESS + '/api/identity/roles/' + roleId + '/participants',
+		data: generateParticipantname()
 	});
 }
 
 // Creates some participants that will be used by the benchmark users
-function createParticipants() {
-
+function createParticipantsFromRoles(roles) {
+    $.each(roles, function(i, role) {
+        for (var i = 0; i < PARTICIPANTS_PER_ROLE; i++) {
+            createParticipantWithRole(role.id);
+        }
+    });
 }
+
+//
+function startProcessInstancesFromDefinitions(definitions) {
+    $.each(definitions, function(i, definition) {
+        for (var i = 0; i < NUMBER_OF_INSTANCES; i++) {
+            startProcessInstance(definition);
+        }
+    });
+}
+
+// starts a process instance of the given definition
+function startProcessInstance(definition) {
+    $.ajax({
+		type: 'POST',
+		url: JODA_ENGINE_ADRESS + '/api/navigator/process-definitions/' + definition.id + '/start'
+	});
+}
+
+/**********************************
+ *      DSL functions             *
+ *                                *
+ **********************************/
+
+// start instances of the deployed process definitions
+function startProcessInstances() {
+    getProcessDefinitions(startProcessInstancesFromDefinitions);
+}
+
+// creates participants and assigns them to the roles
+function createParticipants() {
+    getRoles(createParticipantsFromRoles);
+}
+

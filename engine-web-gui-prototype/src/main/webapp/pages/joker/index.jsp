@@ -9,6 +9,7 @@
         <h1>Joker benchmark</h1>
         <div id="content">
 			This will use your browser to benchmark the REST-API of the jodaengine.
+			<br/>
 			You will be notified when the benchmark has finished. Thanks for participating! 
         </div>
     </body>

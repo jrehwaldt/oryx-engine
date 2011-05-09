@@ -443,7 +443,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
         String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
 
-        MockHttpResponse response = makePOSTRequest(requestUrl, participantName, MediaType.TEXT_PLAIN);
+        MockHttpResponse response = makePOSTRequest(requestUrl, participantName, MediaType.APPLICATION_FORM_URLENCODED);
 
         Assert.assertEquals(identity.getParticipants().size(), 1, "No Participant created");
         Assert.assertFalse(role.getParticipantsImmutable().isEmpty(), "There should be a participant of that role");
