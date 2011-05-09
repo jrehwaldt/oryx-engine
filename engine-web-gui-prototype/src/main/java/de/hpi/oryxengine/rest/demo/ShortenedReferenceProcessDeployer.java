@@ -194,16 +194,20 @@ public class ShortenedReferenceProcessDeployer {
     public static void createParticipants()
     throws ResourceNotAvailableException {
 
+        createRoles();
         jannikParticipant = (Participant) identityBuilder.createParticipant(NAME_JANNIK);
         tobiParticipant = (Participant) identityBuilder.createParticipant(NAME_TOBI);
         gerardoParticipant = (Participant) identityBuilder.createParticipant(NAME_GERARDO);
         janParticipant = (Participant) identityBuilder.createParticipant(NAME_JAN);
-        objectionClerk = (Role) identityBuilder.createRole(NAME_OBJECTION_CLERK);
-        allowanceClerk = (Role) identityBuilder.createRole(NAME_ALLOWANCE_CLERK);
         identityBuilder.participantBelongsToRole(jannikParticipant.getID(), objectionClerk.getID())
         .participantBelongsToRole(tobiParticipant.getID(), objectionClerk.getID())
         .participantBelongsToRole(gerardoParticipant.getID(), objectionClerk.getID())
         .participantBelongsToRole(janParticipant.getID(), allowanceClerk.getID());
+    }
+    
+    public static void createRoles() {
+        objectionClerk = (Role) identityBuilder.createRole(NAME_OBJECTION_CLERK);
+        allowanceClerk = (Role) identityBuilder.createRole(NAME_ALLOWANCE_CLERK);
     }
 
     /*

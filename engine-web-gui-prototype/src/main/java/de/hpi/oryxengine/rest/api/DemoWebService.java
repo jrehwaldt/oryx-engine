@@ -10,6 +10,7 @@ import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
 import de.hpi.oryxengine.rest.demo.DemoProcessStartEmailForWebservice;
 import de.hpi.oryxengine.rest.demo.LoadDemoProcessAsXmlForWebservice;
+import de.hpi.oryxengine.rest.demo.RefProcessAndRoleDeployer;
 import de.hpi.oryxengine.rest.demo.ShortenedReferenceProcessDeployer;
 
 /**
@@ -79,6 +80,23 @@ public class DemoWebService {
         try {
 
             ShortenedReferenceProcessDeployer.generate();
+
+            return Response.ok().build();
+        } catch (IllegalStarteventException e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+        } catch (DefinitionNotFoundException e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+        }
+    }
+    
+    @Path("/reference-without-participants")
+    @POST
+    public Response referenceWithoutParticipants() throws ResourceNotAvailableException {
+        try {
+
+            RefProcessAndRoleDeployer.generate();
 
             return Response.ok().build();
         } catch (IllegalStarteventException e) {
