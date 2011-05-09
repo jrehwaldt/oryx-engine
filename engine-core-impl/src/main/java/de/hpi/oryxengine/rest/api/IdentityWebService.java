@@ -241,6 +241,7 @@ public final class IdentityWebService {
     @Path("/roles/{roleId}/participants")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_PLAIN)
     public Response createParticipantForRole(@PathParam("roleId") String roleId,
                                              String participantName) throws ResourceNotAvailableException {
         UUID roleUUID = UUID.fromString(roleId);
