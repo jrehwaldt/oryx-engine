@@ -3,6 +3,7 @@
 <html>
     <head>
         <title>Meet the Joker</title>
+<script type="text/javascript" src="/javascripts/benchmark/benchmark.js"></script>
     </head>
     <body>
         <h1>Joker benchmark</h1>

@@ -80,9 +80,9 @@ public final class IdentityWebService {
         IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
 
         IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
-        builder.createParticipant(participantName);
+        AbstractParticipant participant = builder.createParticipant(participantName);
 
-        return Response.ok("Role " + participantName + " was created.").build();
+        return Response.ok(participant.getID().toString()).build();
 
     }
 
@@ -227,6 +227,19 @@ public final class IdentityWebService {
             UUID participantUUID = UUID.fromString(participantID);
             builder.participantDoesNotBelongToRole(participantUUID, roleUUID);
         }
+
+        return Response.ok().build();
+    }
+    
+    @Path("/roles/{roleID}/participants")
+    @POST
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response createParticipantForRole(@PathParam("roleID") String roleId,
+                                             String participantName){
+        IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
+        UUID roleUUID = UUID.fromString(roleId);
+        
+        
 
         return Response.ok().build();
     }

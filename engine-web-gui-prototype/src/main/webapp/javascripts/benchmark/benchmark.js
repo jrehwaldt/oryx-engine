@@ -44,7 +44,7 @@ function getProcessDefinitions(func) {
         type: 'GET',
         url: JODA_ENGINE_ADRESS + '/api/repository/process-definitions',
         success: function(data) {
-        	func(data);;
+        	func(data);
         },
         dataType: "json"
     });
@@ -60,4 +60,31 @@ function getRunningProcessInstances(func) {
         },
         dataType: "json"
     });
+}
+
+/*
+*	Participant creation helpers!
+*/
+
+function generateParticipantname() {
+	time = new Date.getTime();
+	return "participant: " + time;
+}
+
+// create participant with the role
+function createParticipantWithRole(name, roleID) {
+	$.ajax({
+		type: 'POST',
+		url: '/api/identity/participants',
+		data: name,
+		success: function(data) {
+			participantID = data;
+			assignParticipantToRole(participantID, roleID);
+		}
+	});
+}
+
+// Creates some participants that will be used by the benchmark users
+function createParticipants() {
+
 }

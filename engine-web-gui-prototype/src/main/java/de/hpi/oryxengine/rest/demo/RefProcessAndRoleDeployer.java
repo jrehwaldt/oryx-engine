@@ -8,6 +8,9 @@ import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
+/**
+ * The Class RefProcessAndRoleDeployer - yeah we deploy stuff.
+ */
 public class RefProcessAndRoleDeployer {
     private static boolean invoked = false;
     
