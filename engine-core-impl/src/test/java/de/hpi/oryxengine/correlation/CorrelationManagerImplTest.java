@@ -41,7 +41,7 @@ public class CorrelationManagerImplTest {
     }
     
     @Test
-    public void testRegistrationOfIntermediateEvent(){
+    public void testRegistrationOfIntermediateEvent() {
         
     }
    

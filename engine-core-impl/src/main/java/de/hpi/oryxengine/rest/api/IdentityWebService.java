@@ -236,16 +236,19 @@ public final class IdentityWebService {
      * @param roleId the role id
      * @param participantName the participant name
      * @return the response
+     * @throws ResourceNotAvailableException  
      */
-    @Path("/roles/{roleID}/participants")
+    @Path("/roles/{roleId}/participants")
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response createParticipantForRole(@PathParam("roleID") String roleId,
-                                             String participantName){
+    public Response createParticipantForRole(@PathParam("roleId") String roleId,
+                                             String participantName) throws ResourceNotAvailableException {
         UUID roleUUID = UUID.fromString(roleId);
         IdentityBuilder builder = getIdentityBuilder();
+        AbstractParticipant participant = builder.createParticipant(participantName);
+        builder.participantBelongsToRole(participant.getID(), roleUUID);
         
-        return Response.ok().build();
+        return Response.ok(participant.getID().toString()).build();
     }
 
 }

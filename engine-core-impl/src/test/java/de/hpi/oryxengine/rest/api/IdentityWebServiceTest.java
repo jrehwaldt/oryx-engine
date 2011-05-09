@@ -297,8 +297,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
 
     /**
      * Test that checks, if a 404 is thrown, if the requested role does not exist.
-     *
-     * @throws URISyntaxException the uRI syntax exception
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
      */
     @Test
     public void testGetParticipantsForNonExistingRole()
@@ -424,6 +425,35 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         expectedAssignedParticipants.add(participant);
         Assert.assertEquals(assignedParticipants, expectedAssignedParticipants,
             "the role assignement should not have changed");
+    }
+
+    /**
+     * Create a participant belonging to a specific role.
+     *
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    @Test
+    public void testCreateParticipantWithRole()
+    throws URISyntaxException {
+
+        String roleName = "test";
+        String participantName = "Tobni";
+
+        AbstractRole role = builder.createRole(roleName);
+
+        String requestUrl = ROLES_URL + "/" + role.getID() + "/participants";
+
+        MockHttpResponse response = makePOSTRequest(requestUrl, participantName, MediaType.TEXT_PLAIN);
+
+        Assert.assertEquals(identity.getParticipants().size(), 1, "No Participant created");
+        Assert.assertFalse(role.getParticipantsImmutable().isEmpty(), "There should be a participant of that role");
+
+        AbstractParticipant participant = role.getParticipantsImmutable().iterator().next();
+
+        Assert.assertEquals(participant.getName(), participantName,
+            "The participant of the role should have the same name as the one we created.");
+        Assert.assertEquals(response.getContentAsString(), participant.getID().toString());
+
     }
 
 }
