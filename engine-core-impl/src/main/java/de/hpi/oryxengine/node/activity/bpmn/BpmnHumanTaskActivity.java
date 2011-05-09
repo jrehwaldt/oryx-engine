@@ -65,8 +65,6 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
                     it.remove();
                 }
             }
-            // for (WorklistItem item : resource.getWorklist().getLazyWorklistItems())
-            // resource.getWorklist().getLazyWorklistItems().remove(task);
         }
 
     }

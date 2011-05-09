@@ -16,7 +16,6 @@ import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.DeploymentBuilderImpl;
-import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
@@ -134,6 +133,11 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
         getProcessArtifactsTable().remove(processArtifact);
     }
     
+    /**
+     * Returns a map of all deployed process definitions.
+     *
+     * @return the process definitions table
+     */
     public Map<UUID, ProcessDefinition> getProcessDefinitionsTable() {
         
         if (processDefinitionsTable == null) {
@@ -142,6 +146,11 @@ public class RepositoryServiceImpl implements RepositoryService, Service {
         return this.processDefinitionsTable;
     }
     
+    /**
+     * Returns a map of all deployed process artifacts, such as forms, etc.
+     *
+     * @return the process artifacts table
+     */
     public Map<UUID, AbstractProcessArtifact> getProcessArtifactsTable() {
         
         if (processArtifactsTable == null) {

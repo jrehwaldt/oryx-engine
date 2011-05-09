@@ -104,38 +104,6 @@ public class NavigationThread extends Thread {
         }
     }
 
-    // /**
-    // * Gets the to navigate. The to navigate Queue is common to all Navigation Threads. This is where they get the
-    // * instances to work on from.
-    // *
-    // * @return the to navigate
-    // */
-    // public Scheduler getScheduler() {
-    //
-    // return scheduler;
-    // }
-
-    // /**
-    // * Sets the scheduler. The scheduler is common to all Navigation Threads. This is where they get the
-    // * instances to work on from.
-    // *
-    // * @param scheduler the new scheduler
-    // */
-    // public void setToNavigate(Scheduler scheduler) {
-    //
-    // this.scheduler = scheduler;
-    // }
-
-    // /**
-    // * Checks if it should stop execution.
-    // *
-    // * @return true, if it should stop execution
-    // */
-    // public boolean isShouldStop() {
-    //
-    // return shouldStop;
-    // }
-
     /**
      * Sets the should stop.
      * 
