@@ -37,7 +37,7 @@ import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
  * The Class ShortenedReferenceProcessDeployer. This is the implementation of the shortened version of the AOK reference
  * process.
  */
-public final class ShortenedReferenceProcessDeployer {
+public class ShortenedReferenceProcessDeployer {
 
     // TODO move somewhere else
 
@@ -277,6 +277,10 @@ public final class ShortenedReferenceProcessDeployer {
         form = new FormImpl(ServiceFactory.getRepositoryService().getProcessResource(processArtifactID));
         return form;
     }
+    
+    public static ProcessDefinition buildDefinition() throws IllegalStarteventException {
+        return processDefinitionBuilder.buildDefinition();
+    }
 
     /**
      * Generates/deploys the shortened reference process.
@@ -293,7 +297,7 @@ public final class ShortenedReferenceProcessDeployer {
         if (!invoked) {
             createParticipants();
             initializeNodes();
-            ProcessDefinition definition = processDefinitionBuilder.buildDefinition();
+            ProcessDefinition definition = buildDefinition();
             DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
             deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(definition));
             invoked = true;
