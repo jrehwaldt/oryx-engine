@@ -108,7 +108,27 @@ function startProcessInstance(definition) {
 	});
 }
 
+// Begins the work on a random worklist item (it's a callback of the GetWorklistItems function)
+function beginRandomWorklistItem (worklistitems, participantUUID) {
+    // pick a random worklistitem
+    var itemnumber= Math.floor(Math.random() * worklistitems.size);
+    $.ajax({
+	    	type: 'PUT',
+	    	url: '/api/worklist/items/' + worklistItemId + '/state?participantId='+$.Storage.get("participantUUID"),
+	    	data: 'EXECUTING',
+	    	success: function(data) {
+}
+
+// log in as a random participant
+function logInAsRandomParticipant(participantList) {
+
+    var participantNumber = Math.floor(Math.random() * participantList.length);
+    // we are well aware that this is a global variable (as we are logged in and want to use it elsewhere)
+    participantUUID = participantList[participantNumber].id;
+}
+
 /**********************************
+ *                                *
  *      DSL functions             *
  *                                *
  **********************************/
@@ -121,5 +141,9 @@ function startProcessInstances() {
 // creates participants and assigns them to the roles
 function createParticipants() {
     getRoles(createParticipantsFromRoles);
+}
+
+function logMeIn() {
+    getParticipants(logInAsRandomParticipant);
 }
 
