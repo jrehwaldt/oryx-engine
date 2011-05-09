@@ -45,7 +45,15 @@ public final class IdentityWebService {
     public IdentityWebService() {
 
         this.identity = ServiceFactory.getIdentityService();
-        // DemoDataForWebservice.generate();
+    }
+    
+    /**
+     * Creates a new identity builder.
+     *
+     * @return the identity builder
+     */
+    public IdentityBuilder getIdentityBuilder() {
+        return new IdentityBuilderImpl((IdentityServiceImpl) identity);
     }
 
     /**
@@ -77,9 +85,8 @@ public final class IdentityWebService {
     public Response createParticipant(String participantName) {
 
         // TODO ask Gerardo, why we need the Impl here/why the Impl has methods that are not specified in the interface.
-        IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
 
-        IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
+        IdentityBuilder builder = getIdentityBuilder();
         AbstractParticipant participant = builder.createParticipant(participantName);
 
         return Response.ok(participant.getID().toString()).build();
@@ -100,9 +107,7 @@ public final class IdentityWebService {
     public Response deleteParticipant(@PathParam("participantId") String id)
     throws ResourceNotAvailableException {
 
-        IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
-
-        IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
+        IdentityBuilder builder = getIdentityBuilder();
         UUID participantID = UUID.fromString(id);
         builder.deleteParticipant(participantID);
 
@@ -137,9 +142,7 @@ public final class IdentityWebService {
     @POST
     public Response createRole(String roleName) {
 
-        IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
-
-        IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
+        IdentityBuilder builder = getIdentityBuilder();
         builder.createRole(roleName);
 
         return Response.ok("Role " + roleName + " was created.").build();
@@ -160,9 +163,7 @@ public final class IdentityWebService {
     public Response deleteRole(@PathParam("roleId") String id)
     throws Exception {
 
-        IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
-
-        IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
+        IdentityBuilder builder = getIdentityBuilder();
         UUID roleID = UUID.fromString(id);
         builder.deleteRole(roleID);
 
@@ -205,8 +206,6 @@ public final class IdentityWebService {
     public Response changeParticipantRoleAssignment(@PathParam("roleId") String roleId,
                                                     PatchCollectionChangeset<String> changeset)
     throws ResourceNotAvailableException {
-
-        IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
         UUID roleUUID = UUID.fromString(roleId);
 
         List<String> additions = changeset.getAdditions();
@@ -218,7 +217,7 @@ public final class IdentityWebService {
             return Response.status(Status.BAD_REQUEST).build();
         }
 
-        IdentityBuilder builder = new IdentityBuilderImpl(identityServiceImpl);
+        IdentityBuilder builder = getIdentityBuilder();
         for (String participantID : additions) {
             UUID participantUUID = UUID.fromString(participantID);
             builder.participantBelongsToRole(participantUUID, roleUUID);
@@ -231,17 +230,25 @@ public final class IdentityWebService {
         return Response.ok().build();
     }
     
-    @Path("/roles/{roleID}/participants")
+    /**
+     * Creates the participant and already assigns him a role.
+     *
+     * @param roleId the role id
+     * @param participantName the participant name
+     * @return the response
+     * @throws ResourceNotAvailableException  
+     */
+    @Path("/roles/{roleId}/participants")
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response createParticipantForRole(@PathParam("roleID") String roleId,
-                                             String participantName){
-        IdentityServiceImpl identityServiceImpl = (IdentityServiceImpl) identity;
+    public Response createParticipantForRole(@PathParam("roleId") String roleId,
+                                             String participantName) throws ResourceNotAvailableException {
         UUID roleUUID = UUID.fromString(roleId);
+        IdentityBuilder builder = getIdentityBuilder();
+        AbstractParticipant participant = builder.createParticipant(participantName);
+        builder.participantBelongsToRole(participant.getID(), roleUUID);
         
-        
-
-        return Response.ok().build();
+        return Response.ok(participant.getID().toString()).build();
     }
 
 }
