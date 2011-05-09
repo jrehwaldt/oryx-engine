@@ -1,9 +1,18 @@
 <h1>Widerspruchspunkte ueberpruefen</h1>
+
 <form id="claimPointsForm" name="claimPoints" method="post">
     <table>
         <tr>
             <th>Widerspruchspunkte</th>
             <th>Stattgegeben?</th>
+        </tr>
+        <tr>
+            <td>Sachbearbeiter</td>
+            <td><input name="sachbearbeiter" id="sachbearbeiter" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Datum</td>
+            <td><input name="dateClaim" id="dateClaim" type="text" /></td>
         </tr>
         <tr>
             <td>Erster Widerspruchspunkt</td>
@@ -14,7 +23,7 @@
             <td><input name="claimPoint2" type="checkbox" value="true"/></td>
         </tr>
         <tr>
-            <td>Resultat</td>
+            <td>Beschlussempfehlung</td>
             <td>
                 <input type="radio" name="widerspruch" value="stattgegeben" /> Stattgegeben
                 <br />
@@ -23,4 +32,14 @@
     </table>
     
     <input type="submit" value="Abschicken"/>
+    
+    <script type="text/javascript">
+        $('#sachbearbeiter').attr('value', $.Storage.get('participantName'));
+        $('#dateClaim').attr('value', $.datepicker.formatDate('DD, d MM yy', new Date(), {
+        	dayNamesShort: $.datepicker.regional['de'].dayNamesShort,
+        	dayNames: $.datepicker.regional['de'].dayNames,
+        	monthNamesShort: $.datepicker.regional['de'].monthNamesShort,
+        	monthNames: $.datepicker.regional['de'].monthNames
+        }));
+    </script>
 </form>
