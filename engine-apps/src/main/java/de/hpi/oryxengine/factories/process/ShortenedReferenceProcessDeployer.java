@@ -49,9 +49,8 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     private static final String OBJECTION_CLERK = "Objection Clerk";
     private static final String ALLOWANCE_CLERK = "Allowance Clerk";
 
-    private static IdentityService identityService = ServiceFactory.getIdentityService();
-    private static ProcessDefinitionBuilder processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
-    private static IdentityBuilder identityBuilder = identityService.getIdentityBuilder();
+    private IdentityService identityService;
+    private IdentityBuilder identityBuilder;
 
     private static final String PATH_TO_WEBFORMS = "src/main/resources/forms";
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -72,6 +71,11 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     private Node xor5;
     private Node endNode;
 
+    public ShortenedReferenceProcessDeployer() {
+        identityService = ServiceFactory.getIdentityService();
+        identityBuilder = identityService.getIdentityBuilder();
+        processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
+    }
     
     /**
      * Gets the start node.
@@ -276,19 +280,19 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     public void initializeNodes() {
 
         // start node, blank
-        startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
+        startNode = BpmnNodeFactory.createBpmnStartEventNode(processDefinitionBuilder);
 
-        system1 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(builder, "Widerspruch wird vorbearbeitet");
+        system1 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(processDefinitionBuilder, "Widerspruch wird vorbearbeitet");
 
         // human task for objection clerk, task is to check
         // positions of objection
         Form form = extractForm("form1", "claimPoints.html");
         Task task = createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen", form,
             objectionClerk);
-        human1 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
+        human1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
         // XOR Split, condition is objection existence
-        xor1 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
+        xor1 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
         
         Map<String, Object> map1 = new HashMap<String, Object>();
         map1.put("widerspruch", "stattgegeben");
@@ -304,10 +308,10 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         form = extractForm("form2", "checkForNewClaims.html");
         task = createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche", form,
             objectionClerk);
-        human2 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
+        human2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
         // XOR Split, condition is new relevant aspects existence
-        xor2 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
+        xor2 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
         map1 = new HashMap<String, Object>();
         map1.put("neue Aspekte", "ja");
         Condition condition3 = new HashMapCondition(map1, "==");
@@ -319,13 +323,13 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         form = extractForm("form3", "createReport.html");
         task = createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen", form,
             objectionClerk);
-        human3 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
+        human3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
         // intermediate mail event, customer answer
         // needs to be implemented and inserted here
 
         // XOR Split, condition is existence of objection in answer of customer
-        xor3 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
+        xor3 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
         map1 = new HashMap<String, Object>();
         map1.put("aufrecht", "ja");
 //        Condition condition5 = new HashMapCondition(map1, "==");
@@ -334,44 +338,44 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         map2.put("aufrecht", "nein");
 
         // XOR Join
-        xor4 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
+        xor4 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
 
         // human task for objection clerk, task is to do final work
         form = extractForm("form4", "postEditingClaim.html");
         task = createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", form, objectionClerk);
-        human4 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
+        human4 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
         // human task for allowance clerk, task is to enforce allowance
         form = extractForm("form5", "enforceAllowance.html");
         task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", form,
             allowanceClerk);
-        human5 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
+        human5 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
         // final XOR Join
-        xor5 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
+        xor5 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
 
         // system task, close file
-        system2 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(builder, "Akte wird geschlossen");
+        system2 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(processDefinitionBuilder, "Akte wird geschlossen");
 
         // end node
-        endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
+        endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
         // connect the nodes
-        BpmnNodeFactory.createTransitionFromTo(builder, startNode, system1);
-        BpmnNodeFactory.createTransitionFromTo(builder, system1, human1);
-        BpmnNodeFactory.createTransitionFromTo(builder, human1, xor1);
-        BpmnNodeFactory.createTransitionFromTo(builder, xor1, human2, condition2);
-        BpmnNodeFactory.createTransitionFromTo(builder, xor1, human5, condition1);
-        BpmnNodeFactory.createTransitionFromTo(builder, human2, xor2);
-        BpmnNodeFactory.createTransitionFromTo(builder, xor2, human3, condition3);
-        BpmnNodeFactory.createTransitionFromTo(builder, xor2, xor4, condition4);
-        BpmnNodeFactory.createTransitionFromTo(builder, human3, xor3);
-        BpmnNodeFactory.createTransitionFromTo(builder, xor3, xor4, condition5);
-        BpmnNodeFactory.createTransitionFromTo(builder, xor4, human4);
-        BpmnNodeFactory.createTransitionFromTo(builder, human4, human5);
-        BpmnNodeFactory.createTransitionFromTo(builder, xor5, system2);
-        BpmnNodeFactory.createTransitionFromTo(builder, human5, xor5);
-        BpmnNodeFactory.createTransitionFromTo(builder, system2, endNode);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, startNode, system1);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, system1, human1);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human1, xor1);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor1, human2, condition2);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor1, human5, condition1);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human2, xor2);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor2, human3, condition3);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor2, xor4, condition4);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human3, xor3);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor3, xor4, condition5);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor4, human4);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human4, human5);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor5, system2);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human5, xor5);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, system2, endNode);
         
         processDefinitionBuilder.setName("Shortened Reference Process").setDescription("Shortened Reference Process");
     }
