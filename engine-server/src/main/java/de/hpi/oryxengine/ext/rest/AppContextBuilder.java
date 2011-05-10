@@ -9,7 +9,7 @@ import org.eclipse.jetty.xml.XmlConfiguration;
 import de.hpi.oryxengine.navigator.Navigator;
 
 /**
- * This class builds a web context for the rest-part of the oryx engine.
+ * This class builds a web context for the rest-part of the joda engine.
  * 
  * @author Jan Rehwaldt
  * @since 2011-03-03
