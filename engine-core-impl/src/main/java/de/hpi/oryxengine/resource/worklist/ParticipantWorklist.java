@@ -140,7 +140,7 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
 
         worklistItemImpl.setStatus(WorklistItemState.COMPLETED);
 
-        // we assume that the item have been 'executing' before
+        // we assume that the item has been 'executing' before
         getLazyExecutingWorklistItems().remove(worklistItemImpl);
     }
 

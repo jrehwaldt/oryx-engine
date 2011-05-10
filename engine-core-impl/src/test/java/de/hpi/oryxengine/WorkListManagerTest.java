@@ -20,6 +20,8 @@ import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.factory.worklist.TaskFactory;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
+import de.hpi.oryxengine.resource.IdentityBuilder;
+import de.hpi.oryxengine.resource.IdentityBuilderImpl;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.DirectPushPattern;
@@ -137,6 +139,38 @@ public class WorkListManagerTest {
         AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getAllWorklistItems().toArray()[0];
         ServiceFactory.getWorklistService().completeWorklistItemBy(item, jannik);
         Assert.assertEquals(item.getStatus(), WorklistItemState.COMPLETED);
+    }
+    
+    @Test
+    public void testGetSpecificWorklistItems() throws ResourceNotAvailableException {
+//        IdentityService identity = ServiceFactory.getIdentityService();
+//        IdentityBuilder builder = ((IdentityServiceImpl) identity).getIdentityBuilder();
+//        
+//        AbstractParticipant resourceA = builder.createParticipant("A");
+//        
+//        Task task = TaskFactory.createParticipantTask(resourceA);
+//        TokenImpl token = mock(TokenImpl.class);
+//        ServiceFactory.getTaskDistribution().distribute(task, token);
+        WorklistService service = ServiceFactory.getWorklistService();
+        List<AbstractWorklistItem> offeredItems = service.getOfferedWorklistItems(jannik);
+        List<AbstractWorklistItem> allocatedItems = service.getAllocatedWorklistItems(jannik);
+        List<AbstractWorklistItem> executingItems = service.getExecutingWorklistItems(jannik);        
+        
+        Assert.assertEquals(offeredItems.size(), 0, "there should be no offered item to jannik");
+        Assert.assertEquals(allocatedItems.size(), 1, "there should be one allocated items");
+        Assert.assertEquals(executingItems.size(), 0, "there should be not items currently in execution");
+        
+        service.beginWorklistItemBy(allocatedItems.get(0), jannik);
+        
+        Assert.assertEquals(offeredItems.size(), 0, "there should be one offered item to jannik");
+        Assert.assertEquals(allocatedItems.size(), 0, "there should be no allocated items");
+        Assert.assertEquals(executingItems.size(), 1, "the one item should be in execution now");
+        
+        service.completeWorklistItemBy(executingItems.get(0), jannik);        
+        Assert.assertEquals(offeredItems.size(), 0, "there should be one offered item to jannik");
+        Assert.assertEquals(allocatedItems.size(), 0, "there should be no allocated items");
+        Assert.assertEquals(executingItems.size(), 0, "the no items in execution anymore");
+        
     }
     
 
