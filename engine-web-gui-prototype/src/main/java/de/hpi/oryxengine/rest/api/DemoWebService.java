@@ -65,7 +65,7 @@ public class DemoWebService {
         DemoProcessStartEmailForWebservice.generate();
         // LoadDemoProcessAsXmlForWebservice.generate();
         // we always return ok as the demo data was already created and that is ok
-        return Response.status(402).build();
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     /**

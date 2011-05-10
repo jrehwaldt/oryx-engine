@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.rest.api;
+package de.hpi.oryxengine;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
