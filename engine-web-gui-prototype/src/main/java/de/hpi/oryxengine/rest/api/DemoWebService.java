@@ -21,12 +21,15 @@ public class DemoWebService {
 
     // TODO move somewhere else
     
+    private boolean referenceDeployed;
+    
     /**
      * Instantiates a new demo web service.
      */
     public DemoWebService() {
 
         super();
+        referenceDeployed = false;
     }
 
     /**
@@ -78,9 +81,12 @@ public class DemoWebService {
     @POST
     public Response reference() throws ResourceNotAvailableException {
         try {
-            ShortenedReferenceProcessDeployer deployer = new ShortenedReferenceProcessDeployer();
-            deployer.deploy();
-//            de.hpi.oryxengine.factories.process.ShortenedReferenceProcessDeployer.deploy();
+            if (!referenceDeployed) {
+                ShortenedReferenceProcessDeployer deployer = new ShortenedReferenceProcessDeployer();
+                deployer.deploy();
+            }
+            
+            referenceDeployed = true;
 
             return Response.ok().build();
         } catch (IllegalStarteventException e) {
