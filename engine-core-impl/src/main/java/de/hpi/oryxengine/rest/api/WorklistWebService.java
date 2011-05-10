@@ -17,7 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import org.jruby.compiler.ir.instructions.CASE_Instr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,25 +68,72 @@ public final class WorklistWebService {
     }
 
     /**
-     * Gets the worklist items for a given resource (defined by a uuid which is a String and needs to be converted).
+     * Gets the items of the participant that are in the specified state.
+     * Valid values for the state are:
+     * - OFFERED
+     * - ALLOCATED
+     * - EXECUTING
      * 
-     * @param itemId
-     *            the item id
-     * @return the worklist items for the specified resource
-     * @throws ResourceNotAvailableException
-     *             the resource not available exception
+     * If no item state is specified, the whole worklist is returned.
+     *
+     * @param participantId the id of the participant
+     * @param itemState the state of the item
+     * @return the items of the specified state
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     @Path("/items")
     @GET
-    public List<AbstractWorklistItem> getWorklistItems(@QueryParam("id") String participantId)
+    public List<AbstractWorklistItem> getWorklistItems(@QueryParam("id") String participantId,
+        @QueryParam("itemState") String itemState)
     throws ResourceNotAvailableException {
 
         logger.debug("GET: {}", participantId);
+        
+        UUID participantUUID = UUID.fromString(participantId);
+        // this will be the result collection
+        List<AbstractWorklistItem> items = null;
+                
+        // no state specified return all worklist items
+        if (itemState == null) {
+            items = this.service.getWorklistItems(participantUUID);
+        } else {
+            WorklistItemState state = WorklistItemState.valueOf(itemState);
+            
+            // TODO @Thorben have fun trying out your new cool functions :-)
+            switch (state) {
+                case OFFERED:
+                    
+                    break;
+                case ALLOCATED:   
+                    
+                    break;
+    
+                case EXECUTING:
+    
+                    break;
+    
+                default:
+                    logger.debug("Query for unknown state of worklist items");
+                    break;
+            }
+        }
 
-        UUID uuid = UUID.fromString(participantId);
-        List<AbstractWorklistItem> items = this.service.getWorklistItems(uuid);
         return items;
     }
+    
+    /**
+     * Gets the items of the participant that are in the specified state.
+     * Valid values for the state are:
+     * - OFFERED
+     * - ALLOCATED
+     * - EXECUTING
+     * 
+     * @param participantId
+     *            the UUID of the participant whose worklistitems we want to get
+     * @param itemState
+     *            the state of the item
+     * @return the items of the specified state
+     */
 
     /**
      * Gets the form that is held by the {@link WorklistItemImpl Worklist Item}.
@@ -157,16 +203,13 @@ public final class WorklistWebService {
      * Post the form to the engine and process the given arguments, so to say set process instance variables according
      * to the changes in the form.
      * !!! Be aware, every form data is saved as a String! !!!
-     * 
-     * @param worklistItemId
-     *            the worklistitem id
-     * @param participantId
-     *            the participant id
-     * @param form
-     *            the form that gets send to us
+     *
+     * @param worklistItemId the worklistitem id
+     * @param participantId the participant id
+     * @param form the form that gets send to us
      * @return the response
-     * @throws ResourceNotAvailableException
-     * @throws InvalidWorkItemException
+     * @throws ResourceNotAvailableException the resource not available exception
+     * @throws InvalidWorkItemException the invalid work item exception
      */
     @Path("/items/{worklistitemId}/form")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -253,58 +296,12 @@ public final class WorklistWebService {
     }
 
     /**
-     * Gets the items of the participant that are in the specified state.
-     * Valid values for the state are:
-     * - OFFERED
-     * - ALLOCATED
-     * - EXECUTING
-     * 
-     * @param participantId
-     *            the UUID of the participant whose worklistitems we want to get
-     * @param itemState
-     *            the state of the item
-     * @return the items of the specified state
-     */
-    @Path("/items")
-    @GET
-    public Response getItemsWithState(@QueryParam("participantId") String participantId,
-                                      @QueryParam("itemState") String itemState) {
-
-        UUID participantUUID = UUID.fromString(participantId);
-        WorklistItemState state = WorklistItemState.valueOf(itemState);
-        
-        switch (state) {
-            case OFFERED:
-                
-                break;
-            case ALLOCATED:   
-                
-                break;
-
-            case EXECUTING:
-
-                break;
-
-            default:
-                logger.debug("Query for unknown state of worklist items");
-                break;
-        }
-            
-        
-        
-        return null;
-    }
-
-    /**
      * Ends (finishes/completes) the worklist item. It is implemented by setting the state accordingly.
-     * 
-     * @param id
-     *            the id
-     * @param participantId
-     *            the participant id
-     * @throws InvalidWorkItemException
-     *             the invalid item exception
-     * @throws ResourceNotAvailableException
+     *
+     * @param id the id
+     * @param participantId the participant id
+     * @throws InvalidWorkItemException the invalid item exception
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     private void endWorklistItem(UUID id, UUID participantId)
     throws InvalidWorkItemException, ResourceNotAvailableException {
@@ -317,14 +314,11 @@ public final class WorklistWebService {
 
     /**
      * Processes the claim action for the given user and the worklist item.
-     * 
-     * @param worklistItemId
-     *            the worklist item id
-     * @param participantUUID
-     *            the participant uuid
-     * @throws ResourceNotAvailableException
-     *             the resource not available exception
-     * @throws InvalidWorkItemException
+     *
+     * @param worklistItemId the worklist item id
+     * @param participantUUID the participant uuid
+     * @throws ResourceNotAvailableException the resource not available exception
+     * @throws InvalidWorkItemException the invalid work item exception
      */
     private void claimWorklistItem(UUID worklistItemId, UUID participantUUID)
     throws ResourceNotAvailableException, InvalidWorkItemException {
@@ -340,14 +334,11 @@ public final class WorklistWebService {
 
     /**
      * Begin a worklist item. By beginning the item gets also claimed.
-     * 
-     * @param worklistItemId
-     *            the id of the worklist item
-     * @param participantUUID
-     *            the participant uuid
-     * @throws ResourceNotAvailableException
-     *             the resource not available exception
-     * @throws InvalidWorkItemException
+     *
+     * @param worklistItemId the id of the worklist item
+     * @param participantUUID the participant uuid
+     * @throws ResourceNotAvailableException the resource not available exception
+     * @throws InvalidWorkItemException the invalid work item exception
      */
     private void beginWorklistItem(UUID worklistItemId, UUID participantUUID)
     throws ResourceNotAvailableException, InvalidWorkItemException {
