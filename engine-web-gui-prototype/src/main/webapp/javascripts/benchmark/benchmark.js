@@ -14,7 +14,21 @@ JODA_ENGINE_ADRESS = '';
 PARTICIPANTS_PER_ROLE = 5;
 NUMBER_OF_INSTANCES = 1;
 
-// GET Land
+ITEM_STATE = {
+    "offered" : "OFFERED",
+    "allocated" : "ALLOCATED",
+    "executing" : "EXECUTING",
+    "completed" : "COMPLETED"
+}
+
+
+// globals
+// holds the UUId of the currently logged in participant
+participantUUID = undefined;
+
+/*
+ * GET Land
+ */
 
 // gets all the available roles and returns them
 function getRoles(func) {
@@ -65,8 +79,19 @@ function getRunningProcessInstances(func) {
 }
 
 /*
-*	Participant creation helpers!
-*/
+ *  General Utility helpers
+ */
+
+// return a random element from the collection
+function getRandomElementFrom(collection) {
+
+     var itemNumber = Math.floor(Math.random() * collection.length);
+     return collection[itemNumber];
+}
+
+/*
+ *	Participant creation helpers!
+ */
 
 function generateParticipantname() {
 	time = new Date().getTime();
@@ -91,7 +116,12 @@ function createParticipantsFromRoles(roles) {
     });
 }
 
-//
+
+/*
+ * Process creation helpers
+ */
+
+// start a specific number of process instances for each definition
 function startProcessInstancesFromDefinitions(definitions) {
     $.each(definitions, function(i, definition) {
         for (var i = 0; i < NUMBER_OF_INSTANCES; i++) {
@@ -108,23 +138,72 @@ function startProcessInstance(definition) {
 	});
 }
 
-// Begins the work on a random worklist item (it's a callback of the GetWorklistItems function)
-function beginRandomWorklistItem (worklistitems, participantUUID) {
-    // pick a random worklistitem
-    var itemnumber= Math.floor(Math.random() * worklistitems.size);
+/*
+ *  Worklist helpers (many!)
+ */
+
+
+
+// get all offered worklist items and start to work on a random one
+function getOfferedWorklistItems() {
+    $.ajax({
+        type: 'GET',
+        url: '/api/worklist/items?id=' + participantUUID + '&itemState=' + ITEM_STATE.offered,
+        success: function(data) {
+            var worklistItems = data;
+            if !($.isEmptyObject(worklistItems)) {
+                beginRandomWorklistItem(worklistItems);
+            }
+        },
+        dataType: "json" // we expect json
+    });
+}
+
+// get all executing worklist items and end some of them
+function getExecutingWorklistItems() {
+    $.ajax({
+        type: 'GET',
+        url: '/api/worklist/items?id=' + participantUUID + '&itemState=' + ITEM_STATE.executing,
+        success: function(data) {
+            var worklistItems = data;
+            if !($.isEmptyObject(worklistItems)) {
+                endRandomWorklistItem(worklistItems);
+            }
+        },
+        dataType: "json" // we expect json
+    });
+}
+
+// change the item state of the item to a given state
+function changeItemState(itemId, state) {
+
     $.ajax({
 	    	type: 'PUT',
-	    	url: '/api/worklist/items/' + worklistItemId + '/state?participantId='+$.Storage.get("participantUUID"),
-	    	data: 'EXECUTING',
+	    	url: '/api/worklist/items/' + itemId + '/state?participantId=' + participantUUID,
+	    	data: state,
 	    	success: function(data) {
+	    	    // TODO log succcesfull answers?!
+	    	}
+	});
+}
+
+// Begins the work on a random worklist item (it's a callback of the GetWorklistItems function)
+function beginRandomWorklistItem (worklistitems) {
+    var item = getRandomElementFrom(worklistItems);
+    changeItemState(item.id, ITEM_STATE.executing);
+}
+
+function endRandomWorklistItem (worklistItems) {
+    var item = getRandomElementFrom(worklistItems);
+    changeItemState(item.d, ITEM_STATE.completed);
 }
 
 // log in as a random participant
 function logInAsRandomParticipant(participantList) {
 
-    var participantNumber = Math.floor(Math.random() * participantList.length);
+    var participant = getRandomElementFrom(participantList)
     // we are well aware that this is a global variable (as we are logged in and want to use it elsewhere)
-    participantUUID = participantList[participantNumber].id;
+    participantUUID = participant.id;
 }
 
 /**********************************
