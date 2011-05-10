@@ -53,4 +53,25 @@ public final class EmptyWorklist extends AbstractWorklist {
 
         return getAllWorklistItems().iterator();
     }
+
+    @Override
+    public List<AbstractWorklistItem> getAllocatedWorklistItems() {
+
+        List<AbstractWorklistItem> emptyWorklistItems = Collections.emptyList();
+        return Collections.unmodifiableList(emptyWorklistItems);
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getOfferedWorklistItems() {
+
+        List<AbstractWorklistItem> emptyWorklistItems = Collections.emptyList();
+        return Collections.unmodifiableList(emptyWorklistItems);
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getExecutingWorklistItems() {
+
+        List<AbstractWorklistItem> emptyWorklistItems = Collections.emptyList();
+        return Collections.unmodifiableList(emptyWorklistItems);
+    }
 }
