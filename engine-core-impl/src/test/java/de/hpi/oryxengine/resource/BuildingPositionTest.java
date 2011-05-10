@@ -28,20 +28,20 @@ public class BuildingPositionTest extends AbstractJodaEngineTest {
 
         identityService = ServiceFactory.getIdentityService();
         identityBuilder = identityService.getIdentityBuilder();
-        position = identityBuilder.createPosition("Oryx-Engine-Chef");
+        position = identityBuilder.createPosition("joda-engine-chef");
     }
     
     @Test
     public void testPositionCreation() throws Exception {
 
-        AbstractPosition superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");
+        AbstractPosition superior = identityBuilder.createPosition("joda-engine-ober-chef");
         identityBuilder.positionReportsToSuperior(position.getID(), superior.getID());
         
         String failureMessage = "The Identity Service should have two Position.";
         Assert.assertTrue(identityService.getPositions().size() == 2, failureMessage);
         Assert.assertTrue(identityService.getPositions().contains(position), failureMessage);
         Assert.assertTrue(identityService.getPositions().contains(superior), failureMessage);
-        Assert.assertEquals(position.getName(), "Oryx-Engine-Chef");
+        Assert.assertEquals(position.getName(), "joda-engine-chef");
         Assert.assertEquals(position.getSuperiorPosition(), superior);
     }
     
@@ -49,7 +49,7 @@ public class BuildingPositionTest extends AbstractJodaEngineTest {
     public void testForUniquePosition() {
         
         // Try to create a new position with the same Name
-        AbstractPosition position2 = identityBuilder.createPosition("Oryx-Engine-Chef");
+        AbstractPosition position2 = identityBuilder.createPosition("joda-engine-chef");
         
         String failureMessage = "There should stil be one Position";
         Assert.assertTrue(identityService.getPositions().size() == 2, failureMessage);
@@ -76,15 +76,15 @@ public class BuildingPositionTest extends AbstractJodaEngineTest {
     @Test
     public void testDeletePosition() throws JodaEngineException {
         
-        AbstractPosition position2 = identityBuilder.createPosition("Oryx-Engine-Chef2");
-        AbstractPosition superior = identityBuilder.createPosition("Oryx-Engine-Ober-Chef");
+        AbstractPosition position2 = identityBuilder.createPosition("joda-engine-chef-2");
+        AbstractPosition superior = identityBuilder.createPosition("joda-engine-ober-chef");
         
         identityBuilder.positionReportsToSuperior(position.getID(), superior.getID())
                        .positionReportsToSuperior(position2.getID(), superior.getID());
         
         identityBuilder.deletePosition(superior.getID());
         
-        String failureMessage = "The Position 'Oryx-Engine-Ober-Chef' should be deleted, but it is still there.";
+        String failureMessage = "The Position 'joda-engine-ober-chef' should be deleted, but it is still there.";
         Assert.assertTrue(identityService.getPositions().size() == 2, failureMessage);
         if (identityService.getPositions().contains(superior)) {
             Assert.fail(failureMessage);

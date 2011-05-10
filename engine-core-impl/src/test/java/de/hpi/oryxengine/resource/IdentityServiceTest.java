@@ -13,7 +13,7 @@ import de.hpi.oryxengine.ServiceFactory;
 /**
  * Tests the IdentityService.
  * 
- *  Especially that retrieved sets are read-only.
+ * Especially that retrieved sets are read-only.
  */
 public class IdentityServiceTest extends AbstractJodaEngineTest {
     
@@ -30,8 +30,8 @@ public class IdentityServiceTest extends AbstractJodaEngineTest {
         IdentityBuilder identityBuilder = identityService.getIdentityBuilder();
         
         identityBuilder.createOrganizationUnit("bpt");
-        identityBuilder.createParticipant("gerardo.navarro-suarez");
-        identityBuilder.createPosition("oryx-engine-chef");
+        identityBuilder.createParticipant("joda");
+        identityBuilder.createPosition("joda-engine-chef");
         identityBuilder.createRole("admin");
         
     }
