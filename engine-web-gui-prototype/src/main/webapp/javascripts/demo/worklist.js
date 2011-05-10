@@ -132,7 +132,6 @@ function getWorklistItems() {
     $.ajax({
         type: 'GET',
         url: '/api/worklist/items?id=' + $.Storage.get("participantUUID"),
-        data: 'id=' + $.Storage.get("participantUUID"),
         success: function(data) {
             $("#welcomeMessage").html("Welcome " + $.Storage.get("participantName") + ", here is your worklist:");
             var worklist = data;
