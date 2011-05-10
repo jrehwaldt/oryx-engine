@@ -67,6 +67,28 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
+    public void removeWorklistItem(AbstractWorklistItem worklistItem, AbstractResource<?> resourceToRemoveFrom) {
+
+        resourceToRemoveFrom.getWorklist().removeWorklistItem(worklistItem);
+        
+    }
+
+    @Override
+    public void removeWorklistItem(AbstractWorklistItem worklistItem, Set<AbstractResource<?>> resourcesToRemoveFrom) {
+
+        // Copying the set because it is modified during iteration. If it is not done there would be a
+        // ConcurrentModificationException.
+        AbstractResource<?>[] resourcesToRemoveFromArray = (AbstractResource<?>[]) resourcesToRemoveFrom
+        .toArray(new AbstractResource<?>[resourcesToRemoveFrom.size()]);
+
+        for (int i = 0; i < resourcesToRemoveFromArray.length; i++) {
+            AbstractResource<?> resourceToFillIn = resourcesToRemoveFromArray[i];
+            removeWorklistItem(worklistItem, resourceToFillIn);
+        }
+        
+    }
+
+    @Override
     public void distribute(Task task, Token token) {
 
         // Delegate the strategy of task distribution to the specific push pattern.
@@ -146,7 +168,25 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     @Override
     public List<AbstractWorklistItem> getWorklistItems(@Nonnull AbstractResource<?> resource) {
 
-        return resource.getWorklist().getWorklistItems();
+        return resource.getWorklist().getAllWorklistItems();
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getOfferedWorklistItems(AbstractResource<?> resource) {
+
+        return resource.getWorklist().getOfferedWorklistItems();
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getAllocatedWorklistItems(AbstractResource<?> resource) {
+
+        return resource.getWorklist().getAllocatedWorklistItems();
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getExecutingWorklistItems(AbstractResource<?> resource) {
+
+        return resource.getWorklist().getExecutingWorklistItems();
     }
 
     @Override
@@ -175,5 +215,31 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     public List<AbstractWorklistItem> getWorklistItems(UUID id) throws ResourceNotAvailableException {
         AbstractParticipant resource = identityService.getParticipant(id);
         return this.getWorklistItems(resource);
+    }
+    
+
+
+    @Override
+    public List<AbstractWorklistItem> getOfferedWorklistItems(UUID id)
+    throws ResourceNotAvailableException {
+
+        AbstractParticipant resource = identityService.getParticipant(id);
+        return this.getOfferedWorklistItems(resource);
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getAllocatedWorklistItems(UUID id)
+    throws ResourceNotAvailableException {
+
+        AbstractParticipant resource = identityService.getParticipant(id);
+        return this.getAllocatedWorklistItems(resource);
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getExecutingWorklistItems(UUID id)
+    throws ResourceNotAvailableException {
+
+        AbstractParticipant resource = identityService.getParticipant(id);
+        return this.getExecutingWorklistItems(resource);
     }
 }

@@ -99,17 +99,16 @@ public final class WorklistWebService {
         } else {
             WorklistItemState state = WorklistItemState.valueOf(itemState);
             
-            // TODO @Thorben have fun trying out your new cool functions :-)
             switch (state) {
                 case OFFERED:
-                    
+                    items = service.getOfferedWorklistItems(participantUUID);
                     break;
                 case ALLOCATED:   
-                    
+                    items = service.getAllocatedWorklistItems(participantUUID);
                     break;
     
                 case EXECUTING:
-    
+                    items = service.getExecutingWorklistItems(participantUUID);
                     break;
     
                 default:
@@ -225,7 +224,6 @@ public final class WorklistWebService {
 
         // try to get the worklist item and its token and thereby the context to put in the new data
         AbstractWorklistItem item = this.service.getWorklistItem(resource, itemUUID);
-        item = this.service.getWorklistItem(resource, itemUUID);
         ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
 
         Set<Map.Entry<String, List<String>>> entrySet = form.entrySet();

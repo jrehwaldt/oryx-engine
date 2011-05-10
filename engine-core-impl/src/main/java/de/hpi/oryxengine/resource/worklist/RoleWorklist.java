@@ -38,15 +38,10 @@ public class RoleWorklist extends AbstractDefaultWorklist {
     }
     
     @Override
-    public List<AbstractWorklistItem> getWorklistItems() {
+    public List<AbstractWorklistItem> getAllWorklistItems() {
 
-        List<AbstractWorklistItem> worklistItems = new ArrayList<AbstractWorklistItem>(getLazyWorklistItems());
-        
-        if (relatedRole.getSuperRole() != null) {
-            worklistItems.addAll(relatedRole.getSuperRole().getWorklist().getWorklistItems());
-        }
-        
-        return Collections.unmodifiableList(worklistItems);
+        // a role only has offered worklist items
+        return getOfferedWorklistItems();
     }
 
     @Override
@@ -54,18 +49,43 @@ public class RoleWorklist extends AbstractDefaultWorklist {
 
         
         logger.debug("worklistitem: {}", worklistItem);
-        logger.debug("My List: {}", getLazyWorklistItems());
-        getLazyWorklistItems().remove(worklistItem);
+        logger.debug("My List: {}", getLazyOfferedWorklistItems());
+        getLazyOfferedWorklistItems().remove(worklistItem);
         worklistItem.getAssignedResources().remove(relatedRole);
-        logger.debug("My List: {}", getLazyWorklistItems());
-        logger.debug("My whole list: {}", getWorklistItems());
+        logger.debug("My List: {}", getLazyOfferedWorklistItems());
+        logger.debug("My whole list: {}", getAllWorklistItems());
     }
 
     @Override
     public synchronized void addWorklistItem(AbstractWorklistItem worklistItem) {
 
-        getLazyWorklistItems().add(worklistItem);
-        worklistItem.getAssignedResources().add(relatedRole);
+        switch (worklistItem.getStatus()) {
+            case OFFERED:
+                getLazyOfferedWorklistItems().add(worklistItem);
+                worklistItem.getAssignedResources().add(relatedRole);
+                break;
+
+            default:
+                // TODO cannot add workitems that are in a state other than 'offered'. throw an error.
+                break;
+        }        
+    }
+    
+
+    @Override
+    public void removeWorklistItem(AbstractWorklistItem worklistItem) {
+
+        switch (worklistItem.getStatus()) {
+            case OFFERED:
+                getLazyOfferedWorklistItems().remove(worklistItem);
+                worklistItem.getAssignedResources().remove(relatedRole);
+                break;
+
+            default:
+                // TODO cannot remove workitems that are in a state other than 'offered'. throw an error.
+                break;
+        }  
+        
     }
 
     @Override
@@ -81,5 +101,33 @@ public class RoleWorklist extends AbstractDefaultWorklist {
         String exceptionMessage = "WorklistItems in a RoleWorklist can be neither executed nor completed.";
         throw new JodaEngineRuntimeException(exceptionMessage);        
     }
+
+    @Override
+    public List<AbstractWorklistItem> getAllocatedWorklistItems() {
+
+        // roles do not have allocated worklist items
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getOfferedWorklistItems() {
+
+        // a role only has offered worklist items
+        List<AbstractWorklistItem> worklistItems = new ArrayList<AbstractWorklistItem>(getLazyOfferedWorklistItems());
+        
+        if (relatedRole.getSuperRole() != null) {
+            worklistItems.addAll(relatedRole.getSuperRole().getWorklist().getAllWorklistItems());
+        }
+        
+        return Collections.unmodifiableList(worklistItems);
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getExecutingWorklistItems() {
+
+        // roles do not have executing worklist items
+        return Collections.emptyList();
+    }
+
 
 }

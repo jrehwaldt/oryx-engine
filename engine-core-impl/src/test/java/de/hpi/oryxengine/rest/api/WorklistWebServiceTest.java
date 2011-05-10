@@ -108,7 +108,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
     public void testGetForm()
     throws URISyntaxException, IOException {
         
-        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
+        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getAllWorklistItems().toArray()[0];
         String json = makeGETRequestReturningJson(
             "/worklist/items/"
             + item.getID()
@@ -151,7 +151,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
     throws URISyntaxException, IOException {
         
         UUID falseID = UUID.randomUUID();
-        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
+        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getAllWorklistItems().toArray()[0];
         MockHttpResponse response = makeGETRequest(
             String.format("worklist/items/%s/form?participantId=%s", item.getID(), falseID));
         
@@ -172,7 +172,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
     public void postForm()
     throws URISyntaxException, IOException {
         
-        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
+        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getAllWorklistItems().toArray()[0];
         Map<String, String> content = new HashMap<String, String>();
         
         //Simulate form data input

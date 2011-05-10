@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.rest.api;
+package de.hpi.oryxengine.rest;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -24,10 +24,10 @@ import org.jboss.resteasy.mock.MockHttpResponse;
 import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
 import org.testng.annotations.BeforeClass;
 
+import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.rest.exception.DefinitionNotFoundMapper;
 import de.hpi.oryxengine.rest.exception.InvalidWorkItemMapper;
 import de.hpi.oryxengine.rest.exception.ResourceNotAvailableMapper;
-
 
 /**
  * Abstract class providing anything necessary for server api tests.
@@ -188,7 +188,8 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      * @return the mock http response
      * @throws URISyntaxException the uRI syntax exception
      */
-    protected MockHttpResponse makePATCHRequest(String url, String content, String contentType) throws URISyntaxException{
+    protected MockHttpResponse makePATCHRequest(String url, String content, String contentType)
+    throws URISyntaxException {
         MockHttpRequest request = MockHttpRequest.create("PATCH", url);
         request.content(content.getBytes());
         request.contentType(contentType);
