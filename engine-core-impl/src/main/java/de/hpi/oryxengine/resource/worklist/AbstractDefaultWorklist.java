@@ -13,9 +13,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public abstract class AbstractDefaultWorklist extends AbstractWorklist {
 
-    private List<AbstractWorklistItem> lazyOfferedWorklistItems;
-    private List<AbstractWorklistItem> lazyAllocatedWorklistItems;
-    private List<AbstractWorklistItem> lazyExecutingWorklistItems;
+    private List<AbstractWorklistItem> lazyWorklistItems;
 
     /**
      * Retrieves the {@link AbstractWorklistItem}s that are in this {@link Worklist} and in state 'offered'.
@@ -23,48 +21,18 @@ public abstract class AbstractDefaultWorklist extends AbstractWorklist {
      * @return a list of {@link AbstractWorklistItem}s; the list is instantiated on demand
      */
     @JsonProperty
-    public synchronized List<AbstractWorklistItem> getLazyOfferedWorklistItems() {
+    public synchronized List<AbstractWorklistItem> getLazyWorklistItems() {
 
-        if (lazyOfferedWorklistItems == null) {
-            lazyOfferedWorklistItems = Collections.synchronizedList(new ArrayList<AbstractWorklistItem>());
+        if (lazyWorklistItems == null) {
+            lazyWorklistItems = Collections.synchronizedList(new ArrayList<AbstractWorklistItem>());
         }
 
-        return lazyOfferedWorklistItems;
-    }
-    
-    /**
-     * Retrieves the {@link AbstractWorklistItem}s that are in this {@link Worklist} and in state 'allocated'.
-     * 
-     * @return a list of {@link AbstractWorklistItem}s; the list is instantiated on demand
-     */
-    @JsonProperty
-    public synchronized List<AbstractWorklistItem> getLazyAllocatedWorklistItems() {
-
-        if (lazyAllocatedWorklistItems == null) {
-            lazyAllocatedWorklistItems = Collections.synchronizedList(new ArrayList<AbstractWorklistItem>());
-        }
-
-        return lazyAllocatedWorklistItems;
-    }
-    
-    /**
-     * Retrieves the {@link AbstractWorklistItem}s that are in this {@link Worklist} and in state 'executing'.
-     * 
-     * @return a list of {@link AbstractWorklistItem}s; the list is instantiated on demand
-     */
-    @JsonProperty
-    public synchronized List<AbstractWorklistItem> getLazyExecutingWorklistItems() {
-
-        if (lazyExecutingWorklistItems == null) {
-            lazyExecutingWorklistItems = Collections.synchronizedList(new ArrayList<AbstractWorklistItem>());
-        }
-
-        return lazyExecutingWorklistItems;
+        return lazyWorklistItems;
     }
 
     @Override
     public Iterator<AbstractWorklistItem> iterator() {
 
-        return getAllWorklistItems().iterator();
+        return getWorklistItems().iterator();
     }
 }

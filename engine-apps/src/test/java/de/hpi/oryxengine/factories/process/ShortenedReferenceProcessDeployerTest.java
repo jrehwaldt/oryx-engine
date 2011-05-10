@@ -143,12 +143,12 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
      */
     private void executeHumanTaskBy(Participant participant) {
 
-        List<AbstractWorklistItem> items = participant.getWorklist().getAllWorklistItems();
+        List<AbstractWorklistItem> items = participant.getWorklist().getWorklistItems();
         assertEquals(items.size(), 1);
         worklistManager.claimWorklistItemBy(items.get(0), participant);
         worklistManager.beginWorklistItemBy(items.get(0), participant);
         worklistManager.completeWorklistItemBy(items.get(0), participant);
-        items = participant.getWorklist().getAllWorklistItems();
+        items = participant.getWorklist().getWorklistItems();
         assertEquals(items.size(), 0);
     }
 }

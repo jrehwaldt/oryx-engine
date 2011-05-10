@@ -18,7 +18,7 @@ public final class EmptyWorklist extends AbstractWorklist {
     
     @Override
     @JsonIgnore
-    public List<AbstractWorklistItem> getAllWorklistItems() {
+    public List<AbstractWorklistItem> getWorklistItems() {
 
         List<AbstractWorklistItem> emptyWorklistItems = Collections.emptyList();
         return Collections.unmodifiableList(emptyWorklistItems);
@@ -59,28 +59,7 @@ public final class EmptyWorklist extends AbstractWorklist {
     @Override
     public Iterator<AbstractWorklistItem> iterator() {
 
-        return getAllWorklistItems().iterator();
-    }
-
-    @Override
-    public List<AbstractWorklistItem> getAllocatedWorklistItems() {
-
-        List<AbstractWorklistItem> emptyWorklistItems = Collections.emptyList();
-        return Collections.unmodifiableList(emptyWorklistItems);
-    }
-
-    @Override
-    public List<AbstractWorklistItem> getOfferedWorklistItems() {
-
-        List<AbstractWorklistItem> emptyWorklistItems = Collections.emptyList();
-        return Collections.unmodifiableList(emptyWorklistItems);
-    }
-
-    @Override
-    public List<AbstractWorklistItem> getExecutingWorklistItems() {
-
-        List<AbstractWorklistItem> emptyWorklistItems = Collections.emptyList();
-        return Collections.unmodifiableList(emptyWorklistItems);
+        return getWorklistItems().iterator();
     }
 
 }
