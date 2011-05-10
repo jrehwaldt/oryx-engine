@@ -80,7 +80,7 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
 
             worklistItemImpl.setStatus(WorklistItemState.ALLOCATED);
             if (!getLazyAllocatedWorklistItems().contains(worklistItemImpl)) {
-
+                getLazyOfferedWorklistItems().remove(worklistItemImpl);
                 getLazyAllocatedWorklistItems().add(worklistItemImpl);
             }
             
