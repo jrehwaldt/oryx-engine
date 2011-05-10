@@ -1,5 +1,7 @@
 package de.hpi.oryxengine;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +25,7 @@ import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * The implementation of the WorklistManager. It manages the worklists of all resources in the system.
@@ -168,25 +171,43 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     @Override
     public List<AbstractWorklistItem> getWorklistItems(@Nonnull AbstractResource<?> resource) {
 
-        return resource.getWorklist().getAllWorklistItems();
+        return Collections.unmodifiableList(resource.getWorklist().getWorklistItems());
     }
 
     @Override
     public List<AbstractWorklistItem> getOfferedWorklistItems(AbstractResource<?> resource) {
 
-        return resource.getWorklist().getOfferedWorklistItems();
+        List<AbstractWorklistItem> offeredItems = new ArrayList<AbstractWorklistItem>();
+        for (AbstractWorklistItem item : resource.getWorklist().getWorklistItems()) {
+            if (item.getStatus() == WorklistItemState.OFFERED) {
+                offeredItems.add(item);
+            }            
+        }
+        return offeredItems;
     }
 
     @Override
     public List<AbstractWorklistItem> getAllocatedWorklistItems(AbstractResource<?> resource) {
 
-        return resource.getWorklist().getAllocatedWorklistItems();
+        List<AbstractWorklistItem> allocatedItems = new ArrayList<AbstractWorklistItem>();
+        for (AbstractWorklistItem item : resource.getWorklist().getWorklistItems()) {
+            if (item.getStatus() == WorklistItemState.ALLOCATED) {
+                allocatedItems.add(item);
+            }            
+        }
+        return allocatedItems;
     }
 
     @Override
     public List<AbstractWorklistItem> getExecutingWorklistItems(AbstractResource<?> resource) {
 
-        return resource.getWorklist().getExecutingWorklistItems();
+        List<AbstractWorklistItem> executingItems = new ArrayList<AbstractWorklistItem>();
+        for (AbstractWorklistItem item : resource.getWorklist().getWorklistItems()) {
+            if (item.getStatus() == WorklistItemState.EXECUTING) {
+                executingItems.add(item);
+            }            
+        }
+        return executingItems;
     }
 
     @Override

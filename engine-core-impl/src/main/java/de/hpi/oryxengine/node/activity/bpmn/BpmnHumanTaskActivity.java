@@ -58,29 +58,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
         for (AbstractResource<?> resource : task.getAssignedResources()) {
             // remove all offered items
             Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
-            .getLazyOfferedWorklistItems().iterator();
-
-            while (it.hasNext()) {
-                WorklistItemImpl item = (WorklistItemImpl) it.next();
-                if (item.getTask() == task) {
-                    it.remove();
-                }
-            }
-            
-            // remove all allocated items
-            it = ((AbstractDefaultWorklist) resource.getWorklist())
-            .getLazyAllocatedWorklistItems().iterator();
-
-            while (it.hasNext()) {
-                WorklistItemImpl item = (WorklistItemImpl) it.next();
-                if (item.getTask() == task) {
-                    it.remove();
-                }
-            }
-            
-            // remove all executing items
-            it = ((AbstractDefaultWorklist) resource.getWorklist())
-            .getLazyExecutingWorklistItems().iterator();
+            .getLazyWorklistItems().iterator();
 
             while (it.hasNext()) {
                 WorklistItemImpl item = (WorklistItemImpl) it.next();

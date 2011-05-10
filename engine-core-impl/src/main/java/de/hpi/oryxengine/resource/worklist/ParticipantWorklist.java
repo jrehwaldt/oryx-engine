@@ -49,7 +49,7 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
     }
 
     @Override
-    public List<AbstractWorklistItem> getAllWorklistItems() {
+    public List<AbstractWorklistItem> getWorklistItems() {
         
         // this is needed for deserialization to not break the circular dependency
         if (relatedParticipant == null) {
@@ -61,11 +61,9 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
 
         // Creating the list of worklistItems from the owner and the related resources
         List<AbstractWorklistItem> resultWorklistItems = new ArrayList<AbstractWorklistItem>();
-        resultWorklistItems.addAll(getLazyOfferedWorklistItems());
-        resultWorklistItems.addAll(getLazyAllocatedWorklistItems());
-        resultWorklistItems.addAll(getLazyExecutingWorklistItems());
+        resultWorklistItems.addAll(getLazyWorklistItems());
         for (AbstractResource<?> resourceInView : resourcesInView) {
-            resultWorklistItems.addAll(resourceInView.getWorklist().getAllWorklistItems());
+            resultWorklistItems.addAll(resourceInView.getWorklist().getWorklistItems());
         }
 
         return resultWorklistItems;
@@ -79,14 +77,13 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
         if (claimingResource.equals(relatedParticipant)) {
 
             worklistItemImpl.setStatus(WorklistItemState.ALLOCATED);
-            if (!getLazyAllocatedWorklistItems().contains(worklistItemImpl)) {
-                getLazyOfferedWorklistItems().remove(worklistItemImpl);
-                getLazyAllocatedWorklistItems().add(worklistItemImpl);
+            if (!getLazyWorklistItems().contains(worklistItemImpl)) {
+                getLazyWorklistItems().add(worklistItemImpl);
             }
             
         } else {
             // we assume, that when an item has been allocated, it must have been offered before
-            getLazyOfferedWorklistItems().remove(worklistItemImpl);
+            getLazyWorklistItems().remove(worklistItemImpl);
             
             worklistItemImpl.getAssignedResources().remove(relatedParticipant);
         }
@@ -95,40 +92,14 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
     @Override
     public synchronized void addWorklistItem(AbstractWorklistItem worklistItem) {
 
-        switch (worklistItem.getStatus()) {
-            case ALLOCATED:
-                getLazyAllocatedWorklistItems().add(worklistItem);
-                break;
-            case OFFERED:
-                getLazyOfferedWorklistItems().add(worklistItem);
-                break;
-            case EXECUTING:
-                getLazyExecutingWorklistItems().add(worklistItem);
-                break;
-            default:
-                // TODO do error handling here, if there is a completed item added, etc.
-                break;
-        }
+        getLazyWorklistItems().add(worklistItem);
         worklistItem.getAssignedResources().add(relatedParticipant);
     }
 
     @Override
     public void removeWorklistItem(AbstractWorklistItem worklistItem) {
 
-        switch (worklistItem.getStatus()) {
-            case ALLOCATED:
-                getLazyAllocatedWorklistItems().remove(worklistItem);
-                break;
-            case OFFERED:
-                getLazyOfferedWorklistItems().remove(worklistItem);
-                break;
-            case EXECUTING:
-                getLazyExecutingWorklistItems().remove(worklistItem);
-                break;
-            default:
-                // TODO do error handling here, if there is a completed item added, etc.
-                break;
-        }
+        getLazyWorklistItems().remove(worklistItem);
         worklistItem.getAssignedResources().remove(relatedParticipant);
         
     }
@@ -139,59 +110,13 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
 
         worklistItemImpl.setStatus(WorklistItemState.COMPLETED);
-
-        // we assume that the item has been 'executing' before
-        getLazyExecutingWorklistItems().remove(worklistItemImpl);
     }
 
     @Override
     public void itemIsStarted(AbstractWorklistItem worklistItem) {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
-        getLazyAllocatedWorklistItems().remove(worklistItem);
-        getLazyExecutingWorklistItems().add(worklistItem);
         worklistItemImpl.setStatus(WorklistItemState.EXECUTING);
-    }
-
-    @Override
-    public List<AbstractWorklistItem> getAllocatedWorklistItems() {
-
-        if (relatedParticipant == null) {
-            return Collections.emptyList();
-        }
-        return getLazyAllocatedWorklistItems();
-    }
-
-    @Override
-    public List<AbstractWorklistItem> getOfferedWorklistItems() {
-
-        // this is needed for deserialization to not break the circular dependency
-        if (relatedParticipant == null) {
-            return Collections.emptyList();
-        }
-        
-        // Extracting the resources related to this owner
-        List<AbstractResource<?>> resourcesInView = getResourcesInView();
-
-        // Creating the list of worklistItems from the owner and the related resources
-        List<AbstractWorklistItem> resultWorklistItems = new ArrayList<AbstractWorklistItem>();
-        resultWorklistItems.addAll(getLazyOfferedWorklistItems());
-        for (AbstractResource<?> resourceInView : resourcesInView) {
-            resultWorklistItems.addAll(resourceInView.getWorklist().getOfferedWorklistItems());
-        }
-
-        return resultWorklistItems;
-    }
-
-    @Override
-    public List<AbstractWorklistItem> getExecutingWorklistItems() {
-
-        // this is needed for deserialization to not break the circular dependency
-        if (relatedParticipant == null) {
-            return Collections.emptyList();
-        }
-        
-        return getLazyExecutingWorklistItems();
     }
 
 }
