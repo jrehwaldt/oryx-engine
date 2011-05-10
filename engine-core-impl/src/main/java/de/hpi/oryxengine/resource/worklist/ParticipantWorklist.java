@@ -106,7 +106,7 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
                 getLazyExecutingWorklistItems().add(worklistItem);
                 break;
             default:
-                // maybe do error handling here
+                // TODO do error handling here, if there is a completed item added, etc.
                 break;
         }
         worklistItem.getAssignedResources().add(relatedParticipant);
