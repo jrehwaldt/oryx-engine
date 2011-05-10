@@ -380,6 +380,15 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         processDefinitionBuilder.setName("Shortened Reference Process").setDescription("Shortened Reference Process");
     }
     
+    /**
+     * Convenience method to create a {@link Task} for a single role.
+     *
+     * @param subject the subject
+     * @param description the description
+     * @param form the form
+     * @param resource the resource
+     * @return the task
+     */
     private Task createRoleTask(String subject, String description, Form form, AbstractResource<?> resource) {
 
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new RolePushPattern(),
@@ -388,6 +397,16 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         return createTask(subject, description, form, allocationStrategies, resource);
     }
     
+    /**
+     * Creates a custom {@link Task}.
+     *
+     * @param subject the subject
+     * @param description the description
+     * @param form the form
+     * @param allocationStrategies the allocation strategies
+     * @param resource the resource
+     * @return the task
+     */
     private Task createTask(String subject,
                                    String description,
                                    Form form,
@@ -398,6 +417,13 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         return task;
     }
     
+    /**
+     * Extracts a {@link Form} object from a local file.
+     *
+     * @param formName the form name
+     * @param formPath the form path
+     * @return the form
+     */
     private Form extractForm(String formName, String formPath) {
 
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
