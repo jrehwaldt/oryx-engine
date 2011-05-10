@@ -44,7 +44,7 @@ public final class DemoProcessStartEmailForWebservice {
     }
 
     /**
-     * Resets invoked, to be honest mostly for testign purposed after each method.
+     * Resets invoked, to be honest mostly for testing purposed after each method.
      */
     public synchronized static void resetInvoked() {
 
