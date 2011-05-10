@@ -19,12 +19,12 @@ ITEM_STATE = {
     "allocated" : "ALLOCATED",
     "executing" : "EXECUTING",
     "completed" : "COMPLETED"
-}
+};
 
 
 // globals
 // holds the UUId of the currently logged in participant
-participantUUID = undefined;
+var participantUUID;
 
 /*
  * GET Land
@@ -66,7 +66,7 @@ function getProcessDefinitions(func) {
     });
 }
 
-// get all the running instances and return them and return them
+// get all the running instances and return them
 function getRunningProcessInstances(func) {
 	$.ajax({
         type: 'GET',
@@ -82,7 +82,7 @@ function getRunningProcessInstances(func) {
  *  General Utility helpers
  */
 
-// return a random element from the collection
+// return a random element from a collection
 function getRandomElementFrom(collection) {
 
      var itemNumber = Math.floor(Math.random() * collection.length);
@@ -94,7 +94,7 @@ function getRandomElementFrom(collection) {
  */
 
 function generateParticipantname() {
-	time = new Date().getTime();
+	var time = new Date().getTime();
 	return "participant: " + time;
 }
 
@@ -109,8 +109,9 @@ function createParticipantWithRole(roleId) {
 
 // Creates some participants that will be used by the benchmark users
 function createParticipantsFromRoles(roles) {
+    var i = 0;
     $.each(roles, function(i, role) {
-        for (var i = 0; i < PARTICIPANTS_PER_ROLE; i++) {
+        for (i; i < PARTICIPANTS_PER_ROLE; i++) {
             createParticipantWithRole(role.id);
         }
     });
@@ -121,16 +122,7 @@ function createParticipantsFromRoles(roles) {
  * Process creation helpers
  */
 
-// start a specific number of process instances for each definition
-function startProcessInstancesFromDefinitions(definitions) {
-    $.each(definitions, function(i, definition) {
-        for (var i = 0; i < NUMBER_OF_INSTANCES; i++) {
-            startProcessInstance(definition);
-        }
-    });
-}
-
-// starts a process instance of the given definition
+// start a process instance of the given definition
 function startProcessInstance(definition) {
     $.ajax({
 		type: 'POST',
@@ -138,11 +130,44 @@ function startProcessInstance(definition) {
 	});
 }
 
+// start a specific number of process instances for each definition
+function startProcessInstancesFromDefinitions(definitions) {
+    var i = 0;
+    $.each(definitions, function(i, definition) {
+        for (i; i < NUMBER_OF_INSTANCES; i++) {
+            startProcessInstance(definition);
+        }
+    });
+}
+
+
 /*
  *  Worklist helpers (many!)
  */
 
+// change an item's state to a given state
+function changeItemState(itemId, state) {
 
+    $.ajax({
+	    	type: 'PUT',
+	    	url: '/api/worklist/items/' + itemId + '/state?participantId=' + participantUUID,
+	    	data: state,
+	    	success: function(data) {
+	    	    // TODO log succcesfull answers?!
+	    	}
+	});
+}
+
+// Begin the work on a random worklist item (it's a callback of the GetWorklistItems function)
+function beginRandomWorklistItem(worklistItems) {
+    var item = getRandomElementFrom(worklistItems);
+    changeItemState(item.id, ITEM_STATE.executing);
+}
+
+function endRandomWorklistItem(worklistItems) {
+    var item = getRandomElementFrom(worklistItems);
+    changeItemState(item.id, ITEM_STATE.completed);
+}
 
 // get all offered worklist items and start to work on a random one
 function getOfferedWorklistItems() {
@@ -151,7 +176,7 @@ function getOfferedWorklistItems() {
         url: '/api/worklist/items?id=' + participantUUID + '&itemState=' + ITEM_STATE.offered,
         success: function(data) {
             var worklistItems = data;
-            if !($.isEmptyObject(worklistItems)) {
+            if (!($.isEmptyObject(worklistItems))) {
                 beginRandomWorklistItem(worklistItems);
             }
         },
@@ -166,7 +191,7 @@ function getExecutingWorklistItems() {
         url: '/api/worklist/items?id=' + participantUUID + '&itemState=' + ITEM_STATE.executing,
         success: function(data) {
             var worklistItems = data;
-            if !($.isEmptyObject(worklistItems)) {
+            if (!($.isEmptyObject(worklistItems))) {
                 endRandomWorklistItem(worklistItems);
             }
         },
@@ -174,34 +199,10 @@ function getExecutingWorklistItems() {
     });
 }
 
-// change the item state of the item to a given state
-function changeItemState(itemId, state) {
-
-    $.ajax({
-	    	type: 'PUT',
-	    	url: '/api/worklist/items/' + itemId + '/state?participantId=' + participantUUID,
-	    	data: state,
-	    	success: function(data) {
-	    	    // TODO log succcesfull answers?!
-	    	}
-	});
-}
-
-// Begins the work on a random worklist item (it's a callback of the GetWorklistItems function)
-function beginRandomWorklistItem (worklistitems) {
-    var item = getRandomElementFrom(worklistItems);
-    changeItemState(item.id, ITEM_STATE.executing);
-}
-
-function endRandomWorklistItem (worklistItems) {
-    var item = getRandomElementFrom(worklistItems);
-    changeItemState(item.d, ITEM_STATE.completed);
-}
-
 // log in as a random participant
 function logInAsRandomParticipant(participantList) {
 
-    var participant = getRandomElementFrom(participantList)
+    var participant = getRandomElementFrom(participantList);
     // we are well aware that this is a global variable (as we are logged in and want to use it elsewhere)
     participantUUID = participant.id;
 }
