@@ -101,13 +101,14 @@ function generateParticipantname() {
 // create participant with the role
 function createParticipantWithRole(roleId) {
 	$.ajax({
+	    async: false,
 		type: 'POST',
 		url: JODA_ENGINE_ADRESS + '/api/identity/roles/' + roleId + '/participants',
 		data: generateParticipantname()
 	});
 }
 
-// Creates some participants that will be used by the benchmark users
+// Creates some participants that will be used by the benchmark users and log in as one of them
 function createParticipantsFromRoles(roles) {
     var i = 0;
     $.each(roles, function(i, role) {
@@ -115,6 +116,7 @@ function createParticipantsFromRoles(roles) {
             createParticipantWithRole(role.id);
         }
     });
+    logMeIn();
 }
 
 
@@ -218,7 +220,7 @@ function startProcessInstances() {
     getProcessDefinitions(startProcessInstancesFromDefinitions);
 }
 
-// creates participants and assigns them to the roles
+// creates participants and assigns them to the roles and log in as one of them
 function createParticipants() {
     getRoles(createParticipantsFromRoles);
 }
@@ -226,4 +228,17 @@ function createParticipants() {
 function logMeIn() {
     getParticipants(logInAsRandomParticipant);
 }
+
+/************************************
+ *                                  *
+ *     Main management code         *
+ *           land                   *
+ *                                  *
+ ************************************/
+
+$().ready(function() {
+    createParticipants();
+    startProcessInstances();
+
+});
 
