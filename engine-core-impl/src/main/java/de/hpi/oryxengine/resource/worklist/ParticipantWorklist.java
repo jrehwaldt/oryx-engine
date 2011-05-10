@@ -108,6 +108,7 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
     public void itemIsCompleted(AbstractWorklistItem worklistItem) {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
+        getLazyWorklistItems().remove(worklistItemImpl);
 
         worklistItemImpl.setStatus(WorklistItemState.COMPLETED);
     }
