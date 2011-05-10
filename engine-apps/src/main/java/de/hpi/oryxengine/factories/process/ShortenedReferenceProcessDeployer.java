@@ -1,23 +1,39 @@
 package de.hpi.oryxengine.factories.process;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.deployment.DeploymentBuilder;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factories.worklist.TaskFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
 import de.hpi.oryxengine.process.structure.condition.JuelExpressionCondition;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
+import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
+import de.hpi.oryxengine.resource.allocation.FormImpl;
+import de.hpi.oryxengine.resource.allocation.TaskImpl;
+import de.hpi.oryxengine.resource.allocation.pattern.RolePushPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 /**
  * The Class ShortenedReferenceProcessDeployer. This is the implementation of the shortened version of the AOK reference
@@ -33,10 +49,13 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     private static final String OBJECTION_CLERK = "Objection Clerk";
     private static final String ALLOWANCE_CLERK = "Allowance Clerk";
 
-    private IdentityBuilder identityBuilder;
+    private static IdentityService identityService = ServiceFactory.getIdentityService();
+    private static ProcessDefinitionBuilder processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
+    private static IdentityBuilder identityBuilder = identityService.getIdentityBuilder();
 
-    private IdentityService identityService;
-
+    private static final String PATH_TO_WEBFORMS = "src/main/resources/forms";
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    
     // Nodes
     private Node startNode;
     private Node system1;
@@ -53,6 +72,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     private Node xor5;
     private Node endNode;
 
+    
     /**
      * Gets the start node.
      * 
@@ -251,15 +271,6 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         return jannik;
     }
 
-    /**
-     * Default constructor.
-     */
-    public ShortenedReferenceProcessDeployer() {
-
-        identityService = ServiceFactory.getIdentityService();
-        builder = new ProcessDefinitionBuilderImpl();
-        identityBuilder = identityService.getIdentityBuilder();
-    }
 
     @Override
     public void initializeNodes() {
@@ -271,7 +282,8 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
         // human task for objection clerk, task is to check
         // positions of objection
-        Task task = TaskFactory.createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen",
+        Form form = extractForm("form1", "claimPoints.html");
+        Task task = createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen", form,
             objectionClerk);
         human1 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
@@ -289,7 +301,8 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         Condition condition2 = new JuelExpressionCondition("${widerspruch  == \"abgelehnt\"}");
 
         // human task for objection clerk, task is to check objection
-        task = TaskFactory.createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche",
+        form = extractForm("form2", "checkForNewClaims.html");
+        task = createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche", form,
             objectionClerk);
         human2 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
@@ -303,7 +316,8 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         Condition condition4 = new HashMapCondition(map1, "==");
 
         // human task for objection clerk, task is to create a new report
-        task = TaskFactory.createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen",
+        form = extractForm("form3", "createReport.html");
+        task = createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen", form,
             objectionClerk);
         human3 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
@@ -323,11 +337,13 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         xor4 = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
 
         // human task for objection clerk, task is to do final work
-        task = TaskFactory.createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", objectionClerk);
+        form = extractForm("form4", "postEditingClaim.html");
+        task = createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", form, objectionClerk);
         human4 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
         // human task for allowance clerk, task is to enforce allowance
-        task = TaskFactory.createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen",
+        form = extractForm("form5", "enforceAllowance.html");
+        task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", form,
             allowanceClerk);
         human5 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
 
@@ -356,7 +372,43 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(builder, xor5, system2);
         BpmnNodeFactory.createTransitionFromTo(builder, human5, xor5);
         BpmnNodeFactory.createTransitionFromTo(builder, system2, endNode);
+        
+        processDefinitionBuilder.setName("Shortened Reference Process").setDescription("Shortened Reference Process");
     }
+    
+    private Task createRoleTask(String subject, String description, Form form, AbstractResource<?> resource) {
+
+        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new RolePushPattern(),
+            new SimplePullPattern(), null, null);
+
+        return createTask(subject, description, form, allocationStrategies, resource);
+    }
+    
+    private Task createTask(String subject,
+                                   String description,
+                                   Form form,
+                                   AllocationStrategies allocationStrategies,
+                                   AbstractResource<?> resource) {
+
+        Task task = new TaskImpl(subject, description, form, allocationStrategies, resource);
+        return task;
+    }
+    
+    private Form extractForm(String formName, String formPath) {
+
+        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        UUID processArtifactID = deploymentBuilder.deployArtifactAsFile(formName, new File(PATH_TO_WEBFORMS + "/"
+            + formPath));
+        Form form = null;
+        try {
+            form = new FormImpl(ServiceFactory.getRepositoryService().getProcessResource(processArtifactID));
+        } catch (DefinitionNotFoundException e) {
+            logger.error("The recently deployed artifact is not there. Something critical is going wrong.");
+            e.printStackTrace();
+        }
+        return form;
+    }
+    
 //
 //    /**
 //     * Helper method for creating a {@link NodeParameterBuilder}. See also
