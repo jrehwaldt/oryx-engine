@@ -141,6 +141,11 @@ public class WorkListManagerTest {
         Assert.assertEquals(item.getStatus(), WorklistItemState.COMPLETED);
     }
     
+    /**
+     * Tests the three parts of the worklist.
+     *
+     * @throws ResourceNotAvailableException the resource not available exception
+     */
     @Test
     public void testGetSpecificWorklistItems() throws ResourceNotAvailableException {
 //        IdentityService identity = ServiceFactory.getIdentityService();
