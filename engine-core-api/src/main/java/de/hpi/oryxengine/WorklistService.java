@@ -30,6 +30,33 @@ public interface WorklistService {
     List<AbstractWorklistItem> getWorklistItems(@Nonnull AbstractResource<?> resource);
     
     /**
+     * Gets the offered worklist items.
+     *
+     * @param resource the resource the {@link Worklist} items shall be searched for
+     * @return a list of all offered {@link AbstractWorklistItem}s; the list is unmodifiable (read-only)
+     */
+    @Nonnull
+    List<AbstractWorklistItem> getOfferedWorklistItems(@Nonnull AbstractResource<?> resource);
+    
+    /**
+     * Gets the allocated worklist items.
+     *
+     * @param resource the resource the {@link Worklist} items shall be searched for
+     * @return a list of all allocated {@link AbstractWorklistItem}s; the list is unmodifiable (read-only)
+     */
+    @Nonnull
+    List<AbstractWorklistItem> getAllocatedWorklistItems(@Nonnull AbstractResource<?> resource);
+    
+    /**
+     * Gets the claimed worklist items.
+     *
+     * @param resource the resource the {@link Worklist} items shall be searched for
+     * @return a list of all claimed {@link AbstractWorklistItem}s; the list is unmodifiable (read-only)
+     */
+    @Nonnull
+    List<AbstractWorklistItem> getExecutingWorklistItems(@Nonnull AbstractResource<?> resource);
+    
+    /**
      * Gets the worklist items for the ressource with the id.
      *
      * @param id the UUID of the resource
@@ -37,6 +64,36 @@ public interface WorklistService {
      * @throws ResourceNotAvailableException the resource not available exception
      */
     List<AbstractWorklistItem> getWorklistItems(@Nonnull UUID id)
+    throws ResourceNotAvailableException;
+    
+    /**
+     * Gets all offered worklist items for the ressource with the id.
+     *
+     * @param id the UUID of the resource
+     * @return the worklist items for the resource
+     * @throws ResourceNotAvailableException the resource not available exception
+     */
+    List<AbstractWorklistItem> getOfferedWorklistItems(@Nonnull UUID id)
+    throws ResourceNotAvailableException;
+    
+    /**
+     * Gets all allocated worklist items for the ressource with the id.
+     *
+     * @param id the UUID of the resource
+     * @return the worklist items for the resource
+     * @throws ResourceNotAvailableException the resource not available exception
+     */
+    List<AbstractWorklistItem> getAllocatedWorklistItems(@Nonnull UUID id)
+    throws ResourceNotAvailableException;
+    
+    /**
+     * Gets all executing worklist items for the ressource with the id.
+     *
+     * @param id the UUID of the resource
+     * @return the worklist items for the resource
+     * @throws ResourceNotAvailableException the resource not available exception
+     */
+    List<AbstractWorklistItem> getExecutingWorklistItems(@Nonnull UUID id)
     throws ResourceNotAvailableException;
 
     /**

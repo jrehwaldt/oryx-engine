@@ -172,6 +172,24 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
+    public List<AbstractWorklistItem> getOfferedWorklistItems(AbstractResource<?> resource) {
+
+        return resource.getWorklist().getOfferedWorklistItems();
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getAllocatedWorklistItems(AbstractResource<?> resource) {
+
+        return resource.getWorklist().getAllocatedWorklistItems();
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getExecutingWorklistItems(AbstractResource<?> resource) {
+
+        return resource.getWorklist().getExecutingWorklistItems();
+    }
+
+    @Override
     public void beginWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
 
         synchronized (worklistItem) {
@@ -197,5 +215,31 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     public List<AbstractWorklistItem> getWorklistItems(UUID id) throws ResourceNotAvailableException {
         AbstractParticipant resource = identityService.getParticipant(id);
         return this.getWorklistItems(resource);
+    }
+    
+
+
+    @Override
+    public List<AbstractWorklistItem> getOfferedWorklistItems(UUID id)
+    throws ResourceNotAvailableException {
+
+        AbstractParticipant resource = identityService.getParticipant(id);
+        return this.getOfferedWorklistItems(resource);
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getAllocatedWorklistItems(UUID id)
+    throws ResourceNotAvailableException {
+
+        AbstractParticipant resource = identityService.getParticipant(id);
+        return this.getAllocatedWorklistItems(resource);
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getExecutingWorklistItems(UUID id)
+    throws ResourceNotAvailableException {
+
+        AbstractParticipant resource = identityService.getParticipant(id);
+        return this.getExecutingWorklistItems(resource);
     }
 }

@@ -99,17 +99,16 @@ public final class WorklistWebService {
         } else {
             WorklistItemState state = WorklistItemState.valueOf(itemState);
             
-            // TODO @Thorben have fun trying out your new cool functions :-)
             switch (state) {
                 case OFFERED:
-                    
+                    items = service.getOfferedWorklistItems(participantUUID);
                     break;
                 case ALLOCATED:   
-                    
+                    items = service.getAllocatedWorklistItems(participantUUID);
                     break;
     
                 case EXECUTING:
-    
+                    items = service.getExecutingWorklistItems(participantUUID);
                     break;
     
                 default:
