@@ -16,6 +16,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
@@ -36,6 +39,8 @@ import de.hpi.oryxengine.util.annotations.PATCH;
 public final class IdentityWebService {
 
     private final IdentityService identity;
+    
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     // private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -66,10 +71,11 @@ public final class IdentityWebService {
     @Produces(MediaType.APPLICATION_JSON)
     public Set<AbstractParticipant> getParticipants() {
 
+        logger.debug("Ok we try to get participants!");
         Set<AbstractParticipant> participants = this.identity.getParticipants();
 
+        logger.debug("The participants: " + participants);
         return participants;
-
     }
 
     /**
