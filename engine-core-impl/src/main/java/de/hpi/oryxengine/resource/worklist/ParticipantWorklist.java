@@ -78,12 +78,12 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
 
         if (claimingResource.equals(relatedParticipant)) {
 
+            worklistItemImpl.setStatus(WorklistItemState.ALLOCATED);
             if (!getLazyAllocatedWorklistItems().contains(worklistItemImpl)) {
 
-                addWorklistItem(worklistItemImpl);
+                getLazyAllocatedWorklistItems().add(worklistItemImpl);
             }
-
-            worklistItemImpl.setStatus(WorklistItemState.ALLOCATED);
+            
         } else {
             // we assume, that when an item has been allocated, it must have been offered before
             getLazyOfferedWorklistItems().remove(worklistItemImpl);
