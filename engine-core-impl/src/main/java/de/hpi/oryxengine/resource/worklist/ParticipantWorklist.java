@@ -78,15 +78,15 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
 
         if (claimingResource.equals(relatedParticipant)) {
 
-            if (!getLazyWorklistItems().contains(worklistItemImpl)) {
+            if (!getLazyAllocatedWorklistItems().contains(worklistItemImpl)) {
 
                 addWorklistItem(worklistItemImpl);
             }
 
             worklistItemImpl.setStatus(WorklistItemState.ALLOCATED);
         } else {
-
-            getLazyWorklistItems().remove(worklistItemImpl);
+            // we assume, that when an item has been allocated, it must have been offered before
+            getLazyOfferedWorklistItems().remove(worklistItemImpl);
             
             worklistItemImpl.getAssignedResources().remove(relatedParticipant);
         }
@@ -95,7 +95,20 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
     @Override
     public synchronized void addWorklistItem(AbstractWorklistItem worklistItem) {
 
-        getLazyWorklistItems().add(worklistItem);
+        switch (worklistItem.getStatus()) {
+            case ALLOCATED:
+                getLazyAllocatedWorklistItems().add(worklistItem);
+                break;
+            case OFFERED:
+                getLazyOfferedWorklistItems().add(worklistItem);
+                break;
+            case EXECUTING:
+                getLazyExecutingWorklistItems().add(worklistItem);
+                break;
+            default:
+                // maybe do error handling here
+                break;
+        }
         worklistItem.getAssignedResources().add(relatedParticipant);
     }
 
@@ -106,7 +119,8 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
 
         worklistItemImpl.setStatus(WorklistItemState.COMPLETED);
 
-        getLazyWorklistItems().remove(worklistItemImpl);
+        // we assume that the item have been 'executing' before
+        getLazyExecutingWorklistItems().remove(worklistItemImpl);
     }
 
     @Override
