@@ -224,7 +224,6 @@ public final class WorklistWebService {
 
         // try to get the worklist item and its token and thereby the context to put in the new data
         AbstractWorklistItem item = this.service.getWorklistItem(resource, itemUUID);
-        item = this.service.getWorklistItem(resource, itemUUID);
         ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
 
         Set<Map.Entry<String, List<String>>> entrySet = form.entrySet();
