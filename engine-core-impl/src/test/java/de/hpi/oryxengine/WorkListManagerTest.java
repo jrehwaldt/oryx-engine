@@ -111,7 +111,7 @@ public class WorkListManagerTest {
      */
     @Test
     public void testGettingAWorklistItem() throws InvalidWorkItemException {
-        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
+        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getAllWorklistItems().toArray()[0];
         AbstractWorklistItem serviceItem = ServiceFactory.getWorklistService().getWorklistItem(jannik, item.getID());
         Assert.assertEquals(item, serviceItem);
     }
@@ -134,7 +134,7 @@ public class WorkListManagerTest {
      */
     @Test
     public void testCompleteWorklistItemBy() {
-        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
+        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getAllWorklistItems().toArray()[0];
         ServiceFactory.getWorklistService().completeWorklistItemBy(item, jannik);
         Assert.assertEquals(item.getStatus(), WorklistItemState.COMPLETED);
     }

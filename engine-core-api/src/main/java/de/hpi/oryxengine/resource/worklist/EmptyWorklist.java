@@ -18,7 +18,7 @@ public final class EmptyWorklist extends AbstractWorklist {
     
     @Override
     @JsonIgnore
-    public List<AbstractWorklistItem> getWorklistItems() {
+    public List<AbstractWorklistItem> getAllWorklistItems() {
 
         List<AbstractWorklistItem> emptyWorklistItems = Collections.emptyList();
         return Collections.unmodifiableList(emptyWorklistItems);
@@ -51,6 +51,6 @@ public final class EmptyWorklist extends AbstractWorklist {
     @Override
     public Iterator<AbstractWorklistItem> iterator() {
 
-        return getWorklistItems().iterator();
+        return getAllWorklistItems().iterator();
     }
 }

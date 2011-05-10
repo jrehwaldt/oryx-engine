@@ -38,12 +38,12 @@ public class RoleWorklist extends AbstractDefaultWorklist {
     }
     
     @Override
-    public List<AbstractWorklistItem> getWorklistItems() {
+    public List<AbstractWorklistItem> getAllWorklistItems() {
 
         List<AbstractWorklistItem> worklistItems = new ArrayList<AbstractWorklistItem>(getLazyWorklistItems());
         
         if (relatedRole.getSuperRole() != null) {
-            worklistItems.addAll(relatedRole.getSuperRole().getWorklist().getWorklistItems());
+            worklistItems.addAll(relatedRole.getSuperRole().getWorklist().getAllWorklistItems());
         }
         
         return Collections.unmodifiableList(worklistItems);
@@ -58,7 +58,7 @@ public class RoleWorklist extends AbstractDefaultWorklist {
         getLazyWorklistItems().remove(worklistItem);
         worklistItem.getAssignedResources().remove(relatedRole);
         logger.debug("My List: {}", getLazyWorklistItems());
-        logger.debug("My whole list: {}", getWorklistItems());
+        logger.debug("My whole list: {}", getAllWorklistItems());
     }
 
     @Override

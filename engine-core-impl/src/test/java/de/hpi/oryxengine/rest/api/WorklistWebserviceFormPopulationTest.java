@@ -87,7 +87,7 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
         instance.getContext().setVariable("claimPoint1", "Point 1");
         instance.getContext().setVariable("claimPoint2", "Point 2");
 
-        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
+        AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getAllWorklistItems().toArray()[0];
         String json = makeGETRequestReturningJson("/worklist/items/" + item.getID() + "/form?participantId="
             + jannik.getID());
         Assert.assertEquals(json, populatedForm, "the form should be correctly populated.");

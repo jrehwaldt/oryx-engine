@@ -18,12 +18,38 @@ import de.hpi.oryxengine.resource.AbstractResource;
 public abstract class AbstractWorklist implements Iterable<AbstractWorklistItem> {
 
     /**
-     * Retrieves the contained {@link AbstractWorklistItem}s.
+     * Retrieves all contained {@link AbstractWorklistItem}s (offered, allocated, executing). 
      * 
      * @return a list of {@link AbstractWorklistItem}s; the list is unmodifiable (read-only) 
      */
     @JsonIgnore
-    public abstract @Nonnull List<AbstractWorklistItem> getWorklistItems();
+    public abstract @Nonnull List<AbstractWorklistItem> getAllWorklistItems();
+    
+    /**
+     * Gets all allocated {@link AbstractWorklistItem item} of the corresponding resource.
+     *
+     * @return a list of allocated {@link AbstractWorklistItem items}
+     */
+    @JsonIgnore
+    public abstract @Nonnull List<AbstractWorklistItem> getAllocatedWorklistItems();
+    
+    /**
+     * Gets all offered {@link AbstractWorklistItem item} of the corresponding resource.
+     *
+     * @return a list of offered {@link AbstractWorklistItem items}
+     */
+    @JsonIgnore
+    public abstract @Nonnull List<AbstractWorklistItem> getOfferedWorklistItems();
+    
+    /**
+     * Gets all {@link AbstractWorklistItem item} of the corresponding resource that are in execution.
+     *
+     * @return a list containing the {@link AbstractWorklistItem items} in execution
+     */
+    @JsonIgnore
+    public abstract @Nonnull List<AbstractWorklistItem> getExecutingWorklistItems();
+    
+    
     
     /**
      * Notifies this {@link Worklist} that the item has been allocated by a certain resource.

@@ -146,7 +146,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     @Override
     public List<AbstractWorklistItem> getWorklistItems(@Nonnull AbstractResource<?> resource) {
 
-        return resource.getWorklist().getWorklistItems();
+        return resource.getWorklist().getAllWorklistItems();
     }
 
     @Override

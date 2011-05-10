@@ -31,9 +31,25 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
         
         this.relatedParticipant = owner;
     }
+    
+    /**
+     * Gets the resources in view. These are all roles, positions, etc. this participant belongs to.
+     *
+     * @return the resources in view
+     */
+    private List<AbstractResource<?>> getResourcesInView() {
+        List<AbstractResource<?>> resourcesInView = new ArrayList<AbstractResource<?>>();
+        resourcesInView.addAll(relatedParticipant.getMyRolesImmutable());
+        for (AbstractPosition position: relatedParticipant.getMyPositionsImmutable()) {
+            resourcesInView.add(position);
+            resourcesInView.add(position.belongstoOrganization());
+        }
+        
+        return resourcesInView;
+    }
 
     @Override
-    public List<AbstractWorklistItem> getWorklistItems() {
+    public List<AbstractWorklistItem> getAllWorklistItems() {
         
         // this is needed for deserialization to not break the circular dependency
         if (relatedParticipant == null) {
@@ -41,18 +57,15 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
         }
         
         // Extracting the resources related to this owner
-        List<AbstractResource<?>> resourcesInView = new ArrayList<AbstractResource<?>>();
-        resourcesInView.addAll(relatedParticipant.getMyRolesImmutable());
-        for (AbstractPosition position: relatedParticipant.getMyPositionsImmutable()) {
-            resourcesInView.add(position);
-            resourcesInView.add(position.belongstoOrganization());
-        }
+        List<AbstractResource<?>> resourcesInView = getResourcesInView();
 
         // Creating the list of worklistItems from the owner and the related resources
         List<AbstractWorklistItem> resultWorklistItems = new ArrayList<AbstractWorklistItem>();
-        resultWorklistItems.addAll(getLazyWorklistItems());
+        resultWorklistItems.addAll(getLazyOfferedWorklistItems());
+        resultWorklistItems.addAll(getLazyAllocatedWorklistItems());
+        resultWorklistItems.addAll(getLazyExecutingWorklistItems());
         for (AbstractResource<?> resourceInView : resourcesInView) {
-            resultWorklistItems.addAll(resourceInView.getWorklist().getWorklistItems());
+            resultWorklistItems.addAll(resourceInView.getWorklist().getAllWorklistItems());
         }
 
         return resultWorklistItems;
@@ -101,6 +114,47 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
         worklistItemImpl.setStatus(WorklistItemState.EXECUTING);
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getAllocatedWorklistItems() {
+
+        if (relatedParticipant == null) {
+            return Collections.emptyList();
+        }
+        return getLazyAllocatedWorklistItems();
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getOfferedWorklistItems() {
+
+        // this is needed for deserialization to not break the circular dependency
+        if (relatedParticipant == null) {
+            return Collections.emptyList();
+        }
+        
+        // Extracting the resources related to this owner
+        List<AbstractResource<?>> resourcesInView = getResourcesInView();
+
+        // Creating the list of worklistItems from the owner and the related resources
+        List<AbstractWorklistItem> resultWorklistItems = new ArrayList<AbstractWorklistItem>();
+        resultWorklistItems.addAll(getLazyOfferedWorklistItems());
+        for (AbstractResource<?> resourceInView : resourcesInView) {
+            resultWorklistItems.addAll(resourceInView.getWorklist().getOfferedWorklistItems());
+        }
+
+        return resultWorklistItems;
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getExecutingWorklistItems() {
+
+        // this is needed for deserialization to not break the circular dependency
+        if (relatedParticipant == null) {
+            return Collections.emptyList();
+        }
+        
+        return getLazyExecutingWorklistItems();
     }
 
 }
