@@ -42,6 +42,14 @@ public final class EmptyWorklist extends AbstractWorklist {
         throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
     }
 
+
+    @Override
+    public void removeWorklistItem(AbstractWorklistItem worklistItem) {
+
+        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        
+    }
+    
     @Override
     public void itemIsAllocatedBy(AbstractWorklistItem worklistItem, AbstractResource<?> claimingResource) {
 
@@ -74,4 +82,5 @@ public final class EmptyWorklist extends AbstractWorklist {
         List<AbstractWorklistItem> emptyWorklistItems = Collections.emptyList();
         return Collections.unmodifiableList(emptyWorklistItems);
     }
+
 }

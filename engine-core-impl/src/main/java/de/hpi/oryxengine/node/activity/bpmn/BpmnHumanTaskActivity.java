@@ -54,10 +54,33 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     @Override
     public void cancel() {
 
-        // TODO move this to worklist manager
+        // TODO change this as soon as we do not have the separation of task/worklistitem anymore (use methods from TaskAllocation)
         for (AbstractResource<?> resource : task.getAssignedResources()) {
+            // remove all offered items
             Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
-            .getLazyWorklistItems().iterator();
+            .getLazyOfferedWorklistItems().iterator();
+
+            while (it.hasNext()) {
+                WorklistItemImpl item = (WorklistItemImpl) it.next();
+                if (item.getTask() == task) {
+                    it.remove();
+                }
+            }
+            
+            // remove all allocated items
+            it = ((AbstractDefaultWorklist) resource.getWorklist())
+            .getLazyAllocatedWorklistItems().iterator();
+
+            while (it.hasNext()) {
+                WorklistItemImpl item = (WorklistItemImpl) it.next();
+                if (item.getTask() == task) {
+                    it.remove();
+                }
+            }
+            
+            // remove all executing items
+            it = ((AbstractDefaultWorklist) resource.getWorklist())
+            .getLazyExecutingWorklistItems().iterator();
 
             while (it.hasNext()) {
                 WorklistItemImpl item = (WorklistItemImpl) it.next();
@@ -66,6 +89,8 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
                 }
             }
         }
+        
+//        ServiceFactory.getWorklistQueue().removeWorklistItem(task, task.getAssignedResources());
 
     }
 }

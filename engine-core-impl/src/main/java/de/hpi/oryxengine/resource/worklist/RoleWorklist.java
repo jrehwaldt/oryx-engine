@@ -68,7 +68,23 @@ public class RoleWorklist extends AbstractDefaultWorklist {
             default:
                 // TODO cannot add workitems that are in a state other than 'offered'. throw an error.
                 break;
-        }
+        }        
+    }
+    
+
+    @Override
+    public void removeWorklistItem(AbstractWorklistItem worklistItem) {
+
+        switch (worklistItem.getStatus()) {
+            case OFFERED:
+                getLazyOfferedWorklistItems().remove(worklistItem);
+                worklistItem.getAssignedResources().remove(relatedRole);
+                break;
+
+            default:
+                // TODO cannot remove workitems that are in a state other than 'offered'. throw an error.
+                break;
+        }  
         
     }
 
@@ -112,5 +128,6 @@ public class RoleWorklist extends AbstractDefaultWorklist {
         // roles do not have executing worklist items
         return Collections.emptyList();
     }
+
 
 }

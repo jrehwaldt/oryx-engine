@@ -113,6 +113,27 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
     }
 
     @Override
+    public void removeWorklistItem(AbstractWorklistItem worklistItem) {
+
+        switch (worklistItem.getStatus()) {
+            case ALLOCATED:
+                getLazyAllocatedWorklistItems().remove(worklistItem);
+                break;
+            case OFFERED:
+                getLazyOfferedWorklistItems().remove(worklistItem);
+                break;
+            case EXECUTING:
+                getLazyExecutingWorklistItems().remove(worklistItem);
+                break;
+            default:
+                // TODO do error handling here, if there is a completed item added, etc.
+                break;
+        }
+        worklistItem.getAssignedResources().remove(relatedParticipant);
+        
+    }
+
+    @Override
     public void itemIsCompleted(AbstractWorklistItem worklistItem) {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);

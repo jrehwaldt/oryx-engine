@@ -82,4 +82,11 @@ public abstract class AbstractWorklist implements Iterable<AbstractWorklistItem>
      * @param worklistItem - a {@link AbstractWorklistItem} to add
      */
     public abstract void addWorklistItem(@Nonnull AbstractWorklistItem worklistItem);
+    
+    /**
+     * Removes a {@link AbstractWorklistItem} from the {@link Worklist}.
+     *
+     * @param worklistItem the worklist item
+     */
+    public abstract void removeWorklistItem(@Nonnull AbstractWorklistItem worklistItem);
 }
