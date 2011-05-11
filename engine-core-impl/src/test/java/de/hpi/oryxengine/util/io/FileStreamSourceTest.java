@@ -16,10 +16,12 @@ import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
  */
 public class FileStreamSourceTest {
 
-    private static final String TEST_FILE_PATH = "src/test/resources/de/hpi/oryxengine/util/io/file-streamsource-test.file";
+    private static final String TEST_FILE_PATH =
+        "src/test/resources/de/hpi/oryxengine/util/io/file-streamsource-test.file";
 
     @Test
-    public void testCorrectInputStream() throws IOException {
+    public void testCorrectInputStream()
+    throws IOException {
 
         StreamSource fileStreamSource = new FileStreamSource(TEST_FILE_PATH);
 
@@ -34,9 +36,9 @@ public class FileStreamSourceTest {
     @Test(expectedExceptions = JodaEngineRuntimeException.class)
     public void testIntantiationWithNoExistingFile() {
 
-        File file = new File("123" + TEST_FILE_PATH); 
-        StreamSource fileStreamSource = new FileStreamSource(file);
-        
+        File file = new File("123" + TEST_FILE_PATH);
+        new FileStreamSource(file);
+
         Assert.fail("The 'JodaEngineRuntinmeException' should already been thrown.'");
     }
 }

@@ -7,7 +7,7 @@ import de.hpi.oryxengine.process.token.Token;
  * instantiation of a new process, but a notification to a registered process instance will be sent.
  */
 public interface IntermediateEvent extends ProcessEvent {
-    
+
     /**
      * Gets the assigned token that has be notified if timer is complete.
      * 

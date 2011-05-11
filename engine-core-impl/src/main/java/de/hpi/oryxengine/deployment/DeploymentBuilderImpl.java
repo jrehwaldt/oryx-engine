@@ -5,11 +5,11 @@ import java.io.InputStream;
 import java.util.UUID;
 
 import de.hpi.oryxengine.RepositoryServiceImpl;
-import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
 import de.hpi.oryxengine.util.io.ClassPathResourceStreamSource;
 import de.hpi.oryxengine.util.io.FileStreamSource;
 import de.hpi.oryxengine.util.io.InputStreamSource;
@@ -107,7 +107,8 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
             throw new JodaEngineRuntimeException(errorMessage);
         }
 
-        repositoryServiceImpl.getProcessDefinitionsTable().put(processDefinition.getID(), processDefinition);
+        // TODO @Gerardo das hier noch n
+        repositoryServiceImpl.getProcessDefinitionsTable().put(processDefinition.getID(), (ProcessDefinitionImpl) processDefinition);
 
         return processDefinition.getID();
     }

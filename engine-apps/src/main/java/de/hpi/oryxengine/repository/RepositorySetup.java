@@ -5,7 +5,7 @@ import java.util.UUID;
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
-import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
+import de.hpi.oryxengine.deployment.ProcessDefinitionImporter;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;

@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.node.activity.NullActivity;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.Transition;
 
@@ -36,6 +37,7 @@ public class ProcessBuilderTest {
 
         builder.getTransitionBuilder().transitionGoesFromTo(startNode, endNode).buildTransition();
         
+        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
         ProcessDefinition definition = builder.buildDefinition();
 
         List<Node> startNodes = definition.getStartNodes();

@@ -21,14 +21,31 @@ import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
  */
 public class MailAdapterEvent extends AbstractAdapterEvent {
 
+    /**
+	 * @uml.property  name="logger"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+	 * @uml.property  name="message"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.lang.String"
+	 */
     private @Nonnull
     Message message;
+    /**
+	 * @uml.property  name="content"
+	 */
     private @Nullable
     String content;
+    /**
+	 * @uml.property  name="topic"
+	 */
     private @Nullable
     String topic;
+    /**
+	 * @uml.property  name="from"
+	 */
     private @Nullable
     String from;
 

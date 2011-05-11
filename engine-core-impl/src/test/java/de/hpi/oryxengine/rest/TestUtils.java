@@ -10,6 +10,7 @@ import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -51,6 +52,8 @@ public final class TestUtils {
         BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
         BpmnNodeFactory.createTransitionFromTo(builder, node2, endNode);
 
+        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
+        
         // deploy it
         ProcessDefinition definition = builder.buildDefinition();
         Assert.assertNotNull(definition);

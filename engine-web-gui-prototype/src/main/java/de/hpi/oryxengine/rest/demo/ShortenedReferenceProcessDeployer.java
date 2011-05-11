@@ -17,6 +17,7 @@ import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -183,6 +184,8 @@ public final class ShortenedReferenceProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human5Node, xor5Node);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, system2Node, endNode);
 
+        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(processDefinitionBuilder);
+        
         processDefinitionBuilder.setName("Shortened Reference Process").setDescription("Shortened Reference Process");
     }
 

@@ -16,6 +16,9 @@ implements EventType {
     Error,
     Timer;
     
+    /**
+	 * @uml.property  name="id"
+	 */
     private final @Nonnull UUID id;
     
     /**

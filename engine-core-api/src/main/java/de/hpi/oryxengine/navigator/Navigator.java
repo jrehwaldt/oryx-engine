@@ -14,7 +14,7 @@ import de.hpi.oryxengine.process.token.Token;
 /**
  * The Interface NavigatorInterface.
  */
-public interface Navigator extends Service {
+public interface Navigator {
 
     /**
      * Start a new process instance.

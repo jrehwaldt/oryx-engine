@@ -368,7 +368,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 //     */
 //    private NodeParameterBuilder createParamBuilderFor(Class<? extends AbstractActivity> activityClass) {
 //
-//        return createParamBuilderFor(activityClass, null, null, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+    // return createParamBuilderFor(activityClass, null, null, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
 //    }
 //
 //    /**
