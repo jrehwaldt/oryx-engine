@@ -227,11 +227,9 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
     @Override
     public Token performJoin() {
-
-        Token token = createNewToken(currentNode);       
         
         instance.getContext().removeIncomingTransitions(currentNode);
-        return token;
+        return this;
     }
 
     @Override
@@ -290,6 +288,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
         for (Token token : splittedTokens) {
             navigator.addWorkToken(token);
         }
+        
 
         lazySuspendedProcessingTokens = null;
         

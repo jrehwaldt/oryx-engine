@@ -87,6 +87,7 @@ public class BPMNAndJoinTest {
         assertEquals(newTokens.size(), 1, "There should only be one new token");
 
         Token newToken = newTokens.get(0);
+        assertEquals(newToken.getInstance().getAssignedTokens().size(), 1);
         assertEquals(newToken.getCurrentNode(), node3, "The new token should be on the node following the join node");
     }
 

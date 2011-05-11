@@ -12,7 +12,9 @@
 // constants
 JODA_ENGINE_ADRESS = '';
 PARTICIPANTS_PER_ROLE = 5;
-NUMBER_OF_INSTANCES = 1;
+NUMBER_OF_INSTANCES = 10;
+NUMBER_OF_TASKS_TO_EXECUTE = 5;
+NUMBER_OF_ERRORS_TO_WAIT = 2;
 
 ITEM_STATE = {
     "offered" : "OFFERED",
@@ -23,16 +25,23 @@ ITEM_STATE = {
 
 
 // globals
-// holds the UUId of the currently logged in participant
+// holds the UUID of the currently logged in participant
 var participantUUID;
+var numberOfRunningInstances;
+var errorCounter;
+var taskCounter;
 
 /*
  * GET Land
  */
 
 // gets all the available roles and returns them
-function getRoles(func) {
+function getRolesAndThen(func) {
 	$.ajax({
+        // this call is synchronous to ensure that
+        // there are participants created for roles
+        // before we start loggin in as one
+        async: false,
         type: 'GET',
         url: JODA_ENGINE_ADRESS + '/api/identity/roles',
         success: function(data) {
@@ -43,7 +52,7 @@ function getRoles(func) {
 }
 
 // get all the participants and return them
-function getParticipants(func) {
+function getParticipantsAndThen(func) {
 	$.ajax({
         type: 'GET',
         url: JODA_ENGINE_ADRESS + '/api/identity/participants',
@@ -55,7 +64,7 @@ function getParticipants(func) {
 }
 
 // get all the deployed process definitions and return them
-function getProcessDefinitions(func) {
+function getProcessDefinitionsAndThen(func) {
 	$.ajax({
         type: 'GET',
         url: JODA_ENGINE_ADRESS + '/api/repository/process-definitions',
@@ -67,12 +76,12 @@ function getProcessDefinitions(func) {
 }
 
 // get all the running instances and return them
-function getRunningProcessInstances(func) {
+function setRunningProcessInstances() {
 	$.ajax({
         type: 'GET',
         url: JODA_ENGINE_ADRESS + '/api/navigator/status/running-instances',
         success: function(data) {
-        	func(data);
+        	numberOfRunningInstances = data.length;
         },
         dataType: "json"
     });
@@ -125,6 +134,7 @@ function createParticipantsFromRoles(roles) {
 // start a process instance of the given definition
 function startProcessInstance(definition) {
     $.ajax({
+        async: false,
 		type: 'POST',
 		url: JODA_ENGINE_ADRESS + '/api/navigator/process-definitions/' + definition.id + '/start'
 	});
@@ -138,6 +148,7 @@ function startProcessInstancesFromDefinitions(definitions) {
             startProcessInstance(definition);
         }
     });
+    setRunningProcessInstances();
 }
 
 
@@ -146,7 +157,7 @@ function startProcessInstancesFromDefinitions(definitions) {
  */
 
 // change an item's state to a given state
-function changeItemState(itemId, state) {
+function changeItemState(itemId, state, errorCounter) {
 
     $.ajax({
 	    	type: 'PUT',
@@ -154,7 +165,10 @@ function changeItemState(itemId, state) {
 	    	data: state,
 	    	success: function(data) {
 	    	    // TODO log succcesfull answers?!
-	    	}
+	    	},
+	    	error: function(jqXHR, textStatus, errorThrown) {
+                errorCounter++;
+            }
 	});
 }
 
@@ -170,14 +184,15 @@ function endRandomWorklistItem(worklistItems) {
 }
 
 // get all offered worklist items and start to work on a random one
-function getOfferedWorklistItems() {
+function workOnOfferedWorklistItems() {
     $.ajax({
         type: 'GET',
         url: '/api/worklist/items?id=' + participantUUID + '&itemState=' + ITEM_STATE.offered,
         success: function(data) {
             var worklistItems = data;
-            if (!($.isEmptyObject(worklistItems))) {
+            while (errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE && !($.isEmptyObject(worklistItems))) {
                 beginRandomWorklistItem(worklistItems);
+                taskCounter++;
             }
         },
         dataType: "json" // we expect json
@@ -185,14 +200,15 @@ function getOfferedWorklistItems() {
 }
 
 // get all executing worklist items and end some of them
-function getExecutingWorklistItems() {
+function workOnExecutingWorklistItems() {
     $.ajax({
         type: 'GET',
         url: '/api/worklist/items?id=' + participantUUID + '&itemState=' + ITEM_STATE.executing,
         success: function(data) {
             var worklistItems = data;
-            if (!($.isEmptyObject(worklistItems))) {
+            while (errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE && !($.isEmptyObject(worklistItems))) {
                 endRandomWorklistItem(worklistItems);
+                taskCounter++;
             }
         },
         dataType: "json" // we expect json
@@ -215,16 +231,26 @@ function logInAsRandomParticipant(participantList) {
 
 // start instances of the deployed process definitions
 function startProcessInstances() {
-    getProcessDefinitions(startProcessInstancesFromDefinitions);
+    getProcessDefinitionsAndThen(startProcessInstancesFromDefinitions);
 }
 
 // creates participants and assigns them to the roles and log in as one of them
 function createParticipants() {
-    getRoles(createParticipantsFromRoles);
+    getRolesAndThen(createParticipantsFromRoles);
 }
 
 function logMeIn() {
-    getParticipants(logInAsRandomParticipant);
+    getParticipantsAndThen(logInAsRandomParticipant);
+}
+
+function workOnTasks() {
+    taskCounter = 0;
+    errorCounter = 0;
+    logMeIn();
+    while(errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE) {
+        workOnExecutingWorklistItems();
+        workOnOfferedWorklistItems();
+    }
 }
 
 /************************************
@@ -237,7 +263,10 @@ function logMeIn() {
 $().ready(function() {
     createParticipants();
     startProcessInstances();
-    logMeIn();
-
+    console.log(numberOfRunningInstances);
+    while(numberOfRunningInstances != 0){
+        workOnTasks();
+        setRunningProcessInstances();
+    }
 });
 

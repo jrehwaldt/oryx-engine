@@ -19,6 +19,10 @@ import de.hpi.oryxengine.process.structure.Transition;
  */
 public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     
+    private static final int MAGIC_HASH_CONSTANT_TWO = 31;
+
+    private static final int MAGIC_HASH_CONSTANT_ONE = 7;
+
     @JsonIgnore
     private Map<Node, List<Transition>> waitingTransitions;
 
@@ -67,10 +71,10 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     @Override
-    public void removeIncomingTransitions(Node n) {
+    public void removeIncomingTransitions(Node node) {
 
-        List<Transition> signaledTransitions = waitingTransitions.get(n);
-        List<Transition> incomingTransitions = n.getIncomingTransitions();
+        List<Transition> signaledTransitions = waitingTransitions.get(node);
+        List<Transition> incomingTransitions = node.getIncomingTransitions();
         removeSubset(signaledTransitions, incomingTransitions);
 
     }
@@ -140,16 +144,18 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     
     @Override
     public int hashCode() {
-// CHECKSTYLE:OFF
-        int hash = 7;
-// CHECKSTYLE:ON
+        int hash = MAGIC_HASH_CONSTANT_ONE;
+        int magicHashSummand = 0;
         
         Object o;
         for (String key: getInstanceVariables().keySet()) {
             o = getInstanceVariables().get(key);
-// CHECKSTYLE:OFF
-            hash = 31 * hash + (null == o ? 0 : o.hashCode());
-// CHECKSTYLE:ON
+            if (null == o) {
+                magicHashSummand = 0;
+            } else {
+                magicHashSummand = o.hashCode();
+            }
+            hash = MAGIC_HASH_CONSTANT_TWO * hash + magicHashSummand;
         }
         
         return hash;

@@ -97,6 +97,7 @@ public final class DemoProcessStartEmailForWebservice {
     private static void generateDemoWorklistItems()
     throws IllegalStarteventException, DefinitionNotFoundException {
 
+        // TODO why not use the getBuilder-method? special reason?
         // Building the ProcessDefintion
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 

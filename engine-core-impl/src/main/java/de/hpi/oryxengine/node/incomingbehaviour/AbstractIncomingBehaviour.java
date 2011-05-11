@@ -13,19 +13,22 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
     /**
      * Join.
      *
-     * @param instance instance to perform the join on
+     * @param token instance to perform the join on
      * @return the list of joined instances
      * @see de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour
      * #join(de.hpi.oryxengine.process.token.Token) Do not override this, as it is a template method.
      * Only join, if a join is possible.
      */
-    public List<Token> join(Token instance) {
+    public List<Token> join(Token token) {
 
-        List<Token> instances = new LinkedList<Token>();
-        if (joinable(instance)) {
-            instances = performJoin(instance);
+        List<Token> tokens = new LinkedList<Token>();
+        if (joinable(token)) {
+            tokens = performJoin(token);
+        } else {
+            // remove the token because we don't need it later on
+            token.getInstance().removeToken(token);
         }
-        return instances;
+        return tokens;
     }
 
     /**

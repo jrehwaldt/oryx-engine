@@ -80,11 +80,16 @@ public class DemoWebServiceTest extends AbstractJsonServerTest {
     /**
      * Regression test just invoking this rest service one time to check that the everything works (form file was
      * missing at one point).
+     * @throws URISyntaxException 
      */
     @Test
-    public void testReferenceWithoutParticipant() {
+    public void testReferenceWithoutParticipant() 
+    throws URISyntaxException {
         
+        makePOSTRequest(BENCHMARK_URL);
         
+     // one process should be defined
+        Assert.assertEquals(ServiceFactory.getRepositoryService().getProcessDefinitions().size(), 1);
     }
 
 }
