@@ -72,10 +72,22 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
         return this.identity.getParticipants();
     }
     
+    /**
+     * Get participant.
+     * 
+     * @param participantId the participant to get
+     * @return the participant
+     * @throws ResourceNotAvailableException no such resource
+     */
     @Path("/participants/{participantId}")
     @GET
+    public AbstractParticipant getParticipant(@PathParam("participantId") String participantId)
+    throws ResourceNotAvailableException {
+        return getParticipant(UUID.fromString(participantId));
+    }
+    
     @Override
-    public AbstractParticipant getParticipant(@PathParam("participantId") UUID participantId)
+    public AbstractParticipant getParticipant(UUID participantId)
     throws ResourceNotAvailableException {
         return this.identity.getParticipant(participantId);
     }
@@ -87,8 +99,20 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
         return this.identity.getRoles();
     }
     
+    /**
+     * Get role.
+     * 
+     * @param roleId the role to get
+     * @return the role
+     * @throws ResourceNotAvailableException no such resource
+     */
     @Path("/roles/{roleId}")
     @GET
+    public AbstractRole getRole(@PathParam("roleId") String roleId)
+    throws ResourceNotAvailableException {
+        return getRole(UUID.fromString(roleId));
+    }
+    
     @Override
     public AbstractRole getRole(@PathParam("roleId") UUID roleId)
     throws ResourceNotAvailableException {
@@ -102,10 +126,22 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
         return this.identity.getPositions();
     }
     
+    /**
+     * Get position.
+     * 
+     * @param positionId the position to get
+     * @return the position
+     * @throws ResourceNotAvailableException no such resource
+     */
     @Path("/positions/{positionId}")
     @GET
+    public AbstractPosition getPosition(@PathParam("positionId") String positionId)
+    throws ResourceNotAvailableException {
+        return getPosition(UUID.fromString(positionId));
+    }
+    
     @Override
-    public AbstractPosition getPosition(@PathParam("positionId") UUID positionId)
+    public AbstractPosition getPosition(UUID positionId)
     throws ResourceNotAvailableException {
         return this.identity.getPosition(positionId);
     }
@@ -117,8 +153,20 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
         return this.identity.getOrganizationUnits();
     }
     
+    /**
+     * Get organization unit.
+     * 
+     * @param positionId the organization unit to get
+     * @return the organization unit
+     * @throws ResourceNotAvailableException no such resource
+     */
     @Path("/organization-units/{organizationUnitId}")
     @GET
+    public AbstractOrganizationUnit getOrganizationUnit(@PathParam("organizationUnitId") String organizationUnitId)
+    throws ResourceNotAvailableException {
+        return getOrganizationUnit(UUID.fromString(organizationUnitId));
+    }
+    
     @Override
     public AbstractOrganizationUnit getOrganizationUnit(@PathParam("organizationUnitId") UUID organizationUnitId)
     throws ResourceNotAvailableException {
