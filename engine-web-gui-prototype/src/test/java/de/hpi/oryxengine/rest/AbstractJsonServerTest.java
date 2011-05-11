@@ -159,6 +159,19 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         return invokeFormRequest(request, content);
     }
     
+    /**
+     * Make a post request without content.
+     *
+     * @param url the url
+     * @return the mock http response
+     * @throws URISyntaxException the uRI syntax exception
+     */
+    protected MockHttpResponse makePOSTRequest(String url) throws URISyntaxException {
+
+        MockHttpRequest request = MockHttpRequest.post(url);
+        return invokeSimpleRequest(request);
+    }
+    
     
     /**
      * Make a mock post request with a specific contentType and content.
@@ -229,14 +242,13 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     }
     
     /**
-     * Helper method which invokes the Request and returns the answer as a String.
+     * Helper method which invokes the request with form data and returns the response.
      *
      * @param request the mocked Request
      * @param content the POST content, which should be processed
      * @return the answer as a MockHttpResponse
      */
     private MockHttpResponse invokeFormRequest(MockHttpRequest request, Map<String, String> content) {
-        MockHttpResponse response = new MockHttpResponse();
 
         //Only for Requests, that need data to be sent with
         if (content != null) {
@@ -248,9 +260,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
 
         }
         // invoke the request
-        dispatcher.invoke(request, response);
-        
-        return response;
+        return invokeSimpleRequest(request);
     }
     
     /**

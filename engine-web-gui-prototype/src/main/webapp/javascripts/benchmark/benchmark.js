@@ -115,7 +115,6 @@ function createParticipantsFromRoles(roles) {
             createParticipantWithRole(role.id);
         }
     });
-    logMeIn();
 }
 
 
@@ -238,6 +237,7 @@ function logMeIn() {
 $().ready(function() {
     createParticipants();
     startProcessInstances();
+    logMeIn();
 
 });
 

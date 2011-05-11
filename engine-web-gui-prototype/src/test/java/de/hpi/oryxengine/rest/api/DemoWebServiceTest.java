@@ -17,18 +17,20 @@ import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
 public class DemoWebServiceTest extends AbstractJsonServerTest {
 
     private static final String DEMO_URL = "/demo/generate";
+    private static final String BENCHMARK_URL = "/demo/reference-without-participants";
 
     @Override
     protected Class<?> getResource() {
 
         return DemoWebService.class;
     }
-    
+
     /**
      * Reset invoked after each method, since this context doesn't get "dirtied".
      */
     @AfterMethod
     public void resetInvoked() {
+
         DemoDataForWebservice.resetInvoked();
     }
 
@@ -46,31 +48,43 @@ public class DemoWebServiceTest extends AbstractJsonServerTest {
 
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode());
         // one process should be defined
-        Assert.assertEquals(ServiceFactory.getRepositoryService().getProcessDefinitions().size(),
-            1);
+        Assert.assertEquals(ServiceFactory.getRepositoryService().getProcessDefinitions().size(), 1);
         // We shall start NUMBER_OF_PROCESSINSTANCES instances
-        Assert.assertEquals(ServiceFactory.getNavigatorService().getRunningInstances().size(), 
+        Assert.assertEquals(ServiceFactory.getNavigatorService().getRunningInstances().size(),
             DemoDataForWebservice.NUMBER_OF_PROCESSINSTANCES);
-        
+
         // There should be at least some participants
         Assert.assertFalse(ServiceFactory.getIdentityService().getParticipants().isEmpty());
     }
 
     /**
      * Tests the behaviour when it gets invoked twice.
-     * @throws URISyntaxException 
+     *
+     * @throws URISyntaxException the uRI syntax exception
      */
     @Test
-    public void testInvokedTwice() throws URISyntaxException {
-        makePOSTFormRequest(DEMO_URL, null);
-        makePOSTFormRequest(DEMO_URL, null);
-        
-     // one process should be defined
-        Assert.assertEquals(ServiceFactory.getRepositoryService().getProcessDefinitions().size(),
-            1);
+    public void testInvokedTwice()
+    throws URISyntaxException {
+
+        makePOSTRequest(DEMO_URL);
+        makePOSTRequest(DEMO_URL);
+
+        // one process should be defined
+        Assert.assertEquals(ServiceFactory.getRepositoryService().getProcessDefinitions().size(), 1);
         // We shall start NUMBER_OF_PROCESSINSTANCES instances
-        Assert.assertEquals(ServiceFactory.getNavigatorService().getRunningInstances().size(), 
+        Assert.assertEquals(ServiceFactory.getNavigatorService().getRunningInstances().size(),
             DemoDataForWebservice.NUMBER_OF_PROCESSINSTANCES);
+
+    }
+
+    /**
+     * Regression test just invoking this rest service one time to check that the everything works (form file was
+     * missing at one point).
+     */
+    @Test
+    public void testReferenceWithoutParticipant() {
         
-    } 
+        
+    }
+
 }

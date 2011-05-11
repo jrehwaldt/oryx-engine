@@ -61,6 +61,11 @@ public class DemoWebService {
         return Response.ok().build();
     }
 
+    /**
+     * Generates the process which is started by email.
+     *
+     * @return the response
+     */
     @Path("/generate-process-start-email")
     @POST
     public Response generateProcessStartEmail() {
@@ -95,6 +100,12 @@ public class DemoWebService {
         }
     }
     
+    /**
+     * Generates the reference process without participants.
+     *
+     * @return the response
+     * @throws ResourceNotAvailableException the resource not available exception
+     */
     @Path("/reference-without-participants")
     @POST
     public Response referenceWithoutParticipants() throws ResourceNotAvailableException {
