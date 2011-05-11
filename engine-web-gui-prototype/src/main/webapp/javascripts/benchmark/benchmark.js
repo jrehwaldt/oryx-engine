@@ -101,7 +101,6 @@ function generateParticipantname() {
 // create participant with the role
 function createParticipantWithRole(roleId) {
 	$.ajax({
-	    async: false,
 		type: 'POST',
 		url: JODA_ENGINE_ADRESS + '/api/identity/roles/' + roleId + '/participants',
 		data: generateParticipantname()
@@ -110,9 +109,9 @@ function createParticipantWithRole(roleId) {
 
 // Creates some participants that will be used by the benchmark users and log in as one of them
 function createParticipantsFromRoles(roles) {
-    var i = 0;
+    var i;
     $.each(roles, function(i, role) {
-        for (i; i < PARTICIPANTS_PER_ROLE; i++) {
+        for (i = 0; i < PARTICIPANTS_PER_ROLE; i++) {
             createParticipantWithRole(role.id);
         }
     });
@@ -134,9 +133,9 @@ function startProcessInstance(definition) {
 
 // start a specific number of process instances for each definition
 function startProcessInstancesFromDefinitions(definitions) {
-    var i = 0;
+    var i;
     $.each(definitions, function(i, definition) {
-        for (i; i < NUMBER_OF_INSTANCES; i++) {
+        for (i = 0; i < NUMBER_OF_INSTANCES; i++) {
             startProcessInstance(definition);
         }
     });

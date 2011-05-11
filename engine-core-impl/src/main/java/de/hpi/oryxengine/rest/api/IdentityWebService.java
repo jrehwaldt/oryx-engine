@@ -45,7 +45,6 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     private final IdentityService identity;
-    
     /**
      * Default constructor.
      */

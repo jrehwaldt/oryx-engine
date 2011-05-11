@@ -7,11 +7,11 @@ import javax.ws.rs.core.Response;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
+import de.hpi.oryxengine.factories.process.ShortenedReferenceProcessDeployer;
 import de.hpi.oryxengine.rest.demo.BenchmarkDeployer;
 import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
 import de.hpi.oryxengine.rest.demo.DemoProcessStartEmailForWebservice;
 import de.hpi.oryxengine.rest.demo.LoadDemoProcessAsXmlForWebservice;
-import de.hpi.oryxengine.rest.demo.ShortenedReferenceProcessDeployer;
 
 /**
  * Offers demo methods (like creating demo users) to the user, should be deactivated in deployment.
@@ -21,12 +21,15 @@ public class DemoWebService {
 
     // TODO move somewhere else
     
+    private boolean referenceDeployed;
+    
     /**
      * Instantiates a new demo web service.
      */
     public DemoWebService() {
 
         super();
+        referenceDeployed = false;
     }
 
     /**
@@ -78,14 +81,15 @@ public class DemoWebService {
     @POST
     public Response reference() throws ResourceNotAvailableException {
         try {
-
-            ShortenedReferenceProcessDeployer.generate();
+            if (!referenceDeployed) {
+                ShortenedReferenceProcessDeployer deployer = new ShortenedReferenceProcessDeployer();
+                deployer.deploy();
+            }
+            
+            referenceDeployed = true;
 
             return Response.ok().build();
         } catch (IllegalStarteventException e) {
-            e.printStackTrace();
-            return Response.serverError().build();
-        } catch (DefinitionNotFoundException e) {
             e.printStackTrace();
             return Response.serverError().build();
         }
