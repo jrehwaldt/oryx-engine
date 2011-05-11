@@ -16,7 +16,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -158,7 +157,7 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
     /**
      * Get organization unit.
      * 
-     * @param positionId the organization unit to get
+     * @param organizationUnitId the organization unit to get
      * @return the organization unit
      * @throws ResourceNotAvailableException no such resource
      */
