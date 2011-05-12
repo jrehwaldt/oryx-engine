@@ -14,6 +14,7 @@ import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.factory.TransitionFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -118,6 +119,7 @@ public class EndActivityTest {
         TransitionFactory.createTransitionFromTo(builder, forkNode1, endNode1);
         TransitionFactory.createTransitionFromTo(builder, forkNode2, endNode2);
 
+        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
         ProcessDefinition definition = builder.buildDefinition();
 
         instance = new ProcessInstanceImpl(definition);

@@ -200,15 +200,14 @@ function workOnOfferedWorklistItems() {
 }
 
 // get all executing worklist items and end some of them
-function workOnExecutingWorklistItems() {
+function getExecutingWorklistItems() {
     $.ajax({
         type: 'GET',
         url: '/api/worklist/items?id=' + participantUUID + '&itemState=' + ITEM_STATE.executing,
         success: function(data) {
             var worklistItems = data;
-            while (errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE && !($.isEmptyObject(worklistItems))) {
+            if (!($.isEmptyObject(worklistItems))) {
                 endRandomWorklistItem(worklistItems);
-                taskCounter++;
             }
         },
         dataType: "json" // we expect json

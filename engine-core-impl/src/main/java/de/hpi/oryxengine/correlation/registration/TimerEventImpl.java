@@ -10,7 +10,15 @@ import de.hpi.oryxengine.process.token.Token;
  */
 public class TimerEventImpl implements IntermediateEvent {
 
+    /**
+	 * @uml.property  name="token"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     private Token token;
+    /**
+	 * @uml.property  name="config"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     private TimedConfiguration config;
 
     /**
@@ -26,6 +34,10 @@ public class TimerEventImpl implements IntermediateEvent {
         this.config = config;
     }
 
+    /**
+	 * @return
+	 * @uml.property  name="token"
+	 */
     @Override
     public Token getToken() {
 

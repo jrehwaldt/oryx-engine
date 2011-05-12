@@ -30,6 +30,7 @@ implements Job {
         
         InboundPullAdapter adapter = (InboundPullAdapter) data.get(ADAPTER_KEY);
         try {
+            
             adapter.pull();
         } catch (JodaEngineException e) {
             ErrorAdapter error = (ErrorAdapter) data.get(ERROR_HANDLER_KEY);

@@ -14,13 +14,23 @@ import de.hpi.oryxengine.correlation.CorrelationManager;
  * @author Jan Rehwaldt
  * @param <Configuration> the adapter's configuration
  */
-public abstract class AbstractCorrelationAdapter<
-    Configuration extends AdapterConfiguration
-> implements CorrelationAdapter {
+public abstract class AbstractCorrelationAdapter<Configuration extends AdapterConfiguration> implements CorrelationAdapter {
     
+    /**
+	 * @uml.property  name="logger"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     protected final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+	 * @uml.property  name="configuration"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     protected final Configuration configuration;
     
+    /**
+	 * @uml.property  name="correlation"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     private final CorrelationManager correlation;
     
     /**
@@ -56,6 +66,6 @@ public abstract class AbstractCorrelationAdapter<
      */
     protected final void correlate(@Nonnull AdapterEvent event) {
         correlation.correlate(event);
-        logger.info("Correlatiing {} for {}", event, getClass().getSimpleName());
+        logger.info("Correlating {} for {}", event, getClass().getSimpleName());
     }
 }

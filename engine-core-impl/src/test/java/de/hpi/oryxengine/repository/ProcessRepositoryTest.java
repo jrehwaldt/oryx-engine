@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.RepositoryServiceImpl;
-import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
+import de.hpi.oryxengine.deployment.ProcessDefinitionImporter;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -71,7 +71,7 @@ public class ProcessRepositoryTest {
     public void testAddDefinition()
     throws DefinitionNotFoundException {
 
-        final ProcessDefinition def = new ProcessDefinitionImpl(EMPTY_UUID, null, null);
+        final ProcessDefinition def = new ProcessDefinitionImpl(EMPTY_UUID, null, null, null);
         assertFalse(this.repository.containsProcessDefinition(EMPTY_UUID));
 
         ProcessDefinitionImporter processDefinitionImporter = new RawProcessDefintionImporter(def);
@@ -91,7 +91,7 @@ public class ProcessRepositoryTest {
     public void testDeleteDefinition()
     throws DefinitionNotFoundException {
 
-        final ProcessDefinition def = new ProcessDefinitionImpl(EMPTY_UUID, null, null);
+        final ProcessDefinition def = new ProcessDefinitionImpl(EMPTY_UUID, null, null, null);
         assertFalse(this.repository.containsProcessDefinition(EMPTY_UUID));
 
         ProcessDefinitionImporter processDefinitionImporter = new RawProcessDefintionImporter(def);

@@ -10,7 +10,6 @@ import de.hpi.oryxengine.process.structure.Transition;
  */
 public class TransitionFactory {
 
-
     /**
      * Creates a {@link Transition} and connects two {@link Nodes} with the created {@link Transition}.
      * 
@@ -41,9 +40,9 @@ public class TransitionFactory {
      * @return a {@link Transition}
      */
     public static Transition createTransitionFromTo(ProcessDefinitionBuilder builder,
-                                                 Node source,
-                                                 Node destination,
-                                                 Condition condition) {
+                                                    Node source,
+                                                    Node destination,
+                                                    Condition condition) {
 
         return builder.getTransitionBuilder().transitionGoesFromTo(source, destination).setCondition(condition)
         .buildTransition();

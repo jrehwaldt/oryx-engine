@@ -105,7 +105,8 @@ public class BuildingRoleTest extends AbstractJodaEngineTest {
             + adminRole.getParticipantsImmutable().size() + " .";
         Assert.assertTrue(adminRole.getParticipantsImmutable().size() == 1, failureMessage);
 
-        identityBuilder.participantBelongsToRole(participant2.getID(), adminRole.getID()).participantBelongsToRole(participant.getID(),
+        identityBuilder.participantBelongsToRole(participant2.getID(), adminRole.getID()).participantBelongsToRole(
+            participant.getID(),
             adminRole.getID());
 
         // Now there should be one more

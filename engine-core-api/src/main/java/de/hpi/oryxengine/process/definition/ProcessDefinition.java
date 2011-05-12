@@ -1,16 +1,12 @@
 package de.hpi.oryxengine.process.definition;
 
 import java.util.List;
-import java.util.Map;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
-import de.hpi.oryxengine.correlation.registration.StartEvent;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.util.Attributable;
 import de.hpi.oryxengine.util.Identifiable;
@@ -63,21 +59,4 @@ public interface ProcessDefinition extends Identifiable, Attributable {
      */
     @JsonProperty
     List<Node> getStartNodes();
-
-    /**
-     * Gets the start triggers: events pointing to nodes that are tokens put on, if the event is invoked.
-     * 
-     * @return the start triggers
-     */
-    @JsonIgnore
-    Map<StartEvent, Node> getStartTriggers();
-
-    /**
-     * Adds the start trigger. If event is invoked, a token will spawn on node.
-     *
-     * @param event the event
-     * @param node the node
-     * @throws IllegalStarteventException thrown if the provided node isn't a startnode.
-     */
-    void addStartTrigger(StartEvent event, Node node) throws IllegalStarteventException;
 }

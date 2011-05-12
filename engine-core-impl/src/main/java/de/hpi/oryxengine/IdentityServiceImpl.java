@@ -63,7 +63,8 @@ public class IdentityServiceImpl implements IdentityService, Service {
     @Override
     public Set<AbstractOrganizationUnit> getOrganizationUnits() {
 
-        Set<AbstractOrganizationUnit> setToReturn = new HashSet<AbstractOrganizationUnit>(getOrganizationUnitImpls().values());
+        Set<AbstractOrganizationUnit> setToReturn = new HashSet<AbstractOrganizationUnit>(getOrganizationUnitImpls()
+        .values());
         return Collections.unmodifiableSet(setToReturn);
     }
 

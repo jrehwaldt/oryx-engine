@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.UUID;
 
-import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
-import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 
 /**
  * The class helps to define a deployment and to deploy it.

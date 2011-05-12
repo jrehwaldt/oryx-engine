@@ -2,6 +2,7 @@ package de.hpi.oryxengine.deployment.importer;
 
 import java.io.InputStream;
 
+import de.hpi.oryxengine.deployment.ProcessDefinitionImporter;
 import de.hpi.oryxengine.deployment.importer.bpmn.BpmnXmlParser;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.util.io.FileStreamSource;
