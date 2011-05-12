@@ -9,20 +9,15 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.allocation.AllocationStrategies;
-import de.hpi.oryxengine.allocation.Pattern;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.bootstrap.JodaEngine;
 import de.hpi.oryxengine.exception.InvalidWorkItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
-import de.hpi.oryxengine.factory.worklist.TaskFactory;
+import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
-import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
-import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
-import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
@@ -32,7 +27,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
  */
 public class WorkListManagerTest {
     
-    private Task task;
+    private CreationPattern pattern;
     private AbstractParticipant jannik;
     
     /**
@@ -42,11 +37,12 @@ public class WorkListManagerTest {
     public void createParticipantAndTaskAndInitialize() {
      // We need to start the engine in order to start the WorklistManager who then gets the identityService
         JodaEngine.start();
-        task = TaskFactory.createJannikServesGerardoTask();
+        pattern = CreationPatternFactory.createJannikServesGerardoCreator();
         TokenImpl token = mock(TokenImpl.class);
-        ServiceFactory.getTaskDistribution().distribute(task, token);
+        pattern.createWorklistItems(ServiceFactory.getWorklistQueue(), token);
+//        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         // "hack" to get the participant the task belongs to
-        jannik = (AbstractParticipant) task.getAssignedResources().toArray()[0];
+        jannik = (AbstractParticipant) pattern.getAssignedResources()[0];
     }
     
     /**
@@ -59,8 +55,8 @@ public class WorkListManagerTest {
         Assert.assertEquals(items.size(), 1);
         // worklistitem is a task, tasks don't have an ID so we deceide to test it that way
         // compare against the values from the Factory
-        Assert.assertEquals(items.get(0).getSubject(), TaskFactory.SIMPLE_TASK_SUBJECT);       
-        Assert.assertEquals(items.get(0).getDescription(), TaskFactory.SIMPLE_TASK_DESCRIPTION);
+        Assert.assertEquals(items.get(0).getSubject(), CreationPatternFactory.SIMPLE_TASK_SUBJECT);       
+        Assert.assertEquals(items.get(0).getDescription(), CreationPatternFactory.SIMPLE_TASK_DESCRIPTION);
     }
     
     /**
@@ -81,13 +77,13 @@ public class WorkListManagerTest {
     public void createAnotherParticipantWithAnotherTask() {
         AbstractParticipant tobi = ParticipantFactory.createTobi();
         // allocation patterns START
-        Pattern pushPattern = new DirectDistributionPattern();
-        Pattern pullPattern = new SimplePullPattern();
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
+//        Pattern pushPattern = new DirectDistributionPattern();
+//        Pattern pullPattern = new SimplePullPattern();
+//        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
         // allocation patterns END
-        Task anotherTask = new TaskImpl("Go shopping", "I need milk", allocationStrategies, tobi);
+        DirectDistributionPattern anotherPattern = new DirectDistributionPattern("Go shopping", "I need milk", null, tobi);
         TokenImpl token = mock(TokenImpl.class);
-        ServiceFactory.getTaskDistribution().distribute(anotherTask, token);
+        anotherPattern.createWorklistItems(ServiceFactory.getWorklistQueue(), token);
     }
     
     /**

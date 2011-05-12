@@ -18,5 +18,5 @@ public interface TaskDistribution {
      * @param token
      *            the token
      */
-    void distribute(@Nonnull Task task, @Nonnull Token token);
+//    void distribute(@Nonnull Task task, @Nonnull Token token);
 }

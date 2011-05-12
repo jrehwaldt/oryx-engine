@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.allocation;
 
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.resource.AbstractResource;
 
 
 /**
@@ -14,5 +15,7 @@ public interface CreationPattern {
      * @param worklistService the worklist service to use for item distribution
      */
     void createWorklistItems(TaskAllocation worklistService, Token token);
+    
+    AbstractResource<?>[] getAssignedResources();
     
 }

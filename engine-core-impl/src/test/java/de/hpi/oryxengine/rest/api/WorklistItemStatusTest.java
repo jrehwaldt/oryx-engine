@@ -15,7 +15,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
-import de.hpi.oryxengine.factory.worklist.TaskFactory;
+import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
@@ -163,7 +163,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
     public void setUpTask()
     throws ResourceNotAvailableException {
 
-        task = TaskFactory.createRoleTask();
+        task = CreationPatternFactory.createRoleTask();
         TokenImpl token = mock(TokenImpl.class);
         ServiceFactory.getTaskDistribution().distribute(task, token);
 

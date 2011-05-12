@@ -4,10 +4,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+
 import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.TaskAllocation;
-import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
@@ -44,6 +45,21 @@ public class DirectDistributionPattern implements CreationPattern {
         this.resourcesToAssignTo = assignedResources;
     }
     
+    /**
+     * Convenience constructor.
+     *
+     * @param subject the subject
+     * @param description the description
+     * @param form the form
+     * @param assignedResource the assigned resource
+     */
+    public DirectDistributionPattern(String subject,
+                                     String description,
+                                     Form form,
+                                     AbstractResource<?> assignedResource) {
+        this(subject, description, form, new AbstractResource<?>[] {assignedResource});
+    }
+    
     @Override
     public void createWorklistItems(TaskAllocation worklistService, Token token) {
 
@@ -55,6 +71,12 @@ public class DirectDistributionPattern implements CreationPattern {
         // TODO @Thorben-Refactoring do we need new worklist items for every worker?
         worklistService.addWorklistItem(worklistItem, assignedResourcesCopy);
 
+    }
+
+    @Override
+    public AbstractResource<?>[] getAssignedResources() {
+
+        return resourcesToAssignTo;
     }
 
     // @Override

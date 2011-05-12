@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.bootstrap.JodaEngine;
-import de.hpi.oryxengine.factory.worklist.TaskFactory;
+import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessArtifact;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
@@ -54,7 +54,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
         // We need to start the engine in order to start the WorklistManager who then gets the identityService
         JodaEngine.start();
-        task = TaskFactory.createJannikServesGerardoTask();
+        task = CreationPatternFactory.createJannikServesGerardoTask();
         
        
         AbstractProcessArtifact processArtifact = new ProcessArtifact("form", new StringStreamSource("<form></form>"));
@@ -92,8 +92,8 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(items.length, 1);
         // worklist item is a task, tasks don't have an ID so we decide to test it that way
         // compare against the values from the Factory
-        Assert.assertEquals(items[0].getSubject(), TaskFactory.SIMPLE_TASK_SUBJECT);
-        Assert.assertEquals(items[0].getDescription(), TaskFactory.SIMPLE_TASK_DESCRIPTION);
+        Assert.assertEquals(items[0].getSubject(), CreationPatternFactory.SIMPLE_TASK_SUBJECT);
+        Assert.assertEquals(items[0].getDescription(), CreationPatternFactory.SIMPLE_TASK_DESCRIPTION);
     }
     
     /**

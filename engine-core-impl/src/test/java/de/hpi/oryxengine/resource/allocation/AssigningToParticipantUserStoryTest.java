@@ -11,7 +11,7 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.factory.node.SimpleNodeFactory;
-import de.hpi.oryxengine.factory.worklist.TaskFactory;
+import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
@@ -42,7 +42,7 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
 
         // The organization structure is already prepared in the factory
         // The task is assigned to Jannik
-        Task task = TaskFactory.createJannikServesGerardoTask();
+        Task task = CreationPatternFactory.createJannikServesGerardoTask();
         jannik = task.getAssignedResources().iterator().next();
 
         Class<?>[] constructorSig = {Task.class};

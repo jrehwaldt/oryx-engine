@@ -6,8 +6,6 @@ import java.util.Set;
 
 import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.allocation.Pattern;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
@@ -36,6 +34,21 @@ public class RoleDistributionPattern implements CreationPattern {
         this.form = form;
         this.resourcesToAssignTo = assignedResources;
     }
+    
+    /**
+     * Convenience constructor.
+     *
+     * @param subject the subject
+     * @param description the description
+     * @param form the form
+     * @param assignedResource the assigned resource
+     */
+    public RoleDistributionPattern(String subject,
+                                   String description,
+                                   Form form,
+                                   AbstractResource<?> assignedResource) {
+      this(subject, description, form, new AbstractResource<?>[] {assignedResource});
+  }
 
     @Override
     public void createWorklistItems(TaskAllocation worklistService, Token token) {
@@ -48,6 +61,12 @@ public class RoleDistributionPattern implements CreationPattern {
         // TODO @Thorben-Refactoring do we need new worklist items for every worker?
         worklistService.addWorklistItem(worklistItem, assignedResourcesCopy);
         
+    }
+    
+    @Override
+    public AbstractResource<?>[] getAssignedResources() {
+
+        return resourcesToAssignTo;
     }
 
 }

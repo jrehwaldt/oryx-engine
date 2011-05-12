@@ -10,7 +10,7 @@ import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.factory.worklist.TaskFactory;
+import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.Participant;
@@ -37,7 +37,7 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
 
         worklistService = ServiceFactory.getWorklistService();
 
-        Task task = TaskFactory.createJannikServesGerardoTask();
+        Task task = CreationPatternFactory.createJannikServesGerardoTask();
         jannik = (Participant) task.getAssignedResources().iterator().next();
 
         Token token = Mockito.mock(Token.class);

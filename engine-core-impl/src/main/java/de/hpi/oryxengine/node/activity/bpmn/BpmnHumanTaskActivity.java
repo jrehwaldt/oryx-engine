@@ -1,25 +1,14 @@
 package de.hpi.oryxengine.node.activity.bpmn;
 
-import java.util.Iterator;
-
 import javax.annotation.Nonnull;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.allocation.CreationPattern;
-import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskAllocation;
-import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.allocation.TaskImpl;
-import de.hpi.oryxengine.resource.worklist.AbstractDefaultWorklist;
-import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
-import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 
 /**
  * The Implementation of a human task.

@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.bootstrap.JodaEngine;
-import de.hpi.oryxengine.factory.worklist.TaskFactory;
+import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessArtifact;
@@ -57,7 +57,7 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
     throws IOException {
 
         JodaEngine.start();
-        task = TaskFactory.createJannikServesGerardoTask();
+        task = CreationPatternFactory.createJannikServesGerardoTask();
 
         form = readFile(FORM_LOCATION);
         populatedForm = readFile(POPULATED_FORM_LOCATION);

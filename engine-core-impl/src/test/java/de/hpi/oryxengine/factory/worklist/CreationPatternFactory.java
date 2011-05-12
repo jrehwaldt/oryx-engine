@@ -1,25 +1,20 @@
 package de.hpi.oryxengine.factory.worklist;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.AllocationStrategies;
-import de.hpi.oryxengine.allocation.Pattern;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
-import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.RoleDistributionPattern;
-import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 /**
  * Little factory for creating Resources. A short cut for the implementation.
  */
-public final class TaskFactory {
+public final class CreationPatternFactory {
 
     public static final String SIMPLE_TASK_SUBJECT = "Get Gerardo a cup of coffee!";
     public static final String SIMPLE_TASK_DESCRIPTION = "You know what I mean.";
@@ -28,7 +23,7 @@ public final class TaskFactory {
      * Private Constructor because the CheckStyle want me to do that. Gerardo do what told. Gerardo intelligent. Gerardo
      * checkstyle also want you to comment methods. Gerardo better do that.
      */
-    private TaskFactory() {
+    private CreationPatternFactory() {
 
     }
 
@@ -38,26 +33,12 @@ public final class TaskFactory {
      * 
      * @return the task
      */
-    public static Task createJannikServesGerardoTask() {
+    public static CreationPattern createJannikServesGerardoCreator() {
 
         // creates the participant Jannik
         AbstractResource<?> resource = ParticipantFactory.createJannik();
 
         return createParticipantTask(resource);
-    }
-
-    /**
-     * Creates a new Task object, however it does NOT create a participant as a sideffect.
-     * 
-     * @param resourceToAssign
-     *            the resource to assign
-     * @return the task
-     */
-    public static Task createSimpleTask(AbstractResource<?> resourceToAssign) {
-
-        Task task = new TaskImpl(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null, resourceToAssign);
-
-        return task;
     }
 
     /**
@@ -67,16 +48,11 @@ public final class TaskFactory {
      *            the resource
      * @return the task
      */
-    public static Task createParticipantTask(AbstractResource<?> r) {
+    public static CreationPattern createParticipantTask(AbstractResource<?> r) {
 
-        Pattern pushPattern = new DirectDistributionPattern();
-        Pattern pullPattern = new SimplePullPattern();
-
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-
-        Task task = new TaskImpl(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, allocationStrategies, r);
-
-        return task;
+        
+        CreationPattern pattern = new DirectDistributionPattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null, r);
+        return pattern;
     }
 
     /**
@@ -85,7 +61,7 @@ public final class TaskFactory {
      * @return the task
      * @throws ResourceNotAvailableException 
      */
-    public static Task createRoleTask() throws ResourceNotAvailableException {
+    public static CreationPattern createRoleTask() throws ResourceNotAvailableException {
 
         // The organization structure is already prepared in the factory
         // There is role containing Gerardo and Jannik
@@ -99,12 +75,9 @@ public final class TaskFactory {
         identityBuilder.participantBelongsToRole(jannik.getID(), hamburgGuysRole.getID()).participantBelongsToRole(
             gerardo.getID(), hamburgGuysRole.getID());
 
-        Pattern pushPattern = new RoleDistributionPattern();
-        Pattern pullPattern = new SimplePullPattern();
+        CreationPattern pattern = new RoleDistributionPattern("Clean the office.", "It is very dirty.", null, hamburgGuysRole);
 
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-
-        return new TaskImpl("Clean the office.", "It is very dirty.", allocationStrategies, hamburgGuysRole);
+        return pattern;
     }
 
 }
