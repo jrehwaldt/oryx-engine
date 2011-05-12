@@ -26,10 +26,10 @@ ITEM_STATE = {
 
 // globals
 // holds the UUID of the currently logged in participant
-var participantUUID;
-var numberOfRunningInstances;
-var errorCounter;
-var taskCounter;
+participantUUID = undefined;
+numberOfRunningInstances = undefined;
+errorCounter = undefined;
+taskCounter = undefined;
 
 /*
  * GET Land
@@ -190,7 +190,7 @@ function workOnOfferedWorklistItems() {
         url: '/api/worklist/items?id=' + participantUUID + '&itemState=' + ITEM_STATE.offered,
         success: function(data) {
             var worklistItems = data;
-            while (errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE && !($.isEmptyObject(worklistItems))) {
+            while ((errorCounter < NUMBER_OF_ERRORS_TO_WAIT) && (taskCounter < NUMBER_OF_TASKS_TO_EXECUTE) && !($.isEmptyObject(worklistItems))) {
                 beginRandomWorklistItem(worklistItems);
                 taskCounter++;
             }
@@ -260,13 +260,17 @@ function workOnTasks() {
  *                                  *
  ************************************/
 
-$().ready(function() {
-    createParticipants();
-    startProcessInstances();
-    console.log(numberOfRunningInstances);
+function startBenchmark() {
     while(numberOfRunningInstances != 0){
         workOnTasks();
         setRunningProcessInstances();
     }
+}
+
+$().ready(function() {
+    createParticipants();
+    startProcessInstances();
+    console.log(numberOfRunningInstances);
+    $('#benchmarkStart').click(startBenchmark);
 });
 
