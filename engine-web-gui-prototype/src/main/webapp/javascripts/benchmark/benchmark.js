@@ -26,10 +26,10 @@ ITEM_STATE = {
 
 // globals
 // holds the UUID of the currently logged in participant
-var participantUUID;
-var numberOfRunningInstances;
-var errorCounter;
-var taskCounter;
+participantUUID = undefined;
+numberOfRunningInstances = undefined;
+errorCounter = undefined;
+taskCounter = undefined;
 
 /*
  * GET Land
@@ -59,7 +59,8 @@ function getParticipantsAndThen(func) {
         success: function(data) {
         	func(data);
         },
-        dataType: "json"
+        dataType: "json",
+        async: false
     });
 }
 
@@ -163,6 +164,7 @@ function changeItemState(itemId, state, errorCounter) {
 	    	type: 'PUT',
 	    	url: '/api/worklist/items/' + itemId + '/state?participantId=' + participantUUID,
 	    	data: state,
+            contentType: 'text/plain',
 	    	success: function(data) {
 	    	    // TODO log succcesfull answers?!
 	    	},
@@ -190,7 +192,7 @@ function workOnOfferedWorklistItems() {
         url: '/api/worklist/items?id=' + participantUUID + '&itemState=' + ITEM_STATE.offered,
         success: function(data) {
             var worklistItems = data;
-            while (errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE && !($.isEmptyObject(worklistItems))) {
+            while ((errorCounter < NUMBER_OF_ERRORS_TO_WAIT) && (taskCounter < NUMBER_OF_TASKS_TO_EXECUTE) && !($.isEmptyObject(worklistItems))) {
                 beginRandomWorklistItem(worklistItems);
                 taskCounter++;
             }
@@ -206,7 +208,8 @@ function getExecutingWorklistItems() {
         url: '/api/worklist/items?id=' + participantUUID + '&itemState=' + ITEM_STATE.executing,
         success: function(data) {
             var worklistItems = data;
-            if (!($.isEmptyObject(worklistItems))) {
+            console.log($.isEmptyObject(worklistItems));
+            while (errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE && !($.isEmptyObject(worklistItems))) {
                 endRandomWorklistItem(worklistItems);
             }
         },
@@ -219,7 +222,9 @@ function logInAsRandomParticipant(participantList) {
 
     var participant = getRandomElementFrom(participantList);
     // we are well aware that this is a global variable (as we are logged in and want to use it elsewhere)
+    console.log(participantUUID);
     participantUUID = participant.id;
+    console.log("Login ready");
 }
 
 /**********************************
@@ -245,10 +250,12 @@ function logMeIn() {
 function workOnTasks() {
     taskCounter = 0;
     errorCounter = 0;
+    var j = 0;
     logMeIn();
-    while(errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE) {
+    while(errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE && j < 5) {
         workOnExecutingWorklistItems();
         workOnOfferedWorklistItems();
+        j++;
     }
 }
 
@@ -259,13 +266,19 @@ function workOnTasks() {
  *                                  *
  ************************************/
 
+function startBenchmark() {
+    var i = 0;
+    while(numberOfRunningInstances != 0 && i < 5){
+        workOnTasks();
+        setRunningProcessInstances();
+        i++;
+    }
+}
+
 $().ready(function() {
     createParticipants();
     startProcessInstances();
     console.log(numberOfRunningInstances);
-    while(numberOfRunningInstances != 0){
-        workOnTasks();
-        setRunningProcessInstances();
-    }
+    $('#benchmarkStart').click(startBenchmark);
 });
 

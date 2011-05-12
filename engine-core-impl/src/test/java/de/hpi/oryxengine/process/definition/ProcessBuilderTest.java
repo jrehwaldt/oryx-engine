@@ -37,7 +37,7 @@ public class ProcessBuilderTest {
 
         builder.getTransitionBuilder().transitionGoesFromTo(startNode, endNode).buildTransition();
         
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition definition = builder.buildDefinition();
 
         List<Node> startNodes = definition.getStartNodes();

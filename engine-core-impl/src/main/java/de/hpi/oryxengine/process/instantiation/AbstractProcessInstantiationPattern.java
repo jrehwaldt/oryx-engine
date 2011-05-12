@@ -6,11 +6,13 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.navigator.NavigatorInside;
-import de.hpi.oryxengine.process.definition.InstantionPatternInit;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionInside;
-import de.hpi.oryxengine.process.definition.ProcessInstantiationPattern;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 
+/**
+ * An abstract class for a {@link ProcessInstantiationPattern}. This class provides a method body and basic
+ * functionality for all
+ */
 public abstract class AbstractProcessInstantiationPattern implements ProcessInstantiationPattern {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -47,23 +49,31 @@ public abstract class AbstractProcessInstantiationPattern implements ProcessInst
             currentProcessInstance = createProcessInstanceIntern(previosProcessInstance);
 
         } catch (NullPointerException nullPointerException) {
-            
+
             String errorMessage = "A NullpointerException was thrown. "
                 + "Probably the previous InstantiationPattern did not create a ProcessInstance.";
             logger.error(errorMessage, nullPointerException);
             throw new JodaEngineRuntimeException(errorMessage, nullPointerException);
-        
+
         } catch (Exception anyException) {
-        
+
             String errorMessage = "An Error occurred.";
             logger.error(errorMessage, anyException);
             throw new JodaEngineRuntimeException(errorMessage, anyException);
-        
+
         }
 
         return nextInstantiationPatternResult(currentProcessInstance);
     }
 
+    /**
+     * Encapsulates the logic navigating to the next pattern.
+     * 
+     * @param currentProcessInstance
+     *            - the current {@link AbstractProcessInstance process instance}
+     * @return if there is no following instantiationPattern then the current result is returned, otherwise the current
+     *         process instance is passed on to the next pattern
+     */
     protected AbstractProcessInstance nextInstantiationPatternResult(AbstractProcessInstance currentProcessInstance) {
 
         if (this.nextInstantiationPattern == null) {
@@ -74,5 +84,15 @@ public abstract class AbstractProcessInstantiationPattern implements ProcessInst
         return this.nextInstantiationPattern.createProcessInstance(currentProcessInstance);
     }
 
+    /**
+     * This abstract method is used for the inherited classes.
+     * 
+     * @see ProcessInstantiationPattern#createProcessInstance(AbstractProcessInstance);
+     * @param previosProcessInstance
+     *            - the {@link AbstractProcessInstance processInstances} from the previous
+     *            {@link ProcessInstantiationPattern patterns}.
+     * 
+     * @return an {@link AbstractProcessInstance}
+     */
     protected abstract AbstractProcessInstance createProcessInstanceIntern(AbstractProcessInstance previosProcessInstance);
 }

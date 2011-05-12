@@ -52,7 +52,7 @@ public final class TestUtils {
         BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
         BpmnNodeFactory.createTransitionFromTo(builder, node2, endNode);
 
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         
         // deploy it
         ProcessDefinition definition = builder.buildDefinition();

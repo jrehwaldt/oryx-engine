@@ -3,6 +3,11 @@ package de.hpi.oryxengine.navigator;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.token.Token;
 
+/**
+ * Extends the NavigatorInterface so that it provides more methods for the internal classes.
+ * 
+ * This Interface is expected to be used by internal classes.
+ */
 public interface NavigatorInside extends Navigator {
 
     /**

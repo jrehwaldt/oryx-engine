@@ -5,13 +5,15 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.navigator.NavigatorInside;
-import de.hpi.oryxengine.process.definition.InstantionPatternInit;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionInside;
-import de.hpi.oryxengine.process.definition.ProcessInstantiationPattern;
-import de.hpi.oryxengine.process.definition.StartInstantiationPattern;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 
-public class StartNullInstantiationPattern implements ProcessInstantiationPattern, StartInstantiationPattern {
+/**
+ * This is the null object for the instantiationPattern. In case the previous pattern created a
+ * {@link AbstractProcessInstance processInstance}, this keeps unmodified and is returned.
+ */
+public class StartNullInstantiationPattern extends AbstractProcessInstantiationPattern implements
+StartInstantiationPattern {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -20,42 +22,34 @@ public class StartNullInstantiationPattern implements ProcessInstantiationPatter
                                       NavigatorInside navigator,
                                       ProcessDefinitionInside processDefinition) {
 
-        // TODO Auto-generated method stub
-        return null;
+        logWarnMessage();
+        return super.init(correlationManager, navigator, processDefinition);
     }
 
-    @Override
-    public ProcessInstantiationPattern setNextPattern(ProcessInstantiationPattern nextPattern) {
+    public void logWarnMessage() {
 
-        // TODO Auto-generated method stub
-        return null;
+        String warnMessage = "This is a NullInstantiationPattern that does nothing."
+            + "You should be aware of the fact that a processDefinition has defined this pattern"
+            + "as one of the instantiationPattern.";
+        logger.warn(warnMessage);
     }
 
     @Override
     public AbstractProcessInstance createProcessInstance() {
 
-        // TODO Auto-generated method stub
-        return null;
+        logWarnMessage();
+        return nextInstantiationPatternResult(null);
     }
 
     @Override
-    public AbstractProcessInstance createProcessInstance(AbstractProcessInstance previosProcessInstance) {
+    protected AbstractProcessInstance createProcessInstanceIntern(AbstractProcessInstance previosProcessInstance) {
 
-        // TODO Auto-generated method stub
-        return null;
+        // If a ProcessInstance is already defined by the previous pattern then this one is returned
+        if (previosProcessInstance != null) {
+            return previosProcessInstance;
+        }
+
+        // Otherwise null should be retrieved
+        return createProcessInstance();
     }
-
-    
-
-//    @Override
-//    protected AbstractProcessInstance createProcessInstanceIntern(InstatiationPatternInit previousPattern) {
-//
-//        // If a ProcessInstance is already defined by the previous pattern then this one is returned
-//        if (previousPattern != null) {
-//            return previousPattern.getCurrentProcessInstance();
-//        }
-//
-//        // Otherwise Null
-//        return null;
-//    }
 }

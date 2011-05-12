@@ -119,7 +119,7 @@ public class EndActivityTest {
         TransitionFactory.createTransitionFromTo(builder, forkNode1, endNode1);
         TransitionFactory.createTransitionFromTo(builder, forkNode2, endNode2);
 
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition definition = builder.buildDefinition();
 
         instance = new ProcessInstanceImpl(definition);

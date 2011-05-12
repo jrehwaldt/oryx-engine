@@ -112,7 +112,7 @@ public class TerminatingEndActivityTest {
         BpmnNodeFactory.createTransitionFromTo(builder, xorJoinNode, computationNode);
         BpmnNodeFactory.createTransitionFromTo(builder, computationNode, xorJoinNode);
         
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         definition = builder.buildDefinition();
     }
 }

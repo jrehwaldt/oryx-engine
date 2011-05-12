@@ -16,6 +16,8 @@ import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.correlation.registration.StartEventImpl;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
+import de.hpi.oryxengine.process.instantiation.ProcessInstantiationPattern;
+import de.hpi.oryxengine.process.instantiation.StartInstantiationPattern;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeBuilder;
 import de.hpi.oryxengine.process.structure.NodeBuilderImpl;

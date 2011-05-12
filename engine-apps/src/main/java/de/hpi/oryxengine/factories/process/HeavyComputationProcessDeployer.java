@@ -54,7 +54,7 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
 
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, this.lastNode, endNode);
         
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(processDefinitionBuilder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
     }
 
 }

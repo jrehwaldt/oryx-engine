@@ -115,7 +115,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node2, node3);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node3, endNode);
         
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(processDefinitionBuilder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
     }
     
     public void initializeNodesWithRoleTasks() {
@@ -138,7 +138,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node2, node3);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node3, endNode);
         
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(processDefinitionBuilder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
     }
 
     /**

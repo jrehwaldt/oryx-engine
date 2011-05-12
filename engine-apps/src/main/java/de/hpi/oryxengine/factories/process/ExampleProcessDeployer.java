@@ -45,7 +45,7 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node1, node2);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node2, endNode);
         
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(processDefinitionBuilder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
     }
 
 }

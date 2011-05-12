@@ -98,7 +98,7 @@ public final class RepositorySetup {
         
         builder.setName(processName).setDescription(processDescription);
         
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         
         return builder.buildDefinition();
     }

@@ -376,7 +376,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human5, xor5);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, system2, endNode);
         
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(processDefinitionBuilder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
         
         processDefinitionBuilder.setName("Shortened Reference Process").setDescription("Shortened Reference Process");
     }

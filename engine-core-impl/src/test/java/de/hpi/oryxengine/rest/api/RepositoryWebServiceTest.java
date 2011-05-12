@@ -48,7 +48,7 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
         builder.setName("Empty").setDescription("Really an empty dummy process");
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition definition = builder.buildDefinition();
         ProcessDefinitionImporter rawProDefImporter = new RawProcessDefintionImporter(definition);
 

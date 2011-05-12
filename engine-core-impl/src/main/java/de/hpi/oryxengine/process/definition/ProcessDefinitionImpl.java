@@ -14,6 +14,7 @@ import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorInside;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
+import de.hpi.oryxengine.process.instantiation.StartInstantiationPattern;
 import de.hpi.oryxengine.process.instantiation.StartNullInstantiationPattern;
 import de.hpi.oryxengine.process.structure.Node;
 

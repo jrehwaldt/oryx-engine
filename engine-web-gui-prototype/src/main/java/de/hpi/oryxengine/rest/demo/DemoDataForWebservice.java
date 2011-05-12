@@ -146,7 +146,7 @@ public final class DemoDataForWebservice {
         TransitionFactory.createTransitionFromTo(processBuilder, node3, endNode);
         
         // Start Process
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(processBuilder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processBuilder);
         ProcessDefinition processDefinition = processBuilder.setName("Demoprocess")
                                        .setDescription("A simple demo process with three human tasks.")
                                        .buildDefinition();

@@ -188,7 +188,7 @@ public class BpmnXmlParse extends XmlParse {
 
         try {
 
-            BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(processBuilder);
+            BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processBuilder);
             this.finishedProcessDefinition = processBuilder.buildDefinition();
         } catch (IllegalStarteventException buildingDefinitionException) {
 

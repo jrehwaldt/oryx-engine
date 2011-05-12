@@ -121,7 +121,7 @@ public final class DemoProcessStartEmailForWebservice {
 
         builder.setDescription("description").setName("Demoprocess with Email start event");
 
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition def = builder.buildDefinition();
         UUID exampleProcessUUID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
         .deployProcessDefinition(new RawProcessDefintionImporter(def));

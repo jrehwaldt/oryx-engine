@@ -3,12 +3,20 @@ package de.hpi.oryxengine.process.instantiation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.process.definition.StartInstantiationPattern;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 
+/**
+ * This pattern encapsulates the default instantiation semantic for BPMN models. This
+ * {@link ProcessInstantiationPattern instantionPattern} can be used when the {@link ProcessDefinition process
+ * definition} has a dedicated start node.
+ * 
+ * It also implements the {@link StartInstantiationPattern StartInstantiationPattern-Interface}, so that it can be used
+ * as one of the first instantiationPattern.
+ */
 public class DefaultBpmnProcessInstanceCreationPattern extends AbstractProcessInstantiationPattern implements
 StartInstantiationPattern {
 

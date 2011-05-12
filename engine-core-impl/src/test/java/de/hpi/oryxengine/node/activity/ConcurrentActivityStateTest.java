@@ -91,7 +91,7 @@ public class ConcurrentActivityStateTest {
 
         TransitionFactory.createTransitionFromTo(builder, startNode, endNode);
         
-        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         
         definition = builder.buildDefinition();
     }
