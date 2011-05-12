@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.navigator.NavigatorInside;
+import de.hpi.oryxengine.process.definition.InstantionPatternInit;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionInside;
 import de.hpi.oryxengine.process.definition.ProcessInstantiationPattern;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
@@ -18,14 +19,12 @@ public abstract class AbstractProcessInstantiationPattern implements ProcessInst
     protected NavigatorInside navigator;
     protected ProcessDefinitionInside processDefinition;
 
-    private AbstractProcessInstance currentProcessInstance;
-
     private ProcessInstantiationPattern nextInstantiationPattern;
 
     @Override
-    public ProcessInstantiationPattern init(CorrelationManager correlationManager,
-                                            NavigatorInside navigator,
-                                            ProcessDefinitionInside processDefinition) {
+    public InstantionPatternInit init(CorrelationManager correlationManager,
+                                      NavigatorInside navigator,
+                                      ProcessDefinitionInside processDefinition) {
 
         this.correlationManager = correlationManager;
         this.navigator = navigator;
@@ -34,44 +33,46 @@ public abstract class AbstractProcessInstantiationPattern implements ProcessInst
     }
 
     @Override
-    public AbstractProcessInstance createProcessInstance(ProcessInstantiationPattern previousPattern) {
+    public ProcessInstantiationPattern setNextPattern(ProcessInstantiationPattern nextPattern) {
 
+        this.nextInstantiationPattern = nextPattern;
+        return this.nextInstantiationPattern;
+    }
+
+    @Override
+    public AbstractProcessInstance createProcessInstance(AbstractProcessInstance previosProcessInstance) {
+
+        AbstractProcessInstance currentProcessInstance;
         try {
-            // Because it can be used in the next
-            currentProcessInstance = previousPattern.getCurrentProcessInstance();
-            currentProcessInstance = createProcessInstanceIntern(previousPattern);
+            currentProcessInstance = createProcessInstanceIntern(previosProcessInstance);
+
         } catch (NullPointerException nullPointerException) {
+            
             String errorMessage = "A NullpointerException was thrown. "
                 + "Probably the previous InstantiationPattern did not create a ProcessInstance.";
             logger.error(errorMessage, nullPointerException);
             throw new JodaEngineRuntimeException(errorMessage, nullPointerException);
+        
+        } catch (Exception anyException) {
+        
+            String errorMessage = "An Error occurred.";
+            logger.error(errorMessage, anyException);
+            throw new JodaEngineRuntimeException(errorMessage, anyException);
+        
         }
 
-        return nextInstanciationPatternResult(previousPattern);
+        return nextInstantiationPatternResult(currentProcessInstance);
     }
 
-    protected AbstractProcessInstance nextInstanciationPatternResult(ProcessInstantiationPattern previousPattern) {
+    protected AbstractProcessInstance nextInstantiationPatternResult(AbstractProcessInstance currentProcessInstance) {
 
         if (this.nextInstantiationPattern == null) {
-            return previousPattern.getCurrentProcessInstance();
+            return currentProcessInstance;
         }
 
         this.nextInstantiationPattern.init(this.correlationManager, this.navigator, this.processDefinition);
-        return this.nextInstantiationPattern.createProcessInstance(this);
+        return this.nextInstantiationPattern.createProcessInstance(currentProcessInstance);
     }
 
-    protected abstract AbstractProcessInstance createProcessInstanceIntern(ProcessInstantiationPattern previousPattern);
-
-    @Override
-    public AbstractProcessInstance getCurrentProcessInstance() {
-
-        return currentProcessInstance;
-    }
-
-    @Override
-    public ProcessInstantiationPattern setNextPattern(ProcessInstantiationPattern nextPattern) {
-
-        this.nextInstantiationPattern = nextPattern;
-        return this;
-    }
+    protected abstract AbstractProcessInstance createProcessInstanceIntern(AbstractProcessInstance previosProcessInstance);
 }

@@ -8,8 +8,10 @@ import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.ProcessDefinitionImporter;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.node.activity.bpmn.BpmnIntermediateTimerActivity;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -95,6 +97,9 @@ public final class RepositorySetup {
         BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
         
         builder.setName(processName).setDescription(processDescription);
+        
+        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
+        
         return builder.buildDefinition();
     }
 }

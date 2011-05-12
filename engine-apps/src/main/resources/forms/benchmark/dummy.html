@@ -1,0 +1,26 @@
+<h1>Benchmark Dummy form</h1>
+<form id="claimPointsForm" name="claimPoints" method="post">
+    <table>
+        <tr>
+            <th>Points</th>
+            <th>Accepted</th>
+        </tr>
+        <tr>
+            <td>Point 1</td>
+            <td><input name="point1" type="checkbox" value="true"/></td>
+        </tr>
+        <tr>
+            <td>Point 2</td>
+            <td><input name="point2" type="checkbox" value="true"/></td>
+        </tr>
+        <tr>
+            <td>Resultat</td>
+            <td>
+                <input type="radio" name="decision" value="accepted" /> Accepted
+                <br />
+                <input type="radio" name="decision" value="declined" checked="checked" /> Declined
+            </td>
+    </table>
+    
+    <input type="submit" value="Send"/>
+</form>

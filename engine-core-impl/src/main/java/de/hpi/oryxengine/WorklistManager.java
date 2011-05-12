@@ -1,5 +1,7 @@
 package de.hpi.oryxengine;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +25,7 @@ import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * The implementation of the WorklistManager. It manages the worklists of all resources in the system.
@@ -36,7 +39,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     public void start() {
 
         logger.info("Starting the worklist manager");
-        identityService  = ServiceFactory.getIdentityService();
+        identityService = ServiceFactory.getIdentityService();
     }
 
     @Override
@@ -47,7 +50,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
     @Override
     public void addWorklistItem(AbstractWorklistItem worklistItem, AbstractResource<?> resourceToFillIn) {
-        
+
         // The worklistItem is added to the worklist of a certain resource
         resourceToFillIn.getWorklist().addWorklistItem(worklistItem);
     }
@@ -67,6 +70,28 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
+    public void removeWorklistItem(AbstractWorklistItem worklistItem, AbstractResource<?> resourceToRemoveFrom) {
+
+        resourceToRemoveFrom.getWorklist().removeWorklistItem(worklistItem);
+
+    }
+
+    @Override
+    public void removeWorklistItem(AbstractWorklistItem worklistItem, Set<AbstractResource<?>> resourcesToRemoveFrom) {
+
+        // Copying the set because it is modified during iteration. If it is not done there would be a
+        // ConcurrentModificationException.
+        AbstractResource<?>[] resourcesToRemoveFromArray = (AbstractResource<?>[]) resourcesToRemoveFrom
+        .toArray(new AbstractResource<?>[resourcesToRemoveFrom.size()]);
+
+        for (int i = 0; i < resourcesToRemoveFromArray.length; i++) {
+            AbstractResource<?> resourceToFillIn = resourcesToRemoveFromArray[i];
+            removeWorklistItem(worklistItem, resourceToFillIn);
+        }
+
+    }
+
+    @Override
     public void distribute(Task task, Token token) {
 
         // Delegate the strategy of task distribution to the specific push pattern.
@@ -76,8 +101,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public @Nullable AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource,
-                                                          @Nonnull UUID worklistItemId)
+    public @Nullable
+    AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource, @Nonnull UUID worklistItemId)
     throws InvalidWorkItemException {
 
         for (final AbstractWorklistItem item : resource.getWorklist()) {
@@ -85,17 +110,15 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
                 return item;
             }
         }
-        
+
         // throw an exception, if the item was not found
         throw new InvalidWorkItemException(worklistItemId);
     }
 
     @Override
-    public Map<AbstractResource<?>, List<AbstractWorklistItem>>
-            getWorklistItems(Set<? extends AbstractResource<?>> resources) {
+    public Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(Set<? extends AbstractResource<?>> resources) {
 
-        Map<AbstractResource<?>, List<AbstractWorklistItem>> result = new HashMap<AbstractResource<?>,
-                                                                          List<AbstractWorklistItem>>();
+        Map<AbstractResource<?>, List<AbstractWorklistItem>> result = new HashMap<AbstractResource<?>, List<AbstractWorklistItem>>();
 
         for (AbstractResource<?> r : resources) {
             result.put(r, getWorklistItems(r));
@@ -122,7 +145,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
                 resourceToNotify.getWorklist().itemIsAllocatedBy(worklistItem, resource);
             }
         }
-        
+
     }
 
     @Override
@@ -146,7 +169,53 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     @Override
     public List<AbstractWorklistItem> getWorklistItems(@Nonnull AbstractResource<?> resource) {
 
-        return resource.getWorklist().getWorklistItems();
+        return Collections.unmodifiableList(resource.getWorklist().getWorklistItems());
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getOfferedWorklistItems(AbstractResource<?> resource) {
+
+        List<AbstractWorklistItem> offeredItems = new ArrayList<AbstractWorklistItem>();
+        List<AbstractWorklistItem> items = resource.getWorklist().getWorklistItems();
+        synchronized (items) {
+            for (AbstractWorklistItem item : resource.getWorklist().getWorklistItems()) {
+                if (item.getStatus() == WorklistItemState.OFFERED) {
+                    offeredItems.add(item);
+                }
+            }
+        }
+
+        return offeredItems;
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getAllocatedWorklistItems(AbstractResource<?> resource) {
+
+        List<AbstractWorklistItem> allocatedItems = new ArrayList<AbstractWorklistItem>();
+        List<AbstractWorklistItem> items = resource.getWorklist().getWorklistItems();
+        synchronized (items) {
+            for (AbstractWorklistItem item : resource.getWorklist().getWorklistItems()) {
+                if (item.getStatus() == WorklistItemState.ALLOCATED) {
+                    allocatedItems.add(item);
+                }
+            }
+        }
+        return allocatedItems;
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getExecutingWorklistItems(AbstractResource<?> resource) {
+
+        List<AbstractWorklistItem> executingItems = new ArrayList<AbstractWorklistItem>();
+        List<AbstractWorklistItem> items = resource.getWorklist().getWorklistItems();
+        synchronized (items) {
+            for (AbstractWorklistItem item : resource.getWorklist().getWorklistItems()) {
+                if (item.getStatus() == WorklistItemState.EXECUTING) {
+                    executingItems.add(item);
+                }
+            }
+        }
+        return executingItems;
     }
 
     @Override
@@ -160,7 +229,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
             claimWorklistItemBy(worklistItem, resource);
             resource.getWorklist().itemIsStarted(worklistItem);
         }
-        
+
     }
 
     @Override
@@ -170,10 +239,35 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         return items.size();
     }
 
-    
     @Override
-    public List<AbstractWorklistItem> getWorklistItems(UUID id) throws ResourceNotAvailableException {
+    public List<AbstractWorklistItem> getWorklistItems(UUID id)
+    throws ResourceNotAvailableException {
+
         AbstractParticipant resource = identityService.getParticipant(id);
         return this.getWorklistItems(resource);
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getOfferedWorklistItems(UUID id)
+    throws ResourceNotAvailableException {
+
+        AbstractParticipant resource = identityService.getParticipant(id);
+        return this.getOfferedWorklistItems(resource);
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getAllocatedWorklistItems(UUID id)
+    throws ResourceNotAvailableException {
+
+        AbstractParticipant resource = identityService.getParticipant(id);
+        return this.getAllocatedWorklistItems(resource);
+    }
+
+    @Override
+    public List<AbstractWorklistItem> getExecutingWorklistItems(UUID id)
+    throws ResourceNotAvailableException {
+
+        AbstractParticipant resource = identityService.getParticipant(id);
+        return this.getExecutingWorklistItems(resource);
     }
 }

@@ -106,5 +106,7 @@ public interface ProcessDefinitionBuilder {
     @Nonnull
     ProcessDefinitionBuilder setAttribute(String attributeId, Object attibuteValue);
 
-    void addInstanciationPattern(ProcessInstantiationPattern instantiationPattern);
+    // TODO @Gerardo Comminting!!!!
+    ProcessDefinitionBuilder addInstantiationPattern(ProcessInstantiationPattern instantiationPattern);
+    ProcessDefinitionBuilder addStartInstantiationPattern(StartInstantiationPattern startInstantiationPattern);
 }

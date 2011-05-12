@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import java.util.List;
 import java.util.UUID;
 
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -137,6 +136,44 @@ public class WorkListManagerTest {
         AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
         ServiceFactory.getWorklistService().completeWorklistItemBy(item, jannik);
         Assert.assertEquals(item.getStatus(), WorklistItemState.COMPLETED);
+    }
+    
+    /**
+     * Tests the three parts of the worklist.
+     *
+     * @throws ResourceNotAvailableException the resource not available exception
+     */
+    @Test
+    public void testGetSpecificWorklistItems() throws ResourceNotAvailableException {
+        WorklistService service = ServiceFactory.getWorklistService();
+        List<AbstractWorklistItem> offeredItems = service.getOfferedWorklistItems(jannik);
+        List<AbstractWorklistItem> allocatedItems = service.getAllocatedWorklistItems(jannik);
+        List<AbstractWorklistItem> executingItems = service.getExecutingWorklistItems(jannik);        
+        
+        Assert.assertEquals(offeredItems.size(), 0, "there should be no offered item to jannik");
+        Assert.assertEquals(allocatedItems.size(), 1, "there should be one allocated items");
+        Assert.assertEquals(executingItems.size(), 0, "there should be not items currently in execution");
+        
+        service.beginWorklistItemBy(allocatedItems.get(0), jannik);
+        
+        offeredItems = service.getOfferedWorklistItems(jannik);
+        allocatedItems = service.getAllocatedWorklistItems(jannik);
+        executingItems = service.getExecutingWorklistItems(jannik);
+        
+        Assert.assertEquals(offeredItems.size(), 0, "there should be one offered item to jannik");
+        Assert.assertEquals(allocatedItems.size(), 0, "there should be no allocated items");
+        Assert.assertEquals(executingItems.size(), 1, "the one item should be in execution now");
+        
+        service.completeWorklistItemBy(executingItems.get(0), jannik);  
+        
+        offeredItems = service.getOfferedWorklistItems(jannik);
+        allocatedItems = service.getAllocatedWorklistItems(jannik);
+        executingItems = service.getExecutingWorklistItems(jannik);
+        
+        Assert.assertEquals(offeredItems.size(), 0, "there should be one offered item to jannik");
+        Assert.assertEquals(allocatedItems.size(), 0, "there should be no allocated items");
+        Assert.assertEquals(executingItems.size(), 0, "the no items in execution anymore");
+        
     }
     
 

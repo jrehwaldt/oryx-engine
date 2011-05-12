@@ -4,7 +4,7 @@
 	<groupId>de.hpi.oryxengine</groupId>
 	<artifactId>engine-apps</artifactId>
 	<packaging>jar</packaging>
-	<name>Oryx-Engine Apps</name>
+	<name>JodaEngine Apps</name>
 
 	<parent>
 		<artifactId>engine-root</artifactId>

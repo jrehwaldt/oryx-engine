@@ -7,11 +7,11 @@ import javax.ws.rs.core.Response;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
+import de.hpi.oryxengine.factories.process.ShortenedReferenceProcessDeployer;
+import de.hpi.oryxengine.rest.demo.BenchmarkDeployer;
 import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
 import de.hpi.oryxengine.rest.demo.DemoProcessStartEmailForWebservice;
 import de.hpi.oryxengine.rest.demo.LoadDemoProcessAsXmlForWebservice;
-import de.hpi.oryxengine.rest.demo.BenchmarkDeployer;
-import de.hpi.oryxengine.rest.demo.ShortenedReferenceProcessDeployer;
 
 /**
  * Offers demo methods (like creating demo users) to the user, should be deactivated in deployment.
@@ -21,12 +21,15 @@ public class DemoWebService {
 
     // TODO move somewhere else
     
+    private boolean referenceDeployed;
+    
     /**
      * Instantiates a new demo web service.
      */
     public DemoWebService() {
 
         super();
+        referenceDeployed = false;
     }
 
     /**
@@ -58,6 +61,11 @@ public class DemoWebService {
         return Response.ok().build();
     }
 
+    /**
+     * Generates the process which is started by email.
+     *
+     * @return the response
+     */
     @Path("/generate-process-start-email")
     @POST
     public Response generateProcessStartEmail() {
@@ -65,7 +73,7 @@ public class DemoWebService {
         DemoProcessStartEmailForWebservice.generate();
         // LoadDemoProcessAsXmlForWebservice.generate();
         // we always return ok as the demo data was already created and that is ok
-        return Response.status(402).build();
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     /**
@@ -78,19 +86,26 @@ public class DemoWebService {
     @POST
     public Response reference() throws ResourceNotAvailableException {
         try {
-
-            ShortenedReferenceProcessDeployer.generate();
+            if (!referenceDeployed) {
+                ShortenedReferenceProcessDeployer deployer = new ShortenedReferenceProcessDeployer();
+                deployer.deploy();
+            }
+            
+            referenceDeployed = true;
 
             return Response.ok().build();
         } catch (IllegalStarteventException e) {
             e.printStackTrace();
             return Response.serverError().build();
-        } catch (DefinitionNotFoundException e) {
-            e.printStackTrace();
-            return Response.serverError().build();
         }
     }
     
+    /**
+     * Generates the reference process without participants.
+     *
+     * @return the response
+     * @throws ResourceNotAvailableException the resource not available exception
+     */
     @Path("/reference-without-participants")
     @POST
     public Response referenceWithoutParticipants() throws ResourceNotAvailableException {

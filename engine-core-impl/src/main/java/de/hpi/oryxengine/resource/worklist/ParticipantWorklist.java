@@ -31,6 +31,22 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
         
         this.relatedParticipant = owner;
     }
+    
+    /**
+     * Gets the resources in view. These are all roles, positions, etc. this participant belongs to.
+     *
+     * @return the resources in view
+     */
+    private List<AbstractResource<?>> getResourcesInView() {
+        List<AbstractResource<?>> resourcesInView = new ArrayList<AbstractResource<?>>();
+        resourcesInView.addAll(relatedParticipant.getMyRolesImmutable());
+        for (AbstractPosition position: relatedParticipant.getMyPositionsImmutable()) {
+            resourcesInView.add(position);
+            resourcesInView.add(position.belongstoOrganization());
+        }
+        
+        return resourcesInView;
+    }
 
     @Override
     public List<AbstractWorklistItem> getWorklistItems() {
@@ -41,12 +57,7 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
         }
         
         // Extracting the resources related to this owner
-        List<AbstractResource<?>> resourcesInView = new ArrayList<AbstractResource<?>>();
-        resourcesInView.addAll(relatedParticipant.getMyRolesImmutable());
-        for (AbstractPosition position: relatedParticipant.getMyPositionsImmutable()) {
-            resourcesInView.add(position);
-            resourcesInView.add(position.belongstoOrganization());
-        }
+        List<AbstractResource<?>> resourcesInView = getResourcesInView();
 
         // Creating the list of worklistItems from the owner and the related resources
         List<AbstractWorklistItem> resultWorklistItems = new ArrayList<AbstractWorklistItem>();
@@ -65,14 +76,13 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
 
         if (claimingResource.equals(relatedParticipant)) {
 
-            if (!getLazyWorklistItems().contains(worklistItemImpl)) {
-
-                addWorklistItem(worklistItemImpl);
-            }
-
             worklistItemImpl.setStatus(WorklistItemState.ALLOCATED);
+            if (!getLazyWorklistItems().contains(worklistItemImpl)) {
+                getLazyWorklistItems().add(worklistItemImpl);
+            }
+            
         } else {
-
+            // we assume, that when an item has been allocated, it must have been offered before
             getLazyWorklistItems().remove(worklistItemImpl);
             
             worklistItemImpl.getAssignedResources().remove(relatedParticipant);
@@ -87,13 +97,20 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
     }
 
     @Override
+    public void removeWorklistItem(AbstractWorklistItem worklistItem) {
+
+        getLazyWorklistItems().remove(worklistItem);
+        worklistItem.getAssignedResources().remove(relatedParticipant);
+        
+    }
+
+    @Override
     public void itemIsCompleted(AbstractWorklistItem worklistItem) {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
+        getLazyWorklistItems().remove(worklistItemImpl);
 
         worklistItemImpl.setStatus(WorklistItemState.COMPLETED);
-
-        getLazyWorklistItems().remove(worklistItemImpl);
     }
 
     @Override

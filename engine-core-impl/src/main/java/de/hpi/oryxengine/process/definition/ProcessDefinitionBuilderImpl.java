@@ -22,6 +22,7 @@ import de.hpi.oryxengine.process.structure.NodeBuilderImpl;
 import de.hpi.oryxengine.process.structure.StartNodeBuilderImpl;
 import de.hpi.oryxengine.process.structure.TransitionBuilder;
 import de.hpi.oryxengine.process.structure.TransitionBuilderImpl;
+import de.hpi.oryxengine.util.PatternAppendable;
 
 /**
  * The Class ProcessBuilderImpl. As you would think, only nodes that were created using createStartNode() become
@@ -37,6 +38,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     private Map<StartEvent, Node> temporaryStartTriggers;
     private Map<String, Object> temporaryAttributeTable;
     private List<ProcessInstantiationPattern> temporaryInstantiationPatterns;
+    private StartInstantiationPattern startInstantiationPattern;
 
     /**
      * Instantiates some temporary datastructures.
@@ -55,6 +57,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
         this.temporaryAttributeTable = null;
         this.temporaryInstantiationPatterns = new ArrayList<ProcessInstantiationPattern>();
+        this.startInstantiationPattern = null;
     }
 
     @Override
@@ -125,9 +128,17 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     }
 
     @Override
-    public void addInstanciationPattern(ProcessInstantiationPattern instantiationPattern) {
+    public ProcessDefinitionBuilder addInstantiationPattern(ProcessInstantiationPattern instantiationPattern) {
 
-        temporaryInstantiationPatterns.add(instantiationPattern);
+        this.temporaryInstantiationPatterns.add(instantiationPattern);
+        return this;
+    }
+
+    @Override
+    public ProcessDefinitionBuilder addStartInstantiationPattern(StartInstantiationPattern startInstantiationPattern) {
+
+        this.startInstantiationPattern = startInstantiationPattern;
+        return this;
     }
 
     @Override
@@ -144,10 +155,11 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         return definition;
     }
 
+    // TODO @gerarodo Commenting
     private ProcessDefinitionImpl buildResultDefinition()
     throws IllegalStarteventException {
 
-        ProcessInstantiationPattern startInstantionPattern = appendingInstantiationPatterns();
+        StartInstantiationPattern startInstantionPattern = appendingInstantiationPatterns();
 
         ProcessDefinitionImpl definition = new ProcessDefinitionImpl(id, name, description, startNodes,
             startInstantionPattern);
@@ -159,28 +171,33 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         return definition;
     }
 
-    private ProcessInstantiationPattern appendingInstantiationPatterns() {
+    private StartInstantiationPattern appendingInstantiationPatterns() {
 
-        ProcessInstantiationPattern lastInstantiationPattern = null;
+        PatternAppendable<ProcessInstantiationPattern> lastInstantiationPattern = this.startInstantiationPattern;
         for (ProcessInstantiationPattern instantiationPattern : temporaryInstantiationPatterns) {
 
-            if (lastInstantiationPattern != null) {
-                lastInstantiationPattern.setNextPattern(instantiationPattern);
-            }
+            lastInstantiationPattern.setNextPattern(instantiationPattern);
             lastInstantiationPattern = instantiationPattern;
         }
 
         // Returning the first Pattern
-        return temporaryInstantiationPatterns.get(0);
+        return this.startInstantiationPattern;
     }
 
     private void checkingDefinitionConstraints() {
 
-        if (temporaryInstantiationPatterns.isEmpty()) {
+        if (this.startInstantiationPattern == null) {
 
-            String errorMessage = "No Pattern for the process instanciation was defined.";
+            String errorMessage = "The first InstantiationPattern should be a StartInstantiationPattern."
+                + "Please perfom 'addStartInstantiationPattern(...)'";
             logger.error(errorMessage);
             throw new JodaEngineRuntimeException(errorMessage);
+        }
+        
+        if (!temporaryInstantiationPatterns.isEmpty()) {
+            if (this.startInstantiationPattern instanceof PatternAppendable<?>) {
+                
+            }
         }
     }
 }

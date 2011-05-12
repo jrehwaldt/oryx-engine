@@ -16,13 +16,13 @@ import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 public abstract class AbstractProcessDeployer implements ProcessDeployer {
     
     /** The builder. */
-    protected ProcessDefinitionBuilder builder;
+    protected ProcessDefinitionBuilder processDefinitionBuilder;
     
     @Override
     public UUID deploy() throws IllegalStarteventException, ResourceNotAvailableException {
         this.createPseudoHuman();
         this.initializeNodes();
-        ProcessDefinition definition = this.builder.buildDefinition();
+        ProcessDefinition definition = this.processDefinitionBuilder.buildDefinition();
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
         deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(definition));
         return definition.getID();

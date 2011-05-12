@@ -92,6 +92,7 @@ public final class RepositorySetup {
         BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
         
         builder.setName(processName).setDescription(processDescription);
+        
         BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(builder);
         
         return builder.buildDefinition();

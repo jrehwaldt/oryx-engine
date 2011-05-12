@@ -16,7 +16,7 @@ public abstract class AbstractDefaultWorklist extends AbstractWorklist {
     private List<AbstractWorklistItem> lazyWorklistItems;
 
     /**
-     * Retrieves the {@link AbstractWorklistItem}s that are in this {@link Worklist}.
+     * Retrieves the {@link AbstractWorklistItem}s that are in this {@link Worklist} and in state 'offered'.
      * 
      * @return a list of {@link AbstractWorklistItem}s; the list is instantiated on demand
      */

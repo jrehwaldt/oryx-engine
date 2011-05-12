@@ -68,69 +68,124 @@ public final class WorklistWebService {
     }
 
     /**
-     * Gets the worklist items for a given resource (defined by a uuid which is a String and needs to be converted).
+     * Gets the items of the participant that are in the specified state.
+     * Valid values for the state are:
+     * - OFFERED
+     * - ALLOCATED
+     * - EXECUTING
+     * 
+     * If no item state is specified, the whole worklist is returned.
      *
-     * @param itemId the item id
-     * @return the worklist items for the specified resource
+     * @param participantId the id of the participant
+     * @param itemState the state of the item
+     * @return the items of the specified state
      * @throws ResourceNotAvailableException the resource not available exception
      */
     @Path("/items")
     @GET
-    public List<AbstractWorklistItem> getWorklistItems(@QueryParam("id") String itemId)
+    public List<AbstractWorklistItem> getWorklistItems(@QueryParam("id") String participantId,
+        @QueryParam("itemState") String itemState)
     throws ResourceNotAvailableException {
+
+        logger.debug("GET: {}", participantId);
         
-        logger.debug("GET: {}", itemId);
-        
-        UUID uuid = UUID.fromString(itemId);
-        List<AbstractWorklistItem> items = this.service.getWorklistItems(uuid);
+        UUID participantUUID = UUID.fromString(participantId);
+        // this will be the result collection
+        List<AbstractWorklistItem> items = null;
+                
+        // no state specified return all worklist items
+        if (itemState == null) {
+            items = this.service.getWorklistItems(participantUUID);
+        } else {
+            WorklistItemState state = WorklistItemState.valueOf(itemState);
+            
+            switch (state) {
+                case OFFERED:
+                    items = service.getOfferedWorklistItems(participantUUID);
+                    break;
+                case ALLOCATED:   
+                    items = service.getAllocatedWorklistItems(participantUUID);
+                    break;
+    
+                case EXECUTING:
+                    items = service.getExecutingWorklistItems(participantUUID);
+                    break;
+    
+                default:
+                    logger.debug("Query for unknown state of worklist items");
+                    break;
+            }
+        }
+
         return items;
     }
     
     /**
+     * Gets the items of the participant that are in the specified state.
+     * Valid values for the state are:
+     * - OFFERED
+     * - ALLOCATED
+     * - EXECUTING
+     * 
+     * @param participantId
+     *            the UUID of the participant whose worklistitems we want to get
+     * @param itemState
+     *            the state of the item
+     * @return the items of the specified state
+     */
+
+    /**
      * Gets the form that is held by the {@link WorklistItemImpl Worklist Item}.
-     *
-     * @param worklistitemId the worklist item id
-     * @param participantId the participant id
+     * 
+     * @param worklistitemId
+     *            the worklist item id
+     * @param participantId
+     *            the participant id
      * @return the form held by the worklist item
-     * @throws ResourceNotAvailableException if the resource is not available
-     * @throws InvalidWorkItemException  if the item was not available
+     * @throws ResourceNotAvailableException
+     *             if the resource is not available
+     * @throws InvalidWorkItemException
+     *             if the item was not available
      */
     @Path("/items/{worklistitemId}/form")
     @Produces(MediaType.TEXT_PLAIN)
     @GET
-    public Response getForm(@PathParam("worklistitemId") String worklistitemId, 
-                          @QueryParam("participantId") String participantId)
+    public Response getForm(@PathParam("worklistitemId") String worklistitemId,
+                            @QueryParam("participantId") String participantId)
     throws ResourceNotAvailableException, InvalidWorkItemException {
+
         UUID participantUUID = UUID.fromString(participantId);
         UUID itemUUID = UUID.fromString(worklistitemId);
         logger.debug("GET: {}", worklistitemId);
-        
+
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
-        AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);            
+        AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);
         ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
-        
+
         String html = populateForm(item.getForm(), context);
         return Response.ok(html).build();
 
     }
-    
+
     /**
      * This method populates the given form with data from the context.
      * It is required, that the input fields in the form and the context variables have exactly the same name.
-     *
-     * @param form the form
-     * @param context the context
+     * 
+     * @param form
+     *            the form
+     * @param context
+     *            the context
      * @return the string
      */
     private String populateForm(Form form, ProcessInstanceContext context) {
+
         // TODO move this configuration to a place, where it is only executed once
         Config.CurrentCompatibilityMode.setFormFieldNameCaseInsensitive(false);
         String unpopulatedFormHtml = form.getFormContentAsHTML();
         Source source = new Source(unpopulatedFormHtml);
         FormFields formFields = source.getFormFields();
         formFields.clearValues();
-        
-        
+
         for (FormField field : formFields) {
             String fieldName = field.getName();
             Object variable = context.getVariable(fieldName);
@@ -146,55 +201,56 @@ public final class WorklistWebService {
     /**
      * Post the form to the engine and process the given arguments, so to say set process instance variables according
      * to the changes in the form.
-     * !!! Be aware, every form data is saved as a String! !!! 
-     * 
-     * @param worklistItemId
-     *            the worklistitem id
-     * @param participantId
-     *            the participant id
-     * @param form
-     *            the form that gets send to us
+     * !!! Be aware, every form data is saved as a String! !!!
+     *
+     * @param worklistItemId the worklistitem id
+     * @param participantId the participant id
+     * @param form the form that gets send to us
      * @return the response
-     * @throws ResourceNotAvailableException 
-     * @throws InvalidWorkItemException 
+     * @throws ResourceNotAvailableException the resource not available exception
+     * @throws InvalidWorkItemException the invalid work item exception
      */
     @Path("/items/{worklistitemId}/form")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @POST
-    public Response postForm(@PathParam("worklistitemId") String worklistItemId, 
-                             @QueryParam("participantId") String participantId, 
+    public Response postForm(@PathParam("worklistitemId") String worklistItemId,
+                             @QueryParam("participantId") String participantId,
                              MultivaluedMap<String, String> form)
     throws ResourceNotAvailableException, InvalidWorkItemException {
-        
+
         UUID participantUUID = UUID.fromString(participantId);
         UUID itemUUID = UUID.fromString(worklistItemId);
         AbstractResource<?> resource = this.identity.getParticipant(participantUUID);
-                
+
         // try to get the worklist item and its token and thereby the context to put in the new data
         AbstractWorklistItem item = this.service.getWorklistItem(resource, itemUUID);
-        item = this.service.getWorklistItem(resource, itemUUID);
         ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
-        
+
         Set<Map.Entry<String, List<String>>> entrySet = form.entrySet();
         for (Map.Entry<String, List<String>> entry : entrySet) {
             // We just get the first value since values shall be unique
             context.setVariable(entry.getKey(), entry.getValue().get(0));
         }
-        
+
         logger.debug(context.getVariableMap().toString());
         return Response.ok().build();
-            
+
     }
-    
+
     /**
      * It claims, begins or ends the item.
-     *
-     * @param worklistItemId the id for the worklist item, given in the request
-     * @param participantId the participant id given in the request
-     * @param status the status of the worklistitem (allocated, executing or completed)
+     * 
+     * @param worklistItemId
+     *            the id for the worklist item, given in the request
+     * @param participantId
+     *            the participant id given in the request
+     * @param status
+     *            the status of the worklistitem (allocated, executing or completed)
      * @return returns an empty response with a http status
-     * @throws ResourceNotAvailableException the resource not available exception
-     * @throws InvalidWorkItemException the invalid work item exception
+     * @throws ResourceNotAvailableException
+     *             the resource not available exception
+     * @throws InvalidWorkItemException
+     *             the invalid work item exception
      */
     @Path("/items/{worklistItemId}/state")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -203,6 +259,7 @@ public final class WorklistWebService {
                                          @QueryParam("participantId") String participantId,
                                          String status)
     throws ResourceNotAvailableException, InvalidWorkItemException {
+
         // generates an enum from the given string value
         WorklistItemState state = WorklistItemState.valueOf(status);
         UUID itemUUID = UUID.fromString(worklistItemId);
@@ -213,30 +270,27 @@ public final class WorklistWebService {
 
                 logger.debug("success, now claiming");
                 claimWorklistItem(itemUUID, participantUUID);
-                // make these numbers constants
-                return Response.ok().build();
-                
+                break;
+
             case EXECUTING:
-                
+
                 logger.debug("success, now beginning");
-                // make these numbers constants
                 beginWorklistItem(itemUUID, participantUUID);
-                return Response.ok().build();
-                
+                break;
+
             case COMPLETED:
-                
+
                 logger.debug("success, now ending");
                 endWorklistItem(itemUUID, participantUUID);
-
-                return Response.ok().build();
+                break;
 
             default:
                 logger.debug("no valid action could be found");
                 return Response.status(RESPONSE_FAIL).build();
-
+                
         }
-
-        
+                
+        return Response.ok().build();
     }
 
     /**
@@ -245,11 +299,11 @@ public final class WorklistWebService {
      * @param id the id
      * @param participantId the participant id
      * @throws InvalidWorkItemException the invalid item exception
-     * @throws ResourceNotAvailableException 
+     * @throws ResourceNotAvailableException the resource not available exception
      */
     private void endWorklistItem(UUID id, UUID participantId)
     throws InvalidWorkItemException, ResourceNotAvailableException {
-        
+
         AbstractResource<?> resource = identity.getParticipant(participantId);
         AbstractWorklistItem item;
         item = service.getWorklistItem(resource, id);
@@ -258,18 +312,15 @@ public final class WorklistWebService {
 
     /**
      * Processes the claim action for the given user and the worklist item.
-     * 
-     * @param worklistItemId
-     *            the worklist item id
-     * @param participantUUID
-     *            the participant uuid
-     * @throws ResourceNotAvailableException
-     *             the resource not available exception
-     * @throws InvalidWorkItemException 
+     *
+     * @param worklistItemId the worklist item id
+     * @param participantUUID the participant uuid
+     * @throws ResourceNotAvailableException the resource not available exception
+     * @throws InvalidWorkItemException the invalid work item exception
      */
     private void claimWorklistItem(UUID worklistItemId, UUID participantUUID)
     throws ResourceNotAvailableException, InvalidWorkItemException {
-        
+
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
         AbstractWorklistItem item = service.getWorklistItem(resource, worklistItemId);
 
@@ -278,19 +329,18 @@ public final class WorklistWebService {
         service.claimWorklistItemBy(item, resource);
 
     }
-    
-    
+
     /**
      * Begin a worklist item. By beginning the item gets also claimed.
      *
      * @param worklistItemId the id of the worklist item
      * @param participantUUID the participant uuid
      * @throws ResourceNotAvailableException the resource not available exception
-     * @throws InvalidWorkItemException 
+     * @throws InvalidWorkItemException the invalid work item exception
      */
     private void beginWorklistItem(UUID worklistItemId, UUID participantUUID)
     throws ResourceNotAvailableException, InvalidWorkItemException {
-        
+
         logger.debug("POST participantID: {}", participantUUID);
         logger.debug("worklistItemID: {}", worklistItemId);
         AbstractResource<?> resource = identity.getParticipant(participantUUID);

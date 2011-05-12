@@ -40,6 +40,7 @@ public class RoleWorklist extends AbstractDefaultWorklist {
     @Override
     public List<AbstractWorklistItem> getWorklistItems() {
 
+        // a role only has offered worklist items
         List<AbstractWorklistItem> worklistItems = new ArrayList<AbstractWorklistItem>(getLazyWorklistItems());
         
         if (relatedRole.getSuperRole() != null) {
@@ -66,6 +67,16 @@ public class RoleWorklist extends AbstractDefaultWorklist {
 
         getLazyWorklistItems().add(worklistItem);
         worklistItem.getAssignedResources().add(relatedRole);
+          
+    }
+    
+
+    @Override
+    public void removeWorklistItem(AbstractWorklistItem worklistItem) {
+
+        getLazyWorklistItems().remove(worklistItem);
+        worklistItem.getAssignedResources().remove(relatedRole);
+        
     }
 
     @Override

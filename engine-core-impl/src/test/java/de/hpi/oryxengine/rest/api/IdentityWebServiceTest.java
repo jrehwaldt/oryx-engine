@@ -10,6 +10,8 @@ import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 import org.jboss.resteasy.mock.MockHttpResponse;
@@ -429,10 +431,13 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * Create a participant belonging to a specific role.
      *
      * @throws URISyntaxException the uRI syntax exception
+     * @throws IOException test fails
+     * @throws JsonMappingException test fails
+     * @throws JsonParseException test fails
      */
     @Test
     public void testCreateParticipantWithRole()
-    throws URISyntaxException {
+    throws URISyntaxException, JsonParseException, JsonMappingException, IOException {
 
         String roleName = "test";
         String participantName = "Tobni";
@@ -447,10 +452,12 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
         Assert.assertFalse(role.getParticipantsImmutable().isEmpty(), "There should be a participant of that role");
 
         AbstractParticipant participant = role.getParticipantsImmutable().iterator().next();
-
+        
+        AbstractParticipant part = this.mapper.readValue(response.getContentAsString(), AbstractParticipant.class);
+        
         Assert.assertEquals(participant.getName(), participantName,
             "The participant of the role should have the same name as the one we created.");
-        Assert.assertEquals(response.getContentAsString(), participant.getID().toString());
+        Assert.assertEquals(part.getID(), participant.getID());
 
     }
 

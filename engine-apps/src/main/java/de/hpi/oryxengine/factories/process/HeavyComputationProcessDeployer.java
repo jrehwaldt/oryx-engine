@@ -2,6 +2,7 @@ package de.hpi.oryxengine.factories.process;
 
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 
@@ -28,7 +29,7 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
      */
     public HeavyComputationProcessDeployer() {
 
-        builder = new ProcessDefinitionBuilderImpl();
+        processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
     }
 
     /**
@@ -36,22 +37,24 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodes() {
 
-        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
+        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(processDefinitionBuilder);
 
         this.lastNode = startNode;
 
         for (int i = 0; i < NUMBER_OF_NODES; i++) {
 
-            Node tmpNode = BpmnCustomNodeFactory.createBpmnHashComputationNode(builder, "hash", PASSWORDS[i
+            Node tmpNode = BpmnCustomNodeFactory.createBpmnHashComputationNode(processDefinitionBuilder, "hash", PASSWORDS[i
                 % PASSWORDS.length]);
 
-            BpmnNodeFactory.createTransitionFromTo(builder, this.lastNode, tmpNode);
+            BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, this.lastNode, tmpNode);
             this.lastNode = tmpNode;
         }
 
-        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
+        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
-        BpmnNodeFactory.createTransitionFromTo(builder, this.lastNode, endNode);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, this.lastNode, endNode);
+        
+        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(processDefinitionBuilder);
     }
 
 }

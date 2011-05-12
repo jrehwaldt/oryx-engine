@@ -18,12 +18,12 @@ import de.hpi.oryxengine.resource.AbstractResource;
 public abstract class AbstractWorklist implements Iterable<AbstractWorklistItem> {
 
     /**
-     * Retrieves the contained {@link AbstractWorklistItem}s.
+     * Retrieves all contained {@link AbstractWorklistItem}s (offered, allocated, executing). 
      * 
      * @return a list of {@link AbstractWorklistItem}s; the list is unmodifiable (read-only) 
      */
     @JsonIgnore
-    public abstract @Nonnull List<AbstractWorklistItem> getWorklistItems();
+    public abstract @Nonnull List<AbstractWorklistItem> getWorklistItems();    
     
     /**
      * Notifies this {@link Worklist} that the item has been allocated by a certain resource.
@@ -56,4 +56,11 @@ public abstract class AbstractWorklist implements Iterable<AbstractWorklistItem>
      * @param worklistItem - a {@link AbstractWorklistItem} to add
      */
     public abstract void addWorklistItem(@Nonnull AbstractWorklistItem worklistItem);
+    
+    /**
+     * Removes a {@link AbstractWorklistItem} from the {@link Worklist}.
+     *
+     * @param worklistItem the worklist item
+     */
+    public abstract void removeWorklistItem(@Nonnull AbstractWorklistItem worklistItem);
 }

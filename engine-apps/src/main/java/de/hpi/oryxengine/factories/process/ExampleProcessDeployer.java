@@ -2,6 +2,7 @@ package de.hpi.oryxengine.factories.process;
 
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 
@@ -24,7 +25,7 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
      */
     public ExampleProcessDeployer() {
 
-        builder = new ProcessDefinitionBuilderImpl();
+        processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
     }
 
     /**
@@ -32,17 +33,19 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodes() {
 
-        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
+        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(processDefinitionBuilder);
 
         int[] ints = {1, 1};
-        node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
-        node2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
+        node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(processDefinitionBuilder, "result", ints);
+        node2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(processDefinitionBuilder, "result", ints);
         
-        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
+        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
         
-        BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
-        BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
-        BpmnNodeFactory.createTransitionFromTo(builder, node2, endNode);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, startNode, node1);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node1, node2);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node2, endNode);
+        
+        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(processDefinitionBuilder);
     }
 
 }

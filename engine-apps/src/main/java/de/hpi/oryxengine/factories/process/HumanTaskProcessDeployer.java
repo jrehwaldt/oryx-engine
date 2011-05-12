@@ -20,6 +20,7 @@ import de.hpi.oryxengine.factories.worklist.TaskFactory;
 import de.hpi.oryxengine.loadgenerator.PseudoHumanJob;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.resource.AbstractParticipant;
@@ -75,7 +76,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     throws SchedulerException {
 
         identityService = ServiceFactory.getIdentityService();
-        builder = new ProcessDefinitionBuilderImpl();
+        processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
         identityBuilder = identityService.getIdentityBuilder();
 
     }
@@ -89,51 +90,55 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodesWithDirectAlloc() {
 
-        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
+        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(processDefinitionBuilder);
         
         // Create the task
         Object[] participants = identityService.getParticipants().toArray();
         Task task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[0]);
 
-        node1 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
+        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
         // Create the task
         task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[1]);
 
-        node2 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
+        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
         // Create the task
         task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[2]);
         
-        node3 = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
+        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
 
-        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
+        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
-        BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
-        BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
-        BpmnNodeFactory.createTransitionFromTo(builder, node2, node3);
-        BpmnNodeFactory.createTransitionFromTo(builder, node3, endNode);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, startNode, node1);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node1, node2);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node2, node3);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node3, endNode);
+        
+        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(processDefinitionBuilder);
     }
     
     public void initializeNodesWithRoleTasks() {
         
-        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
+        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(processDefinitionBuilder);
 
         // Create the task
         Task roleTask = TaskFactory.createRoleTask("Do stuff", "Do it cool", role);
 
-        node1 = BpmnNodeFactory.createBpmnUserTaskNode(builder, roleTask);
+        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleTask);
 
-        node2 = BpmnNodeFactory.createBpmnUserTaskNode(builder, roleTask);
+        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleTask);
 
-        node3 = BpmnNodeFactory.createBpmnUserTaskNode(builder, roleTask);
+        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleTask);
 
-        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
+        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
-        BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
-        BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
-        BpmnNodeFactory.createTransitionFromTo(builder, node2, node3);
-        BpmnNodeFactory.createTransitionFromTo(builder, node3, endNode);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, startNode, node1);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node1, node2);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node2, node3);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node3, endNode);
+        
+        BpmnProcessDefinitionModifier.decorateWithNormalBpmnProcessInstantiation(processDefinitionBuilder);
     }
 
     /**

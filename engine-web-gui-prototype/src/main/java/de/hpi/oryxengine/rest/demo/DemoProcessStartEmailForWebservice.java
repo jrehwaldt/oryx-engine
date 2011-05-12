@@ -33,7 +33,7 @@ import de.hpi.oryxengine.resource.IdentityBuilder;
 public final class DemoProcessStartEmailForWebservice {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DemoProcessStartEmailForWebservice.class);
-    private static final String PATH_TO_XML = "/Users/Gery/Entwicklung/BachelorprojektWorkspace/Oryx-Engine-Git/oryx_engine/engine-core-impl/src/test/resources/de/hpi/oryxengine/deployment/bpmn/SimpleUserTask.bpmn.xml";
+    private static final String PATH_TO_XML = "de/hpi/oryxengine/deployment/bpmn/SimpleUserTask.bpmn.xml";
     private static IdentityBuilder builder;
     private static boolean invoked = false;
 
@@ -45,7 +45,7 @@ public final class DemoProcessStartEmailForWebservice {
     }
 
     /**
-     * Resets invoked, to be honest mostly for testign purposed after each method.
+     * Resets invoked, to be honest mostly for testing purposed after each method.
      */
     public synchronized static void resetInvoked() {
 
@@ -92,8 +92,8 @@ public final class DemoProcessStartEmailForWebservice {
     /**
      * Generate demo worklist items for our participants.
      * 
-     * @throws IllegalStarteventException
-     * @throws DefinitionNotFoundException
+     * @throws IllegalStarteventException illegal start event
+     * @throws DefinitionNotFoundException no such definition found in repo
      */
     private static void generateDemoWorklistItems()
     throws IllegalStarteventException, DefinitionNotFoundException {
@@ -106,7 +106,7 @@ public final class DemoProcessStartEmailForWebservice {
         startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
 
         // Building Node1
-        int[] ints = { 1, 1 };
+        int[] ints = {1, 1};
         node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
 
         // Building Node2

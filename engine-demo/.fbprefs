@@ -1,5 +1,5 @@
 #FindBugs User Preferences
-#Mon Feb 28 17:04:11 CET 2011
+#Mon Feb 28 17:04:00 CET 2011
 detectorAppendingToAnObjectOutputStream=AppendingToAnObjectOutputStream|true
 detectorBCPMethodReturnCheck=BCPMethodReturnCheck|false
 detectorBadAppletConstructor=BadAppletConstructor|false

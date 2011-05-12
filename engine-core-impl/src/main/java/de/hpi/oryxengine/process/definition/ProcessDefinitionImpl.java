@@ -14,7 +14,6 @@ import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorInside;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.process.instantiation.DefaultBpmnInstantiationPattern;
 import de.hpi.oryxengine.process.instantiation.StartNullInstantiationPattern;
 import de.hpi.oryxengine.process.structure.Node;
 
@@ -33,7 +32,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     private List<Node> startNodes;
 
     @JsonIgnore
-    private ProcessInstantiationPattern startInstantiationPattern;
+    private StartInstantiationPattern startInstantiationPattern;
 
     @JsonIgnore
     private Map<StartEvent, Node> startTriggers;
@@ -80,7 +79,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
                                  String name,
                                  String description,
                                  List<Node> startNodes,
-                                 ProcessInstantiationPattern startInstantiationPattern) {
+                                 StartInstantiationPattern startInstantiationPattern) {
 
         this.id = id;
         this.name = name;
@@ -171,7 +170,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     public AbstractProcessInstance createProcessInstance(NavigatorInside navigator) {
 
         startInstantiationPattern.init(ServiceFactory.getCorrelationService(), navigator, this);
-        return startInstantiationPattern.createProcessInstance(new StartNullInstantiationPattern());
+        return startInstantiationPattern.createProcessInstance();
 
         // AbstractProcessInstance instance = new ProcessInstanceImpl(this);
         //
