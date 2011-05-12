@@ -10,7 +10,7 @@ import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectPushPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 /**
@@ -30,7 +30,7 @@ public class HumanTaskNodeFactory extends AbstractNodeFactory {
         String subject = "Jannik, get me a cup of coffee!";
         String description = "You know what i mean.";
         
-        Pattern pushPattern = new DirectPushPattern();
+        Pattern pushPattern = new DirectDistributionPattern();
         Pattern pullPattern = new SimplePullPattern();
         
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);

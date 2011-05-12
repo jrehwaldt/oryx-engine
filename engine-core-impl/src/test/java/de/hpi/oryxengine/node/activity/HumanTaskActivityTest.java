@@ -26,7 +26,7 @@ import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectPushPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
@@ -65,7 +65,7 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         String subject = "Jannik, get Gerardo a cup of coffee!";
         String description = "You know what I mean.";
 
-        Pattern pushPattern = new DirectPushPattern();
+        Pattern pushPattern = new DirectDistributionPattern();
         Pattern pullPattern = new SimplePullPattern();
 
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);

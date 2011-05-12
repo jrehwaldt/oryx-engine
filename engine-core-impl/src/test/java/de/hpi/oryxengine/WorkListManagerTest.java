@@ -21,7 +21,7 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectPushPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
@@ -81,7 +81,7 @@ public class WorkListManagerTest {
     public void createAnotherParticipantWithAnotherTask() {
         AbstractParticipant tobi = ParticipantFactory.createTobi();
         // allocation patterns START
-        Pattern pushPattern = new DirectPushPattern();
+        Pattern pushPattern = new DirectDistributionPattern();
         Pattern pullPattern = new SimplePullPattern();
         AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
         // allocation patterns END

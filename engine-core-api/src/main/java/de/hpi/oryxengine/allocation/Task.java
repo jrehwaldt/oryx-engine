@@ -42,14 +42,6 @@ public interface Task {
     Form getForm();
     
     /**
-     * Retrieves the {@link AllocationStrategies} for the {@link Task}.
-     * 
-     * @return the {@link AllocationStrategies} corresponding to this {@link Task}
-     */
-    @JsonIgnore
-    AllocationStrategies getAllocationStrategies();
-    
-    /**
      * Retrieves the {@link AbstractResource}s that is assigned to this task.
      * 
      * @return a set of {@link AbstractResource}s that is assigned to this task

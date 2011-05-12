@@ -7,7 +7,11 @@ import javax.annotation.Nonnull;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.WorklistService;
+import de.hpi.oryxengine.allocation.CreationPattern;
+import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.allocation.TaskDistribution;
 import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
@@ -26,7 +30,15 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 public class BpmnHumanTaskActivity extends AbstractActivity {
 
     @JsonProperty
-    private Task task;
+    private CreationPattern pattern;
+    
+    private String subject;
+    
+    private String description;
+    
+    private Form form;
+    
+    private AbstractResource<?>[] resourcesToAssignTo;
 
     /**
      * Default Constructor.
@@ -35,9 +47,13 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
      *            - the task to distribute
      */
     // TODO: CreationPattern einfügen
-    public BpmnHumanTaskActivity(Task task) {
+    public BpmnHumanTaskActivity(CreationPattern pattern, String subject, String description, Form form, AbstractResource<?>[] resourcesToAssignTo) {
 
-        this.task = new TaskImpl(task);
+        this.pattern = pattern;
+        this.subject = subject;
+        this.description = description;
+        this.form = form;
+        this.resourcesToAssignTo = resourcesToAssignTo;
     }
 
     @Override
@@ -45,8 +61,12 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 
         // creationPattern.createTask()
 
-        TaskDistribution taskDistribution = ServiceFactory.getTaskDistribution();
-        taskDistribution.distribute(task, token);
+        // TODO @Thorben-Refactoring think about TaskDistribution and its necessity
+//        TaskDistribution taskDistribution = ServiceFactory.getTaskDistribution();
+//        taskDistribution.distribute(task, token);
+        // TODO @Thorben-Refactoring should we use the TaskAllocation here?
+        TaskAllocation service = ServiceFactory.getWorklistQueue();
+        pattern.createWorklistItems(service, token, subject, description, form, resourcesToAssignTo);
 
         token.suspend();
     }
@@ -55,18 +75,19 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     public void cancel() {
 
         // TODO change this as soon as we do not have the separation of task/worklistitem anymore (use methods from TaskAllocation)
-        for (AbstractResource<?> resource : task.getAssignedResources()) {
-            // remove all offered items
-            Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
-            .getLazyWorklistItems().iterator();
-
-            while (it.hasNext()) {
-                WorklistItemImpl item = (WorklistItemImpl) it.next();
-                if (item.getTask() == task) {
-                    it.remove();
-                }
-            }
-        }
+        // TODO add this again, but maybe extend the creationPattern, to be able to remove the worklist items as well
+//        for (AbstractResource<?> resource : task.getAssignedResources()) {
+//            // remove all offered items
+//            Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
+//            .getLazyWorklistItems().iterator();
+//
+//            while (it.hasNext()) {
+//                WorklistItemImpl item = (WorklistItemImpl) it.next();
+//                if (item == task) {
+//                    it.remove();
+//                }
+//            }
+//        }
         
 //        ServiceFactory.getWorklistQueue().removeWorklistItem(task, task.getAssignedResources());
 

@@ -4,6 +4,7 @@
 package de.hpi.oryxengine.resource.worklist;
 
 import java.io.IOException;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -14,8 +15,10 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.util.Identifiable;
 
 /**
@@ -55,4 +58,16 @@ public abstract class AbstractWorklistItem implements Task, Identifiable {
         // TODO we do not have access to the ServiceFactory, so we need a new ObjectMapper every time
         return (AbstractWorklistItem) new ObjectMapper().readValue(json, AbstractWorklistItem.class);
     }
+    
+//    @JsonIgnore
+//    public abstract @Nonnull Form getForm();
+//    
+//    @JsonIgnore
+//    public abstract @Nonnull Set<AbstractResource<?>> getAssignedResources();
+//    
+//    @JsonProperty
+//    public abstract @Nonnull String getDescription();
+//    
+//    @JsonProperty
+//    public abstract @Nonnull String getSubject();
 }

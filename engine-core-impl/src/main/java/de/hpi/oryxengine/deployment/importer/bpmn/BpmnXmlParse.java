@@ -47,7 +47,7 @@ import de.hpi.oryxengine.process.structure.condition.CheckVariableTrueCondition;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.allocation.TaskBuilder;
 import de.hpi.oryxengine.resource.allocation.TaskBuilderImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectPushPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
 import de.hpi.oryxengine.util.io.StreamSource;
 import de.hpi.oryxengine.util.xml.XmlElement;
 import de.hpi.oryxengine.util.xml.XmlParse;
@@ -410,7 +410,7 @@ public class BpmnXmlParse extends XmlParse {
         taskBuilder.setTaskSubject(taskXmlElement.getAttribute("name"));
         taskBuilder.setTaskDescription(parseDocumentation(taskXmlElement));
         
-        taskBuilder.setTaskPushPattern(new DirectPushPattern());
+        taskBuilder.setTaskPushPattern(new DirectDistributionPattern());
         
         parseHumanPerformer(taskXmlElement, taskBuilder);
         

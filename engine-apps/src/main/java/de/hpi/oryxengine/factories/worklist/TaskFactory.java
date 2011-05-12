@@ -5,7 +5,7 @@ import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectPushPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.RolePushPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
@@ -36,7 +36,7 @@ public final class TaskFactory {
 
 	public static Task createParticipantTask(AbstractResource<?> resource) {
 		AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(
-				new DirectPushPattern(), new SimplePullPattern(), null, null);
+				new DirectDistributionPattern(), new SimplePullPattern(), null, null);
 
 		return createTask(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_SUBJECT,
 				allocationStrategies, resource);
