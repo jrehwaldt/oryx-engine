@@ -11,9 +11,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.AllocationStrategies;
-import de.hpi.oryxengine.allocation.Pattern;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
@@ -24,10 +22,7 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
-import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
-import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
@@ -36,7 +31,7 @@ import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 public class HumanTaskActivityTest extends AbstractJodaEngineTest {
 
-    private Task task = null;
+    private CreationPattern pattern = null;
     private AbstractResource<?> resource = null;
 
     private BpmnHumanTaskActivity humanTask = null;
@@ -65,14 +60,14 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         String subject = "Jannik, get Gerardo a cup of coffee!";
         String description = "You know what I mean.";
 
-        Pattern pushPattern = new DirectDistributionPattern();
-        Pattern pullPattern = new SimplePullPattern();
+//        Pattern pushPattern = new DirectDistributionPattern();
+//        Pattern pullPattern = new SimplePullPattern();
+//
+//        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
+        pattern = new DirectDistributionPattern(subject, description, null, participant);
+//        task = new TaskImpl(subject, description, allocationStrategies, participant);
 
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-
-        task = new TaskImpl(subject, description, allocationStrategies, participant);
-
-        humanTask = new BpmnHumanTaskActivity(task);
+        humanTask = new BpmnHumanTaskActivity(pattern);
         // TODO set this as a parameter
         
         Node node = new NodeImpl(BpmnHumanTaskActivity.class);
@@ -112,7 +107,7 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         assertTrue(worklistSize == 1, failureMessage);
 
         AbstractWorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
-        assertEquals(worklistItem.getSubject(), task.getSubject());
-        assertEquals(worklistItem.getDescription(), task.getDescription());
+        assertEquals(worklistItem.getSubject(), pattern.getItemSubject());
+        assertEquals(worklistItem.getDescription(), pattern.getItemDescription());
     }
 }

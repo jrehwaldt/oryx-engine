@@ -69,4 +69,22 @@ public class RoleDistributionPattern implements CreationPattern {
         return resourcesToAssignTo;
     }
 
+    @Override
+    public String getItemSubject() {
+
+        return subject;
+    }
+
+    @Override
+    public String getItemDescription() {
+
+        return description;
+    }
+
+    @Override
+    public Form getItemForm() {
+
+        return form;
+    }
+
 }

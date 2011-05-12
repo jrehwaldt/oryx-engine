@@ -10,9 +10,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.AllocationStrategies;
-import de.hpi.oryxengine.allocation.Pattern;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
@@ -27,16 +25,13 @@ import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
-import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
-import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 /**
  * The Class TerminatingEndActivityTest.
  */
 public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest {
-    private Task task = null;
+    private CreationPattern pattern = null;
     private AbstractResource<?> resource = null;
     private Node splitNode, humanTaskNode, terminatingEndNode;
 
@@ -107,12 +102,11 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
         String subject = "Jannik, get Gerardo a cup of coffee!";
         String description = "You know what I mean.";
 
-        Pattern pushPattern = new DirectDistributionPattern();
-        Pattern pullPattern = new SimplePullPattern();
-
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-
-        task = new TaskImpl(subject, description, allocationStrategies, participant);
+//        Pattern pushPattern = new DirectDistributionPattern();
+//        Pattern pullPattern = new SimplePullPattern();
+//
+//        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
+        pattern = new DirectDistributionPattern(subject, description, null, participant);
     }
 
     /**
@@ -126,7 +120,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
         splitNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
         // param.setActivity(humanTask); TODO do something with the parameter of humanTask
-        humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, task);
+        humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, pattern);
 
         terminatingEndNode = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);
 

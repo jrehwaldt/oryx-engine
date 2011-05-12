@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnStartEvent;
@@ -64,10 +64,10 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(nextNode.getAttribute("description"), "It is only a demo task.");
 
         // Asserting the task
-        Task task = (Task) nextNode.getActivityBlueprint().getParameters()[0];
-        Assert.assertEquals(task.getSubject(), "Thorben, please process this task!");
-        Assert.assertEquals(task.getDescription(), "It is only a demo task.");
-        Assert.assertEquals(task.getAssignedResources().iterator().next(), thorben);
+        CreationPattern pattern = (CreationPattern) nextNode.getActivityBlueprint().getParameters()[0];
+        Assert.assertEquals(pattern.getItemSubject(), "Thorben, please process this task!");
+        Assert.assertEquals(pattern.getItemDescription(), "It is only a demo task.");
+        Assert.assertEquals(pattern.getAssignedResources()[0], thorben);
 
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 

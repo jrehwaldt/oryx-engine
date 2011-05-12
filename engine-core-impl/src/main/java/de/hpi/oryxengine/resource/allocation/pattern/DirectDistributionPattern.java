@@ -79,6 +79,24 @@ public class DirectDistributionPattern implements CreationPattern {
         return resourcesToAssignTo;
     }
 
+    @Override
+    public String getItemSubject() {
+
+        return subject;
+    }
+
+    @Override
+    public String getItemDescription() {
+
+        return description;
+    }
+
+    @Override
+    public Form getItemForm() {
+
+        return form;
+    }
+
     // @Override
     // public void execute(Task task, Token token, TaskAllocation worklistService) {
     //

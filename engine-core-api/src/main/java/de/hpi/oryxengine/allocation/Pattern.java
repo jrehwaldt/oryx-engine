@@ -17,5 +17,5 @@ public interface Pattern {
      * @param worklistService
      *            - reference to the {@link TaskAllocation} in order to operate on worklist queues
      */
-    void execute(Task task, Token token, TaskAllocation worklistService);
+    void execute(Token token, TaskAllocation worklistService);
 }

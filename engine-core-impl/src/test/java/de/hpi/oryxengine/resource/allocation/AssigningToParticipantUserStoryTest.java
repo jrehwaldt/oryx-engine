@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.factory.node.SimpleNodeFactory;
 import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
@@ -42,11 +42,11 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
 
         // The organization structure is already prepared in the factory
         // The task is assigned to Jannik
-        Task task = CreationPatternFactory.createJannikServesGerardoTask();
-        jannik = task.getAssignedResources().iterator().next();
+        CreationPattern pattern = CreationPatternFactory.createJannikServesGerardoCreator();
+        jannik = pattern.getAssignedResources()[0];
 
-        Class<?>[] constructorSig = {Task.class};
-        Object[] params = {task};
+        Class<?>[] constructorSig = {CreationPattern.class};
+        Object[] params = {pattern};
         ActivityBlueprint bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
         Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(bp);
 

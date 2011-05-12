@@ -11,9 +11,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.AllocationStrategies;
-import de.hpi.oryxengine.allocation.Pattern;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.node.SimpleNodeFactory;
@@ -31,7 +29,6 @@ import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.allocation.pattern.RoleDistributionPattern;
-import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
@@ -73,15 +70,17 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
             .participantBelongsToRole(gerardo.getID(), hamburgGuysRole.getID())
             .participantBelongsToRole(tobi2.getID(), mecklenRole.getID());
 
-        Pattern pushPattern = new RoleDistributionPattern();
-        Pattern pullPattern = new SimplePullPattern();
+//        Pattern pushPattern = new RoleDistributionPattern();
+//        Pattern pullPattern = new SimplePullPattern();
+//
+//        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
+        
+        CreationPattern pattern = new RoleDistributionPattern("Clean the office.", "It is very dirty.", null, hamburgGuysRole);
 
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
+//        Task task = new TaskImpl("Clean the office.", "It is very dirty.", allocationStrategies, hamburgGuysRole);
 
-        Task task = new TaskImpl("Clean the office.", "It is very dirty.", allocationStrategies, hamburgGuysRole);
-
-        Class<?>[] constructorSig = {Task.class};
-        Object[] params = {task};
+        Class<?>[] constructorSig = {CreationPattern.class};
+        Object[] params = {pattern};
         ActivityBlueprint bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
         Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(bp);
 

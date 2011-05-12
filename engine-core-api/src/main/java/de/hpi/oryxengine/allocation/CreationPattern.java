@@ -18,4 +18,10 @@ public interface CreationPattern {
     
     AbstractResource<?>[] getAssignedResources();
     
+    String getItemSubject();
+    
+    String getItemDescription();
+    
+    Form getItemForm();
+    
 }

@@ -11,13 +11,14 @@ import de.hpi.oryxengine.process.token.Token;
  * Simple Pull Pattern
  * 
  * TODO: @Metzke&Friends => ihr müsst nochmal über Pull-Pattern nachdenken
+ * TODO: @Thorben-Refactoring: Klasse erstmal ganz löschen?
  */
 public class SimplePullPattern implements Pattern {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public void execute(Task task, Token token, TaskAllocation worklistService) {
+    public void execute(Token token, TaskAllocation worklistService) {
 
         logger.info("Habe es aus der Liste genommen, Juuuuuunge!");
     }
