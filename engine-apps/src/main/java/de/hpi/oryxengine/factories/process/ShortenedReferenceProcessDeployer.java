@@ -419,14 +419,13 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
      * Extracts a {@link Form} object from a local file.
      *
      * @param formName the form name
-     * @param formPath the form path
+     * @param formFileName the form path
      * @return the form
      */
-    private Form extractForm(String formName, String formPath) {
+    private Form extractForm(String formName, String formFileName) {
 
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-        UUID processArtifactID = deploymentBuilder.deployArtifactAsFile(formName, new File(PATH_TO_WEBFORMS + "/"
-            + formPath));
+        UUID processArtifactID = deploymentBuilder.deployArtifactAsClasspathResource(formName, "forms/" + formFileName);
         Form form = null;
         try {
             form = new FormImpl(ServiceFactory.getRepositoryService().getProcessResource(processArtifactID));
