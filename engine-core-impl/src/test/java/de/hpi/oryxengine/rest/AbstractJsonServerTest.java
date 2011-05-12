@@ -22,18 +22,20 @@ import org.jboss.resteasy.mock.MockDispatcherFactory;
 import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.testng.annotations.BeforeClass;
 
 import de.hpi.oryxengine.AbstractJodaEngineTest;
-import de.hpi.oryxengine.rest.exception.DefinitionNotFoundMapper;
-import de.hpi.oryxengine.rest.exception.InvalidWorkItemMapper;
-import de.hpi.oryxengine.rest.exception.ResourceNotAvailableMapper;
 
 /**
  * Abstract class providing anything necessary for server api tests.
  * 
  * @author Jan Rehwaldt
  */
+@SuppressWarnings("unchecked")
 public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     
     protected static final Status HTTP_STATUS_OK = Status.OK;
@@ -41,17 +43,36 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     protected static final Status HTTP_BAD_REQUEST = Status.BAD_REQUEST;
         
     public static final String TMP_PATH = "./target/";
+    
+    public static final String BASE_PACKAGE = "de.hpi.oryxengine";
         
     protected Dispatcher dispatcher = null;
     protected ObjectMapper mapper = null;
 
-    private static final List<Class<? extends ExceptionMapper<?>>> PROVIDERS
+    //
+    // add all exception mapper to the mock dispatcher
+    //
+    private static final List<Class<? extends ExceptionMapper<?>>> EXCEPTION_PROVIDERS
         = new ArrayList<Class<? extends ExceptionMapper<?>>>();
     
     static {
-        PROVIDERS.add(DefinitionNotFoundMapper.class);
-        PROVIDERS.add(InvalidWorkItemMapper.class);
-        PROVIDERS.add(ResourceNotAvailableMapper.class);
+        //
+        // Rather than adding those manually we scan all classes for the provider annotation
+        //  http://stackoverflow.com/questions/259140/scanning-java-annotations-at-runtime
+        //
+        ClassPathScanningCandidateComponentProvider scanner =
+            new ClassPathScanningCandidateComponentProvider(false);
+
+        scanner.addIncludeFilter(new AnnotationTypeFilter(javax.ws.rs.ext.Provider.class));
+        scanner.addIncludeFilter(new AssignableTypeFilter(ExceptionMapper.class));
+        
+        for (BeanDefinition bd : scanner.findCandidateComponents(BASE_PACKAGE)) {
+            try {
+                EXCEPTION_PROVIDERS.add((Class<ExceptionMapper<?>>) Class.forName(bd.getBeanClassName()));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
     
     /**
@@ -89,7 +110,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
             this.dispatcher = MockDispatcherFactory.createDispatcher();
             this.dispatcher.getRegistry().addResourceFactory(factory);
             
-            for (Class<? extends ExceptionMapper<?>> provider: PROVIDERS) {
+            for (Class<? extends ExceptionMapper<?>> provider: EXCEPTION_PROVIDERS) {
                 this.dispatcher.getProviderFactory().addExceptionMapper(provider);
             }
         } else {
@@ -186,9 +207,10 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      * @param content the content
      * @param contentType the content type
      * @return the mock http response
-     * @throws URISyntaxException the uRI syntax exception
+     * @throws URISyntaxException the uri syntax exception
      */
-    protected MockHttpResponse makePATCHRequest(String url, String content, String contentType) throws URISyntaxException {
+    protected MockHttpResponse makePATCHRequest(String url, String content, String contentType)
+    throws URISyntaxException {
         MockHttpRequest request = MockHttpRequest.create("PATCH", url);
         request.content(content.getBytes());
         request.contentType(contentType);

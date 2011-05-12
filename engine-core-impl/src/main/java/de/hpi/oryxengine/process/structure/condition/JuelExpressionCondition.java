@@ -36,7 +36,7 @@ public class JuelExpressionCondition implements Condition {
         ExpressionFactory factory = new ExpressionFactoryImpl();
         SimpleContext context = new SimpleContext();
 
-        // TODO @Alle: Improve implementation of the JuelEspression; Isn't there a batter way to set the variables into
+        // TODO @Alle: Improve implementation of the JuelEspression; Isn't there a better way to set the variables into
         // the JuelFactory? Other then extracting all variables from the process context.
 
         Map<String, Object> variableMap = token.getInstance().getContext().getVariableMap();

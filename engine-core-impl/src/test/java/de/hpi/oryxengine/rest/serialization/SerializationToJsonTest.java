@@ -45,6 +45,7 @@ import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
 import de.hpi.oryxengine.resource.worklist.RoleWorklist;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
+import de.hpi.oryxengine.rest.PatchCollectionChangeset;
 
 /**
  * This class tests the serialization of our resource classes.
@@ -274,10 +275,30 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
     
     /**
      * Tests the serializability of our resource classes.
+     * @throws Exception test fails
      */
     @Test
-    public void testClassSerializability() {
-
+    public void testClassSerializability()
+    throws Exception {
+        
+        // 
+        // Use annotation scanner here...
+        // 
+//        ClassPathScanningCandidateComponentProvider scanner =
+//            new ClassPathScanningCandidateComponentProvider(false);
+//        
+//        scanner.addIncludeFilter(new AnnotationTypeFilter(SharedDatatype.class));
+//        
+//        Set<BeanDefinition> beans = scanner.findCandidateComponents(BASE_PACKAGE);
+//        Set<Class<?>> sharedClasses = new HashSet<Class<?>>();
+//        for (BeanDefinition bd: beans) {
+//            sharedClasses.add((Class<?>) Class.forName(bd.getBeanClassName()));
+//        }
+//        
+//        for (Class<?> clazz: sharedClasses) {
+//            Assert.assertTrue(this.mapper.canSerialize(clazz));
+//        }
+        
         //
         // resources
         //
@@ -326,6 +347,7 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         Assert.assertTrue(this.mapper.canSerialize(UUID.class));
         Assert.assertTrue(this.mapper.canSerialize(List.class));
         Assert.assertTrue(this.mapper.canSerialize(Map.class));
+        Assert.assertTrue(this.mapper.canSerialize(PatchCollectionChangeset.class));
     }
 
     @Override

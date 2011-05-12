@@ -157,7 +157,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
     /**
      * Sets the up task and gets the assigned role and one of the participants that belongs to this role.
      * 
-     * @throws ResourceNotAvailableException
+     * @throws ResourceNotAvailableException test fails
      */
     @BeforeMethod
     public void setUpTask()
