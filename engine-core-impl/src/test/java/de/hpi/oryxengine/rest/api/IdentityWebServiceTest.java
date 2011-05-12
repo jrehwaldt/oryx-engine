@@ -10,8 +10,6 @@ import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 import org.jboss.resteasy.mock.MockHttpResponse;
@@ -83,7 +81,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * Test get participants. It should get all participants.
      * 
      * @throws URISyntaxException
-     *             the uRI syntax exception
+     *             the uri syntax exception
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
@@ -109,7 +107,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * Test get participants with no participants.
      * 
      * @throws URISyntaxException
-     *             the uRI syntax exception
+     *             the uri syntax exception
      */
     @Test
     public void testGetParticipantsWithNoParticipants()
@@ -125,7 +123,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * Test getall the roles(happy path).
      * 
      * @throws URISyntaxException
-     *             the uRI syntax exception
+     *             the uri syntax exception
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
@@ -151,7 +149,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * Test get roles when there actually are no roles.
      * 
      * @throws URISyntaxException
-     *             the uRI syntax exception
+     *             the uri syntax exception
      */
     @Test
     public void testGetRolesWithNoRoles()
@@ -166,7 +164,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * Tests the participant creation via the REST API.
      * 
      * @throws URISyntaxException
-     *             the uRI syntax exception
+     *             the uri syntax exception
      */
     @Test
     public void testParticipantCreation()
@@ -188,7 +186,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * Tests the participant deletion via the REST API.
      * 
      * @throws URISyntaxException
-     *             the uRI syntax exception
+     *             the uri syntax exception
      */
     @Test
     public void testParticipantDeletion()
@@ -215,7 +213,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * Tests the role creation via the REST API.
      * 
      * @throws URISyntaxException
-     *             the uRI syntax exception
+     *             the uri syntax exception
      */
     @Test
     public void testRoleCreation()
@@ -238,7 +236,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * this should be done in the IdentityService/Builder tests.
      * 
      * @throws URISyntaxException
-     *             the uRI syntax exception
+     *             the uri syntax exception
      */
     @Test
     public void testRoleDeletion()
@@ -266,7 +264,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * @throws ResourceNotAvailableException
      *             the resource not available exception
      * @throws URISyntaxException
-     *             the uRI syntax exception
+     *             the uri syntax exception
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
@@ -299,7 +297,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * Test that checks, if a 404 is thrown, if the requested role does not exist.
      * 
      * @throws URISyntaxException
-     *             the uRI syntax exception
+     *             the uri syntax exception
      */
     @Test
     public void testGetParticipantsForNonExistingRole()
@@ -315,7 +313,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * Test the assignment of a participant to an existing role.
      * 
      * @throws URISyntaxException
-     *             the uRI syntax exception
+     *             the uri syntax exception
      */
     @Test
     public void testParticipantToRoleAssignment()
@@ -335,7 +333,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
             + "\"removals\": [], \"@classifier\": \"de.hpi.oryxengine.rest.PatchCollectionChangeset\"}";
         MockHttpResponse response = makePATCHRequest(requestUrl, json, MediaType.APPLICATION_JSON);
 
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), "the result should be ok");
+        Assert.assertFalse(response.isErrorSent(), "the result should be ok");
 
         Set<AbstractParticipant> assignedParticipants = role.getParticipantsImmutable();
         Assert.assertEquals(assignedParticipants.size(), 1, "the role has now one participant");
@@ -345,10 +343,35 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
     }
 
     /**
+     * Tests that an error code is returned, if additions and removals (participants) are not disjoint.
+     * 
+     * @throws URISyntaxException
+     *             the uri syntax exception
+     */
+    @Test
+    public void testIllegalParticipantToRoleAssignment()
+    throws URISyntaxException {
+
+        UUID randomRoleID = UUID.randomUUID();
+        String participantName = "participant";
+
+        AbstractParticipant participant = builder.createParticipant(participantName);
+
+        String requestUrl = ROLES_URL + "/" + randomRoleID + "/participants";
+        String json = "{ \"additions\": [\"" + participant.getID() + "\"], "
+            + "\"removals\": [\"" + participant.getID() + "\"], "
+            + "\"@classifier\": \"de.hpi.oryxengine.rest.PatchCollectionChangeset\"}";
+        MockHttpResponse response = makePATCHRequest(requestUrl, json, MediaType.APPLICATION_JSON);
+        
+        Assert.assertEquals(response.getStatus(), HTTP_BAD_REQUEST.getStatusCode(),
+            "the result should be a bad-request");
+    }
+
+    /**
      * Tests that an error code is returned, if the role does not exist.
      * 
      * @throws URISyntaxException
-     *             the uRI syntax exception
+     *             the uri syntax exception
      */
     @Test
     public void testParticipantToNonExistingRoleAssignment()
@@ -372,7 +395,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      * 
      * @throws ResourceNotAvailableException
      *             the resource not available exception
-     * @throws URISyntaxException
+     * @throws URISyntaxException test fails
      */
     @Test
     public void testRemovalOfParticipantFromRole()
@@ -392,12 +415,19 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
             + "\"], \"@classifier\": \"de.hpi.oryxengine.rest.PatchCollectionChangeset\"}";
 
         MockHttpResponse response = makePATCHRequest(requestUrl, json, MediaType.APPLICATION_JSON);
-        Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(), "the result should be ok");
+        Assert.assertFalse(response.isErrorSent(), "the result should be ok");
 
         Set<AbstractParticipant> assignedParticipants = role.getParticipantsImmutable();
         Assert.assertEquals(assignedParticipants.size(), 0, "the role has now one participant");
     }
 
+    /**
+     * Tests concurrent operations on the identity service.
+     * Focus is on operations on a <i>sole</i> resource.
+     * 
+     * @throws ResourceNotAvailableException test fails
+     * @throws URISyntaxException test fails
+     */
     @Test
     public void testConcurrentRemovalAndAddition()
     throws ResourceNotAvailableException, URISyntaxException {
@@ -432,12 +462,10 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
      *
      * @throws URISyntaxException the uRI syntax exception
      * @throws IOException test fails
-     * @throws JsonMappingException test fails
-     * @throws JsonParseException test fails
      */
     @Test
     public void testCreateParticipantWithRole()
-    throws URISyntaxException, JsonParseException, JsonMappingException, IOException {
+    throws URISyntaxException, IOException {
 
         String roleName = "test";
         String participantName = "Tobni";

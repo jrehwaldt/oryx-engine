@@ -44,7 +44,7 @@ public abstract class AbstractResource<R extends AbstractResource<?>> implements
      * Hidden jaxb constructor.
      */
     protected AbstractResource() {
-
+        
     }
 
     /**

@@ -13,10 +13,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jackson.annotate.JsonIgnoreType;
+import org.jboss.resteasy.spi.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -295,11 +294,10 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
      */
     @Path("/roles/{roleId}/participants")
     @PATCH
-    public Response changeParticipantRoleAssignment(@PathParam("roleId") String roleId,
-                                                    PatchCollectionChangeset<String> changeset)
+    public void changeParticipantRoleAssignment(@PathParam("roleId") String roleId,
+                                                PatchCollectionChangeset<String> changeset)
     throws ResourceNotAvailableException {
         
-        // TODO do NOT return Response here -> throw an exception, map via ExceptionMapper to response code!
         UUID roleUUID = UUID.fromString(roleId);
 
         List<String> additions = changeset.getAdditions();
@@ -308,7 +306,7 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
         if (!Collections.disjoint(additions, removals)) {
             // additions and removals have some elements in common
             // do error handling here
-            return Response.status(Status.BAD_REQUEST).build();
+            throw new BadRequestException("Illegal parameters: additions and removals have some elements in common");
         }
 
         IdentityBuilder builder = getIdentityBuilder();
@@ -320,8 +318,6 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
             UUID participantUUID = UUID.fromString(participantID);
             builder.participantDoesNotBelongToRole(participantUUID, roleUUID);
         }
-
-        return Response.ok().build();
     }
     
     /**
