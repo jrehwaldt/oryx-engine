@@ -167,14 +167,6 @@ Service {
         ProcessDefinitionInside definition = repository.getProcessDefinitionInside(processID);
         AbstractProcessInstance instance = definition.createProcessInstance(this);
         
-//        ProcessDefinition definition = repository.getProcessDefinition(processID);
-//
-//        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
-//        
-//        Node startNode = definition.getStartTriggers().get(event);
-//        Token newToken = instance.createToken(startNode, this);
-//        startArbitraryInstance(newToken);
-
         runningInstances.add(instance);
 
         return instance;

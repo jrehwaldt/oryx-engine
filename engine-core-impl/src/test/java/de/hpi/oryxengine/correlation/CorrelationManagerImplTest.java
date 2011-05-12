@@ -42,7 +42,7 @@ public class CorrelationManagerImplTest {
     
     @Test
     public void testRegistrationOfIntermediateEvent() {
-        
+        // TODO @Gerardo
     }
    
     /**
