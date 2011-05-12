@@ -1,0 +1,65 @@
+package de.hpi.oryxengine.process.instantiation;
+
+import javax.annotation.Nonnull;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.hpi.oryxengine.correlation.registration.StartEvent;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionInside;
+
+// Like a parameter object
+public class InstantiationPatternContextImpl extends ServiceContextImpl implements InstantiationPatternContext {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private StartEvent startEvent;
+    private ProcessDefinitionInside processDefinition;
+
+    /**
+     * Default constructor.
+     * 
+     * In order to have a context without an {@link StartEvent}
+     * 
+     * @param processDefinition
+     *            - the {@link ProcessDefinitionInside processDefinition} that is assigned to this patternContext
+     */
+    public InstantiationPatternContextImpl(@Nonnull ProcessDefinitionInside processDefinition) {
+
+        super();
+        settingProcessDefinition(processDefinition);
+    }
+
+    public InstantiationPatternContextImpl(ProcessDefinitionInside processDefinition, StartEvent startEvent) {
+
+        this(processDefinition);
+        this.startEvent = startEvent;
+    }
+
+    @Override
+    public StartEvent getThrownStartEvent() {
+
+        return this.startEvent;
+    }
+
+    @Override
+    public ProcessDefinitionInside getProcessDefinition() {
+
+        return this.processDefinition;
+    }
+
+    /**
+     * Sets the {@link ProcessDefinitionInside processDefinition}.
+     */
+    private void settingProcessDefinition(ProcessDefinitionInside processDefinition) {
+
+        if (processDefinition == null) {
+            String errorMessage = "The processDefinition should not be null. Please provide a real processDefinition.";
+            logger.error(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
+        }
+
+        this.processDefinition = processDefinition;
+    }
+}
