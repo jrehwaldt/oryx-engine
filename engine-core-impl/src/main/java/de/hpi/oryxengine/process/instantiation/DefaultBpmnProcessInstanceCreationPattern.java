@@ -11,7 +11,7 @@ import de.hpi.oryxengine.process.token.Token;
 
 /**
  * This pattern encapsulates the default instantiation semantic for BPMN models. This
- * {@link ProcessInstantiationPattern instantionPattern} can be used when the {@link ProcessDefinition process
+ * {@link InstantiationPattern instantionPattern} can be used when the {@link ProcessDefinition process
  * definition} has a dedicated start node.
  * 
  * It also implements the {@link StartInstantiationPattern StartInstantiationPattern-Interface}, so that it can be used

@@ -8,7 +8,7 @@ import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.EventType;
 import de.hpi.oryxengine.correlation.registration.EventCondition;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.process.instantiation.ProcessInstantiationPattern;
+import de.hpi.oryxengine.process.instantiation.InstantiationPattern;
 import de.hpi.oryxengine.process.instantiation.StartInstantiationPattern;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeBuilder;
@@ -109,6 +109,6 @@ public interface ProcessDefinitionBuilder {
     ProcessDefinitionBuilder setAttribute(String attributeId, Object attibuteValue);
 
     // TODO @Gerardo Comminting!!!!
-    ProcessDefinitionBuilder addInstantiationPattern(ProcessInstantiationPattern instantiationPattern);
+    ProcessDefinitionBuilder addInstantiationPattern(InstantiationPattern instantiationPattern);
     ProcessDefinitionBuilder addStartInstantiationPattern(StartInstantiationPattern startInstantiationPattern);
 }

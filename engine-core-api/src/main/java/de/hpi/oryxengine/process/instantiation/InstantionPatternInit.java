@@ -6,7 +6,7 @@ import de.hpi.oryxengine.process.definition.ProcessDefinitionInside;
 
 /**
  * This class is only the shared foundation of classes {@link StartInstantiationPattern} and
- * {@link ProcessInstantiationPattern}.
+ * {@link InstantiationPattern}.
  * 
  * Both patterns need to have an initialization method in order to setup Variables.
  * 
@@ -23,7 +23,7 @@ public interface InstantionPatternInit {
      * @param processDefinition
      *            - the {@link ProcessDefinitionInside} the method belongs to
      * @return the current {@link InstantionPatternInit} which in most cases will be a {@link StartInstantiationPattern}
-     *         or a {@link ProcessInstantiationPattern}
+     *         or a {@link InstantiationPattern}
      */
     InstantionPatternInit init(CorrelationManager correlationManager,
                                NavigatorInside navigator,

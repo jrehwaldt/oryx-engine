@@ -16,7 +16,7 @@ import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.correlation.registration.StartEventImpl;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
-import de.hpi.oryxengine.process.instantiation.ProcessInstantiationPattern;
+import de.hpi.oryxengine.process.instantiation.InstantiationPattern;
 import de.hpi.oryxengine.process.instantiation.StartInstantiationPattern;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeBuilder;
@@ -39,7 +39,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     private String description;
     private Map<StartEvent, Node> temporaryStartTriggers;
     private Map<String, Object> temporaryAttributeTable;
-    private List<ProcessInstantiationPattern> temporaryInstantiationPatterns;
+    private List<InstantiationPattern> temporaryInstantiationPatterns;
     private StartInstantiationPattern startInstantiationPattern;
 
     /**
@@ -58,7 +58,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         this.description = null;
         this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
         this.temporaryAttributeTable = null;
-        this.temporaryInstantiationPatterns = new ArrayList<ProcessInstantiationPattern>();
+        this.temporaryInstantiationPatterns = new ArrayList<InstantiationPattern>();
         this.startInstantiationPattern = null;
     }
 
@@ -130,7 +130,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     }
 
     @Override
-    public ProcessDefinitionBuilder addInstantiationPattern(ProcessInstantiationPattern instantiationPattern) {
+    public ProcessDefinitionBuilder addInstantiationPattern(InstantiationPattern instantiationPattern) {
 
         this.temporaryInstantiationPatterns.add(instantiationPattern);
         return this;
@@ -175,8 +175,8 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
 
     private StartInstantiationPattern appendingInstantiationPatterns() {
 
-        PatternAppendable<ProcessInstantiationPattern> lastInstantiationPattern = this.startInstantiationPattern;
-        for (ProcessInstantiationPattern instantiationPattern : temporaryInstantiationPatterns) {
+        PatternAppendable<InstantiationPattern> lastInstantiationPattern = this.startInstantiationPattern;
+        for (InstantiationPattern instantiationPattern : temporaryInstantiationPatterns) {
 
             lastInstantiationPattern.setNextPattern(instantiationPattern);
             lastInstantiationPattern = instantiationPattern;

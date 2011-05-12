@@ -10,10 +10,10 @@ import de.hpi.oryxengine.process.definition.ProcessDefinitionInside;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 
 /**
- * An abstract class for a {@link ProcessInstantiationPattern}. This class provides a method body and basic
+ * An abstract class for a {@link InstantiationPattern}. This class provides a method body and basic
  * functionality for all
  */
-public abstract class AbstractProcessInstantiationPattern implements ProcessInstantiationPattern {
+public abstract class AbstractProcessInstantiationPattern implements InstantiationPattern {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -21,7 +21,7 @@ public abstract class AbstractProcessInstantiationPattern implements ProcessInst
     protected NavigatorInside navigator;
     protected ProcessDefinitionInside processDefinition;
 
-    private ProcessInstantiationPattern nextInstantiationPattern;
+    private InstantiationPattern nextInstantiationPattern;
 
     @Override
     public InstantionPatternInit init(CorrelationManager correlationManager,
@@ -35,7 +35,7 @@ public abstract class AbstractProcessInstantiationPattern implements ProcessInst
     }
 
     @Override
-    public ProcessInstantiationPattern setNextPattern(ProcessInstantiationPattern nextPattern) {
+    public InstantiationPattern setNextPattern(InstantiationPattern nextPattern) {
 
         this.nextInstantiationPattern = nextPattern;
         return this.nextInstantiationPattern;
@@ -90,7 +90,7 @@ public abstract class AbstractProcessInstantiationPattern implements ProcessInst
      * @see ProcessInstantiationPattern#createProcessInstance(AbstractProcessInstance);
      * @param previosProcessInstance
      *            - the {@link AbstractProcessInstance processInstances} from the previous
-     *            {@link ProcessInstantiationPattern patterns}.
+     *            {@link InstantiationPattern patterns}.
      * 
      * @return an {@link AbstractProcessInstance}
      */

@@ -4,16 +4,16 @@ import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.util.PatternAppendable;
 
 /**
- * The {@link ProcessInstantiationPattern} is responsible for creating, modifying {@link AbstractProcessInstance
+ * The {@link InstantiationPattern} is responsible for creating, modifying {@link AbstractProcessInstance
  * processInstances} and doing after work at the end of a instantiation.
  * 
- * The {@link ProcessInstantiationPattern} are designed to be part of a linked list of {@link instantiationPatterns}. So
+ * The {@link InstantiationPattern} are designed to be part of a linked list of {@link instantiationPatterns}. So
  * if necessary the method {@link #createProcessInstance(AbstractProcessInstance)} should check if there is a following
- * {@link ProcessInstantiationPattern} in order to pass on the processed {@link AbstractProcessInstance processInstance}
+ * {@link InstantiationPattern} in order to pass on the processed {@link AbstractProcessInstance processInstance}
  * .
  */
-public interface ProcessInstantiationPattern extends InstantionPatternInit,
-PatternAppendable<ProcessInstantiationPattern> {
+public interface InstantiationPattern extends InstantionPatternInit,
+PatternAppendable<InstantiationPattern> {
 
     /**
      * Creates a {@link AbstractProcessInstance processInstance}. It gets the previously created
@@ -22,7 +22,7 @@ PatternAppendable<ProcessInstantiationPattern> {
      * 
      * @param previosProcessInstance
      *            - the {@link AbstractProcessInstance processInstances} from the previous
-     *            {@link ProcessInstantiationPattern patterns}.
+     *            {@link InstantiationPattern patterns}.
      * 
      * @return an {@link AbstractProcessInstance}
      */

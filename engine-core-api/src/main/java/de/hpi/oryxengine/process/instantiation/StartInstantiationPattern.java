@@ -8,7 +8,7 @@ import de.hpi.oryxengine.util.PatternAppendable;
  * {@link AbstractProcessInstance processInstance} so that it can be modified in the next patterns.
  */
 public interface StartInstantiationPattern extends InstantionPatternInit,
-PatternAppendable<ProcessInstantiationPattern> {
+PatternAppendable<InstantiationPattern> {
 
     /**
      * Creates a {@link AbstractProcessInstance processInstance} that can be modified in the following patterns.
