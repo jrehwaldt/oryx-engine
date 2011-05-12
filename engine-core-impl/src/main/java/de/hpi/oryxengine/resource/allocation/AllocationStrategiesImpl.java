@@ -25,8 +25,6 @@ public class AllocationStrategiesImpl implements AllocationStrategies {
      *            - pattern for claiming tasks
      * @param detourPattern
      *            - pattern for aborting tasks
-     * @param creationPattern
-     *            - pattern for the restricted access on tasks
      */
     public AllocationStrategiesImpl(@Nonnull Pattern pushPattern,
                                     @Nonnull Pattern pullPattern,

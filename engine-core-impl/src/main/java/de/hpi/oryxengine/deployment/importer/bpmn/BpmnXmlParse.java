@@ -29,9 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -45,9 +45,8 @@ import de.hpi.oryxengine.process.structure.Transition;
 import de.hpi.oryxengine.process.structure.TransitionBuilder;
 import de.hpi.oryxengine.process.structure.condition.CheckVariableTrueCondition;
 import de.hpi.oryxengine.resource.AbstractParticipant;
-import de.hpi.oryxengine.resource.allocation.TaskBuilder;
+import de.hpi.oryxengine.resource.allocation.CreationPatternBuilder;
 import de.hpi.oryxengine.resource.allocation.TaskBuilderImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
 import de.hpi.oryxengine.util.io.StreamSource;
 import de.hpi.oryxengine.util.xml.XmlElement;
 import de.hpi.oryxengine.util.xml.XmlParse;
@@ -391,9 +390,9 @@ public class BpmnXmlParse extends XmlParse {
      */
     protected void parseUserTask(XmlElement taskXmlElement) {
 
-        Task task = parseInformationForUserTask(taskXmlElement);
+        CreationPattern pattern = parseInformationForUserTask(taskXmlElement);
 
-        Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, task);
+        Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, pattern);
 
         parseGeneralNodeInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
@@ -403,21 +402,19 @@ public class BpmnXmlParse extends XmlParse {
         }
     }
 
-    protected Task parseInformationForUserTask(XmlElement taskXmlElement) {
+    protected CreationPattern parseInformationForUserTask(XmlElement taskXmlElement) {
 
-        TaskBuilder taskBuilder = new TaskBuilderImpl();
+        CreationPatternBuilder patternBuilder = new TaskBuilderImpl();
         
-        taskBuilder.setTaskSubject(taskXmlElement.getAttribute("name"));
-        taskBuilder.setTaskDescription(parseDocumentation(taskXmlElement));
+        patternBuilder.setItemSubject(taskXmlElement.getAttribute("name"));
+        patternBuilder.setItemDescription(parseDocumentation(taskXmlElement));
         
-        taskBuilder.setTaskPushPattern(new DirectDistributionPattern());
+        parseHumanPerformer(taskXmlElement, patternBuilder);
         
-        parseHumanPerformer(taskXmlElement, taskBuilder);
-        
-        return taskBuilder.buildTask();
+        return patternBuilder.buildCreationPattern();
     }
 
-    protected void parseHumanPerformer(XmlElement taskXmlElement, TaskBuilder taskBuilder) {
+    protected void parseHumanPerformer(XmlElement taskXmlElement, CreationPatternBuilder taskBuilder) {
 
         List<XmlElement> humanPerformerElements = taskXmlElement.getElements(HUMAN_PERFORMER);
 
@@ -444,7 +441,7 @@ public class BpmnXmlParse extends XmlParse {
 //        }
 //    }
 
-    protected void parseHumanPerformerResourceAssignment(XmlElement performerElement, TaskBuilder taskBuilder) {
+    protected void parseHumanPerformerResourceAssignment(XmlElement performerElement, CreationPatternBuilder taskBuilder) {
 
         // rae := ResourceAssignmentEspression
         XmlElement raeElement = performerElement.getElement(RESOURCE_ASSIGNMENT_EXPR);
@@ -474,7 +471,7 @@ public class BpmnXmlParse extends XmlParse {
                         getProblemLogger().addError(errorMessage, performerElement);
                     }
                         
-                    taskBuilder.addResourceAssignedToTask(participantAssignedToTask);
+                    taskBuilder.addResourceAssignedToItem(participantAssignedToTask);
                 }
             }
         }

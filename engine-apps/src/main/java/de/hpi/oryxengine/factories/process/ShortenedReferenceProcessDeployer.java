@@ -30,7 +30,7 @@ import de.hpi.oryxengine.resource.Role;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.RolePushPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.RoleDistributionPattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 /**
@@ -389,7 +389,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
      */
     private Task createRoleTask(String subject, String description, Form form, AbstractResource<?> resource) {
 
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new RolePushPattern(),
+        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new RoleDistributionPattern(),
             new SimplePullPattern(), null, null);
 
         return createTask(subject, description, form, allocationStrategies, resource);

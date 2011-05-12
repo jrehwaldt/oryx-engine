@@ -2,11 +2,13 @@ package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.allocation.Pattern;
 import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
@@ -29,16 +31,12 @@ public class HumanTaskNodeFactory extends AbstractNodeFactory {
         
         String subject = "Jannik, get me a cup of coffee!";
         String description = "You know what i mean.";
+        AbstractResource<?>[] resources = {participant};
         
-        Pattern pushPattern = new DirectDistributionPattern();
-        Pattern pullPattern = new SimplePullPattern();
-        
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-        
-        TaskImpl task = new TaskImpl(subject, description, allocationStrategies, participant);
+        CreationPattern creationPattern = new DirectDistributionPattern(subject, description, null, resources);
                 
-        Class<?>[] constructorSig = {Task.class};
-        Object[] params = {task};
+        Class<?>[] constructorSig = {CreationPattern.class};
+        Object[] params = {creationPattern};
         blueprint = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
     }
 

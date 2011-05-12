@@ -31,14 +31,6 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 
     @JsonProperty
     private CreationPattern pattern;
-    
-    private String subject;
-    
-    private String description;
-    
-    private Form form;
-    
-    private AbstractResource<?>[] resourcesToAssignTo;
 
     /**
      * Default Constructor.
@@ -47,13 +39,9 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
      *            - the task to distribute
      */
     // TODO: CreationPattern einfügen
-    public BpmnHumanTaskActivity(CreationPattern pattern, String subject, String description, Form form, AbstractResource<?>[] resourcesToAssignTo) {
+    public BpmnHumanTaskActivity(CreationPattern pattern) {
 
         this.pattern = pattern;
-        this.subject = subject;
-        this.description = description;
-        this.form = form;
-        this.resourcesToAssignTo = resourcesToAssignTo;
     }
 
     @Override
@@ -66,7 +54,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 //        taskDistribution.distribute(task, token);
         // TODO @Thorben-Refactoring should we use the TaskAllocation here?
         TaskAllocation service = ServiceFactory.getWorklistQueue();
-        pattern.createWorklistItems(service, token, subject, description, form, resourcesToAssignTo);
+        pattern.createWorklistItems(service, token);
 
         token.suspend();
     }

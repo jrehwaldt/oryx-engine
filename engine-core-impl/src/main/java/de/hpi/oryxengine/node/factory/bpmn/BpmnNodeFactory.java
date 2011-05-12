@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.node.factory.bpmn;
 
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.node.activity.NullActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
@@ -13,6 +13,7 @@ import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.EmptyOutgoingBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.XORSplitBehaviour;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeBuilder;
@@ -92,11 +93,11 @@ public final class BpmnNodeFactory extends TransitionFactory {
      *            - the task to distribute
      * @return a {@link Node} representing an {@link BpmnHumanTaskActivity}
      */
-    public static Node createBpmnUserTaskNode(ProcessDefinitionBuilder builder, Task task) {
+    public static Node createBpmnUserTaskNode(ProcessDefinitionBuilder builder, CreationPattern pattern) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
         return decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(BpmnHumanTaskActivity.class)
-        .addConstructorParameter(Task.class, task).buildNode();
+        .addConstructorParameter(CreationPattern.class, pattern).buildNode();
     }
 
     /**

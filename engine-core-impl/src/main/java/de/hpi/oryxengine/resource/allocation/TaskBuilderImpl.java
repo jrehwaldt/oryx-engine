@@ -13,7 +13,7 @@ import de.hpi.oryxengine.resource.AbstractResource;
 /**
  * This class helps to build {@link Task Tasks}.
  */
-public class TaskBuilderImpl implements TaskBuilder {
+public class TaskBuilderImpl implements CreationPatternBuilder {
 
     private String taskSubject;
     private String taskDescription;
@@ -30,7 +30,7 @@ public class TaskBuilderImpl implements TaskBuilder {
      * {@inheritDoc}
      */
     @Override
-    public TaskBuilder setTaskSubject(String taskSubject) {
+    public CreationPatternBuilder setItemSubject(String taskSubject) {
 
         this.taskSubject = taskSubject;
         return this;
@@ -40,7 +40,7 @@ public class TaskBuilderImpl implements TaskBuilder {
      * {@inheritDoc}
      */
     @Override
-    public TaskBuilder setTaskDescription(String taskDescription) {
+    public CreationPatternBuilder setItemDescription(String taskDescription) {
 
         this.taskDescription = taskDescription;
         return this;
@@ -50,7 +50,7 @@ public class TaskBuilderImpl implements TaskBuilder {
      * {@inheritDoc}
      */
     @Override
-    public TaskBuilder setTaskForm(Form taskForm) {
+    public CreationPatternBuilder setItemForm(Form taskForm) {
 
         this.taskForm = taskForm;
         return this;
@@ -60,7 +60,7 @@ public class TaskBuilderImpl implements TaskBuilder {
      * {@inheritDoc}
      */
     @Override
-    public TaskBuilder setTaskPushPattern(Pattern taskPushPattern) {
+    public CreationPatternBuilder setTaskPushPattern(Pattern taskPushPattern) {
 
         this.taskPushPattern = taskPushPattern;
         return this;
@@ -70,7 +70,7 @@ public class TaskBuilderImpl implements TaskBuilder {
      * {@inheritDoc}
      */
     @Override
-    public TaskBuilder addResourceAssignedToTask(AbstractResource<?> resourceAssignedToTask) {
+    public CreationPatternBuilder addResourceAssignedToItem(AbstractResource<?> resourceAssignedToTask) {
 
         this.abstractResources.add(resourceAssignedToTask);
         return this;
@@ -82,7 +82,7 @@ public class TaskBuilderImpl implements TaskBuilder {
     @Override
     public Task buildTask() {
         
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(taskPushPattern, taskPullPattern, null, null);
+        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(taskPushPattern, taskPullPattern, null);
         HashSet<AbstractResource<?>> assignedResources = new HashSet<AbstractResource<?>>(abstractResources);
         Task resultTask = new TaskImpl(taskSubject, taskDescription, taskForm, allocationStrategies, assignedResources);
         

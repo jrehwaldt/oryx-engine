@@ -16,7 +16,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.util.Identifiable;
@@ -26,7 +25,7 @@ import de.hpi.oryxengine.util.Identifiable;
  */
 // TODO worklistitem has a task?
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public abstract class AbstractWorklistItem implements Task, Identifiable {
+public abstract class AbstractWorklistItem implements Identifiable {
     
     /**
      * Gets the status.
@@ -57,6 +56,30 @@ public abstract class AbstractWorklistItem implements Task, Identifiable {
     throws IOException {
         // TODO we do not have access to the ServiceFactory, so we need a new ObjectMapper every time
         return (AbstractWorklistItem) new ObjectMapper().readValue(json, AbstractWorklistItem.class);
+    }
+
+    public Form getForm() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Set<AbstractResource<?>> getAssignedResources() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getDescription() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getSubject() {
+
+        // TODO Auto-generated method stub
+        return null;
     }
     
 //    @JsonIgnore
