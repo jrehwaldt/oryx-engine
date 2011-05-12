@@ -12,7 +12,7 @@
 // constants
 JODA_ENGINE_ADRESS = '';
 PARTICIPANTS_PER_ROLE = 5;
-NUMBER_OF_INSTANCES = 10;
+NUMBER_OF_INSTANCES = 100;
 NUMBER_OF_TASKS_TO_EXECUTE = 5;
 NUMBER_OF_ERRORS_TO_WAIT = 2;
 
@@ -251,12 +251,10 @@ function logMeIn() {
 function workOnTasks() {
     taskCounter = 0;
     errorCounter = 0;
-    var j = 0;
     logMeIn();
-    while(errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE && j < 5) {
+    while(errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE) {
         workOnExecutingWorklistItems();
         workOnOfferedWorklistItems();
-        j++;
     }
 }
 
@@ -268,11 +266,9 @@ function workOnTasks() {
  ************************************/
 
 function startBenchmark() {
-    var i = 0;
-    while(numberOfRunningInstances != 0 && i < 5){
+    while(numberOfRunningInstances != 0){
         workOnTasks();
         setRunningProcessInstances();
-        i++;
     }
 }
 
