@@ -1,44 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.hpi.oryxengine</groupId>
-	<artifactId>engine-web-gui-prototype</artifactId>
-	<name>JodaEngine Web GUI Prototype</name>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.hpi.oryxengine</groupId>
+    <artifactId>engine-web-gui-prototype</artifactId>
+    <name>JodaEngine Web GUI Prototype</name>
 
-	<parent>
-		<groupId>de.hpi.oryxengine</groupId>
-		<artifactId>engine-root</artifactId>
-		<version>0.2.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>de.hpi.oryxengine</groupId>
+        <artifactId>engine-root</artifactId>
+        <version>0.2.1-SNAPSHOT</version>
+    </parent>
 
-	<dependencies>
-		<dependency>
-			<groupId>opensymphony</groupId>
-			<artifactId>sitemesh</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>de.hpi.oryxengine</groupId>
-			<artifactId>engine-core-impl</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>de.hpi.oryxengine</groupId>
-			<artifactId>engine-apps</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>opensymphony</groupId>
+            <artifactId>sitemesh</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.hpi.oryxengine</groupId>
+            <artifactId>engine-core-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.hpi.oryxengine</groupId>
+            <artifactId>engine-apps</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.asual.lesscss</groupId>
+            <artifactId>lesscss-servlet</artifactId>
+            <version>1.2.11</version><!-- 1.0.41 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Web Templating -->
+        <dependency>
+            <groupId>opensymphony</groupId>
+            <artifactId>sitemesh</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.tuckey</groupId>
+            <artifactId>urlrewritefilter</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
 </project>
