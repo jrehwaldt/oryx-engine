@@ -48,19 +48,6 @@ public interface AllocationStrategies {
      *
      * @return the detour pattern
      */
-    Pattern getDetourPattern();
-   
-    /**
-     * Gets the creation pattern for the task.
-     * 
-     * Creation patterns describe by design time the resources
-     * that can access a task.
-     * 
-     * web reference:
-     * http://www.workflowpatterns.com/patterns/resource/#Creation
-     *
-     * @return the creation pattern
-     */
-    Pattern getCreationPattern();    
+    Pattern getDetourPattern();  
 }
 

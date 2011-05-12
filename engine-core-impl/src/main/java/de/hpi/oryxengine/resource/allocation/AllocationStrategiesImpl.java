@@ -16,8 +16,6 @@ public class AllocationStrategiesImpl implements AllocationStrategies {
 
     private Pattern detourPattern;
 
-    private Pattern creationPattern;
-
     /**
      * Default Constructor for the {@link AllocationStrategies}.
      * 
@@ -32,13 +30,11 @@ public class AllocationStrategiesImpl implements AllocationStrategies {
      */
     public AllocationStrategiesImpl(@Nonnull Pattern pushPattern,
                                     @Nonnull Pattern pullPattern,
-                                    Pattern detourPattern,
-                                    Pattern creationPattern) {
+                                    Pattern detourPattern) {
 
         this.pushPattern = pushPattern;
         this.pullPattern = pullPattern;
         this.detourPattern = detourPattern;
-        this.creationPattern = creationPattern;
     }
 
     @Override
@@ -57,11 +53,5 @@ public class AllocationStrategiesImpl implements AllocationStrategies {
     public Pattern getDetourPattern() {
 
         return detourPattern;
-    }
-
-    @Override
-    public Pattern getCreationPattern() {
-
-        return creationPattern;
     }
 }
