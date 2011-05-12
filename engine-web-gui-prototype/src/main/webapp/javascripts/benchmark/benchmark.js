@@ -11,9 +11,9 @@
 
 // constants
 JODA_ENGINE_ADRESS = '';
-PARTICIPANTS_PER_ROLE = 5;
-NUMBER_OF_INSTANCES = 100;
-NUMBER_OF_TASKS_TO_EXECUTE = 5;
+PARTICIPANTS_PER_ROLE = 1;
+NUMBER_OF_INSTANCES = 10;
+NUMBER_OF_TASKS_TO_EXECUTE = 1;
 NUMBER_OF_ERRORS_TO_WAIT = 2;
 
 ITEM_STATE = {
@@ -166,11 +166,12 @@ function changeItemState(itemId, state, errorCounter) {
 	    	data: state,
             contentType: 'text/plain',
 	    	success: function(data) {
-	    	    // TODO log succcesfull answers?!
+	    	    console.log("Success is a rare word in our context! But we managed to change the state of an item.");
 	    	},
 	    	error: function(jqXHR, textStatus, errorThrown) {
                 errorCounter++;
-            }
+            },
+            async: true
 	});
 }
 
@@ -192,12 +193,16 @@ function workOnOfferedWorklistItems() {
         url: '/api/worklist/items?id=' + participantUUID + '&itemState=' + ITEM_STATE.offered,
         success: function(data) {
             var worklistItems = data;
+            console.log("Task count: " + taskCounter + " errorCounter: " + errorCounter);
             while ((errorCounter < NUMBER_OF_ERRORS_TO_WAIT) && (taskCounter < NUMBER_OF_TASKS_TO_EXECUTE) && !($.isEmptyObject(worklistItems))) {
                 beginRandomWorklistItem(worklistItems);
+                console.log("We should have begun something!");
+                console.log("Task count in the loop: " + taskCounter + " errorCounter: " + errorCounter);
                 taskCounter++;
             }
         },
-        dataType: "json" // we expect json
+        dataType: "json", // we expect json,
+        async: false
     });
 }
 
@@ -209,12 +214,13 @@ function workOnExecutingWorklistItems() {
         success: function(data) {
             var worklistItems = data;
             console.log($.isEmptyObject(worklistItems));
-            while (errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE && !($.isEmptyObject(worklistItems))) {
+            while ((errorCounter < NUMBER_OF_ERRORS_TO_WAIT) && (taskCounter < NUMBER_OF_TASKS_TO_EXECUTE) && !($.isEmptyObject(worklistItems))) {
                 endRandomWorklistItem(worklistItems);
                 taskCounter++;
             }
         },
-        dataType: "json" // we expect json
+        dataType: "json", // we expect json,
+        async: false
     });
 }
 
@@ -252,9 +258,12 @@ function workOnTasks() {
     taskCounter = 0;
     errorCounter = 0;
     logMeIn();
-    while(errorCounter < NUMBER_OF_ERRORS_TO_WAIT && taskCounter < NUMBER_OF_TASKS_TO_EXECUTE) {
+    // TODO temporary hopeful fix, bug when somebody is logged in that has neither offered nor executing worklist items since errorCounter and taskCounter won't change.
+    var i = 0;
+    while((errorCounter < NUMBER_OF_ERRORS_TO_WAIT) && (taskCounter < NUMBER_OF_TASKS_TO_EXECUTE) && (i < 5)) {
         workOnExecutingWorklistItems();
         workOnOfferedWorklistItems();
+        i++;
     }
 }
 
