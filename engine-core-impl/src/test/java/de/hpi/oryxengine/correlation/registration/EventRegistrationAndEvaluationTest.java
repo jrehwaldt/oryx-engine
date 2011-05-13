@@ -19,7 +19,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.RepositoryServiceImpl;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.correlation.adapter.EventType;
@@ -31,6 +30,7 @@ import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.repository.RepositorySetup;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * The Class EventRegistrationAndEvaluationTest.

@@ -24,10 +24,10 @@ import org.jboss.resteasy.mock.MockHttpResponse;
 import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
 import org.testng.annotations.BeforeClass;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.rest.exception.DefinitionNotFoundMapper;
 import de.hpi.oryxengine.rest.exception.InvalidWorkItemMapper;
 import de.hpi.oryxengine.rest.exception.ResourceNotAvailableMapper;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * Abstract class providing anything necessary for server api tests.

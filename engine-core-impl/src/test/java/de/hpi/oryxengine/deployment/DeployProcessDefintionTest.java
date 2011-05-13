@@ -6,7 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
@@ -15,6 +14,7 @@ import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.factory.definition.ProcessDefinitionFactory;
 import de.hpi.oryxengine.factory.definition.SimpleProcessDefinitionFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * Test class for deploying a {@link ProcessDefinition}.

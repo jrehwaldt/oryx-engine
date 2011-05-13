@@ -8,7 +8,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.CreationPattern;
@@ -27,6 +26,7 @@ import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * The test for the {@link BpmnHumanTaskActivity}.

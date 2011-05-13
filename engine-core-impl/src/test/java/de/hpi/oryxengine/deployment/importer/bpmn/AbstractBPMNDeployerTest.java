@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.BpmnXmlImporter;
@@ -14,6 +13,7 @@ import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.util.ReflectionUtil;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * This class is designed to be inherited from. It provides a basic method body for testing the import of BPMN

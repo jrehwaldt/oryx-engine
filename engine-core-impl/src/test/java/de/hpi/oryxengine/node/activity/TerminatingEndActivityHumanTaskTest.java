@@ -1,6 +1,6 @@
 package de.hpi.oryxengine.node.activity;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * The Class TerminatingEndActivityTest.

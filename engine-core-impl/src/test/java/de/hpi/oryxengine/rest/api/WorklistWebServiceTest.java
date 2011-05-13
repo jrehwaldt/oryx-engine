@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -56,7 +57,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
     public void setUpUsersAndWorklists() {
 
         // We need to start the engine in order to start the WorklistManager who then gets the identityService
-        JodaEngine.start();
+//        JodaEngine.start();
         pattern = CreationPatternFactory.createJannikServesGerardoCreator();
         
        
@@ -77,6 +78,11 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         
         // System.out.println(ServiceFactory.getIdentityService().getParticipants());
         jannik = (AbstractParticipant) pattern.getAssignedResources()[0];
+    }
+    
+    @AfterMethod
+    public void tearDown() {
+        
     }
 
     /**

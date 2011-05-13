@@ -9,7 +9,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.exception.JodaEngineException;
@@ -30,6 +29,7 @@ import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * This test assigns a task to a role or to a resource that contains other resources.

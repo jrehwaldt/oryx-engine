@@ -10,7 +10,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.timing.TimingManager;
 import de.hpi.oryxengine.exception.JodaEngineException;
@@ -26,6 +25,7 @@ import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * The Class IntermediateTimerTest. Checks if the intermediate timer is working.

@@ -28,7 +28,7 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.testng.annotations.BeforeClass;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * Abstract class providing anything necessary for server api tests.

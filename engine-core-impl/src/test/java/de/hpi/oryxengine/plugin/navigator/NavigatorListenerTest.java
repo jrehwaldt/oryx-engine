@@ -6,9 +6,9 @@ import static org.mockito.Mockito.verify;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.navigator.NavigatorState;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * Test class for various navigator plugin tests.

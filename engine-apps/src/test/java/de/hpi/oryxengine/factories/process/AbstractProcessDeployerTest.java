@@ -8,7 +8,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.JodaEngineServices;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.bootstrap.JodaEngine;
@@ -16,6 +15,7 @@ import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * Parent class for all other Process Deployers tests as otherwise it would  be a lot of code duplication.

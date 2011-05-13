@@ -6,7 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.exception.JodaEngineException;
@@ -23,6 +22,7 @@ import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * This test assigns a task directly to a participant. 

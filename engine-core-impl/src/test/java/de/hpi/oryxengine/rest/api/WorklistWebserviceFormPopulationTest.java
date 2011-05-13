@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -53,7 +54,7 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
     /**
      * Setup of a worklist item and a participant.
      *
-     * @throws IOException One of the form input files might not have been read correctly.
+     * @throws IOException one of the form input files might not have been read correctly.
      */
     @BeforeMethod
     public void beforeMethod()
@@ -77,7 +78,7 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
         pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
         jannik = (AbstractParticipant) pattern.getAssignedResources()[0];
     }
-
+    
     /**
      * We create the two context variables as specified in the form and then check,
      * whether the values appear in the returned form.

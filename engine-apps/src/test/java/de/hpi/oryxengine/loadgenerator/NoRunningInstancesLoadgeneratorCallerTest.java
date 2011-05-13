@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.NoRunningInstancesLoadgeneratorCaller;
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
@@ -21,6 +20,7 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * Tests the SchedulerEmptyListener Plugin, that invokes a method on a loadgenerator when the queue of the Scheduler is.
