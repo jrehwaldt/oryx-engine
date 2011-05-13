@@ -170,8 +170,7 @@ function changeItemState(itemId, state, errorCounter) {
 	    	},
 	    	error: function(jqXHR, textStatus, errorThrown) {
                 errorCounter++;
-            },
-            async: true
+            }
 	});
 }
 
