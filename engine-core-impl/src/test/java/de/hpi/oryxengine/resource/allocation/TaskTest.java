@@ -9,7 +9,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
