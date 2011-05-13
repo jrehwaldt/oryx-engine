@@ -43,7 +43,8 @@ public final class BpmnNodeFactory extends TransitionFactory {
     public static Node createBpmnStartEventNode(ProcessDefinitionBuilder builder) {
 
         NodeBuilder nodeBuilder = builder.getStartNodeBuilder();
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(BpmnStartEvent.class).buildNode();
+        BpmnStartEvent activityBehavior = new BpmnStartEvent();
+        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
     }
 
     /**
@@ -58,8 +59,9 @@ public final class BpmnNodeFactory extends TransitionFactory {
      */
     public static Node createBpmnEndEventNode(ProcessDefinitionBuilder builder) {
 
+        BpmnEndActivity activityBehavior = new BpmnEndActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
-        .setOutgoingBehaviour(new EmptyOutgoingBehaviour()).setActivityBlueprintFor(BpmnEndActivity.class).buildNode();
+        .setOutgoingBehaviour(new EmptyOutgoingBehaviour()).setActivityBehavior(activityBehavior).buildNode();
     }
 
     /**
@@ -77,8 +79,8 @@ public final class BpmnNodeFactory extends TransitionFactory {
     public static Node createBpmnIntermediateTimerEventNode(ProcessDefinitionBuilder builder, long waitingTime) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(BpmnIntermediateTimerActivity.class)
-        .addConstructorParameter(long.class, waitingTime).buildNode();
+        BpmnIntermediateTimerActivity activityBehavior = new BpmnIntermediateTimerActivity(waitingTime);
+        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
     }
 
     /**
@@ -96,8 +98,8 @@ public final class BpmnNodeFactory extends TransitionFactory {
     public static Node createBpmnUserTaskNode(ProcessDefinitionBuilder builder, CreationPattern pattern) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(BpmnHumanTaskActivity.class)
-        .addConstructorParameter(CreationPattern.class, pattern).buildNode();
+        BpmnHumanTaskActivity activityBehavior = new BpmnHumanTaskActivity(pattern);
+        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
     }
 
     /**
@@ -113,7 +115,8 @@ public final class BpmnNodeFactory extends TransitionFactory {
     public static Node createBpmnTerminatingEndEventNode(ProcessDefinitionBuilder builder) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(BpmnTerminatingEndActivity.class)
+        BpmnTerminatingEndActivity activityBehavior = new BpmnTerminatingEndActivity();
+        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
         .buildNode();
     }
 
@@ -128,8 +131,9 @@ public final class BpmnNodeFactory extends TransitionFactory {
      */
     public static Node createBpmnXorGatewayNode(ProcessDefinitionBuilder builder) {
 
+        NullActivity activityBehavior = new NullActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
-        .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBlueprintFor(NullActivity.class).buildNode();
+        .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBehavior(activityBehavior).buildNode();
     }
 
     /**
@@ -143,8 +147,9 @@ public final class BpmnNodeFactory extends TransitionFactory {
      */
     public static Node createBpmnAndGatewayNode(ProcessDefinitionBuilder builder) {
 
+        NullActivity activityBehavior = new NullActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new AndJoinBehaviour())
-        .setOutgoingBehaviour(new TakeAllSplitBehaviour()).setActivityBlueprintFor(NullActivity.class).buildNode();
+        .setOutgoingBehaviour(new TakeAllSplitBehaviour()).setActivityBehavior(activityBehavior).buildNode();
     }
 
     /**
