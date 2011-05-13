@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.node.activity.bpmn;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -12,8 +13,11 @@ import de.hpi.oryxengine.allocation.PushPattern;
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
+import de.hpi.oryxengine.resource.worklist.AbstractDefaultWorklist;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 
 /**
  * The Implementation of a human task.
@@ -63,7 +67,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 
         // TODO change this as soon as we do not have the separation of task/worklistitem anymore (use methods from TaskAllocation)
         // TODO add this again, but maybe extend the creationPattern, to be able to remove the worklist items as well
-//        for (AbstractResource<?> resource : task.getAssignedResources()) {
+//        for (AbstractResource<?> resource : creationPattern.getAssignedResources()) {
 //            // remove all offered items
 //            Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
 //            .getLazyWorklistItems().iterator();
