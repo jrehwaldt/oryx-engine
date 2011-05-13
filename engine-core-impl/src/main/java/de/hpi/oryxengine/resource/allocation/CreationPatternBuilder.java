@@ -44,6 +44,13 @@ public interface CreationPatternBuilder {
      * @return the current {@link CreationPatternBuilder} in order continue configuring the Task
      */
     CreationPatternBuilder addResourceAssignedToItem(AbstractResource<?> resourceAssignedToItem);
+    
+    /**
+     * Removes all currently assigned resources, so that the pattern builder can be reused.
+     *
+     * @return the creation pattern builder
+     */
+    CreationPatternBuilder flushAssignedResources();
 
     /**
      * Builds the task.
