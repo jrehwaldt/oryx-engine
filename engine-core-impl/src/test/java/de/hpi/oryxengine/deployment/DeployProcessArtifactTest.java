@@ -69,7 +69,8 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
     public void testArtifactDeploymentAsClasspathResource() throws DefinitionNotFoundException, IOException {
         
         
-        UUID classpathArtifactUUID = deploymentBuilder.deployArtifactAsClasspathResource("classpathArtifact", TEST_FILE_CLASSPATH);
+        UUID classpathArtifactUUID = deploymentBuilder.deployArtifactAsClasspathResource("classpathArtifact",
+            TEST_FILE_CLASSPATH);
         
         AbstractProcessArtifact processArtifact = repo.getProcessResource(classpathArtifactUUID);
         Assert.assertEquals(processArtifact.getName(), "classpathArtifact");
@@ -85,7 +86,8 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         stringBuilder.append("Hello Joda-Engine\n").append("\n").append("GoodBye Joda-Engine");
         InputStream inputStreamToDeploy = new ByteArrayInputStream(stringBuilder.toString().getBytes());
             
-        UUID inputStreamArtifactUUID = deploymentBuilder.deployArtifactAsInputStream("inputStreamArtifact", inputStreamToDeploy);
+        UUID inputStreamArtifactUUID = deploymentBuilder.deployArtifactAsInputStream("inputStreamArtifact",
+            inputStreamToDeploy);
         
         AbstractProcessArtifact processArtifact = repo.getProcessResource(inputStreamArtifactUUID);
         Assert.assertEquals(processArtifact.getName(), "inputStreamArtifact");

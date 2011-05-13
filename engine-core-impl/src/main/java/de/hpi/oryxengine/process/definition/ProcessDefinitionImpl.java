@@ -8,15 +8,21 @@ import java.util.UUID;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
+import de.hpi.oryxengine.navigator.NavigatorInside;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
+import de.hpi.oryxengine.process.instantiation.StartInstantiationPattern;
+import de.hpi.oryxengine.process.instantiation.StartNullInstantiationPattern;
 import de.hpi.oryxengine.process.structure.Node;
 
 /**
  * The Class ProcessDefinitionImpl. A process definition consists of a list of start nodes that, as we have a tree
  * structure of nodes, reference all the nodes of the definition transitively.
  */
-public class ProcessDefinitionImpl implements ProcessDefinition {
+public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefinitionInside {
 
     private String name;
 
@@ -27,32 +33,15 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
     private List<Node> startNodes;
 
     @JsonIgnore
+    private StartInstantiationPattern startInstantiationPattern;
+
+    @JsonIgnore
     private Map<StartEvent, Node> startTriggers;
-    
+
     private Map<String, Object> attributes;
 
     /**
      * Instantiates a new {@link ProcessDefinition}. The name is the ID of the {@link ProcessDefinition}.
-     * 
-     * @param id
-     *            - the internal of the {@link ProcessDefinition}
-     * @param description
-     *            - the description of the {@link ProcessDefinition}
-     * @param startNodes
-     *            - the initial nodes that refer to the whole node-tree
-     */
-    public ProcessDefinitionImpl(UUID id, String description, List<Node> startNodes) {
-
-        this(id, id.toString(), description, startNodes);
-    }
-    
-    /**
-     * Hidden constructor.
-     */
-    protected ProcessDefinitionImpl() { }
-    
-    /**
-     * Instantiates a new process definition. A UUID is generated randomly.
      * 
      * @param id
      *            - the internal of the {@link ProcessDefinition}
@@ -65,16 +54,45 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
      */
     public ProcessDefinitionImpl(UUID id, String name, String description, List<Node> startNodes) {
 
+        this(id, name, description, startNodes, new StartNullInstantiationPattern());
+    }
+
+    /**
+     * Hidden constructor.
+     */
+    protected ProcessDefinitionImpl() {
+
+    }
+
+    /**
+     * Instantiates a new process definition. A UUID is generated randomly.
+     * 
+     * @param id
+     *            - the internal of the {@link ProcessDefinition}
+     * @param name
+     *            - the name of the {@link ProcessDefinition}
+     * @param description
+     *            - the description of the {@link ProcessDefinition}
+     * @param startNodes
+     *            - the initial nodes that refer to the whole node-tree
+     */
+    public ProcessDefinitionImpl(UUID id,
+                                 String name,
+                                 String description,
+                                 List<Node> startNodes,
+                                 StartInstantiationPattern startInstantiationPattern) {
+
         this.id = id;
         this.name = name;
         this.description = description;
         this.startNodes = startNodes;
         this.startTriggers = new HashMap<StartEvent, Node>();
+        this.startInstantiationPattern = startInstantiationPattern;
     }
 
     @Override
     public UUID getID() {
-    
+
         return id;
     }
 
@@ -86,9 +104,9 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
 
     @Override
     public void setName(String name) {
-    
+
         this.name = name;
-        
+
     }
 
     @Override
@@ -149,4 +167,34 @@ public class ProcessDefinitionImpl implements ProcessDefinition {
         getAttributes().put(attributeKey, attributeValue);
     }
 
+    @Override
+    public AbstractProcessInstance createProcessInstance(NavigatorInside navigator) {
+
+        startInstantiationPattern.init(ServiceFactory.getCorrelationService(), navigator, this);
+        return startInstantiationPattern.createProcessInstance();
+
+        // AbstractProcessInstance instance = new ProcessInstanceImpl(this);
+        //
+        // for (Node node : this.getStartNodes()) {
+        // Token newToken = instance.createToken(node, navigator);
+        // navigator.addWorkToken(newToken);
+        // }
+        // return instance;
+    }
+
+    @Override
+    public void activate(CorrelationManager correlationManager) {
+
+        // TODO: Auslagern in eine Strategy
+        for (StartEvent event : this.getStartTriggers().keySet()) {
+            correlationManager.registerStartEvent(event);
+        }
+    }
+
+    @Override
+    public void deactivate(CorrelationManager correlationManager) {
+
+        // TODO Auto-generated method stub
+
+    }
 }

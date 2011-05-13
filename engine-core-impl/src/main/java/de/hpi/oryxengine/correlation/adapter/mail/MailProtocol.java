@@ -13,8 +13,14 @@ public enum MailProtocol {
     POP3(110, 995), 
     IMAP(143, 993);
     
+    /**
+	 * @uml.property  name="defaultPort"
+	 */
     private int defaultPort;
     
+    /**
+	 * @uml.property  name="sslPort"
+	 */
     private int sslPort;
     
     /**

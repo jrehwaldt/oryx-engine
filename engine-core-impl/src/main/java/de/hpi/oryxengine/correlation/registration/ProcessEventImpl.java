@@ -11,8 +11,15 @@ import de.hpi.oryxengine.correlation.adapter.EventType;
  */
 public class ProcessEventImpl implements ProcessEvent {
     
+    /**
+	 * @uml.property  name="config"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     private AdapterConfiguration config;
 
+    /**
+	 * @uml.property  name="conditions"
+	 */
     private List<EventCondition> conditions;
 
     /**

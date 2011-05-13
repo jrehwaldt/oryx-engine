@@ -22,6 +22,7 @@ import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
+import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
@@ -60,13 +61,14 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
         nav.getRunningInstances().add(instance);
 
         token.executeStep();
-        
+
         assertEquals(nav.getWorkQueue().size(), 2, "Split Node should have created two tokens.");
 
         // get the token that is on the human task activity. The other one is on the end node then.
         Token humanTaskToken = nav.getWorkQueue().get(0);
         Token endToken = nav.getWorkQueue().get(1);
-        if (!(humanTaskToken.getCurrentNode().getActivityBlueprint().getActivityClass() == BpmnHumanTaskActivity.class)) {
+        ActivityBlueprint humanTaskActivityBlueprint = humanTaskToken.getCurrentNode().getActivityBlueprint();
+        if (!(humanTaskActivityBlueprint.getActivityClass() == BpmnHumanTaskActivity.class)) {
             humanTaskToken = endToken;
             endToken = nav.getWorkQueue().get(0);
         }

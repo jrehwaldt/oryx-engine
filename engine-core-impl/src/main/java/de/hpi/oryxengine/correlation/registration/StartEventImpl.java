@@ -11,6 +11,9 @@ import de.hpi.oryxengine.correlation.adapter.EventType;
  */
 public class StartEventImpl extends ProcessEventImpl implements StartEvent {
 
+    /**
+	 * @uml.property  name="definitionID"
+	 */
     private UUID definitionID;
 
     /**
@@ -34,6 +37,10 @@ public class StartEventImpl extends ProcessEventImpl implements StartEvent {
         this.definitionID = definitionID;
     }
 
+    /**
+	 * @return
+	 * @uml.property  name="definitionID"
+	 */
     @Override
     public UUID getDefinitionID() {
 

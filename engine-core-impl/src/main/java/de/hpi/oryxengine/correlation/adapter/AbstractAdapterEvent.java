@@ -14,7 +14,14 @@ import de.hpi.oryxengine.correlation.AdapterEvent;
 public abstract class AbstractAdapterEvent
 implements AdapterEvent {
     
+    /**
+	 * @uml.property  name="timestamp"
+	 */
     private final Date timestamp;
+    /**
+	 * @uml.property  name="configuration"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     private final AdapterConfiguration configuration;
     
     /**
@@ -32,6 +39,10 @@ implements AdapterEvent {
         return this.configuration;
     }
     
+    /**
+	 * @return
+	 * @uml.property  name="timestamp"
+	 */
     @Override
     public final Date getTimestamp() {
         return this.timestamp;

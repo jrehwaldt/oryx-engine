@@ -43,7 +43,9 @@ public final class TaskFactory {
 	}
 
 	public static Task createRoleTask(String subject, String description, AbstractResource<?> resource) {
-		AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new RolePushPattern(), new SimplePullPattern(), null, null);
+
+        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new RolePushPattern(),
+            new SimplePullPattern(), null, null);
 		
 		return createTask(subject, description, allocationStrategies, resource);
 	}

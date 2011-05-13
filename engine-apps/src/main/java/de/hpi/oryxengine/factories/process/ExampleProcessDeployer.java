@@ -2,6 +2,7 @@ package de.hpi.oryxengine.factories.process;
 
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 
@@ -43,6 +44,8 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, startNode, node1);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node1, node2);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node2, endNode);
+        
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
     }
 
 }

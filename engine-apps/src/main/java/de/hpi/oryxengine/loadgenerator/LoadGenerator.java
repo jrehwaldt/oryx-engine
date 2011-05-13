@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.NoRunningInstancesLoadgeneratorCaller;
+import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.bootstrap.JodaEngine;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
@@ -179,8 +180,8 @@ public class LoadGenerator {
         this.logMemoryUsed("Used memory in megabytes at the very beginning: ");
         this.logger.info("We start to put " + String.valueOf(numberOfRuns) + "  instances from the Factory "
             + className + " into our navigator!");
-        // navigator = (NavigatorImpl) ServiceFactory.getNavigatorService();
-        navigator = new NavigatorImpl(numberOfThreads);
+        navigator = (NavigatorImpl) ServiceFactory.getNavigatorService();
+        // navigator = new NavigatorImpl(numberOfThreads);
         NoRunningInstancesLoadgeneratorCaller listener = new NoRunningInstancesLoadgeneratorCaller(this);
         navigator.registerPlugin(listener);
 

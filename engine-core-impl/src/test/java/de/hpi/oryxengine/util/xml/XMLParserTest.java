@@ -16,28 +16,28 @@ import de.hpi.oryxengine.util.ReflectionUtil;
  */
 public class XMLParserTest {
 
-    private final static String XML_TEST_RESOURCE = "de/hpi/oryxengine/util/xml/test-xml-for-parser.xml";   
- 
+    private final static String XML_TEST_RESOURCE = "de/hpi/oryxengine/util/xml/test-xml-for-parser.xml";
+
     private String failureMessage;
-    
+
     public String getFaliureMessage() {
-        
+
         if (this.failureMessage != null) {
             return this.failureMessage;
         }
-        
+
         String resultString;
         URL fileURL = ReflectionUtil.getResource(XML_TEST_RESOURCE);
         try {
             resultString = "\n" + IoUtil.readFileAsString(new File(fileURL.toURI()));
         } catch (URISyntaxException e) {
             e.printStackTrace();
-            resultString ="The the XML test resource can be found here: " + XML_TEST_RESOURCE;
+            resultString = "The the XML test resource can be found here: " + XML_TEST_RESOURCE;
         }
         this.failureMessage = resultString;
         return resultString;
     }
-    
+
     @Test
     public void testProcessingXML() {
 
@@ -51,7 +51,7 @@ public class XMLParserTest {
         Assert.assertEquals(xmlParse.getRootElement().tagName, "root", getFaliureMessage());
         List<XmlElement> elements = xmlParse.getRootElement().getElements();
         Assert.assertTrue(elements.size() == 2, getFaliureMessage());
-        
+
         XmlElement firstChild = elements.get(0);
         Assert.assertEquals(firstChild.getAttribute("id"), "first_child", getFaliureMessage());
         Assert.assertEquals(elements.get(0).getElements().get(0).getText(), "text 1", getFaliureMessage());

@@ -10,13 +10,13 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -103,7 +103,8 @@ public class TerminatingEndActivityTest {
 
         Node terminatingEnd = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);
 
-        Node computationNode = BpmnCustomNodeFactory.createBpmnHashComputationNode(builder, "result", "meinlieblingspasswort");
+        Node computationNode = BpmnCustomNodeFactory.createBpmnHashComputationNode(builder, "result",
+            "meinlieblingspasswort");
 
         BpmnNodeFactory.createTransitionFromTo(builder, startNode, andSplitNode);
         BpmnNodeFactory.createTransitionFromTo(builder, andSplitNode, xorJoinNode);
@@ -111,6 +112,7 @@ public class TerminatingEndActivityTest {
         BpmnNodeFactory.createTransitionFromTo(builder, xorJoinNode, computationNode);
         BpmnNodeFactory.createTransitionFromTo(builder, computationNode, xorJoinNode);
         
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         definition = builder.buildDefinition();
     }
 }

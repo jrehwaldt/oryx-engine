@@ -36,6 +36,9 @@ import de.hpi.oryxengine.process.token.TokenImpl;
  */
 public class LoopProcessTest {
 
+    private static final String DEFINITION_NAME = "TestLoopProcess";
+    private static final String DEFINITION_DESCRIPTION = "This process tests the loop pattern.";
+
     private Token token;
     private Node start;
     private Node end;
@@ -94,7 +97,6 @@ public class LoopProcessTest {
 
         start = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
-
         // Create the XORJoin
         xorJoin = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
 
@@ -125,7 +127,8 @@ public class LoopProcessTest {
         Navigator nav = new NavigatorImplMock();
         List<Node> startNodes = new ArrayList<Node>();
         startNodes.add(start);
-        ProcessDefinition definition = new ProcessDefinitionImpl(UUID.randomUUID(), "testLoop", startNodes);
+        ProcessDefinition definition = new ProcessDefinitionImpl(UUID.randomUUID(), DEFINITION_NAME,
+            DEFINITION_DESCRIPTION, startNodes);
         AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
         instance.getContext().setVariable("counter", "0");
         instance.getContext().setVariable("increment", "1");

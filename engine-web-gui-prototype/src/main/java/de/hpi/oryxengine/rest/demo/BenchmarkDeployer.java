@@ -14,6 +14,7 @@ import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -123,6 +124,8 @@ public final class BenchmarkDeployer {
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, activityD3, andJoin1);
 
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, andJoin1, endNode);
+        
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
 
         processDefinitionBuilder.setName("Benchmark Process").setDescription(
             "This process has 5 roles, some parallel gateways and user tasks only.");

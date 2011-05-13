@@ -105,11 +105,11 @@ function getParticipantsAndFillBoxes() {
         type: 'GET',
         url: '/api/identity/participants',
         success: function(data) {
-        	participants = data;
+            participants = data;
             // add each role to the select box
             fillBoxes(participants);
         },
-        dataType: "json"
+        dataType: 'json'
     });
 }
 
@@ -120,6 +120,8 @@ function getParticipantsAndFillBoxes() {
  */
 function fillBoxes(allParticipants) {
 	var selectedRoleID = $("#roles :selected").val();
+	if (selectedRoleID === undefined)
+		return;
 	$.ajax({
         type: 'GET',
         url: '/api/identity/roles/' + selectedRoleID + '/participants',

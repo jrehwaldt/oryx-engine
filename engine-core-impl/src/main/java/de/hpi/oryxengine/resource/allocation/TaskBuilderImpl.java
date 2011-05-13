@@ -82,7 +82,8 @@ public class TaskBuilderImpl implements TaskBuilder {
     @Override
     public Task buildTask() {
         
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(taskPushPattern, taskPullPattern, null, null);
+        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(taskPushPattern, taskPullPattern,
+            null, null);
         HashSet<AbstractResource<?>> assignedResources = new HashSet<AbstractResource<?>>(abstractResources);
         Task resultTask = new TaskImpl(taskSubject, taskDescription, taskForm, allocationStrategies, assignedResources);
         

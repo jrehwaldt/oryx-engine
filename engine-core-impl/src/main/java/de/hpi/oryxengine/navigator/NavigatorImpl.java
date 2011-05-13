@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.RepositoryService;
+import de.hpi.oryxengine.RepositoryServiceInside;
 import de.hpi.oryxengine.Service;
-import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;
@@ -20,6 +20,7 @@ import de.hpi.oryxengine.navigator.schedule.Scheduler;
 import de.hpi.oryxengine.plugin.AbstractPluggable;
 import de.hpi.oryxengine.plugin.navigator.AbstractNavigatorListener;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionInside;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
@@ -28,7 +29,10 @@ import de.hpi.oryxengine.process.token.Token;
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
  */
-public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> implements Navigator, Service {
+public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> implements Navigator, NavigatorInside,
+Service {
+
+    private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
 
     /**
      * Holds all the process tokens that are ready to be executed. Also implements some kind of scheduling algorithm.
@@ -56,15 +60,13 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
 
-    private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
-
     private int navigatorThreads;
 
     private NavigatorState state;
 
     private int counter;
 
-    private RepositoryService repository;
+    private RepositoryServiceInside repository;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -98,10 +100,10 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      * 
      * @param numberOfThreads
      *            the number of navigator threads
-     * @param repo
+     * @param repository
      *            the process repository
      */
-    public NavigatorImpl(RepositoryService repo, int numberOfThreads) {
+    public NavigatorImpl(RepositoryServiceInside repository, int numberOfThreads) {
 
         this.scheduler = new FIFOScheduler();
         this.executionThreads = new ArrayList<NavigationThread>();
@@ -109,7 +111,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
         // this.repository = ServiceFactory.getRepositoryService();
-        this.repository = repo;
+        this.repository = repository;
         this.suspendedTokens = new ArrayList<Token>();
         this.runningInstances = Collections.synchronizedList(new ArrayList<AbstractProcessInstance>());
         this.finishedInstances = new ArrayList<AbstractProcessInstance>();
@@ -146,16 +148,15 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
 
         // TODO use the variable repository here. This cannot be used in tests, as it requires the bootstrap to have
         // run first, but we definitely do not want to start the whole engine to test a simple feature.
-        ProcessDefinition definition = ServiceFactory.getRepositoryService().getProcessDefinition(processID);
+        ProcessDefinitionInside definition = repository.getProcessDefinitionInside(processID);
+        AbstractProcessInstance instance = definition.createProcessInstance(this);
 
-        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
-
-        for (Node node : definition.getStartNodes()) {
-            Token newToken = instance.createToken(node, this);
-            startArbitraryInstance(newToken);
-        }
+        // for (Node node : definition.getStartNodes()) {
+        // Token newToken = instance.createToken(node, this);
+        // startArbitraryInstance(newToken);
+        // }
         runningInstances.add(instance);
-        
+
         return instance;
     }
 
@@ -163,12 +164,9 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
     public AbstractProcessInstance startProcessInstance(UUID processID, StartEvent event)
     throws DefinitionNotFoundException {
 
-        ProcessDefinition definition = repository.getProcessDefinition(processID);
-
-        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
-        Node startNode = definition.getStartTriggers().get(event);
-        Token newToken = instance.createToken(startNode, this);
-        startArbitraryInstance(newToken);
+        ProcessDefinitionInside definition = repository.getProcessDefinitionInside(processID);
+        AbstractProcessInstance instance = definition.createProcessInstance(this);
+        
         runningInstances.add(instance);
 
         return instance;
@@ -184,8 +182,7 @@ public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> 
      */
     public void startArbitraryInstance(Token token) {
 
-        this.scheduler.submit(token);
-
+        scheduler.submit(token);
     }
 
     /**
