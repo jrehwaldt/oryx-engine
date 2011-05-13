@@ -20,12 +20,32 @@ public interface CreationPattern {
      */
     List<AbstractWorklistItem> createWorklistItems(Token token);
     
+    /**
+     * Gets the resources that the workitem(s) will be created for.
+     *
+     * @return the assigned resources
+     */
     AbstractResource<?>[] getAssignedResources();
     
+    /**
+     * Gets the item's subject.
+     *
+     * @return the item subject
+     */
     String getItemSubject();
     
+    /**
+     * Gets the item's description.
+     *
+     * @return the item description
+     */
     String getItemDescription();
     
+    /**
+     * Gets the item's form.
+     *
+     * @return the item form
+     */
     Form getItemForm();
     
 }

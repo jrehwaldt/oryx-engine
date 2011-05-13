@@ -18,7 +18,8 @@ import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
  * The Implementation of a human task.
  * 
  * A user task is a typical workflow Task where a human performer performs a task with the assistance of a software
- * application.
+ * application. Upon its execution, worklist items are created with a {@link CreationPattern} and the distributed with a
+ * {@link PushPattern}.
  */
 public class BpmnHumanTaskActivity extends AbstractActivity {
 
@@ -31,25 +32,20 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     /**
      * Default Constructor.
      * 
-     * @param task
-     *            - the task to distribute
+     * @param creationPattern
+     *            the creation pattern to use
+     * @param pushPattern
+     *            the push pattern to use
      */
-    // TODO: CreationPattern einfügen
-    public BpmnHumanTaskActivity(CreationPattern pattern, PushPattern pushPattern) {
+    public BpmnHumanTaskActivity(CreationPattern creationPattern, PushPattern pushPattern) {
 
-        this.creationPattern = pattern;
+        this.creationPattern = creationPattern;
         this.pushPattern = pushPattern;
     }
 
     @Override
     protected void executeIntern(@Nonnull Token token) {
 
-        // creationPattern.createTask()
-
-        // TODO @Thorben-Refactoring think about TaskDistribution and its necessity
-        // TaskDistribution taskDistribution = ServiceFactory.getTaskDistribution();
-        // taskDistribution.distribute(task, token);
-        // TODO @Thorben-Refactoring should we use the TaskAllocation here?
         TaskAllocation service = ServiceFactory.getWorklistQueue();
         List<AbstractWorklistItem> items = creationPattern.createWorklistItems(token);
         pushPattern.distributeWorkitems(service, items);
