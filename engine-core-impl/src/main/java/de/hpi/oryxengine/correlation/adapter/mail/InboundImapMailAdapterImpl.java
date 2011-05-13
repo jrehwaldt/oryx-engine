@@ -56,17 +56,14 @@ implements InboundPullAdapter {
         try {
             Session session = Session.getInstance(this.configuration.toMailProperties());
 
-            // logger.debug("getting the session for accessing email.");
             Store store = session.getStore("imap");
 
             store.connect(this.configuration.getAddress(), this.configuration.getUserName(),
                 this.configuration.getPassword());
-            // logger.debug("Connection established with IMAP server.");
 
             // Get a handle on the default folder
             Folder folder = store.getDefaultFolder();
 
-            // logger.debug("Getting the Inbox folder.");
 
             // Retrieve the "Inbox"
             folder = folder.getFolder("inbox");

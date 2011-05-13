@@ -11,13 +11,8 @@ import de.hpi.oryxengine.correlation.timing.TimerJob;
 public class TimerConfigurationImpl
 implements TimedConfiguration {
     
-    /**
-	 * @uml.property  name="waitingTime"
-	 */
     private long waitingTime;
-    /**
-	 * @uml.property  name="timestamp"
-	 */
+
     private long timestamp;
     
     /**

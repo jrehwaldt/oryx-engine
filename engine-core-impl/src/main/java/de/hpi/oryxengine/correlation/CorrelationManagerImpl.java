@@ -36,41 +36,18 @@ import de.hpi.oryxengine.navigator.Navigator;
  */
 public class CorrelationManagerImpl implements CorrelationManager, EventRegistrar, AdapterRegistrar, Service {
 
-    /**
-	 * @uml.property  name="logger"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-	 * @uml.property  name="navigator"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
     private Navigator navigator;
-    /**
-	 * @uml.property  name="timer"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
+
     private TimingManagerImpl timer;
 
-    /**
-	 * @uml.property  name="errorAdapter"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
     private ErrorAdapter errorAdapter;
     // there may be multiple references to an Adapter configuration (i.e. a mail account)
     // and if these all use the same Configuration Object we can avoid duplicated adapters
     // TODO give a process a list of of AdapterConfiguration Objects in order for this to work
-    /**
-	 * @uml.property  name="inboundAdapter"
-	 * @uml.associationEnd  qualifier="getEventConfiguration:de.hpi.oryxengine.correlation.EventConfiguration de.hpi.oryxengine.correlation.adapter.InboundAdapter"
-	 */
     private Map<AdapterConfiguration, InboundAdapter> inboundAdapter;
 
-    /**
-	 * @uml.property  name="startEvents"
-	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="de.hpi.oryxengine.correlation.registration.EventCondition"
-	 */
     private List<StartEvent> startEvents;
 
     /**
@@ -230,10 +207,10 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     }
 
     /**
-	 * Returns the error adapter.
-	 * @return  the error adapter
-	 * @uml.property  name="errorAdapter"
-	 */
+     * Returns the error adapter.
+     * 
+     * @return the error adapter
+     */
     public ErrorAdapter getErrorAdapter() {
 
         return this.errorAdapter;
@@ -250,9 +227,10 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     }
 
     /**
-	 * @return
-	 * @uml.property  name="timer"
-	 */
+     * Gets the timer.
+     * 
+     * @return the timer
+     */
     @Override
     public TimingManagerImpl getTimer() {
 

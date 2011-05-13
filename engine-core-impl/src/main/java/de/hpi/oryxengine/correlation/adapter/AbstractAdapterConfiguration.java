@@ -11,10 +11,7 @@ import javax.annotation.Nonnull;
 public abstract class AbstractAdapterConfiguration
 implements AdapterConfiguration {
     
-    /**
-	 * @uml.property  name="type"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
+
     private final EventType type;
     
     /**

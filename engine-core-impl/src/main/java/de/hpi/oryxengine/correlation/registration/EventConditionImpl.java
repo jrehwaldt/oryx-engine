@@ -7,13 +7,7 @@ import java.lang.reflect.Method;
  */
 public class EventConditionImpl implements EventCondition {
 
-    /**
-	 * @uml.property  name="method"
-	 */
     private Method method;
-    /**
-	 * @uml.property  name="expectedValue"
-	 */
     private Object expectedValue;
     
     /**
@@ -27,20 +21,12 @@ public class EventConditionImpl implements EventCondition {
         this.expectedValue = expectedValue;
     }
     
-    /**
-	 * @return
-	 * @uml.property  name="method"
-	 */
     @Override
     public Method getMethod() {
 
         return method;
     }
 
-    /**
-	 * @return
-	 * @uml.property  name="expectedValue"
-	 */
     @Override
     public Object getExpectedValue() {
 

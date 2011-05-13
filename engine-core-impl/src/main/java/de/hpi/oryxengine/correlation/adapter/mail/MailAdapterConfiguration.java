@@ -24,43 +24,14 @@ import de.hpi.oryxengine.exception.AdapterSchedulingException;
  */
 public final class MailAdapterConfiguration extends AbstractAdapterConfiguration implements PullAdapterConfiguration {
 
-    /**
-	 * @uml.property  name="userName"
-	 */
+
     private final String userName;
-
-    /**
-	 * @uml.property  name="password"
-	 */
     private final String password;
-
-    /**
-	 * @uml.property  name="address"
-	 */
     private final String address;
-
-    /**
-	 * @uml.property  name="port"
-	 */
     private final int port;
-
-    /**
-	 * @uml.property  name="useSSL"
-	 */
     private final boolean useSSL;
-
-    /**
-	 * @uml.property  name="protocol"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
     private final MailProtocol protocol;
-
     private static final long DEFAULT_INTERVAL = 6000L;
-
-    /**
-	 * @uml.property  name="logger"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -98,7 +69,6 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     /**
 	 * Returns the user name.
 	 * @return  the user name
-	 * @uml.property  name="userName"
 	 */
     public @Nonnull
     String getUserName() {
@@ -109,7 +79,6 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     /**
 	 * Returns the password.
 	 * @return  the password.
-	 * @uml.property  name="password"
 	 */
     public @Nonnull
     String getPassword() {
@@ -120,7 +89,6 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     /**
 	 * Returns the address. If javax.mail is used, it is recommended to use toCon
 	 * @return  the address
-	 * @uml.property  name="address"
 	 */
     public @Nonnull
     String getAddress() {
@@ -131,7 +99,6 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     /**
 	 * Returns the port number.
 	 * @return  the port number
-	 * @uml.property  name="port"
 	 */
     public @Nonnegative
     int getPort() {
@@ -193,7 +160,6 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     /**
 	 * Returns, whether to use ssl.
 	 * @return  should use ssl
-	 * @uml.property  name="useSSL"
 	 */
     public boolean isUseSSL() {
 
@@ -203,7 +169,6 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     /**
 	 * Returns the account's protocol.
 	 * @return  the account protocol
-	 * @uml.property  name="protocol"
 	 */
     public MailProtocol getProtocol() {
 
@@ -223,9 +188,8 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
      */
     public static MailAdapterConfiguration dalmatinaGoogleConfiguration() {
 
+        // TODO @All: WTF delete this (in July). Other options would be a local file.. but well. no.
         return new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!", "imap.googlemail.com",
-        // return new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine@googlemail.com", "dalmatina!",
-        // "imap.googlemail.com",
             MailProtocol.IMAP.getPort(true), true);
     }
 
