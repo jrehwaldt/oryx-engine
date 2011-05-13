@@ -18,7 +18,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Contains participants</th>
-                    <th>Controls</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>

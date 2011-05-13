@@ -56,7 +56,7 @@ navigation.put("settings", new NavigationEntry[] {});
         <script type="text/javascript" src="/javascripts/lib/jquery.ui.widget.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.ui.dialog.js"></script>
         
-        <title><decorator:title default="Joda Engine" /></title>
+        <title><decorator:title default="JodaEngine" /></title>
         <decorator:head />
         
     </head>

@@ -15,7 +15,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Belongs to role</th>
-                    <th>Controls</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>

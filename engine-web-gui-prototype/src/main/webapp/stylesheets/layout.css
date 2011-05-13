@@ -734,5 +734,6 @@ legend:hover {
 .loading-data {
    background-image: url(../images/ajax-loading-data.gif);
    background-repeat: no-repeat;
-   background-position: 1% 50%;
+   background-position: 5px 50%;
+   padding-left: 30px;
 }
