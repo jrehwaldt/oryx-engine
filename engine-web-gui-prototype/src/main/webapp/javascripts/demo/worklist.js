@@ -145,7 +145,7 @@ function getWorklistItems() {
                 $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\">"
                                       + "<td>" + worklistitem.task.subject + "</td>"
                                       + "<td>" + worklistitem.task.description + "</td>"
-                                      + "<td>" + button + "</td>"
+                                      + "<td class=\"controls\">" + button + "</td>"
                                       + "</tr>");
                 
                 addButtonClickHandler(worklistitem.id);
