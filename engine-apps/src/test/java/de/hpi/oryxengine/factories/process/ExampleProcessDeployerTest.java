@@ -18,9 +18,9 @@ public class ExampleProcessDeployerTest extends AbstractProcessDeployerTest {
      */
     @BeforeMethod
     @Override
-    public void setUp() throws IllegalStarteventException, ResourceNotAvailableException {
+    public void executeDeployer() throws IllegalStarteventException, ResourceNotAvailableException {
 
         this.deployer = new ExampleProcessDeployer();
-        this.uuid = deployer.deploy();
+        this.uuid = deployer.deploy(engineServices);
     }
 }

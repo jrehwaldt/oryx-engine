@@ -20,13 +20,18 @@ public class JodaEngine implements JodaEngineServices {
 
     public static final String DEFAULT_SPRING_CONFIG_FILE = "jodaengine.cfg.xml";
 
+    protected static JodaEngine jodaEngineSingelton;
+
     /**
-     * Starts the engine using the default dependency injection file (oryxengine.cfg.xml).
+     * Starts the engine using the default dependency injection file (oryxengine.cfg.xml). In case the
+     * {@link JodaEngine} already has started, the old {@link JodaEngine} is returned.
+     * 
+     * @return the {@link JodaEngine}; in case the {@link JodaEngine} already has
+     *         started, the old {@link JodaEngine} is returneds
      */
     public static JodaEngine start() {
 
-        startWithConfig(DEFAULT_SPRING_CONFIG_FILE);
-        return null;
+        return startWithConfig(DEFAULT_SPRING_CONFIG_FILE);
     }
 
     /**
@@ -36,6 +41,10 @@ public class JodaEngine implements JodaEngineServices {
      *            - file where the dependencies are defined
      */
     public static JodaEngine startWithConfig(String configurationFile) {
+
+        if (jodaEngineSingelton != null) {
+            return jodaEngineSingelton;
+        }
 
         // Initialize ApplicationContext
         initializeApplicationContext(configurationFile);
@@ -52,8 +61,9 @@ public class JodaEngine implements JodaEngineServices {
                 service.start();
             }
         }
-        
-        return null;
+
+        jodaEngineSingelton = new JodaEngine();
+        return jodaEngineSingelton;
     }
 
     /**
@@ -73,7 +83,7 @@ public class JodaEngine implements JodaEngineServices {
     @Override
     public void shutdown() {
 
-     // Extracting all Service Beans
+        // Extracting all Service Beans
         Map<String, Service> serviceTable = JodaEngineAppContext.getAppContext().getBeansOfType(Service.class);
 
         if (serviceTable != null) {
@@ -85,6 +95,8 @@ public class JodaEngine implements JodaEngineServices {
                 service.stop();
             }
         }
+        
+        jodaEngineSingelton = null;
     }
 
     @Override

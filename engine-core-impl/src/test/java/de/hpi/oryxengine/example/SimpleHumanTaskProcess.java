@@ -4,10 +4,8 @@ import de.hpi.oryxengine.factory.node.HumanTaskNodeFactory;
 import de.hpi.oryxengine.factory.node.PrintingNodeFactory;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
 

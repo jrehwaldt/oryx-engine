@@ -38,11 +38,11 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
 
     @BeforeMethod
     @Override
-    public void setUp()
+    public void executeDeployer()
     throws IllegalStarteventException, ResourceNotAvailableException {
 
         instanceDefinition = new ShortenedReferenceProcessDeployer();
-        this.uuid = instanceDefinition.deploy();
+        this.uuid = instanceDefinition.deploy(engineServices);
         try {
             processInstance = new ProcessInstanceImpl(ServiceFactory.getRepositoryService().getProcessDefinition(uuid));
         } catch (DefinitionNotFoundException e) {

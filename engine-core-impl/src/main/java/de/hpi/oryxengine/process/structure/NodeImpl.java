@@ -10,26 +10,19 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
-import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
-import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
 
 /**
  * The Class AbstractNode. Which is used for the graph representation of a Process
  */
 public class NodeImpl implements Node {
-
+    
     /**
-     * The activity. This is the behaviour of the node e.g. what gets executed.
-     * */
-    // TODO @Gerardo Comment wegmachen
-
-//    private ActivityBlueprint blueprint;
-
+     * The {@link Activity}. This is the behavior of the node e.g. what gets executed.
+     */
     private Activity activityBehavior;
-    
-    
+
     private OutgoingBehaviour outgoingBehaviour;
     private IncomingBehaviour incomingBehaviour;
 
@@ -55,9 +48,7 @@ public class NodeImpl implements Node {
      * @param outgoingBehaviour
      *            the outgoing behavior
      */
-    public NodeImpl(Activity activityBehavior,
-                    IncomingBehaviour incomingBehaviour,
-                    OutgoingBehaviour outgoingBehaviour) {
+    public NodeImpl(Activity activityBehavior, IncomingBehaviour incomingBehaviour, OutgoingBehaviour outgoingBehaviour) {
 
         this.activityBehavior = activityBehavior;
         this.incomingBehaviour = incomingBehaviour;
@@ -70,13 +61,13 @@ public class NodeImpl implements Node {
 
     @Override
     public OutgoingBehaviour getOutgoingBehaviour() {
-    
+
         return outgoingBehaviour;
     }
 
     @Override
     public IncomingBehaviour getIncomingBehaviour() {
-    
+
         return incomingBehaviour;
     }
 
