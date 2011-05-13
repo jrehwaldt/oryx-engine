@@ -17,7 +17,7 @@ import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
@@ -81,7 +81,7 @@ public class WorkListManagerTest {
 //        Pattern pullPattern = new SimplePullPattern();
 //        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
         // allocation patterns END
-        DirectDistributionPattern anotherPattern = new DirectDistributionPattern("Go shopping", "I need milk", null, tobi);
+        ConcreteResourcePattern anotherPattern = new ConcreteResourcePattern("Go shopping", "I need milk", null, tobi);
         TokenImpl token = mock(TokenImpl.class);
         anotherPattern.createWorklistItems(ServiceFactory.getWorklistQueue(), token);
     }

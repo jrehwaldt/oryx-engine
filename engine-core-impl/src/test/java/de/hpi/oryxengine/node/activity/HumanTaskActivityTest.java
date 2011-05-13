@@ -22,7 +22,7 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
@@ -64,7 +64,7 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
 //        Pattern pullPattern = new SimplePullPattern();
 //
 //        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-        pattern = new DirectDistributionPattern(subject, description, null, participant);
+        pattern = new ConcreteResourcePattern(subject, description, null, participant);
 //        task = new TaskImpl(subject, description, allocationStrategies, participant);
 
         humanTask = new BpmnHumanTaskActivity(pattern);

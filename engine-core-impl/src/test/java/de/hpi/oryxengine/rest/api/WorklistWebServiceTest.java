@@ -16,7 +16,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.bootstrap.JodaEngine;
 import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
@@ -37,7 +37,7 @@ import de.hpi.oryxengine.util.io.StringStreamSource;
  */
 public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
-    private Task task = null;
+    private CreationPattern pattern = null;
     private AbstractParticipant jannik = null;
     private ProcessInstanceContext context = null;
 
@@ -54,21 +54,22 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
         // We need to start the engine in order to start the WorklistManager who then gets the identityService
         JodaEngine.start();
-        task = CreationPatternFactory.createJannikServesGerardoTask();
+        pattern = CreationPatternFactory.createJannikServesGerardoCreator();
         
        
         AbstractProcessArtifact processArtifact = new ProcessArtifact("form", new StringStreamSource("<form></form>"));
         
-        Whitebox.setInternalState(task, "form", new FormImpl(processArtifact));
+        Whitebox.setInternalState(pattern, "form", new FormImpl(processArtifact));
         
         TokenImpl token = mock(TokenImpl.class);
         context = new ProcessInstanceContextImpl();
         AbstractProcessInstance instance = mock(ProcessInstanceImpl.class);
         when(instance.getContext()).thenReturn(context);
         when(token.getInstance()).thenReturn(instance);
-        ServiceFactory.getTaskDistribution().distribute(task, token);
+//        ServiceFactory.getTaskDistribution().distribute(task, token);
+        pattern.createWorklistItems(ServiceFactory.getWorklistQueue(), token);
         // System.out.println(ServiceFactory.getIdentityService().getParticipants());
-        jannik = (AbstractParticipant) task.getAssignedResources().toArray()[0];
+        jannik = (AbstractParticipant) pattern.getAssignedResources()[0];
     }
 
     /**

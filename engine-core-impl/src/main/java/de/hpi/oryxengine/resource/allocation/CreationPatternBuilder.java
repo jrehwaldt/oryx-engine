@@ -3,8 +3,8 @@ package de.hpi.oryxengine.resource.allocation;
 import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
-import de.hpi.oryxengine.resource.allocation.pattern.RoleDistributionPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
+import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 
 /**
  * This class helps to build {@link WorklistItem WorklistItems}.
@@ -52,7 +52,5 @@ public interface CreationPatternBuilder {
      * 
      * @return the {@link Task} specified before by the {@link CreationPatternBuilder}
      */
-    DirectDistributionPattern buildDirectDistributionPattern();
-    
-    RoleDistributionPattern buildRoleDistributionPattern();
+    ConcreteResourcePattern buildConcreteResourcePattern();
 }

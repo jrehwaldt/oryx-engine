@@ -7,7 +7,7 @@ import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 
 /**
  * A factory for creating a HumanTaskNode objects.
@@ -27,7 +27,7 @@ public class HumanTaskNodeFactory extends AbstractNodeFactory {
         String description = "You know what i mean.";
         AbstractResource<?>[] resources = {participant};
         
-        CreationPattern creationPattern = new DirectDistributionPattern(subject, description, null, resources);
+        CreationPattern creationPattern = new ConcreteResourcePattern(subject, description, null, resources);
                 
         Class<?>[] constructorSig = {CreationPattern.class};
         Object[] params = {creationPattern};

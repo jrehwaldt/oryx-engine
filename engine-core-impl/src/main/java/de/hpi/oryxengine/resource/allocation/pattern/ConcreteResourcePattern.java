@@ -15,7 +15,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 /**
  * 
  */
-public class RoleDistributionPattern implements CreationPattern {
+public class ConcreteResourcePattern implements CreationPattern {
 
     private String subject;
     
@@ -25,7 +25,7 @@ public class RoleDistributionPattern implements CreationPattern {
     
     private AbstractResource<?>[] resourcesToAssignTo;
     
-    public RoleDistributionPattern(String subject,
+    public ConcreteResourcePattern(String subject,
                                      String description,
                                      Form form,
                                      AbstractResource<?>[] assignedResources) {
@@ -43,7 +43,7 @@ public class RoleDistributionPattern implements CreationPattern {
      * @param form the form
      * @param assignedResource the assigned resource
      */
-    public RoleDistributionPattern(String subject,
+    public ConcreteResourcePattern(String subject,
                                    String description,
                                    Form form,
                                    AbstractResource<?> assignedResource) {

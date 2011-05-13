@@ -8,8 +8,8 @@ import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
-import de.hpi.oryxengine.resource.allocation.pattern.RoleDistributionPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
+import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 
 /**
  * Little factory for creating Resources. A short cut for the implementation.
@@ -51,7 +51,7 @@ public final class CreationPatternFactory {
     public static CreationPattern createParticipantTask(AbstractResource<?> r) {
 
         
-        CreationPattern pattern = new DirectDistributionPattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null, r);
+        CreationPattern pattern = new ConcreteResourcePattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null, r);
         return pattern;
     }
 
@@ -75,7 +75,7 @@ public final class CreationPatternFactory {
         identityBuilder.participantBelongsToRole(jannik.getID(), hamburgGuysRole.getID()).participantBelongsToRole(
             gerardo.getID(), hamburgGuysRole.getID());
 
-        CreationPattern pattern = new RoleDistributionPattern("Clean the office.", "It is very dirty.", null, hamburgGuysRole);
+        CreationPattern pattern = new ConcreteResourcePattern("Clean the office.", "It is very dirty.", null, hamburgGuysRole);
 
         return pattern;
     }

@@ -24,7 +24,7 @@ import de.hpi.oryxengine.resource.Role;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
 import de.hpi.oryxengine.resource.allocation.TaskImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.RoleDistributionPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 /**
@@ -175,7 +175,7 @@ public final class BenchmarkDeployer {
 
     private static Task createRoleTask(String subject, String description, Form form, AbstractResource<?> resource) {
 
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new RoleDistributionPattern(),
+        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new ConcreteResourcePattern(),
             new SimplePullPattern(), null, null);
 
         return createTask(subject, description, form, allocationStrategies, resource);

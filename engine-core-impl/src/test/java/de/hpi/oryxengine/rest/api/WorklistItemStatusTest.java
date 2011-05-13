@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
@@ -29,7 +29,7 @@ import de.hpi.oryxengine.rest.AbstractJsonServerTest;
  */
 public class WorklistItemStatusTest extends AbstractJsonServerTest {
 
-    private Task task;
+    private CreationPattern pattern;
     private AbstractRole assignedRole;
     private AbstractResource<?> participant;
     private AbstractResource<?> badParticipant;
@@ -163,13 +163,13 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
     public void setUpTask()
     throws ResourceNotAvailableException {
 
-        task = CreationPatternFactory.createRoleTask();
+        pattern = CreationPatternFactory.createRoleTask();
         TokenImpl token = mock(TokenImpl.class);
-        ServiceFactory.getTaskDistribution().distribute(task, token);
+//        ServiceFactory.getTaskDistribution().distribute(pattern, token);
+        pattern.createWorklistItems(ServiceFactory.getWorklistQueue(), token);
 
         // get the participants that are assigned to the role that this task was assigned to.
-        Iterator<AbstractResource<?>> taskIt = task.getAssignedResources().iterator();
-        assignedRole = (AbstractRole) taskIt.next();
+        assignedRole = (AbstractRole) pattern.getAssignedResources()[0];
         Iterator<AbstractParticipant> participantsIt = assignedRole.getParticipantsImmutable().iterator();
         participant = participantsIt.next();
 

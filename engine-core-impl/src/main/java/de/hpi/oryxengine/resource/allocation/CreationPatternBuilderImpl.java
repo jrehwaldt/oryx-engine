@@ -8,8 +8,8 @@ import java.util.List;
 
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.allocation.pattern.DirectDistributionPattern;
-import de.hpi.oryxengine.resource.allocation.pattern.RoleDistributionPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
+import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 
 /**
  * This class helps to build {@link Task Tasks}.
@@ -67,20 +67,12 @@ public class CreationPatternBuilderImpl implements CreationPatternBuilder {
     }
 
     @Override
-    public DirectDistributionPattern buildDirectDistributionPattern() {
+    public ConcreteResourcePattern buildConcreteResourcePattern() {
 
-        HashSet<AbstractResource<?>> assignedResources = new HashSet<AbstractResource<?>>(abstractResources);
         // TODO the array thing in the next line is not so nice.
-        DirectDistributionPattern pattern = new DirectDistributionPattern(taskSubject, taskDescription, taskForm,
+        ConcreteResourcePattern pattern = new ConcreteResourcePattern(taskSubject, taskDescription, taskForm,
             abstractResources.toArray(new AbstractResource<?>[0]));
         return pattern;
-    }
-
-    @Override
-    public RoleDistributionPattern buildRoleDistributionPattern() {
-
-        // TODO Auto-generated method stub
-        return null;
     }
 
     // /**

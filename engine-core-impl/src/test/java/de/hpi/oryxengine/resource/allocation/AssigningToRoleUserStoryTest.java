@@ -28,7 +28,7 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.allocation.pattern.RoleDistributionPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
@@ -75,7 +75,7 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 //
 //        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
         
-        CreationPattern pattern = new RoleDistributionPattern("Clean the office.", "It is very dirty.", null, hamburgGuysRole);
+        CreationPattern pattern = new ConcreteResourcePattern("Clean the office.", "It is very dirty.", null, hamburgGuysRole);
 
 //        Task task = new TaskImpl("Clean the office.", "It is very dirty.", allocationStrategies, hamburgGuysRole);
 

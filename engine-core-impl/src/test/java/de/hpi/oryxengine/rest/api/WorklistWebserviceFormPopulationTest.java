@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.bootstrap.JodaEngine;
 import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.navigator.Navigator;
@@ -36,7 +36,7 @@ import de.hpi.oryxengine.util.io.StringStreamSource;
  */
 public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest {
 
-    private Task task;
+    private CreationPattern pattern;
     private AbstractParticipant jannik;
     private AbstractProcessInstance instance;
 
@@ -57,19 +57,20 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
     throws IOException {
 
         JodaEngine.start();
-        task = CreationPatternFactory.createJannikServesGerardoTask();
+        pattern = CreationPatternFactory.createJannikServesGerardoCreator();
 
         form = readFile(FORM_LOCATION);
         populatedForm = readFile(POPULATED_FORM_LOCATION);
 
         AbstractProcessArtifact processArtifact = new ProcessArtifact("form", new StringStreamSource(form));
 
-        Whitebox.setInternalState(task, "form", new FormImpl(processArtifact));
+        Whitebox.setInternalState(pattern, "form", new FormImpl(processArtifact));
 
         instance = new ProcessInstanceImpl(mock(ProcessDefinition.class));
         Token token = instance.createToken(mock(Node.class), mock(Navigator.class));
-        ServiceFactory.getTaskDistribution().distribute(task, token);
-        jannik = (AbstractParticipant) task.getAssignedResources().toArray()[0];
+//        ServiceFactory.getTaskDistribution().distribute(pattern, token);
+        pattern.createWorklistItems(ServiceFactory.getWorklistQueue(), token);
+        jannik = (AbstractParticipant) pattern.getAssignedResources()[0];
     }
 
     /**

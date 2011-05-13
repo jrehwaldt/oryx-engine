@@ -411,10 +411,10 @@ public class BpmnXmlParse extends XmlParse {
         
         parseHumanPerformer(taskXmlElement, patternBuilder);
         
-        return patternBuilder.buildCreationPattern();
+        return patternBuilder.buildConcreteResourcePattern();
     }
 
-    protected void parseHumanPerformer(XmlElement taskXmlElement, CreationPatternBuilder taskBuilder) {
+    protected void parseHumanPerformer(XmlElement taskXmlElement, CreationPatternBuilder patternBuilder) {
 
         List<XmlElement> humanPerformerElements = taskXmlElement.getElements(HUMAN_PERFORMER);
 
@@ -428,7 +428,7 @@ public class BpmnXmlParse extends XmlParse {
         
             XmlElement humanPerformerElement = humanPerformerElements.get(0);
             if (humanPerformerElement != null) {
-                parseHumanPerformerResourceAssignment(humanPerformerElement, taskBuilder);
+                parseHumanPerformerResourceAssignment(humanPerformerElement, patternBuilder);
             }
         }
     }
@@ -441,7 +441,7 @@ public class BpmnXmlParse extends XmlParse {
 //        }
 //    }
 
-    protected void parseHumanPerformerResourceAssignment(XmlElement performerElement, CreationPatternBuilder taskBuilder) {
+    protected void parseHumanPerformerResourceAssignment(XmlElement performerElement, CreationPatternBuilder patternBuilder) {
 
         // rae := ResourceAssignmentEspression
         XmlElement raeElement = performerElement.getElement(RESOURCE_ASSIGNMENT_EXPR);
@@ -471,7 +471,7 @@ public class BpmnXmlParse extends XmlParse {
                         getProblemLogger().addError(errorMessage, performerElement);
                     }
                         
-                    taskBuilder.addResourceAssignedToItem(participantAssignedToTask);
+                    patternBuilder.addResourceAssignedToItem(participantAssignedToTask);
                 }
             }
         }
