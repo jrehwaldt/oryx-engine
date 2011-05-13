@@ -62,12 +62,13 @@ public final class SimpleHumanTaskProcess {
 
         Node thirdNode = new PrintingNodeFactory().createWithLogger();
         
-        Node endNode = new NodeImpl(BpmnEndActivity.class);
+        // TODO @Gerardo: hier gilt dasselbe wie im ExampleProcessForReview.
+//        Node endNode = new NodeImpl(BpmnEndActivity.class);
 
         // Setting the transitions
         startNode.transitionTo(secondNode);
         secondNode.transitionTo(thirdNode);
-        thirdNode.transitionTo(endNode);
+//        thirdNode.transitionTo(endNode);
 
         TokenImpl sampleToken = new TokenImpl(startNode);
         return sampleToken;

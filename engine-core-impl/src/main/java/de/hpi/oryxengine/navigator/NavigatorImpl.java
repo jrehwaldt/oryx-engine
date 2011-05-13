@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.RepositoryService;
-import de.hpi.oryxengine.Service;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.bootstrap.Service;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.schedule.FIFOScheduler;

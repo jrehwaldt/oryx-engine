@@ -165,7 +165,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
     public void setUpTask()
     throws ResourceNotAvailableException {
 
-        pattern = CreationPatternFactory.createRoleTask();
+        pattern = CreationPatternFactory.createRoleCreator();
         TokenImpl token = mock(TokenImpl.class);
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         List<AbstractWorklistItem> items = pattern.createWorklistItems(token);

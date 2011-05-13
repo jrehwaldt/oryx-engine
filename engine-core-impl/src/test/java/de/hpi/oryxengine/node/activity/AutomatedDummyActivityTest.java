@@ -14,6 +14,8 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
+import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
@@ -52,7 +54,7 @@ public class AutomatedDummyActivityTest {
         
         nav = mock(Navigator.class);
 
-        Node node = new NodeImpl(new AutomatedDummyActivity(dummyString));
+        Node node = new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         token = new TokenImpl(node, mock(AbstractProcessInstance.class), nav);
     }
 

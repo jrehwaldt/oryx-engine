@@ -69,13 +69,15 @@ public final class ExampleProcessForReview {
 
         Node fourthNode = new MailNodeFactory().createWithLogger();
 
-        Node endNode = new NodeImpl(BpmnEndActivity.class);
+        // TODO @Gerardo: Diese Klasse entweder zur korrekten Verwendung der JodaEngine umschreiben (Builder, deployen, etc.) oder löschen
+        //die endNode muss dann wieder einkommentiert bzw. korrekt implementiert werden
+//        Node endNode = new NodeImpl(BpmnEndActivity.class);
 
         // Setting the transitions
         startNode.transitionTo(secondNode);
         secondNode.transitionTo(thirdNode);
         thirdNode.transitionTo(fourthNode);
-        fourthNode.transitionTo(endNode);
+//        fourthNode.transitionTo(endNode);
 
         TokenImpl sampleToken = new TokenImpl(startNode);
         return sampleToken;

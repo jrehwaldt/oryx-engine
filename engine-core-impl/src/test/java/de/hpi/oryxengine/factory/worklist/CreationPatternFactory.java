@@ -37,7 +37,7 @@ public final class CreationPatternFactory {
         // creates the participant Jannik
         AbstractResource<?> resource = ParticipantFactory.createJannik();
 
-        return createParticipantTask(resource);
+        return createParticipantCreator(resource);
     }
 
     /**
@@ -47,7 +47,7 @@ public final class CreationPatternFactory {
      *            the resource
      * @return the task
      */
-    public static CreationPattern createParticipantTask(AbstractResource<?> r) {
+    public static CreationPattern createParticipantCreator(AbstractResource<?> r) {
 
         
         CreationPattern pattern = new ConcreteResourcePattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null, r);
@@ -60,7 +60,7 @@ public final class CreationPatternFactory {
      * @return the task
      * @throws ResourceNotAvailableException 
      */
-    public static CreationPattern createRoleTask() throws ResourceNotAvailableException {
+    public static CreationPattern createRoleCreator() throws ResourceNotAvailableException {
 
         // The organization structure is already prepared in the factory
         // There is role containing Gerardo and Jannik

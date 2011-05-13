@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.allocation.TaskDistribution;
+import de.hpi.oryxengine.bootstrap.Service;
 import de.hpi.oryxengine.exception.InvalidWorkItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.resource.AbstractParticipant;

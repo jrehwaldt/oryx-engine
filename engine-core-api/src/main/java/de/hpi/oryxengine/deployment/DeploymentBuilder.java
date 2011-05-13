@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.deployment.importer.ProcessDefinitionImporter;
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 
 /**
  * The class helps to define a deployment and to deploy it.
@@ -88,20 +90,19 @@ public interface DeploymentBuilder {
      * 
      * @param processDefinitionImporter
      *            - that is able to create a {@link ProcessDefinition}
-     * @return a {@link UUID} representing the internal ID of the {@link ProcessDefinition}
-     * TODO explicit exception
+     * @return a {@link UUID} representing the internal ID of the {@link ProcessDefinition} TODO explicit exception
      * @throws JodaEngineRuntimeException
      *             - in case the {@link ProcessDefinition} is already deployed in the {@link RepositoryService
      *             Repository}
      */
     UUID deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter);
 
-    // /**
-    // * Deploys the added {@link AbstractProcessResource ProcessResources} and {@link ProcessDefinition
-    // * ProcessDefinitions} at once. Afterwards the {@link DeploymentBuilder} is reseted.
-    // *
-    // * @return a {@link DeploymentBuilder} in order to keep on deploying resources
-    // */
-    // DeploymentBuilder deploy();
+    /**
+     * Retrieves a {@link ProcessDefinitionBuilder} that helps an client to build {@link ProcessDefinition
+     * processDefinitions} from scratch and customized.
+     * 
+     * @return a {@link ProcessDefinitionBuilder}
+     */
+    ProcessDefinitionBuilder getProcessDefinitionBuilder();
 
 }

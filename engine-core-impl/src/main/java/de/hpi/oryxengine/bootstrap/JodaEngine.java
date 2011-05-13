@@ -5,22 +5,28 @@ import java.util.Map;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.hpi.oryxengine.Service;
+import de.hpi.oryxengine.IdentityService;
+import de.hpi.oryxengine.JodaEngineServices;
+import de.hpi.oryxengine.RepositoryService;
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.WorklistService;
+import de.hpi.oryxengine.navigator.Navigator;
 
 /**
- * The {@link JodaEngine} class is responsible for the initialization of the whole applicaiton. Therefore we use the
+ * The {@link JodaEngine} class is responsible for the initialization of the whole application. Therefore we use the
  * "Inversion of Control" pattern provided by the Spring.net Framework.
  */
-public final class JodaEngine {
+public class JodaEngine implements JodaEngineServices {
 
     public static final String DEFAULT_SPRING_CONFIG_FILE = "jodaengine.cfg.xml";
 
     /**
      * Starts the engine using the default dependency injection file (oryxengine.cfg.xml).
      */
-    public static void start() {
+    public static JodaEngine start() {
 
         startWithConfig(DEFAULT_SPRING_CONFIG_FILE);
+        return null;
     }
 
     /**
@@ -29,7 +35,7 @@ public final class JodaEngine {
      * @param configurationFile
      *            - file where the dependencies are defined
      */
-    public static void startWithConfig(String configurationFile) {
+    public static JodaEngine startWithConfig(String configurationFile) {
 
         // Initialize ApplicationContext
         initializeApplicationContext(configurationFile);
@@ -46,6 +52,8 @@ public final class JodaEngine {
                 service.start();
             }
         }
+        
+        return null;
     }
 
     /**
@@ -62,7 +70,8 @@ public final class JodaEngine {
     /**
      * Stops the {@link JodaEngine}.
      */
-    public static void shutdown() {
+    @Override
+    public void shutdown() {
 
      // Extracting all Service Beans
         Map<String, Service> serviceTable = JodaEngineAppContext.getAppContext().getBeansOfType(Service.class);
@@ -78,8 +87,27 @@ public final class JodaEngine {
         }
     }
 
-    /**
-     * Hidden Constructor.
-     */
-    private JodaEngine() { }
+    @Override
+    public WorklistService getWorklistService() {
+
+        return ServiceFactory.getWorklistService();
+    }
+
+    @Override
+    public IdentityService getIdentityService() {
+
+        return ServiceFactory.getIdentityService();
+    }
+
+    @Override
+    public Navigator getNavigatorService() {
+
+        return ServiceFactory.getNavigatorService();
+    }
+
+    @Override
+    public RepositoryService getRepositoryService() {
+
+        return ServiceFactory.getRepositoryService();
+    }
 }

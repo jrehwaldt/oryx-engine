@@ -1,4 +1,4 @@
-package de.hpi.oryxengine;
+package de.hpi.oryxengine.bootstrap;
 
 /**
  * This interface represents a service of the OryxEngine. Each service can be started and stopped. 

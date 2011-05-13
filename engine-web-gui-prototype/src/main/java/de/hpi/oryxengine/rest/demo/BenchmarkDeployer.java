@@ -3,11 +3,11 @@ package de.hpi.oryxengine.rest.demo;
 import java.io.File;
 import java.util.UUID;
 
+import com.sun.jmx.snmp.tasks.Task;
+
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
@@ -21,11 +21,8 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Role;
-import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
-import de.hpi.oryxengine.resource.allocation.TaskImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
-import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 /**
  * This class deploys the benchmark process as specified in signavio.
