@@ -63,15 +63,6 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     private static final String SIMPLE_TASK_SUBJECT = "Get Gerardo a cup of coffee!";
     private static final String SIMPLE_TASK_DESCRIPTION = "You know what I mean.";
 
-    /**
-     * Instantiates a new example process token factory.
-     * 
-     * @throws SchedulerException
-     *             thrown if the scheduler can't work correctly
-     */
-    public HumanTaskProcessDeployer()
-    throws SchedulerException {
-    }
 
     @Override
     public void initializeNodes() {

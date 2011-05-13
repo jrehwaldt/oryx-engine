@@ -38,7 +38,6 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     private static final String OBJECTION_CLERK = "Objection Clerk";
     private static final String ALLOWANCE_CLERK = "Allowance Clerk";
 
-    private static final String PATH_TO_WEBFORMS = "src/main/resources/forms";
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // Nodes
@@ -56,9 +55,6 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     private Node xor4;
     private Node xor5;
     private Node endNode;
-
-    public ShortenedReferenceProcessDeployer() {
-    }
 
     /**
      * Gets the start node.
