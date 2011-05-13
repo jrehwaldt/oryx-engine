@@ -7,11 +7,9 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sun.jmx.snmp.tasks.Task;
-
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
@@ -23,14 +21,12 @@ import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
 import de.hpi.oryxengine.process.structure.condition.JuelExpressionCondition;
-import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
-import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
-import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
 
 /**
  * The Class ShortenedReferenceProcessDeployer. This is the implementation of the shortened version of the AOK reference
@@ -51,7 +47,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
     private static final String PATH_TO_WEBFORMS = "src/main/resources/forms";
     private Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     // Nodes
     private Node startNode;
     private Node system1;
@@ -69,11 +65,12 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     private Node endNode;
 
     public ShortenedReferenceProcessDeployer() {
+
         identityService = ServiceFactory.getIdentityService();
         identityBuilder = identityService.getIdentityBuilder();
         processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
     }
-    
+
     /**
      * Gets the start node.
      * 
@@ -272,40 +269,46 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         return jannik;
     }
 
-
     @Override
     public void initializeNodes() {
 
         // start node, blank
         startNode = BpmnNodeFactory.createBpmnStartEventNode(processDefinitionBuilder);
 
-        system1 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(processDefinitionBuilder, "Widerspruch wird vorbearbeitet");
+        system1 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(processDefinitionBuilder,
+            "Widerspruch wird vorbearbeitet");
 
         // human task for objection clerk, task is to check
         // positions of objection
         Form form = extractForm("form1", "claimPoints.html");
-        Task task = createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen", form,
-            objectionClerk);
-        human1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
+        CreationPattern creationPattern = new ConcreteResourcePattern("Positionen auf Anspruch prüfen",
+            "Anspruchspositionen überprüfen", form, objectionClerk);
+        // Task task = createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen", form,
+        // objectionClerk);
+        human1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
+            new OfferMultiplePattern());
 
         // XOR Split, condition is objection existence
         xor1 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
-        
+
         Map<String, Object> map1 = new HashMap<String, Object>();
         map1.put("widerspruch", "stattgegeben");
-//        Condition condition1 = new HashMapCondition(map1, "==");
+        // Condition condition1 = new HashMapCondition(map1, "==");
         Condition condition1 = new JuelExpressionCondition("${widerspruch  == \"stattgegeben\"}");
-        
+
         Map<String, Object> map2 = new HashMap<String, Object>();
         map2.put("widerspruch", "abgelehnt");
-//        Condition condition2 = new HashMapCondition(map2, "==");
+        // Condition condition2 = new HashMapCondition(map2, "==");
         Condition condition2 = new JuelExpressionCondition("${widerspruch  == \"abgelehnt\"}");
 
         // human task for objection clerk, task is to check objection
         form = extractForm("form2", "checkForNewClaims.html");
-        task = createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche", form,
-            objectionClerk);
-        human2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
+        creationPattern = new ConcreteResourcePattern("Widerspruch prüfen",
+            "Widerspruch erneut prüfen auf neue Ansprüche", form, objectionClerk);
+        // task = createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche", form,
+        // objectionClerk);
+        human2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
+            new OfferMultiplePattern());
 
         // XOR Split, condition is new relevant aspects existence
         xor2 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
@@ -318,9 +321,12 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
         // human task for objection clerk, task is to create a new report
         form = extractForm("form3", "createReport.html");
-        task = createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen", form,
-            objectionClerk);
-        human3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
+        creationPattern = new ConcreteResourcePattern("neues Gutachten erstellen",
+            "Anspruchspunkte in neues Gutachten übertragen", form, objectionClerk);
+//        task = createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen", form,
+//            objectionClerk);
+        human3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
+            new OfferMultiplePattern());
 
         // intermediate mail event, customer answer
         // needs to be implemented and inserted here
@@ -329,7 +335,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         xor3 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
         map1 = new HashMap<String, Object>();
         map1.put("aufrecht", "ja");
-//        Condition condition5 = new HashMapCondition(map1, "==");
+        // Condition condition5 = new HashMapCondition(map1, "==");
         Condition condition5 = new JuelExpressionCondition("${aufrecht  == \"ja\"}");
         map2 = new HashMap<String, Object>();
         map2.put("aufrecht", "nein");
@@ -339,20 +345,26 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
         // human task for objection clerk, task is to do final work
         form = extractForm("form4", "postEditingClaim.html");
-        task = createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", form, objectionClerk);
-        human4 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
+        creationPattern = new ConcreteResourcePattern("Nachbearbeitung",
+            "abschließende Nachbearbeitung des Falls", form, objectionClerk);
+//        task = createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", form, objectionClerk);
+        human4 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
+            new OfferMultiplePattern());
 
         // human task for allowance clerk, task is to enforce allowance
         form = extractForm("form5", "enforceAllowance.html");
-        task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", form,
-            allowanceClerk);
-        human5 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
+        creationPattern = new ConcreteResourcePattern("Leistungsgewährung umsetzen",
+            "Leistungsansprüche durchsetzen", form, allowanceClerk);
+//        task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", form, allowanceClerk);
+        human5 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
+            new OfferMultiplePattern());
 
         // final XOR Join
         xor5 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
 
         // system task, close file
-        system2 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(processDefinitionBuilder, "Akte wird geschlossen");
+        system2 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(processDefinitionBuilder,
+            "Akte wird geschlossen");
 
         // end node
         endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
@@ -373,52 +385,17 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor5, system2);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human5, xor5);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, system2, endNode);
-        
+
         processDefinitionBuilder.setName("Shortened Reference Process").setDescription("Shortened Reference Process");
     }
-    
-    /**
-     * Convenience method to create a {@link Task} for a single role.
-     *
-     * @param subject the subject
-     * @param description the description
-     * @param form the form
-     * @param resource the resource
-     * @return the task
-     */
-    private Task createRoleTask(String subject, String description, Form form, AbstractResource<?> resource) {
 
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new ConcreteResourcePattern(),
-            new SimplePullPattern(), null, null);
-
-        return createTask(subject, description, form, allocationStrategies, resource);
-    }
-    
-    /**
-     * Creates a custom {@link Task}.
-     *
-     * @param subject the subject
-     * @param description the description
-     * @param form the form
-     * @param allocationStrategies the allocation strategies
-     * @param resource the resource
-     * @return the task
-     */
-    private Task createTask(String subject,
-                                   String description,
-                                   Form form,
-                                   AllocationStrategies allocationStrategies,
-                                   AbstractResource<?> resource) {
-
-        Task task = new TaskImpl(subject, description, form, allocationStrategies, resource);
-        return task;
-    }
-    
     /**
      * Extracts a {@link Form} object from a local file.
-     *
-     * @param formName the form name
-     * @param formFileName the form path
+     * 
+     * @param formName
+     *            the form name
+     * @param formFileName
+     *            the form path
      * @return the form
      */
     private Form extractForm(String formName, String formFileName) {
@@ -434,73 +411,74 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         }
         return form;
     }
-    
-//
-//    /**
-//     * Helper method for creating a {@link NodeParameterBuilder}. See also
-//     * {@link #createParamBuilderFor(Class, Object, IncomingBehaviour, OutgoingBehaviour)}
-//     * 
-//     * @param activityClass
-//     *            the activity class which the node shall be connected to
-//     * @return the {@link NodeParameterBuilder} for the given parameters
-//     */
-//    private NodeParameterBuilder createParamBuilderFor(Class<? extends AbstractActivity> activityClass) {
-//
-//        return createParamBuilderFor(activityClass, null, null, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-//    }
-//
-//    /**
-//     * Helper method for creating a {@link NodeParameterBuilder}. See also
-//     * 
-//     * @param activityClass
-//     *            the activity class which the node shall be connected to
-//     * @param paramClass
-//     *            the class of the parameter
-//     * @param constructorParam
-//     *            the parameters that should be passed on to the constructor of the activity
-//     * @return the {@link NodeParameterBuilder} for the given parameters
-//     *         {@link #createParamBuilderFor(Class, Object, IncomingBehaviour, OutgoingBehaviour)}
-//     */
-//    private NodeParameterBuilder createParamBuilderFor(Class<? extends AbstractActivity> activityClass,
-//                                                       Class<? extends Object> paramClass,
-//                                                       Object constructorParam) {
-//
-//        return createParamBuilderFor(activityClass, paramClass, constructorParam, new SimpleJoinBehaviour(),
-//            new TakeAllSplitBehaviour());
-//    }
-//
-//    /**
-//     * Helper method for creating a {@link NodeParameterBuilder}. There are also smaller convenient helper methods for
-//     * special cases.
-//     * 
-//     * @param activityClass
-//     *            the {@link Activity} class which the node shall be connected to
-//     * @param paramClass
-//     *            class of the parameter
-//     * @param constructorParam
-//     *            the parameters that should be passed on to the constructor of the {@link Activity}
-//     * @param in
-//     *            the {@link IncomingBehaviour} of the node
-//     * @param out
-//     *            the {@link OutgoingBehaviour} of the node
-//     * @return the {@link NodeParameterBuilder} for the given parameters
-//     */
-//    private NodeParameterBuilder createParamBuilderFor(Class<? extends AbstractActivity> activityClass,
-//                                                       Class<? extends Object> paramClass,
-//                                                       Object constructorParam,
-//                                                       IncomingBehaviour in,
-//                                                       OutgoingBehaviour out) {
-//
-//        NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(in, out);
-//        nodeParamBuilder.setActivityBlueprintFor(activityClass);
-//        if (constructorParam != null) {
-//            nodeParamBuilder.addConstructorParameter(paramClass, constructorParam);
-//        }
-//        return nodeParamBuilder;
-//    }
+
+    //
+    // /**
+    // * Helper method for creating a {@link NodeParameterBuilder}. See also
+    // * {@link #createParamBuilderFor(Class, Object, IncomingBehaviour, OutgoingBehaviour)}
+    // *
+    // * @param activityClass
+    // * the activity class which the node shall be connected to
+    // * @return the {@link NodeParameterBuilder} for the given parameters
+    // */
+    // private NodeParameterBuilder createParamBuilderFor(Class<? extends AbstractActivity> activityClass) {
+    //
+    // return createParamBuilderFor(activityClass, null, null, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+    // }
+    //
+    // /**
+    // * Helper method for creating a {@link NodeParameterBuilder}. See also
+    // *
+    // * @param activityClass
+    // * the activity class which the node shall be connected to
+    // * @param paramClass
+    // * the class of the parameter
+    // * @param constructorParam
+    // * the parameters that should be passed on to the constructor of the activity
+    // * @return the {@link NodeParameterBuilder} for the given parameters
+    // * {@link #createParamBuilderFor(Class, Object, IncomingBehaviour, OutgoingBehaviour)}
+    // */
+    // private NodeParameterBuilder createParamBuilderFor(Class<? extends AbstractActivity> activityClass,
+    // Class<? extends Object> paramClass,
+    // Object constructorParam) {
+    //
+    // return createParamBuilderFor(activityClass, paramClass, constructorParam, new SimpleJoinBehaviour(),
+    // new TakeAllSplitBehaviour());
+    // }
+    //
+    // /**
+    // * Helper method for creating a {@link NodeParameterBuilder}. There are also smaller convenient helper methods for
+    // * special cases.
+    // *
+    // * @param activityClass
+    // * the {@link Activity} class which the node shall be connected to
+    // * @param paramClass
+    // * class of the parameter
+    // * @param constructorParam
+    // * the parameters that should be passed on to the constructor of the {@link Activity}
+    // * @param in
+    // * the {@link IncomingBehaviour} of the node
+    // * @param out
+    // * the {@link OutgoingBehaviour} of the node
+    // * @return the {@link NodeParameterBuilder} for the given parameters
+    // */
+    // private NodeParameterBuilder createParamBuilderFor(Class<? extends AbstractActivity> activityClass,
+    // Class<? extends Object> paramClass,
+    // Object constructorParam,
+    // IncomingBehaviour in,
+    // OutgoingBehaviour out) {
+    //
+    // NodeParameterBuilder nodeParamBuilder = new NodeParameterBuilderImpl(in, out);
+    // nodeParamBuilder.setActivityBlueprintFor(activityClass);
+    // if (constructorParam != null) {
+    // nodeParamBuilder.addConstructorParameter(paramClass, constructorParam);
+    // }
+    // return nodeParamBuilder;
+    // }
 
     @Override
-    public void createPseudoHuman() throws ResourceNotAvailableException {
+    public void createPseudoHuman()
+    throws ResourceNotAvailableException {
 
         jannik = (Participant) identityBuilder.createParticipant(JANNIK);
         tobi = (Participant) identityBuilder.createParticipant(TOBI);

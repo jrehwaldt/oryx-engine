@@ -14,6 +14,8 @@ import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
+import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
@@ -69,9 +71,8 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
 //        task = new TaskImpl(subject, description, allocationStrategies, participant);
 
         humanTask = new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern());
-        // TODO set this as a parameter
         
-        Node node = new NodeImpl(BpmnHumanTaskActivity.class);
+        Node node = new NodeImpl(humanTask, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         token = new TokenImpl(node, new ProcessInstanceImpl(null), new NavigatorImplMock());
     }
 
