@@ -2,6 +2,7 @@ package de.hpi.oryxengine.factories.process;
 
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 
@@ -52,6 +53,8 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, this.lastNode, endNode);
+        
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
     }
 
 }

@@ -16,10 +16,10 @@ public interface CorrelationManager extends EventRegistrar {
      *            the adapter event
      */
     void correlate(@Nonnull AdapterEvent e);
-    
+
     /**
      * Gets the timer.
-     *
+     * 
      * @return the timer
      */
     TimingManager getTimer();

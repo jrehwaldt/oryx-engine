@@ -33,7 +33,7 @@ public class StartEventImpl extends ProcessEventImpl implements StartEvent {
         super(type, config, conditions);
         this.definitionID = definitionID;
     }
-
+    
     @Override
     public UUID getDefinitionID() {
 

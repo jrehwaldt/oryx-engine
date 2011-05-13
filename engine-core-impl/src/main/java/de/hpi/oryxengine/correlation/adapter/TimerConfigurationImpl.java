@@ -12,6 +12,7 @@ public class TimerConfigurationImpl
 implements TimedConfiguration {
     
     private long waitingTime;
+
     private long timestamp;
     
     /**

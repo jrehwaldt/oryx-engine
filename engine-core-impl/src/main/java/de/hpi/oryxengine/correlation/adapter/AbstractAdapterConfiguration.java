@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 public abstract class AbstractAdapterConfiguration
 implements AdapterConfiguration {
     
+
     private final EventType type;
     
     /**

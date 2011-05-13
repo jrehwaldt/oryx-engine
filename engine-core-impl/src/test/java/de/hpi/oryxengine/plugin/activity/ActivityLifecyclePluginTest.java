@@ -11,7 +11,6 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.exception.JodaEngineException;
-import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.node.activity.ActivityState;
 import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;

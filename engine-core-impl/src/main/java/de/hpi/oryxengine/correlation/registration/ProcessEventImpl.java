@@ -12,7 +12,6 @@ import de.hpi.oryxengine.correlation.adapter.EventType;
 public class ProcessEventImpl implements ProcessEvent {
     
     private AdapterConfiguration config;
-
     private List<EventCondition> conditions;
 
     /**

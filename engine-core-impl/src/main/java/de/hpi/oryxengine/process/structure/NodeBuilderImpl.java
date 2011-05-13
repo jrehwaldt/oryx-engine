@@ -97,28 +97,33 @@ public class NodeBuilderImpl implements NodeBuilder {
             throw new JodaEngineRuntimeException(errorMessage);
         }
 
-        Class<?>[] constructorSignature = null;
         try {
             List<Class<?>> tempList = getBlueprintConstructorSignature();
-            constructorSignature = (Class<?>[]) tempList.toArray(new Class<?>[tempList.size()]);
+            Class<?>[] constructorSignature = (Class<?>[]) tempList.toArray(new Class<?>[tempList.size()]);
             blueprintClazz.getConstructor(constructorSignature);
         } catch (NoSuchMethodException noSuchMethodException) {
 
-            StringBuilder errorMessageBuilder = new StringBuilder();
-            errorMessageBuilder.append("The ActivityClass '" + blueprintClazz.getName()
-                + "' does not have a constructor for the signature (");
-            for (Class<?> clazz : getBlueprintConstructorSignature()) {
-                errorMessageBuilder.append(clazz.getName() + ", ");
-            }
-
-            // Delete the last two chars
-            errorMessageBuilder.deleteCharAt(errorMessageBuilder.length() - 1);
-            errorMessageBuilder.deleteCharAt(errorMessageBuilder.length() - 1);
-            errorMessageBuilder.append(").");
-
-            logger.error(errorMessageBuilder.toString());
-            throw new JodaEngineRuntimeException(errorMessageBuilder.toString());
+            String errorMessage = createWrongSignatureErrorMessage();
+            logger.error(errorMessage, noSuchMethodException);
+            throw new JodaEngineRuntimeException(errorMessage, noSuchMethodException);
         }
+    }
+
+    private String createWrongSignatureErrorMessage() {
+
+        StringBuilder errorMessageBuilder = new StringBuilder();
+        errorMessageBuilder.append("The ActivityClass '" + blueprintClazz.getName()
+            + "' does not have a constructor for the signature (");
+        for (Class<?> clazz : getBlueprintConstructorSignature()) {
+            errorMessageBuilder.append(clazz.getName() + ", ");
+        }
+
+        // Delete the last two chars
+        errorMessageBuilder.deleteCharAt(errorMessageBuilder.length() - 1);
+        errorMessageBuilder.deleteCharAt(errorMessageBuilder.length() - 1);
+        errorMessageBuilder.append(").");
+
+        return errorMessageBuilder.toString();
     }
 
     /**

@@ -28,7 +28,7 @@ import de.hpi.oryxengine.correlation.adapter.InboundPullAdapter;
 public class ImapMailAdapterTest {
     
     private InboundPullAdapter adapter = null;
-    private MailAdapterConfiguration config = null;
+    private InboundMailAdapterConfiguration config = null;
     private String address = null;
     private CorrelationManager mock = null;
     
@@ -41,7 +41,7 @@ public class ImapMailAdapterTest {
     public void setUp() throws MessagingException {
         
         this.mock = mock(CorrelationManager.class);
-        this.config = new MailAdapterConfiguration(
+        this.config = new InboundMailAdapterConfiguration(
             MailProtocol.IMAP,
             "oryxengine",
             "dalmatina!",

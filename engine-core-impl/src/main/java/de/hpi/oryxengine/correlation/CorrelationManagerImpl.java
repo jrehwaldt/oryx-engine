@@ -39,6 +39,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private Navigator navigator;
+
     private TimingManagerImpl timer;
 
     private ErrorAdapter errorAdapter;
@@ -200,7 +201,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
             }
             if (triggerEvent) {
                 this.navigator.startProcessInstance(event.getDefinitionID(), event);
-                System.out.println("starting process" + this.navigator);
+                logger.info("Starting process {}", this.navigator);
             }
         }
     }
@@ -225,6 +226,11 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
         return this.inboundAdapter.values();
     }
 
+    /**
+     * Gets the timer.
+     * 
+     * @return the timer
+     */
     @Override
     public TimingManagerImpl getTimer() {
 

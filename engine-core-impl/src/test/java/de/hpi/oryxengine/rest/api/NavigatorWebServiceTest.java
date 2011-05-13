@@ -129,6 +129,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
             response = new MockHttpResponse();
 
             this.dispatcher.invoke(request, response);
+            // FIXME @Jan&Gerardo
             Assert.assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
         }
 

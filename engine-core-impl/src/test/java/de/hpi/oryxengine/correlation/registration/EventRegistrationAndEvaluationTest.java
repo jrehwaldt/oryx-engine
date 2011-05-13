@@ -24,7 +24,7 @@ import de.hpi.oryxengine.RepositoryServiceImpl;
 import de.hpi.oryxengine.correlation.CorrelationManagerImpl;
 import de.hpi.oryxengine.correlation.adapter.EventType;
 import de.hpi.oryxengine.correlation.adapter.EventTypes;
-import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
 import de.hpi.oryxengine.correlation.adapter.mail.MailProtocol;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
@@ -128,10 +128,10 @@ public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
 
         // Mockito isnt able to mock final classes so the next line doesnt work :(
         // MailAdapterConfiguration config = mock(MailAdapterConfiguration.class);
-        MailAdapterConfiguration config = MailAdapterConfiguration.dalmatinaGoogleConfiguration();
+        InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.dalmatinaGoogleConfiguration();
         event = new StartEventImpl(mailType, config, conditions1, definitionID);
 
-        MailAdapterConfiguration anotherConfig = new MailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin",
+        InboundMailAdapterConfiguration anotherConfig = new InboundMailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin",
             "imap.horst.de", MAIL_PORT, false);
         anotherEvent = new StartEventImpl(mailType, anotherConfig, conditions1, definitionID);
 

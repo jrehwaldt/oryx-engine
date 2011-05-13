@@ -2,6 +2,7 @@ package de.hpi.oryxengine.deployment.importer;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.deployment.ProcessDefinitionImporter;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**

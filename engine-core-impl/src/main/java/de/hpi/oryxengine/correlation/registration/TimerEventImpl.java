@@ -25,7 +25,7 @@ public class TimerEventImpl implements IntermediateEvent {
         this.token = token;
         this.config = config;
     }
-
+    
     @Override
     public Token getToken() {
 

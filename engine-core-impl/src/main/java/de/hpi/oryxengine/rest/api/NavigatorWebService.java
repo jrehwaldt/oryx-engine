@@ -51,7 +51,7 @@ public class NavigatorWebService implements Navigator {
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(@PathParam("definitionId") UUID definitionId)
+    public AbstractProcessInstance startProcessInstance(UUID definitionId)
     throws DefinitionNotFoundException {
 
         return navigatorService.startProcessInstance(definitionId);

@@ -15,6 +15,7 @@ public abstract class AbstractAdapterEvent
 implements AdapterEvent {
     
     private final Date timestamp;
+
     private final AdapterConfiguration configuration;
     
     /**

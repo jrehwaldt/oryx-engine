@@ -358,7 +358,8 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
         this.currentActivityState = newState;
         setChanged();
         
-        // TODO maybe change the ActivityLifecycleChangeEvent, as we provide the currentActivity here, but it might not be instantiated yet.
+        // TODO maybe change the ActivityLifecycleChangeEvent, as we provide the currentActivity here, but it might not
+        // be instantiated yet.
         notifyObservers(new ActivityLifecycleChangeEvent(currentActivity, prevState, newState, this));
         
     }

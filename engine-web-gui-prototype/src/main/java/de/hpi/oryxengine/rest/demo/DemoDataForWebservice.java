@@ -14,6 +14,7 @@ import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.node.factory.TransitionFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -145,6 +146,7 @@ public final class DemoDataForWebservice {
         TransitionFactory.createTransitionFromTo(processBuilder, node3, endNode);
         
         // Start Process
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processBuilder);
         ProcessDefinition processDefinition = processBuilder.setName("Demoprocess")
                                        .setDescription("A simple demo process with three human tasks.")
                                        .buildDefinition();

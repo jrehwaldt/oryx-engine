@@ -27,6 +27,12 @@ extends AbstractAdapterConfiguration {
         return "Error";
     }
     
+    /**
+     * Creates the error adapter.
+     *
+     * @param c the Correlation Manager
+     * @return the inbound adapter
+     */
     private InboundAdapter createAdapter(CorrelationManager c) {
         ErrorAdapter e = new ErrorAdapter(c, this);
         return e;

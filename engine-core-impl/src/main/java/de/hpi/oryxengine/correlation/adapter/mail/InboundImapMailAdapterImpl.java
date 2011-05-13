@@ -20,7 +20,7 @@ import de.hpi.oryxengine.exception.JodaEngineException;
  * 
  * {@link CorrelationManager}.
  */
-public class InboundImapMailAdapterImpl extends AbstractCorrelationAdapter<MailAdapterConfiguration>
+public class InboundImapMailAdapterImpl extends AbstractCorrelationAdapter<InboundMailAdapterConfiguration>
 implements InboundPullAdapter {
 
     /**
@@ -33,7 +33,7 @@ implements InboundPullAdapter {
      */
     @SuppressWarnings("restriction")
     public InboundImapMailAdapterImpl(@Nonnull CorrelationManager correlation,
-                                      @Nonnull MailAdapterConfiguration configuration) {
+                                      @Nonnull InboundMailAdapterConfiguration configuration) {
 
         super(correlation, configuration);
 
@@ -45,7 +45,7 @@ implements InboundPullAdapter {
     }
 
     /**
-     * This mailer adapter will receive mails as specified in {@link MailAdapterConfiguration}.
+     * This mailer adapter will receive mails as specified in {@link InboundMailAdapterConfiguration}.
      * 
      * {@inheritDoc}
      */
@@ -56,17 +56,14 @@ implements InboundPullAdapter {
         try {
             Session session = Session.getInstance(this.configuration.toMailProperties());
 
-            // logger.debug("getting the session for accessing email.");
             Store store = session.getStore("imap");
 
             store.connect(this.configuration.getAddress(), this.configuration.getUserName(),
                 this.configuration.getPassword());
-            // logger.debug("Connection established with IMAP server.");
 
             // Get a handle on the default folder
             Folder folder = store.getDefaultFolder();
 
-            // logger.debug("Getting the Inbox folder.");
 
             // Retrieve the "Inbox"
             folder = folder.getFolder("inbox");

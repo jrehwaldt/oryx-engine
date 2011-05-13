@@ -22,15 +22,10 @@ import de.hpi.oryxengine.correlation.adapter.AdapterConfiguration;
 public class MailAdapterEvent extends AbstractAdapterEvent {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private @Nonnull
-    Message message;
-    private @Nullable
-    String content;
-    private @Nullable
-    String topic;
-    private @Nullable
-    String from;
+    private @Nonnull Message message;
+    private @Nullable String content;
+    private @Nullable String topic;
+    private @Nullable String from;
 
     /**
      * Default constructor.

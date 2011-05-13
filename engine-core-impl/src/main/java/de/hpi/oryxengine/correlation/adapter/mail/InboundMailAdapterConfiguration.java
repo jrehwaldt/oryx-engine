@@ -22,22 +22,16 @@ import de.hpi.oryxengine.exception.AdapterSchedulingException;
 /**
  * The mail adapter configuration.
  */
-public final class MailAdapterConfiguration extends AbstractAdapterConfiguration implements PullAdapterConfiguration {
+public final class InboundMailAdapterConfiguration extends AbstractAdapterConfiguration implements
+PullAdapterConfiguration {
 
     private final String userName;
-
     private final String password;
-
     private final String address;
-
     private final int port;
-
     private final boolean useSSL;
-
     private final MailProtocol protocol;
-
     private static final long DEFAULT_INTERVAL = 6000L;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -56,12 +50,12 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
      * @param useSSL
      *            should ssl be used for connection
      */
-    public MailAdapterConfiguration(@Nonnull MailProtocol protocol,
-                                    @Nonnull String userName,
-                                    @Nonnull String password,
-                                    @Nonnull String address,
-                                    @Nonnegative int port,
-                                    @Nonnull boolean useSSL) {
+    public InboundMailAdapterConfiguration(@Nonnull MailProtocol protocol,
+                                           @Nonnull String userName,
+                                           @Nonnull String password,
+                                           @Nonnull String address,
+                                           @Nonnegative int port,
+                                           @Nonnull boolean useSSL) {
 
         super(EventTypes.Mail);
         this.protocol = protocol;
@@ -95,8 +89,7 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     }
 
     /**
-     * Returns the address. If javax.mail is used,
-     * it is recommended to use toCon
+     * Returns the address. If javax.mail is used, it is recommended to use toCon
      * 
      * @return the address
      */
@@ -199,12 +192,11 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
      * 
      * @return the mail adapter configuration
      */
-    public static MailAdapterConfiguration dalmatinaGoogleConfiguration() {
+    public static InboundMailAdapterConfiguration dalmatinaGoogleConfiguration() {
 
-        return new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!", "imap.googlemail.com",
-        // return new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine@googlemail.com", "dalmatina!",
-        // "imap.googlemail.com",
-            MailProtocol.IMAP.getPort(true), true);
+        // TODO @All: WTF delete this (in July). Other options would be a local file.. but well. no.
+        return new InboundMailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
+            "imap.googlemail.com", MailProtocol.IMAP.getPort(true), true);
     }
 
     @Override

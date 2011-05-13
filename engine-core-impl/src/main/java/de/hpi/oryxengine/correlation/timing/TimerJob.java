@@ -14,10 +14,6 @@ import de.hpi.oryxengine.process.token.Token;
 public class TimerJob
 implements Job {
 
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(JobExecutionContext context)
     throws JobExecutionException {
@@ -25,9 +21,5 @@ implements Job {
         JobDataMap data = context.getJobDetail().getJobDataMap();
         Token token = (Token) data.get(TimingManagerImpl.TOKEN_KEY);
         token.resume();
-
-        
-        
     }
-
 }

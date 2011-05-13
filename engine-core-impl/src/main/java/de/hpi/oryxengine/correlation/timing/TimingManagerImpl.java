@@ -28,15 +28,9 @@ import de.hpi.oryxengine.process.token.Token;
 public class TimingManagerImpl
 implements TimingManager {
     
-    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
-    /** The scheduler. */
     private final Scheduler scheduler;
-    
-    /** The error adapter. */
     private final ErrorAdapter errorAdapter;
-    
     public static final String TOKEN_KEY = "token";
     /**
      * Default constructor.
@@ -123,10 +117,6 @@ implements TimingManager {
         
     }
 
-    /**
-     * {@inheritDoc}
-     * @return 
-     */
     @Override
     public String registerNonRecurringJob(TimedConfiguration configuration, Token token)
     throws AdapterSchedulingException {

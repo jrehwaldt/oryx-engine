@@ -14,7 +14,6 @@ public enum MailProtocol {
     IMAP(143, 993);
     
     private int defaultPort;
-    
     private int sslPort;
     
     /**
