@@ -9,11 +9,9 @@ import de.hpi.oryxengine.util.PatternAppendable;
  * 
  * The {@link InstantiationPattern} are designed to be part of a linked list of {@link instantiationPatterns}. So
  * if necessary the method {@link #createProcessInstance(AbstractProcessInstance)} should check if there is a following
- * {@link InstantiationPattern} in order to pass on the processed {@link AbstractProcessInstance processInstance}
- * .
+ * {@link InstantiationPattern} in order to pass on the processed {@link AbstractProcessInstance processInstance} .
  */
-public interface InstantiationPattern extends InstantionPatternInit,
-PatternAppendable<InstantiationPattern> {
+public interface InstantiationPattern extends PatternAppendable<InstantiationPattern> {
 
     /**
      * Creates a {@link AbstractProcessInstance processInstance}. It gets the previously created
@@ -21,10 +19,11 @@ PatternAppendable<InstantiationPattern> {
      * tokens.
      * 
      * @param previosProcessInstance
-     *            - the {@link AbstractProcessInstance processInstances} from the previous
-     *            {@link InstantiationPattern patterns}.
+     *            - the {@link AbstractProcessInstance processInstances} from the previous {@link InstantiationPattern
+     *            patterns}.
      * 
      * @return an {@link AbstractProcessInstance}
      */
-    AbstractProcessInstance createProcessInstance(AbstractProcessInstance previosProcessInstance);
+    AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext,
+                                                  AbstractProcessInstance previosProcessInstance);
 }

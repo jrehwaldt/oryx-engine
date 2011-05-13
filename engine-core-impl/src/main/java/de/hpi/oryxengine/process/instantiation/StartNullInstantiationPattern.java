@@ -3,9 +3,6 @@ package de.hpi.oryxengine.process.instantiation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.correlation.CorrelationManager;
-import de.hpi.oryxengine.navigator.NavigatorInside;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionInside;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 
 /**
@@ -17,15 +14,6 @@ StartInstantiationPattern {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Override
-    public InstantionPatternInit init(CorrelationManager correlationManager,
-                                      NavigatorInside navigator,
-                                      ProcessDefinitionInside processDefinition) {
-
-        logWarnMessage();
-        return super.init(correlationManager, navigator, processDefinition);
-    }
-
     public void logWarnMessage() {
 
         String warnMessage = "This is a NullInstantiationPattern that does nothing."
@@ -35,14 +23,15 @@ StartInstantiationPattern {
     }
 
     @Override
-    public AbstractProcessInstance createProcessInstance() {
+    public AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext) {
 
         logWarnMessage();
-        return nextInstantiationPatternResult(null);
+        return nextInstantiationPatternResult(patternContext, null);
     }
 
     @Override
-    protected AbstractProcessInstance createProcessInstanceIntern(AbstractProcessInstance previosProcessInstance) {
+    protected AbstractProcessInstance createProcessInstanceIntern(InstantiationPatternContext patternContext,
+                                                                  AbstractProcessInstance previosProcessInstance) {
 
         // If a ProcessInstance is already defined by the previous pattern then this one is returned
         if (previosProcessInstance != null) {
@@ -50,6 +39,6 @@ StartInstantiationPattern {
         }
 
         // Otherwise null should be retrieved
-        return createProcessInstance();
+        return createProcessInstance(patternContext);
     }
 }

@@ -3,10 +3,7 @@ package de.hpi.oryxengine.process.instantiation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
-import de.hpi.oryxengine.navigator.NavigatorInside;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionInside;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 
 /**
@@ -17,22 +14,7 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected CorrelationManager correlationManager;
-    protected NavigatorInside navigator;
-    protected ProcessDefinitionInside processDefinition;
-
     private InstantiationPattern nextInstantiationPattern;
-
-    @Override
-    public InstantionPatternInit init(CorrelationManager correlationManager,
-                                      NavigatorInside navigator,
-                                      ProcessDefinitionInside processDefinition) {
-
-        this.correlationManager = correlationManager;
-        this.navigator = navigator;
-        this.processDefinition = processDefinition;
-        return this;
-    }
 
     @Override
     public InstantiationPattern setNextPattern(InstantiationPattern nextPattern) {
@@ -42,11 +24,11 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
     }
 
     @Override
-    public AbstractProcessInstance createProcessInstance(AbstractProcessInstance previosProcessInstance) {
+    public AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext, AbstractProcessInstance previosProcessInstance) {
 
         AbstractProcessInstance currentProcessInstance;
         try {
-            currentProcessInstance = createProcessInstanceIntern(previosProcessInstance);
+            currentProcessInstance = createProcessInstanceIntern(patternContext, previosProcessInstance);
 
         } catch (NullPointerException nullPointerException) {
 
@@ -63,7 +45,7 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
 
         }
 
-        return nextInstantiationPatternResult(currentProcessInstance);
+        return nextInstantiationPatternResult(patternContext, currentProcessInstance);
     }
 
     /**
@@ -74,14 +56,13 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
      * @return if there is no following instantiationPattern then the current result is returned, otherwise the current
      *         process instance is passed on to the next pattern
      */
-    protected AbstractProcessInstance nextInstantiationPatternResult(AbstractProcessInstance currentProcessInstance) {
+    protected AbstractProcessInstance nextInstantiationPatternResult(InstantiationPatternContext patternContext, AbstractProcessInstance currentProcessInstance) {
 
         if (this.nextInstantiationPattern == null) {
             return currentProcessInstance;
         }
 
-        this.nextInstantiationPattern.init(this.correlationManager, this.navigator, this.processDefinition);
-        return this.nextInstantiationPattern.createProcessInstance(currentProcessInstance);
+        return this.nextInstantiationPattern.createProcessInstance(patternContext, currentProcessInstance);
     }
 
     /**
@@ -94,5 +75,5 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
      * 
      * @return an {@link AbstractProcessInstance}
      */
-    protected abstract AbstractProcessInstance createProcessInstanceIntern(AbstractProcessInstance previosProcessInstance);
+    protected abstract AbstractProcessInstance createProcessInstanceIntern(InstantiationPatternContext patternContext, AbstractProcessInstance previosProcessInstance);
 }

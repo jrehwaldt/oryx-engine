@@ -8,12 +8,13 @@ import java.util.UUID;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorInside;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
+import de.hpi.oryxengine.process.instantiation.InstantiationPatternContext;
+import de.hpi.oryxengine.process.instantiation.InstantiationPatternContextImpl;
 import de.hpi.oryxengine.process.instantiation.StartInstantiationPattern;
 import de.hpi.oryxengine.process.instantiation.StartNullInstantiationPattern;
 import de.hpi.oryxengine.process.structure.Node;
@@ -170,8 +171,8 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     @Override
     public AbstractProcessInstance createProcessInstance(NavigatorInside navigator) {
 
-        startInstantiationPattern.init(ServiceFactory.getCorrelationService(), navigator, this);
-        return startInstantiationPattern.createProcessInstance();
+        InstantiationPatternContext patternContext = new InstantiationPatternContextImpl(this);
+        return startInstantiationPattern.createProcessInstance(patternContext);
 
         // AbstractProcessInstance instance = new ProcessInstanceImpl(this);
         //
