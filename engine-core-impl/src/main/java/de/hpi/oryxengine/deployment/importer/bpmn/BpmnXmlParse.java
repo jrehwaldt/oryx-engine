@@ -47,6 +47,7 @@ import de.hpi.oryxengine.process.structure.condition.CheckVariableTrueCondition;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.allocation.CreationPatternBuilder;
 import de.hpi.oryxengine.resource.allocation.CreationPatternBuilderImpl;
+import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.util.io.StreamSource;
 import de.hpi.oryxengine.util.xml.XmlElement;
 import de.hpi.oryxengine.util.xml.XmlParse;
@@ -74,9 +75,11 @@ public class BpmnXmlParse extends XmlParse {
      * Constructor to be called by the {@link BpmnXmlParser}.
      * 
      * Note the package modifier here: only the {@link BpmnXmlParser} is allowed to create instances.
-     *
-     * @param parser - in order to have general configuration for parsing through the XML
-     * @param streamSource the stream source
+     * 
+     * @param parser
+     *            - in order to have general configuration for parsing through the XML
+     * @param streamSource
+     *            the stream source
      */
     public BpmnXmlParse(BpmnXmlParser parser, StreamSource streamSource) {
 
@@ -363,8 +366,8 @@ public class BpmnXmlParse extends XmlParse {
     protected void parseTask(XmlElement taskXmlElement) {
 
         Node taskNode = processBuilder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
-        .setOutgoingBehaviour(new TakeAllSplitBehaviour()).setActivityBlueprintFor(AutomatedDummyActivity.class)
-        .addConstructorParameter(String.class, "Doing something").buildNode();
+        .setOutgoingBehaviour(new TakeAllSplitBehaviour())
+        .setActivityBehavior(new AutomatedDummyActivity("Doing something")).buildNode();
 
         parseGeneralNodeInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
@@ -381,7 +384,7 @@ public class BpmnXmlParse extends XmlParse {
 
     protected static final String RESOURCE_ASSIGNMENT_EXPR = "resourceAssignmentExpression";
     protected static final String FORMAL_EXPRESSION = "formalExpression";
-    
+
     protected static final String USER_PREFIX = "participant(";
     protected static final String GROUP_PREFIX = "role(";
 
@@ -390,9 +393,10 @@ public class BpmnXmlParse extends XmlParse {
      */
     protected void parseUserTask(XmlElement taskXmlElement) {
 
-        CreationPattern pattern = parseInformationForUserTask(taskXmlElement);
+        CreationPattern creationPattern = parseInformationForUserTask(taskXmlElement);
 
-        Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, pattern);
+        Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, creationPattern,
+            new AllocateSinglePattern());
 
         parseGeneralNodeInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
@@ -405,12 +409,12 @@ public class BpmnXmlParse extends XmlParse {
     protected CreationPattern parseInformationForUserTask(XmlElement taskXmlElement) {
 
         CreationPatternBuilder patternBuilder = new CreationPatternBuilderImpl();
-        
+
         patternBuilder.setItemSubject(taskXmlElement.getAttribute("name"));
         patternBuilder.setItemDescription(parseDocumentation(taskXmlElement));
-        
+
         parseHumanPerformer(taskXmlElement, patternBuilder);
-        
+
         return patternBuilder.buildConcreteResourcePattern();
     }
 
@@ -419,13 +423,13 @@ public class BpmnXmlParse extends XmlParse {
         List<XmlElement> humanPerformerElements = taskXmlElement.getElements(HUMAN_PERFORMER);
 
         if (humanPerformerElements.size() > 1) {
-            
+
             String errorMessage = "Invalid task definition: multiple " + HUMAN_PERFORMER + " sub elements defined for "
                 + taskXmlElement.getAttribute("name");
             getProblemLogger().addError(errorMessage, taskXmlElement);
-        
+
         } else if (humanPerformerElements.size() == 1) {
-        
+
             XmlElement humanPerformerElement = humanPerformerElements.get(0);
             if (humanPerformerElement != null) {
                 parseHumanPerformerResourceAssignment(humanPerformerElement, patternBuilder);
@@ -433,44 +437,43 @@ public class BpmnXmlParse extends XmlParse {
         }
     }
 
-//    protected void parsePotentialOwner(XmlElement taskElement, TaskBuilder taskBuilder) {
-//
-//        List<XmlElement> potentialOwnerElements = taskElement.elements(POTENTIAL_OWNER);
-//        for (XmlElement potentialOwnerElement : potentialOwnerElements) {
-//            parsePotentialOwnerResourceAssignment(potentialOwnerElement, taskBuilder);
-//        }
-//    }
+    // protected void parsePotentialOwner(XmlElement taskElement, TaskBuilder taskBuilder) {
+    //
+    // List<XmlElement> potentialOwnerElements = taskElement.elements(POTENTIAL_OWNER);
+    // for (XmlElement potentialOwnerElement : potentialOwnerElements) {
+    // parsePotentialOwnerResourceAssignment(potentialOwnerElement, taskBuilder);
+    // }
+    // }
 
-    protected void parseHumanPerformerResourceAssignment(XmlElement performerElement, CreationPatternBuilder patternBuilder) {
+    protected void parseHumanPerformerResourceAssignment(XmlElement performerElement,
+                                                         CreationPatternBuilder patternBuilder) {
 
         // rae := ResourceAssignmentEspression
         XmlElement raeElement = performerElement.getElement(RESOURCE_ASSIGNMENT_EXPR);
         if (raeElement != null) {
             XmlElement feElement = raeElement.getElement(FORMAL_EXPRESSION);
             if (feElement != null) {
-                
+
                 String formalExpression = feElement.getText();
                 if (formalExpression.startsWith(USER_PREFIX)) {
-                    
+
                     AbstractParticipant participantAssignedToTask = null;
-                    
+
                     for (AbstractParticipant participant : ServiceFactory.getIdentityService().getParticipants()) {
-                       
+
                         if (participant.getName().equals(
-                            formalExpression.substring(USER_PREFIX.length(),
-                            formalExpression.length() - 1))) {
-                            
+                            formalExpression.substring(USER_PREFIX.length(), formalExpression.length() - 1))) {
+
                             participantAssignedToTask = participant;
                         }
                     }
-                    
+
                     if (participantAssignedToTask == null) {
-                        String errorMessage = "The spedified Performer '"
-                            + formalExpression 
+                        String errorMessage = "The spedified Performer '" + formalExpression
                             + "' is not available in the IdentityService.";
                         getProblemLogger().addError(errorMessage, performerElement);
                     }
-                        
+
                     patternBuilder.addResourceAssignedToItem(participantAssignedToTask);
                 }
             }

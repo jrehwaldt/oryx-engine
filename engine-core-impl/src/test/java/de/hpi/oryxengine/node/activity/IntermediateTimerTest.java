@@ -153,7 +153,7 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
       token.executeStep();
       
       //Timer activated, now cancel the scheduled job
-      token.getCurrentActivity().cancel();
+      token.getCurrentNode().getActivityBehaviour().cancel();
       
       //Wait until the timer would resume the token
       Thread.sleep(LONG_WAITING_TIME_TEST);

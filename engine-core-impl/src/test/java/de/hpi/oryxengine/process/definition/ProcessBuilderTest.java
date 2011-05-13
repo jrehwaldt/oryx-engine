@@ -30,9 +30,9 @@ public class ProcessBuilderTest {
     public void testSimpleBuildProcess()
     throws IllegalStarteventException {
 
-        startNode = builder.getStartNodeBuilder().setActivityBlueprintFor(NullActivity.class).buildNode();
+        startNode = builder.getStartNodeBuilder().setActivityBehavior(new NullActivity()).buildNode();
 
-        endNode = builder.getNodeBuilder().setActivityBlueprintFor(NullActivity.class).buildNode();
+        endNode = builder.getNodeBuilder().setActivityBehavior(new NullActivity()).buildNode();
 
         builder.getTransitionBuilder().transitionGoesFromTo(startNode, endNode).buildTransition();
         

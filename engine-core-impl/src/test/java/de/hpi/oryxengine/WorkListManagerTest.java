@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.allocation.CreationPattern;
+import de.hpi.oryxengine.allocation.PushPattern;
 import de.hpi.oryxengine.bootstrap.JodaEngine;
 import de.hpi.oryxengine.exception.InvalidWorkItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
@@ -17,6 +18,7 @@ import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
+import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
@@ -39,7 +41,9 @@ public class WorkListManagerTest {
         JodaEngine.start();
         pattern = CreationPatternFactory.createJannikServesGerardoCreator();
         TokenImpl token = mock(TokenImpl.class);
-        pattern.createWorklistItems(ServiceFactory.getWorklistQueue(), token);
+        List<AbstractWorklistItem> items = pattern.createWorklistItems(token);
+        PushPattern pushPattern = new AllocateSinglePattern();
+        pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         // "hack" to get the participant the task belongs to
         jannik = (AbstractParticipant) pattern.getAssignedResources()[0];
@@ -83,7 +87,9 @@ public class WorkListManagerTest {
         // allocation patterns END
         ConcreteResourcePattern anotherPattern = new ConcreteResourcePattern("Go shopping", "I need milk", null, tobi);
         TokenImpl token = mock(TokenImpl.class);
-        anotherPattern.createWorklistItems(ServiceFactory.getWorklistQueue(), token);
+        List<AbstractWorklistItem> items = anotherPattern.createWorklistItems(token);
+        PushPattern pushPattern = new AllocateSinglePattern();
+        pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
     }
     
     /**

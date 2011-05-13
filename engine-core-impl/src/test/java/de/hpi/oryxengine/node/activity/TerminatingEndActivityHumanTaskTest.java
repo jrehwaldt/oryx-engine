@@ -25,6 +25,7 @@ import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
+import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 
 /**
@@ -61,7 +62,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
         // get the token that is on the human task activity. The other one is on the end node then.
         Token humanTaskToken = nav.getWorkQueue().get(0);
         Token endToken = nav.getWorkQueue().get(1);
-        if (!(humanTaskToken.getCurrentNode().getActivityBlueprint().getActivityClass() == BpmnHumanTaskActivity.class)) {
+        if (!(humanTaskToken.getCurrentNode().getActivityBehaviour().getClass() == BpmnHumanTaskActivity.class)) {
             humanTaskToken = endToken;
             endToken = nav.getWorkQueue().get(0);
         }
@@ -120,7 +121,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
         splitNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
         // param.setActivity(humanTask); TODO do something with the parameter of humanTask
-        humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, pattern);
+        humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, pattern, new AllocateSinglePattern());
 
         terminatingEndNode = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);
 

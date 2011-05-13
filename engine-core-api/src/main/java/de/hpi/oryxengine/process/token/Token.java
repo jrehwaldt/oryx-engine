@@ -141,12 +141,11 @@ public interface Token extends Identifiable {
      */
     void cancelExecution();
 
-    /**
-     * Returns the currently executed activity or null, if there is no such activity.
-     * 
-     * @return the current activity
-     */
-    @JsonProperty
-    Activity getCurrentActivity();
-    
+//    /**
+//     * Returns the currently executed activity or null, if there is no such activity.
+//     * 
+//     * @return the current activity
+//     */
+//    @JsonProperty
+//    Activity getCurrentActivity();
 }

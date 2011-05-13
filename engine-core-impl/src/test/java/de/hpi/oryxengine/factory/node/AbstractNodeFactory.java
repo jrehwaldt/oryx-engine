@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.factory.node;
 
+import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.activity.custom.PrintingVariableActivity;
 import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
 import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -7,7 +8,6 @@ import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.plugin.activity.AbstractTokenPlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
@@ -21,7 +21,7 @@ abstract class AbstractNodeFactory {
     /** The behavior. */
     protected OutgoingBehaviour outgoingBehaviour;
     /** The activity. */
-    protected ActivityBlueprint blueprint;
+    protected Activity activityBehavior;
 
     /**
      * Creates the activity for a given process instance and puts the constructor signature and the parameter values to
@@ -35,7 +35,7 @@ abstract class AbstractNodeFactory {
 
         this.setActivityBlueprint();
         this.setBehaviour();
-        Node node = new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
+        Node node = new NodeImpl(activityBehavior, incomingBehaviour, outgoingBehaviour);
         return node;
     }
 
@@ -44,9 +44,7 @@ abstract class AbstractNodeFactory {
      */
     public void setActivityBlueprint() {
 
-        Class<?>[] constructorSig = {String.class};
-        Object[] params = {"result"};
-        blueprint = new ActivityBlueprintImpl(PrintingVariableActivity.class, constructorSig, params);
+        activityBehavior = new PrintingVariableActivity("result");
     }
 
     /**
@@ -70,7 +68,7 @@ abstract class AbstractNodeFactory {
         // activity.registerPlugin(lifecycleLogger);
         // TODO what to do with plugins?
         this.setBehaviour();
-        return new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityBehavior, incomingBehaviour, outgoingBehaviour);
     }
 
 }

@@ -1,7 +1,10 @@
 package de.hpi.oryxengine.allocation;
 
+import java.util.List;
+
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 
 /**
@@ -12,9 +15,10 @@ public interface CreationPattern {
     /**
      * Creates the worklist items according to a specific Creation strategy.
      *
-     * @param worklistService the worklist service to use for item distribution
+     * @param token the token
+     * @return a list of created worklist items
      */
-    void createWorklistItems(TaskAllocation worklistService, Token token);
+    List<AbstractWorklistItem> createWorklistItems(Token token);
     
     AbstractResource<?>[] getAssignedResources();
     

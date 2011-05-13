@@ -15,26 +15,12 @@ public interface NodeBuilder {
      * Sets the activity class only and uses the empty default constructor upon instantiation. This is a convenience
      * method.
      * 
-     * @param clazz
-     *            - the new {@link Activity ActivityClass}
+     * @param activityBehavior
+     *            - the {@link Activity activityBehavior} of the {@link Node} that should be built
      * @return this {@link NodeBuilder} in order to keep on configuring it
      */
     @Nonnull
-    NodeBuilder setActivityBlueprintFor(Class<? extends Activity> clazz);
-
-    /**
-     * This class added a parameter for the instantiation of the {@link Activity ActivityClass}.
-     * 
-     * Calling this method for the second time will add the second constructor parameter .
-     * 
-     * @param parameterClazz
-     *            - {@link Class} of the parameter that is given to
-     * @param parameterInstance
-     *            - the concrete parameter instance, e.g. "Hallo"
-     * @return this {@link NodeBuilder} in order to keep on configuring it
-     */
-    @Nonnull
-    NodeBuilder addConstructorParameter(Class<?> parameterClazz, Object parameterInstance);
+    NodeBuilder setActivityBehavior(Activity activityBehavior);
 
     /**
      * Sets the {@link IncomingBehaviour}.

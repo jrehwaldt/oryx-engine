@@ -39,9 +39,11 @@ public final class BpmnCustomNodeFactory extends TransitionFactory {
                                                         int[] termsOfSum) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder)
-        .setActivityBlueprintFor(AddNumbersAndStoreActivity.class).addConstructorParameter(String.class, variableName)
-        .addConstructorParameter(int[].class, termsOfSum).buildNode();
+
+        AddNumbersAndStoreActivity activityBehavior = new AddNumbersAndStoreActivity(variableName, termsOfSum);
+
+        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
+        .buildNode();
     }
 
     /**
@@ -61,9 +63,11 @@ public final class BpmnCustomNodeFactory extends TransitionFactory {
                                                      String toBeHashed) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder)
-        .setActivityBlueprintFor(HashComputationActivity.class).addConstructorParameter(String.class, variableName)
-        .addConstructorParameter(String.class, toBeHashed).buildNode();
+
+        HashComputationActivity activityBehavior = new HashComputationActivity(variableName, toBeHashed);
+
+        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
+        .buildNode();
     }
 
     /**
@@ -85,9 +89,11 @@ public final class BpmnCustomNodeFactory extends TransitionFactory {
                                                                String... summands) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder)
-        .setActivityBlueprintFor(AddContextNumbersAndStoreActivity.class)
-        .addConstructorParameter(String.class, variableName).addConstructorParameter(String[].class, summands)
+
+        AddContextNumbersAndStoreActivity activityBehavior = new AddContextNumbersAndStoreActivity(variableName,
+            summands);
+
+        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
         .buildNode();
     }
 
@@ -106,9 +112,11 @@ public final class BpmnCustomNodeFactory extends TransitionFactory {
     public static Node createBpmnPrintingVariableNode(ProcessDefinitionBuilder builder, String variableToBePrinted) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder)
-        .setActivityBlueprintFor(PrintingVariableActivity.class)
-        .addConstructorParameter(String.class, variableToBePrinted).buildNode();
+
+        PrintingVariableActivity activityBehavior = new PrintingVariableActivity(variableToBePrinted);
+
+        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
+        .buildNode();
     }
 
     /**
@@ -124,7 +132,10 @@ public final class BpmnCustomNodeFactory extends TransitionFactory {
     public static Node createBpmnNullStartNode(ProcessDefinitionBuilder builder) {
 
         NodeBuilder nodeBuilder = builder.getStartNodeBuilder();
-        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(NullActivity.class)
+
+        NullActivity activityBehavior = new NullActivity();
+
+        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
         .buildNode();
     }
 
@@ -141,7 +152,10 @@ public final class BpmnCustomNodeFactory extends TransitionFactory {
     public static Node createBpmnNullNode(ProcessDefinitionBuilder builder) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(NullActivity.class)
+
+        NullActivity activityBehavior = new NullActivity();
+
+        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
         .buildNode();
     }
 }

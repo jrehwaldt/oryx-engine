@@ -23,8 +23,13 @@ public class NodeImpl implements Node {
     /**
      * The activity. This is the behaviour of the node e.g. what gets executed.
      * */
-    private ActivityBlueprint blueprint;
+    // TODO @Gerardo Comment wegmachen
 
+//    private ActivityBlueprint blueprint;
+
+    private Activity activityBehavior;
+    
+    
     private OutgoingBehaviour outgoingBehaviour;
     private IncomingBehaviour incomingBehaviour;
 
@@ -50,11 +55,11 @@ public class NodeImpl implements Node {
      * @param outgoingBehaviour
      *            the outgoing behavior
      */
-    public NodeImpl(ActivityBlueprint blueprint,
+    public NodeImpl(Activity activityBehavior,
                     IncomingBehaviour incomingBehaviour,
                     OutgoingBehaviour outgoingBehaviour) {
 
-        this.blueprint = blueprint;
+        this.activityBehavior = activityBehavior;
         this.incomingBehaviour = incomingBehaviour;
         this.outgoingBehaviour = outgoingBehaviour;
         this.outgoingTransitions = new ArrayList<Transition>();
@@ -81,11 +86,12 @@ public class NodeImpl implements Node {
      * @param blueprint
      *            the blueprint
      */
-    public NodeImpl(ActivityBlueprint blueprint) {
+    // TODO @Gerardo Das muss raus hier
+    public NodeImpl(Activity activityBehavior) {
 
         // TODO @Alle das muss raus hier, weil es sich hierbei um Verhalten handelt; Die Node-Klasse sollte eine
         // Grundlage für diverse Ausführungssprachen bilden. Bei Fragen an Gerardo wenden.
-        this(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        this(activityBehavior, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
     }
 
     /**
@@ -95,12 +101,13 @@ public class NodeImpl implements Node {
      * @param clazz
      *            the clazz
      */
+    // TODO @Gerardo Das muss raus hier
     public NodeImpl(Class<? extends Activity> clazz) {
 
         // TODO @Alle das muss raus hier, weil es sich hierbei um Verhalten handelt; Die Node-Klasse sollte eine
         // Grundlage für diverse Ausführungssprachen bilden. Bei Fragen an Gerardo wenden.
         this(null, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        this.blueprint = new ActivityBlueprintImpl(clazz);
+//        this.activityBehavior = new ActivityBlueprintImpl(clazz);
     }
 
     @Override
@@ -163,12 +170,6 @@ public class NodeImpl implements Node {
         return incomingTransitions;
     }
 
-    @Override
-    public ActivityBlueprint getActivityBlueprint() {
-
-        return blueprint;
-    }
-
     @JsonProperty
     @Override
     public Map<String, Object> getAttributes() {
@@ -191,4 +192,9 @@ public class NodeImpl implements Node {
         getAttributes().put(attributeKey, attributeValue);
     }
 
+    @Override
+    public Activity getActivityBehaviour() {
+
+        return this.activityBehavior;
+    }
 }

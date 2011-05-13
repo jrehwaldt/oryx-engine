@@ -80,18 +80,13 @@ public class HashComputationNodeFactory extends AbstractNodeFactory {
      */
     @Override
     public void setActivityBlueprint() {
-        
+
         if (hashAlgorithm == null) {
-            Class<?>[] constructorSig = {String.class, String.class};
-            Object[] params = {variableName, toBeHashed};
-
-            blueprint = new ActivityBlueprintImpl(HashComputationActivity.class, constructorSig, params);
+            
+            activityBehavior = new HashComputationActivity(variableName, toBeHashed);
         } else {
-            Class<?>[] constructorSig = {String.class, String.class, String.class};
-            Object[] params = {variableName, toBeHashed, hashAlgorithm};
-
-            blueprint = new ActivityBlueprintImpl(HashComputationActivity.class, constructorSig, params);
+            
+            activityBehavior = new HashComputationActivity(variableName, toBeHashed, hashAlgorithm);
         }
     }
-
 }

@@ -24,7 +24,7 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
     @Override
     public void setActivityBlueprint() {
         
-        blueprint = new ActivityBlueprintImpl(NullActivity.class);
+        activityBehavior = new NullActivity();
         
     }
 
@@ -37,7 +37,7 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
         setActivityBlueprint();
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
-        return new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityBehavior, incomingBehaviour, outgoingBehaviour);
     }
     
     /**
@@ -52,7 +52,7 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
         // TODO register plugin
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
-        return new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityBehavior, incomingBehaviour, outgoingBehaviour);
     }
     
     /**
@@ -64,7 +64,7 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
         setActivityBlueprint();
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new XORSplitBehaviour();
-        return new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityBehavior, incomingBehaviour, outgoingBehaviour);
     }
     
     /**
@@ -76,6 +76,6 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
         setActivityBlueprint();
         incomingBehaviour = new AndJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
-        return new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityBehavior, incomingBehaviour, outgoingBehaviour);
     }
 }

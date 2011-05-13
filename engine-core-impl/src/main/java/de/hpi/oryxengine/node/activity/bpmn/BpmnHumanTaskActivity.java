@@ -1,14 +1,19 @@
 package de.hpi.oryxengine.node.activity.bpmn;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.CreationPattern;
+import de.hpi.oryxengine.allocation.PushPattern;
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
+import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
  * The Implementation of a human task.
@@ -19,7 +24,10 @@ import de.hpi.oryxengine.process.token.Token;
 public class BpmnHumanTaskActivity extends AbstractActivity {
 
     @JsonProperty
-    private CreationPattern pattern;
+    private CreationPattern creationPattern;
+    
+    @JsonProperty
+    private PushPattern pushPattern;
 
     /**
      * Default Constructor.
@@ -28,9 +36,10 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
      *            - the task to distribute
      */
     // TODO: CreationPattern einfügen
-    public BpmnHumanTaskActivity(CreationPattern pattern) {
+    public BpmnHumanTaskActivity(CreationPattern pattern, PushPattern pushPattern) {
 
-        this.pattern = pattern;
+        this.creationPattern = pattern;
+        this.pushPattern = pushPattern;
     }
 
     @Override
@@ -43,7 +52,8 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 //        taskDistribution.distribute(task, token);
         // TODO @Thorben-Refactoring should we use the TaskAllocation here?
         TaskAllocation service = ServiceFactory.getWorklistQueue();
-        pattern.createWorklistItems(service, token);
+        List<AbstractWorklistItem> items = creationPattern.createWorklistItems(token);
+        pushPattern.distributeWorkitems(service, items);
 
         token.suspend();
     }

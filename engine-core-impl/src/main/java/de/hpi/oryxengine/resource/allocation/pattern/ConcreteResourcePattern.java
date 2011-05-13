@@ -1,7 +1,9 @@
 package de.hpi.oryxengine.resource.allocation.pattern;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import de.hpi.oryxengine.allocation.CreationPattern;
@@ -9,6 +11,7 @@ import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
+import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
@@ -51,15 +54,15 @@ public class ConcreteResourcePattern implements CreationPattern {
   }
 
     @Override
-    public void createWorklistItems(TaskAllocation worklistService, Token token) {
+    public List<AbstractWorklistItem> createWorklistItems(Token token) {
 
+        List<AbstractWorklistItem> itemsToDistribute = new ArrayList<AbstractWorklistItem>();
         Set<AbstractResource<?>> assignedResourcesCopy = new HashSet<AbstractResource<?>>(
         Arrays.asList(resourcesToAssignTo));
         WorklistItemImpl worklistItem = new WorklistItemImpl(subject, description, form, assignedResourcesCopy, token);
-        worklistItem.setStatus(WorklistItemState.OFFERED);
+        itemsToDistribute.add(worklistItem);
     
-        // TODO @Thorben-Refactoring do we need new worklist items for every worker?
-        worklistService.addWorklistItem(worklistItem, assignedResourcesCopy);
+        return itemsToDistribute;
         
     }
     

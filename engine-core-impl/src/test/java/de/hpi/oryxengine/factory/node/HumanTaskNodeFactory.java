@@ -29,9 +29,7 @@ public class HumanTaskNodeFactory extends AbstractNodeFactory {
         
         CreationPattern creationPattern = new ConcreteResourcePattern(subject, description, null, resources);
                 
-        Class<?>[] constructorSig = {CreationPattern.class};
-        Object[] params = {creationPattern};
-        blueprint = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
+        activityBehavior = new BpmnHumanTaskActivity(creationPattern);
     }
 
 }

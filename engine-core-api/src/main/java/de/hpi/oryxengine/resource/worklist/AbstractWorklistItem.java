@@ -58,24 +58,31 @@ public abstract class AbstractWorklistItem implements Identifiable {
         return (AbstractWorklistItem) new ObjectMapper().readValue(json, AbstractWorklistItem.class);
     }
 
+
+    @JsonIgnore
     public Form getForm() {
 
         // TODO Auto-generated method stub
         return null;
     }
 
+
+    @JsonIgnore
     public Set<AbstractResource<?>> getAssignedResources() {
 
         // TODO Auto-generated method stub
         return null;
     }
 
+    @JsonProperty
     public String getDescription() {
 
         // TODO Auto-generated method stub
         return null;
     }
 
+
+    @JsonProperty
     public String getSubject() {
 
         // TODO Auto-generated method stub
