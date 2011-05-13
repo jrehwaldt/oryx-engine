@@ -51,71 +51,61 @@ public final class ExampleMailStartProcess {
     public static void main(String... args)
     throws IllegalStarteventException {
 
-        String exampleProcessName = "exampleMailProcess";
-
-        // the main
-        JodaEngineServices jodaEngineServices = JodaEngine.start();
-
-        ((NavigatorImpl) jodaEngineServices.getNavigatorService())
-        .registerPlugin(NavigatorListenerLogger.getInstance());
-
-        // Building the ProcessDefintion
-        ProcessDefinitionBuilder builder = jodaEngineServices.getRepositoryService()
-                                                             .getDeploymentBuilder()
-                                                             .getProcessDefinitionBuilder();
-
-        Node startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
-
-        // Building Node1
-        int[] ints = { 1, 1 };
-        Node node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
-
-        // Building Node2
-        Node node2 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(builder, "result");
-
-        BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
-        BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
-
-        builder.setDescription("description").setName(exampleProcessName);
-
-        // Create a mail adapater event here.
-        // TODO @TobiP Could create a builder for this later.
-        MailAdapterConfiguration config = MailAdapterConfiguration.dalmatinaGoogleConfiguration();
-        EventCondition subjectCondition = null;
         try {
+            String exampleProcessName = "exampleMailProcess";
+
+            // the main
+            JodaEngineServices jodaEngineServices = JodaEngine.start();
+
+            ((NavigatorImpl) jodaEngineServices.getNavigatorService()).registerPlugin(NavigatorListenerLogger
+            .getInstance());
+
+            // Building the ProcessDefintion
+            DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
+            ProcessDefinitionBuilder builder = deploymentBuilder.getProcessDefinitionBuilder();
+
+            Node startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
+
+            // Building Node1
+            int[] ints = { 1, 1 };
+            Node node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
+
+            // Building Node2
+            Node node2 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(builder, "result");
+
+            BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
+            BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
+
+            builder.setDescription("description").setName(exampleProcessName);
+
+            // Create a mail adapater event here.
+            // TODO @TobiP Could create a builder for this later.
+            MailAdapterConfiguration config = MailAdapterConfiguration.dalmatinaGoogleConfiguration();
+            EventCondition subjectCondition = null;
             subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        List<EventCondition> conditions = new ArrayList<EventCondition>();
-        conditions.add(subjectCondition);
+            List<EventCondition> conditions = new ArrayList<EventCondition>();
+            conditions.add(subjectCondition);
 
-        // StartEvent event = new StartEventImpl( EventTypes.Mail,
-        // config,
-        // conditions,
-        // exampleProcessUUID);
-
+            // StartEvent event = new StartEventImpl( EventTypes.Mail,
+            // config,
+            // conditions,
+            // exampleProcessUUID);
 
             builder.createStartTrigger(EventTypes.Mail, config, conditions, startNode);
             ProcessDefinition def = builder.buildDefinition();
 
-            DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
             UUID exampleProcessUUID = deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
 
             jodaEngineServices.getRepositoryService().activateProcessDefinition(exampleProcessUUID);
 
-        try {
             jodaEngineServices.getNavigatorService().startProcessInstance(exampleProcessUUID);
-        } catch (DefinitionNotFoundException definitionNotFoundException) {
 
-            String errorMessage = "An Exception occurred: " + definitionNotFoundException.getMessage();
-            logger.error(errorMessage, definitionNotFoundException);
+            // Thread.sleep(SLEEP_TIME);
+
+        } catch (Exception exception) {
+
+            String errorMessage = "An Exception occurred: " + exception.getMessage();
+            logger.error(errorMessage, exception);
         }
-
-        // Thread.sleep(SLEEP_TIME);
-
-        // navigator.stop();
     }
 }

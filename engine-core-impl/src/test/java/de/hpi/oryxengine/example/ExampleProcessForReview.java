@@ -69,7 +69,6 @@ public final class ExampleProcessForReview {
 
         Node fourthNode = new MailNodeFactory().createWithLogger();
 
-        // TODO @Gerardo: Diese Klasse entweder zur korrekten Verwendung der JodaEngine umschreiben (Builder, deployen, etc.) oder löschen
         //die endNode muss dann wieder einkommentiert bzw. korrekt implementiert werden
 //        Node endNode = new NodeImpl(BpmnEndActivity.class);
 

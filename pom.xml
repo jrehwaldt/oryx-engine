@@ -173,7 +173,6 @@
 		<module>engine-core-api</module>
 		<module>engine-core-impl</module>
 		<module>engine-apps</module>
-		<module>engine-demo</module>
 		<module>engine-web-gui-prototype</module>
 	</modules>
 
