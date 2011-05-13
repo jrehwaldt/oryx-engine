@@ -23,5 +23,6 @@ public interface EventRegistrar {
      * @param event the intermediate event
      * @return the name of the job for the event
      */
+    // TODO @Tobi:String jobname? every time? 
     String registerIntermediateEvent(@Nonnull IntermediateEvent event);
 }

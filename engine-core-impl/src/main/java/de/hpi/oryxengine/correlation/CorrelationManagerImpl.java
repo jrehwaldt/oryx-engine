@@ -46,7 +46,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     // there may be multiple references to an Adapter configuration (i.e. a mail account)
     // and if these all use the same Configuration Object we can avoid duplicated adapters
     // TODO give a process a list of of AdapterConfiguration Objects in order for this to work
-    private Map<AdapterConfiguration, InboundAdapter> inboundAdapter;
+    private Map<AdapterConfiguration, InboundAdapter> inboundAdapters;
 
     private List<StartEvent> startEvents;
 
@@ -59,7 +59,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     public CorrelationManagerImpl(@Nonnull Navigator navigator) {
 
         this.navigator = navigator;
-        this.inboundAdapter = new HashMap<AdapterConfiguration, InboundAdapter>();
+        this.inboundAdapters = new HashMap<AdapterConfiguration, InboundAdapter>();
         this.startEvents = new ArrayList<StartEvent>();
         this.errorAdapter = new ErrorAdapter(this, new ErrorAdapterConfiguration());
 
@@ -123,7 +123,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
 
         // TODO: Implement Comparable for Adapter configurations
         // check if an adapter with the given configuration already exists
-        if (inboundAdapter.containsKey(event.getEventConfiguration())) {
+        if (inboundAdapters.containsKey(event.getEventConfiguration())) {
             return;
         }
         // Maybe it is possible to do this better.
@@ -150,7 +150,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     public @Nonnull
     <Adapter extends InboundAdapter> Adapter registerAdapter(@Nonnull Adapter adapter) {
 
-        this.inboundAdapter.put(adapter.getConfiguration(), adapter);
+        this.inboundAdapters.put(adapter.getConfiguration(), adapter);
         return adapter;
     }
 
@@ -223,7 +223,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
      */
     public Collection<InboundAdapter> getInboundAdapters() {
 
-        return this.inboundAdapter.values();
+        return this.inboundAdapters.values();
     }
 
     /**
