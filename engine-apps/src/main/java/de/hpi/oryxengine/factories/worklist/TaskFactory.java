@@ -1,11 +1,10 @@
 package de.hpi.oryxengine.factories.worklist;
 
+import com.sun.jmx.snmp.tasks.Task;
+
 import de.hpi.oryxengine.allocation.AllocationStrategies;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
-import de.hpi.oryxengine.resource.allocation.TaskImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 

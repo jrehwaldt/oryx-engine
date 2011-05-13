@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.CreationPattern;
+import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnStartEvent;
@@ -54,17 +55,18 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(startNodes.size(), 1);
 
         Node onlyStartNode = startNodes.get(0);
-        Assert.assertEquals(onlyStartNode.getActivityBlueprint().getActivityClass(), BpmnStartEvent.class);
+        Assert.assertEquals(extractActivityClass(onlyStartNode), BpmnStartEvent.class);
         Assert.assertEquals(onlyStartNode.getAttribute("name"), "Start");
         Assert.assertEquals(onlyStartNode.getOutgoingTransitions().size(), 1);
 
         Node nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), BpmnHumanTaskActivity.class);
+        Assert.assertEquals(extractActivityClass(nextNode), BpmnHumanTaskActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "Thorben, please process this task!");
         Assert.assertEquals(nextNode.getAttribute("description"), "It is only a demo task.");
 
         // Asserting the task
-        CreationPattern pattern = (CreationPattern) nextNode.getActivityBlueprint().getParameters()[0];
+        CreationPattern pattern = extractCreationPattern(nextNode);
+
         Assert.assertEquals(pattern.getItemSubject(), "Thorben, please process this task!");
         Assert.assertEquals(pattern.getItemDescription(), "It is only a demo task.");
         Assert.assertEquals(pattern.getAssignedResources()[0], thorben);
@@ -72,8 +74,24 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
         Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(endNode.getActivityBlueprint().getActivityClass(), BpmnEndActivity.class);
+        Assert.assertEquals(extractActivityClass(endNode), BpmnEndActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
         Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
+    }
+
+    private Class<? extends Activity> extractActivityClass(Node node) {
+        return node.getActivityBehaviour().getClass();
+    }
+
+    /**
+     * Doing a little Java Reflection. I like it that way. ;-)
+     * @param node
+     * @return
+     */
+    private CreationPattern extractCreationPattern(Node node) {
+        
+        BpmnHumanTaskActivity bpmnHumanTaskActivity = (BpmnHumanTaskActivity) node.getActivityBehaviour();
+        
+        return bpmnHumanTaskActivity.getCreationPattern();
     }
 }

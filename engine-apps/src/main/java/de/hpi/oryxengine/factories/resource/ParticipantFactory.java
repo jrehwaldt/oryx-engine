@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.factories.resource;
 
 import de.hpi.oryxengine.resource.AbstractParticipant;
+import de.hpi.oryxengine.resource.Participant;
 
 /**
  * A little factory for creating {@link AbstractParticipant}s.

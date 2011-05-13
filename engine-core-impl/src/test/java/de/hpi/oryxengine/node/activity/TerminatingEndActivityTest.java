@@ -10,7 +10,6 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.Navigator;

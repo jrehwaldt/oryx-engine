@@ -13,11 +13,8 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.node.activity.ActivityState;
 import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.Token;
@@ -35,9 +32,7 @@ public class AutomatedDummyActivityTest {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
     /** A dummy string. */
-    private String s = "I'm dumb";
-
-    private AutomatedDummyActivity a = null;
+    private String dummyString = "I'm dumb";
 
     private Token token;
     
@@ -56,10 +51,8 @@ public class AutomatedDummyActivityTest {
         System.setOut(new PrintStream(out));
         
         nav = mock(Navigator.class);
-        Class<?>[] constructorSig = {String.class};
-        Object[] params = {s};
-        ActivityBlueprint bp = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig, params);
-        Node node = new NodeImpl(bp);
+
+        Node node = new NodeImpl(new AutomatedDummyActivity(dummyString));
         token = new TokenImpl(node, mock(AbstractProcessInstance.class), nav);
     }
 
@@ -88,7 +81,7 @@ public class AutomatedDummyActivityTest {
     public void testExecuteOutput() throws JodaEngineException {
 
         token.executeStep();
-        assertTrue(out.toString().indexOf(s) != -1, "It should print out the given string when executed");
+        assertTrue(out.toString().indexOf(dummyString) != -1, "It should print out the given string when executed");
     }
 
     /**

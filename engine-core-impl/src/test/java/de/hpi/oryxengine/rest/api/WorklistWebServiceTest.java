@@ -31,7 +31,6 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
-import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 import de.hpi.oryxengine.util.io.StringStreamSource;

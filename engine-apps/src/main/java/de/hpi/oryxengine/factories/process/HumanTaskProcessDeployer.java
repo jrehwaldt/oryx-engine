@@ -12,9 +12,10 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sun.jmx.snmp.tasks.Task;
+
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factories.worklist.TaskFactory;
 import de.hpi.oryxengine.loadgenerator.PseudoHumanJob;

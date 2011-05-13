@@ -11,11 +11,8 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.exception.JodaEngineException;
-import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.node.activity.ActivityState;
 import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
@@ -32,10 +29,9 @@ public class ActivityLifecyclePluginTest {
      */
     @BeforeTest
     public void setUp() {
-        Class<?>[] conSig = {String.class};
-        Object[] conArgs = {"s.out"};
-        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, conSig, conArgs);
-        this.token = new TokenImpl(new NodeImpl(blueprint));
+        String dummyString = "s.out";
+
+        this.token = new TokenImpl(new NodeImpl(new AutomatedDummyActivity(dummyString)));
         this.eventCapturer = ArgumentCaptor.forClass(ActivityLifecycleChangeEvent.class);
     }
     

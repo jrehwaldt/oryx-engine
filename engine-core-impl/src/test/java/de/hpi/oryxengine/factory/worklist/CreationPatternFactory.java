@@ -9,7 +9,6 @@ import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
-import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 
 /**
  * Little factory for creating Resources. A short cut for the implementation.

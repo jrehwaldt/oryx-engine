@@ -12,7 +12,6 @@ import de.hpi.oryxengine.allocation.PushPattern;
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.node.activity.AbstractActivity;
 import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
@@ -25,7 +24,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 
     @JsonProperty
     private CreationPattern creationPattern;
-    
+
     @JsonProperty
     private PushPattern pushPattern;
 
@@ -48,8 +47,8 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
         // creationPattern.createTask()
 
         // TODO @Thorben-Refactoring think about TaskDistribution and its necessity
-//        TaskDistribution taskDistribution = ServiceFactory.getTaskDistribution();
-//        taskDistribution.distribute(task, token);
+        // TaskDistribution taskDistribution = ServiceFactory.getTaskDistribution();
+        // taskDistribution.distribute(task, token);
         // TODO @Thorben-Refactoring should we use the TaskAllocation here?
         TaskAllocation service = ServiceFactory.getWorklistQueue();
         List<AbstractWorklistItem> items = creationPattern.createWorklistItems(token);
@@ -61,22 +60,34 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     @Override
     public void cancel() {
 
-        // TODO change this as soon as we do not have the separation of task/worklistitem anymore (use methods from TaskAllocation)
+        // TODO change this as soon as we do not have the separation of task/worklistitem anymore (use methods from
+        // TaskAllocation)
         // TODO add this again, but maybe extend the creationPattern, to be able to remove the worklist items as well
-//        for (AbstractResource<?> resource : task.getAssignedResources()) {
-//            // remove all offered items
-//            Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
-//            .getLazyWorklistItems().iterator();
-//
-//            while (it.hasNext()) {
-//                WorklistItemImpl item = (WorklistItemImpl) it.next();
-//                if (item == task) {
-//                    it.remove();
-//                }
-//            }
-//        }
-        
-//        ServiceFactory.getWorklistQueue().removeWorklistItem(task, task.getAssignedResources());
+        // for (AbstractResource<?> resource : creationPattern.getAssignedResources()) {
+        // // remove all offered items
+        // Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
+        // .getLazyWorklistItems().iterator();
+        //
+        // while (it.hasNext()) {
+        // WorklistItemImpl item = (WorklistItemImpl) it.next();
+        // if (item == task) {
+        // it.remove();
+        // }
+        // }
+        // }
 
+        // ServiceFactory.getWorklistQueue().removeWorklistItem(task, task.getAssignedResources());
+
+    }
+
+    /**
+     * This method is only designed for testing and should not be considered in the implementation of this
+     * {@link BpmnHumanTaskActivity}.
+     * 
+     * @return the {@link CreationPattern}
+     */
+    public CreationPattern getCreationPattern() {
+
+        return this.creationPattern;
     }
 }

@@ -3,10 +3,10 @@ package de.hpi.oryxengine.factory.node;
 import de.hpi.oryxengine.IdentityServiceImpl;
 import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
+import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 
 /**
@@ -29,7 +29,7 @@ public class HumanTaskNodeFactory extends AbstractNodeFactory {
         
         CreationPattern creationPattern = new ConcreteResourcePattern(subject, description, null, resources);
                 
-        activityBehavior = new BpmnHumanTaskActivity(creationPattern);
+        activityBehavior = new BpmnHumanTaskActivity(creationPattern, new AllocateSinglePattern());
     }
 
 }

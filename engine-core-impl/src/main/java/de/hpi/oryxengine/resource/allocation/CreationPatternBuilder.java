@@ -1,9 +1,7 @@
 package de.hpi.oryxengine.resource.allocation;
 
-import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 
 /**

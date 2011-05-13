@@ -1,14 +1,10 @@
 package de.hpi.oryxengine.resource.allocation;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 
 /**

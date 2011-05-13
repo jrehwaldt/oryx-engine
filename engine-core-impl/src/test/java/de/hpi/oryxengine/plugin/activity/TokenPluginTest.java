@@ -12,8 +12,6 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -31,11 +29,12 @@ public class TokenPluginTest {
    */
   @BeforeMethod
   public void setUp() {
-      Node node1, node2;
-      Class<?>[] conSig = {String.class};
-      Object[] conArgs = {"s.out"};
-      ActivityBlueprint blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, conSig, conArgs);
-      node1 = new NodeImpl(blueprint);
+
+      String dummyString = "s.out";
+      
+      Node node1;
+
+      node1 = new NodeImpl(new AutomatedDummyActivity(dummyString));
       this.token = new TokenImpl(node1);
       
       mock = mock(AbstractTokenPlugin.class);

@@ -78,10 +78,10 @@ public class RoutingBehaviourTest {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-        Node node = builder.getNodeBuilder().setActivityBlueprintFor(NullActivity.class)
+        Node node = builder.getNodeBuilder().setActivityBehavior(new NullActivity())
         .setIncomingBehaviour(new SimpleJoinBehaviour()).setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
 
-        Node node2 = builder.getNodeBuilder().setActivityBlueprintFor(NullActivity.class)
+        Node node2 = builder.getNodeBuilder().setActivityBehavior(new NullActivity())
         .setIncomingBehaviour(new SimpleJoinBehaviour()).setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
 
         builder.getTransitionBuilder().transitionGoesFromTo(node, node2).buildTransition();

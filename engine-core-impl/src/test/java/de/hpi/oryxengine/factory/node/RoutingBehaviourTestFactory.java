@@ -7,7 +7,6 @@ import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.XORSplitBehaviour;
 import de.hpi.oryxengine.plugin.activity.AbstractTokenPlugin;
 import de.hpi.oryxengine.plugin.activity.ActivityLifecycleLogger;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 

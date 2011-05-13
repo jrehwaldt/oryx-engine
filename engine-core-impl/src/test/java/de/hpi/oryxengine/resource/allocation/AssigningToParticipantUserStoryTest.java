@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.CreationPattern;
-import de.hpi.oryxengine.allocation.PushPattern;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.factory.node.SimpleNodeFactory;
 import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
@@ -17,8 +16,6 @@ import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -47,15 +44,9 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
         CreationPattern pattern = CreationPatternFactory.createJannikServesGerardoCreator();
         jannik = pattern.getAssignedResources()[0];
 
-        Class<?>[] constructorSig = {CreationPattern.class, PushPattern.class};
-        Object[] params = {pattern, new AllocateSinglePattern()};
-        ActivityBlueprint bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
-        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(bp);
+        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern()));
 
-        Class<?>[] emptyConstructorSig = {};
-        Object[] emtpyParams = {};
-        bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, emptyConstructorSig, emtpyParams);
-        endNode = SimpleNodeFactory.createSimpleNodeWith(bp);
+        endNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern()));
         
         humanTaskNode.transitionTo(endNode);
                 

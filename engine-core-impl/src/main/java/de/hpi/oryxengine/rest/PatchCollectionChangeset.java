@@ -6,9 +6,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-import org.codehaus.jackson.map.type.TypeFactory;
-
-import de.hpi.oryxengine.ServiceFactory;
 
 /**
  * The Class PatchCollectionChangeset is used to access the PATCH methods of the REST API. As specified in <a

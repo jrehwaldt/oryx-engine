@@ -8,12 +8,10 @@ import java.util.Set;
 
 import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
-import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * 

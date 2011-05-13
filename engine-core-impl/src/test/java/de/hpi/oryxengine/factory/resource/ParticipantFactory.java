@@ -13,7 +13,6 @@ import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
-import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;

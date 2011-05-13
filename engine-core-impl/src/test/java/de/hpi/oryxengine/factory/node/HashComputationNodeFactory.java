@@ -1,7 +1,6 @@
 package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.node.activity.custom.HashComputationActivity;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 
 /**
  * A factory for creating HashComputationNode objects. Those nodes are used to compute a specified hash of a given

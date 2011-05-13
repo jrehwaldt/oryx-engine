@@ -1,16 +1,5 @@
 package de.hpi.oryxengine.resource.allocation;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.mockito.Mockito.mock;
-
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import de.hpi.oryxengine.allocation.AllocationStrategies;
-import de.hpi.oryxengine.resource.AbstractResource;
 
 /**
  * The Class TaskTest.
