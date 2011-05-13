@@ -132,6 +132,7 @@ public class CorrelationManagerImpl implements CorrelationManager, EventRegistra
     }
 
     @Override
+    // TODO this are no intermediate events... at least not all of them work like that (this here is PULL)
     public String registerIntermediateEvent(@Nonnull IntermediateEvent event) {
 
         String jobCompleteName = null;
