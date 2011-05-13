@@ -11,7 +11,6 @@ import com.sun.jmx.snmp.tasks.Task;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
@@ -27,10 +26,8 @@ import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
-import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
-import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
 
 /**
  * The Class ShortenedReferenceProcessDeployer. This is the implementation of the shortened version of the AOK reference
