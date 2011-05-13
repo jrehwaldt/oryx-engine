@@ -8,12 +8,10 @@ import java.util.Set;
 
 import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
-import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
 /**
  * 
@@ -28,6 +26,14 @@ public class ConcreteResourcePattern implements CreationPattern {
     
     private AbstractResource<?>[] resourcesToAssignTo;
     
+    /**
+     * Instantiates a new concrete resource pattern. The parameters are used for the creation of the {@link AbstractWorklistItem}s.
+     *
+     * @param subject the subject
+     * @param description the description
+     * @param form the form
+     * @param assignedResources the assigned resources
+     */
     public ConcreteResourcePattern(String subject,
                                      String description,
                                      Form form,
