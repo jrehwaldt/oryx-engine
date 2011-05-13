@@ -16,7 +16,6 @@ import de.hpi.oryxengine.correlation.registration.EventCondition;
 import de.hpi.oryxengine.correlation.registration.EventConditionImpl;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
@@ -32,7 +31,7 @@ import de.hpi.oryxengine.process.structure.Node;
  */
 public final class ExampleMailStartProcess {
 
-    private static final Logger logger = LoggerFactory.getLogger(ExampleMailStartProcess.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleMailStartProcess.class);
 
     /** Hidden constructor */
     private ExampleMailStartProcess() {
@@ -105,7 +104,7 @@ public final class ExampleMailStartProcess {
         } catch (Exception exception) {
 
             String errorMessage = "An Exception occurred: " + exception.getMessage();
-            logger.error(errorMessage, exception);
+            LOGGER.error(errorMessage, exception);
         }
     }
 }

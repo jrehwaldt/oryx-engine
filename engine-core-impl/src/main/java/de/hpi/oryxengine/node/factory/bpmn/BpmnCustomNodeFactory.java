@@ -1,8 +1,10 @@
 package de.hpi.oryxengine.node.factory.bpmn;
 
+import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.activity.NullActivity;
 import de.hpi.oryxengine.node.activity.custom.AddContextNumbersAndStoreActivity;
 import de.hpi.oryxengine.node.activity.custom.AddNumbersAndStoreActivity;
+import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
 import de.hpi.oryxengine.node.activity.custom.HashComputationActivity;
 import de.hpi.oryxengine.node.activity.custom.PrintingVariableActivity;
 import de.hpi.oryxengine.node.factory.TransitionFactory;
@@ -40,7 +42,7 @@ public final class BpmnCustomNodeFactory extends TransitionFactory {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
 
-        AddNumbersAndStoreActivity activityBehavior = new AddNumbersAndStoreActivity(variableName, termsOfSum);
+        Activity activityBehavior = new AddNumbersAndStoreActivity(variableName, termsOfSum);
 
         return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
         .buildNode();
@@ -64,7 +66,7 @@ public final class BpmnCustomNodeFactory extends TransitionFactory {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
 
-        HashComputationActivity activityBehavior = new HashComputationActivity(variableName, toBeHashed);
+        Activity activityBehavior = new HashComputationActivity(variableName, toBeHashed);
 
         return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
         .buildNode();
@@ -90,13 +92,35 @@ public final class BpmnCustomNodeFactory extends TransitionFactory {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
 
-        AddContextNumbersAndStoreActivity activityBehavior = new AddContextNumbersAndStoreActivity(variableName,
+        Activity activityBehavior = new AddContextNumbersAndStoreActivity(variableName,
             summands);
 
         return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
         .buildNode();
     }
 
+    /**
+     * Creates a {@link Node} that represents the {@link AutomatedDummyActivity}.
+     * 
+     * It has the default BPMN Incoming- and OutgoingBehaviour as specified
+     * {@link BpmnNodeFactory#decorateBpmnDefaultRouting(NodeBuilder) here}.
+     * 
+     * @param builder
+     *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
+     * @param textToBePrinted
+     *            - the text that should be printed
+     * @return a {@link Node} representing an {@link AutomatedDummyActivity}
+     */
+    public static Node createBpmnPrintingNode(ProcessDefinitionBuilder builder, String textToBePrinted) {
+
+        NodeBuilder nodeBuilder = builder.getNodeBuilder();
+
+        Activity activityBehavior = new AutomatedDummyActivity(textToBePrinted);
+
+        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
+        .buildNode();
+    }
+    
     /**
      * Creates a {@link Node} that represents the {@link PrintingVariableActivity}.
      * 
@@ -113,7 +137,7 @@ public final class BpmnCustomNodeFactory extends TransitionFactory {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
 
-        PrintingVariableActivity activityBehavior = new PrintingVariableActivity(variableToBePrinted);
+        Activity activityBehavior = new PrintingVariableActivity(variableToBePrinted);
 
         return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
         .buildNode();
@@ -133,7 +157,7 @@ public final class BpmnCustomNodeFactory extends TransitionFactory {
 
         NodeBuilder nodeBuilder = builder.getStartNodeBuilder();
 
-        NullActivity activityBehavior = new NullActivity();
+        Activity activityBehavior = new NullActivity();
 
         return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
         .buildNode();
@@ -153,7 +177,7 @@ public final class BpmnCustomNodeFactory extends TransitionFactory {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
 
-        NullActivity activityBehavior = new NullActivity();
+        Activity activityBehavior = new NullActivity();
 
         return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
         .buildNode();

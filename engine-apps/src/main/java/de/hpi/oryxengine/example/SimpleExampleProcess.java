@@ -1,22 +1,29 @@
 package de.hpi.oryxengine.example;
 
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.core.joran.event.EndEvent;
+import de.hpi.oryxengine.JodaEngineServices;
+import de.hpi.oryxengine.bootstrap.JodaEngine;
+import de.hpi.oryxengine.correlation.registration.StartEvent;
+import de.hpi.oryxengine.deployment.DeploymentBuilder;
+import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
+import de.hpi.oryxengine.exception.DefinitionNotFoundException;
+import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.monitor.Monitor;
 import de.hpi.oryxengine.monitor.MonitorGUI;
-import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
+import de.hpi.oryxengine.node.factory.TransitionFactory;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
-import de.hpi.oryxengine.process.structure.NodeBuilder;
-import de.hpi.oryxengine.process.structure.NodeBuilderImpl;
-import de.hpi.oryxengine.process.structure.NodeImpl;
-import de.hpi.oryxengine.process.token.TokenImpl;
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
+import de.hpi.oryxengine.process.structure.Node;
 
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
@@ -33,7 +40,7 @@ public final class SimpleExampleProcess {
      * executed.
      */
     private static final int INSTANCE_COUNT = 1000000;
-    
+
     private static final int STOPPING_MARK_1 = 234000;
     private static final int STOPPING_MARK_2 = 100000;
     private static final int STOPPING_MARK_3 = 500000;
@@ -47,26 +54,34 @@ public final class SimpleExampleProcess {
      * 
      * @param args
      *            the arguments
+     * @throws IllegalStarteventException
+     * @throws DefinitionNotFoundException
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    throws IllegalStarteventException, DefinitionNotFoundException {
 
         MonitorGUI monitorGUI = MonitorGUI.start(INSTANCE_COUNT);
-        
+
         Monitor monitor = new Monitor(monitorGUI);
-        
+
+        JodaEngineServices jodaEngineServices = JodaEngine.start();
+
+        // Registering the plugin - kind of a hack
+        NavigatorImpl navigator = (NavigatorImpl) jodaEngineServices.getNavigatorService();
         navigator.getScheduler().registerPlugin(monitor);
-        
-        navigator.start();
+
+        UUID sampleProcessUUID = deploySampleProcess(jodaEngineServices);
 
         // let's generate some load :)
         LOGGER.info("Engine started");
         for (int i = 0; i < INSTANCE_COUNT; i++) {
-            
-            TokenImpl instance = sampleProcessInstance(i, navigator);
+
+            AbstractProcessInstance processInstance = jodaEngineServices.getNavigatorService().startProcessInstance(
+                sampleProcessUUID);
+
             if (i == STOPPING_MARK_1 || i == STOPPING_MARK_2 || i == STOPPING_MARK_3 || i == STOPPING_MARK_4) {
-                monitor.markSingleInstance(instance);
+                monitor.markSingleInstance(processInstance);
             }
-            navigator.startArbitraryInstance(instance);
 
             if (i % INSTANCE_COUNT == 0) {
                 LOGGER.debug("Started {} Instances", i);
@@ -75,30 +90,54 @@ public final class SimpleExampleProcess {
     }
 
     /**
-     * Sample process instance.
-     *
-     * @param counter the counter
-     * @param navigator the navigator
-     * @return the process instance impl
+     * Deploys the sample process.
      */
-    private static TokenImpl sampleProcessInstance(int counter, Navigator navigator) {
+    private static UUID deploySampleProcess(JodaEngineServices jodaEngineServices)
+    throws IllegalStarteventException {
 
-        
-        NodeBuilder nodeBuilder = new NodeBuilderImpl();
-        BpmnNodeFactory.createBpmnEndEventNode()
-        nodeBuilder.setActivityBehavior(new AutomatedDummyActivity("counter: " + counter)).se;
-        
-        
-        Node startNode = nodeBuilder.buildNode()
-        
-        params = new Object[] {"counter 2: " + counter};
-        blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig,
-            params);
-        NodeImpl secondNode = new NodeImpl(blueprint);
-        startNode.transitionTo(secondNode);
+        DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
 
-        TokenImpl sampleInstance = new TokenImpl(startNode, new ProcessInstanceImpl(null), navigator);
-        return sampleInstance;
+        ProcessDefinition processDefinition = buildSampleProcessDefinition(deploymentBuilder
+        .getProcessDefinitionBuilder());
+
+        UUID sampleProcessUUID = deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(
+            processDefinition));
+
+        return sampleProcessUUID;
+
     }
 
+    /**
+     * Builds the {@link ProcessDefinition} for the sample process.
+     * <p>
+     * The sample process contains: {@link StartEvent} => {@link AutomatedDummyActivity AutomatedDummyActivityNode} =>
+     * {@link AutomatedDummyActivity AutomatedDummyActivityNode} => {@link EndEvent} .
+     * </p>
+     */
+    private static ProcessDefinition buildSampleProcessDefinition(ProcessDefinitionBuilder definitionBuilder)
+    throws IllegalStarteventException {
+
+        String sampleProcessName = "Sample process for load test";
+        String sampleProcessDescription = "This process is passed on to the load monitor.";
+
+        Node startNode, automatedDummyNode1, automatedDummyNode2, endNode;
+
+        startNode = BpmnNodeFactory.createBpmnStartEventNode(definitionBuilder);
+
+        automatedDummyNode1 = BpmnCustomNodeFactory.createBpmnPrintingNode(definitionBuilder,
+            "AutomatedActivity 1 (Sample Process)");
+
+        automatedDummyNode2 = BpmnCustomNodeFactory.createBpmnPrintingNode(definitionBuilder,
+            "AutomatedActivity 2 (Sample Process)");
+
+        endNode = BpmnNodeFactory.createBpmnEndEventNode(definitionBuilder);
+
+        TransitionFactory.createTransitionFromTo(definitionBuilder, startNode, automatedDummyNode1);
+        TransitionFactory.createTransitionFromTo(definitionBuilder, automatedDummyNode1, automatedDummyNode2);
+        TransitionFactory.createTransitionFromTo(definitionBuilder, automatedDummyNode2, endNode);
+
+        definitionBuilder.setName(sampleProcessName).setDescription(sampleProcessDescription);
+
+        return definitionBuilder.buildDefinition();
+    }
 }

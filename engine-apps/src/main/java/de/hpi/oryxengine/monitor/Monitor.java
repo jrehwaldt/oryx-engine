@@ -1,8 +1,10 @@
 package de.hpi.oryxengine.monitor;
 
-import java.util.LinkedHashSet;
+import java.util.HashSet;
+import java.util.Set;
 
 import de.hpi.oryxengine.plugin.scheduler.AbstractSchedulerListener;
+import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
@@ -11,7 +13,7 @@ import de.hpi.oryxengine.process.token.Token;
 public class Monitor extends AbstractSchedulerListener {
 
     private MonitorGUI gui;
-    private LinkedHashSet<Token> instancesToTrack;
+    private Set<AbstractProcessInstance> instancesToTrack;
 
     /**
      * Instantiates a new monitor. This plugin listens for Scheduler events, such as a new instance that is scheduled,
@@ -23,14 +25,13 @@ public class Monitor extends AbstractSchedulerListener {
     public Monitor(MonitorGUI gui) {
 
         this.gui = gui;
-        this.instancesToTrack = new LinkedHashSet<Token>();
     }
 
     @Override
     public void processInstanceSubmitted(int numberOfInstances, Token token) {
 
         updateNumberOfInstances(numberOfInstances);
-        if (instancesToTrack.contains(token)) {
+        if (instancesToTrack.contains(token.getInstance())) {
             showInstanceSubmitted(token);
         }
     }
@@ -39,7 +40,7 @@ public class Monitor extends AbstractSchedulerListener {
     public void processInstanceRetrieved(int numberOfInstances, Token token) {
 
         updateNumberOfInstances(numberOfInstances);
-        if (instancesToTrack.contains(token)) {
+        if (instancesToTrack.contains(token.getInstance())) {
             showInstanceRetrieved(token);
         }
     }
@@ -77,10 +78,13 @@ public class Monitor extends AbstractSchedulerListener {
     /**
      * Mark single instance. State changes for this instance will be shown explicitly in the GUI.
      *
-     * @param instance the instance
+     * @param processInstance the instance
      */
-    public void markSingleInstance(Token instance) {
+    public void markSingleInstance(AbstractProcessInstance processInstance) {
 
-        this.instancesToTrack.add(instance);
+        if (this.instancesToTrack == null) {
+            this.instancesToTrack = new HashSet<AbstractProcessInstance>();
+        }
+        this.instancesToTrack.add(processInstance);
     }
 }
