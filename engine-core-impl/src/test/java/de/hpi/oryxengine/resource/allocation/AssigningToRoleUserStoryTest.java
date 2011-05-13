@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.CreationPattern;
+import de.hpi.oryxengine.allocation.PushPattern;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.node.SimpleNodeFactory;
@@ -29,6 +30,7 @@ import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
+import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
@@ -79,8 +81,8 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 
 //        Task task = new TaskImpl("Clean the office.", "It is very dirty.", allocationStrategies, hamburgGuysRole);
 
-        Class<?>[] constructorSig = {CreationPattern.class};
-        Object[] params = {pattern};
+        Class<?>[] constructorSig = {CreationPattern.class, PushPattern.class};
+        Object[] params = {pattern, new OfferMultiplePattern()};
         ActivityBlueprint bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
         Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(bp);
 
