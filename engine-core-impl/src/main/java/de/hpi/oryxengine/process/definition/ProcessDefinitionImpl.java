@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.IllegalStarteventException;

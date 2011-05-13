@@ -9,7 +9,9 @@ import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionInside;
 
-// Like a parameter object
+/**
+ * Implementation of the {@link ServiceContextImpl ServiceContext-Interface}.
+ */
 public class InstantiationPatternContextImpl extends ServiceContextImpl implements InstantiationPatternContext {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -31,6 +33,14 @@ public class InstantiationPatternContextImpl extends ServiceContextImpl implemen
         settingProcessDefinition(processDefinition);
     }
 
+    /**
+     * An extended Constructor in case a {@link StartEvent} was thrown.
+     * 
+     * @param processDefinition
+     *            - the {@link ProcessDefinitionInside processDefinition} that is assigned to this patternContext
+     * @param startEvent
+     *            - the thrown {@link StartEvent}
+     */
     public InstantiationPatternContextImpl(ProcessDefinitionInside processDefinition, StartEvent startEvent) {
 
         this(processDefinition);
@@ -50,7 +60,8 @@ public class InstantiationPatternContextImpl extends ServiceContextImpl implemen
     }
 
     /**
-     * Sets the {@link ProcessDefinitionInside processDefinition}.
+     * Sets the {@link ProcessDefinitionInside processDefinition} in this {@link InstantiationPatternContext
+     * patternContext}.
      */
     private void settingProcessDefinition(ProcessDefinitionInside processDefinition) {
 

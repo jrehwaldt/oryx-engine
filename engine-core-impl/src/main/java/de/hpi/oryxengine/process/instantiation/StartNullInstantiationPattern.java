@@ -3,9 +3,6 @@ package de.hpi.oryxengine.process.instantiation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.correlation.CorrelationManager;
-import de.hpi.oryxengine.navigator.NavigatorInside;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionInside;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 
 /**
