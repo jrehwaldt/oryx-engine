@@ -174,14 +174,50 @@ public class BuildingRoleTest extends AbstractJodaEngineTest {
     @Test
     public void testDeleteParticipantRoleRelationship()
     throws Exception {
+        
+        AbstractParticipant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
+        identityBuilder.participantBelongsToRole(participant.getID(), adminRole.getID());
+        
+        identityBuilder.participantDoesNotBelongToRole(participant.getID(), adminRole.getID());
+        
+        String failureMessage = "The Role 'Administrators' does not contain any participants.";
+        Assert.assertTrue(adminRole.getParticipantsImmutable().size() == 0, failureMessage);
+    }
 
+    /**
+     * Test that the relationship between Participant and Role is removed properly, when a participant is removed.
+     * 
+     * @throws Exception
+     *             the exception
+     */
+    @Test
+    public void testDeletedRoleWillBeRemovedFromParticipantRelationship()
+    throws Exception {
+        
         AbstractParticipant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
         identityBuilder.participantBelongsToRole(participant.getID(), adminRole.getID());
 
-        identityBuilder.participantDoesNotBelongToRole(participant.getID(), adminRole.getID());
+        identityBuilder.deleteRole(this.adminRole.getID());
+        
+        String failureMessage = "The deleted role should no longer be a role of the participant.";
+        Assert.assertFalse(participant.getMyRolesImmutable().contains(this.adminRole), failureMessage);
+    }
 
-        String failureMessage = "The Role 'Administrators' does not contain any participants.";
-        Assert.assertTrue(adminRole.getParticipantsImmutable().size() == 0, failureMessage);
-
+    /**
+     * Test that the relationship between Participant and Role is removed properly, when a participant is removed.
+     * 
+     * @throws Exception
+     *             the exception
+     */
+    @Test
+    public void testDeletedParticipantWillBeRemovedFromRoleRelationship()
+    throws Exception {
+        AbstractParticipant participant = identityBuilder.createParticipant("Gerardo Navarro Suarez");
+        identityBuilder.participantBelongsToRole(participant.getID(), adminRole.getID());
+        
+        identityBuilder.deleteParticipant(participant.getID());
+        
+        String failureMessage = "The deleted participant should no longer be in the role 'Administrator'.";
+        Assert.assertFalse(this.adminRole.getParticipantsImmutable().contains(participant), failureMessage);
     }
 }

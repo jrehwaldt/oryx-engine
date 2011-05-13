@@ -72,8 +72,8 @@ navigation.put("settings", new NavigationEntry[] {});
               <div class="col1">
                 <div id="header">
                   <div id="logo">
-                    <a href="/" alt="Joda Engine home">
-                        <img src="/images/logo.jpg" height="69" width="185" border="0" alt="Joda Engine home" />
+                    <a href="/" alt="JodaEngine home">
+                        <img src="/images/jodaengine.png" height="69" width="185" border="0" alt="Joda Engine home" />
                     </a>
                   </div>
                   <div id="menu-level-1">

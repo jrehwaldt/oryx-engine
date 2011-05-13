@@ -47,11 +47,15 @@ public class IdentityBuilderImpl implements IdentityBuilder {
 
         Participant participantImpl = Participant.asParticipantImpl(participantId);
 
+        for (Role roleImpl : participantImpl.getMyRoles()) {
+            roleImpl.getParticipants().remove(participantImpl);
+        }
+        
         for (Position positionImpl : participantImpl.getMyPositions()) {
             positionImpl.setPositionHolder(null);
         }
-
-            identityService.getParticipantImpls().remove(participantImpl.getID());
+        
+        identityService.getParticipantImpls().remove(participantImpl.getID());
         return this;
     }
 
