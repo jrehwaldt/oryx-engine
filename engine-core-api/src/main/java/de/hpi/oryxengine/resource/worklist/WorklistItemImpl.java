@@ -61,28 +61,24 @@ public class WorklistItemImpl extends AbstractWorklistItem {
     }
 
     @Override
-    @JsonIgnore
     public String getSubject() {
 
         return subject;
     }
 
     @Override
-    @JsonIgnore
     public String getDescription() {
 
         return description;
     }
 
     @Override
-    @JsonIgnore
     public Form getForm() {
 
         return form;
     }
 
     @Override
-    @JsonProperty
     public Set<AbstractResource<?>> getAssignedResources() {
 
         return assignedResources;
@@ -100,6 +96,7 @@ public class WorklistItemImpl extends AbstractWorklistItem {
      * @param status
      *            the new {@link WorklistItemState}
      */
+    @JsonProperty
     public void setStatus(WorklistItemState status) {
 
         this.status = status;
