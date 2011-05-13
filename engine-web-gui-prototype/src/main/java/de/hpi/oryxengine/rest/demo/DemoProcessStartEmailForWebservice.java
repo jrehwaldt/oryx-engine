@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.correlation.adapter.EventTypes;
-import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
 import de.hpi.oryxengine.correlation.registration.EventCondition;
 import de.hpi.oryxengine.correlation.registration.EventConditionImpl;
@@ -128,7 +128,7 @@ public final class DemoProcessStartEmailForWebservice {
 
         // Create a mail adapater event here.
         // TODO @TobiP Could create a builder for this later.
-        MailAdapterConfiguration config = MailAdapterConfiguration.dalmatinaGoogleConfiguration();
+        InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.dalmatinaGoogleConfiguration();
         EventCondition subjectCondition = null;
         try {
             subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");

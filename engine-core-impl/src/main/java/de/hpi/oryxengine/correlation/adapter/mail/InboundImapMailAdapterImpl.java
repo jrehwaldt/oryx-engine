@@ -20,7 +20,7 @@ import de.hpi.oryxengine.exception.JodaEngineException;
  * 
  * {@link CorrelationManager}.
  */
-public class InboundImapMailAdapterImpl extends AbstractCorrelationAdapter<MailAdapterConfiguration>
+public class InboundImapMailAdapterImpl extends AbstractCorrelationAdapter<InboundMailAdapterConfiguration>
 implements InboundPullAdapter {
 
     /**
@@ -33,7 +33,7 @@ implements InboundPullAdapter {
      */
     @SuppressWarnings("restriction")
     public InboundImapMailAdapterImpl(@Nonnull CorrelationManager correlation,
-                                      @Nonnull MailAdapterConfiguration configuration) {
+                                      @Nonnull InboundMailAdapterConfiguration configuration) {
 
         super(correlation, configuration);
 
@@ -45,7 +45,7 @@ implements InboundPullAdapter {
     }
 
     /**
-     * This mailer adapter will receive mails as specified in {@link MailAdapterConfiguration}.
+     * This mailer adapter will receive mails as specified in {@link InboundMailAdapterConfiguration}.
      * 
      * {@inheritDoc}
      */

@@ -16,7 +16,7 @@ import de.hpi.oryxengine.correlation.adapter.PullAdapterConfiguration;
 import de.hpi.oryxengine.correlation.adapter.TimedConfiguration;
 import de.hpi.oryxengine.correlation.adapter.TimerConfigurationImpl;
 import de.hpi.oryxengine.correlation.adapter.error.ErrorAdapter;
-import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterConfiguration;
+import de.hpi.oryxengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
@@ -42,7 +42,7 @@ public class TimingManagerTest {
         InboundPullAdapter adapter = mock(InboundPullAdapter.class);
         // Unfortunately mocking doesn't seem to work with classes as return value,
         // therefore the PullAdapterConfiguration is instantiated manually
-        PullAdapterConfiguration configuration = new MailAdapterConfiguration(null, null, null,
+        PullAdapterConfiguration configuration = new InboundMailAdapterConfiguration(null, null, null,
             null, 0, false);
         when(adapter.getConfiguration()).thenReturn(configuration);
         this.timer.registerPullAdapter(adapter);

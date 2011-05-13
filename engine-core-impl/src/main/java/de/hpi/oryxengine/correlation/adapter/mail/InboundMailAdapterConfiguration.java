@@ -22,8 +22,8 @@ import de.hpi.oryxengine.exception.AdapterSchedulingException;
 /**
  * The mail adapter configuration.
  */
-public final class MailAdapterConfiguration extends AbstractAdapterConfiguration implements PullAdapterConfiguration {
-
+public final class InboundMailAdapterConfiguration extends AbstractAdapterConfiguration implements
+PullAdapterConfiguration {
 
     private final String userName;
     private final String password;
@@ -50,12 +50,12 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
      * @param useSSL
      *            should ssl be used for connection
      */
-    public MailAdapterConfiguration(@Nonnull MailProtocol protocol,
-                                    @Nonnull String userName,
-                                    @Nonnull String password,
-                                    @Nonnull String address,
-                                    @Nonnegative int port,
-                                    @Nonnull boolean useSSL) {
+    public InboundMailAdapterConfiguration(@Nonnull MailProtocol protocol,
+                                           @Nonnull String userName,
+                                           @Nonnull String password,
+                                           @Nonnull String address,
+                                           @Nonnegative int port,
+                                           @Nonnull boolean useSSL) {
 
         super(EventTypes.Mail);
         this.protocol = protocol;
@@ -67,9 +67,10 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     }
 
     /**
-	 * Returns the user name.
-	 * @return  the user name
-	 */
+     * Returns the user name.
+     * 
+     * @return the user name
+     */
     public @Nonnull
     String getUserName() {
 
@@ -77,9 +78,10 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     }
 
     /**
-	 * Returns the password.
-	 * @return  the password.
-	 */
+     * Returns the password.
+     * 
+     * @return the password.
+     */
     public @Nonnull
     String getPassword() {
 
@@ -87,9 +89,10 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     }
 
     /**
-	 * Returns the address. If javax.mail is used, it is recommended to use toCon
-	 * @return  the address
-	 */
+     * Returns the address. If javax.mail is used, it is recommended to use toCon
+     * 
+     * @return the address
+     */
     public @Nonnull
     String getAddress() {
 
@@ -97,9 +100,10 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     }
 
     /**
-	 * Returns the port number.
-	 * @return  the port number
-	 */
+     * Returns the port number.
+     * 
+     * @return the port number
+     */
     public @Nonnegative
     int getPort() {
 
@@ -158,18 +162,20 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
     }
 
     /**
-	 * Returns, whether to use ssl.
-	 * @return  should use ssl
-	 */
+     * Returns, whether to use ssl.
+     * 
+     * @return should use ssl
+     */
     public boolean isUseSSL() {
 
         return useSSL;
     }
 
     /**
-	 * Returns the account's protocol.
-	 * @return  the account protocol
-	 */
+     * Returns the account's protocol.
+     * 
+     * @return the account protocol
+     */
     public MailProtocol getProtocol() {
 
         return protocol;
@@ -186,11 +192,11 @@ public final class MailAdapterConfiguration extends AbstractAdapterConfiguration
      * 
      * @return the mail adapter configuration
      */
-    public static MailAdapterConfiguration dalmatinaGoogleConfiguration() {
+    public static InboundMailAdapterConfiguration dalmatinaGoogleConfiguration() {
 
         // TODO @All: WTF delete this (in July). Other options would be a local file.. but well. no.
-        return new MailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!", "imap.googlemail.com",
-            MailProtocol.IMAP.getPort(true), true);
+        return new InboundMailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
+            "imap.googlemail.com", MailProtocol.IMAP.getPort(true), true);
     }
 
     @Override
