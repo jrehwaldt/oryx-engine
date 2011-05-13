@@ -8,11 +8,14 @@ import org.mockito.Mockito;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.allocation.CreationPattern;
+import de.hpi.oryxengine.allocation.PushPattern;
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.Participant;
+import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 
 /**
@@ -87,7 +90,9 @@ public class ParticipantFactory extends ResourceFactory {
         CreationPattern pattern = null;
         for (int i = 0; i < NUMBER_OF_ITEMS_FOR_BUSY_PARTICIPANT; i++) {
             pattern = CreationPatternFactory.createParticipantTask(willi);
-            pattern.createWorklistItems(taskAllocationService, Mockito.mock(Token.class));
+            List<AbstractWorklistItem> items = pattern.createWorklistItems(Mockito.mock(Token.class));
+            PushPattern pushPattern = new AllocateSinglePattern();
+            pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
 //            taskDistributionService.distribute(pattern, Mockito.mock(Token.class));
         }
         

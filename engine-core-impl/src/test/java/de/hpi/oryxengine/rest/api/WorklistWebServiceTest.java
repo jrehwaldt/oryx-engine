@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.CreationPattern;
+import de.hpi.oryxengine.allocation.PushPattern;
 import de.hpi.oryxengine.bootstrap.JodaEngine;
 import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
@@ -28,6 +30,8 @@ import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
+import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
+import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 import de.hpi.oryxengine.util.io.StringStreamSource;
@@ -67,7 +71,11 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         when(instance.getContext()).thenReturn(context);
         when(token.getInstance()).thenReturn(instance);
 //        ServiceFactory.getTaskDistribution().distribute(task, token);
-        pattern.createWorklistItems(ServiceFactory.getWorklistQueue(), token);
+        
+        List<AbstractWorklistItem> items = pattern.createWorklistItems(token);
+        PushPattern pushPattern = new AllocateSinglePattern();
+        pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
+        
         // System.out.println(ServiceFactory.getIdentityService().getParticipants());
         jannik = (AbstractParticipant) pattern.getAssignedResources()[0];
     }

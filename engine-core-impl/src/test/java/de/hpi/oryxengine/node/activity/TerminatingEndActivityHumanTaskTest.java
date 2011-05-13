@@ -25,6 +25,7 @@ import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
+import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 
 /**
@@ -120,7 +121,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
         splitNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
         // param.setActivity(humanTask); TODO do something with the parameter of humanTask
-        humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, pattern);
+        humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, pattern, new AllocateSinglePattern());
 
         terminatingEndNode = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);
 

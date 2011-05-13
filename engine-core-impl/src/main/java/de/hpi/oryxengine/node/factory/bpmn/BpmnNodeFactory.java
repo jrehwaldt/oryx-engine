@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.node.factory.bpmn;
 
 import de.hpi.oryxengine.allocation.CreationPattern;
+import de.hpi.oryxengine.allocation.PushPattern;
 import de.hpi.oryxengine.node.activity.NullActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
@@ -93,11 +94,11 @@ public final class BpmnNodeFactory extends TransitionFactory {
      *            - the task to distribute
      * @return a {@link Node} representing an {@link BpmnHumanTaskActivity}
      */
-    public static Node createBpmnUserTaskNode(ProcessDefinitionBuilder builder, CreationPattern pattern) {
+    public static Node createBpmnUserTaskNode(ProcessDefinitionBuilder builder, CreationPattern creationPattern, PushPattern pushPattern) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
         return decorateBpmnDefaultRouting(nodeBuilder).setActivityBlueprintFor(BpmnHumanTaskActivity.class)
-        .addConstructorParameter(CreationPattern.class, pattern).buildNode();
+        .addConstructorParameter(CreationPattern.class, creationPattern).addConstructorParameter(PushPattern.class, pushPattern).buildNode();
     }
 
     /**

@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.CreationPattern;
+import de.hpi.oryxengine.allocation.PushPattern;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
@@ -20,6 +21,7 @@ import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.AbstractRole;
+import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 import de.hpi.oryxengine.rest.AbstractJsonServerTest;
@@ -166,7 +168,9 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
         pattern = CreationPatternFactory.createRoleTask();
         TokenImpl token = mock(TokenImpl.class);
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
-        pattern.createWorklistItems(ServiceFactory.getWorklistQueue(), token);
+        List<AbstractWorklistItem> items = pattern.createWorklistItems(token);
+        PushPattern pushPattern = new OfferMultiplePattern();
+        pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
 
         // get the participants that are assigned to the role that this task was assigned to.
         assignedRole = (AbstractRole) pattern.getAssignedResources()[0];

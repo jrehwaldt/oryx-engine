@@ -47,6 +47,7 @@ import de.hpi.oryxengine.process.structure.condition.CheckVariableTrueCondition;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.allocation.CreationPatternBuilder;
 import de.hpi.oryxengine.resource.allocation.CreationPatternBuilderImpl;
+import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.util.io.StreamSource;
 import de.hpi.oryxengine.util.xml.XmlElement;
 import de.hpi.oryxengine.util.xml.XmlParse;
@@ -390,9 +391,9 @@ public class BpmnXmlParse extends XmlParse {
      */
     protected void parseUserTask(XmlElement taskXmlElement) {
 
-        CreationPattern pattern = parseInformationForUserTask(taskXmlElement);
+        CreationPattern creationPattern = parseInformationForUserTask(taskXmlElement);
 
-        Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, pattern);
+        Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, creationPattern, new AllocateSinglePattern());
 
         parseGeneralNodeInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
