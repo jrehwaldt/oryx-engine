@@ -17,7 +17,7 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
     private final static int NUMBER_OF_NODES = 5;
 
     /** The Constant PASSWORDS. */
-    private final static String[] PASSWORDS = { "Hallo", "toor", "278dahka!§-", "muhhhh", "HPI" };
+    private final static String[] PASSWORDS = {"Hallo", "toor", "278dahka!§-", "muhhhh", "HPI"};
 
     private Node startNode;
 
@@ -42,8 +42,10 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
 
         for (int i = 0; i < NUMBER_OF_NODES; i++) {
 
-            Node tmpNode = BpmnCustomNodeFactory.createBpmnHashComputationNode(processDefinitionBuilder, "hash", PASSWORDS[i
-                % PASSWORDS.length]);
+            Node tmpNode = BpmnCustomNodeFactory.createBpmnHashComputationNode(
+                processDefinitionBuilder, 
+                "hash", 
+                PASSWORDS[i % PASSWORDS.length]);
 
             BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, this.lastNode, tmpNode);
             this.lastNode = tmpNode;

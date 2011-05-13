@@ -24,6 +24,8 @@ import de.hpi.oryxengine.process.structure.condition.JuelExpressionCondition;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
+import de.hpi.oryxengine.resource.allocation.CreationPatternBuilder;
+import de.hpi.oryxengine.resource.allocation.CreationPatternBuilderImpl;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
@@ -281,12 +283,13 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         // human task for objection clerk, task is to check
         // positions of objection
         Form form = extractForm("form1", "claimPoints.html");
-        CreationPattern creationPattern = new ConcreteResourcePattern("Positionen auf Anspruch prüfen",
-            "Anspruchspositionen überprüfen", form, objectionClerk);
+        CreationPatternBuilder builder = new CreationPatternBuilderImpl();
+        builder.setItemDescription("Anspruchspositionen überprüfen").setItemSubject("Positionen auf Anspruch prüfen")
+        .setItemForm(form).addResourceAssignedToItem(objectionClerk);
         // Task task = createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen", form,
         // objectionClerk);
-        human1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
-            new OfferMultiplePattern());
+        human1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
+            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
         // XOR Split, condition is objection existence
         xor1 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
@@ -303,12 +306,12 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
         // human task for objection clerk, task is to check objection
         form = extractForm("form2", "checkForNewClaims.html");
-        creationPattern = new ConcreteResourcePattern("Widerspruch prüfen",
-            "Widerspruch erneut prüfen auf neue Ansprüche", form, objectionClerk);
+        builder.setItemDescription("Widerspruch erneut prüfen auf neue Ansprüche").setItemSubject("Widerspruch prüfen")
+        .setItemForm(form);
         // task = createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche", form,
         // objectionClerk);
-        human2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
-            new OfferMultiplePattern());
+        human2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
+            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
         // XOR Split, condition is new relevant aspects existence
         xor2 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
@@ -321,12 +324,12 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
         // human task for objection clerk, task is to create a new report
         form = extractForm("form3", "createReport.html");
-        creationPattern = new ConcreteResourcePattern("neues Gutachten erstellen",
-            "Anspruchspunkte in neues Gutachten übertragen", form, objectionClerk);
-//        task = createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen", form,
-//            objectionClerk);
-        human3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
-            new OfferMultiplePattern());
+        builder.setItemDescription("Anspruchspunkte in neues Gutachten übertragen")
+        .setItemSubject("neues Gutachten erstellen").setItemForm(form);
+        // task = createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen", form,
+        // objectionClerk);
+        human3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
+            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
         // intermediate mail event, customer answer
         // needs to be implemented and inserted here
@@ -345,19 +348,19 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
         // human task for objection clerk, task is to do final work
         form = extractForm("form4", "postEditingClaim.html");
-        creationPattern = new ConcreteResourcePattern("Nachbearbeitung",
-            "abschließende Nachbearbeitung des Falls", form, objectionClerk);
-//        task = createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", form, objectionClerk);
-        human4 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
-            new OfferMultiplePattern());
+        builder.setItemDescription("abschließende Nachbearbeitung des Falls").setItemSubject("Nachbearbeitung")
+        .setItemForm(form);
+        // task = createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", form, objectionClerk);
+        human4 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
+            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
         // human task for allowance clerk, task is to enforce allowance
         form = extractForm("form5", "enforceAllowance.html");
-        creationPattern = new ConcreteResourcePattern("Leistungsgewährung umsetzen",
-            "Leistungsansprüche durchsetzen", form, allowanceClerk);
-//        task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", form, allowanceClerk);
-        human5 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
-            new OfferMultiplePattern());
+        builder.flushAssignedResources().setItemDescription("Leistungsansprüche durchsetzen")
+        .setItemSubject("Leistungsgewährung umsetzen").setItemForm(form).addResourceAssignedToItem(allowanceClerk);
+        // task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", form, allowanceClerk);
+        human5 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
+            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
         // final XOR Join
         xor5 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);

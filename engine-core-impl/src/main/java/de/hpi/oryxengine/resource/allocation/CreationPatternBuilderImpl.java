@@ -17,6 +17,9 @@ public class CreationPatternBuilderImpl implements CreationPatternBuilder {
     private Form taskForm;
     private List<AbstractResource<?>> abstractResources;
 
+    /**
+     * Instantiates a new creation pattern builder impl.
+     */
     public CreationPatternBuilderImpl() {
 
         this.abstractResources = new ArrayList<AbstractResource<?>>();
@@ -69,6 +72,13 @@ public class CreationPatternBuilderImpl implements CreationPatternBuilder {
         ConcreteResourcePattern pattern = new ConcreteResourcePattern(taskSubject, taskDescription, taskForm,
             abstractResources.toArray(new AbstractResource<?>[0]));
         return pattern;
+    }
+
+    @Override
+    public CreationPatternBuilder flushAssignedResources() {
+
+        this.abstractResources.clear();
+        return this;
     }
 
     // /**

@@ -26,6 +26,8 @@ import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
+import de.hpi.oryxengine.resource.allocation.CreationPatternBuilder;
+import de.hpi.oryxengine.resource.allocation.CreationPatternBuilderImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
@@ -47,7 +49,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     public static final String PARTICIPANT_KEY = "Participant";
 
     /** an array with the waiting times of the different pseudo humans. */
-    public static final int[] WAITING_TIME = { 1000, 1000, 1000 };
+    public static final int[] WAITING_TIME = {1000, 1000, 1000};
 
     private Scheduler scheduler;
 
@@ -85,6 +87,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
 
     }
 
+    @Override
     public void initializeNodes() {
 
         initializeNodesWithRoleTasks();
@@ -96,33 +99,32 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     public void initializeNodesWithDirectAlloc() {
 
         startNode = BpmnNodeFactory.createBpmnStartEventNode(processDefinitionBuilder);
+        CreationPatternBuilder builder = new CreationPatternBuilderImpl();
 
         Object[] participants = identityService.getParticipants().toArray();
 
         AbstractResource<?> resourceToAssign = (AbstractResource<?>) participants[0];
-        CreationPattern creationPattern = new ConcreteResourcePattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION,
-            null, resourceToAssign);
+        builder.setItemDescription(SIMPLE_TASK_DESCRIPTION).setItemSubject(SIMPLE_TASK_SUBJECT).setItemForm(null)
+        .addResourceAssignedToItem(resourceToAssign);
 
         // CreationPattern task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[0]);)
 
-        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
-            new AllocateSinglePattern());
+        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
+            builder.buildConcreteResourcePattern(), new AllocateSinglePattern());
 
         // Create the task
         resourceToAssign = (AbstractResource<?>) participants[1];
-        creationPattern = new ConcreteResourcePattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null,
-            resourceToAssign);
+        builder.flushAssignedResources().addResourceAssignedToItem(resourceToAssign);
 
-        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
-            new AllocateSinglePattern());
+        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
+            builder.buildConcreteResourcePattern(), new AllocateSinglePattern());
 
         // Create the task
-        resourceToAssign = (AbstractResource<?>) participants[1];
-        creationPattern = new ConcreteResourcePattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null,
-            resourceToAssign);
+        resourceToAssign = (AbstractResource<?>) participants[2];
+        builder.flushAssignedResources().addResourceAssignedToItem(resourceToAssign);
 
-        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
-            new AllocateSinglePattern());
+        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
+            builder.buildConcreteResourcePattern(), new AllocateSinglePattern());
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
@@ -132,20 +134,25 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node3, endNode);
     }
 
+    /**
+     * Initialize the nodes with role tasks.
+     */
     public void initializeNodesWithRoleTasks() {
 
         startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(processDefinitionBuilder);
 
         // Create the task
-        CreationPattern creationPattern = new ConcreteResourcePattern("Do stuff", "Do it cool", null, role);
+        CreationPatternBuilder builder = new CreationPatternBuilderImpl();
+        builder.setItemDescription("Do it cool").setItemSubject("Do stuff").setItemForm(null)
+        .addResourceAssignedToItem(role);
 
-        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
+        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, builder.buildConcreteResourcePattern(),
             new OfferMultiplePattern());
 
-        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
+        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, builder.buildConcreteResourcePattern(),
             new OfferMultiplePattern());
 
-        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, creationPattern,
+        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, builder.buildConcreteResourcePattern(),
             new OfferMultiplePattern());
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
