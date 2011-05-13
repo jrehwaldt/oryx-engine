@@ -1,4 +1,13 @@
+var _participants = [];
+
 $().ready(function() {
+    //
+    // load participants
+    //
+    loadParticipants(function(data) {
+        _participants = data;
+    });
+    
     // 
     // refresh the roles table
     // 
@@ -39,20 +48,22 @@ function loadOverviewTable() {
         tableBody.empty();
         $(roles).each(function(index, role) {
             var roleRoles = '';
-//            $(role.myRoles).map(function() {
-//                return this.name; // this == role
-//            }).get().join(", ");
             
             tableBody.append(
                 '<tr role-id="' + role.id + '">'
                     + '<td>' + role.name + '</td>'
-//                    + '<td>' + roleRoles + '</td>'
+                    + '<td class="role-relationship loading-data"></td>'
                     + '<td class="controls">'
+                        + '<a href="#" class="change-member">Change members</a> '
 //                        + '<a href="#" class="edit">Edit</a> '
                         + '<a href="#" class="delete">Delete</a>'
                     + '</td>'
                 + '</tr>'
             );
+            
+            loadParticipants(function(participants) {
+                updateParticipantRoleRelationship(role.id, participants);
+            }, role.id);
         });
         $('.controls a.edit', tableBody).click(function(event) {
             event.preventDefault();
@@ -68,54 +79,128 @@ function loadOverviewTable() {
                 row.remove();
             });
         });
-    });
-}
-
-// ====================================================================
-// ============================= CRUD =================================
-// ====================================================================
-
-/**
- * Fetches all roles and calls the provided function.
- * 
- * @param successHandler the anonymous function to call, gets the roles as #1 parameter
- */
-function loadRoles(successHandler) {
-    $.ajax({
-        type: 'GET',
-        url: '/api/identity/roles',
-        success: function(roles) {
-            if (successHandler)
-            	successHandler.apply(null, [roles]);
-        },
-        dataType: "json"
+        $('.controls a.change-member', tableBody).click(function(event) {
+            event.preventDefault();
+            var row = $(event.target).parent().parent();
+            var roleId = row.attr('role-id');
+            showUpdateRoleMemberDialog(roleId);
+        });
     });
 };
 
 /**
- * Deletes the specified role and calls the provided function.
+ * Loads the roles table and clear any old entries.
  * 
- * @param roleId the role's, which should be deleted
- * @param successHandler the anonymous function to call, gets the roleId as #1 parameter
+ * @param roleId the role id, which needs to be changed
  */
-function deleteRole(roleId, successHandler) {
-    $.ajax({
-        type: 'DELETE',
-        url: '/api/identity/roles/' + roleId,
-        success: function() {
-            if (successHandler)
-                successHandler.apply(null, [roleId]);
-        },
-        dataType: "json"
+function showUpdateRoleMemberDialog(roleId) {
+    var dialog = $('#roles-change-member-dialog.dialog');
+    
+    var form = $('form#roles-change-member', dialog);
+    var unassigned = $('.unassigned-participants', form);
+    var assigned = $('.assigned-participants', form);
+    
+    //
+    // load the role's members
+    //
+    loadParticipants(function(assignedParticipants) {
+        $('.changeset', dialog).empty();
+        
+        $.each(_participants, function(i, participant) {
+            unassigned.append('<option value="' + participant.id + '">' + participant.name + '</option>');
+        });
+        
+        // add each role to the select box
+        $.each(assignedParticipants, function(i, assignedParticipant) {
+            unassigned.removeOption(assignedParticipant.id);
+            assigned.append('<option value="' + assignedParticipant.id + '">' + assignedParticipant.name + '</option>');
+        });
+    }, roleId);
+    
+    //
+    // register add-handler: add the selected participants to the list of to-be-added participants for a role
+    //
+    $('.add-participants', form).click(function() {
+        var selectedParticipants = $(':selected', unassigned);
+        selectedParticipants.each(function(i, option) {
+            $(option).remove();
+            assigned.append(option);
+        });
+    });
+    
+    //
+    // register remove-handler: add the selected participants to the list of to-be-removed participants for a role
+    //
+    $('.remove-participants', form).click(function() {
+        var selectedParticipants = $(':selected', assigned);
+        selectedParticipants.each(function(i, option) {
+            $(option).remove();
+            unassigned.append(option);
+        });
+    });
+    
+    //
+    // show the dialog
+    //
+    dialog.dialog({
+        width: 400,
+        modal: true,
+        buttons: [{
+            text: 'Cancel',
+            click: function() {
+                $(this).dialog('close');
+            }
+        }, {
+            text: 'Apply changes',
+            click: function() {
+                $(this).dialog('close');
+                submitUpdateRoleMemberForm($(this), roleId);
+            }
+        }]
     });
 };
 
-///**
-// * Edits the specified role and calls the provided function.
-// * 
-// * @param role the role data
-// * @param sucessHandler the anonymous function to call, gets the role as #1 parameter
-// */
-//function editRole(role, successHandler) {
-//    alert('edit: ' + role);
-//};
+/**
+ * Submits the update participant-role relationship form.
+ * 
+ * @param form the form
+ * @param roleId the role's id to apply the changes on
+ */
+function submitUpdateRoleMemberForm(form, roleId) {
+    var unassigned = $('.unassigned-participants option', form);
+    var assigned = $('.assigned-participants option', form);
+    
+    var additions = assigned.map(function() {
+        return $(this).val(); // this == option
+    }).get();
+    var removals = unassigned.map(function() {
+        return $(this).val(); // this == option
+    }).get();
+    updateRoleMember(roleId, additions, removals, function(roleId) {
+        updateParticipantRoleRelationship(roleId, additions);
+    });
+};
+
+/**
+ * Updates the table information about role relationships.
+ * 
+ * @param roleId the role's id to update
+ * @param participants the role's participant ids OR the whole participant objects
+ */
+function updateParticipantRoleRelationship(roleId, participants) {
+    var roleRow = $('table#roles-overview tbody tr[role-id=' + roleId + ']');
+    var targetColumn = roleRow.children('.role-relationship');
+    
+    var participantsString = $(_participants).map(function(index, _participant) {
+        var participantName = null;
+        
+        $(participants).each(function(index, participant) {
+            if ((participant.id && _participant.id == participant.id) || _participant.id == participant)
+                participantName = _participant.name;
+        });
+        
+        return participantName;
+    }).get().join(", ");
+    
+    targetColumn.removeClass('loading-data').text(participantsString);
+};

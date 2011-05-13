@@ -2,7 +2,10 @@
     pageEncoding="UTF-8"%>
 <html>
     <head>
+        <script type="text/javascript" src="/javascripts/resources/resources-crud.js"></script>
         <script type="text/javascript" src="/javascripts/resources/roles.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="/stylesheets/jquery.ui/ui-lightness/jquery-ui-1.8.12.custom.css">
         
         <title>JodaEngine | Resources: Roles</title>
     </head>
@@ -14,6 +17,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Contains participants</th>
                     <th>Controls</th>
                 </tr>
             </thead>
@@ -29,5 +33,22 @@
             <input type="submit" value="Create" />
         </form>
         
+        <div class="dialog" id="roles-change-member-dialog" title="Change participant-to-role relationship">
+            <form method="post" action="" id="roles-change-member">
+                <div class="filter">
+                    Filter participants: <input type="text" id="search-participants" />
+                </div>
+                <br />
+                <div>
+                    <select multiple="multiple" class="unassigned-participants changeset left"></select>
+                    <div style="float: left;">
+                        <input type="button" class="remove-participants" value="&lt;"/>
+                        <br/>
+                        <input type="button" class="add-participants" value="&gt;"/>
+                    </div>
+                    <select multiple="multiple" class="assigned-participants changeset right"></select>
+                </div>
+            </form>
+        </div>
     </body>
     </html>

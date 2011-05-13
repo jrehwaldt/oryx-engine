@@ -721,3 +721,18 @@ legend:hover {
 .clickable {
     cursor: pointer;
 }
+
+.dialog {
+   display: none;
+}
+
+#roles-change-member .changeset {
+   width: 45%;
+   float: left;
+}
+
+.loading-data {
+   background-image: url(../images/ajax-loading-data.gif);
+   background-repeat: no-repeat;
+   background-position: 1% 50%;
+}
