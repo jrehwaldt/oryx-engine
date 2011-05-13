@@ -86,6 +86,13 @@ function loadOverviewTable() {
             showUpdateRoleMemberDialog(roleId);
         });
     });
+    
+    //
+    // register dialog search feature
+    //
+    $('.search-participants').keyup(function(event) {
+        filterUnassignedParticipants($(this).val());
+    });
 };
 
 /**
@@ -149,11 +156,13 @@ function showUpdateRoleMemberDialog(roleId) {
             text: 'Cancel',
             click: function() {
                 $(this).dialog('close');
+                $('.search-participants', this).val('');
             }
         }, {
             text: 'Apply changes',
             click: function() {
                 $(this).dialog('close');
+                $('.search-participants', this).val('');
                 submitUpdateRoleMemberForm($(this), roleId);
             }
         }]
@@ -203,4 +212,22 @@ function updateParticipantRoleRelationship(roleId, participants) {
     }).get().join(", ");
     
     targetColumn.removeClass('loading-data').text(participantsString);
+};
+
+/**
+ * Filters the participant list.
+ * 
+ * @param filter the filter to apply
+ */
+function filterUnassignedParticipants(filter) {
+    var unassigned = $(".unassigned-participants");
+    // instant search for participants that shall be added to a role
+    unassigned.empty();
+    
+    $(_participants).each(function(index, _participant) {
+        // add the participants that match to the 'unassigned-participants' box
+        if (_participant.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
+            unassigned.append('<option value="' + _participant.id + '">' + _participant.name + '</option>');
+        }
+    });
 };

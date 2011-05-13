@@ -36,7 +36,7 @@
         <div class="dialog" id="roles-change-member-dialog" title="Change participant-to-role relationship">
             <form method="post" action="" id="roles-change-member">
                 <div class="filter">
-                    Filter participants: <input type="text" id="search-participants" />
+                    Filter participants: <input type="text" class="search-participants" />
                 </div>
                 <br />
                 <div>
