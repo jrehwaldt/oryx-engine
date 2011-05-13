@@ -9,9 +9,12 @@ import de.hpi.oryxengine.monitor.MonitorGUI;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
 import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
+import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
 import de.hpi.oryxengine.process.structure.ActivityBlueprint;
 import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
+import de.hpi.oryxengine.process.structure.NodeBuilder;
+import de.hpi.oryxengine.process.structure.NodeBuilderImpl;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
@@ -77,12 +80,13 @@ public final class SimpleExampleProcess {
      */
     private static TokenImpl sampleProcessInstance(int counter, Navigator navigator) {
 
-        Class<?>[] constructorSig = {String.class};
-        Object[] params = {"counter: " + counter};
-        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig,
-            params);
         
-        NodeImpl startNode = new NodeImpl(blueprint);
+        NodeBuilder nodeBuilder = new NodeBuilderImpl();
+        BpmnNodeFactory.createBpmnEndEventNode()
+        nodeBuilder.setActivityBehavior(new AutomatedDummyActivity("counter: " + counter)).se;
+        
+        
+        Node startNode = nodeBuilder.buildNode()
         
         params = new Object[] {"counter 2: " + counter};
         blueprint = new ActivityBlueprintImpl(AutomatedDummyActivity.class, constructorSig,

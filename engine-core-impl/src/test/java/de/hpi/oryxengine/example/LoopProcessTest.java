@@ -89,11 +89,7 @@ public class LoopProcessTest {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-        // Create StartNode
-        ActivityBlueprint blueprint = new ActivityBlueprintImpl(NullActivity.class);
-
         start = BpmnCustomNodeFactory.createBpmnNullNode(builder);
-
 
         // Create the XORJoin
         xorJoin = BpmnNodeFactory.createBpmnXorGatewayNode(builder);
@@ -131,11 +127,7 @@ public class LoopProcessTest {
         instance.getContext().setVariable("increment", "1");
 
         // start node for token is set later on
-        token = new TokenImpl(null, instance, nav);
-
-        // Set start
-        token.setCurrentNode(start);
-
+        token = new TokenImpl(start, instance, nav);
     }
 
     /**

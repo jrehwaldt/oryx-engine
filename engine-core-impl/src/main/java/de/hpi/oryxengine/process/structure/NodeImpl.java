@@ -70,44 +70,14 @@ public class NodeImpl implements Node {
 
     @Override
     public OutgoingBehaviour getOutgoingBehaviour() {
-
+    
         return outgoingBehaviour;
     }
 
     @Override
     public IncomingBehaviour getIncomingBehaviour() {
-
+    
         return incomingBehaviour;
-    }
-
-    /**
-     * This is a convenience constructor, if you only need the standard join- and split-behaviour.
-     * 
-     * @param blueprint
-     *            the blueprint
-     */
-    // TODO @Gerardo Das muss raus hier
-    public NodeImpl(Activity activityBehavior) {
-
-        // TODO @Alle das muss raus hier, weil es sich hierbei um Verhalten handelt; Die Node-Klasse sollte eine
-        // Grundlage für diverse Ausführungssprachen bilden. Bei Fragen an Gerardo wenden.
-        this(activityBehavior, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-    }
-
-    /**
-     * This is a convenience constructor if you need standard join- and split-behaviour and the default constructor for
-     * the given activity class.
-     * 
-     * @param clazz
-     *            the clazz
-     */
-    // TODO @Gerardo Das muss raus hier
-    public NodeImpl(Class<? extends Activity> clazz) {
-
-        // TODO @Alle das muss raus hier, weil es sich hierbei um Verhalten handelt; Die Node-Klasse sollte eine
-        // Grundlage für diverse Ausführungssprachen bilden. Bei Fragen an Gerardo wenden.
-        this(null, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-//        this.activityBehavior = new ActivityBlueprintImpl(clazz);
     }
 
     @Override
