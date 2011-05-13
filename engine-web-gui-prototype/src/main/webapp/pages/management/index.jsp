@@ -1,54 +1,58 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
-<head>
-Process Definitions Explorer
-<script type="text/javascript"
-	src="/javascripts/demo/engineManagement.js"></script>
-</head>
-<body>
-<div id="engineStatus">
-<h1>Process Engine Status</h1>
-<table style="width: 100%;">
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody id="runningInstances">
-	</tbody>
-</table>
-</div>
-<div id="definitionExplorer">
-<h1>Process Definition Explorer</h1>
-<table style="width: 100%;">
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Description</th>
-			<th>Action</th>
-		</tr>
-	</thead>
-	<tbody id="processDefinitionList"></tbody>
-</table>
-</div>
-
-    <div id="processUpload">
-      <h2>Processupload</h2>
-      <form id="xmlUpload" method="post" action="/api/repository/process-definitions/deploy" accept="application/xml" enctype="multipart/form-data">
-        <input type="file" name="xmlRepresentation" size="40"/>
-        <br/>
-        <input type="submit" value="Deploy!"/>
-      </form>
-    </div>
-
-<h2>Referenzprozess (short)</h2>
-<a href="../../images/reference-process-short.png" target="_blank">
-<img src="../../images/reference-process-short.png" width="100%" /> </a>
-<h2>Demoprocess</h2>
-<img src="../../images/exampleProcess.png" />
-</body>
+    <head>
+        <script type="text/javascript" src="/javascripts/management/navigator-crud.js"></script>
+        <script type="text/javascript" src="/javascripts/management/repository-crud.js"></script>
+        <script type="text/javascript" src="/javascripts/management/definitions.js"></script>
+        <script type="text/javascript" src="/javascripts/management/instances.js"></script>
+        
+        <%-- optional 
+        <script type="text/javascript" src="/javascripts/lib/jquery.timers-1.2.js"></script>
+        --%>
+        
+        <title>JodaEngine | Management</title>
+    </head>
+    <body>
+        <h1>Management</h1>
+        
+        <h2>Process Instances</h2>
+        <table id="running-instances-overview" width="100%">
+            <thead>
+                <tr>
+                    <th class="loading-data">ID</th>
+                    <th class="loading-data">Name</th>
+                    <th class="loading-data">Description</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        
+        <a href="#" id="running-instances-overview-refresh">Refresh running instances</a>
+        
+        <p>
+            See a detailed overview on the 
+            <a href="/management/instances" title="Process Definition">instances page</a>.
+        </p>
+        
+        <h2>Process Definitions</h2>
+        <table id="definitions-overview" width="100%">
+            <thead>
+                <tr>
+                    <th class="loading-data">Name</th>
+                    <th class="loading-data">Description</th>
+                    <th class="loading-data">Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        
+        <a href="#" id="definitions-overview-refresh">Refresh definitions</a>
+        
+        <p>
+            See a detailed overview and an 
+            <a href="/management/definitions#upload" title="Process Definition Upload Form">process definition upload form</a>
+            on the 
+            <a href="/management/definitions" title="Process Definition">definitions page</a>.
+        </p>
+    </body>
 </html>
-

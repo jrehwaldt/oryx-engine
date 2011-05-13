@@ -34,38 +34,42 @@ $().ready(function() {
  * Loads the participants table and clear any old entries.
  */
 function loadOverviewTable() {
-    loadParticipants(function(participants) {
-        var tableBody = $('table#participants-overview tbody');
-        tableBody.empty();
-        $(participants).each(function(index, participant) {
-            var participantRoles = $(participant.myRoles).map(function() {
-                return this.name; // this == role
-            }).get().join(", ");
-            
-            tableBody.append(
-                '<tr participant-id="' + participant.id + '">'
-                    + '<td>' + participant.name + '</td>'
-                    + '<td>' + participantRoles + '</td>'
-                    + '<td class="controls">'
-//                        + '<a href="#" class="edit">Edit</a> '
-                        + '<a href="#" class="delete">Delete</a>'
-                    + '</td>'
-                + '</tr>'
-            );
-        });
-        $('.controls a.edit', tableBody).click(function(event) {
-            event.preventDefault();
-            var row = $(event.target).parent().parent();
-            var participantId = row.attr('participant-id');
-            editParticipant(participantId);
-        });
-        $('.controls a.delete', tableBody).click(function(event) {
-            event.preventDefault();
-            var row = $(event.target).parent().parent();
-            var participantId = row.attr('participant-id');
-            deleteParticipant(participantId, function(participantId) {
-                row.remove();
+    var tableBody = $('table#participants-overview tbody');
+    
+    if (tableBody.length != 0) {
+        loadParticipants(function(participants) {
+            tableBody.empty();
+            $(participants).each(function(index, participant) {
+                var participantRoles = $(participant.myRoles).map(function() {
+                    return this.name; // this == role
+                }).get().join(", ");
+                
+                tableBody.append(
+                    '<tr participant-id="' + participant.id + '">'
+                        + '<td>' + participant.name + '</td>'
+                        + '<td>' + participantRoles + '</td>'
+                        + '<td class="controls">'
+    //                        + '<a href="#" class="edit">Edit</a> '
+                            + '<a href="#" class="delete">Delete</a>'
+                        + '</td>'
+                    + '</tr>'
+                );
             });
+            $('.controls a.edit', tableBody).click(function(event) {
+                event.preventDefault();
+                var row = $(event.target).parent().parent();
+                var participantId = row.attr('participant-id');
+                editParticipant(participantId);
+            });
+            $('.controls a.delete', tableBody).click(function(event) {
+                event.preventDefault();
+                var row = $(event.target).parent().parent();
+                var participantId = row.attr('participant-id');
+                deleteParticipant(participantId, function(participantId) {
+                    row.remove();
+                });
+            });
+            tableBody.parent().find('th.loading-data').removeClass('loading-data');
         });
-    });
+    }
 };

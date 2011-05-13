@@ -37,55 +37,6 @@ $().ready(function() {
             data: $("input[name=role-name]", this).val()
         });
     });
-});
-
-/**
- * Loads the roles table and clear any old entries.
- */
-function loadOverviewTable() {
-    loadRoles(function(roles) {
-        var tableBody = $('table#roles-overview tbody');
-        tableBody.empty();
-        $(roles).each(function(index, role) {
-            var roleRoles = '';
-            
-            tableBody.append(
-                '<tr role-id="' + role.id + '">'
-                    + '<td>' + role.name + '</td>'
-                    + '<td class="role-relationship loading-data"></td>'
-                    + '<td class="controls">'
-                        + '<a href="#" class="change-member">Change members</a> '
-//                        + '<a href="#" class="edit">Edit</a> '
-                        + '<a href="#" class="delete">Delete</a>'
-                    + '</td>'
-                + '</tr>'
-            );
-            
-            loadParticipants(function(participants) {
-                updateParticipantRoleRelationship(role.id, participants);
-            }, role.id);
-        });
-        $('.controls a.edit', tableBody).click(function(event) {
-            event.preventDefault();
-            var row = $(event.target).parent().parent();
-            var roleId = row.attr('role-id');
-            editRole(roleId);
-        });
-        $('.controls a.delete', tableBody).click(function(event) {
-            event.preventDefault();
-            var row = $(event.target).parent().parent();
-            var roleId = row.attr('role-id');
-            deleteRole(roleId, function(roleId) {
-                row.remove();
-            });
-        });
-        $('.controls a.change-member', tableBody).click(function(event) {
-            event.preventDefault();
-            var row = $(event.target).parent().parent();
-            var roleId = row.attr('role-id');
-            showUpdateRoleMemberDialog(roleId);
-        });
-    });
     
     //
     // register dialog search feature
@@ -93,6 +44,59 @@ function loadOverviewTable() {
     $('.search-participants').keyup(function(event) {
         filterUnassignedParticipants($(this).val());
     });
+});
+
+/**
+ * Loads the roles table and clear any old entries.
+ */
+function loadOverviewTable() {
+    var tableBody = $('table#roles-overview tbody');
+    
+    if (tableBody.length != 0) {
+        loadRoles(function(roles) {
+            tableBody.empty();
+            $(roles).each(function(index, role) {
+                var roleRoles = '';
+                
+                tableBody.append(
+                    '<tr role-id="' + role.id + '">'
+                        + '<td>' + role.name + '</td>'
+                        + '<td class="role-relationship loading-data"></td>'
+                        + '<td class="controls">'
+                            + '<a href="#" class="change-member">Change members</a> '
+    //                        + '<a href="#" class="edit">Edit</a> '
+                            + '<a href="#" class="delete">Delete</a>'
+                        + '</td>'
+                    + '</tr>'
+                );
+                
+                loadParticipants(function(participants) {
+                    updateParticipantRoleRelationship(role.id, participants);
+                }, role.id);
+            });
+            $('.controls a.edit', tableBody).click(function(event) {
+                event.preventDefault();
+                var row = $(event.target).parent().parent();
+                var roleId = row.attr('role-id');
+                editRole(roleId);
+            });
+            $('.controls a.delete', tableBody).click(function(event) {
+                event.preventDefault();
+                var row = $(event.target).parent().parent();
+                var roleId = row.attr('role-id');
+                deleteRole(roleId, function(roleId) {
+                    row.remove();
+                });
+            });
+            $('.controls a.change-member', tableBody).click(function(event) {
+                event.preventDefault();
+                var row = $(event.target).parent().parent();
+                var roleId = row.attr('role-id');
+                showUpdateRoleMemberDialog(roleId);
+            });
+            tableBody.parent().find('th.loading-data').removeClass('loading-data');
+        });
+    }
 };
 
 /**

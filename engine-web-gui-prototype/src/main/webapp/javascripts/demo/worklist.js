@@ -138,7 +138,6 @@ function getWorklistItems() {
             // delete all contents before loading new contents
             $('#worklist').empty();
             
-            $('#worklist').parent().find('.loading-data').removeClass('loading-data');
             $.each(worklist, function(i, worklistitem){
                 
                 var button = generateButton(worklistitem);
@@ -149,8 +148,8 @@ function getWorklistItems() {
                                       + "</tr>");
                 
                 addButtonClickHandler(worklistitem.id);
-            })
-            
+            });
+            $('#worklist').parent().find('th.loading-data').removeClass('loading-data');
         },
         error: function(jqXHR, textStatus, errorThrown) {
             // TODO more specific error
@@ -164,8 +163,14 @@ function getWorklistItems() {
 // At the beginning get all worklist items
 $().ready(function(){
     getWorklistItems();
-    $(document).everyTime(2500, function(i) {
-        getWorklistItems();
-    }, 0); // 0 = unbound
-})
+    
+    //
+    // enable continues refresh, if available
+    //
+    if ($(document).everyTime) {
+        $(document).everyTime(2500, function(i) {
+            getWorklistItems();
+        }, 0); // 0 = unbound
+    }
+});
 

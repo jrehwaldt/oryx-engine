@@ -10,7 +10,7 @@
         Please have a look at the
         <a href="/resources/participants" title="Resources: Participant management">participant</a>
         or
-        <a href="/resources/roles" title="Resources: Role management">role site</a>
+        <a href="/resources/roles" title="Resources: Role management">role page</a>
         for resource management.
     </body>
 </html>

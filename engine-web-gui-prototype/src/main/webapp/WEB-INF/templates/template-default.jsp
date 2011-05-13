@@ -23,7 +23,11 @@ if (uri != null) {
 
 Map<String, NavigationEntry[]> navigation = new HashMap<String, NavigationEntry[]>();
 navigation.put("dashboard", new NavigationEntry[] {});
-navigation.put("management", new NavigationEntry[] {});
+navigation.put("management", new NavigationEntry[] {
+    new NavigationEntry("instances", "Process Instances"),
+    new NavigationEntry("definitions", "Process Definitions"),
+    new NavigationEntry("examples", "Examples")
+});
 navigation.put("worklist", new NavigationEntry[] {});
 navigation.put("resources", new NavigationEntry[] {
     new NavigationEntry("participants", "Participants"),

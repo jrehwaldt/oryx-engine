@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
     <head>
-        <script type="text/javascript" src="/javascripts/lib/jquery.timers-1.2.js"></script>
         <script type="text/javascript" src="/javascripts/demo/worklist.js"></script>
+        
+        <%-- optional --%>
+        <script type="text/javascript" src="/javascripts/lib/jquery.timers-1.2.js"></script>
+        
         <title>JodaEngine | Worklist</title>
     </head>
     <body>
