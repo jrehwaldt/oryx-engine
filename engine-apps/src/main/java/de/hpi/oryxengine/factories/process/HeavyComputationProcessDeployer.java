@@ -27,8 +27,6 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
      * Instantiates a new heavy computation process token factory.
      */
     public HeavyComputationProcessDeployer() {
-
-        processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
     }
 
     /**

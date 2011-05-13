@@ -7,27 +7,21 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.IdentityService;
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
 import de.hpi.oryxengine.process.structure.condition.JuelExpressionCondition;
-import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
 import de.hpi.oryxengine.resource.allocation.CreationPatternBuilder;
 import de.hpi.oryxengine.resource.allocation.CreationPatternBuilderImpl;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
 
 /**
@@ -43,9 +37,6 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     private static final String JAN = "Jan";
     private static final String OBJECTION_CLERK = "Objection Clerk";
     private static final String ALLOWANCE_CLERK = "Allowance Clerk";
-
-    private IdentityService identityService;
-    private IdentityBuilder identityBuilder;
 
     private static final String PATH_TO_WEBFORMS = "src/main/resources/forms";
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -67,10 +58,6 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     private Node endNode;
 
     public ShortenedReferenceProcessDeployer() {
-
-        identityService = ServiceFactory.getIdentityService();
-        identityBuilder = identityService.getIdentityBuilder();
-        processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
     }
 
     /**
@@ -403,11 +390,11 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
      */
     private Form extractForm(String formName, String formFileName) {
 
-        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        DeploymentBuilder deploymentBuilder = repoService.getDeploymentBuilder();
         UUID processArtifactID = deploymentBuilder.deployArtifactAsClasspathResource(formName, "forms/" + formFileName);
         Form form = null;
         try {
-            form = new FormImpl(ServiceFactory.getRepositoryService().getProcessResource(processArtifactID));
+            form = new FormImpl(repoService.getProcessResource(processArtifactID));
         } catch (DefinitionNotFoundException e) {
             logger.error("The recently deployed artifact is not there. Something critical is going wrong.");
             e.printStackTrace();

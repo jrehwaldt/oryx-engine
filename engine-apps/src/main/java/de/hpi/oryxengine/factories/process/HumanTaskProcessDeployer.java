@@ -12,24 +12,18 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.IdentityService;
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.loadgenerator.PseudoHumanJob;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
 import de.hpi.oryxengine.resource.allocation.CreationPatternBuilder;
 import de.hpi.oryxengine.resource.allocation.CreationPatternBuilderImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
-import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
 import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
 
 /**
@@ -42,9 +36,6 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     private static final String LAZY = "lazy guy";
     private static final String ROLE = "DUMMIES";
     private static final String JOBGROUP = "dummy";
-    private IdentityBuilder identityBuilder;
-
-    private IdentityService identityService;
 
     public static final String PARTICIPANT_KEY = "Participant";
 
@@ -80,11 +71,6 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
      */
     public HumanTaskProcessDeployer()
     throws SchedulerException {
-
-        identityService = ServiceFactory.getIdentityService();
-        processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
-        identityBuilder = identityService.getIdentityBuilder();
-
     }
 
     @Override
@@ -196,7 +182,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         this.scheduler.start();
 
         // Schedule the jobs of our participants
-        Set<AbstractParticipant> participants = ServiceFactory.getIdentityService().getParticipants();
+        Set<AbstractParticipant> participants = identityService.getParticipants();
         int i = 0;
         for (AbstractParticipant participant : participants) {
 

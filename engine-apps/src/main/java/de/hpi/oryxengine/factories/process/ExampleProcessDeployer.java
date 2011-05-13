@@ -23,8 +23,6 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
      * Instantiates a new example process token factory.
      */
     public ExampleProcessDeployer() {
-
-        processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
     }
 
     /**

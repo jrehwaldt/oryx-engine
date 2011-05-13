@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.JodaEngineServices;
 import de.hpi.oryxengine.NoRunningInstancesLoadgeneratorCaller;
 import de.hpi.oryxengine.bootstrap.JodaEngine;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
@@ -63,6 +64,8 @@ public class LoadGenerator {
      * humans working on them, we need to stop the pseudo humans.
      */
     private ProcessDeployer deployer;
+    
+    private JodaEngineServices engineServices;
 
     /**
      * Instantiates a new load generator.
@@ -77,7 +80,7 @@ public class LoadGenerator {
     public LoadGenerator(String className, int numberOfRuns, int numberOfThreads) {
 
         // Initialize the service
-        JodaEngine.start();
+        this.engineServices = JodaEngine.start();
 
         this.className = PATH_TO_PROCESS_FACTORIES + className;
         this.numberOfRuns = numberOfRuns;
@@ -136,7 +139,7 @@ public class LoadGenerator {
 
         try {
             this.deployer = (ProcessDeployer) Class.forName(className).newInstance();
-            this.definitionId = this.deployer.deploy();
+            this.definitionId = this.deployer.deploy(engineServices);
         } catch (InstantiationException e) {
             logger.debug("Loading of class " + className + " failed , the name seems to be wrong.", e);
             e.printStackTrace();
