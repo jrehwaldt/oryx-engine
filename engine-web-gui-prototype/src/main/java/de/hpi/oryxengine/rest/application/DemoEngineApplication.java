@@ -12,5 +12,4 @@ public class DemoEngineApplication extends JodaEngineApplication {
         super();
         singletons.add(new DemoWebService(engineServices));
     }
-
 }

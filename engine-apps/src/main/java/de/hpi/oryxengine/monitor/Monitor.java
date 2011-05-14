@@ -25,6 +25,7 @@ public class Monitor extends AbstractSchedulerListener {
     public Monitor(MonitorGUI gui) {
 
         this.gui = gui;
+        this.instancesToTrack = new HashSet<AbstractProcessInstance>();
     }
 
     @Override
@@ -47,8 +48,9 @@ public class Monitor extends AbstractSchedulerListener {
 
     /**
      * Show instance submitted on the GUI.
-     *
-     * @param instance the instance that has been submitted to the scheduler.
+     * 
+     * @param instance
+     *            the instance that has been submitted to the scheduler.
      */
     private void showInstanceSubmitted(Token instance) {
 
@@ -57,8 +59,9 @@ public class Monitor extends AbstractSchedulerListener {
 
     /**
      * Show instance retrieved on the GUI.
-     *
-     * @param instance the instance that has been retrieved from the scheduler.
+     * 
+     * @param instance
+     *            the instance that has been retrieved from the scheduler.
      */
     private void showInstanceRetrieved(Token instance) {
 
@@ -67,8 +70,9 @@ public class Monitor extends AbstractSchedulerListener {
 
     /**
      * Tell the GUI that the number of instances that the scheduler currently manages has changed.
-     *
-     * @param instances the instances
+     * 
+     * @param instances
+     *            the instances
      */
     private void updateNumberOfInstances(int instances) {
 
@@ -77,14 +81,12 @@ public class Monitor extends AbstractSchedulerListener {
 
     /**
      * Mark single instance. State changes for this instance will be shown explicitly in the GUI.
-     *
-     * @param processInstance the instance
+     * 
+     * @param processInstance
+     *            the instance
      */
     public void markSingleInstance(AbstractProcessInstance processInstance) {
 
-        if (this.instancesToTrack == null) {
-            this.instancesToTrack = new HashSet<AbstractProcessInstance>();
-        }
         this.instancesToTrack.add(processInstance);
     }
 }

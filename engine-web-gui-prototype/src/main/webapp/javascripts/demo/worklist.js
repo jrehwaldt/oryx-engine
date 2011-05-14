@@ -141,8 +141,8 @@ function getWorklistItems() {
 
 				var button = generateButton(worklistitem);
                 $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\">"
-                					  + "<td>" + worklistitem.task.subject + "</td>"
-                					  + "<td>" + worklistitem.task.description + "</td>"
+                					  + "<td>" + worklistitem.subject + "</td>"
+                					  + "<td>" + worklistitem.description + "</td>"
                 					  + "<td>" + button + "</td>"
                 					  + "</tr>");
 
