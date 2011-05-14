@@ -46,8 +46,8 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
     private ProcessInstanceContext context = null;
 
     @Override
-    protected Class<?> getResource() {
-        return WorklistWebService.class;
+    protected Object getResourceSingleton() {
+        return new WorklistWebService(jodaEngineServices);
     }
     
     /**

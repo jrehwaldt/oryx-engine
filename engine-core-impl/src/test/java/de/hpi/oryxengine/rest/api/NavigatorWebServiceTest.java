@@ -49,8 +49,8 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     }
 
     @Override
-    protected Class<?> getResource() {
-        return NavigatorWebService.class;
+    protected Object getResourceSingleton() {
+        return new NavigatorWebService(jodaEngineServices);
     }
 
     /**

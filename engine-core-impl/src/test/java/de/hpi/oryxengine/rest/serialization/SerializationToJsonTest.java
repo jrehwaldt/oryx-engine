@@ -348,7 +348,7 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
     }
 
     @Override
-    protected Class<?> getResource() {
+    protected Object getResourceSingleton() {
 
         return null;
     }

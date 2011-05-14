@@ -112,9 +112,9 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
     }
 
     @Override
-    protected Class<?> getResource() {
+    protected Object getResourceSingleton() {
 
-        return WorklistWebService.class;
+        return new WorklistWebService(jodaEngineServices);
     }
 
     /**

@@ -31,9 +31,9 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
     private final static JavaType TYPE_REF = TypeFactory.collectionType(Set.class, ProcessDefinition.class);
     
     @Override
-    protected Class<?> getResource() {
+    protected Object getResourceSingleton() {
 
-        return RepositoryWebService.class;
+        return new RepositoryWebService(jodaEngineServices);
     }
     
     /**

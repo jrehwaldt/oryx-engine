@@ -103,12 +103,14 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         //
         // configure the server mock
         //
-        if (getResource() != null) {
+        if (getResourceSingleton() != null) {
             
-            POJOResourceFactory factory = new POJOResourceFactory(getResource());
-            
+//            POJOResourceFactory factory = new POJOResourceFactory(getResource());
+//                        
+//            this.dispatcher = MockDispatcherFactory.createDispatcher();
+//            this.dispatcher.getRegistry().addResourceFactory(factory);
             this.dispatcher = MockDispatcherFactory.createDispatcher();
-            this.dispatcher.getRegistry().addResourceFactory(factory);
+            this.dispatcher.getRegistry().addSingletonResource(getResourceSingleton());
             
             for (Class<? extends ExceptionMapper<?>> provider: EXCEPTION_PROVIDERS) {
                 this.dispatcher.getProviderFactory().addExceptionMapper(provider);
@@ -123,7 +125,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
      * 
      * @return the resource factory to register within the server
      */
-    protected abstract Class<?> getResource();
+    protected abstract Object getResourceSingleton();
     
     /**
      * Make a simple get request returning the response.
