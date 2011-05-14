@@ -42,8 +42,8 @@ import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
 import de.hpi.oryxengine.resource.worklist.RoleWorklist;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
-import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 import de.hpi.oryxengine.rest.PatchCollectionChangeset;
+import de.hpi.oryxengine.util.testing.AbstractJsonServerTest;
 
 /**
  * This class tests the serialization of our resource classes.

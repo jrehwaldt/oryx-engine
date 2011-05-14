@@ -24,7 +24,7 @@ import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
-import de.hpi.oryxengine.rest.AbstractJsonServerTest;
+import de.hpi.oryxengine.util.testing.AbstractJsonServerTest;
 
 /**
  * The Class WorklistItemClaimingTest.

@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -32,8 +31,8 @@ import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
 import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
-import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 import de.hpi.oryxengine.util.io.StringStreamSource;
+import de.hpi.oryxengine.util.testing.AbstractJsonServerTest;
 
 /**
  * The Class WorklistWebserviceFormPopulationTest.

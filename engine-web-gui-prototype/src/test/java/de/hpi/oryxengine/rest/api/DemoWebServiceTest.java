@@ -2,14 +2,16 @@ package de.hpi.oryxengine.rest.api;
 
 import java.net.URISyntaxException;
 
+import javax.ws.rs.core.MediaType;
+
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
+import de.hpi.oryxengine.util.testing.AbstractJsonServerTest;
 
 /**
  * Tests our Demo WebService. It shall not generate data twice and it shall return a sucessful response.
@@ -19,10 +21,12 @@ public class DemoWebServiceTest extends AbstractJsonServerTest {
     private static final String DEMO_URL = "/demo/generate";
     private static final String BENCHMARK_URL = "/demo/reference-without-participants";
 
-    @Override
-    protected Class<?> getResource() {
 
-        return DemoWebService.class;
+
+    @Override
+    protected Object getResourceSingleton() {
+
+        return new DemoWebService(jodaEngineServices);
     }
 
     /**
@@ -66,8 +70,8 @@ public class DemoWebServiceTest extends AbstractJsonServerTest {
     public void testInvokedTwice()
     throws URISyntaxException {
 
-        makePOSTRequest(DEMO_URL);
-        makePOSTRequest(DEMO_URL);
+        makePOSTRequest(DEMO_URL, "", MediaType.TEXT_PLAIN);
+        makePOSTRequest(DEMO_URL, "", MediaType.TEXT_PLAIN);
 
         // one process should be defined
         Assert.assertEquals(ServiceFactory.getRepositoryService().getProcessDefinitions().size(), 1);
@@ -86,7 +90,7 @@ public class DemoWebServiceTest extends AbstractJsonServerTest {
     public void testReferenceWithoutParticipant() 
     throws URISyntaxException {
         
-        makePOSTRequest(BENCHMARK_URL);
+        makePOSTRequest(BENCHMARK_URL, "", MediaType.TEXT_PLAIN);
         
      // one process should be defined
         Assert.assertEquals(ServiceFactory.getRepositoryService().getProcessDefinitions().size(), 1);

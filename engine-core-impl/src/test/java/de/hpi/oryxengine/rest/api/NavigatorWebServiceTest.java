@@ -20,8 +20,8 @@ import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 import de.hpi.oryxengine.rest.TestUtils;
+import de.hpi.oryxengine.util.testing.AbstractJsonServerTest;
 
 /**
  * The Class NavigatorWebServiceTest.
