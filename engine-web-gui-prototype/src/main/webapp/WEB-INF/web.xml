@@ -50,7 +50,8 @@
         <param-value>true</param-value>
     </context-param>
  	-->
- 	<!-- register the application -->
+ 	<!-- register the application. The demo application adds the DemoWebService. If you do not need it, use
+ 	de.hpi.oryxengine.rest.application.JodaEngineApplication. These are the core service only. -->
  	<context-param>
         <param-name>javax.ws.rs.core.Application</param-name>
         <param-value>de.hpi.oryxengine.rest.application.DemoEngineApplication</param-value>
