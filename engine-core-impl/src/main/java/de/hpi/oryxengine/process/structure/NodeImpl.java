@@ -10,20 +10,18 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
-import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
-import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
 
 /**
  * The Class AbstractNode. Which is used for the graph representation of a Process
  */
 public class NodeImpl implements Node {
-
+    
     /**
-     * The activity. This is the behaviour of the node e.g. what gets executed.
-     * */
-    private ActivityBlueprint blueprint;
+     * The {@link Activity}. This is the behavior of the node e.g. what gets executed.
+     */
+    private Activity activityBehavior;
 
     private OutgoingBehaviour outgoingBehaviour;
     private IncomingBehaviour incomingBehaviour;
@@ -50,11 +48,9 @@ public class NodeImpl implements Node {
      * @param outgoingBehaviour
      *            the outgoing behavior
      */
-    public NodeImpl(ActivityBlueprint blueprint,
-                    IncomingBehaviour incomingBehaviour,
-                    OutgoingBehaviour outgoingBehaviour) {
+    public NodeImpl(Activity activityBehavior, IncomingBehaviour incomingBehaviour, OutgoingBehaviour outgoingBehaviour) {
 
-        this.blueprint = blueprint;
+        this.activityBehavior = activityBehavior;
         this.incomingBehaviour = incomingBehaviour;
         this.outgoingBehaviour = outgoingBehaviour;
         this.outgoingTransitions = new ArrayList<Transition>();
@@ -73,34 +69,6 @@ public class NodeImpl implements Node {
     public IncomingBehaviour getIncomingBehaviour() {
 
         return incomingBehaviour;
-    }
-
-    /**
-     * This is a convenience constructor, if you only need the standard join- and split-behaviour.
-     * 
-     * @param blueprint
-     *            the blueprint
-     */
-    public NodeImpl(ActivityBlueprint blueprint) {
-
-        // TODO @Alle das muss raus hier, weil es sich hierbei um Verhalten handelt; Die Node-Klasse sollte eine
-        // Grundlage für diverse Ausführungssprachen bilden. Bei Fragen an Gerardo wenden.
-        this(blueprint, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-    }
-
-    /**
-     * This is a convenience constructor if you need standard join- and split-behaviour and the default constructor for
-     * the given activity class.
-     * 
-     * @param clazz
-     *            the clazz
-     */
-    public NodeImpl(Class<? extends Activity> clazz) {
-
-        // TODO @Alle das muss raus hier, weil es sich hierbei um Verhalten handelt; Die Node-Klasse sollte eine
-        // Grundlage für diverse Ausführungssprachen bilden. Bei Fragen an Gerardo wenden.
-        this(null, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        this.blueprint = new ActivityBlueprintImpl(clazz);
     }
 
     @Override
@@ -163,12 +131,6 @@ public class NodeImpl implements Node {
         return incomingTransitions;
     }
 
-    @Override
-    public ActivityBlueprint getActivityBlueprint() {
-
-        return blueprint;
-    }
-
     @JsonProperty
     @Override
     public Map<String, Object> getAttributes() {
@@ -191,4 +153,9 @@ public class NodeImpl implements Node {
         getAttributes().put(attributeKey, attributeValue);
     }
 
+    @Override
+    public Activity getActivityBehaviour() {
+
+        return this.activityBehavior;
+    }
 }

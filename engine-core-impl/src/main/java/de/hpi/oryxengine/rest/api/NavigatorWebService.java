@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.JodaEngineServices;
 import de.hpi.oryxengine.correlation.registration.StartEvent;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.navigator.Navigator;
@@ -35,11 +35,13 @@ public class NavigatorWebService implements Navigator {
 
     /**
      * Default Constructor.
+     *
+     * @param engineServices the engine services
      */
-    public NavigatorWebService() {
+    public NavigatorWebService(JodaEngineServices engineServices) {
 
         logger.info("NavigatorWebService is initializing");
-        navigatorService = ServiceFactory.getNavigatorService();
+        navigatorService = engineServices.getNavigatorService();
     }
 
     @Path("/status/statistic")

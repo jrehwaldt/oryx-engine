@@ -114,13 +114,13 @@ public class BPMNXORBehaviourTest {
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
         
         Node node = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
-        .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBlueprintFor(NullActivity.class).buildNode();
+        .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBehavior(new NullActivity()).buildNode();
         
         Node node2 = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
-        .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBlueprintFor(NullActivity.class).buildNode();
+        .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBehavior(new NullActivity()).buildNode();
         
         Node node3 = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
-        .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBlueprintFor(NullActivity.class).buildNode();
+        .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBehavior(new NullActivity()).buildNode();
         
         
         HashMap<String, Object> map = new HashMap<String, Object>();

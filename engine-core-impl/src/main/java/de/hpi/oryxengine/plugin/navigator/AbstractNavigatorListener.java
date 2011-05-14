@@ -5,7 +5,6 @@ import java.util.Observable;
 import javax.annotation.Nonnull;
 
 import de.hpi.oryxengine.navigator.Navigator;
-
 import de.hpi.oryxengine.navigator.NavigatorState;
 import de.hpi.oryxengine.plugin.ObserverPlugin;
 

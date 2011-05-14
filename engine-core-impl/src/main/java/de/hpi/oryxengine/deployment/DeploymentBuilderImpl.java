@@ -9,6 +9,8 @@ import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
+import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
 import de.hpi.oryxengine.util.io.ClassPathResourceStreamSource;
 import de.hpi.oryxengine.util.io.FileStreamSource;
@@ -122,6 +124,12 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
         }
 
         repositoryServiceImpl.getProcessArtifactsTable().put(processArtifact.getID(), processArtifact);
+    }
+
+    @Override
+    public ProcessDefinitionBuilder getProcessDefinitionBuilder() {
+
+        return new ProcessDefinitionBuilderImpl();
     }
 
 }

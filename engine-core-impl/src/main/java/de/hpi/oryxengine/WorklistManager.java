@@ -15,13 +15,11 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.allocation.Pattern;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.allocation.TaskAllocation;
 import de.hpi.oryxengine.allocation.TaskDistribution;
+import de.hpi.oryxengine.bootstrap.Service;
 import de.hpi.oryxengine.exception.InvalidWorkItemException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
-import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
@@ -91,14 +89,16 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
     }
 
-    @Override
-    public void distribute(Task task, Token token) {
-
-        // Delegate the strategy of task distribution to the specific push pattern.
-        Pattern pushPattern = task.getAllocationStrategies().getPushPattern();
-
-        pushPattern.execute(task, token, this);
-    }
+  //TODO what should be done here?
+//    @Override
+//    public void distribute(Task task, Token token) {
+//
+//        
+//         Delegate the strategy of task distribution to the specific push pattern.
+//        Pattern pushPattern = task.getAllocationStrategies().getPushPattern();
+//
+//        pushPattern.execute(task, token, this);
+//    }
 
     @Override
     public @Nullable

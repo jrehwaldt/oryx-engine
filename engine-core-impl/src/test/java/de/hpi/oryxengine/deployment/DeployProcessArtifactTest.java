@@ -12,11 +12,11 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * Test class for deploying {@link AbstractProcessArtifact ProcessArtifacts}.

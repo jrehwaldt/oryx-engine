@@ -7,12 +7,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonAnySetter;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import de.hpi.oryxengine.allocation.AllocationStrategies;
 import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractResource;
@@ -23,9 +20,11 @@ import de.hpi.oryxengine.resource.AbstractResource;
 public class WorklistItemImpl extends AbstractWorklistItem {
 
     private WorklistItemState status;
-    private Task task;
     private transient Token correspondingToken;
     private UUID id;
+    private String subject, description;
+    private Form form;
+    private Set<AbstractResource<?>> assignedResources;
     
     /**
      * Hidden constructor for deserialization.
@@ -35,59 +34,53 @@ public class WorklistItemImpl extends AbstractWorklistItem {
     /**
      * Default Constructor.
      *
-     * @param task the {@link Task} that should be executed
+     * @param description the description
+     * @param subject the subject of the item
+     * @param form the form
+     * @param assignedResources the assigned resources
      * @param correspondingToken the corresponding {@link Token} of the task
      */
-    public WorklistItemImpl(@Nonnull Task task,
+    public WorklistItemImpl(String subject,
+                            String description,                            
+                            Form form,
+                            Set<AbstractResource<?>> assignedResources,
                             @Nonnull Token correspondingToken) {
-
-        if (task == null) {
-            throw new NullPointerException("The Task parameter cannot be null.");
-        }
 
         if (correspondingToken == null) {
             throw new NullPointerException("The corresponding Token parameter cannot be null.");
         }
         
-        this.task = task;
+        this.subject = subject;
+        this.description = description;
+        this.form = form;
+        this.assignedResources = assignedResources;
         this.status = WorklistItemState.OFFERED;
         this.correspondingToken = correspondingToken;
         this.id = UUID.randomUUID();
     }
 
     @Override
-    @JsonIgnore
     public String getSubject() {
 
-        return task.getSubject();
+        return subject;
     }
 
     @Override
-    @JsonIgnore
     public String getDescription() {
 
-        return task.getDescription();
+        return description;
     }
 
     @Override
-    @JsonIgnore
     public Form getForm() {
 
-        return task.getForm();
+        return form;
     }
 
     @Override
-    @JsonIgnore
-    public AllocationStrategies getAllocationStrategies() {
-
-        return task.getAllocationStrategies();
-    }
-
-    @Override
-    @JsonProperty
     public Set<AbstractResource<?>> getAssignedResources() {
 
-        return task.getAssignedResources();
+        return assignedResources;
     }
 
     @Override
@@ -102,6 +95,7 @@ public class WorklistItemImpl extends AbstractWorklistItem {
      * @param status
      *            the new {@link WorklistItemState}
      */
+    @JsonProperty
     public void setStatus(WorklistItemState status) {
 
         this.status = status;
@@ -135,16 +129,6 @@ public class WorklistItemImpl extends AbstractWorklistItem {
     public UUID getID() {
         return this.id;
     }
-    
-    /**
-     * Gets the underlying task.
-     *
-     * @return the task
-     */
-    @JsonProperty
-    public Task getTask() {
-        return this.task;
-    }
 
     /**
      * Sets any other type not recognized by JSON serializer.
@@ -165,12 +149,22 @@ public class WorklistItemImpl extends AbstractWorklistItem {
     }
     
     /**
-     * Sets the underlying task. This method is ONLY used for Jackson.
+     * Sets the subject. This method is ONLY used for Jackson.
      *
-     * @param task - the task to be set
+     * @param subject - the subject to be set
      */
     @JsonProperty
-    protected void setTask(@Nonnull Task task) {
-        this.task = task;
+    protected void setSubject(@Nonnull String subject) {
+        this.subject = subject;
+    }
+    
+    /**
+     * Sets the description. This method is ONLY used for Jackson.
+     *
+     * @param description - the description to be set
+     */
+    @JsonProperty
+    protected void setDescription(@Nonnull String description) {
+        this.description = description;
     }
 }

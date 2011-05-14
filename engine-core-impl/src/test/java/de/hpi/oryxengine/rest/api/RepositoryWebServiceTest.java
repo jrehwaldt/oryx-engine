@@ -20,7 +20,7 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
-import de.hpi.oryxengine.rest.AbstractJsonServerTest;
+import de.hpi.oryxengine.util.testing.AbstractJsonServerTest;
 
 /**
  * Tests our repository web service.
@@ -32,9 +32,9 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
     private final static JavaType TYPE_REF = TypeFactory.collectionType(Set.class, ProcessDefinition.class);
 
     @Override
-    protected Class<?> getResource() {
+    protected Object getResourceSingleton() {
 
-        return RepositoryWebService.class;
+        return new RepositoryWebService(jodaEngineServices);
     }
 
     /**

@@ -4,15 +4,18 @@ import static org.testng.Assert.assertNotNull;
 
 import java.util.UUID;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
+import de.hpi.oryxengine.JodaEngineServices;
 import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.bootstrap.JodaEngine;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * Parent class for all other Process Deployers tests as otherwise it would  be a lot of code duplication.
@@ -25,6 +28,7 @@ public abstract class AbstractProcessDeployerTest extends AbstractJodaEngineTest
 
     protected ProcessDeployer deployer;
     protected UUID uuid;
+    protected JodaEngineServices engineServices;
 
     /**
      * Sets up the specific Process Deployer.
@@ -33,7 +37,21 @@ public abstract class AbstractProcessDeployerTest extends AbstractJodaEngineTest
      * @throws ResourceNotAvailableException 
      */
     @BeforeMethod
-    abstract public void setUp() throws IllegalStarteventException, ResourceNotAvailableException;
+    public void setUp() {
+    
+        engineServices = JodaEngine.start();
+        
+    }
+    
+    @AfterMethod
+    public void tearDown() {
+        engineServices.shutdown();
+    }
+    
+    @BeforeMethod(dependsOnMethods = "setUp")
+    abstract public void executeDeployer() throws IllegalStarteventException, ResourceNotAvailableException;
+    
+    
 
     /**
      * Tests that the UUID after the deployment isn't null.

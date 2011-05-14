@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;

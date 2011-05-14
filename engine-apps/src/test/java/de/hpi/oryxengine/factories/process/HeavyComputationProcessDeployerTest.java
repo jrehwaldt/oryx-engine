@@ -16,10 +16,10 @@ public class HeavyComputationProcessDeployerTest extends AbstractProcessDeployer
      */
     @Override
     @BeforeMethod
-    public void setUp()
+    public void executeDeployer()
     throws IllegalStarteventException, ResourceNotAvailableException {
 
         this.deployer = new HeavyComputationProcessDeployer();
-        this.uuid = deployer.deploy();
+        this.uuid = deployer.deploy(engineServices);
     }
 }

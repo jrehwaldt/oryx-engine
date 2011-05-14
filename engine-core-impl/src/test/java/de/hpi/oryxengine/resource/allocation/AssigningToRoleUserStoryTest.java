@@ -9,11 +9,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.AllocationStrategies;
-import de.hpi.oryxengine.allocation.Pattern;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.node.SimpleNodeFactory;
@@ -22,18 +19,17 @@ import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.allocation.pattern.RolePushPattern;
-import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.ConcreteResourcePattern;
+import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * This test assigns a task to a role or to a resource that contains other resources.
@@ -73,19 +69,18 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
             .participantBelongsToRole(gerardo.getID(), hamburgGuysRole.getID())
             .participantBelongsToRole(tobi2.getID(), mecklenRole.getID());
 
-        Pattern pushPattern = new RolePushPattern();
-        Pattern pullPattern = new SimplePullPattern();
+//        Pattern pushPattern = new RoleDistributionPattern();
+//        Pattern pullPattern = new SimplePullPattern();
+//
+//        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
+        
+        CreationPattern pattern = new ConcreteResourcePattern("Clean the office.", "It is very dirty.", null, hamburgGuysRole);
 
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
+//        Task task = new TaskImpl("Clean the office.", "It is very dirty.", allocationStrategies, hamburgGuysRole);
 
-        Task task = new TaskImpl("Clean the office.", "It is very dirty.", allocationStrategies, hamburgGuysRole);
+        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern, new OfferMultiplePattern()));
 
-        Class<?>[] constructorSig = {Task.class};
-        Object[] params = {task};
-        ActivityBlueprint bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
-        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(bp);
-
-        endNode = SimpleNodeFactory.createSimpleNodeWith(new ActivityBlueprintImpl(BpmnEndActivity.class));
+        endNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnEndActivity());
 
         humanTaskNode.transitionTo(endNode);
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.testng.Assert;
 
+import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnStartEvent;
 import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
@@ -23,7 +24,6 @@ import de.hpi.oryxengine.process.structure.Node;
  */
 public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractBPMNDeployerTest {
 
-
     public DeploySimpleSequenceAsBpmnXmlTest() {
 
         executableProcessResourcePath = "de/hpi/oryxengine/deployment/bpmn/SimpleSequence.bpmn.xml";
@@ -36,12 +36,12 @@ public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(startNodes.size(), 1);
 
         Node onlyStartNode = startNodes.get(0);
-        Assert.assertEquals(onlyStartNode.getActivityBlueprint().getActivityClass(), BpmnStartEvent.class);
+        Assert.assertEquals(extractClass(onlyStartNode), BpmnStartEvent.class);
         Assert.assertEquals(onlyStartNode.getAttribute("name"), "Start");
         Assert.assertEquals(onlyStartNode.getOutgoingTransitions().size(), 1);
 
         Node nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), AutomatedDummyActivity.class);
+        Assert.assertEquals(extractClass(nextNode), AutomatedDummyActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "A");
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
@@ -54,8 +54,13 @@ public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
         Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(endNode.getActivityBlueprint().getActivityClass(), BpmnEndActivity.class);
+        Assert.assertEquals(extractClass(endNode), BpmnEndActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
         Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
+    }
+
+    public Class<? extends Activity> extractClass(Node node) {
+
+        return node.getActivityBehaviour().getClass();
     }
 }

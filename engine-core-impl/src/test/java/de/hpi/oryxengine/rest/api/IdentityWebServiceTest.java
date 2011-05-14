@@ -17,15 +17,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.IdentityServiceImpl;
-import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractRole;
 import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.IdentityBuilderImpl;
-import de.hpi.oryxengine.rest.AbstractJsonServerTest;
+import de.hpi.oryxengine.util.testing.AbstractJsonServerTest;
 
 /**
  * Tests the interaction with our identity web service.
@@ -40,7 +38,7 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
     private static final String PARTICIPANT_URL = "/identity/participants";
     private static final String ROLES_URL = "/identity/roles";
 
-    private IdentityServiceImpl identity = null;
+    private IdentityService identity = null;
     private IdentityBuilder builder = null;
 
     /**
@@ -62,9 +60,9 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
     }
 
     @Override
-    protected Class<?> getResource() {
+    protected Object getResourceSingleton() {
 
-        return IdentityWebService.class;
+        return new IdentityWebService(jodaEngineServices);
     }
 
     /**
@@ -73,8 +71,8 @@ public class IdentityWebServiceTest extends AbstractJsonServerTest {
     @BeforeMethod
     public void setUp() {
 
-        identity = (IdentityServiceImpl) ServiceFactory.getIdentityService();
-        builder = new IdentityBuilderImpl(identity);
+        identity = jodaEngineServices.getIdentityService();
+        builder = identity.getIdentityBuilder();
     }
 
     /**

@@ -3,6 +3,7 @@ package de.hpi.oryxengine.process.structure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 
 /**
@@ -18,7 +19,9 @@ public class StartNodeBuilderImpl extends NodeBuilderImpl {
     /**
      * Default Constructor.
      * 
-     * @param processDefinitionBuilderImpl - a {@link ProcessBuilderImpl}
+     * @param processDefinitionBuilderImpl
+     *            - the {@link ProcessDefinitionBuilderImpl} that builds the {@link ProcessDefinition} that should
+     *            contain this {@link Node startNode}
      */
     public StartNodeBuilderImpl(ProcessDefinitionBuilderImpl processDefinitionBuilderImpl) {
 
@@ -29,7 +32,7 @@ public class StartNodeBuilderImpl extends NodeBuilderImpl {
     public Node buildNode() {
 
         checkingNodeConstraints();
-        
+
         Node resultNode = buildResultNode();
 
         processStartNode(resultNode);
@@ -38,7 +41,7 @@ public class StartNodeBuilderImpl extends NodeBuilderImpl {
     }
 
     /**
-     * Doing afterwork in order to register the {@link Node} as startNode.
+     * Doing after work in order to register the {@link Node} as startNode.
      * 
      * @param resultNode
      *            - {@link Node} that should be processed

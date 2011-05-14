@@ -12,22 +12,20 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.IdentityService;
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
-import de.hpi.oryxengine.factories.worklist.TaskFactory;
 import de.hpi.oryxengine.loadgenerator.PseudoHumanJob;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.Role;
+import de.hpi.oryxengine.resource.allocation.CreationPatternBuilder;
+import de.hpi.oryxengine.resource.allocation.CreationPatternBuilderImpl;
+import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
+import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
 
 /**
  * A factory for creating ExampleProcessToken objects. These objects just have 2 add Number activities.
@@ -39,9 +37,6 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     private static final String LAZY = "lazy guy";
     private static final String ROLE = "DUMMIES";
     private static final String JOBGROUP = "dummy";
-    private IdentityBuilder identityBuilder;
-
-    private IdentityService identityService;
 
     public static final String PARTICIPANT_KEY = "Participant";
 
@@ -63,25 +58,16 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     private Node startNode;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     private Role role;
 
-    /**
-     * Instantiates a new example process token factory.
-     * 
-     * @throws SchedulerException
-     *             thrown if the scheduler can't work correctly
-     */
-    public HumanTaskProcessDeployer()
-    throws SchedulerException {
+    private static final String SIMPLE_TASK_SUBJECT = "Get Gerardo a cup of coffee!";
+    private static final String SIMPLE_TASK_DESCRIPTION = "You know what I mean.";
 
-        identityService = ServiceFactory.getIdentityService();
-        processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
-        identityBuilder = identityService.getIdentityBuilder();
 
-    }
-    
+    @Override
     public void initializeNodes() {
+
         initializeNodesWithRoleTasks();
     }
 
@@ -90,23 +76,33 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
      */
     public void initializeNodesWithDirectAlloc() {
 
-        startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(processDefinitionBuilder);
-        
-        // Create the task
+        startNode = BpmnNodeFactory.createBpmnStartEventNode(processDefinitionBuilder);
+        CreationPatternBuilder builder = new CreationPatternBuilderImpl();
+
         Object[] participants = identityService.getParticipants().toArray();
-        Task task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[0]);
 
-        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
+        AbstractResource<?> resourceToAssign = (AbstractResource<?>) participants[0];
+        builder.setItemDescription(SIMPLE_TASK_DESCRIPTION).setItemSubject(SIMPLE_TASK_SUBJECT).setItemForm(null)
+        .addResourceAssignedToItem(resourceToAssign);
+
+        // CreationPattern task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[0]);)
+
+        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
+            builder.buildConcreteResourcePattern(), new AllocateSinglePattern());
 
         // Create the task
-        task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[1]);
+        resourceToAssign = (AbstractResource<?>) participants[1];
+        builder.flushAssignedResources().addResourceAssignedToItem(resourceToAssign);
 
-        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
+        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
+            builder.buildConcreteResourcePattern(), new AllocateSinglePattern());
 
         // Create the task
-        task = TaskFactory.createParticipantTask((AbstractResource<?>) identityService.getParticipants().toArray()[2]);
-        
-        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, task);
+        resourceToAssign = (AbstractResource<?>) participants[2];
+        builder.flushAssignedResources().addResourceAssignedToItem(resourceToAssign);
+
+        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
+            builder.buildConcreteResourcePattern(), new AllocateSinglePattern());
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
@@ -117,19 +113,27 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
     }
-    
+
+    /**
+     * Initialize the nodes with role tasks.
+     */
     public void initializeNodesWithRoleTasks() {
-        
+
         startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(processDefinitionBuilder);
 
         // Create the task
-        Task roleTask = TaskFactory.createRoleTask("Do stuff", "Do it cool", role);
+        CreationPatternBuilder builder = new CreationPatternBuilderImpl();
+        builder.setItemDescription("Do it cool").setItemSubject("Do stuff").setItemForm(null)
+        .addResourceAssignedToItem(role);
 
-        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleTask);
+        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, builder.buildConcreteResourcePattern(),
+            new OfferMultiplePattern());
 
-        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleTask);
+        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, builder.buildConcreteResourcePattern(),
+            new OfferMultiplePattern());
 
-        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleTask);
+        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, builder.buildConcreteResourcePattern(),
+            new OfferMultiplePattern());
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
@@ -144,9 +148,11 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     /**
      * Creates our dummy participants with a common role. Those are the ones that will claim and complete activity
      * within a time interval that is determined within the schedule dummy participants method.
-     * @throws ResourceNotAvailableException 
+     * 
+     * @throws ResourceNotAvailableException
      */
-    public void createAutomatedParticipants() throws ResourceNotAvailableException {
+    public void createAutomatedParticipants()
+    throws ResourceNotAvailableException {
 
         Participant jannik = (Participant) identityBuilder.createParticipant(JANNIK);
         Participant tobi = (Participant) identityBuilder.createParticipant(TOBI);
@@ -172,7 +178,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         this.scheduler.start();
 
         // Schedule the jobs of our participants
-        Set<AbstractParticipant> participants = ServiceFactory.getIdentityService().getParticipants();
+        Set<AbstractParticipant> participants = identityService.getParticipants();
         int i = 0;
         for (AbstractParticipant participant : participants) {
 
@@ -204,10 +210,12 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
 
     /**
      * Really creates Pseudo Humans. @see scheduleDummyParticipants {@inheritDoc}
-     * @throws ResourceNotAvailableException 
+     * 
+     * @throws ResourceNotAvailableException
      */
     @Override
-    public void createPseudoHuman() throws ResourceNotAvailableException {
+    public void createPseudoHuman()
+    throws ResourceNotAvailableException {
 
         createAutomatedParticipants();
         try {

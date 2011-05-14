@@ -17,11 +17,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import net.htmlparser.jericho.Config;
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.FormFields;
+import net.htmlparser.jericho.OutputDocument;
+import net.htmlparser.jericho.Source;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.IdentityService;
-import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.JodaEngineServices;
 import de.hpi.oryxengine.WorklistService;
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.exception.InvalidWorkItemException;
@@ -29,13 +35,8 @@ import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
+import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
-
-import net.htmlparser.jericho.Config;
-import net.htmlparser.jericho.FormField;
-import net.htmlparser.jericho.FormFields;
-import net.htmlparser.jericho.OutputDocument;
-import net.htmlparser.jericho.Source;
 
 /**
  * API servlet providing an interface for the worklist manager.
@@ -61,10 +62,10 @@ public final class WorklistWebService {
     /**
      * Default constructor.
      */
-    public WorklistWebService() {
+    public WorklistWebService(JodaEngineServices engineServices) {
 
-        this.service = ServiceFactory.getWorklistService();
-        this.identity = ServiceFactory.getIdentityService();
+        this.service = engineServices.getWorklistService();
+        this.identity = engineServices.getIdentityService();
     }
 
     /**

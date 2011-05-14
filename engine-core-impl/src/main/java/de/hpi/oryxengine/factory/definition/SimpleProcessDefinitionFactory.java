@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.activity.custom.AddNumbersAndStoreActivity;
 import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
 import de.hpi.oryxengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -11,8 +12,6 @@ import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.NodeImpl;
 
@@ -29,16 +28,14 @@ public class SimpleProcessDefinitionFactory implements ProcessDefinitionFactory 
 
         IncomingBehaviour incomingBehaviour = new SimpleJoinBehaviour();
         OutgoingBehaviour outgoingBehaviour = new TakeAllSplitBehaviour();
-        Class<?>[] conSig = { String.class, int[].class };
-        int[] integers = { 1, 1 };
-        Object[] conArgs = { "result", integers };
-        ActivityBlueprint blueprint = new ActivityBlueprintImpl(AddNumbersAndStoreActivity.class, conSig, conArgs);
-        Node node1 = new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
-
+        Activity activityBehavior = new AddNumbersAndStoreActivity("result", 1, 1);
+        Node node1 = new NodeImpl(activityBehavior, incomingBehaviour, outgoingBehaviour);
+        
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
-        Node node2 = new NodeImpl(blueprint, incomingBehaviour, outgoingBehaviour);
-
+        activityBehavior = new AddNumbersAndStoreActivity("result", 1, 1);
+        Node node2 = new NodeImpl(activityBehavior, incomingBehaviour, outgoingBehaviour);
+        
         node1.transitionTo(node2);
         List<Node> startNodes = new ArrayList<Node>();
         startNodes.add(node1);

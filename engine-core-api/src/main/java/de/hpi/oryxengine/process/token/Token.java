@@ -11,7 +11,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.activity.ActivityState;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.structure.Node;
@@ -141,12 +140,11 @@ public interface Token extends Identifiable {
      */
     void cancelExecution();
 
-    /**
-     * Returns the currently executed activity or null, if there is no such activity.
-     * 
-     * @return the current activity
-     */
-    @JsonProperty
-    Activity getCurrentActivity();
-    
+//    /**
+//     * Returns the currently executed activity or null, if there is no such activity.
+//     * 
+//     * @return the current activity
+//     */
+//    @JsonProperty
+//    Activity getCurrentActivity();
 }

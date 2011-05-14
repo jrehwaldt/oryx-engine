@@ -6,24 +6,23 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.factory.node.SimpleNodeFactory;
-import de.hpi.oryxengine.factory.worklist.TaskFactory;
+import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.resource.AbstractResource;
+import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * This test assigns a task directly to a participant. 
@@ -42,18 +41,12 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
 
         // The organization structure is already prepared in the factory
         // The task is assigned to Jannik
-        Task task = TaskFactory.createJannikServesGerardoTask();
-        jannik = task.getAssignedResources().iterator().next();
+        CreationPattern pattern = CreationPatternFactory.createJannikServesGerardoCreator();
+        jannik = pattern.getAssignedResources()[0];
 
-        Class<?>[] constructorSig = {Task.class};
-        Object[] params = {task};
-        ActivityBlueprint bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, constructorSig, params);
-        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(bp);
+        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern()));
 
-        Class<?>[] emptyConstructorSig = {};
-        Object[] emtpyParams = {};
-        bp = new ActivityBlueprintImpl(BpmnHumanTaskActivity.class, emptyConstructorSig, emtpyParams);
-        endNode = SimpleNodeFactory.createSimpleNodeWith(bp);
+        endNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern()));
         
         humanTaskNode.transitionTo(endNode);
                 

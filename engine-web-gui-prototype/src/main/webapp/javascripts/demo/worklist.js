@@ -142,14 +142,14 @@ function getWorklistItems() {
                 
                 var button = generateButton(worklistitem);
                 $('#worklist').append("<tr id=" + worklistitem.id + " class=\"worklistitem\">"
-                                      + "<td>" + worklistitem.task.subject + "</td>"
-                                      + "<td>" + worklistitem.task.description + "</td>"
-                                      + "<td class=\"controls\">" + button + "</td>"
-                                      + "</tr>");
-                
-                addButtonClickHandler(worklistitem.id);
-            });
-            $('#worklist').parent().find('th.loading-data').removeClass('loading-data');
+                					  + "<td>" + worklistitem.subject + "</td>"
+                					  + "<td>" + worklistitem.description + "</td>"
+                					  + "<td class=\"controls\">" + button + "</td>"
+                					  + "</tr>");
+
+				addButtonClickHandler(worklistitem.id);
+            })
+
         },
         error: function(jqXHR, textStatus, errorThrown) {
             // TODO more specific error

@@ -1,8 +1,5 @@
 package de.hpi.oryxengine.process.structure;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,25 +15,14 @@ public class NodeBuilderImpl implements NodeBuilder {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected Class<? extends Activity> blueprintClazz;
-    private List<Class<?>> blueprintConstructorSignature;
-    private List<Object> blueprintConstructorParameters;
+    protected Activity activityBehavior;
     protected OutgoingBehaviour outgoingBehaviour;
     protected IncomingBehaviour incomingBehaviour;
 
     @Override
-    public NodeBuilder setActivityBlueprintFor(Class<? extends Activity> bluePrintClazz) {
+    public NodeBuilder setActivityBehavior(Activity activityBehavior) {
 
-        this.blueprintClazz = bluePrintClazz;
-        return this;
-    }
-
-    @Override
-    public NodeBuilder addConstructorParameter(Class<?> parameterClazz, Object parameterInstance) {
-
-        getBlueprintConstructorSignature().add(parameterClazz);
-        getBlueprintConstructorParameters().add(parameterInstance);
-
+        this.activityBehavior = activityBehavior;
         return this;
     }
 
@@ -69,18 +55,7 @@ public class NodeBuilderImpl implements NodeBuilder {
      */
     protected Node buildResultNode() {
 
-        if (getBlueprintConstructorParameters().isEmpty() && getBlueprintConstructorSignature().isEmpty()) {
-            ActivityBlueprintImpl activityBlueprint = new ActivityBlueprintImpl(blueprintClazz);
-            return new NodeImpl(activityBlueprint, incomingBehaviour, outgoingBehaviour);
-        }
-
-        List<Class<?>> tempList = getBlueprintConstructorSignature();
-        Class<?>[] constructorSignature = (Class<?>[]) tempList.toArray(new Class<?>[tempList.size()]);
-        Object[] constructorParameter = getBlueprintConstructorParameters().toArray();
-        ActivityBlueprint activityBlueprint = new ActivityBlueprintImpl(blueprintClazz, constructorSignature,
-            constructorParameter);
-
-        return new NodeImpl(activityBlueprint, incomingBehaviour, outgoingBehaviour);
+        return new NodeImpl(activityBehavior, incomingBehaviour, outgoingBehaviour);
     }
 
     /**
@@ -88,63 +63,13 @@ public class NodeBuilderImpl implements NodeBuilder {
      */
     protected void checkingNodeConstraints() {
 
-        if (blueprintClazz == null) {
+        if (activityBehavior == null) {
 
-            String errorMessage = "The ActivityClass for the ActivityBlueprint needs to be set."
-                + "Perform setActivityBlueprintFor(...) before.";
+            String errorMessage = "The ActivityBehavior for the Node needs to be set."
+                + "Perform setActivityBehavior(...) before.";
 
             logger.error(errorMessage);
             throw new JodaEngineRuntimeException(errorMessage);
         }
-
-        try {
-            List<Class<?>> tempList = getBlueprintConstructorSignature();
-            Class<?>[] constructorSignature = (Class<?>[]) tempList.toArray(new Class<?>[tempList.size()]);
-            blueprintClazz.getConstructor(constructorSignature);
-        } catch (NoSuchMethodException noSuchMethodException) {
-
-            String errorMessage = createWrongSignatureErrorMessage();
-            logger.error(errorMessage, noSuchMethodException);
-            throw new JodaEngineRuntimeException(errorMessage, noSuchMethodException);
-        }
-    }
-
-    private String createWrongSignatureErrorMessage() {
-
-        StringBuilder errorMessageBuilder = new StringBuilder();
-        errorMessageBuilder.append("The ActivityClass '" + blueprintClazz.getName()
-            + "' does not have a constructor for the signature (");
-        for (Class<?> clazz : getBlueprintConstructorSignature()) {
-            errorMessageBuilder.append(clazz.getName() + ", ");
-        }
-
-        // Delete the last two chars
-        errorMessageBuilder.deleteCharAt(errorMessageBuilder.length() - 1);
-        errorMessageBuilder.deleteCharAt(errorMessageBuilder.length() - 1);
-        errorMessageBuilder.append(").");
-
-        return errorMessageBuilder.toString();
-    }
-
-    /**
-     * Lazy Initialization Getter.
-     */
-    protected List<Object> getBlueprintConstructorParameters() {
-
-        if (this.blueprintConstructorParameters == null) {
-            this.blueprintConstructorParameters = new ArrayList<Object>();
-        }
-        return blueprintConstructorParameters;
-    }
-
-    /**
-     * Lazy Initialization Getter.
-     */
-    protected List<Class<?>> getBlueprintConstructorSignature() {
-
-        if (this.blueprintConstructorSignature == null) {
-            this.blueprintConstructorSignature = new ArrayList<Class<?>>();
-        }
-        return blueprintConstructorSignature;
     }
 }

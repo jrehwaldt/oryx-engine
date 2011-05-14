@@ -8,8 +8,6 @@ import java.util.UUID;
 
 import javax.xml.bind.JAXBException;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -44,8 +42,8 @@ import de.hpi.oryxengine.resource.worklist.EmptyWorklist;
 import de.hpi.oryxengine.resource.worklist.ParticipantWorklist;
 import de.hpi.oryxengine.resource.worklist.RoleWorklist;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
-import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 import de.hpi.oryxengine.rest.PatchCollectionChangeset;
+import de.hpi.oryxengine.util.testing.AbstractJsonServerTest;
 
 /**
  * This class tests the serialization of our resource classes.
@@ -54,7 +52,6 @@ import de.hpi.oryxengine.rest.PatchCollectionChangeset;
  * 
  * @author Jan Rehwaldt
  */
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class SerializationToJsonTest extends AbstractJsonServerTest {
     
     private AbstractResource<?> participantJannik = null;
@@ -351,7 +348,7 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
     }
 
     @Override
-    protected Class<?> getResource() {
+    protected Object getResourceSingleton() {
 
         return null;
     }

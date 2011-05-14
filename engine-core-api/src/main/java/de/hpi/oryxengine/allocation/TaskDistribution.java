@@ -1,8 +1,5 @@
 package de.hpi.oryxengine.allocation;
 
-import javax.annotation.Nonnull;
-
-import de.hpi.oryxengine.process.token.Token;
 
 /**
  * Internal interface for the distribution of human tasks.
@@ -18,5 +15,5 @@ public interface TaskDistribution {
      * @param token
      *            the token
      */
-    void distribute(@Nonnull Task task, @Nonnull Token token);
+//    void distribute(@Nonnull Task task, @Nonnull Token token);
 }

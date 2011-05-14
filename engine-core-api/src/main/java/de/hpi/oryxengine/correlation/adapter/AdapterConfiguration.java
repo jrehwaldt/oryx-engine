@@ -1,6 +1,7 @@
 package de.hpi.oryxengine.correlation.adapter;
 
 import de.hpi.oryxengine.correlation.AdapterRegistrar;
+import de.hpi.oryxengine.correlation.CorrelationManager;
 import de.hpi.oryxengine.correlation.EventConfiguration;
 import de.hpi.oryxengine.exception.AdapterSchedulingException;
 

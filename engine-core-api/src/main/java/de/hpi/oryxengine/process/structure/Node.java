@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
+import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.incomingbehaviour.IncomingBehaviour;
 import de.hpi.oryxengine.node.outgoingbehaviour.OutgoingBehaviour;
 import de.hpi.oryxengine.util.Attributable;
@@ -18,13 +19,23 @@ import de.hpi.oryxengine.util.Identifiable;
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface Node extends Identifiable, Attributable {
 
+    // TODO @Gerardo Comment wegmachen
+//    /**
+//     * Gets the activity. The activity is the behavior of a node.
+//     * 
+//     * @return the activity blueprint that is used to instantiate the activity.
+//     */
+//    @JsonIgnore
+//    ActivityBlueprint getActivityBlueprint();
+
     /**
      * Gets the activity. The activity is the behavior of a node.
      * 
-     * @return the activity blueprint that is used to instantiate the activity.
+     * @return the {@link Activity} of this node
      */
     @JsonIgnore
-    ActivityBlueprint getActivityBlueprint();
+    Activity getActivityBehaviour(); 
+    
 
     /**
      * Gets the incoming behaviour.

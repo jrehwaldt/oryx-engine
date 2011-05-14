@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.Assert;
@@ -14,9 +15,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.Task;
+import de.hpi.oryxengine.allocation.CreationPattern;
+import de.hpi.oryxengine.allocation.PushPattern;
 import de.hpi.oryxengine.bootstrap.JodaEngine;
-import de.hpi.oryxengine.factory.worklist.TaskFactory;
+import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
 import de.hpi.oryxengine.process.definition.ProcessArtifact;
@@ -27,16 +29,17 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
+import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
-import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 import de.hpi.oryxengine.util.io.StringStreamSource;
+import de.hpi.oryxengine.util.testing.AbstractJsonServerTest;
 
 /**
  * The Class WorklistWebserviceFormPopulationTest.
  */
 public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest {
 
-    private Task task;
+    private CreationPattern pattern;
     private AbstractParticipant jannik;
     private AbstractProcessInstance instance;
 
@@ -50,28 +53,31 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
     /**
      * Setup of a worklist item and a participant.
      *
-     * @throws IOException One of the form input files might not have been read correctly.
+     * @throws IOException one of the form input files might not have been read correctly.
      */
     @BeforeMethod
     public void beforeMethod()
     throws IOException {
 
         JodaEngine.start();
-        task = TaskFactory.createJannikServesGerardoTask();
+        pattern = CreationPatternFactory.createJannikServesGerardoCreator();
 
         form = readFile(FORM_LOCATION);
         populatedForm = readFile(POPULATED_FORM_LOCATION);
 
         AbstractProcessArtifact processArtifact = new ProcessArtifact("form", new StringStreamSource(form));
 
-        Whitebox.setInternalState(task, "form", new FormImpl(processArtifact));
+        Whitebox.setInternalState(pattern, "form", new FormImpl(processArtifact));
 
         instance = new ProcessInstanceImpl(mock(ProcessDefinition.class));
         Token token = instance.createToken(mock(Node.class), mock(Navigator.class));
-        ServiceFactory.getTaskDistribution().distribute(task, token);
-        jannik = (AbstractParticipant) task.getAssignedResources().toArray()[0];
+//        ServiceFactory.getTaskDistribution().distribute(pattern, token);
+        List<AbstractWorklistItem> items = pattern.createWorklistItems(token);
+        PushPattern pushPattern = new AllocateSinglePattern();
+        pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
+        jannik = (AbstractParticipant) pattern.getAssignedResources()[0];
     }
-
+    
     /**
      * We create the two context variables as specified in the form and then check,
      * whether the values appear in the returned form.
@@ -105,9 +111,9 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
     }
 
     @Override
-    protected Class<?> getResource() {
+    protected Object getResourceSingleton() {
 
-        return WorklistWebService.class;
+        return new WorklistWebService(jodaEngineServices);
     }
 
     /**

@@ -4,6 +4,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
+import de.hpi.oryxengine.JodaEngineServices;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
@@ -22,13 +23,15 @@ public class DemoWebService {
     // TODO move somewhere else
     
     private boolean referenceDeployed;
+    private JodaEngineServices engineServices;
     
     /**
      * Instantiates a new demo web service.
      */
-    public DemoWebService() {
+    public DemoWebService(JodaEngineServices engineServices) {
 
         super();
+        this.engineServices = engineServices;
         referenceDeployed = false;
     }
 
@@ -88,7 +91,7 @@ public class DemoWebService {
         try {
             if (!referenceDeployed) {
                 ShortenedReferenceProcessDeployer deployer = new ShortenedReferenceProcessDeployer();
-                deployer.deploy();
+                deployer.deploy(engineServices);
             }
             
             referenceDeployed = true;

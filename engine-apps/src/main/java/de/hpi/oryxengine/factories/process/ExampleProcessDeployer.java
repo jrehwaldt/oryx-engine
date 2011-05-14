@@ -3,7 +3,6 @@ package de.hpi.oryxengine.factories.process;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
 
 /**
@@ -20,13 +19,6 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
     /** The start node. */
     private Node startNode;
 
-    /**
-     * Instantiates a new example process token factory.
-     */
-    public ExampleProcessDeployer() {
-
-        processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
-    }
 
     /**
      * Initializes the nodes.

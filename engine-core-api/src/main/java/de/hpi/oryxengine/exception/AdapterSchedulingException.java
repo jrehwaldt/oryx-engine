@@ -2,6 +2,8 @@ package de.hpi.oryxengine.exception;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.correlation.timing.TimingManager;
+
 /**
  * Exception implementation for scheduling errors in the {@link TimingManager}.
  * 

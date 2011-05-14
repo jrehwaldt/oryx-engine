@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorImplMock;
-import de.hpi.oryxengine.node.activity.NullActivity;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -23,8 +22,6 @@ import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.structure.ActivityBlueprint;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 import de.hpi.oryxengine.process.structure.Condition;
 import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
@@ -92,9 +89,6 @@ public class LoopProcessTest {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-        // Create StartNode
-        ActivityBlueprint blueprint = new ActivityBlueprintImpl(NullActivity.class);
-
         start = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
         // Create the XORJoin
@@ -134,11 +128,7 @@ public class LoopProcessTest {
         instance.getContext().setVariable("increment", "1");
 
         // start node for token is set later on
-        token = new TokenImpl(null, instance, nav);
-
-        // Set start
-        token.setCurrentNode(start);
-
+        token = new TokenImpl(start, instance, nav);
     }
 
     /**

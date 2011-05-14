@@ -4,10 +4,10 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.JodaEngineException;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * Tests the building of {@link OrganizationUnit}s in the organization structure.

@@ -17,10 +17,11 @@
     </filter>
     
     <!-- Engine bootstrap -->
+    <!-- the boostrap is now done in the application
     <listener>
         <listener-class>de.hpi.oryxengine.bootstrap.EngineServletListener</listener-class>
     </listener>
-    
+     -->
     <!-- Engine REST-API -->
     <!--
     <servlet>
@@ -43,12 +44,18 @@
         <servlet-name>rest-api</servlet-name>
         <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
     </servlet>
-
+	<!-- disabled automated scanning, as the providers and resources will be registered in the Application class provided above.
     <context-param>
         <param-name>resteasy.scan</param-name>
         <param-value>true</param-value>
     </context-param>
-
+ 	-->
+ 	<!-- register the application. The demo application adds the DemoWebService. If you do not need it, use
+ 	de.hpi.oryxengine.rest.application.JodaEngineApplication. These are the core service only. -->
+ 	<context-param>
+        <param-name>javax.ws.rs.core.Application</param-name>
+        <param-value>de.hpi.oryxengine.rest.application.DemoEngineApplication</param-value>
+    </context-param>
     <context-param>
         <param-name>resteasy.servlet.mapping.prefix</param-name>
         <param-value>/api</param-value>

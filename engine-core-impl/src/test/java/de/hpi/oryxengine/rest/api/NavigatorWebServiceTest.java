@@ -10,8 +10,6 @@ import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -22,13 +20,12 @@ import de.hpi.oryxengine.navigator.Navigator;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.rest.AbstractJsonServerTest;
 import de.hpi.oryxengine.rest.TestUtils;
+import de.hpi.oryxengine.util.testing.AbstractJsonServerTest;
 
 /**
  * The Class NavigatorWebServiceTest.
  */
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class NavigatorWebServiceTest extends AbstractJsonServerTest {
 
     private Navigator navigator = null;
@@ -52,8 +49,8 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     }
 
     @Override
-    protected Class<?> getResource() {
-        return NavigatorWebService.class;
+    protected Object getResourceSingleton() {
+        return new NavigatorWebService(jodaEngineServices);
     }
 
     /**

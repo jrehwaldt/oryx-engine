@@ -28,6 +28,7 @@ import javax.xml.parsers.SAXParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.deployment.importer.bpmn.BpmnXmlParse;
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.util.io.StreamSource;

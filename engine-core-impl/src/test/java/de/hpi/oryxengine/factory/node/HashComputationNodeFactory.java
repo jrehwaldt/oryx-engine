@@ -1,7 +1,6 @@
 package de.hpi.oryxengine.factory.node;
 
 import de.hpi.oryxengine.node.activity.custom.HashComputationActivity;
-import de.hpi.oryxengine.process.structure.ActivityBlueprintImpl;
 
 /**
  * A factory for creating HashComputationNode objects. Those nodes are used to compute a specified hash of a given
@@ -80,18 +79,13 @@ public class HashComputationNodeFactory extends AbstractNodeFactory {
      */
     @Override
     public void setActivityBlueprint() {
-        
+
         if (hashAlgorithm == null) {
-            Class<?>[] constructorSig = {String.class, String.class};
-            Object[] params = {variableName, toBeHashed};
-
-            blueprint = new ActivityBlueprintImpl(HashComputationActivity.class, constructorSig, params);
+            
+            activityBehavior = new HashComputationActivity(variableName, toBeHashed);
         } else {
-            Class<?>[] constructorSig = {String.class, String.class, String.class};
-            Object[] params = {variableName, toBeHashed, hashAlgorithm};
-
-            blueprint = new ActivityBlueprintImpl(HashComputationActivity.class, constructorSig, params);
+            
+            activityBehavior = new HashComputationActivity(variableName, toBeHashed, hashAlgorithm);
         }
     }
-
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.testng.Assert;
 
+import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.node.activity.NullActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.node.activity.bpmn.BpmnStartEvent;
@@ -41,17 +42,17 @@ public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(startNodes.size(), 1);
 
         Node onlyStartNode = startNodes.get(0);
-        Assert.assertEquals(onlyStartNode.getActivityBlueprint().getActivityClass(), BpmnStartEvent.class);
+        Assert.assertEquals(extractClass(onlyStartNode), BpmnStartEvent.class);
         Assert.assertEquals(onlyStartNode.getAttribute("name"), "Start");
         Assert.assertEquals(onlyStartNode.getOutgoingTransitions().size(), 1);
 
         Node nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), AutomatedDummyActivity.class);
+        Assert.assertEquals(extractClass(nextNode), AutomatedDummyActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "A");
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
         nextNode = nextNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), NullActivity.class);
+        Assert.assertEquals(extractClass(nextNode), NullActivity.class);
         Assert.assertEquals(nextNode.getIncomingBehaviour().getClass(), SimpleJoinBehaviour.class);
         Assert.assertEquals(nextNode.getOutgoingBehaviour().getClass(), XORSplitBehaviour.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "Question?");
@@ -59,7 +60,7 @@ public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Node xorGatewayNode = nextNode;
 
         nextNode = xorGatewayNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), NullActivity.class);
+        Assert.assertEquals(extractClass(nextNode), NullActivity.class);
         Assert.assertEquals(nextNode.getIncomingBehaviour().getClass(), AndJoinBehaviour.class);
         Assert.assertEquals(nextNode.getOutgoingBehaviour().getClass(), TakeAllSplitBehaviour.class);
         Assert.assertNull(nextNode.getAttribute("name"));
@@ -67,19 +68,19 @@ public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Node parallelGateway = nextNode;
 
         nextNode = parallelGateway.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), AutomatedDummyActivity.class);
+        Assert.assertEquals(extractClass(nextNode), AutomatedDummyActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "B");
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
         Node parallelJoinNode = nextNode.getOutgoingTransitions().get(0).getDestination();
 
         nextNode = parallelGateway.getOutgoingTransitions().get(1).getDestination();
-        Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), AutomatedDummyActivity.class);
+        Assert.assertEquals(extractClass(nextNode), AutomatedDummyActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "C");
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
         nextNode = nextNode.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(nextNode, parallelJoinNode);
-        Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), NullActivity.class);
+        Assert.assertEquals(extractClass(nextNode), NullActivity.class);
         Assert.assertEquals(nextNode.getIncomingBehaviour().getClass(), AndJoinBehaviour.class);
         Assert.assertEquals(nextNode.getOutgoingBehaviour().getClass(), TakeAllSplitBehaviour.class);
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
@@ -87,19 +88,27 @@ public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Node xorGatewayJoinNode = xorGatewayNode.getOutgoingTransitions().get(1).getDestination();
         nextNode = nextNode.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(nextNode, xorGatewayJoinNode);
-        Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), NullActivity.class);
+        Assert.assertEquals(extractClass(nextNode), NullActivity.class);
         Assert.assertEquals(nextNode.getIncomingBehaviour().getClass(), SimpleJoinBehaviour.class);
         Assert.assertEquals(nextNode.getOutgoingBehaviour().getClass(), XORSplitBehaviour.class);
 
         nextNode = xorGatewayJoinNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(nextNode.getActivityBlueprint().getActivityClass(), AutomatedDummyActivity.class);
+        Assert.assertEquals(extractClass(nextNode), AutomatedDummyActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "D");
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
         Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(endNode.getActivityBlueprint().getActivityClass(), BpmnEndActivity.class);
+        Assert.assertEquals(extractClass(endNode), BpmnEndActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
         Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
+    }
+
+    /**
+     * Little helper for this test in order make short method call.
+     */
+    public Class<? extends Activity> extractClass(Node onlyStartNode) {
+
+        return onlyStartNode.getActivityBehaviour().getClass();
     }
 
 }

@@ -2,6 +2,8 @@ package de.hpi.oryxengine.correlation.adapter;
 
 import javax.annotation.Nonnull;
 
+import de.hpi.oryxengine.correlation.EventManager;
+
 /**
  * General {@link EventManager} adapter.
  */

@@ -4,10 +4,8 @@ import de.hpi.oryxengine.factory.node.HumanTaskNodeFactory;
 import de.hpi.oryxengine.factory.node.PrintingNodeFactory;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
 
@@ -62,12 +60,13 @@ public final class SimpleHumanTaskProcess {
 
         Node thirdNode = new PrintingNodeFactory().createWithLogger();
         
-        Node endNode = new NodeImpl(BpmnEndActivity.class);
+        // TODO @Gerardo: hier gilt dasselbe wie im ExampleProcessForReview.
+//        Node endNode = new NodeImpl(BpmnEndActivity.class);
 
         // Setting the transitions
         startNode.transitionTo(secondNode);
         secondNode.transitionTo(thirdNode);
-        thirdNode.transitionTo(endNode);
+//        thirdNode.transitionTo(endNode);
 
         TokenImpl sampleToken = new TokenImpl(startNode);
         return sampleToken;

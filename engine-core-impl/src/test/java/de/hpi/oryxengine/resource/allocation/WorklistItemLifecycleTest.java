@@ -1,22 +1,27 @@
 package de.hpi.oryxengine.resource.allocation;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.allocation.Task;
-import de.hpi.oryxengine.factory.worklist.TaskFactory;
+import de.hpi.oryxengine.allocation.CreationPattern;
+import de.hpi.oryxengine.factory.worklist.CreationPatternFactory;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.resource.AbstractParticipant;
+import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.Participant;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
 import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * Checking the Lifecycle of a WorklistItem.
@@ -37,12 +42,13 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
 
         worklistService = ServiceFactory.getWorklistService();
 
-        Task task = TaskFactory.createJannikServesGerardoTask();
-        jannik = (Participant) task.getAssignedResources().iterator().next();
+        CreationPattern pattern = CreationPatternFactory.createJannikServesGerardoCreator();
+        jannik = (Participant) pattern.getAssignedResources()[0];
 
         Token token = Mockito.mock(Token.class);
+        Set<AbstractResource<?>> resources = new HashSet<AbstractResource<?>>(Arrays.asList(pattern.getAssignedResources()));
 
-        worklistItem = new WorklistItemImpl(task, token);
+        worklistItem = new WorklistItemImpl(pattern.getItemSubject(), pattern.getItemDescription(), pattern.getItemForm(), resources, token);
 
         ServiceFactory.getWorklistQueue().addWorklistItem(worklistItem, jannik);
     }
@@ -65,11 +71,13 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
 
         AbstractParticipant part = ServiceFactory.getIdentityService().getParticipants().iterator().next();
         // AllocationsStragegies are not important for that test
-        Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, part);
+//        Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, part);
 
         Token token = Mockito.mock(Token.class);
+        Set<AbstractResource<?>> assignedResources = new HashSet<AbstractResource<?>>();
+        assignedResources.add(part);
 
-        AbstractWorklistItem worklistItemForGerardo = new WorklistItemImpl(task, token);
+        AbstractWorklistItem worklistItemForGerardo = new WorklistItemImpl("Task Subject!!", "Task Decription!!", null, assignedResources, token);
 
         Assert.assertEquals(worklistItemForGerardo.getSubject(), "Task Subject!!");
         Assert.assertEquals(worklistItemForGerardo.getDescription(), "Task Decription!!");
@@ -79,7 +87,7 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         // Testing that the creation of a WorklistItem requires a Token
         try {
 
-            worklistItemForGerardo = new WorklistItemImpl(task, null);
+            worklistItemForGerardo = new WorklistItemImpl("Task Subject!!", "Task Decription!!", null, assignedResources, null);
             String failureMessage = "An NullPointerException should have occurred, "
                 + "because the WorklistItem was created without a Token.";
             Assert.fail(failureMessage);
@@ -88,15 +96,15 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         }
 
         // Testing that the creation of a WorklistItem requires a Task
-        try {
-
-            worklistItemForGerardo = new WorklistItemImpl(task, null);
-            String failureMessage = "An NullPointerException should have occurred, "
-                + "because the WorklistItem was created without a Task.";
-            Assert.fail(failureMessage);
-        } catch (NullPointerException nullPointerException) {
-            // This was expected
-        }
+//        try {
+//
+//            worklistItemForGerardo = new WorklistItemImpl(task, null);
+//            String failureMessage = "An NullPointerException should have occurred, "
+//                + "because the WorklistItem was created without a Task.";
+//            Assert.fail(failureMessage);
+//        } catch (NullPointerException nullPointerException) {
+//            // This was expected
+//        }
     }
 
     /**

@@ -6,10 +6,8 @@ import de.hpi.oryxengine.factory.node.MailNodeFactory;
 import de.hpi.oryxengine.factory.node.PrintingNodeFactory;
 import de.hpi.oryxengine.factory.node.RoutingBehaviourTestFactory;
 import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.node.activity.bpmn.BpmnEndActivity;
 import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.NodeImpl;
 import de.hpi.oryxengine.process.token.TokenImpl;
 
 /**
@@ -69,13 +67,14 @@ public final class ExampleProcessForReview {
 
         Node fourthNode = new MailNodeFactory().createWithLogger();
 
-        Node endNode = new NodeImpl(BpmnEndActivity.class);
+        //die endNode muss dann wieder einkommentiert bzw. korrekt implementiert werden
+//        Node endNode = new NodeImpl(BpmnEndActivity.class);
 
         // Setting the transitions
         startNode.transitionTo(secondNode);
         secondNode.transitionTo(thirdNode);
         thirdNode.transitionTo(fourthNode);
-        fourthNode.transitionTo(endNode);
+//        fourthNode.transitionTo(endNode);
 
         TokenImpl sampleToken = new TokenImpl(startNode);
         return sampleToken;

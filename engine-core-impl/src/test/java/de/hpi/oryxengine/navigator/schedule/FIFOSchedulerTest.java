@@ -7,13 +7,10 @@ import static org.testng.Assert.assertTrue;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.AbstractJodaEngineTest;
 import de.hpi.oryxengine.RepositoryService;
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
@@ -22,11 +19,14 @@ import de.hpi.oryxengine.process.structure.Node;
 import de.hpi.oryxengine.process.token.Token;
 import de.hpi.oryxengine.process.token.TokenImpl;
 import de.hpi.oryxengine.repository.RepositorySetup;
+import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
+import de.hpi.oryxengine.util.testing.SkipBuildingJodaEngine;
+import de.hpi.oryxengine.util.testing.SkipBuildingJodaEngine.JodaEngineTestSkipMode;
 
 /**
  * The Class FIFOSchedulerTest. tests our awesome FIFO Scheduler.
  */
-@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+@SkipBuildingJodaEngine(skippingMode = JodaEngineTestSkipMode.FOR_EACH_TEST_METHOD)
 public class FIFOSchedulerTest extends AbstractJodaEngineTest {
 
     /** The scheduler. */

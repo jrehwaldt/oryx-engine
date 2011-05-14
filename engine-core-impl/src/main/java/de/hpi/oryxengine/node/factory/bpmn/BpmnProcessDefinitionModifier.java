@@ -1,5 +1,6 @@
 package de.hpi.oryxengine.node.factory.bpmn;
 
+import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.instantiation.DefaultBpmnProcessInstanceCreationPattern;
 

@@ -1,6 +1,5 @@
 package de.hpi.oryxengine.process.token;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -39,8 +38,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
     private List<Token> lazySuspendedProcessingTokens;
 
-    private Activity currentActivity;
-    
     private List<AbstractTokenPlugin> plugins;
 
     /**
@@ -73,7 +70,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
         this.navigator = navigator;
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
-        this.currentActivity = null;
         this.plugins = new ArrayList<AbstractTokenPlugin>();
     }
 
@@ -118,32 +114,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
         return id;
     }
 
-    /**
-     * Instantiates current node's activity class to be able to execute it.
-     * 
-     * @return the activity
-     */
-    private Activity instantiateCurrentActivityClass() {
-
-        Activity activity = null;
-
-        // TODO should we catch these exceptions here, or should we propagate it to a higher level?
-        try {
-            activity = currentNode.getActivityBlueprint().instantiate();
-
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-        return activity;
-    }
-
     @Override
     public void executeStep()
     throws JodaEngineException {
@@ -158,12 +128,14 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
         lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
         changeActivityState(ActivityState.ACTIVE);
 
-        currentActivity = instantiateCurrentActivityClass();
-        currentActivity.execute(this);
+        Activity currentActivityBehavior = currentNode.getActivityBehaviour();
+        currentActivityBehavior.execute(this);
+        
         // Aborting the further execution of the process by the token, because it was suspended
         if (this.currentActivityState == ActivityState.SUSPENDED) {
             return;
         }
+        
         completeExecution();
     }
 
@@ -281,7 +253,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     throws NoValidPathException {
 
         changeActivityState(ActivityState.COMPLETED);
-        currentActivity = null;
         
         List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
@@ -318,7 +289,8 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     public void cancelExecution() {
 
         if (this.currentActivityState == ActivityState.ACTIVE || this.currentActivityState == ActivityState.SUSPENDED) {
-            currentActivity.cancel();
+            Activity currentActivityBehavior = currentNode.getActivityBehaviour();
+            currentActivityBehavior.cancel();
         }
 
     }
@@ -329,11 +301,11 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
         return currentActivityState;
     }
 
-    @Override
-    public Activity getCurrentActivity() {
-
-        return this.currentActivity;
-    }
+//    @Override
+//    public Activity getCurrentActivity() {
+//
+//        return this.currentActivity;
+//    }
     
     @Override
     public void registerPlugin(@Nonnull AbstractTokenPlugin plugin) {
@@ -358,10 +330,8 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
         this.currentActivityState = newState;
         setChanged();
         
-        // TODO maybe change the ActivityLifecycleChangeEvent, as we provide the currentActivity here, but it might not
-        // be instantiated yet.
-        notifyObservers(new ActivityLifecycleChangeEvent(currentActivity, prevState, newState, this));
-        
+        // TODO maybe change the ActivityLifecycleChangeEvent, as we provide the currentActivity here, but it might not be instantiated yet.
+        Activity currentActivityBehavior = currentNode.getActivityBehaviour();
+        notifyObservers(new ActivityLifecycleChangeEvent(currentActivityBehavior, prevState, newState, this));
     }
-
 }

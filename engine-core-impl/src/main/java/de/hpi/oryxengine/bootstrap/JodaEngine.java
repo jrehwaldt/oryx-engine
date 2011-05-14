@@ -3,24 +3,36 @@ package de.hpi.oryxengine.bootstrap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.hpi.oryxengine.Service;
+import de.hpi.oryxengine.IdentityService;
+import de.hpi.oryxengine.JodaEngineServices;
+import de.hpi.oryxengine.RepositoryService;
+import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.WorklistService;
+import de.hpi.oryxengine.navigator.Navigator;
 
 /**
- * The {@link JodaEngine} class is responsible for the initialization of the whole applicaiton. Therefore we use the
+ * The {@link JodaEngine} class is responsible for the initialization of the whole application. Therefore we use the
  * "Inversion of Control" pattern provided by the Spring.net Framework.
  */
-public final class JodaEngine {
+public class JodaEngine implements JodaEngineServices {
 
     public static final String DEFAULT_SPRING_CONFIG_FILE = "jodaengine.cfg.xml";
 
-    /**
-     * Starts the engine using the default dependency injection file (oryxengine.cfg.xml).
-     */
-    public static void start() {
+    protected static JodaEngine jodaEngineSingelton;
 
-        startWithConfig(DEFAULT_SPRING_CONFIG_FILE);
+    /**
+     * Starts the engine using the default dependency injection file (oryxengine.cfg.xml). In case the
+     * {@link JodaEngine} already has started, the old {@link JodaEngine} is returned.
+     * 
+     * @return the {@link JodaEngine}; in case the {@link JodaEngine} already has
+     *         started, the old {@link JodaEngine} is returneds
+     */
+    public static JodaEngine start() {
+
+        return startWithConfig(DEFAULT_SPRING_CONFIG_FILE);
     }
 
     /**
@@ -29,7 +41,11 @@ public final class JodaEngine {
      * @param configurationFile
      *            - file where the dependencies are defined
      */
-    public static void startWithConfig(String configurationFile) {
+    public static JodaEngine startWithConfig(String configurationFile) {
+
+        if (jodaEngineSingelton != null) {
+            return jodaEngineSingelton;
+        }
 
         // Initialize ApplicationContext
         initializeApplicationContext(configurationFile);
@@ -46,6 +62,9 @@ public final class JodaEngine {
                 service.start();
             }
         }
+
+        jodaEngineSingelton = new JodaEngine();
+        return jodaEngineSingelton;
     }
 
     /**
@@ -62,9 +81,10 @@ public final class JodaEngine {
     /**
      * Stops the {@link JodaEngine}.
      */
-    public static void shutdown() {
+    @Override
+    public void shutdown() {
 
-     // Extracting all Service Beans
+        // Extracting all Service Beans
         Map<String, Service> serviceTable = JodaEngineAppContext.getAppContext().getBeansOfType(Service.class);
 
         if (serviceTable != null) {
@@ -76,10 +96,31 @@ public final class JodaEngine {
                 service.stop();
             }
         }
+        
+        jodaEngineSingelton = null;
     }
 
-    /**
-     * Hidden Constructor.
-     */
-    private JodaEngine() { }
+    @Override
+    public WorklistService getWorklistService() {
+
+        return ServiceFactory.getWorklistService();
+    }
+
+    @Override
+    public IdentityService getIdentityService() {
+
+        return ServiceFactory.getIdentityService();
+    }
+
+    @Override
+    public Navigator getNavigatorService() {
+
+        return ServiceFactory.getNavigatorService();
+    }
+
+    @Override
+    public RepositoryService getRepositoryService() {
+
+        return ServiceFactory.getRepositoryService();
+    }
 }

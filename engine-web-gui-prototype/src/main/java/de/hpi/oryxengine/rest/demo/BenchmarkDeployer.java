@@ -5,9 +5,8 @@ import java.util.UUID;
 
 import de.hpi.oryxengine.IdentityService;
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.AllocationStrategies;
+import de.hpi.oryxengine.allocation.CreationPattern;
 import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.allocation.Task;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
@@ -19,14 +18,12 @@ import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
 import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.IdentityBuilder;
 import de.hpi.oryxengine.resource.Role;
-import de.hpi.oryxengine.resource.allocation.AllocationStrategiesImpl;
+import de.hpi.oryxengine.resource.allocation.CreationPatternBuilder;
+import de.hpi.oryxengine.resource.allocation.CreationPatternBuilderImpl;
 import de.hpi.oryxengine.resource.allocation.FormImpl;
-import de.hpi.oryxengine.resource.allocation.TaskImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.RolePushPattern;
-import de.hpi.oryxengine.resource.allocation.pattern.SimplePullPattern;
+import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
 
 /**
  * This class deploys the benchmark process as specified in signavio.
@@ -79,22 +76,48 @@ public final class BenchmarkDeployer {
         Node andJoin3 = BpmnNodeFactory.createBpmnAndGatewayNode(processDefinitionBuilder);
 
         Form form = extractForm("dummyform", "dummy.html");
-        Task roleATask = createRoleTask("Do stuff", "Do it", form, roleA);
-        Task roleBTask = createRoleTask("Do stuff", "Do it", form, roleB);
-        Task roleCTask = createRoleTask("Do stuff", "Do it", form, roleC);
-        Task roleDTask = createRoleTask("Do stuff", "Do it", form, roleD);
-        Task roleETask = createRoleTask("Do stuff", "Do it", form, roleE);
+        CreationPatternBuilder builder = new CreationPatternBuilderImpl();
+        builder.setItemSubject("Do stuff").setItemDescription("Do it").setItemForm(form)
+        .addResourceAssignedToItem(roleA);
+        CreationPattern patternA = builder.buildConcreteResourcePattern();
 
-        Node activityA1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleATask);
-        Node activityB1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleBTask);
-        Node activityB2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleBTask);
-        Node activityB3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleBTask);
-        Node activityC1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleCTask);
-        Node activityC2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleCTask);
-        Node activityD1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleDTask);
-        Node activityD2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleDTask);
-        Node activityD3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleDTask);
-        Node activityE1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, roleETask);
+        builder.flushAssignedResources().addResourceAssignedToItem(roleB);
+        CreationPattern patternB = builder.buildConcreteResourcePattern();
+
+        builder.flushAssignedResources().addResourceAssignedToItem(roleC);
+        CreationPattern patternC = builder.buildConcreteResourcePattern();
+
+        builder.flushAssignedResources().addResourceAssignedToItem(roleD);
+        CreationPattern patternD = builder.buildConcreteResourcePattern();
+
+        builder.flushAssignedResources().addResourceAssignedToItem(roleE);
+        CreationPattern patternE = builder.buildConcreteResourcePattern();
+        // Task roleATask = createRoleTask("Do stuff", "Do it", form, roleA);
+        // Task roleBTask = createRoleTask("Do stuff", "Do it", form, roleB);
+        // Task roleCTask = createRoleTask("Do stuff", "Do it", form, roleC);
+        // Task roleDTask = createRoleTask("Do stuff", "Do it", form, roleD);
+        // Task roleETask = createRoleTask("Do stuff", "Do it", form, roleE);
+
+        Node activityA1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternA,
+            new OfferMultiplePattern());
+        Node activityB1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternB,
+            new OfferMultiplePattern());
+        Node activityB2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternB,
+            new OfferMultiplePattern());
+        Node activityB3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternB,
+            new OfferMultiplePattern());
+        Node activityC1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternC,
+            new OfferMultiplePattern());
+        Node activityC2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternC,
+            new OfferMultiplePattern());
+        Node activityD1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternD,
+            new OfferMultiplePattern());
+        Node activityD2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternD,
+            new OfferMultiplePattern());
+        Node activityD3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternD,
+            new OfferMultiplePattern());
+        Node activityE1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternE,
+            new OfferMultiplePattern());
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
@@ -176,21 +199,21 @@ public final class BenchmarkDeployer {
         return form;
     }
 
-    private static Task createRoleTask(String subject, String description, Form form, AbstractResource<?> resource) {
-
-        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new RolePushPattern(),
-            new SimplePullPattern(), null, null);
-
-        return createTask(subject, description, form, allocationStrategies, resource);
-    }
-
-    private static Task createTask(String subject,
-                                   String description,
-                                   Form form,
-                                   AllocationStrategies allocationStrategies,
-                                   AbstractResource<?> resource) {
-
-        Task task = new TaskImpl(subject, description, form, allocationStrategies, resource);
-        return task;
-    }
+//    private static Task createRoleTask(String subject, String description, Form form, AbstractResource<?> resource) {
+//
+//        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new ConcreteResourcePattern(),
+//            new SimplePullPattern(), null, null);
+//
+//        return createTask(subject, description, form, allocationStrategies, resource);
+//    }
+//
+//    private static Task createTask(String subject,
+//                                   String description,
+//                                   Form form,
+//                                   AllocationStrategies allocationStrategies,
+//                                   AbstractResource<?> resource) {
+//
+//        Task task = new TaskImpl(subject, description, form, allocationStrategies, resource);
+//        return task;
+//    }
 }
