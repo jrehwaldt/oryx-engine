@@ -46,7 +46,7 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         jannik = (Participant) pattern.getAssignedResources()[0];
 
         Token token = Mockito.mock(Token.class);
-        Set<AbstractResource<?>> resources = new HashSet(Arrays.asList(pattern.getAssignedResources()));
+        Set<AbstractResource<?>> resources = new HashSet<AbstractResource<?>>(Arrays.asList(pattern.getAssignedResources()));
 
         worklistItem = new WorklistItemImpl(pattern.getItemSubject(), pattern.getItemDescription(), pattern.getItemForm(), resources, token);
 
