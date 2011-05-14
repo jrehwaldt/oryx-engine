@@ -12,8 +12,8 @@ import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.hpi.oryxengine.JodaEngineServices;
 import de.hpi.oryxengine.RepositoryService;
-import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.deployment.DeploymentBuilder;
 import de.hpi.oryxengine.deployment.importer.BpmnXmlImporter;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
@@ -35,10 +35,12 @@ public class RepositoryWebService {
 
     /**
      * Instantiates a new deployer web service. Initializes the Deplyoment builder.
+     *
+     * @param engineServices the engine services
      */
-    public RepositoryWebService() {
+    public RepositoryWebService(JodaEngineServices engineServices) {
         
-        this.repositoryService = ServiceFactory.getRepositoryService();
+        this.repositoryService = engineServices.getRepositoryService();
         this.deploymentBuilder = this.repositoryService.getDeploymentBuilder();
     }
     

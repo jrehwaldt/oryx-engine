@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.hpi.oryxengine.IdentityService;
-import de.hpi.oryxengine.ServiceFactory;
+import de.hpi.oryxengine.JodaEngineServices;
 import de.hpi.oryxengine.exception.JodaEngineException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.resource.AbstractCapability;
@@ -45,13 +45,16 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     private final IdentityService identity;
+    
     /**
      * Default constructor.
+     *
+     * @param engineServices the engine services to use
      */
-    public IdentityWebService() {
+    public IdentityWebService(JodaEngineServices engineServices) {
         
         this.logger.info("Loading IdentityWebService...");
-        this.identity = ServiceFactory.getIdentityService();
+        this.identity = engineServices.getIdentityService();
     }
     
     // ==============================================================
