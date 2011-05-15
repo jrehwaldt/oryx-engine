@@ -54,7 +54,14 @@ function loadProcessDefinitionsOverview() {
                 event.preventDefault();
                 var row = $(event.target).parent().parent();
                 var definitionId = row.attr('definition-id');
-                startProcessInstance(definitionId);
+                startProcessInstance(definitionId, function() {
+                    //
+                    // refresh the process instance's view, if it exists
+                    //
+                    if (window.loadRunningProcessInstancesOverview) {
+                        loadRunningProcessInstancesOverview();
+                    }
+                });
             });
             tableBody.parent().find('th.loading-data').removeClass('loading-data');
         });
