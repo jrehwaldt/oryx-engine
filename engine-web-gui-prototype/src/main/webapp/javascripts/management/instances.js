@@ -56,11 +56,11 @@ function loadRunningProcessInstancesOverview() {
                 
                 // Add for each process instance a table which contains all available tokens.
                 $.each(instance.assignedTokens, function(n, token) {
+                    var activityBehaviour = token.currentNode.activityBehaviour;
                     tokenTable += '<tr token-id="' + token.id + '">'
                                     + '<td>' + token.id + '</td>'
                                     + '<td>' + (token.currentActivityState ? token.currentActivityState : 'None') + '</td>'
-                                    // TODO currentActivity is no longer available
-                                    + '<td>' + (token.currentActivity ? token.currentActivity['@classifier'] : 'None') + '</td>'
+                                    + '<td>' + (activityBehaviour ? activityBehaviour['@classifier'] : 'None') + '</td>'
                                     + '<td>' + token.currentNode.id + '</td>'
                                 + '</tr>';
                 });

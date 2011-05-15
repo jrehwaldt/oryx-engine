@@ -3,6 +3,7 @@ package de.hpi.oryxengine.process.structure;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
@@ -19,21 +20,12 @@ import de.hpi.oryxengine.util.Identifiable;
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface Node extends Identifiable, Attributable {
 
-    // TODO @Gerardo Comment wegmachen
-//    /**
-//     * Gets the activity. The activity is the behavior of a node.
-//     * 
-//     * @return the activity blueprint that is used to instantiate the activity.
-//     */
-//    @JsonIgnore
-//    ActivityBlueprint getActivityBlueprint();
-
     /**
      * Gets the activity. The activity is the behavior of a node.
      * 
      * @return the {@link Activity} of this node
      */
-    @JsonIgnore
+    @JsonProperty
     Activity getActivityBehaviour(); 
     
 

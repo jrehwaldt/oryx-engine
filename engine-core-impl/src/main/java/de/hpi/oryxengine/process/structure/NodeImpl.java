@@ -21,7 +21,7 @@ public class NodeImpl implements Node {
     /**
      * The {@link Activity}. This is the behavior of the node e.g. what gets executed.
      */
-    private Activity activityBehavior;
+    private Activity activityBehaviour;
 
     private OutgoingBehaviour outgoingBehaviour;
     private IncomingBehaviour incomingBehaviour;
@@ -50,7 +50,7 @@ public class NodeImpl implements Node {
      */
     public NodeImpl(Activity activityBehavior, IncomingBehaviour incomingBehaviour, OutgoingBehaviour outgoingBehaviour) {
 
-        this.activityBehavior = activityBehavior;
+        this.activityBehaviour = activityBehavior;
         this.incomingBehaviour = incomingBehaviour;
         this.outgoingBehaviour = outgoingBehaviour;
         this.outgoingTransitions = new ArrayList<Transition>();
@@ -156,6 +156,6 @@ public class NodeImpl implements Node {
     @Override
     public Activity getActivityBehaviour() {
 
-        return this.activityBehavior;
+        return this.activityBehaviour;
     }
 }

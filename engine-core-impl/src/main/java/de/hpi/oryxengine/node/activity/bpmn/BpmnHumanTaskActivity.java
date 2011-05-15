@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import de.hpi.oryxengine.ServiceFactory;
 import de.hpi.oryxengine.allocation.CreationPattern;
@@ -23,10 +23,10 @@ import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
  */
 public class BpmnHumanTaskActivity extends AbstractActivity {
 
-    @JsonProperty
+    @JsonIgnore
     private CreationPattern creationPattern;
 
-    @JsonProperty
+    @JsonIgnore
     private PushPattern pushPattern;
 
     /**

@@ -300,12 +300,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
         return currentActivityState;
     }
-
-//    @Override
-//    public Activity getCurrentActivity() {
-//
-//        return this.currentActivity;
-//    }
     
     @Override
     public void registerPlugin(@Nonnull AbstractTokenPlugin plugin) {

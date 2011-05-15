@@ -4,10 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.xml.bind.JAXBException;
 
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -17,6 +21,8 @@ import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.factory.resource.ParticipantFactory;
 import de.hpi.oryxengine.navigator.NavigatorState;
 import de.hpi.oryxengine.navigator.NavigatorStatistic;
+import de.hpi.oryxengine.node.activity.AbstractActivity;
+import de.hpi.oryxengine.node.activity.Activity;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 import de.hpi.oryxengine.process.definition.ProcessDefinitionImpl;
 import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
@@ -255,10 +261,6 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         }
         
         this.mapper.writeValue(xml, role);
-//        
-//        SimpleModule module = new SimpleModule("test", new Version(1, 0, 0, null));
-//        module.addSerializer(ser);
-//        this.mapper.registerModule(module);
         
         Assert.assertTrue(xml.exists());
         Assert.assertTrue(xml.length() > 0);
@@ -337,7 +339,27 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         Assert.assertTrue(this.mapper.canSerialize(ProcessDefinitionImpl.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessInstanceContext.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessInstanceContextImpl.class));
-
+        
+        Assert.assertTrue(this.mapper.canSerialize(Activity.class));
+        Assert.assertTrue(this.mapper.canSerialize(AbstractActivity.class));
+        
+        //
+        // check any concrete implementation of Activity
+        //
+        ClassPathScanningCandidateComponentProvider scanner =
+            new ClassPathScanningCandidateComponentProvider(false);
+        
+        scanner.addIncludeFilter(new AssignableTypeFilter(Activity.class));
+//        scanner.addIncludeFilter(new AssignableTypeFilter(PushPattern.class));
+//        scanner.addIncludeFilter(new AssignableTypeFilter(CreationPattern.class));
+        
+        Set<BeanDefinition> beans = scanner.findCandidateComponents(BASE_PACKAGE);
+        Class<?> clazz;
+        for (BeanDefinition bd: beans) {
+            clazz = (Class<?>) Class.forName(bd.getBeanClassName());
+            Assert.assertTrue(this.mapper.canSerialize(clazz), clazz + " should be serializable.");
+        }
+        
         //
         // util
         //
