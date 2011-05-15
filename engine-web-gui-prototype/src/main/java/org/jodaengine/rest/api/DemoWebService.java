@@ -1,19 +1,19 @@
-package de.hpi.oryxengine.rest.api;
+package org.jodaengine.rest.api;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import org.jodaengine.factories.process.ShortenedReferenceProcessDeployer;
+import org.jodaengine.rest.demo.BenchmarkDeployer;
+import org.jodaengine.rest.demo.DemoDataForWebservice;
+import org.jodaengine.rest.demo.DemoProcessStartEmailForWebservice;
+import org.jodaengine.rest.demo.LoadDemoProcessAsXmlForWebservice;
 
 import de.hpi.oryxengine.JodaEngineServices;
 import de.hpi.oryxengine.exception.DefinitionNotFoundException;
 import de.hpi.oryxengine.exception.IllegalStarteventException;
 import de.hpi.oryxengine.exception.ResourceNotAvailableException;
-import de.hpi.oryxengine.rest.demo.BenchmarkDeployer;
-import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
-import de.hpi.oryxengine.rest.demo.DemoProcessStartEmailForWebservice;
-import de.hpi.oryxengine.rest.demo.LoadDemoProcessAsXmlForWebservice;
+import de.hpi.oryxengine.factories.process.ShortenedReferenceProcessDeployer;
 
 /**
  * Offers demo methods (like creating demo users) to the user, should be deactivated in deployment.

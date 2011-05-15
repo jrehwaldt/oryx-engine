@@ -1,6 +1,8 @@
-package de.hpi.oryxengine.rest.application;
+package org.jodaengine.rest.application;
 
-import de.hpi.oryxengine.rest.api.DemoWebService;
+import org.jodaengine.rest.api.DemoWebService;
+
+import de.hpi.oryxengine.rest.application.JodaEngineApplication;
 
 /**
  * The Class DemoEngineApplication extends the JodaEngineApplication, as it adds the DemoWebService to the supplied

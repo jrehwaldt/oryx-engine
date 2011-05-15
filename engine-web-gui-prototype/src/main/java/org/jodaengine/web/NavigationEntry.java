@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.web;
+package org.jodaengine.web;
 
 /**
  * Container class for menu items.

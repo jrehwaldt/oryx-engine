@@ -1,16 +1,17 @@
-package de.hpi.oryxengine.rest.api;
+package org.jodaengine.rest.api;
 
 import java.net.URISyntaxException;
 
 import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
+import org.jodaengine.rest.api.DemoWebService;
+import org.jodaengine.rest.demo.DemoDataForWebservice;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.rest.demo.DemoDataForWebservice;
 import de.hpi.oryxengine.util.testing.AbstractJsonServerTest;
 
 /**

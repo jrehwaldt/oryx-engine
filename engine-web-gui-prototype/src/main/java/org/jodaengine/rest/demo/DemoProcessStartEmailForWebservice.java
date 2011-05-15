@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.rest.demo;
+package org.jodaengine.rest.demo;
 
 import java.util.ArrayList;
 import java.util.List;

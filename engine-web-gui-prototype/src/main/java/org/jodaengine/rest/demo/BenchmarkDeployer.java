@@ -1,4 +1,4 @@
-package de.hpi.oryxengine.rest.demo;
+package org.jodaengine.rest.demo;
 
 import java.io.File;
 import java.util.UUID;
