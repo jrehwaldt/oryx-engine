@@ -19,13 +19,13 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>de.hpi.oryxengine</groupId>
+            <groupId>org.jodaengine</groupId>
             <artifactId>engine-core-impl</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>de.hpi.oryxengine</groupId>
+            <groupId>org.jodaengine</groupId>
             <artifactId>engine-apps</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>

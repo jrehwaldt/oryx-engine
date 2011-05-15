@@ -5,14 +5,13 @@ import java.net.URISyntaxException;
 import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
-import org.jodaengine.rest.api.DemoWebService;
-import org.jodaengine.rest.demo.DemoDataForWebservice;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.util.testing.AbstractJsonServerTest;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.rest.demo.DemoDataForWebservice;
+import org.jodaengine.util.testing.AbstractJsonServerTest;
 
 /**
  * Tests our Demo WebService. It shall not generate data twice and it shall return a sucessful response.
@@ -21,8 +20,6 @@ public class DemoWebServiceTest extends AbstractJsonServerTest {
 
     private static final String DEMO_URL = "/demo/generate";
     private static final String BENCHMARK_URL = "/demo/reference-without-participants";
-
-
 
     @Override
     protected Object getResourceSingleton() {
@@ -64,8 +61,9 @@ public class DemoWebServiceTest extends AbstractJsonServerTest {
 
     /**
      * Tests the behaviour when it gets invoked twice.
-     *
-     * @throws URISyntaxException the uRI syntax exception
+     * 
+     * @throws URISyntaxException
+     *             the uRI syntax exception
      */
     @Test
     public void testInvokedTwice()
@@ -85,15 +83,16 @@ public class DemoWebServiceTest extends AbstractJsonServerTest {
     /**
      * Regression test just invoking this rest service one time to check that the everything works (form file was
      * missing at one point).
-     * @throws URISyntaxException 
+     * 
+     * @throws URISyntaxException
      */
     @Test
-    public void testReferenceWithoutParticipant() 
+    public void testReferenceWithoutParticipant()
     throws URISyntaxException {
-        
+
         makePOSTRequest(BENCHMARK_URL, "", MediaType.TEXT_PLAIN);
-        
-     // one process should be defined
+
+        // one process should be defined
         Assert.assertEquals(ServiceFactory.getRepositoryService().getProcessDefinitions().size(), 1);
     }
 

@@ -2,28 +2,29 @@ package org.jodaengine.example;
 
 import java.util.UUID;
 
-import org.jodaengine.monitor.Monitor;
-import org.jodaengine.monitor.MonitorGUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.joran.event.EndEvent;
-import de.hpi.oryxengine.JodaEngineServices;
-import de.hpi.oryxengine.bootstrap.JodaEngine;
-import de.hpi.oryxengine.correlation.registration.StartEvent;
-import de.hpi.oryxengine.deployment.DeploymentBuilder;
-import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.DefinitionNotFoundException;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.node.activity.custom.AutomatedDummyActivity;
-import de.hpi.oryxengine.node.factory.TransitionFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
-import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.process.structure.Node;
+
+import org.jodaengine.JodaEngineServices;
+import org.jodaengine.bootstrap.JodaEngine;
+import org.jodaengine.correlation.registration.StartEvent;
+import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.monitor.Monitor;
+import org.jodaengine.monitor.MonitorGUI;
+import org.jodaengine.navigator.NavigatorImpl;
+import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
+import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.structure.Node;
 
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.

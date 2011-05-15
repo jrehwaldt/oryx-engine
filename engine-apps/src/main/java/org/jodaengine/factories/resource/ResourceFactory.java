@@ -1,8 +1,8 @@
 package org.jodaengine.factories.resource;
 
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.resource.AbstractParticipant;
-import de.hpi.oryxengine.resource.IdentityBuilder;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.IdentityBuilder;
 
 /**
  * Little factory for creating Resources. A short cut for in the implementation.

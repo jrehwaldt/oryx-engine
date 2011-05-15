@@ -7,23 +7,23 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.JodaEngineServices;
-import de.hpi.oryxengine.bootstrap.JodaEngine;
-import de.hpi.oryxengine.correlation.adapter.EventTypes;
-import de.hpi.oryxengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
-import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
-import de.hpi.oryxengine.correlation.registration.EventCondition;
-import de.hpi.oryxengine.correlation.registration.EventConditionImpl;
-import de.hpi.oryxengine.deployment.DeploymentBuilder;
-import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.plugin.navigator.NavigatorListenerLogger;
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
-import de.hpi.oryxengine.process.structure.Node;
+import org.jodaengine.JodaEngineServices;
+import org.jodaengine.bootstrap.JodaEngine;
+import org.jodaengine.correlation.adapter.EventTypes;
+import org.jodaengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.correlation.adapter.mail.MailAdapterEvent;
+import org.jodaengine.correlation.registration.EventCondition;
+import org.jodaengine.correlation.registration.EventConditionImpl;
+import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.navigator.NavigatorImpl;
+import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.plugin.navigator.NavigatorListenerLogger;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.structure.Node;
 
 /**
  * The Class ExampleMailStartProcess. This is an example process that is started

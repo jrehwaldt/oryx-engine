@@ -3,8 +3,8 @@ package org.jodaengine;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.process.token.Token;
+import org.jodaengine.navigator.NavigatorImpl;
+import org.jodaengine.process.token.Token;
 
 /**
  * The Class NavigatorImplMock. We need this class, as Mockito is not able to stub void methods and thus override their

@@ -3,18 +3,18 @@ package org.jodaengine.loadgenerator;
 import java.io.FileNotFoundException;
 import java.util.UUID;
 
-import org.jodaengine.NoRunningInstancesLoadgeneratorCaller;
-import org.jodaengine.factories.process.ProcessDeployer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.JodaEngineServices;
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.bootstrap.JodaEngine;
-import de.hpi.oryxengine.exception.DefinitionNotFoundException;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.exception.ResourceNotAvailableException;
-import de.hpi.oryxengine.navigator.NavigatorImpl;
+import org.jodaengine.JodaEngineServices;
+import org.jodaengine.NoRunningInstancesLoadgeneratorCaller;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.bootstrap.JodaEngine;
+import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.factories.process.ProcessDeployer;
+import org.jodaengine.navigator.NavigatorImpl;
 
 /**
  * The Class LoadGenerator. Is used to generate some load and profile it (more or less) Maybe it should be more generic,

@@ -2,7 +2,6 @@ package org.jodaengine.factories.process;
 
 import java.util.Set;
 
-import org.jodaengine.loadgenerator.PseudoHumanJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -13,19 +12,20 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.exception.ResourceNotAvailableException;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.resource.AbstractParticipant;
-import de.hpi.oryxengine.resource.AbstractResource;
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Role;
-import de.hpi.oryxengine.resource.allocation.CreationPatternBuilder;
-import de.hpi.oryxengine.resource.allocation.CreationPatternBuilderImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.AllocateSinglePattern;
-import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.loadgenerator.PseudoHumanJob;
+import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
+import org.jodaengine.process.structure.Node;
+import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.AbstractResource;
+import org.jodaengine.resource.Participant;
+import org.jodaengine.resource.Role;
+import org.jodaengine.resource.allocation.CreationPatternBuilder;
+import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
+import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
+import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
 
 /**
  * A factory for creating ExampleProcessToken objects. These objects just have 2 add Number activities.

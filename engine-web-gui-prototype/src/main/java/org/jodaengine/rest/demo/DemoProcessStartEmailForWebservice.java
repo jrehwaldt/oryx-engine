@@ -7,24 +7,24 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.correlation.adapter.EventTypes;
-import de.hpi.oryxengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
-import de.hpi.oryxengine.correlation.adapter.mail.MailAdapterEvent;
-import de.hpi.oryxengine.correlation.registration.EventCondition;
-import de.hpi.oryxengine.correlation.registration.EventConditionImpl;
-import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.DefinitionNotFoundException;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.resource.IdentityBuilder;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.correlation.adapter.EventTypes;
+import org.jodaengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.correlation.adapter.mail.MailAdapterEvent;
+import org.jodaengine.correlation.registration.EventCondition;
+import org.jodaengine.correlation.registration.EventConditionImpl;
+import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.structure.Node;
+import org.jodaengine.resource.IdentityBuilder;
 
 /**
  * The Class DemoDataForWebservice generates some example data when called.
@@ -92,8 +92,10 @@ public final class DemoProcessStartEmailForWebservice {
     /**
      * Generate demo worklist items for our participants.
      * 
-     * @throws IllegalStarteventException illegal start event
-     * @throws DefinitionNotFoundException no such definition found in repo
+     * @throws IllegalStarteventException
+     *             illegal start event
+     * @throws DefinitionNotFoundException
+     *             no such definition found in repo
      */
     private static void generateDemoWorklistItems()
     throws IllegalStarteventException, DefinitionNotFoundException {
@@ -107,7 +109,7 @@ public final class DemoProcessStartEmailForWebservice {
         startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
 
         // Building Node1
-        int[] ints = {1, 1};
+        int[] ints = { 1, 1 };
         node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
 
         // Building Node2
@@ -135,10 +137,10 @@ public final class DemoProcessStartEmailForWebservice {
             List<EventCondition> conditions = new ArrayList<EventCondition>();
             conditions.add(subjectCondition);
 
-//            StartEvent event = new StartEventImpl( exampleProcessUUID);
+            // StartEvent event = new StartEventImpl( exampleProcessUUID);
 
             builder.createStartTrigger(EventTypes.Mail, config, conditions, node1);
-            
+
             ServiceFactory.getRepositoryService().activateProcessDefinition(exampleProcessUUID);
         } catch (SecurityException e) {
             e.printStackTrace();

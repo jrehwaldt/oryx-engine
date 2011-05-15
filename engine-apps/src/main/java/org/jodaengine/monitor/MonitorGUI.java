@@ -5,9 +5,9 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import de.hpi.oryxengine.navigator.schedule.SchedulerAction;
-import de.hpi.oryxengine.navigator.schedule.SchedulerEvent;
-import de.hpi.oryxengine.process.token.Token;
+import org.jodaengine.navigator.schedule.SchedulerAction;
+import org.jodaengine.navigator.schedule.SchedulerEvent;
+import org.jodaengine.process.token.Token;
 
 /**
  * The Class MonitorGUI has the task to present input provided by e.g. the Monitor-Plugin.

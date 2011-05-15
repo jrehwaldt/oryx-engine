@@ -6,10 +6,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.IdentityService;
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.exception.ResourceNotAvailableException;
+import org.jodaengine.IdentityService;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.exception.ResourceNotAvailableException;
 
 /**
  * Tests the EcampleProcessDeplyoer class. {@inheritDoc}

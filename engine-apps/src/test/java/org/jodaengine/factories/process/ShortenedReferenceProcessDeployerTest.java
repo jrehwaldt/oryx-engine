@@ -4,23 +4,23 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.List;
 
-import org.jodaengine.NavigatorImplMock;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.WorklistService;
-import de.hpi.oryxengine.exception.DefinitionNotFoundException;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.exception.JodaEngineException;
-import de.hpi.oryxengine.exception.ResourceNotAvailableException;
-import de.hpi.oryxengine.navigator.Navigator;
-import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.process.instance.ProcessInstanceImpl;
-import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.NavigatorImplMock;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.WorklistService;
+import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.exception.JodaEngineException;
+import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.navigator.Navigator;
+import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.resource.Participant;
+import org.jodaengine.resource.worklist.AbstractWorklistItem;
 
 /**
  * The Class ShortenedReferenceProcessDeployerTest. This is the test class for {@link ShortenedReferenceProcessDeployer}

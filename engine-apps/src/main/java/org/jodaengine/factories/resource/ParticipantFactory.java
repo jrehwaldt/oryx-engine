@@ -1,7 +1,7 @@
 package org.jodaengine.factories.resource;
 
-import de.hpi.oryxengine.resource.AbstractParticipant;
-import de.hpi.oryxengine.resource.Participant;
+import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.Participant;
 
 /**
  * A little factory for creating {@link AbstractParticipant}s.

@@ -3,27 +3,27 @@ package org.jodaengine.rest.demo;
 import java.io.File;
 import java.util.UUID;
 
-import de.hpi.oryxengine.IdentityService;
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.allocation.CreationPattern;
-import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.deployment.DeploymentBuilder;
-import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.DefinitionNotFoundException;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.exception.ResourceNotAvailableException;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.resource.IdentityBuilder;
-import de.hpi.oryxengine.resource.Role;
-import de.hpi.oryxengine.resource.allocation.CreationPatternBuilder;
-import de.hpi.oryxengine.resource.allocation.CreationPatternBuilderImpl;
-import de.hpi.oryxengine.resource.allocation.FormImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.jodaengine.IdentityService;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.allocation.CreationPattern;
+import org.jodaengine.allocation.Form;
+import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.structure.Node;
+import org.jodaengine.resource.IdentityBuilder;
+import org.jodaengine.resource.Role;
+import org.jodaengine.resource.allocation.CreationPatternBuilder;
+import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
+import org.jodaengine.resource.allocation.FormImpl;
+import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
 
 /**
  * This class deploys the benchmark process as specified in signavio.
@@ -77,8 +77,7 @@ public final class BenchmarkDeployer {
 
         Form form = extractForm("dummyform", "dummy.html");
         CreationPatternBuilder builder = new CreationPatternBuilderImpl();
-        builder.setItemSubject("Do stuff").setItemDescription("Do it").setItemForm(form)
-        .addResourceAssignedToItem(roleA);
+        builder.setItemSubject("Do stuff").setItemDescription("Do it").setItemForm(form).addResourceAssignedToItem(roleA);
         CreationPattern patternA = builder.buildConcreteResourcePattern();
 
         builder.flushAssignedResources().addResourceAssignedToItem(roleB);
@@ -147,7 +146,7 @@ public final class BenchmarkDeployer {
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, activityD3, andJoin1);
 
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, andJoin1, endNode);
-        
+
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
 
         processDefinitionBuilder.setName("Benchmark Process").setDescription(
@@ -199,21 +198,21 @@ public final class BenchmarkDeployer {
         return form;
     }
 
-//    private static Task createRoleTask(String subject, String description, Form form, AbstractResource<?> resource) {
-//
-//        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new ConcreteResourcePattern(),
-//            new SimplePullPattern(), null, null);
-//
-//        return createTask(subject, description, form, allocationStrategies, resource);
-//    }
-//
-//    private static Task createTask(String subject,
-//                                   String description,
-//                                   Form form,
-//                                   AllocationStrategies allocationStrategies,
-//                                   AbstractResource<?> resource) {
-//
-//        Task task = new TaskImpl(subject, description, form, allocationStrategies, resource);
-//        return task;
-//    }
+    // private static Task createRoleTask(String subject, String description, Form form, AbstractResource<?> resource) {
+    //
+    // AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new ConcreteResourcePattern(),
+    // new SimplePullPattern(), null, null);
+    //
+    // return createTask(subject, description, form, allocationStrategies, resource);
+    // }
+    //
+    // private static Task createTask(String subject,
+    // String description,
+    // Form form,
+    // AllocationStrategies allocationStrategies,
+    // AbstractResource<?> resource) {
+    //
+    // Task task = new TaskImpl(subject, description, form, allocationStrategies, resource);
+    // return task;
+    // }
 }

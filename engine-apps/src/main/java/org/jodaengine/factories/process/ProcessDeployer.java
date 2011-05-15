@@ -2,9 +2,9 @@ package org.jodaengine.factories.process;
 
 import java.util.UUID;
 
-import de.hpi.oryxengine.JodaEngineServices;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.exception.ResourceNotAvailableException;
+import org.jodaengine.JodaEngineServices;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.exception.ResourceNotAvailableException;
 
 /**
  * A factory for creating Process objects. Currently they create a token that points too the connected nodes.

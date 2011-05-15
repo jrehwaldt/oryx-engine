@@ -5,22 +5,22 @@ import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import org.jodaengine.NoRunningInstancesLoadgeneratorCaller;
-import org.jodaengine.repository.RepositorySetup;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.RepositoryService;
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.navigator.NavigatorImpl;
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.token.Token;
-import de.hpi.oryxengine.process.token.TokenImpl;
-import de.hpi.oryxengine.util.testing.AbstractJodaEngineTest;
+import org.jodaengine.NoRunningInstancesLoadgeneratorCaller;
+import org.jodaengine.RepositoryService;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.navigator.NavigatorImpl;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.repository.RepositorySetup;
+import org.jodaengine.util.testing.AbstractJodaEngineTest;
 
 /**
  * Tests the SchedulerEmptyListener Plugin, that invokes a method on a loadgenerator when the queue of the Scheduler is.

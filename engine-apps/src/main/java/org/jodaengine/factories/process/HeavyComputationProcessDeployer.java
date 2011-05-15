@@ -1,9 +1,9 @@
 package org.jodaengine.factories.process;
 
-import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import de.hpi.oryxengine.process.structure.Node;
+import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
+import org.jodaengine.process.structure.Node;
 
 /**
  * A factory for creating HeavyComputationProcessToken objects / process instances.

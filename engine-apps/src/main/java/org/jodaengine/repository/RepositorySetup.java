@@ -2,19 +2,19 @@ package org.jodaengine.repository;
 
 import java.util.UUID;
 
-import de.hpi.oryxengine.RepositoryService;
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.deployment.DeploymentBuilder;
-import de.hpi.oryxengine.deployment.ProcessDefinitionImporter;
-import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilderImpl;
-import de.hpi.oryxengine.process.structure.Node;
+import org.jodaengine.RepositoryService;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.deployment.ProcessDefinitionImporter;
+import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.structure.Node;
 
 /**
  * It helps previously fill the RepositoryService.

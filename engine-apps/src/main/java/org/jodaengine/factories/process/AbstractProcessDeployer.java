@@ -2,16 +2,16 @@ package org.jodaengine.factories.process;
 
 import java.util.UUID;
 
-import de.hpi.oryxengine.IdentityService;
-import de.hpi.oryxengine.JodaEngineServices;
-import de.hpi.oryxengine.RepositoryService;
-import de.hpi.oryxengine.deployment.DeploymentBuilder;
-import de.hpi.oryxengine.deployment.importer.RawProcessDefintionImporter;
-import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.exception.ResourceNotAvailableException;
-import de.hpi.oryxengine.process.definition.ProcessDefinition;
-import de.hpi.oryxengine.process.definition.ProcessDefinitionBuilder;
-import de.hpi.oryxengine.resource.IdentityBuilder;
+import org.jodaengine.IdentityService;
+import org.jodaengine.JodaEngineServices;
+import org.jodaengine.RepositoryService;
+import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.resource.IdentityBuilder;
 
 /**
  * The Class AbstractProcessDeployer.

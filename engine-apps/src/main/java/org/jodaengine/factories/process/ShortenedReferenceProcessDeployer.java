@@ -7,23 +7,23 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.hpi.oryxengine.allocation.Form;
-import de.hpi.oryxengine.deployment.DeploymentBuilder;
-import de.hpi.oryxengine.exception.DefinitionNotFoundException;
-import de.hpi.oryxengine.exception.ResourceNotAvailableException;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnCustomNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnNodeFactory;
-import de.hpi.oryxengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import de.hpi.oryxengine.process.structure.Condition;
-import de.hpi.oryxengine.process.structure.Node;
-import de.hpi.oryxengine.process.structure.condition.HashMapCondition;
-import de.hpi.oryxengine.process.structure.condition.JuelExpressionCondition;
-import de.hpi.oryxengine.resource.Participant;
-import de.hpi.oryxengine.resource.Role;
-import de.hpi.oryxengine.resource.allocation.CreationPatternBuilder;
-import de.hpi.oryxengine.resource.allocation.CreationPatternBuilderImpl;
-import de.hpi.oryxengine.resource.allocation.FormImpl;
-import de.hpi.oryxengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.jodaengine.allocation.Form;
+import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
+import org.jodaengine.process.structure.Condition;
+import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.structure.condition.HashMapCondition;
+import org.jodaengine.process.structure.condition.JuelExpressionCondition;
+import org.jodaengine.resource.Participant;
+import org.jodaengine.resource.Role;
+import org.jodaengine.resource.allocation.CreationPatternBuilder;
+import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
+import org.jodaengine.resource.allocation.FormImpl;
+import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
 
 /**
  * The Class ShortenedReferenceProcessDeployer. This is the implementation of the shortened version of the AOK reference

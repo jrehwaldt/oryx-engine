@@ -3,9 +3,9 @@ package org.jodaengine.monitor;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.hpi.oryxengine.plugin.scheduler.AbstractSchedulerListener;
-import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
-import de.hpi.oryxengine.process.token.Token;
+import org.jodaengine.plugin.scheduler.AbstractSchedulerListener;
+import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.token.Token;
 
 /**
  * The Class Monitor is a Plugin that receives Scheduler Events and forwards it to the provided GUI.

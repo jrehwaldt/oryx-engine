@@ -1,27 +1,30 @@
 package org.jodaengine.rest.demo;
 
-import de.hpi.oryxengine.ServiceFactory;
-import de.hpi.oryxengine.resource.IdentityBuilder;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.resource.IdentityBuilder;
 
 /**
  * The Class DemoDataForWebservice generates some example data when called.
  */
 public final class LoadDemoProcessAsXmlForWebservice {
-    
+
     // TODO move somewhere else
-    
+
     private static IdentityBuilder builder;
     private static boolean invoked = false;
 
     /**
      * Hidden singleton constructor.
      */
-    private LoadDemoProcessAsXmlForWebservice() { }
-    
+    private LoadDemoProcessAsXmlForWebservice() {
+
+    }
+
     /**
      * Resets invoked, to be honest mostly for testing purposed after each method.
      */
     public synchronized static void resetInvoked() {
+
         invoked = false;
     }
 

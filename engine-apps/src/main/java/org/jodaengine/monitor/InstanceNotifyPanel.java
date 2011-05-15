@@ -9,8 +9,8 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import de.hpi.oryxengine.navigator.schedule.SchedulerAction;
-import de.hpi.oryxengine.navigator.schedule.SchedulerEvent;
+import org.jodaengine.navigator.schedule.SchedulerAction;
+import org.jodaengine.navigator.schedule.SchedulerEvent;
 
 /**
  * The Class InstanceNotifyPanel. You can use it in a Swing-GUI to present SchedulerEvents.

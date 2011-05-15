@@ -2,8 +2,8 @@ package org.jodaengine.factories.process;
 
 import org.testng.annotations.BeforeMethod;
 
-import de.hpi.oryxengine.exception.IllegalStarteventException;
-import de.hpi.oryxengine.exception.ResourceNotAvailableException;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.exception.ResourceNotAvailableException;
 
 /**
  * Tests the EcampleProcessDeplyoer class. {@inheritDoc}

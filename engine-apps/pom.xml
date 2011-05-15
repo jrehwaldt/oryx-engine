@@ -13,7 +13,7 @@
 	</parent>
 	<dependencies>
 		<dependency>
-			<groupId>de.hpi.oryxengine</groupId>
+			<groupId>org.jodaengine</groupId>
 			<artifactId>engine-core-impl</artifactId>
 			<version>${project.version}</version>
 		</dependency>
