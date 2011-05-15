@@ -22,7 +22,7 @@ import de.hpi.oryxengine.process.instance.AbstractProcessInstance;
 import de.hpi.oryxengine.process.token.Token;
 
 /**
- * API servlet providing an interface for the navigator. It can be used to start/stop process instances.
+ * API providing an interface for the {@link Navigator}. It can be used to start/stop process instances.
  */
 @Path("/navigator")
 @Produces({ MediaType.APPLICATION_JSON })

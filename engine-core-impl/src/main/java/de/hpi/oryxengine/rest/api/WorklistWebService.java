@@ -17,12 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import net.htmlparser.jericho.Config;
-import net.htmlparser.jericho.FormField;
-import net.htmlparser.jericho.FormFields;
-import net.htmlparser.jericho.OutputDocument;
-import net.htmlparser.jericho.Source;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,11 +29,16 @@ import de.hpi.oryxengine.exception.ResourceNotAvailableException;
 import de.hpi.oryxengine.process.instance.ProcessInstanceContext;
 import de.hpi.oryxengine.resource.AbstractResource;
 import de.hpi.oryxengine.resource.worklist.AbstractWorklistItem;
-import de.hpi.oryxengine.resource.worklist.WorklistItemImpl;
 import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 
+import net.htmlparser.jericho.Config;
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.FormFields;
+import net.htmlparser.jericho.OutputDocument;
+import net.htmlparser.jericho.Source;
+
 /**
- * API servlet providing an interface for the worklist manager.
+ * API servlet providing an interface for the {@link WorklistService}.
  * 
  * More info: http://jersey.java.net/nonav/documentation/latest/user-guide.html#getting-started
  * 
@@ -50,7 +49,7 @@ import de.hpi.oryxengine.resource.worklist.WorklistItemState;
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
 public final class WorklistWebService {
-    // implements WorklistServiceFacade {
+//    TODO implements WorklistService
 
     private static final int RESPONSE_FAIL = 404;
 

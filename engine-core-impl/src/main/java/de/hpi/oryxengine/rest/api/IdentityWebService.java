@@ -33,7 +33,10 @@ import de.hpi.oryxengine.rest.PatchCollectionChangeset;
 import de.hpi.oryxengine.util.annotations.PATCH;
 
 /**
- * The Class IdentityWebService.
+ * The rest web service for our {@link IdentityService}. It also provides some functionality
+ * of the {@link IdentityBuilder}.
+ * 
+ * It is based on JAX-RS and mapped as annotated and defined in web.xml.
  */
 @Path("/identity")
 @Produces({ MediaType.APPLICATION_JSON })

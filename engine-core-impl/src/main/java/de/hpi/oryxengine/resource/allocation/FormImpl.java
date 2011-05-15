@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import de.hpi.oryxengine.allocation.Form;
 import de.hpi.oryxengine.exception.JodaEngineRuntimeException;
 import de.hpi.oryxengine.process.definition.AbstractProcessArtifact;
-import de.hpi.oryxengine.util.IoUtil;
+import de.hpi.oryxengine.util.io.IoUtil;
 
 /**
  * The implementation of the {@link Form Form Interface}.

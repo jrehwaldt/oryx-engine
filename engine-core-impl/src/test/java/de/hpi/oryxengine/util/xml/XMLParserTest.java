@@ -8,8 +8,8 @@ import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import de.hpi.oryxengine.util.IoUtil;
 import de.hpi.oryxengine.util.ReflectionUtil;
+import de.hpi.oryxengine.util.io.IoUtil;
 
 /**
  * Tests the XMLParser with a simple xml file.

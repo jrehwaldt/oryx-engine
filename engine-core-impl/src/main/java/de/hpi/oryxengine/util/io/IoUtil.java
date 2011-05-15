@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.hpi.oryxengine.util;
+package de.hpi.oryxengine.util.io;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

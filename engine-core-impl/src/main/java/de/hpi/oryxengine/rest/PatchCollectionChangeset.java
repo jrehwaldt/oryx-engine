@@ -10,8 +10,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 /**
  * The Class PatchCollectionChangeset is used to access the PATCH methods of the REST API. As specified in <a
  * href="http://tools.ietf.org/html/rfc5789">the RFC 5789</a>, the update is to be communicated in some kind of
- * changeset. This is
- * implemented here.
+ * changeset. This is implemented here.
  * 
  * @param <T>
  *            the generic type of items, that are updated in the collection

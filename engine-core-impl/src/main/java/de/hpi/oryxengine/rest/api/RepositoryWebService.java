@@ -19,11 +19,12 @@ import de.hpi.oryxengine.deployment.importer.BpmnXmlImporter;
 import de.hpi.oryxengine.process.definition.ProcessDefinition;
 
 /**
- * API servlet providing an interface for the repository. It can be used to deploy process definitions.
+ * API providing an interface for the {@link RepositoryService}. It can be used to deploy process definitions.
  */
 @Path("/repository")
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public class RepositoryWebService {
+//    TODO implements RepositoryService
 
     private static final String XML_START = "<?xml";
     private static final String XML_END = "</definitions>";
