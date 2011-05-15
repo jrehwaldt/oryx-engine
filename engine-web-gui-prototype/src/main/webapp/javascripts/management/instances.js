@@ -15,7 +15,7 @@ $().ready(function() {
     //
     if ($(document).everyTime) {
         $(document).everyTime(2500, function(i) {
-        	loadRunningProcessInstancesOverview();
+            loadRunningProcessInstancesOverview();
         }, 0); // 0 = unbound
     }
     
@@ -48,24 +48,32 @@ function loadRunningProcessInstancesOverview() {
                     + '</tr>'
                 );
                 
-                var include = "<tr style=\"display:none;\" id=\"" + instance.id + "-tokenTable\"><td colspan=\"3\"><div style=\"margin-left:30px;\"><table style=\"width:100%;\"><tr><th>Token UUID</th><th>State</th><th>Activity</th><th>Node</th></tr>";
+                var tokenTable = '<tr style="display: none;" id="' + instance.id + '-tokenTable">'
+                                + '<td colspan="3">'
+                                    + '<div style="margin-left: 30px;">'
+                                        + '<table width="100%">'
+                                            + '<tr><th>Token UUID</th><th>State</th><th>Activity</th><th>Node</th></tr>';
                 
                 // Add for each process instance a table which contains all available tokens.
                 $.each(instance.assignedTokens, function(n, token) {
-                	include += "<tr token-id=\"" + token.id + "\"><td style=\"width:25%;\">" + token.id + "</td>";
-                	if(token.currentActivity) {
-                		include += "<td style=\"width:25%;\">" + token.currentActivityState + "</td><td style=\"width:25%;\">" + token.currentActivity['@classifier'] + "</td>";
-                	} else {
-                		include += "<td style=\"width:25%;\">None</td><td style=\"width:25%;\">None</td>";
-                	}
-                	include += "<td style=\"width:25%;\">" + token.currentNode.id + "</td></tr>";
+                    tokenTable += '<tr token-id="' + token.id + '">'
+                                    + '<td>' + token.id + '</td>';
+                    if (token.currentActivity) {
+                        tokenTable += '<td>' + token.currentActivityState + '</td>'
+                                    + '<td>' + token.currentActivity['@classifier'] + '</td>';
+                    } else {
+                        tokenTable += '<td>None</td>'
+                                    + '<td>None</td>';
+                    }
+                    tokenTable += '<td>' + token.currentNode.id + '</td>'
+                            + '</tr>';
                 });
-                include += "</div></table></td></tr>"
+                tokenTable += '</div></table></td></tr>'
                 
                 var instanceRow = $('tr[instance-id=' + instance.id + ']', tableBody);
-                instanceRow.after(include);
+                instanceRow.after(tokenTable);
                 instanceRow.click(function() {
-                    $("#" + instance.id + "-tokenTable", tableBody).toggle();
+                    $('#' + instance.id + '-tokenTable', tableBody).toggle();
                 });
             });
             tableBody.parent().find('th.loading-data').removeClass('loading-data');

@@ -45,8 +45,8 @@ function loadProcessDefinitionsOverview() {
                         + '<td>' + definition.name + '</td>'
                         + '<td>' + definition.description + '</td>'
                         + '<td class="controls">'
-	                        + '<a href="#" class="start-instance">Start</a> '
-	                    + '</td>'
+                            + '<a href="#" class="start-instance">Start</a> '
+                        + '</td>'
                     + '</tr>'
                 );
             });
