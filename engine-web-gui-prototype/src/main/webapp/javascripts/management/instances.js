@@ -66,12 +66,18 @@ function loadRunningProcessInstancesOverview() {
                 });
                 tokenTable += '</div></table></td></tr>'
                 
-                var instanceRow = $('tr[instance-id=' + instance.id + ']', tableBody);
-                instanceRow.after(tokenTable);
-                instanceRow.click(function() {
-                    $('#' + instance.id + '-tokenTable', tableBody).toggle();
-                });
+                tableBody.append(tokenTable);
             });
+            //
+            // register token table click handler
+            //
+            $('tr[instance-id]', tableBody).click(function() {
+                $('#' + $(this).attr('instance-id') + '-tokenTable', tableBody).toggle();
+            });
+            
+            //
+            // clear ajax loading-class
+            //
             tableBody.parent().find('th.loading-data').removeClass('loading-data');
         });
     }
