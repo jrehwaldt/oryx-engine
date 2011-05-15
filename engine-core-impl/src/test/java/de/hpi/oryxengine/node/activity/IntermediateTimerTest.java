@@ -83,7 +83,7 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
       token.executeStep();
       token.executeStep();
       Thread.sleep(SHORT_WAITING_TIME_TEST);
-      assertEquals(token.getCurrentActivityState(), ActivityState.SUSPENDED);
+      assertEquals(token.getCurrentActivityState(), ActivityState.WAITING);
   }
   
   

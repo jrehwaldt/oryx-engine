@@ -132,7 +132,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
         currentActivityBehavior.execute(this);
         
         // Aborting the further execution of the process by the token, because it was suspended
-        if (this.currentActivityState == ActivityState.SUSPENDED) {
+        if (this.currentActivityState == ActivityState.WAITING) {
             return;
         }
         
@@ -228,7 +228,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     @Override
     public void suspend() {
 
-        changeActivityState(ActivityState.SUSPENDED);
+        changeActivityState(ActivityState.WAITING);
         navigator.addSuspendToken(this);
     }
 
@@ -288,7 +288,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     @Override
     public void cancelExecution() {
 
-        if (this.currentActivityState == ActivityState.ACTIVE || this.currentActivityState == ActivityState.SUSPENDED) {
+        if (this.currentActivityState == ActivityState.ACTIVE || this.currentActivityState == ActivityState.WAITING) {
             Activity currentActivityBehavior = currentNode.getActivityBehaviour();
             currentActivityBehavior.cancel();
         }
