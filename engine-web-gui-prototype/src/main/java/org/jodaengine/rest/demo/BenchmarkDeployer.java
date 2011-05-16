@@ -41,9 +41,7 @@ public final class BenchmarkDeployer {
     /**
      * Hidden default constructor.
      */
-    private BenchmarkDeployer() {
-
-    }
+    private BenchmarkDeployer() { }
 
     /**
      * Creates five roles for the benchmark process.
