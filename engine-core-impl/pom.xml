@@ -1,19 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.hpi.oryxengine</groupId>
+	<groupId>org.jodaengine</groupId>
 	<artifactId>engine-core-impl</artifactId>
-	<name>Oryx-Engine Implementation</name>
+	<name>JodaEngine Implementation</name>
 
 	<parent>
-		<groupId>de.hpi.oryxengine</groupId>
+		<groupId>org.jodaengine</groupId>
 		<artifactId>engine-root</artifactId>
 		<version>0.2.1-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
-			<groupId>de.hpi.oryxengine</groupId>
+			<groupId>org.jodaengine</groupId>
 			<artifactId>engine-core-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -35,10 +35,13 @@
 			<scope>compile</scope>
 		</dependency>
 		<!-- Testing -->
+		<!-- Although 'testng' is a testing lib, it's scope is set to compile because 
+			external libs might need the AbstractJodaEngineTest. And this one needs the 
+			testng lib -->
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<scope>test</scope>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -97,42 +100,11 @@
 			<artifactId>jackson-jaxrs</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.asual.lesscss</groupId>
-			<artifactId>lesscss-servlet</artifactId>
-			<version>1.2.11</version><!-- 1.0.41 -->
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-simple</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>commons-logging</artifactId>
-					<groupId>commons-logging</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 		<!-- Dependency Injection Issues -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!-- Web Templating -->
-		<dependency>
-			<groupId>opensymphony</groupId>
-			<artifactId>sitemesh</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.tuckey</groupId>
-			<artifactId>urlrewritefilter</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>de.odysseus.juel</groupId>

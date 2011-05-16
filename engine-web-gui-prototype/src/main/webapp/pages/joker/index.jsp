@@ -10,7 +10,10 @@
         <div id="content">
 			This will use your browser to benchmark the REST-API of the jodaengine.
 			<br/>
-			You will be notified when the benchmark has finished. Thanks for participating! 
+			You will be notified when the benchmark has finished. Thanks for participating!
+			<br />
+			<button id="benchmarkStart">Start the Benchmark</button>
         </div>
     </body>
 </html>
+

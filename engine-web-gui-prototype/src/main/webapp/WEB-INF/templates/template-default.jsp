@@ -2,6 +2,7 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
+<%@page import="org.jodaengine.web.NavigationEntry"%>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
@@ -20,21 +21,26 @@ if (uri != null) {
     }
 }
 
-/*
-Map<String, String[]> navigation = new HashMap<String, String[]>();
-navigation.put("dashboard", new String[] {});
-navigation.put("management", new String[] {"instances", "definitions"});
-navigation.put("worklist", new String[] {});
-navigation.put("resources", new String[] {});
-navigation.put("settings", new String[] {});
-*/
+Map<String, NavigationEntry[]> navigation = new HashMap<String, NavigationEntry[]>();
+navigation.put("dashboard", new NavigationEntry[] {});
+navigation.put("management", new NavigationEntry[] {
+    new NavigationEntry("instances", "Process Instances"),
+    new NavigationEntry("definitions", "Process Definitions"),
+    new NavigationEntry("examples", "Examples")
+});
+navigation.put("worklist", new NavigationEntry[] {});
+navigation.put("resources", new NavigationEntry[] {
+    new NavigationEntry("participants", "Participants"),
+    new NavigationEntry("roles", "Roles")
+});
+navigation.put("settings", new NavigationEntry[] {});
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
         <link rel="SHORTCUT ICON" href="/images/favicon/favicon.ico" type="image/x-icon">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+        
         <link rel="stylesheet" type="text/css" href="/stylesheets/layout.css">
         <link rel="stylesheet" type="text/css" href="/stylesheets/form.css">
         
@@ -48,10 +54,15 @@ navigation.put("settings", new String[] {});
         <script type="text/javascript" src="/javascripts/lib/jquery.getQueryParam.1.0.0.min.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.form.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.selectboxes.js"></script>
-
-        <title><decorator:title default="Joda Engine" /></title>
+        
+        <script type="text/javascript" src="/javascripts/lib/jquery.ui.core.js"></script>
+        <script type="text/javascript" src="/javascripts/lib/jquery.ui.position.js"></script>
+        <script type="text/javascript" src="/javascripts/lib/jquery.ui.widget.js"></script>
+        <script type="text/javascript" src="/javascripts/lib/jquery.ui.dialog.js"></script>
+        
+        <title><decorator:title default="JodaEngine" /></title>
         <decorator:head />
-
+        
     </head>
     <body>
 
@@ -65,8 +76,8 @@ navigation.put("settings", new String[] {});
               <div class="col1">
                 <div id="header">
                   <div id="logo">
-                    <a href="/" alt="Joda Engine home">
-                        <img src="/images/logo.jpg" height="69" width="185" border="0" alt="Joda Engine home" />
+                    <a href="/" alt="JodaEngine home">
+                        <img src="/images/jodaengine.png" height="69" width="185" border="0" alt="Joda Engine home" />
                     </a>
                   </div>
                   <div id="menu-level-1">
@@ -90,21 +101,13 @@ navigation.put("settings", new String[] {});
                   <div id="main-frame-top">
                     <div id="menu-level-2">
                       <!--begin nav-level-2-->
-                  <%--
                       <% if (navigation.containsKey(main_path)) { %>
                         <ul>
-                          <% for (String entry: navigation.get(main_path)) { %>
-                            <li><a class="<%=entry %>" href="/<%=main_path %>/<%=entry %>"><%=entry %></a></li>
+                          <% for (NavigationEntry entry: navigation.get(main_path)) { %>
+                            <li><a class="<%=entry.getPath() %>" href="/<%=main_path %>/<%=entry.getPath() %>"><%=entry.getName() %></a></li>
                           <% } %>
                         </ul>
                       <% } %>
-                  --%>
-                  <%--
-                      <ul>
-                        <li><a class="ex1" href="/ex1">Example 1</a></li>
-                        <li><a class="ex2" href="/ex2">Example 2</a></li>
-                      </ul>
-                  --%>
                       <!--end nav-level-2-->
                     </div>
                     <div id="logged-in-statement">

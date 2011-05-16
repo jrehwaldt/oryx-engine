@@ -2,17 +2,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.hpi.oryxengine</groupId>
+	<groupId>org.jodaengine</groupId>
 	<artifactId>engine-root</artifactId>
 	<version>0.2.1-SNAPSHOT</version>
-	<name>Oryx-Engine</name>
+	<name>JodaEngine</name>
 	<packaging>pom</packaging>
-	<description>Parent POM of the Oryx Engine</description>
+	<description>Parent POM of the JodaEngine</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<checkstyle-config>.checkstyle_for_oryxengine</checkstyle-config>
+		<checkstyle-config>.checkstyle_for_jodaengine</checkstyle-config>
 		<slf4j-version>1.6.1</slf4j-version>
 		<logback-version>0.9.28</logback-version>
 		<jetty-version>7.3.0.v20110203</jetty-version>
@@ -173,7 +173,6 @@
 		<module>engine-core-api</module>
 		<module>engine-core-impl</module>
 		<module>engine-apps</module>
-		<module>engine-demo</module>
 		<module>engine-web-gui-prototype</module>
 	</modules>
 
