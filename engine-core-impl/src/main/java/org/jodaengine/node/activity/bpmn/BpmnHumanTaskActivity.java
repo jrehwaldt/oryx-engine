@@ -13,7 +13,6 @@ import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.worklist.AbstractDefaultWorklist;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemImpl;
 
