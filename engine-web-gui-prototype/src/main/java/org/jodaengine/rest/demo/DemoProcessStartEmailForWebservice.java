@@ -21,7 +21,6 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.resource.IdentityBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,8 +31,6 @@ import org.slf4j.LoggerFactory;
 public final class DemoProcessStartEmailForWebservice {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DemoProcessStartEmailForWebservice.class);
-    private static final String PATH_TO_XML = "org/jodaengine/deployment/bpmn/SimpleUserTask.bpmn.xml";
-    private static IdentityBuilder builder;
     private static boolean invoked = false;
 
     /**
@@ -49,17 +46,6 @@ public final class DemoProcessStartEmailForWebservice {
     public synchronized static void resetInvoked() {
 
         invoked = false;
-    }
-
-    /**
-     * Gets the builder.
-     * 
-     * @return the builder
-     */
-    private static IdentityBuilder getBuilder() {
-
-        builder = ServiceFactory.getIdentityService().getIdentityBuilder();
-        return builder;
     }
 
     /**
