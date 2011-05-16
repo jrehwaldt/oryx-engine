@@ -63,24 +63,36 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
         for (AbstractWorklistItem item : items) {
             itemUUIDs.add(item.getID());
         }
-        ProcessInstanceContext context = token.getInstance().getContext();
 
-        // it may be possible that this activity is executed more than once simultaniously, there might be more
-        // in-work-items associated with this activity.
-        synchronized (context.getInternalVariable(itemContextVariableIdentifier)) {
-            if (context.getInternalVariable(itemContextVariableIdentifier) == null) {
-                context.setInternalVariable(itemContextVariableIdentifier, itemUUIDs);
-            } else {
-                List<UUID> currentlyExecutingItems = (List<UUID>) context
-                .getInternalVariable(itemContextVariableIdentifier);
-                currentlyExecutingItems.addAll(itemUUIDs);
-            }
-        }
-        
+        ProcessInstanceContext context = token.getInstance().getContext();
+        setItemContextVariable(itemUUIDs, context);
 
         pushPattern.distributeWorkitems(service, items);
 
         token.suspend();
+    }
+
+    /**
+     * Sets the context variable that stores the currently executing worklist items for this activity. It is
+     * synchronized, as the set-Process should not be carried out simultaneously due to concurrency issues.
+     * 
+     * @param itemUUIDs
+     *            the item uui ds
+     * @param context
+     *            the context
+     */
+    private synchronized void setItemContextVariable(List<UUID> itemUUIDs, ProcessInstanceContext context) {
+
+        // it may be possible that this activity is executed more than once simultaniously, there might be more
+        // in-work-items associated with this activity.
+
+        if (context.getInternalVariable(itemContextVariableIdentifier) == null) {
+            context.setInternalVariable(itemContextVariableIdentifier, itemUUIDs);
+        } else {
+            List<UUID> currentlyExecutingItems = (List<UUID>) context
+            .getInternalVariable(itemContextVariableIdentifier);
+            currentlyExecutingItems.addAll(itemUUIDs);
+        }
     }
 
     @Override
