@@ -7,7 +7,10 @@ import org.jodaengine.rest.api.DemoWebService;
  * resources.
  */
 public class DemoEngineApplication extends JodaEngineApplication {
-
+    
+    /**
+     * Demo engine constructor. This creates an application with our demo task as addition.
+     */
     public DemoEngineApplication() {
 
         super();
