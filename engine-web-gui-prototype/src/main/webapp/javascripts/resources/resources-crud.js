@@ -9,15 +9,15 @@
 * @param roleId can be null, if provided only the participants for this role are fetched
 */
 function loadParticipants(successHandler, roleId) {
- $.ajax({
-     type: 'GET',
-     url: '/api/identity' + (roleId ? '/roles/' + roleId : '') + '/participants',
-     success: function(participants) {
-         if (successHandler)
-         	successHandler.apply(null, [participants]);
-     },
-     dataType: "json"
- });
+    $.ajax({
+        type: 'GET',
+        url: '/api/identity' + (roleId ? '/roles/' + roleId : '') + '/participants',
+        success: function(participants) {
+            if (successHandler)
+            	successHandler.apply(null, [participants]);
+        },
+        dataType: "json"
+    });
 };
 
 /**
@@ -27,15 +27,15 @@ function loadParticipants(successHandler, roleId) {
 * @param successHandler the anonymous function to call, gets the participantId as #1 parameter
 */
 function deleteParticipant(participantId, successHandler) {
- $.ajax({
-     type: 'DELETE',
-     url: '/api/identity/participants/' + participantId,
-     success: function() {
-         if (successHandler)
-             successHandler.apply(null, [participantId]);
-     },
-     dataType: "json"
- });
+    $.ajax({
+        type: 'DELETE',
+        url: '/api/identity/participants/' + participantId,
+        success: function() {
+            if (successHandler)
+                successHandler.apply(null, [participantId]);
+        },
+        dataType: "json"
+    });
 };
 
 ///**
@@ -45,7 +45,7 @@ function deleteParticipant(participantId, successHandler) {
 //* @param sucessHandler the anonymous function to call, gets the participant as #1 parameter
 //*/
 //function editParticipant(participant, successHandler) {
-// alert('edit: ' + participant);
+//    alert('edit: ' + participant);
 //};
 
 
@@ -59,15 +59,15 @@ function deleteParticipant(participantId, successHandler) {
 * @param successHandler the anonymous function to call, gets the roles as #1 parameter
 */
 function loadRoles(successHandler) {
- $.ajax({
-     type: 'GET',
-     url: '/api/identity/roles',
-     success: function(roles) {
-         if (successHandler)
-             successHandler.apply(null, [roles]);
-     },
-     dataType: "json"
- });
+    $.ajax({
+        type: 'GET',
+        url: '/api/identity/roles',
+        success: function(roles) {
+            if (successHandler)
+                successHandler.apply(null, [roles]);
+        },
+        dataType: "json"
+    });
 };
 
 /**
@@ -77,15 +77,15 @@ function loadRoles(successHandler) {
 * @param successHandler the anonymous function to call, gets the roleId as #1 parameter
 */
 function deleteRole(roleId, successHandler) {
- $.ajax({
-     type: 'DELETE',
-     url: '/api/identity/roles/' + roleId,
-     success: function() {
-         if (successHandler)
-             successHandler.apply(null, [roleId]);
-     },
-     dataType: "json"
- });
+    $.ajax({
+        type: 'DELETE',
+        url: '/api/identity/roles/' + roleId,
+        success: function() {
+            if (successHandler)
+                successHandler.apply(null, [roleId]);
+        },
+        dataType: "json"
+    });
 };
 
 ///**
@@ -95,7 +95,7 @@ function deleteRole(roleId, successHandler) {
 //* @param sucessHandler the anonymous function to call, gets the role as #1 parameter
 //*/
 //function editRole(role, successHandler) {
-// alert('edit: ' + role);
+//    alert('edit: ' + role);
 //};
 
 /**
@@ -107,19 +107,19 @@ function deleteRole(roleId, successHandler) {
 * @param successHandler the anonymous function to call, gets the roleId, additions and removals as param #1, #2 and #3
 */
 function updateRoleMember(roleId, additions, removals, successHandler) {
- // build the JSON
- var changeSet = {};
- changeSet["@classifier"] = "org.jodaengine.rest.PatchCollectionChangeset";
- changeSet["additions"] = additions;
- changeSet["removals"] = removals;
- $.ajax({
-     type: 'PATCH',
-     url: '/api/identity/roles/' + roleId + '/participants' ,
-     data: JSON.stringify(changeSet),
-     success: function() {
-         if (successHandler)
-             successHandler.apply(null, [roleId, additions, removals]);
-     },
-     contentType: "application/json"
- });
+    // build the JSON
+    var changeSet = {};
+    changeSet["@classifier"] = "org.jodaengine.rest.PatchCollectionChangeset";
+    changeSet["additions"] = additions;
+    changeSet["removals"] = removals;
+    $.ajax({
+        type: 'PATCH',
+        url: '/api/identity/roles/' + roleId + '/participants' ,
+        data: JSON.stringify(changeSet),
+        success: function() {
+            if (successHandler)
+                successHandler.apply(null, [roleId, additions, removals]);
+        },
+        contentType: "application/json"
+    });
 };

@@ -1,15 +1,5 @@
 package org.jodaengine;
 
-import org.jodaengine.allocation.TaskAllocation;
-import org.jodaengine.allocation.TaskDistribution;
-import org.jodaengine.bootstrap.Service;
-import org.jodaengine.exception.InvalidWorkItemException;
-import org.jodaengine.exception.ResourceNotAvailableException;
-import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.worklist.AbstractWorklistItem;
-import org.jodaengine.resource.worklist.WorklistItemState;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,9 +12,17 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.jodaengine.allocation.TaskAllocation;
+import org.jodaengine.allocation.TaskDistribution;
+import org.jodaengine.bootstrap.Service;
+import org.jodaengine.exception.InvalidWorkItemException;
+import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.AbstractResource;
+import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.resource.worklist.WorklistItemState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 /**
  * The implementation of the WorklistManager. It manages the worklists of all resources in the system.
@@ -90,17 +88,6 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
     }
 
-  //TODO what should be done here?
-//    @Override
-//    public void distribute(Task task, Token token) {
-//
-//        
-//         Delegate the strategy of task distribution to the specific push pattern.
-//        Pattern pushPattern = task.getAllocationStrategies().getPushPattern();
-//
-//        pushPattern.execute(task, token, this);
-//    }
-
     @Override
     public @Nullable
     AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource, @Nonnull UUID worklistItemId)
@@ -117,9 +104,11 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(Set<? extends AbstractResource<?>> resources) {
+    public Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(
+        Set<? extends AbstractResource<?>> resources) {
 
-        Map<AbstractResource<?>, List<AbstractWorklistItem>> result = new HashMap<AbstractResource<?>, List<AbstractWorklistItem>>();
+        Map<AbstractResource<?>, List<AbstractWorklistItem>> result = 
+            new HashMap<AbstractResource<?>, List<AbstractWorklistItem>>();
 
         for (AbstractResource<?> r : resources) {
             result.put(r, getWorklistItems(r));
@@ -153,7 +142,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     public void abortWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
 
         // TODO Hier muss noch was gemacht werden.
-        
+
     }
 
     @Override

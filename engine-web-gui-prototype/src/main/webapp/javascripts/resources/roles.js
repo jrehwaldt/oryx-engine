@@ -225,12 +225,20 @@ function updateParticipantRoleRelationship(roleId, participants) {
  */
 function filterUnassignedParticipants(filter) {
     var unassigned = $(".unassigned-participants");
+    var assigned = $(".assigned-participants");
+    
+    //
     // instant search for participants that shall be added to a role
+    //
     unassigned.empty();
     
     $(_participants).each(function(index, _participant) {
+        //
         // add the participants that match to the 'unassigned-participants' box
-        if (_participant.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
+        // and are NOT in the assigned list
+        //
+        if (_participant.name.toLowerCase().indexOf(filter.toLowerCase()) != -1
+                    && assigned.children('option[value=' + _participant.id + ']').size() == 0) {
             unassigned.append('<option value="' + _participant.id + '">' + _participant.name + '</option>');
         }
     });
