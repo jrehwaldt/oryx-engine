@@ -1,11 +1,5 @@
 package org.jodaengine.correlation.adapter.mail;
 
-import org.jodaengine.correlation.CorrelationManager;
-import org.jodaengine.correlation.adapter.AbstractCorrelationAdapter;
-import org.jodaengine.correlation.adapter.CorrelationAdapter;
-import org.jodaengine.correlation.adapter.InboundPullAdapter;
-import org.jodaengine.exception.JodaEngineException;
-
 import java.io.IOException;
 
 import javax.annotation.Nonnull;
@@ -15,6 +9,11 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
+
+import org.jodaengine.correlation.CorrelationManager;
+import org.jodaengine.correlation.adapter.AbstractCorrelationAdapter;
+import org.jodaengine.correlation.adapter.InboundPullAdapter;
+import org.jodaengine.exception.JodaEngineException;
 
 
 /**

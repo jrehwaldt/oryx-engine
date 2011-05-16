@@ -1,10 +1,10 @@
 package org.jodaengine.plugin.activity;
 
-import org.jodaengine.plugin.ObserverPlugin;
-
 import java.util.Observable;
 
 import javax.annotation.Nonnull;
+
+import org.jodaengine.plugin.ObserverPlugin;
 
 
 

@@ -1,9 +1,5 @@
 package org.jodaengine.resource;
 
-import org.jodaengine.ServiceFactory;
-import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.exception.ResourceNotAvailableException;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +7,10 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.exception.ResourceNotAvailableException;
 
 
 /**

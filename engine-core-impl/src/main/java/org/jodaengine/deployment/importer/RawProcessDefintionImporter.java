@@ -1,9 +1,9 @@
 package org.jodaengine.deployment.importer;
 
+import javax.annotation.Nonnull;
+
 import org.jodaengine.deployment.ProcessDefinitionImporter;
 import org.jodaengine.process.definition.ProcessDefinition;
-
-import javax.annotation.Nonnull;
 
 
 /**

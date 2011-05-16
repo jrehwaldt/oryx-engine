@@ -1,12 +1,12 @@
 package org.jodaengine.resource;
 
-import org.jodaengine.IdentityServiceImpl;
-import org.jodaengine.exception.JodaEngineException;
-import org.jodaengine.exception.ResourceNotAvailableException;
-
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+
+import org.jodaengine.IdentityServiceImpl;
+import org.jodaengine.exception.JodaEngineException;
+import org.jodaengine.exception.ResourceNotAvailableException;
 
 
 /**

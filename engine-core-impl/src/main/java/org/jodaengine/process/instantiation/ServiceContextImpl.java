@@ -1,14 +1,14 @@
 package org.jodaengine.process.instantiation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jodaengine.IdentityService;
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.correlation.CorrelationManager;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.util.ServiceContext;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**

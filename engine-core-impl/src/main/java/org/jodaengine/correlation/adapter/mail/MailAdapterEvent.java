@@ -1,8 +1,5 @@
 package org.jodaengine.correlation.adapter.mail;
 
-import org.jodaengine.correlation.adapter.AbstractAdapterEvent;
-import org.jodaengine.correlation.adapter.AdapterConfiguration;
-
 import java.io.IOException;
 
 import javax.annotation.Nonnull;
@@ -13,6 +10,8 @@ import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.internet.InternetAddress;
 
+import org.jodaengine.correlation.adapter.AbstractAdapterEvent;
+import org.jodaengine.correlation.adapter.AdapterConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

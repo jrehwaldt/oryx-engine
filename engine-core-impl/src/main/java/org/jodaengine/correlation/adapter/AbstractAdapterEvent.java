@@ -1,10 +1,10 @@
 package org.jodaengine.correlation.adapter;
 
-import org.jodaengine.correlation.AdapterEvent;
-
 import java.util.Date;
 
 import javax.annotation.Nonnull;
+
+import org.jodaengine.correlation.AdapterEvent;
 
 
 /**

@@ -1,9 +1,9 @@
 package org.jodaengine.process.definition;
 
-import org.jodaengine.util.io.StreamSource;
-
 import java.io.InputStream;
 import java.util.UUID;
+
+import org.jodaengine.util.io.StreamSource;
 
 
 /**

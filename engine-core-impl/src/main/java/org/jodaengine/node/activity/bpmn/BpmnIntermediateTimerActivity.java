@@ -1,5 +1,7 @@
 package org.jodaengine.node.activity.bpmn;
 
+import javax.annotation.Nonnull;
+
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.correlation.CorrelationManager;
 import org.jodaengine.correlation.adapter.TimedConfiguration;
@@ -8,8 +10,6 @@ import org.jodaengine.correlation.registration.TimerEventImpl;
 import org.jodaengine.correlation.timing.TimingManager;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.token.Token;
-
-import javax.annotation.Nonnull;
 
 
 /**

@@ -1,13 +1,5 @@
 package org.jodaengine.resource;
 
-import org.jodaengine.ServiceFactory;
-import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.exception.ResourceNotAvailableException;
-import org.jodaengine.resource.worklist.AbstractWorklist;
-import org.jodaengine.resource.worklist.AbstractWorklistItem;
-import org.jodaengine.resource.worklist.ParticipantWorklist;
-import org.jodaengine.resource.worklist.WorklistItemState;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -17,6 +9,13 @@ import java.util.UUID;
 
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.resource.worklist.AbstractWorklist;
+import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.resource.worklist.ParticipantWorklist;
+import org.jodaengine.resource.worklist.WorklistItemState;
 
 
 /**

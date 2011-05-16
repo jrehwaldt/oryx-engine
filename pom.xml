@@ -5,9 +5,9 @@
 	<groupId>org.jodaengine</groupId>
 	<artifactId>engine-root</artifactId>
 	<version>0.2.1-SNAPSHOT</version>
-	<name>Oryx-Engine</name>
+	<name>JodaEngine</name>
 	<packaging>pom</packaging>
-	<description>Parent POM of the Oryx Engine</description>
+	<description>Parent POM of the JodaEngine</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

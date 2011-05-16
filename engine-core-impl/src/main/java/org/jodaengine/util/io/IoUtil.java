@@ -12,8 +12,6 @@
  */
 package org.jodaengine.util.io;
 
-import org.jodaengine.exception.JodaEngineRuntimeException;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,6 +24,8 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URL;
+
+import org.jodaengine.exception.JodaEngineRuntimeException;
 
 
 /**

@@ -1,14 +1,14 @@
 package org.jodaengine.process.instance;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 
 /**

@@ -6,7 +6,6 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * An abstract class for a {@link InstantiationPattern}. This class provides a method body and basic
  * functionality for all
@@ -25,7 +24,8 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
     }
 
     @Override
-    public AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext, AbstractProcessInstance previosProcessInstance) {
+    public AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext,
+                                                         AbstractProcessInstance previosProcessInstance) {
 
         AbstractProcessInstance currentProcessInstance;
         try {
@@ -52,12 +52,15 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
     /**
      * Encapsulates the logic navigating to the next pattern.
      * 
+     * @param patternContext
+     *            - a {@link InstantiationPatternContext} that provides information from the pattern invoked before
      * @param currentProcessInstance
-     *            - the current {@link AbstractProcessInstance process instance}
+     *            - the current {@link AbstractProcessInstance processInstance}
      * @return if there is no following instantiationPattern then the current result is returned, otherwise the current
      *         process instance is passed on to the next pattern
      */
-    protected AbstractProcessInstance nextInstantiationPatternResult(InstantiationPatternContext patternContext, AbstractProcessInstance currentProcessInstance) {
+    protected AbstractProcessInstance nextInstantiationPatternResult(InstantiationPatternContext patternContext,
+                                                                     AbstractProcessInstance currentProcessInstance) {
 
         if (this.nextInstantiationPattern == null) {
             return currentProcessInstance;
@@ -69,12 +72,14 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
     /**
      * This abstract method is used for the inherited classes.
      * 
-     * @see ProcessInstantiationPattern#createProcessInstance(AbstractProcessInstance);
+     * @param patternContext
+     *            - a {@link InstantiationPatternContext} that provides information from the pattern invoked before
      * @param previosProcessInstance
-     *            - the {@link AbstractProcessInstance processInstances} from the previous
-     *            {@link InstantiationPattern patterns}.
-     * 
+     *            - the {@link AbstractProcessInstance processInstances} from the previous {@link InstantiationPattern
+     *            patterns}.
      * @return an {@link AbstractProcessInstance}
+     * @see ProcessInstantiationPattern#createProcessInstance(AbstractProcessInstance);
      */
-    protected abstract AbstractProcessInstance createProcessInstanceIntern(InstantiationPatternContext patternContext, AbstractProcessInstance previosProcessInstance);
+    protected abstract AbstractProcessInstance createProcessInstanceIntern(InstantiationPatternContext patternContext,
+                                                                           AbstractProcessInstance previosProcessInstance);
 }

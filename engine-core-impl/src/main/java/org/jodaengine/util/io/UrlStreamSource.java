@@ -1,10 +1,10 @@
 package org.jodaengine.util.io;
 
-import org.jodaengine.exception.JodaEngineRuntimeException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+
+import org.jodaengine.exception.JodaEngineRuntimeException;
 
 
 /**

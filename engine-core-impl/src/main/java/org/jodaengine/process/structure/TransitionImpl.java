@@ -1,7 +1,6 @@
 package org.jodaengine.process.structure;
 
 
-
 /**
  * The Class TransitionImpl. The implementation of a transition that is. A transition is the edge between to nodes.
  */

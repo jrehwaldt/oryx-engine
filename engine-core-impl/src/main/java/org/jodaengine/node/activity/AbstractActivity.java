@@ -1,8 +1,8 @@
 package org.jodaengine.node.activity;
 
-import org.jodaengine.process.token.Token;
-
 import javax.annotation.Nonnull;
+
+import org.jodaengine.process.token.Token;
 
 
 /**
