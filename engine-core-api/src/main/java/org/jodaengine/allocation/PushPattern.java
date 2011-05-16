@@ -14,7 +14,8 @@ import org.jodaengine.resource.worklist.AbstractWorklistItem;
 public interface PushPattern {
 
     /**
-     * Distributes workitems using the supplied worklistService by a strategy that is reimplemented in every subclass.
+     * Distributes worklist items using the supplied worklistService by a strategy that is re-implemented in every
+     * subclass.
      * 
      * @param worklistService
      *            the worklist service
