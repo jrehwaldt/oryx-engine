@@ -1,5 +1,6 @@
 package org.jodaengine.node.activity.bpmn;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -11,8 +12,10 @@ import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.resource.AbstractResource;
+import org.jodaengine.resource.worklist.AbstractDefaultWorklist;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
-
+import org.jodaengine.resource.worklist.WorklistItemImpl;
 
 /**
  * The Implementation of a human task.
@@ -54,26 +57,27 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     }
 
     @Override
-    public void cancel() {
+    public void cancel(Token executingToken) {
 
         // TODO change this as soon as we do not have the separation of task/worklistitem anymore (use methods from
         // TaskAllocation)
         // TODO add this again, but maybe extend the creationPattern, to be able to remove the worklist items as well
-        // for (AbstractResource<?> resource : creationPattern.getAssignedResources()) {
-        // // remove all offered items
-        // Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
-        // .getLazyWorklistItems().iterator();
-        //
-        // while (it.hasNext()) {
-        // WorklistItemImpl item = (WorklistItemImpl) it.next();
-        // if (item == task) {
-        // it.remove();
-        // }
-        // }
-        // }
+        for (AbstractResource<?> resource : creationPattern.getAssignedResources()) {
+            // remove all offered items
+            Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
+            .getLazyWorklistItems().iterator();
 
-        // ServiceFactory.getWorklistQueue().removeWorklistItem(task, task.getAssignedResources());
+            while (it.hasNext()) {
+                
+                WorklistItemImpl item = (WorklistItemImpl) it.next();
+                if (item.getCorrespondingToken() == executingToken) {
+                    it.remove();
+                }
+            }
+        }
 
+//        ServiceFactory.getWorklistQueue().removeWorklistItem(task, task.getAssignedResources());
+        
     }
 
     /**

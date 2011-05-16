@@ -28,7 +28,8 @@ public class ConcreteResourcePattern implements CreationPattern {
     private AbstractResource<?>[] resourcesToAssignTo;
     
     /**
-     * Instantiates a new concrete resource pattern. The parameters are used for the creation of the {@link AbstractWorklistItem}s.
+     * Instantiates a new concrete resource pattern. 
+     * The parameters are used for the creation of the {@link AbstractWorklistItem}s.
      *
      * @param subject the subject
      * @param description the description
@@ -74,13 +75,14 @@ public class ConcreteResourcePattern implements CreationPattern {
     }
     
     /**
-     * Gets the assigned resources of the worklist items. Method is for test purposes only.
+     * Gets the assigned resources of the worklist items.
      *
      * @return the assigned resources
      */
-    public AbstractResource<?>[] getAssignedResources() {
+    @Override
+    public Set<AbstractResource<?>> getAssignedResources() {
 
-        return resourcesToAssignTo;
+        return new HashSet<AbstractResource<?>>(Arrays.asList(resourcesToAssignTo));
     }
 
     /**

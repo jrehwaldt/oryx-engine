@@ -75,7 +75,7 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
         List<AbstractWorklistItem> items = pattern.createWorklistItems(token);
         PushPattern pushPattern = new AllocateSinglePattern();
         pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
-        jannik = (AbstractParticipant) pattern.getAssignedResources()[0];
+        jannik = (AbstractParticipant) pattern.getAssignedResources().iterator().next();
     }
     
     /**

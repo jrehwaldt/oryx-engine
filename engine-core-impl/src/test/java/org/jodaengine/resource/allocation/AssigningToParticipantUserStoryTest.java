@@ -41,7 +41,7 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
         // The organization structure is already prepared in the factory
         // The task is assigned to Jannik
         ConcreteResourcePattern pattern = CreationPatternFactory.createJannikServesGerardoCreator();
-        jannik = pattern.getAssignedResources()[0];
+        jannik = pattern.getAssignedResources().iterator().next();;
 
         Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern,
             new AllocateSinglePattern()));

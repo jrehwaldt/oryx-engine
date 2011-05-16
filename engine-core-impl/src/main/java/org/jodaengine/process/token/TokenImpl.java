@@ -291,7 +291,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
         if (this.currentActivityState == ActivityState.ACTIVE || this.currentActivityState == ActivityState.WAITING) {
             Activity currentActivityBehavior = currentNode.getActivityBehaviour();
-            currentActivityBehavior.cancel();
+            currentActivityBehavior.cancel(this);
         }
 
     }

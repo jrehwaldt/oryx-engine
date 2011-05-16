@@ -1,8 +1,10 @@
 package org.jodaengine.allocation;
 
 import java.util.List;
+import java.util.Set;
 
 import org.jodaengine.process.token.Token;
+import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 
 /**
@@ -18,4 +20,13 @@ public interface CreationPattern {
      * @return a list of created worklist items
      */
     List<AbstractWorklistItem> createWorklistItems(Token token);
+    
+    /**
+     * Gets the assigned resources.
+     *
+     * @return the assigned resources
+     */
+    Set<AbstractResource<?>> getAssignedResources();
+    
+    
 }
