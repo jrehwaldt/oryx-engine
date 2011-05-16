@@ -60,16 +60,11 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     public void cancel(Token executingToken) {
 
         for (AbstractResource<?> resource : creationPattern.getAssignedResources()) {
-            // remove all offered items
-            Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
-            .getLazyWorklistItems().iterator();
+            Iterator<AbstractWorklistItem> it = resource.getWorklist().iterator();
 
-            while (it.hasNext()) {
-                
+            while (it.hasNext()) {                
                 WorklistItemImpl item = (WorklistItemImpl) it.next();
-                if (item.getCorrespondingToken() == executingToken) {
-                    it.remove();
-                }
+                ServiceFactory.getWorklistQueue().removeWorklistItem(item, resource);
             }
         }
         
