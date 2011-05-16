@@ -21,14 +21,13 @@
 
 package org.jodaengine.util.xml;
 
-import org.jodaengine.exception.JodaEngineRuntimeException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 

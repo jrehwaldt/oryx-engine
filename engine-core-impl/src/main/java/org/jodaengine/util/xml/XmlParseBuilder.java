@@ -1,11 +1,11 @@
 package org.jodaengine.util.xml;
 
-import org.jodaengine.util.io.StreamSource;
-
 import java.io.InputStream;
 import java.net.URL;
 
 import javax.xml.parsers.SAXParser;
+
+import org.jodaengine.util.io.StreamSource;
 
 
 /**

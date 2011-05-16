@@ -1,9 +1,9 @@
 package org.jodaengine.util.io;
 
+import java.io.InputStream;
+
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.util.ReflectionUtil;
-
-import java.io.InputStream;
 
 
 /**

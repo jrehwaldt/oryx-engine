@@ -1,5 +1,10 @@
 package org.jodaengine.rest.application;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.ws.rs.core.Application;
+
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.rest.api.IdentityWebService;
@@ -11,11 +16,6 @@ import org.jodaengine.rest.exception.DefinitionNotFoundMapper;
 import org.jodaengine.rest.exception.IllegalArgumentMapper;
 import org.jodaengine.rest.exception.InvalidWorkItemMapper;
 import org.jodaengine.rest.exception.ResourceNotAvailableMapper;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.ws.rs.core.Application;
 
 
 /**

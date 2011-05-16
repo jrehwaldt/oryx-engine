@@ -21,14 +21,13 @@
 
 package org.jodaengine.util.xml;
 
-import org.jodaengine.exception.JodaEngineRuntimeException;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jodaengine.exception.JodaEngineRuntimeException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 

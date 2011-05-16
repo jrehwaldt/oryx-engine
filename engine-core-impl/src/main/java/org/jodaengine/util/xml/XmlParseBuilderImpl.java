@@ -21,17 +21,16 @@
 
 package org.jodaengine.util.xml;
 
-import org.jodaengine.util.io.ClassPathResourceStreamSource;
-import org.jodaengine.util.io.InputStreamSource;
-import org.jodaengine.util.io.StreamSource;
-import org.jodaengine.util.io.StringStreamSource;
-import org.jodaengine.util.io.UrlStreamSource;
-
 import java.io.InputStream;
 import java.net.URL;
 
 import javax.xml.parsers.SAXParserFactory;
 
+import org.jodaengine.util.io.ClassPathResourceStreamSource;
+import org.jodaengine.util.io.InputStreamSource;
+import org.jodaengine.util.io.StreamSource;
+import org.jodaengine.util.io.StringStreamSource;
+import org.jodaengine.util.io.UrlStreamSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
