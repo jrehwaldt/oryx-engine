@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * A logger implementation, which observes the state of a navigator thread.
  */
-public class NavigatorListenerLogger
+public final class NavigatorListenerLogger
 extends AbstractNavigatorListener {
     
     private static NavigatorListenerLogger instance;
