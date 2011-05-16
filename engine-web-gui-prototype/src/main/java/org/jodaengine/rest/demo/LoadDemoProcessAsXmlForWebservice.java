@@ -8,8 +8,6 @@ import org.jodaengine.resource.IdentityBuilder;
  */
 public final class LoadDemoProcessAsXmlForWebservice {
 
-    // TODO move somewhere else
-
     private static IdentityBuilder builder;
     private static boolean invoked = false;
 

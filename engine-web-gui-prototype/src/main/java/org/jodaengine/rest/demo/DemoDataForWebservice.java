@@ -66,7 +66,7 @@ public final class DemoDataForWebservice {
     /**
      * Generate example Participants.
      * 
-     * @throws ResourceNotAvailableException
+     * @throws ResourceNotAvailableException no such resource
      */
     public static synchronized void generate()
     throws ResourceNotAvailableException {
@@ -87,7 +87,7 @@ public final class DemoDataForWebservice {
     /**
      * Generate demo participants.
      * 
-     * @throws ResourceNotAvailableException
+     * @throws ResourceNotAvailableException no such resource
      */
     private static void generateDemoParticipants()
     throws ResourceNotAvailableException {

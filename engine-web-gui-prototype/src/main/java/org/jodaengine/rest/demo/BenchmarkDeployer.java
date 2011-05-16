@@ -77,7 +77,10 @@ public final class BenchmarkDeployer {
 
         Form form = extractForm("dummyform", "dummy.html");
         CreationPatternBuilder builder = new CreationPatternBuilderImpl();
-        builder.setItemSubject("Do stuff").setItemDescription("Do it").setItemForm(form).addResourceAssignedToItem(roleA);
+        builder.setItemSubject("Do stuff")
+               .setItemDescription("Do it")
+               .setItemForm(form)
+               .addResourceAssignedToItem(roleA);
         CreationPattern patternA = builder.buildConcreteResourcePattern();
 
         builder.flushAssignedResources().addResourceAssignedToItem(roleB);
