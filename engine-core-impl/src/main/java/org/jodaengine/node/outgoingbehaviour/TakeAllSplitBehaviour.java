@@ -1,10 +1,10 @@
 package org.jodaengine.node.outgoingbehaviour;
 
-import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.Token;
 
 
 /**
@@ -18,7 +18,7 @@ public class TakeAllSplitBehaviour implements OutgoingBehaviour {
      *
      * @param tokens the instances
      * @return the list
-     * @see de.hpi.oryxengine.OutgoingBehaviour.SplitBehaviour#split(java.util.List)
+     * @see org.jodaengine.OutgoingBehaviour.SplitBehaviour#split(java.util.List)
      */
     @Override
     public List<Token> split(List<Token> tokens) {

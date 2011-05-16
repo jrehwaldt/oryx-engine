@@ -1,9 +1,5 @@
 package org.jodaengine.node.activity.custom;
 
-import org.jodaengine.node.activity.AbstractActivity;
-import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
-
 import java.util.Properties;
 
 import javax.annotation.Nonnull;
@@ -14,6 +10,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.jodaengine.node.activity.AbstractActivity;
+import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.process.token.Token;
+
 
 /**
  * The Class MailingVariable. A dummy class by Gerardo which sends Emails with a preprogrammed String and displaying a
@@ -23,10 +23,11 @@ public class MailingVariable
 extends AbstractActivity {
 
     private static String host = "localhost";
-
+    
+// CHECKSTYLE:OFF
     private static String defaultSender = "oryxengine@bpt.hpi.uni-potsdam.de";
-
     private static String defaultRecipient = "gns@oryxengine.de";
+// CHECKSTYLE:ON
 
     private static String subject = "Hier das Ergebnis deiner Berechnung.";
 

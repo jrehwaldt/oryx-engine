@@ -1,5 +1,9 @@
 package org.jodaengine.deployment;
 
+import java.io.File;
+import java.io.InputStream;
+import java.util.UUID;
+
 import org.jodaengine.RepositoryServiceImpl;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
@@ -13,10 +17,6 @@ import org.jodaengine.util.io.FileStreamSource;
 import org.jodaengine.util.io.InputStreamSource;
 import org.jodaengine.util.io.StreamSource;
 import org.jodaengine.util.io.StringStreamSource;
-
-import java.io.File;
-import java.io.InputStream;
-import java.util.UUID;
 
 
 /**
@@ -95,7 +95,7 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
 
     /**
      * All {@link ProcessDefinitionImporter ProcessDefinitionImporters} can be found in the the package
-     * 'de.hpi.oryxengine.repository.importer'.
+     * 'org.jodaengine.repository.importer'.
      * 
      * {@inheritDoc}
      */

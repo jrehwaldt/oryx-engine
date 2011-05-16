@@ -1,5 +1,10 @@
 package org.jodaengine.correlation.adapter.mail;
 
+import java.util.Properties;
+
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+
 import org.jodaengine.correlation.AdapterRegistrar;
 import org.jodaengine.correlation.CorrelationManager;
 import org.jodaengine.correlation.adapter.AbstractAdapterConfiguration;
@@ -9,11 +14,6 @@ import org.jodaengine.correlation.adapter.InboundPullAdapter;
 import org.jodaengine.correlation.adapter.PullAdapterConfiguration;
 import org.jodaengine.correlation.timing.PullAdapterJob;
 import org.jodaengine.exception.AdapterSchedulingException;
-
-import java.util.Properties;
-
-import javax.annotation.Nonnegative;
-import javax.annotation.Nonnull;
 
 import org.quartz.Job;
 import org.slf4j.Logger;
@@ -196,8 +196,10 @@ PullAdapterConfiguration {
     public static InboundMailAdapterConfiguration dalmatinaGoogleConfiguration() {
 
         // TODO @All: WTF delete this (in July). Other options would be a local file.. but well. no.
+// CHECKSTYLE:OFF
         return new InboundMailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
             "imap.googlemail.com", MailProtocol.IMAP.getPort(true), true);
+// CHECKSTYLE:ON
     }
 
     @Override

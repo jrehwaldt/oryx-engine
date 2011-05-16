@@ -5,15 +5,15 @@ import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
-import org.jodaengine.correlation.CorrelationManager;
-import org.jodaengine.correlation.adapter.InboundPullAdapter;
-
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
+
+import org.jodaengine.correlation.CorrelationManager;
+import org.jodaengine.correlation.adapter.InboundPullAdapter;
 
 import org.jvnet.mock_javamail.Mailbox;
 import org.mockito.ArgumentCaptor;
@@ -44,7 +44,9 @@ public class ImapMailAdapterTest {
         this.mock = mock(CorrelationManager.class);
         this.config = new InboundMailAdapterConfiguration(
             MailProtocol.IMAP,
+// CHECKSTYLE:OFF
             "oryxengine",
+// CHECKSTYLE:ON
             "dalmatina!",
             "imap.gmail.com",
             MailProtocol.IMAP.getPort(true),

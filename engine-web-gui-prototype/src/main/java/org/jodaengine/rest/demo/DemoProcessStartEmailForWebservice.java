@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.correlation.adapter.EventTypes;
 import org.jodaengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
@@ -25,6 +22,8 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.resource.IdentityBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class DemoDataForWebservice generates some example data when called.
@@ -33,7 +32,7 @@ import org.jodaengine.resource.IdentityBuilder;
 public final class DemoProcessStartEmailForWebservice {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DemoProcessStartEmailForWebservice.class);
-    private static final String PATH_TO_XML = "de/hpi/oryxengine/deployment/bpmn/SimpleUserTask.bpmn.xml";
+    private static final String PATH_TO_XML = "org/jodaengine/deployment/bpmn/SimpleUserTask.bpmn.xml";
     private static IdentityBuilder builder;
     private static boolean invoked = false;
 

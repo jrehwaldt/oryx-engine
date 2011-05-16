@@ -47,6 +47,8 @@ public class MailNodeActivityTest {
   @Test
   public void testMailsend() throws Exception {
       p.executeStep();
+// CHECKSTYLE:OFF
       assertEquals(Mailbox.get("gns@oryxengine.de").size(), 1, "Upps we didn't receive an email.. too bad");
+// CHECKSTYLE:ON
   }
 }

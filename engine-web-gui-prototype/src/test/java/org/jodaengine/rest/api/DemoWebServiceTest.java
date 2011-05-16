@@ -5,13 +5,14 @@ import java.net.URISyntaxException;
 import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.rest.demo.DemoDataForWebservice;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
 
 /**
  * Tests our Demo WebService. It shall not generate data twice and it shall return a sucessful response.

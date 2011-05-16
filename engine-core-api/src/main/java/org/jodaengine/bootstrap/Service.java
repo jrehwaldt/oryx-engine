@@ -1,7 +1,7 @@
 package org.jodaengine.bootstrap;
 
 /**
- * This interface represents a service of the OryxEngine. Each service can be started and stopped.
+ * This interface represents a service of the JodaEngine. Each service can be started and stopped.
  */
 public interface Service {
 

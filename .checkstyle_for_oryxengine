@@ -128,11 +128,11 @@
     </module>
     <module name="Regexp">
       <property name="severity" value="error"/>
-      <property name="format" value="[Oo]ryx[ -_][Ee]ngine+"/>
+      <property name="format" value="[Oo]ryx[ -_]?[Ee]ngine+"/>
       <property name="illegalPattern" value="true"/>
     </module>
     <module name="Regexp">
-      <property name="severity" value="ignore"/>
+      <property name="severity" value="warning"/>
       <property name="format" value="[Oo]ryx+"/>
       <property name="message" value="Left you must turn."/>
       <property name="illegalPattern" value="true"/>

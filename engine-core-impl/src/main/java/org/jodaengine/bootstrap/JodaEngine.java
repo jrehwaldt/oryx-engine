@@ -1,5 +1,8 @@
 package org.jodaengine.bootstrap;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.jodaengine.IdentityService;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
@@ -7,10 +10,6 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
 import org.jodaengine.navigator.Navigator;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
@@ -25,7 +24,7 @@ public class JodaEngine implements JodaEngineServices {
     protected static JodaEngine jodaEngineSingelton;
 
     /**
-     * Starts the engine using the default dependency injection file (oryxengine.cfg.xml). In case the
+     * Starts the engine using the default dependency injection file (jodaengine.cfg.xml). In case the
      * {@link JodaEngine} already has started, the old {@link JodaEngine} is returned.
      * 
      * @return the {@link JodaEngine}; in case the {@link JodaEngine} already has
