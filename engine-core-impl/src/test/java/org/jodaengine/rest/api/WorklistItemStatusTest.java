@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factory.resource.ParticipantFactory;
@@ -17,6 +16,7 @@ import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.AbstractRole;
+import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
@@ -31,7 +31,7 @@ import org.testng.annotations.Test;
  */
 public class WorklistItemStatusTest extends AbstractJsonServerTest {
 
-    private CreationPattern pattern;
+    private ConcreteResourcePattern pattern;
     private AbstractRole assignedRole;
     private AbstractResource<?> participant;
     private AbstractResource<?> badParticipant;

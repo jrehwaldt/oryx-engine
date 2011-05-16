@@ -30,7 +30,7 @@ import org.testng.annotations.Test;
  */
 public class WorkListManagerTest {
     
-    private CreationPattern pattern;
+    private ConcreteResourcePattern pattern;
     private AbstractParticipant jannik;
     
     /**

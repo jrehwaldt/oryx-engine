@@ -1,7 +1,6 @@
 package org.jodaengine.factory.worklist;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.resource.AbstractParticipant;
@@ -33,7 +32,7 @@ public final class CreationPatternFactory {
      * 
      * @return the task
      */
-    public static CreationPattern createJannikServesGerardoCreator() {
+    public static ConcreteResourcePattern createJannikServesGerardoCreator() {
 
         // creates the participant Jannik
         AbstractResource<?> resource = ParticipantFactory.createJannik();
@@ -48,10 +47,10 @@ public final class CreationPatternFactory {
      *            the resource
      * @return the task
      */
-    public static CreationPattern createParticipantCreator(AbstractResource<?> r) {
+    public static ConcreteResourcePattern createParticipantCreator(AbstractResource<?> r) {
 
         
-        CreationPattern pattern = new ConcreteResourcePattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null, r);
+        ConcreteResourcePattern pattern = new ConcreteResourcePattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null, r);
         return pattern;
     }
 
@@ -61,7 +60,7 @@ public final class CreationPatternFactory {
      * @return the task
      * @throws ResourceNotAvailableException 
      */
-    public static CreationPattern createRoleCreator() throws ResourceNotAvailableException {
+    public static ConcreteResourcePattern createRoleCreator() throws ResourceNotAvailableException {
 
         // The organization structure is already prepared in the factory
         // There is role containing Gerardo and Jannik
@@ -75,7 +74,7 @@ public final class CreationPatternFactory {
         identityBuilder.participantBelongsToRole(jannik.getID(), hamburgGuysRole.getID()).participantBelongsToRole(
             gerardo.getID(), hamburgGuysRole.getID());
 
-        CreationPattern pattern = new ConcreteResourcePattern("Clean the office.", "It is very dirty.", null, hamburgGuysRole);
+        ConcreteResourcePattern pattern = new ConcreteResourcePattern("Clean the office.", "It is very dirty.", null, hamburgGuysRole);
 
         return pattern;
     }

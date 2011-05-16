@@ -6,12 +6,12 @@ import java.util.Set;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.Participant;
+import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemImpl;
 import org.jodaengine.resource.worklist.WorklistItemState;
@@ -21,7 +21,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 
 /**
  * Checking the Lifecycle of a WorklistItem.
@@ -42,13 +41,15 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
 
         worklistService = ServiceFactory.getWorklistService();
 
-        CreationPattern pattern = CreationPatternFactory.createJannikServesGerardoCreator();
+        ConcreteResourcePattern pattern = CreationPatternFactory.createJannikServesGerardoCreator();
         jannik = (Participant) pattern.getAssignedResources()[0];
 
         Token token = Mockito.mock(Token.class);
-        Set<AbstractResource<?>> resources = new HashSet<AbstractResource<?>>(Arrays.asList(pattern.getAssignedResources()));
+        Set<AbstractResource<?>> resources = new HashSet<AbstractResource<?>>(Arrays.asList(pattern
+        .getAssignedResources()));
 
-        worklistItem = new WorklistItemImpl(pattern.getItemSubject(), pattern.getItemDescription(), pattern.getItemForm(), resources, token);
+        worklistItem = new WorklistItemImpl(pattern.getItemSubject(), pattern.getItemDescription(),
+            pattern.getItemForm(), resources, token);
 
         ServiceFactory.getWorklistQueue().addWorklistItem(worklistItem, jannik);
     }
@@ -59,8 +60,8 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
     @AfterMethod
     public void tearDown() {
 
-//        ServiceFactoryForTesting.clearWorklistManager();
-//        ServiceFactoryForTesting.clearIdentityService();
+        // ServiceFactoryForTesting.clearWorklistManager();
+        // ServiceFactoryForTesting.clearIdentityService();
     }
 
     /**
@@ -71,13 +72,14 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
 
         AbstractParticipant part = ServiceFactory.getIdentityService().getParticipants().iterator().next();
         // AllocationsStragegies are not important for that test
-//        Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, part);
+        // Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, part);
 
         Token token = Mockito.mock(Token.class);
         Set<AbstractResource<?>> assignedResources = new HashSet<AbstractResource<?>>();
         assignedResources.add(part);
 
-        AbstractWorklistItem worklistItemForGerardo = new WorklistItemImpl("Task Subject!!", "Task Decription!!", null, assignedResources, token);
+        AbstractWorklistItem worklistItemForGerardo = new WorklistItemImpl("Task Subject!!", "Task Decription!!", null,
+            assignedResources, token);
 
         Assert.assertEquals(worklistItemForGerardo.getSubject(), "Task Subject!!");
         Assert.assertEquals(worklistItemForGerardo.getDescription(), "Task Decription!!");
@@ -87,7 +89,8 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         // Testing that the creation of a WorklistItem requires a Token
         try {
 
-            worklistItemForGerardo = new WorklistItemImpl("Task Subject!!", "Task Decription!!", null, assignedResources, null);
+            worklistItemForGerardo = new WorklistItemImpl("Task Subject!!", "Task Decription!!", null,
+                assignedResources, null);
             String failureMessage = "An NullPointerException should have occurred, "
                 + "because the WorklistItem was created without a Token.";
             Assert.fail(failureMessage);
@@ -96,15 +99,15 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         }
 
         // Testing that the creation of a WorklistItem requires a Task
-//        try {
-//
-//            worklistItemForGerardo = new WorklistItemImpl(task, null);
-//            String failureMessage = "An NullPointerException should have occurred, "
-//                + "because the WorklistItem was created without a Task.";
-//            Assert.fail(failureMessage);
-//        } catch (NullPointerException nullPointerException) {
-//            // This was expected
-//        }
+        // try {
+        //
+        // worklistItemForGerardo = new WorklistItemImpl(task, null);
+        // String failureMessage = "An NullPointerException should have occurred, "
+        // + "because the WorklistItem was created without a Task.";
+        // Assert.fail(failureMessage);
+        // } catch (NullPointerException nullPointerException) {
+        // // This was expected
+        // }
     }
 
     /**
@@ -122,7 +125,7 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
      * Tests beginning a worklist item.
      */
     @Test
-    public void testBeginningWorklistItem()  {
+    public void testBeginningWorklistItem() {
 
         worklistService.beginWorklistItemBy(worklistItem, jannik);
 
@@ -133,7 +136,7 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
      * Tests aborting a worklist item.
      */
     @Test
-    public void testAbortAfterBeginningWorklistItem()  {
+    public void testAbortAfterBeginningWorklistItem() {
 
         worklistService.beginWorklistItemBy(worklistItem, jannik);
         worklistService.abortWorklistItemBy(worklistItem, jannik);
