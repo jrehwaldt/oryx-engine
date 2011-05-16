@@ -59,9 +59,6 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     @Override
     public void cancel(Token executingToken) {
 
-        // TODO change this as soon as we do not have the separation of task/worklistitem anymore (use methods from
-        // TaskAllocation)
-        // TODO add this again, but maybe extend the creationPattern, to be able to remove the worklist items as well
         for (AbstractResource<?> resource : creationPattern.getAssignedResources()) {
             // remove all offered items
             Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
@@ -75,8 +72,6 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
                 }
             }
         }
-
-//        ServiceFactory.getWorklistQueue().removeWorklistItem(task, task.getAssignedResources());
         
     }
 
