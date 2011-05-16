@@ -153,6 +153,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     public void abortWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
 
         // TODO Hier muss noch was gemacht werden.
+        
     }
 
     @Override

@@ -11,6 +11,8 @@ import org.jodaengine.process.token.Token;
 /**
  * An activity is the behaviour of a Node, e.g. execution
  * behaviour for sending a mail.
+ * 
+ * !!!Activities should be programmed stateless!!!
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface Activity {
@@ -27,5 +29,4 @@ public interface Activity {
      * Do some cleanup, if necessary. Cancellation of the activity's execution is not handled here.
      */
     void cancel();
-
 }

@@ -16,12 +16,6 @@
         <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
     </filter>
     
-    <!-- Engine bootstrap -->
-    <!-- the boostrap is now done in the application
-    <listener>
-        <listener-class>de.hpi.oryxengine.bootstrap.EngineServletListener</listener-class>
-    </listener>
-     -->
     <!-- Engine REST-API -->
     <!--
     <servlet>
@@ -29,7 +23,7 @@
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>de.hpi.oryxengine.restt.api</param-value>
+            <param-value>org.jodaengine.rest.api</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -54,7 +48,7 @@
  	de.hpi.oryxengine.rest.application.JodaEngineApplication. These are the core service only. -->
  	<context-param>
         <param-name>javax.ws.rs.core.Application</param-name>
-        <param-value>de.hpi.oryxengine.rest.application.DemoEngineApplication</param-value>
+        <param-value>org.jodaengine.rest.application.DemoEngineApplication</param-value>
     </context-param>
     <context-param>
         <param-name>resteasy.servlet.mapping.prefix</param-name>

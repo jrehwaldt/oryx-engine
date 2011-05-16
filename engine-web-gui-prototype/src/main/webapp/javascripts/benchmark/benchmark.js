@@ -206,7 +206,7 @@ function workOnOfferedWorklistItems() {
 }
 
 // get all executing worklist items and end some of them
-function getExecutingWorklistItems() {
+function workOnExecutingWorklistItems() {
     $.ajax({
         type: 'GET',
         url: '/api/worklist/items?id=' + participantUUID + '&itemState=' + ITEM_STATE.executing,

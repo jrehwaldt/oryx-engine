@@ -109,7 +109,7 @@ function deleteRole(roleId, successHandler) {
 function updateRoleMember(roleId, additions, removals, successHandler) {
  // build the JSON
  var changeSet = {};
- changeSet["@classifier"] = "de.hpi.oryxengine.rest.PatchCollectionChangeset";
+ changeSet["@classifier"] = "org.jodaengine.rest.PatchCollectionChangeset";
  changeSet["additions"] = additions;
  changeSet["removals"] = removals;
  $.ajax({
