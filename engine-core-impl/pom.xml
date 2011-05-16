@@ -6,7 +6,7 @@
 	<name>JodaEngine Implementation</name>
 
 	<parent>
-		<groupId>de.hpi.oryxengine</groupId>
+		<groupId>org.jodaengine</groupId>
 		<artifactId>engine-root</artifactId>
 		<version>0.2.1-SNAPSHOT</version>
 	</parent>

@@ -7,8 +7,8 @@
 	<name>JodaEngine Apps</name>
 
 	<parent>
+        <groupId>org.jodaengine</groupId>
 		<artifactId>engine-root</artifactId>
-		<groupId>de.hpi.oryxengine</groupId>
 		<version>0.2.1-SNAPSHOT</version>
 	</parent>
 	<dependencies>
