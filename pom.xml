@@ -12,7 +12,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<checkstyle-config>.checkstyle_for_oryxengine</checkstyle-config>
+		<checkstyle-config>.checkstyle_for_jodaengine</checkstyle-config>
 		<slf4j-version>1.6.1</slf4j-version>
 		<logback-version>0.9.28</logback-version>
 		<jetty-version>7.3.0.v20110203</jetty-version>
