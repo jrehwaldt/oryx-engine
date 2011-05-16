@@ -73,25 +73,41 @@ public class ConcreteResourcePattern implements CreationPattern {
         
     }
     
-    @Override
+    /**
+     * Gets the assigned resources of the worklist items. Method is for test purposes only.
+     *
+     * @return the assigned resources
+     */
     public AbstractResource<?>[] getAssignedResources() {
 
         return resourcesToAssignTo;
     }
 
-    @Override
+    /**
+     * Gets the item's subject. Method is for test purposes only.
+     *
+     * @return the item subject
+     */
     public String getItemSubject() {
 
         return subject;
     }
 
-    @Override
+    /**
+     * Gets the item's description. Method is for test purposes only.
+     *
+     * @return the item description
+     */
     public String getItemDescription() {
 
         return description;
     }
 
-    @Override
+    /**
+     * Gets the item's form. Method is for test purposes only.
+     *
+     * @return the item form
+     */
     public Form getItemForm() {
 
         return form;

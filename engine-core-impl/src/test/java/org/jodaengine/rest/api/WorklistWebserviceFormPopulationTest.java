@@ -10,7 +10,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
@@ -25,6 +24,7 @@ import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
+import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.io.StringStreamSource;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
@@ -39,7 +39,7 @@ import org.testng.annotations.Test;
  */
 public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest {
 
-    private CreationPattern pattern;
+    private ConcreteResourcePattern pattern;
     private AbstractParticipant jannik;
     private AbstractProcessInstance instance;
 

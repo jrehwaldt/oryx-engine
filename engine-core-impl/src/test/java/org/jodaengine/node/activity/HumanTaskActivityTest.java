@@ -6,7 +6,6 @@ import static org.testng.Assert.assertTrue;
 
 import org.jodaengine.IdentityServiceImpl;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -34,7 +33,7 @@ import org.testng.annotations.Test;
 
 public class HumanTaskActivityTest extends AbstractJodaEngineTest {
 
-    private CreationPattern pattern = null;
+    private ConcreteResourcePattern pattern = null;
     private AbstractResource<?> resource = null;
 
     private BpmnHumanTaskActivity humanTask = null;
@@ -62,13 +61,8 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         // Define the task
         String subject = "Jannik, get Gerardo a cup of coffee!";
         String description = "You know what I mean.";
-
-//        Pattern pushPattern = new DirectDistributionPattern();
-//        Pattern pullPattern = new SimplePullPattern();
-//
-//        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
+        
         pattern = new ConcreteResourcePattern(subject, description, null, participant);
-//        task = new TaskImpl(subject, description, allocationStrategies, participant);
 
         humanTask = new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern());
         
