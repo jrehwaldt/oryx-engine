@@ -1,5 +1,9 @@
 package org.jodaengine.factory.definition;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.custom.AddNumbersAndStoreActivity;
 import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
@@ -10,10 +14,6 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 
 /**

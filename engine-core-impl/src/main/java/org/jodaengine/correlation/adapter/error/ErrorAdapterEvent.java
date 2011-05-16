@@ -1,8 +1,8 @@
 package org.jodaengine.correlation.adapter.error;
 
-import org.jodaengine.correlation.adapter.AbstractAdapterEvent;
-
 import javax.annotation.Nonnull;
+
+import org.jodaengine.correlation.adapter.AbstractAdapterEvent;
 
 
 /**

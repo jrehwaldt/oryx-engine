@@ -1,5 +1,12 @@
 package org.jodaengine.process.definition;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.correlation.CorrelationManager;
 import org.jodaengine.correlation.registration.StartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -10,14 +17,6 @@ import org.jodaengine.process.instantiation.InstantiationPatternContextImpl;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.instantiation.StartNullInstantiationPattern;
 import org.jodaengine.process.structure.Node;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 
 /**

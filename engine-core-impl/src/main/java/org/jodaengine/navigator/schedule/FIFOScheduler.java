@@ -1,12 +1,12 @@
 package org.jodaengine.navigator.schedule;
 
-import org.jodaengine.plugin.AbstractPluggable;
-import org.jodaengine.plugin.scheduler.AbstractSchedulerListener;
-import org.jodaengine.process.token.Token;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.jodaengine.plugin.AbstractPluggable;
+import org.jodaengine.plugin.scheduler.AbstractSchedulerListener;
+import org.jodaengine.process.token.Token;
 
 
 /**

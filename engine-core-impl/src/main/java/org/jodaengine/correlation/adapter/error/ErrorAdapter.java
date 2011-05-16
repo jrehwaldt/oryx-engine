@@ -1,10 +1,10 @@
 package org.jodaengine.correlation.adapter.error;
 
+import javax.annotation.Nonnull;
+
 import org.jodaengine.correlation.CorrelationManager;
 import org.jodaengine.correlation.adapter.AbstractCorrelationAdapter;
 import org.jodaengine.correlation.adapter.InboundAdapter;
-
-import javax.annotation.Nonnull;
 
 
 /**

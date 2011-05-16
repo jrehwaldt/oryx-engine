@@ -1,8 +1,8 @@
 package org.jodaengine.plugin.activity;
 
-import org.jodaengine.node.activity.ActivityState;
-
 import javax.annotation.Nonnull;
+
+import org.jodaengine.node.activity.ActivityState;
 
 
 /**

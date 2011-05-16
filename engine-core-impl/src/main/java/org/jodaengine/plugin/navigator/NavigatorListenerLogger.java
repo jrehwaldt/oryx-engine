@@ -1,10 +1,9 @@
 package org.jodaengine.plugin.navigator;
 
-import org.jodaengine.navigator.Navigator;
-import org.jodaengine.navigator.NavigatorState;
-
 import javax.annotation.Nonnull;
 
+import org.jodaengine.navigator.Navigator;
+import org.jodaengine.navigator.NavigatorState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * A logger implementation, which observes the state of a navigator thread.
  */
-public class NavigatorListenerLogger
+public final class NavigatorListenerLogger
 extends AbstractNavigatorListener {
     
     private static NavigatorListenerLogger instance;

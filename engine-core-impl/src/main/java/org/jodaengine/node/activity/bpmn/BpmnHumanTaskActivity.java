@@ -1,5 +1,10 @@
 package org.jodaengine.node.activity.bpmn;
 
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.allocation.PushPattern;
@@ -7,12 +12,6 @@ import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
-
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 
 /**

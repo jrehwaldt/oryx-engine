@@ -1,19 +1,16 @@
 package org.jodaengine.plugin.navigator;
 
-import org.jodaengine.navigator.Navigator;
-import org.jodaengine.navigator.NavigatorState;
-import org.jodaengine.plugin.ObserverPlugin;
-
 import java.util.Observable;
 
 import javax.annotation.Nonnull;
 
-
+import org.jodaengine.navigator.Navigator;
+import org.jodaengine.navigator.NavigatorState;
+import org.jodaengine.plugin.ObserverPlugin;
 
 
 /**
- * This class may be injected to observe
- * the lifecycle of a navigator.
+ * This class may be injected to observe the lifecycle of a navigator.
  *
  * @see AbstractNavigatorEvent
  */

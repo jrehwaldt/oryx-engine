@@ -40,6 +40,7 @@ public class JodaEngine implements JodaEngineServices {
      * 
      * @param configurationFile
      *            - file where the dependencies are defined
+     * @return the {@link JodaEngine} singleton
      */
     public static JodaEngine startWithConfig(String configurationFile) {
 

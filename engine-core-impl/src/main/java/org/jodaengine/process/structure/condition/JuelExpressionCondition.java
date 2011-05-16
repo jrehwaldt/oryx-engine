@@ -1,9 +1,5 @@
 package org.jodaengine.process.structure.condition;
 
-import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.process.structure.Condition;
-import org.jodaengine.process.token.Token;
-
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -11,6 +7,9 @@ import javax.el.ExpressionFactory;
 import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
 
+import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.process.structure.Condition;
+import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

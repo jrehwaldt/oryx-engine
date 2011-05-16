@@ -1,5 +1,11 @@
 package org.jodaengine.process.token;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.navigator.Navigator;
@@ -12,12 +18,6 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
 
 
 /**
