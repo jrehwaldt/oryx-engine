@@ -1,17 +1,16 @@
 package org.jodaengine.correlation.timing;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import javax.annotation.Nonnull;
+
 import org.jodaengine.correlation.EventConfiguration;
 import org.jodaengine.correlation.adapter.InboundPullAdapter;
 import org.jodaengine.correlation.adapter.TimedConfiguration;
 import org.jodaengine.correlation.adapter.error.ErrorAdapter;
 import org.jodaengine.exception.AdapterSchedulingException;
 import org.jodaengine.process.token.Token;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
-import javax.annotation.Nonnull;
-
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;

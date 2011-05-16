@@ -1,5 +1,15 @@
 package org.jodaengine.correlation;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.correlation.adapter.AdapterConfiguration;
 import org.jodaengine.correlation.adapter.InboundAdapter;
@@ -16,17 +26,6 @@ import org.jodaengine.exception.AdapterSchedulingException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.EngineInitializationFailedException;
 import org.jodaengine.navigator.Navigator;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
