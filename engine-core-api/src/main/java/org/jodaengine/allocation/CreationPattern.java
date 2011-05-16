@@ -21,12 +21,5 @@ public interface CreationPattern {
      */
     List<AbstractWorklistItem> createWorklistItems(Token token);
     
-    /**
-     * Gets the assigned resources.
-     *
-     * @return the assigned resources
-     */
-    Set<AbstractResource<?>> getAssignedResources();
-    
     
 }

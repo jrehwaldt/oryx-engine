@@ -75,11 +75,10 @@ public class ConcreteResourcePattern implements CreationPattern {
     }
     
     /**
-     * Gets the assigned resources of the worklist items.
+     * Gets the assigned resources of the worklist items. Method is for test purposes only.
      *
      * @return the assigned resources
      */
-    @Override
     public Set<AbstractResource<?>> getAssignedResources() {
 
         return new HashSet<AbstractResource<?>>(Arrays.asList(resourcesToAssignTo));

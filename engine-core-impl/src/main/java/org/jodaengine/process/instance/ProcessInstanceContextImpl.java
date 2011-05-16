@@ -27,6 +27,8 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     private Map<Node, List<Transition>> waitingTransitions;
 
     private Map<String, Object> contextVariables;
+    
+    private Map<String, Object> internalVariables;
 
     /**
      * Instantiates a new process instance context impl.
@@ -159,5 +161,39 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
         }
         
         return hash;
+    }
+    
+    /**
+     * Gets the internal variables.
+     *
+     * @return the internal variables
+     */
+    @JsonIgnore
+    private Map<String, Object> getInternalVariables() {
+        
+        if (internalVariables == null) {
+            internalVariables = Collections.synchronizedMap(new HashMap<String, Object>());
+        }
+        return internalVariables;
+    }
+
+    @Override
+    public Object getInternalVariable(String id) {
+
+        return getInternalVariables().get(id);
+    }
+
+    @Override
+    public void setInternalVariable(String variableId, Object variableValue) {
+
+        getInternalVariables().put(variableId, variableValue);
+        
+    }
+
+    @Override
+    public void deleteInternalVariable(String id) {
+
+        getInternalVariables().remove(id);
+        
     }
 }

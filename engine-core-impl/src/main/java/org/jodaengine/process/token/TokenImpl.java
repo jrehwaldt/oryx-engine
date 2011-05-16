@@ -253,6 +253,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     private void completeExecution()
     throws NoValidPathException {
 
+        currentNode.getActivityBehaviour().resume(this);
         changeActivityState(ActivityState.COMPLETED);
         
         List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());

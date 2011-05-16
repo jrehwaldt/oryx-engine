@@ -46,4 +46,14 @@ implements Activity {
     public void cancel(Token executingToken) {
         
     }
+    
+    /**
+     * Override this, if you need to do cleanup after the executing token has been resumed.
+     *
+     * @param token the token
+     */
+    @Override
+    public void resume(Token token) {
+        
+    }
 }
