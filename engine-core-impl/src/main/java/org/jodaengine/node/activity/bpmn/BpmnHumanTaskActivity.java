@@ -33,7 +33,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 
     @JsonIgnore
     private PushPattern pushPattern;
-    
+
     @JsonIgnore
     private final String itemContextVariableIdentifier = "ITEMS-" + this.toString();
 
@@ -64,8 +64,20 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
             itemUUIDs.add(item.getID());
         }
         ProcessInstanceContext context = token.getInstance().getContext();
-        context.setInternalVariable(itemContextVariableIdentifier, itemUUIDs);        
+
+        // it may be possible that this activity is executed more than once simultaniously, there might be more
+        // in-work-items associated with this activity.
+        synchronized (context.getInternalVariable(itemContextVariableIdentifier)) {
+            if (context.getInternalVariable(itemContextVariableIdentifier) == null) {
+                context.setInternalVariable(itemContextVariableIdentifier, itemUUIDs);
+            } else {
+                List<UUID> currentlyExecutingItems = (List<UUID>) context
+                .getInternalVariable(itemContextVariableIdentifier);
+                currentlyExecutingItems.addAll(itemUUIDs);
+            }
+        }
         
+
         pushPattern.distributeWorkitems(service, items);
 
         token.suspend();
@@ -74,18 +86,18 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     @Override
     public void cancel(Token token) {
 
-//        for (AbstractResource<?> resource : creationPattern.getAssignedResources()) {
-//            Iterator<AbstractWorklistItem> it = resource.getWorklist().iterator();
-//
-//            while (it.hasNext()) {
-//                WorklistItemImpl item = (WorklistItemImpl) it.next();
-//                ServiceFactory.getWorklistQueue().removeWorklistItem(item, resource);
-//            }
-//        }
-        
+        // for (AbstractResource<?> resource : creationPattern.getAssignedResources()) {
+        // Iterator<AbstractWorklistItem> it = resource.getWorklist().iterator();
+        //
+        // while (it.hasNext()) {
+        // WorklistItemImpl item = (WorklistItemImpl) it.next();
+        // ServiceFactory.getWorklistQueue().removeWorklistItem(item, resource);
+        // }
+        // }
+
         ProcessInstanceContext context = token.getInstance().getContext();
         List<UUID> itemUUIDs = (List<UUID>) context.getInternalVariable(itemContextVariableIdentifier);
-        
+
         for (UUID itemUUID : itemUUIDs) {
             // TODO remove the worklist item with the given id
         }
