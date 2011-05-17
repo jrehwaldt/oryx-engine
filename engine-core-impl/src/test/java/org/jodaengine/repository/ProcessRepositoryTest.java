@@ -4,6 +4,12 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import java.util.UUID;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import org.jodaengine.RepositoryService;
 import org.jodaengine.RepositoryServiceImpl;
 import org.jodaengine.deployment.ProcessDefinitionImporter;
@@ -11,12 +17,6 @@ import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
-
-import java.util.UUID;
-
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 
 /**

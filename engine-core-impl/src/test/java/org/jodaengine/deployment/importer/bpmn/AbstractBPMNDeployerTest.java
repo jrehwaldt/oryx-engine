@@ -1,5 +1,11 @@
 package org.jodaengine.deployment.importer.bpmn;
 
+import java.io.InputStream;
+import java.util.UUID;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.ProcessDefinitionImporter;
@@ -8,12 +14,6 @@ import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.util.ReflectionUtil;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
-
-import java.io.InputStream;
-import java.util.UUID;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 
 /**

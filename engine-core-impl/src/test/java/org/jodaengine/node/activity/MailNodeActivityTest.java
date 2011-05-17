@@ -2,15 +2,15 @@ package org.jodaengine.node.activity;
 
 import static org.testng.Assert.assertEquals;
 
+import org.jvnet.mock_javamail.Mailbox;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import org.jodaengine.factory.node.MailNodeFactory;
 import org.jodaengine.factory.token.SimpleProcessTokenFactory;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
-
-import org.jvnet.mock_javamail.Mailbox;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 
 /**

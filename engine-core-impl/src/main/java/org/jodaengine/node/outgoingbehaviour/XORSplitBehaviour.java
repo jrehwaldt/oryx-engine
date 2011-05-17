@@ -1,15 +1,15 @@
 package org.jodaengine.node.outgoingbehaviour;
 
-import org.jodaengine.exception.NoValidPathException;
-import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
-import org.jodaengine.process.token.Token;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.jodaengine.exception.NoValidPathException;
+import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.token.Token;
 
 
 /**

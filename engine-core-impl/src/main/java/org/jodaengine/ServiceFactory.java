@@ -1,14 +1,14 @@
 package org.jodaengine;
 
+import javax.annotation.Nonnull;
+
+import org.codehaus.jackson.map.ObjectMapper;
+
 import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.allocation.TaskDistribution;
 import org.jodaengine.bootstrap.JodaEngineAppContext;
 import org.jodaengine.correlation.CorrelationManager;
 import org.jodaengine.navigator.Navigator;
-
-import javax.annotation.Nonnull;
-
-import org.codehaus.jackson.map.ObjectMapper;
 
 
 /**

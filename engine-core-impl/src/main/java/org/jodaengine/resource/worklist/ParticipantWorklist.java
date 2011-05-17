@@ -1,14 +1,14 @@
 package org.jodaengine.resource.worklist;
 
-import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.AbstractPosition;
-import org.jodaengine.resource.AbstractResource;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+
+import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.AbstractPosition;
+import org.jodaengine.resource.AbstractResource;
 
 
 /**

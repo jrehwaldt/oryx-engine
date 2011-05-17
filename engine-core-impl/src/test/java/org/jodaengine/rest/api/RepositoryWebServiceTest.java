@@ -6,6 +6,9 @@ import java.util.Set;
 
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.ProcessDefinitionImporter;
@@ -18,8 +21,6 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 
 /**

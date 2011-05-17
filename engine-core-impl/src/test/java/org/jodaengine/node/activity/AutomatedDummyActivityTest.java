@@ -7,6 +7,10 @@ import static org.testng.Assert.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
@@ -17,9 +21,6 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 
 
 /**

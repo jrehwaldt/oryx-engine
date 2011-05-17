@@ -1,10 +1,5 @@
 package org.jodaengine.navigator;
 
-import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
-import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.TokenImpl;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
@@ -12,6 +7,11 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
+import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.TokenImpl;
 
 
 /**

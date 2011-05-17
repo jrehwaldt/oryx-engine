@@ -1,9 +1,9 @@
 package org.jodaengine.correlation.registration;
 
+import java.util.List;
+
 import org.jodaengine.correlation.adapter.TimedConfiguration;
 import org.jodaengine.process.token.Token;
-
-import java.util.List;
 
 
 /**

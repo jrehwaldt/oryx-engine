@@ -6,6 +6,11 @@ import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.quartz.SchedulerException;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import org.jodaengine.correlation.adapter.InboundPullAdapter;
 import org.jodaengine.correlation.adapter.PullAdapterConfiguration;
 import org.jodaengine.correlation.adapter.TimedConfiguration;
@@ -15,11 +20,6 @@ import org.jodaengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
-
-import org.quartz.SchedulerException;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 
 /**
@@ -56,7 +56,7 @@ public class TimingManagerTest {
      * The test waits some time, until the timer should be done and then an assertion is used to test
      * if resume was called on the token.
      *
-     * @throws JodaEngineException the dalmatina exception
+     * @throws JodaEngineException the JodaEngine exception
      * @throws InterruptedException the interrupted exception for thread sleeping
      */
     @Test
@@ -72,7 +72,7 @@ public class TimingManagerTest {
      * Test registering a non recurring event, in this case a simple timer. Because waiting time is not long enough,
      * the token should not be resumed.
      *
-     * @throws JodaEngineException the dalmatina exception
+     * @throws JodaEngineException the JodaEngine exception
      * @throws InterruptedException the interrupted exception for thread sleeping
      */
     @Test

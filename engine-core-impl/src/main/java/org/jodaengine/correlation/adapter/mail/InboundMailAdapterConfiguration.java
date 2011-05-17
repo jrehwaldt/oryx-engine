@@ -5,6 +5,10 @@ import java.util.Properties;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
+import org.quartz.Job;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.correlation.AdapterRegistrar;
 import org.jodaengine.correlation.CorrelationManager;
 import org.jodaengine.correlation.adapter.AbstractAdapterConfiguration;
@@ -14,9 +18,6 @@ import org.jodaengine.correlation.adapter.InboundPullAdapter;
 import org.jodaengine.correlation.adapter.PullAdapterConfiguration;
 import org.jodaengine.correlation.timing.PullAdapterJob;
 import org.jodaengine.exception.AdapterSchedulingException;
-import org.quartz.Job;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -188,11 +189,11 @@ PullAdapterConfiguration {
     }
 
     /**
-     * Dalmatina google configuration. This is to prevent code duplication. Remove this later.
+     * JodaEngine google configuration. This is to prevent code duplication. Remove this later.
      * 
      * @return the mail adapter configuration
      */
-    public static InboundMailAdapterConfiguration dalmatinaGoogleConfiguration() {
+    public static InboundMailAdapterConfiguration jodaGoogleConfiguration() {
 
         // TODO @All: WTF delete this (in July). Other options would be a local file.. but well. no.
 // CHECKSTYLE:OFF

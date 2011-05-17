@@ -3,6 +3,9 @@ package org.jodaengine.node.activity;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.NavigatorImplMock;
@@ -18,8 +21,6 @@ import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 
 /**

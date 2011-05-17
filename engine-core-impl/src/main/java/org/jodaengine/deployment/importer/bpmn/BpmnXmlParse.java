@@ -25,6 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -49,8 +52,6 @@ import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.util.io.StreamSource;
 import org.jodaengine.util.xml.XmlElement;
 import org.jodaengine.util.xml.XmlParse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -124,7 +125,7 @@ public class BpmnXmlParse extends XmlParse {
                 getProblemLogger().logWarnings();
             }
             if (getProblemLogger().hasErrors()) {
-                getProblemLogger().throwDalmatinaRuntimeExceptionForErrors();
+                getProblemLogger().throwJodaEngineRuntimeExceptionForErrors();
             }
         }
 
@@ -364,6 +365,8 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Parses a task with no specific type (behaves as passthrough).
+     *
+     * @param taskXmlElement the task xml element
      */
     protected void parseTask(XmlElement taskXmlElement) {
 

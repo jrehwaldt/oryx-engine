@@ -17,6 +17,15 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import net.htmlparser.jericho.Config;
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.FormFields;
+import net.htmlparser.jericho.OutputDocument;
+import net.htmlparser.jericho.Source;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.IdentityService;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.WorklistService;
@@ -26,15 +35,8 @@ import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.resource.worklist.WorklistItemImpl;
 import org.jodaengine.resource.worklist.WorklistItemState;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import net.htmlparser.jericho.Config;
-import net.htmlparser.jericho.FormField;
-import net.htmlparser.jericho.FormFields;
-import net.htmlparser.jericho.OutputDocument;
-import net.htmlparser.jericho.Source;
 
 /**
  * API servlet providing an interface for the {@link WorklistService}.

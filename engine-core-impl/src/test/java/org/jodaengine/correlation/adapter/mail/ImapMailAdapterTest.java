@@ -12,13 +12,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
-import org.jodaengine.correlation.CorrelationManager;
-import org.jodaengine.correlation.adapter.InboundPullAdapter;
-
 import org.jvnet.mock_javamail.Mailbox;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import org.jodaengine.correlation.CorrelationManager;
+import org.jodaengine.correlation.adapter.InboundPullAdapter;
 
 
 /**
@@ -46,8 +46,8 @@ public class ImapMailAdapterTest {
             MailProtocol.IMAP,
 // CHECKSTYLE:OFF
             "oryxengine",
-// CHECKSTYLE:ON
             "dalmatina!",
+// CHECKSTYLE:ON
             "imap.gmail.com",
             MailProtocol.IMAP.getPort(true),
             true

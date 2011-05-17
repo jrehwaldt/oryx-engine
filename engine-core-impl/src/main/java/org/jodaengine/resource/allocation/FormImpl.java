@@ -1,16 +1,16 @@
 package org.jodaengine.resource.allocation;
 
-import org.jodaengine.allocation.Form;
-import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.process.definition.AbstractProcessArtifact;
-import org.jodaengine.util.io.IoUtil;
-
 import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.jodaengine.allocation.Form;
+import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.process.definition.AbstractProcessArtifact;
+import org.jodaengine.util.io.IoUtil;
 
 
 /**

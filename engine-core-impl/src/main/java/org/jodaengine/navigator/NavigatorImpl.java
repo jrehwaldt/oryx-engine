@@ -7,6 +7,9 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.correlation.registration.StartEvent;
@@ -18,8 +21,6 @@ import org.jodaengine.plugin.navigator.AbstractNavigatorListener;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**

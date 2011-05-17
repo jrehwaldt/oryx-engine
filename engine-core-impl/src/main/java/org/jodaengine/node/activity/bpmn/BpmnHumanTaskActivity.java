@@ -1,18 +1,21 @@
 package org.jodaengine.node.activity.bpmn;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.node.activity.AbstractActivity;
+import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
-
 
 /**
  * The Implementation of a human task.
@@ -28,6 +31,9 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 
     @JsonIgnore
     private PushPattern pushPattern;
+    
+    @JsonIgnore
+    private static final String ITEM_PREFIX = "ITEMS-";
 
     /**
      * Default Constructor.
@@ -48,32 +54,54 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 
         TaskAllocation service = ServiceFactory.getWorklistQueue();
         List<AbstractWorklistItem> items = creationPattern.createWorklistItems(token);
+
+        // save the UUIDs of the created items to the instance context, in order to be able to delete them, if execution
+        // is cancelled
+        List<UUID> itemUUIDs = new ArrayList<UUID>();
+        for (AbstractWorklistItem item : items) {
+            itemUUIDs.add(item.getID());
+        }
+
+        ProcessInstanceContext context = token.getInstance().getContext();
+        
+        // the name should be unique, as the token can only work on one activity at a time.
+        final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
+        context.setInternalVariable(itemContextVariableIdentifier, itemUUIDs);
+
         pushPattern.distributeWorkitems(service, items);
 
         token.suspend();
     }
 
     @Override
-    public void cancel() {
+    public void cancel(Token token) {
 
-        // TODO change this as soon as we do not have the separation of task/worklistitem anymore (use methods from
-        // TaskAllocation)
-        // TODO add this again, but maybe extend the creationPattern, to be able to remove the worklist items as well
         // for (AbstractResource<?> resource : creationPattern.getAssignedResources()) {
-        // // remove all offered items
-        // Iterator<AbstractWorklistItem> it = ((AbstractDefaultWorklist) resource.getWorklist())
-        // .getLazyWorklistItems().iterator();
+        // Iterator<AbstractWorklistItem> it = resource.getWorklist().iterator();
         //
         // while (it.hasNext()) {
         // WorklistItemImpl item = (WorklistItemImpl) it.next();
-        // if (item == task) {
-        // it.remove();
-        // }
+        // ServiceFactory.getWorklistQueue().removeWorklistItem(item, resource);
         // }
         // }
 
-        // ServiceFactory.getWorklistQueue().removeWorklistItem(task, task.getAssignedResources());
+        ProcessInstanceContext context = token.getInstance().getContext();
+        final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
+        List<UUID> itemUUIDs = (List<UUID>) context.getInternalVariable(itemContextVariableIdentifier);
 
+        for (UUID itemUUID : itemUUIDs) {
+            ServiceFactory.getWorklistQueue().removeWorklistItem(itemUUID);
+            // TODO remove the worklist item with the given id
+        }
+
+    }
+
+    @Override
+    public void resume(Token token) {
+
+        ProcessInstanceContext context = token.getInstance().getContext();
+        final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
+        context.deleteInternalVariable(itemContextVariableIdentifier);
     }
 
     /**
