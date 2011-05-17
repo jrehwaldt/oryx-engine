@@ -89,6 +89,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
         List<UUID> itemUUIDs = (List<UUID>) context.getInternalVariable(itemContextVariableIdentifier);
 
         for (UUID itemUUID : itemUUIDs) {
+            ServiceFactory.getWorklistQueue().removeWorklistItem(itemUUID);
             // TODO remove the worklist item with the given id
         }
 

@@ -92,7 +92,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
 
         // Prepare the organisation structure
 
-        IdentityBuilder identityBuilder = new IdentityServiceImpl().getIdentityBuilder();
+        IdentityBuilder identityBuilder = jodaEngineServices.getIdentityService().getIdentityBuilder();
         AbstractParticipant participant = identityBuilder.createParticipant("jannik");
         participant.setName("Jannik Streek");
 
