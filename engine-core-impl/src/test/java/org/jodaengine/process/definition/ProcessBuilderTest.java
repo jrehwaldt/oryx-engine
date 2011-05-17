@@ -2,16 +2,16 @@ package org.jodaengine.process.definition;
 
 import static org.testng.Assert.assertEquals;
 
+import java.util.List;
+
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
-
-import java.util.List;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 
 /**

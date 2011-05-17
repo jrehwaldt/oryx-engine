@@ -1,14 +1,14 @@
 package org.jodaengine.resource;
 
-import org.jodaengine.IdentityService;
-import org.jodaengine.ServiceFactory;
-import org.jodaengine.util.testing.AbstractJodaEngineTest;
-
 import java.util.Set;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import org.jodaengine.IdentityService;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.util.testing.AbstractJodaEngineTest;
 
 
 /**

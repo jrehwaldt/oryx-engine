@@ -1,11 +1,11 @@
 package org.jodaengine.eventmanagement.registration;
 
+import java.util.List;
+
 import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
 import org.jodaengine.eventmanagement.registration.EventCondition;
 import org.jodaengine.eventmanagement.registration.IntermediateEvent;
 import org.jodaengine.process.token.Token;
-
-import java.util.List;
 
 
 /**

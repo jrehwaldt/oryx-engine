@@ -13,7 +13,7 @@ import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.TransitionFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
-import org.jodaengine.plugin.activity.ActivityLifecycleAssurancePlugin;
+import org.jodaengine.node.helper.ActivityLifecycleAssurancePlugin;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -21,6 +21,7 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+
 import org.quartz.SchedulerException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -153,7 +154,7 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
       token.executeStep();
       
       //Timer activated, now cancel the scheduled job
-      token.getCurrentNode().getActivityBehaviour().cancel();
+      token.getCurrentNode().getActivityBehaviour().cancel(token);
       
       //Wait until the timer would resume the token
       Thread.sleep(LONG_WAITING_TIME_TEST);

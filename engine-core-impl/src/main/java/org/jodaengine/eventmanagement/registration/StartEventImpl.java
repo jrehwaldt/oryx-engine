@@ -1,13 +1,12 @@
 package org.jodaengine.eventmanagement.registration;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.registration.EventCondition;
 import org.jodaengine.eventmanagement.registration.StartEvent;
-
-import java.util.List;
-import java.util.UUID;
-
 
 /**
  * The Class StartEventImpl. Have a look at {@link StartEvent}.

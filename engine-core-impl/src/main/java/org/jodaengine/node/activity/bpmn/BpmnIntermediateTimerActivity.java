@@ -40,7 +40,7 @@ public class BpmnIntermediateTimerActivity extends AbstractActivity {
     }
 
     @Override
-    public void cancel() {
+    public void cancel(Token executingToken) {
 
         TimingManager timer = ServiceFactory.getCorrelationService().getTimer();
         timer.unregisterJob(this.jobCompleteName);

@@ -7,7 +7,11 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.exception.JodaEngineException;
+import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.NoValidPathException;
+import org.jodaengine.exception.handler.AbstractJodaRuntimeExceptionHandler;
+import org.jodaengine.exception.handler.InstanceTerminationHandler;
+import org.jodaengine.exception.handler.LoggerExceptionHandler;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
@@ -18,7 +22,6 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
-
 
 /**
  * The implementation of a process token.
@@ -40,6 +43,8 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     private List<Token> lazySuspendedProcessingTokens;
 
     private List<AbstractTokenPlugin> plugins;
+
+    private AbstractJodaRuntimeExceptionHandler runtimeExceptionHandler;
 
     /**
      * Instantiates a new token impl.
@@ -72,6 +77,11 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
         this.plugins = new ArrayList<AbstractTokenPlugin>();
+
+        // at this point, you can register as much runtime exception handlers as you wish, following the chain of
+        // responsiblity pattern. The handler is used for runtime errors that occur in process execution.
+        this.runtimeExceptionHandler = new LoggerExceptionHandler();
+        this.runtimeExceptionHandler.setNext(new InstanceTerminationHandler());
     }
 
     /**
@@ -125,19 +135,23 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
             instance.getAssignedTokens().clear();
             return;
         }
-        
-        lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
-        changeActivityState(ActivityState.ACTIVE);
+        try {
 
-        Activity currentActivityBehavior = currentNode.getActivityBehaviour();
-        currentActivityBehavior.execute(this);
-        
-        // Aborting the further execution of the process by the token, because it was suspended
-        if (this.currentActivityState == ActivityState.WAITING) {
-            return;
+            lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
+            changeActivityState(ActivityState.ACTIVE);
+
+            Activity currentActivityBehavior = currentNode.getActivityBehaviour();
+            currentActivityBehavior.execute(this);
+
+            // Aborting the further execution of the process by the token, because it was suspended
+            if (this.currentActivityState == ActivityState.WAITING) {
+                return;
+            }
+
+            completeExecution();
+        } catch (JodaEngineRuntimeException exception) {
+            runtimeExceptionHandler.processException(exception, this);
         }
-        
-        completeExecution();
     }
 
     /**
@@ -188,7 +202,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
         for (AbstractTokenPlugin plugin : plugins) {
             ((TokenImpl) newToken).registerPlugin(plugin);
         }
-        
+
         return newToken;
     }
 
@@ -200,7 +214,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
     @Override
     public Token performJoin() {
-        
+
         instance.getContext().removeIncomingTransitions(currentNode);
         return this;
     }
@@ -237,7 +251,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     public void resume() {
 
         navigator.removeSuspendToken(this);
-        
+
         try {
             completeExecution();
         } catch (NoValidPathException e) {
@@ -247,23 +261,24 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
     /**
      * Completes the execution of the activity.
+     * 
      * @throws NoValidPathException
-     *      thrown if there is no valid path to be executed
+     *             thrown if there is no valid path to be executed
      */
     private void completeExecution()
     throws NoValidPathException {
 
+        currentNode.getActivityBehaviour().resume(this);
         changeActivityState(ActivityState.COMPLETED);
-        
+
         List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
 
         for (Token token : splittedTokens) {
             navigator.addWorkToken(token);
         }
-        
 
         lazySuspendedProcessingTokens = null;
-        
+
     }
 
     /**
@@ -291,7 +306,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
         if (this.currentActivityState == ActivityState.ACTIVE || this.currentActivityState == ActivityState.WAITING) {
             Activity currentActivityBehavior = currentNode.getActivityBehaviour();
-            currentActivityBehavior.cancel();
+            currentActivityBehavior.cancel(this);
         }
 
     }
@@ -301,31 +316,35 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
         return currentActivityState;
     }
-    
+
     @Override
     public void registerPlugin(@Nonnull AbstractTokenPlugin plugin) {
+
         this.plugins.add(plugin);
         addObserver(plugin);
     }
-    
+
     @Override
     public void deregisterPlugin(@Nonnull AbstractTokenPlugin plugin) {
+
         this.plugins.remove(plugin);
         deleteObserver(plugin);
     }
 
     /**
      * Changes the state of the activity that the token currently points to.
-     *
-     * @param newState the new state
+     * 
+     * @param newState
+     *            the new state
      */
     private void changeActivityState(ActivityState newState) {
 
         final ActivityState prevState = currentActivityState;
         this.currentActivityState = newState;
         setChanged();
-        
-        // TODO maybe change the ActivityLifecycleChangeEvent, as we provide the currentActivity here, but it might not be instantiated yet.
+
+        // TODO maybe change the ActivityLifecycleChangeEvent, as we provide the currentActivity here, but it might not
+        // be instantiated yet.
         Activity currentActivityBehavior = currentNode.getActivityBehaviour();
         notifyObservers(new ActivityLifecycleChangeEvent(currentActivityBehavior, prevState, newState, this));
     }

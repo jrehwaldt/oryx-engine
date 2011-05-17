@@ -1,12 +1,13 @@
 package org.jodaengine.resource;
 
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import org.jodaengine.IdentityService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 
 /**

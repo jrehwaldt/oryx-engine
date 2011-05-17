@@ -9,7 +9,7 @@ import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.TransitionFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import org.jodaengine.plugin.activity.ActivityLifecycleAssurancePlugin;
+import org.jodaengine.node.helper.ActivityLifecycleAssurancePlugin;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -18,6 +18,7 @@ import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -48,7 +49,7 @@ public class ConcurrentActivityStateTest {
      *             test fails
      */
     @Test
-    public void testConcurrentAcitivityUse() throws JodaEngineException {
+    public void testConcurrentActivityUse() throws JodaEngineException {
 
         // Create two process instances
         NavigatorImplMock nav = new NavigatorImplMock();

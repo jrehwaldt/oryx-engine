@@ -9,7 +9,9 @@ import org.jodaengine.process.structure.Transition;
 /**
  * This Factory is able to create {@link Transition Transitions}.
  */
+// CHECKSTYLE:OFF
 public class TransitionFactory {
+// CHECKSTYLE:ON
 
     /**
      * Creates a {@link Transition} and connects two {@link Nodes} with the created {@link Transition}.

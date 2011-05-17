@@ -1,11 +1,11 @@
 package org.jodaengine.node.activity.custom;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.Token;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**

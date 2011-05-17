@@ -1,5 +1,9 @@
 package org.jodaengine.deployment.importer.bpmn;
 
+import java.util.List;
+
+import org.testng.Assert;
+
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
@@ -11,10 +15,6 @@ import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.XORSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
-
-import java.util.List;
-
-import org.testng.Assert;
 
 
 /**

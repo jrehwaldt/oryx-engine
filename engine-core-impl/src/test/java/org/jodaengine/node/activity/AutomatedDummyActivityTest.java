@@ -17,6 +17,7 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -54,7 +55,10 @@ public class AutomatedDummyActivityTest {
         
         nav = mock(Navigator.class);
 
-        Node node = new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        Node node = new NodeImpl(
+            new AutomatedDummyActivity(dummyString),
+            new SimpleJoinBehaviour(),
+            new TakeAllSplitBehaviour());
         token = new TokenImpl(node, mock(AbstractProcessInstance.class), nav);
     }
 

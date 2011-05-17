@@ -22,6 +22,7 @@ import org.jodaengine.process.structure.StartNodeBuilderImpl;
 import org.jodaengine.process.structure.TransitionBuilder;
 import org.jodaengine.process.structure.TransitionBuilderImpl;
 import org.jodaengine.util.PatternAppendable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -7,6 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.exception.ResourceNotAvailableException;
@@ -21,9 +25,6 @@ import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 
 /**
@@ -173,7 +174,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
         pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
 
         // get the participants that are assigned to the role that this task was assigned to.
-        assignedRole = (AbstractRole) pattern.getAssignedResources()[0];
+        assignedRole = (AbstractRole) pattern.getAssignedResources().iterator().next();
         Iterator<AbstractParticipant> participantsIt = assignedRole.getParticipantsImmutable().iterator();
         participant = participantsIt.next();
 

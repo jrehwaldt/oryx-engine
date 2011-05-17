@@ -88,9 +88,9 @@ public class ConcreteResourcePattern implements CreationPattern {
      * 
      * @return the assigned resources
      */
-    public AbstractResource<?>[] getAssignedResources() {
+    public Set<AbstractResource<?>> getAssignedResources() {
 
-        return resourcesToAssignTo;
+        return new HashSet<AbstractResource<?>>(Arrays.asList(resourcesToAssignTo));
     }
 
     /**

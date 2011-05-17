@@ -7,6 +7,9 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.registration.StartEvent;
@@ -18,15 +21,13 @@ import org.jodaengine.plugin.navigator.AbstractNavigatorListener;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
  */
-public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> implements Navigator, NavigatorInside,
-Service {
+public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener>
+implements Navigator, NavigatorInside, Service {
 
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
 
@@ -63,8 +64,6 @@ Service {
     private int counter;
 
     private RepositoryServiceInside repository;
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Instantiates a new navigator implementation.
@@ -264,6 +263,14 @@ Service {
 
         return finishedInstances;
     }
+    
+    @Override
+    public void cancelProcessInstance(AbstractProcessInstance instance) {
+
+        instance.cancel();
+        signalEndedProcessInstance(instance);
+        
+    }
 
     @Override
     public void signalEndedProcessInstance(AbstractProcessInstance instance) {
@@ -276,7 +283,7 @@ Service {
         }
 
         if (runningInstances.isEmpty()) {
-            changeState(NavigatorState.CURRENTLY_FINISHED);
+            changeState(NavigatorState.IDLE);
         }
 
     }

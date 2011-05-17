@@ -1,10 +1,10 @@
 package org.jodaengine.node.activity.custom;
 
-import org.jodaengine.node.activity.AbstractActivity;
-import org.jodaengine.process.token.Token;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import org.jodaengine.node.activity.AbstractActivity;
+import org.jodaengine.process.token.Token;
 
 
 /**

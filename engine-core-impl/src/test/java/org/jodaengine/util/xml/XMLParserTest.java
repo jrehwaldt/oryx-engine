@@ -5,10 +5,11 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import org.jodaengine.util.ReflectionUtil;
-import org.jodaengine.util.io.IoUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import org.jodaengine.util.ReflectionUtil;
+import org.jodaengine.util.io.IoUtil;
 
 
 /**
