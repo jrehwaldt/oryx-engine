@@ -32,7 +32,7 @@ public final class ExampleMailStartProcess {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleMailStartProcess.class);
 
-    /** Hidden constructor */
+    /** Hidden constructor. */
     private ExampleMailStartProcess() {
 
     };

@@ -1,5 +1,7 @@
 package org.jodaengine.deployment;
 
+import java.util.UUID;
+
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
@@ -9,8 +11,6 @@ import org.jodaengine.factory.definition.ProcessDefinitionFactory;
 import org.jodaengine.factory.definition.SimpleProcessDefinitionFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
-
-import java.util.UUID;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;

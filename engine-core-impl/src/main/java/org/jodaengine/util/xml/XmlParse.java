@@ -54,6 +54,12 @@ public class XmlParse implements XmlParseable {
 
     protected String schemaResource;
 
+    /**
+     * Instantiates a new xml parser without a schemaSource. See javaDoc comment of the more complete constructor.
+     *
+     * @param parser the parser
+     * @param streamSource the stream source
+     */
     public XmlParse(XmlParser parser, StreamSource streamSource) {
 
         this(parser, streamSource, null);
@@ -128,6 +134,11 @@ public class XmlParse implements XmlParseable {
         return rootElement;
     }
 
+    /**
+     * Gets the problem logger.
+     *
+     * @return the XML problem logger
+     */
     public XmlProblemLogger getProblemLogger() {
 
         return problemLogger;

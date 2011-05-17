@@ -364,6 +364,8 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Parses a task with no specific type (behaves as passthrough).
+     *
+     * @param taskXmlElement the task xml element
      */
     protected void parseTask(XmlElement taskXmlElement) {
 
@@ -392,6 +394,8 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Parses a task with no specific type (behaves as passthrough).
+     *
+     * @param taskXmlElement the task xml element
      */
     protected void parseUserTask(XmlElement taskXmlElement) {
 
