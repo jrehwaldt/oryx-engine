@@ -144,7 +144,7 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
   /**
    * Test the cancellation of the timer. After the timer is canceled the token should not move on.
    *
-   * @throws JodaEngineException the dalmatina exception
+   * @throws JodaEngineException the JodaEngine exception
    * @throws InterruptedException the interrupted exception
    */
   @Test
@@ -165,7 +165,7 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
    * Test the cancellation of the process with the timer.
    * After the process is canceled there should be not scheduled jobs in the quartz.
    *
-   * @throws JodaEngineException the dalmatina exception
+   * @throws JodaEngineException the JodaEngine exception
    * @throws InterruptedException the interrupted exception
    */
   @Test

@@ -30,7 +30,6 @@ import org.testng.annotations.Test;
 /**
  * The Class TerminatingEndActivityTest.
  */
-// TODO @Thorben Mach mal heile, bitte
 public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest {
     private CreationPattern pattern = null;
     private AbstractResource<?> resource = null;
@@ -42,7 +41,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
      * to remove the worklist item from the corresponding worklists.
      * 
      * @throws JodaEngineException
-     *             the dalmatina exception
+     *             the joda engine exception
      */
     @Test
     public void testCancellingOfHumanTasks()
@@ -120,7 +119,6 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
 
         splitNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
-        // param.setActivity(humanTask); TODO do something with the parameter of humanTask
         humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, pattern, new AllocateSinglePattern());
 
         terminatingEndNode = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);

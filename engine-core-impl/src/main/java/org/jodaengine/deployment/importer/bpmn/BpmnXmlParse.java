@@ -124,7 +124,7 @@ public class BpmnXmlParse extends XmlParse {
                 getProblemLogger().logWarnings();
             }
             if (getProblemLogger().hasErrors()) {
-                getProblemLogger().throwDalmatinaRuntimeExceptionForErrors();
+                getProblemLogger().throwJodaEngineRuntimeExceptionForErrors();
             }
         }
 

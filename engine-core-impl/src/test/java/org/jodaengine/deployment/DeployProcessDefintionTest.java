@@ -27,6 +27,9 @@ public class DeployProcessDefintionTest extends AbstractJodaEngineTest {
     private ProcessDefinition def = null;
     private UUID defID = null;
 
+    /**
+     * Sets up the deployment builder, reppositoryservice and other useful variables.
+     */
     @BeforeClass
     public void setUp() {
 
@@ -40,6 +43,8 @@ public class DeployProcessDefintionTest extends AbstractJodaEngineTest {
 
     /**
      * Testing that a deployed {@link ProcessDefinition} can be retrieved by a {@link RepositoryService}.
+     *
+     * @throws DefinitionNotFoundException the definition not found exception
      */
     @Test
     public void testDeployment()
@@ -62,7 +67,7 @@ public class DeployProcessDefintionTest extends AbstractJodaEngineTest {
         deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
         deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
 
-        String failureMessage = "Up to this point a DalmatinaRuntimeException should have been raised.";
+        String failureMessage = "Up to this point a JodaEngineRuntimeException should have been raised.";
         Assert.fail(failureMessage);
     }
 }
