@@ -1,7 +1,6 @@
 package org.jodaengine.node.activity.bpmn;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,9 +14,7 @@ import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
-import org.jodaengine.resource.worklist.WorklistItemImpl;
 
 /**
  * The Implementation of a human task.
@@ -33,9 +30,9 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 
     @JsonIgnore
     private PushPattern pushPattern;
-
+    
     @JsonIgnore
-    private final String itemContextVariableIdentifier = "ITEMS-" + this.toString();
+    private static final String ITEM_PREFIX = "ITEMS-";
 
     /**
      * Default Constructor.
@@ -65,34 +62,14 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
         }
 
         ProcessInstanceContext context = token.getInstance().getContext();
-        setItemContextVariable(itemUUIDs, context);
+        
+        // the name should be unique, as the token can only work on one activity at a time.
+        final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
+        context.setInternalVariable(itemContextVariableIdentifier, itemUUIDs);
 
         pushPattern.distributeWorkitems(service, items);
 
         token.suspend();
-    }
-
-    /**
-     * Sets the context variable that stores the currently executing worklist items for this activity. It is
-     * synchronized, as the set-Process should not be carried out simultaneously due to concurrency issues.
-     * 
-     * @param itemUUIDs
-     *            the item uui ds
-     * @param context
-     *            the context
-     */
-    private synchronized void setItemContextVariable(List<UUID> itemUUIDs, ProcessInstanceContext context) {
-
-        // it may be possible that this activity is executed more than once simultaniously, there might be more
-        // in-work-items associated with this activity.
-
-        if (context.getInternalVariable(itemContextVariableIdentifier) == null) {
-            context.setInternalVariable(itemContextVariableIdentifier, itemUUIDs);
-        } else {
-            List<UUID> currentlyExecutingItems = (List<UUID>) context
-            .getInternalVariable(itemContextVariableIdentifier);
-            currentlyExecutingItems.addAll(itemUUIDs);
-        }
     }
 
     @Override
@@ -108,6 +85,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
         // }
 
         ProcessInstanceContext context = token.getInstance().getContext();
+        final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
         List<UUID> itemUUIDs = (List<UUID>) context.getInternalVariable(itemContextVariableIdentifier);
 
         for (UUID itemUUID : itemUUIDs) {
@@ -120,6 +98,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     public void resume(Token token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
+        final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
         context.deleteInternalVariable(itemContextVariableIdentifier);
     }
 
