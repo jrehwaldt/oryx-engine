@@ -116,6 +116,13 @@ public class NavigatorWebService implements Navigator {
     }
 
     @Override
+    public void cancelProcessInstance(AbstractProcessInstance instance) {
+
+        throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
+        
+    }
+
+    @Override
     public void signalEndedProcessInstance(AbstractProcessInstance instance) {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);

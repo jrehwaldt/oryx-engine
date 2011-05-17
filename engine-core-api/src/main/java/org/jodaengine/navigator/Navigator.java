@@ -97,6 +97,13 @@ public interface Navigator {
     List<AbstractProcessInstance> getEndedInstances();
 
     /**
+     * Cancel the given process instance. Stops all corresponding tokens as soon as possible and does some cleanup.
+     *
+     * @param instance the instance
+     */
+    void cancelProcessInstance(AbstractProcessInstance instance);
+    
+    /**
      * Signal that a formerly running process instance has ended.
      * 
      * @param instance

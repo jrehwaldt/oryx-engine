@@ -264,6 +264,14 @@ Service {
 
         return finishedInstances;
     }
+    
+    @Override
+    public void cancelProcessInstance(AbstractProcessInstance instance) {
+
+        instance.cancel();
+        signalEndedProcessInstance(instance);
+        
+    }
 
     @Override
     public void signalEndedProcessInstance(AbstractProcessInstance instance) {
