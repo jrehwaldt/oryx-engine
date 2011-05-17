@@ -71,7 +71,7 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
 
         Assert.assertEquals(pattern.getItemSubject(), "Thorben, please process this task!");
         Assert.assertEquals(pattern.getItemDescription(), "It is only a demo task.");
-        Assert.assertEquals(pattern.getAssignedResources()[0], thorben);
+        Assert.assertEquals(pattern.getAssignedResources().iterator().next(), thorben);
 
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 

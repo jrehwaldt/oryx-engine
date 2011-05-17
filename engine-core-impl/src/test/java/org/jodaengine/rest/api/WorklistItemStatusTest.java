@@ -174,7 +174,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
         pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
 
         // get the participants that are assigned to the role that this task was assigned to.
-        assignedRole = (AbstractRole) pattern.getAssignedResources()[0];
+        assignedRole = (AbstractRole) pattern.getAssignedResources().iterator().next();
         Iterator<AbstractParticipant> participantsIt = assignedRole.getParticipantsImmutable().iterator();
         participant = participantsIt.next();
 

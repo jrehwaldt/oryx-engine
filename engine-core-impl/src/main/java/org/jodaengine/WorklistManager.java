@@ -288,6 +288,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
                     if (worklistItem == null) {
                         String warnMessage = "No worklistItem with the id : '" + worklistItemId + "' could be found.";
                         logger.warn(warnMessage);
+                        return;
                     }
                 }
             }

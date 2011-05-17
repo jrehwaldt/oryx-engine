@@ -12,7 +12,11 @@ import org.jodaengine.navigator.NavigatorState;
 /**
  * A logger implementation, which observes the state of a navigator thread.
  */
-public final class NavigatorListenerLogger
+// In the test a spy-object is used. Mockito Spies do not support final classes though, 
+// so we cannot make this class final
+// CHECKSTYLE:OFF
+public class NavigatorListenerLogger
+//CHECKSTYLE:ON
 extends AbstractNavigatorListener {
     
     private static NavigatorListenerLogger instance;

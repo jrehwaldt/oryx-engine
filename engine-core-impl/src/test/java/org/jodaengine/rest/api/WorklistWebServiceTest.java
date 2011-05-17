@@ -76,7 +76,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
 
         // System.out.println(ServiceFactory.getIdentityService().getParticipants());
-        jannik = (AbstractParticipant) pattern.getAssignedResources()[0];
+        jannik = (AbstractParticipant) pattern.getAssignedResources().iterator().next();
     }
 
     @AfterMethod
