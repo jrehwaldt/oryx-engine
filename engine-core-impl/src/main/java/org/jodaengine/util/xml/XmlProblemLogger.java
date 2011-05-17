@@ -56,6 +56,11 @@ public class XmlProblemLogger {
         this.streamSourceName = streamSourceName;
     }
 
+    /**
+     * Gets the all the XML Parsing warnings.
+     *
+     * @return the warnings
+     */
     private List<XmlParsingProblem> getWarnings() {
 
         if (this.lazyWarnings == null) {
@@ -109,6 +114,11 @@ public class XmlProblemLogger {
         }
     }
 
+    /**
+     * Gets all the XML Parsingerrors.
+     *
+     * @return the errors
+     */
     private List<XmlParsingProblem> getErrors() {
 
         if (this.lazyErrors == null) {
