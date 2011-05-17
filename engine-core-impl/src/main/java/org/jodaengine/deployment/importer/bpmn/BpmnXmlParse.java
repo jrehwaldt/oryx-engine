@@ -104,19 +104,19 @@ public class BpmnXmlParse extends XmlParse {
     @Override
     public BpmnXmlParse execute() {
 
-        // At first an object model of the whole BPMN XMl is created. Afterwards we can process it.
+        // At first an object model of the whole BPMN XML is created. Afterwards we can process it.
         super.execute();
 
         try {
             // Here we start parsing the process model and creating the ProcessDefintion
             parseRootElement();
 
-        } catch (JodaEngineRuntimeException dalmatinaRuntimeException) {
-            throw dalmatinaRuntimeException;
-        } catch (Exception e) {
+        } catch (JodaEngineRuntimeException jodaException) {
+            throw jodaException;
+        } catch (Exception javaException) {
 
             String errorMessage = "Unknown exception";
-            logger.error(errorMessage, e);
+            logger.error(errorMessage, javaException);
             // TODO: @Gerardo Schmeiß die Exception weiter
         } finally {
 
@@ -124,7 +124,7 @@ public class BpmnXmlParse extends XmlParse {
                 getProblemLogger().logWarnings();
             }
             if (getProblemLogger().hasErrors()) {
-                getProblemLogger().throwDalmatinaRuntimeExceptionForErrors();
+                getProblemLogger().throwJodaEngineRuntimeExceptionForErrors();
             }
         }
 
@@ -364,6 +364,8 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Parses a task with no specific type (behaves as passthrough).
+     *
+     * @param taskXmlElement the task xml element
      */
     protected void parseTask(XmlElement taskXmlElement) {
 
@@ -392,14 +394,16 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Parses a task with no specific type (behaves as passthrough).
+     * 
+     * @param taskXmlElement the xml task element to parse
      */
     protected void parseUserTask(XmlElement taskXmlElement) {
 
         CreationPattern creationPattern = parseInformationForUserTask(taskXmlElement);
-
+        
         Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, creationPattern,
             new AllocateSinglePattern());
-
+        
         parseGeneralNodeInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
 
@@ -440,11 +444,11 @@ public class BpmnXmlParse extends XmlParse {
     }
 
     // protected void parsePotentialOwner(XmlElement taskElement, TaskBuilder taskBuilder) {
-    //
-    // List<XmlElement> potentialOwnerElements = taskElement.elements(POTENTIAL_OWNER);
-    // for (XmlElement potentialOwnerElement : potentialOwnerElements) {
-    // parsePotentialOwnerResourceAssignment(potentialOwnerElement, taskBuilder);
-    // }
+    //     
+    //     List<XmlElement> potentialOwnerElements = taskElement.elements(POTENTIAL_OWNER);
+    //     for (XmlElement potentialOwnerElement : potentialOwnerElements) {
+    //         parsePotentialOwnerResourceAssignment(potentialOwnerElement, taskBuilder);
+    //     }
     // }
 
     protected void parseHumanPerformerResourceAssignment(XmlElement performerElement,
@@ -515,6 +519,7 @@ public class BpmnXmlParse extends XmlParse {
 
         for (XmlElement sequenceFlowElement : processElement.getElements("sequenceFlow")) {
 
+            @SuppressWarnings("unused")
             String id = sequenceFlowElement.getAttribute("id");
             String sourceRef = sequenceFlowElement.getAttribute("sourceRef");
             String destinationRef = sequenceFlowElement.getAttribute("targetRef");
@@ -564,6 +569,7 @@ public class BpmnXmlParse extends XmlParse {
      * 
      * @param seqFlowElement
      *            - The 'sequenceFlow' element that can contain a condition.
+     * @return the condition
      */
     protected Condition parseSequenceFlowCondition(XmlElement seqFlowElement) {
 
@@ -580,6 +586,9 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Extracting the documentation Attribute in the {@link XmlElement}.
+     * 
+     * @param element the element to parse
+     * @return the documentation
      */
     protected String parseDocumentation(XmlElement element) {
 
@@ -593,8 +602,12 @@ public class BpmnXmlParse extends XmlParse {
     /**
      * Parses the generic information of an activity element (id, name, documentation, etc.), and creates a new
      * {@link ActivityImpl} on the given scope element.
+     * 
+     * @param activityElement the activity element to parse
+     * @param node 
      */
-    protected void parseGeneralNodeInformation(XmlElement activityElement, Node node) {
+    protected void parseGeneralNodeInformation(XmlElement activityElement,
+                                               Node node) {
 
         String id = activityElement.getAttribute("id");
         if (logger.isDebugEnabled()) {
@@ -608,7 +621,12 @@ public class BpmnXmlParse extends XmlParse {
         node.setAttribute("type", activityElement.getTagName());
         node.setAttribute("line", activityElement.getLine());
     }
-
+    
+    /**
+     * Returns a lazily initialized xml id map.
+     * 
+     * @return a map holding node's ids to nodes
+     */
     private Map<String, Node> getNodeXmlIdTable() {
 
         if (this.nodeXmlIdTable == null) {

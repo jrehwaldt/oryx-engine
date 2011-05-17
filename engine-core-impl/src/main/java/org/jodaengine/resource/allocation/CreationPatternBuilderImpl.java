@@ -1,12 +1,11 @@
 package org.jodaengine.resource.allocation;
 
-import org.jodaengine.allocation.CreationPattern;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jodaengine.allocation.Form;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class helps to build {@link CreationPattern CreationPatterns}.

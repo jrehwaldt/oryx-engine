@@ -4,13 +4,13 @@ import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 
 /**

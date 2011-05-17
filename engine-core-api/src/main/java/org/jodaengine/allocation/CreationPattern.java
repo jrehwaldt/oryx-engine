@@ -18,4 +18,6 @@ public interface CreationPattern {
      * @return a list of created worklist items
      */
     List<AbstractWorklistItem> createWorklistItems(Token token);
+    
+    
 }

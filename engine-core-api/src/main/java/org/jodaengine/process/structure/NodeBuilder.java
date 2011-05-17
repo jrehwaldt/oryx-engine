@@ -2,7 +2,6 @@ package org.jodaengine.process.structure;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
 import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;

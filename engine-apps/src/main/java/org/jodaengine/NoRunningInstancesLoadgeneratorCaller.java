@@ -35,7 +35,7 @@ public final class NoRunningInstancesLoadgeneratorCaller extends AbstractNavigat
     @Override
     protected synchronized void stateChanged(Navigator nav, NavigatorState navState) {
 
-        if ((navState == NavigatorState.CURRENTLY_FINISHED) && (!called)) {
+        if ((navState == NavigatorState.IDLE) && (!called)) {
             hugene.navigatorCurrentlyFinished();
             called = true;
         }

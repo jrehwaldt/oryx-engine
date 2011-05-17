@@ -128,8 +128,8 @@
     </module>
     <module name="Regexp">
       <property name="severity" value="error"/>
-      <property name="format" value="[Oo]ryx+"/>
-      <property name="message" value="JodaEnginje you are."/>
+      <property name="format" value="[Oo]ryx|[Dd]almatina"/>
+      <property name="message" value="JodaEngine you are."/>
       <property name="illegalPattern" value="true"/>
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="warning"/>
     </module>

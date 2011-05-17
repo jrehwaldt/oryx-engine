@@ -15,9 +15,7 @@ public class BpmnTerminatingEndActivity extends BpmnEndActivity {
 
         AbstractProcessInstance instance = token.getInstance();
 
-        instance.cancel();
-
-        token.getNavigator().signalEndedProcessInstance(instance);
+        token.getNavigator().cancelProcessInstance(instance);
     }
 
 }

@@ -8,19 +8,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.jodaengine.RepositoryServiceImpl;
-import org.jodaengine.correlation.CorrelationManagerImpl;
-import org.jodaengine.correlation.adapter.EventType;
-import org.jodaengine.correlation.adapter.EventTypes;
-import org.jodaengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
-import org.jodaengine.correlation.adapter.mail.MailAdapterEvent;
-import org.jodaengine.correlation.adapter.mail.MailProtocol;
-import org.jodaengine.exception.DefinitionNotFoundException;
-import org.jodaengine.exception.IllegalStarteventException;
-import org.jodaengine.navigator.Navigator;
-import org.jodaengine.repository.RepositorySetup;
-import org.jodaengine.util.testing.AbstractJodaEngineTest;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +18,23 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import org.jodaengine.RepositoryServiceImpl;
+import org.jodaengine.eventmanagement.EventManagerImpl;
+import org.jodaengine.eventmanagement.adapter.EventType;
+import org.jodaengine.eventmanagement.adapter.EventTypes;
+import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
+import org.jodaengine.eventmanagement.adapter.mail.MailProtocol;
+import org.jodaengine.eventmanagement.registration.EventCondition;
+import org.jodaengine.eventmanagement.registration.EventConditionImpl;
+import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.eventmanagement.registration.StartEventImpl;
+import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.navigator.Navigator;
+import org.jodaengine.repository.RepositorySetup;
+import org.jodaengine.util.testing.AbstractJodaEngineTest;
 
 
 /**
@@ -53,7 +57,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
     throws DefinitionNotFoundException {
 
         Navigator navigator = mock(Navigator.class);
-        CorrelationManagerImpl correlation = new CorrelationManagerImpl(navigator);
+        EventManagerImpl correlation = new EventManagerImpl(navigator);
         correlation.registerStartEvent(event);
 
         correlation.correlate(incomingEvent);
@@ -73,7 +77,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
     throws DefinitionNotFoundException {
 
         Navigator navigator = mock(Navigator.class);
-        CorrelationManagerImpl correlation = new CorrelationManagerImpl(navigator);
+        EventManagerImpl correlation = new EventManagerImpl(navigator);
         correlation.registerStartEvent(event);
 
         correlation.correlate(anotherIncomingEvent);
@@ -94,7 +98,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
     throws DefinitionNotFoundException {
 
         Navigator navigator = mock(Navigator.class);
-        CorrelationManagerImpl correlation = new CorrelationManagerImpl(navigator);
+        EventManagerImpl correlation = new EventManagerImpl(navigator);
         correlation.registerStartEvent(event);
         correlation.registerStartEvent(anotherEvent);
 
@@ -129,7 +133,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
 
         // Mockito isnt able to mock final classes so the next line doesnt work :(
         // MailAdapterConfiguration config = mock(MailAdapterConfiguration.class);
-        InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.dalmatinaGoogleConfiguration();
+        InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
         event = new StartEventImpl(mailType, config, conditions1, definitionID);
 
         InboundMailAdapterConfiguration anotherConfig = new InboundMailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin",

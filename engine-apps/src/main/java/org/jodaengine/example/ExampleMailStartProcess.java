@@ -6,13 +6,13 @@ import java.util.UUID;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
-import org.jodaengine.correlation.adapter.EventTypes;
-import org.jodaengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
-import org.jodaengine.correlation.adapter.mail.MailAdapterEvent;
-import org.jodaengine.correlation.registration.EventCondition;
-import org.jodaengine.correlation.registration.EventConditionImpl;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.eventmanagement.adapter.EventTypes;
+import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
+import org.jodaengine.eventmanagement.registration.EventCondition;
+import org.jodaengine.eventmanagement.registration.EventConditionImpl;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
@@ -32,7 +32,7 @@ public final class ExampleMailStartProcess {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleMailStartProcess.class);
 
-    /** Hidden constructor */
+    /** Hidden constructor. */
     private ExampleMailStartProcess() {
 
     };
@@ -65,7 +65,7 @@ public final class ExampleMailStartProcess {
             Node startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
 
             // Building Node1
-            int[] ints = { 1, 1 };
+            int[] ints = {1, 1 };
             Node node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
 
             // Building Node2
@@ -78,7 +78,7 @@ public final class ExampleMailStartProcess {
 
             // Create a mail adapater event here.
             // TODO @TobiP Could create a builder for this later.
-            InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.dalmatinaGoogleConfiguration();
+            InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
             EventCondition subjectCondition = null;
             subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");
             List<EventCondition> conditions = new ArrayList<EventCondition>();

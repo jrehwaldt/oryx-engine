@@ -6,12 +6,14 @@ import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.jodaengine.correlation.adapter.InboundPullAdapter;
-import org.jodaengine.correlation.adapter.PullAdapterConfiguration;
-import org.jodaengine.correlation.adapter.TimedConfiguration;
-import org.jodaengine.correlation.adapter.TimerConfigurationImpl;
-import org.jodaengine.correlation.adapter.error.ErrorAdapter;
-import org.jodaengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.PullAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
+import org.jodaengine.eventmanagement.adapter.TimerConfigurationImpl;
+import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
+import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.eventmanagement.timing.TimingManager;
+import org.jodaengine.eventmanagement.timing.TimingManagerImpl;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
@@ -56,7 +58,7 @@ public class TimingManagerTest {
      * The test waits some time, until the timer should be done and then an assertion is used to test
      * if resume was called on the token.
      *
-     * @throws JodaEngineException the dalmatina exception
+     * @throws JodaEngineException the JodaEngine exception
      * @throws InterruptedException the interrupted exception for thread sleeping
      */
     @Test
@@ -72,7 +74,7 @@ public class TimingManagerTest {
      * Test registering a non recurring event, in this case a simple timer. Because waiting time is not long enough,
      * the token should not be resumed.
      *
-     * @throws JodaEngineException the dalmatina exception
+     * @throws JodaEngineException the JodaEngine exception
      * @throws InterruptedException the interrupted exception for thread sleeping
      */
     @Test

@@ -2,7 +2,7 @@ package org.jodaengine.util;
 
 import org.jodaengine.IdentityService;
 import org.jodaengine.RepositoryServiceInside;
-import org.jodaengine.correlation.CorrelationManager;
+import org.jodaengine.eventmanagement.CorrelationManager;
 import org.jodaengine.navigator.NavigatorInside;
 
 /**

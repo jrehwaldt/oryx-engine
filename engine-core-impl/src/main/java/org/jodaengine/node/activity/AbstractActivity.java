@@ -39,9 +39,21 @@ implements Activity {
     
     /**
      * Override this, if need to cleanup, if the activity is cancelled (e.g. event deregistration).
+     *
+     * @param executingToken the executing token
      */
     @Override
-    public void cancel() {
+    public void cancel(Token executingToken) {
+        
+    }
+    
+    /**
+     * Override this, if you need to do cleanup after the executing token has been resumed.
+     *
+     * @param token the token
+     */
+    @Override
+    public void resume(Token token) {
         
     }
 }

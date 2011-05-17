@@ -5,13 +5,13 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.correlation.registration.StartEvent;
+import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
 
 /**
- * The Interface NavigatorInterface.
+ * The {@link Navigator} is the core routing component, which 'navigates' through the processes. 
  */
 public interface Navigator {
 
@@ -96,6 +96,13 @@ public interface Navigator {
      */
     List<AbstractProcessInstance> getEndedInstances();
 
+    /**
+     * Cancel the given process instance. Stops all corresponding tokens as soon as possible and does some cleanup.
+     *
+     * @param instance the instance
+     */
+    void cancelProcessInstance(AbstractProcessInstance instance);
+    
     /**
      * Signal that a formerly running process instance has ended.
      * 

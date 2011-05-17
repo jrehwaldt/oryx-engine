@@ -12,7 +12,6 @@ import org.jodaengine.navigator.Navigator;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-
 /**
  * The {@link JodaEngine} class is responsible for the initialization of the whole application. Therefore we use the
  * "Inversion of Control" pattern provided by the Spring.net Framework.

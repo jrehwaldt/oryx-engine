@@ -1,6 +1,5 @@
 package org.jodaengine.node.factory.bpmn;
 
-import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.instantiation.DefaultBpmnProcessInstanceCreationPattern;
 

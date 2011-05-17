@@ -3,7 +3,6 @@ package org.jodaengine.plugin.navigator;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.navigator.NavigatorState;
 

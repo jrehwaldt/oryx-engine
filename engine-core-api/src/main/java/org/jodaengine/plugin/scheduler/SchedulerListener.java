@@ -1,6 +1,5 @@
 package org.jodaengine.plugin.scheduler;
 
-import org.jodaengine.navigator.schedule.SchedulerEvent;
 import org.jodaengine.plugin.Plugin;
 import org.jodaengine.process.token.Token;
 

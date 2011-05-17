@@ -7,8 +7,8 @@ import java.util.UUID;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.jodaengine.correlation.CorrelationManager;
-import org.jodaengine.correlation.registration.StartEvent;
+import org.jodaengine.eventmanagement.EventManager;
+import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -184,7 +184,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     }
 
     @Override
-    public void activate(CorrelationManager correlationManager) {
+    public void activate(EventManager correlationManager) {
 
         // TODO: Auslagern in eine Strategy
         for (StartEvent event : this.getStartTriggers().keySet()) {
@@ -193,7 +193,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     }
 
     @Override
-    public void deactivate(CorrelationManager correlationManager) {
+    public void deactivate(EventManager correlationManager) {
 
         // TODO Auto-generated method stub
 

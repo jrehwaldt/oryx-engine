@@ -23,7 +23,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		scope="singleton">
 	</bean>
 
-	<bean id="correlationService" class="org.jodaengine.correlation.CorrelationManagerImpl"
+	<bean id="correlationService" class="org.jodaengine.eventmanagement.EventManagerImpl"
 		scope="singleton">
 		<constructor-arg>
 			<ref bean="navigatorService" />

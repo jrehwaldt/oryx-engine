@@ -2,7 +2,9 @@ package org.jodaengine;
 
 import static org.mockito.Mockito.mock;
 
-import org.jodaengine.allocation.CreationPattern;
+import java.util.List;
+import java.util.UUID;
+
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.exception.InvalidWorkItemException;
@@ -15,10 +17,6 @@ import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
-
-import java.util.List;
-import java.util.UUID;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -47,7 +45,7 @@ public class WorkListManagerTest {
         pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         // "hack" to get the participant the task belongs to
-        jannik = (AbstractParticipant) pattern.getAssignedResources()[0];
+        jannik = (AbstractParticipant) pattern.getAssignedResources().iterator().next();
     }
     
     /**

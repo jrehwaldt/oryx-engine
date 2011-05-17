@@ -1,5 +1,7 @@
 package org.jodaengine.deployment.importer.bpmn;
 
+import java.util.List;
+
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.node.activity.Activity;
@@ -10,12 +12,8 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
-
-import java.util.List;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-
 
 /**
  * It tests the deployment of BPMN processes that where serialized as xml. The xml contains the structure the process
@@ -71,7 +69,7 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
 
         Assert.assertEquals(pattern.getItemSubject(), "Thorben, please process this task!");
         Assert.assertEquals(pattern.getItemDescription(), "It is only a demo task.");
-        Assert.assertEquals(pattern.getAssignedResources()[0], thorben);
+        Assert.assertEquals(pattern.getAssignedResources().iterator().next(), thorben);
 
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 

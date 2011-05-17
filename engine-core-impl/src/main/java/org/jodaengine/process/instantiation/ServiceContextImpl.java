@@ -6,7 +6,7 @@ import java.util.Map;
 import org.jodaengine.IdentityService;
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.correlation.CorrelationManager;
+import org.jodaengine.eventmanagement.CorrelationManager;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.util.ServiceContext;
 

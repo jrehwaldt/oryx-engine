@@ -1,8 +1,13 @@
 package org.jodaengine.resource.allocation;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.mockito.Mockito;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
@@ -16,11 +21,6 @@ import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemImpl;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
-import org.mockito.Mockito;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 /**
  * Checking the Lifecycle of a WorklistItem.
@@ -42,11 +42,10 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         worklistService = ServiceFactory.getWorklistService();
 
         ConcreteResourcePattern pattern = CreationPatternFactory.createJannikServesGerardoCreator();
-        jannik = (Participant) pattern.getAssignedResources()[0];
+        jannik = (Participant) pattern.getAssignedResources().iterator().next();
 
         Token token = Mockito.mock(Token.class);
-        Set<AbstractResource<?>> resources = new HashSet<AbstractResource<?>>(Arrays.asList(pattern
-        .getAssignedResources()));
+        Set<AbstractResource<?>> resources = pattern.getAssignedResources();
 
         worklistItem = new WorklistItemImpl(pattern.getItemSubject(), pattern.getItemDescription(),
             pattern.getItemForm(), resources, token);

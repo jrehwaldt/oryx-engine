@@ -12,5 +12,5 @@ public enum NavigatorState {
     STOPPED,
 
     /** All process instances are finished at this moment (no running Instances). */
-    CURRENTLY_FINISHED
+    IDLE
 }

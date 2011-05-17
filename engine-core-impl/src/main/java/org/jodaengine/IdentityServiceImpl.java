@@ -1,18 +1,5 @@
 package org.jodaengine;
 
-import org.jodaengine.bootstrap.Service;
-import org.jodaengine.exception.ResourceNotAvailableException;
-import org.jodaengine.resource.AbstractOrganizationUnit;
-import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.AbstractPosition;
-import org.jodaengine.resource.AbstractRole;
-import org.jodaengine.resource.IdentityBuilder;
-import org.jodaengine.resource.IdentityBuilderImpl;
-import org.jodaengine.resource.OrganizationUnit;
-import org.jodaengine.resource.Participant;
-import org.jodaengine.resource.Position;
-import org.jodaengine.resource.Role;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,6 +12,19 @@ import javax.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.jodaengine.bootstrap.Service;
+import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.resource.AbstractOrganizationUnit;
+import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.AbstractPosition;
+import org.jodaengine.resource.AbstractRole;
+import org.jodaengine.resource.IdentityBuilder;
+import org.jodaengine.resource.IdentityBuilderImpl;
+import org.jodaengine.resource.OrganizationUnit;
+import org.jodaengine.resource.Participant;
+import org.jodaengine.resource.Position;
+import org.jodaengine.resource.Role;
 
 
 /**

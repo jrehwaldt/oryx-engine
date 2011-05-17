@@ -1,10 +1,9 @@
 package org.jodaengine.node.outgoingbehaviour;
 
-import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
-import org.jodaengine.process.token.Token;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jodaengine.process.token.Token;
 
 
 /**

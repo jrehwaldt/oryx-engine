@@ -3,8 +3,6 @@ package org.jodaengine.util.xml;
 import java.io.InputStream;
 import java.net.URL;
 
-import javax.xml.parsers.SAXParser;
-
 import org.jodaengine.util.io.StreamSource;
 
 

@@ -56,6 +56,11 @@ public class XmlProblemLogger {
         this.streamSourceName = streamSourceName;
     }
 
+    /**
+     * Gets the all the XML Parsing warnings.
+     *
+     * @return the warnings
+     */
     private List<XmlParsingProblem> getWarnings() {
 
         if (this.lazyWarnings == null) {
@@ -109,6 +114,11 @@ public class XmlProblemLogger {
         }
     }
 
+    /**
+     * Gets all the XML Parsingerrors.
+     *
+     * @return the errors
+     */
     private List<XmlParsingProblem> getErrors() {
 
         if (this.lazyErrors == null) {
@@ -154,7 +164,7 @@ public class XmlProblemLogger {
     /**
      * Logs all Errors while parsing through the XML. Finally an {@link JodaEngineRuntimeException} is thrown.
      */
-    public void throwDalmatinaRuntimeExceptionForErrors() {
+    public void throwJodaEngineRuntimeExceptionForErrors() {
 
         StringBuilder stringBuilder = new StringBuilder();
         for (XmlParsingProblem error : getErrors()) {

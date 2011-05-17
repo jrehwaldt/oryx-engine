@@ -9,13 +9,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.BpmnXmlImporter;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -35,7 +36,7 @@ public class RepositoryWebService {
     private RepositoryService repositoryService;
 
     /**
-     * Instantiates a new deployer web service. Initializes the Deplyoment builder.
+     * Instantiates a new deployer web service. Initializes the Deployment builder.
      *
      * @param engineServices the engine services
      */

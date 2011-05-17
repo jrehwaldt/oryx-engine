@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
 import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;

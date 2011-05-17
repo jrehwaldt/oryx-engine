@@ -6,6 +6,10 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import org.mockito.ArgumentCaptor;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -13,10 +17,6 @@ import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.TokenImpl;
-
-import org.mockito.ArgumentCaptor;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 
 /**
@@ -49,8 +49,7 @@ public class TokenPluginTest {
     /**
      * Test the deregistration of the plugin.
      * 
-     * @throws JodaEngineException
-     *             the dalmatina exception
+     * @throws JodaEngineException the JodaEngine exception
      */
     @Test
     public void testDeregistration()
@@ -64,8 +63,7 @@ public class TokenPluginTest {
     /**
      * Tests that new tokens that are created by this token receive the same plugins the creator has.
      * 
-     * @throws JodaEngineException
-     *             the dalmatina exception
+     * @throws JodaEngineException the JodaEngine exception
      */
     @Test
     public void testPluginRegistrationInheritance()
@@ -79,8 +77,7 @@ public class TokenPluginTest {
     /**
      * Tests that newly created tokens do not receive plugins that were deregistered before.
      * 
-     * @throws JodaEngineException
-     *             the dalmatina exception
+     * @throws JodaEngineException the JodaEngine exception
      */
     @Test
     public void testPluginDeregistrationInheritance()

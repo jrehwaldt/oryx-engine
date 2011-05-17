@@ -1,6 +1,7 @@
 package org.jodaengine.process.structure;
 
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -2,6 +2,12 @@ package org.jodaengine.node.behaviour;
 
 import static org.testng.Assert.assertEquals;
 
+import java.util.List;
+
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -12,12 +18,6 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
-
-import java.util.List;
-
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 
 /**

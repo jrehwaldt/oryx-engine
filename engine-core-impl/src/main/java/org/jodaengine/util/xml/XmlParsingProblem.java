@@ -29,13 +29,21 @@ import org.xml.sax.SAXParseException;
 public class XmlParsingProblem {
 
     protected String errorMessage;
-    protected String resource;
+    protected String xmlResourceName;
     protected int line;
     protected int column;
 
-    public XmlParsingProblem(SAXParseException e, String resource) {
+    /**
+     * Default constructor for instantiating this class.
+     * 
+     * @param saxException
+     *            - a {@link SAXException} that occurs while parsing the XML
+     * @param xmlResourceName
+     *            - the name of the XMl resource where the problems occurred
+     */
+    public XmlParsingProblem(SAXParseException saxException, String xmlResourceName) {
 
-        Throwable exception = e;
+        Throwable exception = saxException;
         while (exception != null) {
             if (this.errorMessage == null) {
                 this.errorMessage = exception.getMessage();
@@ -44,23 +52,51 @@ public class XmlParsingProblem {
             }
             exception = exception.getCause();
         }
-        this.resource = resource;
-        this.line = e.getLineNumber();
-        this.column = e.getColumnNumber();
+        this.xmlResourceName = xmlResourceName;
+        this.line = saxException.getLineNumber();
+        this.column = saxException.getColumnNumber();
     }
 
-    public XmlParsingProblem(String errorMessage, String resourceName, XmlElement element) {
+    /**
+     * Another default constructor for an {@link XmlParsingProblem} in case there occurred a problem while processing
+     * the XML resource.
+     * 
+     * @param errorMessage
+     *            - the error message describing the problem
+     * @param xmlResourceName
+     *            - the name of the XMl resource where the problems occurred
+     * @param xmlElement
+     *            - the {@link XmlElement xml tag} where the problem occurred
+     */
+    public XmlParsingProblem(String errorMessage, String xmlResourceName, XmlElement xmlElement) {
 
         this.errorMessage = errorMessage;
-        this.resource = resourceName;
-        if (element != null) {
-            this.line = element.getLine();
-            this.column = element.getColumn();
+        this.xmlResourceName = xmlResourceName;
+        if (xmlElement != null) {
+            this.line = xmlElement.getLine();
+            this.column = xmlElement.getColumn();
         }
     }
 
+    /**
+     * Transforms the {@link XmlParsingProblem} into a {@link String}.
+     * 
+     * @return a String representing a {@link XmlParsingProblem}
+     */
+    @Override
     public String toString() {
 
-        return errorMessage + (resource != null ? " | " + resource : "") + " | line " + line + " | column " + column;
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        stringBuilder.append(this.errorMessage);
+        
+        if (xmlResourceName != null) {
+            stringBuilder.append(" | " + this.xmlResourceName);
+        }
+
+        stringBuilder.append(" | line " + this.line);
+        stringBuilder.append(" | column " + this.column);
+        
+        return stringBuilder.toString(); 
     }
 }
