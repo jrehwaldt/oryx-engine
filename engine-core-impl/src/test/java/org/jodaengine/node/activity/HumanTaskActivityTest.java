@@ -134,4 +134,21 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         AbstractWorklistItem item = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
         assertEquals(itemID, item.getID(), "The saved ID should be the ID of the created worklist item");
     }
+    
+    /**
+     * Test that the list of item IDs is removed from the context after the activity has been resumed.
+     */
+    @Test
+    public void testItemIdRemovedFromContext() {
+        humanTask.execute(token);
+        AbstractWorklistItem item = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
+        ServiceFactory.getWorklistQueue().beginWorklistItemBy(item, resource);
+        ServiceFactory.getWorklistQueue().completeWorklistItemBy(item, resource);
+        
+        ProcessInstanceContext context = token.getInstance().getContext();
+        List<UUID> savedItemIDs = (List<UUID>) context.getInternalVariable((String) Whitebox.getInternalState(
+            humanTask, "ITEM_PREFIX") + token.getID());
+        
+        assertTrue(savedItemIDs == null, "The variable should exist any longer.");
+    }
 }
