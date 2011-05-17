@@ -154,7 +154,7 @@ public class XmlProblemLogger {
     /**
      * Logs all Errors while parsing through the XML. Finally an {@link JodaEngineRuntimeException} is thrown.
      */
-    public void throwDalmatinaRuntimeExceptionForErrors() {
+    public void throwJodaEngineRuntimeExceptionForErrors() {
 
         StringBuilder stringBuilder = new StringBuilder();
         for (XmlParsingProblem error : getErrors()) {
