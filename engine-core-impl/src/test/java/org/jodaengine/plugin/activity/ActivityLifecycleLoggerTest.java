@@ -2,14 +2,12 @@ package org.jodaengine.plugin.activity;
 
 import static org.mockito.Mockito.mock;
 
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
-import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.process.token.TokenImpl;
 
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 /**
  * Tests the activity logger.

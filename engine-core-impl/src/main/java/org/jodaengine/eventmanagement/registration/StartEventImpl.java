@@ -5,8 +5,6 @@ import java.util.UUID;
 
 import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventType;
-import org.jodaengine.eventmanagement.registration.EventCondition;
-import org.jodaengine.eventmanagement.registration.StartEvent;
 
 /**
  * The Class StartEventImpl. Have a look at {@link StartEvent}.

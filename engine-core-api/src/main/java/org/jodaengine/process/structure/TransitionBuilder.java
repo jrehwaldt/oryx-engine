@@ -2,8 +2,6 @@ package org.jodaengine.process.structure;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.exception.JodaEngineRuntimeException;
-
 /**
  * The Interface {@link TransitionBuilder}. The {@link TransitionBuilder} is a comfortable way to construct a
  * {@link Transition}.

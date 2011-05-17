@@ -4,9 +4,6 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.adapter.EventType;
-
-
 /**
  * Adapter types.
  * 

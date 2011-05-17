@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import org.jodaengine.eventmanagement.CorrelationManager;
 import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.exception.IllegalStarteventException;

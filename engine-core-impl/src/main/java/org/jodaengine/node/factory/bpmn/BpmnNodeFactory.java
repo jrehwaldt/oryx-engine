@@ -14,7 +14,6 @@ import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.EmptyOutgoingBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.XORSplitBehaviour;
-import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;

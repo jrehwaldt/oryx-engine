@@ -2,8 +2,6 @@ package org.jodaengine.eventmanagement.adapter;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.EventManager;
-
 /**
  * General {@link EventManager} adapter.
  */

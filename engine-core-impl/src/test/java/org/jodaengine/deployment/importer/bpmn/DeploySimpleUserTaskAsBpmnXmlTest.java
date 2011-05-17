@@ -2,9 +2,6 @@ package org.jodaengine.deployment.importer.bpmn;
 
 import java.util.List;
 
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.node.activity.Activity;
@@ -15,7 +12,8 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
-
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 
 /**
  * It tests the deployment of BPMN processes that where serialized as xml. The xml contains the structure the process

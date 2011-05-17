@@ -10,7 +10,6 @@ import org.jodaengine.eventmanagement.EventConfiguration;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
-import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.exception.AdapterSchedulingException;
 import org.jodaengine.process.token.Token;
 

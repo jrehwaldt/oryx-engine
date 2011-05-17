@@ -3,8 +3,6 @@ package org.jodaengine.factory.resource;
 import java.util.List;
 import java.util.Random;
 
-import org.mockito.Mockito;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
 import org.jodaengine.allocation.CreationPattern;
@@ -13,9 +11,10 @@ import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+
+import org.mockito.Mockito;
 
 
 /**

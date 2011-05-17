@@ -5,7 +5,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 import org.jodaengine.eventmanagement.EventManagerImpl;
-import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImpl;
 

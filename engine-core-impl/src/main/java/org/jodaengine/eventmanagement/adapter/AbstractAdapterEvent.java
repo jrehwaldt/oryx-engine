@@ -5,9 +5,6 @@ import java.util.Date;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.EventType;
-
 
 /**
  * Abstract event representation.

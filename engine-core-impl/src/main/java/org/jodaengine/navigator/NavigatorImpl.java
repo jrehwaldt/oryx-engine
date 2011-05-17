@@ -7,9 +7,6 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.registration.StartEvent;

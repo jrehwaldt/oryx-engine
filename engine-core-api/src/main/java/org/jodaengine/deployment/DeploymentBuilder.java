@@ -4,10 +4,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.UUID;
 
-import org.jodaengine.RepositoryService;
-import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.process.definition.AbstractProcessArtifact;
-import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 
 /**

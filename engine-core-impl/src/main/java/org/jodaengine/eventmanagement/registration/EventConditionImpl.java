@@ -2,8 +2,6 @@ package org.jodaengine.eventmanagement.registration;
 
 import java.lang.reflect.Method;
 
-import org.jodaengine.eventmanagement.registration.EventCondition;
-
 /**
  * The Class EventConditionImpl. Have a look at the interface {@link EventCondition}.
  */

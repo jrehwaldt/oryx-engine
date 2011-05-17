@@ -1,7 +1,5 @@
 package org.jodaengine.eventmanagement.adapter;
 
-import org.jodaengine.eventmanagement.adapter.EventType;
-import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
 import org.jodaengine.eventmanagement.timing.TimerJob;
 
 import org.quartz.Job;
