@@ -3,7 +3,7 @@ package org.jodaengine.eventmanagement.adapter.error;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.CorrelationManager;
-import org.jodaengine.eventmanagement.adapter.AbstractCorrelationAdapter;
+import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
 import org.jodaengine.eventmanagement.adapter.InboundAdapter;
 
 
@@ -13,7 +13,7 @@ import org.jodaengine.eventmanagement.adapter.InboundAdapter;
  * @author Jan Rehwaldt
  */
 public class ErrorAdapter
-extends AbstractCorrelationAdapter<ErrorAdapterConfiguration>
+extends AbstractEventAdapter<ErrorAdapterConfiguration>
 implements InboundAdapter {
     
     /**

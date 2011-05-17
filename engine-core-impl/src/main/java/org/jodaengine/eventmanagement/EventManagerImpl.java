@@ -3,10 +3,10 @@ package org.jodaengine.eventmanagement;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javassist.expr.NewArray;
 
 import javax.annotation.Nonnull;
 
@@ -14,13 +14,11 @@ import javax.annotation.Nonnull;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.InboundAdapter;
-import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
 import org.jodaengine.eventmanagement.registration.EventCondition;
 import org.jodaengine.eventmanagement.registration.IntermediateEvent;
-import org.jodaengine.eventmanagement.registration.ProcessEvent;
 import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.eventmanagement.timing.TimingManagerImpl;
 import org.jodaengine.exception.AdapterSchedulingException;
@@ -44,15 +42,9 @@ public class EventManagerImpl implements EventManager, Service {
 
     private Navigator navigator;
 
-    private TimingManagerImpl timer;
-
-    private ErrorAdapter errorAdapter;
-    // there may be multiple references to an Adapter configuration (i.e. a mail account)
-    // and if these all use the same Configuration Object we can avoid duplicated adapters
-    // TODO give a process a list of of AdapterConfiguration Objects in order for this to work
-    private Map<AdapterConfiguration, InboundAdapter> inboundAdapter;
-
     private List<StartEvent> startEvents;
+    
+    private AdapterRegistrar adapterRegistrar;
 
     /**
      * Default constructor.
@@ -63,16 +55,9 @@ public class EventManagerImpl implements EventManager, Service {
     public EventManagerImpl(@Nonnull Navigator navigator) {
 
         this.navigator = navigator;
-        this.inboundAdapter = new HashMap<AdapterConfiguration, InboundAdapter>();
+        this. adapterRegistrar = new AdapterRegistration();
+        
         this.startEvents = new ArrayList<StartEvent>();
-        this.errorAdapter = new ErrorAdapter(this, new ErrorAdapterConfiguration());
-
-        try {
-            this.timer = new TimingManagerImpl(this.errorAdapter);
-        } catch (SchedulerException se) {
-            logger.error("Initializing the scheduler failed. EventManager not available.", se);
-            throw new EngineInitializationFailedException("Creating a timer manager failed.", se);
-        }
     }
 
     /**
@@ -81,7 +66,6 @@ public class EventManagerImpl implements EventManager, Service {
     public void start() {
 
         logger.info("Starting the correlation manager");
-        registerAdapter(this.errorAdapter);
     }
 
     @Override
@@ -114,27 +98,6 @@ public class EventManagerImpl implements EventManager, Service {
         }
     }
 
-    /**
-     * Creates the adapter for an event according to its event type.
-     * 
-     * @param event
-     *            the event
-     * @throws AdapterSchedulingException
-     *             the adapter scheduling exception
-     */
-    private void registerAdapaterForEvent(ProcessEvent event)
-    throws AdapterSchedulingException {
-
-        // TODO: Implement Comparable for Adapter configurations
-        // check if an adapter with the given configuration already exists
-        if (inboundAdapter.containsKey(event.getEventConfiguration())) {
-            return;
-        }
-        // Maybe it is possible to do this better.
-        AdapterConfiguration configuration = (AdapterConfiguration) event.getEventConfiguration();
-        configuration.registerAdapter(this, null);
-    }
-
     @Override
     // TODO this are no intermediate events... at least not all of them work like that (this here is PULL)
     public String registerIntermediateEvent(@Nonnull IntermediateEvent event) {
@@ -149,23 +112,6 @@ public class EventManagerImpl implements EventManager, Service {
         }
 
         return jobCompleteName;
-    }
-
-    @Override
-    public @Nonnull
-    <Adapter extends InboundAdapter> Adapter registerAdapter(@Nonnull Adapter adapter) {
-
-        this.inboundAdapter.put(adapter.getConfiguration(), adapter);
-        return adapter;
-    }
-
-    @Override
-    public @Nonnull
-    InboundPullAdapter registerPullAdapter(@Nonnull InboundPullAdapter adapter)
-    throws AdapterSchedulingException {
-
-        this.timer.registerPullAdapter(adapter);
-        return registerAdapter(adapter);
     }
 
     /**
@@ -209,26 +155,6 @@ public class EventManagerImpl implements EventManager, Service {
                 logger.info("Starting process {}", this.navigator);
             }
         }
-    }
-
-    /**
-     * Returns the error adapter.
-     * 
-     * @return the error adapter
-     */
-    public ErrorAdapter getErrorAdapter() {
-
-        return this.errorAdapter;
-    }
-
-    /**
-     * Returns the list of registered inbound adapters.
-     * 
-     * @return the registered inbound adapter
-     */
-    public Collection<InboundAdapter> getInboundAdapters() {
-
-        return this.inboundAdapter.values();
     }
 
     /**

@@ -11,7 +11,7 @@ import javax.mail.Session;
 import javax.mail.Store;
 
 import org.jodaengine.eventmanagement.CorrelationManager;
-import org.jodaengine.eventmanagement.adapter.AbstractCorrelationAdapter;
+import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.exception.JodaEngineException;
 
@@ -21,7 +21,7 @@ import org.jodaengine.exception.JodaEngineException;
  * 
  * {@link CorrelationManager}.
  */
-public class InboundImapMailAdapterImpl extends AbstractCorrelationAdapter<InboundMailAdapterConfiguration>
+public class InboundImapMailAdapterImpl extends AbstractEventAdapter<InboundMailAdapterConfiguration>
 implements InboundPullAdapter {
 
     /**

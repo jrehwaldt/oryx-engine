@@ -11,6 +11,7 @@ import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.exception.AdapterSchedulingException;
+import org.jodaengine.exception.EngineInitializationFailedException;
 import org.jodaengine.process.token.Token;
 
 import org.quartz.JobDataMap;
@@ -41,13 +42,16 @@ implements TimingManager {
      * @param errorAdapter the error handler as {@link ErrorAdapter}
      * @throws SchedulerException if creating a scheduler fails
      */
-    public TimingManagerImpl(@Nonnull ErrorAdapter errorAdapter)
-    throws SchedulerException {
+    public TimingManagerImpl(@Nonnull ErrorAdapter errorAdapter) thro {
         this.errorAdapter = errorAdapter;
-        
+       try { 
         final SchedulerFactory factory = new org.quartz.impl.StdSchedulerFactory();
         this.scheduler = factory.getScheduler();
         this.scheduler.start();
+    } catch (SchedulerException se) {
+        logger.error("Initializing the scheduler failed. EventManager not available.", se);
+        throw new EngineInitializationFailedException("Creating a timer manager failed.", se);
+    }
     }
     
     @Override

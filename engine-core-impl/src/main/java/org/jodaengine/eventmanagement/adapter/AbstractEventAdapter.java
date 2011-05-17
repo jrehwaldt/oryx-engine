@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * @param <Configuration>
  *            the adapter's configuration
  */
-public abstract class AbstractCorrelationAdapter<Configuration extends AdapterConfiguration> implements
+public abstract class AbstractEventAdapter<Configuration extends AdapterConfiguration> implements
 CorrelationAdapter {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -32,7 +32,7 @@ CorrelationAdapter {
      * @param configuration
      *            the adapter's configuration
      */
-    public AbstractCorrelationAdapter(@Nonnull CorrelationManager correlation, @Nonnull Configuration configuration) {
+    public AbstractEventAdapter(@Nonnull CorrelationManager correlation, @Nonnull Configuration configuration) {
 
         this.correlation = correlation;
         this.configuration = configuration;

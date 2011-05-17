@@ -6,12 +6,14 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
 
+// TODO @EVENTGROUP: other package!!!!
+
 /**
  * Abstract event representation.
  * 
  * @author Jan Rehwaldt
  */
-public abstract class AbstractAdapterEvent
+public abstract class AbstractEvent
 implements AdapterEvent {
     
     private final Date timestamp;
@@ -23,7 +25,7 @@ implements AdapterEvent {
      * 
      * @param configuration the firing adapter's {@link AdapterConfiguration}
      */
-    public AbstractAdapterEvent(@Nonnull AdapterConfiguration configuration) {
+    public AbstractEvent(@Nonnull AdapterConfiguration configuration) {
         this.timestamp = new Date();
         this.configuration = configuration;
     }
