@@ -4,12 +4,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertFalse;
 
-import org.jodaengine.correlation.CorrelationManager;
-import org.jodaengine.exception.JodaEngineException;
-
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import org.jodaengine.correlation.CorrelationManager;
+import org.jodaengine.exception.JodaEngineException;
 
 
 /**

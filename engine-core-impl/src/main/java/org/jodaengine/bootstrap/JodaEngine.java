@@ -3,14 +3,15 @@ package org.jodaengine.bootstrap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import org.jodaengine.IdentityService;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
 import org.jodaengine.navigator.Navigator;
-
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 /**

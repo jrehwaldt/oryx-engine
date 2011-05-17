@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 

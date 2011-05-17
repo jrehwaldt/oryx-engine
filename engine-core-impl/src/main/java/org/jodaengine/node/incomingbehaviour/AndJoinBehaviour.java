@@ -1,10 +1,10 @@
 package org.jodaengine.node.incomingbehaviour;
 
-import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
-
 import java.util.LinkedList;
 import java.util.List;
+
+import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.process.token.Token;
 
 
 /**

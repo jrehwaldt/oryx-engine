@@ -16,6 +16,7 @@ public interface NavigatorInside extends Navigator {
      * @param t
      *            the t
      */
+    @Override
     void addWorkToken(Token t);
 
     /**
@@ -24,6 +25,7 @@ public interface NavigatorInside extends Navigator {
      * @param token
      *            - the {@link Token} that should be suspended
      */
+    @Override
     void addSuspendToken(Token token);
 
     /**
@@ -32,6 +34,7 @@ public interface NavigatorInside extends Navigator {
      * @param token
      *            - the {@link Token} that should not be suspended anymore
      */
+    @Override
     void removeSuspendToken(Token token);
 
     /**
@@ -40,5 +43,6 @@ public interface NavigatorInside extends Navigator {
      * @param instance
      *            the instance
      */
+    @Override
     void signalEndedProcessInstance(AbstractProcessInstance instance);
 }

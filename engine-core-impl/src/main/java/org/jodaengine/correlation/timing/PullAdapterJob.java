@@ -1,15 +1,15 @@
 package org.jodaengine.correlation.timing;
 
-import org.jodaengine.correlation.adapter.InboundPullAdapter;
-import org.jodaengine.correlation.adapter.error.ErrorAdapter;
-import org.jodaengine.exception.JodaEngineException;
-
 import javax.annotation.Nonnull;
 
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import org.jodaengine.correlation.adapter.InboundPullAdapter;
+import org.jodaengine.correlation.adapter.error.ErrorAdapter;
+import org.jodaengine.exception.JodaEngineException;
 
 
 /**

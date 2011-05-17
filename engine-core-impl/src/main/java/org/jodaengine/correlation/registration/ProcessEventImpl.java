@@ -1,10 +1,10 @@
 package org.jodaengine.correlation.registration;
 
+import java.util.List;
+
 import org.jodaengine.correlation.EventConfiguration;
 import org.jodaengine.correlation.adapter.AdapterConfiguration;
 import org.jodaengine.correlation.adapter.EventType;
-
-import java.util.List;
 
 
 /**

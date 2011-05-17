@@ -9,6 +9,11 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import org.mockito.internal.util.reflection.Whitebox;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.bootstrap.JodaEngine;
@@ -28,10 +33,6 @@ import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.io.StringStreamSource;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 
 /**

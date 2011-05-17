@@ -24,6 +24,7 @@ package org.jodaengine.deployment.importer.bpmn;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.util.xml.XmlParseBuilder;
 import org.jodaengine.util.xml.XmlParser;
 
@@ -41,7 +42,7 @@ public class BpmnXmlParser extends XmlParser {
     public static final String BPMN20_NS = "http://www.omg.org/spec/BPMN/20100524/MODEL";
 
     /** The location of the BPMN 2.0 XML schema. */
-    public static final String BPMN_20_SCHEMA_LOCATION = "org/activiti/impl/bpmn/parser/BPMN20.xsd";
+    public static final String BPMN_20_SCHEMA_LOCATION = "http://www.omg.org/spec/BPMN/20100501/BPMN20.xsd";
 
     /** The namepace of the BPMN 2.0 diagram interchange elements. */
     public static final String BPMN_DI_NS = "http://www.omg.org/spec/BPMN/20100524/DI";
@@ -55,8 +56,8 @@ public class BpmnXmlParser extends XmlParser {
     /** The Schema-Instance namespace. */
     public static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
     
-    /** Namesspace for extensions elements of the {@link JodaEngine}. */
-    public static final String JODA_ENGINE_EXTENSIONS_NS = "http://joda-engine.org/bpmn";
+    /** Namespace for extensions elements of the {@link JodaEngine}. */
+    public static final String JODA_ENGINE_EXTENSIONS_NS = "http://jodaengine.org/bpmn-extensions";
     
     protected List<BpmnXmlParseListener> parseListeners;
 

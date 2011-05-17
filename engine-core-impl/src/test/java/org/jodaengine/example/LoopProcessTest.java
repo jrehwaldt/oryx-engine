@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImplMock;
@@ -23,10 +27,6 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
-
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 
 /**

@@ -25,6 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -49,8 +52,6 @@ import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.util.io.StreamSource;
 import org.jodaengine.util.xml.XmlElement;
 import org.jodaengine.util.xml.XmlParse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -394,16 +395,16 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Parses a task with no specific type (behaves as passthrough).
-     *
-     * @param taskXmlElement the task xml element
+     * 
+     * @param taskXmlElement the xml task element to parse
      */
     protected void parseUserTask(XmlElement taskXmlElement) {
 
         CreationPattern creationPattern = parseInformationForUserTask(taskXmlElement);
-
+        
         Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, creationPattern,
             new AllocateSinglePattern());
-
+        
         parseGeneralNodeInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
 
@@ -444,11 +445,11 @@ public class BpmnXmlParse extends XmlParse {
     }
 
     // protected void parsePotentialOwner(XmlElement taskElement, TaskBuilder taskBuilder) {
-    //
-    // List<XmlElement> potentialOwnerElements = taskElement.elements(POTENTIAL_OWNER);
-    // for (XmlElement potentialOwnerElement : potentialOwnerElements) {
-    // parsePotentialOwnerResourceAssignment(potentialOwnerElement, taskBuilder);
-    // }
+    //     
+    //     List<XmlElement> potentialOwnerElements = taskElement.elements(POTENTIAL_OWNER);
+    //     for (XmlElement potentialOwnerElement : potentialOwnerElements) {
+    //         parsePotentialOwnerResourceAssignment(potentialOwnerElement, taskBuilder);
+    //     }
     // }
 
     protected void parseHumanPerformerResourceAssignment(XmlElement performerElement,
