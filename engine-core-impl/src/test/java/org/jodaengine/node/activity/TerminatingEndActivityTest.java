@@ -6,10 +6,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertEquals;
 
-import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
@@ -24,6 +20,10 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
+
+import org.mockito.internal.util.reflection.Whitebox;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 
 /**

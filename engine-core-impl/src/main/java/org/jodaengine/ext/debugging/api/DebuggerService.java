@@ -1,10 +1,8 @@
 package org.jodaengine.ext.debugging.api;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.jodaengine.bootstrap.Service;
-import org.jodaengine.ext.debugging.Breakpoint;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 
 
@@ -22,26 +20,34 @@ public interface DebuggerService extends Service {
     
     /**
      * This method will release the {@link AbstractProcessInstance} and step over to the next process' state.
+     * 
+     * @param instance the instance, to release
      */
-    void stepOverInstance();
+    void stepOverInstance(@Nonnull AbstractProcessInstance instance);
     
     /**
      * This method will terminate the {@link AbstractProcessInstance}. The instance will be removed.
+     * 
+     * @param instance the instance, to release
      */
-    void termianteInstance();
+    void termianteInstance(@Nonnull AbstractProcessInstance instance);
     
     /**
      * This method will release the {@link AbstractProcessInstance} and continues until it reaches the process' end.
      * 
      * Further {@link Breakpoint}s will not be taken into consideration.
+     * 
+     * @param instance the instance, to release
      */
-    void resumeInstance();
+    void resumeInstance(@Nonnull AbstractProcessInstance instance);
     
     /**
      * This method will release the {@link AbstractProcessInstance} and continues until it
      *   a) will reach a {@link Breakpoint}
      * or
      *   b) reaches the process' end.
+     * 
+     * @param instance the instance, to release
      */
-    void continueInstance();
+    void continueInstance(@Nonnull AbstractProcessInstance instance);
 }

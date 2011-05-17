@@ -24,7 +24,6 @@ package org.jodaengine.deployment.importer.bpmn;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.util.xml.XmlParseBuilder;
 import org.jodaengine.util.xml.XmlParser;
 
@@ -57,7 +56,7 @@ public class BpmnXmlParser extends XmlParser {
     public static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
     
     /** Namespace for extensions elements of the {@link JodaEngine}. */
-    public static final String JODA_ENGINE_EXTENSIONS_NS = "http://jodaengine.org/bpmn-extensions";
+    public static final String JODAENGINE_EXTENSIONS_NS = "http://jodaengine.org/bpmn-extensions";
     
     protected List<BpmnXmlParseListener> parseListeners;
 

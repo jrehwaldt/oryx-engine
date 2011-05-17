@@ -2,19 +2,21 @@ package org.jodaengine.plugin.navigator;
 
 import javax.annotation.Nonnull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorState;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  * A logger implementation, which observes the state of a navigator thread.
  */
-// In the test a spy-object is used. Mockito Spies do not support final classes though, 
-// so we cannot make this class final
 // CHECKSTYLE:OFF
+//
+// The NavigatorListenerLogger test uses a spy object (mock with a real instance) provided by Mockito.
+// Unfortunately Mockito does not support spies on final classes.
+//
 public class NavigatorListenerLogger
 //CHECKSTYLE:ON
 extends AbstractNavigatorListener {
@@ -44,7 +46,8 @@ extends AbstractNavigatorListener {
     }
     
     @Override
-    protected void stateChanged(@Nonnull Navigator navigator, NavigatorState navState) {
+    protected void stateChanged(@Nonnull Navigator navigator,
+                                NavigatorState navState) {
         log(navigator);
     }
     

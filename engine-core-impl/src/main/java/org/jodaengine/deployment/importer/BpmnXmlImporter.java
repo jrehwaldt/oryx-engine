@@ -28,8 +28,8 @@ public class BpmnXmlImporter implements ProcessDefinitionImporter {
     public BpmnXmlImporter(String xmlString) {
         BpmnXmlParser bpmnXmlParser = new BpmnXmlParser();
         bpmnXmlParse = bpmnXmlParser.getXmlParseBuilder()
-                                                 .defineSourceAsString(xmlString)
-                                                 .buildXmlParse();
+                                    .defineSourceAsString(xmlString)
+                                    .buildXmlParse();
     }
     
     /**

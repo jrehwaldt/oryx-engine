@@ -2,9 +2,6 @@ package org.jodaengine.node.activity;
 
 import static org.testng.Assert.assertEquals;
 
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
 import org.jodaengine.factory.node.AddNumbersAndStoreNodeFactory;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
@@ -12,6 +9,9 @@ import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
+
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 
 /**

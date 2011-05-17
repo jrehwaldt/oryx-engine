@@ -275,7 +275,7 @@ implements Navigator, NavigatorInside, Service {
         }
 
         if (runningInstances.isEmpty()) {
-            changeState(NavigatorState.CURRENTLY_FINISHED);
+            changeState(NavigatorState.IDLE);
         }
 
     }
