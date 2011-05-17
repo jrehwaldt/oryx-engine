@@ -1,7 +1,5 @@
 package org.jodaengine.util.io;
 
-import org.jodaengine.exception.JodaEngineRuntimeException;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +8,8 @@ import java.io.InputStreamReader;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import org.jodaengine.exception.JodaEngineRuntimeException;
 
 
 /**

@@ -6,6 +6,11 @@ import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.quartz.SchedulerException;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import org.jodaengine.correlation.adapter.InboundPullAdapter;
 import org.jodaengine.correlation.adapter.PullAdapterConfiguration;
 import org.jodaengine.correlation.adapter.TimedConfiguration;
@@ -15,11 +20,6 @@ import org.jodaengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
-
-import org.quartz.SchedulerException;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 
 /**

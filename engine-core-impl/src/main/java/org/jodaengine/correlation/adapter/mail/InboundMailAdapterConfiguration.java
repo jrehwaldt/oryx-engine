@@ -5,6 +5,10 @@ import java.util.Properties;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
+import org.quartz.Job;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.correlation.AdapterRegistrar;
 import org.jodaengine.correlation.CorrelationManager;
 import org.jodaengine.correlation.adapter.AbstractAdapterConfiguration;
@@ -14,9 +18,6 @@ import org.jodaengine.correlation.adapter.InboundPullAdapter;
 import org.jodaengine.correlation.adapter.PullAdapterConfiguration;
 import org.jodaengine.correlation.timing.PullAdapterJob;
 import org.jodaengine.exception.AdapterSchedulingException;
-import org.quartz.Job;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**

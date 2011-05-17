@@ -5,12 +5,6 @@ import java.util.GregorianCalendar;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.correlation.EventConfiguration;
-import org.jodaengine.correlation.adapter.InboundPullAdapter;
-import org.jodaengine.correlation.adapter.TimedConfiguration;
-import org.jodaengine.correlation.adapter.error.ErrorAdapter;
-import org.jodaengine.exception.AdapterSchedulingException;
-import org.jodaengine.process.token.Token;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -20,6 +14,13 @@ import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.jodaengine.correlation.EventConfiguration;
+import org.jodaengine.correlation.adapter.InboundPullAdapter;
+import org.jodaengine.correlation.adapter.TimedConfiguration;
+import org.jodaengine.correlation.adapter.error.ErrorAdapter;
+import org.jodaengine.exception.AdapterSchedulingException;
+import org.jodaengine.process.token.Token;
 
 
 /**

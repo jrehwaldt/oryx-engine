@@ -12,6 +12,7 @@ import javax.mail.Store;
 
 import org.jodaengine.correlation.CorrelationManager;
 import org.jodaengine.correlation.adapter.AbstractCorrelationAdapter;
+import org.jodaengine.correlation.adapter.CorrelationAdapter;
 import org.jodaengine.correlation.adapter.InboundPullAdapter;
 import org.jodaengine.exception.JodaEngineException;
 

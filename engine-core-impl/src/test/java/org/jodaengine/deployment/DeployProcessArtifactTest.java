@@ -1,11 +1,5 @@
 package org.jodaengine.deployment;
 
-import org.jodaengine.RepositoryService;
-import org.jodaengine.ServiceFactory;
-import org.jodaengine.exception.DefinitionNotFoundException;
-import org.jodaengine.process.definition.AbstractProcessArtifact;
-import org.jodaengine.util.testing.AbstractJodaEngineTest;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -17,6 +11,12 @@ import java.util.UUID;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import org.jodaengine.RepositoryService;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.process.definition.AbstractProcessArtifact;
+import org.jodaengine.util.testing.AbstractJodaEngineTest;
 
 
 /**

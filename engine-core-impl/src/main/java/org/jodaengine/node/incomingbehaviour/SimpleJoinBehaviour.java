@@ -1,9 +1,9 @@
 package org.jodaengine.node.incomingbehaviour;
 
-import org.jodaengine.process.token.Token;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jodaengine.process.token.Token;
 
 
 /**

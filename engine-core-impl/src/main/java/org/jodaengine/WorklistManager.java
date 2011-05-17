@@ -22,7 +22,6 @@ import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
 
@@ -287,7 +286,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
                         identityService.getOrganizationUnits()));
                 
                     if (worklistItem == null) {
-                        String warnMessage = "No worklistItem with the id : " + worklistItemId + "could be found.";
+                        String warnMessage = "No worklistItem with the id : '" + worklistItemId + "' could be found.";
                         logger.warn(warnMessage);
                     }
                 }

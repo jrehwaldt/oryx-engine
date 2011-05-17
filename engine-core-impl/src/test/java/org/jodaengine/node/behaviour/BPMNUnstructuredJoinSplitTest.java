@@ -4,6 +4,9 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.List;
 
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
@@ -13,8 +16,6 @@ import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 
 /**

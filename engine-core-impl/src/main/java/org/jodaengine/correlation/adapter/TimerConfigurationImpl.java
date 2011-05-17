@@ -1,8 +1,8 @@
 package org.jodaengine.correlation.adapter;
 
-import org.jodaengine.correlation.timing.TimerJob;
-
 import org.quartz.Job;
+
+import org.jodaengine.correlation.timing.TimerJob;
 
 
 /**

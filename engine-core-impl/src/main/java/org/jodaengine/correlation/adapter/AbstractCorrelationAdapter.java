@@ -2,11 +2,12 @@ package org.jodaengine.correlation.adapter;
 
 import javax.annotation.Nonnull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.correlation.AdapterEvent;
 import org.jodaengine.correlation.CorrelationManager;
 import org.jodaengine.correlation.EventManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
