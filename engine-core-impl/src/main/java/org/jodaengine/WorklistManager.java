@@ -12,6 +12,9 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.allocation.TaskDistribution;
 import org.jodaengine.bootstrap.Service;
@@ -19,10 +22,9 @@ import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
+import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The implementation of the WorklistManager. It manages the worklists of all resources in the system.
@@ -104,11 +106,9 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(
-        Set<? extends AbstractResource<?>> resources) {
+    public Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(Set<? extends AbstractResource<?>> resources) {
 
-        Map<AbstractResource<?>, List<AbstractWorklistItem>> result = 
-            new HashMap<AbstractResource<?>, List<AbstractWorklistItem>>();
+        Map<AbstractResource<?>, List<AbstractWorklistItem>> result = new HashMap<AbstractResource<?>, List<AbstractWorklistItem>>();
 
         for (AbstractResource<?> r : resources) {
             result.put(r, getWorklistItems(r));
@@ -260,5 +260,60 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
         AbstractParticipant resource = identityService.getParticipant(id);
         return this.getExecutingWorklistItems(resource);
+    }
+
+    @Override
+    public void removeWorklistItem(UUID worklistItemId) {
+
+        AbstractWorklistItem worklistItem;
+
+        // Looking in all participants for the worklistItem
+        worklistItem = findWorklistItemInResources(worklistItemId,
+            new HashSet<AbstractResource<?>>(identityService.getParticipants()));
+        
+        if (worklistItem == null) {
+            // Looking in all positions for the worklistItem
+            worklistItem = findWorklistItemInResources(worklistItemId,
+                new HashSet<AbstractResource<?>>(identityService.getPositions()));
+        
+            if (worklistItem == null) {
+                // Looking in all roles for the worklistItem
+                worklistItem = findWorklistItemInResources(worklistItemId, new HashSet<AbstractResource<?>>(
+                    identityService.getRoles()));
+            
+                if (worklistItem == null) {
+                    // Looking in all organizationUnits for the worklistItem
+                    worklistItem = findWorklistItemInResources(worklistItemId, new HashSet<AbstractResource<?>>(
+                        identityService.getOrganizationUnits()));
+                
+                    if (worklistItem == null) {
+                        String warnMessage = "No worklistItem with the id : " + worklistItemId + "could be found.";
+                        logger.warn(warnMessage);
+                    }
+                }
+            }
+        }
+        removeWorklistItem(worklistItem, worklistItem.getAssignedResources());
+    }
+
+    /**
+     * Finds the {@link AbstractWorklistItem worklistItem} in a set of {@link AbstractResource resources}.
+     * 
+     * @param worklistItemId
+     *            - the id of the {@link AbstractWorklistItem worklistItem} to look for
+     * @param resources
+     *            - set of {@link AbstractResource resources} that should be analyzed
+     * @return a {@link AbstractWorklistItem worklistItem} when it was found, otherwise null is returned
+     */
+    private AbstractWorklistItem findWorklistItemInResources(UUID worklistItemId, Set<AbstractResource<?>> resources) {
+
+        for (AbstractResource<?> abstractResource : resources) {
+            for (AbstractWorklistItem worklistItem : abstractResource.getWorklist()) {
+                if (worklistItem.getID().equals(worklistItemId)) {
+                    return worklistItem;
+                }
+            }
+        }
+        return null;
     }
 }

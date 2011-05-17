@@ -1,6 +1,7 @@
 package org.jodaengine.allocation;
 
 import java.util.Set;
+import java.util.UUID;
 
 import org.jodaengine.WorklistService;
 import org.jodaengine.resource.AbstractResource;
@@ -51,4 +52,12 @@ public interface TaskAllocation extends WorklistService {
      *            - the {@link AbstractResource}s where the {@link AbstractWorklistItem} should be removed from
      */
     void removeWorklistItem(AbstractWorklistItem worklistItem, Set<AbstractResource<?>> resourcesToRemoveFrom);
+
+    /**
+     * Removes the {@link AbstractWorklistItem} specified by the worklistItemId.
+     * 
+     * @param worklistItemId
+     *            - the id of the {@link AbstractWorklistItem} that should be removed from the queue.
+     */
+    void removeWorklistItem(UUID worklistItemId);
 }
