@@ -9,7 +9,6 @@ import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.IdentityBuilder;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 
-
 /**
  * Little factory for creating Resources. A short cut for the implementation.
  */
@@ -49,8 +48,8 @@ public final class CreationPatternFactory {
      */
     public static ConcreteResourcePattern createParticipantCreator(AbstractResource<?> r) {
 
-        
-        ConcreteResourcePattern pattern = new ConcreteResourcePattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION, null, r);
+        ConcreteResourcePattern pattern = new ConcreteResourcePattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION,
+            null, r);
         return pattern;
     }
 
@@ -58,9 +57,11 @@ public final class CreationPatternFactory {
      * Creates a Task that is offered to a single role that two participants are assigned to.
      * 
      * @return the task
-     * @throws ResourceNotAvailableException 
+     * @throws ResourceNotAvailableException
+     *             if the resource is not available
      */
-    public static ConcreteResourcePattern createRoleCreator() throws ResourceNotAvailableException {
+    public static ConcreteResourcePattern createRoleCreator()
+    throws ResourceNotAvailableException {
 
         // The organization structure is already prepared in the factory
         // There is role containing Gerardo and Jannik
@@ -74,7 +75,8 @@ public final class CreationPatternFactory {
         identityBuilder.participantBelongsToRole(jannik.getID(), hamburgGuysRole.getID()).participantBelongsToRole(
             gerardo.getID(), hamburgGuysRole.getID());
 
-        ConcreteResourcePattern pattern = new ConcreteResourcePattern("Clean the office.", "It is very dirty.", null, hamburgGuysRole);
+        ConcreteResourcePattern pattern = new ConcreteResourcePattern("Clean the office.", "It is very dirty.", null,
+            hamburgGuysRole);
 
         return pattern;
     }
