@@ -25,8 +25,8 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
  */
-public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener> implements Navigator, NavigatorInside,
-Service {
+public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener>
+implements Navigator, NavigatorInside, Service {
 
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
 
@@ -63,8 +63,6 @@ Service {
     private int counter;
 
     private RepositoryServiceInside repository;
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Instantiates a new navigator implementation.

@@ -11,7 +11,7 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
 
 /**
- * The Interface NavigatorInterface.
+ * The {@link Navigator} is the core routing component, which 'navigates' through the processes. 
  */
 public interface Navigator {
 

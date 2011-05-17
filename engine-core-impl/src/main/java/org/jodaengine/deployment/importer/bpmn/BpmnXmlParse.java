@@ -392,14 +392,16 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Parses a task with no specific type (behaves as passthrough).
+     * 
+     * @param taskXmlElement the xml task element to parse
      */
     protected void parseUserTask(XmlElement taskXmlElement) {
 
         CreationPattern creationPattern = parseInformationForUserTask(taskXmlElement);
-
+        
         Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, creationPattern,
             new AllocateSinglePattern());
-
+        
         parseGeneralNodeInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
 
@@ -440,11 +442,11 @@ public class BpmnXmlParse extends XmlParse {
     }
 
     // protected void parsePotentialOwner(XmlElement taskElement, TaskBuilder taskBuilder) {
-    //
-    // List<XmlElement> potentialOwnerElements = taskElement.elements(POTENTIAL_OWNER);
-    // for (XmlElement potentialOwnerElement : potentialOwnerElements) {
-    // parsePotentialOwnerResourceAssignment(potentialOwnerElement, taskBuilder);
-    // }
+    //     
+    //     List<XmlElement> potentialOwnerElements = taskElement.elements(POTENTIAL_OWNER);
+    //     for (XmlElement potentialOwnerElement : potentialOwnerElements) {
+    //         parsePotentialOwnerResourceAssignment(potentialOwnerElement, taskBuilder);
+    //     }
     // }
 
     protected void parseHumanPerformerResourceAssignment(XmlElement performerElement,

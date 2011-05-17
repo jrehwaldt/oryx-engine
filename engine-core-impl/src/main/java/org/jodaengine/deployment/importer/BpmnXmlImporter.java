@@ -13,6 +13,7 @@ import org.jodaengine.util.xml.XmlParseable;
  * It is capable of importing an XML file that represents a BPMN process.
  * 
  * In order to parse through the XML we use some classes of the Activiti Project (activiti.org).
+ * Those are represented accordingly and mark with a license header.
  */
 public class BpmnXmlImporter implements ProcessDefinitionImporter {
 

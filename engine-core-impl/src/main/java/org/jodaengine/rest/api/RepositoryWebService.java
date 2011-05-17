@@ -35,7 +35,7 @@ public class RepositoryWebService {
     private RepositoryService repositoryService;
 
     /**
-     * Instantiates a new deployer web service. Initializes the Deplyoment builder.
+     * Instantiates a new deployer web service. Initializes the Deployment builder.
      *
      * @param engineServices the engine services
      */
