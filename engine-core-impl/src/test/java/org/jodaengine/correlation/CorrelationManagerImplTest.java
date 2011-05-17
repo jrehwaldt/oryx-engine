@@ -4,7 +4,8 @@ import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
-import org.jodaengine.correlation.adapter.error.ErrorAdapter;
+import org.jodaengine.eventmanagement.EventManagerImpl;
+import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImpl;
 
@@ -22,7 +23,7 @@ public class CorrelationManagerImplTest {
     private static final int INITIAL_ADAPTERS_COUNT = 1;
 
     private Navigator navigator = null;
-    private CorrelationManagerImpl manager = null;
+    private EventManagerImpl manager = null;
 
     /**
      * Tests that a fresh correlation manager contains an {@link ErrorAdapter}.
@@ -51,6 +52,6 @@ public class CorrelationManagerImplTest {
     public void beforeMethod() {
 
         this.navigator = mock(NavigatorImpl.class);
-        this.manager = new CorrelationManagerImpl(this.navigator);
+        this.manager = new EventManagerImpl(this.navigator);
     }
 }

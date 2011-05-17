@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.UUID;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.correlation.adapter.EventTypes;
-import org.jodaengine.correlation.adapter.mail.InboundMailAdapterConfiguration;
-import org.jodaengine.correlation.adapter.mail.MailAdapterEvent;
-import org.jodaengine.correlation.registration.EventCondition;
-import org.jodaengine.correlation.registration.EventConditionImpl;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.eventmanagement.adapter.EventTypes;
+import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
+import org.jodaengine.eventmanagement.registration.EventCondition;
+import org.jodaengine.eventmanagement.registration.EventConditionImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;

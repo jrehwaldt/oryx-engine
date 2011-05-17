@@ -6,7 +6,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.correlation.timing.TimingManager;
+import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImplMock;

@@ -12,8 +12,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
-import org.jodaengine.correlation.CorrelationManager;
-import org.jodaengine.correlation.adapter.InboundPullAdapter;
+import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.mail.InboundImapMailAdapterImpl;
+import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
+import org.jodaengine.eventmanagement.adapter.mail.MailProtocol;
 
 import org.jvnet.mock_javamail.Mailbox;
 import org.mockito.ArgumentCaptor;

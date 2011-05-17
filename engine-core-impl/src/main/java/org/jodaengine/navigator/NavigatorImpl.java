@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.bootstrap.Service;
-import org.jodaengine.correlation.registration.StartEvent;
+import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.navigator.schedule.FIFOScheduler;
 import org.jodaengine.navigator.schedule.Scheduler;

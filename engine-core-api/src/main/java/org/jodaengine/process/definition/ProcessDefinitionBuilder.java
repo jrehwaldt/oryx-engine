@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.correlation.adapter.AdapterConfiguration;
-import org.jodaengine.correlation.adapter.EventType;
-import org.jodaengine.correlation.registration.EventCondition;
+import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.EventType;
+import org.jodaengine.eventmanagement.registration.EventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instantiation.InstantiationPattern;

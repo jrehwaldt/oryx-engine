@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.jodaengine.JodaEngineServices;
-import org.jodaengine.correlation.registration.StartEvent;
+import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorStatistic;

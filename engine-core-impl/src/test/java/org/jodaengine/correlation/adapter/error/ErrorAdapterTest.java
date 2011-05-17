@@ -4,7 +4,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertFalse;
 
-import org.jodaengine.correlation.CorrelationManager;
+import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
+import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterEvent;
 import org.jodaengine.exception.JodaEngineException;
 
 import org.mockito.ArgumentCaptor;

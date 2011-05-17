@@ -4,8 +4,9 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import org.jodaengine.correlation.CorrelationManager;
-import org.jodaengine.correlation.registration.StartEvent;
+import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.EventManager;
+import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -58,7 +59,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      *            - the {@link CorrelationManager} in order to register events, perhaps
      * 
      */
-    void activate(CorrelationManager correlationManager);
+    void activate(EventManager correlationManager);
 
     /**
      * Is responsible for deactivating the {@link ProcessDefinition}. Perhaps some {@link StartEvent StartEvents} need
@@ -68,5 +69,5 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      *            - the {@link CorrelationManager} in order to unregister events, perhaps
      * 
      */
-    void deactivate(CorrelationManager correlationManager);
+    void deactivate(EventManager correlationManager);
 }

@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.jodaengine.correlation.adapter.AdapterConfiguration;
-import org.jodaengine.correlation.adapter.EventType;
-import org.jodaengine.correlation.registration.EventCondition;
-import org.jodaengine.correlation.registration.StartEvent;
-import org.jodaengine.correlation.registration.StartEventImpl;
+import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.EventType;
+import org.jodaengine.eventmanagement.registration.EventCondition;
+import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.eventmanagement.registration.StartEventImpl;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instantiation.InstantiationPattern;

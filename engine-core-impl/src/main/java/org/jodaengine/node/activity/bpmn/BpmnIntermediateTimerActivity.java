@@ -3,11 +3,11 @@ package org.jodaengine.node.activity.bpmn;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.correlation.CorrelationManager;
-import org.jodaengine.correlation.adapter.TimedConfiguration;
-import org.jodaengine.correlation.adapter.TimerConfigurationImpl;
-import org.jodaengine.correlation.registration.TimerEventImpl;
-import org.jodaengine.correlation.timing.TimingManager;
+import org.jodaengine.eventmanagement.EventManager;
+import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
+import org.jodaengine.eventmanagement.adapter.TimerConfigurationImpl;
+import org.jodaengine.eventmanagement.registration.TimerEventImpl;
+import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.token.Token;
 
@@ -33,7 +33,7 @@ public class BpmnIntermediateTimerActivity extends AbstractActivity {
     @Override
     protected void executeIntern(@Nonnull Token token) {
 
-        CorrelationManager correlationService = ServiceFactory.getCorrelationService();
+        EventManager correlationService = ServiceFactory.getCorrelationService();
         TimedConfiguration conf = new TimerConfigurationImpl(this.time);
         this.jobCompleteName = correlationService.registerIntermediateEvent(new TimerEventImpl(conf, token));
         token.suspend();

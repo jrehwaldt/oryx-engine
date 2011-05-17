@@ -1,6 +1,6 @@
 package org.jodaengine.process.instantiation;
 
-import org.jodaengine.correlation.registration.StartEvent;
+import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;

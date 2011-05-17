@@ -9,9 +9,9 @@ import ch.qos.logback.core.joran.event.EndEvent;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
-import org.jodaengine.correlation.registration.StartEvent;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.monitor.Monitor;

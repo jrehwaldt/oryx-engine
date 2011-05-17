@@ -1,6 +1,6 @@
 package org.jodaengine.process.instantiation;
 
-import org.jodaengine.correlation.CorrelationManager;
+import org.jodaengine.eventmanagement.CorrelationManager;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 

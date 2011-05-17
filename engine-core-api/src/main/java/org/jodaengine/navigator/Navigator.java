@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.correlation.registration.StartEvent;
+import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
