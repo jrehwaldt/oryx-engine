@@ -63,7 +63,24 @@ public class BpmnProcessDefinitionValidator implements BpmnXmlParseListener {
 
     }
 
-    private void addValidationError(String validationErrorMessage, XmlElement xmlElement) {
+    @Override
+    public void parseSequenceFlow(XmlElement sequenceFlowElement, Transition transition) {
+
+    }
+
+    @Override
+    public void parseUserTask(XmlElement userTaskXmlElement, Node userTaskNode) {
+
+    }
+
+    /**
+     * Adds a validation error message.
+     * 
+     * @param validationErrorMessage the error message
+     * @param xmlElement the element, which raised the error
+     */
+    private void addValidationError(String validationErrorMessage,
+                                    XmlElement xmlElement) {
 
         getValidationErrorList().add(validationErrorMessage);
         String warningMessage = "The following validationError occurred while checking " + "'<"
@@ -71,6 +88,11 @@ public class BpmnProcessDefinitionValidator implements BpmnXmlParseListener {
         logger.warn(warningMessage);
     }
 
+    /**
+     * Returns the collected validation error list.
+     * 
+     * @return the errors
+     */
     private List<String> getValidationErrorList() {
 
         if (lazyValidationErrorList == null) {
@@ -79,6 +101,9 @@ public class BpmnProcessDefinitionValidator implements BpmnXmlParseListener {
         return lazyValidationErrorList;
     }
 
+    /**
+     * Throws the collected validation errors as one {@link JodaEngineRuntimeException}.
+     */
     private void throwValidationError() {
 
         if (getValidationErrorList().isEmpty()) {
@@ -93,15 +118,5 @@ public class BpmnProcessDefinitionValidator implements BpmnXmlParseListener {
         JodaEngineRuntimeException validationErrorException = new JodaEngineRuntimeException(errorMessage);
         logger.error(errorMessage, validationErrorException);
         throw validationErrorException;
-    }
-
-    @Override
-    public void parseSequenceFlow(XmlElement sequenceFlowElement, Transition transition) {
-
-    }
-
-    @Override
-    public void parseUserTask(XmlElement userTaskXmlElement, Node userTaskNode) {
-
     }
 }
