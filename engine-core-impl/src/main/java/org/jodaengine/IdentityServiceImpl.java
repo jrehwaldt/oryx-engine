@@ -1,5 +1,15 @@
 package org.jodaengine;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.resource.AbstractOrganizationUnit;
@@ -12,16 +22,6 @@ import org.jodaengine.resource.OrganizationUnit;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Position;
 import org.jodaengine.resource.Role;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

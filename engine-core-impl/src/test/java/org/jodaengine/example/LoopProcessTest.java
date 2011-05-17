@@ -2,6 +2,11 @@ package org.jodaengine.example;
 
 import static org.testng.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImplMock;
@@ -18,11 +23,6 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -48,8 +48,7 @@ public class LoopProcessTest {
     /**
      * Test the example loopProcess. It should execute several RUNTIMES and then end.
      * 
-     * @throws JodaEngineException
-     *             the dalmatina exception
+     * @throws JodaEngineException the JodaEngine exception
      */
     @Test
     public void testLoop()

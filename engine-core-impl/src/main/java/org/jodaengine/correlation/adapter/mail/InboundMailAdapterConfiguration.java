@@ -188,11 +188,11 @@ PullAdapterConfiguration {
     }
 
     /**
-     * Dalmatina google configuration. This is to prevent code duplication. Remove this later.
+     * JodaEngine google configuration. This is to prevent code duplication. Remove this later.
      * 
      * @return the mail adapter configuration
      */
-    public static InboundMailAdapterConfiguration dalmatinaGoogleConfiguration() {
+    public static InboundMailAdapterConfiguration jodaGoogleConfiguration() {
 
         // TODO @All: WTF delete this (in July). Other options would be a local file.. but well. no.
 // CHECKSTYLE:OFF

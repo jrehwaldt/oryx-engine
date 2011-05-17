@@ -49,8 +49,7 @@ public class TokenPluginTest {
     /**
      * Test the deregistration of the plugin.
      * 
-     * @throws JodaEngineException
-     *             the dalmatina exception
+     * @throws JodaEngineException the JodaEngine exception
      */
     @Test
     public void testDeregistration()
@@ -64,8 +63,7 @@ public class TokenPluginTest {
     /**
      * Tests that new tokens that are created by this token receive the same plugins the creator has.
      * 
-     * @throws JodaEngineException
-     *             the dalmatina exception
+     * @throws JodaEngineException the JodaEngine exception
      */
     @Test
     public void testPluginRegistrationInheritance()
@@ -79,8 +77,7 @@ public class TokenPluginTest {
     /**
      * Tests that newly created tokens do not receive plugins that were deregistered before.
      * 
-     * @throws JodaEngineException
-     *             the dalmatina exception
+     * @throws JodaEngineException the JodaEngine exception
      */
     @Test
     public void testPluginDeregistrationInheritance()

@@ -46,8 +46,8 @@ public class ImapMailAdapterTest {
             MailProtocol.IMAP,
 // CHECKSTYLE:OFF
             "oryxengine",
-// CHECKSTYLE:ON
             "dalmatina!",
+// CHECKSTYLE:ON
             "imap.gmail.com",
             MailProtocol.IMAP.getPort(true),
             true

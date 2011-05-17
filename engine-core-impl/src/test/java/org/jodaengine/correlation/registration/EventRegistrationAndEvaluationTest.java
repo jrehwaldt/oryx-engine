@@ -129,7 +129,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
 
         // Mockito isnt able to mock final classes so the next line doesnt work :(
         // MailAdapterConfiguration config = mock(MailAdapterConfiguration.class);
-        InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.dalmatinaGoogleConfiguration();
+        InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
         event = new StartEventImpl(mailType, config, conditions1, definitionID);
 
         InboundMailAdapterConfiguration anotherConfig = new InboundMailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin",

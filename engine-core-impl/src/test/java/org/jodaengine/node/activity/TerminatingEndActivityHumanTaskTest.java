@@ -16,8 +16,7 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
 //     * end. Then the human task activity is executed and a worklist item created. We expect the TerminatingEndActivity
 //     * to remove the worklist item from the corresponding worklists.
 //     * 
-//     * @throws JodaEngineException
-//     *             the dalmatina exception
+//     * @throws JodaEngineException the JodaEngine exception
 //     */
 //    @Test
 //    public void testCancellingOfHumanTasks()
