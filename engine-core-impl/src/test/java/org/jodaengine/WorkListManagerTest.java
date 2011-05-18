@@ -40,9 +40,9 @@ public class WorkListManagerTest {
         JodaEngine.start();
         pattern = CreationPatternFactory.createJannikServesGerardoCreator();
         TokenImpl token = mock(TokenImpl.class);
-        List<AbstractWorklistItem> items = pattern.createWorklistItems(token);
+        AbstractWorklistItem item = pattern.createWorklistItem(token);
         PushPattern pushPattern = new AllocateSinglePattern();
-        pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
+        pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         // "hack" to get the participant the task belongs to
         jannik = (AbstractParticipant) pattern.getAssignedResources().iterator().next();
@@ -86,9 +86,9 @@ public class WorkListManagerTest {
         // allocation patterns END
         ConcreteResourcePattern anotherPattern = new ConcreteResourcePattern("Go shopping", "I need milk", null, tobi);
         TokenImpl token = mock(TokenImpl.class);
-        List<AbstractWorklistItem> items = anotherPattern.createWorklistItems(token);
+        AbstractWorklistItem item = anotherPattern.createWorklistItem(token);
         PushPattern pushPattern = new AllocateSinglePattern();
-        pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
+        pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
     }
     
     /**

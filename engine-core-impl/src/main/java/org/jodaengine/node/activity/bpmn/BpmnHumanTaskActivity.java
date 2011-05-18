@@ -7,7 +7,6 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.allocation.PushPattern;
@@ -53,14 +52,12 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     protected void executeIntern(@Nonnull Token token) {
 
         TaskAllocation service = ServiceFactory.getWorklistQueue();
-        List<AbstractWorklistItem> items = creationPattern.createWorklistItems(token);
+        AbstractWorklistItem item = creationPattern.createWorklistItem(token);
 
         // save the UUIDs of the created items to the instance context, in order to be able to delete them, if execution
         // is cancelled
         List<UUID> itemUUIDs = new ArrayList<UUID>();
-        for (AbstractWorklistItem item : items) {
-            itemUUIDs.add(item.getID());
-        }
+        itemUUIDs.add(item.getID());
 
         ProcessInstanceContext context = token.getInstance().getContext();
         
@@ -68,7 +65,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
         final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
         context.setInternalVariable(itemContextVariableIdentifier, itemUUIDs);
 
-        pushPattern.distributeWorkitems(service, items);
+        pushPattern.distributeWorkitem(service, item);
 
         token.suspend();
     }
@@ -91,7 +88,6 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 
         for (UUID itemUUID : itemUUIDs) {
             ServiceFactory.getWorklistQueue().removeWorklistItem(itemUUID);
-            // TODO remove the worklist item with the given id
         }
 
     }

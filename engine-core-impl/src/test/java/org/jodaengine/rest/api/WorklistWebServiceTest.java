@@ -6,17 +6,10 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
@@ -34,6 +27,11 @@ import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.io.StringStreamSource;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Tests the interaction with our WorklistWebService.
@@ -71,9 +69,9 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         when(token.getInstance()).thenReturn(instance);
         // ServiceFactory.getTaskDistribution().distribute(task, token);
 
-        List<AbstractWorklistItem> items = pattern.createWorklistItems(token);
+        AbstractWorklistItem item = pattern.createWorklistItem(token);
         PushPattern pushPattern = new AllocateSinglePattern();
-        pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
+        pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
 
         // System.out.println(ServiceFactory.getIdentityService().getParticipants());
         jannik = (AbstractParticipant) pattern.getAssignedResources().iterator().next();

@@ -1,9 +1,7 @@
 package org.jodaengine.resource.allocation.pattern;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.jodaengine.allocation.CreationPattern;
@@ -71,16 +69,11 @@ public class ConcreteResourcePattern implements CreationPattern {
     }
 
     @Override
-    public List<AbstractWorklistItem> createWorklistItems(Token token) {
+    public AbstractWorklistItem createWorklistItem(Token token) {
 
-        List<AbstractWorklistItem> itemsToDistribute = new ArrayList<AbstractWorklistItem>();
         Set<AbstractResource<?>> assignedResourcesCopy = new HashSet<AbstractResource<?>>(
             Arrays.asList(resourcesToAssignTo));
-        WorklistItemImpl worklistItem = new WorklistItemImpl(subject, description, form, assignedResourcesCopy, token);
-        itemsToDistribute.add(worklistItem);
-
-        return itemsToDistribute;
-
+        return new WorklistItemImpl(subject, description, form, assignedResourcesCopy, token);
     }
 
     /**

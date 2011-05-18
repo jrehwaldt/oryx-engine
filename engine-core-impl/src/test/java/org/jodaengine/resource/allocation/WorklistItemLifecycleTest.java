@@ -3,12 +3,6 @@ package org.jodaengine.resource.allocation;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.mockito.Mockito;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
@@ -21,6 +15,11 @@ import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemImpl;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.mockito.Mockito;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Checking the Lifecycle of a WorklistItem.
@@ -83,7 +82,7 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         Assert.assertEquals(worklistItemForGerardo.getSubject(), "Task Subject!!");
         Assert.assertEquals(worklistItemForGerardo.getDescription(), "Task Decription!!");
         Assert.assertEquals(worklistItemForGerardo.getCorrespondingToken(), token);
-        Assert.assertEquals(worklistItemForGerardo.getStatus(), WorklistItemState.OFFERED);
+        Assert.assertEquals(worklistItemForGerardo.getStatus(), WorklistItemState.CREATED);
 
         // Testing that the creation of a WorklistItem requires a Token
         try {
@@ -96,17 +95,6 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         } catch (NullPointerException nullPointerException) {
             // This was expected
         }
-
-        // Testing that the creation of a WorklistItem requires a Task
-        // try {
-        //
-        // worklistItemForGerardo = new WorklistItemImpl(task, null);
-        // String failureMessage = "An NullPointerException should have occurred, "
-        // + "because the WorklistItem was created without a Task.";
-        // Assert.fail(failureMessage);
-        // } catch (NullPointerException nullPointerException) {
-        // // This was expected
-        // }
     }
 
     /**

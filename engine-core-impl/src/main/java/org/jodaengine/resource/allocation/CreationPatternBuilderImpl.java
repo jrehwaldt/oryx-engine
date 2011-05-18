@@ -80,26 +80,4 @@ public class CreationPatternBuilderImpl implements CreationPatternBuilder {
         this.abstractResources.clear();
         return this;
     }
-
-    // /**
-    // * {@inheritDoc}
-    // */
-    // @Override
-    // public Task buildTask() {
-    //
-    // AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(taskPushPattern, taskPullPattern, null);
-    // HashSet<AbstractResource<?>> assignedResources = new HashSet<AbstractResource<?>>(abstractResources);
-    // Task resultTask = new TaskImpl(taskSubject, taskDescription, taskForm, allocationStrategies, assignedResources);
-    //
-    // return resultTask;
-    // }
-
-    // @Override
-    // public CreationPattern buildCreationPattern() {
-    //
-    // HashSet<AbstractResource<?>> assignedResources = new HashSet<AbstractResource<?>>(abstractResources);
-    // return new
-    // return null;
-    // }
-
 }
