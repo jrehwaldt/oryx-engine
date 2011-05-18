@@ -10,6 +10,7 @@ import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.node.factory.TransitionFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
@@ -17,6 +18,7 @@ import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractRole;
@@ -76,9 +78,11 @@ public final class DemoDataForWebservice {
             generateDemoParticipants();
             try {
                 generateDemoWorklistItems();
-            } catch (DefinitionNotFoundException e) {
-                e.printStackTrace();
             } catch (IllegalStarteventException e) {
+                e.printStackTrace();
+            } catch (ProcessArtifactNotFoundException e) {
+                e.printStackTrace();
+            } catch (DefinitionNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -108,13 +112,13 @@ public final class DemoDataForWebservice {
     /**
      * Generate demo worklist items for our participants.
      * 
-     * @throws DefinitionNotFoundException
-     *             the requested definition was not found
      * @throws IllegalStarteventException
      *             the registered start event was missing or not legally defined
+     * @throws ProcessArtifactNotFoundException 
+     * @throws DefinitionNotFoundException 
      */
     private static void generateDemoWorklistItems()
-    throws DefinitionNotFoundException, IllegalStarteventException {
+    throws IllegalStarteventException, ProcessArtifactNotFoundException, DefinitionNotFoundException {
 
         // TODO Use Example Process to create some tasks for the role demo
 
@@ -128,7 +132,7 @@ public final class DemoDataForWebservice {
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
         UUID processArtifactID = deploymentBuilder.deployArtifactAsFile("form1", new File(PATH_TO_WEBFORMS
             + "/claimPoints.html"));
-        Form form = new FormImpl(ServiceFactory.getRepositoryService().getProcessResource(processArtifactID));
+        Form form = new FormImpl(ServiceFactory.getRepositoryService().getProcessArtifact(processArtifactID));
 
         // Create the task
         // AllocationStrategies strategies = new AllocationStrategiesImpl(new ConcreteResourcePattern(), new
@@ -161,7 +165,7 @@ public final class DemoDataForWebservice {
         ProcessDefinition processDefinition = processBuilder.setName("Demoprocess")
         .setDescription("A simple demo process with three human tasks.").buildDefinition();
 
-        UUID processID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
+        ProcessDefinitionID processID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
         .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
 
         // create more tasks

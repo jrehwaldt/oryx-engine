@@ -11,6 +11,7 @@ import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -26,7 +27,7 @@ import org.testng.annotations.Test;
 public abstract class AbstractProcessDeployerTest extends AbstractJodaEngineTest {
 
     protected ProcessDeployer deployer;
-    protected UUID uuid;
+    protected ProcessDefinitionID id;
     protected JodaEngineServices engineServices;
 
     /**
@@ -63,7 +64,7 @@ public abstract class AbstractProcessDeployerTest extends AbstractJodaEngineTest
     public void testDeployment()
     throws IllegalStarteventException {
 
-        assertNotNull(uuid);
+        assertNotNull(id);
 
     }
 
@@ -77,7 +78,7 @@ public abstract class AbstractProcessDeployerTest extends AbstractJodaEngineTest
     public void retrieveProcessDefinitionTest()
     throws DefinitionNotFoundException {
 
-        ProcessDefinition definition = ServiceFactory.getRepositoryService().getProcessDefinition(uuid);
+        ProcessDefinition definition = ServiceFactory.getRepositoryService().getProcessDefinition(id);
         assertNotNull(definition);
     }
 }

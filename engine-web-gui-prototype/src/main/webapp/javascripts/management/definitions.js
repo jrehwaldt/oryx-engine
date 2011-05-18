@@ -29,6 +29,15 @@ $().ready(function() {
     });
 });
 
+/**
+ * Creates the id-param from a given JSON definitionID.
+ * 
+ * @param definitionID the id json object
+ * @returns {String}
+ */
+function idToString(definitionID) {
+	return definitionID.uuid + ':' + definitionID.version;
+}
 
 /**
  * Loads the running process instances table and clear any old entries.
@@ -41,7 +50,7 @@ function loadProcessDefinitionsOverview() {
             tableBody.empty();
             $(definitions).each(function(index, definition) {
                 tableBody.append(
-                    '<tr definition-id="' + definition.id + '">'
+                    '<tr definition-id="' + idToString(definition.id) + '">'
                         + '<td>' + definition.name + '</td>'
                         + '<td>' + definition.description + '</td>'
                         + '<td class="controls">'

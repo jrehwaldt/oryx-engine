@@ -1,20 +1,20 @@
 package org.jodaengine.exception;
 
+import java.util.UUID;
+
 import javax.annotation.Nonnull;
 
 import org.jodaengine.process.definition.ProcessDefinitionID;
 
 /**
- * This is an exception stating that a definition does not exist.
- * 
- * @author Jan Rehwaldt
+ * The Class ProcessArtifactNotFoundException is used for requested process artifacts that were not found.
  */
-public class DefinitionNotFoundException extends JodaEngineException {
+public class ProcessArtifactNotFoundException extends JodaEngineException {
     private static final long serialVersionUID = 5826993901901839412L;
 
-    private static final String MESSAGE = "The requested process definition is not available or was removed.";
+    private static final String MESSAGE = "The requested process artifact is not available or was removed.";
 
-    private final ProcessDefinitionID definitionID;
+    private final UUID definitionID;
 
     /**
      * Default Constructor.
@@ -22,7 +22,7 @@ public class DefinitionNotFoundException extends JodaEngineException {
      * @param definitionID
      *            the id of the resource that is not available
      */
-    public DefinitionNotFoundException(@Nonnull ProcessDefinitionID definitionID) {
+    public ProcessArtifactNotFoundException(@Nonnull UUID definitionID) {
 
         super(MESSAGE);
 
@@ -34,7 +34,7 @@ public class DefinitionNotFoundException extends JodaEngineException {
      * 
      * @return the definition id
      */
-    public ProcessDefinitionID getProcessDefinitionID() {
+    public UUID getProcessDefinitionID() {
 
         return definitionID;
     }

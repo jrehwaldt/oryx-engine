@@ -1,17 +1,17 @@
 package org.jodaengine.eventmanagement.registration;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventType;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 
 /**
  * The Class StartEventImpl. Have a look at {@link StartEvent}.
  */
 public class StartEventImpl extends ProcessEventImpl implements StartEvent {
 
-    private UUID definitionID;
+    private ProcessDefinitionID definitionID;
 
     /**
      * Instantiates a new start event impl.
@@ -28,14 +28,14 @@ public class StartEventImpl extends ProcessEventImpl implements StartEvent {
     public StartEventImpl(EventType type,
                           AdapterConfiguration config,
                           List<EventCondition> conditions,
-                          UUID definitionID) {
+                          ProcessDefinitionID definitionID) {
 
         super(type, config, conditions);
         this.definitionID = definitionID;
     }
     
     @Override
-    public UUID getDefinitionID() {
+    public ProcessDefinitionID getDefinitionID() {
 
         return definitionID;
     }

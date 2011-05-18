@@ -1,6 +1,6 @@
 package org.jodaengine.eventmanagement.registration;
 
-import java.util.UUID;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 
 /**
  * The Interface StartEvent. A start event, in contrast to the intermediate event, will trigger the instantiation of a
@@ -13,5 +13,5 @@ public interface StartEvent extends ProcessEvent {
      * 
      * @return the definition id
      */
-    UUID getDefinitionID();
+    ProcessDefinitionID getDefinitionID();
 }

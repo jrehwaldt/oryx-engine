@@ -1,8 +1,7 @@
 package org.jodaengine.factory.definition;
 
-import java.util.UUID;
-
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 
 
 /**
@@ -16,5 +15,5 @@ public interface ProcessDefinitionFactory {
      * @param definitionID the definition id
      * @return the process definition
      */
-    ProcessDefinition create(UUID definitionID);
+    ProcessDefinition create(ProcessDefinitionID definitionID);
 }

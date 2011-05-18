@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.jodaengine.allocation.Form;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
@@ -366,8 +366,8 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         UUID processArtifactID = deploymentBuilder.deployArtifactAsClasspathResource(formName, "forms/" + formFileName);
         Form form = null;
         try {
-            form = new FormImpl(repoService.getProcessResource(processArtifactID));
-        } catch (DefinitionNotFoundException e) {
+            form = new FormImpl(repoService.getProcessArtifact(processArtifactID));
+        } catch (ProcessArtifactNotFoundException e) {
             logger.error("The recently deployed artifact is not there. Something critical is going wrong.");
             e.printStackTrace();
         }

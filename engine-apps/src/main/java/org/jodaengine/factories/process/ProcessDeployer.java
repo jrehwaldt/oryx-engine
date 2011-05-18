@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 
 /**
  * A factory for creating Process objects. Currently they create a token that points too the connected nodes.
@@ -22,7 +23,7 @@ public interface ProcessDeployer {
      * @throws ResourceNotAvailableException
      *             the resource not available exception
      */
-    UUID deploy(JodaEngineServices engineServices)
+    ProcessDefinitionID deploy(JodaEngineServices engineServices)
     throws IllegalStarteventException, ResourceNotAvailableException;
 
     /**

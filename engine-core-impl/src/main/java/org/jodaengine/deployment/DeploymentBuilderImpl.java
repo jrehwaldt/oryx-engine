@@ -11,6 +11,7 @@ import org.jodaengine.process.definition.ProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.util.io.ClassPathResourceStreamSource;
 import org.jodaengine.util.io.FileStreamSource;
@@ -100,7 +101,7 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
      * {@inheritDoc}
      */
     @Override
-    public UUID deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter) {
+    public ProcessDefinitionID deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter) {
 
         ProcessDefinition processDefinition = processDefinitionImporter.createProcessDefinition();
 
@@ -119,7 +120,7 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
     private void deployProcessArtifactInRepository(AbstractProcessArtifact processArtifact) {
 
         // Checking if the ProcessArtifact already exists in the Repository
-        if (repositoryServiceImpl.containsProcessDefinition(processArtifact.getID())) {
+        if (repositoryServiceImpl.containsProcessArtifact(processArtifact.getID())) {
             String errorMessage = "The ProcessDefinition is already deployed.";
             throw new JodaEngineRuntimeException(errorMessage);
         }

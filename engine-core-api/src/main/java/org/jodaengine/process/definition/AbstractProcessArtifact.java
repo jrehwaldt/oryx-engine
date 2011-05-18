@@ -1,6 +1,7 @@
 package org.jodaengine.process.definition;
 
 import java.io.InputStream;
+import java.util.UUID;
 
 import org.jodaengine.util.Identifiable;
 
@@ -18,7 +19,7 @@ import org.jodaengine.util.Identifiable;
  * 
  * @author Gerardo Navarro Suarez
  */
-public abstract class AbstractProcessArtifact implements Identifiable {
+public abstract class AbstractProcessArtifact implements Identifiable<UUID> {
 
     /**
      * Retrieves the name of the {@link ProcessResource}.

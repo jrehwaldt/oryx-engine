@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.UUID;
 
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 
 /**
  * The class helps to define a deployment and to deploy it.
@@ -92,7 +93,7 @@ public interface DeploymentBuilder {
      *             - in case the {@link ProcessDefinition} is already deployed in the {@link RepositoryService
      *             Repository}
      */
-    UUID deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter);
+    ProcessDefinitionID deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter);
 
     /**
      * Retrieves a {@link ProcessDefinitionBuilder} that helps an client to build {@link ProcessDefinition

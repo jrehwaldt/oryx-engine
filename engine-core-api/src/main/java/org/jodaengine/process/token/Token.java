@@ -1,6 +1,7 @@
 package org.jodaengine.process.token;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -22,7 +23,7 @@ import org.jodaengine.util.Identifiable;
  * instance. Moreover it is a single strand of execution.
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public interface Token extends Identifiable {
+public interface Token extends Identifiable<UUID> {
 
     /**
      * Gets the current node.

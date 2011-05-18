@@ -3,7 +3,6 @@ package org.jodaengine.process.definition;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -29,7 +28,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
 
     private String description;
 
-    private UUID id;
+    private ProcessDefinitionID id;
 
     private List<Node> startNodes;
 
@@ -53,7 +52,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
      * @param startNodes
      *            - the initial nodes that refer to the whole node-tree
      */
-    public ProcessDefinitionImpl(UUID id, String name, String description, List<Node> startNodes) {
+    public ProcessDefinitionImpl(ProcessDefinitionID id, String name, String description, List<Node> startNodes) {
 
         this(id, name, description, startNodes, new StartNullInstantiationPattern());
     }
@@ -77,7 +76,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
      * @param startNodes
      *            - the initial nodes that refer to the whole node-tree
      */
-    public ProcessDefinitionImpl(UUID id,
+    public ProcessDefinitionImpl(ProcessDefinitionID id,
                                  String name,
                                  String description,
                                  List<Node> startNodes,
@@ -92,7 +91,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     }
 
     @Override
-    public UUID getID() {
+    public ProcessDefinitionID getID() {
 
         return id;
     }
