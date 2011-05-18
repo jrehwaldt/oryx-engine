@@ -1,6 +1,7 @@
 package org.jodaengine.process.structure;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -18,7 +19,7 @@ import org.jodaengine.util.Identifiable;
  * The Interface for Nodes. Nodes are hubs in the graph representation of a process.
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public interface Node extends Identifiable, Attributable {
+public interface Node extends Identifiable<UUID>, Attributable {
 
     /**
      * Gets the activity. The activity is the behavior of a node.

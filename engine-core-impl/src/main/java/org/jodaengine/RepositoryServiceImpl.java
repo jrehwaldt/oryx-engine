@@ -109,14 +109,14 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     }
 
     @Override
-    public AbstractProcessArtifact getProcessResource(UUID processDefinitionID)
+    public AbstractProcessArtifact getProcessResource(UUID processResourceID)
     throws DefinitionNotFoundException {
 
-        AbstractProcessArtifact processArtifact = getProcessArtifactsTable().get(processDefinitionID);
+        AbstractProcessArtifact processArtifact = getProcessArtifactsTable().get(processResourceID);
         if (processArtifact == null) {
-            throw new DefinitionNotFoundException(processDefinitionID);
+            throw new DefinitionNotFoundException(processResourceID);
         }
-        return getProcessArtifactsTable().get(processDefinitionID);
+        return getProcessArtifactsTable().get(processResourceID);
     }
 
     @Override
@@ -128,9 +128,9 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     }
 
     @Override
-    public void deleteProcessResource(UUID processArtifact) {
+    public void deleteProcessResource(UUID processResourceID) {
 
-        getProcessArtifactsTable().remove(processArtifact);
+        getProcessArtifactsTable().remove(processResourceID);
     }
 
     /**

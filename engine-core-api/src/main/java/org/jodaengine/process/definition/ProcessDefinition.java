@@ -1,6 +1,7 @@
 package org.jodaengine.process.definition;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
@@ -18,7 +19,7 @@ import org.jodaengine.util.Identifiable;
  * @author Thorben
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public interface ProcessDefinition extends Identifiable, Attributable {
+public interface ProcessDefinition extends Identifiable<UUID>, Attributable {
 
     /**
      * Retrieves the name of the {@link ProcessDefinition}.
