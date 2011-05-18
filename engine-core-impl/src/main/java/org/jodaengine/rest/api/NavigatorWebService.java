@@ -18,6 +18,7 @@ import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorStatistic;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
 
@@ -54,7 +55,7 @@ public class NavigatorWebService implements Navigator {
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(UUID definitionId)
+    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID definitionId)
     throws DefinitionNotFoundException {
 
         return navigatorService.startProcessInstance(definitionId);
@@ -77,7 +78,7 @@ public class NavigatorWebService implements Navigator {
     public AbstractProcessInstance startProcessInstance(@PathParam("definitionId") String definitionID)
     throws DefinitionNotFoundException {
 
-        return startProcessInstance(UUID.fromString(definitionID));
+        return startProcessInstance(ProcessDefinitionID.fromString(definitionID));
     }
 
     @Path("/status/is-idle")
@@ -130,7 +131,7 @@ public class NavigatorWebService implements Navigator {
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(UUID processID, StartEvent event)
+    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID, StartEvent event)
     throws DefinitionNotFoundException {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);

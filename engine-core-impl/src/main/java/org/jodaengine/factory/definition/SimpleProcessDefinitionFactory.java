@@ -2,7 +2,6 @@ package org.jodaengine.factory.definition;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.custom.AddNumbersAndStoreActivity;
@@ -11,6 +10,7 @@ import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
@@ -25,7 +25,7 @@ public class SimpleProcessDefinitionFactory implements ProcessDefinitionFactory 
     private static final String DEFINITION_DESCRIPTION = "description";
 
     @Override
-    public ProcessDefinition create(UUID definitionID) {
+    public ProcessDefinition create(ProcessDefinitionID definitionID) {
 
         IncomingBehaviour incomingBehaviour = new SimpleJoinBehaviour();
         OutgoingBehaviour outgoingBehaviour = new TakeAllSplitBehaviour();

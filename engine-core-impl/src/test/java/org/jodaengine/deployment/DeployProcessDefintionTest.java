@@ -2,10 +2,6 @@ package org.jodaengine.deployment;
 
 import java.util.UUID;
 
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
@@ -14,7 +10,11 @@ import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.factory.definition.ProcessDefinitionFactory;
 import org.jodaengine.factory.definition.SimpleProcessDefinitionFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 
 /**
@@ -25,7 +25,7 @@ public class DeployProcessDefintionTest extends AbstractJodaEngineTest {
     private DeploymentBuilder deploymentBuilder = null;
     private RepositoryService repo = null;
     private ProcessDefinition def = null;
-    private UUID defID = null;
+    private ProcessDefinitionID defID = null;
 
     /**
      * Sets up the deployment builder, reppositoryservice and other useful variables.
@@ -36,7 +36,7 @@ public class DeployProcessDefintionTest extends AbstractJodaEngineTest {
         repo = ServiceFactory.getRepositoryService();
         deploymentBuilder = repo.getDeploymentBuilder();
         ProcessDefinitionFactory factory = new SimpleProcessDefinitionFactory();
-        defID = UUID.randomUUID();
+        defID = new ProcessDefinitionID(UUID.randomUUID(), 0);
         def = factory.create(defID);
 
     }

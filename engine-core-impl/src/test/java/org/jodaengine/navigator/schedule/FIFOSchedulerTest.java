@@ -61,7 +61,7 @@ public class FIFOSchedulerTest extends AbstractJodaEngineTest {
 
         scheduler = new FIFOScheduler();
         RepositoryService repo = ServiceFactory.getRepositoryService();
-        ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessUUID());
+        ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
         List<Node> startNodes = def.getStartNodes();
         Node startNode = startNodes.get(0);
         firstToken = new TokenImpl(startNode);

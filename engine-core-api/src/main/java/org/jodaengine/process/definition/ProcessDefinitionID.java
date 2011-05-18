@@ -9,6 +9,7 @@ public class ProcessDefinitionID {
 
     private UUID uuid;
     private int version;
+    private static final String DELIMITER = ":";
 
     /**
      * Instantiates a new process definition id.
@@ -73,7 +74,21 @@ public class ProcessDefinitionID {
     
     @Override
     public String toString() {
-        return uuid.toString() + ":" + version;
+        return uuid.toString() + DELIMITER + version;
+    }
+    
+    /**
+     * Reads a ProcessDefinitionID from a given String.
+     *
+     * @param id the id
+     * @return the process definition id
+     */
+    public static ProcessDefinitionID fromString(String id) {
+        int delimiterPosition = id.lastIndexOf(DELIMITER);
+        UUID uuid = UUID.fromString(id.subSequence(0, delimiterPosition).toString());
+        int version = new Integer(id.substring(delimiterPosition + 1));
+        return new ProcessDefinitionID(uuid, version);
+        
     }
 
 }

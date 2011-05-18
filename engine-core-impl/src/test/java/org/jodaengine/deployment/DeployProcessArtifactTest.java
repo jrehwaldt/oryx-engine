@@ -8,15 +8,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
+import org.jodaengine.RepositoryService;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
+import org.jodaengine.process.definition.AbstractProcessArtifact;
+import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import org.jodaengine.RepositoryService;
-import org.jodaengine.ServiceFactory;
-import org.jodaengine.exception.DefinitionNotFoundException;
-import org.jodaengine.process.definition.AbstractProcessArtifact;
-import org.jodaengine.util.testing.AbstractJodaEngineTest;
 
 
 /**
@@ -39,7 +38,7 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
     @Test
     public void testArtifactDeploymentAsString()
-    throws DefinitionNotFoundException, IOException {
+    throws IOException, ProcessArtifactNotFoundException {
 
         // Deploying the String "Hello Joda-Engine ..."
         StringBuilder stringBuilder = new StringBuilder();
@@ -55,7 +54,7 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
 
     @Test
-    public void testArtifactDeploymentAsFile() throws DefinitionNotFoundException, IOException {
+    public void testArtifactDeploymentAsFile() throws IOException, ProcessArtifactNotFoundException {
         
         File fileToDeploy = new File(TEST_FILE_SYSTEM_PATH);
         UUID fileArtifactUUID = deploymentBuilder.deployArtifactAsFile("fileArtifact", fileToDeploy);
@@ -67,7 +66,7 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
     }
     
     @Test
-    public void testArtifactDeploymentAsClasspathResource() throws DefinitionNotFoundException, IOException {
+    public void testArtifactDeploymentAsClasspathResource() throws IOException, ProcessArtifactNotFoundException {
         
         
         UUID classpathArtifactUUID = deploymentBuilder.deployArtifactAsClasspathResource("classpathArtifact",
@@ -80,7 +79,7 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
     }
     
     @Test
-    public void testArtifactDeploymentAsInputStream() throws DefinitionNotFoundException, IOException {
+    public void testArtifactDeploymentAsInputStream() throws IOException, ProcessArtifactNotFoundException {
         
         // Deploying the String "Hello Joda-Engine ..."
         StringBuilder stringBuilder = new StringBuilder();
