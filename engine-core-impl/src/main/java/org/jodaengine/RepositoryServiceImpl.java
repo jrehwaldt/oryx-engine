@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jodaengine.bootstrap.Service;
+import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.DeploymentBuilderImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
@@ -37,10 +38,15 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     public static final UUID SIMPLE_PROCESS_UUID = UUID.randomUUID();
     public static final ProcessDefinitionID SIMPLE_PROCESS_ID = new ProcessDefinitionID(SIMPLE_PROCESS_UUID, 0);
 
-    private Map<ProcessDefinitionID, ProcessDefinitionImpl> processDefinitionsTable;
+    private Map<ProcessDefinitionID, ProcessDefinition> processDefinitionsTable;
 
-    private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
+    private Map<UUID, Integer> processVersions;
+//    private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
 
+    public RepositoryServiceImpl() {
+        processVersions = new HashMap<UUID, Integer>();
+    }
+    
     @Override
     public void start() {
 
@@ -56,14 +62,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     @Override
     public DeploymentBuilder getDeploymentBuilder() {
 
-        return new DeploymentBuilderImpl(this);
-    }
-
-    @Override
-    public ProcessDefinition getProcessDefinition(ProcessDefinitionID processDefintionID)
-    throws DefinitionNotFoundException {
-
-        return getProcessDefinitionImpl(processDefintionID);
+        return new DeploymentBuilderImpl();
     }
 
     @Override
@@ -73,6 +72,15 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
         return Collections.unmodifiableList(listToReturn);
     }
 
+
+
+    @Override
+    public void addProcessDefinition(ProcessDefinition definition) {
+
+        getProcessDefinitionsTable().put(definition.getID(), (ProcessDefinitionImpl) definition);
+        
+    }
+    
     @Override
     public boolean containsProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID) {
 
@@ -84,7 +92,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
         ProcessDefinitionInside processDefintion;
         try {
-            processDefintion = getProcessDefinitionImpl(processDefintionID);
+            processDefintion = (ProcessDefinitionInside) getProcessDefinition(processDefintionID);
         } catch (DefinitionNotFoundException exception) {
             String errorMessage = "The processDefinition '" + processDefintionID + "' have not been deployed yet.";
             logger.error(errorMessage, exception);
@@ -115,57 +123,49 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     
     
     
-    @Override
-    public AbstractProcessArtifact getProcessArtifact(UUID processResourceID)
-    throws ProcessArtifactNotFoundException {
-
-        AbstractProcessArtifact processArtifact = getProcessArtifactsTable().get(processResourceID);
-        if (processArtifact == null) {
-            throw new ProcessArtifactNotFoundException(processResourceID);
-        }
-        return getProcessArtifactsTable().get(processResourceID);
-    }
-
-    @Override
-    public List<AbstractProcessArtifact> getProcessArtifacts() {
-
-        List<AbstractProcessArtifact> listToReturn = new ArrayList<AbstractProcessArtifact>(getProcessArtifactsTable()
-        .values());
-        return Collections.unmodifiableList(listToReturn);
-    }
-
-    @Override
-    public void deleteProcessResource(UUID processResourceID) {
-
-        getProcessArtifactsTable().remove(processResourceID);
-    }
+//    @Override
+//    public AbstractProcessArtifact getProcessArtifact(UUID processResourceID)
+//    throws ProcessArtifactNotFoundException {
+//
+//        AbstractProcessArtifact processArtifact = getProcessArtifactsTable().get(processResourceID);
+//        if (processArtifact == null) {
+//            throw new ProcessArtifactNotFoundException(processResourceID);
+//        }
+//        return getProcessArtifactsTable().get(processResourceID);
+//    }
+//
+//    @Override
+//    public List<AbstractProcessArtifact> getProcessArtifacts() {
+//
+//        List<AbstractProcessArtifact> listToReturn = new ArrayList<AbstractProcessArtifact>(getProcessArtifactsTable()
+//        .values());
+//        return Collections.unmodifiableList(listToReturn);
+//    }
+//
+//    @Override
+//    public void deleteProcessResource(UUID processResourceID) {
+//
+//        getProcessArtifactsTable().remove(processResourceID);
+//    }
 
     /**
      * Returns a map of all deployed process definitions.
      * 
      * @return the process definitions table
      */
-    public Map<ProcessDefinitionID, ProcessDefinitionImpl> getProcessDefinitionsTable() {
+    public Map<ProcessDefinitionID, ProcessDefinition> getProcessDefinitionsTable() {
 
         if (processDefinitionsTable == null) {
-            this.processDefinitionsTable = new HashMap<ProcessDefinitionID, ProcessDefinitionImpl>();
+            this.processDefinitionsTable = new HashMap<ProcessDefinitionID, ProcessDefinition>();
         }
         return this.processDefinitionsTable;
     }
-
-    /**
-     * Retrieves the {@link ProcessDefinitionImpl} that is stored.
-     * 
-     * @param processDefintionID
-     *            - the {@link UUID id} of the {@link ProcessDefinition}
-     * @return a {@link ProcessDefinitionImpl}
-     * @throws DefinitionNotFoundException
-     *             - thrown, if the given ID does not exist
-     */
-    private ProcessDefinitionImpl getProcessDefinitionImpl(ProcessDefinitionID processDefintionID)
+    
+    @Override
+    public ProcessDefinition getProcessDefinition(ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException {
 
-        ProcessDefinitionImpl processDefinition = getProcessDefinitionsTable().get(processDefintionID);
+        ProcessDefinition processDefinition = getProcessDefinitionsTable().get(processDefintionID);
 
         if (processDefinition == null) {
             throw new DefinitionNotFoundException(processDefintionID);
@@ -174,29 +174,64 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
         return processDefinition;
     }
 
-    /**
-     * Returns a map of all deployed process artifacts, such as forms, etc.
-     * 
-     * @return the process artifacts table
-     */
-    public Map<UUID, AbstractProcessArtifact> getProcessArtifactsTable() {
-
-        if (processArtifactsTable == null) {
-            this.processArtifactsTable = new HashMap<UUID, AbstractProcessArtifact>();
-        }
-        return this.processArtifactsTable;
-    }
+//    /**
+//     * Returns a map of all deployed process artifacts, such as forms, etc.
+//     * 
+//     * @return the process artifacts table
+//     */
+//    public Map<UUID, AbstractProcessArtifact> getProcessArtifactsTable() {
+//
+//        if (processArtifactsTable == null) {
+//            this.processArtifactsTable = new HashMap<UUID, AbstractProcessArtifact>();
+//        }
+//        return this.processArtifactsTable;
+//    }
 
     @Override
     public ProcessDefinitionInside getProcessDefinitionInside(ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException {
 
-        return getProcessDefinitionImpl(processDefintionID);
+        return (ProcessDefinitionInside) getProcessDefinition(processDefintionID);
     }
 
     @Override
-    public boolean containsProcessArtifact(UUID processResourceID) {
+    public void deploy(Deployment processDeployment) {
 
-        return this.getProcessArtifactsTable().containsKey(processResourceID);
+        for (ProcessDefinition definition : processDeployment.getDefinitions()) {
+            // determine version of the currently deployed process
+            registerNewProcessVersion(definition);
+            
+            // add the definition
+            getProcessDefinitionsTable().put(definition.getID(), definition);
+        }        
     }
+    
+    /**
+     * Registers a new version of a process.
+     *
+     * @param definition the definition
+     */
+    private void registerNewProcessVersion(ProcessDefinition definition) {
+        Integer currentVersionNumber = processVersions.get(definition.getID().getUUID());
+        if (currentVersionNumber != null) {
+            currentVersionNumber++;                    
+        }
+        else {
+            currentVersionNumber = new Integer(0);
+        }        
+        definition.getID().setVersion(currentVersionNumber);    
+    }
+
+//    @Override
+//    public boolean containsProcessArtifact(UUID processResourceID) {
+//
+//        return this.getProcessArtifactsTable().containsKey(processResourceID);
+//    }
+//
+//    @Override
+//    public void addProcessArtifact(AbstractProcessArtifact artifact) {
+//
+//        getProcessArtifactsTable().put(artifact.getID(), artifact);
+//        
+//    }
 }
