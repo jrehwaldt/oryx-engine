@@ -55,7 +55,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
         AbstractWorklistItem item = creationPattern.createWorklistItem(token);
 
         // save the UUIDs of the created items to the instance context, in order to be able to delete them, if execution
-        // is cancelled
+        // is canceled
         List<UUID> itemUUIDs = new ArrayList<UUID>();
         itemUUIDs.add(item.getID());
 
@@ -72,15 +72,6 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 
     @Override
     public void cancel(Token token) {
-
-        // for (AbstractResource<?> resource : creationPattern.getAssignedResources()) {
-        // Iterator<AbstractWorklistItem> it = resource.getWorklist().iterator();
-        //
-        // while (it.hasNext()) {
-        // WorklistItemImpl item = (WorklistItemImpl) it.next();
-        // ServiceFactory.getWorklistQueue().removeWorklistItem(item, resource);
-        // }
-        // }
 
         ProcessInstanceContext context = token.getInstance().getContext();
         final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
