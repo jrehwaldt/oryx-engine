@@ -2,7 +2,7 @@ package org.jodaengine.eventmanagement.registration;
 
 import java.util.List;
 
-import org.jodaengine.eventmanagement.EventConfiguration;
+import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 
 /**
  * The Interface ProcessEvent. All process events have an assigned adapter with a given configuration that may produce
@@ -16,7 +16,7 @@ public interface ProcessEvent {
      * @return the adapter configuration
      */
 
-    EventConfiguration getEventConfiguration();
+    AdapterConfiguration getAdapterConfiguration();
 
     /**
      * Gets the conditions.

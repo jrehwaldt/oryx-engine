@@ -2,10 +2,12 @@ package org.jodaengine.eventmanagement.adapter;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.CorrelationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.jodaengine.eventmanagement.AdapterEvent;
+import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.EventManager;
 
 
 /**

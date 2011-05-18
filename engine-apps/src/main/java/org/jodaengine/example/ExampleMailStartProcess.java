@@ -79,8 +79,7 @@ public final class ExampleMailStartProcess {
             // Create a mail adapater event here.
             // TODO @TobiP Could create a builder for this later.
             InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
-            EventCondition subjectCondition = null;
-            subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");
+            EventCondition subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");
             List<EventCondition> conditions = new ArrayList<EventCondition>();
             conditions.add(subjectCondition);
 

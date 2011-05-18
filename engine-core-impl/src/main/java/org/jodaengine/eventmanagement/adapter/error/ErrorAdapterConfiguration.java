@@ -50,6 +50,4 @@ extends AbstractAdapterConfiguration {
         
         return adapter;
     }
-
-
 }

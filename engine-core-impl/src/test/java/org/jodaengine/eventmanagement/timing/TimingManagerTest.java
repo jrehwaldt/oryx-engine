@@ -1,4 +1,4 @@
-package org.jodaengine.correlation.timing;
+package org.jodaengine.eventmanagement.timing;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;

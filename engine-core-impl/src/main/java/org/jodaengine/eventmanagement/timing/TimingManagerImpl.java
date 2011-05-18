@@ -5,15 +5,6 @@ import java.util.GregorianCalendar;
 
 import javax.annotation.Nonnull;
 
-
-import org.jodaengine.eventmanagement.EventConfiguration;
-import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
-import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
-import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
-import org.jodaengine.exception.AdapterSchedulingException;
-import org.jodaengine.exception.EngineInitializationFailedException;
-import org.jodaengine.process.token.Token;
-
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -21,9 +12,16 @@ import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
+import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
+import org.jodaengine.exception.AdapterSchedulingException;
+import org.jodaengine.exception.EngineInitializationFailedException;
+import org.jodaengine.process.token.Token;
 
 
 /**
@@ -82,7 +80,7 @@ implements TimingManager {
      * @param configuration the adapter configuration
      * @return a unique trigger name
      */
-    private static @Nonnull String triggerName(@Nonnull EventConfiguration configuration) {
+    private static @Nonnull String triggerName(@Nonnull AdapterConfiguration configuration) {
         return String.format("trigger-%s", configuration.getUniqueName());
     }
     /**
@@ -91,7 +89,7 @@ implements TimingManager {
      * @param configuration the adapter configuration
      * @return a unique job name
      */
-    private static @Nonnull String jobName(@Nonnull EventConfiguration configuration) {
+    private static @Nonnull String jobName(@Nonnull AdapterConfiguration configuration) {
         return String.format("job-%s", configuration.getUniqueName());
     }
     /**
@@ -100,7 +98,7 @@ implements TimingManager {
      * @param configuration the adapter configuration
      * @return a unique group name
      */
-    private static @Nonnull String jobGroupName(@Nonnull EventConfiguration configuration) {
+    private static @Nonnull String jobGroupName(@Nonnull AdapterConfiguration configuration) {
         return String.format("job-group-%s", configuration.getUniqueName());
     }
 

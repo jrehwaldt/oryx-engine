@@ -1,4 +1,4 @@
-package org.jodaengine.correlation.registration;
+package org.jodaengine.eventmanagement.registration;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;

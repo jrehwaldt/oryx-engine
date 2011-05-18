@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.adapter.InboundAdapter;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
+import org.jodaengine.eventmanagement.registration.ProcessEvent;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.exception.AdapterSchedulingException;
 
@@ -43,4 +44,6 @@ public interface AdapterRegistrar {
      * @return the timer
      */
     TimingManager getTimer();
+    
+    void registerAdapaterForEvent(ProcessEvent event);
 }

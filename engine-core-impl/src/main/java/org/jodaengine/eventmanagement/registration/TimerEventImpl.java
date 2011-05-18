@@ -2,6 +2,7 @@ package org.jodaengine.eventmanagement.registration;
 
 import java.util.List;
 
+import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
 import org.jodaengine.process.token.Token;
 
@@ -9,7 +10,7 @@ import org.jodaengine.process.token.Token;
 /**
  * The Class TimerEventImpl.
  */
-public class TimerEventImpl implements IntermediateEvent {
+public class TimerEventImpl extends ProcessEventImpl implements IntermediateEvent {
 
     private Token token;
     private TimedConfiguration config;
@@ -23,6 +24,8 @@ public class TimerEventImpl implements IntermediateEvent {
     public TimerEventImpl(TimedConfiguration config,
                           Token token) {
 
+        // TODO @Gerardo mal schauen was da hin kommen kann
+        super(EventTypes.Timer, config, null);
         this.token = token;
         this.config = config;
     }
@@ -31,12 +34,6 @@ public class TimerEventImpl implements IntermediateEvent {
     public Token getToken() {
 
         return token;
-    }
-
-    @Override
-    public TimedConfiguration getEventConfiguration() {
-
-        return config;
     }
 
     @Override

@@ -4,15 +4,13 @@ import javax.annotation.Nonnegative;
 
 import org.quartz.Job;
 
-import org.jodaengine.eventmanagement.EventConfiguration;
-
 /**
  * The Interface TimedAdapterConfiguration. This should be used for adapters or events
  * which have to be called in specific time intervals.
  * 
  * @author Jannik Streek
  */
-public interface TimedConfiguration extends EventConfiguration {
+public interface TimedConfiguration extends AdapterConfiguration {
 
     /**
      * Returns the adapter's time interval in ms.

@@ -1,4 +1,4 @@
-package org.jodaengine.correlation.adapter.mail;
+package org.jodaengine.eventmanagement.adapter.mail;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

@@ -1,4 +1,4 @@
-package org.jodaengine.correlation.adapter.error;
+package org.jodaengine.eventmanagement.adapter.error;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

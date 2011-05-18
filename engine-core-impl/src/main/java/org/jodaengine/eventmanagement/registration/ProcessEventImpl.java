@@ -2,7 +2,6 @@ package org.jodaengine.eventmanagement.registration;
 
 import java.util.List;
 
-import org.jodaengine.eventmanagement.EventConfiguration;
 import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventType;
 
@@ -31,7 +30,7 @@ public class ProcessEventImpl implements ProcessEvent {
     }
 
     @Override
-    public EventConfiguration getEventConfiguration() {
+    public AdapterConfiguration getAdapterConfiguration() {
 
         return config;
     }

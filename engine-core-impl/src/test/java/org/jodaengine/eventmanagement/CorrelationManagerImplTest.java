@@ -1,15 +1,15 @@
-package org.jodaengine.correlation;
+package org.jodaengine.eventmanagement;
 
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
-import org.jodaengine.eventmanagement.EventManagerImpl;
-import org.jodaengine.navigator.Navigator;
-import org.jodaengine.navigator.NavigatorImpl;
-
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
+import org.jodaengine.navigator.Navigator;
+import org.jodaengine.navigator.NavigatorImpl;
 
 
 /**

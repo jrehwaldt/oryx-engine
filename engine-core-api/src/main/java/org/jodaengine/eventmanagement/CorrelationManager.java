@@ -2,8 +2,6 @@ package org.jodaengine.eventmanagement;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.timing.TimingManager;
-
 /**
  * The correlation manager, which correlates Events to the entities (acitivites, etc..) which subscribed for them.
  */
