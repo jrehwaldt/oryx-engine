@@ -218,7 +218,8 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
         }
         else {
             currentVersionNumber = new Integer(0);
-        }        
+        }
+        processVersions.put(definition.getID().getUUID(), currentVersionNumber);
         definition.getID().setVersion(currentVersionNumber);    
     }
 

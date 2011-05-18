@@ -84,9 +84,9 @@ public interface DeploymentBuilder {
 //    ProcessDefinitionID deployProcessDefinition(ProcessDefinitionImporter processDefinitionImporter);
 //
     
-    void addProcessDefinition(ProcessDefinition definition);
+    DeploymentBuilder addProcessDefinition(ProcessDefinition definition);
     
-    void addProcessArtifact(AbstractProcessArtifact artifact);
+    DeploymentBuilder addProcessArtifact(AbstractProcessArtifact artifact);
     
     /**
      * Builds the deployment.

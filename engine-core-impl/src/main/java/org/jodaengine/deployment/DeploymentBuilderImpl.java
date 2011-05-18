@@ -144,17 +144,21 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
         return new ProcessDefinitionBuilderImpl();
     }
 
+
+
     @Override
-    public void addProcessDefinition(ProcessDefinition definition) {
+    public DeploymentBuilder addProcessDefinition(ProcessDefinition definition) {
 
         this.currentDeployment.addProcessDefinition(definition);
+        return this;
         
     }
 
     @Override
-    public void addProcessArtifact(AbstractProcessArtifact artifact) {
+    public DeploymentBuilder addProcessArtifact(AbstractProcessArtifact artifact) {
 
         this.currentDeployment.addProcessArtifact(artifact);
+        return this;
         
     }
 

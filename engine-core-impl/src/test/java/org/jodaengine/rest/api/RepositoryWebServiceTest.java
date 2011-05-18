@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.ProcessDefinitionImporter;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
@@ -51,10 +52,11 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
         builder.setName("Empty").setDescription("Really an empty dummy process");
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition definition = builder.buildDefinition();
-        ProcessDefinitionImporter rawProDefImporter = new RawProcessDefintionImporter(definition);
 
-        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-        deploymentBuilder.deployProcessDefinition(rawProDefImporter);
+        DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
+        Deployment deployment = deploymentBuilder.addProcessDefinition(definition).buildDeployment();
+        
+        jodaEngineServices.getRepositoryService().deploy(deployment);
     }
 
     /**

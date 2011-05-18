@@ -51,23 +51,9 @@ public class DeployProcessDefintionTest extends AbstractJodaEngineTest {
     throws DefinitionNotFoundException {
 
         // Best Regards Tom Baeyens
-        deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
+        deploymentBuilder.addProcessDefinition(def);
+        repo.deploy(deploymentBuilder.buildDeployment());
         Assert.assertEquals(repo.getProcessDefinition(defID), def,
             "The deployed process definition should be avaialable in the repository.");
-    }
-
-    /**
-     * Deploy two {@link ProcessDefinition ProcessDefinitions} with the same name.
-     * 
-     * @throws DefinitionNotFoundException
-     */
-    @Test(expectedExceptions = JodaEngineRuntimeException.class)
-    public void testDuplicateDeployment() {
-
-        deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
-        deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
-
-        String failureMessage = "Up to this point a JodaEngineRuntimeException should have been raised.";
-        Assert.fail(failureMessage);
     }
 }
