@@ -226,7 +226,7 @@ PullAdapterConfiguration {
     throws AdapterSchedulingException {
 
         InboundPullAdapter adapter = createAdapter(correlationService);
-        adapterRegistrar.registerPullAdapter(adapter);
+        adapterRegistrar.registerInboundPullAdapter(adapter);
 
         return adapter;
     }

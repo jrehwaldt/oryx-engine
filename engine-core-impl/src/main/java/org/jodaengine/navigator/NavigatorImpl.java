@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.bootstrap.Service;
-import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.navigator.schedule.FIFOScheduler;
 import org.jodaengine.navigator.schedule.Scheduler;
@@ -153,7 +153,7 @@ implements Navigator, NavigatorInside, Service {
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(UUID processID, StartEvent event)
+    public AbstractProcessInstance startProcessInstance(UUID processID, ProcessStartEvent event)
     throws DefinitionNotFoundException {
 
         ProcessDefinitionInside definition = repository.getProcessDefinitionInside(processID);

@@ -60,12 +60,12 @@ CorrelationAdapter {
      * 
      * @see CorrelationManager
      * @see EventManager
-     * @param event
-     *            the event to correlate
+     * @param adapterEvent
+     *            the event that should be correlated
      */
-    protected final void correlate(@Nonnull AdapterEvent event) {
+    protected final void correlateAdapterEvent(@Nonnull AdapterEvent adapterEvent) {
 
-        correlation.correlate(event);
-        logger.info("Correlating {} for {}", event, getClass().getSimpleName());
+        correlation.correlate(adapterEvent);
+        logger.info("Correlating {} for {}", adapterEvent, getClass().getSimpleName());
     }
 }

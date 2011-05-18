@@ -42,11 +42,10 @@ extends AbstractAdapterConfiguration {
 
 
     @Override
-    public CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar, CorrelationManager correlationService)
-    throws AdapterSchedulingException {
+    public CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar, CorrelationManager correlationService) {
 
         InboundAdapter adapter = createAdapter(correlationService);
-        adapterRegistrar.registerAdapter(adapter);
+        adapterRegistrar.registerInboundAdapter(adapter);
         
         return adapter;
     }

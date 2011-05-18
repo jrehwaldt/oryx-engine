@@ -21,4 +21,10 @@ public interface CorrelationAdapter {
      */
     @Nonnull
     AdapterConfiguration getConfiguration();
+    
+    @Override
+    boolean equals(Object eventAdapter);
+    
+    @Override
+    int hashCode();
 }

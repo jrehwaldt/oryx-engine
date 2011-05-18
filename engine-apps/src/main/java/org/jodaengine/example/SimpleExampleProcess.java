@@ -11,7 +11,7 @@ import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
-import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.monitor.Monitor;
@@ -111,7 +111,7 @@ public final class SimpleExampleProcess {
     /**
      * Builds the {@link ProcessDefinition} for the sample process.
      * <p>
-     * The sample process contains: {@link StartEvent} => {@link AutomatedDummyActivity AutomatedDummyActivityNode} =>
+     * The sample process contains: {@link ProcessStartEvent} => {@link AutomatedDummyActivity AutomatedDummyActivityNode} =>
      * {@link AutomatedDummyActivity AutomatedDummyActivityNode} => {@link EndEvent} .
      * </p>
      */

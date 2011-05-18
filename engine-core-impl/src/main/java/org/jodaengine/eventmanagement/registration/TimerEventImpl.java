@@ -10,7 +10,7 @@ import org.jodaengine.process.token.Token;
 /**
  * The Class TimerEventImpl.
  */
-public class TimerEventImpl extends ProcessEventImpl implements IntermediateEvent {
+public class TimerEventImpl extends ProcessEventImpl implements ProcessIntermediateEvent {
 
     private Token token;
     private TimedConfiguration config;

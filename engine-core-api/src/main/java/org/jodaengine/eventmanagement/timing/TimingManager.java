@@ -22,7 +22,7 @@ public interface TimingManager {
      * @throws AdapterSchedulingException
      *             thrown if scheduling fails
      */
-    void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
+    void registerJobForInboundPullAdapter(@Nonnull InboundPullAdapter adapter)
     throws AdapterSchedulingException;
 
     /**
@@ -53,18 +53,4 @@ public interface TimingManager {
      * @return the number of scheduled groups
      */
     int countScheduledJobGroups();
-
-    /**
-     * Restart the scheduler with cleaned resources.
-     */
-    void shutdownScheduler();
-
-    /**
-     * Empty scheduler. Removes all jobs
-     * 
-     * @throws SchedulerException
-     *             the scheduler exception
-     */
-    void emptyScheduler()
-    throws SchedulerException;
 }

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
@@ -27,7 +27,7 @@ public interface Navigator {
      * @return the started instance
      */
     @Nonnull
-    AbstractProcessInstance startProcessInstance(@Nonnull UUID processID, StartEvent event)
+    AbstractProcessInstance startProcessInstance(@Nonnull UUID processID, ProcessStartEvent event)
     throws DefinitionNotFoundException;
 
     /**

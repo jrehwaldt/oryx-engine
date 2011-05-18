@@ -7,9 +7,9 @@ import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventType;
 
 /**
- * The Class StartEventImpl. Have a look at {@link StartEvent}.
+ * The Class StartEventImpl. Have a look at {@link ProcessStartEvent}.
  */
-public class StartEventImpl extends ProcessEventImpl implements StartEvent {
+public class StartEventImpl extends ProcessEventImpl implements ProcessStartEvent {
 
     private UUID definitionID;
 

@@ -4,9 +4,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.adapter.InboundAdapter;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
-import org.jodaengine.eventmanagement.registration.ProcessEvent;
 import org.jodaengine.eventmanagement.timing.TimingManager;
-import org.jodaengine.exception.AdapterSchedulingException;
 
 /**
  * This interface provides methods for registering events to the {@link EventManager}.
@@ -18,12 +16,10 @@ public interface AdapterRegistrar {
      * 
      * @param adapter
      *            the {@link InboundAdapter} to register
-     * @param <Adapter>
-     *            the adapter's type, generally {@link InboundAdapter} or {@link InboundPullAdapter}
      * @return the registered {@link InboundAdapter}
      */
     @Nonnull
-    <Adapter extends InboundAdapter> Adapter registerAdapter(@Nonnull Adapter adapter);
+    InboundAdapter registerInboundAdapter(@Nonnull InboundAdapter adapter);
 
     /**
      * A call to this method registers the corresponding adapter.
@@ -31,12 +27,9 @@ public interface AdapterRegistrar {
      * @param adapter
      *            the {@link InboundAdapter} to register
      * @return the registered {@link InboundAdapter}
-     * @exception AdapterSchedulingException
-     *                thrown if scheduling the adapter failed
      */
     @Nonnull
-    InboundPullAdapter registerPullAdapter(@Nonnull InboundPullAdapter adapter)
-    throws AdapterSchedulingException;
+    InboundPullAdapter registerInboundPullAdapter(@Nonnull InboundPullAdapter adapter);
     
     /**
      * Gets the timer.
@@ -44,6 +37,4 @@ public interface AdapterRegistrar {
      * @return the timer
      */
     TimingManager getTimer();
-    
-    void registerAdapaterForEvent(ProcessEvent event);
 }

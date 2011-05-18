@@ -5,7 +5,7 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import org.jodaengine.eventmanagement.EventManager;
-import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -26,7 +26,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      * @return the start triggers
      */
     @JsonIgnore
-    Map<StartEvent, Node> getStartTriggers();
+    Map<ProcessStartEvent, Node> getStartTriggers();
 
     /**
      * Adds the start trigger. If event is invoked, a token will spawn on node.
@@ -38,7 +38,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      * @throws IllegalStarteventException
      *             thrown if the provided node isn't a startnode.
      */
-    void addStartTrigger(StartEvent event, Node node)
+    void addStartTrigger(ProcessStartEvent event, Node node)
     throws IllegalStarteventException;
 
     /**
@@ -51,7 +51,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
     AbstractProcessInstance createProcessInstance(NavigatorInside navigator);
 
     /**
-     * Is responsible for activating the {@link ProcessDefinition}. Perhaps some {@link StartEvent StartEvents} need to
+     * Is responsible for activating the {@link ProcessDefinition}. Perhaps some {@link ProcessStartEvent StartEvents} need to
      * be registered.
      * 
      * @param correlationManager
@@ -61,7 +61,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
     void activate(EventManager correlationManager);
 
     /**
-     * Is responsible for deactivating the {@link ProcessDefinition}. Perhaps some {@link StartEvent StartEvents} need
+     * Is responsible for deactivating the {@link ProcessDefinition}. Perhaps some {@link ProcessStartEvent StartEvents} need
      * to be unregistered.
      * 
      * @param correlationManager

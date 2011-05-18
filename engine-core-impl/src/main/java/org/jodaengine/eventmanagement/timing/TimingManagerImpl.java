@@ -21,131 +21,155 @@ import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.exception.AdapterSchedulingException;
 import org.jodaengine.exception.EngineInitializationFailedException;
+import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.token.Token;
-
 
 /**
  * The Class TimingManagerImpl.
  */
-public class TimingManagerImpl
-implements TimingManager {
-    
+public class TimingManagerImpl implements TimingManager {
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Scheduler scheduler;
     private final ErrorAdapter errorAdapter;
     public static final String TOKEN_KEY = "token";
+
     /**
      * Default constructor.
      * 
-     * @param errorAdapter the error handler as {@link ErrorAdapter}
+     * @param errorAdapter
+     *            the error handler as {@link ErrorAdapter}
      */
     public TimingManagerImpl(@Nonnull ErrorAdapter errorAdapter) {
+
         this.errorAdapter = errorAdapter;
-       try { 
-        final SchedulerFactory factory = new org.quartz.impl.StdSchedulerFactory();
-        this.scheduler = factory.getScheduler();
-        this.scheduler.start();
-    } catch (SchedulerException se) {
-        logger.error("Initializing the scheduler failed. EventManager not available.", se);
-        throw new EngineInitializationFailedException("Creating a timer manager failed.", se);
-    }
-    }
-    
-    @Override
-    public void registerPullAdapter(@Nonnull InboundPullAdapter adapter)
-    throws AdapterSchedulingException {
+        try {
+            
+            final SchedulerFactory factory = new org.quartz.impl.StdSchedulerFactory();
+            this.scheduler = factory.getScheduler();
+            this.scheduler.start();
         
+        } catch (SchedulerException se) {
+            logger.error("Initializing the scheduler failed. EventManager not available.", se);
+            throw new EngineInitializationFailedException("Creating a timer manager failed.", se);
+        }
+    }
+
+    @Override
+    public void registerJobForInboundPullAdapter(@Nonnull InboundPullAdapter adapter) {
+
         final TimedConfiguration configuration = adapter.getConfiguration();
         final long interval = configuration.getTimeInterval();
-        
+
         final String jobName = jobName(configuration);
         final String jobGroupName = jobGroupName(configuration);
         final String triggerName = triggerName(configuration);
-        
+
         JobDetail jobDetail = new JobDetail(jobName, jobGroupName, configuration.getScheduledClass());
         JobDataMap data = jobDetail.getJobDataMap();
-        
+
         data.put(PullAdapterJob.ADAPTER_KEY, adapter);
         data.put(PullAdapterJob.ERROR_HANDLER_KEY, this.errorAdapter);
-        
+
         Trigger trigger = new SimpleTrigger(triggerName, SimpleTrigger.REPEAT_INDEFINITELY, interval);
-        
-        registerJob(jobDetail,
-                    trigger);
+
+        try {
+
+            registerJob(jobDetail, trigger);
+
+        } catch (AdapterSchedulingException quartzException) {
+
+            String errorMessage = "While registering a job for the eventAdapter '" + adapter.toString()
+                + "' the following exception occurred: " + quartzException.getMessage();
+            logger.error(errorMessage, quartzException);
+            throw new JodaEngineRuntimeException(errorMessage, quartzException);
+        }
     }
-    
+
     /**
      * Creates a unique trigger name for an adapter's configuration.
      * 
-     * @param configuration the adapter configuration
+     * @param configuration
+     *            the adapter configuration
      * @return a unique trigger name
      */
-    private static @Nonnull String triggerName(@Nonnull AdapterConfiguration configuration) {
+    private static @Nonnull
+    String triggerName(@Nonnull AdapterConfiguration configuration) {
+
         return String.format("trigger-%s", configuration.getUniqueName());
     }
+
     /**
      * Creates a unique job name for an adapter's configuration.
      * 
-     * @param configuration the adapter configuration
+     * @param configuration
+     *            the adapter configuration
      * @return a unique job name
      */
-    private static @Nonnull String jobName(@Nonnull AdapterConfiguration configuration) {
+    private static @Nonnull
+    String jobName(@Nonnull AdapterConfiguration configuration) {
+
         return String.format("job-%s", configuration.getUniqueName());
     }
+
     /**
      * Creates a unique group name for an adapter's configuration.
      * 
-     * @param configuration the adapter configuration
+     * @param configuration
+     *            the adapter configuration
      * @return a unique group name
      */
-    private static @Nonnull String jobGroupName(@Nonnull AdapterConfiguration configuration) {
+    private static @Nonnull
+    String jobGroupName(@Nonnull AdapterConfiguration configuration) {
+
         return String.format("job-group-%s", configuration.getUniqueName());
     }
 
     /**
      * Registers a job for QUARTZ Scheduler.
-     *
-     * @param detail the job detail which includes the data for the job.
-     * @param trigger the trigger which defines when (repeated or just for one time) and how to execute the job.
-     * @throws AdapterSchedulingException the adapter scheduling exception
+     * 
+     * @param detail
+     *            the job detail which includes the data for the job.
+     * @param trigger
+     *            the trigger which defines when (repeated or just for one time) and how to execute the job.
+     * @throws AdapterSchedulingException
+     *             the adapter scheduling exception
      */
     private void registerJob(JobDetail detail, Trigger trigger)
     throws AdapterSchedulingException {
- 
+
         try {
             this.scheduler.scheduleJob(detail, trigger);
         } catch (SchedulerException se) {
             logger.error("Unable to register plugin due to scheduler failure.", se);
             throw new AdapterSchedulingException(se);
         }
-        
+
     }
 
     @Override
     public String registerNonRecurringJob(TimedConfiguration configuration, Token token)
     throws AdapterSchedulingException {
-        
-        JobDetail jobDetail = new JobDetail(
-            jobName(configuration),
-            jobGroupName(configuration),
+
+        JobDetail jobDetail = new JobDetail(jobName(configuration), jobGroupName(configuration),
             configuration.getScheduledClass());
         JobDataMap data = jobDetail.getJobDataMap();
         data.put(TimingManagerImpl.TOKEN_KEY, token);
-        
+
         Calendar date = new GregorianCalendar();
         date.setTimeInMillis(System.currentTimeMillis() + configuration.getTimeInterval());
 
         Trigger trigger = new SimpleTrigger(triggerName(configuration), date.getTime());
-        
-        registerJob(jobDetail,
-           trigger);
-        
+
+        registerJob(jobDetail, trigger);
+
         return jobDetail.getFullName();
-        
+
     }
 
     @Override
     public void unregisterJob(String jobCompleteName) {
+
         String[] tmp = jobCompleteName.split("\\.");
         try {
             this.scheduler.deleteJob(tmp[1], tmp[0]);
@@ -153,9 +177,10 @@ implements TimingManager {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public int countScheduledJobGroups() {
+
         int jobs = 0;
         try {
             jobs = this.scheduler.getJobGroupNames().length;
@@ -165,7 +190,6 @@ implements TimingManager {
         return jobs;
     }
 
-    @Override
     public void shutdownScheduler() {
 
         try {
@@ -173,21 +197,21 @@ implements TimingManager {
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
-        
+
     }
-    
-    @Override
-    public void emptyScheduler() throws SchedulerException {
+
+    public void emptyScheduler()
+    throws SchedulerException {
 
         String[] groups = scheduler.getJobGroupNames();
         for (String group : groups) {
             String[] jobs = scheduler.getJobNames(group);
             for (String job : jobs) {
-                unregisterJob(group + "." + job);  
+                unregisterJob(group + "." + job);
             }
 
         }
-        
+
     }
-    
+
 }

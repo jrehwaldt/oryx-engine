@@ -28,7 +28,7 @@ import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.adapter.mail.MailProtocol;
 import org.jodaengine.eventmanagement.registration.EventCondition;
 import org.jodaengine.eventmanagement.registration.EventConditionImpl;
-import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
 import org.jodaengine.eventmanagement.registration.StartEventImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -42,7 +42,7 @@ import org.jodaengine.util.testing.AbstractJodaEngineTest;
  */
 public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
 
-    private StartEvent event, anotherEvent;
+    private ProcessStartEvent event, anotherEvent;
     private MailAdapterEvent incomingEvent, anotherIncomingEvent;
     public static final int MAIL_PORT = 25;
 
@@ -63,7 +63,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
         correlation.correlate(incomingEvent);
 
         // we use eq(...) because if you use mockito matchers as the parameters, all parameters have to be matchers.
-        verify(navigator).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID), any(StartEvent.class));
+        verify(navigator).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID), any(ProcessStartEvent.class));
     }
 
     /**
@@ -83,7 +83,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
         correlation.correlate(anotherIncomingEvent);
 
         verify(navigator, never()).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID),
-            any(StartEvent.class));
+            any(ProcessStartEvent.class));
     }
 
     /**
@@ -105,7 +105,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
         correlation.correlate(incomingEvent);
 
         verify(navigator, times(1)).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID),
-            any(StartEvent.class));
+            any(ProcessStartEvent.class));
     }
 
     /**

@@ -8,7 +8,7 @@ import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.PullAdapterConfiguration;
-import org.jodaengine.eventmanagement.timing.PullAdapterJob;
+import org.jodaengine.eventmanagement.timing.TimerJob;
 import org.jodaengine.exception.AdapterSchedulingException;
 
 
@@ -47,7 +47,7 @@ implements PullAdapterConfiguration {
 
     @Override
     public Class<? extends Job> getScheduledClass() {
-        return PullAdapterJob.class;
+        return TimerJob.class;
     }
 
     /**
@@ -68,8 +68,6 @@ implements PullAdapterConfiguration {
     throws AdapterSchedulingException {
 
         TimerAdapter adapter = createAdapter(correlationService);
-        adapterRegistrar.registerPullAdapter(adapter);
-
-        return adapter;
+        adapterRegistrar.registerPullregisterInboundPullAdapter        return adapter;
     }
 }
