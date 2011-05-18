@@ -2,7 +2,6 @@ package org.jodaengine.example;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
@@ -20,6 +19,7 @@ import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.plugin.navigator.NavigatorListenerLogger;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +65,7 @@ public final class ExampleMailStartProcess {
             Node startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
 
             // Building Node1
-            int[] ints = {1, 1 };
+            int[] ints = { 1, 1 };
             Node node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
 
             // Building Node2
@@ -92,7 +92,8 @@ public final class ExampleMailStartProcess {
             builder.createStartTrigger(EventTypes.Mail, config, conditions, startNode);
             ProcessDefinition def = builder.buildDefinition();
 
-            UUID exampleProcessUUID = deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(def));
+            ProcessDefinitionID exampleProcessUUID = deploymentBuilder
+            .deployProcessDefinition(new RawProcessDefintionImporter(def));
 
             jodaEngineServices.getRepositoryService().activateProcessDefinition(exampleProcessUUID);
 

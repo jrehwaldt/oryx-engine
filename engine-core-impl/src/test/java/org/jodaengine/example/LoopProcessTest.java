@@ -7,10 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImplMock;
@@ -19,6 +15,7 @@ import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
@@ -27,6 +24,9 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 
 /**
@@ -121,7 +121,8 @@ public class LoopProcessTest {
         Navigator nav = new NavigatorImplMock();
         List<Node> startNodes = new ArrayList<Node>();
         startNodes.add(start);
-        ProcessDefinition definition = new ProcessDefinitionImpl(UUID.randomUUID(), DEFINITION_NAME,
+        ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID(), 0);
+        ProcessDefinition definition = new ProcessDefinitionImpl(id, DEFINITION_NAME,
             DEFINITION_DESCRIPTION, startNodes);
         AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
         instance.getContext().setVariable("counter", "0");

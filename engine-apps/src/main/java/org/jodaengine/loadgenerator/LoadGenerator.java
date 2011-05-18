@@ -15,6 +15,7 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factories.process.ProcessDeployer;
 import org.jodaengine.navigator.NavigatorImpl;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 
 /**
  * The Class LoadGenerator. Is used to generate some load and profile it (more or less) Maybe it should be more generic,
@@ -57,8 +58,8 @@ public class LoadGenerator {
     /** The class name of the processfactory which creates the process that simulates the load. */
     private String className;
 
-    /** the UUID of the definition this process is deploying. */
-    private UUID definitionId;
+    /** the id of the definition this process is deploying. */
+    private ProcessDefinitionID definitionId;
 
     /**
      * Deploys the selected process and is then further used to cleanup as an example, Human task processes got pseudo

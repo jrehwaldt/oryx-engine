@@ -1,7 +1,5 @@
 package org.jodaengine.allocation;
 
-import java.util.List;
-
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 
 /**
@@ -16,12 +14,10 @@ public interface PushPattern {
     /**
      * Distributes worklist items using the supplied worklistService by a strategy that is re-implemented in every
      * subclass.
-     * 
-     * @param worklistService
-     *            the worklist service
-     * @param itemsToDistribute
-     *            the items to distribute
+     *
+     * @param worklistService the worklist service
+     * @param itemToDistribute the item to distribute
      */
-    void distributeWorkitems(TaskAllocation worklistService, List<AbstractWorklistItem> itemsToDistribute);
+    void distributeWorkitem(TaskAllocation worklistService, AbstractWorklistItem itemToDistribute);
 
 }

@@ -1,9 +1,8 @@
 package org.jodaengine.factories.process;
 
-import org.testng.annotations.BeforeMethod;
-
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
+import org.testng.annotations.BeforeMethod;
 
 /**
  * Tests the EcampleProcessDeplyoer class. {@inheritDoc}
@@ -21,6 +20,6 @@ public class ExampleProcessDeployerTest extends AbstractProcessDeployerTest {
     throws IllegalStarteventException, ResourceNotAvailableException {
 
         this.deployer = new ExampleProcessDeployer();
-        this.uuid = deployer.deploy(engineServices);
+        this.id = deployer.deploy(engineServices);
     }
 }

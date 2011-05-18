@@ -89,10 +89,9 @@ public class ParticipantFactory extends ResourceFactory {
         CreationPattern pattern = null;
         for (int i = 0; i < NUMBER_OF_ITEMS_FOR_BUSY_PARTICIPANT; i++) {
             pattern = CreationPatternFactory.createParticipantCreator(willi);
-            List<AbstractWorklistItem> items = pattern.createWorklistItems(Mockito.mock(Token.class));
+            AbstractWorklistItem item = pattern.createWorklistItem(Mockito.mock(Token.class));
             PushPattern pushPattern = new AllocateSinglePattern();
-            pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
-//            taskDistributionService.distribute(pattern, Mockito.mock(Token.class));
+            pushPattern.distributeWorkitem(taskAllocationService, item);
         }
         
         List<AbstractWorklistItem> items = worklistService.getWorklistItems(willi);

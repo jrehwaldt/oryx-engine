@@ -7,12 +7,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
-
-import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.PushPattern;
@@ -33,6 +27,10 @@ import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.io.StringStreamSource;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 
 /**
@@ -73,9 +71,9 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
         instance = new ProcessInstanceImpl(mock(ProcessDefinition.class));
         Token token = instance.createToken(mock(Node.class), mock(Navigator.class));
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
-        List<AbstractWorklistItem> items = pattern.createWorklistItems(token);
+        AbstractWorklistItem item = pattern.createWorklistItem(token);
         PushPattern pushPattern = new AllocateSinglePattern();
-        pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
+        pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
         jannik = (AbstractParticipant) pattern.getAssignedResources().iterator().next();
     }
     

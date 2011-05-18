@@ -2,11 +2,6 @@ package org.jodaengine.example;
 
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.core.joran.event.EndEvent;
-
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
@@ -23,8 +18,13 @@ import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.core.joran.event.EndEvent;
 
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
@@ -71,7 +71,7 @@ public final class SimpleExampleProcess {
         NavigatorImpl navigator = (NavigatorImpl) jodaEngineServices.getNavigatorService();
         navigator.getScheduler().registerPlugin(monitor);
 
-        UUID sampleProcessUUID = deploySampleProcess(jodaEngineServices);
+        ProcessDefinitionID sampleProcessUUID = deploySampleProcess(jodaEngineServices);
 
         // let's generate some load :)
         LOGGER.info("Engine started");
@@ -93,7 +93,7 @@ public final class SimpleExampleProcess {
     /**
      * Deploys the sample process.
      */
-    private static UUID deploySampleProcess(JodaEngineServices jodaEngineServices)
+    private static ProcessDefinitionID deploySampleProcess(JodaEngineServices jodaEngineServices)
     throws IllegalStarteventException {
 
         DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
@@ -101,8 +101,8 @@ public final class SimpleExampleProcess {
         ProcessDefinition processDefinition = buildSampleProcessDefinition(deploymentBuilder
         .getProcessDefinitionBuilder());
 
-        UUID sampleProcessUUID = deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(
-            processDefinition));
+        ProcessDefinitionID sampleProcessUUID = deploymentBuilder
+        .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
 
         return sampleProcessUUID;
 

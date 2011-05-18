@@ -85,7 +85,7 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
 
         Assert.assertEquals(definitions.size(), 1);
         // it is really our Element
-        Assert.assertEquals(definitions.iterator().next().getID(), RepositorySetup.getProcess1Plus1ProcessUUID());
+        Assert.assertEquals(definitions.iterator().next().getID(), RepositorySetup.getProcess1Plus1ProcessID());
 
     }
 

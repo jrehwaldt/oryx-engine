@@ -4,9 +4,6 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.List;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.jodaengine.NavigatorImplMock;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
@@ -21,6 +18,8 @@ import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * The Class ShortenedReferenceProcessDeployerTest. This is the test class for {@link ShortenedReferenceProcessDeployer}
@@ -42,9 +41,9 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
     throws IllegalStarteventException, ResourceNotAvailableException {
 
         instanceDefinition = new ShortenedReferenceProcessDeployer();
-        this.uuid = instanceDefinition.deploy(engineServices);
+        this.id = instanceDefinition.deploy(engineServices);
         try {
-            processInstance = new ProcessInstanceImpl(ServiceFactory.getRepositoryService().getProcessDefinition(uuid));
+            processInstance = new ProcessInstanceImpl(ServiceFactory.getRepositoryService().getProcessDefinition(id));
         } catch (DefinitionNotFoundException e) {
             System.out.println("Definition nicht gefunden! ");
             e.printStackTrace();
@@ -83,7 +82,7 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         executeHumanTaskBy(jannik);
         assertEquals(token.getCurrentNode(), instanceDefinition.getXor2());
         // let the XOR take the "true" way
-        token.getInstance().getContext().setVariable("neue Aspekte", "ja");
+        token.getInstance().getContext().setVariable("neueAspekte", "ja");
         token.executeStep();
         assertEquals(token.getCurrentNode(), instanceDefinition.getHuman3());
         token.executeStep();

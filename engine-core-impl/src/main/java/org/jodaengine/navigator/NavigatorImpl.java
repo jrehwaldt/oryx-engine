@@ -3,7 +3,6 @@ package org.jodaengine.navigator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
@@ -15,6 +14,7 @@ import org.jodaengine.navigator.schedule.FIFOScheduler;
 import org.jodaengine.navigator.schedule.Scheduler;
 import org.jodaengine.plugin.AbstractPluggable;
 import org.jodaengine.plugin.navigator.AbstractNavigatorListener;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
@@ -135,7 +135,7 @@ implements Navigator, NavigatorInside, Service {
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(UUID processID)
+    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID)
     throws DefinitionNotFoundException {
 
         // TODO use the variable repository here. This cannot be used in tests, as it requires the bootstrap to have
@@ -153,7 +153,7 @@ implements Navigator, NavigatorInside, Service {
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(UUID processID, StartEvent event)
+    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID, StartEvent event)
     throws DefinitionNotFoundException {
 
         ProcessDefinitionInside definition = repository.getProcessDefinitionInside(processID);

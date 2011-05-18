@@ -7,8 +7,11 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.instance.AbstractProcessInstance;
 
 /**
  * The RepositoryService offers method to manage the processes that have been deployed to the navigator.
@@ -36,7 +39,7 @@ public interface RepositoryService {
      * @throws DefinitionNotFoundException
      *             - thrown, if the given ID does not exist
      */
-    ProcessDefinition getProcessDefinition(@Nonnull UUID processDefintionID)
+    ProcessDefinition getProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException;
 
     /**
@@ -53,7 +56,7 @@ public interface RepositoryService {
      *            the definition's id
      * @return true, if available
      */
-    boolean containsProcessDefinition(@Nonnull UUID processDefintionID);
+    boolean containsProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
 
     /**
      * Deletes the given {@link ProcessDefinition}.
@@ -61,7 +64,7 @@ public interface RepositoryService {
      * @param processDefintionID
      *            - id of the {@link ProcessDefinition}, cannot be null.
      */
-    void deleteProcessDefinition(@Nonnull UUID processDefintionID);
+    void deleteProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
 
     /**
      * Deactivates a {@link ProcessDefinition} with the given processDefinitionID. It means that no
@@ -70,7 +73,7 @@ public interface RepositoryService {
      * @param processDefintionID
      *            - id of the {@link ProcessDefinition}, cannot be null.
      */
-    void deactivateProcessDefinition(@Nonnull UUID processDefintionID);
+    void deactivateProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
 
     /**
      * Activates a {@link ProcessDefinition} with the given processDefinitionID. It means that no
@@ -79,29 +82,33 @@ public interface RepositoryService {
      * @param processDefintionID
      *            - id of the {@link ProcessDefinition}, cannot be null.
      */
-    void activateProcessDefinition(@Nonnull UUID processDefintionID);
+    void activateProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
 
     /**
      * Retrieves a certain {@link AbstractProcessArtifact ProcessResource} with the given processResourceID.
-     * 
-     * @param processResourceID
-     *            - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
-     * 
+     *
+     * @param processResourceID - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
      * @return a {@link AbstractProcessArtifact ProcessResource}
-     * 
-     * @throws DefinitionNotFoundException
-     *             - thrown, if the given ID does not exist
+     * @throws ProcessArtifactNotFoundException thrown if the artifact does not exist
      */
     @Nonnull
-    AbstractProcessArtifact getProcessResource(@Nonnull UUID processResourceID)
-    throws DefinitionNotFoundException;
+    AbstractProcessArtifact getProcessArtifact(@Nonnull UUID processResourceID)
+    throws ProcessArtifactNotFoundException;
 
     /**
-     * Retrieves all {@link AbstractProcessArtifact ProcessResources} that have been deployed previously.
+     * Retrieves all {@link AbstractProcessArtifact ProcessArtifacts} that have been deployed previously.
      * 
      * @return a list containing all {@link AbstractProcessArtifact ProcessResources}
      */
-    List<AbstractProcessArtifact> getProcessResources();
+    List<AbstractProcessArtifact> getProcessArtifacts();
+    
+    /**
+     * Checks whether the repository has saved an artifact with the given id.
+     *
+     * @param processResourceID the process resource id
+     * @return true, if successful
+     */
+    boolean containsProcessArtifact(UUID processResourceID);
 
     /**
      * Deletes the given {@link AbstractProcessArtifact ProcessResource}.

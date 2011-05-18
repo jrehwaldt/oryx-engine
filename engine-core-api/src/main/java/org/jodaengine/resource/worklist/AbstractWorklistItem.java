@@ -5,6 +5,7 @@ package org.jodaengine.resource.worklist;
 
 import java.io.IOException;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
@@ -25,7 +26,7 @@ import org.jodaengine.util.Identifiable;
  */
 // TODO worklistitem has a task?
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public abstract class AbstractWorklistItem implements Identifiable {
+public abstract class AbstractWorklistItem implements Identifiable<UUID> {
 
     /**
      * Gets the status.

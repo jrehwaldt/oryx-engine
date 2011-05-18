@@ -11,13 +11,6 @@ import static org.mockito.Mockito.when;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
-import org.quartz.SchedulerException;
-import org.quartz.impl.StdSchedulerFactory;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 import org.jodaengine.RepositoryServiceImpl;
 import org.jodaengine.eventmanagement.EventManagerImpl;
@@ -33,8 +26,14 @@ import org.jodaengine.eventmanagement.registration.StartEventImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.quartz.SchedulerException;
+import org.quartz.impl.StdSchedulerFactory;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 
 /**
@@ -122,7 +121,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
 
         RepositorySetup.fillRepository();
         // register some events
-        UUID definitionID = RepositoryServiceImpl.SIMPLE_PROCESS_ID;
+        ProcessDefinitionID definitionID = RepositoryServiceImpl.SIMPLE_PROCESS_ID;
         EventType mailType = EventTypes.Mail;
 
         EventCondition subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"),

@@ -1,7 +1,5 @@
 package org.jodaengine.resource.allocation.pattern;
 
-import java.util.List;
-
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
@@ -15,11 +13,10 @@ import org.jodaengine.resource.worklist.WorklistItemState;
 public class AllocateSinglePattern implements PushPattern {
 
     @Override
-    public void distributeWorkitems(TaskAllocation worklistService, List<AbstractWorklistItem> itemsToDistribute) {
+    public void distributeWorkitem(TaskAllocation worklistService, AbstractWorklistItem itemToDistribute) {
 
-        for (AbstractWorklistItem item : itemsToDistribute) {
-            ((WorklistItemImpl) item).setStatus(WorklistItemState.ALLOCATED);
-            worklistService.addWorklistItem(item, item.getAssignedResources());
-        }
+        WorklistItemImpl item = WorklistItemImpl.asWorklistItemImpl(itemToDistribute);
+        item.setStatus(WorklistItemState.ALLOCATED);
+        worklistService.addWorklistItem(item, item.getAssignedResources());
     }
 }

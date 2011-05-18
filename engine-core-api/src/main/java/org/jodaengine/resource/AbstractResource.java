@@ -28,7 +28,7 @@ import org.jodaengine.util.Identifiable;
  *            - extending Resource
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public abstract class AbstractResource<R extends AbstractResource<?>> implements Identifiable {
+public abstract class AbstractResource<R extends AbstractResource<?>> implements Identifiable<UUID> {
 
     protected UUID id;
 

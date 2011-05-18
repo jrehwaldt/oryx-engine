@@ -2,14 +2,13 @@ package org.jodaengine.factories.process;
 
 import static org.testng.Assert.assertEquals;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.jodaengine.IdentityService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Tests the EcampleProcessDeplyoer class. {@inheritDoc}
@@ -29,7 +28,7 @@ public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
     throws IllegalStarteventException, ResourceNotAvailableException {
 
         this.deployer = new HumanTaskProcessDeployer();
-        this.uuid = deployer.deploy(engineServices);
+        this.id = deployer.deploy(engineServices);
     }
 
     /**

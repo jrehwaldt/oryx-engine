@@ -61,9 +61,9 @@ public class WorklistItemImpl extends AbstractWorklistItem {
         this.description = description;
         this.form = form;
         this.assignedResources = assignedResources;
-        this.status = WorklistItemState.OFFERED;
         this.correspondingToken = correspondingToken;
         this.id = UUID.randomUUID();
+        this.setStatus(WorklistItemState.CREATED);
     }
 
     @Override

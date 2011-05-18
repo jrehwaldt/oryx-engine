@@ -1,6 +1,7 @@
 package org.jodaengine.process.instance;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -19,7 +20,7 @@ import org.jodaengine.util.Identifiable;
  * threads, represented as tokens and a context that holds variables.
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public abstract class AbstractProcessInstance implements Identifiable {
+public abstract class AbstractProcessInstance implements Identifiable<UUID> {
 
     /**
      * Assigns the token to this instance.

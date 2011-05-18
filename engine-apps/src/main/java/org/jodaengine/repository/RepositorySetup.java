@@ -1,7 +1,5 @@
 package org.jodaengine.repository;
 
-import java.util.UUID;
-
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.DeploymentBuilder;
@@ -14,6 +12,7 @@ import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
 
 /**
@@ -31,16 +30,16 @@ public final class RepositorySetup {
 
     }
 
-    private static UUID process1Plus1ProcessUUID;
+    private static ProcessDefinitionID process1Plus1ProcessID;
 
     /**
      * Gets the process1 plus1 process uuid.
      * 
      * @return the process1 plus1 process uuid
      */
-    public static UUID getProcess1Plus1ProcessUUID() {
+    public static ProcessDefinitionID getProcess1Plus1ProcessID() {
 
-        return process1Plus1ProcessUUID;
+        return process1Plus1ProcessID;
     }
 
     /**
@@ -49,9 +48,9 @@ public final class RepositorySetup {
      * @param process1Plus1ProcessUUID
      *            the new process1 plus1 process uuid
      */
-    public static void setProcess1Plus1ProcessUUID(UUID process1Plus1ProcessUUID) {
+    public static void setProcess1Plus1ProcessID(ProcessDefinitionID process1Plus1ProcessUUID) {
 
-        RepositorySetup.process1Plus1ProcessUUID = process1Plus1ProcessUUID;
+        RepositorySetup.process1Plus1ProcessID = process1Plus1ProcessUUID;
     }
 
     /**
@@ -68,7 +67,7 @@ public final class RepositorySetup {
 
         // Deploying the process with a simple ProcessImporter
         ProcessDefinitionImporter rawProDefImporter = new RawProcessDefintionImporter(get1Plus1Process());
-        process1Plus1ProcessUUID = deploymentBuilder.deployProcessDefinition(rawProDefImporter);
+        process1Plus1ProcessID = deploymentBuilder.deployProcessDefinition(rawProDefImporter);
     }
 
     /**

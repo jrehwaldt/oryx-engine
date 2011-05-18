@@ -22,7 +22,6 @@ import org.jodaengine.process.structure.StartNodeBuilderImpl;
 import org.jodaengine.process.structure.TransitionBuilder;
 import org.jodaengine.process.structure.TransitionBuilderImpl;
 import org.jodaengine.util.PatternAppendable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +34,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private List<Node> startNodes;
-    private UUID id;
+    private ProcessDefinitionID id;
     private String name;
     private String description;
     private Map<StartEvent, Node> temporaryStartTriggers;
@@ -54,7 +53,9 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     private void resetingThisBuilder() {
 
         this.startNodes = new ArrayList<Node>();
-        this.id = UUID.randomUUID();
+        
+        // TODO @Thorben-Refactoring change this. The version should not be assigned here.
+        this.id = new ProcessDefinitionID(UUID.randomUUID(), 0);
         this.name = null;
         this.description = null;
         this.temporaryStartTriggers = new HashMap<StartEvent, Node>();

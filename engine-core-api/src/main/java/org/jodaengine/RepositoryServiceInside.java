@@ -1,8 +1,7 @@
 package org.jodaengine;
 
-import java.util.UUID;
-
 import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 
 /**
@@ -12,6 +11,6 @@ import org.jodaengine.process.definition.ProcessDefinitionInside;
  */
 public interface RepositoryServiceInside extends RepositoryService {
 
-    public ProcessDefinitionInside getProcessDefinitionInside(UUID processDefintionID)
+    ProcessDefinitionInside getProcessDefinitionInside(ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException;
 }

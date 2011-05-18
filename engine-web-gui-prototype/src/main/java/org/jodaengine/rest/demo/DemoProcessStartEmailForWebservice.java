@@ -2,7 +2,6 @@ package org.jodaengine.rest.demo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
@@ -20,6 +19,7 @@ import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,7 +110,7 @@ public final class DemoProcessStartEmailForWebservice {
 
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition def = builder.buildDefinition();
-        UUID exampleProcessUUID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
+        ProcessDefinitionID exampleProcessUUID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
         .deployProcessDefinition(new RawProcessDefintionImporter(def));
 
         // Create a mail adapater event here.

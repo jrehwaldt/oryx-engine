@@ -1,7 +1,5 @@
 package org.jodaengine.allocation;
 
-import java.util.List;
-
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 
@@ -11,13 +9,13 @@ import org.jodaengine.resource.worklist.AbstractWorklistItem;
 public interface CreationPattern {
 
     /**
-     * Creates the worklist items according to a specific Creation strategy.
+     * Creates the worklist item according to a specific Creation strategy.
      * 
      * @param token
      *            the token
      * @return a list of created worklist items
      */
-    List<AbstractWorklistItem> createWorklistItems(Token token);
+    AbstractWorklistItem createWorklistItem(Token token);
     
     
 }

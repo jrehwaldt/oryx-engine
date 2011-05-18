@@ -1,22 +1,16 @@
 package org.jodaengine.factories.process;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.jodaengine.allocation.Form;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.condition.HashMapCondition;
 import org.jodaengine.process.structure.condition.JuelExpressionCondition;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Role;
@@ -24,6 +18,8 @@ import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
 import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class ShortenedReferenceProcessDeployer. This is the implementation of the shortened version of the AOK reference
@@ -270,48 +266,30 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         CreationPatternBuilder builder = new CreationPatternBuilderImpl();
         builder.setItemDescription("Anspruchspositionen überprüfen").setItemSubject("Positionen auf Anspruch prüfen")
         .setItemForm(form).addResourceAssignedToItem(objectionClerk);
-        // Task task = createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen", form,
-        // objectionClerk);
         human1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
             builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
         // XOR Split, condition is objection existence
         xor1 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
-
-        Map<String, Object> map1 = new HashMap<String, Object>();
-        map1.put("widerspruch", "stattgegeben");
-        // Condition condition1 = new HashMapCondition(map1, "==");
         Condition condition1 = new JuelExpressionCondition("${widerspruch  == \"stattgegeben\"}");
-
-        Map<String, Object> map2 = new HashMap<String, Object>();
-        map2.put("widerspruch", "abgelehnt");
-        // Condition condition2 = new HashMapCondition(map2, "==");
         Condition condition2 = new JuelExpressionCondition("${widerspruch  == \"abgelehnt\"}");
 
         // human task for objection clerk, task is to check objection
         form = extractForm("form2", "checkForNewClaims.html");
         builder.setItemDescription("Widerspruch erneut prüfen auf neue Ansprüche").setItemSubject("Widerspruch prüfen")
         .setItemForm(form);
-        // task = createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche", form,
-        // objectionClerk);
         human2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
             builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
         // XOR Split, condition is new relevant aspects existence
         xor2 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
-        map1 = new HashMap<String, Object>();
-        map1.put("neue Aspekte", "ja");
-        Condition condition3 = new HashMapCondition(map1, "==");
-        map2 = new HashMap<String, Object>();
-        map2.put("neue Aspekte", "nein");
-        Condition condition4 = new HashMapCondition(map1, "==");
+        Condition condition3 = new JuelExpressionCondition("${neueAspekte  == \"ja\"}");
+        Condition condition4 = new JuelExpressionCondition("${neueAspekte  == \"nein\"}");
 
         // human task for objection clerk, task is to create a new report
         form = extractForm("form3", "createReport.html");
         builder.setItemDescription("Anspruchspunkte in neues Gutachten übertragen")
         .setItemSubject("neues Gutachten erstellen").setItemForm(form);
-        // task = createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen", form,
-        // objectionClerk);
         human3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
             builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
@@ -320,12 +298,8 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
         // XOR Split, condition is existence of objection in answer of customer
         xor3 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
-        map1 = new HashMap<String, Object>();
-        map1.put("aufrecht", "ja");
-        // Condition condition5 = new HashMapCondition(map1, "==");
         Condition condition5 = new JuelExpressionCondition("${aufrecht  == \"ja\"}");
-        map2 = new HashMap<String, Object>();
-        map2.put("aufrecht", "nein");
+        Condition condition6 = new JuelExpressionCondition("${aufrecht  == \"nein\"}");
 
         // XOR Join
         xor4 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
@@ -334,7 +308,6 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         form = extractForm("form4", "postEditingClaim.html");
         builder.setItemDescription("abschließende Nachbearbeitung des Falls").setItemSubject("Nachbearbeitung")
         .setItemForm(form);
-        // task = createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", form, objectionClerk);
         human4 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
             builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
@@ -342,7 +315,6 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         form = extractForm("form5", "enforceAllowance.html");
         builder.flushAssignedResources().setItemDescription("Leistungsansprüche durchsetzen")
         .setItemSubject("Leistungsgewährung umsetzen").setItemForm(form).addResourceAssignedToItem(allowanceClerk);
-        // task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", form, allowanceClerk);
         human5 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
             builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
@@ -367,6 +339,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor2, xor4, condition4);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human3, xor3);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor3, xor4, condition5);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor3, xor5, condition6);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor4, human4);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human4, human5);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor5, system2);
@@ -393,8 +366,8 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         UUID processArtifactID = deploymentBuilder.deployArtifactAsClasspathResource(formName, "forms/" + formFileName);
         Form form = null;
         try {
-            form = new FormImpl(repoService.getProcessResource(processArtifactID));
-        } catch (DefinitionNotFoundException e) {
+            form = new FormImpl(repoService.getProcessArtifact(processArtifactID));
+        } catch (ProcessArtifactNotFoundException e) {
             logger.error("The recently deployed artifact is not there. Something critical is going wrong.");
             e.printStackTrace();
         }

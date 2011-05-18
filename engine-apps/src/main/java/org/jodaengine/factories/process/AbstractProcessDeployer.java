@@ -1,7 +1,5 @@
 package org.jodaengine.factories.process;
 
-import java.util.UUID;
-
 import org.jodaengine.IdentityService;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
@@ -11,6 +9,7 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.resource.IdentityBuilder;
 
 /**
@@ -25,7 +24,7 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
     protected RepositoryService repoService;
 
     @Override
-    public UUID deploy(JodaEngineServices engineServices)
+    public ProcessDefinitionID deploy(JodaEngineServices engineServices)
     throws IllegalStarteventException, ResourceNotAvailableException {
 
         this.processDefinitionBuilder = engineServices.getRepositoryService().getDeploymentBuilder()
