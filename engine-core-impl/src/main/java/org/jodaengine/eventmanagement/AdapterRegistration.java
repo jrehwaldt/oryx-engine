@@ -10,8 +10,10 @@ import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.InboundAdapter;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
+import org.jodaengine.eventmanagement.registration.IntermediateEvent;
 import org.jodaengine.eventmanagement.registration.ProcessEvent;
 import org.jodaengine.eventmanagement.timing.TimingManagerImpl;
 import org.jodaengine.exception.AdapterSchedulingException;
@@ -88,6 +90,17 @@ public class AdapterRegistration implements AdapterRegistrar, Service {
         this.inboundAdapter.put(adapter.getConfiguration(), adapter);
         return adapter;
     }
+    
+    public String registerIntermediateTimerEvent(IntermediateEvent event) {
+        String jobCompleteName = null;
+        try {
+            jobCompleteName = timer.registerNonRecurringJob((TimedConfiguration) event.getEventConfiguration(),
+                event.getToken());
+        } catch (AdapterSchedulingException e) {
+            logger.error("Registering of an IntermediateTimerEvent failed", e);
+        }
+        return jobCompleteName;
+    }
 
     /**
      * Returns the error adapter.
@@ -117,6 +130,17 @@ public class AdapterRegistration implements AdapterRegistrar, Service {
     @Override
     public void stop() {
         logger.info("Stopping the AdapterRegistration!");
+    }
+
+    /**
+     * Gets the timer.
+     * 
+     * @return the timer
+     */
+    @Override
+    public TimingManagerImpl getTimer() {
+    
+        return timer;
     }
 
 }

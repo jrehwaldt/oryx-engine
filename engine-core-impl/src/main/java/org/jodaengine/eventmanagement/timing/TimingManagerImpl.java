@@ -40,7 +40,6 @@ implements TimingManager {
      * Default constructor.
      * 
      * @param errorAdapter the error handler as {@link ErrorAdapter}
-     * @throws SchedulerException if creating a scheduler fails
      */
     public TimingManagerImpl(@Nonnull ErrorAdapter errorAdapter) {
         this.errorAdapter = errorAdapter;
