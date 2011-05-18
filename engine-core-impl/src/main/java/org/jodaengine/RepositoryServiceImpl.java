@@ -17,8 +17,11 @@ import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.DeploymentBuilderImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
+import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 
@@ -31,9 +34,10 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public static final UUID SIMPLE_PROCESS_ID = UUID.randomUUID();
+    public static final UUID SIMPLE_PROCESS_UUID = UUID.randomUUID();
+    public static final ProcessDefinitionID SIMPLE_PROCESS_ID = new ProcessDefinitionID(SIMPLE_PROCESS_UUID, 0);
 
-    private Map<UUID, ProcessDefinitionImpl> processDefinitionsTable;
+    private Map<ProcessDefinitionID, ProcessDefinitionImpl> processDefinitionsTable;
 
     private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
 
@@ -56,7 +60,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     }
 
     @Override
-    public ProcessDefinition getProcessDefinition(UUID processDefintionID)
+    public ProcessDefinition getProcessDefinition(ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException {
 
         return getProcessDefinitionImpl(processDefintionID);
@@ -70,13 +74,13 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     }
 
     @Override
-    public boolean containsProcessDefinition(@Nonnull UUID processDefintionID) {
+    public boolean containsProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID) {
 
         return this.getProcessDefinitionsTable().containsKey(processDefintionID);
     }
 
     @Override
-    public void activateProcessDefinition(UUID processDefintionID) {
+    public void activateProcessDefinition(ProcessDefinitionID processDefintionID) {
 
         ProcessDefinitionInside processDefintion;
         try {
@@ -97,30 +101,33 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     }
 
     @Override
-    public void deactivateProcessDefinition(UUID processDefintionID) {
+    public void deactivateProcessDefinition(ProcessDefinitionID processDefintionID) {
 
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void deleteProcessDefinition(UUID processResourceID) {
+    public void deleteProcessDefinition(ProcessDefinitionID processResourceID) {
 
         getProcessDefinitionsTable().remove(processResourceID);
     }
 
+    
+    
+    
     @Override
-    public AbstractProcessArtifact getProcessResource(UUID processResourceID)
-    throws DefinitionNotFoundException {
+    public AbstractProcessArtifact getProcessArtifact(UUID processResourceID)
+    throws ProcessArtifactNotFoundException {
 
         AbstractProcessArtifact processArtifact = getProcessArtifactsTable().get(processResourceID);
         if (processArtifact == null) {
-            throw new DefinitionNotFoundException(processResourceID);
+            throw new ProcessArtifactNotFoundException(processResourceID);
         }
         return getProcessArtifactsTable().get(processResourceID);
     }
 
     @Override
-    public List<AbstractProcessArtifact> getProcessResources() {
+    public List<AbstractProcessArtifact> getProcessArtifacts() {
 
         List<AbstractProcessArtifact> listToReturn = new ArrayList<AbstractProcessArtifact>(getProcessArtifactsTable()
         .values());
@@ -138,10 +145,10 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
      * 
      * @return the process definitions table
      */
-    public Map<UUID, ProcessDefinitionImpl> getProcessDefinitionsTable() {
+    public Map<ProcessDefinitionID, ProcessDefinitionImpl> getProcessDefinitionsTable() {
 
         if (processDefinitionsTable == null) {
-            this.processDefinitionsTable = new HashMap<UUID, ProcessDefinitionImpl>();
+            this.processDefinitionsTable = new HashMap<ProcessDefinitionID, ProcessDefinitionImpl>();
         }
         return this.processDefinitionsTable;
     }
@@ -155,7 +162,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
      * @throws DefinitionNotFoundException
      *             - thrown, if the given ID does not exist
      */
-    private ProcessDefinitionImpl getProcessDefinitionImpl(UUID processDefintionID)
+    private ProcessDefinitionImpl getProcessDefinitionImpl(ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException {
 
         ProcessDefinitionImpl processDefinition = getProcessDefinitionsTable().get(processDefintionID);
@@ -181,9 +188,15 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     }
 
     @Override
-    public ProcessDefinitionInside getProcessDefinitionInside(UUID processDefintionID)
+    public ProcessDefinitionInside getProcessDefinitionInside(ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException {
 
         return getProcessDefinitionImpl(processDefintionID);
+    }
+
+    @Override
+    public boolean containsProcessArtifact(UUID processResourceID) {
+
+        return this.getProcessArtifactsTable().containsKey(processResourceID);
     }
 }

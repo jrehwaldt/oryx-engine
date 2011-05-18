@@ -393,7 +393,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         UUID processArtifactID = deploymentBuilder.deployArtifactAsClasspathResource(formName, "forms/" + formFileName);
         Form form = null;
         try {
-            form = new FormImpl(repoService.getProcessResource(processArtifactID));
+            form = new FormImpl(repoService.getProcessArtifact(processArtifactID));
         } catch (DefinitionNotFoundException e) {
             logger.error("The recently deployed artifact is not there. Something critical is going wrong.");
             e.printStackTrace();

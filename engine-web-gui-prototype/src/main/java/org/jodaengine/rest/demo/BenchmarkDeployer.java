@@ -195,7 +195,7 @@ public final class BenchmarkDeployer {
         UUID processArtifactID = deploymentBuilder.deployArtifactAsFile(formName, new File(PATH_TO_WEBFORMS + "/"
             + formPath));
         Form form;
-        form = new FormImpl(ServiceFactory.getRepositoryService().getProcessResource(processArtifactID));
+        form = new FormImpl(ServiceFactory.getRepositoryService().getProcessArtifact(processArtifactID));
         return form;
     }
 

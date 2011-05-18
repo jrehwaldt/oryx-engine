@@ -70,5 +70,10 @@ public class ProcessDefinitionID {
         }
         return false;
     }
+    
+    @Override
+    public String toString() {
+        return uuid.toString() + ":" + version;
+    }
 
 }

@@ -47,7 +47,7 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
         UUID stringArtifactUUID = deploymentBuilder.deployArtifactAsString("stringArtifact", stringBuilder.toString());
 
-        AbstractProcessArtifact processArtifact = repo.getProcessResource(stringArtifactUUID);
+        AbstractProcessArtifact processArtifact = repo.getProcessArtifact(stringArtifactUUID);
         Assert.assertEquals(processArtifact.getName(), "stringArtifact");
 
         assertInputStream(processArtifact.getInputStream());
@@ -60,7 +60,7 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         File fileToDeploy = new File(TEST_FILE_SYSTEM_PATH);
         UUID fileArtifactUUID = deploymentBuilder.deployArtifactAsFile("fileArtifact", fileToDeploy);
 
-        AbstractProcessArtifact processArtifact = repo.getProcessResource(fileArtifactUUID);
+        AbstractProcessArtifact processArtifact = repo.getProcessArtifact(fileArtifactUUID);
         Assert.assertEquals(processArtifact.getName(), "fileArtifact");
         
         assertInputStream(processArtifact.getInputStream());
@@ -73,7 +73,7 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         UUID classpathArtifactUUID = deploymentBuilder.deployArtifactAsClasspathResource("classpathArtifact",
             TEST_FILE_CLASSPATH);
         
-        AbstractProcessArtifact processArtifact = repo.getProcessResource(classpathArtifactUUID);
+        AbstractProcessArtifact processArtifact = repo.getProcessArtifact(classpathArtifactUUID);
         Assert.assertEquals(processArtifact.getName(), "classpathArtifact");
         
         assertInputStream(processArtifact.getInputStream());
@@ -90,7 +90,7 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         UUID inputStreamArtifactUUID = deploymentBuilder.deployArtifactAsInputStream("inputStreamArtifact",
             inputStreamToDeploy);
         
-        AbstractProcessArtifact processArtifact = repo.getProcessResource(inputStreamArtifactUUID);
+        AbstractProcessArtifact processArtifact = repo.getProcessArtifact(inputStreamArtifactUUID);
         Assert.assertEquals(processArtifact.getName(), "inputStreamArtifact");
         
         assertInputStream(processArtifact.getInputStream());

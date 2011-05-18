@@ -60,8 +60,8 @@ public class ProcessRepositoryTest {
     public void testNoDefinitionException()
     throws DefinitionNotFoundException {
 
-        assertFalse(this.repository.containsProcessDefinition(EMPTY_UUID));
-        this.repository.getProcessDefinition(EMPTY_UUID);
+        assertFalse(this.repository.containsProcessDefinition(PROCESS_ID));
+        this.repository.getProcessDefinition(PROCESS_ID);
     }
 
     /**

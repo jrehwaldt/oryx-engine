@@ -128,7 +128,7 @@ public final class DemoDataForWebservice {
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
         UUID processArtifactID = deploymentBuilder.deployArtifactAsFile("form1", new File(PATH_TO_WEBFORMS
             + "/claimPoints.html"));
-        Form form = new FormImpl(ServiceFactory.getRepositoryService().getProcessResource(processArtifactID));
+        Form form = new FormImpl(ServiceFactory.getRepositoryService().getProcessArtifact(processArtifactID));
 
         // Create the task
         // AllocationStrategies strategies = new AllocationStrategiesImpl(new ConcreteResourcePattern(), new

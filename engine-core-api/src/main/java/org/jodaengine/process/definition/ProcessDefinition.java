@@ -19,7 +19,7 @@ import org.jodaengine.util.Identifiable;
  * @author Thorben
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public interface ProcessDefinition extends Identifiable<UUID>, Attributable {
+public interface ProcessDefinition extends Identifiable<ProcessDefinitionID>, Attributable {
 
     /**
      * Retrieves the name of the {@link ProcessDefinition}.
