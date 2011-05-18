@@ -1,3 +1,4 @@
+
 /*
  * 
  */
@@ -15,7 +16,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.codehaus.jackson.map.ObjectMapper;
-
 import org.jodaengine.allocation.Form;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractResource;
@@ -24,7 +24,6 @@ import org.jodaengine.util.Identifiable;
 /**
  * The Interface WorklistItem.
  */
-// TODO worklistitem has a task?
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public abstract class AbstractWorklistItem implements Identifiable<UUID> {
 
@@ -64,43 +63,35 @@ public abstract class AbstractWorklistItem implements Identifiable<UUID> {
         return (AbstractWorklistItem) new ObjectMapper().readValue(json, AbstractWorklistItem.class);
     }
 
+    /**
+     * Gets the form that shall be filled by a human worker.
+     *
+     * @return the form
+     */
     @JsonIgnore
-    public Form getForm() {
+    public abstract Form getForm();
 
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    /**
+     * Gets the assigned resources, so to say the resources that can view and work on this item.
+     *
+     * @return the assigned resources
+     */
     @JsonIgnore
-    public Set<AbstractResource<?>> getAssignedResources() {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    public abstract Set<AbstractResource<?>> getAssignedResources();
+    
+    /**
+     * Gets the description of the item that provides further information.
+     *
+     * @return the description
+     */
     @JsonProperty
-    public String getDescription() {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    public abstract String getDescription();
+    
+    /**
+     * Gets the subject of the item that provides a topic.
+     *
+     * @return the subject
+     */
     @JsonProperty
-    public String getSubject() {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    // @JsonIgnore
-    // public abstract @Nonnull Form getForm();
-    //
-    // @JsonIgnore
-    // public abstract @Nonnull Set<AbstractResource<?>> getAssignedResources();
-    //
-    // @JsonProperty
-    // public abstract @Nonnull String getDescription();
-    //
-    // @JsonProperty
-    // public abstract @Nonnull String getSubject();
+    public abstract String getSubject();
 }
