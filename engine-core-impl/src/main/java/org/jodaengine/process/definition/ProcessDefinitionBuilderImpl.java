@@ -54,8 +54,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
 
         this.startNodes = new ArrayList<Node>();
         
-        // TODO @Thorben-Refactoring change this. The version should not be assigned here.
-        this.id = new ProcessDefinitionID(UUID.randomUUID(), 0);
+        this.id = new ProcessDefinitionID(UUID.randomUUID());
         this.name = null;
         this.description = null;
         this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
