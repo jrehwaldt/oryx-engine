@@ -2,6 +2,9 @@ package org.jodaengine.process.definition;
 
 import java.util.UUID;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * A ProcessDefinitionID is made up of a UUID that identifies the process itself and a version number.
  */
@@ -19,7 +22,8 @@ public class ProcessDefinitionID {
      * @param version
      *            the version
      */
-    public ProcessDefinitionID(UUID uuid, int version) {
+    @JsonCreator
+    public ProcessDefinitionID(@JsonProperty("uuid") UUID uuid, @JsonProperty("version") int version) {
 
         this.uuid = uuid;
         this.version = version;
@@ -30,6 +34,7 @@ public class ProcessDefinitionID {
      * 
      * @return the uUID
      */
+    @JsonProperty
     public UUID getUUID() {
 
         return uuid;
@@ -40,6 +45,7 @@ public class ProcessDefinitionID {
      * 
      * @return the version
      */
+    @JsonProperty
     public int getVersion() {
 
         return version;
