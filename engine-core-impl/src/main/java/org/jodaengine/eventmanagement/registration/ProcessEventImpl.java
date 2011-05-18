@@ -5,6 +5,7 @@ import java.util.List;
 import org.jodaengine.eventmanagement.EventConfiguration;
 import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventType;
+
 /**
  * The Class ProcessEventImpl. Have a look at {@link ProcessEvent}.
  */

@@ -31,15 +31,23 @@ public class AdapterRegistration implements AdapterRegistrar, Service {
     private ErrorAdapter errorAdapter;
     // there may be multiple references to an Adapter configuration (i.e. a mail account)
     // and if these all use the same Configuration Object we can avoid duplicated adapters
-    // TODO give a process a list of of AdapterConfiguration Objects in order for this to work
     private Map<AdapterConfiguration, InboundAdapter> inboundAdapter;
     private TimingManagerImpl timer;
+    // we need a reference to the correlation Manager as adapters we register need it.
+    // QUESTION: or maybe just the whole event manager?
+    private CorrelationManager correlationManager;
     
     
+    /**
+     * Instantiates a new adapter registration.
+     *
+     * @param correlationManager the correlation manager needed by the adapters we register.
+     */
     public AdapterRegistration(CorrelationManager correlationManager) {
         this.inboundAdapter = new HashMap<AdapterConfiguration, InboundAdapter>();
         this.errorAdapter = new ErrorAdapter(correlationManager, new ErrorAdapterConfiguration());
-            this.timer = new TimingManagerImpl(this.errorAdapter);
+        this.timer = new TimingManagerImpl(this.errorAdapter);
+        this.correlationManager = correlationManager;
        
     }
 
@@ -51,10 +59,9 @@ public class AdapterRegistration implements AdapterRegistrar, Service {
      * @throws AdapterSchedulingException
      *             the adapter scheduling exception
      */
-    
     private void registerAdapaterForEvent(ProcessEvent event)
     throws AdapterSchedulingException { 
-        // TODO: Implement Comparable for Adapter configurations
+        // TODO:  @EVENTMANAGERTEAM: Implement equals for Adapter configurations
         // check if an adapter with the given configuration already exists
         if (inboundAdapter.containsKey(event.getEventConfiguration())) {
             return;
@@ -69,6 +76,7 @@ public class AdapterRegistration implements AdapterRegistrar, Service {
     InboundPullAdapter registerPullAdapter(@Nonnull InboundPullAdapter adapter)
     throws AdapterSchedulingException {
     
+        // TODO @EVENTMANAGERTEAM: does timer really have to have a registerPullAdapterJob?
         this.timer.registerPullAdapter(adapter);
         return registerAdapter(adapter);
     }
@@ -108,9 +116,7 @@ public class AdapterRegistration implements AdapterRegistrar, Service {
 
     @Override
     public void stop() {
-
         logger.info("Stopping the AdapterRegistration!");
-        
     }
 
 }
