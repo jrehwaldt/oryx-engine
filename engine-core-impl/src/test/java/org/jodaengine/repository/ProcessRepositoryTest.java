@@ -78,7 +78,7 @@ public class ProcessRepositoryTest {
         
         DeploymentBuilder builder = this.repository.getDeploymentBuilder();
         builder.addProcessDefinition(def);
-        this.repository.deploy(builder.buildDeployment());
+        this.repository.deployInNewScope(builder.buildDeployment());
 
         assertTrue(this.repository.containsProcessDefinition(PROCESS_ID));
         assertEquals(def, this.repository.getProcessDefinition(PROCESS_ID));
@@ -99,7 +99,7 @@ public class ProcessRepositoryTest {
 
         DeploymentBuilder builder = this.repository.getDeploymentBuilder();
         Deployment deployment = builder.addProcessDefinition(def).buildDeployment();
-        this.repository.deploy(deployment);
+        this.repository.deployInNewScope(deployment);
 
         assertTrue(this.repository.containsProcessDefinition(PROCESS_ID));
         this.repository.deleteProcessDefinition(PROCESS_ID);

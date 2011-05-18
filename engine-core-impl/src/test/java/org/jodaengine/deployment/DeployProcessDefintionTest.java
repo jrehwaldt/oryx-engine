@@ -52,7 +52,7 @@ public class DeployProcessDefintionTest extends AbstractJodaEngineTest {
 
         // Best Regards Tom Baeyens
         deploymentBuilder.addProcessDefinition(def);
-        repo.deploy(deploymentBuilder.buildDeployment());
+        repo.deployInNewScope(deploymentBuilder.buildDeployment());
         Assert.assertEquals(repo.getProcessDefinition(defID), def,
             "The deployed process definition should be avaialable in the repository.");
     }

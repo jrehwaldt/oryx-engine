@@ -104,7 +104,7 @@ public final class SimpleExampleProcess {
         ProcessDefinitionID sampleProcessUUID = processDefinition.getID();
         deploymentBuilder.addProcessDefinition(processDefinition);
         
-        jodaEngineServices.getRepositoryService().deploy(deploymentBuilder.buildDeployment());
+        jodaEngineServices.getRepositoryService().deployInNewScope(deploymentBuilder.buildDeployment());
 
         return sampleProcessUUID;
 

@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.deployment.DeploymentScope;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
@@ -58,11 +59,12 @@ public interface RepositoryService {
      * @return true, if available
      */
     boolean containsProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
-    
+
     /**
      * Adds a process definition to the repository.
-     *
-     * @param definition the definition
+     * 
+     * @param definition
+     *            the definition
      */
     void addProcessDefinition(@Nonnull ProcessDefinition definition);
 
@@ -90,53 +92,55 @@ public interface RepositoryService {
      * @param processDefintionID
      *            - id of the {@link ProcessDefinition}, cannot be null.
      */
-    void activateProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);    
-    
-//    /**
-//     * Adds a process artifact to the repository.
-//     *
-//     * @param artifact the artifact
-//     */
-//    void addProcessArtifact(@Nonnull AbstractProcessArtifact artifact);
-//
-//    /**
-//     * Retrieves a certain {@link AbstractProcessArtifact ProcessResource} with the given processResourceID.
-//     *
-//     * @param processResourceID - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
-//     * @return a {@link AbstractProcessArtifact ProcessResource}
-//     * @throws ProcessArtifactNotFoundException thrown if the artifact does not exist
-//     */
-//    @Nonnull
-//    AbstractProcessArtifact getProcessArtifact(@Nonnull UUID processResourceID)
-//    throws ProcessArtifactNotFoundException;
-//
-//    /**
-//     * Retrieves all {@link AbstractProcessArtifact ProcessArtifacts} that have been deployed previously.
-//     * 
-//     * @return a list containing all {@link AbstractProcessArtifact ProcessResources}
-//     */
-//    List<AbstractProcessArtifact> getProcessArtifacts();
-//    
-//    /**
-//     * Checks whether the repository has saved an artifact with the given id.
-//     *
-//     * @param processResourceID the process resource id
-//     * @return true, if successful
-//     */
-//    boolean containsProcessArtifact(UUID processResourceID);
-//
-//    /**
-//     * Deletes the given {@link AbstractProcessArtifact ProcessResource}.
-//     * 
-//     * @param processResourceID
-//     *            - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
-//     */
-//    void deleteProcessResource(@Nonnull UUID processResourceID);
-    
+    void activateProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
+
+    // /**
+    // * Adds a process artifact to the repository.
+    // *
+    // * @param artifact the artifact
+    // */
+    // void addProcessArtifact(@Nonnull AbstractProcessArtifact artifact);
+    //
+    // /**
+    // * Retrieves a certain {@link AbstractProcessArtifact ProcessResource} with the given processResourceID.
+    // *
+    // * @param processResourceID - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
+    // * @return a {@link AbstractProcessArtifact ProcessResource}
+    // * @throws ProcessArtifactNotFoundException thrown if the artifact does not exist
+    // */
+    // @Nonnull
+    // AbstractProcessArtifact getProcessArtifact(@Nonnull UUID processResourceID)
+    // throws ProcessArtifactNotFoundException;
+    //
+    // /**
+    // * Retrieves all {@link AbstractProcessArtifact ProcessArtifacts} that have been deployed previously.
+    // *
+    // * @return a list containing all {@link AbstractProcessArtifact ProcessResources}
+    // */
+    // List<AbstractProcessArtifact> getProcessArtifacts();
+    //
+    // /**
+    // * Checks whether the repository has saved an artifact with the given id.
+    // *
+    // * @param processResourceID the process resource id
+    // * @return true, if successful
+    // */
+    // boolean containsProcessArtifact(UUID processResourceID);
+    //
+    // /**
+    // * Deletes the given {@link AbstractProcessArtifact ProcessResource}.
+    // *
+    // * @param processResourceID
+    // * - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
+    // */
+    // void deleteProcessResource(@Nonnull UUID processResourceID);
+
     /**
-     * Deploys a deployment (i.e. the contained process definition, artifacts, etc.) to the repository.
-     *
-     * @param processDeployment the process deployment
+     * Deploys a deployment (i.e. the contained process definition, artifacts, etc.) to the repository. The contained
+     * resources are deployed in a new scope, that means, the definitions share only the contained forms, etc.
+     * 
+     * @param processDeployment
+     *            the process deployment
      */
-    void deploy(Deployment processDeployment);
+    DeploymentScope deployInNewScope(Deployment processDeployment);
 }

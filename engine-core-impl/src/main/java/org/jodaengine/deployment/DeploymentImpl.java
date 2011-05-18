@@ -1,6 +1,8 @@
 package org.jodaengine.deployment;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.jodaengine.process.definition.AbstractProcessArtifact;
@@ -12,14 +14,14 @@ import org.jodaengine.process.definition.ProcessDefinition;
 public class DeploymentImpl implements Deployment {
     
     private Set<ProcessDefinition> definitions;
-    private Set<AbstractProcessArtifact> artifacts;
+    private Map<String, AbstractProcessArtifact> artifacts;
     
     /**
      * Instantiates a new deployment impl.
      */
     public DeploymentImpl() {
         definitions = new HashSet<ProcessDefinition>();
-        artifacts = new HashSet<AbstractProcessArtifact>();
+        artifacts = new HashMap<String, AbstractProcessArtifact>();
     }
 
     @Override
@@ -32,7 +34,7 @@ public class DeploymentImpl implements Deployment {
     @Override
     public void addProcessArtifact(AbstractProcessArtifact artifact) {
 
-        artifacts.add(artifact);
+        artifacts.put(artifact.getID(), artifact);
         
     }
 
@@ -43,7 +45,7 @@ public class DeploymentImpl implements Deployment {
     }
 
     @Override
-    public Set<AbstractProcessArtifact> getArtifacts() {
+    public Map<String, AbstractProcessArtifact> getArtifacts() {
 
         return artifacts;
     }

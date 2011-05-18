@@ -56,7 +56,7 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
         DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
         Deployment deployment = deploymentBuilder.addProcessDefinition(definition).buildDeployment();
         
-        jodaEngineServices.getRepositoryService().deploy(deployment);
+        jodaEngineServices.getRepositoryService().deployInNewScope(deployment);
     }
 
     /**

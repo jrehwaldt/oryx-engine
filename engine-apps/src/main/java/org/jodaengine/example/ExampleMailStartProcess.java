@@ -95,7 +95,7 @@ public final class ExampleMailStartProcess {
             ProcessDefinitionID exampleProcessUUID = def.getID();
             deploymentBuilder.addProcessDefinition(def);
             
-            jodaEngineServices.getRepositoryService().deploy(deploymentBuilder.buildDeployment());
+            jodaEngineServices.getRepositoryService().deployInNewScope(deploymentBuilder.buildDeployment());
 
             jodaEngineServices.getRepositoryService().activateProcessDefinition(exampleProcessUUID);
 

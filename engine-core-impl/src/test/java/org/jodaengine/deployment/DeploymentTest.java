@@ -41,7 +41,7 @@ public class DeploymentTest extends AbstractJodaEngineTest {
         Whitebox.setInternalState(definition, "id", id);
         builder.addProcessDefinition(definition);
         Deployment deployment = builder.buildDeployment();
-        repository.deploy(deployment);
+        repository.deployInNewScope(deployment);
 
         Assert.assertTrue(repository.containsProcessDefinition(id));
     }
@@ -59,7 +59,7 @@ public class DeploymentTest extends AbstractJodaEngineTest {
         builder.addProcessDefinition(definition);
 
         Deployment deployment = builder.buildDeployment();
-        repository.deploy(deployment);
+        repository.deployInNewScope(deployment);
 
         ProcessDefinitionID anotherID = new ProcessDefinitionID(processUUID);
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
@@ -70,7 +70,7 @@ public class DeploymentTest extends AbstractJodaEngineTest {
         builder.addProcessDefinition(anotherDefinition);
 
         Deployment anotherDeployment = builder.buildDeployment();
-        repository.deploy(anotherDeployment);
+        repository.deployInNewScope(anotherDeployment);
 
         Assert.assertEquals(definition.getID().getVersion(), 0, "The first deployment should have version 0");
         Assert.assertEquals(anotherDefinition.getID().getVersion(), 1,

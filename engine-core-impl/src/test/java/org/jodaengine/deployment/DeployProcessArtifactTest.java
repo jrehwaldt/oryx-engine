@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.UUID;
 
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
@@ -16,7 +15,6 @@ import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 
 /**
  * Test class for deploying {@link AbstractProcessArtifact ProcessArtifacts}.
@@ -44,60 +42,68 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Hello Joda-Engine\n").append("\n").append("GoodBye Joda-Engine");
 
-        UUID stringArtifactUUID = deploymentBuilder.deployArtifactAsString("stringArtifact", stringBuilder.toString());
+        Deployment deployment = deploymentBuilder.addStringArtifact("stringArtifact", stringBuilder.toString())
+        .buildDeployment();
+        DeploymentScope scope = repo.deployInNewScope(deployment);
 
-        AbstractProcessArtifact processArtifact = repo.getProcessArtifact(stringArtifactUUID);
-        Assert.assertEquals(processArtifact.getName(), "stringArtifact");
+        AbstractProcessArtifact processArtifact = scope.getProcessArtifact("stringArtifact");
+        Assert.assertEquals(processArtifact.getID(), "stringArtifact");
 
         assertInputStream(processArtifact.getInputStream());
     }
 
-
     @Test
-    public void testArtifactDeploymentAsFile() throws IOException, ProcessArtifactNotFoundException {
-        
+    public void testArtifactDeploymentAsFile()
+    throws IOException, ProcessArtifactNotFoundException {
+
         File fileToDeploy = new File(TEST_FILE_SYSTEM_PATH);
-        UUID fileArtifactUUID = deploymentBuilder.deployArtifactAsFile("fileArtifact", fileToDeploy);
 
-        AbstractProcessArtifact processArtifact = repo.getProcessArtifact(fileArtifactUUID);
-        Assert.assertEquals(processArtifact.getName(), "fileArtifact");
-        
+        Deployment deployment = deploymentBuilder.addFileArtifact("fileArtifact", fileToDeploy).buildDeployment();
+        DeploymentScope scope = repo.deployInNewScope(deployment);
+
+        AbstractProcessArtifact processArtifact = scope.getProcessArtifact("fileArtifact");
+        Assert.assertEquals(processArtifact.getID(), "fileArtifact");
+
         assertInputStream(processArtifact.getInputStream());
     }
-    
+
     @Test
-    public void testArtifactDeploymentAsClasspathResource() throws IOException, ProcessArtifactNotFoundException {
-        
-        
-        UUID classpathArtifactUUID = deploymentBuilder.deployArtifactAsClasspathResource("classpathArtifact",
-            TEST_FILE_CLASSPATH);
-        
-        AbstractProcessArtifact processArtifact = repo.getProcessArtifact(classpathArtifactUUID);
-        Assert.assertEquals(processArtifact.getName(), "classpathArtifact");
-        
+    public void testArtifactDeploymentAsClasspathResource()
+    throws IOException, ProcessArtifactNotFoundException {
+
+
+        Deployment deployment = deploymentBuilder
+        .addClasspathResourceArtifact("classpathArtifact", TEST_FILE_CLASSPATH).buildDeployment();
+        DeploymentScope scope = repo.deployInNewScope(deployment);
+
+        AbstractProcessArtifact processArtifact = scope.getProcessArtifact("classpathArtifact");
+        Assert.assertEquals(processArtifact.getID(), "classpathArtifact");
+
         assertInputStream(processArtifact.getInputStream());
     }
-    
+
     @Test
-    public void testArtifactDeploymentAsInputStream() throws IOException, ProcessArtifactNotFoundException {
-        
+    public void testArtifactDeploymentAsInputStream()
+    throws IOException, ProcessArtifactNotFoundException {
+
         // Deploying the String "Hello Joda-Engine ..."
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Hello Joda-Engine\n").append("\n").append("GoodBye Joda-Engine");
         InputStream inputStreamToDeploy = new ByteArrayInputStream(stringBuilder.toString().getBytes());
-            
-        UUID inputStreamArtifactUUID = deploymentBuilder.deployArtifactAsInputStream("inputStreamArtifact",
-            inputStreamToDeploy);
         
-        AbstractProcessArtifact processArtifact = repo.getProcessArtifact(inputStreamArtifactUUID);
-        Assert.assertEquals(processArtifact.getName(), "inputStreamArtifact");
-        
+        Deployment deployment = deploymentBuilder
+        .addInputStreamArtifact("inputStreamArtifact", inputStreamToDeploy).buildDeployment();
+        DeploymentScope scope = repo.deployInNewScope(deployment);
+
+        AbstractProcessArtifact processArtifact = scope.getProcessArtifact("inputStreamArtifact");
+        Assert.assertEquals(processArtifact.getID(), "inputStreamArtifact");
+
         assertInputStream(processArtifact.getInputStream());
     }
-    
+
     private void assertInputStream(InputStream inputStream)
     throws IOException {
-        
+
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         Assert.assertEquals(bufferedReader.readLine(), "Hello Joda-Engine");
         Assert.assertEquals(bufferedReader.readLine(), "");

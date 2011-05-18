@@ -11,8 +11,7 @@ import org.jodaengine.util.io.StreamSource;
  */
 public class ProcessArtifact extends AbstractProcessArtifact {
 
-    private UUID id;
-    private String name;
+    private String id;
     private StreamSource streamSource;
 
     /**
@@ -20,21 +19,14 @@ public class ProcessArtifact extends AbstractProcessArtifact {
      */
     public ProcessArtifact(String name, StreamSource streamSource) {
 
-        this.id = UUID.randomUUID();
-        this.name = name;
+        this.id = name;
         this.streamSource = streamSource;
     }
 
     @Override
-    public UUID getID() {
+    public String getID() {
 
         return id;
-    }
-
-    @Override
-    public String getName() {
-
-        return name;
     }
 
     @Override

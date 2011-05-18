@@ -88,6 +88,15 @@ public interface DeploymentBuilder {
     
     DeploymentBuilder addProcessArtifact(AbstractProcessArtifact artifact);
     
+    DeploymentBuilder addInputStreamArtifact(String resourceName, InputStream inputStream);
+    
+    // TODO @Thorben-Refactoring consider removing this, as soon as resources are located in the archives only
+    DeploymentBuilder addClasspathResourceArtifact(String resourceName, String resourceClasspath);
+    
+    DeploymentBuilder addStringArtifact(String resourceName, String resourceStringContent);
+    
+    DeploymentBuilder addFileArtifact(String resourceName, File file);
+    
     /**
      * Builds the deployment.
      *

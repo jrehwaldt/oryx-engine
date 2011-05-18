@@ -64,7 +64,7 @@ public final class RepositorySetup {
 
         ProcessDefinition definition = get1Plus1Process();
         deploymentBuilder.addProcessDefinition(definition);
-        repo.deploy(deploymentBuilder.buildDeployment());
+        repo.deployInNewScope(deploymentBuilder.buildDeployment());
                 
         process1Plus1ProcessUUID = definition.getID();
     }

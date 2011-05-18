@@ -65,7 +65,7 @@ public final class TestUtils {
 
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
         Deployment deployment = deploymentBuilder.addProcessDefinition(definition).buildDeployment();
-        ServiceFactory.getRepositoryService().deploy(deployment);
+        ServiceFactory.getRepositoryService().deployInNewScope(deployment);
         ProcessDefinitionID processId = definition.getID();
 
         Assert.assertNotNull(processId);

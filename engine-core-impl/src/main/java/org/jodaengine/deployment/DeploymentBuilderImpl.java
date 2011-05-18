@@ -170,4 +170,49 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
         return returnDeployment;
     }
 
+
+    @Override
+    public DeploymentBuilder addInputStreamArtifact(String resourceName, InputStream inputStream) {
+
+        StreamSource inputStreamSource = new InputStreamSource(inputStream);
+        AbstractProcessArtifact processArtifact = new ProcessArtifact(resourceName, inputStreamSource);
+
+        addProcessArtifact(processArtifact);
+        
+        return this;
+    }
+
+
+    @Override
+    public DeploymentBuilder addClasspathResourceArtifact(String resourceName, String resourceClasspath) {
+
+        StreamSource classpathResourceStreamSource = new ClassPathResourceStreamSource(resourceClasspath);
+        AbstractProcessArtifact processArtifact = new ProcessArtifact(resourceName, classpathResourceStreamSource);
+
+        addProcessArtifact(processArtifact);
+        return this;
+    }
+
+
+    @Override
+    public DeploymentBuilder addStringArtifact(String resourceName, String resourceStringContent) {
+
+        StreamSource stringStreamSource = new StringStreamSource(resourceStringContent);
+        AbstractProcessArtifact processArtifact = new ProcessArtifact(resourceName, stringStreamSource);
+
+        addProcessArtifact(processArtifact);
+        return this;
+    }
+
+
+    @Override
+    public DeploymentBuilder addFileArtifact(String resourceName, File file) {
+
+        StreamSource fileStreamSource = new FileStreamSource(file);
+        AbstractProcessArtifact processArtifact = new ProcessArtifact(resourceName, fileStreamSource);
+      
+        addProcessArtifact(processArtifact);
+        return this;
+    }
+
 }

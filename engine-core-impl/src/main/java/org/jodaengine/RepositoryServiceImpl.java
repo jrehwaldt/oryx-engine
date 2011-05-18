@@ -16,6 +16,8 @@ import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.DeploymentBuilderImpl;
+import org.jodaengine.deployment.DeploymentScope;
+import org.jodaengine.deployment.DeploymentScopeImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
@@ -39,12 +41,14 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     public static final ProcessDefinitionID SIMPLE_PROCESS_ID = new ProcessDefinitionID(SIMPLE_PROCESS_UUID, 0);
 
     private Map<ProcessDefinitionID, ProcessDefinition> processDefinitionsTable;
+    private Map<ProcessDefinitionID, DeploymentScope> scopes;
 
     private Map<UUID, Integer> processVersions;
 //    private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
 
     public RepositoryServiceImpl() {
         processVersions = new HashMap<UUID, Integer>();
+        scopes = new HashMap<ProcessDefinitionID, DeploymentScope>();
     }
     
     @Override
@@ -195,15 +199,23 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     }
 
     @Override
-    public void deploy(Deployment processDeployment) {
+    public DeploymentScope deployInNewScope(Deployment processDeployment) {
 
+        DeploymentScope scope = new DeploymentScopeImpl(processDeployment.getArtifacts());
+        
         for (ProcessDefinition definition : processDeployment.getDefinitions()) {
             // determine version of the currently deployed process
             registerNewProcessVersion(definition);
             
             // add the definition
             getProcessDefinitionsTable().put(definition.getID(), definition);
-        }        
+            
+            // create the connection between definition and scope
+            // TODO @Thorben-Refactoring think about a direct link between definition and scope
+            scopes.put(definition.getID(), scope);
+        }
+        
+        return scope;
     }
     
     /**

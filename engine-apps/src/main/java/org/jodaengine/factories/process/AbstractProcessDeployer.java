@@ -39,7 +39,7 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
         ProcessDefinition definition = this.processDefinitionBuilder.buildDefinition();
         DeploymentBuilder deploymentBuilder = engineServices.getRepositoryService().getDeploymentBuilder();
         Deployment deployment = deploymentBuilder.addProcessDefinition(definition).buildDeployment();
-        this.repoService.deploy(deployment);
+        this.repoService.deployInNewScope(deployment);
         return definition.getID();
     }
 

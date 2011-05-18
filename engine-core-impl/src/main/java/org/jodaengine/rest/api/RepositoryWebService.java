@@ -79,7 +79,7 @@ public class RepositoryWebService {
         
         // deploys the process definition
         this.deploymentBuilder.addProcessDefinition(importer.createProcessDefinition());
-        this.repositoryService.deploy(this.deploymentBuilder.buildDeployment());
+        this.repositoryService.deployInNewScope(this.deploymentBuilder.buildDeployment());
     }
     
     /*
