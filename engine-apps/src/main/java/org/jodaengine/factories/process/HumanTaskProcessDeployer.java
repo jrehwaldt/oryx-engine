@@ -2,16 +2,6 @@ package org.jodaengine.factories.process;
 
 import java.util.Set;
 
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
-import org.quartz.SimpleTrigger;
-import org.quartz.Trigger;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.loadgenerator.PseudoHumanJob;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
@@ -26,6 +16,15 @@ import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.SimpleTrigger;
+import org.quartz.Trigger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A factory for creating ExampleProcessToken objects. These objects just have 2 add Number activities.
@@ -41,7 +40,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     public static final String PARTICIPANT_KEY = "Participant";
 
     /** an array with the waiting times of the different pseudo humans. */
-    public static final int[] WAITING_TIME = { 1000, 1000, 1000 };
+    public static final int[] WAITING_TIME = {1000, 1000, 1000};
 
     private Scheduler scheduler;
 
@@ -148,7 +147,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
      * Creates our dummy participants with a common role. Those are the ones that will claim and complete activity
      * within a time interval that is determined within the schedule dummy participants method.
      * 
-     * @throws ResourceNotAvailableException
+     * @throws ResourceNotAvailableException if the resource is not to find
      */
     public void createAutomatedParticipants()
     throws ResourceNotAvailableException {
@@ -210,7 +209,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
     /**
      * Really creates Pseudo Humans. @see scheduleDummyParticipants {@inheritDoc}
      * 
-     * @throws ResourceNotAvailableException
+     * @throws ResourceNotAvailableException if the resource is not to find
      */
     @Override
     public void createPseudoHuman()

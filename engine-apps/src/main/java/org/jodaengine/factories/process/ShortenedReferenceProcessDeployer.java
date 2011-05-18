@@ -1,7 +1,5 @@
 package org.jodaengine.factories.process;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import org.jodaengine.allocation.Form;
@@ -13,7 +11,6 @@ import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.condition.HashMapCondition;
 import org.jodaengine.process.structure.condition.JuelExpressionCondition;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Role;
@@ -269,48 +266,30 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         CreationPatternBuilder builder = new CreationPatternBuilderImpl();
         builder.setItemDescription("Anspruchspositionen überprüfen").setItemSubject("Positionen auf Anspruch prüfen")
         .setItemForm(form).addResourceAssignedToItem(objectionClerk);
-        // Task task = createRoleTask("Positionen auf Anspruch prüfen", "Anspruchspositionen überprüfen", form,
-        // objectionClerk);
         human1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
             builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
         // XOR Split, condition is objection existence
         xor1 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
-
-        Map<String, Object> map1 = new HashMap<String, Object>();
-        map1.put("widerspruch", "stattgegeben");
-        // Condition condition1 = new HashMapCondition(map1, "==");
         Condition condition1 = new JuelExpressionCondition("${widerspruch  == \"stattgegeben\"}");
-
-        Map<String, Object> map2 = new HashMap<String, Object>();
-        map2.put("widerspruch", "abgelehnt");
-        // Condition condition2 = new HashMapCondition(map2, "==");
         Condition condition2 = new JuelExpressionCondition("${widerspruch  == \"abgelehnt\"}");
 
         // human task for objection clerk, task is to check objection
         form = extractForm("form2", "checkForNewClaims.html");
         builder.setItemDescription("Widerspruch erneut prüfen auf neue Ansprüche").setItemSubject("Widerspruch prüfen")
         .setItemForm(form);
-        // task = createRoleTask("Widerspruch prüfen", "Widerspruch erneut prüfen auf neue Ansprüche", form,
-        // objectionClerk);
         human2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
             builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
         // XOR Split, condition is new relevant aspects existence
         xor2 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
-        map1 = new HashMap<String, Object>();
-        map1.put("neue Aspekte", "ja");
-        Condition condition3 = new HashMapCondition(map1, "==");
-        map2 = new HashMap<String, Object>();
-        map2.put("neue Aspekte", "nein");
-        Condition condition4 = new HashMapCondition(map1, "==");
+        Condition condition3 = new JuelExpressionCondition("${neueAspekte  == \"ja\"}");
+        Condition condition4 = new JuelExpressionCondition("${neueAspekte  == \"nein\"}");
 
         // human task for objection clerk, task is to create a new report
         form = extractForm("form3", "createReport.html");
         builder.setItemDescription("Anspruchspunkte in neues Gutachten übertragen")
         .setItemSubject("neues Gutachten erstellen").setItemForm(form);
-        // task = createRoleTask("neues Gutachten erstellen", "Anspruchspunkte in neues Gutachten übertragen", form,
-        // objectionClerk);
         human3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
             builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
@@ -319,12 +298,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
         // XOR Split, condition is existence of objection in answer of customer
         xor3 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
-        map1 = new HashMap<String, Object>();
-        map1.put("aufrecht", "ja");
-        // Condition condition5 = new HashMapCondition(map1, "==");
         Condition condition5 = new JuelExpressionCondition("${aufrecht  == \"ja\"}");
-        map2 = new HashMap<String, Object>();
-        map2.put("aufrecht", "nein");
         Condition condition6 = new JuelExpressionCondition("${aufrecht  == \"nein\"}");
 
         // XOR Join
@@ -334,7 +308,6 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         form = extractForm("form4", "postEditingClaim.html");
         builder.setItemDescription("abschließende Nachbearbeitung des Falls").setItemSubject("Nachbearbeitung")
         .setItemForm(form);
-        // task = createRoleTask("Nachbearbeitung", "abschließende Nachbearbeitung des Falls", form, objectionClerk);
         human4 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
             builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
@@ -342,7 +315,6 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         form = extractForm("form5", "enforceAllowance.html");
         builder.flushAssignedResources().setItemDescription("Leistungsansprüche durchsetzen")
         .setItemSubject("Leistungsgewährung umsetzen").setItemForm(form).addResourceAssignedToItem(allowanceClerk);
-        // task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", form, allowanceClerk);
         human5 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
             builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
 
