@@ -29,7 +29,7 @@ public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
     throws IllegalStarteventException, ResourceNotAvailableException {
 
         this.deployer = new HumanTaskProcessDeployer();
-        this.uuid = deployer.deploy(engineServices);
+        this.id = deployer.deploy(engineServices);
     }
 
     /**

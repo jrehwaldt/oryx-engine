@@ -53,6 +53,8 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     private void resetingThisBuilder() {
 
         this.startNodes = new ArrayList<Node>();
+        
+        // TODO @Thorben-Refactoring change this. The version should not be assigned here.
         this.id = new ProcessDefinitionID(UUID.randomUUID(), 0);
         this.name = null;
         this.description = null;

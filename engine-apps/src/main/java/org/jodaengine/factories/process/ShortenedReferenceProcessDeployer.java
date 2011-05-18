@@ -4,12 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.allocation.Form;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
@@ -24,6 +21,8 @@ import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
 import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class ShortenedReferenceProcessDeployer. This is the implementation of the shortened version of the AOK reference
@@ -394,7 +393,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         Form form = null;
         try {
             form = new FormImpl(repoService.getProcessArtifact(processArtifactID));
-        } catch (DefinitionNotFoundException e) {
+        } catch (ProcessArtifactNotFoundException e) {
             logger.error("The recently deployed artifact is not there. Something critical is going wrong.");
             e.printStackTrace();
         }

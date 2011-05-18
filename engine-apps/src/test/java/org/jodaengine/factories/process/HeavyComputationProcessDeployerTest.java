@@ -21,6 +21,6 @@ public class HeavyComputationProcessDeployerTest extends AbstractProcessDeployer
     throws IllegalStarteventException, ResourceNotAvailableException {
 
         this.deployer = new HeavyComputationProcessDeployer();
-        this.uuid = deployer.deploy(engineServices);
+        this.id = deployer.deploy(engineServices);
     }
 }

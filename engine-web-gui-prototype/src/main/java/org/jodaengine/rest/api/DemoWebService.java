@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factories.process.ShortenedReferenceProcessDeployer;
 import org.jodaengine.rest.demo.BenchmarkDeployer;
@@ -127,7 +128,7 @@ public class DemoWebService {
         } catch (IllegalStarteventException e) {
             e.printStackTrace();
             return Response.serverError().build();
-        } catch (DefinitionNotFoundException e) {
+        } catch (ProcessArtifactNotFoundException e) {
             e.printStackTrace();
             return Response.serverError().build();
         }

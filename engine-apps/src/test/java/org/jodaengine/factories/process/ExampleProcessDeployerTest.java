@@ -21,6 +21,6 @@ public class ExampleProcessDeployerTest extends AbstractProcessDeployerTest {
     throws IllegalStarteventException, ResourceNotAvailableException {
 
         this.deployer = new ExampleProcessDeployer();
-        this.uuid = deployer.deploy(engineServices);
+        this.id = deployer.deploy(engineServices);
     }
 }

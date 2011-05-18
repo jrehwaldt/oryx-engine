@@ -11,6 +11,7 @@ import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
@@ -58,11 +59,10 @@ public final class BenchmarkDeployer {
     /**
      * Creates the nodes as specified in the process model.
      * 
-     * @throws DefinitionNotFoundException
-     *             the definition not found exception
+     * @throws ProcessArtifactNotFoundException 
      */
     public static void initializeNodes()
-    throws DefinitionNotFoundException {
+    throws ProcessArtifactNotFoundException {
 
         Node startNode = BpmnNodeFactory.createBpmnStartEventNode(processDefinitionBuilder);
 
@@ -159,13 +159,12 @@ public final class BenchmarkDeployer {
      * 
      * @throws IllegalStarteventException
      *             the illegal startevent exception
-     * @throws DefinitionNotFoundException
-     *             the definition not found exception
      * @throws ResourceNotAvailableException
      *             the resource not available exception
+     * @throws ProcessArtifactNotFoundException 
      */
     public static synchronized void generate()
-    throws IllegalStarteventException, DefinitionNotFoundException, ResourceNotAvailableException {
+    throws IllegalStarteventException, ResourceNotAvailableException, ProcessArtifactNotFoundException {
 
         if (!invoked) {
             createRoles();
@@ -187,9 +186,10 @@ public final class BenchmarkDeployer {
      * @return the form
      * @throws DefinitionNotFoundException
      *             the definition not found exception
+     * @throws ProcessArtifactNotFoundException 
      */
     private static Form extractForm(String formName, String formPath)
-    throws DefinitionNotFoundException {
+    throws ProcessArtifactNotFoundException {
 
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
         UUID processArtifactID = deploymentBuilder.deployArtifactAsFile(formName, new File(PATH_TO_WEBFORMS + "/"

@@ -42,9 +42,9 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
     throws IllegalStarteventException, ResourceNotAvailableException {
 
         instanceDefinition = new ShortenedReferenceProcessDeployer();
-        this.uuid = instanceDefinition.deploy(engineServices);
+        this.id = instanceDefinition.deploy(engineServices);
         try {
-            processInstance = new ProcessInstanceImpl(ServiceFactory.getRepositoryService().getProcessDefinition(uuid));
+            processInstance = new ProcessInstanceImpl(ServiceFactory.getRepositoryService().getProcessDefinition(id));
         } catch (DefinitionNotFoundException e) {
             System.out.println("Definition nicht gefunden! ");
             e.printStackTrace();
