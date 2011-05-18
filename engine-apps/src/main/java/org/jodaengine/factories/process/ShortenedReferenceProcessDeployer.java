@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.allocation.Form;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotFoundException;
@@ -24,6 +21,8 @@ import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
 import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class ShortenedReferenceProcessDeployer. This is the implementation of the shortened version of the AOK reference
@@ -326,6 +325,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         Condition condition5 = new JuelExpressionCondition("${aufrecht  == \"ja\"}");
         map2 = new HashMap<String, Object>();
         map2.put("aufrecht", "nein");
+        Condition condition6 = new JuelExpressionCondition("${aufrecht  == \"nein\"}");
 
         // XOR Join
         xor4 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
@@ -367,6 +367,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor2, xor4, condition4);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human3, xor3);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor3, xor4, condition5);
+        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor3, xor5, condition6);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor4, human4);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human4, human5);
         BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor5, system2);

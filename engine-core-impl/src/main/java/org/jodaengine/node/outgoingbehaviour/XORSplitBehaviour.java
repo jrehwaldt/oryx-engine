@@ -26,8 +26,6 @@ public class XORSplitBehaviour implements OutgoingBehaviour {
     public List<Token> split(List<Token> instances)
     throws NoValidPathException {
 
-        // TODO why do the instances get returned here, could somebody please leave a short comment on that? Didn't get
-        // it right away, so probably somebody else won't too
         if (instances.size() == 0) {
             return instances;
         }
@@ -37,19 +35,12 @@ public class XORSplitBehaviour implements OutgoingBehaviour {
 
         // we look through the outgoing transitions and try to find one at least, whose condition evaluates true and
         // then return it as the to-be-taken transition
-        // if there only is one outgoing one, take this one
         for (Token instance : instances) {
             Node currentNode = instance.getCurrentNode();
-            List<Transition> outgoingTransitions = currentNode.getOutgoingTransitions();
-
-            if (outgoingTransitions.size() == 1) {
-                transitionList.add(outgoingTransitions.get(0));
-            } else {
-                for (Transition transition : currentNode.getOutgoingTransitions()) {
-                    if (transition.getCondition().evaluate(instance)) {
-                        transitionList.add(transition);
-                        break;
-                    }
+            for (Transition transition : currentNode.getOutgoingTransitions()) {
+                if (transition.getCondition().evaluate(instance)) {
+                    transitionList.add(transition);
+                    break;
                 }
             }
 
