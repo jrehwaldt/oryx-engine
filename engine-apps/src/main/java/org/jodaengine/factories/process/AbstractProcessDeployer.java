@@ -3,6 +3,7 @@ package org.jodaengine.factories.process;
 import org.jodaengine.IdentityService;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
+import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -37,7 +38,8 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
         this.initializeNodes();
         ProcessDefinition definition = this.processDefinitionBuilder.buildDefinition();
         DeploymentBuilder deploymentBuilder = engineServices.getRepositoryService().getDeploymentBuilder();
-        deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(definition));
+        Deployment deployment = deploymentBuilder.addProcessDefinition(definition).buildDeployment();
+        this.repoService.deploy(deployment);
         return definition.getID();
     }
 
