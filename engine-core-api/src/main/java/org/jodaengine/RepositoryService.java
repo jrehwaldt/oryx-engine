@@ -5,13 +5,13 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.instance.AbstractProcessInstance;
 
 /**
  * The RepositoryService offers method to manage the processes that have been deployed to the navigator.
@@ -19,7 +19,7 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
  * We decided that processes should be deployed in whole {@link Deployment}Units that It holds the process definitions
  * that are currently deployed identified by their id.
  */
-public interface RepositoryService {
+public interface RepositoryService extends Service {
 
     /**
      * Creates a {@link DeploymentBuilder} that helps to create a deployment containing {@link ProcessDefinition}s and

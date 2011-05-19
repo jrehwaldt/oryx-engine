@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.jodaengine.bootstrap.Service;
 import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.resource.AbstractResource;
@@ -17,7 +18,7 @@ import org.jodaengine.resource.worklist.AbstractWorklistItem;
  * The Worklist Service which is used to manage our {@link Worklist}, add tasks and remove them that is. This is the
  * external API.
  */
-public interface WorklistService {
+public interface WorklistService extends Service {
 
     /**
      * Resolves all {@link Worklist} items belonging to the given resource.

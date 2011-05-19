@@ -6,9 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.jodaengine.deployment.importer.bpmn.BpmnXmlParseListener;
-import org.jodaengine.plugin.activity.ActivityLifecyclePlugin;
-
 /**
  * This annotation identifies the extension parts of this engine.
  * 
@@ -16,10 +13,14 @@ import org.jodaengine.plugin.activity.ActivityLifecyclePlugin;
  * listener APIs, such as {@link BpmnXmlParseListener} or {@link ActivityLifecyclePlugin}.
  * 
  * @author Jan Rehwaldt
+ * @since 2011-05-19
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Extension {
-    
+    /**
+     * Returns the extension's name.
+     */
+    String value();
 }

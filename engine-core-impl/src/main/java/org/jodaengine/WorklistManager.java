@@ -12,9 +12,6 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.allocation.TaskDistribution;
 import org.jodaengine.bootstrap.Service;
@@ -24,6 +21,8 @@ import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The implementation of the WorklistManager. It manages the worklists of all resources in the system.
@@ -34,10 +33,10 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     private IdentityService identityService;
 
     @Override
-    public void start() {
+    public void start(JodaEngineServices services) {
 
         logger.info("Starting the worklist manager");
-        identityService = ServiceFactory.getIdentityService();
+        identityService = services.getIdentityService();
     }
 
     @Override

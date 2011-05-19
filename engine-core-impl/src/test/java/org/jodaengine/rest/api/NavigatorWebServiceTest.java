@@ -10,11 +10,8 @@ import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorStatistic;
@@ -22,6 +19,9 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.rest.TestUtils;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 
 /**
@@ -46,7 +46,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         this.logger.debug("Start navigator");
 
         this.navigator = ServiceFactory.getNavigatorService();
-        this.navigator.start();
+        this.navigator.start(new JodaEngine());
     }
 
     @Override

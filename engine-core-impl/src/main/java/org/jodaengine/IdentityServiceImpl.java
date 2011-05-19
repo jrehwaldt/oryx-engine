@@ -10,9 +10,6 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.resource.AbstractOrganizationUnit;
@@ -25,6 +22,8 @@ import org.jodaengine.resource.OrganizationUnit;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Position;
 import org.jodaengine.resource.Role;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -45,7 +44,7 @@ public class IdentityServiceImpl implements IdentityService, Service {
     private Map<UUID, Role> roles;
     
     @Override
-    public void start() {
+    public void start(JodaEngineServices services) {
         
         logger.info("Starting the correlation manager");
     }

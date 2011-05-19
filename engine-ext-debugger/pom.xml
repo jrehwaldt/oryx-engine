@@ -22,7 +22,7 @@
             <groupId>org.jodaengine</groupId>
             <artifactId>engine-core-impl</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jodaengine</groupId>

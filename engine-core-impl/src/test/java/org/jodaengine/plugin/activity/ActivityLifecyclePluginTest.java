@@ -5,11 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import org.mockito.ArgumentCaptor;
-import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.ext.activity.AbstractTokenPlugin;
 import org.jodaengine.node.activity.ActivityState;
@@ -18,6 +13,10 @@ import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.TokenImpl;
+import org.mockito.ArgumentCaptor;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 
 /**
@@ -45,7 +44,7 @@ public class ActivityLifecyclePluginTest {
      * Tests that the plugin is called twice during activity lifecycle (active, completed).
      * It's final state will be completed.
      * 
-     * @throws JodaEngineException
+     * @throws JodaEngineException test fails
      */
     @Test
     public void testStartedTrigger()

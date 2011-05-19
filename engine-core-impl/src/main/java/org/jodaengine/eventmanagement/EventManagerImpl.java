@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 
+import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.InboundAdapter;
@@ -75,10 +76,8 @@ public class EventManagerImpl implements EventManager, Service {
         }
     }
 
-    /**
-     * This method starts the correlation manager and its dependent services.
-     */
-    public void start() {
+    @Override
+    public void start(JodaEngineServices services) {
 
         logger.info("Starting the correlation manager");
         registerAdapter(this.errorAdapter);

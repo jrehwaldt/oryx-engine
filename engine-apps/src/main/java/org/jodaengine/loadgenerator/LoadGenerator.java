@@ -202,7 +202,7 @@ public class LoadGenerator {
         this.logMemoryUsed("Memory used after we put all the instances in our navigator:");
         this.logger.info("The navigator will be started in a millisecond - take the time!");
         this.startTime = System.currentTimeMillis();
-        navigator.start();
+        navigator.start(new JodaEngine());
 
     }
 

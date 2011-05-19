@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.registration.StartEvent;
@@ -112,9 +113,11 @@ implements Navigator, NavigatorInside, Service {
     /**
      * Start. Starts the number of worker thread specified in the NUMBER_OF_NAVIGATOR_THREADS Constant and adds them to
      * the execution threads list.
+     * 
+     * @param services the {@link JodaEngine} instance
      */
     @Override
-    public void start() {
+    public void start(JodaEngineServices services) {
 
         // "Gentlemen, start your engines"
         for (int i = 0; i < navigatorThreads; i++) {
@@ -123,9 +126,7 @@ implements Navigator, NavigatorInside, Service {
         changeState(NavigatorState.RUNNING);
     }
 
-    /**
-     * Adds another thread of execution to the navigator.
-     */
+    @Override
     public void addThread() {
 
         NavigationThread thread = new NavigationThread(String.format("NT %d", counter), scheduler);

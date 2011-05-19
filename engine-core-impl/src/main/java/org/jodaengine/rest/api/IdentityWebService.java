@@ -16,9 +16,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.annotate.JsonIgnoreType;
 import org.jboss.resteasy.spi.BadRequestException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.IdentityService;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.exception.JodaEngineException;
@@ -31,6 +28,8 @@ import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.IdentityBuilder;
 import org.jodaengine.rest.PatchCollectionChangeset;
 import org.jodaengine.util.annotations.PATCH;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -459,6 +458,16 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
         
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
+
+    @Override
+    public void start(JodaEngineServices services) {
+        throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
+    }
+
+    @Override
+    public void stop() {
+        throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
+    }
     
     /**
      * We provide an empty identity builder. NullObjectPattern, you know?
@@ -481,109 +490,109 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
         
         @Override
         public AbstractParticipant createParticipant(String participantName) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder deleteParticipant(UUID participantID)
         throws ResourceNotAvailableException {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder participantOccupiesPosition(UUID participantID, UUID positionID)
         throws ResourceNotAvailableException {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder participantDoesNotOccupyPosition(UUID participantID, UUID positionID)
         throws ResourceNotAvailableException {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder participantBelongsToRole(UUID participantID, UUID roleID)
         throws ResourceNotAvailableException {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder participantDoesNotBelongToRole(UUID participantID, UUID roleID)
         throws ResourceNotAvailableException {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder participantHasCapability(UUID participantID, AbstractCapability capability) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public AbstractOrganizationUnit createOrganizationUnit(String organizationUnitName) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder deleteOrganizationUnit(UUID organizationUnit)
         throws JodaEngineException {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder organizationUnitOffersPosition(UUID organizationUnit, UUID positionID)
         throws ResourceNotAvailableException {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder organizationUnitDoesNotOfferPosition(UUID organizationUnit, UUID positionID)
         throws ResourceNotAvailableException {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder subOrganizationUnitOf(UUID subOrganizationUnit, UUID superOrganizationUnit)
         throws JodaEngineException {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public AbstractPosition createPosition(String positionName) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder deletePosition(UUID positionID)
         throws JodaEngineException {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder positionReportsToSuperior(UUID positionID, UUID superiorpositionID)
         throws JodaEngineException {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public AbstractRole createRole(String roleName) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder deleteRole(UUID roleID)
         throws Exception {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public IdentityBuilder subRoleOf(UUID subRoleID, UUID superRoleID) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
 
         @Override
         public AbstractCapability createCapability(String capabilityId) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         }
     }
 }

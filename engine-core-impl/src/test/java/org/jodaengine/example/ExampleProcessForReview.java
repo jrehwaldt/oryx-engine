@@ -1,6 +1,7 @@
 package org.jodaengine.example;
 
 
+import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.ext.navigator.NavigatorListenerLogger;
 import org.jodaengine.factory.node.AddNumbersAndStoreNodeFactory;
 import org.jodaengine.factory.node.MailNodeFactory;
@@ -38,7 +39,7 @@ public final class ExampleProcessForReview {
         // the main
         NavigatorImpl navigator = new NavigatorImpl();
         navigator.registerPlugin(NavigatorListenerLogger.getInstance());
-        navigator.start();
+        navigator.start(new JodaEngine());
         
         TokenImpl token = processTokenForReview();
         navigator.startArbitraryInstance(token);

@@ -34,6 +34,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         scope="singleton">
     </bean>
 
+    <bean id="extensionService" class="org.jodaengine.ext.service.ExtensionServiceImpl"
+        scope="singleton">
+    </bean>
+
     <bean id="jodaEngineAppContext" class="org.jodaengine.bootstrap.JodaEngineAppContext" />
 
 </beans>

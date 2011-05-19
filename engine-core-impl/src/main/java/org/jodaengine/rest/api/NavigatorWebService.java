@@ -9,9 +9,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
@@ -20,6 +17,8 @@ import org.jodaengine.navigator.NavigatorStatistic;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -105,7 +104,7 @@ public class NavigatorWebService implements Navigator {
     }
 
     @Override
-    public void start() {
+    public void start(JodaEngineServices services) {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }

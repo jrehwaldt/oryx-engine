@@ -8,6 +8,7 @@ import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.allocation.TaskDistribution;
 import org.jodaengine.bootstrap.JodaEngineAppContext;
 import org.jodaengine.eventmanagement.EventManager;
+import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 
 
@@ -87,14 +88,23 @@ public final class ServiceFactory {
     }
 
     /**
-     * Gets the {@link CorrelationManager} for the supplied navigator. As we do not necessarily have only one navigator,
-     * we need a CorrelationManager for each of them.
+     * Gets the {@link EventManager}.
      * 
      * @return the correlation service
      */
     public static @Nonnull EventManager getCorrelationService() {
 
         return (EventManager) JodaEngineAppContext.getBean("correlationService");
+    }
+    
+    /**
+     * Gets the {@link ExtensionService}.
+     * 
+     * @return the extension service
+     */
+    public static ExtensionService getExtensionService() {
+
+        return (ExtensionService) JodaEngineAppContext.getBean("extensionService");
     }
     
     /**

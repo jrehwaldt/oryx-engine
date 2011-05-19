@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
+import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.eventmanagement.EventManagerImpl;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImpl;
@@ -30,7 +31,7 @@ public class CorrelationManagerImplTest {
     @Test
     public void testErrorAdapterExistsAfterStart() {
 
-        this.manager.start();
+        this.manager.start(new JodaEngine());
         assertNotNull(this.manager.getErrorAdapter());
     }
 
@@ -40,7 +41,7 @@ public class CorrelationManagerImplTest {
     @Test
     public void testNoUnusedAdaptersRegisteredByStartup() {
 
-        this.manager.start();
+        this.manager.start(new JodaEngine());
         assertEquals(this.manager.getInboundAdapters().size(), INITIAL_ADAPTERS_COUNT);
     }
 
