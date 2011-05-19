@@ -31,6 +31,11 @@ public class BpmnXmlParseBuilder extends XmlParseBuilderImpl {
 
     protected BpmnXmlParser bpmnXmlParser;
 
+    /**
+     * Creates a 
+     * 
+     * @param bpmnXmlParser a xml parser instance
+     */
     public BpmnXmlParseBuilder(BpmnXmlParser bpmnXmlParser) {
 
         super(bpmnXmlParser);

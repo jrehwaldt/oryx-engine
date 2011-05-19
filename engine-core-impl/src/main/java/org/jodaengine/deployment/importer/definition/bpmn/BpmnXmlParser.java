@@ -60,6 +60,9 @@ public class BpmnXmlParser extends XmlParser {
     
     protected List<BpmnXmlParseListener> parseListeners;
 
+    /**
+     * Default construtcor.
+     */
     public BpmnXmlParser() {
         
         getParseListeners().add(new BpmnProcessDefinitionValidator());
@@ -71,6 +74,11 @@ public class BpmnXmlParser extends XmlParser {
         return new BpmnXmlParseBuilder(this);
     }
     
+    /**
+     * Returns a list of specified {@link BpmnXmlParseListener}s.
+     * 
+     * @return all registered listeners
+     */
     public List<BpmnXmlParseListener> getParseListeners() {
 
         if (this.parseListeners == null) {

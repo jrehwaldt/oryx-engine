@@ -151,6 +151,7 @@ public class ExtensionServiceImpl implements ExtensionService {
      * Starts all available extension services.
      */
     private void startExtensionServices() {
+        
         List<Class<Service>> serviceClasses = getExtensionClasses(Service.class);
         
         for (Class<Service> serviceClass: serviceClasses) {
@@ -180,7 +181,7 @@ public class ExtensionServiceImpl implements ExtensionService {
     }
     
     /**
-     * Provides any extension class that is assignable to the desired interface.
+     * Provides any {@link Extension} class that is assignable to the desired interface.
      * 
      * @param <IExtension> the extension point's interface
      * @param extension the extension point's interface
