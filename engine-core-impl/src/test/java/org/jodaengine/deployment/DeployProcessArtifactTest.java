@@ -6,14 +6,23 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.UUID;
 
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.mockito.Mockito;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -26,12 +35,24 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
     private DeploymentBuilder deploymentBuilder = null;
     private RepositoryService repo = null;
+    private ProcessDefinition definition = null;
 
     @BeforeClass
-    public void setUp() {
+    public void setUp()
+    throws IllegalStarteventException {
 
         repo = ServiceFactory.getRepositoryService();
         deploymentBuilder = repo.getDeploymentBuilder();
+
+        ProcessDefinitionBuilder defBuilder = deploymentBuilder.getProcessDefinitionBuilder();
+        defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
+        definition = defBuilder.buildDefinition();
+    }
+
+    @BeforeMethod
+    public void addDefinitionToBuilder() {
+
+        deploymentBuilder.addProcessDefinition(definition);
     }
 
     @Test
@@ -44,9 +65,9 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
         Deployment deployment = deploymentBuilder.addStringArtifact("stringArtifact", stringBuilder.toString())
         .buildDeployment();
-        DeploymentScope scope = repo.deployInNewScope(deployment);
+        repo.deployInNewScope(deployment);
 
-        AbstractProcessArtifact processArtifact = scope.getProcessArtifact("stringArtifact");
+        AbstractProcessArtifact processArtifact = repo.getProcessArtifact("stringArtifact", definition.getID());
         Assert.assertEquals(processArtifact.getID(), "stringArtifact");
 
         assertInputStream(processArtifact.getInputStream());
@@ -59,9 +80,9 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         File fileToDeploy = new File(TEST_FILE_SYSTEM_PATH);
 
         Deployment deployment = deploymentBuilder.addFileArtifact("fileArtifact", fileToDeploy).buildDeployment();
-        DeploymentScope scope = repo.deployInNewScope(deployment);
+        repo.deployInNewScope(deployment);
 
-        AbstractProcessArtifact processArtifact = scope.getProcessArtifact("fileArtifact");
+        AbstractProcessArtifact processArtifact = repo.getProcessArtifact("fileArtifact", definition.getID());
         Assert.assertEquals(processArtifact.getID(), "fileArtifact");
 
         assertInputStream(processArtifact.getInputStream());
@@ -71,12 +92,11 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
     public void testArtifactDeploymentAsClasspathResource()
     throws IOException, ProcessArtifactNotFoundException {
 
-
         Deployment deployment = deploymentBuilder
         .addClasspathResourceArtifact("classpathArtifact", TEST_FILE_CLASSPATH).buildDeployment();
-        DeploymentScope scope = repo.deployInNewScope(deployment);
+        repo.deployInNewScope(deployment);
 
-        AbstractProcessArtifact processArtifact = scope.getProcessArtifact("classpathArtifact");
+        AbstractProcessArtifact processArtifact = repo.getProcessArtifact("classpathArtifact", definition.getID());
         Assert.assertEquals(processArtifact.getID(), "classpathArtifact");
 
         assertInputStream(processArtifact.getInputStream());
@@ -90,12 +110,12 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Hello Joda-Engine\n").append("\n").append("GoodBye Joda-Engine");
         InputStream inputStreamToDeploy = new ByteArrayInputStream(stringBuilder.toString().getBytes());
-        
-        Deployment deployment = deploymentBuilder
-        .addInputStreamArtifact("inputStreamArtifact", inputStreamToDeploy).buildDeployment();
-        DeploymentScope scope = repo.deployInNewScope(deployment);
 
-        AbstractProcessArtifact processArtifact = scope.getProcessArtifact("inputStreamArtifact");
+        Deployment deployment = deploymentBuilder.addInputStreamArtifact("inputStreamArtifact", inputStreamToDeploy)
+        .buildDeployment();
+        repo.deployInNewScope(deployment);
+
+        AbstractProcessArtifact processArtifact = repo.getProcessArtifact("inputStreamArtifact", definition.getID());
         Assert.assertEquals(processArtifact.getID(), "inputStreamArtifact");
 
         assertInputStream(processArtifact.getInputStream());

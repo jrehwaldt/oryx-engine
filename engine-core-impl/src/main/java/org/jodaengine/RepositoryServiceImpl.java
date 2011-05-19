@@ -19,6 +19,8 @@ import org.jodaengine.deployment.DeploymentScope;
 import org.jodaengine.deployment.DeploymentScopeImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
+import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
@@ -248,6 +250,30 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     public DeploymentScope getScopeForDefinition(ProcessDefinitionID definitionID) {
 
         return scopes.get(definitionID);
+    }
+
+    @Override
+    public void addProcessArtifact(AbstractProcessArtifact artifact, ProcessDefinitionID definitionID) {
+
+        DeploymentScope scope = scopes.get(definitionID);
+        scope.addProcessArtifact(artifact);
+        
+    }
+
+    @Override
+    public AbstractProcessArtifact getProcessArtifact(String processArtifactID, ProcessDefinitionID definitionID)
+    throws ProcessArtifactNotFoundException {
+
+        DeploymentScope scope = scopes.get(definitionID);
+        return scope.getProcessArtifact(processArtifactID);
+    }
+
+    @Override
+    public void deleteProcessResource(String processArtifactID, ProcessDefinitionID definitionID) {
+
+        DeploymentScope scope = scopes.get(definitionID);
+        scope.deleteProcessArtifact(processArtifactID);
+        
     }
 
     // @Override

@@ -1,5 +1,6 @@
 package org.jodaengine.deployment;
 
+import java.util.Collections;
 import java.util.Map;
 
 import org.jodaengine.process.definition.AbstractProcessArtifact;
@@ -18,13 +19,27 @@ public class DeploymentScopeImpl implements DeploymentScope {
     @Override
     public Map<String, AbstractProcessArtifact> getArtifactsTable() {
 
-        return artifactsTable;
+        return Collections.unmodifiableMap(artifactsTable);
     }
 
     @Override
     public AbstractProcessArtifact getProcessArtifact(String identifier) {
 
         return artifactsTable.get(identifier);
+    }
+
+    @Override
+    public void addProcessArtifact(AbstractProcessArtifact artifact) {
+
+        artifactsTable.put(artifact.getID(), artifact);
+        
+    }
+
+    @Override
+    public void deleteProcessArtifact(String identifier) {
+
+        artifactsTable.remove(identifier);
+        
     }
 
 }

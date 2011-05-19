@@ -94,24 +94,32 @@ public interface RepositoryService {
      */
     void activateProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
 
-    // /**
-    // * Adds a process artifact to the repository.
-    // *
-    // * @param artifact the artifact
-    // */
-    // void addProcessArtifact(@Nonnull AbstractProcessArtifact artifact);
-    //
-    // /**
-    // * Retrieves a certain {@link AbstractProcessArtifact ProcessResource} with the given processResourceID.
-    // *
-    // * @param processResourceID - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
-    // * @return a {@link AbstractProcessArtifact ProcessResource}
-    // * @throws ProcessArtifactNotFoundException thrown if the artifact does not exist
-    // */
-    // @Nonnull
-    // AbstractProcessArtifact getProcessArtifact(@Nonnull UUID processResourceID)
-    // throws ProcessArtifactNotFoundException;
-    //
+    /**
+     * Adds a process artifact to the repository for the given definition.
+     * 
+     * @param artifact
+     *            the artifact
+     * @param definitionID
+     *            the id of the definition, in which scope the resource is looked up.
+     */
+    void addProcessArtifact(@Nonnull AbstractProcessArtifact artifact, @Nonnull ProcessDefinitionID definitionID);
+
+    /**
+     * Retrieves a certain {@link AbstractProcessArtifact ProcessResource} with the given processResourceID.
+     * 
+     * @param processArtifactID
+     *            - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
+     * @param definitionID
+     *            the id of the definition, in which scope the resource is looked up.
+     * @return a {@link AbstractProcessArtifact ProcessResource}
+     * @throws ProcessArtifactNotFoundException
+     *             thrown if the artifact does not exist
+     */
+    @Nonnull
+    AbstractProcessArtifact getProcessArtifact(@Nonnull String processArtifactID,
+                                               @Nonnull ProcessDefinitionID definitionID)
+    throws ProcessArtifactNotFoundException;
+
     // /**
     // * Retrieves all {@link AbstractProcessArtifact ProcessArtifacts} that have been deployed previously.
     // *
@@ -126,14 +134,14 @@ public interface RepositoryService {
     // * @return true, if successful
     // */
     // boolean containsProcessArtifact(UUID processResourceID);
-    //
-    // /**
-    // * Deletes the given {@link AbstractProcessArtifact ProcessResource}.
-    // *
-    // * @param processResourceID
-    // * - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
-    // */
-    // void deleteProcessResource(@Nonnull UUID processResourceID);
+
+    /**
+     * Deletes the given {@link AbstractProcessArtifact ProcessResource} from the definitions scope.
+     *
+     * @param processArtifactID the process artifact id
+     * @param definitionID the definition id
+     */
+    void deleteProcessResource(@Nonnull String processArtifactID, @Nonnull ProcessDefinitionID definitionID);
 
     /**
      * Deploys a deployment (i.e. the contained process definition, artifacts, etc.) to the repository. The contained
@@ -141,8 +149,16 @@ public interface RepositoryService {
      * 
      * @param processDeployment
      *            the process deployment
+     * @return the deployment scope that was created
      */
     DeploymentScope deployInNewScope(Deployment processDeployment);
-    
+
+    /**
+     * Gets the scope for a definition.
+     * 
+     * @param definitionID
+     *            the definition id
+     * @return the scope for the definition
+     */
     DeploymentScope getScopeForDefinition(ProcessDefinitionID definitionID);
 }
