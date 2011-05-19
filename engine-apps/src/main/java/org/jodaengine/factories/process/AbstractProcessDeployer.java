@@ -1,5 +1,6 @@
 package org.jodaengine.factories.process;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.jodaengine.IdentityService;
@@ -72,7 +73,10 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
      * 
      * @return the artifacts to deploy
      */
-    public abstract Set<AbstractProcessArtifact> getArtifactsToDeploy();
+    public Set<AbstractProcessArtifact> getArtifactsToDeploy() {
+
+        return new HashSet<AbstractProcessArtifact>();
+    }
 
     /**
      * Initialize nodes.

@@ -439,6 +439,13 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         return artifacts;
     }
     
+    /**
+     * Creates a process artifact from a classpath resource.
+     *
+     * @param name the name
+     * @param fileName the file name
+     * @return the abstract process artifact
+     */
     private AbstractProcessArtifact createClassPathArtifact(String name, String fileName) {
         ClassPathResourceStreamSource source = new ClassPathResourceStreamSource(fileName);
         return new ProcessArtifact(name, source);

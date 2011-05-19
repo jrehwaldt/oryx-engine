@@ -81,7 +81,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         Object[] participants = identityService.getParticipants().toArray();
 
         AbstractResource<?> resourceToAssign = (AbstractResource<?>) participants[0];
-        builder.setItemDescription(SIMPLE_TASK_DESCRIPTION).setItemSubject(SIMPLE_TASK_SUBJECT).setItemForm(null)
+        builder.setItemDescription(SIMPLE_TASK_DESCRIPTION).setItemSubject(SIMPLE_TASK_SUBJECT).setItemFormID(null)
         .addResourceAssignedToItem(resourceToAssign);
 
         // CreationPattern task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[0]);)
@@ -122,7 +122,7 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
 
         // Create the task
         CreationPatternBuilder builder = new CreationPatternBuilderImpl();
-        builder.setItemDescription("Do it cool").setItemSubject("Do stuff").setItemForm(null)
+        builder.setItemDescription("Do it cool").setItemSubject("Do stuff").setItemFormID(null)
         .addResourceAssignedToItem(role);
 
         node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
