@@ -1,4 +1,4 @@
-package org.jodaengine.deployment.importer.bpmn;
+package org.jodaengine.deployment.definition.importer.bpmn;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.jodaengine.deployment.importer;
+package org.jodaengine.deployment.definition.importer;
 
 import javax.annotation.Nonnull;
 

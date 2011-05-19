@@ -19,7 +19,7 @@
  * We did some modification which are hereby also under the Apache License, Version 2.0.
  */
 
-package org.jodaengine.deployment.importer.bpmn;
+package org.jodaengine.deployment.definition.importer.bpmn;
 
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;

@@ -1,7 +1,7 @@
 package org.jodaengine.ext.debugging.listener;
 
-import org.jodaengine.deployment.importer.bpmn.BpmnXmlParseListener;
-import org.jodaengine.deployment.importer.bpmn.BpmnXmlParser;
+import org.jodaengine.deployment.definition.importer.bpmn.BpmnXmlParseListener;
+import org.jodaengine.deployment.definition.importer.bpmn.BpmnXmlParser;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
