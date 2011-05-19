@@ -121,6 +121,42 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         assertInputStream(processArtifact.getInputStream());
     }
 
+    /**
+     * Tests that two individually deployed process definitions (i.e. in different scopes) cannot access the artifacts
+     * of each other.
+     * 
+     * @throws IllegalStarteventException
+     * @throws ProcessArtifactNotFoundException 
+     */
+    @Test
+    public void testArtifactIsolation()
+    throws IllegalStarteventException, ProcessArtifactNotFoundException {
+
+        // do the first deployment with a String artifact
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Hello Joda-Engine\n").append("\n").append("GoodBye Joda-Engine");
+
+        Deployment deployment = deploymentBuilder.addStringArtifact("stringArtifact", stringBuilder.toString())
+        .buildDeployment();
+        repo.deployInNewScope(deployment);
+
+        // do another deployment with a new process definition
+        ProcessDefinitionBuilder defBuilder = deploymentBuilder.getProcessDefinitionBuilder();
+        defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
+        ProcessDefinition anotherDefinition = defBuilder.buildDefinition();
+        Deployment anotherDeployment = deploymentBuilder.addProcessDefinition(anotherDefinition).buildDeployment();
+        repo.deployInNewScope(anotherDeployment);
+        
+        // the following line should trigger the expected exception.
+        try {
+            repo.getProcessArtifact("stringArtifact", anotherDefinition.getID());
+            Assert.fail("Exception expected");
+        } catch (ProcessArtifactNotFoundException exception) {
+            // do nothing as this is the expected path
+        }
+
+    }
+
     private void assertInputStream(InputStream inputStream)
     throws IOException {
 

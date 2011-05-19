@@ -2,6 +2,7 @@ package org.jodaengine.deployment;
 
 import java.util.Map;
 
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 
 /**
@@ -22,8 +23,9 @@ public interface DeploymentScope {
      *
      * @param identifier the identifier
      * @return the process artifact
-     */
-    AbstractProcessArtifact getProcessArtifact(String identifier);
+     * @throws ProcessArtifactNotFoundException thrown if the artifact does not exist in this scope
+     */   
+    AbstractProcessArtifact getProcessArtifact(String identifier) throws ProcessArtifactNotFoundException;
     
     /**
      * Adds a process artifact to the scope.
