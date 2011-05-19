@@ -10,53 +10,56 @@ import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractPosition;
 import org.jodaengine.resource.AbstractResource;
 
-
 /**
  * Worklist for a participant.
  */
 public class ParticipantWorklist extends AbstractDefaultWorklist {
-    
+
     private AbstractParticipant relatedParticipant;
-    
+
     /**
      * Hidden constructor.
      */
-    protected ParticipantWorklist() { }
-    
+    protected ParticipantWorklist() {
+
+    }
+
     /**
      * Instantiates a new participant worklist.
-     *
-     * @param owner the related participant to the work list 
+     * 
+     * @param owner
+     *            the related participant to the work list
      */
     public ParticipantWorklist(@Nonnull AbstractParticipant owner) {
-        
+
         this.relatedParticipant = owner;
     }
-    
+
     /**
      * Gets the resources in view. These are all roles, positions, etc. this participant belongs to.
-     *
+     * 
      * @return the resources in view
      */
     private List<AbstractResource<?>> getResourcesInView() {
+
         List<AbstractResource<?>> resourcesInView = new ArrayList<AbstractResource<?>>();
         resourcesInView.addAll(relatedParticipant.getMyRolesImmutable());
-        for (AbstractPosition position: relatedParticipant.getMyPositionsImmutable()) {
+        for (AbstractPosition position : relatedParticipant.getMyPositionsImmutable()) {
             resourcesInView.add(position);
             resourcesInView.add(position.belongstoOrganization());
         }
-        
+
         return resourcesInView;
     }
 
     @Override
     public List<AbstractWorklistItem> getWorklistItems() {
-        
+
         // this is needed for deserialization to not break the circular dependency
         if (relatedParticipant == null) {
             return Collections.emptyList();
         }
-        
+
         // Extracting the resources related to this owner
         List<AbstractResource<?>> resourcesInView = getResourcesInView();
 
@@ -75,18 +78,19 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
 
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
 
+        // if the person who claims the item is the owner of this worklist, set the item state to ALLOCATED and add it
+        // to this worklist if not present already
         if (claimingResource.equals(relatedParticipant)) {
 
             worklistItemImpl.setStatus(WorklistItemState.ALLOCATED);
             if (!getLazyWorklistItems().contains(worklistItemImpl)) {
                 getLazyWorklistItems().add(worklistItemImpl);
             }
-            
+
         } else {
-            // we assume, that when an item has been allocated, it must have been offered before
-            getLazyWorklistItems().remove(worklistItemImpl);
-            
-            worklistItemImpl.getAssignedResources().remove(relatedParticipant);
+            // if an item has been offered before, it now gets deleted here from the list, because somebody else claimed
+            // it
+            removeWorklistItem(worklistItem);
         }
     }
 
@@ -102,15 +106,15 @@ public class ParticipantWorklist extends AbstractDefaultWorklist {
 
         getLazyWorklistItems().remove(worklistItem);
         worklistItem.getAssignedResources().remove(relatedParticipant);
-        
+
     }
 
     @Override
     public void itemIsCompleted(AbstractWorklistItem worklistItem) {
 
+        getLazyWorklistItems().remove(worklistItem);
+        
         WorklistItemImpl worklistItemImpl = WorklistItemImpl.asWorklistItemImpl(worklistItem);
-        getLazyWorklistItems().remove(worklistItemImpl);
-
         worklistItemImpl.setStatus(WorklistItemState.COMPLETED);
     }
 
