@@ -1,8 +1,6 @@
 package org.jodaengine.factories.process;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.jodaengine.exception.ResourceNotAvailableException;
@@ -13,7 +11,6 @@ import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessArtifact;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.condition.HashMapCondition;
 import org.jodaengine.process.structure.condition.JuelExpressionCondition;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Role;

@@ -37,6 +37,11 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
     private RepositoryService repo = null;
     private ProcessDefinition definition = null;
 
+    /**
+     * Sets services and builds a standard definition.
+     *
+     * @throws IllegalStarteventException the illegal startevent exception
+     */
     @BeforeClass
     public void setUp()
     throws IllegalStarteventException {
@@ -49,6 +54,9 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         definition = defBuilder.buildDefinition();
     }
 
+    /**
+     * Adds the definition to the deployment builder.
+     */
     @BeforeMethod
     public void addDefinitionToBuilder() {
 
@@ -124,9 +132,9 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
     /**
      * Tests that two individually deployed process definitions (i.e. in different scopes) cannot access the artifacts
      * of each other.
-     * 
-     * @throws IllegalStarteventException
-     * @throws ProcessArtifactNotFoundException 
+     *
+     * @throws IllegalStarteventException the illegal startevent exception
+     * @throws ProcessArtifactNotFoundException the process artifact not found exception
      */
     @Test
     public void testArtifactIsolation()

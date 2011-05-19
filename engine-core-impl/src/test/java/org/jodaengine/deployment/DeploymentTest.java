@@ -24,6 +24,9 @@ public class DeploymentTest extends AbstractJodaEngineTest {
     private DeploymentBuilder builder;
     private ProcessDefinitionBuilder defBuilder;
 
+    /**
+     * Sets services and builders.
+     */
     @BeforeMethod
     public void setUp() {
 
@@ -33,6 +36,13 @@ public class DeploymentTest extends AbstractJodaEngineTest {
 
     }
 
+    /**
+     * Uses the deployment builder to build a deployment, deploys it and then checks, if the process definition is
+     * available.
+     * 
+     * @throws IllegalStarteventException
+     *             the illegal startevent exception
+     */
     @Test
     public void testProcessDefinitionDeployment()
     throws IllegalStarteventException {
@@ -44,12 +54,17 @@ public class DeploymentTest extends AbstractJodaEngineTest {
         Whitebox.setInternalState(definition, "id", id);
         builder.addProcessDefinition(definition);
         Deployment deployment = builder.buildDeployment();
-        DeploymentScope scope = repository.deployInNewScope(deployment);
+        repository.deployInNewScope(deployment);
 
         Assert.assertTrue(repository.containsProcessDefinition(id));
-       
+
     }
 
+    /**
+     * Deploys two processes with the same id and checks for automated versioning of these.
+     *
+     * @throws IllegalStarteventException the illegal startevent exception
+     */
     @Test
     public void testAutomatedVersioning()
     throws IllegalStarteventException {
@@ -81,14 +96,6 @@ public class DeploymentTest extends AbstractJodaEngineTest {
         Assert.assertEquals(definition.getID().getVersion(), 0, "The first deployment should have version 0");
         Assert.assertEquals(anotherDefinition.getID().getVersion(), 1,
             "The second deployment should have version 1, as it has the same id");
-
-    }
-
-    /**
-     * Tests that a process scope is created when a deployment is deployed.
-     */
-    @Test
-    public void testScopeDeployment() {
 
     }
 

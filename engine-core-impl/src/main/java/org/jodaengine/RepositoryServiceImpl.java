@@ -3,10 +3,8 @@ package org.jodaengine;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
@@ -211,18 +209,28 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
             getProcessDefinitionsTable().put(definition.getID(), definition);
 
             // create the connection between definition and scope
-            // TODO @Thorben-Refactoring think about a direct link between definition and scope
-            addScopeForDefinition(definition.getID(), scope);
+            setScopeForDefinition(definition.getID(), scope);
         }
 
         return scope;
     }
 
-    private void addScopeForDefinition(ProcessDefinitionID definitionID, DeploymentScope scope) {
+    /**
+     * Sets the scope of the definition.
+     *
+     * @param definitionID the definition id
+     * @param scope the scope
+     */
+    private void setScopeForDefinition(ProcessDefinitionID definitionID, DeploymentScope scope) {
 
         scopes.put(definitionID, scope);
     }
 
+    /**
+     * Removes the link between the definition and its scope.
+     *
+     * @param definitionID the definition id
+     */
     private void removeDefinitionFromScope(ProcessDefinitionID definitionID) {
 
         scopes.remove(definitionID);
@@ -240,7 +248,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
         if (currentVersionNumber != null) {
             currentVersionNumber++;
         } else {
-            currentVersionNumber = new Integer(0);
+            currentVersionNumber = Integer.valueOf(0);
         }
         processVersions.put(definition.getID().getUUID(), currentVersionNumber);
         definition.getID().setVersion(currentVersionNumber);

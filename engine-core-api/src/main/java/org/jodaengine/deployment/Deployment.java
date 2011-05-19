@@ -13,8 +13,8 @@ import org.jodaengine.process.definition.ProcessDefinition;
 public interface Deployment {
 
     /**
-     * Adds a process definition to the deployment. Definitions with the same ID are allowed, as they will have
-     * different versions assigned upon deployment.
+     * Adds a {@link ProcessDefinition} to the deployment. Definitions with the same {@link ProcessDefinitionID} are
+     * allowed, as they will have different versions assigned upon deployment.
      * 
      * @param definition
      *            the definition
@@ -22,15 +22,25 @@ public interface Deployment {
     void addProcessDefinition(ProcessDefinition definition);
 
     /**
-     * Adds an artifact to the deployment. Will override any artifact with the same id.
+     * Adds an {@link AbstractProcessArtifact} to the deployment. Will override any artifact with the same id.
      * 
      * @param artifact
      *            the artifact
      */
     void addProcessArtifact(AbstractProcessArtifact artifact);
 
+    /**
+     * Gets all contained {@link ProcessDefinition}.
+     * 
+     * @return the definitions
+     */
     Set<ProcessDefinition> getDefinitions();
 
+    /**
+     * Gets a map of all contained artifact identifiers pointing to the specific {@link AbstractProcessArtifact}s.
+     * 
+     * @return the artifacts
+     */
     Map<String, AbstractProcessArtifact> getArtifacts();
 
 }
