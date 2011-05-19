@@ -1,4 +1,4 @@
-package org.jodaengine.deployment.importer.bpmn;
+package org.jodaengine.deployment.importer.definition.bpmn;
 
 import java.io.InputStream;
 
@@ -6,7 +6,7 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.ProcessDefinitionImporter;
-import org.jodaengine.deployment.definition.importer.BpmnXmlImporter;
+import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;

@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.deployment.definition.importer.BpmnXmlImporter;
+import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
 import org.jodaengine.process.definition.ProcessDefinition;
 
 

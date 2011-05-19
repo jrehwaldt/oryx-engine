@@ -13,7 +13,7 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.ProcessDefinitionImporter;
-import org.jodaengine.deployment.definition.importer.RawProcessDefintionImporter;
+import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;

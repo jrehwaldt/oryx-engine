@@ -1,4 +1,4 @@
-package org.jodaengine.deployment.importer.bpmn;
+package org.jodaengine.deployment.importer.definition.bpmn;
 
 import org.testng.annotations.Test;
 

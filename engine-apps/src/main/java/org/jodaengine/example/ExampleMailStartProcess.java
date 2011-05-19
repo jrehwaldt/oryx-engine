@@ -6,7 +6,7 @@ import java.util.List;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.deployment.definition.importer.RawProcessDefintionImporter;
+import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;

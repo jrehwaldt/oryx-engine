@@ -19,7 +19,7 @@
  * We did some modification which are hereby also under the Apache License, Version 2.0.
  */
 
-package org.jodaengine.deployment.definition.importer.bpmn;
+package org.jodaengine.deployment.importer.definition.bpmn;
 
 import java.util.HashMap;
 import java.util.List;

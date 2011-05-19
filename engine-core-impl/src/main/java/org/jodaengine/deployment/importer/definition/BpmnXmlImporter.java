@@ -1,9 +1,9 @@
-package org.jodaengine.deployment.definition.importer;
+package org.jodaengine.deployment.importer.definition;
 
 import java.io.InputStream;
 
 import org.jodaengine.deployment.ProcessDefinitionImporter;
-import org.jodaengine.deployment.definition.importer.bpmn.BpmnXmlParser;
+import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.util.io.FileStreamSource;
 import org.jodaengine.util.xml.XmlParseable;
