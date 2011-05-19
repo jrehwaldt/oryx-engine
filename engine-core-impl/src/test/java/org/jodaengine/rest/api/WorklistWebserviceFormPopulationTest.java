@@ -1,6 +1,7 @@
 package org.jodaengine.rest.api;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,10 +15,14 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.bootstrap.JodaEngine;
+import org.jodaengine.deployment.Deployment;
+import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
+import org.jodaengine.mock.utils.MockUtils;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessArtifact;
@@ -33,7 +38,6 @@ import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.io.StringStreamSource;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
-
 
 /**
  * The Class WorklistWebserviceFormPopulationTest.
@@ -53,8 +57,9 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
 
     /**
      * Setup of a worklist item and a participant.
-     *
-     * @throws IOException one of the form input files might not have been read correctly.
+     * 
+     * @throws IOException
+     *             one of the form input files might not have been read correctly.
      */
     @BeforeMethod
     public void beforeMethod()
@@ -66,19 +71,26 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
         form = readFile(FORM_LOCATION);
         populatedForm = readFile(POPULATED_FORM_LOCATION);
 
+        // deploy the artifact together with a definition
+        ProcessDefinition definition = MockUtils.mockProcessDefinition();
         AbstractProcessArtifact processArtifact = new ProcessArtifact("form", new StringStreamSource(form));
+        DeploymentBuilder builder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
+        Deployment deployment = builder.addProcessDefinition(definition).addProcessArtifact(processArtifact)
+        .buildDeployment();
+        jodaEngineServices.getRepositoryService().deployInNewScope(deployment);
 
-        Whitebox.setInternalState(pattern, "form", new FormImpl(processArtifact));
+        Whitebox.setInternalState(pattern, "formID", "form");
 
-        instance = new ProcessInstanceImpl(mock(ProcessDefinition.class));
+        instance = new ProcessInstanceImpl(definition);
         Token token = instance.createToken(mock(Node.class), mock(Navigator.class));
-//        ServiceFactory.getTaskDistribution().distribute(pattern, token);
-        List<AbstractWorklistItem> items = pattern.createWorklistItems(token);
+        // ServiceFactory.getTaskDistribution().distribute(pattern, token);
+        List<AbstractWorklistItem> items = pattern
+        .createWorklistItems(token, jodaEngineServices.getRepositoryService());
         PushPattern pushPattern = new AllocateSinglePattern();
         pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
         jannik = (AbstractParticipant) pattern.getAssignedResources().iterator().next();
     }
-    
+
     /**
      * We create the two context variables as specified in the form and then check,
      * whether the values appear in the returned form.
@@ -119,10 +131,12 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
 
     /**
      * Reads a file and returns its content as a String.
-     *
-     * @param fileName the file name
+     * 
+     * @param fileName
+     *            the file name
      * @return the string
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     private String readFile(String fileName)
     throws IOException {

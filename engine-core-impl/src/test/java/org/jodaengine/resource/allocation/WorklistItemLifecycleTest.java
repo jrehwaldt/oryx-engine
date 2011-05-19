@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
+import org.jodaengine.allocation.Form;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
@@ -47,8 +48,9 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         Token token = Mockito.mock(Token.class);
         Set<AbstractResource<?>> resources = pattern.getAssignedResources();
 
+        Form form = Mockito.mock(Form.class);
         worklistItem = new WorklistItemImpl(pattern.getItemSubject(), pattern.getItemDescription(),
-            pattern.getItemForm(), resources, token);
+            form, resources, token);
 
         ServiceFactory.getWorklistQueue().addWorklistItem(worklistItem, jannik);
     }

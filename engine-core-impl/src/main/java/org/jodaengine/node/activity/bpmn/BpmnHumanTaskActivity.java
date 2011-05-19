@@ -31,7 +31,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
 
     @JsonIgnore
     private PushPattern pushPattern;
-    
+
     @JsonIgnore
     private static final String ITEM_PREFIX = "ITEMS-";
 
@@ -53,7 +53,8 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     protected void executeIntern(@Nonnull Token token) {
 
         TaskAllocation service = ServiceFactory.getWorklistQueue();
-        List<AbstractWorklistItem> items = creationPattern.createWorklistItems(token);
+        List<AbstractWorklistItem> items = creationPattern.createWorklistItems(token,
+            ServiceFactory.getRepositoryService());
 
         // save the UUIDs of the created items to the instance context, in order to be able to delete them, if execution
         // is cancelled
@@ -63,7 +64,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
         }
 
         ProcessInstanceContext context = token.getInstance().getContext();
-        
+
         // the name should be unique, as the token can only work on one activity at a time.
         final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
         context.setInternalVariable(itemContextVariableIdentifier, itemUUIDs);

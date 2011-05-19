@@ -11,6 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.exception.ResourceNotAvailableException;
@@ -169,7 +170,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
         pattern = CreationPatternFactory.createRoleCreator();
         TokenImpl token = mock(TokenImpl.class);
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
-        List<AbstractWorklistItem> items = pattern.createWorklistItems(token);
+        List<AbstractWorklistItem> items = pattern.createWorklistItems(token, mock(RepositoryService.class));
         PushPattern pushPattern = new OfferMultiplePattern();
         pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
 

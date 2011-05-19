@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import org.jodaengine.IdentityServiceImpl;
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.mock.utils.MockUtils;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -72,7 +73,7 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         humanTask = new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern());
 
         Node node = new NodeImpl(humanTask, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        token = new TokenImpl(node, new ProcessInstanceImpl(null), new NavigatorImplMock());
+        token = new TokenImpl(node, new ProcessInstanceImpl(MockUtils.mockProcessDefinition()), new NavigatorImplMock());
     }
 
     /**
@@ -134,21 +135,22 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         AbstractWorklistItem item = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
         assertEquals(itemID, item.getID(), "The saved ID should be the ID of the created worklist item");
     }
-    
+
     /**
      * Test that the list of item IDs is removed from the context after the activity has been resumed.
      */
     @Test
     public void testItemIdRemovedFromContext() {
+
         humanTask.execute(token);
         AbstractWorklistItem item = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
         ServiceFactory.getWorklistQueue().beginWorklistItemBy(item, resource);
         ServiceFactory.getWorklistQueue().completeWorklistItemBy(item, resource);
-        
+
         ProcessInstanceContext context = token.getInstance().getContext();
         List<UUID> savedItemIDs = (List<UUID>) context.getInternalVariable((String) Whitebox.getInternalState(
             humanTask, "ITEM_PREFIX") + token.getID());
-        
+
         assertTrue(savedItemIDs == null, "The variable should exist any longer.");
     }
 }

@@ -14,7 +14,7 @@ public class CreationPatternBuilderImpl implements CreationPatternBuilder {
 
     private String taskSubject;
     private String taskDescription;
-    private Form taskForm;
+    private String formID;
     private List<AbstractResource<?>> abstractResources;
 
     /**
@@ -49,9 +49,9 @@ public class CreationPatternBuilderImpl implements CreationPatternBuilder {
      * {@inheritDoc}
      */
     @Override
-    public CreationPatternBuilder setItemForm(Form taskForm) {
+    public CreationPatternBuilder setItemFormID(String formID) {
 
-        this.taskForm = taskForm;
+        this.formID = formID;
         return this;
     }
 
@@ -69,7 +69,7 @@ public class CreationPatternBuilderImpl implements CreationPatternBuilder {
     public ConcreteResourcePattern buildConcreteResourcePattern() {
 
         // TODO the array thing in the next line is not so nice.
-        ConcreteResourcePattern pattern = new ConcreteResourcePattern(taskSubject, taskDescription, taskForm,
+        ConcreteResourcePattern pattern = new ConcreteResourcePattern(taskSubject, taskDescription, formID,
             abstractResources.toArray(new AbstractResource<?>[0]));
         return pattern;
     }
@@ -80,26 +80,5 @@ public class CreationPatternBuilderImpl implements CreationPatternBuilder {
         this.abstractResources.clear();
         return this;
     }
-
-    // /**
-    // * {@inheritDoc}
-    // */
-    // @Override
-    // public Task buildTask() {
-    //
-    // AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(taskPushPattern, taskPullPattern, null);
-    // HashSet<AbstractResource<?>> assignedResources = new HashSet<AbstractResource<?>>(abstractResources);
-    // Task resultTask = new TaskImpl(taskSubject, taskDescription, taskForm, allocationStrategies, assignedResources);
-    //
-    // return resultTask;
-    // }
-
-    // @Override
-    // public CreationPattern buildCreationPattern() {
-    //
-    // HashSet<AbstractResource<?>> assignedResources = new HashSet<AbstractResource<?>>(abstractResources);
-    // return new
-    // return null;
-    // }
 
 }

@@ -6,12 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.jodaengine.RepositoryService;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.allocation.Form;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractResource;
+import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -22,61 +28,69 @@ public class ConcreteResourcePattern implements CreationPattern {
 
     private String description;
 
-    private Form form;
+    private String formID;
 
     private AbstractResource<?>[] resourcesToAssignTo;
+    
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Instantiates a new concrete resource pattern. The parameters are used for the creation of the
+     *
+     * @param subject the subject
+     * @param description the description
+     * @param formID the id of the process artifact, that contains this form
+     * @param assignedResources the assigned resources
      * {@link AbstractWorklistItem}s.
-     * 
-     * @param subject
-     *            the subject
-     * @param description
-     *            the description
-     * @param form
-     *            the form
-     * @param assignedResources
-     *            the assigned resources
      */
     public ConcreteResourcePattern(String subject,
                                    String description,
-                                   Form form,
+                                   String formID,
                                    AbstractResource<?>[] assignedResources) {
 
         this.subject = subject;
         this.description = description;
-        this.form = form;
+        this.formID = formID;
         this.resourcesToAssignTo = assignedResources;
     }
 
     /**
      * Convenience constructor.
-     * 
-     * @param subject
-     *            the subject
-     * @param description
-     *            the description
-     * @param form
-     *            the form
-     * @param assignedResource
-     *            the assigned resource
+     *
+     * @param subject the subject
+     * @param description the description
+     * @param formID the form id
+     * @param assignedResource the assigned resource
      */
     public ConcreteResourcePattern(String subject, 
                                    String description, 
-                                   Form form, 
+                                   String formID, 
                                    AbstractResource<?> assignedResource) {
 
-        this(subject, description, form, new AbstractResource<?>[] {assignedResource});
+        this(subject, description, formID, new AbstractResource<?>[] {assignedResource});
     }
 
     @Override
-    public List<AbstractWorklistItem> createWorklistItems(Token token) {
+    public List<AbstractWorklistItem> createWorklistItems(Token token, RepositoryService repoService) {
 
         List<AbstractWorklistItem> itemsToDistribute = new ArrayList<AbstractWorklistItem>();
         Set<AbstractResource<?>> assignedResourcesCopy = new HashSet<AbstractResource<?>>(
-            Arrays.asList(resourcesToAssignTo));
-        WorklistItemImpl worklistItem = new WorklistItemImpl(subject, description, form, assignedResourcesCopy, token);
+            Arrays.asList(resourcesToAssignTo));        
+        
+        Form formToUse = null;
+        
+        if(formID != null) {
+            // only search for a form, if one has been specified
+            try {
+                ProcessDefinitionID definitionID = token.getInstance().getDefinition().getID();
+                formToUse = new FormImpl(repoService.getProcessArtifact(formID, definitionID));
+            } catch (ProcessArtifactNotFoundException e) {
+                // TODO @Thorben-Refactoring refactor the error handling here.
+                logger.error("The requested form does not exist.");
+            }
+        }
+        
+        WorklistItemImpl worklistItem = new WorklistItemImpl(subject, description, formToUse, assignedResourcesCopy, token);
         itemsToDistribute.add(worklistItem);
 
         return itemsToDistribute;
@@ -118,9 +132,9 @@ public class ConcreteResourcePattern implements CreationPattern {
      * 
      * @return the item form
      */
-    public Form getItemForm() {
+    public String getItemFormID() {
 
-        return form;
+        return formID;
     }
 
 }
