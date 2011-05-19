@@ -69,7 +69,7 @@ public class ConcreteResourcePattern implements CreationPattern {
     }
 
     @Override
-    public List<AbstractWorklistItem> createWorklistItems(Token token, RepositoryService repoService) {
+    public AbstractWorklistItem createWorklistItem(Token token, RepositoryService repoService) {
 
         Set<AbstractResource<?>> assignedResourcesCopy = new HashSet<AbstractResource<?>>(
             Arrays.asList(resourcesToAssignTo));        
@@ -88,9 +88,7 @@ public class ConcreteResourcePattern implements CreationPattern {
         }
         
         WorklistItemImpl worklistItem = new WorklistItemImpl(subject, description, formToUse, assignedResourcesCopy, token);
-        itemsToDistribute.add(worklistItem);
-
-        return itemsToDistribute;
+        return worklistItem;
 
     }
 

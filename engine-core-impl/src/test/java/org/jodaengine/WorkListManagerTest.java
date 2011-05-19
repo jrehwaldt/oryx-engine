@@ -41,8 +41,9 @@ public class WorkListManagerTest {
         engineServices = JodaEngine.start();
         pattern = CreationPatternFactory.createJannikServesGerardoCreator();
 
-        Token token = MockUtils.fullyMockedToken(); 
+        Token token = MockUtils.fullyMockedToken();
 
+        AbstractWorklistItem item = pattern.createWorklistItem(token, ServiceFactory.getRepositoryService());
         PushPattern pushPattern = new AllocateSinglePattern();
         pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
         // ServiceFactory.getTaskDistribution().distribute(pattern, token);
@@ -95,14 +96,9 @@ public class WorkListManagerTest {
         // null);
         // allocation patterns END
         ConcreteResourcePattern anotherPattern = new ConcreteResourcePattern("Go shopping", "I need milk", null, tobi);
-<<<<<<< HEAD
-        TokenImpl token = mock(TokenImpl.class);
-        AbstractWorklistItem item = anotherPattern.createWorklistItem(token);
-=======
         Token token = MockUtils.fullyMockedToken();
-        List<AbstractWorklistItem> items = anotherPattern.createWorklistItems(token,
-            engineServices.getRepositoryService());
->>>>>>> deployment_archives
+        AbstractWorklistItem item = anotherPattern.createWorklistItem(token, engineServices.getRepositoryService());
+
         PushPattern pushPattern = new AllocateSinglePattern();
         pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
     }

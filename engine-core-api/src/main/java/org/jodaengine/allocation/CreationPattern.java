@@ -1,7 +1,5 @@
 package org.jodaengine.allocation;
 
-import java.util.List;
-
 import org.jodaengine.RepositoryService;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
@@ -18,7 +16,7 @@ public interface CreationPattern {
      * @param repoService the repository service to receive artifacts (e.g. forms) from
      * @return a list of created worklist items
      */
-    List<AbstractWorklistItem> createWorklistItems(Token token, RepositoryService repoService);
+    AbstractWorklistItem createWorklistItem(Token token, RepositoryService repoService);
     
     
 }

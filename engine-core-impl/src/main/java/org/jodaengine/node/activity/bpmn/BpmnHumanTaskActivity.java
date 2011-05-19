@@ -7,7 +7,6 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.allocation.PushPattern;
@@ -53,7 +52,7 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     protected void executeIntern(@Nonnull Token token) {
 
         TaskAllocation service = ServiceFactory.getWorklistQueue();
-        List<AbstractWorklistItem> items = creationPattern.createWorklistItems(token,
+        AbstractWorklistItem item = creationPattern.createWorklistItem(token,
             ServiceFactory.getRepositoryService());
 
         // save the UUIDs of the created items to the instance context, in order to be able to delete them, if execution

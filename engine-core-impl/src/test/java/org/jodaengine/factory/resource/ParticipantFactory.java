@@ -12,9 +12,9 @@ import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
-
 import org.mockito.Mockito;
 
 /**
@@ -89,10 +89,10 @@ public class ParticipantFactory extends ResourceFactory {
         CreationPattern pattern = null;
         for (int i = 0; i < NUMBER_OF_ITEMS_FOR_BUSY_PARTICIPANT; i++) {
             pattern = CreationPatternFactory.createParticipantCreator(willi);
-            List<AbstractWorklistItem> items = pattern.createWorklistItems(Mockito.mock(Token.class),
+            AbstractWorklistItem item = pattern.createWorklistItem(Mockito.mock(Token.class),
                 Mockito.mock(RepositoryService.class));
             PushPattern pushPattern = new AllocateSinglePattern();
-            pushPattern.distributeWorkitems(ServiceFactory.getWorklistQueue(), items);
+            pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
             // taskDistributionService.distribute(pattern, Mockito.mock(Token.class));
         }
 
