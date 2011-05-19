@@ -222,8 +222,7 @@ PullAdapterConfiguration {
     }
 
     @Override
-    public CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar, CorrelationManager correlationService)
-    throws AdapterSchedulingException {
+    public CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar, CorrelationManager correlationService) {
 
         InboundPullAdapter adapter = createAdapter(correlationService);
         adapterRegistrar.registerInboundPullAdapter(adapter);

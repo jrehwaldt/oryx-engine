@@ -13,17 +13,16 @@ public interface EventRegistrar {
     /**
      * Entry point for registering an event with the {@link CorrelationManager}.
      * 
-     * @param event
+     * @param startEvent
      *            the start event
      */
-    void registerStartEvent(@Nonnull ProcessStartEvent event);
+    void registerStartEvent(@Nonnull ProcessStartEvent startEvent);
 
     /**
      * Entry point for registering an event with the {@link CorrelationManager}.
      * 
-     * @param event
+     * @param intermediateEvent
      *            the intermediate event
-     * @return the name of the job for the event
      */
-    String registerIntermediateEvent(@Nonnull ProcessIntermediateEvent event);
+    void registerIntermediateEvent(@Nonnull ProcessIntermediateEvent intermediateEvent);
 }

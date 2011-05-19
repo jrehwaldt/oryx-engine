@@ -1,15 +1,21 @@
 package org.jodaengine.eventmanagement.adapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.CorrelationManager;
 import org.jodaengine.eventmanagement.EventRegistrar;
+import org.jodaengine.eventmanagement.registration.ProcessEvent;
 import org.jodaengine.eventmanagement.registration.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
 
 public abstract class AbstractCorrelatingEventAdapter<Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
 implements EventRegistrar, CorrelationManager {
 
-    // Hier kommen die ganzen Listen hin
+    // Both lists are lazyInitialized
+    private List<ProcessEvent> processEvents;
+    private List<AdapterEvent> unCorrelatedAdapterEvents;
 
     public AbstractCorrelatingEventAdapter(CorrelationManager correlation, Configuration configuration) {
 
@@ -17,24 +23,53 @@ implements EventRegistrar, CorrelationManager {
     }
 
     @Override
-    public void registerStartEvent(ProcessStartEvent event) {
+    public void registerStartEvent(ProcessStartEvent startEvent) {
 
-        // TODO Auto-generated method stub
-        
+        getProcessEvents().add(startEvent);
     }
 
     @Override
-    public String registerIntermediateEvent(ProcessIntermediateEvent event) {
+    public void registerIntermediateEvent(ProcessIntermediateEvent intermediateEvent) {
 
-        // TODO Auto-generated method stub
-        return null;
+        getProcessEvents().add(intermediateEvent);
     }
 
     @Override
     public void correlate(AdapterEvent e) {
 
-        // TODO Auto-generated method stub
-        // erst die Liste durchsuchen, wenn das nicht gefunden wurde dann schauen weglegen in die andere Liste(ProcessEventsNotFound)
-        
+        // erst die Liste durchsuchen, wenn das nicht gefunden wurde dann schauen weglegen in die andere
+        // Liste(ProcessEventsNotFound)
+        for (ProcessEvent processEvent : getProcessEvents()) {
+            
+//        for (EventCondition condition : event.getConditions()) {
+//            Method method = condition.getMethod();
+//            Object returnValue = method.invoke(e);
+//            if (!returnValue.equals(condition.getExpectedValue())) {
+//                triggerEvent = false;
+//                break;
+//            }
+//        }
+//        if (triggerEvent) {
+//            this.navigator.startProcessInstance(event.getDefinitionID(), event);
+//            logger.info("Starting process {}", this.navigator);
+//        }
+        }
+
+    }
+
+    private List<ProcessEvent> getProcessEvents() {
+    
+        if (processEvents == null) {
+            this.processEvents = new ArrayList<ProcessEvent>();
+        }
+        return processEvents;
+    }
+
+    private List<AdapterEvent> getUnCorrelatedAdapterEvents() {
+    
+        if (unCorrelatedAdapterEvents == null) {
+            this.unCorrelatedAdapterEvents = new ArrayList<AdapterEvent>();
+        }
+        return unCorrelatedAdapterEvents;
     }
 }
