@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
@@ -110,8 +111,8 @@ public final class DemoProcessStartEmailForWebservice {
 
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition def = builder.buildDefinition();
-        ProcessDefinitionID exampleProcessUUID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
-        .deployProcessDefinition(new RawProcessDefintionImporter(def));
+        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        deploymentBuilder.addProcessDefinition(def);
 
         // Create a mail adapater event here.
         // TODO @TobiP Could create a builder for this later.
@@ -126,7 +127,7 @@ public final class DemoProcessStartEmailForWebservice {
 
             builder.createStartTrigger(EventTypes.Mail, config, conditions, node1);
 
-            ServiceFactory.getRepositoryService().activateProcessDefinition(exampleProcessUUID);
+            ServiceFactory.getRepositoryService().activateProcessDefinition(def.getID());
         } catch (SecurityException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
