@@ -7,15 +7,14 @@ import javax.el.ExpressionFactory;
 import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
 
+import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.process.structure.Condition;
+import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.odysseus.el.ExpressionFactoryImpl;
 import de.odysseus.el.util.SimpleContext;
-
-import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.process.structure.Condition;
-import org.jodaengine.process.token.Token;
 
 /**
  * This {@link Condition} accepts JuelExpression. It means that this Condition is able to process a juelExpression

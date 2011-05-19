@@ -1,10 +1,9 @@
 package org.jodaengine.process.instantiation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An abstract class for a {@link InstantiationPattern}. This class provides a method body and basic

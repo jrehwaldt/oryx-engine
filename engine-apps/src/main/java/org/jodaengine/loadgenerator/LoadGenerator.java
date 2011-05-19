@@ -3,9 +3,6 @@ package org.jodaengine.loadgenerator;
 import java.io.FileNotFoundException;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.NoRunningInstancesLoadgeneratorCaller;
 import org.jodaengine.ServiceFactory;
@@ -15,6 +12,8 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factories.process.ProcessDeployer;
 import org.jodaengine.navigator.NavigatorImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class LoadGenerator. Is used to generate some load and profile it (more or less) Maybe it should be more generic,

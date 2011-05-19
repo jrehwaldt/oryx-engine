@@ -23,11 +23,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		scope="singleton">
 	</bean>
 
-	<bean id="correlationService" class="org.jodaengine.eventmanagement.EventManagerImpl"
+	<bean id="correlationService" class="org.jodaengine.eventmanagement.EventManager"
 		scope="singleton">
-		<constructor-arg>
-			<ref bean="navigatorService" />
-		</constructor-arg>
+<!--		<constructor-arg>-->
+<!--			<ref bean="navigatorService" />-->
+<!--		</constructor-arg>-->
 	</bean>
 
 	<bean id="jsonMapper" class="org.codehaus.jackson.map.ObjectMapper"

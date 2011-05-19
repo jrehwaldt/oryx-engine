@@ -2,8 +2,6 @@ package org.jodaengine.eventmanagement.timing;
 
 import javax.annotation.Nonnull;
 
-import org.quartz.SchedulerException;
-
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.eventmanagement.adapter.TimerConfiguration;
 import org.jodaengine.exception.AdapterSchedulingException;

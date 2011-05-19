@@ -21,7 +21,7 @@ import org.jodaengine.exception.JodaEngineException;
  * 
  * {@link CorrelationManager}.
  */
-public class InboundImapMailAdapterImpl extends AbstractCorrelatingEventAdapter<InboundMailAdapterConfiguration>
+public class InboundImapMailAdapter extends AbstractCorrelatingEventAdapter<InboundMailAdapterConfiguration>
 implements InboundPullAdapter {
 
     /**
@@ -31,7 +31,7 @@ implements InboundPullAdapter {
      *            the adapter's configuration
      */
     @SuppressWarnings("restriction")
-    public InboundImapMailAdapterImpl(@Nonnull InboundMailAdapterConfiguration configuration) {
+    public InboundImapMailAdapter(@Nonnull InboundMailAdapterConfiguration configuration) {
 
         super(configuration);
 
@@ -105,6 +105,6 @@ implements InboundPullAdapter {
     private void processMessage(@Nonnull Message message)
     throws IOException, MessagingException {
 
-        correlate(new MailAdapterEvent(this.configuration, message));
+        correlateAdapterEvent(new MailAdapterEvent(this.configuration, message));
     }
 }

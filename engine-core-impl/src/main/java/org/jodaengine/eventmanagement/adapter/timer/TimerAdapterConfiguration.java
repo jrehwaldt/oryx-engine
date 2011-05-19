@@ -1,13 +1,12 @@
 package org.jodaengine.eventmanagement.adapter.timer;
 
-import org.quartz.Job;
-
 import org.jodaengine.eventmanagement.AdapterRegistrar;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.PullAdapterConfiguration;
 import org.jodaengine.eventmanagement.timing.TimerJob;
+import org.quartz.Job;
 
 /**
  * The Class TimerConfigurationImpl. The Timer Configuration is used for the intermediate timer event.

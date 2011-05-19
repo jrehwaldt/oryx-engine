@@ -11,9 +11,9 @@ import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
-
 import org.mockito.Mockito;
 
 

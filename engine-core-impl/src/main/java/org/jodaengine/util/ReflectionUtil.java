@@ -4,10 +4,9 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 
+import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.jodaengine.exception.JodaEngineRuntimeException;
 
 /**
  * This utility class offers methods for reflection mechanisms, and things like instantiating a class when given the

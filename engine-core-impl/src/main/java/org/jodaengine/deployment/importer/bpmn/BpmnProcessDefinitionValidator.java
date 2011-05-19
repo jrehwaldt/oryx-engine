@@ -3,14 +3,13 @@ package org.jodaengine.deployment.importer.bpmn;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.util.xml.XmlElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**

@@ -2,11 +2,10 @@ package org.jodaengine.plugin.navigator;
 
 import javax.annotation.Nonnull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**

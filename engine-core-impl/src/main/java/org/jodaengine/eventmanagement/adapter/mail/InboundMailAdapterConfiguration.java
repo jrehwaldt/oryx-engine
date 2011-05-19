@@ -5,10 +5,6 @@ import java.util.Properties;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
-import org.quartz.Job;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.eventmanagement.AdapterRegistrar;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
@@ -16,6 +12,9 @@ import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.eventmanagement.adapter.PullAdapterConfiguration;
 import org.jodaengine.eventmanagement.timing.PullAdapterJob;
+import org.quartz.Job;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -211,9 +210,9 @@ PullAdapterConfiguration {
      * 
      * @return the InboundMailAdapter
      */
-    private InboundImapMailAdapterImpl createAdapter() {
+    private InboundImapMailAdapter createAdapter() {
 
-        InboundImapMailAdapterImpl adapter = new InboundImapMailAdapterImpl(this);
+        InboundImapMailAdapter adapter = new InboundImapMailAdapter(this);
         logger.debug("Registered mail adapter {}", adapter);
         return adapter;
     }

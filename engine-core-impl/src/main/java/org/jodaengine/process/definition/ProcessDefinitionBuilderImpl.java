@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.registration.EventCondition;
@@ -25,6 +22,8 @@ import org.jodaengine.process.structure.StartNodeBuilderImpl;
 import org.jodaengine.process.structure.TransitionBuilder;
 import org.jodaengine.process.structure.TransitionBuilderImpl;
 import org.jodaengine.util.PatternAppendable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**

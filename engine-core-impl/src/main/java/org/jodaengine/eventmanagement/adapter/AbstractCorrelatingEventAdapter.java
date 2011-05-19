@@ -3,8 +3,11 @@ package org.jodaengine.eventmanagement.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.EventRegistrar;
 import org.jodaengine.eventmanagement.registration.ProcessEvent;
 import org.jodaengine.eventmanagement.registration.ProcessIntermediateEvent;
@@ -95,5 +98,19 @@ implements EventRegistrar, CorrelationManager {
             this.unCorrelatedAdapterEvents = new ArrayList<AdapterEvent>();
         }
         return unCorrelatedAdapterEvents;
+    }
+    
+    /**
+     * Correlation method, which calls the underlying {@link CorrelationManager}.
+     * 
+     * @see CorrelationManager
+     * @see EventManager
+     * @param adapterEvent
+     *            the event that should be correlated
+     */
+    protected final void correlateAdapterEvent(@Nonnull AdapterEvent adapterEvent) {
+
+        correlate(adapterEvent);
+        logger.info("Correlating {} for {}", adapterEvent, getClass().getSimpleName());
     }
 }

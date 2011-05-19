@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.util.ReflectionUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

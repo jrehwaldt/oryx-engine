@@ -1,15 +1,10 @@
 package org.jodaengine.eventmanagement;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
+import org.jodaengine.navigator.Navigator;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
-import org.jodaengine.navigator.Navigator;
-import org.jodaengine.navigator.NavigatorImpl;
 
 
 /**
@@ -24,15 +19,15 @@ public class CorrelationManagerImplTest {
     private Navigator navigator = null;
     private EventManager manager = null;
 
-    /**
-     * Tests that a fresh correlation manager contains an {@link ErrorAdapter}.
-     */
-    @Test
-    public void testErrorAdapterExistsAfterStart() {
-
-        this.manager.start();
-        assertNotNull(this.manager.getErrorAdapter());
-    }
+//    /**
+//     * Tests that a fresh correlation manager contains an {@link ErrorAdapter}.
+//     */
+//    @Test
+//    public void testErrorAdapterExistsAfterStart() {
+//
+//        this.manager.start();
+//        assertNotNull(this.manager.getErrorAdapter());
+//    }
 
     /**
      * Tests that a fresh correlation manager contains no additional adapters.
@@ -41,7 +36,7 @@ public class CorrelationManagerImplTest {
     public void testNoUnusedAdaptersRegisteredByStartup() {
 
         this.manager.start();
-        assertEquals(this.manager.getInboundAdapters().size(), INITIAL_ADAPTERS_COUNT);
+        assertEquals(this.manager.getEventAdapters().size(), INITIAL_ADAPTERS_COUNT);
     }
 
     /**

@@ -10,10 +10,6 @@ import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.Navigator;
@@ -22,6 +18,9 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.rest.TestUtils;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 
 /**

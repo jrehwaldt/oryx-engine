@@ -2,6 +2,9 @@ package org.jodaengine.eventmanagement.adapter;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.eventmanagement.AdapterEvent;
+import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.EventManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,18 +48,4 @@ CorrelationAdapter {
 
         return this.configuration;
     }
-
-//    /**
-//     * Correlation method, which calls the underlying {@link CorrelationManager}.
-//     * 
-//     * @see CorrelationManager
-//     * @see EventManager
-//     * @param adapterEvent
-//     *            the event that should be correlated
-//     */
-//    protected final void correlateAdapterEvent(@Nonnull AdapterEvent adapterEvent) {
-//
-//        correlate(adapterEvent);
-//        logger.info("Correlating {} for {}", adapterEvent, getClass().getSimpleName());
-//    }
 }

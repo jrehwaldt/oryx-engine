@@ -2,16 +2,6 @@ package org.jodaengine.factories.process;
 
 import java.util.Set;
 
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
-import org.quartz.SimpleTrigger;
-import org.quartz.Trigger;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.loadgenerator.PseudoHumanJob;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
@@ -26,6 +16,15 @@ import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.SimpleTrigger;
+import org.quartz.Trigger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A factory for creating ExampleProcessToken objects. These objects just have 2 add Number activities.

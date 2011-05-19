@@ -1,11 +1,10 @@
 package org.jodaengine.eventmanagement.timing;
 
+import org.jodaengine.process.token.Token;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-
-import org.jodaengine.process.token.Token;
 
 
 /**

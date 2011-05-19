@@ -2,13 +2,12 @@ package org.jodaengine.process.structure.condition;
 
 import javax.annotation.Nonnull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.token.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**

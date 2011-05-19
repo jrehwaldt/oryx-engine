@@ -10,8 +10,8 @@ public interface CorrelationManager {
     /**
      * Receives an adapter event from an adapter and tries to correlate it to someone.
      * 
-     * @param e
+     * @param adapterEvent
      *            the adapter event
      */
-    void correlate(@Nonnull AdapterEvent e);
+    void correlate(@Nonnull AdapterEvent adapterEvent);
 }

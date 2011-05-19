@@ -10,11 +10,10 @@ import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.internet.InternetAddress;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.eventmanagement.adapter.AbstractEvent;
 import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**

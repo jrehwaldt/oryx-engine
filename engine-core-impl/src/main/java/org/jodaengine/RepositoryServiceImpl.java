@@ -9,9 +9,6 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.DeploymentBuilderImpl;
@@ -21,6 +18,8 @@ import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**

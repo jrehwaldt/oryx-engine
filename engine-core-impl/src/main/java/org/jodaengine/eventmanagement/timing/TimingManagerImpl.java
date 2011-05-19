@@ -5,6 +5,14 @@ import java.util.GregorianCalendar;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.TimerConfiguration;
+import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
+import org.jodaengine.exception.AdapterSchedulingException;
+import org.jodaengine.exception.EngineInitializationFailedException;
+import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.process.token.Token;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -14,15 +22,6 @@ import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
-import org.jodaengine.eventmanagement.adapter.TimerConfiguration;
-import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
-import org.jodaengine.exception.AdapterSchedulingException;
-import org.jodaengine.exception.EngineInitializationFailedException;
-import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.process.token.Token;
 
 /**
  * The Class TimingManagerImpl.

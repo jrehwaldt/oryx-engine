@@ -5,7 +5,6 @@ import static org.mockito.Mockito.verify;
 
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.navigator.NavigatorState;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

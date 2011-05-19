@@ -5,9 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.testng.annotations.BeforeMethod;
-
 import org.jodaengine.bootstrap.JodaEngine;
+import org.testng.annotations.BeforeMethod;
 
 /**
  * This annotation works together with the {@link AbstractJodaEngineTest}. It provides the possibility to define at

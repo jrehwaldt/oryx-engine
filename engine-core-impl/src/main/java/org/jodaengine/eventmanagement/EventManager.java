@@ -50,6 +50,8 @@ public class EventManager implements EventRegistrar, AdapterRegistrar, Service {
         logger.info("Stopping the correlation manager");
     }
 
+    // ==== EventSubscription ====
+
     @Override
     public void registerStartEvent(ProcessStartEvent startEvent) {
 
@@ -76,11 +78,12 @@ public class EventManager implements EventRegistrar, AdapterRegistrar, Service {
         // TODO Auto-generated method stub
     }
 
+    // ==== AdapterMangement ====
     @Override
     public CorrelationAdapter registerAdapter(CorrelationAdapter adapter) {
-    
-        // TODO Auto-generated method stub
-        return null;
+
+        addEventAdapterToEvent(adapter);
+        return adapter;
     }
 
     @Override
@@ -119,7 +122,7 @@ public class EventManager implements EventRegistrar, AdapterRegistrar, Service {
      * @return a set containing the currently registered {@link CorrelationAdapter eventAdapters}
      */
     public Set<CorrelationAdapter> getEventAdapters() {
-    
+
         if (eventAdapters == null) {
             this.eventAdapters = new HashSet<CorrelationAdapter>();
         }

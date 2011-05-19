@@ -2,11 +2,6 @@ package org.jodaengine.example;
 
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.core.joran.event.EndEvent;
-
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
@@ -25,6 +20,10 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.core.joran.event.EndEvent;
 
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.

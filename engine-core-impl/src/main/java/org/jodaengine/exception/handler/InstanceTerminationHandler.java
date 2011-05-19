@@ -1,11 +1,10 @@
 package org.jodaengine.exception.handler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The InstanceTerminationHandler terminates the process instance, in which context the exception occurred.

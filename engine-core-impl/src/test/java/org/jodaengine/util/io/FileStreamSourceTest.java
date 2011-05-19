@@ -6,10 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import org.jodaengine.exception.JodaEngineRuntimeException;
 
 
 /**

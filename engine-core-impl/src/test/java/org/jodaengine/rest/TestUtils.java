@@ -2,8 +2,6 @@ package org.jodaengine.rest;
 
 import java.util.UUID;
 
-import org.testng.Assert;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
@@ -15,6 +13,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.structure.Node;
+import org.testng.Assert;
 
 
 /**

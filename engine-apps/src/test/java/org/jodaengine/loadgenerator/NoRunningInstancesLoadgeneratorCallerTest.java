@@ -5,10 +5,6 @@ import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.jodaengine.NoRunningInstancesLoadgeneratorCaller;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
@@ -21,6 +17,9 @@ import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Tests the SchedulerEmptyListener Plugin, that invokes a method on a loadgenerator when the queue of the Scheduler is.
