@@ -39,9 +39,8 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     private Map<ProcessDefinitionID, ProcessDefinition> processDefinitionsTable;
 
-    // this map is used to easily keep track, which definitions use a scope. That allows you to destroy a scope, if no
-    // process definition references it any longer.
-    private Map<DeploymentScope, Set<ProcessDefinitionID>> scopeUsages;
+    // we do not need a link from scopes to all corresponding process definitions, as the scope should be automatically
+    // dropped, as soon as no definition links to the scope any longer.
     private Map<ProcessDefinitionID, DeploymentScope> scopes;
 
     private Map<UUID, Integer> processVersions;
@@ -51,7 +50,6 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     public RepositoryServiceImpl() {
 
         processVersions = new HashMap<UUID, Integer>();
-        scopeUsages = new HashMap<DeploymentScope, Set<ProcessDefinitionID>>();
         scopes = new HashMap<ProcessDefinitionID, DeploymentScope>();
     }
 
@@ -217,33 +215,15 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
         return scope;
     }
-    
-    private void addScopeEntry(DeploymentScope scope, ProcessDefinitionID definitionID) {
-        Set<ProcessDefinitionID> definitionsForScope = scopeUsages.get(scope);
-        if (definitionsForScope == null) {
-            definitionsForScope = new HashSet<ProcessDefinitionID>();
-            definitionsForScope.add(definitionID);
-            scopeUsages.put(scope, definitionsForScope);
-        }
-        else {
-            definitionsForScope.add(definitionID);
-        }
-    }
-    
+
     private void addScopeForDefinition(ProcessDefinitionID definitionID, DeploymentScope scope) {
+
         scopes.put(definitionID, scope);
-        addScopeEntry(scope, definitionID);
     }
-    
+
     private void removeDefinitionFromScope(ProcessDefinitionID definitionID) {
-        
-        DeploymentScope usedScope = scopes.remove(definitionID);
-        scopeUsages.get(usedScope).remove(definitionID);
-        
-        // no definition uses this scope any longer, so we can drop it.
-        if (scopeUsages.get(usedScope).isEmpty()) {
-            scopeUsages.remove(usedScope);
-        }
+
+        scopes.remove(definitionID);
     }
 
     /**
