@@ -64,7 +64,7 @@ public class EventManagerImpl implements EventManager, Service {
      *            the navigator
      */
     public EventManagerImpl(@Nonnull Navigator navigator) {
-
+        
         this.navigator = navigator;
         this.inboundAdapter = new HashMap<AdapterConfiguration, InboundAdapter>();
         this.startEvents = new ArrayList<StartEvent>();

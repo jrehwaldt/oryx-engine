@@ -28,5 +28,5 @@ public interface Service {
      * 
      * @return running?
      */
-    public boolean isRunning();
+    boolean isRunning();
 }
