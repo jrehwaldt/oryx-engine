@@ -424,11 +424,11 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     @Override
     public Set<AbstractProcessArtifact> getArtifactsToDeploy() {
 
-        AbstractProcessArtifact form1 = createClassPathArtifact("form1", "claimPoints.html");
-        AbstractProcessArtifact form2 = createClassPathArtifact("form2", "checkForNewClaims.html");
-        AbstractProcessArtifact form3 = createClassPathArtifact("form3", "createReport.html");
-        AbstractProcessArtifact form4 = createClassPathArtifact("form4", "postEditingClaim.html");
-        AbstractProcessArtifact form5 = createClassPathArtifact("form5", "enforceAllowance.html");
+        AbstractProcessArtifact form1 = createClassPathArtifact("form1", "forms/claimPoints.html");
+        AbstractProcessArtifact form2 = createClassPathArtifact("form2", "forms/checkForNewClaims.html");
+        AbstractProcessArtifact form3 = createClassPathArtifact("form3", "forms/createReport.html");
+        AbstractProcessArtifact form4 = createClassPathArtifact("form4", "forms/postEditingClaim.html");
+        AbstractProcessArtifact form5 = createClassPathArtifact("form5", "forms/enforceAllowance.html");
 
         Set<AbstractProcessArtifact> artifacts = new HashSet<AbstractProcessArtifact>();
         artifacts.add(form1);

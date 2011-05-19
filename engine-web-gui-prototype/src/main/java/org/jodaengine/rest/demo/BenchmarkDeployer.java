@@ -218,7 +218,7 @@ public final class BenchmarkDeployer {
      */
     public static Set<AbstractProcessArtifact> getArtifactsToDeploy() {
 
-        AbstractProcessArtifact dummyform = createClassPathArtifact("dummyform", "dummy.html");
+        AbstractProcessArtifact dummyform = createClassPathArtifact("dummyform", PATH_TO_WEBFORMS + "dummy.html");
         Set<AbstractProcessArtifact> artifacts = new HashSet<AbstractProcessArtifact>();
         artifacts.add(dummyform);
         return artifacts;
