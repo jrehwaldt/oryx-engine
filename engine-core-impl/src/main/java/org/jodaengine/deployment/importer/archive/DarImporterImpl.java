@@ -2,8 +2,6 @@ package org.jodaengine.deployment.importer.archive;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
