@@ -3,16 +3,20 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     
-    <artifactId>engine-web-gui-prototype</artifactId>
-    <name>JodaEngine Web GUI Prototype</name>
-    <packaging>war</packaging>
-
+    <artifactId>engine-ext-debugger</artifactId>
+    <name>JodaEngine Debugger Extension</name>
+    <packaging>jar</packaging>
+    
+    <scm>
+        <developerConnection>Jan Rehwaldt</developerConnection>
+    </scm>
+    
     <parent>
         <groupId>org.jodaengine</groupId>
         <artifactId>engine-root</artifactId>
         <version>0.2.1-SNAPSHOT</version>
     </parent>
-
+    
     <dependencies>
         <dependency>
             <groupId>org.jodaengine</groupId>
@@ -22,9 +26,9 @@
         </dependency>
         <dependency>
             <groupId>org.jodaengine</groupId>
-            <artifactId>engine-apps</artifactId>
+            <artifactId>engine-core-api</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -35,32 +39,6 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <scope>test</scope>
-        </dependency>
-        <!-- Web Templating -->
-        <dependency>
-            <groupId>com.asual.lesscss</groupId>
-            <artifactId>lesscss-servlet</artifactId>
-            <version>1.2.11</version><!-- 1.0.41 -->
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-simple</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>opensymphony</groupId>
-            <artifactId>sitemesh</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.tuckey</groupId>
-            <artifactId>urlrewritefilter</artifactId>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
 </project>

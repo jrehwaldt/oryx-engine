@@ -1,10 +1,12 @@
-package org.jodaengine.plugin.activity;
+package org.jodaengine.ext.activity;
 
 import java.util.Observable;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.plugin.ObserverPlugin;
+import org.jodaengine.ext.ObserverPlugin;
+import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
+import org.jodaengine.plugin.activity.ActivityLifecyclePlugin;
 
 
 

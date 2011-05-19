@@ -1,6 +1,8 @@
-package org.jodaengine.plugin;
+package org.jodaengine.ext;
 
 import java.util.Observable;
+
+import org.jodaengine.plugin.Pluggable;
 
 /**
  * This is the abstract representation for pluggable classes.

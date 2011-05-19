@@ -1,12 +1,12 @@
-package org.jodaengine.plugin.navigator;
+package org.jodaengine.ext.navigator;
 
 import java.util.Observable;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.ext.ObserverPlugin;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorState;
-import org.jodaengine.plugin.ObserverPlugin;
 
 
 /**

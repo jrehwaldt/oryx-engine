@@ -1,4 +1,4 @@
-package org.jodaengine.plugin.navigator;
+package org.jodaengine.ext.navigator;
 
 import javax.annotation.Nonnull;
 

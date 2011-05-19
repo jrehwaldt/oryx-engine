@@ -1,7 +1,8 @@
-package org.jodaengine.plugin.activity;
+package org.jodaengine.ext.activity;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

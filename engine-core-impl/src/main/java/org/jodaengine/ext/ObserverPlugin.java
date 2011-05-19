@@ -1,6 +1,8 @@
-package org.jodaengine.plugin;
+package org.jodaengine.ext;
 
 import java.util.Observer;
+
+import org.jodaengine.plugin.Plugin;
 
 /**
  * This interface defines, that our implementation relies

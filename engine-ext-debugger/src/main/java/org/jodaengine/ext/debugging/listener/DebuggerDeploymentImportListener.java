@@ -2,6 +2,7 @@ package org.jodaengine.ext.debugging.listener;
 
 import org.jodaengine.deployment.importer.bpmn.BpmnXmlParseListener;
 import org.jodaengine.deployment.importer.bpmn.BpmnXmlParser;
+import org.jodaengine.ext.Extension;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
@@ -24,6 +25,7 @@ import org.slf4j.LoggerFactory;
  * @author Jan Rehwaldt
  * @since 2011-05-17
  */
+@Extension
 public class DebuggerDeploymentImportListener implements BpmnXmlParseListener {
     
     /**

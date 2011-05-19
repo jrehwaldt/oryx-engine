@@ -3,7 +3,7 @@ package org.jodaengine.monitor;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jodaengine.plugin.scheduler.AbstractSchedulerListener;
+import org.jodaengine.ext.scheduler.AbstractSchedulerListener;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
 

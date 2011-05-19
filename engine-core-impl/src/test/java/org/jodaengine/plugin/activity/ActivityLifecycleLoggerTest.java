@@ -2,6 +2,8 @@ package org.jodaengine.plugin.activity;
 
 import static org.mockito.Mockito.mock;
 
+import org.jodaengine.ext.activity.AbstractTokenPlugin;
+import org.jodaengine.ext.activity.ActivityLifecycleLogger;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.process.token.TokenImpl;

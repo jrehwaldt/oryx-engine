@@ -1,10 +1,11 @@
-package org.jodaengine.plugin.scheduler;
+package org.jodaengine.ext.scheduler;
 
 import java.util.Observable;
 
+import org.jodaengine.ext.ObserverPlugin;
 import org.jodaengine.navigator.schedule.SchedulerAction;
 import org.jodaengine.navigator.schedule.SchedulerEvent;
-import org.jodaengine.plugin.ObserverPlugin;
+import org.jodaengine.plugin.scheduler.SchedulerListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

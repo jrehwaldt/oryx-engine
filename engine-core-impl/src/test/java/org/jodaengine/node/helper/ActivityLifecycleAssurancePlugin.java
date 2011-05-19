@@ -2,8 +2,8 @@ package org.jodaengine.node.helper;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.ext.activity.AbstractTokenPlugin;
 import org.jodaengine.node.activity.ActivityState;
-import org.jodaengine.plugin.activity.AbstractTokenPlugin;
 import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 
 

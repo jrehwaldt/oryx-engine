@@ -1,10 +1,10 @@
 package org.jodaengine.example;
 
+import org.jodaengine.ext.navigator.NavigatorListenerLogger;
 import org.jodaengine.factory.node.HumanTaskNodeFactory;
 import org.jodaengine.factory.node.PrintingNodeFactory;
 import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
 import org.jodaengine.navigator.NavigatorImpl;
-import org.jodaengine.plugin.navigator.NavigatorListenerLogger;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.TokenImpl;
 
