@@ -4,8 +4,8 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventManager;
-import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
-import org.jodaengine.eventmanagement.adapter.TimerConfigurationImpl;
+import org.jodaengine.eventmanagement.adapter.TimerConfiguration;
+import org.jodaengine.eventmanagement.adapter.timer.TimerAdapterConfiguration;
 import org.jodaengine.eventmanagement.registration.TimerEventImpl;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.node.activity.AbstractActivity;
@@ -33,9 +33,11 @@ public class BpmnIntermediateTimerActivity extends AbstractActivity {
     @Override
     protected void executeIntern(@Nonnull Token token) {
 
-        EventManager correlationService = ServiceFactory.getCorrelationService();
-        TimedConfiguration conf = new TimerConfigurationImpl(this.time);
-        this.jobCompleteName = correlationService.registerIntermediateEvent(new TimerEventImpl(conf, token));
+        // TODO @Gerardo muss geändert werden
+        EventManager eventManager = ServiceFactory.getCorrelationService();
+        TimerConfiguration conf = new TimerAdapterConfiguration(this.time);
+        
+        eventManager.registerIntermediateEvent(new TimerEventImpl(conf, token));
         token.suspend();
     }
 

@@ -10,63 +10,87 @@ import org.jodaengine.eventmanagement.registration.ProcessEvent;
 import org.jodaengine.eventmanagement.registration.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
 
-public abstract class AbstractCorrelatingEventAdapter<Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
+/**
+ * This abstract eventAdapter implements our approach of a self correlating event Adapter. It means that this
+ * eventAdapter already manages his own queues for correlating {@link ProcessEvent}s with {@link AdapterEvent}s.
+ * <p>
+ * That's why this adapter implements {@link EventRegistrar} in order to fill his own queue with {@link ProcessEvent}s.
+ * And, it also implements the {@link CorrelationManager} interface in order to correlate {@link ProcessEvent}s with
+ * {@link AdapterEvent}s.
+ * </p>
+ * 
+ * @param <Configuration>
+ *            - the {@link AdapterConfiguration} of this adapter
+ */
+public abstract class AbstractCorrelatingEventAdapter<Configuration extends AdapterConfiguration>
+extends AbstractEventAdapter<Configuration>
 implements EventRegistrar, CorrelationManager {
 
     // Both lists are lazyInitialized
     private List<ProcessEvent> processEvents;
     private List<AdapterEvent> unCorrelatedAdapterEvents;
 
-    public AbstractCorrelatingEventAdapter(CorrelationManager correlation, Configuration configuration) {
+    /**
+     * Default instantiation for this type of EventAdapter. It is forwarded to {@link AbstractEventAdapter}
+     * 
+     * @param configuration
+     *            - the {@link AdapterConfiguration} of this adapter
+     */
+    public AbstractCorrelatingEventAdapter(Configuration configuration) {
 
-        super(correlation, configuration);
+        super(configuration);
     }
 
     @Override
     public void registerStartEvent(ProcessStartEvent startEvent) {
 
+        // TODO @Gerardo&TobiP Checking if it is already in the list of unCorrelatedAdapterEvents
         getProcessEvents().add(startEvent);
     }
 
     @Override
     public void registerIntermediateEvent(ProcessIntermediateEvent intermediateEvent) {
 
+        // TODO @Gerardo&TobiP Checking if it is already in the list of unCorrelatedAdapterEvents
         getProcessEvents().add(intermediateEvent);
     }
 
     @Override
     public void correlate(AdapterEvent e) {
 
-        // erst die Liste durchsuchen, wenn das nicht gefunden wurde dann schauen weglegen in die andere
-        // Liste(ProcessEventsNotFound)
         for (ProcessEvent processEvent : getProcessEvents()) {
-            
-//        for (EventCondition condition : event.getConditions()) {
-//            Method method = condition.getMethod();
-//            Object returnValue = method.invoke(e);
-//            if (!returnValue.equals(condition.getExpectedValue())) {
-//                triggerEvent = false;
-//                break;
-//            }
-//        }
-//        if (triggerEvent) {
-//            this.navigator.startProcessInstance(event.getDefinitionID(), event);
-//            logger.info("Starting process {}", this.navigator);
-//        }
+
+            if (processEvent.evaluate(e)) {
+                processEvent.trigger();
+            }
         }
 
+        // Push it anyway to the queue of uncorrelated adapterEvents because there may be processEvent that is
+        // registered afterwards
+        getUnCorrelatedAdapterEvents().add(e);
     }
 
+    /**
+     * Private Getter for {@link ProcessEvent}s.
+     *
+     * @return a {@link List} of {@link ProcessEvent}s.
+     */
     private List<ProcessEvent> getProcessEvents() {
-    
+
+
         if (processEvents == null) {
             this.processEvents = new ArrayList<ProcessEvent>();
         }
         return processEvents;
     }
 
+    /**
+     * Private Getter for {@link AdapterEvent}s.
+     *
+     * @return a {@link List} of {@link AdapterEvent}s.
+     */
     private List<AdapterEvent> getUnCorrelatedAdapterEvents() {
-    
+
         if (unCorrelatedAdapterEvents == null) {
             this.unCorrelatedAdapterEvents = new ArrayList<AdapterEvent>();
         }

@@ -10,7 +10,7 @@ import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.registration.EventCondition;
-import org.jodaengine.eventmanagement.registration.EventConditionImpl;
+import org.jodaengine.eventmanagement.registration.MethodInvokingEventCondition;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
@@ -118,7 +118,7 @@ public final class DemoProcessStartEmailForWebservice {
         InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
         EventCondition subjectCondition = null;
         try {
-            subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");
+            subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic", "Hallo");
             List<EventCondition> conditions = new ArrayList<EventCondition>();
             conditions.add(subjectCondition);
 
@@ -127,10 +127,6 @@ public final class DemoProcessStartEmailForWebservice {
             builder.createStartTrigger(EventTypes.Mail, config, conditions, node1);
 
             ServiceFactory.getRepositoryService().activateProcessDefinition(exampleProcessUUID);
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
         } catch (JodaEngineRuntimeException e) {
             LOGGER.error(e.getMessage(), e);
         }

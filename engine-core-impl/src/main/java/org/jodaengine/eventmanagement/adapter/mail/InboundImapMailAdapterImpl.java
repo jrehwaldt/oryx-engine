@@ -11,32 +11,29 @@ import javax.mail.Session;
 import javax.mail.Store;
 
 import org.jodaengine.eventmanagement.CorrelationManager;
-import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
+import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
+import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.exception.JodaEngineException;
-
 
 /**
  * This is the default imap mail client implementation and acts as {@link CorrelationAdapter} for the.
  * 
  * {@link CorrelationManager}.
  */
-public class InboundImapMailAdapterImpl extends AbstractEventAdapter<InboundMailAdapterConfiguration>
+public class InboundImapMailAdapterImpl extends AbstractCorrelatingEventAdapter<InboundMailAdapterConfiguration>
 implements InboundPullAdapter {
 
     /**
      * Default constructor.
      * 
-     * @param correlation
-     *            the correlation manager
      * @param configuration
      *            the adapter's configuration
      */
     @SuppressWarnings("restriction")
-    public InboundImapMailAdapterImpl(@Nonnull CorrelationManager correlation,
-                                      @Nonnull InboundMailAdapterConfiguration configuration) {
+    public InboundImapMailAdapterImpl(@Nonnull InboundMailAdapterConfiguration configuration) {
 
-        super(correlation, configuration);
+        super(configuration);
 
         this.logger.info("MailAdapter initialized with config: {}", this.configuration);
 
@@ -64,7 +61,6 @@ implements InboundPullAdapter {
 
             // Get a handle on the default folder
             Folder folder = store.getDefaultFolder();
-
 
             // Retrieve the "Inbox"
             folder = folder.getFolder("inbox");

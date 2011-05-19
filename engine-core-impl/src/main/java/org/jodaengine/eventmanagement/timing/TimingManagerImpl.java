@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
-import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
+import org.jodaengine.eventmanagement.adapter.TimerConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.exception.AdapterSchedulingException;
 import org.jodaengine.exception.EngineInitializationFailedException;
@@ -58,7 +58,7 @@ public class TimingManagerImpl implements TimingManager {
     @Override
     public void registerJobForInboundPullAdapter(@Nonnull InboundPullAdapter adapter) {
 
-        final TimedConfiguration configuration = adapter.getConfiguration();
+        final TimerConfiguration configuration = adapter.getConfiguration();
         final long interval = configuration.getTimeInterval();
 
         final String jobName = jobName(configuration);
@@ -148,7 +148,7 @@ public class TimingManagerImpl implements TimingManager {
     }
 
     @Override
-    public String registerNonRecurringJob(TimedConfiguration configuration, Token token)
+    public String registerNonRecurringJob(TimerConfiguration configuration, Token token)
     throws AdapterSchedulingException {
 
         JobDetail jobDetail = new JobDetail(jobName(configuration), jobGroupName(configuration),

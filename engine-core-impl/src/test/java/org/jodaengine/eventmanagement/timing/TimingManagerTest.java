@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.eventmanagement.adapter.PullAdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
+import org.jodaengine.eventmanagement.adapter.TimerConfiguration;
 import org.jodaengine.eventmanagement.adapter.TimerConfigurationImpl;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
@@ -64,7 +64,7 @@ public class TimingManagerTest {
     @Test
     public void testRegisteringANonRecurringEvent() throws JodaEngineException, InterruptedException {
         Token token = mock(TokenImpl.class);
-        TimedConfiguration configuration = new TimerConfigurationImpl(TIMER);
+        TimerConfiguration configuration = new TimerConfigurationImpl(TIMER);
         this.timer.registerNonRecurringJob(configuration, token);
         Thread.sleep(TIMER + TIMER);
         verify(token).resume();
@@ -80,7 +80,7 @@ public class TimingManagerTest {
     @Test
     public void testFailingRegisteringANonRecurringEvent() throws JodaEngineException, InterruptedException {
         Token token = mock(TokenImpl.class);
-        TimedConfiguration configuration = new TimerConfigurationImpl(TIMER);
+        TimerConfiguration configuration = new TimerConfigurationImpl(TIMER);
         this.timer.registerNonRecurringJob(configuration, token);
         verify(token, never()).resume();
         // Wait until job is deleted, otherwise conflicts can occur

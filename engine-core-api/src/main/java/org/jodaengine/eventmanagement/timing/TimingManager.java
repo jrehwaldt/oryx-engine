@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import org.quartz.SchedulerException;
 
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
-import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
+import org.jodaengine.eventmanagement.adapter.TimerConfiguration;
 import org.jodaengine.exception.AdapterSchedulingException;
 import org.jodaengine.process.token.Token;
 
@@ -36,7 +36,7 @@ public interface TimingManager {
      *             the adapter scheduling exception
      * @return the name of the job
      */
-    String registerNonRecurringJob(@Nonnull TimedConfiguration configuration, Token token)
+    String registerNonRecurringJob(@Nonnull TimerConfiguration configuration, Token token)
     throws AdapterSchedulingException;
 
     /**

@@ -2,6 +2,7 @@ package org.jodaengine.exception.handler;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenImpl;
 
 /**
  * The Class AbstractJodaRuntimeExceptionHandler realizes the Chain of Responsibility pattern to handle

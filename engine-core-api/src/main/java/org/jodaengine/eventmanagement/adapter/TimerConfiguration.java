@@ -10,7 +10,7 @@ import org.quartz.Job;
  * 
  * @author Jannik Streek
  */
-public interface TimedConfiguration extends AdapterConfiguration {
+public interface TimerConfiguration extends AdapterConfiguration {
 
     /**
      * Returns the adapter's time interval in ms.

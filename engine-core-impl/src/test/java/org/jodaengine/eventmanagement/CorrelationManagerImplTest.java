@@ -22,7 +22,7 @@ public class CorrelationManagerImplTest {
     private static final int INITIAL_ADAPTERS_COUNT = 1;
 
     private Navigator navigator = null;
-    private EventManagerImpl manager = null;
+    private EventManager manager = null;
 
     /**
      * Tests that a fresh correlation manager contains an {@link ErrorAdapter}.
@@ -50,7 +50,7 @@ public class CorrelationManagerImplTest {
     @BeforeTest
     public void beforeMethod() {
 
-        this.navigator = mock(NavigatorImpl.class);
-        this.manager = new EventManagerImpl(this.navigator);
+//        this.navigator = mock(NavigatorImpl.class);
+        this.manager = new EventManager();
     }
 }

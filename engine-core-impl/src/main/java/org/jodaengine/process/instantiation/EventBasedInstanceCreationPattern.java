@@ -1,5 +1,8 @@
 package org.jodaengine.process.instantiation;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
@@ -7,9 +10,6 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**

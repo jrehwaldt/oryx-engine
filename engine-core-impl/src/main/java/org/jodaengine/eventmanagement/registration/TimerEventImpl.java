@@ -3,7 +3,7 @@ package org.jodaengine.eventmanagement.registration;
 import java.util.List;
 
 import org.jodaengine.eventmanagement.adapter.EventTypes;
-import org.jodaengine.eventmanagement.adapter.TimedConfiguration;
+import org.jodaengine.eventmanagement.adapter.TimerConfiguration;
 import org.jodaengine.process.token.Token;
 
 
@@ -13,7 +13,7 @@ import org.jodaengine.process.token.Token;
 public class TimerEventImpl extends ProcessEventImpl implements ProcessIntermediateEvent {
 
     private Token token;
-    private TimedConfiguration config;
+    private TimerConfiguration config;
 
     /**
      * Instantiates a new timer event impl.
@@ -21,7 +21,7 @@ public class TimerEventImpl extends ProcessEventImpl implements ProcessIntermedi
      * @param config the config for the event, consists out of options for scheduling and for the adaptor.
      * @param token the process token
      */
-    public TimerEventImpl(TimedConfiguration config,
+    public TimerEventImpl(TimerConfiguration config,
                           Token token) {
 
         // TODO @Gerardo mal schauen was da hin kommen kann

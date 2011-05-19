@@ -2,14 +2,14 @@ package org.jodaengine.eventmanagement.timing;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
-import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
-import org.jodaengine.exception.JodaEngineException;
-
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
+import org.jodaengine.exception.JodaEngineException;
 
 /**
  * This is a quartz-scheduler job implementation for

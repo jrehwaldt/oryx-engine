@@ -5,18 +5,17 @@ import java.util.Properties;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
+import org.quartz.Job;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jodaengine.eventmanagement.AdapterRegistrar;
-import org.jodaengine.eventmanagement.CorrelationManager;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.eventmanagement.adapter.PullAdapterConfiguration;
 import org.jodaengine.eventmanagement.timing.PullAdapterJob;
-import org.jodaengine.exception.AdapterSchedulingException;
-import org.quartz.Job;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -210,21 +209,19 @@ PullAdapterConfiguration {
     /**
      * create the Adapter which is defined by this Adapter configuration.
      * 
-     * @param correlationManager
-     *            - the {@link CorrelationManager}
      * @return the InboundMailAdapter
      */
-    private InboundImapMailAdapterImpl createAdapter(CorrelationManager correlationManager) {
+    private InboundImapMailAdapterImpl createAdapter() {
 
-        InboundImapMailAdapterImpl adapter = new InboundImapMailAdapterImpl(correlationManager, this);
+        InboundImapMailAdapterImpl adapter = new InboundImapMailAdapterImpl(this);
         logger.debug("Registered mail adapter {}", adapter);
         return adapter;
     }
 
     @Override
-    public CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar, CorrelationManager correlationService) {
+    public CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar) {
 
-        InboundPullAdapter adapter = createAdapter(correlationService);
+        InboundPullAdapter adapter = createAdapter();
         adapterRegistrar.registerInboundPullAdapter(adapter);
 
         return adapter;

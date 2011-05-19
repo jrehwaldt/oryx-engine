@@ -3,6 +3,7 @@ package org.jodaengine.eventmanagement;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
 import org.jodaengine.eventmanagement.adapter.InboundAdapter;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
@@ -12,29 +13,48 @@ import org.jodaengine.eventmanagement.registration.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.eventmanagement.timing.TimingManagerImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class EventManager implements EventRegistrar, AdapterRegistrar {
+/**
+ * A concrete implementation of our engines Event Manager.
+ */
+public class EventManager implements EventRegistrar, AdapterRegistrar, Service {
 
-    private final CorrelationManager correlationManagerNullObject = new ErrorCorrelationService();
-    
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     private Set<CorrelationAdapter> eventAdapters;
-    
+
     private TimingManagerImpl timingManager;
-    
+
     private ErrorAdapter errorAdapter;
-    
+
     public EventManager() {
 
         this.errorAdapter = new ErrorAdapter(new ErrorAdapterConfiguration());
         this.timingManager = new TimingManagerImpl(errorAdapter);
     }
 
+    /**
+     * This method starts the {@link EventManager} and its dependent services.
+     */
+    public void start() {
+
+        logger.info("Starting the correlation manager");
+        registerAdapter(this.errorAdapter);
+    }
+
+    @Override
+    public void stop() {
+
+        logger.info("Stopping the correlation manager");
+    }
+
     @Override
     public void registerStartEvent(ProcessStartEvent startEvent) {
 
         // Delegate the work of registering the adapter to the configuration
-        CorrelationAdapter eventAdapter = startEvent.getAdapterConfiguration().registerAdapter(this, correlationManagerNullObject);
-        
+        startEvent.getAdapterConfiguration().registerAdapter(this);
     }
 
     /**
@@ -51,8 +71,14 @@ public class EventManager implements EventRegistrar, AdapterRegistrar {
     }
 
     @Override
-    public String registerIntermediateEvent(ProcessIntermediateEvent event) {
+    public void registerIntermediateEvent(ProcessIntermediateEvent event) {
 
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public CorrelationAdapter registerAdapter(CorrelationAdapter adapter) {
+    
         // TODO Auto-generated method stub
         return null;
     }
@@ -61,7 +87,7 @@ public class EventManager implements EventRegistrar, AdapterRegistrar {
     public InboundAdapter registerInboundAdapter(InboundAdapter inboundAdapter) {
 
         addEventAdapterToEvent(inboundAdapter);
-        
+
         return inboundAdapter;
     }
 
@@ -70,7 +96,7 @@ public class EventManager implements EventRegistrar, AdapterRegistrar {
 
         timingManager.registerJobForInboundPullAdapter(inboundPullAdapter);
         addEventAdapterToEvent(inboundPullAdapter);
-        
+
         return inboundPullAdapter;
     }
 
@@ -80,8 +106,16 @@ public class EventManager implements EventRegistrar, AdapterRegistrar {
         return timingManager;
     }
 
+    @Override
+    public CorrelationManager getEventCorrelation() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     /**
-     * Retrieves the {@link CorrelationAdapter eventAdapters}
+     * Retrieves the {@link CorrelationAdapter eventAdapters}.
+     * 
      * @return a set containing the currently registered {@link CorrelationAdapter eventAdapters}
      */
     public Set<CorrelationAdapter> getEventAdapters() {

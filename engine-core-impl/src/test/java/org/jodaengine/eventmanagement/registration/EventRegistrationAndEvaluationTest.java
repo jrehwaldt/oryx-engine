@@ -13,28 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.quartz.SchedulerException;
-import org.quartz.impl.StdSchedulerFactory;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import org.jodaengine.RepositoryServiceImpl;
-import org.jodaengine.eventmanagement.EventManagerImpl;
+import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.adapter.mail.MailProtocol;
-import org.jodaengine.eventmanagement.registration.EventCondition;
-import org.jodaengine.eventmanagement.registration.EventConditionImpl;
-import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
-import org.jodaengine.eventmanagement.registration.StartEventImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.quartz.SchedulerException;
+import org.quartz.impl.StdSchedulerFactory;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 
 /**
@@ -98,7 +93,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
     throws DefinitionNotFoundException {
 
         Navigator navigator = mock(Navigator.class);
-        EventManagerImpl correlation = new EventManagerImpl(navigator);
+        EventManager correlation = new EventManager();
         correlation.registerStartEvent(event);
         correlation.registerStartEvent(anotherEvent);
 
@@ -125,8 +120,7 @@ public class EventRegistrationAndEvaluationTest extends AbstractJodaEngineTest {
         UUID definitionID = RepositoryServiceImpl.SIMPLE_PROCESS_ID;
         EventType mailType = EventTypes.Mail;
 
-        EventCondition subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"),
-            "Hallo");
+        EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic", "Hallo");
 
         List<EventCondition> conditions1 = new ArrayList<EventCondition>();
         conditions1.add(subjectCondition);
