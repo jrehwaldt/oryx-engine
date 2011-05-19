@@ -39,16 +39,14 @@ public class DarImporterImpl implements DarImporter {
         ZipFile darFile;
         try {
             darFile = new ZipFile(file);
+            // put it through the chain of responsibility
             firstHandler.processDarFile(darFile, builder);
         } catch (ZipException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }                
         
-        
-        // put it through the chain of responsibility
-
         return builder.buildDeployment();
     }
 
