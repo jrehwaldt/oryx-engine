@@ -143,4 +143,6 @@ public interface RepositoryService {
      *            the process deployment
      */
     DeploymentScope deployInNewScope(Deployment processDeployment);
+    
+    DeploymentScope getScopeForDefinition(ProcessDefinitionID definitionID);
 }
