@@ -1,5 +1,7 @@
 package org.jodaengine.factories.process;
 
+import java.util.Set;
+
 import org.jodaengine.IdentityService;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
@@ -8,6 +10,7 @@ import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -36,17 +39,45 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
 
         this.createPseudoHuman();
         this.initializeNodes();
+
+        ProcessDefinitionID id = deploy();
+        return id;
+    }
+
+    /**
+     * Deploys the process definition and all the specified artifacts.
+     * 
+     * @return the id of the deployed process
+     * @throws IllegalStarteventException
+     */
+    private ProcessDefinitionID deploy()
+    throws IllegalStarteventException {
+
         ProcessDefinition definition = this.processDefinitionBuilder.buildDefinition();
-        DeploymentBuilder deploymentBuilder = engineServices.getRepositoryService().getDeploymentBuilder();
-        Deployment deployment = deploymentBuilder.addProcessDefinition(definition).buildDeployment();
+        DeploymentBuilder deploymentBuilder = this.repoService.getDeploymentBuilder();
+        deploymentBuilder.addProcessDefinition(definition);
+
+        for (AbstractProcessArtifact artifact : getArtifactsToDeploy()) {
+            deploymentBuilder.addProcessArtifact(artifact);
+        }
+
+        Deployment deployment = deploymentBuilder.buildDeployment();
         this.repoService.deployInNewScope(deployment);
         return definition.getID();
     }
 
     /**
+     * Gets the artifacts to deploy. Override this method to specify artifacts that should be deployed with the
+     * definition.
+     * 
+     * @return the artifacts to deploy
+     */
+    public abstract Set<AbstractProcessArtifact> getArtifactsToDeploy();
+
+    /**
      * Initialize nodes.
      */
-    abstract public void initializeNodes();
+    public abstract void initializeNodes();
 
     /**
      * Creates a thread to complete human tasks. So human task Process deployers shall overwrite this method.
