@@ -18,6 +18,7 @@ import org.jodaengine.deployment.DeploymentBuilder;
 public class DarImporterImpl implements DarImporter {
 
     private RepositoryService repo;
+    private AbstractDarHandler firstHandler;
 
     /**
      * Instantiates a new dar importer impl and uses the {@link DeploymentBuilder} from the supplied
@@ -29,6 +30,7 @@ public class DarImporterImpl implements DarImporter {
     public DarImporterImpl(RepositoryService service) {
 
         this.repo = service;
+        this.firstHandler = new ProcessDefinitionHandler();
     }
 
     @Override
@@ -36,17 +38,16 @@ public class DarImporterImpl implements DarImporter {
 
         DeploymentBuilder builder = repo.getDeploymentBuilder();
 
-        ZipFile zipFile;
+        ZipFile darFile;
         try {
-            zipFile = new ZipFile(file);
-            Enumeration<? extends ZipEntry> zipFileEntries = zipFile.entries();
-            int i = 1;
-            i = 2;
+            darFile = new ZipFile(file);
+            firstHandler.processDarFile(darFile, builder);
         } catch (ZipException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
         
         // put it through the chain of responsibility
 

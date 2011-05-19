@@ -16,8 +16,7 @@ import org.testng.annotations.Test;
  */
 public class DarImporterTest extends AbstractJodaEngineTest {
     
-    private static final String UUID_STRING = "e22003a4-8a99-4777-82d7-e18f94caabcd";
-    private static final UUID DEFINITION_UUID = UUID.fromString(UUID_STRING);
+    private static final String PROCESS_NAME = "sid-e22003a4-8a99-4777-82d7-e18f94caabcd";
 
     @BeforeMethod
     public void setUp() {
@@ -39,7 +38,7 @@ public class DarImporterTest extends AbstractJodaEngineTest {
         ProcessDefinition definition = containedDefinitions.iterator().next();
 
         // TODO @Thorben keep UUID used here and the test file in sync
-        Assert.assertEquals(definition.getID().getUUID(), DEFINITION_UUID,
+        Assert.assertEquals(definition.getName(), PROCESS_NAME,
             "The definition should have the desired id as specified in the files");
     }
 }
