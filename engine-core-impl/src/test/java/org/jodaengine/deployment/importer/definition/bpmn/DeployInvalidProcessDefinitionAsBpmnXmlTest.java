@@ -15,7 +15,7 @@ public class DeployInvalidProcessDefinitionAsBpmnXmlTest extends AbstractBPMNDep
 
     public DeployInvalidProcessDefinitionAsBpmnXmlTest() {
 
-        executableProcessResourcePath = "org/jodaengine/deployment/bpmn/InvalidProcessDefinition.bpmn.xml";
+        executableProcessResourcePath = "org/jodaengine/deployment/importer/definition/bpmn/InvalidProcessDefinition.bpmn.xml";
     }
 
     @Override

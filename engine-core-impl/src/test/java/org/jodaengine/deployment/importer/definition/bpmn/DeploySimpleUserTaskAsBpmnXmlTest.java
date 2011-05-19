@@ -36,7 +36,7 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
      */
     public DeploySimpleUserTaskAsBpmnXmlTest() {
 
-        executableProcessResourcePath = "org/jodaengine/deployment/bpmn/SimpleUserTask.bpmn.xml";
+        executableProcessResourcePath = "org/jodaengine/deployment/importer/definition/bpmn/SimpleUserTask.bpmn.xml";
     }
 
     /**
