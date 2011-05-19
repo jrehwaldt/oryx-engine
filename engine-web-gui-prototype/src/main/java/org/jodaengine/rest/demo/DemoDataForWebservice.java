@@ -6,8 +6,9 @@ import java.util.UUID;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.allocation.Form;
+import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
@@ -130,9 +131,7 @@ public final class DemoDataForWebservice {
 
         // Creating the Webform for the task
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-        UUID processArtifactID = deploymentBuilder.deployArtifactAsFile("form1", new File(PATH_TO_WEBFORMS
-            + "/claimPoints.html"));
-        Form form = new FormImpl(ServiceFactory.getRepositoryService().getProcessArtifact(processArtifactID));
+        deploymentBuilder.addFileArtifact("form1", new File(PATH_TO_WEBFORMS + "/claimPoints.html"));
 
         // Create the task
         // AllocationStrategies strategies = new AllocationStrategiesImpl(new ConcreteResourcePattern(), new
@@ -143,7 +142,7 @@ public final class DemoDataForWebservice {
         // role);
         CreationPatternBuilder builder = new CreationPatternBuilderImpl();
         builder.setItemDescription("Really do something we got a demo coming up guys!").setItemSubject("do something")
-        .setItemForm(form).addResourceAssignedToItem(role);
+        .setItemFormID("form1").addResourceAssignedToItem(role);
         CreationPattern pattern = builder.buildConcreteResourcePattern();
 
         node1 = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, pattern, new OfferMultiplePattern());
@@ -165,12 +164,16 @@ public final class DemoDataForWebservice {
         ProcessDefinition processDefinition = processBuilder.setName("Demoprocess")
         .setDescription("A simple demo process with three human tasks.").buildDefinition();
 
-        ProcessDefinitionID processID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
-        .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
+//        ProcessDefinitionID processID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
+//        .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
+        deploymentBuilder.addProcessDefinition(processDefinition);
+        
+        Deployment deployment = deploymentBuilder.buildDeployment();
+        ServiceFactory.getRepositoryService().deployInNewScope(deployment);
 
         // create more tasks
         for (int i = 0; i < NUMBER_OF_PROCESSINSTANCES; i++) {
-            ServiceFactory.getNavigatorService().startProcessInstance(processID);
+            ServiceFactory.getNavigatorService().startProcessInstance(processDefinition.getID());
         }
 
     }

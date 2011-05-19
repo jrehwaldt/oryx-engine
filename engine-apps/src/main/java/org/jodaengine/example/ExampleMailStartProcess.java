@@ -6,7 +6,7 @@ import java.util.List;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
@@ -92,8 +92,10 @@ public final class ExampleMailStartProcess {
             builder.createStartTrigger(EventTypes.Mail, config, conditions, startNode);
             ProcessDefinition def = builder.buildDefinition();
 
-            ProcessDefinitionID exampleProcessUUID = deploymentBuilder
-            .deployProcessDefinition(new RawProcessDefintionImporter(def));
+            ProcessDefinitionID exampleProcessUUID = def.getID();
+            deploymentBuilder.addProcessDefinition(def);
+            
+            jodaEngineServices.getRepositoryService().deployInNewScope(deploymentBuilder.buildDeployment());
 
             jodaEngineServices.getRepositoryService().activateProcessDefinition(exampleProcessUUID);
 

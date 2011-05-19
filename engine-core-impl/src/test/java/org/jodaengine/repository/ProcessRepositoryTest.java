@@ -8,8 +8,8 @@ import java.util.UUID;
 
 import org.jodaengine.RepositoryService;
 import org.jodaengine.RepositoryServiceImpl;
-import org.jodaengine.deployment.ProcessDefinitionImporter;
-import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.deployment.Deployment;
+import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -75,9 +75,10 @@ public class ProcessRepositoryTest {
 
         final ProcessDefinition def = new ProcessDefinitionImpl(PROCESS_ID, null, null, null);
         assertFalse(this.repository.containsProcessDefinition(PROCESS_ID));
-
-        ProcessDefinitionImporter processDefinitionImporter = new RawProcessDefintionImporter(def);
-        this.repository.getDeploymentBuilder().deployProcessDefinition(processDefinitionImporter);
+        
+        DeploymentBuilder builder = this.repository.getDeploymentBuilder();
+        builder.addProcessDefinition(def);
+        this.repository.deployInNewScope(builder.buildDeployment());
 
         assertTrue(this.repository.containsProcessDefinition(PROCESS_ID));
         assertEquals(def, this.repository.getProcessDefinition(PROCESS_ID));
@@ -96,8 +97,9 @@ public class ProcessRepositoryTest {
         final ProcessDefinition def = new ProcessDefinitionImpl(PROCESS_ID, null, null, null);
         assertFalse(this.repository.containsProcessDefinition(PROCESS_ID));
 
-        ProcessDefinitionImporter processDefinitionImporter = new RawProcessDefintionImporter(def);
-        this.repository.getDeploymentBuilder().deployProcessDefinition(processDefinitionImporter);
+        DeploymentBuilder builder = this.repository.getDeploymentBuilder();
+        Deployment deployment = builder.addProcessDefinition(def).buildDeployment();
+        this.repository.deployInNewScope(deployment);
 
         assertTrue(this.repository.containsProcessDefinition(PROCESS_ID));
         this.repository.deleteProcessDefinition(PROCESS_ID);

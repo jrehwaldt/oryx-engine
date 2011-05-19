@@ -1,8 +1,11 @@
 package org.jodaengine.factories.process;
 
+import java.util.Set;
+
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
+import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.structure.Node;
 
 /**

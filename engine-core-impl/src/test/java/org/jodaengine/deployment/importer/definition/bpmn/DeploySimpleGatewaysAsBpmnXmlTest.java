@@ -1,4 +1,4 @@
-package org.jodaengine.deployment.importer.bpmn;
+package org.jodaengine.deployment.importer.definition.bpmn;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractBPMNDeployerTest 
 
     public DeploySimpleGatewaysAsBpmnXmlTest() {
 
-        executableProcessResourcePath = "org/jodaengine/deployment/bpmn/SimpleGateways.bpmn.xml";
+        executableProcessResourcePath = "org/jodaengine/deployment/importer/definition/bpmn/SimpleGateways.bpmn.xml";
     }
 
     @Override

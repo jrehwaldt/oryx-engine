@@ -40,6 +40,14 @@ public class ExtensionServiceImpl implements ExtensionService {
     
     @Override
     public synchronized void start(JodaEngineServices services) {
+        
+        //
+        // skip method if the service is already running
+        //
+        if (this.running) {
+            return;
+        }
+        
         this.coreServices = services;
         this.extensions = new ArrayList<Class<?>>();
         this.extensionServices = new HashMap<String, Service>();

@@ -1,6 +1,5 @@
-package org.jodaengine.ext.service;
+package org.jodaengine.ext.debugger;
 
-import org.jodaengine.ext.service.ExtensionServiceImpl;
 import org.testng.annotations.BeforeMethod;
 
 /**
@@ -9,10 +8,10 @@ import org.testng.annotations.BeforeMethod;
  * @author Jan Rehwaldt
  * @since 2011-05-19
  */
-public class ExtensionServiceTest {
+public class DebuggerServiceViaExtensionServiceTest {
     
     @BeforeMethod
     public void setUp() {
-        
+        // TODO implement tests for DebuggerService loading
     }
 }

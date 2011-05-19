@@ -1,4 +1,4 @@
-package org.jodaengine.deployment.importer.bpmn;
+package org.jodaengine.deployment.importer.definition.bpmn;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractBPMNDeployerTest 
 
     public DeploySimpleSequenceAsBpmnXmlTest() {
 
-        executableProcessResourcePath = "org/jodaengine/deployment/bpmn/SimpleSequence.bpmn.xml";
+        executableProcessResourcePath = "org/jodaengine/deployment/importer/definition/bpmn/SimpleSequence.bpmn.xml";
     }
 
     @Override

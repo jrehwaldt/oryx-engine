@@ -1,12 +1,13 @@
 package org.jodaengine;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
 import org.jodaengine.bootstrap.Service;
+import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.deployment.DeploymentScope;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
@@ -59,6 +60,14 @@ public interface RepositoryService extends Service {
     boolean containsProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
 
     /**
+     * Adds a process definition to the repository.
+     * 
+     * @param definition
+     *            the definition
+     */
+    void addProcessDefinition(@Nonnull ProcessDefinition definition);
+
+    /**
      * Deletes the given {@link ProcessDefinition}.
      * 
      * @param processDefintionID
@@ -85,36 +94,71 @@ public interface RepositoryService extends Service {
     void activateProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
 
     /**
+     * Adds a process artifact to the repository for the given definition.
+     * 
+     * @param artifact
+     *            the artifact
+     * @param definitionID
+     *            the id of the definition, in which scope the resource is looked up.
+     */
+    void addProcessArtifact(@Nonnull AbstractProcessArtifact artifact, @Nonnull ProcessDefinitionID definitionID);
+
+    /**
      * Retrieves a certain {@link AbstractProcessArtifact ProcessResource} with the given processResourceID.
-     *
-     * @param processResourceID - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
+     * 
+     * @param processArtifactID
+     *            - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
+     * @param definitionID
+     *            the id of the definition, in which scope the resource is looked up.
      * @return a {@link AbstractProcessArtifact ProcessResource}
-     * @throws ProcessArtifactNotFoundException thrown if the artifact does not exist
+     * @throws ProcessArtifactNotFoundException
+     *             thrown if the artifact does not exist
      */
     @Nonnull
-    AbstractProcessArtifact getProcessArtifact(@Nonnull UUID processResourceID)
+    AbstractProcessArtifact getProcessArtifact(@Nonnull String processArtifactID,
+                                               @Nonnull ProcessDefinitionID definitionID)
     throws ProcessArtifactNotFoundException;
 
-    /**
-     * Retrieves all {@link AbstractProcessArtifact ProcessArtifacts} that have been deployed previously.
-     * 
-     * @return a list containing all {@link AbstractProcessArtifact ProcessResources}
-     */
-    List<AbstractProcessArtifact> getProcessArtifacts();
-    
-    /**
-     * Checks whether the repository has saved an artifact with the given id.
-     *
-     * @param processResourceID the process resource id
-     * @return true, if successful
-     */
-    boolean containsProcessArtifact(UUID processResourceID);
+    // /**
+    // * Retrieves all {@link AbstractProcessArtifact ProcessArtifacts} that have been deployed previously.
+    // *
+    // * @return a list containing all {@link AbstractProcessArtifact ProcessResources}
+    // */
+    // List<AbstractProcessArtifact> getProcessArtifacts();
+    //
+    // /**
+    // * Checks whether the repository has saved an artifact with the given id.
+    // *
+    // * @param processResourceID the process resource id
+    // * @return true, if successful
+    // */
+    // boolean containsProcessArtifact(UUID processResourceID);
 
     /**
-     * Deletes the given {@link AbstractProcessArtifact ProcessResource}.
-     * 
-     * @param processResourceID
-     *            - id of the {@link AbstractProcessArtifact ProcessResource}, cannot be null.
+     * Deletes the given {@link AbstractProcessArtifact ProcessResource} from the definitions scope.
+     *
+     * @param processArtifactID the process artifact id
+     * @param definitionID the definition id
      */
-    void deleteProcessResource(@Nonnull UUID processResourceID);
+    void deleteProcessResource(@Nonnull String processArtifactID, @Nonnull ProcessDefinitionID definitionID);
+
+    /**
+     * Deploys a deployment (i.e. the contained process definition, artifacts, etc.) to the repository. The contained
+     * resources are deployed in a new scope, that means, the definitions share only the contained forms, etc.
+     * 
+     * @param processDeployment
+     *            the process deployment
+     * @return the deployment scope that was created
+     */
+    // TODO @Thorben-Refactoring: do we need to return the scope? The user should not see this, or should he?
+    DeploymentScope deployInNewScope(Deployment processDeployment);
+
+    /**
+     * Gets the scope for a definition.
+     * 
+     * @param definitionID
+     *            the definition id
+     * @return the scope for the definition
+     */
+    DeploymentScope getScopeForDefinition(ProcessDefinitionID definitionID);
 }

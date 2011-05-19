@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
+import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.exception.ResourceNotAvailableException;
@@ -168,7 +169,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
         pattern = CreationPatternFactory.createRoleCreator();
         TokenImpl token = mock(TokenImpl.class);
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
-        AbstractWorklistItem item = pattern.createWorklistItem(token);
+        AbstractWorklistItem item = pattern.createWorklistItem(token, mock(RepositoryService.class));
         PushPattern pushPattern = new OfferMultiplePattern();
         pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
 

@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.deployment.importer.BpmnXmlImporter;
+import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +77,8 @@ public class RepositoryWebService {
         BpmnXmlImporter importer = new BpmnXmlImporter(xmlContent);
         
         // deploys the process definition
-        this.deploymentBuilder.deployProcessDefinition(importer);
+        this.deploymentBuilder.addProcessDefinition(importer.createProcessDefinition());
+        this.repositoryService.deployInNewScope(this.deploymentBuilder.buildDeployment());
     }
     
     /*

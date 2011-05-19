@@ -3,7 +3,7 @@ package org.jodaengine.example;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter;
 import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -99,8 +99,10 @@ public final class SimpleExampleProcess {
         ProcessDefinition processDefinition = buildSampleProcessDefinition(deploymentBuilder
         .getProcessDefinitionBuilder());
 
-        ProcessDefinitionID sampleProcessUUID = deploymentBuilder
-        .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
+        ProcessDefinitionID sampleProcessUUID = processDefinition.getID();
+        deploymentBuilder.addProcessDefinition(processDefinition);
+        
+        jodaEngineServices.getRepositoryService().deployInNewScope(deploymentBuilder.buildDeployment());
 
         return sampleProcessUUID;
 

@@ -1,20 +1,25 @@
 package org.jodaengine.rest.demo;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.jodaengine.IdentityService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.allocation.Form;
+import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
+import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
+import org.jodaengine.process.definition.AbstractProcessArtifact;
+import org.jodaengine.process.definition.ProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -25,6 +30,7 @@ import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
 import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.jodaengine.util.io.ClassPathResourceStreamSource;
 
 /**
  * This class deploys the benchmark process as specified in signavio.
@@ -73,11 +79,10 @@ public final class BenchmarkDeployer {
         Node andJoin2 = BpmnNodeFactory.createBpmnAndGatewayNode(processDefinitionBuilder);
         Node andJoin3 = BpmnNodeFactory.createBpmnAndGatewayNode(processDefinitionBuilder);
 
-        Form form = extractForm("dummyform", "dummy.html");
         CreationPatternBuilder builder = new CreationPatternBuilderImpl();
         builder.setItemSubject("Do stuff")
                .setItemDescription("Do it")
-               .setItemForm(form)
+               .setItemFormID("dummyform")
                .addResourceAssignedToItem(roleA);
         CreationPattern patternA = builder.buildConcreteResourcePattern();
 
@@ -171,49 +176,63 @@ public final class BenchmarkDeployer {
             initializeNodes();
             ProcessDefinition definition = processDefinitionBuilder.buildDefinition();
             DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-            deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(definition));
+            deploymentBuilder.addProcessDefinition(definition);
+            
+            for (AbstractProcessArtifact artifact : getArtifactsToDeploy()) {
+                deploymentBuilder.addProcessArtifact(artifact);
+            }
+
+            Deployment deployment = deploymentBuilder.buildDeployment();
+            ServiceFactory.getRepositoryService().deployInNewScope(deployment);
             invoked = true;
         }
     }
-
+//
+//    /**
+//     * Extracts a form.
+//     * 
+//     * @param formName
+//     *            the form name
+//     * @param formPath
+//     *            the form path
+//     * @return the form
+//     * @throws DefinitionNotFoundException
+//     *             the definition not found exception
+//     * @throws ProcessArtifactNotFoundException 
+//     */
+//    private static Form extractForm(String formName, String formPath)
+//    throws ProcessArtifactNotFoundException {
+//
+//        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+//        UUID processArtifactID = deploymentBuilder.deployArtifactAsFile(formName, new File(PATH_TO_WEBFORMS + "/"
+//            + formPath));
+//        Form form;
+//        form = new FormImpl(ServiceFactory.getRepositoryService().getProcessArtifact(processArtifactID));
+//        return form;
+//    }
+    
     /**
-     * Extracts a form.
-     * 
-     * @param formName
-     *            the form name
-     * @param formPath
-     *            the form path
-     * @return the form
-     * @throws DefinitionNotFoundException
-     *             the definition not found exception
-     * @throws ProcessArtifactNotFoundException 
+     * Gets the artifacts to deploy.
+     *
+     * @return the artifacts to deploy
      */
-    private static Form extractForm(String formName, String formPath)
-    throws ProcessArtifactNotFoundException {
+    public static Set<AbstractProcessArtifact> getArtifactsToDeploy() {
 
-        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-        UUID processArtifactID = deploymentBuilder.deployArtifactAsFile(formName, new File(PATH_TO_WEBFORMS + "/"
-            + formPath));
-        Form form;
-        form = new FormImpl(ServiceFactory.getRepositoryService().getProcessArtifact(processArtifactID));
-        return form;
+        AbstractProcessArtifact dummyform = createClassPathArtifact("dummyform", PATH_TO_WEBFORMS + "dummy.html");
+        Set<AbstractProcessArtifact> artifacts = new HashSet<AbstractProcessArtifact>();
+        artifacts.add(dummyform);
+        return artifacts;
     }
-
-    // private static Task createRoleTask(String subject, String description, Form form, AbstractResource<?> resource) {
-    //
-    // AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(new ConcreteResourcePattern(),
-    // new SimplePullPattern(), null, null);
-    //
-    // return createTask(subject, description, form, allocationStrategies, resource);
-    // }
-    //
-    // private static Task createTask(String subject,
-    // String description,
-    // Form form,
-    // AllocationStrategies allocationStrategies,
-    // AbstractResource<?> resource) {
-    //
-    // Task task = new TaskImpl(subject, description, form, allocationStrategies, resource);
-    // return task;
-    // }
+    
+    /**
+     * Creates a process artifact from a classpath resource.
+     *
+     * @param name the name
+     * @param fileName the file name
+     * @return the abstract process artifact
+     */
+    private static AbstractProcessArtifact createClassPathArtifact(String name, String fileName) {
+        ClassPathResourceStreamSource source = new ClassPathResourceStreamSource(fileName);
+        return new ProcessArtifact(name, source);
+    }
 }
