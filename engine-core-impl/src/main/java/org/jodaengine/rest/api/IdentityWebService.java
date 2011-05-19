@@ -469,6 +469,11 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
     
+    @Override
+    public boolean isRunning() {
+        return this.identity.isRunning();
+    }
+    
     /**
      * We provide an empty identity builder. NullObjectPattern, you know?
      * 

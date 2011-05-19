@@ -36,7 +36,12 @@ public class TestingExtensionService implements Service {
         this.services = null;
         this.stopped = true;
     }
-
+    
+    @Override
+    public boolean isRunning() {
+        return this.started && !this.stopped;
+    }
+    
     /**
      * Return is started.
      * 

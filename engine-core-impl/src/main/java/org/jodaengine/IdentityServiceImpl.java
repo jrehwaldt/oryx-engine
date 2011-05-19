@@ -43,16 +43,25 @@ public class IdentityServiceImpl implements IdentityService, Service {
     
     private Map<UUID, Role> roles;
     
+    private boolean running = false;
+    
     @Override
-    public void start(JodaEngineServices services) {
+    public synchronized void start(JodaEngineServices services) {
         
         logger.info("Starting the correlation manager");
+        this.running = true;
     }
 
     @Override
-    public void stop() {
+    public synchronized void stop() {
         
         logger.info("Stopping the correlation manager");
+        this.running = false;
+    }
+    
+    @Override
+    public boolean isRunning() {
+        return this.running;
     }
 
     @Override

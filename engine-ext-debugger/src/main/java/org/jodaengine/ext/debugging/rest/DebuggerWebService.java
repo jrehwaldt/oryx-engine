@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 import javax.ws.rs.ext.Provider;
 
 import org.jodaengine.JodaEngineServices;
-import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
@@ -24,7 +23,6 @@ import org.slf4j.LoggerFactory;
  * @author Jan Rehwaldt
  * @since 2011-05-17
  */
-@Extension(DebuggerService.EXTENSION_NAME)
 @Provider
 public class DebuggerWebService implements DebuggerService, BreakpointService {
     
@@ -46,7 +44,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         
         ExtensionService extService = this.engineServices.getExtensionService();
         try {
-            this.debugger = extService.getExtensionService(DebuggerService.class, EXTENSION_NAME);
+            this.debugger = extService.getExtensionService(DebuggerService.class, EXTENSION_SERVICE_NAME);
         } catch (ExtensionNotAvailableException e) {
             logger.error("The Debugger REST API will be unavailable. No Debugger Service found.");
             this.debugger = null;
@@ -83,6 +81,11 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         if (this.debugger != null) {
             this.debugger.continueInstance(instance);
         }
+    }
+    
+    @Override
+    public boolean isRunning() {
+        return this.debugger.isRunning();
     }
     
     @Override

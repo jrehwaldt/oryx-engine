@@ -22,4 +22,11 @@ public interface Service {
      * Stops the service.
      */
     void stop();
+    
+    /**
+     * Returns whether this service is running.
+     * 
+     * @return running?
+     */
+    public boolean isRunning();
 }

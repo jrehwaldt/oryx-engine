@@ -31,18 +31,28 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private IdentityService identityService;
-
+    
+    private boolean running = false;
+    
     @Override
-    public void start(JodaEngineServices services) {
-
+    public synchronized void start(JodaEngineServices services) {
+        
         logger.info("Starting the worklist manager");
         identityService = services.getIdentityService();
+        
+        this.running = true;
     }
 
     @Override
-    public void stop() {
-
+    public synchronized void stop() {
+        
         logger.info("Stopping the worklist manager");
+        this.running = false;
+    }
+    
+    @Override
+    public boolean isRunning() {
+        return this.running;
     }
 
     @Override

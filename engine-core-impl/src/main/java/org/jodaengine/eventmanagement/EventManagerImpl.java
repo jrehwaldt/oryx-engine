@@ -54,6 +54,8 @@ public class EventManagerImpl implements EventManager, Service {
     private Map<AdapterConfiguration, InboundAdapter> inboundAdapter;
 
     private List<StartEvent> startEvents;
+    
+    private boolean running = false;
 
     /**
      * Default constructor.
@@ -77,16 +79,23 @@ public class EventManagerImpl implements EventManager, Service {
     }
 
     @Override
-    public void start(JodaEngineServices services) {
+    public synchronized void start(JodaEngineServices services) {
 
         logger.info("Starting the correlation manager");
         registerAdapter(this.errorAdapter);
+        this.running = true;
     }
 
     @Override
-    public void stop() {
+    public synchronized void stop() {
 
         logger.info("Stopping the correlation manager");
+        this.running = false;
+    }
+    
+    @Override
+    public boolean isRunning() {
+        return this.running;
     }
 
     @Override

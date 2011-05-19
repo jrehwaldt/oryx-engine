@@ -68,6 +68,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         
         Assert.assertNotNull(service);
         Assert.assertTrue(service.isStarted());
+        Assert.assertTrue(service.isRunning());
         Assert.assertFalse(service.isStopped());
         Assert.assertNotNull(service.getServices());
         Assert.assertEquals(this.jodaEngineServices, service.getServices());

@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * @author Jan Rehwaldt
  * @since 2011-05-17
  */
-@Extension(DebuggerService.EXTENSION_NAME)
+@Extension(DebuggerService.EXTENSION_SERVICE_NAME)
 public class DebuggerDeploymentImportListener implements BpmnXmlParseListener {
     
     /**

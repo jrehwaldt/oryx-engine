@@ -1,6 +1,21 @@
 package org.jodaengine.ext.debugger;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+
+import org.jodaengine.JodaEngineServices;
+import org.jodaengine.ext.debugging.DebuggerServiceImpl;
+import org.jodaengine.ext.debugging.api.BreakpointService;
+import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.listener.DebuggerDeploymentImportListener;
+import org.jodaengine.ext.service.ExtensionNotAvailableException;
+import org.jodaengine.ext.service.ExtensionService;
+import org.jodaengine.ext.service.ExtensionServiceImpl;
+import org.jodaengine.navigator.Navigator;
+import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * This class tests the {@link ExtensionServiceImpl}.
@@ -8,10 +23,94 @@ import org.testng.annotations.BeforeMethod;
  * @author Jan Rehwaldt
  * @since 2011-05-19
  */
-public class DebuggerServiceViaExtensionServiceTest {
+public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTest {
     
+    private ExtensionService extensionService;
+    
+    /**
+     * Setup.
+     */
     @BeforeMethod
     public void setUp() {
-        // TODO implement tests for DebuggerService loading
+        this.extensionService = new ExtensionServiceImpl();
+        this.extensionService.start(this.jodaEngineServices);
+    }
+    
+    /**
+     * Tests that all required components for the {@link DebuggerService} extension are available
+     * via the {@link ExtensionService}.
+     */
+    @Test
+    public void testRequiredComponentsAreAvailable() {
+        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerDeploymentImportListener.class));
+        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerService.class));
+        Assert.assertNotNull(this.extensionService.isExtensionAvailable(BreakpointService.class));
+        
+        // TODO extend
+    }
+    
+    /**
+     * Tests that the {@link DebuggerService} is successfully started by the {@link ExtensionService}.
+     * 
+     * This also tests that required fields are successfully set.
+     * 
+     * We use massive reflection here to avoid inheritance (which will possibly confuse the
+     * {@link ExtensionService}). If one of the reflection exceptions is thrown this will most
+     * likely be an issue with the local configuration of the {@link SecurityManager}
+     * or the {@link DebuggerServiceImpl} was refactored (but this is unlikely, the test is rather
+     * independent of a concrete implementation).
+     * 
+     * Keep it synced!
+     * 
+     * @throws ExtensionNotAvailableException test fails
+     * @throws IllegalAccessException test fails
+     */
+    @Test
+    public void testRequiredServiceIsStarted()
+    throws ExtensionNotAvailableException, IllegalAccessException {
+        
+        DebuggerService service = this.extensionService.getExtensionService(
+            DebuggerService.class,
+            DebuggerService.EXTENSION_SERVICE_NAME);
+        
+        Assert.assertNotNull(service);
+        Assert.assertTrue(service.isRunning());
+        
+        Assert.assertTrue(DebuggerServiceImpl.class.equals(service.getClass()));
+        
+        for (Field field: service.getClass().getDeclaredFields()) {
+            Type fieldType = field.getGenericType();
+            
+            //
+            // make field accessible
+            //
+            if (!field.isAccessible()) {
+                field.setAccessible(true);
+            }
+            
+            if (fieldType instanceof Class) {
+                Class<?> fieldClass = (Class<?>) fieldType;
+                
+                //
+                // check that the navigator is set successfully (find the field first, if available)
+                //
+                if (Navigator.class.isAssignableFrom(fieldClass)) {
+                    Object navigator = field.get(service);
+                    
+                    Assert.assertNotNull(navigator);
+                    Assert.assertEquals(this.jodaEngineServices.getNavigatorService(), navigator);
+                }
+                
+                //
+                // check that the joda services are set successfully (find the field first, if available)
+                //
+                if (JodaEngineServices.class.isAssignableFrom(fieldClass)) {
+                    Object setJodaEngineServices = field.get(service);
+                    
+                    Assert.assertNotNull(setJodaEngineServices);
+                    Assert.assertEquals(this.jodaEngineServices, setJodaEngineServices);
+                }
+            }
+        }
     }
 }

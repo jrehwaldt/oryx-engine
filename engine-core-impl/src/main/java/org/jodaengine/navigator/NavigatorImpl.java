@@ -125,6 +125,11 @@ implements Navigator, NavigatorInside, Service {
         }
         changeState(NavigatorState.RUNNING);
     }
+    
+    @Override
+    public boolean isRunning() {
+        return NavigatorState.RUNNING.equals(this.state);
+    }
 
     @Override
     public void addThread() {

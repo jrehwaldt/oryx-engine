@@ -102,6 +102,11 @@ public class NavigatorWebService implements Navigator {
 
         return this.navigatorService.getEndedInstances();
     }
+    
+    @Override
+    public boolean isRunning() {
+        return this.navigatorService.isRunning();
+    }
 
     @Override
     public void start(JodaEngineServices services) {

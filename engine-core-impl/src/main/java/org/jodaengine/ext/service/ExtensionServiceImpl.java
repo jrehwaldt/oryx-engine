@@ -92,6 +92,11 @@ public class ExtensionServiceImpl implements ExtensionService {
     }
     
     @Override
+    public boolean isRunning() {
+        return this.running;
+    }
+    
+    @Override
     public <IExtension> boolean isExtensionAvailable(Class<IExtension> extension) {
         
         return this.extensions.contains(extension);
