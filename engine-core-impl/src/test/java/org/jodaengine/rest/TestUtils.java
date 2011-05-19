@@ -3,6 +3,7 @@ package org.jodaengine.rest;
 import org.testng.Assert;
 
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -61,8 +62,9 @@ public final class TestUtils {
         Assert.assertNotNull(definition);
 
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
-        ProcessDefinitionID processId = deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(
-            definition));
+        Deployment deployment = deploymentBuilder.addProcessDefinition(definition).buildDeployment();
+        ServiceFactory.getRepositoryService().deployInNewScope(deployment);
+        ProcessDefinitionID processId = definition.getID();
 
         Assert.assertNotNull(processId);
         Assert.assertEquals(processId, definition.getID());

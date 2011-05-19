@@ -92,8 +92,10 @@ public final class ExampleMailStartProcess {
             builder.createStartTrigger(EventTypes.Mail, config, conditions, startNode);
             ProcessDefinition def = builder.buildDefinition();
 
-            ProcessDefinitionID exampleProcessUUID = deploymentBuilder
-            .deployProcessDefinition(new RawProcessDefintionImporter(def));
+            ProcessDefinitionID exampleProcessUUID = def.getID();
+            deploymentBuilder.addProcessDefinition(def);
+            
+            jodaEngineServices.getRepositoryService().deployInNewScope(deploymentBuilder.buildDeployment());
 
             jodaEngineServices.getRepositoryService().activateProcessDefinition(exampleProcessUUID);
 

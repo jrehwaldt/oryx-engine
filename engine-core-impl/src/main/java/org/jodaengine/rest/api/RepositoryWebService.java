@@ -78,7 +78,8 @@ public class RepositoryWebService {
         BpmnXmlImporter importer = new BpmnXmlImporter(xmlContent);
         
         // deploys the process definition
-        this.deploymentBuilder.deployProcessDefinition(importer);
+        this.deploymentBuilder.addProcessDefinition(importer.createProcessDefinition());
+        this.repositoryService.deployInNewScope(this.deploymentBuilder.buildDeployment());
     }
     
     /*

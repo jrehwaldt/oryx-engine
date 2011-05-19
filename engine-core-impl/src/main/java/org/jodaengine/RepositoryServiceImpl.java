@@ -3,18 +3,20 @@ package org.jodaengine;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.bootstrap.Service;
+import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.DeploymentBuilderImpl;
+import org.jodaengine.deployment.DeploymentScope;
+import org.jodaengine.deployment.DeploymentScopeImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
@@ -23,7 +25,8 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class ProcessRepositoryImpl. The Repository holds the process definitions in the engine. To instantiate these,
@@ -36,9 +39,21 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     public static final UUID SIMPLE_PROCESS_UUID = UUID.randomUUID();
     public static final ProcessDefinitionID SIMPLE_PROCESS_ID = new ProcessDefinitionID(SIMPLE_PROCESS_UUID, 0);
 
-    private Map<ProcessDefinitionID, ProcessDefinitionImpl> processDefinitionsTable;
+    private Map<ProcessDefinitionID, ProcessDefinition> processDefinitionsTable;
 
-    private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
+    // we do not need a link from scopes to all corresponding process definitions, as the scope should be automatically
+    // dropped, as soon as no definition links to the scope any longer.
+    private Map<ProcessDefinitionID, DeploymentScope> scopes;
+
+    private Map<UUID, Integer> processVersions;
+
+    // private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
+
+    public RepositoryServiceImpl() {
+
+        processVersions = new HashMap<UUID, Integer>();
+        scopes = new HashMap<ProcessDefinitionID, DeploymentScope>();
+    }
 
     @Override
     public void start() {
@@ -55,14 +70,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     @Override
     public DeploymentBuilder getDeploymentBuilder() {
 
-        return new DeploymentBuilderImpl(this);
-    }
-
-    @Override
-    public ProcessDefinition getProcessDefinition(ProcessDefinitionID processDefintionID)
-    throws DefinitionNotFoundException {
-
-        return getProcessDefinitionImpl(processDefintionID);
+        return new DeploymentBuilderImpl();
     }
 
     @Override
@@ -70,6 +78,13 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
         List<ProcessDefinition> listToReturn = new ArrayList<ProcessDefinition>(getProcessDefinitionsTable().values());
         return Collections.unmodifiableList(listToReturn);
+    }
+
+    @Override
+    public void addProcessDefinition(ProcessDefinition definition) {
+
+        getProcessDefinitionsTable().put(definition.getID(), (ProcessDefinitionImpl) definition);
+
     }
 
     @Override
@@ -83,7 +98,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
         ProcessDefinitionInside processDefintion;
         try {
-            processDefintion = getProcessDefinitionImpl(processDefintionID);
+            processDefintion = (ProcessDefinitionInside) getProcessDefinition(processDefintionID);
         } catch (DefinitionNotFoundException exception) {
             String errorMessage = "The processDefinition '" + processDefintionID + "' have not been deployed yet.";
             logger.error(errorMessage, exception);
@@ -106,65 +121,55 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     }
 
     @Override
-    public void deleteProcessDefinition(ProcessDefinitionID processResourceID) {
+    public void deleteProcessDefinition(ProcessDefinitionID processDefinitionID) {
 
-        getProcessDefinitionsTable().remove(processResourceID);
+        removeDefinitionFromScope(processDefinitionID);
+        getProcessDefinitionsTable().remove(processDefinitionID);
     }
 
-    
-    
-    
-    @Override
-    public AbstractProcessArtifact getProcessArtifact(UUID processResourceID)
-    throws ProcessArtifactNotFoundException {
-
-        AbstractProcessArtifact processArtifact = getProcessArtifactsTable().get(processResourceID);
-        if (processArtifact == null) {
-            throw new ProcessArtifactNotFoundException(processResourceID);
-        }
-        return getProcessArtifactsTable().get(processResourceID);
-    }
-
-    @Override
-    public List<AbstractProcessArtifact> getProcessArtifacts() {
-
-        List<AbstractProcessArtifact> listToReturn = new ArrayList<AbstractProcessArtifact>(getProcessArtifactsTable()
-        .values());
-        return Collections.unmodifiableList(listToReturn);
-    }
-
-    @Override
-    public void deleteProcessResource(UUID processResourceID) {
-
-        getProcessArtifactsTable().remove(processResourceID);
-    }
+    // @Override
+    // public AbstractProcessArtifact getProcessArtifact(UUID processResourceID)
+    // throws ProcessArtifactNotFoundException {
+    //
+    // AbstractProcessArtifact processArtifact = getProcessArtifactsTable().get(processResourceID);
+    // if (processArtifact == null) {
+    // throw new ProcessArtifactNotFoundException(processResourceID);
+    // }
+    // return getProcessArtifactsTable().get(processResourceID);
+    // }
+    //
+    // @Override
+    // public List<AbstractProcessArtifact> getProcessArtifacts() {
+    //
+    // List<AbstractProcessArtifact> listToReturn = new ArrayList<AbstractProcessArtifact>(getProcessArtifactsTable()
+    // .values());
+    // return Collections.unmodifiableList(listToReturn);
+    // }
+    //
+    // @Override
+    // public void deleteProcessResource(UUID processResourceID) {
+    //
+    // getProcessArtifactsTable().remove(processResourceID);
+    // }
 
     /**
      * Returns a map of all deployed process definitions.
      * 
      * @return the process definitions table
      */
-    public Map<ProcessDefinitionID, ProcessDefinitionImpl> getProcessDefinitionsTable() {
+    public Map<ProcessDefinitionID, ProcessDefinition> getProcessDefinitionsTable() {
 
         if (processDefinitionsTable == null) {
-            this.processDefinitionsTable = new HashMap<ProcessDefinitionID, ProcessDefinitionImpl>();
+            this.processDefinitionsTable = new HashMap<ProcessDefinitionID, ProcessDefinition>();
         }
         return this.processDefinitionsTable;
     }
 
-    /**
-     * Retrieves the {@link ProcessDefinitionImpl} that is stored.
-     * 
-     * @param processDefintionID
-     *            - the {@link UUID id} of the {@link ProcessDefinition}
-     * @return a {@link ProcessDefinitionImpl}
-     * @throws DefinitionNotFoundException
-     *             - thrown, if the given ID does not exist
-     */
-    private ProcessDefinitionImpl getProcessDefinitionImpl(ProcessDefinitionID processDefintionID)
+    @Override
+    public ProcessDefinition getProcessDefinition(ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException {
 
-        ProcessDefinitionImpl processDefinition = getProcessDefinitionsTable().get(processDefintionID);
+        ProcessDefinition processDefinition = getProcessDefinitionsTable().get(processDefintionID);
 
         if (processDefinition == null) {
             throw new DefinitionNotFoundException(processDefintionID);
@@ -173,29 +178,114 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
         return processDefinition;
     }
 
-    /**
-     * Returns a map of all deployed process artifacts, such as forms, etc.
-     * 
-     * @return the process artifacts table
-     */
-    public Map<UUID, AbstractProcessArtifact> getProcessArtifactsTable() {
-
-        if (processArtifactsTable == null) {
-            this.processArtifactsTable = new HashMap<UUID, AbstractProcessArtifact>();
-        }
-        return this.processArtifactsTable;
-    }
+    // /**
+    // * Returns a map of all deployed process artifacts, such as forms, etc.
+    // *
+    // * @return the process artifacts table
+    // */
+    // public Map<UUID, AbstractProcessArtifact> getProcessArtifactsTable() {
+    //
+    // if (processArtifactsTable == null) {
+    // this.processArtifactsTable = new HashMap<UUID, AbstractProcessArtifact>();
+    // }
+    // return this.processArtifactsTable;
+    // }
 
     @Override
     public ProcessDefinitionInside getProcessDefinitionInside(ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException {
 
-        return getProcessDefinitionImpl(processDefintionID);
+        return (ProcessDefinitionInside) getProcessDefinition(processDefintionID);
     }
 
     @Override
-    public boolean containsProcessArtifact(UUID processResourceID) {
+    public DeploymentScope deployInNewScope(Deployment processDeployment) {
 
-        return this.getProcessArtifactsTable().containsKey(processResourceID);
+        DeploymentScope scope = new DeploymentScopeImpl(processDeployment.getArtifacts());
+
+        for (ProcessDefinition definition : processDeployment.getDefinitions()) {
+            // determine version of the currently deployed process
+            registerNewProcessVersion(definition);
+
+            // add the definition
+            getProcessDefinitionsTable().put(definition.getID(), definition);
+
+            // create the connection between definition and scope
+            // TODO @Thorben-Refactoring think about a direct link between definition and scope
+            addScopeForDefinition(definition.getID(), scope);
+        }
+
+        return scope;
     }
+
+    private void addScopeForDefinition(ProcessDefinitionID definitionID, DeploymentScope scope) {
+
+        scopes.put(definitionID, scope);
+    }
+
+    private void removeDefinitionFromScope(ProcessDefinitionID definitionID) {
+
+        scopes.remove(definitionID);
+    }
+
+    /**
+     * Registers a new version of a process.
+     * 
+     * @param definition
+     *            the definition
+     */
+    private void registerNewProcessVersion(ProcessDefinition definition) {
+
+        Integer currentVersionNumber = processVersions.get(definition.getID().getUUID());
+        if (currentVersionNumber != null) {
+            currentVersionNumber++;
+        } else {
+            currentVersionNumber = new Integer(0);
+        }
+        processVersions.put(definition.getID().getUUID(), currentVersionNumber);
+        definition.getID().setVersion(currentVersionNumber);
+    }
+
+    @Override
+    public DeploymentScope getScopeForDefinition(ProcessDefinitionID definitionID) {
+
+        return scopes.get(definitionID);
+    }
+
+    @Override
+    public void addProcessArtifact(AbstractProcessArtifact artifact, ProcessDefinitionID definitionID) {
+
+        DeploymentScope scope = scopes.get(definitionID);
+        scope.addProcessArtifact(artifact);
+        
+    }
+
+    @Override
+    public AbstractProcessArtifact getProcessArtifact(String processArtifactID, ProcessDefinitionID definitionID)
+    throws ProcessArtifactNotFoundException {
+
+        DeploymentScope scope = scopes.get(definitionID);
+        return scope.getProcessArtifact(processArtifactID);
+    }
+
+    @Override
+    public void deleteProcessResource(String processArtifactID, ProcessDefinitionID definitionID) {
+
+        DeploymentScope scope = scopes.get(definitionID);
+        scope.deleteProcessArtifact(processArtifactID);
+        
+    }
+
+    // @Override
+    // public boolean containsProcessArtifact(UUID processResourceID) {
+    //
+    // return this.getProcessArtifactsTable().containsKey(processResourceID);
+    // }
+    //
+    // @Override
+    // public void addProcessArtifact(AbstractProcessArtifact artifact) {
+    //
+    // getProcessArtifactsTable().put(artifact.getID(), artifact);
+    //
+    // }
 }

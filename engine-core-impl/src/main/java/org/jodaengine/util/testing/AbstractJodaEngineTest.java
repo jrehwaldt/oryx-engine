@@ -1,5 +1,7 @@
 package org.jodaengine.util.testing;
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
@@ -9,7 +11,14 @@ import org.testng.annotations.BeforeMethod;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.token.Token;
 import org.jodaengine.util.testing.SkipBuildingJodaEngine.JodaEngineTestSkipMode;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -97,4 +106,5 @@ public abstract class AbstractJodaEngineTest {
 
         return false;
     }
+    
 }

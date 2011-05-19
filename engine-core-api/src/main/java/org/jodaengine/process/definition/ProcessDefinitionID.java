@@ -30,6 +30,17 @@ public class ProcessDefinitionID {
     }
 
     /**
+     * Convenience constructor for IDs with version 0.
+     * 
+     * @param uuid
+     *            the uuid
+     */
+    public ProcessDefinitionID(UUID uuid) {
+
+        this(uuid, 0);
+    }
+
+    /**
      * Gets the UUID.
      * 
      * @return the uUID
@@ -77,24 +88,39 @@ public class ProcessDefinitionID {
         }
         return false;
     }
-    
+
     @Override
     public String toString() {
+
         return uuid.toString() + DELIMITER + version;
     }
-    
+
     /**
      * Reads a ProcessDefinitionID from a given String.
-     *
-     * @param id the id
+     * 
+     * @param id
+     *            the id
      * @return the process definition id
      */
     public static ProcessDefinitionID fromString(String id) {
+
         int delimiterPosition = id.lastIndexOf(DELIMITER);
         UUID uuid = UUID.fromString(id.subSequence(0, delimiterPosition).toString());
         int version = new Integer(id.substring(delimiterPosition + 1));
         return new ProcessDefinitionID(uuid, version);
-        
+
+    }
+
+    /**
+     * Sets the version of the ID. This should be possible, as a new version number may be assigned to a process
+     * definition.
+     * 
+     * @param newVersion
+     *            the new version
+     */
+    public void setVersion(int newVersion) {
+
+        this.version = newVersion;
     }
 
 }

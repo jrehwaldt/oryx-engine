@@ -29,12 +29,11 @@ public interface CreationPatternBuilder {
 
     /**
      * Sets the {@link Form} of the {@link WorklistItem} that should be built.
-     * 
-     * @param form
-     *            - the {@link Form} of the {@link WorklistItem}
+     *
+     * @param formID the id of the process artifact that represents this form
      * @return the current {@link CreationPatternBuilder} in order continue configuring the creation pattern
      */
-    CreationPatternBuilder setItemForm(Form form);
+    CreationPatternBuilder setItemFormID(String formID);
 
     /**
      * Adds an {@link AbstractResource Resource} that should be assigned to the {@link WorklistItem}.

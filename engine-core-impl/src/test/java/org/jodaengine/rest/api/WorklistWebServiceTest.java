@@ -10,11 +10,22 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.PushPattern;
+import org.jodaengine.deployment.Deployment;
+import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
+import org.jodaengine.mock.utils.MockUtils;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessArtifact;
+import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
@@ -58,18 +69,27 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         // JodaEngine.start();
         pattern = CreationPatternFactory.createJannikServesGerardoCreator();
 
+        // deploy definition and artifact
+        ProcessDefinition definition = MockUtils.mockProcessDefinition();
         AbstractProcessArtifact processArtifact = new ProcessArtifact("form", new StringStreamSource("<form></form>"));
+        DeploymentBuilder builder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
+        Deployment deployment = builder.addProcessDefinition(definition).addProcessArtifact(processArtifact)
+        .buildDeployment();
+        jodaEngineServices.getRepositoryService().deployInNewScope(deployment);
 
-        Whitebox.setInternalState(pattern, "form", new FormImpl(processArtifact));
+        // Whitebox.setInternalState(pattern, "form", new FormImpl(processArtifact));
+        Whitebox.setInternalState(pattern, "formID", "form");
 
         TokenImpl token = mock(TokenImpl.class);
         context = new ProcessInstanceContextImpl();
         AbstractProcessInstance instance = mock(ProcessInstanceImpl.class);
         when(instance.getContext()).thenReturn(context);
+        when(instance.getDefinition()).thenReturn(definition);
         when(token.getInstance()).thenReturn(instance);
+
         // ServiceFactory.getTaskDistribution().distribute(task, token);
 
-        AbstractWorklistItem item = pattern.createWorklistItem(token);
+        AbstractWorklistItem item = pattern.createWorklistItem(token, jodaEngineServices.getRepositoryService());
         PushPattern pushPattern = new AllocateSinglePattern();
         pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
 

@@ -62,9 +62,11 @@ public final class RepositorySetup {
         RepositoryService repo = ServiceFactory.getRepositoryService();
         DeploymentBuilder deploymentBuilder = repo.getDeploymentBuilder();
 
-        // Deploying the process with a simple ProcessImporter
-        ProcessDefinitionImporter rawProDefImporter = new RawProcessDefintionImporter(get1Plus1Process());
-        process1Plus1ProcessUUID = deploymentBuilder.deployProcessDefinition(rawProDefImporter);
+        ProcessDefinition definition = get1Plus1Process();
+        deploymentBuilder.addProcessDefinition(definition);
+        repo.deployInNewScope(deploymentBuilder.buildDeployment());
+                
+        process1Plus1ProcessUUID = definition.getID();
     }
 
     /**

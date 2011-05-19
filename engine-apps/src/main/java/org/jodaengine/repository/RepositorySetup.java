@@ -2,9 +2,8 @@ package org.jodaengine.repository;
 
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.deployment.ProcessDefinitionImporter;
-import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
@@ -66,8 +65,10 @@ public final class RepositorySetup {
         DeploymentBuilder deploymentBuilder = repo.getDeploymentBuilder();
 
         // Deploying the process with a simple ProcessImporter
-        ProcessDefinitionImporter rawProDefImporter = new RawProcessDefintionImporter(get1Plus1Process());
-        process1Plus1ProcessID = deploymentBuilder.deployProcessDefinition(rawProDefImporter);
+        ProcessDefinition definition = get1Plus1Process();
+        process1Plus1ProcessID = definition.getID();
+        Deployment deployment = deploymentBuilder.addProcessDefinition(definition).buildDeployment();
+        repo.deployInNewScope(deployment);
     }
 
     /**

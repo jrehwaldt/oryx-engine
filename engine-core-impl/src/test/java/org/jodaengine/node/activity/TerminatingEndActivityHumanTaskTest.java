@@ -4,6 +4,11 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import java.util.UUID;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.exception.JodaEngineException;
@@ -11,8 +16,10 @@ import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
@@ -45,8 +52,10 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
     @Test
     public void testCancellingOfHumanTasks()
     throws JodaEngineException {
-
-        AbstractProcessInstance instance = new ProcessInstanceImpl(null);
+        ProcessDefinition definition = mock(ProcessDefinition.class);
+        when(definition.getID()).thenReturn(new ProcessDefinitionID(UUID.randomUUID()));
+        
+        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
         NavigatorImplMock nav = new NavigatorImplMock();
         Token token = instance.createToken(splitNode, nav);
 
