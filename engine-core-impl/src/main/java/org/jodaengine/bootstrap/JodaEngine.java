@@ -61,6 +61,11 @@ public class JodaEngine implements JodaEngineServices {
         Map<String, Service> serviceTable = JodaEngineAppContext.getAppContext().getBeansOfType(Service.class);
         
         //
+        // create a JodaEngine
+        //
+        jodaEngineSingelton = new JodaEngine();
+        
+        //
         // Start the services in the provided order
         //
         if (serviceTable != null) {
@@ -69,11 +74,10 @@ public class JodaEngine implements JodaEngineServices {
             while (serviceIterator.hasNext()) {
                 
                 Service service = serviceIterator.next();
-                service.start(new JodaEngine());
+                service.start(jodaEngineSingelton);
             }
         }
         
-        jodaEngineSingelton = new JodaEngine();
         return jodaEngineSingelton;
     }
 

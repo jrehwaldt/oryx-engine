@@ -152,7 +152,7 @@ public class ExtensionServiceImpl implements ExtensionService {
                         if (Service.class.isAssignableFrom(parameterClass)) {
                             
                             for (Service service: this.extensionServices.values()) {
-                                if (service.getClass().isAssignableFrom(parameterClass)) {
+                                if (parameterClass.isAssignableFrom(service.getClass())) {
                                     parameters[i] = service;
                                     continue setParameters;
                                 }

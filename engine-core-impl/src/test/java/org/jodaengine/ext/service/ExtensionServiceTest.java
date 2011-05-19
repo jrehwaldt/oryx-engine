@@ -1,5 +1,8 @@
 package org.jodaengine.ext.service;
 
+import java.util.List;
+
+import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -13,15 +16,14 @@ import org.testng.annotations.Test;
  */
 public class ExtensionServiceTest extends AbstractJodaEngineTest {
     
-    private ExtensionService extension = null;
+    private ExtensionService extensionService = null;
     
     /**
      * Setup.
      */
     @BeforeMethod
     public void setUp() {
-        this.extension = new ExtensionServiceImpl();
-        this.extension.start(this.jodaEngineServices);
+        this.extensionService = this.jodaEngineServices.getExtensionService();
     }
     
     /**
@@ -32,7 +34,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
     @Test(expectedExceptions = ExtensionNotAvailableException.class)
     public void testGettingUnavailableExtension()
     throws ExtensionNotAvailableException {
-        this.extension.getExtensionService(
+        this.extensionService.getExtensionService(
             TestingExtensionService.class,
             TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME + "-not-available");
     }
@@ -46,7 +48,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
     public void testGettingAvailableExtension()
     throws ExtensionNotAvailableException {
         
-        TestingExtensionService service = this.extension.getExtensionService(
+        TestingExtensionService service = this.extensionService.getExtensionService(
             TestingExtensionService.class,
             TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME);
         
@@ -62,7 +64,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
     public void testInitializationOfExtension()
     throws ExtensionNotAvailableException {
         
-        TestingExtensionService service = this.extension.getExtensionService(
+        TestingExtensionService service = this.extensionService.getExtensionService(
             TestingExtensionService.class,
             TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME);
         
@@ -72,5 +74,50 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         Assert.assertFalse(service.isStopped());
         Assert.assertNotNull(service.getServices());
         Assert.assertEquals(this.jodaEngineServices, service.getServices());
+    }
+    
+    /**
+     * This test checks the availability of a {@link BpmnXmlParseListener} implementation
+     * via the {@link ExtensionService} and the proper calling of it's constructor.
+     * 
+     * @throws ExtensionNotAvailableException test fails
+     */
+    @Test
+    public void testProvidingAExampleListener()
+    throws ExtensionNotAvailableException {
+        List<BpmnXmlParseListener> listeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
+        
+        Assert.assertTrue(listeners.size() > 0);
+        
+        boolean listenerAvailable = false;
+        for (BpmnXmlParseListener listener: listeners) {
+            if (listener instanceof TestingDeploymentListener) {
+                TestingDeploymentListener testingListener = (TestingDeploymentListener) listener;
+                listenerAvailable = true;
+
+                Assert.assertNotNull(testingListener.extension);
+                Assert.assertNotNull(testingListener.navigator);
+                Assert.assertNotNull(testingListener.repository);
+                Assert.assertNotNull(testingListener.services);
+                Assert.assertNotNull(testingListener.testing);
+                Assert.assertNotNull(testingListener.worklist);
+
+                Assert.assertEquals(this.jodaEngineServices, testingListener.services);
+                Assert.assertEquals(this.jodaEngineServices.getExtensionService(), testingListener.extension);
+                Assert.assertEquals(this.jodaEngineServices.getNavigatorService(), testingListener.navigator);
+                Assert.assertEquals(this.jodaEngineServices.getWorklistService(), testingListener.worklist);
+                Assert.assertEquals(this.jodaEngineServices.getRepositoryService(), testingListener.repository);
+                
+                TestingExtensionService testingService = this.extensionService.getExtensionService(
+                    TestingExtensionService.class,
+                    TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME);
+                
+                Assert.assertNotNull(testingService, "This will also fails another test and is just a backup assert.");
+                
+                Assert.assertEquals(testingService, testingListener.testing);
+            }
+        }
+        
+        Assert.assertTrue(listenerAvailable);
     }
 }

@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 @Extension(TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME)
 public class TestingExtensionService implements Service {
     
-    public final static String DEMO_EXTENSION_SERVICE_NAME = "demo";
+    public final static String DEMO_EXTENSION_SERVICE_NAME = "testing";
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     

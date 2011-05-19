@@ -2,15 +2,16 @@ package org.jodaengine.ext.debugger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.List;
 
 import org.jodaengine.JodaEngineServices;
+import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.listener.DebuggerDeploymentImportListener;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
-import org.jodaengine.ext.service.ExtensionServiceImpl;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
@@ -32,8 +33,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      */
     @BeforeMethod
     public void setUp() {
-        this.extensionService = new ExtensionServiceImpl();
-        this.extensionService.start(this.jodaEngineServices);
+        this.extensionService = this.jodaEngineServices.getExtensionService();
     }
     
     /**
@@ -113,4 +113,24 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
             }
         }
     }
+    
+    /**
+     * Tests that the listener for the {@link DebuggerDeploymentImportListener} is successfully provided.
+     */
+    @Test
+    public void testRequiredDeploymentListenerIsProvided() {
+        List<BpmnXmlParseListener> listeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
+        
+        Assert.assertTrue(listeners.size() > 0);
+        
+        boolean listenerAvailable = false;
+        for (BpmnXmlParseListener listener: listeners) {
+            if (listener instanceof DebuggerDeploymentImportListener) {
+                listenerAvailable = true;
+            }
+        }
+        
+        Assert.assertTrue(listenerAvailable);
+    }
+    
 }
