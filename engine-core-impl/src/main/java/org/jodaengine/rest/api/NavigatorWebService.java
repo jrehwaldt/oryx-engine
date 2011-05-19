@@ -1,7 +1,6 @@
 package org.jodaengine.rest.api;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;

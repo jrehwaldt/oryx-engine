@@ -1,7 +1,6 @@
 package org.jodaengine.loadgenerator;
 
 import java.io.FileNotFoundException;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +49,7 @@ public class LoadGenerator {
     /** The start time. */
     private long startTime;
 
-    private int numberOfThreads;
+    private int numberOfThreads; // TODO unused
 
     /** The navigator. */
     private NavigatorImpl navigator;

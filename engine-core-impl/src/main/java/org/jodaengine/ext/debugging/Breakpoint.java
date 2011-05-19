@@ -16,7 +16,7 @@ import org.jodaengine.util.Identifiable;
  * @author Jan Rehwaldt
  * @since 2011-05-17
  */
-public class Breakpoint implements Identifiable {
+public class Breakpoint implements Identifiable<UUID> {
     
     private final UUID id;
     

@@ -2,8 +2,6 @@ package org.jodaengine.factories.process;
 
 import static org.testng.Assert.assertNotNull;
 
-import java.util.UUID;
-
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.bootstrap.JodaEngine;

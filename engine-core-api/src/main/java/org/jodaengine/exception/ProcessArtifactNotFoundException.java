@@ -4,8 +4,6 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.process.definition.ProcessDefinitionID;
-
 /**
  * The Class ProcessArtifactNotFoundException is used for requested process artifacts that were not found.
  */

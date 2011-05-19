@@ -1,7 +1,5 @@
 package org.jodaengine.rest;
 
-import java.util.UUID;
-
 import org.testng.Assert;
 
 import org.jodaengine.ServiceFactory;

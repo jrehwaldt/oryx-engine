@@ -1,7 +1,6 @@
 package org.jodaengine.process.definition;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;

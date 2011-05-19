@@ -5,7 +5,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
 import org.jodaengine.JodaEngineServices;
-import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ResourceNotAvailableException;

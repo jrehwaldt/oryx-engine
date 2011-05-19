@@ -1,7 +1,5 @@
 package org.jodaengine.factories.process;
 
-import java.util.UUID;
-
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;

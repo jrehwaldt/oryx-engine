@@ -1,7 +1,5 @@
 package org.jodaengine.example;
 
-import java.util.UUID;
-
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
