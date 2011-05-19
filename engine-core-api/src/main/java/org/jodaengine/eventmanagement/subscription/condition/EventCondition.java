@@ -1,4 +1,6 @@
-package org.jodaengine.eventmanagement.registration;
+package org.jodaengine.eventmanagement.subscription.condition;
+
+import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 
 
 /**

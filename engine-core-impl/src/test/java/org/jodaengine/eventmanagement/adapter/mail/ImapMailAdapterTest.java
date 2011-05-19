@@ -10,7 +10,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
-import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jvnet.mock_javamail.Mailbox;
 import org.testng.Assert;
@@ -26,7 +26,7 @@ public class ImapMailAdapterTest {
     private InboundImapMailAdapterMock inboundImapAdapterMock = null;
     private InboundMailAdapterConfiguration config = null;
     private String address = null;
-    private CorrelationManager mock = null;
+    private EventCorrelator mock = null;
 
     /**
      * Setup test case.

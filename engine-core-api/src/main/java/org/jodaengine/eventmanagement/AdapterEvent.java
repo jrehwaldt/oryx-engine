@@ -4,8 +4,8 @@ import java.util.Date;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventType;
+import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 
 /**
  * A basic event, which is returned to the {@link EventManager} by adapter implementations.

@@ -1,7 +1,7 @@
 package org.jodaengine.eventmanagement.adapter.timer;
 
 import org.jodaengine.eventmanagement.adapter.AbstractEvent;
-import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 
 /**
  * Represents a TimerEvent.

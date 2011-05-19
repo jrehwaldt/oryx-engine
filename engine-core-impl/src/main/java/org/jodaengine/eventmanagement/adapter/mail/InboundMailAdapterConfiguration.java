@@ -5,13 +5,13 @@ import java.util.Properties;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.AdapterRegistrar;
+import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
-import org.jodaengine.eventmanagement.adapter.PullAdapterConfiguration;
-import org.jodaengine.eventmanagement.timing.PullAdapterJob;
+import org.jodaengine.eventmanagement.timing.QuartzPullAdapterConfiguration;
+import org.jodaengine.eventmanagement.timing.job.PullAdapterJob;
 import org.quartz.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * The mail adapter configuration.
  */
 public final class InboundMailAdapterConfiguration extends AbstractAdapterConfiguration implements
-PullAdapterConfiguration {
+QuartzPullAdapterConfiguration {
 
     private final String userName;
     private final String password;
@@ -218,11 +218,17 @@ PullAdapterConfiguration {
     }
 
     @Override
-    public CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar) {
+    public CorrelationAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
         InboundPullAdapter adapter = createAdapter();
         adapterRegistrar.registerInboundPullAdapter(adapter);
 
         return adapter;
+    }
+
+    @Override
+    public boolean pullingOnce() {
+
+        return false;
     }
 }

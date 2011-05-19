@@ -28,13 +28,12 @@ import org.testng.annotations.Test;
 
 /**
  * The Class IntermediateTimerTest. Checks if the intermediate timer is working.
- * @author Jannik Streek
  */
-public class IntermediateTimerTest extends AbstractJodaEngineTest {
+public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
     
     private Token token;
     private Node nullNodeStart;
-    private Node intermediateEvent;
+    private Node intermediateTimerEvent;
     private Node nullNodeEnd;
     private static final int WAITING_TIME = 300;
     private static final int SHORT_WAITING_TIME_TEST = 200;
@@ -56,12 +55,12 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
           nullNodeStart = BpmnCustomNodeFactory.createBpmnNullNode(builder);
           
           // Building the IntermediateTimer
-          intermediateEvent = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(builder, WAITING_TIME);
+          intermediateTimerEvent = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(builder, WAITING_TIME);
           
           nullNodeEnd = BpmnCustomNodeFactory.createBpmnNullNode(builder);
           
-          TransitionFactory.createTransitionFromTo(builder, nullNodeStart, intermediateEvent);
-          TransitionFactory.createTransitionFromTo(builder, intermediateEvent, nullNodeEnd);
+          TransitionFactory.createTransitionFromTo(builder, nullNodeStart, intermediateTimerEvent);
+          TransitionFactory.createTransitionFromTo(builder, intermediateTimerEvent, nullNodeEnd);
           
           Navigator nav = new NavigatorImplMock();
           token = new TokenImpl(nullNodeStart, mock(AbstractProcessInstance.class), nav);
@@ -83,7 +82,7 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
       public void afterMethod() {
           
           nullNodeStart = null;
-          intermediateEvent = null;
+          intermediateTimerEvent = null;
           nullNodeEnd = null;
           token = null;
     
@@ -98,7 +97,7 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
   @Test
   public void testWaitingProcess() throws Exception {
       token.executeStep();
-      assertEquals(token.getCurrentNode(), intermediateEvent);
+      assertEquals(token.getCurrentNode(), intermediateTimerEvent);
       token.executeStep();
       Thread.sleep(LONG_WAITING_TIME_TEST);
       assertEquals(token.getCurrentNode(), nullNodeEnd);
@@ -143,7 +142,7 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
   @Test
   public void testFailingWaitingProcess() throws Exception {
       token.executeStep();
-      assertEquals(token.getCurrentNode(), intermediateEvent);
+      assertEquals(token.getCurrentNode(), intermediateTimerEvent);
       token.executeStep();
       Thread.sleep(SHORT_WAITING_TIME_TEST);
       assertFalse(token.getCurrentNode() == nullNodeEnd, "Current Node should not be the node after the timer,"
@@ -163,13 +162,13 @@ public class IntermediateTimerTest extends AbstractJodaEngineTest {
       token.executeStep();
       token.executeStep();
       
-      //Timer activated, now cancel the scheduled job
+      // Timer activated, now cancel the scheduled job
       token.getCurrentNode().getActivityBehaviour().cancel(token);
       
-      //Wait until the timer would resume the token
+      // Wait until the timer would resume the token
       Thread.sleep(LONG_WAITING_TIME_TEST);
       
-      assertEquals(token.getCurrentNode(), intermediateEvent);  
+      assertEquals(token.getCurrentNode(), intermediateTimerEvent);  
   }
 
 /**

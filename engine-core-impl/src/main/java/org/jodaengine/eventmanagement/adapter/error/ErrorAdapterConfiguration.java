@@ -1,6 +1,6 @@
 package org.jodaengine.eventmanagement.adapter.error;
 
-import org.jodaengine.eventmanagement.AdapterRegistrar;
+import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
@@ -39,7 +39,7 @@ public class ErrorAdapterConfiguration extends AbstractAdapterConfiguration {
     }
 
     @Override
-    public CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar) {
+    public CorrelationAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
         InboundAdapter adapter = createAdapter();
         adapterRegistrar.registerInboundAdapter(adapter);

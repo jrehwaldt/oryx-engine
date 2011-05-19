@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
-import org.jodaengine.eventmanagement.adapter.PullAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.configuration.PullAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.exception.JodaEngineException;
@@ -17,15 +17,15 @@ import org.testng.annotations.Test;
 
 
 /**
- * Test class for {@link TimingManagerImpl}.
+ * Test class for {@link QuartzJobManager}.
  */
-public class TimingManagerTest {
+public class QuartzJobManagerTest {
     
     private static final int PULL_TIMEOUT = 5;
     private static final short VERIFY_FACTOR = 4;
     private static final long TIMER = 100;
     
-    private TimingManager timer = null;
+    private QuartzJobManager quartzJobManager = null;
     
     /**
      * Tests the registering of a pull adapter and its invocation.
@@ -41,7 +41,7 @@ public class TimingManagerTest {
         PullAdapterConfiguration configuration = new InboundMailAdapterConfiguration(null, null, null,
             null, 0, false);
         when(adapter.getConfiguration()).thenReturn(configuration);
-        this.timer.registerJobForInboundPullAdapter(adapter);
+        this.quartzJobManager.registerJobForInboundPullAdapter(adapter);
         
         verify(adapter, timeout(PULL_TIMEOUT * VERIFY_FACTOR).atLeastOnce()).pull();
     }
@@ -91,7 +91,8 @@ public class TimingManagerTest {
     throws SchedulerException {
         ErrorAdapter errorAdapter = mock(ErrorAdapter.class);
 //        CorrelationManagerImpl correlation = mock(CorrelationManagerImpl.class);
-        this.timer = new TimingManagerImpl(errorAdapter);
+        this.quartzJobManager = new QuartzJobManager(errorAdapter);
+        quartzJobManager.start();
     }
 
     /**
@@ -99,7 +100,7 @@ public class TimingManagerTest {
      */
     @AfterMethod
     public void afterMethod() {
-        this.timer = null;
+        this.quartzJobManager = null;
     }
 
 }

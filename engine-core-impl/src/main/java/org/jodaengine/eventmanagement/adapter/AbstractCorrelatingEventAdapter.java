@@ -6,19 +6,21 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.EventManager;
-import org.jodaengine.eventmanagement.EventRegistrar;
-import org.jodaengine.eventmanagement.registration.ProcessEvent;
-import org.jodaengine.eventmanagement.registration.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
+import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.subscription.EventSubscription;
+import org.jodaengine.eventmanagement.subscription.ProcessEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+
 
 /**
  * This abstract eventAdapter implements our approach of a self correlating event Adapter. It means that this
  * eventAdapter already manages his own queues for correlating {@link ProcessEvent}s with {@link AdapterEvent}s.
  * <p>
- * That's why this adapter implements {@link EventRegistrar} in order to fill his own queue with {@link ProcessEvent}s.
- * And, it also implements the {@link CorrelationManager} interface in order to correlate {@link ProcessEvent}s with
+ * That's why this adapter implements {@link EventSubscription} in order to fill his own queue with {@link ProcessEvent}s.
+ * And, it also implements the {@link EventCorrelator} interface in order to correlate {@link ProcessEvent}s with
  * {@link AdapterEvent}s.
  * </p>
  * 
@@ -27,7 +29,7 @@ import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
  */
 public abstract class AbstractCorrelatingEventAdapter<Configuration extends AdapterConfiguration>
 extends AbstractEventAdapter<Configuration>
-implements EventRegistrar, CorrelationManager {
+implements EventSubscription, EventCorrelator {
 
     // Both lists are lazyInitialized
     private List<ProcessEvent> processEvents;
@@ -101,9 +103,9 @@ implements EventRegistrar, CorrelationManager {
     }
     
     /**
-     * Correlation method, which calls the underlying {@link CorrelationManager}.
+     * Correlation method, which calls the underlying {@link EventCorrelator}.
      * 
-     * @see CorrelationManager
+     * @see EventCorrelator
      * @see EventManager
      * @param adapterEvent
      *            the event that should be correlated

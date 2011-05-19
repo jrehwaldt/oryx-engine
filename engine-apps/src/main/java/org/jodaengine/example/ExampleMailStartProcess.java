@@ -11,8 +11,8 @@ import org.jodaengine.deployment.importer.RawProcessDefintionImporter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
-import org.jodaengine.eventmanagement.registration.EventCondition;
-import org.jodaengine.eventmanagement.registration.MethodInvokingEventCondition;
+import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
+import org.jodaengine.eventmanagement.subscription.condition.MethodInvokingEventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
@@ -23,6 +23,7 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  * The Class ExampleMailStartProcess. This is an example process that is started

@@ -1,17 +1,18 @@
-package org.jodaengine.eventmanagement;
+package org.jodaengine.eventmanagement.subscription;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.registration.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
+import org.jodaengine.eventmanagement.EventCorrelator;
+import org.jodaengine.eventmanagement.EventManager;
+
 
 /**
  * This interface provides methods for registering events to the {@link EventManager}.
  */
-public interface EventRegistrar {
+public interface EventSubscription {
 
     /**
-     * Entry point for registering an event with the {@link CorrelationManager}.
+     * Entry point for registering an event with the {@link EventCorrelator}.
      * 
      * @param startEvent
      *            the start event
@@ -19,7 +20,7 @@ public interface EventRegistrar {
     void registerStartEvent(@Nonnull ProcessStartEvent startEvent);
 
     /**
-     * Entry point for registering an event with the {@link CorrelationManager}.
+     * Entry point for registering an event with the {@link EventCorrelator}.
      * 
      * @param intermediateEvent
      *            the intermediate event

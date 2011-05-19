@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.bootstrap.Service;
-import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.navigator.schedule.FIFOScheduler;
 import org.jodaengine.navigator.schedule.Scheduler;
@@ -18,6 +18,7 @@ import org.jodaengine.plugin.navigator.AbstractNavigatorListener;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
+
 
 
 /**

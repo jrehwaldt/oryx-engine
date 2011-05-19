@@ -5,11 +5,12 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import org.jodaengine.eventmanagement.EventManager;
-import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
+
 
 /**
  * Extends the ProcessDefinitionInterface so that it provides more methods for the internal classes.
@@ -55,7 +56,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      * be registered.
      * 
      * @param correlationManager
-     *            - the {@link CorrelationManager} in order to register events, perhaps
+     *            - the {@link EventCorrelator} in order to register events, perhaps
      * 
      */
     void activate(EventManager correlationManager);
@@ -65,7 +66,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      * to be unregistered.
      * 
      * @param correlationManager
-     *            - the {@link CorrelationManager} in order to unregister events, perhaps
+     *            - the {@link EventCorrelator} in order to unregister events, perhaps
      * 
      */
     void deactivate(EventManager correlationManager);

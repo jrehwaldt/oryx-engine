@@ -3,9 +3,9 @@ package org.jodaengine.eventmanagement;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 
 /**
- * This represents a {@link CorrelationManager} that was not implemented. This can be used as NullObject.
+ * This represents a {@link EventCorrelator} that was not implemented. This can be used as NullObject.
  */
-public class ErrorCorrelationService implements CorrelationManager {
+public class ErrorCorrelationService implements EventCorrelator {
 
     private static final String EXCEPTION_DESCRIPTION = "This CorrelationService cannot correlate any events."
         + "It should not be used by the any Adapter.";

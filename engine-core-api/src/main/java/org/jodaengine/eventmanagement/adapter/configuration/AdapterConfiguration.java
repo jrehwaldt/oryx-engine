@@ -1,7 +1,8 @@
-package org.jodaengine.eventmanagement.adapter;
+package org.jodaengine.eventmanagement.adapter.configuration;
 
-import org.jodaengine.eventmanagement.AdapterRegistrar;
+import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.EventConfiguration;
+import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
 
 /**
  * Configuration package for our adapter.
@@ -16,5 +17,5 @@ public interface AdapterConfiguration extends EventConfiguration {
      * @param adapterRegistrar - the place where you can register your adapters
      * @return the schedule {@link CorrelationAdapter}
      */
-    CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar);
+    CorrelationAdapter registerAdapter(AdapterManagement adapterRegistrar);
 }

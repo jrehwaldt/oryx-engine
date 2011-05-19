@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.timing;
+package org.jodaengine.eventmanagement.timing.job;
 
 import javax.annotation.Nonnull;
 

@@ -2,7 +2,7 @@ package org.jodaengine.util;
 
 import org.jodaengine.IdentityService;
 import org.jodaengine.RepositoryServiceInside;
-import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.navigator.NavigatorInside;
 
@@ -26,9 +26,9 @@ public interface ServiceContext extends Attributable {
     IdentityService getIdentityService();
 
     /**
-     * Gets the {@link CorrelationManager correlationService}.
+     * Gets the {@link EventCorrelator correlationService}.
      * 
-     * @return the {@link CorrelationManager}
+     * @return the {@link EventCorrelator}
      */
     EventManager getCorrelationService();
 

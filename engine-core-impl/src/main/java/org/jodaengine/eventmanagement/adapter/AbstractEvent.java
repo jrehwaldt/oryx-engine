@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
+import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 
 // TODO @EVENTGROUP: other package!!!!
 

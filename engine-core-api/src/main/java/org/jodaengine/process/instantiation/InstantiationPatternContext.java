@@ -1,8 +1,9 @@
 package org.jodaengine.process.instantiation;
 
-import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.util.ServiceContext;
+
 
 /**
  * Extends the {@link ServiceContext} with new methods especially for the {@link InstantiationPattern}-Chain.

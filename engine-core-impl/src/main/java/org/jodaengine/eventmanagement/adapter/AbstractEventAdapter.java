@@ -3,8 +3,9 @@ package org.jodaengine.eventmanagement.adapter;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.EventManager;
+import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

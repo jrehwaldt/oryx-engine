@@ -5,10 +5,11 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.registration.ProcessStartEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
+
 
 /**
  * The {@link Navigator} is the core routing component, which 'navigates' through the processes. 
