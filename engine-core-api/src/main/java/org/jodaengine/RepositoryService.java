@@ -151,6 +151,7 @@ public interface RepositoryService {
      *            the process deployment
      * @return the deployment scope that was created
      */
+    // TODO @Thorben-Refactoring: do we need to return the scope? The user should not see this, or should he?
     DeploymentScope deployInNewScope(Deployment processDeployment);
 
     /**
