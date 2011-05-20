@@ -121,7 +121,7 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
     public void testAbortAfterBeginningWorklistItem() {
 
         worklistService.beginWorklistItemBy(worklistItem, jannik);
-        Assert.assertEquals(WorklistItemState.ALLOCATED, worklistItem.getStatus());
+        Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
         
         worklistService.abortWorklistItemBy(worklistItem, jannik);
         
