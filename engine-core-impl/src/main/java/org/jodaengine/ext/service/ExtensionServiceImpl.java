@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.JodaEngineServices;
+import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.ext.Extension;
 import org.jodaengine.util.AndTypeFilter;
@@ -29,12 +30,11 @@ import org.springframework.core.type.filter.TypeFilter;
  */
 public class ExtensionServiceImpl implements ExtensionService {
     
-    public static final String BASE_PACKAGE = "org.jodaengine";
-    
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     private JodaEngineServices coreServices;
     private Map<String, Service> extensionServices;
+    private Map<Service, List<Service>> extensionWebServiceSingletons;
     
     private Map<Class<?>, ExtensionList<?>> extensions;
     
@@ -50,11 +50,15 @@ public class ExtensionServiceImpl implements ExtensionService {
             return;
         }
         
+        logger.info("Starting the ExtensionService");
+        
         this.coreServices = services;
         this.extensions = new HashMap<Class<?>, ExtensionList<?>>();
         this.extensionServices = new HashMap<String, Service>();
+        this.extensionWebServiceSingletons = new HashMap<Service, List<Service>>();
         
         startExtensionServices();
+        createExtensionWebServiceSingletons();
         
         this.running = true;
     }
@@ -69,6 +73,8 @@ public class ExtensionServiceImpl implements ExtensionService {
             return;
         }
         
+        logger.info("Stopping the ExtensionService");
+        
         this.running = false;
         
         //
@@ -77,10 +83,11 @@ public class ExtensionServiceImpl implements ExtensionService {
         for (Service service: this.extensionServices.values()) {
             service.stop();
         }
-        
+
+        this.coreServices = null;
         this.extensions = null;
         this.extensionServices = null;
-        this.coreServices = null;
+        this.extensionWebServiceSingletons = null;
     }
     
     @Override
@@ -134,6 +141,18 @@ public class ExtensionServiceImpl implements ExtensionService {
     }
 
     @Override
+    public List<Service> getExtensionWebServiceSingletons() {
+        
+        List<Service> webServices = new ArrayList<Service>();
+        
+        for (List<Service> services: this.extensionWebServiceSingletons.values()) {
+            webServices.addAll(services);
+        }
+        
+        return webServices;
+    }
+
+    @Override
     public <IExtension> void rebuildExtensionDatabase(Class<IExtension> extension) {
         
         //
@@ -159,6 +178,8 @@ public class ExtensionServiceImpl implements ExtensionService {
      */
     private void startExtensionServices() {
         
+        logger.info("Starting all found extensions services");
+        
         ExtensionList<Service> serviceClasses = getExtensionClasses(Service.class);
         
         for (Class<Service> serviceClass: serviceClasses) {
@@ -173,9 +194,12 @@ public class ExtensionServiceImpl implements ExtensionService {
             // create the service and keep a reference
             //
             try {
-                this.extensionServices.put(name, createExtensionInstance(serviceClass));
+                Service service = createExtensionInstance(serviceClass);
+                this.extensionServices.put(name, service);
+                
+                logger.info("Successfully registered extension service {} [{}]", name, service);
             } catch (Exception e) {
-                logger.error("Could not instantiate extension service.", e);
+                logger.error("Could not instantiate extension service " + name + ".", e);
             }
         }
         
@@ -183,8 +207,49 @@ public class ExtensionServiceImpl implements ExtensionService {
         // start the created services
         //
         for (Service service: this.extensionServices.values()) {
+            logger.info("Starting registered extension service {}", service);
             service.start(this.coreServices);
         }
+    }
+    
+    /**
+     * Create Singleton web service instances for each extension service, which
+     * expected one.
+     */
+    private void createExtensionWebServiceSingletons() {
+        
+        //
+        // for each extension service
+        //
+        for (Service service: this.extensionServices.values()) {
+            Extension extensionAnnotation = service.getClass().getAnnotation(Extension.class);
+            
+            List<Service> webServiceInstances = new ArrayList<Service>();
+            
+            //
+            // for each specified web service (may be zero or more)
+            //
+            for (Class<? extends Service> webServiceClass: extensionAnnotation.webServices()) {
+                try {
+                    logger.info(
+                        "Creating a web service singleton {} for extension service {}",
+                        webServiceClass.getSimpleName(),
+                        extensionAnnotation.value());
+                    
+                    Service webServiceInstance = createExtensionInstance(webServiceClass);
+                    webServiceInstances.add(webServiceInstance);
+                    
+                } catch (ExtensionNotAvailableException ena) {
+                    logger.error(
+                        "Extension web service {} for {} could not be created and will therefor not be available.",
+                        webServiceClass.getSimpleName(),
+                        extensionAnnotation.value());
+                }
+            }
+            
+            this.extensionWebServiceSingletons.put(service, webServiceInstances);
+        }
+        
     }
     
     /**
@@ -225,9 +290,11 @@ public class ExtensionServiceImpl implements ExtensionService {
             //
             // search for the specified beans within base package scope
             //
-            for (BeanDefinition bd : scanner.findCandidateComponents(BASE_PACKAGE)) {
+            for (BeanDefinition bd : scanner.findCandidateComponents(JodaEngine.BASE_PACKAGE)) {
                 try {
-                    classes.addExtensionType((Class<IExtension>) Class.forName(bd.getBeanClassName()));
+                    Class<IExtension> extensionClass = (Class<IExtension>) Class.forName(bd.getBeanClassName());
+                    classes.addExtensionType(extensionClass);
+                    logger.info("Found extension type {}", extensionClass);
                 } catch (ClassNotFoundException cnfe) {
                     //
                     // this is seriously unlikely to happen... we found it in the class path just a second ago

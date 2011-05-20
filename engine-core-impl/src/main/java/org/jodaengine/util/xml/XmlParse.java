@@ -101,11 +101,14 @@ public class XmlParse implements XmlParseable {
         try {
             InputStream inputStream = streamSource.getInputStream();
 
-            if (schemaResource == null) {
-                // must be done before parser is created
-                parser.getSaxParserFactory().setNamespaceAware(false);
-                parser.getSaxParserFactory().setValidating(false);
-            }
+//            if (schemaResource == null) {
+//                // must be done before parser is created
+//                parser.getSaxParserFactory().setNamespaceAware(false);
+//                parser.getSaxParserFactory().setValidating(false);
+//            }
+            // always use namespaces. Validation is currently not supported.
+            parser.getSaxParserFactory().setNamespaceAware(true);
+            parser.getSaxParserFactory().setValidating(false);
 
             SAXParser saxParser = parser.getSaxParser();
             if (schemaResource != null) {

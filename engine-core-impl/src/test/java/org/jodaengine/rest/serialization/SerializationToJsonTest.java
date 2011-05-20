@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.xml.bind.JAXBException;
 
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.navigator.NavigatorState;
@@ -353,7 +354,7 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
 //        scanner.addIncludeFilter(new AssignableTypeFilter(PushPattern.class));
 //        scanner.addIncludeFilter(new AssignableTypeFilter(CreationPattern.class));
         
-        Set<BeanDefinition> beans = scanner.findCandidateComponents(BASE_PACKAGE);
+        Set<BeanDefinition> beans = scanner.findCandidateComponents(JodaEngine.BASE_PACKAGE);
         Class<?> clazz;
         for (BeanDefinition bd: beans) {
             clazz = (Class<?>) Class.forName(bd.getBeanClassName());

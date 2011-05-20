@@ -27,7 +27,7 @@ public interface ExtensionService extends Service {
     /**
      * Returns any available extension for the specified extension point as new instance.
      * 
-     * Invoking this method <b>more then once</b> it will create a <b>NEW</b> instance each time.
+     * Invoking this method <b>more then once</b> it will create a <b>new</b> instance each time.
      * 
      * @param <IExtension> the extension point's interface
      * @param extension the extension point's interface
@@ -38,7 +38,7 @@ public interface ExtensionService extends Service {
     /**
      * Returns an available extension for the specified extension point with the specified name.
      * 
-     * Invoking this method <b>more then once</b> it will continue to provide the <b>SAME</b> instance.
+     * Invoking this method <b>more then once</b> it will continue to provide the <b>same</b> instance.
      * 
      * @param <IExtService> the extension service's interface
      * @param extension the extension service's interface
@@ -49,6 +49,15 @@ public interface ExtensionService extends Service {
     @Nonnull <IExtService extends Service> IExtService getExtensionService(@Nonnull Class<IExtService> extension,
                                                                            @Nonnull String name)
     throws ExtensionNotAvailableException;
+    
+    /**
+     * Returns any available web service extension instance.
+     * 
+     * Invoking this method <b>more then once</b> it will continue to provide the <b>same</b> instances.
+     * 
+     * @return an array of web extension instances
+     */
+    @Nonnull List<Service> getExtensionWebServiceSingletons();
     
     /**
      * Clears the intern extension database and reloads it.

@@ -15,6 +15,8 @@ import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.DeploymentBuilderImpl;
 import org.jodaengine.deployment.DeploymentScope;
 import org.jodaengine.deployment.DeploymentScopeImpl;
+import org.jodaengine.deployment.importer.archive.DarImporter;
+import org.jodaengine.deployment.importer.archive.DarImporterImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
@@ -296,6 +298,12 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
         DeploymentScope scope = scopes.get(definitionID);
         scope.deleteProcessArtifact(processArtifactID);
         
+    }
+
+    @Override
+    public DarImporter getNewDarImporter() {
+
+        return new DarImporterImpl(this);
     }
 
     // @Override

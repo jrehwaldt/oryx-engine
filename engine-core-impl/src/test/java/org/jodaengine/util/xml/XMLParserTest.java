@@ -57,7 +57,7 @@ public class XMLParserTest {
         Assert.assertEquals(elements.get(0).getElements().get(0).getText(), "text 1", getFaliureMessage());
 
         XmlElement secondChild = elements.get(1);
-        Assert.assertEquals(secondChild.getAttributeNS("ls", "as"), "123", getFaliureMessage());
+        Assert.assertEquals(secondChild.getAttributeNS("ls-ns", "as"), "123", getFaliureMessage());
     }
 
     @Test

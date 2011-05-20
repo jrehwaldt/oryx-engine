@@ -52,7 +52,6 @@ import org.jodaengine.util.xml.XmlParse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * Specific parsing of one BPMN 2.0 XML file, created by the {@link BpmnXmlParser}.
  */
@@ -364,8 +363,9 @@ public class BpmnXmlParse extends XmlParse {
 
     /**
      * Parses a task with no specific type (behaves as passthrough).
-     *
-     * @param taskXmlElement the task xml element
+     * 
+     * @param taskXmlElement
+     *            the task xml element
      */
     protected void parseTask(XmlElement taskXmlElement) {
 
@@ -392,18 +392,21 @@ public class BpmnXmlParse extends XmlParse {
     protected static final String USER_PREFIX = "participant(";
     protected static final String GROUP_PREFIX = "role(";
 
+    protected static final String FORM_ATTRIBUTE_IDENTIFIER = "form";
+
     /**
      * Parses a task with no specific type (behaves as passthrough).
      * 
-     * @param taskXmlElement the xml task element to parse
+     * @param taskXmlElement
+     *            the xml task element to parse
      */
     protected void parseUserTask(XmlElement taskXmlElement) {
 
         CreationPattern creationPattern = parseInformationForUserTask(taskXmlElement);
-        
+
         Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, creationPattern,
             new AllocateSinglePattern());
-        
+
         parseGeneralNodeInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
 
@@ -418,6 +421,9 @@ public class BpmnXmlParse extends XmlParse {
 
         patternBuilder.setItemSubject(taskXmlElement.getAttribute("name"));
         patternBuilder.setItemDescription(parseDocumentation(taskXmlElement));
+        String formName = taskXmlElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS,
+            FORM_ATTRIBUTE_IDENTIFIER);
+        patternBuilder.setItemFormID(formName);
 
         parseHumanPerformer(taskXmlElement, patternBuilder);
 
@@ -444,11 +450,11 @@ public class BpmnXmlParse extends XmlParse {
     }
 
     // protected void parsePotentialOwner(XmlElement taskElement, TaskBuilder taskBuilder) {
-    //     
-    //     List<XmlElement> potentialOwnerElements = taskElement.elements(POTENTIAL_OWNER);
-    //     for (XmlElement potentialOwnerElement : potentialOwnerElements) {
-    //         parsePotentialOwnerResourceAssignment(potentialOwnerElement, taskBuilder);
-    //     }
+    //
+    // List<XmlElement> potentialOwnerElements = taskElement.elements(POTENTIAL_OWNER);
+    // for (XmlElement potentialOwnerElement : potentialOwnerElements) {
+    // parsePotentialOwnerResourceAssignment(potentialOwnerElement, taskBuilder);
+    // }
     // }
 
     protected void parseHumanPerformerResourceAssignment(XmlElement performerElement,
@@ -587,7 +593,8 @@ public class BpmnXmlParse extends XmlParse {
     /**
      * Extracting the documentation Attribute in the {@link XmlElement}.
      * 
-     * @param element the element to parse
+     * @param element
+     *            the element to parse
      * @return the documentation
      */
     protected String parseDocumentation(XmlElement element) {
@@ -603,11 +610,11 @@ public class BpmnXmlParse extends XmlParse {
      * Parses the generic information of an activity element (id, name, documentation, etc.), and creates a new
      * {@link ActivityImpl} on the given scope element.
      * 
-     * @param activityElement the activity element to parse
-     * @param node 
+     * @param activityElement
+     *            the activity element to parse
+     * @param node
      */
-    protected void parseGeneralNodeInformation(XmlElement activityElement,
-                                               Node node) {
+    protected void parseGeneralNodeInformation(XmlElement activityElement, Node node) {
 
         String id = activityElement.getAttribute("id");
         if (logger.isDebugEnabled()) {
@@ -621,7 +628,7 @@ public class BpmnXmlParse extends XmlParse {
         node.setAttribute("type", activityElement.getTagName());
         node.setAttribute("line", activityElement.getLine());
     }
-    
+
     /**
      * Returns a lazily initialized xml id map.
      * 
