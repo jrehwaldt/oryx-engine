@@ -10,13 +10,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.deployment.Deployment;
@@ -32,7 +25,6 @@ import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;

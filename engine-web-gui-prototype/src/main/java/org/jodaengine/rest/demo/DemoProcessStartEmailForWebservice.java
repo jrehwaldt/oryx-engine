@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
-import org.jodaengine.eventmanagement.registration.EventCondition;
-import org.jodaengine.eventmanagement.registration.EventConditionImpl;
+import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
+import org.jodaengine.eventmanagement.subscription.condition.MethodInvokingEventCondition;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
@@ -24,6 +25,7 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  * The Class DemoDataForWebservice generates some example data when called.
@@ -114,12 +116,15 @@ public final class DemoProcessStartEmailForWebservice {
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
         deploymentBuilder.addProcessDefinition(def);
 
+        Deployment deployment = deploymentBuilder.buildDeployment();
+        ServiceFactory.getRepositoryService().deployInNewScope(deployment);
+        
         // Create a mail adapater event here.
         // TODO @TobiP Could create a builder for this later.
         InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
         EventCondition subjectCondition = null;
         try {
-            subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");
+            subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic", "Hallo");
             List<EventCondition> conditions = new ArrayList<EventCondition>();
             conditions.add(subjectCondition);
 
@@ -128,10 +133,6 @@ public final class DemoProcessStartEmailForWebservice {
             builder.createStartTrigger(EventTypes.Mail, config, conditions, node1);
 
             ServiceFactory.getRepositoryService().activateProcessDefinition(def.getID());
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
         } catch (JodaEngineRuntimeException e) {
             LOGGER.error(e.getMessage(), e);
         }

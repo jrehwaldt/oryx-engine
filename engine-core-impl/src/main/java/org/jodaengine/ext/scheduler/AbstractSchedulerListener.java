@@ -6,7 +6,6 @@ import org.jodaengine.ext.ObserverPlugin;
 import org.jodaengine.navigator.schedule.SchedulerAction;
 import org.jodaengine.navigator.schedule.SchedulerEvent;
 import org.jodaengine.plugin.scheduler.SchedulerListener;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

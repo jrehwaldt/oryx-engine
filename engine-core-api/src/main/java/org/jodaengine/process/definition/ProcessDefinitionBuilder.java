@@ -4,15 +4,18 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventType;
-import org.jodaengine.eventmanagement.registration.EventCondition;
+import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
+import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.structure.TransitionBuilder;
+
 
 /**
  * The Interface ProcessBuilder. The process builder is a comfortable way to construct a process definition.

@@ -1,7 +1,6 @@
 package org.jodaengine.process.definition;
 
 import java.io.InputStream;
-import java.util.UUID;
 
 import org.jodaengine.util.Identifiable;
 

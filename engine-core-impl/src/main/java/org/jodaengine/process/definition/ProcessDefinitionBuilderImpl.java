@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventType;
-import org.jodaengine.eventmanagement.registration.EventCondition;
-import org.jodaengine.eventmanagement.registration.StartEvent;
-import org.jodaengine.eventmanagement.registration.StartEventImpl;
+import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.subscription.StartEventImpl;
+import org.jodaengine.eventmanagement.subscription.condition.AndEventCondition;
+import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instantiation.InstantiationPattern;
@@ -25,7 +26,6 @@ import org.jodaengine.util.PatternAppendable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * The Class ProcessBuilderImpl. As you would think, only nodes that were created using createStartNode() become
  * actually start nodes.
@@ -37,7 +37,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     private ProcessDefinitionID id;
     private String name;
     private String description;
-    private Map<StartEvent, Node> temporaryStartTriggers;
+    private Map<ProcessStartEvent, Node> temporaryStartTriggers;
     private Map<String, Object> temporaryAttributeTable;
     private List<InstantiationPattern> temporaryInstantiationPatterns;
     private StartInstantiationPattern startInstantiationPattern;
@@ -57,7 +57,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         this.id = new ProcessDefinitionID(UUID.randomUUID());
         this.name = null;
         this.description = null;
-        this.temporaryStartTriggers = new HashMap<StartEvent, Node>();
+        this.temporaryStartTriggers = new HashMap<ProcessStartEvent, Node>();
         this.temporaryAttributeTable = null;
         this.temporaryInstantiationPatterns = new ArrayList<InstantiationPattern>();
         this.startInstantiationPattern = null;
@@ -84,7 +84,8 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
                                                        List<EventCondition> eventConditions,
                                                        Node startNode) {
 
-        StartEvent event = new StartEventImpl(eventType, adapterConfig, eventConditions, id);
+        ProcessStartEvent event = new StartEventImpl(eventType, adapterConfig, new AndEventCondition(eventConditions),
+            id);
         this.temporaryStartTriggers.put(event, startNode);
 
         return this;
@@ -167,7 +168,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         ProcessDefinitionImpl definition = new ProcessDefinitionImpl(id, name, description, startNodes,
             startInstantionPattern);
 
-        for (Map.Entry<StartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
+        for (Map.Entry<ProcessStartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
             definition.addStartTrigger(entry.getKey(), entry.getValue());
         }
 
@@ -196,10 +197,10 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
             logger.error(errorMessage);
             throw new JodaEngineRuntimeException(errorMessage);
         }
-        
+
         if (!temporaryInstantiationPatterns.isEmpty()) {
             if (this.startInstantiationPattern instanceof PatternAppendable<?>) {
-                
+
             }
         }
     }

@@ -7,7 +7,6 @@ import org.jodaengine.factory.token.SimpleProcessTokenFactory;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
-
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 

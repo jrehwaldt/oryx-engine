@@ -1,0 +1,48 @@
+package org.jodaengine.eventmanagement.adapter;
+
+import java.util.Date;
+
+import javax.annotation.Nonnull;
+
+import org.jodaengine.eventmanagement.AdapterEvent;
+import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+
+// TODO @EVENTGROUP: other package!!!!
+
+/**
+ * Abstract event representation.
+ * 
+ * @author Jan Rehwaldt
+ */
+public abstract class AbstractEvent
+implements AdapterEvent {
+    
+    private final Date timestamp;
+
+    private final AdapterConfiguration configuration;
+    
+    /**
+     * Default constructor.
+     * 
+     * @param configuration the firing adapter's {@link AdapterConfiguration}
+     */
+    public AbstractEvent(@Nonnull AdapterConfiguration configuration) {
+        this.timestamp = new Date();
+        this.configuration = configuration;
+    }
+    
+    @Override
+    public AdapterConfiguration getAdapterConfiguration() {
+        return this.configuration;
+    }
+    
+    @Override
+    public final Date getTimestamp() {
+        return this.timestamp;
+    }
+    
+    @Override
+    public EventType getAdapterType() {
+        return this.configuration.getEventType();
+    }
+}

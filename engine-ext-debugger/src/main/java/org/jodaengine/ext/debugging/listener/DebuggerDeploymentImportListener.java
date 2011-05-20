@@ -5,6 +5,7 @@ import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
 import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.util.xml.XmlElement;

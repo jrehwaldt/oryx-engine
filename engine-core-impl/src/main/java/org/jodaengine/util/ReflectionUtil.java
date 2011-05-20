@@ -1,6 +1,7 @@
 package org.jodaengine.util;
 
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
@@ -135,6 +136,34 @@ public final class ReflectionUtil {
         } catch (ClassNotFoundException classNotFoundException) {
             logger.error("The class " + className + " could not be loaded.", classNotFoundException);
             return null;
+        }
+    }
+
+    /**
+     * Retrieves the method for a specific class.
+     * 
+     * @param clazz
+     *            - class to look for the method
+     * @param methodName
+     *            - the name of the method
+     * @return the {@link Method} object
+     */
+    public static Method getMethodFor(Class<?> clazz, String methodName) {
+
+        try {
+
+            return clazz.getMethod(methodName);
+
+        } catch (SecurityException securityException) {
+            String errorMessage = "Some SecurityIssues occurred. " + securityException.getMessage();
+            logger.error(errorMessage, securityException);
+            throw new JodaEngineRuntimeException(errorMessage, securityException);
+
+        } catch (NoSuchMethodException noSuchMethodFound) {
+            String errorMessage = "The method with the name '" + methodName + "' could not be found in the class ('"
+                + clazz.getCanonicalName() + "').";
+            logger.error(errorMessage, noSuchMethodFound);
+            throw new JodaEngineRuntimeException(errorMessage, noSuchMethodFound);
         }
     }
 }
