@@ -34,6 +34,7 @@ public class ErrorAdapterTest {
     public void testExceptionCorrelation() {
 
         this.errorAdapterSpy.exceptionOccured("Some message", new JodaEngineException("huhu"));
+        
         ArgumentCaptor<ErrorAdapterEvent> event = ArgumentCaptor.forClass(ErrorAdapterEvent.class);
         Mockito.verify(this.errorAdapterSpy).correlate(event.capture());
         Assert.assertFalse(event.getValue() == null, "event should not be null");

@@ -10,9 +10,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
-import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jvnet.mock_javamail.Mailbox;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -23,10 +24,9 @@ import org.testng.annotations.Test;
  */
 public class ImapMailAdapterTest {
 
-    private InboundImapMailAdapterMock inboundImapAdapterMock = null;
-    private InboundMailAdapterConfiguration config = null;
-    private String address = null;
-    private EventCorrelator mock = null;
+    private InboundImapMailAdapter inboundImapAdapterSpy;
+    private InboundMailAdapterConfiguration config;
+    private String address;
 
     /**
      * Setup test case.
@@ -55,12 +55,13 @@ public class ImapMailAdapterTest {
     public void testImapPull()
     throws Exception {
 
-        this.inboundImapAdapterMock.pull();
+        inboundImapAdapterSpy.pull();
 
-        Assert.assertTrue(this.inboundImapAdapterMock.correlateMethodInvoked());
-        MailAdapterEvent mailAdapterEvent = inboundImapAdapterMock.getMailAdapterEventArgument();
-        Assert.assertNotNull(mailAdapterEvent);
-        Assert.assertEquals(mailAdapterEvent.getAdapterType(), EventTypes.Mail);
+        
+        ArgumentCaptor<MailAdapterEvent> event = ArgumentCaptor.forClass(MailAdapterEvent.class);
+        Mockito.verify(inboundImapAdapterSpy).correlate(event.capture());
+        Assert.assertNotNull(event.getValue(), "event should not be null");
+        Assert.assertEquals(event.getValue().getAdapterType(), EventTypes.Mail);
     }
 
     /**
@@ -89,6 +90,6 @@ public class ImapMailAdapterTest {
             "oryxengine", "dalmatina!",
             // CHECKSTYLE:ON
             "imap.gmail.com", MailProtocol.IMAP.getPort(true), true);
-        this.inboundImapAdapterMock = new InboundImapMailAdapterMock(this.config);
+        this.inboundImapAdapterSpy = Mockito.spy(new InboundImapMailAdapterMock(this.config));
     }
 }
