@@ -1,6 +1,6 @@
 package org.jodaengine.process.instantiation;
 
-import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 
@@ -17,7 +17,7 @@ public interface InstantionPatternInit {
      * Setups the variables for the {@link InstantionPatternInit}.
      * 
      * @param correlationManager
-     *            - a {@link CorrelationManager}
+     *            - a {@link EventCorrelator}
      * @param navigator
      *            - a {@link NavigatorInside navigator}
      * @param processDefinition
@@ -25,7 +25,7 @@ public interface InstantionPatternInit {
      * @return the current {@link InstantionPatternInit} which in most cases will be a {@link StartInstantiationPattern}
      *         or a {@link InstantiationPattern}
      */
-    InstantionPatternInit init(CorrelationManager correlationManager,
+    InstantionPatternInit init(EventCorrelator correlationManager,
                                NavigatorInside navigator,
                                ProcessDefinitionInside processDefinition);
 }

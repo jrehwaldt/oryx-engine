@@ -9,8 +9,8 @@ import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
-import org.jodaengine.eventmanagement.registration.EventCondition;
-import org.jodaengine.eventmanagement.registration.EventConditionImpl;
+import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
+import org.jodaengine.eventmanagement.subscription.condition.MethodInvokingEventCondition;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
@@ -24,6 +24,7 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  * The Class DemoDataForWebservice generates some example data when called.
@@ -119,7 +120,7 @@ public final class DemoProcessStartEmailForWebservice {
         InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
         EventCondition subjectCondition = null;
         try {
-            subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");
+            subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic", "Hallo");
             List<EventCondition> conditions = new ArrayList<EventCondition>();
             conditions.add(subjectCondition);
 
@@ -127,11 +128,7 @@ public final class DemoProcessStartEmailForWebservice {
 
             builder.createStartTrigger(EventTypes.Mail, config, conditions, node1);
 
-            ServiceFactory.getRepositoryService().activateProcessDefinition(def.getID());
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            ServiceFactory.getRepositoryService().activateProcessDefinition(exampleProcessUUID);
         } catch (JodaEngineRuntimeException e) {
             LOGGER.error(e.getMessage(), e);
         }

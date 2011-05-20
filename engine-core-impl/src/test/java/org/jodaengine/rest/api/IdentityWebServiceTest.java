@@ -13,10 +13,6 @@ import javax.ws.rs.core.MediaType;
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 import org.jboss.resteasy.mock.MockHttpResponse;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.jodaengine.IdentityService;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factory.resource.ParticipantFactory;
@@ -24,6 +20,9 @@ import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.IdentityBuilder;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 
 /**

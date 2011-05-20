@@ -25,10 +25,10 @@ import java.io.InputStream;
 
 import javax.xml.parsers.SAXParser;
 
+import org.jodaengine.deployment.importer.bpmn.BpmnXmlParse;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.util.io.StreamSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

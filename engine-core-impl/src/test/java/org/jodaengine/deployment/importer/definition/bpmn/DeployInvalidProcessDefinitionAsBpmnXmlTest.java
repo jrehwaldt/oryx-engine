@@ -1,10 +1,9 @@
 package org.jodaengine.deployment.importer.definition.bpmn;
 
-import org.testng.annotations.Test;
-
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.testng.annotations.Test;
 
 
 /**

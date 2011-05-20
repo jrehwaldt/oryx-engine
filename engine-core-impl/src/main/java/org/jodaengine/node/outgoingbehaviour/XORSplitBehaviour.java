@@ -7,6 +7,8 @@ import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.token.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class TakeAllSplitBehaviour. Will signal the first outgoing transition, of which the condition evaluates to true.

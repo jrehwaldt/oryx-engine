@@ -3,7 +3,6 @@ package org.jodaengine.navigator;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;

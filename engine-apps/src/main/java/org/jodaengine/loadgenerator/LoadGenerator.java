@@ -2,9 +2,6 @@ package org.jodaengine.loadgenerator;
 
 import java.io.FileNotFoundException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.NoRunningInstancesLoadgeneratorCaller;
 import org.jodaengine.ServiceFactory;

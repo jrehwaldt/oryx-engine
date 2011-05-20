@@ -28,7 +28,7 @@ public interface Navigator extends Service {
      * @return the started instance
      */
     @Nonnull
-    AbstractProcessInstance startProcessInstance(@Nonnull ProcessDefinitionID processID, StartEvent event)
+    AbstractProcessInstance startProcessInstance(@Nonnull ProcessDefinitionID processID, ProcessStartEvent event)
     throws DefinitionNotFoundException;
 
     /**

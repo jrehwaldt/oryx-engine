@@ -2,10 +2,6 @@ package org.jodaengine.resource.allocation;
 
 import static org.testng.Assert.assertEquals;
 
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.factory.node.SimpleNodeFactory;
@@ -23,6 +19,9 @@ import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * This test assigns a task directly to a participant.

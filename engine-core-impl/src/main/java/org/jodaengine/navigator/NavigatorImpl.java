@@ -159,7 +159,7 @@ implements Navigator, NavigatorInside, Service {
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID, StartEvent event)
+    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID, ProcessStartEvent event)
     throws DefinitionNotFoundException {
 
         ProcessDefinitionInside definition = repository.getProcessDefinitionInside(processID);

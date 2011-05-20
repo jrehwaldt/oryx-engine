@@ -134,7 +134,7 @@ public class NavigatorWebService implements Navigator {
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID, StartEvent event)
+    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID, ProcessStartEvent event)
     throws DefinitionNotFoundException {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);

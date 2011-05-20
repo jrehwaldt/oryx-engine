@@ -1,10 +1,9 @@
 package org.jodaengine.navigator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.navigator.schedule.Scheduler;
 import org.jodaengine.process.token.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**

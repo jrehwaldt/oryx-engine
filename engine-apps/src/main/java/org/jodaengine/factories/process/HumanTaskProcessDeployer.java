@@ -180,12 +180,19 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         int i = 0;
         for (AbstractParticipant participant : participants) {
 
-            JobDetail jobDetail = new JobDetail(participant.getName(), JOBGROUP, PseudoHumanJob.class);
+            // === JobDetail ===
+            JobDetail jobDetail = JobBuilder.newJob(PseudoHumanJob.class).withIdentity(participant.getName(), JOBGROUP)
+            .build();
             JobDataMap data = jobDetail.getJobDataMap();
             data.put(PARTICIPANT_KEY, participant);
 
-            Trigger trigger = new SimpleTrigger(participant.getID().toString(), -1, WAITING_TIME[i++]);
+            // === SimpleTrigger ===
+            SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().repeatForever()
+            .withIntervalInMilliseconds(WAITING_TIME[i++]);
 
+            SimpleTrigger trigger = TriggerBuilder.newTrigger().withIdentity(participant.getID().toString()).startNow()
+            .withSchedule(scheduleBuilder).build();
+            
             try {
                 this.scheduler.scheduleJob(jobDetail, trigger);
             } catch (SchedulerException se) {

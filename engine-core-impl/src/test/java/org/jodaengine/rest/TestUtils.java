@@ -15,6 +15,7 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
+import org.testng.Assert;
 
 /**
  * Helper class for web server tests.

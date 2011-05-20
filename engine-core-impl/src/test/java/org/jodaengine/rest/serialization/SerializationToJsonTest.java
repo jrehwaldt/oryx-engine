@@ -9,13 +9,6 @@ import java.util.UUID;
 
 import javax.xml.bind.JAXBException;
 
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AssignableTypeFilter;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factory.resource.ParticipantFactory;
@@ -50,6 +43,12 @@ import org.jodaengine.resource.worklist.RoleWorklist;
 import org.jodaengine.resource.worklist.WorklistItemImpl;
 import org.jodaengine.rest.PatchCollectionChangeset;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.AssignableTypeFilter;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 
 /**

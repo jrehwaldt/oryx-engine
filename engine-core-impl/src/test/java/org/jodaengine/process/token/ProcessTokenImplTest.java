@@ -6,15 +6,14 @@ import static org.testng.Assert.assertEqualsNoOrder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.structure.Transition;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 
 /**

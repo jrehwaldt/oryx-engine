@@ -10,8 +10,8 @@ import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
-import org.jodaengine.eventmanagement.registration.EventCondition;
-import org.jodaengine.eventmanagement.registration.EventConditionImpl;
+import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
+import org.jodaengine.eventmanagement.subscription.condition.MethodInvokingEventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.ext.navigator.NavigatorListenerLogger;
 import org.jodaengine.navigator.NavigatorImpl;
@@ -23,6 +23,7 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  * The Class ExampleMailStartProcess. This is an example process that is started
@@ -79,8 +80,7 @@ public final class ExampleMailStartProcess {
             // Create a mail adapater event here.
             // TODO @TobiP Could create a builder for this later.
             InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
-            EventCondition subjectCondition = null;
-            subjectCondition = new EventConditionImpl(MailAdapterEvent.class.getMethod("getMessageTopic"), "Hallo");
+            EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic", "Hallo");
             List<EventCondition> conditions = new ArrayList<EventCondition>();
             conditions.add(subjectCondition);
 
