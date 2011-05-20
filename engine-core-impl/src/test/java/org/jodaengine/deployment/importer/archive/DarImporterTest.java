@@ -3,7 +3,6 @@ package org.jodaengine.deployment.importer.archive;
 import java.io.File;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import org.jodaengine.allocation.Form;
 import org.jodaengine.deployment.Deployment;
@@ -66,6 +65,5 @@ public class DarImporterTest extends AbstractJodaEngineTest {
         Form form = new FormImpl(artifacts.get(FORM_NAME));
         Assert.assertEquals(form.getFormContentAsHTML().trim(), FORM_CONTENT,
             "The form should have been imported correctly");
-
     }
 }

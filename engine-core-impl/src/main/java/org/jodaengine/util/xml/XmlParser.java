@@ -50,7 +50,6 @@ public class XmlParser {
 
     protected SAXParserFactory getSaxParserFactory() {
 
-        defaultSaxParserFactory.setNamespaceAware(true);
         return defaultSaxParserFactory;
     }
 }
