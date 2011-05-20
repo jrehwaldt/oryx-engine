@@ -29,7 +29,7 @@ import org.testng.annotations.Test;
 public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
     
     private static final short NUMBER_OF_SEQUENCE_FLOWS = 11;
-    private static final short NUMBER_OF_TASKS = 2;
+    private static final short NUMBER_OF_TASKS = 4;
     
     
     private static final String USER_PROCESS_DEFINITION_FILE
