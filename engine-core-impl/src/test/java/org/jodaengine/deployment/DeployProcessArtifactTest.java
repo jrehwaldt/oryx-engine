@@ -36,8 +36,9 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
     /**
      * Sets services and builds a standard definition.
-     *
-     * @throws IllegalStarteventException the illegal startevent exception
+     * 
+     * @throws IllegalStarteventException
+     *             the illegal startevent exception
      */
     @BeforeClass
     public void setUp()
@@ -129,9 +130,11 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
     /**
      * Tests that two individually deployed process definitions (i.e. in different scopes) cannot access the artifacts
      * of each other.
-     *
-     * @throws IllegalStarteventException the illegal startevent exception
-     * @throws ProcessArtifactNotFoundException the process artifact not found exception
+     * 
+     * @throws IllegalStarteventException
+     *             the illegal startevent exception
+     * @throws ProcessArtifactNotFoundException
+     *             the process artifact not found exception
      */
     @Test
     public void testArtifactIsolation()
@@ -151,7 +154,7 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         ProcessDefinition anotherDefinition = defBuilder.buildDefinition();
         Deployment anotherDeployment = deploymentBuilder.addProcessDefinition(anotherDefinition).buildDeployment();
         repo.deployInNewScope(anotherDeployment);
-        
+
         // the following line should trigger the expected exception.
         try {
             repo.getProcessArtifact("stringArtifact", anotherDefinition.getID());
