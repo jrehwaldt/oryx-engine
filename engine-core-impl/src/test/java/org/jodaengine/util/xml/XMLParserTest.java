@@ -59,4 +59,18 @@ public class XMLParserTest {
         XmlElement secondChild = elements.get(1);
         Assert.assertEquals(secondChild.getAttributeNS("ls", "as"), "123", getFaliureMessage());
     }
+
+    @Test
+    public void testProcessingXM1L() {
+        
+        XmlParser parser = new XmlParser();
+        
+        XmlParseBuilder parseBuilder = parser.getXmlParseBuilder();
+        parseBuilder.defineSourceAsResource(XML_TEST_RESOURCE);
+        XmlParse xmlParse = (XmlParse) parseBuilder.buildXmlParse();
+        xmlParse.execute();
+        
+        String str =xmlParse.getRootElement().getElements().get(0).getAttributeNS("http://www.signavio.com", "form");
+        System.out.println(str);
+    }
 }

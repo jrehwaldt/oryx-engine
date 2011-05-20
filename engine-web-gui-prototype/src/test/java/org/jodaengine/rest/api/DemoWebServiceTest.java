@@ -5,11 +5,9 @@ import java.net.URISyntaxException;
 import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.rest.demo.DemoDataForWebservice;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
-
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;

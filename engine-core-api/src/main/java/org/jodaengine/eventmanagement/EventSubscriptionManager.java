@@ -1,6 +1,7 @@
 package org.jodaengine.eventmanagement;
 
 import org.jodaengine.eventmanagement.subscription.EventSubscription;
+import org.jodaengine.eventmanagement.subscription.EventUnsubscription;
 
 /**
  * The Event Manager which handles incoming Events.
@@ -12,6 +13,6 @@ import org.jodaengine.eventmanagement.subscription.EventSubscription;
  * (add information such as an id) and receiving the response.
  * 
  */
-public interface EventManager extends EventCorrelator, AdapterManagement, EventSubscription {
+public interface EventSubscriptionManager extends EventUnsubscription, EventSubscription {
 
 }

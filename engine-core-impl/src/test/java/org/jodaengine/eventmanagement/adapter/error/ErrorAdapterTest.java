@@ -1,9 +1,12 @@
 package org.jodaengine.eventmanagement.adapter.error;
 
+import org.jodaengine.eventmanagement.EventCorrelator;
+import org.jodaengine.exception.JodaEngineException;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-
 
 /**
  * Test class for {@link ErrorAdapter} tests.
@@ -11,27 +14,31 @@ import org.testng.annotations.Test;
  * @author Jan Rehwaldt
  */
 public class ErrorAdapterTest {
-    
-    private ErrorAdapter adapter = null;
-    private ErrorAdapterConfiguration config = null;
-    
+
+    private ErrorAdapter errorAdapter;
+    private ErrorAdapterConfiguration config;
+    private EventCorrelator eventCorrelatorMock;
+
     /**
      * Setup test case.
      */
     @BeforeTest
     public void setUp() {
+
+        this.eventCorrelatorMock = Mockito.mock(EventCorrelator.class);
         this.config = new ErrorAdapterConfiguration();
-        this.adapter = new ErrorAdapter(this.config);
+        this.errorAdapter = new ErrorAdapter(this.config);
     }
-    
+
     /**
      * Tests the error adapter's correlation.
      */
     @Test
     public void testExceptionCorrelation() {
-//        this.adapter.exceptionOccured("Some message", new JodaEngineException("huhu"));
+
+//        this.errorAdapter.exceptionOccured("Some message", new JodaEngineException("huhu"));
 //        ArgumentCaptor<ErrorAdapterEvent> event = ArgumentCaptor.forClass(ErrorAdapterEvent.class);
-//        verify(this.mock).correlate(event.capture());
-//        assertFalse(event.getValue() == null, "event should not be null");
+//        Mockito.verify(this.eventCorrelatorMock).correlate(event.capture());
+//        Assert.assertFalse(event.getValue() == null, "event should not be null");
     }
 }

@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.EventCorrelator;
-import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.EventSubscription;
 import org.jodaengine.eventmanagement.subscription.EventUnsubscription;
@@ -116,7 +115,7 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
      * Correlation method, which calls the underlying {@link EventCorrelator}.
      * 
      * @see EventCorrelator
-     * @see EventManager
+     * @see EventsubscriptionManager
      * @param adapterEvent
      *            the event that should be correlated
      */

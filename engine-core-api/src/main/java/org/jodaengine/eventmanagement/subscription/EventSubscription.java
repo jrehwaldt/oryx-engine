@@ -3,7 +3,6 @@ package org.jodaengine.eventmanagement.subscription;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.EventCorrelator;
-import org.jodaengine.eventmanagement.EventManager;
 
 
 /**

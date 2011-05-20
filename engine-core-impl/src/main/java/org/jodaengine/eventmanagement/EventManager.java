@@ -12,8 +12,6 @@ import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
-import org.jodaengine.eventmanagement.subscription.EventSubscription;
-import org.jodaengine.eventmanagement.subscription.EventUnsubscription;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
@@ -27,7 +25,7 @@ import org.slf4j.LoggerFactory;
 /**
  * A concrete implementation of our engines Event Manager.
  */
-public class EventManager implements EventSubscription, EventUnsubscription, AdapterManagement, Service {
+public class EventManager implements EventSubscriptionManager, AdapterManagement, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

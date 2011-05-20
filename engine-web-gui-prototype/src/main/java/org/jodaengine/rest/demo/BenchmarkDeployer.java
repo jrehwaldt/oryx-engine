@@ -1,18 +1,13 @@
 package org.jodaengine.rest.demo;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import org.jodaengine.IdentityService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
-import org.jodaengine.allocation.Form;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter;
-import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ResourceNotAvailableException;
@@ -28,7 +23,6 @@ import org.jodaengine.resource.IdentityBuilder;
 import org.jodaengine.resource.Role;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
-import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
 import org.jodaengine.util.io.ClassPathResourceStreamSource;
 

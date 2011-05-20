@@ -5,6 +5,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.timing.QuartzJobManager;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
@@ -189,7 +190,8 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
       
       
       int jobGroups;
-      QuartzJobManager timer = (QuartzJobManager) ServiceFactory.getCorrelationService().getTimer();
+      EventManager eventManager = (EventManager) ServiceFactory.getCorrelationService();
+      QuartzJobManager timer = (QuartzJobManager) eventManager.getTimer();
 
       //Step through the process and activate the timer
       token.executeStep();
@@ -206,5 +208,4 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
       jobGroups = timer.numberOfCurrentRunningJobs();
       assertEquals(jobGroups, 0);
   }
-
 }

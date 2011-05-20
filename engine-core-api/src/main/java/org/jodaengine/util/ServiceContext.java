@@ -3,7 +3,7 @@ package org.jodaengine.util;
 import org.jodaengine.IdentityService;
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.eventmanagement.EventCorrelator;
-import org.jodaengine.eventmanagement.EventManager;
+import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.navigator.NavigatorInside;
 
 /**
@@ -30,7 +30,7 @@ public interface ServiceContext extends Attributable {
      * 
      * @return the {@link EventCorrelator}
      */
-    EventManager getCorrelationService();
+    EventSubscriptionManager getCorrelationService();
 
     /**
      * Gets the {@link NavigatorInside navigatorService}.

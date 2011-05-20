@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.jodaengine.eventmanagement.EventManager;
+import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
@@ -184,7 +184,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     }
 
     @Override
-    public void activate(EventManager correlationManager) {
+    public void activate(EventSubscriptionManager correlationManager) {
 
         // TODO: Auslagern in eine Strategy
         for (ProcessStartEvent event : this.getStartTriggers().keySet()) {
@@ -193,7 +193,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     }
 
     @Override
-    public void deactivate(EventManager correlationManager) {
+    public void deactivate(EventSubscriptionManager correlationManager) {
 
         // TODO Auto-generated method stub
 

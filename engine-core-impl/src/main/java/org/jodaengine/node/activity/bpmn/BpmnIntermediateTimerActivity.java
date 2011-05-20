@@ -3,7 +3,7 @@ package org.jodaengine.node.activity.bpmn;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.eventmanagement.EventManager;
+import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.timer.TimerAdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
@@ -36,7 +36,7 @@ public class BpmnIntermediateTimerActivity extends AbstractActivity {
     protected void executeIntern(@Nonnull Token token) {
 
         // TODO @Gerardo muss geändert werden keine ServiceFactory mehr
-        EventManager eventManager = ServiceFactory.getCorrelationService();
+        EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
         AdapterConfiguration conf = new TimerAdapterConfiguration(this.time);
         ProcessIntermediateEvent processEvent = new TimerEventImpl(conf, token);
 
@@ -65,7 +65,7 @@ public class BpmnIntermediateTimerActivity extends AbstractActivity {
         ProcessIntermediateEvent intermediateEvent = (ProcessIntermediateEvent) context
         .getInternalVariable(itemContextVariableId);
 
-        EventManager eventManager = ServiceFactory.getCorrelationService();
+        EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
         eventManager.unsubscribeFromIntermediateEvent(intermediateEvent);
         // TimingManager timer = ServiceFactory.getCorrelationService().getTimer();
         // timer.unregisterJob(this.jobCompleteName);

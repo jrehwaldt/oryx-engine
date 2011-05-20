@@ -1,7 +1,5 @@
 package org.jodaengine.eventmanagement.subscription;
 
-import java.util.UUID;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;

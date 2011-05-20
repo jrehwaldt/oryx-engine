@@ -7,7 +7,7 @@ import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.allocation.TaskDistribution;
 import org.jodaengine.bootstrap.JodaEngineAppContext;
 import org.jodaengine.eventmanagement.EventCorrelator;
-import org.jodaengine.eventmanagement.EventManager;
+import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 
@@ -93,9 +93,9 @@ public final class ServiceFactory {
      * 
      * @return the correlation service
      */
-    public static @Nonnull EventManager getCorrelationService() {
+    public static @Nonnull EventSubscriptionManager getCorrelationService() {
 
-        return (EventManager) JodaEngineAppContext.getBean("correlationService");
+        return (EventSubscriptionManager) JodaEngineAppContext.getBean("correlationService");
     }
     
     /**

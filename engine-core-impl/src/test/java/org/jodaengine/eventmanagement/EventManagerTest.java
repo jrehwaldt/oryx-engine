@@ -3,7 +3,6 @@ package org.jodaengine.eventmanagement;
 import static org.testng.Assert.assertEquals;
 
 import org.jodaengine.bootstrap.JodaEngine;
-import org.jodaengine.navigator.Navigator;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -14,12 +13,11 @@ import org.testng.annotations.Test;
  * 
  * @author Jan Rehwaldt
  */
-public class CorrelationManagerImplTest {
+public class EventManagerTest {
 
     private static final int INITIAL_ADAPTERS_COUNT = 1;
 
-    private Navigator navigator = null;
-    private EventManager manager = null;
+    private EventManager manager;
 
 //    /**
 //     * Tests that a fresh correlation manager contains an {@link ErrorAdapter}.
