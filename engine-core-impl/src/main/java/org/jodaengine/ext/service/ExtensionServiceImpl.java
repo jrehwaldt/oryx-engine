@@ -22,7 +22,7 @@ import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.core.type.filter.TypeFilter;
 
 /**
- * This service provides an interface for managing and deploying extensions.
+ * This {@link Service} provides an interface for managing {@link Extension}s.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-19
@@ -54,16 +54,6 @@ public class ExtensionServiceImpl implements ExtensionService {
         this.extensions = new ArrayList<Class<?>>();
         this.extensionServices = new HashMap<String, Service>();
         
-        this.extensionServices.put("core-navigator", this.coreServices.getNavigatorService());
-        this.extensionServices.put("core-repository", this.coreServices.getRepositoryService());
-        this.extensionServices.put("core-worklist", this.coreServices.getWorklistService());
-        this.extensionServices.put("core-identity", this.coreServices.getIdentityService());
-        
-        //
-        // do not add this service, because it will cause infinite recursion on stop()
-        //
-//        this.extensionServices.put("core-extension", this.coreServices.getExtensionService());
-        
         startExtensionServices();
         
         this.running = true;
@@ -82,7 +72,7 @@ public class ExtensionServiceImpl implements ExtensionService {
         this.running = false;
         
         //
-        // stop all loaded services
+        // stop all loaded extension services
         //
         for (Service service: this.extensionServices.values()) {
             service.stop();
@@ -261,19 +251,21 @@ public class ExtensionServiceImpl implements ExtensionService {
                         continue;
                     }
                     
-                    //
-                    // inject the ExtensionService
-                    //
-                    if (ExtensionService.class.isAssignableFrom(parameterClass)) {
-                        parameters[i] = this;
-                        continue;
-                    }
-                    
-                    //
-                    // inject other available services
-                    //
                     if (Service.class.isAssignableFrom(parameterClass)) {
                         
+                        //
+                        // inject core services
+                        //
+                        for (Service service: this.coreServices.getCoreServices()) {
+                            if (parameterClass.isAssignableFrom(service.getClass())) {
+                                parameters[i] = service;
+                                continue setParameters;
+                            }
+                        }
+                        
+                        //
+                        // inject available extension services
+                        //
                         for (Service service: this.extensionServices.values()) {
                             if (parameterClass.isAssignableFrom(service.getClass())) {
                                 parameters[i] = service;

@@ -1,7 +1,10 @@
 package org.jodaengine;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
+import org.jodaengine.bootstrap.Service;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 
@@ -54,6 +57,13 @@ public interface JodaEngineServices {
      * @return the {@link ExtensionService}
      */
     @Nonnull ExtensionService getExtensionService();
+    
+    /**
+     * Gets a list of all core {@link Service}s.
+     * 
+     * @return the core services
+     */
+    @Nonnull List<Service> getCoreServices();
     
     /**
      * Stops the specified service and shuts it's components down.

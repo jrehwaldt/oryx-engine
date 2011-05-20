@@ -1,6 +1,8 @@
 package org.jodaengine.bootstrap;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -12,7 +14,6 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -139,5 +140,18 @@ public class JodaEngine implements JodaEngineServices {
     public ExtensionService getExtensionService() {
 
         return ServiceFactory.getExtensionService();
+    }
+
+    @Override
+    public List<Service> getCoreServices() {
+        List<Service> coreServices = new ArrayList<Service>();
+        
+        coreServices.add(getWorklistService());
+        coreServices.add(getIdentityService());
+        coreServices.add(getNavigatorService());
+        coreServices.add(getRepositoryService());
+        coreServices.add(getExtensionService());
+        
+        return coreServices;
     }
 }
