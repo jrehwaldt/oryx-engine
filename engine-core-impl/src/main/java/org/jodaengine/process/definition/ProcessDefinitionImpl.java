@@ -7,7 +7,7 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.eventmanagement.EventManager;
-import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -16,6 +16,7 @@ import org.jodaengine.process.instantiation.InstantiationPatternContextImpl;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.instantiation.StartNullInstantiationPattern;
 import org.jodaengine.process.structure.Node;
+
 
 
 /**
@@ -36,7 +37,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     private StartInstantiationPattern startInstantiationPattern;
 
     @JsonIgnore
-    private Map<StartEvent, Node> startTriggers;
+    private Map<ProcessStartEvent, Node> startTriggers;
 
     private Map<String, Object> attributes;
 
@@ -86,7 +87,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
         this.name = name;
         this.description = description;
         this.startNodes = startNodes;
-        this.startTriggers = new HashMap<StartEvent, Node>();
+        this.startTriggers = new HashMap<ProcessStartEvent, Node>();
         this.startInstantiationPattern = startInstantiationPattern;
     }
 
@@ -128,13 +129,13 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     }
 
     @Override
-    public Map<StartEvent, Node> getStartTriggers() {
+    public Map<ProcessStartEvent, Node> getStartTriggers() {
 
         return startTriggers;
     }
 
     @Override
-    public void addStartTrigger(StartEvent event, Node node)
+    public void addStartTrigger(ProcessStartEvent event, Node node)
     throws IllegalStarteventException {
 
         if (startNodes.contains(node)) {
@@ -186,7 +187,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     public void activate(EventManager correlationManager) {
 
         // TODO: Auslagern in eine Strategy
-        for (StartEvent event : this.getStartTriggers().keySet()) {
+        for (ProcessStartEvent event : this.getStartTriggers().keySet()) {
             correlationManager.registerStartEvent(event);
         }
     }

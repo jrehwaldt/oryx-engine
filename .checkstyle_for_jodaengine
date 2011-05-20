@@ -139,6 +139,9 @@
   </module>
   <module name="Translation"/>
   <module name="FileLength"/>
-  <module name="FileTabCharacter"/>
+  <module name="FileTabCharacter">
+    <property name="severity" value="error"/>
+    <property name="eachLine" value="true"/>
+  </module>
   <module name="SuppressionCommentFilter"/>
 </module>

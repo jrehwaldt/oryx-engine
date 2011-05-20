@@ -1,8 +1,10 @@
 package org.jodaengine.deployment.importer.definition;
 
 import java.io.InputStream;
+import java.util.Arrays;
 
 import org.jodaengine.deployment.ProcessDefinitionImporter;
+import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.util.io.FileStreamSource;
@@ -21,42 +23,54 @@ public class BpmnXmlImporter implements ProcessDefinitionImporter {
     private XmlParseable bpmnXmlParse;
     
     /**
-     * Instantiates a new BPMN XML importer with the String representation of the XML-File.
+     * Instantiates a new bpmn xml importer using a xml string representation as source.
      *
      * @param xmlString the xml string
+     * @param listeners any number of listeners
      */
-    public BpmnXmlImporter(String xmlString) {
+    public BpmnXmlImporter(String xmlString,
+                           BpmnXmlParseListener ... listeners) {
+        
         BpmnXmlParser bpmnXmlParser = new BpmnXmlParser();
+        bpmnXmlParser.getParseListeners().addAll(Arrays.asList(listeners));
         bpmnXmlParse = bpmnXmlParser.getXmlParseBuilder()
                                     .defineSourceAsString(xmlString)
                                     .buildXmlParse();
     }
     
     /**
-     * Instantiates a new bpmn xml importer, using a fileStream as the source.
+     * Instantiates a new bpmn xml importer using a file stream as the source.
      *
      * @param fileStreamSource the file stream source
+     * @param listeners any number of listeners
      */
-    public BpmnXmlImporter(FileStreamSource fileStreamSource) {
+    public BpmnXmlImporter(FileStreamSource fileStreamSource,
+                           BpmnXmlParseListener ... listeners) {
+        
         BpmnXmlParser bpmnXmlParser = new BpmnXmlParser();
+        bpmnXmlParser.getParseListeners().addAll(Arrays.asList(listeners));
         bpmnXmlParse = bpmnXmlParser.getXmlParseBuilder()
-                                                 .defineSourceAsStreamSource(fileStreamSource)
-                                                 .buildXmlParse();
+                                    .defineSourceAsStreamSource(fileStreamSource)
+                                    .buildXmlParse();
     }
     
     /**
-     * Instantiates a new bpmn xml importer using an inputStream as the source.
+     * Instantiates a new bpmn xml importer using an input stream as the source.
      *
      * @param inputStream the input stream
+     * @param listeners any number of listeners
      */
-    public BpmnXmlImporter(InputStream inputStream) {
+    public BpmnXmlImporter(InputStream inputStream,
+                           BpmnXmlParseListener ... listeners) {
+        
         BpmnXmlParser bpmnXmlParser = new BpmnXmlParser();
+        bpmnXmlParser.getParseListeners().addAll(Arrays.asList(listeners));
+        
         bpmnXmlParse = bpmnXmlParser.getXmlParseBuilder()
-                                                 .defineSourceAsInputStream(inputStream)
-                                                 .buildXmlParse();
+                                    .defineSourceAsInputStream(inputStream)
+                                    .buildXmlParse();
     }
     
-
     @Override
     public ProcessDefinition createProcessDefinition() {
         bpmnXmlParse.execute();

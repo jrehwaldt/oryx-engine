@@ -2,6 +2,9 @@ package org.jodaengine.eventmanagement.adapter;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.eventmanagement.EventManager;
+import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+
 /**
  * General {@link EventManager} adapter.
  */
@@ -21,4 +24,10 @@ public interface CorrelationAdapter {
      */
     @Nonnull
     AdapterConfiguration getConfiguration();
+    
+    @Override
+    boolean equals(Object eventAdapter);
+    
+    @Override
+    int hashCode();
 }

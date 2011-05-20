@@ -27,6 +27,17 @@ $().ready(function() {
         event.preventDefault();
         loadProcessDefinitionsOverview();
     });
+    
+    //
+    // register the form submit handler to refresh the definition list afterwards
+    //
+    $('#definitions-upload-form').submit(function(event) {
+        if ($(document).oneTime) {
+	        $(document).oneTime(100, function(i) {
+	            loadProcessDefinitionsOverview();
+	        });
+        }
+    });
 });
 
 /**

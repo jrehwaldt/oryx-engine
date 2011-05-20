@@ -24,6 +24,7 @@ package org.jodaengine.deployment.importer.definition.bpmn;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.util.xml.XmlParseBuilder;
 import org.jodaengine.util.xml.XmlParser;
 
@@ -60,6 +61,9 @@ public class BpmnXmlParser extends XmlParser {
     
     protected List<BpmnXmlParseListener> parseListeners;
 
+    /**
+     * Default construtcor.
+     */
     public BpmnXmlParser() {
         
         getParseListeners().add(new BpmnProcessDefinitionValidator());
@@ -71,6 +75,11 @@ public class BpmnXmlParser extends XmlParser {
         return new BpmnXmlParseBuilder(this);
     }
     
+    /**
+     * Returns a list of specified {@link BpmnXmlParseListener}s.
+     * 
+     * @return all registered listeners
+     */
     public List<BpmnXmlParseListener> getParseListeners() {
 
         if (this.parseListeners == null) {

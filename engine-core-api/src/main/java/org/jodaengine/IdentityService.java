@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.jodaengine.bootstrap.Service;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.resource.AbstractOrganizationUnit;
 import org.jodaengine.resource.AbstractParticipant;
@@ -30,7 +31,7 @@ import org.jodaengine.resource.IdentityBuilder;
  * 
  * @author Gerardo Navarro Suarez
  */
-public interface IdentityService {
+public interface IdentityService extends Service {
 
     /**
      * Creates an IdentityBuilder, that helps you to manage the organization structure.

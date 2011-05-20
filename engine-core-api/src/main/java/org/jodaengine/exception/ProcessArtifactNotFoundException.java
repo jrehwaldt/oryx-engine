@@ -1,7 +1,5 @@
 package org.jodaengine.exception;
 
-import java.util.UUID;
-
 import javax.annotation.Nonnull;
 
 /**

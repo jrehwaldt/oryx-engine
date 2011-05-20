@@ -2,9 +2,6 @@ package org.jodaengine.loadgenerator;
 
 import java.io.FileNotFoundException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.NoRunningInstancesLoadgeneratorCaller;
 import org.jodaengine.ServiceFactory;
@@ -15,6 +12,8 @@ import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factories.process.ProcessDeployer;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class LoadGenerator. Is used to generate some load and profile it (more or less) Maybe it should be more generic,
@@ -202,7 +201,7 @@ public class LoadGenerator {
         this.logMemoryUsed("Memory used after we put all the instances in our navigator:");
         this.logger.info("The navigator will be started in a millisecond - take the time!");
         this.startTime = System.currentTimeMillis();
-        navigator.start();
+        navigator.start(new JodaEngine());
 
     }
 

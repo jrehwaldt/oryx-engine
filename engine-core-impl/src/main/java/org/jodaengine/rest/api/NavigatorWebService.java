@@ -9,17 +9,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.JodaEngineServices;
-import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorStatistic;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -103,9 +102,14 @@ public class NavigatorWebService implements Navigator {
 
         return this.navigatorService.getEndedInstances();
     }
+    
+    @Override
+    public boolean isRunning() {
+        return this.navigatorService.isRunning();
+    }
 
     @Override
-    public void start() {
+    public void start(JodaEngineServices services) {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
@@ -130,7 +134,7 @@ public class NavigatorWebService implements Navigator {
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID, StartEvent event)
+    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID, ProcessStartEvent event)
     throws DefinitionNotFoundException {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);

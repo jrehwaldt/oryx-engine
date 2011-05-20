@@ -34,7 +34,7 @@ public abstract class AbstractBPMNDeployerTest extends AbstractJodaEngineTest {
     throws DefinitionNotFoundException {
 
         if (executableProcessResourcePath == null) {
-            String failureMessage = "Please set the varibale 'executableProcessResourcePath' in the Test '"
+            String failureMessage = "Please set the variable 'executableProcessResourcePath' in the Test '"
                 + this.getClass().getName() + "'.";
             Assert.fail(failureMessage);
         }
@@ -47,7 +47,7 @@ public abstract class AbstractBPMNDeployerTest extends AbstractJodaEngineTest {
         ProcessDefinition definition = processDefinitionImporter.createProcessDefinition();
         ProcessDefinitionID deployedProcessDefinitionUUID = definition.getID();
         
-        deploymentBuilder.addProcessDefinition(definition);        
+        deploymentBuilder.addProcessDefinition(definition);
         Deployment deployment = deploymentBuilder.buildDeployment();
         ServiceFactory.getRepositoryService().deployInNewScope(deployment);
 

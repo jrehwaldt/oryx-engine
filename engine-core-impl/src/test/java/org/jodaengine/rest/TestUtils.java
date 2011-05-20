@@ -1,11 +1,8 @@
 package org.jodaengine.rest;
 
-import org.testng.Assert;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
@@ -15,6 +12,7 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
+import org.testng.Assert;
 
 /**
  * Helper class for web server tests.

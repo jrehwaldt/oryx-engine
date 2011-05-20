@@ -48,7 +48,12 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     private Map<UUID, Integer> processVersions;
 
     // private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
+    
+    private boolean running = false;
 
+    /**
+     * Default constructor.
+     */
     public RepositoryServiceImpl() {
 
         processVersions = new HashMap<UUID, Integer>();
@@ -56,15 +61,24 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     }
 
     @Override
-    public void start() {
+    public synchronized void start(JodaEngineServices services) {
 
         logger.info("Starting the RespositoryService.");
+        
+        this.running = true;
     }
 
     @Override
-    public void stop() {
+    public synchronized void stop() {
 
         logger.info("Stopping the RespositoryService");
+        
+        this.running = false;
+    }
+    
+    @Override
+    public boolean isRunning() {
+        return this.running;
     }
 
     @Override

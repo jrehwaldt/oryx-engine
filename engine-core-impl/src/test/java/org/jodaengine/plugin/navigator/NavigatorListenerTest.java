@@ -3,12 +3,13 @@ package org.jodaengine.plugin.navigator;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
+import org.jodaengine.bootstrap.JodaEngine;
+import org.jodaengine.ext.navigator.AbstractNavigatorListener;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.navigator.NavigatorState;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 
 /**
@@ -31,7 +32,7 @@ public class NavigatorListenerTest extends AbstractJodaEngineTest {
         this.navigator = new NavigatorImpl();
         this.mock = mock(AbstractNavigatorListener.class);
         this.navigator.registerPlugin(mock);
-        navigator.start();
+        navigator.start(new JodaEngine());
     }
     
     /**

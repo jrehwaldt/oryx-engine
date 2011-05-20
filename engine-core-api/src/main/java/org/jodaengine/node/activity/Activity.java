@@ -5,7 +5,6 @@ import javax.annotation.Nonnull;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-
 import org.jodaengine.process.token.Token;
 
 /**

@@ -1,5 +1,6 @@
 package org.jodaengine.node.factory;
 
+import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;

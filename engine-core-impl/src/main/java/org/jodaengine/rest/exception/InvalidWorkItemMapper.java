@@ -6,14 +6,13 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.jodaengine.exception.InvalidWorkItemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jodaengine.exception.InvalidWorkItemException;
-
 
 /**
- * This provider maps the {@link InvalidWorkItemException} to a HTTP status code.
+ * This {@link Provider} maps the {@link InvalidWorkItemException} to a HTTP status code.
  * 
  * @author Jan Rehwaldt
  */

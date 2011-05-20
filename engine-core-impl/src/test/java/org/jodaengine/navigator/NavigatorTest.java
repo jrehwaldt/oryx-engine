@@ -3,15 +3,15 @@ package org.jodaengine.navigator;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
+import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.TokenImpl;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 
 /**
@@ -45,7 +45,7 @@ public class NavigatorTest {
         System.setOut(new PrintStream(out));
 
         navigator = new NavigatorImpl();
-        navigator.start();
+        navigator.start(new JodaEngine());
 
         node = new RoutingBehaviourTestFactory().createWithAndSplit();
         node2 = new RoutingBehaviourTestFactory().createWithAndSplit();

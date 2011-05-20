@@ -1,12 +1,12 @@
 package org.jodaengine.factory.node;
 
+import org.jodaengine.ext.activity.AbstractTokenPlugin;
+import org.jodaengine.ext.activity.ActivityLifecycleLogger;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.incomingbehaviour.AndJoinBehaviour;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.XORSplitBehaviour;
-import org.jodaengine.plugin.activity.AbstractTokenPlugin;
-import org.jodaengine.plugin.activity.ActivityLifecycleLogger;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 

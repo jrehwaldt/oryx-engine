@@ -1,9 +1,9 @@
 package org.jodaengine;
 
+import org.jodaengine.ext.navigator.AbstractNavigatorListener;
 import org.jodaengine.loadgenerator.LoadGenerator;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorState;
-import org.jodaengine.plugin.navigator.AbstractNavigatorListener;
 
 /**
  * The listener interface for receiving schedulerListEmpty events. The class that is interested in processing a

@@ -3,9 +3,11 @@ package org.jodaengine.plugin.navigator;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import org.jodaengine.bootstrap.JodaEngine;
+import org.jodaengine.ext.navigator.AbstractNavigatorListener;
+import org.jodaengine.ext.navigator.NavigatorListenerLogger;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.navigator.NavigatorState;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -34,7 +36,7 @@ public class NavigatorListenerLoggerTest {
     */
    @Test
    public void testLoggingNavigatorStarted() {
-       navigator.start();
+       navigator.start(new JodaEngine());
        verify(listener).update(this.navigator, NavigatorState.RUNNING);
        
    }
@@ -44,7 +46,7 @@ public class NavigatorListenerLoggerTest {
      */
     @Test
     public void testLoggingNavigatorStopped() {
-        navigator.start();
+        navigator.start(new JodaEngine());
         navigator.stop();
         verify(listener).update(this.navigator, NavigatorState.STOPPED);
     }

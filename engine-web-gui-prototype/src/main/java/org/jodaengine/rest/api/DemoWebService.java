@@ -20,13 +20,13 @@ import org.jodaengine.rest.demo.LoadDemoProcessAsXmlForWebservice;
 @Path("/demo")
 public class DemoWebService {
 
-    // TODO move somewhere else
-
     private boolean referenceDeployed;
     private JodaEngineServices engineServices;
 
     /**
      * Instantiates a new demo web service.
+     * 
+     * @param engineServices the engine's loaded services
      */
     public DemoWebService(JodaEngineServices engineServices) {
 
@@ -40,7 +40,7 @@ public class DemoWebService {
      * It should only be invoked once.
      * 
      * @return the response (OK = 200)
-     * @throws ResourceNotAvailableException
+     * @throws ResourceNotAvailableException no such resource to generate
      */
     @Path("/generate")
     @POST
@@ -85,7 +85,7 @@ public class DemoWebService {
      * Generates (deploys) the reference process.
      * 
      * @return the response
-     * @throws ResourceNotAvailableException
+     * @throws ResourceNotAvailableException no such resource to deploy
      */
     @Path("/reference")
     @POST

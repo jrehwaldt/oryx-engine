@@ -9,14 +9,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
+import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
+import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -34,6 +35,7 @@ public class RepositoryWebService {
     
     private DeploymentBuilder deploymentBuilder;
     private RepositoryService repositoryService;
+    private ExtensionService extensionService;
 
     /**
      * Instantiates a new deployer web service. Initializes the Deployment builder.
@@ -44,6 +46,7 @@ public class RepositoryWebService {
         
         this.repositoryService = engineServices.getRepositoryService();
         this.deploymentBuilder = this.repositoryService.getDeploymentBuilder();
+        this.extensionService = engineServices.getExtensionService();
     }
     
     // return status codes
@@ -68,55 +71,33 @@ public class RepositoryWebService {
     @Path("/process-definitions/deploy")
     @POST
     public void deployDefinitionFromXML(String file) throws IOException {
-        logger.debug(file);
+        
+        //
+        // get the xml process definition
+        //
         int xmlStart = file.indexOf(XML_START);
         // it is the end so we need to add back the length of the found element
         int xmlEnd = file.indexOf(XML_END) + XML_END.length();
         String xmlContent = file.substring(xmlStart, xmlEnd);
-        logger.debug(xmlContent);
+        logger.debug("Parsing process definition: {}", xmlContent);
         
-        BpmnXmlImporter importer = new BpmnXmlImporter(xmlContent);
+        //
+        // get parse listener
+        //
+        List<BpmnXmlParseListener> listeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
+        BpmnXmlParseListener[] listenersArray = listeners.toArray(new BpmnXmlParseListener[listeners.size()]);
         
+        //
+        // construct bpmn xml importer with all provided listeners
+        //
+        BpmnXmlImporter importer = new BpmnXmlImporter(xmlContent, listenersArray);
+        
+        //
         // deploys the process definition
-        this.deploymentBuilder.addProcessDefinition(importer.createProcessDefinition());
+        //
+        ProcessDefinition definition = importer.createProcessDefinition();
+        
+        this.deploymentBuilder.addProcessDefinition(definition);
         this.repositoryService.deployInNewScope(this.deploymentBuilder.buildDeployment());
     }
-    
-    /*
-    /**
-     * Deploys an instance, more customizable version to come.
-     *
-     * @return the string
-     * /
-    @Path("/deploy")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String deployInstance() {
-
-        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
-
-        int[] integers = {1, 1};
-        Node node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
-        Node node2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
-        Node node3 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
-        Node node4 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
-        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
-
-        TransitionFactory.createTransitionFromTo(builder, node1, node2);
-        TransitionFactory.createTransitionFromTo(builder, node2, node3);
-        TransitionFactory.createTransitionFromTo(builder, node3, node4);
-        TransitionFactory.createTransitionFromTo(builder, node4, endNode);
-
-        ProcessDefinition definition = null;
-        try {
-            definition = builder.buildDefinition();
-            deploymentBuilder.deployProcessDefinition(new RawProcessDefintionImporter(definition));
-            return definition.getID().toString();
-        } catch (IllegalStarteventException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    */
-
 }

@@ -12,11 +12,11 @@ import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.exception.handler.AbstractJodaRuntimeExceptionHandler;
 import org.jodaengine.exception.handler.InstanceTerminationHandler;
 import org.jodaengine.exception.handler.LoggerExceptionHandler;
+import org.jodaengine.ext.AbstractPluggable;
+import org.jodaengine.ext.activity.AbstractTokenPlugin;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
-import org.jodaengine.plugin.AbstractPluggable;
-import org.jodaengine.plugin.activity.AbstractTokenPlugin;
 import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
@@ -94,6 +94,11 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
         this(startNode, new ProcessInstanceImpl(null), null);
     }
+    
+    /**
+     * Hidden constructor.
+     */
+    protected TokenImpl() { }
 
     /**
      * Gets the current node. So the position where the execution of the Processtoken is at.

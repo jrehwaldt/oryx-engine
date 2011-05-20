@@ -28,10 +28,10 @@
         
         <a href="#" id="definitions-overview-refresh">Refresh definitions</a>
         
-        <div id="processUpload">
+        <div id="definitions-upload">
             <a name="upload"></a>
             <h2>Process Definition Upload</h2>
-            <form id="xmlUpload" method="post" action="/api/repository/process-definitions/deploy" accept="application/xml" enctype="multipart/form-data">
+            <form id="definitions-upload-form" method="post" action="/api/repository/process-definitions/deploy" accept="application/xml" enctype="multipart/form-data">
                 <input type="file" name="xmlRepresentation" size="40" />
                 <input type="submit" value="Deploy" />
             </form>

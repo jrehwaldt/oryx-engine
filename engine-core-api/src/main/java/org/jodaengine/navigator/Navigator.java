@@ -4,7 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.bootstrap.Service;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -13,7 +14,7 @@ import org.jodaengine.process.token.Token;
 /**
  * The {@link Navigator} is the core routing component, which 'navigates' through the processes. 
  */
-public interface Navigator {
+public interface Navigator extends Service {
 
     /**
      * Start a new process instance.
@@ -27,7 +28,7 @@ public interface Navigator {
      * @return the started instance
      */
     @Nonnull
-    AbstractProcessInstance startProcessInstance(@Nonnull ProcessDefinitionID processID, StartEvent event)
+    AbstractProcessInstance startProcessInstance(@Nonnull ProcessDefinitionID processID, ProcessStartEvent event)
     throws DefinitionNotFoundException;
 
     /**
@@ -47,16 +48,6 @@ public interface Navigator {
      * Add another thread that works on the to-be-executed instances.
      */
     void addThread();
-
-    /**
-     * Starts the navigator, which is than ready to schedule processes.
-     */
-    void start();
-
-    /**
-     * Stops the navigator. No processes will be scheduled afterwards.
-     */
-    void stop();
 
     /**
      * Adds a token to that is to be worked on.

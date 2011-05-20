@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:signavio="http://www.signavio.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com"
+	exporterVersion="4.7.0" expressionLanguage="http://www.w3.org/1999/XPath"
+	id="process_definition" targetNamespace="http://www.signavio.com/bpmn20"
+	typeLanguage="http://www.w3.org/2001/XMLSchema"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+
+	<process id="simple_process" name="SimpleUserTask">
+		<documentation>
+			Process that assigns a task to Thorben.
+		</documentation>
+
+		<startEvent id="start" name="Start" />
+
+		<userTask id="usertask" name="Thorben, please process this task!">
+			<documentation>It is only a demo task.</documentation>
+			<humanPerformer resourceRef="Thorben">
+				<resourceAssignmentExpression>
+					<formalExpression>participant(Thorben)</formalExpression>
+				</resourceAssignmentExpression>
+			</humanPerformer>
+		</userTask>
+
+		<endEvent id="end" name="End" />
+
+		<sequenceFlow id="sequenceflow1" sourceRef="start"
+			targetRef="usertask" />
+
+		<sequenceFlow id="sequenceflow2" sourceRef="usertask"
+			targetRef="end" />
+	</process>
+</definitions>

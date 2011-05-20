@@ -1,13 +1,12 @@
 package org.jodaengine.node.activity;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.UUID;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;

@@ -1,21 +1,17 @@
 package org.jodaengine.process.structure.condition;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
+import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
 
+import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.process.structure.Condition;
+import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.odysseus.el.ExpressionFactoryImpl;
-import de.odysseus.el.util.SimpleContext;
-
-import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.process.structure.Condition;
-import org.jodaengine.process.token.Token;
 
 /**
  * This {@link Condition} accepts JuelExpression. It means that this Condition is able to process a juelExpression
@@ -26,6 +22,11 @@ public class JuelExpressionCondition implements Condition {
 
     private String juelExpression;
 
+    /**
+     * Creates a Juel-enabled condition.
+     * 
+     * @param juelEspression the juel string
+     */
     public JuelExpressionCondition(String juelEspression) {
 
         this.juelExpression = juelEspression;
@@ -35,34 +36,14 @@ public class JuelExpressionCondition implements Condition {
     public boolean evaluate(Token token) {
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        SimpleContext context = new SimpleContext();
-
-        // TODO @Alle: Improve implementation of the JuelEspression; Isn't there a better way to set the variables into
-        // the JuelFactory? Other then extracting all variables from the process context.
-
-        Map<String, Object> variableMap = token.getInstance().getContext().getVariableMap();
-        if (variableMap != null) {
-
-            // Binding the variables that are in the processContext with the declared variables in the expression
-            for (Entry<String, Object> theEntry : variableMap.entrySet()) {
-
-                String theEntryKey = theEntry.getKey();
-                Object theEntryValue = theEntry.getValue();
-
-                ValueExpression valueExpression = factory
-                .createValueExpression(theEntryValue, theEntryValue.getClass());
-                context.setVariable(theEntryKey, valueExpression);
-            }
-        }
-
+        ELContext context = new ProcessELContext(token.getInstance().getContext());
+        
         ValueExpression e = factory.createValueExpression(context, juelExpression, boolean.class);
-
+        
         try {
-
             return (Boolean) e.getValue(context);
-
+            
         } catch (PropertyNotFoundException propertyNotFoundException) {
-
             String errorMessage = "The expression '" + juelExpression
                 + "'contains a variable that could not be resolved properly. See message: "
                 + propertyNotFoundException.getMessage();

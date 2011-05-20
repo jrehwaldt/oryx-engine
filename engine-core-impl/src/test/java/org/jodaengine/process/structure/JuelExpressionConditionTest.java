@@ -3,16 +3,15 @@ package org.jodaengine.process.structure;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.mockito.Mockito;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.condition.JuelExpressionCondition;
 import org.jodaengine.process.token.Token;
+import org.mockito.Mockito;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 
 /**
@@ -24,6 +23,9 @@ public class JuelExpressionConditionTest {
     private ProcessInstanceContext context;
     private Map<String, Object> returnMap;
 
+    /**
+     * Set up.
+     */
     @BeforeMethod
     public void setUp() {
 
@@ -39,9 +41,16 @@ public class JuelExpressionConditionTest {
         Mockito.when(context.getVariableMap()).thenReturn(returnMap);
     }
 
+    /**
+     * Adds a context variable to the process.
+     * 
+     * @param variableKey the key
+     * @param variableValue the value
+     */
     private void addProcessVariable(String variableKey, Object variableValue) {
 
         returnMap.put(variableKey, variableValue);
+        Mockito.when(context.getVariable(variableKey)).thenReturn(variableValue);
         Mockito.when(context.getVariableMap()).thenReturn(returnMap);
     }
 

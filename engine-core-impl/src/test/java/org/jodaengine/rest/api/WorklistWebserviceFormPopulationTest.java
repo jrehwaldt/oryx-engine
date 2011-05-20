@@ -1,7 +1,6 @@
 package org.jodaengine.rest.api;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,7 +8,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.bootstrap.JodaEngine;
@@ -26,7 +24,6 @@ import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;

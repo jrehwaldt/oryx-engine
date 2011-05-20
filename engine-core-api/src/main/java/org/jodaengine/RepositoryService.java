@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.DeploymentScope;
@@ -20,7 +21,7 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
  * We decided that processes should be deployed in whole {@link Deployment}Units that It holds the process definitions
  * that are currently deployed identified by their id.
  */
-public interface RepositoryService {
+public interface RepositoryService extends Service {
 
     /**
      * Creates a {@link DeploymentBuilder} that helps to create a deployment containing {@link ProcessDefinition}s and

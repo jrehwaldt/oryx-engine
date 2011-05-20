@@ -6,7 +6,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 /**
- * This provider maps the {@link IllegalArgumentException} to a HTTP status code.
+ * This {@link Provider} maps the {@link IllegalArgumentException} to a HTTP status code.
  * 
  * @author Jan Rehwaldt
  */

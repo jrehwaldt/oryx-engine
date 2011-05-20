@@ -24,5 +24,4 @@ public interface EventConfiguration {
      * @return the adapter type
      */
     EventType getEventType();
-
 }
