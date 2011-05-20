@@ -74,7 +74,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     @Override
-    public void removeIncomingTransitions(Node node) {
+    public void removeSignaledTransitions(Node node) {
 
         List<Transition> signaledTransitions = waitingTransitions.get(node);
         List<Transition> incomingTransitions = node.getIncomingTransitions();

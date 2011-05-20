@@ -35,20 +35,18 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
 
     /**
      * Joinable.
-     * 
-     * @param instance
-     *            the instance that the join is triggered for.
+     *
+     * @param token the token
      * @return true, if a join can be performed, e.g. for a BPMN AND-Join, all sibling-instances have to reached the
-     *         join node as well.
+     * join node as well.
      */
-    protected abstract boolean joinable(Token instance);
+    protected abstract boolean joinable(Token token);
 
     /**
      * Perform join.
-     * 
-     * @param instance
-     *            the instance that the join is triggered for.
+     *
+     * @param token the token
      * @return the result of the join.
      */
-    protected abstract List<Token> performJoin(Token instance);
+    protected abstract List<Token> performJoin(Token token);
 }

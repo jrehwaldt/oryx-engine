@@ -46,13 +46,13 @@ public interface ProcessInstanceContext {
     boolean allIncomingTransitionsSignaled(Node n);
 
     /**
-     * Removes all incoming transitions of a node from the internal storage of all signaled incoming transitions.
+     * Removes all signaled transitions of a node from the internal storage of all signaled incoming transitions.
      * This is used in the case, e.g. that the AND-Join triggers. Then the signaled transitions have to be reset.
      * 
      * @param n
      *            the node that triggered
      */
-    void removeIncomingTransitions(Node n);
+    void removeSignaledTransitions(Node n);
 
     /**
      * Sets the variable in the process context.

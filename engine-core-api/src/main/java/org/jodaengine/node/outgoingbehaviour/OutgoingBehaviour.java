@@ -12,13 +12,11 @@ public interface OutgoingBehaviour {
 
     /**
      * Split.
-     * 
-     * @param instances
-     *            the instances to split/distribute according to outgoing transitions.
+     *
+     * @param tokens the tokens
      * @return the list of new process instances that point to the destination-nodes of the outgoing transitions.
-     * @throws NoValidPathException
-     *             the routing found no path with a true condition
+     * @throws NoValidPathException the routing found no path with a true condition
      */
-    List<Token> split(List<Token> instances)
+    List<Token> split(List<Token> tokens)
     throws NoValidPathException;
 }

@@ -215,7 +215,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     @Override
     public Token performJoin() {
 
-        instance.getContext().removeIncomingTransitions(currentNode);
+        instance.getContext().removeSignaledTransitions(currentNode);
         return this;
     }
 

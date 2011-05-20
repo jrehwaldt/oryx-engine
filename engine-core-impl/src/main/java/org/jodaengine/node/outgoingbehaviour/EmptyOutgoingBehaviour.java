@@ -15,8 +15,9 @@ public class EmptyOutgoingBehaviour implements OutgoingBehaviour {
 
     @Override
     public List<Token> split(List<Token> tokens) {
-
         return new ArrayList<Token>();
+
+
     }
 
 }
