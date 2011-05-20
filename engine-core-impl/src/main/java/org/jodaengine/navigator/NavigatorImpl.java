@@ -8,8 +8,9 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryServiceInside;
+import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.bootstrap.Service;
-import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.ext.AbstractPluggable;
 import org.jodaengine.ext.navigator.AbstractNavigatorListener;

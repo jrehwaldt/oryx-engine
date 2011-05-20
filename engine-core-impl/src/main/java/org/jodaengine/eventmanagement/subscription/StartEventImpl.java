@@ -9,6 +9,7 @@ import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.navigator.NavigatorInside;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 
 
 /**
@@ -16,7 +17,7 @@ import org.jodaengine.navigator.NavigatorInside;
  */
 public class StartEventImpl extends AbstractProcessEvent implements ProcessStartEvent {
 
-    private UUID definitionID;
+    private ProcessDefinitionID definitionID;
 
     /**
      * Instantiates a new start event impl.
@@ -33,14 +34,14 @@ public class StartEventImpl extends AbstractProcessEvent implements ProcessStart
     public StartEventImpl(EventType type,
                           AdapterConfiguration config,
                           EventCondition condition,
-                          UUID definitionID) {
+                          ProcessDefinitionID definitionID) {
 
         super(type, config, condition);
         this.definitionID = definitionID;
     }
 
     @Override
-    public UUID getDefinitionID() {
+    public ProcessDefinitionID getDefinitionID() {
 
         return definitionID;
     }

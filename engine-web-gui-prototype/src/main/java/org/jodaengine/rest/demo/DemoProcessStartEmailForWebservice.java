@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
@@ -115,6 +116,9 @@ public final class DemoProcessStartEmailForWebservice {
         DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
         deploymentBuilder.addProcessDefinition(def);
 
+        Deployment deployment = deploymentBuilder.buildDeployment();
+        ServiceFactory.getRepositoryService().deployInNewScope(deployment);
+        
         // Create a mail adapater event here.
         // TODO @TobiP Could create a builder for this later.
         InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
@@ -128,7 +132,7 @@ public final class DemoProcessStartEmailForWebservice {
 
             builder.createStartTrigger(EventTypes.Mail, config, conditions, node1);
 
-            ServiceFactory.getRepositoryService().activateProcessDefinition(exampleProcessUUID);
+            ServiceFactory.getRepositoryService().activateProcessDefinition(def.getID());
         } catch (JodaEngineRuntimeException e) {
             LOGGER.error(e.getMessage(), e);
         }

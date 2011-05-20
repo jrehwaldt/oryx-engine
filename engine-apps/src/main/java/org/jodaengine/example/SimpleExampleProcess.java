@@ -3,8 +3,6 @@ package org.jodaengine.example;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter;
-import org.jodaengine.eventmanagement.registration.StartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.monitor.Monitor;
@@ -23,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.joran.event.EndEvent;
+import ch.qos.logback.core.joran.event.StartEvent;
 
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.

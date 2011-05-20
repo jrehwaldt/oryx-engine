@@ -16,13 +16,15 @@ import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
+import org.quartz.SimpleScheduleBuilder;
 import org.quartz.SimpleTrigger;
-import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

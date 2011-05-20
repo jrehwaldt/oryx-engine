@@ -3,7 +3,7 @@ package org.jodaengine.eventmanagement;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.params.CoreConnectionPNames;
+import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
 import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
@@ -36,6 +36,8 @@ public class EventManager implements EventSubscription, EventUnsubscription, Ada
     private QuartzJobManager timingManager;
 
     private ErrorAdapter errorAdapter;
+    
+    private boolean running = false;
 
     public EventManager() {
 
@@ -43,15 +45,21 @@ public class EventManager implements EventSubscription, EventUnsubscription, Ada
         this.timingManager = new QuartzJobManager(errorAdapter);
     }
 
-    /**
-     * This method starts the {@link EventManager} and its dependent services.
-     */
-    public void start() {
-
+    @Override
+    public void start(JodaEngineServices services) {
+    
         logger.info("Starting the Event Manager.");
         registerAdapter(this.errorAdapter);
-
+        
         timingManager.start();
+        
+        this.running = true;
+    }
+
+    @Override
+    public boolean isRunning() {
+    
+        return this.running;
     }
 
     @Override
@@ -60,6 +68,8 @@ public class EventManager implements EventSubscription, EventUnsubscription, Ada
         logger.info("Stopping the Event Manager.");
 
         timingManager.stop();
+        
+        this.running = false;
     }
 
     // ==== EventSubscription ====

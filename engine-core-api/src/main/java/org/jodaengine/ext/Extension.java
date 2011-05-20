@@ -6,6 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.jodaengine.plugin.activity.ActivityLifecyclePlugin;
+
 /**
  * This annotation identifies the extension parts of this engine.
  * 

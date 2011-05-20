@@ -16,7 +16,6 @@ import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
-import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

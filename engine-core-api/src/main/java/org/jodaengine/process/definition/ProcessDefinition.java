@@ -2,13 +2,10 @@ package org.jodaengine.process.definition;
 
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-
-import org.jodaengine.deployment.DeploymentScope;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.Identifiable;

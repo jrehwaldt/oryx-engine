@@ -2,6 +2,7 @@ package org.jodaengine.eventmanagement;
 
 import static org.testng.Assert.assertEquals;
 
+import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.navigator.Navigator;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;

@@ -2,6 +2,8 @@ package org.jodaengine.exception;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.eventmanagement.timing.TimingManager;
+
 /**
  * Exception implementation for scheduling errors in the {@link TimingManager}.
  * 

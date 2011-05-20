@@ -3,7 +3,7 @@ package org.jodaengine.process.definition;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-
+import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;

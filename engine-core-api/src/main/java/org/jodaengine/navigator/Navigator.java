@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.bootstrap.Service;
-import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;

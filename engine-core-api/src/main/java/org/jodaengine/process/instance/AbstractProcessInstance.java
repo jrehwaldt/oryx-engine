@@ -8,7 +8,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;

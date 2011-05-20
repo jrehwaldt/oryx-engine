@@ -12,6 +12,8 @@ import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factories.process.ProcessDeployer;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class LoadGenerator. Is used to generate some load and profile it (more or less) Maybe it should be more generic,
