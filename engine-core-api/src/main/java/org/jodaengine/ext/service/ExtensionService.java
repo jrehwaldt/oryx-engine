@@ -40,17 +40,15 @@ public interface ExtensionService extends Service {
      * 
      * Invoking this method <b>more then once</b> it will continue to provide the <b>SAME</b> instance.
      * 
-     * @param <IExtensionService> the extension service's interface
+     * @param <IExtService> the extension service's interface
      * @param extension the extension service's interface
      * @param name the extension's name
      * @return an array of available extensions
      * @throws ExtensionNotAvailableException no such extension available
      */
-// CHECKSTYLE:OFF
-    @Nonnull <IExtensionService extends Service> IExtensionService getExtensionService(@Nonnull Class<IExtensionService> extension,
-                                                                                       @Nonnull String name)
+    @Nonnull <IExtService extends Service> IExtService getExtensionService(@Nonnull Class<IExtService> extension,
+                                                                           @Nonnull String name)
     throws ExtensionNotAvailableException;
-// CHECKSTYLE:ON
     
     /**
      * Clears the intern extension database and reloads it.
