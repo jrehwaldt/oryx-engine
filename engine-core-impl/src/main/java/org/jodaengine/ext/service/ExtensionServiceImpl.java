@@ -34,9 +34,9 @@ public class ExtensionServiceImpl implements ExtensionService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     private JodaEngineServices coreServices;
-    private List<Class<?>> extensions;
-    
     private Map<String, Service> extensionServices;
+    
+    private Map<Class<?>, List<?>> extensions;
     
     private boolean running = false;
     
@@ -51,7 +51,7 @@ public class ExtensionServiceImpl implements ExtensionService {
         }
         
         this.coreServices = services;
-        this.extensions = new ArrayList<Class<?>>();
+        this.extensions = new HashMap<Class<?>, List<?>>();
         this.extensionServices = new HashMap<String, Service>();
         
         startExtensionServices();
@@ -91,11 +91,16 @@ public class ExtensionServiceImpl implements ExtensionService {
     @Override
     public <IExtension> boolean isExtensionAvailable(Class<IExtension> extension) {
         
-        return this.extensions.contains(extension);
+        return this.extensions.containsValue(extension);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public <IExtension> List<IExtension> getExtensions(Class<IExtension> extension) {
+    public synchronized <IExtension> List<IExtension> getExtensions(Class<IExtension> extension) {
+        
+        if (isExtensionAvailable(extension)) {
+            return (List<IExtension>) this.extensions.get(extension);
+        }
         
         List<IExtension> instances = new ArrayList<IExtension>();
         
@@ -115,6 +120,11 @@ public class ExtensionServiceImpl implements ExtensionService {
             }
         }
         
+        //
+        // remember the list of extensions
+        //
+        this.extensions.put(extension, instances);
+        
         return instances;
     }
 
@@ -131,6 +141,16 @@ public class ExtensionServiceImpl implements ExtensionService {
         }
         
         return service;
+    }
+
+    @Override
+    public <IExtension> void rebuildExtensionDatabase(Class<IExtension> extension) {
+        
+        //
+        // remove the list of extensions
+        // it will automatically rebuild upon call of ExtensionService#getExtensions(...)
+        //
+        this.extensions.remove(extension);
     }
 
     //=================================================================

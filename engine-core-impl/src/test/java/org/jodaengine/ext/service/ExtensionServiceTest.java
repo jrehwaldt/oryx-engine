@@ -120,4 +120,86 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         
         Assert.assertTrue(listenerAvailable);
     }
+    
+    /**
+     * This test checks that after rebuilding the list of available extensions
+     * any extension, which existed before will still be available.
+     */
+    @Test
+    public void testAfterRebuildSameExtensionsExist() {
+        
+        List<BpmnXmlParseListener> beforeListeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
+        Assert.assertTrue(beforeListeners.size() > 0);
+        
+        this.extensionService.rebuildExtensionDatabase(BpmnXmlParseListener.class);
+        Assert.assertTrue(beforeListeners.size() > 0);
+        
+        List<BpmnXmlParseListener> afterListeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
+        Assert.assertTrue(afterListeners.size() > 0);
+        
+        //
+        // an instance of the extension class from the first run will exist
+        //
+        boolean containsListener = false;
+        for (BpmnXmlParseListener beforeListener: beforeListeners) {
+            for (BpmnXmlParseListener afterListener: afterListeners) {
+                if (afterListener.getClass().equals(beforeListener.getClass())) {
+                    containsListener = true;
+                }
+            }
+        }
+        
+        Assert.assertTrue(containsListener);
+    }
+    
+    /**
+     * This test checks that each time the method {@link ExtensionService}#getExtensions(...)
+     * is invoked a new instance is created.
+     */
+    @Test
+    public void testGettingMultipleInstancesOnMultipleRunsOnGetExt() {
+        
+        List<BpmnXmlParseListener> beforeListeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
+        Assert.assertTrue(beforeListeners.size() > 0);
+        
+        this.extensionService.rebuildExtensionDatabase(BpmnXmlParseListener.class);
+        Assert.assertTrue(beforeListeners.size() > 0);
+        
+        List<BpmnXmlParseListener> afterListeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
+        Assert.assertTrue(afterListeners.size() > 0);
+        
+        //
+        // no instance duplicates exist
+        //
+        for (BpmnXmlParseListener beforeListener: beforeListeners) {
+            for (BpmnXmlParseListener afterListener: afterListeners) {
+                Assert.assertNotSame(afterListener, beforeListener, "A dublicated listener instance was found");
+            }
+        }
+    }
+    
+    /**
+     * This test checks that each time the method {@link ExtensionService}#getExtensionService(...)
+     * is invoked a new instance is created.
+     * 
+     * @throws ExtensionNotAvailableException test fails
+     */
+    @Test
+    public void testGettingOneInstanceOnMultipleRunsOfGetExtServices() throws ExtensionNotAvailableException {
+        
+        TestingExtensionService firstTestingService = this.extensionService.getExtensionService(
+            TestingExtensionService.class,
+            TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME);
+        
+        Assert.assertNotNull(firstTestingService);
+        
+        TestingExtensionService secondTestingService = this.extensionService.getExtensionService(
+            TestingExtensionService.class,
+            TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME);
+        
+        Assert.assertNotNull(secondTestingService);
+        
+        Assert.assertEquals(firstTestingService, secondTestingService);
+        
+    }
 }

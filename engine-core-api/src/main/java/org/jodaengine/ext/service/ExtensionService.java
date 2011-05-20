@@ -27,6 +27,8 @@ public interface ExtensionService extends Service {
     /**
      * Returns any available extension for the specified extension point.
      * 
+     * Invoking this method <b>more then once</b> it will create a <b>NEW</b> instance each time.
+     * 
      * @param <IExtension> the extension point's interface
      * @param extension the extension point's interface
      * @return an array of available extensions
@@ -35,6 +37,8 @@ public interface ExtensionService extends Service {
     
     /**
      * Returns an available extension for the specified extension point with the specified name.
+     * 
+     * Invoking this method <b>more then once</b> it will continue to provide the <b>SAME</b> instance.
      * 
      * @param <IExtensionService> the extension service's interface
      * @param extension the extension service's interface
@@ -47,4 +51,15 @@ public interface ExtensionService extends Service {
                                                                                        @Nonnull String name)
     throws ExtensionNotAvailableException;
 // CHECKSTYLE:ON
+    
+    /**
+     * Clears the intern extension database and reloads it.
+     * 
+     * If the provided extension is a running {@link Service} it will
+     * NOT be stopped.
+     * 
+     * @param <IExtension> the extension point's interface
+     * @param extension the extension point's interface
+     */
+    <IExtension> void rebuildExtensionDatabase(@Nonnull Class<IExtension> extension);
 }
