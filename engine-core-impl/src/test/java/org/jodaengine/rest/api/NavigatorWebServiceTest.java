@@ -127,8 +127,19 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
             response = new MockHttpResponse();
 
             this.dispatcher.invoke(request, response);
-            // FIXME @Jan&Gerardo
+            
             Assert.assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            
+            logger.debug(response.getContentAsString());
+            
+            AbstractProcessInstance instance = this.mapper.readValue(
+                response.getContentAsString(),
+                AbstractProcessInstance.class);
+            
+            Assert.assertNotNull(instance);
+            Assert.assertNotNull(instance.getDefinition());
+            
+            Assert.assertEquals(instance.getDefinition().getID(), definition.getID());
         }
 
         // wait for the service to be finished

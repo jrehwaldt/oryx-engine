@@ -94,6 +94,11 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
         this(startNode, new ProcessInstanceImpl(null), null);
     }
+    
+    /**
+     * Hidden constructor.
+     */
+    protected TokenImpl() { }
 
     /**
      * Gets the current node. So the position where the execution of the Processtoken is at.

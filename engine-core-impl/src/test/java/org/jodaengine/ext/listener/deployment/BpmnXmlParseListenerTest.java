@@ -21,7 +21,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * This class tests the injection of {@link BpmnXmlParseListener}s.
+ * This class tests the proper invocation of {@link BpmnXmlParseListener}s.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-19
@@ -30,7 +30,6 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
     
     private static final short NUMBER_OF_SEQUENCE_FLOWS = 11;
     private static final short NUMBER_OF_TASKS = 4;
-    
     
     private static final String USER_PROCESS_DEFINITION_FILE
         = "org/jodaengine/ext/listener/deployment/UserTaskBpmnListenerTest.bpmn.xml";
