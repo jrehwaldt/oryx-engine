@@ -3,7 +3,6 @@ package org.jodaengine.ext.debugging.api;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.bootstrap.Service;
-import org.jodaengine.ext.debugging.Breakpoint;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 
 
@@ -12,7 +11,7 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
  * for debugging business processes.
  * 
  * This is the debugging service part, which provides control over paused {@link AbstractProcessInstance}s.
- * {@link Breakpoint} service methods are defined within {@link BreakpointService}.
+ * Service methods for handling breakpoints are defined within {@link BreakpointService}.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-17
