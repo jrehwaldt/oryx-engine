@@ -25,13 +25,13 @@ public interface ExtensionService extends Service {
     <IExtension> boolean isExtensionAvailable(@Nonnull Class<IExtension> extension);
     
     /**
-     * Returns any available extension for the specified extension point.
+     * Returns any available extension for the specified extension point as new instance.
      * 
      * Invoking this method <b>more then once</b> it will create a <b>NEW</b> instance each time.
      * 
      * @param <IExtension> the extension point's interface
      * @param extension the extension point's interface
-     * @return an array of available extensions
+     * @return an array of extension instances
      */
     @Nonnull <IExtension> List<IExtension> getExtensions(@Nonnull Class<IExtension> extension);
     
@@ -62,4 +62,13 @@ public interface ExtensionService extends Service {
      * @param extension the extension point's interface
      */
     <IExtension> void rebuildExtensionDatabase(@Nonnull Class<IExtension> extension);
+    
+    /**
+     * Returns any available extension type for the specified extension point.
+     * 
+     * @param <IExtension> the extension point's interface
+     * @param extension the extension point's interface
+     * @return an array of available extensions types
+     */
+    @Nonnull <IExtension> List<Class<IExtension>> getExtensionTypes(@Nonnull Class<IExtension> extension);
 }

@@ -162,9 +162,6 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         List<BpmnXmlParseListener> beforeListeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
         Assert.assertTrue(beforeListeners.size() > 0);
         
-        this.extensionService.rebuildExtensionDatabase(BpmnXmlParseListener.class);
-        Assert.assertTrue(beforeListeners.size() > 0);
-        
         List<BpmnXmlParseListener> afterListeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
         Assert.assertTrue(afterListeners.size() > 0);
         
@@ -200,6 +197,16 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         Assert.assertNotNull(secondTestingService);
         
         Assert.assertEquals(firstTestingService, secondTestingService);
+    }
+    
+    /**
+     * Tests that our testing extension types exist.
+     */
+    @Test
+    public void testExistanceOfTestingExtensionTypes() {
         
+        List<Class<BpmnXmlParseListener>> listenerClasses
+            = this.extensionService.getExtensionTypes(BpmnXmlParseListener.class);
+        Assert.assertTrue(listenerClasses.size() > 0);
     }
 }

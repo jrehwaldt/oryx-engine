@@ -36,7 +36,7 @@ public class ExtensionServiceImpl implements ExtensionService {
     private JodaEngineServices coreServices;
     private Map<String, Service> extensionServices;
     
-    private Map<Class<?>, List<?>> extensions;
+    private Map<Class<?>, ExtensionList<?>> extensions;
     
     private boolean running = false;
     
@@ -51,7 +51,7 @@ public class ExtensionServiceImpl implements ExtensionService {
         }
         
         this.coreServices = services;
-        this.extensions = new HashMap<Class<?>, List<?>>();
+        this.extensions = new HashMap<Class<?>, ExtensionList<?>>();
         this.extensionServices = new HashMap<String, Service>();
         
         startExtensionServices();
@@ -91,16 +91,11 @@ public class ExtensionServiceImpl implements ExtensionService {
     @Override
     public <IExtension> boolean isExtensionAvailable(Class<IExtension> extension) {
         
-        return this.extensions.containsValue(extension);
+        return this.extensions.containsKey(extension);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public synchronized <IExtension> List<IExtension> getExtensions(Class<IExtension> extension) {
-        
-        if (isExtensionAvailable(extension)) {
-            return (List<IExtension>) this.extensions.get(extension);
-        }
         
         List<IExtension> instances = new ArrayList<IExtension>();
         
@@ -119,11 +114,6 @@ public class ExtensionServiceImpl implements ExtensionService {
                 logger.error("No such extension available. None of constructors could be instantiated.");
             }
         }
-        
-        //
-        // remember the list of extensions
-        //
-        this.extensions.put(extension, instances);
         
         return instances;
     }
@@ -152,6 +142,13 @@ public class ExtensionServiceImpl implements ExtensionService {
         //
         this.extensions.remove(extension);
     }
+    
+    @Override
+    public <IExtension> List<Class<IExtension>> getExtensionTypes(Class<IExtension> extension) {
+        List<Class<IExtension>> classes = new ArrayList<Class<IExtension>>();
+        classes.addAll(getExtensionClasses(extension).getExtensionTypes());
+        return classes;
+    }
 
     //=================================================================
     //=================== Private methods =============================
@@ -162,7 +159,7 @@ public class ExtensionServiceImpl implements ExtensionService {
      */
     private void startExtensionServices() {
         
-        List<Class<Service>> serviceClasses = getExtensionClasses(Service.class);
+        ExtensionList<Service> serviceClasses = getExtensionClasses(Service.class);
         
         for (Class<Service> serviceClass: serviceClasses) {
             String name = serviceClass.getAnnotation(Extension.class).value();
@@ -198,39 +195,54 @@ public class ExtensionServiceImpl implements ExtensionService {
      * @return the classes matching the extension point's interface
      */
     @SuppressWarnings("unchecked")
-    private @Nonnull <IExtension> List<Class<IExtension>> getExtensionClasses(@Nonnull Class<IExtension> extension) {
+    private @Nonnull <IExtension> ExtensionList<IExtension> getExtensionClasses(@Nonnull Class<IExtension> extension) {
         
-        List<Class<IExtension>> classes = new ArrayList<Class<IExtension>>();
-        
-        //
-        // class path scanner
-        //
-        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-        
-        //
-        // our candidate needs to be annotated with @Extension and of the desired type
-        //
-        TypeFilter filter = new AndTypeFilter(
-            new AnnotationTypeFilter(Extension.class),
-            new AssignableTypeFilter(extension));
-        
-        scanner.addIncludeFilter(filter);
-        
-        //
-        // search for the specified beans within base package scope
-        //
-        for (BeanDefinition bd : scanner.findCandidateComponents(BASE_PACKAGE)) {
-            try {
-                classes.add((Class<IExtension>) Class.forName(bd.getBeanClassName()));
-            } catch (ClassNotFoundException cnfe) {
-                //
-                // this is seriously unlikely to happen... we found it in the class path just a second ago
-                //
-                logger.error("Extension class could not be found", cnfe);
+        synchronized (extension) {
+            //
+            // get the cached extension type list
+            //
+            if (this.extensions.containsKey(extension)) {
+                return (ExtensionList<IExtension>) this.extensions.get(extension);
             }
+            
+            ExtensionList<IExtension> classes = new ExtensionList<IExtension>();
+            
+            //
+            // class path scanner
+            //
+            ClassPathScanningCandidateComponentProvider scanner
+                = new ClassPathScanningCandidateComponentProvider(false);
+            
+            //
+            // our candidate needs to be annotated with @Extension and of the desired type
+            //
+            TypeFilter filter = new AndTypeFilter(
+                new AnnotationTypeFilter(Extension.class),
+                new AssignableTypeFilter(extension));
+            
+            scanner.addIncludeFilter(filter);
+            
+            //
+            // search for the specified beans within base package scope
+            //
+            for (BeanDefinition bd : scanner.findCandidateComponents(BASE_PACKAGE)) {
+                try {
+                    classes.addExtensionType((Class<IExtension>) Class.forName(bd.getBeanClassName()));
+                } catch (ClassNotFoundException cnfe) {
+                    //
+                    // this is seriously unlikely to happen... we found it in the class path just a second ago
+                    //
+                    logger.error("Extension class could not be found", cnfe);
+                }
+            }
+            
+            //
+            // remember the list of extensions
+            //
+            this.extensions.put(extension, classes);
+            
+            return classes;
         }
-        
-        return classes;
     }
     
     /**
