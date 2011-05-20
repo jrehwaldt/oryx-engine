@@ -28,6 +28,10 @@ import org.testng.annotations.Test;
  */
 public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
     
+    private static final short NUMBER_OF_SEQUENCE_FLOWS = 11;
+    private static final short NUMBER_OF_TASKS = 2;
+    
+    
     private static final String USER_PROCESS_DEFINITION_FILE
         = "org/jodaengine/ext/listener/deployment/UserTaskBpmnListenerTest.bpmn.xml";
     
@@ -177,7 +181,7 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         //
         // parseSequenceFlow
         //
-        Mockito.verify(this.listener, Mockito.times(11)).parseSequenceFlow(
+        Mockito.verify(this.listener, Mockito.times(NUMBER_OF_SEQUENCE_FLOWS)).parseSequenceFlow(
             xmlElementArgument.capture(),
             transitionArgument.capture());
         
@@ -187,7 +191,7 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         //
         // parseTask
         //
-        Mockito.verify(this.listener, Mockito.times(4)).parseTask(
+        Mockito.verify(this.listener, Mockito.times(NUMBER_OF_TASKS)).parseTask(
             xmlElementArgument.capture(),
             nodeArgument.capture());
         
