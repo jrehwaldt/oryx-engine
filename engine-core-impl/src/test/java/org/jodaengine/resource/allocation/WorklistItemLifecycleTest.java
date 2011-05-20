@@ -67,7 +67,7 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
     /**
      * Test creation of a worklist item.
      */
-    @Test
+    @Test(expectedExceptions = NullPointerException.class)
     public void testWorklistItemCreation() {
 
         AbstractParticipant part = ServiceFactory.getIdentityService().getParticipants().iterator().next();
@@ -87,16 +87,11 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         Assert.assertEquals(worklistItemForGerardo.getStatus(), WorklistItemState.CREATED);
 
         // Testing that the creation of a WorklistItem requires a Token
-        try {
-
-            worklistItemForGerardo = new WorklistItemImpl("Task Subject!!", "Task Decription!!", null,
-                assignedResources, null);
-            String failureMessage = "An NullPointerException should have occurred, "
-                + "because the WorklistItem was created without a Token.";
-            Assert.fail(failureMessage);
-        } catch (NullPointerException nullPointerException) {
-            // This was expected
-        }
+        worklistItemForGerardo = new WorklistItemImpl("Task Subject!!", "Task Decription!!", null,
+            assignedResources, null);
+        String failureMessage = "An NullPointerException should have occurred, "
+            + "because the WorklistItem was created without a Token.";
+        Assert.fail(failureMessage);
     }
 
     /**
@@ -106,7 +101,6 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
     public void testClaimingWorklistItem() {
 
         worklistService.claimWorklistItemBy(worklistItem, jannik);
-
         Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.ALLOCATED);
     }
 
@@ -117,7 +111,6 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
     public void testBeginningWorklistItem() {
 
         worklistService.beginWorklistItemBy(worklistItem, jannik);
-
         Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
     }
 
@@ -128,9 +121,11 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
     public void testAbortAfterBeginningWorklistItem() {
 
         worklistService.beginWorklistItemBy(worklistItem, jannik);
+        Assert.assertEquals(WorklistItemState.ALLOCATED, worklistItem.getStatus());
+        
         worklistService.abortWorklistItemBy(worklistItem, jannik);
-
-        // TODO Assertions are missing
+        
+        // TODO add assertions when abort is implemented
     }
 
     /**

@@ -50,6 +50,8 @@ public class ExtensionServiceImpl implements ExtensionService {
             return;
         }
         
+        logger.info("Starting the ExtensionService");
+        
         this.coreServices = services;
         this.extensions = new HashMap<Class<?>, ExtensionList<?>>();
         this.extensionServices = new HashMap<String, Service>();
@@ -68,6 +70,8 @@ public class ExtensionServiceImpl implements ExtensionService {
         if (!this.running) {
             return;
         }
+        
+        logger.info("Stopping the ExtensionService");
         
         this.running = false;
         
@@ -159,6 +163,8 @@ public class ExtensionServiceImpl implements ExtensionService {
      */
     private void startExtensionServices() {
         
+        logger.info("Starting all found extensions services");
+        
         ExtensionList<Service> serviceClasses = getExtensionClasses(Service.class);
         
         for (Class<Service> serviceClass: serviceClasses) {
@@ -173,9 +179,12 @@ public class ExtensionServiceImpl implements ExtensionService {
             // create the service and keep a reference
             //
             try {
-                this.extensionServices.put(name, createExtensionInstance(serviceClass));
+                Service service = createExtensionInstance(serviceClass);
+                this.extensionServices.put(name, service);
+                
+                logger.info("Successfully registered extension service {} [{}]", name, service);
             } catch (Exception e) {
-                logger.error("Could not instantiate extension service.", e);
+                logger.error("Could not instantiate extension service " + name + ".", e);
             }
         }
         
@@ -183,6 +192,7 @@ public class ExtensionServiceImpl implements ExtensionService {
         // start the created services
         //
         for (Service service: this.extensionServices.values()) {
+            logger.info("Starting registered extension service {}", service);
             service.start(this.coreServices);
         }
     }
@@ -227,7 +237,9 @@ public class ExtensionServiceImpl implements ExtensionService {
             //
             for (BeanDefinition bd : scanner.findCandidateComponents(BASE_PACKAGE)) {
                 try {
-                    classes.addExtensionType((Class<IExtension>) Class.forName(bd.getBeanClassName()));
+                    Class<IExtension> extensionClass = (Class<IExtension>) Class.forName(bd.getBeanClassName());
+                    classes.addExtensionType(extensionClass);
+                    logger.info("Found extension type {}", extensionClass);
                 } catch (ClassNotFoundException cnfe) {
                     //
                     // this is seriously unlikely to happen... we found it in the class path just a second ago

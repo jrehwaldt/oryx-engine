@@ -26,6 +26,13 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- The JodaEngine Debugger Extension (optional, comment out to remove) -->
+        <dependency>
+            <groupId>org.jodaengine</groupId>
+            <artifactId>engine-ext-debugger</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>

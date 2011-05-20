@@ -60,9 +60,15 @@ public class ProcessELContext extends SimpleContext {
         
         /**
          * We need this map so we can
+         * <ul>
+         * <li>
          *   a) always return the same ValueExpression instance for the same variable
+         * </li>
+         * <li>
          * and
          *   b) allow overriding variables by setting them explicitly.
+         * </li>
+         * </ul>
          */
         private Map<String, ValueExpression> map = Collections.emptyMap(); 
         

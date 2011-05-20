@@ -56,9 +56,17 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      * 
      * We use massive reflection here to avoid inheritance (which will possibly confuse the
      * {@link ExtensionService}). If one of the reflection exceptions is thrown this will most
-     * likely be an issue with the local configuration of the {@link SecurityManager}
-     * or the {@link DebuggerServiceImpl} was refactored (but this is unlikely, the test is rather
-     * independent of a concrete implementation).
+     * likely be
+     * <ul>
+     * <li>
+     *   a) an issue with the local configuration of the {@link SecurityManager}
+     * </li>
+     * <li>
+     * or
+     *   b) the {@link DebuggerServiceImpl} was refactored (but this is unlikely, the
+     *      test is rather independent of a concrete {@link DebuggerService} implementation).
+     * </li>
+     * </ul>
      * 
      * Keep it synced!
      * 

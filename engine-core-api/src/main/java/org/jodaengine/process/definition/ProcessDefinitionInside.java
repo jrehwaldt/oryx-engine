@@ -19,7 +19,6 @@ import org.jodaengine.process.structure.Node;
  */
 public interface ProcessDefinitionInside extends ProcessDefinition {
 
-    // TODO @Gerardo&Co. This can be a class.
     /**
      * Gets the start triggers: events pointing to nodes that are tokens put on, if the event is invoked.
      * 
@@ -36,7 +35,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      * @param node
      *            the node
      * @throws IllegalStarteventException
-     *             thrown if the provided node isn't a startnode.
+     *             thrown if the provided node isn't a start node.
      */
     void addStartTrigger(StartEvent event, Node node)
     throws IllegalStarteventException;
