@@ -1,6 +1,10 @@
 package org.jodaengine.ext.debugging.rest;
 
 import javax.annotation.Nonnull;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 
 import org.jodaengine.JodaEngineServices;
@@ -24,7 +28,9 @@ import org.slf4j.LoggerFactory;
  * @author Jan Rehwaldt
  * @since 2011-05-17
  */
-@Provider
+@Path("/debugger")
+@Produces({ MediaType.APPLICATION_JSON })
+@Consumes({ MediaType.APPLICATION_JSON })
 public class DebuggerWebService implements DebuggerService, BreakpointService {
 
     private static final String NOT_ACCESSIBLE_VIA_WEBSERVICE = "This method is not accessible via web service.";
@@ -45,7 +51,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         
         ExtensionService extService = this.engineServices.getExtensionService();
         try {
-            this.debugger = extService.getExtensionService(DebuggerService.class, EXTENSION_SERVICE_NAME);
+            this.debugger = extService.getExtensionService(DebuggerService.class, DEBUGGER_SERVICE_NAME);
         } catch (ExtensionNotAvailableException e) {
             logger.error("The Debugger REST API will be unavailable. No Debugger Service found.");
             this.debugger = null;
@@ -94,7 +100,8 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         if (this.debugger != null) {
             return this.debugger.isRunning();
         }
-        throw new ServiceUnavailableException(DebuggerService.class);
+        
+        return false;
     }
     
     @Override

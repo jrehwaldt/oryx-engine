@@ -18,7 +18,7 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
  */
 public interface DebuggerService extends BreakpointService, Service {
     
-    String EXTENSION_SERVICE_NAME = "engine-ext-debugger";
+    String DEBUGGER_SERVICE_NAME = "engine-ext-debugger";
     
     /**
      * This method will release the {@link AbstractProcessInstance} and step over to the next process' state.

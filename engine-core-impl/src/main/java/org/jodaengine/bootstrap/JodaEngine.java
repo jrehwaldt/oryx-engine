@@ -21,6 +21,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * "Inversion of Control" pattern provided by the Spring.net Framework.
  */
 public class JodaEngine implements JodaEngineServices {
+    
+    public static final String BASE_PACKAGE = "org.jodaengine";
 
     public static final String DEFAULT_SPRING_CONFIG_FILE = "jodaengine.cfg.xml";
 
