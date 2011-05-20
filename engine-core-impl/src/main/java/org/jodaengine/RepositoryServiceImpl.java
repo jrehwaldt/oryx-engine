@@ -48,7 +48,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     private Map<UUID, Integer> processVersions;
 
     // private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
-    
+
     private boolean running = false;
 
     /**
@@ -64,7 +64,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     public synchronized void start(JodaEngineServices services) {
 
         logger.info("Starting the RespositoryService.");
-        
+
         this.running = true;
     }
 
@@ -72,12 +72,13 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     public synchronized void stop() {
 
         logger.info("Stopping the RespositoryService");
-        
+
         this.running = false;
     }
-    
+
     @Override
     public boolean isRunning() {
+
         return this.running;
     }
 
@@ -227,15 +228,22 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
             // create the connection between definition and scope
             setScopeForDefinition(definition.getID(), scope);
         }
+        
+        Map<String, byte[]> customClasses = processDeployment.getClasses();
+        for (String className : customClasses.keySet()) {
+            scope.addClass(className, customClasses.get(className));
+        }
 
         return scope;
     }
 
     /**
      * Sets the scope of the definition.
-     *
-     * @param definitionID the definition id
-     * @param scope the scope
+     * 
+     * @param definitionID
+     *            the definition id
+     * @param scope
+     *            the scope
      */
     private void setScopeForDefinition(ProcessDefinitionID definitionID, DeploymentScope scope) {
 
@@ -244,8 +252,9 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     /**
      * Removes the link between the definition and its scope.
-     *
-     * @param definitionID the definition id
+     * 
+     * @param definitionID
+     *            the definition id
      */
     private void removeDefinitionFromScope(ProcessDefinitionID definitionID) {
 
@@ -281,7 +290,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
         DeploymentScope scope = scopes.get(definitionID);
         scope.addProcessArtifact(artifact);
-        
+
     }
 
     @Override
@@ -297,13 +306,22 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
         DeploymentScope scope = scopes.get(definitionID);
         scope.deleteProcessArtifact(processArtifactID);
-        
+
     }
 
     @Override
     public DarImporter getNewDarImporter() {
 
         return new DarImporterImpl(this);
+    }
+
+    @Override
+    public Class<?> getDeployedClass(ProcessDefinitionID definitionID, String fullClassName)
+    throws ClassNotFoundException {
+
+        // get the class loader
+        DeploymentScope scope = scopes.get(definitionID);
+        return scope.getClass(fullClassName);
     }
 
     // @Override
