@@ -24,6 +24,8 @@ import org.testng.annotations.BeforeMethod;
  */
 public abstract class AbstractJodaEngineTest {
 
+    private static final String JODAENGINE_CFG_XML = "jodaengine.cfg.xml";
+
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected JodaEngineServices jodaEngineServices;
@@ -35,7 +37,7 @@ public abstract class AbstractJodaEngineTest {
     public void aBeforeClassJodaEngineSetUp() {
 
         // Starting the engine and storing the engineServices
-        this.jodaEngineServices = JodaEngine.startWithConfig("test.jodaengine.cfg.xml");
+        this.jodaEngineServices = JodaEngine.startWithConfig(JODAENGINE_CFG_XML);
     }
 
     /**
@@ -48,7 +50,7 @@ public abstract class AbstractJodaEngineTest {
             return;
         }
 
-        this.jodaEngineServices = JodaEngine.startWithConfig("test.jodaengine.cfg.xml");
+        this.jodaEngineServices = JodaEngine.startWithConfig(JODAENGINE_CFG_XML);
     }
 
     /**

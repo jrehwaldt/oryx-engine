@@ -38,15 +38,7 @@ public interface TimingManager {
     /**
      * Unregister the given job.
      * 
-     * @param jobCompleteName
-     *            the name of the job from the scheduler
      */
-    void unregisterJob(String jobCompleteName);
-
-    /**
-     * Count the scheduled jobGroups.
-     * 
-     * @return the number of scheduled groups
-     */
-    int countScheduledJobGroups();
+    void unregisterJobForInboundPullAdapter(@Nonnull InboundPullAdapter inboundPulladapter)
+    throws AdapterSchedulingException;
 }

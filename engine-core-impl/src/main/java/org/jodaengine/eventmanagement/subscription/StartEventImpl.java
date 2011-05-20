@@ -9,7 +9,6 @@ import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.navigator.NavigatorInside;
-import org.jodaengine.process.instance.AbstractProcessInstance;
 
 
 /**

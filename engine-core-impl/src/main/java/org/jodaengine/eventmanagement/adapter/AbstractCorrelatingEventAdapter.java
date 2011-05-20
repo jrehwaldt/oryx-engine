@@ -10,26 +10,25 @@ import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.EventSubscription;
+import org.jodaengine.eventmanagement.subscription.EventUnsubscription;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
-
 
 /**
  * This abstract eventAdapter implements our approach of a self correlating event Adapter. It means that this
  * eventAdapter already manages his own queues for correlating {@link ProcessEvent}s with {@link AdapterEvent}s.
  * <p>
- * That's why this adapter implements {@link EventSubscription} in order to fill his own queue with {@link ProcessEvent}s.
- * And, it also implements the {@link EventCorrelator} interface in order to correlate {@link ProcessEvent}s with
- * {@link AdapterEvent}s.
+ * That is why this adapter implements {@link EventSubscription} in order to fill his own queue with
+ * {@link ProcessEvent ProcessEvents}. And, it also implements the {@link EventCorrelator} interface in order to
+ * correlate {@link ProcessEvent}s with {@link AdapterEvent}s.
  * </p>
  * 
  * @param <Configuration>
  *            - the {@link AdapterConfiguration} of this adapter
  */
-public abstract class AbstractCorrelatingEventAdapter<Configuration extends AdapterConfiguration>
-extends AbstractEventAdapter<Configuration>
-implements EventSubscription, EventCorrelator {
+public abstract class AbstractCorrelatingEventAdapter<Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
+implements EventSubscription, EventUnsubscription, EventCorrelator {
 
     // Both lists are lazyInitialized
     private List<ProcessEvent> processEvents;
@@ -61,6 +60,18 @@ implements EventSubscription, EventCorrelator {
     }
 
     @Override
+    public void unsubscribeFromStartEvent(ProcessStartEvent startEvent) {
+
+        getProcessEvents().remove(startEvent);
+    }
+
+    @Override
+    public void unsubscribeFromIntermediateEvent(ProcessIntermediateEvent intermediateEvent) {
+
+        getProcessEvents().remove(intermediateEvent);
+    }
+
+    @Override
     public void correlate(AdapterEvent e) {
 
         for (ProcessEvent processEvent : getProcessEvents()) {
@@ -77,11 +88,10 @@ implements EventSubscription, EventCorrelator {
 
     /**
      * Private Getter for {@link ProcessEvent}s.
-     *
+     * 
      * @return a {@link List} of {@link ProcessEvent}s.
      */
     private List<ProcessEvent> getProcessEvents() {
-
 
         if (processEvents == null) {
             this.processEvents = new ArrayList<ProcessEvent>();
@@ -91,7 +101,7 @@ implements EventSubscription, EventCorrelator {
 
     /**
      * Private Getter for {@link AdapterEvent}s.
-     *
+     * 
      * @return a {@link List} of {@link AdapterEvent}s.
      */
     private List<AdapterEvent> getUnCorrelatedAdapterEvents() {
@@ -101,7 +111,7 @@ implements EventSubscription, EventCorrelator {
         }
         return unCorrelatedAdapterEvents;
     }
-    
+
     /**
      * Correlation method, which calls the underlying {@link EventCorrelator}.
      * 

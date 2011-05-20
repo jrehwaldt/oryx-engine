@@ -3,6 +3,7 @@ package org.jodaengine.eventmanagement;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.params.CoreConnectionPNames;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
 import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
@@ -12,21 +13,21 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.EventSubscription;
+import org.jodaengine.eventmanagement.subscription.EventUnsubscription;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
-import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.eventmanagement.timing.QuartzJobManager;
+import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.exception.AdapterSchedulingException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * A concrete implementation of our engines Event Manager.
  */
-public class EventManager implements EventSubscription, AdapterManagement, Service {
+public class EventManager implements EventSubscription, EventUnsubscription, AdapterManagement, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -66,8 +67,8 @@ public class EventManager implements EventSubscription, AdapterManagement, Servi
     @Override
     public void registerStartEvent(ProcessStartEvent startEvent) {
 
-        // Delegate the work of registering the adapter to the configuration
-        startEvent.getAdapterConfiguration().registerAdapter(this);
+        AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(startEvent);
+        correlatingAdapter.registerStartEvent(startEvent);
     }
 
     @Override
@@ -75,6 +76,25 @@ public class EventManager implements EventSubscription, AdapterManagement, Servi
 
         AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(intermediateEvent);
         correlatingAdapter.registerIntermediateEvent(intermediateEvent);
+    }
+
+    @Override
+    public void unsubscribeFromStartEvent(ProcessStartEvent startEvent) {
+
+        AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(startEvent);
+        correlatingAdapter.unsubscribeFromStartEvent(startEvent);
+    }
+
+    @Override
+    public void unsubscribeFromIntermediateEvent(ProcessIntermediateEvent intermediateEvent) {
+
+        AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(intermediateEvent);
+        correlatingAdapter.unsubscribeFromIntermediateEvent(intermediateEvent);
+
+        if (correlatingAdapter instanceof InboundPullAdapter) {
+            InboundPullAdapter inboundPullAdapter = (InboundPullAdapter) correlatingAdapter;
+            unregisterInboundPullAdapterAtJobManager(inboundPullAdapter);
+        }
     }
 
     /**
@@ -100,6 +120,7 @@ public class EventManager implements EventSubscription, AdapterManagement, Servi
         }
 
         // Otherwise we will register a new one
+        // Delegate the work of registering the adapter to the configuration
         eventAdapter = (AbstractCorrelatingEventAdapter<?>) processEvent.getAdapterConfiguration()
         .registerAdapter(this);
         return eventAdapter;
@@ -123,6 +144,21 @@ public class EventManager implements EventSubscription, AdapterManagement, Servi
     @Override
     public InboundPullAdapter registerInboundPullAdapter(InboundPullAdapter inboundPullAdapter) {
 
+        registerInboundPullAdapterAtJobManager(inboundPullAdapter);
+
+        addToEventAdapter(inboundPullAdapter);
+
+        return inboundPullAdapter;
+    }
+
+    /**
+     * Encapsulates the registration of the {@link InboundPullAdapter}.
+     * 
+     * @param inboundPullAdapter
+     *            - the {@link InboundPullAdapter} to register
+     */
+    private void registerInboundPullAdapterAtJobManager(InboundPullAdapter inboundPullAdapter) {
+
         try {
 
             timingManager.registerJobForInboundPullAdapter(inboundPullAdapter);
@@ -133,10 +169,26 @@ public class EventManager implements EventSubscription, AdapterManagement, Servi
             logger.error(errorMessage, aSE);
             throw new JodaEngineRuntimeException(errorMessage, aSE);
         }
+    }
 
-        addToEventAdapter(inboundPullAdapter);
-
-        return inboundPullAdapter;
+    /**
+     * Encapsulates the 'unregistration' of the {@link InboundPullAdapter}.
+     * 
+     * @param inboundPullAdapter
+     *            - the {@link InboundPullAdapter} to unregister
+     */
+    private void unregisterInboundPullAdapterAtJobManager(InboundPullAdapter inboundPullAdapter) {
+    
+        try {
+    
+            timingManager.unregisterJobForInboundPullAdapter(inboundPullAdapter);
+    
+        } catch (AdapterSchedulingException aSE) {
+            String errorMessage = "An exception occurred while registering a QuartzJob for the adapter '"
+                + inboundPullAdapter.getConfiguration().getUniqueName() + "'";
+            logger.error(errorMessage, aSE);
+            throw new JodaEngineRuntimeException(errorMessage, aSE);
+        }
     }
 
     @Override

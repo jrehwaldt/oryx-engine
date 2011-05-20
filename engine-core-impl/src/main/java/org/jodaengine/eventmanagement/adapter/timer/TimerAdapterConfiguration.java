@@ -6,7 +6,6 @@ import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.timing.QuartzPullAdapterConfiguration;
 import org.jodaengine.eventmanagement.timing.job.PullAdapterJob;
-import org.jodaengine.eventmanagement.timing.job.TimerJob;
 import org.quartz.Job;
 
 /**

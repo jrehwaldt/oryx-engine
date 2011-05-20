@@ -2,7 +2,6 @@ package org.jodaengine.eventmanagement.subscription;
 
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.condition.TrueEventCondition;
 import org.jodaengine.process.token.Token;
 

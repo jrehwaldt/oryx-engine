@@ -38,8 +38,8 @@ public interface AdapterManagement {
      * A call to this method registers the corresponding adapter.
      * 
      * @param adapter
-     *            the {@link InboundAdapter} to register
-     * @return the registered {@link InboundAdapter}
+     *            the {@link InboundPullAdapter} to register
+     * @return the registered {@link InboundPullAdapter}
      */
     @Nonnull
     InboundPullAdapter registerInboundPullAdapter(@Nonnull InboundPullAdapter adapter);

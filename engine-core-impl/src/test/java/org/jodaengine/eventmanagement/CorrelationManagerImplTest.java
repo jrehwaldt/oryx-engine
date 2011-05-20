@@ -3,6 +3,7 @@ package org.jodaengine.eventmanagement;
 import static org.testng.Assert.assertEquals;
 
 import org.jodaengine.navigator.Navigator;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -35,7 +36,7 @@ public class CorrelationManagerImplTest {
     @Test
     public void testNoUnusedAdaptersRegisteredByStartup() {
 
-        this.manager.start();
+        
         assertEquals(this.manager.getEventAdapters().size(), INITIAL_ADAPTERS_COUNT);
     }
 
@@ -47,5 +48,11 @@ public class CorrelationManagerImplTest {
 
 //        this.navigator = mock(NavigatorImpl.class);
         this.manager = new EventManager();
+        this.manager.start();
+    }
+    
+    @AfterMethod
+    public void tearDown() {
+        this.manager.stop();
     }
 }

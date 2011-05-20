@@ -1,6 +1,8 @@
 package org.jodaengine.eventmanagement.timing;
 
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -13,6 +15,7 @@ import org.jodaengine.exception.EngineInitializationFailedException;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
@@ -30,9 +33,11 @@ import org.slf4j.LoggerFactory;
 public class QuartzJobManager implements TimingManager {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private Scheduler scheduler;
+    private final Scheduler scheduler;
     private final ErrorAdapter errorAdapter;
     public static final String TOKEN_KEY = "token";
+
+    private Map<InboundPullAdapter, JobKey> runningJobKeyTable;
 
     /**
      * Default constructor.
@@ -43,6 +48,15 @@ public class QuartzJobManager implements TimingManager {
     public QuartzJobManager(@Nonnull ErrorAdapter errorAdapter) {
 
         this.errorAdapter = errorAdapter;
+        final SchedulerFactory factory = new StdSchedulerFactory();
+        try {
+
+            this.scheduler = factory.getScheduler();
+
+        } catch (SchedulerException se) {
+            logger.error("Initializing the scheduler failed.", se);
+            throw new EngineInitializationFailedException("Creating a timer manager failed.", se);
+        }
     }
 
     /**
@@ -53,8 +67,6 @@ public class QuartzJobManager implements TimingManager {
         logger.info("Starting the QuartzJobManage.");
         try {
 
-            final SchedulerFactory factory = new StdSchedulerFactory();
-            this.scheduler = factory.getScheduler();
             scheduler.start();
 
         } catch (SchedulerException se) {
@@ -79,18 +91,35 @@ public class QuartzJobManager implements TimingManager {
     }
 
     @Override
-    public void registerJobForInboundPullAdapter(@Nonnull InboundPullAdapter adapter)
+    public void registerJobForInboundPullAdapter(@Nonnull InboundPullAdapter inboundPulladapter)
     throws AdapterSchedulingException {
 
-        final QuartzPullAdapterConfiguration configuration = (QuartzPullAdapterConfiguration) adapter
+        final QuartzPullAdapterConfiguration configuration = (QuartzPullAdapterConfiguration) inboundPulladapter
         .getConfiguration();
 
         JobDetail jobDetail = buildJobDetailFrom(configuration);
-        prepareJobDataMap(adapter, jobDetail);
+        prepareJobDataMap(inboundPulladapter, jobDetail);
 
         SimpleTrigger trigger = buildSimpleTrigger(configuration);
 
-        registerQuartzJob(adapter, jobDetail, trigger);
+        registerQuartzJob(inboundPulladapter, jobDetail, trigger);
+
+        getRunningJobKeyTable().put(inboundPulladapter, jobDetail.getKey());
+
+    }
+
+    @Override
+    public void unregisterJobForInboundPullAdapter(InboundPullAdapter inboundPulladapter)
+    throws AdapterSchedulingException {
+
+        JobKey jobKeyOfAdapter = getRunningJobKeyTable().get(inboundPulladapter);
+        if (jobKeyOfAdapter == null) {
+            return;
+        }
+
+        unregisterQuartzJob(inboundPulladapter, jobKeyOfAdapter);
+        
+        getRunningJobKeyTable().remove(inboundPulladapter);
     }
 
     /**
@@ -193,6 +222,31 @@ public class QuartzJobManager implements TimingManager {
     }
 
     /**
+     * Deleting the QuartzJob assigned to an {@link InboundPullAdapter}.
+     * 
+     * @param adapter
+     *            - the {@link InboundPullAdapter}for which a job is registered
+     * @param jobKeyOfAdapter
+     *            - the key of the job that is assigned the {@link InboundPullAdapter}
+     * @throws AdapterSchedulingException
+     *             - the adapter scheduling exception
+     */
+    private void unregisterQuartzJob(InboundPullAdapter adapter, JobKey jobKeyOfAdapter)
+    throws AdapterSchedulingException {
+
+        try {
+
+            this.scheduler.deleteJob(jobKeyOfAdapter);
+
+        } catch (SchedulerException quartzException) {
+            String errorMessage = "While deleting a job for the eventAdapter '" + adapter.toString()
+                + "' the following exception occurred: " + quartzException.getMessage();
+            logger.error(errorMessage, quartzException);
+            throw new AdapterSchedulingException(errorMessage, quartzException);
+        }
+    }
+
+    /**
      * Creates a unique trigger name for an adapter's configuration.
      * 
      * @param configuration
@@ -264,42 +318,83 @@ public class QuartzJobManager implements TimingManager {
     //
     // }
 
-    @Override
-    public void unregisterJob(String jobCompleteName) {
+    // @Override
+    // public void unregisterJob(String jobCompleteName) {
 
-        // String[] tmp = jobCompleteName.split("\\.");
-        // try {
-        // this.scheduler.deleteJob(tmp[1], tmp[0]);
-        // } catch (SchedulerException e) {
-        // e.printStackTrace();
-        // }
+    // String[] tmp = jobCompleteName.split("\\.");
+    // try {
+    // this.scheduler.deleteJob(tmp[1], tmp[0]);
+    // } catch (SchedulerException e) {
+    // e.printStackTrace();
+    // }
+    // }
+
+    /**
+     * Getter for {@link QuartzJobManager#runningJobKeyTable}.
+     * 
+     * @return the {@link Map} that links an {@link InboundPullAdapter} to it corresponding {@link JobKey QuartzJobKey}
+     */
+    private Map<InboundPullAdapter, JobKey> getRunningJobKeyTable() {
+
+        if (runningJobKeyTable == null) {
+            this.runningJobKeyTable = new HashMap<InboundPullAdapter, JobKey>();
+        }
+        return runningJobKeyTable;
     }
 
-    @Override
-    public int countScheduledJobGroups() {
-
-        return 0;
-
-        // int jobs = 0;
-        // try {
-        // jobs = this.scheduler.ggetJobGroupNames().length;
-        // } catch (SchedulerException e) {
-        // e.printStackTrace();
-        // }
-        // return jobs;
+    // @Override
+    // public String registerNonRecurringJob(TimerConfiguration configuration, Token token)
+    // throws AdapterSchedulingException {
+    //
+    // JobDetail jobDetail = new JobDetail(jobName(configuration), jobGroupName(configuration),
+    // configuration.getScheduledClass());
+    // JobDataMap data = jobDetail.getJobDataMap();
+    // data.put(TimingManagerImpl.TOKEN_KEY, token);
+    //
+    // Calendar date = new GregorianCalendar();
+    // date.setTimeInMillis(System.currentTimeMillis() + configuration.getTimeInterval());
+    //
+    // Trigger trigger = new SimpleTrigger(triggerName(configuration), date.getTime());
+    //
+    // registerJob(jobDetail, trigger);
+    //
+    // return jobDetail.getFullName();
+    //
+    // }
+    
+    // @Override
+    // public void unregisterJob(String jobCompleteName) {
+    
+    // String[] tmp = jobCompleteName.split("\\.");
+    // try {
+    // this.scheduler.deleteJob(tmp[1], tmp[0]);
+    // } catch (SchedulerException e) {
+    // e.printStackTrace();
+    // }
+    // }
+    
+    // === testing method ===
+    /**
+     * Only for test methods.
+     * 
+     * @return the number of currently running jobs
+     */
+    public int numberOfCurrentRunningJobs() {
+    
+        return getRunningJobKeyTable().size();
     }
 
-//    public void emptyScheduler()
-//    throws SchedulerException {
+    // public void emptyScheduler()
+    // throws SchedulerException {
 
-        // String[] groups = scheduler.getJobGroupNames();
-        // for (String group : groups) {
-        // String[] jobs = scheduler.getJobNames(group);
-        // for (String job : jobs) {
-        // unregisterJob(group + "." + job);
-        // }
-        //
-        // }
+    // String[] groups = scheduler.getJobGroupNames();
+    // for (String group : groups) {
+    // String[] jobs = scheduler.getJobNames(group);
+    // for (String job : jobs) {
+    // unregisterJob(group + "." + job);
+    // }
+    //
+    // }
 
-//    }
+    // }
 }

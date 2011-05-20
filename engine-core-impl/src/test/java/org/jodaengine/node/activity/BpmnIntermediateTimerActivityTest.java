@@ -1,11 +1,11 @@
 package org.jodaengine.node.activity;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.eventmanagement.timing.QuartzJobManager;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
@@ -17,10 +17,13 @@ import org.jodaengine.node.helper.ActivityLifecycleAssurancePlugin;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.mockito.Mockito;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -63,8 +66,12 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
           TransitionFactory.createTransitionFromTo(builder, intermediateTimerEvent, nullNodeEnd);
           
           Navigator nav = new NavigatorImplMock();
-          token = new TokenImpl(nullNodeStart, mock(AbstractProcessInstance.class), nav);
+          ProcessInstanceContext processInstanceContextMock = new ProcessInstanceContextImpl(); 
+          AbstractProcessInstance processInstanceMock = Mockito.mock(AbstractProcessInstance.class);
+          Mockito.when(processInstanceMock.getContext()).thenReturn(processInstanceContextMock);
           
+          
+          token = new TokenImpl(nullNodeStart, processInstanceMock, nav);
           
     //      // Cleanup the scheduler, remove old jobs to avoid testing problems
     //      try {
@@ -183,20 +190,21 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
       
       
       int jobGroups;
-      TimingManager timer = ServiceFactory.getCorrelationService().getTimer();
+      QuartzJobManager timer = (QuartzJobManager) ServiceFactory.getCorrelationService().getTimer();
 
       //Step through the process and activate the timer
       token.executeStep();
       token.executeStep();
       
       //Assert that the timer job is scheduled
-      jobGroups = timer.countScheduledJobGroups();
+      jobGroups = timer.numberOfCurrentRunningJobs();
       assertEquals(jobGroups, 1);
+      
       
       //Cancel the process, the cancellation should lead to the deletion of all started jobs
       token.cancelExecution();
       
-      jobGroups = timer.countScheduledJobGroups();
+      jobGroups = timer.numberOfCurrentRunningJobs();
       assertEquals(jobGroups, 0);
   }
 
