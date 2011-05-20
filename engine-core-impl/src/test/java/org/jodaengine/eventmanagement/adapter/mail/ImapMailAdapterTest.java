@@ -90,6 +90,6 @@ public class ImapMailAdapterTest {
             "oryxengine", "dalmatina!",
             // CHECKSTYLE:ON
             "imap.gmail.com", MailProtocol.IMAP.getPort(true), true);
-        this.inboundImapAdapterSpy = Mockito.spy(new InboundImapMailAdapterMock(this.config));
+        this.inboundImapAdapterSpy = Mockito.spy(new InboundImapMailAdapter(this.config));
     }
 }
