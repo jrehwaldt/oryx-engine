@@ -17,7 +17,6 @@ import org.jodaengine.util.xml.XmlElement;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -29,8 +28,11 @@ import org.testng.annotations.Test;
  */
 public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
     
-    private static final String PROCESS_DEFINITION_FILE
-        = "org/jodaengine/ext/listener/deployment/SimpleUserTask.bpmn.xml";
+    private static final String USER_PROCESS_DEFINITION_FILE
+        = "org/jodaengine/ext/listener/deployment/UserTaskBpmnListenerTest.bpmn.xml";
+    
+    private static final String GATEWAY_PROCESS_DEFINITION_FILE
+        = "org/jodaengine/ext/listener/deployment/GatewaysBpmnListenerTest.bpmn.xml";
     
     private BpmnXmlParseListener listener;
     
@@ -44,20 +46,20 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
     }
     
     /**
-     * Creates the {@link Participant} needed by the process.
-     */
-    @BeforeClass
-    public void setUpClass() {
-        ServiceFactory.getIdentityService().getIdentityBuilder().createParticipant("Thorben");
-    }
-    
-    /**
      * Tests the calling of the specified listener methods.
      */
     @Test
-    public void testListenerMethodCalls() {
+    public void testListenerMethodCallsForUserTaskProcess() {
         
-        InputStream bpmnXml = ReflectionUtil.getResourceAsStream(PROCESS_DEFINITION_FILE);
+        //
+        // we need Thorben to help us with the process
+        //
+        ServiceFactory.getIdentityService().getIdentityBuilder().createParticipant("Thorben");
+        
+        //
+        // okay, let's rock
+        //
+        InputStream bpmnXml = ReflectionUtil.getResourceAsStream(USER_PROCESS_DEFINITION_FILE);
         Assert.assertNotNull(bpmnXml);
         
         ProcessDefinitionImporter importer = new BpmnXmlImporter(bpmnXml, this.listener);
@@ -115,6 +117,97 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         // parseUserTask
         //
         Mockito.verify(this.listener, Mockito.times(1)).parseUserTask(
+            xmlElementArgument.capture(),
+            nodeArgument.capture());
+        
+        Assert.assertNotNull(xmlElementArgument.getValue());
+        Assert.assertNotNull(nodeArgument.getValue());
+    }
+    
+    /**
+     * Tests the calling of the specified listener methods.
+     */
+    @Test
+    public void testListenerMethodCallsForGatewayProcess() {
+        
+        InputStream bpmnXml = ReflectionUtil.getResourceAsStream(GATEWAY_PROCESS_DEFINITION_FILE);
+        Assert.assertNotNull(bpmnXml);
+        
+        ProcessDefinitionImporter importer = new BpmnXmlImporter(bpmnXml, this.listener);
+        ProcessDefinition definition = importer.createProcessDefinition();
+        
+        Assert.assertNotNull(definition);
+        Assert.assertNotNull(definition.getID());
+        
+        ArgumentCaptor<XmlElement> xmlElementArgument = ArgumentCaptor.forClass(XmlElement.class);
+        ArgumentCaptor<Node> nodeArgument = ArgumentCaptor.forClass(Node.class);
+        ArgumentCaptor<ProcessDefinition> processDefinitionArgument = ArgumentCaptor.forClass(ProcessDefinition.class);
+        ArgumentCaptor<Transition> transitionArgument = ArgumentCaptor.forClass(Transition.class);
+        
+        //
+        // parseEndEvent
+        //
+        Mockito.verify(this.listener, Mockito.times(1)).parseEndEvent(
+            xmlElementArgument.capture(),
+            nodeArgument.capture());
+        
+        Assert.assertNotNull(xmlElementArgument.getValue());
+        Assert.assertNotNull(nodeArgument.getValue());
+        
+        //
+        // parseProcess
+        //
+        Mockito.verify(this.listener, Mockito.times(1)).parseProcess(
+            xmlElementArgument.capture(),
+            processDefinitionArgument.capture());
+        
+        Assert.assertNotNull(xmlElementArgument.getValue());
+        Assert.assertNotNull(processDefinitionArgument.getValue());
+        
+        //
+        // parseStartEvent
+        //
+        Mockito.verify(this.listener, Mockito.times(1)).parseStartEvent(
+            xmlElementArgument.capture(),
+            nodeArgument.capture());
+        
+        Assert.assertNotNull(xmlElementArgument.getValue());
+        Assert.assertNotNull(nodeArgument.getValue());
+        
+        //
+        // parseSequenceFlow
+        //
+        Mockito.verify(this.listener, Mockito.times(11)).parseSequenceFlow(
+            xmlElementArgument.capture(),
+            transitionArgument.capture());
+        
+        Assert.assertNotNull(xmlElementArgument.getValue());
+        Assert.assertNotNull(transitionArgument.getValue());
+        
+        //
+        // parseTask
+        //
+        Mockito.verify(this.listener, Mockito.times(4)).parseTask(
+            xmlElementArgument.capture(),
+            nodeArgument.capture());
+        
+        Assert.assertNotNull(xmlElementArgument.getValue());
+        Assert.assertNotNull(nodeArgument.getValue());
+        
+        //
+        // parseExclusiveGateway
+        //
+        Mockito.verify(this.listener, Mockito.times(2)).parseExclusiveGateway(
+            xmlElementArgument.capture(),
+            nodeArgument.capture());
+        
+        Assert.assertNotNull(xmlElementArgument.getValue());
+        Assert.assertNotNull(nodeArgument.getValue());
+        
+        //
+        // parseParallelGateway
+        //
+        Mockito.verify(this.listener, Mockito.times(2)).parseParallelGateway(
             xmlElementArgument.capture(),
             nodeArgument.capture());
         
