@@ -29,6 +29,7 @@ public class DarImporterImpl implements DarImporter {
 
         this.repo = service;
         this.firstHandler = new ProcessDefinitionHandler();
+        this.firstHandler.setNext(new FormStreamHandler());
     }
 
     @Override

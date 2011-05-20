@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ProcessDefinitionHandler extends AbstractDarHandler {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private static final String DEFINITIONS_SUBDIR = "definitions/";
 
     @Override
