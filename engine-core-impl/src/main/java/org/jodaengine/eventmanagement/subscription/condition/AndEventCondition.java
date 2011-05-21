@@ -42,13 +42,14 @@ public class AndEventCondition implements EventCondition {
 
     /**
      * Add another {@link EventCondition}.
-     * 
-     * @param eventCondition
-     *            - the {@link EventCondition} that should be added
+     *
+     * @param eventCondition - the {@link EventCondition} that should be added
+     * @return this {@link AndEventCondition}
      */
-    public void addEventCondition(EventCondition eventCondition) {
+    public AndEventCondition addEventCondition(EventCondition eventCondition) {
 
         eventConditons.add(eventCondition);
+        return this;
     }
 
     /**
@@ -66,6 +67,6 @@ public class AndEventCondition implements EventCondition {
 
             returnBoolean = returnBoolean && theEventCondition.evaluate(adapterEvent);
         }
-        return false;
+        return returnBoolean;
     }
 }
