@@ -63,7 +63,7 @@ public class DeploymentScopeImpl implements DeploymentScope {
     }
 
     @Override
-    public Class<?> getClass(String className) {
+    public Class<?> getClass(String className) throws ClassNotFoundException {
 
         return classLoader.findClass(className);
     }

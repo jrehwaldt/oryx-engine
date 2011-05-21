@@ -43,5 +43,5 @@ public interface DeploymentScope {
         
     void addClass(String className, byte[] classData);
     
-    Class<?> getClass(String className);
+    Class<?> getClass(String className) throws ClassNotFoundException;
 }

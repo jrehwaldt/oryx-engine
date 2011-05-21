@@ -16,10 +16,14 @@ public class CustomClassLoader extends ClassLoader implements ClassContainer {
     }
     
     @Override
-    public Class<?> findClass(String name) {
+    public Class<?> findClass(String name) throws ClassNotFoundException {
         Class<?> classToReturn = findLoadedClass(name);
         if (classToReturn == null) {
-            byte[] classAsBytes = classes.get(name);            
+            byte[] classAsBytes = classes.get(name);     
+            
+            if (classAsBytes == null) {
+                throw new ClassNotFoundException();
+            }
             // TODO @Thorben-Refactoring: check classAsBytes for Null and throw a ClassNotDeployedException or al.
             // consider writing a test for this case
             classToReturn = defineClass(name, classAsBytes, 0, classAsBytes.length);
