@@ -20,9 +20,9 @@ import org.testng.annotations.Test;
  */
 public class ScriptingActivityTest {
     
-    private Token token;
-    private RepositoryService repoMock;
-    private ProcessInstanceContext context;
+    private Token token = null;
+    private RepositoryService repoMock = null;
+    private ProcessInstanceContext context = null;
 
     /**
      * Sets up mocks for RepositoryService, creates an instance context, etc.

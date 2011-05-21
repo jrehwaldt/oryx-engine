@@ -32,6 +32,7 @@ public class ScriptingActivity extends AbstractActivity {
         // get the class from the DeploymentScope of the definition
         ProcessDefinitionID definitionID = token.getInstance().getDefinition().getID();
         try {
+            // we expect this class to be a JodaScript (i.e. an implementation of it). No other classes can be used.
             Class<JodaScript> scriptClass = (Class<JodaScript>) this.repoService.getDeployedClass(definitionID,
                 fullClassName);
             JodaScript instance = scriptClass.newInstance();
