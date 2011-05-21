@@ -8,7 +8,7 @@ import org.jodaengine.exception.JodaEngineRuntimeException;
 public class ErrorCorrelationService implements EventCorrelator {
 
     private static final String EXCEPTION_DESCRIPTION = "This CorrelationService cannot correlate any events."
-        + "It should not be used by the any Adapter.";
+        + "It should not be used by any Adapter.";
 
     @Override
     public void correlate(AdapterEvent e) {

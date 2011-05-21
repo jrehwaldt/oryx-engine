@@ -11,7 +11,7 @@ import org.jodaengine.eventmanagement.EventCorrelator;
 public interface EventSubscription {
 
     /**
-     * Entry point for registering an event with the {@link EventCorrelator}.
+     * Entry point for registering a start event with the {@link EventCorrelator}.
      * 
      * @param startEvent
      *            the start event
