@@ -76,7 +76,7 @@ public class ConcreteResourcePattern implements CreationPattern {
         
         Form formToUse = null;
         
-        if(formID != null) {
+        if (formID != null) {
             // only search for a form, if one has been specified
             try {
                 ProcessDefinitionID definitionID = token.getInstance().getDefinition().getID();
