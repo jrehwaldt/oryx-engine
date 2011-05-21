@@ -72,7 +72,6 @@ public class EventManagerTest {
      */
     @AfterMethod
     public void tearDown() {
-
         this.manager.stop();
     }
 }
