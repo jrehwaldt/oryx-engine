@@ -1,7 +1,6 @@
 package org.jodaengine.deployment;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
