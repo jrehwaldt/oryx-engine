@@ -10,7 +10,6 @@ import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
 public interface AdapterConfiguration extends EventConfiguration {
 
     
-    // TODO not everyone is a TimingManager @ throws  
     /**
      * Registers the adapter for this configuration.
      *
@@ -18,4 +17,10 @@ public interface AdapterConfiguration extends EventConfiguration {
      * @return the schedule {@link CorrelationAdapter}
      */
     CorrelationAdapter registerAdapter(AdapterManagement adapterRegistrar);
+    
+    @Override
+    boolean equals(Object eventAdapter);
+    
+    @Override
+    int hashCode();
 }

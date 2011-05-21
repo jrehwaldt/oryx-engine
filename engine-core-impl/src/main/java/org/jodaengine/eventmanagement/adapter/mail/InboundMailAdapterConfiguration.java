@@ -193,7 +193,7 @@ QuartzPullAdapterConfiguration {
     public static InboundMailAdapterConfiguration jodaGoogleConfiguration() {
 
         // TODO @All: WTF delete this (in July). Other options would be a local file.. but well. no.
-// CHECKSTYLE:OFF
+// CHECKSTYLE:OFF 
         return new InboundMailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
             "imap.googlemail.com", MailProtocol.IMAP.getPort(true), true);
 // CHECKSTYLE:ON
@@ -229,6 +229,48 @@ QuartzPullAdapterConfiguration {
     @Override
     public boolean pullingOnce() {
 
+        return false;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int useSSLModifier = 0;
+        if (useSSL) {
+            useSSLModifier = 1;
+        }
+        return (userName.hashCode() 
+                + password.hashCode() 
+                + address.hashCode() 
+                + protocol.hashCode() 
+                + port 
+                + useSSLModifier);
+    }
+    
+    /**
+     * Checks for the equality of the given argument based on Class and instance variables.
+     *
+     * @param o the Object this is compared to
+     * @return true, if the objects are equal
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o.getClass() == this.getClass()) {
+            InboundMailAdapterConfiguration otherConfiguration = (InboundMailAdapterConfiguration) o;
+            if (this.userName.equals(otherConfiguration.getUserName()) 
+                && this.password.equals(otherConfiguration.getPassword())
+                && this.address.equals(otherConfiguration.getAddress())
+                && this.protocol == otherConfiguration.getProtocol()
+                && this.port == otherConfiguration.getPort()
+                && this.useSSL == otherConfiguration.isUseSSL()) {
+                return true;
+             } 
+        }
         return false;
     }
 }
