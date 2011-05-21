@@ -26,7 +26,8 @@ import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
  * @param <Configuration>
  *            - the {@link AdapterConfiguration} of this adapter
  */
-public abstract class AbstractCorrelatingEventAdapter<Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
+public abstract class AbstractCorrelatingEventAdapter
+    <Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
 implements EventSubscription, EventUnsubscription, EventCorrelator {
 
     // Both lists are lazyInitialized
@@ -47,14 +48,14 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
     @Override
     public void registerStartEvent(ProcessStartEvent startEvent) {
 
-        // TODO @Gerardo&TobiP Checking if it is already in the list of unCorrelatedAdapterEvents
+        // TODO @EVENTMANAGERTEAM: Checking if it is already in the list of unCorrelatedAdapterEvents
         getProcessEvents().add(startEvent);
     }
 
     @Override
     public void registerIntermediateEvent(ProcessIntermediateEvent intermediateEvent) {
 
-        // TODO @Gerardo&TobiP Checking if it is already in the list of unCorrelatedAdapterEvents
+        // TODO @EVENTMANAGERTEAM: Checking if it is already in the list of unCorrelatedAdapterEvents
         getProcessEvents().add(intermediateEvent);
     }
 
@@ -86,11 +87,11 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
     }
 
     /**
-     * Private Getter for {@link ProcessEvent}s.
+     * Protected Getter for {@link ProcessEvent}s.
      * 
      * @return a {@link List} of {@link ProcessEvent}s.
      */
-    public List<ProcessEvent> getProcessEvents() {
+    protected List<ProcessEvent> getProcessEvents() {
 
         if (processEvents == null) {
             this.processEvents = new ArrayList<ProcessEvent>();
@@ -99,11 +100,11 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
     }
 
     /**
-     * Private Getter for {@link AdapterEvent}s.
+     * Protected Getter for {@link AdapterEvent}s.
      * 
      * @return a {@link List} of {@link AdapterEvent}s.
      */
-    public List<AdapterEvent> getUnCorrelatedAdapterEvents() {
+    protected List<AdapterEvent> getUnCorrelatedAdapterEvents() {
 
         if (unCorrelatedAdapterEvents == null) {
             this.unCorrelatedAdapterEvents = new ArrayList<AdapterEvent>();
