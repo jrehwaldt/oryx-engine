@@ -48,6 +48,15 @@ public class InboundMailAdapterConfigurationTest {
     }
     
     /**
+     * Test equals works with null.
+     */
+    @Test
+    public void testEqualsWorksWithNull() {
+        InboundMailAdapterConfiguration nullito = null;
+        Assert.assertEquals(configuration.equals(nullito), false, "Oops our should not equal null!");
+    }
+    
+    /**
      * Tests that 2 configurations with the same values have the same hashcode.
      */
     @Test

@@ -241,7 +241,8 @@ QuartzPullAdapterConfiguration {
         if (useSSL) {
             useSSLModifier = 1;
         }
-        return (userName.hashCode() 
+        return (this.getClass().hashCode()
+                + userName.hashCode() 
                 + password.hashCode() 
                 + address.hashCode() 
                 + protocol.hashCode() 

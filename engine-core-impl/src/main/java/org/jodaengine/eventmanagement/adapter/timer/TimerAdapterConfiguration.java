@@ -74,4 +74,31 @@ public class TimerAdapterConfiguration extends AbstractAdapterConfiguration impl
 
         return true;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return (int) (this.getClass().hashCode() + this.waitingTime + this.timestamp);
+    }
+    
+    /**
+     * This equals implementation is based on the getUniqueName method.
+     *
+     * @param o the other Object
+     * @return true, if the objects are equal
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o.getClass() == this.getClass()) {
+            TimerAdapterConfiguration otherConfiguration = (TimerAdapterConfiguration) o;
+            return this.getUniqueName().equals(otherConfiguration.getUniqueName());
+        } else {
+            return false;
+        }
+    }
 }
