@@ -90,7 +90,7 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
      * 
      * @return a {@link List} of {@link ProcessEvent}s.
      */
-    private List<ProcessEvent> getProcessEvents() {
+    public List<ProcessEvent> getProcessEvents() {
 
         if (processEvents == null) {
             this.processEvents = new ArrayList<ProcessEvent>();
@@ -103,7 +103,7 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
      * 
      * @return a {@link List} of {@link AdapterEvent}s.
      */
-    private List<AdapterEvent> getUnCorrelatedAdapterEvents() {
+    public List<AdapterEvent> getUnCorrelatedAdapterEvents() {
 
         if (unCorrelatedAdapterEvents == null) {
             this.unCorrelatedAdapterEvents = new ArrayList<AdapterEvent>();
