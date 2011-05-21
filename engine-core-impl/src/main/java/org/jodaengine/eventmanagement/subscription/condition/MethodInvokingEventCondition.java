@@ -9,8 +9,6 @@ import org.jodaengine.util.ReflectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
 /**
  * It is a single condition that holds a method and an expected return value. It and can be
  * tested against a correlated object.

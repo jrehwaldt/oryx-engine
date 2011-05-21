@@ -55,6 +55,7 @@ public class MailAdapterEvent extends AbstractEvent {
      * @throws IOException
      *             thrown if getting context fails
      */
+    // TODO @EVENTMANAGERTEAM: eventually add a to and clean this bloody mess.
     public void parseContent()
     throws IOException, MessagingException {
 

@@ -22,6 +22,12 @@ implements Job {
     public static final String ADAPTER_KEY = "adapter";
     public static final String ERROR_HANDLER_KEY = "error-handler";
     
+    /**
+     * Whenever it is our turn, the adapter for which this Job is for pulls e.g. gets new mails.
+     *
+     * @param context the context in which this job is executed
+     * @throws JobExecutionException the job execution exception
+     */
     @Override
     public void execute(@Nonnull JobExecutionContext context)
     throws JobExecutionException {

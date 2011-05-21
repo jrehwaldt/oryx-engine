@@ -15,6 +15,12 @@ import org.quartz.JobExecutionException;
 public class TimerJob
 implements Job {
 
+    /**
+     * Resumes the token, as the time is up!.
+     *
+     * @param context the context in whcih this job i sexecuted
+     * @throws JobExecutionException the job execution exception
+     */
     @Override
     public void execute(JobExecutionContext context)
     throws JobExecutionException {
