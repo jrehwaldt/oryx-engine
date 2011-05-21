@@ -118,15 +118,32 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
      * 
      * @param eventAdapter
      *            - the {@link CorrelationAdapter eventAdapter} that should be added.
+     * @return true if and event adapter was added and false if the adapter already existed and didn't need to be added
      */
-    private void addToEventAdapters(CorrelationAdapter eventAdapter) {
+    private boolean addToEventAdapters(CorrelationAdapter eventAdapter) {
 
-        if (!getEventAdapters().containsKey(eventAdapter.getConfiguration())) {
+        if (!isAlreadyRegistered(eventAdapter)) {
             this.getEventAdapters().put(eventAdapter.getConfiguration(), eventAdapter);
+            return true;
+        } else {
+            return false;
         }
+
     }
 
     /**
+     * Checks if the event is already registered.
+     *
+     * @param eventAdapter the event adapter
+     * @return true, if it is already registered, false if it is not.
+     */
+    private boolean isAlreadyRegistered(CorrelationAdapter eventAdapter) {
+        return (getEventAdapters().containsKey(eventAdapter.getConfiguration()));
+    }
+
+    /**
+     * TODO @EVENTMANAGERGROUP this is not a simple getter ---> naming issue
+     * 
      * Gets the adapter for the specified process event.
      * If there is no adapter, a new adapter is returned.
      * 
@@ -151,7 +168,8 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     }
 
     // ==== AdapterMangement ====
-    // TODO registerAdapter and registerInboundAdapter is basically the same.
+    // TODO @EVENTMANAGERTEAM: registerAdapter and registerInboundAdapter is basically the same + why not register
+    // Adapters for adapter configurations?.
     @Override
     public CorrelationAdapter registerAdapter(CorrelationAdapter adapter) {
 
@@ -169,10 +187,12 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     @Override
     public InboundPullAdapter registerInboundPullAdapter(InboundPullAdapter inboundPullAdapter) {
 
-        // Question: Registration maybe in the adapter itself?
-        registerInboundPullAdapterAtJobManager(inboundPullAdapter);
-
-        addToEventAdapters(inboundPullAdapter);
+        // if the the Event Adapter has to be added to the list, we also need to register it with the timing manager
+        // otherwise a registration at the timing manager should already be present.
+        if (addToEventAdapters(inboundPullAdapter)) {
+            // Question: Registration maybe in the adapter itself?
+            registerInboundPullAdapterAtJobManager(inboundPullAdapter);
+        }
 
         return inboundPullAdapter;
     }

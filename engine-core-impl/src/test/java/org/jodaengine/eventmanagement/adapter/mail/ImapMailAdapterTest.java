@@ -66,9 +66,11 @@ public class ImapMailAdapterTest {
 
     /**
      * Sends a test email which is catched by the javaxMailMock-Lib.
+     *
+     * @throws MessagingException the messaging exception
      */
     private void sendingTestEmail()
-    throws MessagingException, AddressException {
+    throws MessagingException {
 
         this.address = String.format("%s@%s", this.config.getUserName(), this.config.getAddress());
         MimeMessage msg = new MimeMessage(Session.getInstance(this.config.toMailProperties()));
@@ -85,11 +87,7 @@ public class ImapMailAdapterTest {
      */
     private void preparingInboundImapAdapter() {
 
-        this.config = new InboundMailAdapterConfiguration(MailProtocol.IMAP,
-        // CHECKSTYLE:OFF
-            "oryxengine", "dalmatina!",
-            // CHECKSTYLE:ON
-            "imap.gmail.com", MailProtocol.IMAP.getPort(true), true);
+        this.config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
         this.inboundImapAdapterSpy = Mockito.spy(new InboundImapMailAdapter(this.config));
     }
 }
