@@ -24,8 +24,6 @@ public class CustomClassLoader extends ClassLoader implements ClassContainer {
             if (classAsBytes == null) {
                 throw new ClassNotFoundException();
             }
-            // TODO @Thorben-Refactoring: check classAsBytes for Null and throw a ClassNotDeployedException or al.
-            // consider writing a test for this case
             classToReturn = defineClass(name, classAsBytes, 0, classAsBytes.length);
         }
         return classToReturn;

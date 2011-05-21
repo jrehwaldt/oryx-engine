@@ -21,7 +21,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
 /**
  * Tests the loading of classes in a {@link DeploymentScope}.
  */
@@ -29,10 +28,10 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
 
     private static final String CUSTOM_CLASSES_PATH = "src/test/resources/org/jodaengine/deployment/importer/classes/";
 
-    private RepositoryService repository;
-    private DeploymentBuilder builder;
-    private ProcessDefinitionBuilder defBuilder;
-    private ProcessDefinition definition;
+    private RepositoryService repository = null;
+    private DeploymentBuilder builder = null;
+    private ProcessDefinitionBuilder defBuilder = null;
+    private ProcessDefinition definition = null;
 
     /**
      * Does Setup and creates a deployment ready to deploy.
@@ -56,10 +55,21 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
         builder.addProcessDefinition(definition);
     }
 
+    /**
+     * Tests the deployment of a simple JAva class that has no references to other classes.
+     * 
+     * @throws InstantiationException
+     *             the instantiation exception
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     @Test
     public void testClassDeployment()
-    throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-    IOException {
+    throws InstantiationException, IllegalAccessException, IOException, InvocationTargetException {
 
         // read the file in and convert it to a byte[]
         byte[] data = getClassDataFromFile(CUSTOM_CLASSES_PATH + "test/simple/Dummy.class");
@@ -73,7 +83,6 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
             Object instance = clazz.newInstance();
             Method methodToInvoke = ReflectionUtil.getMethodFor(clazz, "getAString");
             String returnValue = (String) methodToInvoke.invoke(instance, new Object[] {});
-            System.out.println(returnValue);
             Assert.assertEquals(returnValue, "A", "The test method should return the String 'A'");
         } catch (ClassNotFoundException e) {
             Assert.fail("The class was not found, so the test fails.");
@@ -85,16 +94,20 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
      * So referenced custom classes have to be loaded.
      * 
      * @throws IOException
+     *             Signals that an I/O exception has occurred.
      * @throws ClassNotFoundException
-     * @throws IllegalAccessException
+     *             the class not found exception
      * @throws InstantiationException
+     *             the instantiation exception
+     * @throws IllegalAccessException
+     *             the illegal access exception
      * @throws InvocationTargetException
-     * @throws IllegalArgumentException
+     *             the invocation target exception
      */
     @Test
     public void testCustomClassReferential()
     throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException,
-    IllegalArgumentException, InvocationTargetException {
+    InvocationTargetException {
 
         byte[] dataDummy = getClassDataFromFile(CUSTOM_CLASSES_PATH + "test/reference/Dummy.class");
         byte[] dataAnotherDummy = getClassDataFromFile(CUSTOM_CLASSES_PATH + "test/reference/AnotherDummy.class");
@@ -110,25 +123,58 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
         Object instance = clazz.newInstance();
         Method methodToInvoke = ReflectionUtil.getMethodFor(clazz, "getAString");
         String returnValue = (String) methodToInvoke.invoke(instance, new Object[] {});
-        System.out.println(returnValue);
         Assert.assertEquals(returnValue, "B",
             "The test method should return the String 'B',as this is, what AnotherDummy#getBString() returns.");
     }
-    
+
     /**
      * Try to access a class that was not deployed.
      */
     @Test
     public void testUndeployedClassAccess() {
+
         Deployment deployment = builder.buildDeployment();
         repository.deployInNewScope(deployment);
-        
-        Class<?> clazz;
+
         try {
-            clazz = repository.getDeployedClass(definition.getID(), "test.reference.Dummy");
+            Class<?> clazz = repository.getDeployedClass(definition.getID(), "test.reference.Dummy");
             Assert.fail("The class should not have been found.");
         } catch (ClassNotFoundException e) {
-            
+            // do nothing here, this is what we expect
+        }
+    }
+
+    /**
+     * Test that a deployed class is only visible in this scope and not in the scope of another deployed definition.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws IllegalStarteventException the illegal startevent exception
+     */
+    @Test
+    public void testClassIsolation()
+    throws IOException, IllegalStarteventException {
+
+        byte[] data = getClassDataFromFile(CUSTOM_CLASSES_PATH + "test/simple/Dummy.class");
+
+        // deploy it once
+        builder.addClass("test.simple.Dummy", data);
+        Deployment deployment = builder.buildDeployment();
+        repository.deployInNewScope(deployment);
+
+        // create another process definition to deploy
+        ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID());
+        defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
+        ProcessDefinition anotherDefinition = defBuilder.buildDefinition();
+
+        builder.addProcessDefinition(anotherDefinition);
+        Deployment anotherDeployment = builder.buildDeployment();
+        repository.deployInNewScope(anotherDeployment);
+
+        try {
+            Class<?> clazz = repository.getDeployedClass(anotherDefinition.getID(), "test.simple.Dummy");
+            Assert.fail("The class should not have been found, as it only exists in the other scope.");
+        } catch (ClassNotFoundException e) {
+            // do nothing here, this is what we expect
         }
     }
 
