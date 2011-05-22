@@ -1,9 +1,7 @@
 package org.jodaengine.exception.handler;
 
-import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
 
 /**
  * The Class AbstractJodaRuntimeExceptionHandler realizes the Chain of Responsibility pattern to handle
@@ -47,5 +45,5 @@ public abstract class AbstractJodaRuntimeExceptionHandler {
      * @param exception the exception
      * @param token the token during which execution the exception occurred.
      */
-    protected abstract void processExceptionLocally(Exception exception, Token token);
+    protected abstract void processExceptionLocally(JodaEngineRuntimeException exception, Token token);
 }

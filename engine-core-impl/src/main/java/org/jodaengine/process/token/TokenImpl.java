@@ -1,7 +1,6 @@
 package org.jodaengine.process.token;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,13 +54,10 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      *            the {@link AbstractProcessInstance}
      * @param navigator
      *            the {@link Navigator}
-     * @param listeners
-     *            any number of {@link AbstractTokenListener}s, which observe the {@link TokenImpl}
      */
     public TokenImpl(Node startNode,
                      AbstractProcessInstance instance,
-                     Navigator navigator,
-                     AbstractTokenListener ... listeners) {
+                     Navigator navigator) {
 
         this.currentNode = startNode;
         this.instance = instance;
@@ -69,7 +65,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
         this.listeners = new ArrayList<AbstractTokenListener>();
-        this.listeners.addAll(Arrays.asList(listeners));
 
         // at this point, you can register as much runtime exception handlers as you wish, following the chain of
         // responsibility pattern. The handler is used for runtime errors that occur in process execution.
