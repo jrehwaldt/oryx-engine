@@ -26,8 +26,7 @@ import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
  * @param <Configuration>
  *            - the {@link AdapterConfiguration} of this adapter
  */
-public abstract class AbstractCorrelatingEventAdapter
-    <Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
+public abstract class AbstractCorrelatingEventAdapter<Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
 implements EventSubscription, EventUnsubscription, EventCorrelator {
 
     // Both lists are lazyInitialized
@@ -87,11 +86,13 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
     }
 
     /**
-     * Protected Getter for {@link ProcessEvent}s.
+     * Getter for {@link ProcessEvent}s.
+     * 
+     * Are public for testing issues.
      * 
      * @return a {@link List} of {@link ProcessEvent}s.
      */
-    protected List<ProcessEvent> getProcessEvents() {
+    public List<ProcessEvent> getProcessEvents() {
 
         if (processEvents == null) {
             this.processEvents = new ArrayList<ProcessEvent>();
@@ -100,11 +101,13 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
     }
 
     /**
-     * Protected Getter for {@link AdapterEvent}s.
+     * Getter for {@link AdapterEvent}s.
+     * 
+     * Are public for testing issues.
      * 
      * @return a {@link List} of {@link AdapterEvent}s.
      */
-    protected List<AdapterEvent> getUnCorrelatedAdapterEvents() {
+    public List<AdapterEvent> getUnCorrelatedAdapterEvents() {
 
         if (unCorrelatedAdapterEvents == null) {
             this.unCorrelatedAdapterEvents = new ArrayList<AdapterEvent>();
