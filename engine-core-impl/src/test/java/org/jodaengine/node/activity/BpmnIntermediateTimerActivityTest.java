@@ -72,14 +72,6 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
           
           
           token = new TokenImpl(nullNodeStart, processInstanceMock, nav);
-          
-    //      // Cleanup the scheduler, remove old jobs to avoid testing problems
-    //      try {
-    //          ServiceFactory.getCorrelationService().getTimer().emptyScheduler();
-    //      } catch (SchedulerException e) {
-    //          e.printStackTrace();
-    //      }
-    
       }
 
     /**
@@ -154,7 +146,6 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
       Thread.sleep(SHORT_WAITING_TIME_TEST);
       assertFalse(token.getCurrentNode() == nullNodeEnd, "Current Node should not be the node after the timer,"
           + " because time wasn't sufficient.");
-      
   }
   
 
