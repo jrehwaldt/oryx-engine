@@ -2,10 +2,11 @@ package org.jodaengine.ext.debugging.rest;
 
 import javax.annotation.Nonnull;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.ext.Provider;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.exception.ServiceUnavailableException;
@@ -22,8 +23,8 @@ import org.slf4j.LoggerFactory;
 /**
  * The rest web service for our {@link DebuggerService}.
  * 
- * It is based on JAX-RS and used as {@link Provider},
- * which is mapped as annotated as well as defined in <i>web.xml</i>.
+ * It is based on JAX-RS and mapped via {@link Path} annotation
+ * as well as deployment descriptor definition in <i>web.xml</i>.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-17
@@ -61,7 +62,9 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     //=================================================================
     //=================== DebuggerService methods =====================
     //=================================================================
-
+    
+    @Path("/instance/step-over")
+    @POST
     @Override
     public void stepOverInstance(AbstractProcessInstance instance) {
         if (this.debugger != null) {
@@ -71,6 +74,8 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         throw new ServiceUnavailableException(DebuggerService.class);
     }
 
+    @Path("/instance/terminate")
+    @POST
     @Override
     public void termianteInstance(AbstractProcessInstance instance) {
         if (this.debugger != null) {
@@ -79,6 +84,8 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         throw new ServiceUnavailableException(DebuggerService.class);
     }
 
+    @Path("/instance/resume")
+    @POST
     @Override
     public void resumeInstance(AbstractProcessInstance instance) {
         if (this.debugger != null) {
@@ -87,6 +94,8 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         throw new ServiceUnavailableException(DebuggerService.class);
     }
 
+    @Path("/instance/continue")
+    @POST
     @Override
     public void continueInstance(AbstractProcessInstance instance) {
         if (this.debugger != null) {
@@ -94,7 +103,9 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         }
         throw new ServiceUnavailableException(DebuggerService.class);
     }
-    
+
+    @Path("/status/is-running")
+    @GET
     @Override
     public boolean isRunning() {
         if (this.debugger != null) {
@@ -117,7 +128,9 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     //=================================================================
     //=================== BreakpointService methods ===================
     //=================================================================
-    
+
+    @Path("/breakpoints/add-to-definition")
+    @POST
     @Override
     public Breakpoint addBreakpoint(Node node) {
         if (this.debugger != null) {
@@ -126,6 +139,8 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         throw new ServiceUnavailableException(DebuggerService.class);
     }
 
+    @Path("/breakpoints/add-to-instance")
+    @POST
     @Override
     public Breakpoint addBreakpoint(Node node, AbstractProcessInstance instance) {
         if (this.debugger != null) {
@@ -134,6 +149,8 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         throw new ServiceUnavailableException(DebuggerService.class);
     }
 
+    @Path("/breakpoints/remove")
+    @POST
     @Override
     public void removeBreakpoint(Breakpoint breakpoint) {
         if (this.debugger != null) {
@@ -142,6 +159,8 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         throw new ServiceUnavailableException(DebuggerService.class);
     }
 
+    @Path("/breakpoints/enable")
+    @POST
     @Override
     public void enableBreakpoint(Breakpoint breakpoint) {
         if (this.debugger != null) {
@@ -151,6 +170,8 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         throw new ServiceUnavailableException(DebuggerService.class);
     }
 
+    @Path("/breakpoints/disable")
+    @POST
     @Override
     public void disableBreakpoint(Breakpoint breakpoint) {
         if (this.debugger != null) {
@@ -159,5 +180,5 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
         
         throw new ServiceUnavailableException(DebuggerService.class);
     }
-    
+
 }
