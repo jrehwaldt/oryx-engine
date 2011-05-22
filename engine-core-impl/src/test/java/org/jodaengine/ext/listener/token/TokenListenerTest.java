@@ -1,4 +1,4 @@
-package org.jodaengine.plugin.activity;
+package org.jodaengine.ext.listener.token;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -11,6 +11,7 @@ import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
+import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.TokenImpl;
 import org.mockito.ArgumentCaptor;
@@ -20,9 +21,9 @@ import org.testng.annotations.Test;
 
 
 /**
- * Test class for various activity plugin tests.
+ * Test class for various {@link AbstractTokenListener} tests.
  */
-public class ActivityLifecyclePluginTest {
+public class TokenListenerTest {
 
     private TokenImpl token = null;
     private ArgumentCaptor<ActivityLifecycleChangeEvent> eventCapturer = null;

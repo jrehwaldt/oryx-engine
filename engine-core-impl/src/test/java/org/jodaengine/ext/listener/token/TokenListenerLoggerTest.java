@@ -1,12 +1,12 @@
-package org.jodaengine.plugin.activity;
+package org.jodaengine.ext.listener.token;
 
 import static org.mockito.Mockito.mock;
 
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.logger.TokenListenerLogger;
-import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
-import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
+import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.TokenImpl;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -16,15 +16,15 @@ import org.testng.annotations.Test;
  * 
  * @author Jan Rehwaldt
  */
-public class ActivityLifecycleLoggerTest {
+public class TokenListenerLoggerTest {
     
-    private AutomatedDummyActivity activity = null;
+    private Node node = null;
     private AbstractTokenListener listener = null;
     private TokenImpl token = null;
     private ActivityLifecycleChangeEvent event = null;
     
     /**
-     * Tests {@link Activity} logger.
+     * Tests {@link TokenListenerLogger}.
      */
     @Test
     public void testLoggingNavigatorStopped() {
@@ -37,10 +37,10 @@ public class ActivityLifecycleLoggerTest {
      */
    @BeforeTest
    public void beforeMethod() {
-       this.activity = mock(AutomatedDummyActivity.class);
+       this.node = mock(Node.class);
        this.listener = TokenListenerLogger.getInstance();
        this.token = mock(TokenImpl.class);
        this.event = new ActivityLifecycleChangeEvent(
-           this.activity, ActivityState.ACTIVE, ActivityState.COMPLETED, this.token);
+           this.node, ActivityState.ACTIVE, ActivityState.COMPLETED, this.token);
    }
 }

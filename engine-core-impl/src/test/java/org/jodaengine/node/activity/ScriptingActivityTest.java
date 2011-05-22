@@ -4,13 +4,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.jodaengine.RepositoryService;
-import org.jodaengine.mock.utils.MockUtils;
 import org.jodaengine.node.activity.custom.ScriptingActivity;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.util.mock.MockUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -43,7 +43,7 @@ public class ScriptingActivityTest {
         // as soon as we infer generic type arguments her (<?>), we get compile errors with #thenReturn()?!
         Class clazz = ContextVariableScript.class;
         when(repoMock.getDeployedClass(mockDefinition.getID(), "org.jodaengine.node.activity.ContextVariableScript"))
-        .thenReturn(clazz);
+            .thenReturn(clazz);
     }
     
     /**

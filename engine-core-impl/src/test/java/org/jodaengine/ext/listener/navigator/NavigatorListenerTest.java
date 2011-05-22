@@ -1,4 +1,4 @@
-package org.jodaengine.plugin.navigator;
+package org.jodaengine.ext.listener.navigator;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

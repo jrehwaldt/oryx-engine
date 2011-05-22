@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import org.jodaengine.IdentityServiceImpl;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.mock.utils.MockUtils;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -27,6 +26,7 @@ import org.jodaengine.resource.IdentityBuilder;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.util.mock.MockUtils;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.AfterMethod;
