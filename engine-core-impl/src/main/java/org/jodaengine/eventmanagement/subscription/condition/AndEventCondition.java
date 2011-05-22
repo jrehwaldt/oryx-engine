@@ -9,7 +9,7 @@ import org.jodaengine.eventmanagement.AdapterEvent;
  * This {@link EventCondition} is able to manage multiple {@link EventCondition}s.
  * 
  * <p>
- * It evaluates all the conditions assigned to this {@link AndEventCondition}. All conditions needs to be hold in order
+ * It evaluates all the conditions assigned to this {@link AndEventCondition}. All conditions need to be hold in order
  * to return 'true'.
  * </p>
  */
@@ -53,7 +53,7 @@ public class AndEventCondition implements EventCondition {
     }
 
     /**
-     * Evaluates the conditions assigned to this {@link AndEventCondition}. All conditions needs to be hold in order to
+     * Evaluates the conditions assigned to this {@link AndEventCondition}. All conditions need to be hold in order to
      * return 'true'.
      * 
      * {@inheritDoc}
