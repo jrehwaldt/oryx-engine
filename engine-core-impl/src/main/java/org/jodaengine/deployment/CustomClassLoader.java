@@ -10,6 +10,9 @@ public class CustomClassLoader extends ClassLoader implements ClassContainer {
 
     private Map<String, byte[]> classes;
     
+    /**
+     * Instantiates a new custom class loader.
+     */
     public CustomClassLoader() {
         super();
         classes = new HashMap<String, byte[]>();
