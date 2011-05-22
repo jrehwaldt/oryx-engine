@@ -3,6 +3,8 @@ package org.jodaengine.eventmanagement.subscription.condition;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.annotation.Nonnull;
+
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.util.ReflectionUtil;
@@ -31,9 +33,11 @@ public class MethodInvokingEventCondition implements EventCondition {
      * @param expectedValue
      *            - the value that is expected as result of the invoked method
      */
-    public MethodInvokingEventCondition(Class<? extends AdapterEvent> clazz, String methodName, Object expectedValue) {
+    public MethodInvokingEventCondition(@Nonnull Class<? extends AdapterEvent> clazz,
+                                        @Nonnull String methodName,
+                                        @Nonnull Object expectedValue) {
 
-        // In case the method not exists an exception is thrown
+        // In case the method does not exist an exception is thrown
         this.method = ReflectionUtil.getMethodFor(clazz, methodName);
         this.clazzOfMethod = clazz;
         this.expectedValue = expectedValue;
@@ -43,7 +47,7 @@ public class MethodInvokingEventCondition implements EventCondition {
     public boolean evaluate(AdapterEvent adapterEvent) {
 
         if (!adapterEvent.getClass().equals(clazzOfMethod)) {
-            String debugMessage = "The class of the adapterEvent '" + adapterEvent.getAdapterType() + "' occured at '"
+            String debugMessage = "The class of the adapterEvent '" + adapterEvent.getClass() + "' occured at '"
                 + adapterEvent.getTimestamp() + "' does not match to the desired class '"
                 + clazzOfMethod.getCanonicalName() + "'.";
             logger.debug(debugMessage);

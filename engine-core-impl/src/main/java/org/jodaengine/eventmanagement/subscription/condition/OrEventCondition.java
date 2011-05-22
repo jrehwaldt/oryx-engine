@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 
 /**
  * This {@link EventCondition} is able to manage multiple {@link EventCondition}s.

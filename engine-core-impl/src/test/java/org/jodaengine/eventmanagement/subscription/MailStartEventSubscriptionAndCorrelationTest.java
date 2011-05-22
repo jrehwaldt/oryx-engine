@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.registration;
+package org.jodaengine.eventmanagement.subscription;
 
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 

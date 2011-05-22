@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.registration;
+package org.jodaengine.eventmanagement.subscription;
 
 
 // TODO: Auto-generated Javadoc
