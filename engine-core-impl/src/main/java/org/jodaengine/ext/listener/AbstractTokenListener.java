@@ -8,8 +8,6 @@ import org.jodaengine.ext.ObserverListener;
 import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.jodaengine.plugin.activity.ActivityLifecyclePlugin;
 
-
-
 /**
  * This class may be injected to observe
  * the lifecycle of certain activities.
@@ -25,7 +23,6 @@ implements ObserverListener, ActivityLifecyclePlugin {
     @Override
     public void update(@Nonnull Observable observable,
                        @Nonnull Object event) {
-        // TODO if several different events might occur here, the type of the event should be checked here
         stateChanged((ActivityLifecycleChangeEvent) event);
     }
 }

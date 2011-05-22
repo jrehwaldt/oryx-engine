@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory;
  * This class is a {@link Logger} and may be injected to observe
  * the lifecycle of certain {@link AbstractActivity}s.
  */
-public final class ActivityLifecycleLogger
+public final class TokenListenerLogger
 extends AbstractTokenListener {
     
     /** The instance. */
-    private static ActivityLifecycleLogger instance;
+    private static TokenListenerLogger instance;
     
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -23,16 +23,16 @@ extends AbstractTokenListener {
     /**
      * Hide singleton constructor.
      */
-    private ActivityLifecycleLogger() { }
+    private TokenListenerLogger() { }
     
     /**
      * Returns a lazily initialized logger instance.
      * 
      * @return a logger instance
      */
-    public synchronized static @Nonnull ActivityLifecycleLogger getInstance() {
+    public synchronized static @Nonnull TokenListenerLogger getInstance() {
         if (instance == null) {
-            instance = new ActivityLifecycleLogger();
+            instance = new TokenListenerLogger();
         }
         
         return instance;

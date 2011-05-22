@@ -343,14 +343,11 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      *            the new state
      */
     private void changeActivityState(ActivityState newState) {
-
+        
         final ActivityState prevState = currentActivityState;
         this.currentActivityState = newState;
         setChanged();
-
-        // TODO maybe change the ActivityLifecycleChangeEvent, as we provide the currentActivity here, but it might not
-        // be instantiated yet.
-        Activity currentActivityBehavior = currentNode.getActivityBehaviour();
-        notifyObservers(new ActivityLifecycleChangeEvent(currentActivityBehavior, prevState, newState, this));
+        
+        notifyObservers(new ActivityLifecycleChangeEvent(currentNode, prevState, newState, this));
     }
 }

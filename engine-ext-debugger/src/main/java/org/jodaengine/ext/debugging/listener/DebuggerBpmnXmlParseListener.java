@@ -5,7 +5,6 @@ import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
 import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.util.xml.XmlElement;
@@ -14,11 +13,12 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This listener class belongs to the {@link DebuggerService}. It is called while process import
- * takes place {@link BpmnXmlParser} and can do further processing of debugger extensions, if exists.
+ * using the {@link BpmnXmlParser} takes place and can do further processing of debugger extensions,
+ * if those exist.
  * 
  * When invoked the listener searches for extension elements in the xml serialization, which belong to our
  * debugger namespace. In case those are found the data are transfered to the {@link Node}'s attribute set
- * in order to be available in the {@link AbstractProcessInstance}'s lifecycle.
+ * in order to be available in the {@link org.jodaengine.process.instance.AbstractProcessInstance}'s lifecycle.
  * 
  * Those extension points are defined in the BPMN 2.0 specification as of chapter 8.2.3.
  * 
@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * @since 2011-05-17
  */
 @Extension(DebuggerService.DEBUGGER_SERVICE_NAME)
-public class DebuggerDeploymentImportListener implements BpmnXmlParseListener {
+public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
     
     /**
      * The debugger extension namespace.

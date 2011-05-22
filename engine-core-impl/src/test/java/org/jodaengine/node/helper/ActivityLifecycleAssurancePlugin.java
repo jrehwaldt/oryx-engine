@@ -36,13 +36,6 @@ extends AbstractTokenListener {
     
         this.completedCalled = completedCalled;
     }
-
-    /**
-     * Instantiates a new activity lifecycle assurance plugin.
-     */
-    public ActivityLifecycleAssurancePlugin() {
-        
-    }
     
     @Override
     public void stateChanged(@Nonnull ActivityLifecycleChangeEvent event) {

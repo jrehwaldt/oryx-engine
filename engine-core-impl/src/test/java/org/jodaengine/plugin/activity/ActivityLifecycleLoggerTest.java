@@ -3,7 +3,7 @@ package org.jodaengine.plugin.activity;
 import static org.mockito.Mockito.mock;
 
 import org.jodaengine.ext.listener.AbstractTokenListener;
-import org.jodaengine.ext.logger.ActivityLifecycleLogger;
+import org.jodaengine.ext.logger.TokenListenerLogger;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
@@ -38,7 +38,7 @@ public class ActivityLifecycleLoggerTest {
    @BeforeTest
    public void beforeMethod() {
        this.activity = mock(AutomatedDummyActivity.class);
-       this.listener = ActivityLifecycleLogger.getInstance();
+       this.listener = TokenListenerLogger.getInstance();
        this.token = mock(TokenImpl.class);
        this.event = new ActivityLifecycleChangeEvent(
            this.activity, ActivityState.ACTIVE, ActivityState.COMPLETED, this.token);

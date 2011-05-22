@@ -1,7 +1,7 @@
 package org.jodaengine.factory.node;
 
 import org.jodaengine.ext.listener.AbstractTokenListener;
-import org.jodaengine.ext.logger.ActivityLifecycleLogger;
+import org.jodaengine.ext.logger.TokenListenerLogger;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.incomingbehaviour.AndJoinBehaviour;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -46,7 +46,7 @@ public class RoutingBehaviourTestFactory extends AbstractNodeFactory {
      * @return the node
      */
     public Node createWithAndSplitAndLogger() {
-        AbstractTokenListener lifecycleLogger = ActivityLifecycleLogger.getInstance();
+        AbstractTokenListener lifecycleLogger = TokenListenerLogger.getInstance();
         setActivityBlueprint();
 //        activity.registerPlugin(lifecycleLogger);
         // TODO register plugin
