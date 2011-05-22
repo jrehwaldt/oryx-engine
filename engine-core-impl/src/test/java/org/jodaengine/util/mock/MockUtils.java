@@ -1,4 +1,4 @@
-package org.jodaengine.mock.utils;
+package org.jodaengine.util.mock;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -18,9 +18,8 @@ public final class MockUtils {
     /**
      * Hidden constructor.
      */
-    private MockUtils() {
-        
-    }
+    private MockUtils() { }
+    
     /**
      * Creates a mock token, that is linked to a mock ProcessInstance and a mock ProcessDefinition.
      *

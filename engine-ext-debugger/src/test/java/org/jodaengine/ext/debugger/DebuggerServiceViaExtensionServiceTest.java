@@ -10,7 +10,8 @@ import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
-import org.jodaengine.ext.debugging.listener.DebuggerDeploymentImportListener;
+import org.jodaengine.ext.debugging.listener.DebuggerBpmnXmlParseListener;
+import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
@@ -45,11 +46,10 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      */
     @Test
     public void testRequiredComponentsAreAvailable() {
-        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerDeploymentImportListener.class));
+        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerBpmnXmlParseListener.class));
         Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerService.class));
         Assert.assertNotNull(this.extensionService.isExtensionAvailable(BreakpointService.class));
-        
-        // TODO extend
+        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerTokenListener.class));
     }
     
     /**
@@ -69,8 +69,6 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      *      test is rather <b>independent</b> of a concrete {@link DebuggerService} implementation).
      * </li>
      * </ul>
-     * 
-     * Keep it synced!
      * 
      * @throws ExtensionNotAvailableException test fails
      * @throws IllegalAccessException test fails
@@ -125,7 +123,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
     }
     
     /**
-     * Tests that the listener for the {@link DebuggerDeploymentImportListener} is successfully provided.
+     * Tests that the listener for the {@link DebuggerBpmnXmlParseListener} is successfully provided.
      */
     @Test
     public void testRequiredDeploymentListenerIsProvided() {
@@ -135,7 +133,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         
         boolean listenerAvailable = false;
         for (BpmnXmlParseListener listener: listeners) {
-            if (listener instanceof DebuggerDeploymentImportListener) {
+            if (listener instanceof DebuggerBpmnXmlParseListener) {
                 listenerAvailable = true;
             }
         }
@@ -162,15 +160,12 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      * </li>
      * </ul>
      * 
-     * Keep it synced!
-     * 
      * @throws ExtensionNotAvailableException test fails
      * @throws IllegalAccessException test fails
-     * @throws IllegalArgumentException test fails
      */
     @Test
     public void testCreationOfWebServiceSingletons()
-    throws ExtensionNotAvailableException, IllegalArgumentException, IllegalAccessException {
+    throws ExtensionNotAvailableException, IllegalAccessException {
         
         DebuggerService debugger = this.extensionService.getExtensionService(
             DebuggerService.class,

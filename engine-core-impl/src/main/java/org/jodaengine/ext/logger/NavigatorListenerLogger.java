@@ -1,7 +1,8 @@
-package org.jodaengine.ext.navigator;
+package org.jodaengine.ext.logger;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.ext.listener.AbstractNavigatorListener;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorState;
 import org.slf4j.Logger;
@@ -27,9 +28,7 @@ extends AbstractNavigatorListener {
     /**
      * Hide singleton constructor.
      */
-    private NavigatorListenerLogger() {
-        
-    }
+    private NavigatorListenerLogger() { }
     
     /**
      * Returns a lazily initialized logger instance.

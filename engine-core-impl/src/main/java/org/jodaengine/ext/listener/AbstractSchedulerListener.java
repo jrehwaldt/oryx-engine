@@ -1,8 +1,8 @@
-package org.jodaengine.ext.scheduler;
+package org.jodaengine.ext.listener;
 
 import java.util.Observable;
 
-import org.jodaengine.ext.ObserverPlugin;
+import org.jodaengine.ext.ObserverListener;
 import org.jodaengine.navigator.schedule.SchedulerAction;
 import org.jodaengine.navigator.schedule.SchedulerEvent;
 import org.jodaengine.plugin.scheduler.SchedulerListener;
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  *
  * @see AbstractSchedulerEvent
  */
-public abstract class AbstractSchedulerListener implements ObserverPlugin, SchedulerListener {
+public abstract class AbstractSchedulerListener implements ObserverListener, SchedulerListener {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

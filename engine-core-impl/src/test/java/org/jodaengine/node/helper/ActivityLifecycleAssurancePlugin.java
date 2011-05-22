@@ -2,7 +2,7 @@ package org.jodaengine.node.helper;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.ext.activity.AbstractTokenPlugin;
+import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 
@@ -12,7 +12,7 @@ import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
  * the lifecycle of certain activities.
  */
 public final class ActivityLifecycleAssurancePlugin
-extends AbstractTokenPlugin {
+extends AbstractTokenListener {
     
     /** The completed called. */
     private boolean completedCalled;
@@ -35,13 +35,6 @@ extends AbstractTokenPlugin {
     public void setCompletedCalled(boolean completedCalled) {
     
         this.completedCalled = completedCalled;
-    }
-
-    /**
-     * Instantiates a new activity lifecycle assurance plugin.
-     */
-    public ActivityLifecycleAssurancePlugin() {
-        
     }
     
     @Override

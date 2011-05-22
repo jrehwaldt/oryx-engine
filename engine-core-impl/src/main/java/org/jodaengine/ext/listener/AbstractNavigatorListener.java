@@ -1,10 +1,10 @@
-package org.jodaengine.ext.navigator;
+package org.jodaengine.ext.listener;
 
 import java.util.Observable;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.ext.ObserverPlugin;
+import org.jodaengine.ext.ObserverListener;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorState;
 
@@ -15,7 +15,7 @@ import org.jodaengine.navigator.NavigatorState;
  * @see AbstractNavigatorEvent
  */
 public abstract class AbstractNavigatorListener
-implements ObserverPlugin {
+implements ObserverListener {
     
     /**
      * This method is called whenever the navigator changes its state.

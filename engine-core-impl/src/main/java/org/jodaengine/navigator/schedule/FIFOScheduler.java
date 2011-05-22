@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.jodaengine.ext.AbstractPluggable;
-import org.jodaengine.ext.scheduler.AbstractSchedulerListener;
+import org.jodaengine.ext.listener.AbstractSchedulerListener;
 import org.jodaengine.process.token.Token;
 
 

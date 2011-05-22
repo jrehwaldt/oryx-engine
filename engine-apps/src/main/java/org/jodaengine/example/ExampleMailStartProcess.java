@@ -12,7 +12,7 @@ import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.eventmanagement.subscription.condition.MethodInvokingEventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
-import org.jodaengine.ext.navigator.NavigatorListenerLogger;
+import org.jodaengine.ext.logger.NavigatorListenerLogger;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;

@@ -1,4 +1,4 @@
-package org.jodaengine.plugin.activity;
+package org.jodaengine.ext.listener.token;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -7,10 +7,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.jodaengine.exception.JodaEngineException;
-import org.jodaengine.ext.activity.AbstractTokenPlugin;
+import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
+import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.TokenImpl;
@@ -25,7 +26,7 @@ import org.testng.annotations.Test;
 public class TokenPluginTest {
     private TokenImpl token;
     private ArgumentCaptor<ActivityLifecycleChangeEvent> eventCapturer = null;
-    private AbstractTokenPlugin mock;
+    private AbstractTokenListener mock;
 
     /**
      * Sets up a token that points to a node and registers a mocked plugin.
@@ -41,7 +42,7 @@ public class TokenPluginTest {
             new TakeAllSplitBehaviour());
         this.token = new TokenImpl(node1);
 
-        mock = mock(AbstractTokenPlugin.class);
+        mock = mock(AbstractTokenListener.class);
         token.registerPlugin(mock);
         this.eventCapturer = ArgumentCaptor.forClass(ActivityLifecycleChangeEvent.class);
     }

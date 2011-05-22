@@ -1,10 +1,10 @@
-package org.jodaengine.plugin.navigator;
+package org.jodaengine.ext.listener.navigator;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.jodaengine.bootstrap.JodaEngine;
-import org.jodaengine.ext.navigator.AbstractNavigatorListener;
+import org.jodaengine.ext.listener.AbstractNavigatorListener;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.navigator.NavigatorState;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
