@@ -1,8 +1,14 @@
 package org.jodaengine.rest.api;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Set;
+
+import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
@@ -19,13 +25,13 @@ import org.jodaengine.util.testing.AbstractJsonServerTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
 /**
  * Tests our repository web service.
  */
 public class RepositoryWebServiceTest extends AbstractJsonServerTest {
 
     private final static String URL = "/repository/process-definitions";
+    private final static String TEST_ARCHIVE_PATH = "src/test/resources/org/jodaengine/deployment/importer/archive/testWithFroms.dar";
 
     private final static JavaType TYPE_REF = TypeFactory.collectionType(Set.class, ProcessDefinition.class);
 
@@ -51,7 +57,7 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
 
         DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
         Deployment deployment = deploymentBuilder.addProcessDefinition(definition).buildDeployment();
-        
+
         jodaEngineServices.getRepositoryService().deployInNewScope(deployment);
     }
 
@@ -134,4 +140,16 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
         Assert.assertEquals(definitions.size(), 2);
     }
 
+    /**
+     * Test archive upload.
+     * @throws FileNotFoundException 
+     */
+//    @Test
+//    public void testArchiveUpload() throws FileNotFoundException {
+//        File file = new File(TEST_ARCHIVE_PATH);
+//        FileReader reader = new FileReader(file);
+//        BufferedReader bufferedReader = new BufferedReader(reader);
+//        bufferedReader.
+//        makePOSTRequest("/repository/deployments", file.toString(), MediaType.APPLICATION_OCTET_STREAM);
+//    }
 }

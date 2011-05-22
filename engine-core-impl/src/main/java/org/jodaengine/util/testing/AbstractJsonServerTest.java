@@ -1,5 +1,6 @@
 package org.jodaengine.util.testing;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -228,7 +229,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
 
         return invokeSimpleRequest(request);
     }
-
+    
     /**
      * Make patch request.
      * 
