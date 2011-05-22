@@ -1,7 +1,7 @@
 package org.jodaengine.example;
 
 import org.jodaengine.bootstrap.JodaEngine;
-import org.jodaengine.ext.navigator.NavigatorListenerLogger;
+import org.jodaengine.ext.logger.NavigatorListenerLogger;
 import org.jodaengine.factory.node.HumanTaskNodeFactory;
 import org.jodaengine.factory.node.PrintingNodeFactory;
 import org.jodaengine.factory.node.RoutingBehaviourTestFactory;

@@ -13,7 +13,7 @@ import org.jodaengine.exception.handler.AbstractJodaRuntimeExceptionHandler;
 import org.jodaengine.exception.handler.InstanceTerminationHandler;
 import org.jodaengine.exception.handler.LoggerExceptionHandler;
 import org.jodaengine.ext.AbstractPluggable;
-import org.jodaengine.ext.activity.AbstractTokenPlugin;
+import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
@@ -26,7 +26,7 @@ import org.jodaengine.process.structure.Transition;
 /**
  * The implementation of a process token.
  */
-public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements Token {
+public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implements Token {
 
     private UUID id;
 
@@ -42,7 +42,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
     private List<Token> lazySuspendedProcessingTokens;
 
-    private List<AbstractTokenPlugin> plugins;
+    private List<AbstractTokenListener> plugins;
 
     private AbstractJodaRuntimeExceptionHandler runtimeExceptionHandler;
 
@@ -76,7 +76,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
         this.navigator = navigator;
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
-        this.plugins = new ArrayList<AbstractTokenPlugin>();
+        this.plugins = new ArrayList<AbstractTokenListener>();
 
         // at this point, you can register as much runtime exception handlers as you wish, following the chain of
         // responsiblity pattern. The handler is used for runtime errors that occur in process execution.
@@ -204,7 +204,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
 
         Token newToken = instance.createToken(node, navigator);
         // give all of this token's observers to the newly created ones.
-        for (AbstractTokenPlugin plugin : plugins) {
+        for (AbstractTokenListener plugin : plugins) {
             ((TokenImpl) newToken).registerPlugin(plugin);
         }
 
@@ -323,14 +323,14 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenPlugin> implements
     }
 
     @Override
-    public void registerPlugin(@Nonnull AbstractTokenPlugin plugin) {
+    public void registerPlugin(@Nonnull AbstractTokenListener plugin) {
 
         this.plugins.add(plugin);
         addObserver(plugin);
     }
 
     @Override
-    public void deregisterPlugin(@Nonnull AbstractTokenPlugin plugin) {
+    public void deregisterPlugin(@Nonnull AbstractTokenListener plugin) {
 
         this.plugins.remove(plugin);
         deleteObserver(plugin);

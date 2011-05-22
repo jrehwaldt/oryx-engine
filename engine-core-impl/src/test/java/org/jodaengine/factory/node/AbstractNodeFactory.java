@@ -1,7 +1,7 @@
 package org.jodaengine.factory.node;
 
-import org.jodaengine.ext.activity.AbstractTokenPlugin;
-import org.jodaengine.ext.activity.ActivityLifecycleLogger;
+import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.ext.logger.ActivityLifecycleLogger;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.custom.PrintingVariableActivity;
 import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
@@ -63,7 +63,7 @@ abstract class AbstractNodeFactory {
      */
     public Node createWithLogger() {
 
-        AbstractTokenPlugin lifecycleLogger = ActivityLifecycleLogger.getInstance();
+        AbstractTokenListener lifecycleLogger = ActivityLifecycleLogger.getInstance();
         this.setActivityBlueprint();
         // activity.registerPlugin(lifecycleLogger);
         // TODO what to do with plugins?

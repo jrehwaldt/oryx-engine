@@ -11,7 +11,7 @@ import org.jodaengine.plugin.Pluggable;
  * 
  * @param <P> the plugin implementation class implemented as observer
  */
-public abstract class AbstractPluggable<P extends ObserverPlugin>
+public abstract class AbstractPluggable<P extends ObserverListener>
 extends Observable
 implements Pluggable<P> {
     

@@ -4,8 +4,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.jodaengine.bootstrap.JodaEngine;
-import org.jodaengine.ext.navigator.AbstractNavigatorListener;
-import org.jodaengine.ext.navigator.NavigatorListenerLogger;
+import org.jodaengine.ext.listener.AbstractNavigatorListener;
+import org.jodaengine.ext.logger.NavigatorListenerLogger;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.navigator.NavigatorState;
 import org.testng.annotations.BeforeMethod;

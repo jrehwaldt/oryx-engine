@@ -1,17 +1,18 @@
-package org.jodaengine.ext.activity;
+package org.jodaengine.ext.logger;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is a logger and may be injected to observe
- * the lifecycle of certain activities.
+ * This class is a {@link Logger} and may be injected to observe
+ * the lifecycle of certain {@link AbstractActivity}s.
  */
 public final class ActivityLifecycleLogger
-extends AbstractTokenPlugin {
+extends AbstractTokenListener {
     
     /** The instance. */
     private static ActivityLifecycleLogger instance;
@@ -22,9 +23,7 @@ extends AbstractTokenPlugin {
     /**
      * Hide singleton constructor.
      */
-    private ActivityLifecycleLogger() {
-        
-    }
+    private ActivityLifecycleLogger() { }
     
     /**
      * Returns a lazily initialized logger instance.

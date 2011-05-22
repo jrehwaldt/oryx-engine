@@ -2,8 +2,8 @@ package org.jodaengine.plugin.activity;
 
 import static org.mockito.Mockito.mock;
 
-import org.jodaengine.ext.activity.AbstractTokenPlugin;
-import org.jodaengine.ext.activity.ActivityLifecycleLogger;
+import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.ext.logger.ActivityLifecycleLogger;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
 public class ActivityLifecycleLoggerTest {
     
     private AutomatedDummyActivity activity = null;
-    private AbstractTokenPlugin listener = null;
+    private AbstractTokenListener listener = null;
     private TokenImpl token = null;
     private ActivityLifecycleChangeEvent event = null;
     

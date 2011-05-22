@@ -70,8 +70,6 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      * </li>
      * </ul>
      * 
-     * Keep it synced!
-     * 
      * @throws ExtensionNotAvailableException test fails
      * @throws IllegalAccessException test fails
      */
@@ -161,8 +159,6 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      *      test is rather <b>independent</b> of a concrete {@link DebuggerService} implementation).
      * </li>
      * </ul>
-     * 
-     * Keep it synced!
      * 
      * @throws ExtensionNotAvailableException test fails
      * @throws IllegalAccessException test fails

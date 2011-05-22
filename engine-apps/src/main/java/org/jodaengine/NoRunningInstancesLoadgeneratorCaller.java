@@ -1,6 +1,6 @@
 package org.jodaengine;
 
-import org.jodaengine.ext.navigator.AbstractNavigatorListener;
+import org.jodaengine.ext.listener.AbstractNavigatorListener;
 import org.jodaengine.loadgenerator.LoadGenerator;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorState;

@@ -6,7 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.jodaengine.exception.JodaEngineException;
-import org.jodaengine.ext.activity.AbstractTokenPlugin;
+import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -50,7 +50,7 @@ public class ActivityLifecyclePluginTest {
     public void testStartedTrigger()
     throws JodaEngineException {
 
-        AbstractTokenPlugin mock = mock(AbstractTokenPlugin.class);
+        AbstractTokenListener mock = mock(AbstractTokenListener.class);
         this.token.registerPlugin(mock);
         token.executeStep();
 
