@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.subscription.condition;
+package org.jodaengine.eventmanagement.subscription.condition.simple;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
+import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.util.ReflectionUtil;
 import org.slf4j.Logger;

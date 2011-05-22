@@ -1,12 +1,13 @@
-package org.jodaengine.eventmanagement.subscription.condition;
+package org.jodaengine.eventmanagement.subscription.condition.simple;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.adapter.AbstractEvent;
+import org.jodaengine.eventmanagement.adapter.AbstractAdapterEvent;
+import org.jodaengine.eventmanagement.subscription.condition.simple.MethodInvokingEventCondition;
 
 /**
  * Only a dummy {@link AdapterEvent} for the {@link MethodInvokingEventConditionTest}.
  */
-public class DummyAdapterEvent extends AbstractEvent {
+public class DummyAdapterEvent extends AbstractAdapterEvent {
 
     public final static String METHOD_RETURNS_STRING = "dummyMethodReturnsString";
     public final static String METHOD_RETURNS_INT = "dummyMethodReturnsInt";

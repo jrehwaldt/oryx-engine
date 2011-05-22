@@ -4,7 +4,7 @@ import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
-import org.jodaengine.eventmanagement.subscription.condition.TrueEventCondition;
+import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

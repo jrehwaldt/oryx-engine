@@ -10,7 +10,7 @@ import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.internet.InternetAddress;
 
-import org.jodaengine.eventmanagement.adapter.AbstractEvent;
+import org.jodaengine.eventmanagement.adapter.AbstractAdapterEvent;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 /**
  * A event implementation for the mail adapter.
  */
-public class MailAdapterEvent extends AbstractEvent {
+public class MailAdapterEvent extends AbstractAdapterEvent {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private @Nonnull Message message;

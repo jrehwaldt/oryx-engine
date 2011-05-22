@@ -14,7 +14,7 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
  * 
  * @author Jan Rehwaldt
  */
-public abstract class AbstractEvent
+public abstract class AbstractAdapterEvent
 implements AdapterEvent {
     
     private final Date timestamp;
@@ -26,7 +26,7 @@ implements AdapterEvent {
      * 
      * @param configuration the firing adapter's {@link AdapterConfiguration}
      */
-    public AbstractEvent(@Nonnull AdapterConfiguration configuration) {
+    public AbstractAdapterEvent(@Nonnull AdapterConfiguration configuration) {
         this.timestamp = new Date();
         this.configuration = configuration;
     }

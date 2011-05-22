@@ -1,23 +1,26 @@
-package org.jodaengine.eventmanagement.subscription.condition;
+package org.jodaengine.eventmanagement.subscription.condition.complex;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
+import org.jodaengine.eventmanagement.subscription.condition.complex.AndEventCondition;
+import org.jodaengine.eventmanagement.subscription.condition.simple.FalseEventCondition;
+import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * Tests the {@link OrEventCondition}.
+ * Tests the {@link AndEventCondition}.
  */
-public class OrEventConditionTest {
+public class AndEventConditionTest {
 
-    private OrEventCondition andEventCondition;
+    private AndEventCondition andEventCondition;
     private AdapterEvent adapterEventMock;
 
     @BeforeMethod
     public void setUp() {
 
-        andEventCondition = new OrEventCondition();
+        andEventCondition = new AndEventCondition();
         adapterEventMock = Mockito.mock(AdapterEvent.class);
     }
 
@@ -35,16 +38,7 @@ public class OrEventConditionTest {
         andEventCondition.addEventCondition(new TrueEventCondition()).addEventCondition(new FalseEventCondition())
         .addEventCondition(new TrueEventCondition());
 
-        Assert.assertTrue(andEventCondition.evaluate(adapterEventMock));
-    }
-    
-    @Test
-    public void testAndEventConditionWithOneFalseAtFirst() {
-
-        andEventCondition.addEventCondition(new FalseEventCondition()).addEventCondition(new TrueEventCondition())
-        .addEventCondition(new TrueEventCondition());
-
-        Assert.assertTrue(andEventCondition.evaluate(adapterEventMock));
+        Assert.assertFalse(andEventCondition.evaluate(adapterEventMock));
     }
 
     @Test
