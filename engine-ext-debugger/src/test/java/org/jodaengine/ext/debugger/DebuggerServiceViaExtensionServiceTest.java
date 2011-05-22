@@ -166,11 +166,10 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      * 
      * @throws ExtensionNotAvailableException test fails
      * @throws IllegalAccessException test fails
-     * @throws IllegalArgumentException test fails
      */
     @Test
     public void testCreationOfWebServiceSingletons()
-    throws ExtensionNotAvailableException, IllegalArgumentException, IllegalAccessException {
+    throws ExtensionNotAvailableException, IllegalAccessException {
         
         DebuggerService debugger = this.extensionService.getExtensionService(
             DebuggerService.class,
