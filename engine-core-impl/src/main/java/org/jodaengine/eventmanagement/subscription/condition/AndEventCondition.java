@@ -66,6 +66,11 @@ public class AndEventCondition implements EventCondition {
         for (EventCondition theEventCondition : eventConditons) {
 
             returnBoolean = returnBoolean && theEventCondition.evaluate(adapterEvent);
+            
+            // If it is false, then you can leave right now
+            if (!returnBoolean) {
+                break;
+            }
         }
         return returnBoolean;
     }
