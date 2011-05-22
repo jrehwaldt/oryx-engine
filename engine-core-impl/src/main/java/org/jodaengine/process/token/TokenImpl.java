@@ -1,6 +1,7 @@
 package org.jodaengine.process.token;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,7 +42,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
     private List<Token> lazySuspendedProcessingTokens;
 
-    private List<AbstractTokenListener> plugins;
+    private List<AbstractTokenListener> listeners;
 
     private AbstractJodaRuntimeExceptionHandler runtimeExceptionHandler;
 
@@ -49,20 +50,26 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * Instantiates a new process {@link TokenImpl}.
      * 
      * @param startNode
-     *            the start node
+     *            the start {@link Node}
      * @param instance
-     *            the instance
+     *            the {@link AbstractProcessInstance}
      * @param navigator
-     *            the navigator
+     *            the {@link Navigator}
+     * @param listeners
+     *            any number of {@link AbstractTokenListener}s, which observe the {@link TokenImpl}
      */
-    public TokenImpl(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
+    public TokenImpl(Node startNode,
+                     AbstractProcessInstance instance,
+                     Navigator navigator,
+                     AbstractTokenListener ... listeners) {
 
         this.currentNode = startNode;
         this.instance = instance;
         this.navigator = navigator;
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
-        this.plugins = new ArrayList<AbstractTokenListener>();
+        this.listeners = new ArrayList<AbstractTokenListener>();
+        this.listeners.addAll(Arrays.asList(listeners));
 
         // at this point, you can register as much runtime exception handlers as you wish, following the chain of
         // responsibility pattern. The handler is used for runtime errors that occur in process execution.
@@ -172,14 +179,14 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * 
      * @param node
      *            the node
-     * @return the token {@inheritDoc}
+     * @return the token
      */
     @Override
     public Token createNewToken(Node node) {
 
         Token newToken = instance.createToken(node, navigator);
         // give all of this token's observers to the newly created ones.
-        for (AbstractTokenListener plugin : plugins) {
+        for (AbstractTokenListener plugin : listeners) {
             ((TokenImpl) newToken).registerPlugin(plugin);
         }
 
@@ -211,9 +218,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         return lastTakenTransition;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setLastTakenTransition(Transition t) {
 
@@ -236,6 +240,8 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
             completeExecution();
         } catch (NoValidPathException e) {
             e.printStackTrace();
+            // TODO use the handler chain to solve this
+//            this.runtimeExceptionHandler.processException(e, this);
         }
     }
 
@@ -300,14 +306,14 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     @Override
     public void registerPlugin(@Nonnull AbstractTokenListener plugin) {
 
-        this.plugins.add(plugin);
+        this.listeners.add(plugin);
         addObserver(plugin);
     }
 
     @Override
     public void deregisterPlugin(@Nonnull AbstractTokenListener plugin) {
 
-        this.plugins.remove(plugin);
+        this.listeners.remove(plugin);
         deleteObserver(plugin);
     }
 

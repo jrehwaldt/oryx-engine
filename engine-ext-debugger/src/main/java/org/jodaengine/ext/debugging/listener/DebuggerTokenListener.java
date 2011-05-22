@@ -3,7 +3,6 @@ package org.jodaengine.ext.debugging.listener;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.ext.Extension;
-import org.jodaengine.ext.debugging.Breakpoint;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.listener.AbstractTokenListener;
