@@ -14,6 +14,7 @@ import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.instance.AbstractProcessInstance;
 
 /**
  * The RepositoryService offers method to manage the processes that have been deployed to the navigator.

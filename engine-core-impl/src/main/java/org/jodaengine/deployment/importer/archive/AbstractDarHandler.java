@@ -5,8 +5,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The Class AbstractDarHandler that realizes a chain of responsibility for .dar-Files.

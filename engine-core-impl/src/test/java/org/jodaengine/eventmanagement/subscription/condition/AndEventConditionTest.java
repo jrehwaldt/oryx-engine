@@ -1,9 +1,6 @@
 package org.jodaengine.eventmanagement.subscription.condition;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.subscription.condition.AndEventCondition;
-import org.jodaengine.eventmanagement.subscription.condition.FalseEventCondition;
-import org.jodaengine.eventmanagement.subscription.condition.TrueEventCondition;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
