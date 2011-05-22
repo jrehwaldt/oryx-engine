@@ -1,5 +1,6 @@
 package org.jodaengine.deployment.importer.archive;
 
+import java.io.File;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -11,6 +12,7 @@ import org.jodaengine.deployment.DeploymentBuilder;
  */
 public abstract class AbstractDarHandler {
     protected AbstractDarHandler next;
+    protected static final String DELIMITER = File.separator;
     
     /**
      * Sets the {@link AbstractDarHandler}, that is the following member of the chain of responsibility.

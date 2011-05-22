@@ -35,36 +35,44 @@ public interface DeploymentBuilder {
 
     /**
      * Creates an {@link AbstractProcessArtifact} from the {@link InputStream} with the given name.
-     *
-     * @param resourceName the resource name
-     * @param inputStream the input stream
+     * 
+     * @param resourceName
+     *            the resource name
+     * @param inputStream
+     *            the input stream
      * @return the deployment builder
      */
     DeploymentBuilder addInputStreamArtifact(String resourceName, InputStream inputStream);
 
     /**
      * Creates an {@link AbstractProcessArtifact} from a resource that is available in the classpath.
-     *
-     * @param resourceName the resource name
-     * @param resourceClasspath the resource classpath
+     * 
+     * @param resourceName
+     *            the resource name
+     * @param resourceClasspath
+     *            the resource classpath
      * @return the deployment builder
      */
     DeploymentBuilder addClasspathResourceArtifact(String resourceName, String resourceClasspath);
 
     /**
      * Creates an {@link AbstractProcessArtifact} from a simple String.
-     *
-     * @param resourceName the resource name
-     * @param resourceStringContent the resource string content
+     * 
+     * @param resourceName
+     *            the resource name
+     * @param resourceStringContent
+     *            the resource string content
      * @return the deployment builder
      */
     DeploymentBuilder addStringArtifact(String resourceName, String resourceStringContent);
 
     /**
      * Creates an {@link AbstractProcessArtifact} from a file that is located in the local file system.
-     *
-     * @param resourceName the resource name
-     * @param file the file
+     * 
+     * @param resourceName
+     *            the resource name
+     * @param file
+     *            the file
      * @return the deployment builder
      */
     DeploymentBuilder addFileArtifact(String resourceName, File file);
@@ -83,5 +91,14 @@ public interface DeploymentBuilder {
      * @return a {@link ProcessDefinitionBuilder}
      */
     ProcessDefinitionBuilder getProcessDefinitionBuilder();
+
+    /**
+     * Adds a class to the deployment. This will be visible during every execution of the contained
+     *
+     * @param className the classes name
+     * @param classData the class data
+     * {@link ProcessDefinition}s.
+     */
+    void addClass(String className, byte[] classData);
 
 }

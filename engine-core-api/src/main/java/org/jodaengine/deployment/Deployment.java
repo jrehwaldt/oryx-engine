@@ -44,4 +44,21 @@ public interface Deployment {
      */
     Map<String, AbstractProcessArtifact> getArtifacts();
 
+    /**
+     * Adds a class to this deployment. It can be used in the context of every contained {@link ProcessDefinition}.
+     * 
+     * @param className
+     *            the class name
+     * @param classData
+     *            the class data
+     */
+    void addClass(String className, byte[] classData);
+
+    /**
+     * Returns a Map of all classes, that were added to this deployment.
+     * 
+     * @return the classes
+     */
+    Map<String, byte[]> getClasses();
+
 }

@@ -40,4 +40,8 @@ public interface DeploymentScope {
      * @param identifier the identifier
      */
     void deleteProcessArtifact(String identifier);
+        
+    void addClass(String className, byte[] classData);
+    
+    Class<?> getClass(String className) throws ClassNotFoundException;
 }

@@ -24,9 +24,6 @@ public class ProcessDefinitionHandler extends AbstractDarHandler {
     @Override
     public void processSingleDarFileEntry(ZipFile darFile, ZipEntry entry, DeploymentBuilder builder) {
         
-        // TODO remove this when implementation is finished
-        System.out.println(entry.getName());
-        
         // if an entry is located in the definitions folder, it is treated as a process definition.
         // We could check here for the file ending instead of the folder.
         if (entry.getName().startsWith(DEFINITIONS_SUBDIR) && !entry.isDirectory()) {

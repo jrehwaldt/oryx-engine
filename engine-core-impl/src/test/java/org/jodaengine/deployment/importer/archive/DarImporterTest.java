@@ -66,4 +66,20 @@ public class DarImporterTest extends AbstractJodaEngineTest {
         Assert.assertEquals(form.getFormContentAsHTML().trim(), FORM_CONTENT,
             "The form should have been imported correctly");
     }
+
+    /**
+     * Tests the import of custom classes.
+     */
+    @Test
+    public void testCustomClassImport() {
+
+        DarImporter importer = new DarImporterImpl(jodaEngineServices.getRepositoryService());
+        File darFile = new File(TEST_RESOURCE_PATH + "testWithClasses.dar");
+        Deployment deployment = importer.importDarFile(darFile);
+
+        Assert.assertTrue(deployment.getClasses().containsKey("test.simple.Dummy"),
+            "The class entry should exist in the deployment.");
+        Assert.assertNotNull(deployment.getClasses().get("test.simple.Dummy"),
+            "Class data should exist in the deployment");
+    }
 }
