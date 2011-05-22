@@ -19,7 +19,6 @@ import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 
@@ -47,20 +46,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     private AbstractJodaRuntimeExceptionHandler runtimeExceptionHandler;
 
     /**
-     * Instantiates a new token impl.
-     * 
-     * @param startNode
-     *            the start node
-     * @param instance
-     *            the instance
-     */
-    public TokenImpl(Node startNode, AbstractProcessInstance instance) {
-
-        this(startNode, instance, null);
-    }
-
-    /**
-     * Instantiates a new process token impl.
+     * Instantiates a new process {@link TokenImpl}.
      * 
      * @param startNode
      *            the start node
@@ -79,20 +65,9 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         this.plugins = new ArrayList<AbstractTokenListener>();
 
         // at this point, you can register as much runtime exception handlers as you wish, following the chain of
-        // responsiblity pattern. The handler is used for runtime errors that occur in process execution.
+        // responsibility pattern. The handler is used for runtime errors that occur in process execution.
         this.runtimeExceptionHandler = new LoggerExceptionHandler();
         this.runtimeExceptionHandler.setNext(new InstanceTerminationHandler());
-    }
-
-    /**
-     * Instantiates a new token impl.
-     * 
-     * @param startNode
-     *            the start node
-     */
-    public TokenImpl(Node startNode) {
-
-        this(startNode, new ProcessInstanceImpl(null), null);
     }
     
     /**

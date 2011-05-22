@@ -8,6 +8,7 @@ import org.jodaengine.factory.node.MailNodeFactory;
 import org.jodaengine.factory.node.PrintingNodeFactory;
 import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
 import org.jodaengine.navigator.NavigatorImpl;
+import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.TokenImpl;
 
@@ -78,7 +79,7 @@ public final class ExampleProcessForReview {
         thirdNode.transitionTo(fourthNode);
 //        fourthNode.transitionTo(endNode);
 
-        TokenImpl sampleToken = new TokenImpl(startNode);
+        TokenImpl sampleToken = new TokenImpl(startNode, new ProcessInstanceImpl(null), null);
         return sampleToken;
     }
 

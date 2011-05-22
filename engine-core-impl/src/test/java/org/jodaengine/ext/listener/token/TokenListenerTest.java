@@ -12,6 +12,7 @@ import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
+import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.TokenImpl;
 import org.mockito.ArgumentCaptor;
@@ -37,7 +38,7 @@ public class TokenListenerTest {
         String dummyString = "s.out";
 
         this.token = new TokenImpl(new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour()));
+            new TakeAllSplitBehaviour()), new ProcessInstanceImpl(null), null);
         this.eventCapturer = ArgumentCaptor.forClass(ActivityLifecycleChangeEvent.class);
     }
 

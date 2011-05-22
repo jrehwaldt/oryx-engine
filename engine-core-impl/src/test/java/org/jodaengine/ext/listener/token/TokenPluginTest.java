@@ -12,6 +12,7 @@ import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
+import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.TokenImpl;
@@ -40,7 +41,7 @@ public class TokenPluginTest {
 
         node1 = new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        this.token = new TokenImpl(node1);
+        this.token = new TokenImpl(node1, new ProcessInstanceImpl(null), null);
 
         mock = mock(AbstractTokenListener.class);
         token.registerPlugin(mock);
