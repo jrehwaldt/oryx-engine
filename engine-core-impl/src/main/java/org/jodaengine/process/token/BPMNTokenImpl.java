@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.NoValidPathException;
@@ -14,12 +16,12 @@ import org.jodaengine.ext.exception.InstanceTerminationHandler;
 import org.jodaengine.ext.exception.LoggerExceptionHandler;
 import org.jodaengine.ext.listener.AbstractExceptionHandler;
 import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
+import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
-import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 
@@ -42,7 +44,6 @@ public class BPMNTokenImpl extends AbstractPluggable<AbstractTokenListener> impl
 
     private List<BPMNToken> lazySuspendedProcessingTokens;
 
-    private List<AbstractTokenListener> plugins;
 
     private AbstractExceptionHandler exceptionHandler;
 
@@ -71,12 +72,12 @@ public class BPMNTokenImpl extends AbstractPluggable<AbstractTokenListener> impl
      */
     public BPMNTokenImpl(Node<BPMNToken> startNode, AbstractProcessInstance<BPMNToken> instance, Navigator navigator) {
 
+		super();
         this.currentNode = startNode;
         this.instance = instance;
         this.navigator = navigator;
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
-        this.plugins = new ArrayList<AbstractTokenListener>();
         
         //
         // at this point, you can register as much runtime exception handlers as you wish, following the chain of
@@ -86,17 +87,6 @@ public class BPMNTokenImpl extends AbstractPluggable<AbstractTokenListener> impl
         this.exceptionHandler.setNext(new InstanceTerminationHandler());
     }
 
-    /**
-     * Instantiates a new token impl.
-     * 
-     * @param startNode
-     *            the start node
-     */
-    public BPMNTokenImpl(Node<BPMNToken> startNode) {
-
-        this(startNode, new ProcessInstanceImpl<BPMNToken>(null), null);
-    }
-    
     /**
      * Hidden constructor.
      */
@@ -153,22 +143,54 @@ public class BPMNTokenImpl extends AbstractPluggable<AbstractTokenListener> impl
     @Override
     public List<BPMNToken> navigateTo(List<Transition<BPMNToken>> transitionList) {
 
+<<<<<<< HEAD:engine-core-impl/src/main/java/org/jodaengine/process/token/BPMNTokenImpl.java
         List<BPMNToken> tokensToNavigate = new ArrayList<BPMNToken>();
         if (transitionList.size() == 1) {
             Transition<BPMNToken> transition = transitionList.get(0);
             Node<BPMNToken> node = transition.getDestination();
+=======
+        List<Token> tokensToNavigate = new ArrayList<Token>();
+        
+        
+        //
+        // zero outgoing transitions
+        //
+        if (transitionList.size() == 0) {
+            
+            this.exceptionHandler.processException(new NoValidPathException(), this);
+            
+        //
+        // one outgoing transition
+        //
+        } else
+        if (transitionList.size() == 1) {
+            
+            Transition transition = transitionList.get(0);
+            Node node = transition.getDestination();
+>>>>>>> 495ce2e2e372709c87f44a620f16e8490582f161:engine-core-impl/src/main/java/org/jodaengine/process/token/TokenImpl.java
             this.setCurrentNode(node);
             this.lastTakenTransition = transition;
             changeActivityState(ActivityState.INIT);
             tokensToNavigate.add(this);
+            
+        //
+        // multiple outgoing transitions
+        //
         } else {
+<<<<<<< HEAD:engine-core-impl/src/main/java/org/jodaengine/process/token/BPMNTokenImpl.java
             for (Transition<BPMNToken> transition : transitionList) {
                 Node<BPMNToken> node = transition.getDestination();
                 BPMNToken newToken = createNewToken(node);
+=======
+            
+            for (Transition transition : transitionList) {
+                Node node = transition.getDestination();
+                Token newToken = createNewToken(node);
+>>>>>>> 495ce2e2e372709c87f44a620f16e8490582f161:engine-core-impl/src/main/java/org/jodaengine/process/token/TokenImpl.java
                 newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }
-
+            
             // this is needed, as the this-token would be left on the node that triggers the split.
             instance.removeToken(this);
         }
@@ -176,23 +198,12 @@ public class BPMNTokenImpl extends AbstractPluggable<AbstractTokenListener> impl
 
     }
 
-    /**
-     * Creates a new token in the same context.
-     * 
-     * @param node
-     *            the node
-     * @return the token {@inheritDoc}
-     */
     @Override
     public BPMNToken createNewToken(Node<BPMNToken> node) {
 
         BPMNToken newToken = new BPMNTokenImpl(node, instance, navigator);
         instance.addToken(newToken);
             
-        // give all of this token's observers to the newly created ones.
-        for (AbstractTokenListener plugin : plugins) {
-            ((BPMNTokenImpl) newToken).registerPlugin(plugin);
-        }
 
         return newToken;
     }
@@ -222,9 +233,6 @@ public class BPMNTokenImpl extends AbstractPluggable<AbstractTokenListener> impl
         return lastTakenTransition;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setLastTakenTransition(Transition<BPMNToken> t) {
 
@@ -310,20 +318,6 @@ public class BPMNTokenImpl extends AbstractPluggable<AbstractTokenListener> impl
         return currentActivityState;
     }
 
-    @Override
-    public void registerPlugin(@Nonnull AbstractTokenListener plugin) {
-
-        this.plugins.add(plugin);
-        addObserver(plugin);
-    }
-
-    @Override
-    public void deregisterPlugin(@Nonnull AbstractTokenListener plugin) {
-
-        this.plugins.remove(plugin);
-        deleteObserver(plugin);
-    }
-
     /**
      * Changes the state of the activity that the token currently points to.
      * 
@@ -338,4 +332,50 @@ public class BPMNTokenImpl extends AbstractPluggable<AbstractTokenListener> impl
         
         notifyObservers(new ActivityLifecycleChangeEvent(currentNode, prevState, newState, this));
     }
+    
+    /**
+     * Registers any number of {@link AbstractExceptionHandler}s.
+     * New handlers are added at the beginning of the chain.
+     * 
+     * @param handlers the handlers to be added
+     */
+    public void registerExceptionHandlers(@Nonnull List<AbstractExceptionHandler> handlers) {
+        
+        //
+        // add each handler at the beginning
+        //
+        for (AbstractExceptionHandler handler: handlers) {
+            handler.addLast(this.exceptionHandler);
+            this.exceptionHandler = handler;
+        }
+    }
+    
+    /**
+     * Registers any available extension suitable for {@link TokenImpl}.
+     * 
+     * Those include {@link AbstractExceptionHandler} as well as {@link AbstractTokenListener}.
+     * 
+     * @param extensionService the {@link ExtensionService}, which provides access to the extensions
+     */
+    public void loadExtensions(@Nullable ExtensionService extensionService) {
+        
+        // TODO use this method to register available extensions
+        
+        //
+        // no ExtensionService = no extensions
+        //
+        if (extensionService == null) {
+            return;
+        }
+        
+        //
+        // get fresh listener and handler instances
+        //
+        List<AbstractExceptionHandler> tokenExHandler = extensionService.getExtensions(AbstractExceptionHandler.class);
+        List<AbstractTokenListener> tokenListener = extensionService.getExtensions(AbstractTokenListener.class);
+        
+        registerListeners(tokenListener);
+        registerExceptionHandlers(tokenExHandler);
+    }
+    
 }

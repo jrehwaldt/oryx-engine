@@ -62,6 +62,17 @@ public abstract class AbstractProcessInstance<T extends Token<?>> implements Ide
     public abstract ProcessDefinition getDefinition();
 
     /**
+     * Creates the token referencing the given navigator and places it on the supplied node.
+     * 
+     * @param node
+     *            the {@link Node}
+     * @param nav
+     *            the {@link Navigator}
+     * @return the token
+     */
+    public abstract T createToken(Node<T> node, Navigator nav);
+
+    /**
      * Checks if there tokens assigned to this instance. This indicates, that this instance is still running. If this
      * evaluates to false, this does not necessarily meant that this instance has finished, as it might not have been
      * started yet.

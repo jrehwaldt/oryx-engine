@@ -4,7 +4,7 @@ import java.util.Observable;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.ext.ObserverListener;
+import org.jodaengine.ext.ObersverListener;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorState;
 
@@ -15,7 +15,7 @@ import org.jodaengine.navigator.NavigatorState;
  * @see AbstractNavigatorEvent
  */
 public abstract class AbstractNavigatorListener
-implements ObserverListener {
+implements ObersverListener {
     
     /**
      * This method is called whenever the navigator changes its state.

@@ -13,6 +13,7 @@ import org.jodaengine.node.outgoingbehaviour.XORSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
@@ -130,7 +131,7 @@ public class BPMNXORBehaviourTest {
         builder.getTransitionBuilder().transitionGoesFromTo(node, node2).setCondition(c).buildTransition();
         builder.getTransitionBuilder().transitionGoesFromTo(node, node3).buildTransition();
 
-        return new BPMNTokenImpl(node);
+        return new BPMNTokenImpl(node, new ProcessInstanceImpl(null), null);
     }
     
     /**

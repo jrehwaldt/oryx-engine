@@ -31,7 +31,7 @@ public class NavigatorListenerTest extends AbstractJodaEngineTest {
         
         this.navigator = new NavigatorImpl();
         this.mock = mock(AbstractNavigatorListener.class);
-        this.navigator.registerPlugin(mock);
+        this.navigator.registerListener(mock);
         navigator.start(new JodaEngine());
     }
     

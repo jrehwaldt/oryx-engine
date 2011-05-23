@@ -38,6 +38,17 @@ $().ready(function() {
 	        });
         }
     });
+    
+    //
+    // do the same for the archive upload
+    //
+    $('#archive-upload-form').submit(function(event) {
+        if ($(document).oneTime) {
+	        $(document).oneTime(100, function(i) {
+	            loadProcessDefinitionsOverview();
+	        });
+        }
+    });
 });
 
 /**

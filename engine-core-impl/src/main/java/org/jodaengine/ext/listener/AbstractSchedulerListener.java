@@ -2,16 +2,16 @@ package org.jodaengine.ext.listener;
 
 import java.util.Observable;
 
-import org.jodaengine.ext.ObserverListener;
+import org.jodaengine.ext.ObersverListener;
+import org.jodaengine.ext.listener.scheduler.SchedulerListener;
 import org.jodaengine.navigator.schedule.SchedulerAction;
 import org.jodaengine.navigator.schedule.SchedulerEvent;
-import org.jodaengine.plugin.scheduler.SchedulerListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 /**
- * The abstract Scheduler Listener should be extended from real Plugins to observe the scheduler.
+ * The abstract Scheduler ObersverListener should be extended from real Plugins to observe the scheduler.
  * 
  * The listener interface for receiving abstractScheduler events.
  * The class that is interested in processing a abstractScheduler
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  *
  * @see AbstractSchedulerEvent
  */
-public abstract class AbstractSchedulerListener implements ObserverListener, SchedulerListener {
+public abstract class AbstractSchedulerListener implements ObersverListener, SchedulerListener {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

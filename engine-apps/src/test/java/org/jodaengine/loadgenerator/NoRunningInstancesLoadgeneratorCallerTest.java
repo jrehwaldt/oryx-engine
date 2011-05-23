@@ -12,6 +12,7 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.process.token.BPMNTokenImpl;
@@ -22,7 +23,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * Tests the SchedulerEmptyListener Plugin, that invokes a method on a loadgenerator when the queue of the Scheduler is.
+ * Tests the SchedulerEmptyListener Listener, that invokes a method on a loadgenerator when the queue of the Scheduler is.
  * empty
  */
 public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngineTest {
@@ -47,7 +48,7 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngin
     }
 
     /**
-     * Creates everything that we need (a Scheduler with the Plugin), a processtoken and a mocked loadGenerator.
+     * Creates everything that we need (a Scheduler with the Listener), a processtoken and a mocked loadGenerator.
      * 
      * @throws Exception
      *             the exception
@@ -59,15 +60,15 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngin
         nav = new NavigatorImpl();
         mockiGene = mock(LoadGenerator.class);
         NoRunningInstancesLoadgeneratorCaller caller = new NoRunningInstancesLoadgeneratorCaller(mockiGene);
-        nav.registerPlugin(caller);
+        nav.registerListener(caller);
         RepositoryService repo = ServiceFactory.getRepositoryService();
         // TODO @Alle: Ist das hier wirklich gut (das mit der
         // RepositorySetup.FIRST_EXAMPLE_PROCESS_ID - ist ja ein Verweis auf
         // eine externe Lib? Tests sollten doch unabhängig sein
         ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
         List<Node<BPMNToken>> startNodes = def.getStartNodes();
-        Node<BPMNToken> startNode = startNodes.get(0);
-        pi = new BPMNTokenImpl(startNode);
+        Node startNode = startNodes.get(0);
+        pi = new BPMNTokenImpl(startNode, new ProcessInstanceImpl(null), null);
     }
 
     /**

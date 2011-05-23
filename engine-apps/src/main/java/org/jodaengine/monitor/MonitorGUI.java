@@ -10,7 +10,7 @@ import org.jodaengine.navigator.schedule.SchedulerEvent;
 import org.jodaengine.process.token.BPMNToken;
 
 /**
- * The Class MonitorGUI has the task to present input provided by e.g. the Monitor-Plugin.
+ * The Class MonitorGUI has the task to present input provided by e.g. the Monitor-Listener.
  */
 public class MonitorGUI extends JFrame {
 

@@ -1,5 +1,7 @@
 package org.jodaengine.ext.listener;
 
+import javax.annotation.Nullable;
+
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.token.BPMNToken;
@@ -21,10 +23,44 @@ public abstract class AbstractExceptionHandler {
      * @param nextHandler the next handler
      * @return the abstract joda runtime exception handler
      */
-    public AbstractExceptionHandler setNext(AbstractExceptionHandler nextHandler) {
+    public AbstractExceptionHandler setNext(@Nullable AbstractExceptionHandler nextHandler) {
         
         this.nextHandler = nextHandler;
         return nextHandler;
+    }
+    
+    /**
+     * Returns the next exception handler in the chain.
+     * 
+     * @return the next handler
+     */
+    public @Nullable AbstractExceptionHandler getNext() {
+        return this.nextHandler;
+    }
+    
+    /**
+     * Returns true if more {@link AbstractExceptionHandler} are available.
+     * 
+     * @return indicates whether more handler exist
+     */
+    public boolean hasNext() {
+        return this.nextHandler != null;
+    }
+    
+    /**
+     * Sets the last handler in the chain.
+     * 
+     * @param lastHandler the last handler
+     */
+    public void addLast(@Nullable AbstractExceptionHandler lastHandler) {
+        
+        AbstractExceptionHandler handler = this;
+        
+        while (handler.hasNext()) {
+            handler = handler.getNext();
+        }
+        
+        handler.setNext(lastHandler);
     }
     
     /**

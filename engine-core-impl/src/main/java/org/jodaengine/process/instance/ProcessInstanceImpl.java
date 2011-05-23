@@ -9,9 +9,9 @@ import org.jodaengine.process.token.Token;
 
 
 /**
- * The Class ProcessInstanceImpl. See {@link AbstractProcessInstance}
- *
- * @param <T> the generic type
+ * The Class ProcessInstanceImpl.
+ * 
+ * See {@link AbstractProcessInstance}.
  */
 public class ProcessInstanceImpl<T extends Token<?>> extends AbstractProcessInstance<T> {
 
@@ -33,7 +33,7 @@ public class ProcessInstanceImpl<T extends Token<?>> extends AbstractProcessInst
      * @param definition the process definition of this instance
      */
     public ProcessInstanceImpl(ProcessDefinition definition) {
-
+        
         this.definition = definition;
         this.id = UUID.randomUUID();
         this.assignedTokens = new ArrayList<T>();
@@ -45,12 +45,11 @@ public class ProcessInstanceImpl<T extends Token<?>> extends AbstractProcessInst
     public void addToken(T t) {
 
         this.assignedTokens.add(t);
-
     }
 
     @Override
     public ProcessInstanceContext getContext() {
-
+        
         return context;
     }
 
@@ -62,13 +61,13 @@ public class ProcessInstanceImpl<T extends Token<?>> extends AbstractProcessInst
 
     @Override
     public ProcessDefinition getDefinition() {
-
+        
         return definition;
     }
 
     @Override
     public UUID getID() {
-
+        
         return id;
     }
 
@@ -106,5 +105,5 @@ public class ProcessInstanceImpl<T extends Token<?>> extends AbstractProcessInst
 
         return cancelled;
     }
-
+    
 }

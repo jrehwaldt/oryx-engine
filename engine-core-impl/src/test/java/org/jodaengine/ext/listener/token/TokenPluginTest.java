@@ -11,7 +11,7 @@ import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
-import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
+import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.BPMNTokenImpl;
@@ -40,10 +40,10 @@ public class TokenPluginTest {
 
         node1 = new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        this.token = new BPMNTokenImpl(node1);
+        this.token = new BPMNTokenImpl(node1, new ProcessInstanceImpl(null), null);
 
         mock = mock(AbstractTokenListener.class);
-        token.registerPlugin(mock);
+        token.registerListener(mock);
         this.eventCapturer = ArgumentCaptor.forClass(ActivityLifecycleChangeEvent.class);
     }
 
@@ -56,7 +56,7 @@ public class TokenPluginTest {
     public void testDeregistration()
     throws JodaEngineException {
 
-        token.deregisterPlugin(mock);
+        token.deregisterListener(mock);
         token.executeStep();
         verify(mock, never()).update(eq(this.token), this.eventCapturer.capture());
     }
@@ -84,7 +84,7 @@ public class TokenPluginTest {
     public void testPluginDeregistrationInheritance()
     throws JodaEngineException {
 
-        token.deregisterPlugin(mock);
+        token.deregisterListener(mock);
         BPMNTokenImpl newToken = (BPMNTokenImpl) token.createNewToken(token.getCurrentNode());
         newToken.executeStep();
         verify(mock, never()).update(eq(newToken), this.eventCapturer.capture());

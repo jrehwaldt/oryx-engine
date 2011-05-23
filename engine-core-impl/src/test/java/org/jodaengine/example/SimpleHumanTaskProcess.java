@@ -6,6 +6,7 @@ import org.jodaengine.factory.node.HumanTaskNodeFactory;
 import org.jodaengine.factory.node.PrintingNodeFactory;
 import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
 import org.jodaengine.navigator.NavigatorImpl;
+import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BPMNTokenImpl;
 
@@ -37,7 +38,7 @@ public final class SimpleHumanTaskProcess {
         
         // the main
         NavigatorImpl navigator = new NavigatorImpl();
-        navigator.registerPlugin(NavigatorListenerLogger.getInstance());
+        navigator.registerListener(NavigatorListenerLogger.getInstance());
         navigator.start(new JodaEngine());
         
         BPMNTokenImpl token = processTokenForReview();
@@ -70,7 +71,7 @@ public final class SimpleHumanTaskProcess {
         secondNode.transitionTo(thirdNode);
 //        thirdNode.transitionTo(endNode);
 
-        BPMNTokenImpl sampleToken = new BPMNTokenImpl(startNode);
+        BPMNTokenImpl sampleToken = new BPMNTokenImpl(startNode, new ProcessInstanceImpl(null), null);
         return sampleToken;
     }
 

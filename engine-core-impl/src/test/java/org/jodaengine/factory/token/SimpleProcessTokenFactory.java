@@ -18,7 +18,7 @@ public class SimpleProcessTokenFactory {
      * @return the process instance
      */
     public BPMNToken create(Node startNode) {
-        BPMNToken p = new BPMNTokenImpl(startNode, new ProcessInstanceImpl(null));
+        BPMNToken p = new BPMNTokenImpl(startNode, new ProcessInstanceImpl(null), null);
         return p;
     }
 
