@@ -57,15 +57,13 @@ public abstract class AbstractEventAdapter<Configuration extends AdapterConfigur
     @Override
     public boolean equals(Object o) {
 
-        try {
+        if (o instanceof CorrelationAdapter) {
             CorrelationAdapter adapter = (CorrelationAdapter) o;
             // there should be no 2 adapters with the same configuration, so if their configuration is the same, so are
             // they
             return this.configuration.equals(adapter.getConfiguration());
-        } catch (ClassCastException e) {
-            // If we can't cast, it's false (not the same class --> can't be equal)
+        } else {
             return false;
         }
-
     }
 }
