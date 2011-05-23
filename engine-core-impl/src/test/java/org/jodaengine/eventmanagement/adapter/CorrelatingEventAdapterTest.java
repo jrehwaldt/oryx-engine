@@ -15,12 +15,18 @@ public class CorrelatingEventAdapterTest {
 
     private AbstractCorrelatingEventAdapter<?> eventAdapter;
 
+    /**
+     * Sets the up.
+     */
     @BeforeMethod
     public void setUp() {
 
         this.eventAdapter = new DummyCorrelatingEventAdapter();
     }
 
+    /**
+     * Tests the registration of a start event.
+     */
     @Test
     public void testRegisteringStartEvent() {
 
@@ -33,6 +39,9 @@ public class CorrelatingEventAdapterTest {
         Assert.assertEquals(startEvent, eventAdapter.getProcessEvents().get(0));
     }
 
+    /**
+     * Test registering a start event and then correlating it.
+     */
     @Test
     public void testRegisterAndCorrelateStartEvent() {
 
@@ -47,6 +56,9 @@ public class CorrelatingEventAdapterTest {
         Assert.assertEquals(eventAdapter.getUnCorrelatedAdapterEvents().size(), 1);
     }
 
+    /**
+     * Test registering an intermediate event.
+     */
     @Test
     public void testRegisteringIntermediateEvent() {
 
@@ -59,6 +71,9 @@ public class CorrelatingEventAdapterTest {
         Assert.assertEquals(intermediateEvent, eventAdapter.getProcessEvents().get(0));
     }
 
+    /**
+     * Test registering and correlating an intermediate event.
+     */
     @Test
     public void testRegisterAndCorrelateIntermediateEvent() {
 

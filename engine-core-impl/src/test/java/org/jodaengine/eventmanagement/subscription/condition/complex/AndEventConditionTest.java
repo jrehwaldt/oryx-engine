@@ -1,7 +1,6 @@
 package org.jodaengine.eventmanagement.subscription.condition.complex;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.subscription.condition.complex.AndEventCondition;
 import org.jodaengine.eventmanagement.subscription.condition.simple.FalseEventCondition;
 import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
 import org.mockito.Mockito;
