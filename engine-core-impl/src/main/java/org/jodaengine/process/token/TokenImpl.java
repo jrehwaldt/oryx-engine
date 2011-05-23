@@ -18,7 +18,6 @@ import org.jodaengine.ext.listener.AbstractExceptionHandler;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.ext.service.ExtensionService;
-import org.jodaengine.ext.util.TypeSafeInstanceMap;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
@@ -46,9 +45,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     @JsonIgnore
     private AbstractExceptionHandler exceptionHandler;
     
-    @JsonIgnore
-    private TypeSafeInstanceMap extensions;
-    
     /**
      * Instantiates a new process {@link TokenImpl}.
      * 
@@ -67,8 +63,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         this.navigator = navigator;
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
-        
-        this.extensions = new TypeSafeInstanceMap();
         
         //
         // at this point, you can register as much runtime exception handlers as you wish, following the chain of
@@ -340,22 +334,13 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         }
         
         //
-        // clear any already registered extension
-        //
-        this.extensions.clear();
-        
-        //
         // get fresh listener and handler instances
         //
         List<AbstractExceptionHandler> tokenExHandler = extensionService.getExtensions(AbstractExceptionHandler.class);
         List<AbstractTokenListener> tokenListener = extensionService.getExtensions(AbstractTokenListener.class);
         
-        this.extensions.addInstances(AbstractExceptionHandler.class, tokenExHandler);
-        this.extensions.addInstances(AbstractTokenListener.class, tokenListener);
-        
-        // TODO Jan - we have multiple lists here...
-        registerListeners(this.extensions.getInstances(AbstractTokenListener.class));
-        registerExceptionHandlers(this.extensions.getInstances(AbstractExceptionHandler.class));
+        registerListeners(tokenListener);
+        registerExceptionHandlers(tokenExHandler);
     }
     
 }
