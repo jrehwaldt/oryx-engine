@@ -313,7 +313,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         // add each handler at the beginning
         //
         for (AbstractExceptionHandler handler: handlers) {
-            handler.setNext(this.exceptionHandler);
+            handler.addLast(this.exceptionHandler);
             this.exceptionHandler = handler;
         }
     }
