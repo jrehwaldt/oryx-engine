@@ -14,10 +14,8 @@ import org.slf4j.LoggerFactory;
 public final class TokenListenerLogger
 extends AbstractTokenListener {
     
-    /** The instance. */
     private static TokenListenerLogger instance;
     
-    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**
