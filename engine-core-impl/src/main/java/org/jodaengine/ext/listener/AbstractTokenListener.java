@@ -4,16 +4,16 @@ import java.util.Observable;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.ext.ObserverListener;
-import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
-import org.jodaengine.plugin.activity.ActivityLifecyclePlugin;
+import org.jodaengine.ext.ObersverListener;
+import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
+import org.jodaengine.ext.listener.token.ActivityLifecycleListener;
 
 /**
  * This class may be injected to observe
  * the lifecycle of certain activities.
  */
 public abstract class AbstractTokenListener
-implements ObserverListener, ActivityLifecyclePlugin {
+implements ObersverListener, ActivityLifecycleListener {
     
     /**
      * This method is invoked whenever the activity's state changes.

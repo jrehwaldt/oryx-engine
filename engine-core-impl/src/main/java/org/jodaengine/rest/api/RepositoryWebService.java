@@ -1,7 +1,9 @@
 package org.jodaengine.rest.api;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.deployment.Deployment;
@@ -22,6 +25,7 @@ import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.rest.forms.FileUploadForm;
 import org.scannotation.archiveiterator.FileIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -112,21 +116,27 @@ public class RepositoryWebService {
         this.repositoryService.deployInNewScope(this.deploymentBuilder.buildDeployment());
     }
 
-//    /**
-//     * Deploys an archive in .dar-format. It uses the {@link DarImporter}. See this class to check, what parts of an
-//     * archive are actually imported.
-//     * 
-//     * @param file
-//     *            the file
-//     */
-//    @Path("/deployments")
-//    @POST
-//    @Consumes("multipart/form-data")
-//    public void deployDarFile(List<File> files) {
-//        
-//        request.getParameter("archive");
-//        DarImporter importer = this.repositoryService.getNewDarImporter();
-//        Deployment deployment = importer.importDarFile(file);
-//        this.repositoryService.deployInNewScope(deployment);
-//    }
+    /**
+     * Deploys an archive in .dar-format. It uses the {@link DarImporter}. See this class to check, what parts of an
+     * archive are actually imported.
+     * 
+     * @param file
+     *            the file
+     * @throws IOException 
+     */
+    @Path("/deployments")
+    @POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public void deployDarFile(@MultipartForm FileUploadForm form) throws IOException {
+        
+        byte[] fileData = form.getFileData();
+        // write the input data into a temporary file
+        File tempFile = File.createTempFile(String.valueOf(Arrays.hashCode(fileData)), null);
+        FileOutputStream output = new FileOutputStream(tempFile);
+        output.write(fileData);
+        output.close();
+        DarImporter importer = this.repositoryService.getNewDarImporter();
+        Deployment deployment = importer.importDarFile(tempFile);
+        this.repositoryService.deployInNewScope(deployment);
+    }
 }

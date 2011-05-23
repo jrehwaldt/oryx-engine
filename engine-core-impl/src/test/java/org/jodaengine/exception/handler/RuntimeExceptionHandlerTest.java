@@ -4,6 +4,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.ext.exception.InstanceTerminationHandler;
+import org.jodaengine.ext.exception.LoggerExceptionHandler;
+import org.jodaengine.ext.listener.AbstractExceptionHandler;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
@@ -17,7 +20,7 @@ import org.testng.annotations.Test;
  */
 public class RuntimeExceptionHandlerTest {
     
-    private AbstractJodaRuntimeExceptionHandler handler1, handler2;
+    private AbstractExceptionHandler handler1, handler2;
     private Token testToken;
     private AbstractProcessInstance mockInstance;
     private Navigator mockNavigator;

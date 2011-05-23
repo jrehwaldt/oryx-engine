@@ -14,7 +14,6 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -95,9 +94,16 @@ public class JodaEngine implements JodaEngineServices {
 
         new ClassPathXmlApplicationContext(configurationFile);
     }
-
+    
     @Override
-    public void shutdown() {
+    public void stop() {
+        JodaEngine.shutdown(); 
+    }
+    
+    /**
+     * Shut down all engine services.
+     */
+    public static void shutdown() {
 
         // Extracting all Service Beans
         Map<String, Service> serviceTable = JodaEngineAppContext.getAppContext().getBeansOfType(Service.class);

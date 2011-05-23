@@ -34,7 +34,7 @@ public class AddNumbersAndStoreActivityTest {
         AddNumbersAndStoreNodeFactory factory = new AddNumbersAndStoreNodeFactory();
         node = factory.create();
         AbstractProcessInstance instance = new ProcessInstanceImpl(null);
-        p = new TokenImpl(node, instance);
+        p = new TokenImpl(node, instance, null);
 
     }
 

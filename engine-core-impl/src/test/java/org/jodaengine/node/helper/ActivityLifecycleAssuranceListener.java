@@ -3,15 +3,15 @@ package org.jodaengine.node.helper;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.node.activity.ActivityState;
-import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 
 
 /**
  * This class is a logger and may be injected to observe
  * the lifecycle of certain activities.
  */
-public final class ActivityLifecycleAssurancePlugin
+public final class ActivityLifecycleAssuranceListener
 extends AbstractTokenListener {
     
     /** The completed called. */

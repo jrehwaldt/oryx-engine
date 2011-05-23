@@ -11,6 +11,7 @@ import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
@@ -80,7 +81,7 @@ public class BPMNTakeAllBehaviourTest {
 
         builder.getTransitionBuilder().transitionGoesFromTo(node, node2).buildTransition();
 
-        return new TokenImpl(node);
+        return new TokenImpl(node, new ProcessInstanceImpl(null), null);
     }
 
     /**

@@ -18,7 +18,7 @@ public class SimpleProcessTokenFactory {
      * @return the process instance
      */
     public Token create(Node startNode) {
-        Token p = new TokenImpl(startNode, new ProcessInstanceImpl(null));
+        Token p = new TokenImpl(startNode, new ProcessInstanceImpl(null), null);
         return p;
     }
 

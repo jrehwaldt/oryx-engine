@@ -65,9 +65,9 @@ public abstract class AbstractProcessInstance implements Identifiable<UUID> {
      * Creates the token referencing the given navigator and places it on the supplied node.
      * 
      * @param node
-     *            the node
+     *            the {@link Node}
      * @param nav
-     *            the nav
+     *            the {@link Navigator}
      * @return the token
      */
     public abstract Token createToken(Node node, Navigator nav);

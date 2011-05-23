@@ -11,7 +11,6 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -24,11 +23,6 @@ public class DarImporterTest extends AbstractJodaEngineTest {
 
     private static final String FORM_NAME = "form.html";
     private static final String FORM_CONTENT = "<html></html>";
-
-    @BeforeMethod
-    public void setUp() {
-
-    }
 
     /**
      * Test definition import. Imports a dar-file that contains a process definition only.
@@ -48,24 +42,24 @@ public class DarImporterTest extends AbstractJodaEngineTest {
         Assert.assertEquals(definition.getName(), PROCESS_NAME,
             "The definition should have the desired id as specified in the files");
     }
-//
-//    /**
-//     * Tests the import of a form as a process artifact.
-//     */
-//    @Test
-//    public void testFormImport() {
-//
-//        DarImporter importer = new DarImporterImpl(jodaEngineServices.getRepositoryService());
-//        File darFile = new File(TEST_RESOURCE_PATH + "testWithForms.dar");
-//        Deployment deployment = importer.importDarFile(darFile);
-//
-//        Map<String, AbstractProcessArtifact> artifacts = deployment.getArtifacts();
-//        Assert.assertTrue(artifacts.containsKey(FORM_NAME), "There should be an artifact with the desired name.");
-//
-//        Form form = new FormImpl(artifacts.get(FORM_NAME));
-//        Assert.assertEquals(form.getFormContentAsHTML().trim(), FORM_CONTENT,
-//            "The form should have been imported correctly");
-//    }
+
+    /**
+     * Tests the import of a form as a process artifact.
+     */
+    @Test
+    public void testFormImport() {
+
+        DarImporter importer = new DarImporterImpl(jodaEngineServices.getRepositoryService());
+        File darFile = new File(TEST_RESOURCE_PATH + "testWithForms.dar");
+        Deployment deployment = importer.importDarFile(darFile);
+
+        Map<String, AbstractProcessArtifact> artifacts = deployment.getArtifacts();
+        Assert.assertTrue(artifacts.containsKey(FORM_NAME), "There should be an artifact with the desired name.");
+
+        Form form = new FormImpl(artifacts.get(FORM_NAME));
+        Assert.assertEquals(form.getFormContentAsHTML().trim(), FORM_CONTENT,
+            "The form should have been imported correctly");
+    }
 
     /**
      * Tests the import of custom classes.

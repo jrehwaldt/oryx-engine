@@ -1,7 +1,5 @@
 package org.jodaengine.eventmanagement.adapter.configuration;
 
-import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
-
 /**
  * Configuration for {@link InboundPullAdapter}.
  */

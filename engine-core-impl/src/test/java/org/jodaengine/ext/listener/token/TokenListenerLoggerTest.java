@@ -3,9 +3,9 @@ package org.jodaengine.ext.listener.token;
 import static org.mockito.Mockito.mock;
 
 import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.ext.logger.TokenListenerLogger;
 import org.jodaengine.node.activity.ActivityState;
-import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.TokenImpl;
 import org.testng.annotations.BeforeTest;

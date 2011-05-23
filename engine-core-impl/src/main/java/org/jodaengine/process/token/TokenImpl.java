@@ -9,17 +9,16 @@ import javax.annotation.Nonnull;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.NoValidPathException;
-import org.jodaengine.exception.handler.AbstractJodaRuntimeExceptionHandler;
-import org.jodaengine.exception.handler.InstanceTerminationHandler;
-import org.jodaengine.exception.handler.LoggerExceptionHandler;
 import org.jodaengine.ext.AbstractPluggable;
+import org.jodaengine.ext.exception.InstanceTerminationHandler;
+import org.jodaengine.ext.exception.LoggerExceptionHandler;
+import org.jodaengine.ext.listener.AbstractExceptionHandler;
 import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
-import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 
@@ -27,40 +26,23 @@ import org.jodaengine.process.structure.Transition;
  * The implementation of a process token.
  */
 public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implements Token {
-
+    
     private UUID id;
-
-    private Node currentNode;
-
-    private ActivityState currentActivityState = null;
-
-    private AbstractProcessInstance instance;
-
-    private Transition lastTakenTransition;
-
+    
     private Navigator navigator;
-
+    
+    private ActivityState currentActivityState = null;
+    private AbstractProcessInstance instance;
+    
+    private Node currentNode;
+    private Transition lastTakenTransition;
+    
     private List<Token> lazySuspendedProcessingTokens;
-
-    private List<AbstractTokenListener> plugins;
-
-    private AbstractJodaRuntimeExceptionHandler runtimeExceptionHandler;
-
+    
+    private AbstractExceptionHandler exceptionHandler;
+    
     /**
-     * Instantiates a new token impl.
-     * 
-     * @param startNode
-     *            the start node
-     * @param instance
-     *            the instance
-     */
-    public TokenImpl(Node startNode, AbstractProcessInstance instance) {
-
-        this(startNode, instance, null);
-    }
-
-    /**
-     * Instantiates a new process token impl.
+     * Instantiates a new process {@link TokenImpl}.
      * 
      * @param startNode
      *            the start node
@@ -76,23 +58,13 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         this.navigator = navigator;
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
-        this.plugins = new ArrayList<AbstractTokenListener>();
-
+        
+        //
         // at this point, you can register as much runtime exception handlers as you wish, following the chain of
-        // responsiblity pattern. The handler is used for runtime errors that occur in process execution.
-        this.runtimeExceptionHandler = new LoggerExceptionHandler();
-        this.runtimeExceptionHandler.setNext(new InstanceTerminationHandler());
-    }
-
-    /**
-     * Instantiates a new token impl.
-     * 
-     * @param startNode
-     *            the start node
-     */
-    public TokenImpl(Node startNode) {
-
-        this(startNode, new ProcessInstanceImpl(null), null);
+        // responsibility pattern. The handler is used for runtime errors that occur in process execution.
+        //
+        this.exceptionHandler = new LoggerExceptionHandler();
+        this.exceptionHandler.setNext(new InstanceTerminationHandler());
     }
     
     /**
@@ -100,24 +72,12 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      */
     protected TokenImpl() { }
 
-    /**
-     * Gets the current node. So the position where the execution of the Processtoken is at.
-     * 
-     * @return the current node
-     * @see org.jodaengine.process.token.Token#getCurrentNode()
-     */
     @Override
     public Node getCurrentNode() {
 
         return currentNode;
     }
 
-    /**
-     * Sets the current node.
-     * 
-     * @param node
-     *            the new current node {@inheritDoc}
-     */
     @Override
     public void setCurrentNode(Node node) {
 
@@ -155,36 +115,46 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
             completeExecution();
         } catch (JodaEngineRuntimeException exception) {
-            runtimeExceptionHandler.processException(exception, this);
+            exceptionHandler.processException(exception, this);
         }
     }
 
-    /**
-     * Navigate to.
-     * 
-     * @param transitionList
-     *            the node list
-     * @return the list
-     */
     @Override
     public List<Token> navigateTo(List<Transition> transitionList) {
 
         List<Token> tokensToNavigate = new ArrayList<Token>();
-        if (transitionList.size() == 1) {
+        
+        //
+        // zero outgoing transitions
+        //
+        if (transitionList.size() == 0) {
+            
+            this.exceptionHandler.processException(new NoValidPathException(), this);
+            
+        //
+        // one outgoing transition
+        //
+        } else if (transitionList.size() == 1) {
+            
             Transition transition = transitionList.get(0);
             Node node = transition.getDestination();
             this.setCurrentNode(node);
             this.lastTakenTransition = transition;
             changeActivityState(ActivityState.INIT);
             tokensToNavigate.add(this);
+            
+        //
+        // multiple outgoing transitions
+        //
         } else {
+            
             for (Transition transition : transitionList) {
                 Node node = transition.getDestination();
                 Token newToken = createNewToken(node);
                 newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }
-
+            
             // this is needed, as the this-token would be left on the node that triggers the split.
             instance.removeToken(this);
         }
@@ -192,23 +162,10 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
     }
 
-    /**
-     * Creates a new token in the same context.
-     * 
-     * @param node
-     *            the node
-     * @return the token {@inheritDoc}
-     */
     @Override
     public Token createNewToken(Node node) {
-
-        Token newToken = instance.createToken(node, navigator);
-        // give all of this token's observers to the newly created ones.
-        for (AbstractTokenListener plugin : plugins) {
-            ((TokenImpl) newToken).registerPlugin(plugin);
-        }
-
-        return newToken;
+        
+        return instance.createToken(node, navigator);
     }
 
     @Override
@@ -236,9 +193,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         return lastTakenTransition;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setLastTakenTransition(Transition t) {
 
@@ -247,20 +201,20 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
     @Override
     public void suspend() {
-
+        
         changeActivityState(ActivityState.WAITING);
         navigator.addSuspendToken(this);
     }
 
     @Override
     public void resume() {
-
+        
         navigator.removeSuspendToken(this);
-
+        
         try {
             completeExecution();
-        } catch (NoValidPathException e) {
-            e.printStackTrace();
+        } catch (NoValidPathException nvpe) {
+            exceptionHandler.processException(nvpe, this);
         }
     }
 
@@ -323,17 +277,14 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     }
 
     @Override
-    public void registerPlugin(@Nonnull AbstractTokenListener plugin) {
-
-        this.plugins.add(plugin);
-        addObserver(plugin);
+    public void registerListener(@Nonnull AbstractTokenListener listener) {
+        super.registerListener(listener);
+        
     }
 
     @Override
-    public void deregisterPlugin(@Nonnull AbstractTokenListener plugin) {
-
-        this.plugins.remove(plugin);
-        deleteObserver(plugin);
+    public void deregisterListener(@Nonnull AbstractTokenListener listener) {
+        super.deregisterListener(listener);
     }
 
     /**
@@ -349,5 +300,21 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         setChanged();
         
         notifyObservers(new ActivityLifecycleChangeEvent(currentNode, prevState, newState, this));
+    }
+    
+    /**
+     * Registers any number of {@link AbstractExceptionHandler}s.
+     * 
+     * @param handlers the handlers to call
+     */
+    public void registerExceptionHandlers(@Nonnull List<AbstractExceptionHandler> handlers) {
+        
+        //
+        // add each handler at the beginning
+        //
+        for (AbstractExceptionHandler handler: handlers) {
+            handler.setNext(this.exceptionHandler);
+            this.exceptionHandler = handler;
+        }
     }
 }
