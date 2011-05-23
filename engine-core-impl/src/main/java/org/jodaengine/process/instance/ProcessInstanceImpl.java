@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.ext.listener.AbstractExceptionHandler;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.service.ExtensionService;
@@ -32,6 +33,7 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
     
     private boolean cancelled;
     
+    @JsonIgnore
     private Map<Class<?>, Object> extensions;
     
     /**
