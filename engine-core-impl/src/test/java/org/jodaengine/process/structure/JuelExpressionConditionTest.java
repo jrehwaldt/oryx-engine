@@ -3,15 +3,22 @@ package org.jodaengine.process.structure;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.ValueExpression;
+
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.condition.JuelExpressionCondition;
+import org.jodaengine.process.structure.condition.ProcessELContext;
 import org.jodaengine.process.token.Token;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import de.odysseus.el.ExpressionFactoryImpl;
 
 
 /**
@@ -151,4 +158,18 @@ public class JuelExpressionConditionTest {
         condition = new JuelExpressionCondition(juelEspression);
         Assert.assertTrue(condition.evaluate(token));
     }
+    
+//    @Test
+//    public void testInText() {
+//        token.getInstance().getContext().setVariable("string", "st i ng");
+//        String juelExpression = "This a text. Following is a JUEL expression: ${string.trim()}";
+//        Condition condition = new JuelExpressionCondition(juelExpression);
+//        System.out.println("== " + condition.evaluate(token) + "==");
+//        
+//        ExpressionFactory factory = new ExpressionFactoryImpl();
+//        ELContext context = new ProcessELContext(token.getInstance().getContext());
+//        
+//        ValueExpression e = factory.createValueExpression(context, juelExpression, String.class);
+//        System.out.println(e.getValue(context));
+//    }
 }
