@@ -115,7 +115,7 @@
 		</dependency>
 		<dependency>
 			<groupId>de.odysseus.juel</groupId>
-			<artifactId>juel</artifactId>
+			<artifactId>juel-impl</artifactId>
 			<scope>compile</scope>
 		</dependency>
 		<!-- Html Parser -->
