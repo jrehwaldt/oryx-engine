@@ -8,7 +8,7 @@ import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * Executes a custom script. The custom script is searched for in the deployment scope.
@@ -31,16 +31,16 @@ public class ScriptingActivity extends AbstractActivity {
     }
 
     @Override
-    protected void executeIntern(Token token) {
+    protected void executeIntern(BPMNToken bPMNToken) {
 
         // get the class from the DeploymentScope of the definition
-        ProcessDefinitionID definitionID = token.getInstance().getDefinition().getID();
+        ProcessDefinitionID definitionID = bPMNToken.getInstance().getDefinition().getID();
         try {
             // we expect this class to be a JodaScript (i.e. an implementation of it). No other classes can be used.
             Class<AbstractJodaScript> scriptClass = (Class<AbstractJodaScript>) this.repoService.getDeployedClass(definitionID,
                 fullClassName);
             Method executeMethod = scriptClass.getMethod("execute", ProcessInstanceContext.class);
-            executeMethod.invoke(null, token.getInstance().getContext());
+            executeMethod.invoke(null, bPMNToken.getInstance().getContext());
         } catch (ClassNotFoundException e) {
             throw new JodaEngineRuntimeException("The script class does not exist in the process scope.", e);
         } catch (IllegalAccessException e) {

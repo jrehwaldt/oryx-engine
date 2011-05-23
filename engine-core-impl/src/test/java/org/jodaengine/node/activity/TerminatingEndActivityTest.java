@@ -19,7 +19,8 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -30,15 +31,16 @@ import org.testng.annotations.Test;
  */
 public class TerminatingEndActivityTest {
     private ProcessDefinition definition;
-    private Node startNode, xorJoinNode;
+    private Node<BPMNToken> startNode, xorJoinNode;
 
     @Test
     public void testingTerminatingEndActivity()
     throws JodaEngineException {
 
         NavigatorImplMock nav = new NavigatorImplMock();
-        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
-        Token startToken = instance.createToken(startNode, nav);
+        AbstractProcessInstance<BPMNToken> instance = new ProcessInstanceImpl<BPMNToken>(definition);
+        BPMNToken startToken = new BPMNTokenImpl(startNode, instance, nav);
+        instance.addToken(startToken);
 
         startToken.executeStep();
 
@@ -48,8 +50,8 @@ public class TerminatingEndActivityTest {
         assertEquals(nav.getWorkQueue().size(), 2,
             "there should be two tokens in the navigator. One on the xorJoinNode, one on the terminating end");
 
-        Token loopToken = nav.getWorkQueue().get(0);
-        Token endToken = nav.getWorkQueue().get(1);
+        BPMNToken loopToken = nav.getWorkQueue().get(0);
+        BPMNToken endToken = nav.getWorkQueue().get(1);
 
         if (!(loopToken.getCurrentNode() == xorJoinNode)) {
             loopToken = endToken;
@@ -69,7 +71,7 @@ public class TerminatingEndActivityTest {
         loopToken.executeStep();
 
         // the two executed steps with loopToken should have added the token two times to the navigator.
-        verify(anotherNav, times(2)).addWorkToken(any(Token.class));
+        verify(anotherNav, times(2)).addWorkToken(any(BPMNToken.class));
 
         // execute the terminating end
         endToken.executeStep();
@@ -79,7 +81,7 @@ public class TerminatingEndActivityTest {
 
         // we do not expect the token to be added to the navigator, as it has been cancelled by the terminating end
         // activity.
-        verify(anotherNav, times(2)).addWorkToken(any(Token.class));
+        verify(anotherNav, times(2)).addWorkToken(any(BPMNToken.class));
     }
 
     /**
@@ -97,13 +99,13 @@ public class TerminatingEndActivityTest {
 
         startNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
-        Node andSplitNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
+        Node<BPMNToken> andSplitNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
         xorJoinNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
-        Node terminatingEnd = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);
+        Node<BPMNToken> terminatingEnd = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);
 
-        Node computationNode = BpmnCustomNodeFactory.createBpmnHashComputationNode(builder, "result",
+        Node<BPMNToken> computationNode = BpmnCustomNodeFactory.createBpmnHashComputationNode(builder, "result",
             "meinlieblingspasswort");
 
         BpmnNodeFactory.createTransitionFromTo(builder, startNode, andSplitNode);

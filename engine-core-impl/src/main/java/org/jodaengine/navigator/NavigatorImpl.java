@@ -19,7 +19,7 @@ import org.jodaengine.navigator.schedule.Scheduler;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -39,7 +39,7 @@ implements Navigator, NavigatorInside, Service {
     /**
      * All the tokens that are suspended for some reason, for example because of a human task.
      */
-    private List<Token> suspendedTokens;
+    private List<BPMNToken> suspendedTokens;
 
     /**
      * All the process Instances (not tokens!) that are currently running for some reason.
@@ -106,7 +106,7 @@ implements Navigator, NavigatorInside, Service {
         this.navigatorThreads = numberOfThreads;
         // this.repository = ServiceFactory.getRepositoryService();
         this.repository = repository;
-        this.suspendedTokens = new ArrayList<Token>();
+        this.suspendedTokens = new ArrayList<BPMNToken>();
         this.runningInstances = Collections.synchronizedList(new ArrayList<AbstractProcessInstance>());
         this.finishedInstances = new ArrayList<AbstractProcessInstance>();
     }
@@ -176,12 +176,12 @@ implements Navigator, NavigatorInside, Service {
     /**
      * Start arbitrary instance.
      * 
-     * @param token
+     * @param bPMNToken
      *            the token
      */
-    public void startArbitraryInstance(Token token) {
+    public void startArbitraryInstance(BPMNToken bPMNToken) {
 
-        scheduler.submit(token);
+        scheduler.submit(bPMNToken);
     }
 
     /**
@@ -237,20 +237,20 @@ implements Navigator, NavigatorInside, Service {
     }
 
     @Override
-    public void addWorkToken(Token t) {
+    public void addWorkToken(BPMNToken t) {
 
         scheduler.submit(t);
 
     }
 
     @Override
-    public void addSuspendToken(Token t) {
+    public void addSuspendToken(BPMNToken t) {
 
         suspendedTokens.add(t);
     }
 
     @Override
-    public void removeSuspendToken(Token t) {
+    public void removeSuspendToken(BPMNToken t) {
 
         suspendedTokens.remove(t);
 

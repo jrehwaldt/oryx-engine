@@ -18,8 +18,8 @@ import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.IdentityBuilder;
@@ -44,7 +44,7 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
 
     private BpmnHumanTaskActivity humanTask = null;
 
-    private Token token = null;
+    private BPMNToken bPMNToken = null;
 
     /**
      * Set up.
@@ -73,7 +73,7 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         humanTask = new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern());
 
         Node node = new NodeImpl(humanTask, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        token = new TokenImpl(node, new ProcessInstanceImpl(MockUtils.mockProcessDefinition()), new NavigatorImplMock());
+        bPMNToken = new BPMNTokenImpl(node, new ProcessInstanceImpl(MockUtils.mockProcessDefinition()), new NavigatorImplMock());
     }
 
     /**
@@ -101,7 +101,7 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
     @Test
     public void testJannikHasWorklistItem() {
 
-        humanTask.execute(token);
+        humanTask.execute(bPMNToken);
 
         int worklistSize = ServiceFactory.getWorklistService().getWorklistItems(resource).size();
         String failureMessage = "Jannik should now have 1 item in his worklist, but there are " + worklistSize
@@ -119,13 +119,13 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
     @Test
     public void testItemIdInContextStorage() {
 
-        humanTask.execute(token);
-        ProcessInstanceContext context = token.getInstance().getContext();
+        humanTask.execute(bPMNToken);
+        ProcessInstanceContext context = bPMNToken.getInstance().getContext();
 
         // If the following line throws an error, it might be that the private variable in the class
         // BpmnHumanTaskActivity is not called "ITEM_PREFIX" anymore.
         List<UUID> savedItemIDs = (List<UUID>) context.getInternalVariable((String) Whitebox.getInternalState(
-            humanTask, "ITEM_PREFIX") + token.getID());
+            humanTask, "ITEM_PREFIX") + bPMNToken.getID());
 
         assertFalse(savedItemIDs == null, "The variable should be initialized");
         assertEquals(savedItemIDs.size(), 1, "There should be one saved item ID");
@@ -142,14 +142,14 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
     @Test
     public void testItemIdRemovedFromContext() {
 
-        humanTask.execute(token);
+        humanTask.execute(bPMNToken);
         AbstractWorklistItem item = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
         ServiceFactory.getWorklistQueue().beginWorklistItemBy(item, resource);
         ServiceFactory.getWorklistQueue().completeWorklistItemBy(item, resource);
 
-        ProcessInstanceContext context = token.getInstance().getContext();
+        ProcessInstanceContext context = bPMNToken.getInstance().getContext();
         List<UUID> savedItemIDs = (List<UUID>) context.getInternalVariable((String) Whitebox.getInternalState(
-            humanTask, "ITEM_PREFIX") + token.getID());
+            humanTask, "ITEM_PREFIX") + bPMNToken.getID());
 
         assertTrue(savedItemIDs == null, "The variable should exist any longer.");
     }

@@ -9,7 +9,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.util.mock.MockUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
  */
 public class ScriptingActivityTest {
     
-    private Token token = null;
+    private BPMNToken bPMNToken = null;
     private RepositoryService repoMock = null;
     private ProcessInstanceContext context = null;
 
@@ -31,9 +31,9 @@ public class ScriptingActivityTest {
      */
     @BeforeClass
     public void setUp() throws ClassNotFoundException {
-        token = MockUtils.fullyMockedToken();
-        ProcessDefinition mockDefinition = token.getInstance().getDefinition();
-        AbstractProcessInstance mockInstance = token.getInstance();
+        bPMNToken = MockUtils.fullyMockedToken();
+        ProcessDefinition mockDefinition = bPMNToken.getInstance().getDefinition();
+        AbstractProcessInstance mockInstance = bPMNToken.getInstance();
 
         context = new ProcessInstanceContextImpl();
         when(mockInstance.getContext()).thenReturn(context);
@@ -56,7 +56,7 @@ public class ScriptingActivityTest {
 
 
         Activity activity = new ScriptingActivity("org.jodaengine.node.activity.ContextVariableScript", repoMock);
-        activity.execute(token);
+        activity.execute(bPMNToken);
 
         Assert.assertEquals(context.getVariable("scriptVariable"), "set",
             "The variable scriptVariable should be set to 'set'");

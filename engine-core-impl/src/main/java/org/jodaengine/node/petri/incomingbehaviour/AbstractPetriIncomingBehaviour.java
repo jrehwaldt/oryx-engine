@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.jodaengine.node.incomingbehaviour.AbstractIncomingBehaviour;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -14,13 +14,13 @@ public abstract class AbstractPetriIncomingBehaviour extends AbstractIncomingBeh
 
     
     @Override
-    public List<Token> join(Token token) {
+    public List<BPMNToken> join(BPMNToken bPMNToken) {
 
-        List<Token> tokens = new LinkedList<Token>();
-        if (joinable(token)) {
-            tokens = performJoin(token);
+        List<BPMNToken> bPMNTokens = new LinkedList<BPMNToken>();
+        if (joinable(bPMNToken)) {
+            bPMNTokens = performJoin(bPMNToken);
         }
-        return tokens;
+        return bPMNTokens;
     }
 
 }

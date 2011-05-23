@@ -14,8 +14,8 @@ import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.testng.annotations.BeforeMethod;
@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
  */
 public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeployerTest {
 
-    private Token token = null;
+    private BPMNToken bPMNToken = null;
     private AbstractProcessInstance processInstance = null;
     private ShortenedReferenceProcessDeployer instanceDefinition = null;
     private Participant tobi = null;
@@ -49,7 +49,7 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
             e.printStackTrace();
         }
         Navigator navigator = new NavigatorImplMock();
-        token = new TokenImpl(processInstance.getDefinition().getStartNodes().get(0), processInstance, navigator);
+        bPMNToken = new BPMNTokenImpl(processInstance.getDefinition().getStartNodes().get(0), processInstance, navigator);
         tobi = instanceDefinition.getTobi();
         jannik = instanceDefinition.getJannik();
         jan = instanceDefinition.getJan();
@@ -66,44 +66,44 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
     public void testProcessRuns()
     throws JodaEngineException {
 
-        assertEquals(token.getCurrentNode(), instanceDefinition.getStartNode());
-        token.executeStep();
-        assertEquals(token.getCurrentNode(), instanceDefinition.getSystem1());
-        token.executeStep();
-        assertEquals(token.getCurrentNode(), instanceDefinition.getHuman1());
-        token.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getStartNode());
+        bPMNToken.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getSystem1());
+        bPMNToken.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getHuman1());
+        bPMNToken.executeStep();
         executeHumanTaskBy(tobi);
-        assertEquals(token.getCurrentNode(), instanceDefinition.getXor1());
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getXor1());
         // let the XOR take the "false" way
-        token.getInstance().getContext().setVariable("widerspruch", "abgelehnt");
-        token.executeStep();
-        assertEquals(token.getCurrentNode(), instanceDefinition.getHuman2());
-        token.executeStep();
+        bPMNToken.getInstance().getContext().setVariable("widerspruch", "abgelehnt");
+        bPMNToken.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getHuman2());
+        bPMNToken.executeStep();
         executeHumanTaskBy(jannik);
-        assertEquals(token.getCurrentNode(), instanceDefinition.getXor2());
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getXor2());
         // let the XOR take the "true" way
-        token.getInstance().getContext().setVariable("neueAspekte", "ja");
-        token.executeStep();
-        assertEquals(token.getCurrentNode(), instanceDefinition.getHuman3());
-        token.executeStep();
+        bPMNToken.getInstance().getContext().setVariable("neueAspekte", "ja");
+        bPMNToken.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getHuman3());
+        bPMNToken.executeStep();
         executeHumanTaskBy(tobi);
-        assertEquals(token.getCurrentNode(), instanceDefinition.getXor3());
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getXor3());
         // let the XOR take the "true" way
-        token.getInstance().getContext().setVariable("aufrecht", "ja");
-        token.executeStep();
-        assertEquals(token.getCurrentNode(), instanceDefinition.getXor4());
-        token.executeStep();
-        assertEquals(token.getCurrentNode(), instanceDefinition.getHuman4());
-        token.executeStep();
+        bPMNToken.getInstance().getContext().setVariable("aufrecht", "ja");
+        bPMNToken.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getXor4());
+        bPMNToken.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getHuman4());
+        bPMNToken.executeStep();
         executeHumanTaskBy(jannik);
-        assertEquals(token.getCurrentNode(), instanceDefinition.getHuman5());
-        token.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getHuman5());
+        bPMNToken.executeStep();
         executeHumanTaskBy(jan);
-        assertEquals(token.getCurrentNode(), instanceDefinition.getXor5());
-        token.executeStep();
-        assertEquals(token.getCurrentNode(), instanceDefinition.getSystem2());
-        token.executeStep();
-        assertEquals(token.getCurrentNode(), instanceDefinition.getEndNode());
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getXor5());
+        bPMNToken.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getSystem2());
+        bPMNToken.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getEndNode());
     }
 
     /**
@@ -116,23 +116,23 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
     public void testProcessRuns2()
     throws JodaEngineException {
 
-        token.executeStep();
-        token.executeStep();
-        token.executeStep();
+        bPMNToken.executeStep();
+        bPMNToken.executeStep();
+        bPMNToken.executeStep();
         executeHumanTaskBy(tobi);
-        assertEquals(token.getCurrentNode(), instanceDefinition.getXor1());
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getXor1());
         // let the XOR take the "right" way
-        token.getInstance().getContext().setVariable("widerspruch", "stattgegeben");
-        token.executeStep();
+        bPMNToken.getInstance().getContext().setVariable("widerspruch", "stattgegeben");
+        bPMNToken.executeStep();
 
-        assertEquals(token.getCurrentNode(), instanceDefinition.getHuman5());
-        token.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getHuman5());
+        bPMNToken.executeStep();
         executeHumanTaskBy(jan);
-        assertEquals(token.getCurrentNode(), instanceDefinition.getXor5());
-        token.executeStep();
-        assertEquals(token.getCurrentNode(), instanceDefinition.getSystem2());
-        token.executeStep();
-        assertEquals(token.getCurrentNode(), instanceDefinition.getEndNode());
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getXor5());
+        bPMNToken.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getSystem2());
+        bPMNToken.executeStep();
+        assertEquals(bPMNToken.getCurrentNode(), instanceDefinition.getEndNode());
     }
 
     /**

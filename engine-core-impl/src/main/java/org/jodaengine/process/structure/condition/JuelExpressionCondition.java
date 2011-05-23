@@ -7,7 +7,7 @@ import javax.el.ValueExpression;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.structure.Condition;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,10 +33,10 @@ public class JuelExpressionCondition implements Condition {
     }
 
     @Override
-    public boolean evaluate(Token token) {
+    public boolean evaluate(BPMNToken bPMNToken) {
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        ELContext context = new ProcessELContext(token.getInstance().getContext());
+        ELContext context = new ProcessELContext(bPMNToken.getInstance().getContext());
         
         ValueExpression e = factory.createValueExpression(context, juelExpression, boolean.class);
         

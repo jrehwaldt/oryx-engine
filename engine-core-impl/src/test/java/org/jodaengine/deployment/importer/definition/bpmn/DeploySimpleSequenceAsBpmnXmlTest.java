@@ -8,6 +8,7 @@ import org.jodaengine.node.activity.bpmn.BpmnStartEvent;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BPMNToken;
 import org.testng.Assert;
 
 
@@ -32,15 +33,15 @@ public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractBPMNDeployerTest 
     @Override
     protected void assertProcessDefintion(ProcessDefinition processDefinition) {
 
-        List<Node> startNodes = processDefinition.getStartNodes();
+        List<Node<BPMNToken>> startNodes = processDefinition.getStartNodes();
         Assert.assertEquals(startNodes.size(), 1);
 
-        Node onlyStartNode = startNodes.get(0);
+        Node<BPMNToken> onlyStartNode = startNodes.get(0);
         Assert.assertEquals(extractClass(onlyStartNode), BpmnStartEvent.class);
         Assert.assertEquals(onlyStartNode.getAttribute("name"), "Start");
         Assert.assertEquals(onlyStartNode.getOutgoingTransitions().size(), 1);
 
-        Node nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
+        Node<BPMNToken> nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(extractClass(nextNode), AutomatedDummyActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "A");
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
@@ -53,13 +54,13 @@ public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(nextNode.getAttribute("name"), "C");
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
-        Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
+        Node<BPMNToken> endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(extractClass(endNode), BpmnEndActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
         Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
     }
 
-    public Class<? extends Activity> extractClass(Node node) {
+    public Class<? extends Activity> extractClass(Node<BPMNToken> node) {
 
         return node.getActivityBehaviour().getClass();
     }

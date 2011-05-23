@@ -22,13 +22,13 @@ import org.testng.annotations.Test;
 public class ProcessTokenImplTest {
 
     /** The process instance. */
-    private Token token = null;
+    private BPMNToken bPMNToken = null;
 
     /** Different Nodes. */
-    private NodeImpl node = null, node2 = null, node3 = null;
+    private NodeImpl<BPMNToken> node = null, node2 = null, node3 = null;
 
     /** The transition to be taken. */
-    private Transition transitionToTake = null;
+    private Transition<BPMNToken> transitionToTake = null;
 
     /**
      * Set up.     
@@ -37,7 +37,7 @@ public class ProcessTokenImplTest {
     @BeforeMethod
     public void setUp() {
 
-        token = simpleToken();
+        bPMNToken = simpleToken();
     }
 
     /**
@@ -50,12 +50,12 @@ public class ProcessTokenImplTest {
     @Test
     public void testTakeAllTransitions() throws Exception {
 
-        Node currentNode = token.getCurrentNode();
+        Node<BPMNToken> currentNode = bPMNToken.getCurrentNode();
         
-        List<Token> newTokens = token.navigateTo(currentNode.getOutgoingTransitions());
+        List<BPMNToken> newTokens = bPMNToken.navigateTo(currentNode.getOutgoingTransitions());
         assertEquals(newTokens.size(), 2, "You should have two new process tokens");
 
-        Node[] currentNodes = new Node[2];
+        Node<BPMNToken>[] currentNodes = new Node[2];
         for (int i = 0; i < 2; i++) {
             currentNodes[i] = newTokens.get(i).getCurrentNode();
         }
@@ -73,13 +73,13 @@ public class ProcessTokenImplTest {
     @Test
     public void testTakeSingleTransition() throws Exception {
 
-        List<Transition> transitionList = new ArrayList<Transition>();
+        List<Transition<BPMNToken>> transitionList = new ArrayList<Transition<BPMNToken>>();
         transitionList.add(transitionToTake);
-        List<Token> newTokens = token.navigateTo(transitionList);
+        List<BPMNToken> newTokens = bPMNToken.navigateTo(transitionList);
         assertEquals(newTokens.size(), 1, "You should have a single process token.");
 
-        Token newToken = newTokens.get(0);
-        assertEquals(newToken, token,
+        BPMNToken newToken = newTokens.get(0);
+        assertEquals(newToken, bPMNToken,
             "The token should be the same, no child instance or something like that.");
         assertEquals(newToken.getCurrentNode(), node2, "The token should have moved on.");
     }
@@ -89,17 +89,17 @@ public class ProcessTokenImplTest {
      * 
      * @return the process instance impl
      */
-    private TokenImpl simpleToken() {
+    private BPMNTokenImpl simpleToken() {
         
-        node = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        node2 = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        node3 = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        node = new NodeImpl<BPMNToken>(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        node2 = new NodeImpl<BPMNToken>(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
+        node3 = new NodeImpl<BPMNToken>(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         node.transitionTo(node2);
         
         transitionToTake = node.getOutgoingTransitions().get(0);
         
         node.transitionTo(node3);
         
-        return new TokenImpl(node);
+        return new BPMNTokenImpl(node);
     }
 }

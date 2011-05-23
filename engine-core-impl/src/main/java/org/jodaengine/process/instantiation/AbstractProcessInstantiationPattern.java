@@ -2,6 +2,7 @@ package org.jodaengine.process.instantiation;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.token.BPMNToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,10 +24,10 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
     }
 
     @Override
-    public AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext,
-                                                         AbstractProcessInstance previosProcessInstance) {
+    public AbstractProcessInstance<BPMNToken> createProcessInstance(InstantiationPatternContext patternContext,
+                                                         AbstractProcessInstance<BPMNToken> previosProcessInstance) {
 
-        AbstractProcessInstance currentProcessInstance;
+        AbstractProcessInstance<BPMNToken> currentProcessInstance;
         try {
             currentProcessInstance = createProcessInstanceIntern(patternContext, previosProcessInstance);
 
@@ -58,8 +59,9 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
      * @return if there is no following instantiationPattern then the current result is returned, otherwise the current
      *         process instance is passed on to the next pattern
      */
-    protected AbstractProcessInstance nextInstantiationPatternResult(InstantiationPatternContext patternContext,
-                                                                     AbstractProcessInstance currentProcessInstance) {
+    protected AbstractProcessInstance<BPMNToken> nextInstantiationPatternResult(
+        InstantiationPatternContext patternContext,
+        AbstractProcessInstance<BPMNToken> currentProcessInstance) {
 
         if (this.nextInstantiationPattern == null) {
             return currentProcessInstance;
@@ -79,6 +81,7 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
      * @return an {@link AbstractProcessInstance}
      * @see ProcessInstantiationPattern#createProcessInstance(AbstractProcessInstance);
      */
-    protected abstract AbstractProcessInstance createProcessInstanceIntern(InstantiationPatternContext patternContext,
-                                                                           AbstractProcessInstance previosProcessInstance);
+    protected abstract AbstractProcessInstance<BPMNToken> createProcessInstanceIntern(
+        InstantiationPatternContext patternContext,
+        AbstractProcessInstance<BPMNToken> previosProcessInstance);
 }

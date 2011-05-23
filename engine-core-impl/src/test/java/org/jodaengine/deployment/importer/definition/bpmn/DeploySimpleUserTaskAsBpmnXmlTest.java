@@ -10,6 +10,7 @@ import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.node.activity.bpmn.BpmnStartEvent;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.testng.Assert;
@@ -51,15 +52,15 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
     @Override
     protected void assertProcessDefintion(ProcessDefinition processDefinition) {
 
-        List<Node> startNodes = processDefinition.getStartNodes();
+        List<Node<BPMNToken>> startNodes = processDefinition.getStartNodes();
         Assert.assertEquals(startNodes.size(), 1);
 
-        Node onlyStartNode = startNodes.get(0);
+        Node<BPMNToken> onlyStartNode = startNodes.get(0);
         Assert.assertEquals(extractActivityClass(onlyStartNode), BpmnStartEvent.class);
         Assert.assertEquals(onlyStartNode.getAttribute("name"), "Start");
         Assert.assertEquals(onlyStartNode.getOutgoingTransitions().size(), 1);
 
-        Node nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
+        Node<BPMNToken> nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(extractActivityClass(nextNode), BpmnHumanTaskActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "Thorben, please process this task!");
         Assert.assertEquals(nextNode.getAttribute("description"), "It is only a demo task.");
@@ -74,13 +75,13 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
 
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
-        Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
+        Node<BPMNToken> endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
         Assert.assertEquals(extractActivityClass(endNode), BpmnEndActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
         Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
     }
 
-    private Class<? extends Activity> extractActivityClass(Node node) {
+    private Class<? extends Activity> extractActivityClass(Node<BPMNToken> node) {
         return node.getActivityBehaviour().getClass();
     }
 
@@ -89,7 +90,7 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
      * @param node
      * @return
      */
-    private CreationPattern extractCreationPattern(Node node) {
+    private CreationPattern extractCreationPattern(Node<BPMNToken> node) {
         
         BpmnHumanTaskActivity bpmnHumanTaskActivity = (BpmnHumanTaskActivity) node.getActivityBehaviour();
         

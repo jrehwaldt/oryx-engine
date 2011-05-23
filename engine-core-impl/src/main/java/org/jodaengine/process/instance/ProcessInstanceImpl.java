@@ -4,22 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
 
 
 /**
  * The Class ProcessInstanceImpl. See {@link AbstractProcessInstance}
+ *
+ * @param <T> the generic type
  */
-public class ProcessInstanceImpl extends AbstractProcessInstance {
+public class ProcessInstanceImpl<T extends Token<?>> extends AbstractProcessInstance<T> {
 
     private ProcessDefinition definition;
     private ProcessInstanceContext context;
     private UUID id;
-    private List<Token> assignedTokens;
+    private List<T> assignedTokens;
 
     private boolean cancelled;
     
@@ -37,13 +36,13 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
 
         this.definition = definition;
         this.id = UUID.randomUUID();
-        this.assignedTokens = new ArrayList<Token>();
+        this.assignedTokens = new ArrayList<T>();
         this.context = new ProcessInstanceContextImpl();
         this.cancelled = false;
     }
 
     @Override
-    public void addToken(Token t) {
+    public void addToken(T t) {
 
         this.assignedTokens.add(t);
 
@@ -56,7 +55,7 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
     }
 
     @Override
-    public List<Token> getAssignedTokens() {
+    public List<T> getAssignedTokens() {
 
         return assignedTokens;
     }
@@ -74,15 +73,7 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
     }
 
     @Override
-    public Token createToken(Node node, Navigator nav) {
-
-        Token newToken = new TokenImpl(node, this, nav);
-        this.assignedTokens.add(newToken);
-        return newToken;
-    }
-
-    @Override
-    public void removeToken(Token t) {
+    public void removeToken(T t) {
 
         this.assignedTokens.remove(t);
 
@@ -101,7 +92,7 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
         
         // Cancel all ongoing executions
         synchronized (assignedTokens) {
-            for (Token tokenToCancel : assignedTokens) {
+            for (T tokenToCancel : assignedTokens) {
                 tokenToCancel.cancelExecution();
             }
             assignedTokens.clear();

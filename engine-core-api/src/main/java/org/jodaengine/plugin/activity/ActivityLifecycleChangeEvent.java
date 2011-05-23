@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * Immutable container for activity lifecycle events.
@@ -12,7 +12,7 @@ import org.jodaengine.process.token.Token;
 public final class ActivityLifecycleChangeEvent {
 
     private final @Nonnull Node currentNode;
-    private final @Nonnull Token token;
+    private final @Nonnull BPMNToken bPMNToken;
 
     private final @Nonnull ActivityState prevState;
     private final @Nonnull ActivityState newState;
@@ -26,18 +26,18 @@ public final class ActivityLifecycleChangeEvent {
      *            the previous state
      * @param newState
      *            the new state
-     * @param token
+     * @param bPMNToken
      *            the process token
      */
     public ActivityLifecycleChangeEvent(@Nonnull Node currentNode,
                                         @Nonnull ActivityState prevState,
                                         @Nonnull ActivityState newState,
-                                        @Nonnull Token token) {
+                                        @Nonnull BPMNToken bPMNToken) {
         
         this.currentNode = currentNode;
         this.prevState = prevState;
         this.newState = newState;
-        this.token = token;
+        this.bPMNToken = bPMNToken;
     }
 
     /**
@@ -72,8 +72,8 @@ public final class ActivityLifecycleChangeEvent {
      * 
      * @return the process instance
      */
-    public @Nonnull Token getProcessToken() {
-        return this.token;
+    public @Nonnull BPMNToken getProcessToken() {
+        return this.bPMNToken;
     }
 
     /**

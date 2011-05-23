@@ -3,27 +3,26 @@ package org.jodaengine.node.incomingbehaviour;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jodaengine.process.token.Token;
-
-
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * The Class AbstractJoinBehaviour.
+ *
  */
-public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
+public abstract class AbstractIncomingBehaviour implements IncomingBehaviour<BPMNToken> {
 
     /**
      * Join.
      *
-     * @param token instance to perform the join on
+     * @param token the token
      * @return the list of joined instances
      * @see org.jodaengine.node.incomingbehaviour.IncomingBehaviour
-     * #join(org.jodaengine.process.token.Token) Do not override this, as it is a template method.
+     * #join(org.jodaengine.process.token.BPMNToken) Do not override this, as it is a template method.
      * Only join, if a join is possible.
      */
-    public List<Token> join(Token token) {
+    public List<BPMNToken> join(BPMNToken token) {
 
-        List<Token> tokens = new LinkedList<Token>();
+        List<BPMNToken> tokens = new LinkedList<BPMNToken>();
         if (joinable(token)) {
             tokens = performJoin(token);
         } else {
@@ -40,7 +39,7 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
      * @return true, if a join can be performed, e.g. for a BPMN AND-Join, all sibling-instances have to reached the
      * join node as well.
      */
-    protected abstract boolean joinable(Token token);
+    protected abstract boolean joinable(BPMNToken token);
 
     /**
      * Perform join.
@@ -48,5 +47,5 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
      * @param token the token
      * @return the result of the join.
      */
-    protected abstract List<Token> performJoin(Token token);
+    protected abstract List<BPMNToken> performJoin(BPMNToken token);
 }

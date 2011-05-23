@@ -14,7 +14,7 @@ import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
  * The Class TokenPluginTest.
  */
 public class TokenPluginTest {
-    private TokenImpl token;
+    private BPMNTokenImpl token;
     private ArgumentCaptor<ActivityLifecycleChangeEvent> eventCapturer = null;
     private AbstractTokenListener mock;
 
@@ -40,7 +40,7 @@ public class TokenPluginTest {
 
         node1 = new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        this.token = new TokenImpl(node1);
+        this.token = new BPMNTokenImpl(node1);
 
         mock = mock(AbstractTokenListener.class);
         token.registerPlugin(mock);
@@ -70,7 +70,7 @@ public class TokenPluginTest {
     public void testPluginRegistrationInheritance()
     throws JodaEngineException {
 
-        TokenImpl newToken = (TokenImpl) token.createNewToken(token.getCurrentNode());
+        BPMNTokenImpl newToken = (BPMNTokenImpl) token.createNewToken(token.getCurrentNode());
         newToken.executeStep();
         verify(mock, times(2)).update(eq(newToken), this.eventCapturer.capture());
     }
@@ -85,7 +85,7 @@ public class TokenPluginTest {
     throws JodaEngineException {
 
         token.deregisterPlugin(mock);
-        TokenImpl newToken = (TokenImpl) token.createNewToken(token.getCurrentNode());
+        BPMNTokenImpl newToken = (BPMNTokenImpl) token.createNewToken(token.getCurrentNode());
         newToken.executeStep();
         verify(mock, never()).update(eq(newToken), this.eventCapturer.capture());
     }

@@ -9,7 +9,7 @@ import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * The {@link Navigator} is the core routing component, which 'navigates' through the processes. 
@@ -55,7 +55,7 @@ public interface Navigator extends Service {
      * @param t
      *            the t
      */
-    void addWorkToken(Token t);
+    void addWorkToken(BPMNToken t);
 
     /**
      * Adds a token that is in suspended state.
@@ -63,7 +63,7 @@ public interface Navigator extends Service {
      * @param t
      *            the t
      */
-    void addSuspendToken(Token t);
+    void addSuspendToken(BPMNToken t);
 
     /**
      * Removes the suspend token.
@@ -71,7 +71,7 @@ public interface Navigator extends Service {
      * @param t
      *            the t
      */
-    void removeSuspendToken(Token t);
+    void removeSuspendToken(BPMNToken t);
 
     /**
      * Gets all the instances that were ever started/executed by this navigator.

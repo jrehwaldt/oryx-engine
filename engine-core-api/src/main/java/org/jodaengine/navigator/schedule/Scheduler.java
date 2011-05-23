@@ -2,7 +2,7 @@ package org.jodaengine.navigator.schedule;
 
 import java.util.List;
 
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * The Interface Scheduler.
@@ -16,14 +16,14 @@ public interface Scheduler {
      * @param p
      *            the p
      */
-    void submit(Token p);
+    void submit(BPMNToken p);
 
     /**
      * Retrive a processtoken in order to do your work on it.
      * 
      * @return the process token
      */
-    Token retrieve();
+    BPMNToken retrieve();
 
     /**
      * Checks if we got nothing to schedule.
@@ -38,6 +38,6 @@ public interface Scheduler {
      * @param listOfTokens
      *            the list of tokens
      */
-    void submitAll(List<Token> listOfTokens);
+    void submitAll(List<BPMNToken> listOfTokens);
 
 }

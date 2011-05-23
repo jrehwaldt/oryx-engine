@@ -3,13 +3,13 @@ package org.jodaengine.process.definition;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -26,7 +26,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      * @return the start triggers
      */
     @JsonIgnore
-    Map<ProcessStartEvent, Node> getStartTriggers();
+    Map<ProcessStartEvent, Node<BPMNToken>> getStartTriggers();
 
     /**
      * Adds the start trigger. If event is invoked, a token will spawn on node.
@@ -38,7 +38,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      * @throws IllegalStarteventException
      *             thrown if the provided node isn't a start node.
      */
-    void addStartTrigger(ProcessStartEvent event, Node node)
+    void addStartTrigger(ProcessStartEvent event, Node<BPMNToken> node)
     throws IllegalStarteventException;
 
     /**
@@ -48,7 +48,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      *            - the {@link NavigatorInside} creating and modifying tokens
      * @return a {@link AbstractProcessInstance processInstance}
      */
-    AbstractProcessInstance createProcessInstance(NavigatorInside navigator);
+    AbstractProcessInstance<BPMNToken> createProcessInstance(NavigatorInside navigator);
 
     /**
      * Is responsible for activating the {@link ProcessDefinition}. Perhaps some {@link ProcessStartEvent StartEvents} need to

@@ -11,14 +11,17 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
 import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;
+import org.jodaengine.process.token.Token;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.Identifiable;
 
 /**
  * The Interface for Nodes. Nodes are hubs in the graph representation of a process.
+ *
+ * @param <T> the generic type
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public interface Node extends Identifiable<UUID>, Attributable {
+public interface Node<T extends Token<?>> extends Identifiable<UUID>, Attributable {
 
     /**
      * Gets the activity. The activity is the behavior of a node.
@@ -34,7 +37,7 @@ public interface Node extends Identifiable<UUID>, Attributable {
      * @return the incoming behaviour
      */
     @JsonIgnore
-    IncomingBehaviour getIncomingBehaviour();
+    IncomingBehaviour<T> getIncomingBehaviour();
 
     /**
      * Gets the outgoing behaviour.
@@ -50,7 +53,7 @@ public interface Node extends Identifiable<UUID>, Attributable {
      * @return the next Node(s) depending on the node (normal nodes vs. Splits which have multiple next nodes).
      */
     @JsonIgnore
-    List<Transition> getOutgoingTransitions();
+    List<Transition<T>> getOutgoingTransitions();
 
     /**
      * Gets the incoming transitions.
@@ -58,7 +61,7 @@ public interface Node extends Identifiable<UUID>, Attributable {
      * @return the incoming transitions
      */
     @JsonIgnore
-    List<Transition> getIncomingTransitions();
+    List<Transition<T>> getIncomingTransitions();
 
     /**
      * Describes a new outgoing edge to the given node.
@@ -67,7 +70,7 @@ public interface Node extends Identifiable<UUID>, Attributable {
      *            the node to which a new transition shall be established
      * @return the created transition
      */
-    Transition transitionTo(Node node);
+    Transition<T> transitionTo(Node<T> node);
 
     /**
      * Transition to with condition.
@@ -78,6 +81,6 @@ public interface Node extends Identifiable<UUID>, Attributable {
      *            the condition
      * @return the created transition
      */
-    Transition transitionToWithCondition(Node node, Condition c);
+    Transition<T> transitionToWithCondition(Node<T> node, Condition c);
 
 }

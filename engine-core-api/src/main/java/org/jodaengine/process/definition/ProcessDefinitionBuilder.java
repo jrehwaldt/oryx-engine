@@ -15,6 +15,7 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.structure.TransitionBuilder;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -97,7 +98,7 @@ public interface ProcessDefinitionBuilder {
     ProcessDefinitionBuilder createStartTrigger(@Nonnull EventType eventType,
                                                 @Nonnull AdapterConfiguration adapterConfig,
                                                 @Nonnull List<EventCondition> eventConditions,
-                                                @Nonnull Node startNode);
+                                                @Nonnull Node<BPMNToken> startNode);
 
     /**
      * In order to store dynamic attributes to the {@link ProcessDefinition}.

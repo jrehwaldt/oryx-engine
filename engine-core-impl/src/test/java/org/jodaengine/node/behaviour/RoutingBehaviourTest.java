@@ -12,8 +12,8 @@ import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 public class RoutingBehaviourTest {
 
     /** The process token. */
-    private Token token = null;
+    private BPMNToken bPMNToken = null;
 
     /**
      * Set up. An instance is build.
@@ -33,7 +33,7 @@ public class RoutingBehaviourTest {
     @BeforeClass
     public void setUp() {
 
-        token = simpleToken();
+        bPMNToken = simpleToken();
 
     }
 
@@ -44,13 +44,13 @@ public class RoutingBehaviourTest {
     @Test
     public void testClass() {
 
-        Node node = token.getCurrentNode();
-        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
+        Node<BPMNToken> node = bPMNToken.getCurrentNode();
+        Node<BPMNToken> nextNode = node.getOutgoingTransitions().get(0).getDestination();
 
-        IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
+        IncomingBehaviour<BPMNToken> incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
 
-        List<Token> joinedTokens = incomingBehaviour.join(token);
+        List<BPMNToken> joinedTokens = incomingBehaviour.join(bPMNToken);
 
         try {
             outgoingBehaviour.split(joinedTokens);
@@ -58,7 +58,7 @@ public class RoutingBehaviourTest {
             e.printStackTrace();
         }
 
-        assertEquals(token.getCurrentNode(), nextNode);
+        assertEquals(bPMNToken.getCurrentNode(), nextNode);
     }
 
     /**
@@ -74,18 +74,18 @@ public class RoutingBehaviourTest {
      * 
      * @return the process token that was created within the method
      */
-    private TokenImpl simpleToken() {
+    private BPMNTokenImpl simpleToken() {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
-        Node node = builder.getNodeBuilder().setActivityBehavior(new NullActivity())
+        Node<BPMNToken> node = builder.getNodeBuilder().setActivityBehavior(new NullActivity())
         .setIncomingBehaviour(new SimpleJoinBehaviour()).setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
 
-        Node node2 = builder.getNodeBuilder().setActivityBehavior(new NullActivity())
+        Node<BPMNToken> node2 = builder.getNodeBuilder().setActivityBehavior(new NullActivity())
         .setIncomingBehaviour(new SimpleJoinBehaviour()).setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
 
         builder.getTransitionBuilder().transitionGoesFromTo(node, node2).buildTransition();
 
-        return new TokenImpl(node);
+        return new BPMNTokenImpl(node);
     }
 }

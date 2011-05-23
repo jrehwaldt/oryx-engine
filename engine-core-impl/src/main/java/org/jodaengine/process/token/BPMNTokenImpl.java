@@ -26,21 +26,21 @@ import org.jodaengine.process.structure.Transition;
 /**
  * The implementation of a process token.
  */
-public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implements Token {
+public class BPMNTokenImpl extends AbstractPluggable<AbstractTokenListener> implements BPMNToken {
 
     private UUID id;
 
-    private Node currentNode;
+    private Node<BPMNToken> currentNode;
 
     private ActivityState currentActivityState = null;
 
-    private AbstractProcessInstance instance;
+    private AbstractProcessInstance<BPMNToken> instance;
 
-    private Transition lastTakenTransition;
+    private Transition<BPMNToken> lastTakenTransition;
 
     private Navigator navigator;
 
-    private List<Token> lazySuspendedProcessingTokens;
+    private List<BPMNToken> lazySuspendedProcessingTokens;
 
     private List<AbstractTokenListener> plugins;
 
@@ -54,7 +54,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * @param instance
      *            the instance
      */
-    public TokenImpl(Node startNode, AbstractProcessInstance instance) {
+    public BPMNTokenImpl(Node<BPMNToken> startNode, AbstractProcessInstance<BPMNToken> instance) {
 
         this(startNode, instance, null);
     }
@@ -69,7 +69,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * @param navigator
      *            the navigator
      */
-    public TokenImpl(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
+    public BPMNTokenImpl(Node<BPMNToken> startNode, AbstractProcessInstance<BPMNToken> instance, Navigator navigator) {
 
         this.currentNode = startNode;
         this.instance = instance;
@@ -92,24 +92,24 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * @param startNode
      *            the start node
      */
-    public TokenImpl(Node startNode) {
+    public BPMNTokenImpl(Node<BPMNToken> startNode) {
 
-        this(startNode, new ProcessInstanceImpl(null), null);
+        this(startNode, new ProcessInstanceImpl<BPMNToken>(null), null);
     }
     
     /**
      * Hidden constructor.
      */
-    protected TokenImpl() { }
+    protected BPMNTokenImpl() { }
 
     @Override
-    public Node getCurrentNode() {
+    public Node<BPMNToken> getCurrentNode() {
 
         return currentNode;
     }
 
     @Override
-    public void setCurrentNode(Node node) {
+    public void setCurrentNode(Node<BPMNToken> node) {
 
         currentNode = node;
     }
@@ -132,6 +132,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         }
         try {
 
+            //TODO renaming
             lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
             changeActivityState(ActivityState.ACTIVE);
 
@@ -150,20 +151,20 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     }
 
     @Override
-    public List<Token> navigateTo(List<Transition> transitionList) {
+    public List<BPMNToken> navigateTo(List<Transition<BPMNToken>> transitionList) {
 
-        List<Token> tokensToNavigate = new ArrayList<Token>();
+        List<BPMNToken> tokensToNavigate = new ArrayList<BPMNToken>();
         if (transitionList.size() == 1) {
-            Transition transition = transitionList.get(0);
-            Node node = transition.getDestination();
+            Transition<BPMNToken> transition = transitionList.get(0);
+            Node<BPMNToken> node = transition.getDestination();
             this.setCurrentNode(node);
             this.lastTakenTransition = transition;
             changeActivityState(ActivityState.INIT);
             tokensToNavigate.add(this);
         } else {
-            for (Transition transition : transitionList) {
-                Node node = transition.getDestination();
-                Token newToken = createNewToken(node);
+            for (Transition<BPMNToken> transition : transitionList) {
+                Node<BPMNToken> node = transition.getDestination();
+                BPMNToken newToken = createNewToken(node);
                 newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }
@@ -183,12 +184,14 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * @return the token {@inheritDoc}
      */
     @Override
-    public Token createNewToken(Node node) {
+    public BPMNToken createNewToken(Node<BPMNToken> node) {
 
-        Token newToken = instance.createToken(node, navigator);
+        BPMNToken newToken = new BPMNTokenImpl(node, instance, navigator);
+        instance.addToken(newToken);
+            
         // give all of this token's observers to the newly created ones.
         for (AbstractTokenListener plugin : plugins) {
-            ((TokenImpl) newToken).registerPlugin(plugin);
+            ((BPMNTokenImpl) newToken).registerPlugin(plugin);
         }
 
         return newToken;
@@ -201,20 +204,20 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     }
 
     @Override
-    public Token performJoin() {
+    public BPMNToken performJoin() {
 
         instance.getContext().removeSignaledTransitions(currentNode);
         return this;
     }
 
     @Override
-    public AbstractProcessInstance getInstance() {
+    public AbstractProcessInstance<BPMNToken> getInstance() {
 
         return instance;
     }
 
     @Override
-    public Transition getLastTakenTransition() {
+    public Transition<BPMNToken> getLastTakenTransition() {
 
         return lastTakenTransition;
     }
@@ -223,7 +226,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * {@inheritDoc}
      */
     @Override
-    public void setLastTakenTransition(Transition t) {
+    public void setLastTakenTransition(Transition<BPMNToken> t) {
 
         this.lastTakenTransition = t;
     }
@@ -259,10 +262,12 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         currentNode.getActivityBehaviour().resume(this);
         changeActivityState(ActivityState.COMPLETED);
 
-        List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
+        List<BPMNToken> splittedTokens = getCurrentNode()
+                                           .getOutgoingBehaviour()
+                                           .split(getLazySuspendedProcessingToken());
 
-        for (Token token : splittedTokens) {
-            navigator.addWorkToken(token);
+        for (BPMNToken bPMNToken : splittedTokens) {
+            navigator.addWorkToken(bPMNToken);
         }
 
         lazySuspendedProcessingTokens = null;
@@ -274,10 +279,10 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * 
      * @return the lazy suspended processing token
      */
-    private List<Token> getLazySuspendedProcessingToken() {
+    private List<BPMNToken> getLazySuspendedProcessingToken() {
 
         if (lazySuspendedProcessingTokens == null) {
-            lazySuspendedProcessingTokens = new ArrayList<Token>();
+            lazySuspendedProcessingTokens = new ArrayList<BPMNToken>();
         }
 
         return lazySuspendedProcessingTokens;

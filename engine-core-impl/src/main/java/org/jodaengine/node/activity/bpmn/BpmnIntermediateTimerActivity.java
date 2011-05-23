@@ -10,7 +10,7 @@ import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.TimerEventImpl;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * The actvity IntermediateTimer is used to wait a specific amount of time before execution is continued.
@@ -33,31 +33,31 @@ public class BpmnIntermediateTimerActivity extends AbstractActivity {
     }
 
     @Override
-    protected void executeIntern(@Nonnull Token token) {
+    protected void executeIntern(@Nonnull BPMNToken bPMNToken) {
 
         // TODO @Gerardo muss geändert werden keine ServiceFactory mehr
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
         AdapterConfiguration conf = new TimerAdapterConfiguration(this.time);
-        ProcessIntermediateEvent processEvent = new TimerEventImpl(conf, token);
+        ProcessIntermediateEvent processEvent = new TimerEventImpl(conf, bPMNToken);
 
         eventManager.registerIntermediateEvent(processEvent);
 
-        ProcessInstanceContext context = token.getInstance().getContext();
+        ProcessInstanceContext context = bPMNToken.getInstance().getContext();
 
         // the name should be unique, as the token can only work on one activity at a time.
-        final String itemContextVariableId = internalVariableId(PROCESS_EVENT_PREFIX, token);
+        final String itemContextVariableId = internalVariableId(PROCESS_EVENT_PREFIX, bPMNToken);
         context.setInternalVariable(itemContextVariableId, processEvent);
 
-        token.suspend();
+        bPMNToken.suspend();
     }
 
-    private static String internalVariableId(String prefix, Token token) {
+    private static String internalVariableId(String prefix, BPMNToken bPMNToken) {
 
-        return PROCESS_EVENT_PREFIX + "-" + token.getID() + "-" + token.getCurrentNode().getID();
+        return PROCESS_EVENT_PREFIX + "-" + bPMNToken.getID() + "-" + bPMNToken.getCurrentNode().getID();
     }
 
     @Override
-    public void cancel(Token executingToken) {
+    public void cancel(BPMNToken executingToken) {
 
         ProcessInstanceContext context = executingToken.getInstance().getContext();
         final String itemContextVariableId = internalVariableId(PROCESS_EVENT_PREFIX, executingToken);

@@ -22,6 +22,7 @@ import org.jodaengine.process.structure.NodeBuilderImpl;
 import org.jodaengine.process.structure.StartNodeBuilderImpl;
 import org.jodaengine.process.structure.TransitionBuilder;
 import org.jodaengine.process.structure.TransitionBuilderImpl;
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.util.PatternAppendable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +34,11 @@ import org.slf4j.LoggerFactory;
 public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private List<Node> startNodes;
+    private List<Node<BPMNToken>> startNodes;
     private ProcessDefinitionID id;
     private String name;
     private String description;
-    private Map<ProcessStartEvent, Node> temporaryStartTriggers;
+    private Map<ProcessStartEvent, Node<BPMNToken>> temporaryStartTriggers;
     private Map<String, Object> temporaryAttributeTable;
     private List<InstantiationPattern> temporaryInstantiationPatterns;
     private StartInstantiationPattern startInstantiationPattern;
@@ -50,14 +51,17 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         resetingThisBuilder();
     }
 
+    /**
+     * Reseting this builder.
+     */
     private void resetingThisBuilder() {
 
-        this.startNodes = new ArrayList<Node>();
+        this.startNodes = new ArrayList<Node<BPMNToken>>();
         
         this.id = new ProcessDefinitionID(UUID.randomUUID());
         this.name = null;
         this.description = null;
-        this.temporaryStartTriggers = new HashMap<ProcessStartEvent, Node>();
+        this.temporaryStartTriggers = new HashMap<ProcessStartEvent, Node<BPMNToken>>();
         this.temporaryAttributeTable = null;
         this.temporaryInstantiationPatterns = new ArrayList<InstantiationPattern>();
         this.startInstantiationPattern = null;
@@ -82,7 +86,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     public ProcessDefinitionBuilder createStartTrigger(EventType eventType,
                                                        AdapterConfiguration adapterConfig,
                                                        List<EventCondition> eventConditions,
-                                                       Node startNode) {
+                                                       Node<BPMNToken> startNode) {
 
         ProcessStartEvent event = new StartEventImpl(eventType, adapterConfig, new AndEventCondition(eventConditions),
             id);
@@ -126,7 +130,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
      * 
      * @return a {@link List} of {@link Node}
      */
-    public List<Node> getStartNodes() {
+    public List<Node<BPMNToken>> getStartNodes() {
 
         return startNodes;
     }
@@ -168,7 +172,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         ProcessDefinitionImpl definition = new ProcessDefinitionImpl(id, name, description, startNodes,
             startInstantionPattern);
 
-        for (Map.Entry<ProcessStartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
+        for (Map.Entry<ProcessStartEvent, Node<BPMNToken>> entry : temporaryStartTriggers.entrySet()) {
             definition.addStartTrigger(entry.getKey(), entry.getValue());
         }
 

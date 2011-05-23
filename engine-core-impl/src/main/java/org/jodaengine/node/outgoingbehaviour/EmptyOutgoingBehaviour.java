@@ -3,8 +3,7 @@ package org.jodaengine.node.outgoingbehaviour;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -15,8 +14,8 @@ import org.jodaengine.process.token.Token;
 public class EmptyOutgoingBehaviour implements OutgoingBehaviour {
 
     @Override
-    public List<Token> split(List<Token> tokens) {
-        return new ArrayList<Token>();
+    public List<BPMNToken> split(List<BPMNToken> bPMNTokens) {
+        return new ArrayList<BPMNToken>();
 
 
     }

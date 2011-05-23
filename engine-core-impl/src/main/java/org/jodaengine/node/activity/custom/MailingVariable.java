@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -47,13 +47,13 @@ extends AbstractActivity {
     /**
      * Execute intern.
      *
-     * @param token the instance
+     * @param bPMNToken the instance
      * {@inheritDoc}
      */
     @Override
-    public void executeIntern(@Nonnull Token token) {
+    public void executeIntern(@Nonnull BPMNToken bPMNToken) {
 
-        ProcessInstanceContext context = token.getInstance().getContext();
+        ProcessInstanceContext context = bPMNToken.getInstance().getContext();
         String calculationResult = (String) context.getVariable(variableName);
 
         String mailBody = "Da Ergebnis der Berechnung von 5 + 5 ist " + calculationResult + ".";

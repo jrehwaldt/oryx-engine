@@ -16,8 +16,8 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -38,7 +38,7 @@ import org.testng.annotations.Test;
  */
 public class ConcurrentActivityStateTest {
     private ProcessDefinition definition = null;
-    private Node startNode = null;
+    private Node<BPMNToken> startNode = null;
 
     /**
      * One definition, two instances, two tokens that work on the same activities. This test ensures that these
@@ -52,11 +52,13 @@ public class ConcurrentActivityStateTest {
 
         // Create two process instances
         NavigatorImplMock nav = new NavigatorImplMock();
-        AbstractProcessInstance instance1 = new ProcessInstanceImpl(definition);
-        Token token1 = instance1.createToken(startNode, nav);
+        AbstractProcessInstance<BPMNToken> instance1 = new ProcessInstanceImpl<BPMNToken>(definition);
+        BPMNToken token1 = new BPMNTokenImpl(startNode, instance1, nav);
+        instance1.addToken(token1);
 
-        AbstractProcessInstance instance2 = new ProcessInstanceImpl(definition);
-        Token token2 = instance2.createToken(startNode, nav);
+        AbstractProcessInstance<BPMNToken> instance2 = new ProcessInstanceImpl<BPMNToken>(definition);
+        BPMNToken token2 = new BPMNTokenImpl(startNode, instance2, nav);
+        instance2.addToken(token2);
 
         assertEquals(token1.getCurrentActivityState(), ActivityState.INIT);
         assertEquals(token2.getCurrentActivityState(), ActivityState.INIT);
@@ -65,7 +67,7 @@ public class ConcurrentActivityStateTest {
         // for instance2/token2.
 
         ActivityLifecycleAssurancePlugin plugin = new ActivityLifecycleAssurancePlugin();
-        ((TokenImpl) token1).registerPlugin(plugin);
+        ((BPMNTokenImpl) token1).registerPlugin(plugin);
         token1.executeStep();
         
         assertTrue(plugin.isCompletedCalled());
@@ -87,7 +89,7 @@ public class ConcurrentActivityStateTest {
 
         startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
 
-        Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
+        Node<BPMNToken> endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
         TransitionFactory.createTransitionFromTo(builder, startNode, endNode);
         

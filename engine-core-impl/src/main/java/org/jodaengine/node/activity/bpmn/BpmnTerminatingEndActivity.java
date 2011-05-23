@@ -1,7 +1,7 @@
 package org.jodaengine.node.activity.bpmn;
 
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * This activity corresponds to the BPMN terminating end event. Upon its execution, all ongoing activities have to be
@@ -11,11 +11,11 @@ import org.jodaengine.process.token.Token;
 public class BpmnTerminatingEndActivity extends BpmnEndActivity {
 
     @Override
-    protected void executeIntern(Token token) {
+    protected void executeIntern(BPMNToken bPMNToken) {
 
-        AbstractProcessInstance instance = token.getInstance();
+        AbstractProcessInstance instance = bPMNToken.getInstance();
 
-        token.getNavigator().cancelProcessInstance(instance);
+        bPMNToken.getNavigator().cancelProcessInstance(instance);
     }
 
 }

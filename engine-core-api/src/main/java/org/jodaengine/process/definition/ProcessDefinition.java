@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.Identifiable;
 
@@ -58,5 +59,5 @@ public interface ProcessDefinition extends Identifiable<ProcessDefinitionID>, At
      * @return the start nodes
      */
     @JsonProperty
-    List<Node> getStartNodes();
+    List<Node<BPMNToken>> getStartNodes();
 }

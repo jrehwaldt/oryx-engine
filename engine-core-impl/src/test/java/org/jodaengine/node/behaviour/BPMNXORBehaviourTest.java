@@ -16,8 +16,8 @@ import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -29,14 +29,14 @@ import org.testng.annotations.Test;
 public class BPMNXORBehaviourTest {
 
     /** The process instance. */
-    private Token token;
+    private BPMNToken bPMNToken;
 
     /**
      * Set up. An instance is build.
      */
     @BeforeMethod
     public void setUp() {
-        token = simpleToken();
+        bPMNToken = simpleToken();
     }
 
     /**
@@ -46,16 +46,16 @@ public class BPMNXORBehaviourTest {
     @Test
     public void testTrueNextNode() {
 
-        Node node = token.getCurrentNode();
-        Node nextNode = node.getOutgoingTransitions().get(1).getDestination();
+        Node<BPMNToken> node = bPMNToken.getCurrentNode();
+        Node<BPMNToken> nextNode = node.getOutgoingTransitions().get(1).getDestination();
 
         try {
-            executeSplitAndJoin(token);
+            executeSplitAndJoin(bPMNToken);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        assertEquals(token.getCurrentNode(), nextNode);
+        assertEquals(bPMNToken.getCurrentNode(), nextNode);
     }
 
     /**
@@ -63,18 +63,18 @@ public class BPMNXORBehaviourTest {
      */
     @Test
     public void testTrueConditionNode() {
-        ProcessInstanceContext context = token.getInstance().getContext();
+        ProcessInstanceContext context = bPMNToken.getInstance().getContext();
         context.setVariable("a", 1);
-        Node node = token.getCurrentNode();
-        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
+        Node<BPMNToken> node = bPMNToken.getCurrentNode();
+        Node<BPMNToken> nextNode = node.getOutgoingTransitions().get(0).getDestination();
 
         try {
-            executeSplitAndJoin(token);
+            executeSplitAndJoin(bPMNToken);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        assertEquals(token.getCurrentNode(), nextNode);
+        assertEquals(bPMNToken.getCurrentNode(), nextNode);
     }
     
     /**
@@ -83,15 +83,15 @@ public class BPMNXORBehaviourTest {
     @Test
     public void testFalseDestinationNode() {
         
-        Node node = token.getCurrentNode();
-        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
+        Node<BPMNToken> node = bPMNToken.getCurrentNode();
+        Node<BPMNToken> nextNode = node.getOutgoingTransitions().get(0).getDestination();
         
         try {
-            executeSplitAndJoin(token);
+            executeSplitAndJoin(bPMNToken);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assert token.getCurrentNode() != nextNode;
+        assert bPMNToken.getCurrentNode() != nextNode;
     }
 
     /**
@@ -99,7 +99,7 @@ public class BPMNXORBehaviourTest {
      */
     @AfterMethod
     public void tearDown() {
-        token = null;
+        bPMNToken = null;
     }
 
     /**
@@ -108,18 +108,18 @@ public class BPMNXORBehaviourTest {
      * 
      * @return the process token that was created within the method
      */
-    private TokenImpl simpleToken() {
+    private BPMNTokenImpl simpleToken() {
 
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
         
-        Node node = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
+        Node<BPMNToken> node = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
         .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBehavior(new NullActivity()).buildNode();
         
-        Node node2 = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
+        Node<BPMNToken> node2 = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
         .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBehavior(new NullActivity()).buildNode();
         
-        Node node3 = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
+        Node<BPMNToken> node3 = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
         .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBehavior(new NullActivity()).buildNode();
         
         
@@ -130,22 +130,22 @@ public class BPMNXORBehaviourTest {
         builder.getTransitionBuilder().transitionGoesFromTo(node, node2).setCondition(c).buildTransition();
         builder.getTransitionBuilder().transitionGoesFromTo(node, node3).buildTransition();
 
-        return new TokenImpl(node);
+        return new BPMNTokenImpl(node);
     }
     
     /**
      * Execute split and join.
      *
-     * @param token the processToken
+     * @param bPMNToken the processToken
      * @return the list
      * @throws Exception the exception
      */
-    private List<Token> executeSplitAndJoin(Token token) throws Exception {
-        Node node = token.getCurrentNode();
-        IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
+    private List<BPMNToken> executeSplitAndJoin(BPMNToken bPMNToken) throws Exception {
+        Node<BPMNToken> node = bPMNToken.getCurrentNode();
+        IncomingBehaviour<BPMNToken> incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
         
-        List<Token> joinedInstances = incomingBehaviour.join(token);
+        List<BPMNToken> joinedInstances = incomingBehaviour.join(bPMNToken);
         
         return outgoingBehaviour.split(joinedInstances);
     }

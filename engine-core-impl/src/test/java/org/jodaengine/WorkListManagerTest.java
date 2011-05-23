@@ -9,7 +9,7 @@ import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
@@ -40,9 +40,9 @@ public class WorkListManagerTest {
         engineServices = JodaEngine.start();
         pattern = CreationPatternFactory.createJannikServesGerardoCreator();
 
-        Token token = MockUtils.fullyMockedToken();
+        BPMNToken bPMNToken = MockUtils.fullyMockedToken();
 
-        AbstractWorklistItem item = pattern.createWorklistItem(token, ServiceFactory.getRepositoryService());
+        AbstractWorklistItem item = pattern.createWorklistItem(bPMNToken, ServiceFactory.getRepositoryService());
         PushPattern pushPattern = new AllocateSinglePattern();
         pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
         // ServiceFactory.getTaskDistribution().distribute(pattern, token);
@@ -95,8 +95,8 @@ public class WorkListManagerTest {
         // null);
         // allocation patterns END
         ConcreteResourcePattern anotherPattern = new ConcreteResourcePattern("Go shopping", "I need milk", null, tobi);
-        Token token = MockUtils.fullyMockedToken();
-        AbstractWorklistItem item = anotherPattern.createWorklistItem(token, engineServices.getRepositoryService());
+        BPMNToken bPMNToken = MockUtils.fullyMockedToken();
+        AbstractWorklistItem item = anotherPattern.createWorklistItem(bPMNToken, engineServices.getRepositoryService());
 
         PushPattern pushPattern = new AllocateSinglePattern();
         pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);

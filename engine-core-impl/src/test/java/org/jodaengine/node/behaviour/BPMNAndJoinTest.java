@@ -13,8 +13,8 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -28,7 +28,7 @@ public class BPMNAndJoinTest {
     private Node node1 = null, node2 = null, joinNode = null, splitNode = null, node3 = null;
 
     /** The child instance2. */
-    private Token newToken1 = null, newToken2 = null;
+    private BPMNToken newToken1 = null, newToken2 = null;
 
     private NavigatorImplMock navigator = null;
 
@@ -38,9 +38,9 @@ public class BPMNAndJoinTest {
     @BeforeMethod
     public void setUp() {
 
-        List<Token> tokens = initializeTokens();
-        newToken1 = tokens.get(0);
-        newToken2 = tokens.get(1);
+        List<BPMNToken> bPMNTokens = initializeTokens();
+        newToken1 = bPMNTokens.get(0);
+        newToken2 = bPMNTokens.get(1);
     }
 
     /**
@@ -49,7 +49,7 @@ public class BPMNAndJoinTest {
     @Test
     public void testSingleTokenReachedJoin() {
 
-        List<Token> newTokens = null;
+        List<BPMNToken> newTokens = null;
         try {
             newToken1.executeStep();
             navigator.flushWorkQueue();
@@ -71,7 +71,7 @@ public class BPMNAndJoinTest {
     @Test
     public void testAllTokensReachedJoin() {
 
-        List<Token> newTokens = null;
+        List<BPMNToken> newTokens = null;
         try {
             newToken1.executeStep();
             newToken2.executeStep();
@@ -86,7 +86,7 @@ public class BPMNAndJoinTest {
 
         assertEquals(newTokens.size(), 1, "There should only be one new token");
 
-        Token newToken = newTokens.get(0);
+        BPMNToken newToken = newTokens.get(0);
         assertEquals(newToken.getInstance().getAssignedTokens().size(), 1);
         assertEquals(newToken.getCurrentNode(), node3, "The new token should be on the node following the join node");
     }
@@ -96,7 +96,7 @@ public class BPMNAndJoinTest {
      * 
      * @return the process token
      */
-    private List<Token> initializeTokens() {
+    private List<BPMNToken> initializeTokens() {
 
         navigator = new NavigatorImplMock();
 
@@ -115,11 +115,11 @@ public class BPMNAndJoinTest {
         BpmnNodeFactory.createTransitionFromTo(builder, node2, joinNode);
         BpmnNodeFactory.createTransitionFromTo(builder, joinNode, node3);
 
-        Token token = new TokenImpl(splitNode, new ProcessInstanceImpl(null), navigator);
+        BPMNToken bPMNToken = new BPMNTokenImpl(splitNode, new ProcessInstanceImpl(null), navigator);
 
-        List<Token> newTokens = new ArrayList<Token>();
-        newTokens.add(token.createNewToken(node1));
-        newTokens.add(token.createNewToken(node2));
+        List<BPMNToken> newTokens = new ArrayList<BPMNToken>();
+        newTokens.add(bPMNToken.createNewToken(node1));
+        newTokens.add(bPMNToken.createNewToken(node2));
         return newTokens;
     }
     /**

@@ -20,8 +20,8 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;
 import org.testng.annotations.AfterMethod;
@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
  */
 public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
     
-    private Token token;
+    private BPMNToken bPMNToken;
     private Node nullNodeStart;
     private Node intermediateTimerEvent;
     private Node nullNodeEnd;
@@ -71,7 +71,7 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
           Mockito.when(processInstanceMock.getContext()).thenReturn(processInstanceContextMock);
           
           
-          token = new TokenImpl(nullNodeStart, processInstanceMock, nav);
+          bPMNToken = new BPMNTokenImpl(nullNodeStart, processInstanceMock, nav);
       }
 
     /**
@@ -83,7 +83,7 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
           nullNodeStart = null;
           intermediateTimerEvent = null;
           nullNodeEnd = null;
-          token = null;
+          bPMNToken = null;
     
       }
 
@@ -95,11 +95,11 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
    */
   @Test
   public void testWaitingProcess() throws Exception {
-      token.executeStep();
-      assertEquals(token.getCurrentNode(), intermediateTimerEvent);
-      token.executeStep();
+      bPMNToken.executeStep();
+      assertEquals(bPMNToken.getCurrentNode(), intermediateTimerEvent);
+      bPMNToken.executeStep();
       Thread.sleep(LONG_WAITING_TIME_TEST);
-      assertEquals(token.getCurrentNode(), nullNodeEnd);
+      assertEquals(bPMNToken.getCurrentNode(), nullNodeEnd);
       
   }
   
@@ -110,9 +110,9 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
    */
   @Test
   public void testActivityStateCompleted() throws Exception {
-      token.executeStep();
-      ((TokenImpl) token).registerPlugin(lifecycleTester);
-      token.executeStep();
+      bPMNToken.executeStep();
+      ((BPMNTokenImpl) bPMNToken).registerPlugin(lifecycleTester);
+      bPMNToken.executeStep();
       assertFalse(lifecycleTester.isCompletedCalled());
       Thread.sleep(LONG_WAITING_TIME_TEST);
       assertTrue(lifecycleTester.isCompletedCalled());
@@ -125,10 +125,10 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
    */
   @Test
   public void testActivityStateActive() throws Exception {
-      token.executeStep();
-      token.executeStep();
+      bPMNToken.executeStep();
+      bPMNToken.executeStep();
       Thread.sleep(SHORT_WAITING_TIME_TEST);
-      assertEquals(token.getCurrentActivityState(), ActivityState.WAITING);
+      assertEquals(bPMNToken.getCurrentActivityState(), ActivityState.WAITING);
   }
   
   
@@ -140,11 +140,11 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
    */
   @Test
   public void testFailingWaitingProcess() throws Exception {
-      token.executeStep();
-      assertEquals(token.getCurrentNode(), intermediateTimerEvent);
-      token.executeStep();
+      bPMNToken.executeStep();
+      assertEquals(bPMNToken.getCurrentNode(), intermediateTimerEvent);
+      bPMNToken.executeStep();
       Thread.sleep(SHORT_WAITING_TIME_TEST);
-      assertFalse(token.getCurrentNode() == nullNodeEnd, "Current Node should not be the node after the timer,"
+      assertFalse(bPMNToken.getCurrentNode() == nullNodeEnd, "Current Node should not be the node after the timer,"
           + " because time wasn't sufficient.");
   }
   
@@ -157,16 +157,16 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
    */
   @Test
   public void testCancelNode() throws JodaEngineException, InterruptedException {
-      token.executeStep();
-      token.executeStep();
+      bPMNToken.executeStep();
+      bPMNToken.executeStep();
       
       // Timer activated, now cancel the scheduled job
-      token.getCurrentNode().getActivityBehaviour().cancel(token);
+      bPMNToken.getCurrentNode().getActivityBehaviour().cancel(bPMNToken);
       
       // Wait until the timer would resume the token
       Thread.sleep(LONG_WAITING_TIME_TEST);
       
-      assertEquals(token.getCurrentNode(), intermediateTimerEvent);  
+      assertEquals(bPMNToken.getCurrentNode(), intermediateTimerEvent);  
   }
 
 /**
@@ -185,8 +185,8 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
       QuartzJobManager timer = (QuartzJobManager) eventManager.getTimer();
 
       //Step through the process and activate the timer
-      token.executeStep();
-      token.executeStep();
+      bPMNToken.executeStep();
+      bPMNToken.executeStep();
       
       //Assert that the timer job is scheduled
       jobGroups = timer.numberOfCurrentRunningJobs();
@@ -194,7 +194,7 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
       
       
       //Cancel the process, the cancellation should lead to the deletion of all started jobs
-      token.cancelExecution();
+      bPMNToken.cancelExecution();
       
       jobGroups = timer.numberOfCurrentRunningJobs();
       assertEquals(jobGroups, 0);

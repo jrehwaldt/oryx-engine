@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Condition;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,7 @@ public class CheckVariableTrueCondition implements Condition {
     }
 
     @Override
-    public boolean evaluate(Token instance) {
+    public boolean evaluate(BPMNToken instance) {
 
         ProcessInstanceContext processInstanceContext = instance.getInstance().getContext();
         Object processVariable = processInstanceContext.getVariable(processVariableID);

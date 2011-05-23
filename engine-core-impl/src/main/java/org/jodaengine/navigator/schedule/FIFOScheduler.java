@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.jodaengine.ext.AbstractPluggable;
 import org.jodaengine.ext.listener.AbstractSchedulerListener;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -15,27 +15,27 @@ import org.jodaengine.process.token.Token;
 public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> implements Scheduler {
 
     /** The process instances we would like to schedule. */
-    private List<Token> processtokens;
+    private List<BPMNToken> processtokens;
 
     /**
      * Instantiates a new simple scheduler queue. Thereby instantiating a synchronized linked list.
      */
     public FIFOScheduler() {
 
-        processtokens = new LinkedList<Token>();
+        processtokens = new LinkedList<BPMNToken>();
         processtokens = Collections.synchronizedList(processtokens);
     }
 
     @Override
-    public void submit(Token p) {
+    public void submit(BPMNToken p) {
 
         changed(new SchedulerEvent(SchedulerAction.SUBMIT, p, processtokens.size()));
         processtokens.add(p);
     }
 
     @Override
-    public Token retrieve() {
-        Token removedToken;
+    public BPMNToken retrieve() {
+        BPMNToken removedToken;
         synchronized (this.processtokens) {
             if (this.processtokens.isEmpty()) {
                 return null;
@@ -53,7 +53,7 @@ public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> 
     }
 
     @Override
-    public void submitAll(List<Token> listOfTokens) {
+    public void submitAll(List<BPMNToken> listOfTokens) {
         this.processtokens.addAll(listOfTokens);  
     }
     

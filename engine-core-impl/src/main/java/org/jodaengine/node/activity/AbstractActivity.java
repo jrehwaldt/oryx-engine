@@ -2,7 +2,7 @@ package org.jodaengine.node.activity;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -21,16 +21,16 @@ implements Activity {
     }
     
     @Override
-    public void execute(@Nonnull Token token) {
-        executeIntern(token);
+    public void execute(@Nonnull BPMNToken bPMNToken) {
+        executeIntern(bPMNToken);
     }
     
     /**
      * Method, which implements the concrete's activity's implementation.
      * 
-     * @param token the instance this activity operates on
+     * @param bPMNToken the instance this activity operates on
      */
-    protected abstract void executeIntern(@Nonnull Token token);
+    protected abstract void executeIntern(@Nonnull BPMNToken bPMNToken);
     
     @Override
     public String toString() {
@@ -43,17 +43,17 @@ implements Activity {
      * @param executingToken the executing token
      */
     @Override
-    public void cancel(Token executingToken) {
+    public void cancel(BPMNToken executingToken) {
         
     }
     
     /**
      * Override this, if you need to do cleanup after the executing token has been resumed.
      *
-     * @param token the token
+     * @param bPMNToken the token
      */
     @Override
-    public void resume(Token token) {
+    public void resume(BPMNToken bPMNToken) {
         
     }
 }

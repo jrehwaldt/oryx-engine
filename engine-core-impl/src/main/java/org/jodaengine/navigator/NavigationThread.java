@@ -1,7 +1,7 @@
 package org.jodaengine.navigator;
 
 import org.jodaengine.navigator.schedule.Scheduler;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,20 +71,20 @@ public class NavigationThread extends Thread {
                 break;
             }
 
-            Token token = null;
+            BPMNToken bPMNToken = null;
 
             // This has to be an atomic operation on toNavigate, otherwise
             // an IndexOutOfBoundsException might occur
 
-            token = this.scheduler.retrieve();
+            bPMNToken = this.scheduler.retrieve();
 
-            if (token != null) {
+            if (bPMNToken != null) {
                 // List<Token> instances;
                 // instances = null;
                 try {
                     // the return value of executeStep are the nodes which shall be executed next
                     // instances = token.executeStep();
-                    token.executeStep();
+                    bPMNToken.executeStep();
                 } catch (Exception e) {
 
                     e.printStackTrace();

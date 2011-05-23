@@ -9,6 +9,7 @@ import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.token.BPMNToken;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -20,7 +21,7 @@ import org.testng.annotations.Test;
  */
 public class ProcessBuilderTest {
     private ProcessDefinitionBuilder builder = null;
-    private Node startNode, endNode;
+    private Node<BPMNToken> startNode, endNode;
 
     /**
      * Test simple build process.
@@ -40,16 +41,16 @@ public class ProcessBuilderTest {
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition definition = builder.buildDefinition();
 
-        List<Node> startNodes = definition.getStartNodes();
+        List<Node<BPMNToken>> startNodes = definition.getStartNodes();
         assertEquals(startNodes.size(), 1, "There should be one start node");
 
-        Node node = startNodes.get(0);
+        Node<BPMNToken> node = startNodes.get(0);
         assertEquals(node, startNode, "This node should be the defined startNode");
 
-        List<Transition> outgoingTransitions = node.getOutgoingTransitions();
+        List<Transition<BPMNToken>> outgoingTransitions = node.getOutgoingTransitions();
         assertEquals(outgoingTransitions.size(), 1, "There should be one outgoing transition");
 
-        Transition transition = outgoingTransitions.get(0);
+        Transition<BPMNToken> transition = outgoingTransitions.get(0);
         assertEquals(transition.getDestination(), endNode, "startNode should be connected to endNode");
 
     }

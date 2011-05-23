@@ -17,7 +17,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jodaengine.allocation.Form;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.util.Identifiable;
 
@@ -37,13 +37,13 @@ public abstract class AbstractWorklistItem implements Identifiable<UUID> {
     WorklistItemState getStatus();
 
     /**
-     * Gets the corresponding {@link Token} that created this {@link AbstractWorklistItem}.
+     * Gets the corresponding {@link BPMNToken} that created this {@link AbstractWorklistItem}.
      * 
      * @return the corresponding token
      */
     @JsonIgnore
     public abstract @Nonnull
-    Token getCorrespondingToken();
+    BPMNToken getCorrespondingToken();
 
     /**
      * Returns a concrete resource object holding the value of the specified String.

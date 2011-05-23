@@ -13,7 +13,7 @@ import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.structure.NodeImpl;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.mockito.ArgumentCaptor;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
  */
 public class TokenListenerTest {
 
-    private TokenImpl token = null;
+    private BPMNTokenImpl token = null;
     private ArgumentCaptor<ActivityLifecycleChangeEvent> eventCapturer = null;
 
     /**
@@ -36,7 +36,7 @@ public class TokenListenerTest {
 
         String dummyString = "s.out";
 
-        this.token = new TokenImpl(new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(),
+        this.token = new BPMNTokenImpl(new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour()));
         this.eventCapturer = ArgumentCaptor.forClass(ActivityLifecycleChangeEvent.class);
     }

@@ -14,6 +14,7 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -27,18 +28,18 @@ public class SimpleProcessDefinitionFactory implements ProcessDefinitionFactory 
     @Override
     public ProcessDefinition create(ProcessDefinitionID definitionID) {
 
-        IncomingBehaviour incomingBehaviour = new SimpleJoinBehaviour();
+        IncomingBehaviour<BPMNToken> incomingBehaviour = new SimpleJoinBehaviour();
         OutgoingBehaviour outgoingBehaviour = new TakeAllSplitBehaviour();
         Activity activityBehavior = new AddNumbersAndStoreActivity("result", 1, 1);
-        Node node1 = new NodeImpl(activityBehavior, incomingBehaviour, outgoingBehaviour);
+        Node<BPMNToken> node1 = new NodeImpl<BPMNToken>(activityBehavior, incomingBehaviour, outgoingBehaviour);
         
         incomingBehaviour = new SimpleJoinBehaviour();
         outgoingBehaviour = new TakeAllSplitBehaviour();
         activityBehavior = new AddNumbersAndStoreActivity("result", 1, 1);
-        Node node2 = new NodeImpl(activityBehavior, incomingBehaviour, outgoingBehaviour);
+        Node<BPMNToken> node2 = new NodeImpl<BPMNToken>(activityBehavior, incomingBehaviour, outgoingBehaviour);
         
         node1.transitionTo(node2);
-        List<Node> startNodes = new ArrayList<Node>();
+        List<Node<BPMNToken>> startNodes = new ArrayList<Node<BPMNToken>>();
         startNodes.add(node1);
         ProcessDefinition def = new ProcessDefinitionImpl(definitionID, DEFINITION_NAME, DEFINITION_DESCRIPTION,
             startNodes);

@@ -9,7 +9,7 @@ import org.jodaengine.factory.node.PrintingNodeFactory;
 import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNTokenImpl;
 
 
 /**
@@ -41,7 +41,7 @@ public final class ExampleProcessForReview {
         navigator.registerPlugin(NavigatorListenerLogger.getInstance());
         navigator.start(new JodaEngine());
         
-        TokenImpl token = processTokenForReview();
+        BPMNTokenImpl token = processTokenForReview();
         navigator.startArbitraryInstance(token);
         
         Thread.sleep(SLEEP_TIME);
@@ -54,7 +54,7 @@ public final class ExampleProcessForReview {
      * 
      * @return the process token impl
      */
-    private static TokenImpl processTokenForReview() {
+    private static BPMNTokenImpl processTokenForReview() {
 
         /*
          * The process looks like this: start => calc5Plus5 => printResult => mailingTheResult => end
@@ -78,7 +78,7 @@ public final class ExampleProcessForReview {
         thirdNode.transitionTo(fourthNode);
 //        fourthNode.transitionTo(endNode);
 
-        TokenImpl sampleToken = new TokenImpl(startNode);
+        BPMNTokenImpl sampleToken = new BPMNTokenImpl(startNode);
         return sampleToken;
     }
 

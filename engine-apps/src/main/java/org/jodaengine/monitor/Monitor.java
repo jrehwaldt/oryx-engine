@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.jodaengine.ext.listener.AbstractSchedulerListener;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * The Class Monitor is a Plugin that receives Scheduler Events and forwards it to the provided GUI.
@@ -29,20 +29,20 @@ public class Monitor extends AbstractSchedulerListener {
     }
 
     @Override
-    public void processInstanceSubmitted(int numberOfInstances, Token token) {
+    public void processInstanceSubmitted(int numberOfInstances, BPMNToken bPMNToken) {
 
         updateNumberOfInstances(numberOfInstances);
-        if (instancesToTrack.contains(token.getInstance())) {
-            showInstanceSubmitted(token);
+        if (instancesToTrack.contains(bPMNToken.getInstance())) {
+            showInstanceSubmitted(bPMNToken);
         }
     }
 
     @Override
-    public void processInstanceRetrieved(int numberOfInstances, Token token) {
+    public void processInstanceRetrieved(int numberOfInstances, BPMNToken bPMNToken) {
 
         updateNumberOfInstances(numberOfInstances);
-        if (instancesToTrack.contains(token.getInstance())) {
-            showInstanceRetrieved(token);
+        if (instancesToTrack.contains(bPMNToken.getInstance())) {
+            showInstanceRetrieved(bPMNToken);
         }
     }
 
@@ -52,7 +52,7 @@ public class Monitor extends AbstractSchedulerListener {
      * @param instance
      *            the instance that has been submitted to the scheduler.
      */
-    private void showInstanceSubmitted(Token instance) {
+    private void showInstanceSubmitted(BPMNToken instance) {
 
         gui.showInstanceSubmitted(instance);
     }
@@ -63,7 +63,7 @@ public class Monitor extends AbstractSchedulerListener {
      * @param instance
      *            the instance that has been retrieved from the scheduler.
      */
-    private void showInstanceRetrieved(Token instance) {
+    private void showInstanceRetrieved(BPMNToken instance) {
 
         gui.showInstanceRetrieved(instance);
     }

@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * An activity is the behaviour of a Node, e.g. execution
@@ -19,22 +19,22 @@ public interface Activity {
     /**
      * Execute. Starts the execution of the Activity.
      * 
-     * @param token
+     * @param bPMNToken
      *            the instance the activity operates on
      */
-    void execute(@Nonnull Token token);
+    void execute(@Nonnull BPMNToken bPMNToken);
 
     /**
      * Do some cleanup, if necessary. Cancellation of the activity's execution is not handled here.
      *
      * @param executingToken the token that currently executes the activity
      */
-    void cancel(Token executingToken);
+    void cancel(BPMNToken executingToken);
     
     /**
      * This method is called when the execution of the activity is resumed.
      *
-     * @param token the token that resumes this activity
+     * @param bPMNToken the token that resumes this activity
      */
-    void resume(Token token);
+    void resume(BPMNToken bPMNToken);
 }

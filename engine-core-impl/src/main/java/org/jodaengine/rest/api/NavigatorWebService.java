@@ -16,7 +16,7 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorStatistic;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -147,19 +147,19 @@ public class NavigatorWebService implements Navigator {
     }
 
     @Override
-    public void addWorkToken(Token t) {
+    public void addWorkToken(BPMNToken t) {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
 
     @Override
-    public void addSuspendToken(Token t) {
+    public void addSuspendToken(BPMNToken t) {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
 
     @Override
-    public void removeSuspendToken(Token t) {
+    public void removeSuspendToken(BPMNToken t) {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }

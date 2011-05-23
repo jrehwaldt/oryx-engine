@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -34,13 +34,13 @@ extends AbstractActivity {
     }
 
     @Override
-    protected void executeIntern(@Nonnull Token token) {
+    protected void executeIntern(@Nonnull BPMNToken bPMNToken) {
         
         int result = 0;
         for (int value: this.summands) {
             result += value;
         }
-        ProcessInstanceContext context = token.getInstance().getContext();
+        ProcessInstanceContext context = bPMNToken.getInstance().getContext();
         context.setVariable(resultVariableName, String.valueOf(result));
     }
 }

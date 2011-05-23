@@ -22,7 +22,8 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.IdentityBuilder;
@@ -38,7 +39,7 @@ import org.testng.annotations.Test;
 public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest {
     private CreationPattern pattern = null;
     private AbstractResource<?> resource = null;
-    private Node splitNode, humanTaskNode, terminatingEndNode;
+    private Node<BPMNToken> splitNode, humanTaskNode, terminatingEndNode;
 
     /**
      * Test cancelling of human tasks. A simple fork is created that leads to a human task activity and a terminating
@@ -54,9 +55,10 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
         ProcessDefinition definition = mock(ProcessDefinition.class);
         when(definition.getID()).thenReturn(new ProcessDefinitionID(UUID.randomUUID()));
         
-        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
+        AbstractProcessInstance<BPMNToken> instance = new ProcessInstanceImpl<BPMNToken>(definition);
         NavigatorImplMock nav = new NavigatorImplMock();
-        Token token = instance.createToken(splitNode, nav);
+        BPMNToken token = new BPMNTokenImpl(splitNode, instance, nav);
+        instance.addToken(token);
 
         // set this instance to running by hand
         nav.getRunningInstances().add(instance);
@@ -66,8 +68,8 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
         assertEquals(nav.getWorkQueue().size(), 2, "Split Node should have created two tokens.");
 
         // get the token that is on the human task activity. The other one is on the end node then.
-        Token humanTaskToken = nav.getWorkQueue().get(0);
-        Token endToken = nav.getWorkQueue().get(1);
+        BPMNToken humanTaskToken = nav.getWorkQueue().get(0);
+        BPMNToken endToken = nav.getWorkQueue().get(1);
         if (!(humanTaskToken.getCurrentNode().getActivityBehaviour().getClass() == BpmnHumanTaskActivity.class)) {
             humanTaskToken = endToken;
             endToken = nav.getWorkQueue().get(0);

@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * The Class MockUtils has methods to create more complex mocks that are reused quite often.
@@ -25,12 +25,12 @@ public final class MockUtils {
      *
      * @return the token
      */
-    public static Token fullyMockedToken() {
-        Token token = mock(Token.class);
+    public static BPMNToken fullyMockedToken() {
+        BPMNToken bPMNToken = mock(BPMNToken.class);
         AbstractProcessInstance instance = mockProcessInstance();        
-        when(token.getInstance()).thenReturn(instance);        
+        when(bPMNToken.getInstance()).thenReturn(instance);        
         
-        return token;
+        return bPMNToken;
     }
     
     /**

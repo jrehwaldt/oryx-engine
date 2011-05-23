@@ -10,7 +10,7 @@ import org.jodaengine.allocation.Form;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
@@ -73,7 +73,7 @@ public class ConcreteResourcePattern implements CreationPattern {
     }
 
     @Override
-    public AbstractWorklistItem createWorklistItem(Token token, RepositoryService repoService) {
+    public AbstractWorklistItem createWorklistItem(BPMNToken bPMNToken, RepositoryService repoService) {
 
         Set<AbstractResource<?>> assignedResourcesCopy = new HashSet<AbstractResource<?>>(
             Arrays.asList(resourcesToAssignTo));
@@ -83,7 +83,7 @@ public class ConcreteResourcePattern implements CreationPattern {
         if (formID != null) {
             // only search for a form, if one has been specified
             try {
-                ProcessDefinitionID definitionID = token.getInstance().getDefinition().getID();
+                ProcessDefinitionID definitionID = bPMNToken.getInstance().getDefinition().getID();
                 formToUse = new FormImpl(repoService.getProcessArtifact(formID, definitionID));
             } catch (ProcessArtifactNotFoundException e) {
                 throw new JodaEngineRuntimeException("The requested form does not exist.", e);
@@ -91,7 +91,7 @@ public class ConcreteResourcePattern implements CreationPattern {
         }
 
         WorklistItemImpl worklistItem = new WorklistItemImpl(subject, description, formToUse, assignedResourcesCopy,
-            token);
+            bPMNToken);
         return worklistItem;
 
     }

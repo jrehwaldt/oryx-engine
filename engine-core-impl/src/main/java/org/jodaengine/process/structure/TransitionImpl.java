@@ -1,16 +1,19 @@
 package org.jodaengine.process.structure;
 
+import org.jodaengine.process.token.Token;
 
 /**
  * The Class TransitionImpl. The implementation of a transition that is. A transition is the edge between to nodes.
+ *
+ * @param <T> the generic type
  */
-public class TransitionImpl implements Transition {
+public class TransitionImpl<T extends Token<?>> implements Transition<T> {
 
     /** The destination. E.g. where does the arrow point to. */
-    private Node destination;
+    private Node<T> destination;
 
     /** The start. E.g. Where does the arrow/edge originate. */
-    private Node source;
+    private Node<T> source;
 
     /** The condition. The transition can only be done with a true condition. */
     private Condition condition;
@@ -25,7 +28,7 @@ public class TransitionImpl implements Transition {
      * @param c
      *            the condition
      */
-    public TransitionImpl(Node start, Node destination, Condition c) {
+    public TransitionImpl(Node<T> start, Node<T> destination, Condition c) {
 
         this.source = start;
         this.destination = destination;
@@ -51,7 +54,7 @@ public class TransitionImpl implements Transition {
      * @see org.jodaengine.process.structure.Transition#getDestination()
      */
     @Override
-    public Node getDestination() {
+    public Node<T> getDestination() {
 
         return this.destination;
     }
@@ -62,7 +65,7 @@ public class TransitionImpl implements Transition {
      * @return the start
      */
     @Override
-    public Node getSource() {
+    public Node<T> getSource() {
 
         return source;
     }
@@ -74,7 +77,7 @@ public class TransitionImpl implements Transition {
      * @param start
      *            the new start
      */
-    public void setSource(Node start) {
+    public void setSource(Node<T> start) {
 
         this.source = start;
     }
@@ -85,7 +88,7 @@ public class TransitionImpl implements Transition {
      * @param destination
      *            the new destination
      */
-    public void setDestination(Node destination) {
+    public void setDestination(Node<T> destination) {
 
         this.destination = destination;
     }

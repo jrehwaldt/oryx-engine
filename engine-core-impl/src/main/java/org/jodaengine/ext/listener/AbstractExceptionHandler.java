@@ -2,14 +2,14 @@ package org.jodaengine.ext.listener;
 
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * The Class AbstractExceptionHandler realizes the Chain of Responsibility pattern to handle
  * JodaEngineRuntimeExceptions that occur during the process execution.
  * This allows you to react to these exceptions flexibly.
  * 
- * See {@link org.jodaengine.process.token.TokenImpl} for the use of these classes.
+ * See {@link org.jodaengine.process.token.BPMNTokenImpl} for the use of these classes.
  */
 public abstract class AbstractExceptionHandler {
 
@@ -31,12 +31,12 @@ public abstract class AbstractExceptionHandler {
      * Process exception. Does local exception handling and forwards it to the next handler.
      *
      * @param exception the exception
-     * @param token the token during which execution the exception occurred.
+     * @param bPMNToken the token during which execution the exception occurred.
      */
-    public void processException(JodaEngineException exception, Token token) {
-        processExceptionLocally(exception, token);
+    public void processException(JodaEngineException exception, BPMNToken bPMNToken) {
+        processExceptionLocally(exception, bPMNToken);
         if (nextHandler != null) {
-            nextHandler.processException(exception, token);
+            nextHandler.processException(exception, bPMNToken);
         }
     }
     
@@ -44,12 +44,12 @@ public abstract class AbstractExceptionHandler {
      * Process exception. Does local exception handling and forwards it to the next handler.
      *
      * @param exception the exception
-     * @param token the token during which execution the exception occurred.
+     * @param bPMNToken the token during which execution the exception occurred.
      */
-    public void processException(JodaEngineRuntimeException exception, Token token) {
-        processExceptionLocally(exception, token);
+    public void processException(JodaEngineRuntimeException exception, BPMNToken bPMNToken) {
+        processExceptionLocally(exception, bPMNToken);
         if (nextHandler != null) {
-            nextHandler.processException(exception, token);
+            nextHandler.processException(exception, bPMNToken);
         }
     }
     
@@ -57,7 +57,7 @@ public abstract class AbstractExceptionHandler {
      * Process exception locally. To implement in subclasses.
      *
      * @param exception the exception
-     * @param token the token during which execution the exception occurred.
+     * @param bPMNToken the token during which execution the exception occurred.
      */
-    protected abstract void processExceptionLocally(Exception exception, Token token);
+    protected abstract void processExceptionLocally(Exception exception, BPMNToken bPMNToken);
 }

@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -13,23 +13,23 @@ import org.jodaengine.process.token.Token;
 public class AndJoinBehaviour extends AbstractIncomingBehaviour {
 
     @Override
-    public List<Token> join(Token token) {
+    public List<BPMNToken> join(BPMNToken token) {
         ProcessInstanceContext context = token.getInstance().getContext();
         context.setWaitingExecution(token.getLastTakenTransition());
         return super.join(token);
     }
 
     @Override
-    protected boolean joinable(Token token) {
+    protected boolean joinable(BPMNToken token) {
 
         return token.joinable();
     }
 
     @Override
-    protected List<Token> performJoin(Token token) {
+    protected List<BPMNToken> performJoin(BPMNToken token) {
 
         // We can do this, as we currently assume that an and join has a single outgoing transition
-        List<Token> newTokens = new LinkedList<Token>();
+        List<BPMNToken> newTokens = new LinkedList<BPMNToken>();
         newTokens.add(token.performJoin());
         return newTokens;
     }

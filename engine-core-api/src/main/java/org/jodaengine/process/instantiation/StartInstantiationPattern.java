@@ -1,6 +1,7 @@
 package org.jodaengine.process.instantiation;
 
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.util.PatternAppendable;
 
 /**
@@ -16,5 +17,5 @@ public interface StartInstantiationPattern extends PatternAppendable<Instantiati
      *            - the {@link InstantiationPatternContext patternContext}
      * @return an {@link AbstractProcessInstance}
      */
-    AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext);
+    AbstractProcessInstance<BPMNToken> createProcessInstance(InstantiationPatternContext patternContext);
 }

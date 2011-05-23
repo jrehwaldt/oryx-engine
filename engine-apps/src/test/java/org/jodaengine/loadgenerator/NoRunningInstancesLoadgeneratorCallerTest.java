@@ -13,8 +13,8 @@ import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.annotations.BeforeClass;
@@ -31,7 +31,7 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngin
 
     private LoadGenerator mockiGene = null;
 
-    private Token pi = null;
+    private BPMNToken pi = null;
 
     /**
      * Sets the up repo.
@@ -65,9 +65,9 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngin
         // RepositorySetup.FIRST_EXAMPLE_PROCESS_ID - ist ja ein Verweis auf
         // eine externe Lib? Tests sollten doch unabhängig sein
         ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
-        List<Node> startNodes = def.getStartNodes();
-        Node startNode = startNodes.get(0);
-        pi = new TokenImpl(startNode);
+        List<Node<BPMNToken>> startNodes = def.getStartNodes();
+        Node<BPMNToken> startNode = startNodes.get(0);
+        pi = new BPMNTokenImpl(startNode);
     }
 
     /**
@@ -77,7 +77,7 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngin
     public void testMethodInvokedOnLoadGenerator() {
 
         nav.startArbitraryInstance(pi);
-        AbstractProcessInstance instance = pi.getInstance();
+        AbstractProcessInstance<BPMNToken> instance = pi.getInstance();
         nav.signalEndedProcessInstance(instance);
 
         // verify that the method we want is called on the load generator

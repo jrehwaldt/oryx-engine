@@ -13,7 +13,7 @@ import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 
 /**
@@ -49,10 +49,10 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     }
 
     @Override
-    protected void executeIntern(@Nonnull Token token) {
+    protected void executeIntern(@Nonnull BPMNToken bPMNToken) {
 
         TaskAllocation service = ServiceFactory.getWorklistQueue();
-        AbstractWorklistItem item = creationPattern.createWorklistItem(token,
+        AbstractWorklistItem item = creationPattern.createWorklistItem(bPMNToken,
             ServiceFactory.getRepositoryService());
 
         // save the UUIDs of the created items to the instance context, in order to be able to delete them, if execution
@@ -60,22 +60,22 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
         List<UUID> itemUUIDs = new ArrayList<UUID>();
         itemUUIDs.add(item.getID());
 
-        ProcessInstanceContext context = token.getInstance().getContext();
+        ProcessInstanceContext context = bPMNToken.getInstance().getContext();
 
         // the name should be unique, as the token can only work on one activity at a time.
-        final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
+        final String itemContextVariableIdentifier = ITEM_PREFIX + bPMNToken.getID();
         context.setInternalVariable(itemContextVariableIdentifier, itemUUIDs);
 
         pushPattern.distributeWorkitem(service, item);
 
-        token.suspend();
+        bPMNToken.suspend();
     }
 
     @Override
-    public void cancel(Token token) {
+    public void cancel(BPMNToken bPMNToken) {
 
-        ProcessInstanceContext context = token.getInstance().getContext();
-        final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
+        ProcessInstanceContext context = bPMNToken.getInstance().getContext();
+        final String itemContextVariableIdentifier = ITEM_PREFIX + bPMNToken.getID();
         List<UUID> itemUUIDs = (List<UUID>) context.getInternalVariable(itemContextVariableIdentifier);
 
         for (UUID itemUUID : itemUUIDs) {
@@ -85,10 +85,10 @@ public class BpmnHumanTaskActivity extends AbstractActivity {
     }
 
     @Override
-    public void resume(Token token) {
+    public void resume(BPMNToken bPMNToken) {
 
-        ProcessInstanceContext context = token.getInstance().getContext();
-        final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
+        ProcessInstanceContext context = bPMNToken.getInstance().getContext();
+        final String itemContextVariableIdentifier = ITEM_PREFIX + bPMNToken.getID();
         context.deleteInternalVariable(itemContextVariableIdentifier);
     }
 

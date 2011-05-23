@@ -11,8 +11,8 @@ import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
  */
 public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest {
 
-    private Token token = null;
+    private BPMNToken bPMNToken = null;
     private AbstractResource<?> jannik = null;
     private Node endNode = null;
 
@@ -52,7 +52,7 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
         humanTaskNode.transitionTo(endNode);
 
         AbstractProcessInstance instance = new ProcessInstanceImpl(null);
-        token = new TokenImpl(humanTaskNode, instance, new NavigatorImplMock());
+        bPMNToken = new BPMNTokenImpl(humanTaskNode, instance, new NavigatorImplMock());
     }
 
     /**
@@ -64,7 +64,7 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
     public void testJannikBeginsTheWorkItem()
     throws JodaEngineException {
 
-        token.executeStep();
+        bPMNToken.executeStep();
 
         AbstractWorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
         assertEquals(worklistItem.getStatus(), WorklistItemState.ALLOCATED);
@@ -82,7 +82,7 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
     public void testJannikCompletesTheWorkItem()
     throws JodaEngineException {
 
-        token.executeStep();
+        bPMNToken.executeStep();
 
         AbstractWorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
         ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItem, jannik);
@@ -104,15 +104,15 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
     public void testResumptionOfProcess()
     throws JodaEngineException {
 
-        token.executeStep();
+        bPMNToken.executeStep();
 
         AbstractWorklistItem worklistItem = ServiceFactory.getWorklistService().getWorklistItems(jannik).get(0);
         ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItem, jannik);
 
         ServiceFactory.getWorklistService().completeWorklistItemBy(worklistItem, jannik);
 
-        String failureMessage = "Token should point to the endNode, but it points to " + token.getCurrentNode().getID()
+        String failureMessage = "Token should point to the endNode, but it points to " + bPMNToken.getCurrentNode().getID()
             + ".";
-        assertEquals(endNode, token.getCurrentNode(), failureMessage);
+        assertEquals(endNode, bPMNToken.getCurrentNode(), failureMessage);
     }
 }

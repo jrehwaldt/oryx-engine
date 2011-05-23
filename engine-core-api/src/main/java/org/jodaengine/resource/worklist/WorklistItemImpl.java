@@ -10,7 +10,7 @@ import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.allocation.Form;
 import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.resource.AbstractResource;
 
 /**
@@ -19,7 +19,7 @@ import org.jodaengine.resource.AbstractResource;
 public class WorklistItemImpl extends AbstractWorklistItem {
 
     private WorklistItemState status;
-    private transient Token correspondingToken;
+    private transient BPMNToken correspondingToken;
     private UUID id;
     private String subject, description;
     private Form form;
@@ -44,13 +44,13 @@ public class WorklistItemImpl extends AbstractWorklistItem {
      * @param assignedResources
      *            the assigned resources
      * @param correspondingToken
-     *            the corresponding {@link Token} of the task
+     *            the corresponding {@link BPMNToken} of the task
      */
     public WorklistItemImpl(String subject,
                             String description,
                             Form form,
                             Set<AbstractResource<?>> assignedResources,
-                            @Nonnull Token correspondingToken) {
+                            @Nonnull BPMNToken correspondingToken) {
 
         if (correspondingToken == null) {
             throw new NullPointerException("The corresponding Token parameter cannot be null.");
@@ -108,7 +108,7 @@ public class WorklistItemImpl extends AbstractWorklistItem {
     }
 
     @Override
-    public Token getCorrespondingToken() {
+    public BPMNToken getCorrespondingToken() {
 
         return correspondingToken;
     }

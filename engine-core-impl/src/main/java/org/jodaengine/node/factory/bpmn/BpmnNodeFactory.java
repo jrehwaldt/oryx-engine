@@ -18,6 +18,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -42,7 +43,7 @@ public final class BpmnNodeFactory extends TransitionFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing an {@link BpmnStartEvent}
      */
-    public static Node createBpmnStartEventNode(ProcessDefinitionBuilder builder) {
+    public static Node<BPMNToken> createBpmnStartEventNode(ProcessDefinitionBuilder builder) {
 
         NodeBuilder nodeBuilder = builder.getStartNodeBuilder();
         BpmnStartEvent activityBehavior = new BpmnStartEvent();
@@ -59,7 +60,7 @@ public final class BpmnNodeFactory extends TransitionFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing an {@link BpmnEndActivity}
      */
-    public static Node createBpmnEndEventNode(ProcessDefinitionBuilder builder) {
+    public static Node<BPMNToken> createBpmnEndEventNode(ProcessDefinitionBuilder builder) {
 
         BpmnEndActivity activityBehavior = new BpmnEndActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
@@ -78,7 +79,7 @@ public final class BpmnNodeFactory extends TransitionFactory {
      *            - the time (in milliseconds) to wait for
      * @return a {@link Node} representing an {@link BpmnIntermediateTimerActivity}
      */
-    public static Node createBpmnIntermediateTimerEventNode(ProcessDefinitionBuilder builder, long waitingTime) {
+    public static Node<BPMNToken> createBpmnIntermediateTimerEventNode(ProcessDefinitionBuilder builder, long waitingTime) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnIntermediateTimerActivity activityBehavior = new BpmnIntermediateTimerActivity(waitingTime);
@@ -97,7 +98,7 @@ public final class BpmnNodeFactory extends TransitionFactory {
      *            - the task to distribute
      * @return a {@link Node} representing an {@link BpmnHumanTaskActivity}
      */
-    public static Node createBpmnUserTaskNode(ProcessDefinitionBuilder builder, CreationPattern creationPattern, PushPattern pushPattern) {
+    public static Node<BPMNToken> createBpmnUserTaskNode(ProcessDefinitionBuilder builder, CreationPattern creationPattern, PushPattern pushPattern) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnHumanTaskActivity activityBehavior = new BpmnHumanTaskActivity(creationPattern, pushPattern);
@@ -114,7 +115,7 @@ public final class BpmnNodeFactory extends TransitionFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing an {@link BpmnEndActivity}
      */
-    public static Node createBpmnTerminatingEndEventNode(ProcessDefinitionBuilder builder) {
+    public static Node<BPMNToken> createBpmnTerminatingEndEventNode(ProcessDefinitionBuilder builder) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnTerminatingEndActivity activityBehavior = new BpmnTerminatingEndActivity();
@@ -131,7 +132,7 @@ public final class BpmnNodeFactory extends TransitionFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing a BPMN-XOR-Gateway
      */
-    public static Node createBpmnXorGatewayNode(ProcessDefinitionBuilder builder) {
+    public static Node<BPMNToken> createBpmnXorGatewayNode(ProcessDefinitionBuilder builder) {
 
         NullActivity activityBehavior = new NullActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
@@ -147,7 +148,7 @@ public final class BpmnNodeFactory extends TransitionFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing a BPMN-AND-Gateway
      */
-    public static Node createBpmnAndGatewayNode(ProcessDefinitionBuilder builder) {
+    public static Node<BPMNToken> createBpmnAndGatewayNode(ProcessDefinitionBuilder builder) {
 
         NullActivity activityBehavior = new NullActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new AndJoinBehaviour())

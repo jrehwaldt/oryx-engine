@@ -6,7 +6,7 @@ import org.jodaengine.factory.node.HashComputationNodeFactory;
 import org.jodaengine.factory.token.SimpleProcessTokenFactory;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -20,7 +20,7 @@ public class HashComputationActivityTest {
     private Node hashNode = null;
     
     /** The p. */
-    private Token p = null;
+    private BPMNToken p = null;
     
     /** The Constant TO_BE_HASHED. */
     private static final String TO_BE_HASHED = "Hello World!";

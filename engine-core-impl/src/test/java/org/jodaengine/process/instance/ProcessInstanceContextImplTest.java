@@ -88,7 +88,7 @@ public class ProcessInstanceContextImplTest {
         when(n.getIncomingTransitions()).thenReturn(transitionList);
 
         // The method to test, finally...
-        context.removeIncomingTransitions(n);
+        context.removeSignaledTransitions(n);
 
         // Now the list should be empty, because the remove private method was called in the context
         assertEquals(context.getWaitingExecutions(n).size(), 0);

@@ -18,7 +18,8 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -27,8 +28,8 @@ import org.testng.annotations.Test;
  * The Class EndActivityTest.
  */
 public class EndActivityTest {
-    private AbstractProcessInstance instance = null;
-    private Node startNode = null;
+    private AbstractProcessInstance<BPMNToken> instance = null;
+    private Node<BPMNToken> startNode = null;
 
     /**
      * Process instance finalization test.
@@ -45,12 +46,13 @@ public class EndActivityTest {
         // this is done for test purposes. Usually the startProcessInstance methods of the navigator would do this, but
         // we do not actually want to start the navigator here.
         nav.getRunningInstances().add(instance);
-        Token token = instance.createToken(startNode, nav);
+        BPMNToken token = new BPMNTokenImpl(startNode, instance, nav);
+        instance.addToken(token);
 
         // perform fist step, there should be two tokens on forkNode1 and forkNode2 respectively
         token.executeStep();
 
-        List<Token> newTokens = nav.getWorkQueue();
+        List<BPMNToken> newTokens = nav.getWorkQueue();
         assertEquals(newTokens.size(), 2);
 
         // don't reference the token that was split, which remains on the splitNode
@@ -59,8 +61,8 @@ public class EndActivityTest {
 
         // we need to explicitly reference these two tokens, as newTokens will probably change upon the next
         // executeStep() on one of the tokens.
-        Token forkNodeToken1 = newTokens.get(0);
-        Token forkNodeToken2 = newTokens.get(1);
+        BPMNToken forkNodeToken1 = newTokens.get(0);
+        BPMNToken forkNodeToken2 = newTokens.get(1);
 
         // move the two new tokens to the endNodes
         forkNodeToken1.executeStep();
@@ -106,13 +108,13 @@ public class EndActivityTest {
         startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
         
         int[] ints = {1, 1};
-        Node forkNode1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
+        Node<BPMNToken> forkNode1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
 
         int[] anotherInts = {2, 2};
-        Node forkNode2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result2", anotherInts);
+        Node<BPMNToken> forkNode2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result2", anotherInts);
 
-        Node endNode1 = BpmnNodeFactory.createBpmnEndEventNode(builder); 
-        Node endNode2 = BpmnNodeFactory.createBpmnEndEventNode(builder);
+        Node<BPMNToken> endNode1 = BpmnNodeFactory.createBpmnEndEventNode(builder); 
+        Node<BPMNToken> endNode2 = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
         TransitionFactory.createTransitionFromTo(builder, startNode, forkNode1);
         TransitionFactory.createTransitionFromTo(builder, startNode, forkNode2);
@@ -122,7 +124,7 @@ public class EndActivityTest {
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition definition = builder.buildDefinition();
 
-        instance = new ProcessInstanceImpl(definition);
+        instance = new ProcessInstanceImpl<BPMNToken>(definition);
     }
 
 }

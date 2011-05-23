@@ -69,7 +69,7 @@ public interface ProcessInstanceContext {
      * @param name
      *            {@link String} representing the id of the variable that can be used for acces later
      * @return an {@link Object} representing the value of the variable
-     * @see org.jodaengine.process.token.Token#getVariable(java.lang.String)
+     * @see org.jodaengine.process.token.BPMNToken#getVariable(java.lang.String)
      */
     Object getVariable(String name);
 

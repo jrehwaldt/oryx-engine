@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,7 +83,7 @@ public class HashComputationActivity extends AbstractActivity {
     }
 
     @Override
-    protected void executeIntern(Token token) {
+    protected void executeIntern(BPMNToken bPMNToken) {
 
         MessageDigest md;
         try {
@@ -92,7 +92,7 @@ public class HashComputationActivity extends AbstractActivity {
             byte[] output = md.digest();
             String stringOutputString = bytesToHex(output);
             // logger.debug(stringOutputString);
-            ProcessInstanceContext context = token.getInstance().getContext();
+            ProcessInstanceContext context = bPMNToken.getInstance().getContext();
             context.setVariable(variableName, stringOutputString);
         } catch (NoSuchAlgorithmException e) {
             logger.error("No such Algorithm (hashcomputation!) " + this.algorithmToBeUsed

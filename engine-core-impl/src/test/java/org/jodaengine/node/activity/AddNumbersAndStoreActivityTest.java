@@ -7,8 +7,8 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -23,7 +23,7 @@ public class AddNumbersAndStoreActivityTest {
     private Node node = null;
 
     /** The p. */
-    private Token p = null;
+    private BPMNToken p = null;
 
     /**
      * Sets up the environment with an addernode and a process token that shell execute one step.
@@ -34,7 +34,7 @@ public class AddNumbersAndStoreActivityTest {
         AddNumbersAndStoreNodeFactory factory = new AddNumbersAndStoreNodeFactory();
         node = factory.create();
         AbstractProcessInstance instance = new ProcessInstanceImpl(null);
-        p = new TokenImpl(node, instance);
+        p = new BPMNTokenImpl(node, instance);
 
     }
 

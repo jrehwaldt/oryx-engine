@@ -1,6 +1,6 @@
 package org.jodaengine.process.structure;
 
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * The Interface for conditions.
@@ -16,6 +16,6 @@ public interface Condition {
      *            the instance
      * @return true, if successful
      */
-    boolean evaluate(Token instance);
+    boolean evaluate(BPMNToken instance);
 
 }

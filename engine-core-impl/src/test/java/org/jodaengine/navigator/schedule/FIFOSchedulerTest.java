@@ -12,8 +12,8 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.jodaengine.util.testing.SkipBuildingJodaEngine;
@@ -33,10 +33,10 @@ public class FIFOSchedulerTest extends AbstractJodaEngineTest {
     private FIFOScheduler scheduler = null;
     
     /** The first token. */
-    private Token firstToken = null;
+    private BPMNToken firstToken = null;
     
     /** The second token. */
-    private Token secondToken = null;
+    private BPMNToken secondToken = null;
 
     
     /**
@@ -61,10 +61,10 @@ public class FIFOSchedulerTest extends AbstractJodaEngineTest {
         scheduler = new FIFOScheduler();
         RepositoryService repo = ServiceFactory.getRepositoryService();
         ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
-        List<Node> startNodes = def.getStartNodes();
-        Node startNode = startNodes.get(0);
-        firstToken = new TokenImpl(startNode);
-        secondToken = new TokenImpl(startNode);
+        List<Node<BPMNToken>> startNodes = def.getStartNodes();
+        Node<BPMNToken> startNode = startNodes.get(0);
+        firstToken = new BPMNTokenImpl(startNode);
+        secondToken = new BPMNTokenImpl(startNode);
     }
 
     /**
@@ -128,7 +128,7 @@ public class FIFOSchedulerTest extends AbstractJodaEngineTest {
     @Test
     public void testSubmitAll() {
 
-        List<Token> processList = new LinkedList<Token>();
+        List<BPMNToken> processList = new LinkedList<BPMNToken>();
         processList.add(firstToken);
         processList.add(secondToken);
         scheduler.submitAll(processList);

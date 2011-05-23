@@ -16,6 +16,7 @@ import org.jodaengine.process.instantiation.InstantiationPatternContextImpl;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.instantiation.StartNullInstantiationPattern;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BPMNToken;
 
 
 
@@ -31,13 +32,13 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
 
     private ProcessDefinitionID id;
 
-    private List<Node> startNodes;
+    private List<Node<BPMNToken>> startNodes;
 
     @JsonIgnore
     private StartInstantiationPattern startInstantiationPattern;
 
     @JsonIgnore
-    private Map<ProcessStartEvent, Node> startTriggers;
+    private Map<ProcessStartEvent, Node<BPMNToken>> startTriggers;
 
     private Map<String, Object> attributes;
 
@@ -53,7 +54,10 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
      * @param startNodes
      *            - the initial nodes that refer to the whole node-tree
      */
-    public ProcessDefinitionImpl(ProcessDefinitionID id, String name, String description, List<Node> startNodes) {
+    public ProcessDefinitionImpl(ProcessDefinitionID id,
+                                 String name,
+                                 String description,
+                                 List<Node<BPMNToken>> startNodes) {
 
         this(id, name, description, startNodes, new StartNullInstantiationPattern());
     }
@@ -67,27 +71,24 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
 
     /**
      * Instantiates a new process definition. A UUID is generated randomly.
-     * 
-     * @param id
-     *            - the internal of the {@link ProcessDefinition}
-     * @param name
-     *            - the name of the {@link ProcessDefinition}
-     * @param description
-     *            - the description of the {@link ProcessDefinition}
-     * @param startNodes
-     *            - the initial nodes that refer to the whole node-tree
+     *
+     * @param id - the internal of the {@link ProcessDefinition}
+     * @param name - the name of the {@link ProcessDefinition}
+     * @param description - the description of the {@link ProcessDefinition}
+     * @param startNodes - the initial nodes that refer to the whole node-tree
+     * @param startInstantiationPattern the start instantiation pattern
      */
     public ProcessDefinitionImpl(ProcessDefinitionID id,
                                  String name,
                                  String description,
-                                 List<Node> startNodes,
+                                 List<Node<BPMNToken>> startNodes,
                                  StartInstantiationPattern startInstantiationPattern) {
 
         this.id = id;
         this.name = name;
         this.description = description;
         this.startNodes = startNodes;
-        this.startTriggers = new HashMap<ProcessStartEvent, Node>();
+        this.startTriggers = new HashMap<ProcessStartEvent, Node<BPMNToken>>();
         this.startInstantiationPattern = startInstantiationPattern;
     }
 
@@ -123,19 +124,19 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     }
 
     @Override
-    public List<Node> getStartNodes() {
+    public List<Node<BPMNToken>> getStartNodes() {
 
         return startNodes;
     }
 
     @Override
-    public Map<ProcessStartEvent, Node> getStartTriggers() {
+    public Map<ProcessStartEvent, Node<BPMNToken>> getStartTriggers() {
 
         return startTriggers;
     }
 
     @Override
-    public void addStartTrigger(ProcessStartEvent event, Node node)
+    public void addStartTrigger(ProcessStartEvent event, Node<BPMNToken> node)
     throws IllegalStarteventException {
 
         if (startNodes.contains(node)) {
@@ -169,7 +170,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     }
 
     @Override
-    public AbstractProcessInstance createProcessInstance(NavigatorInside navigator) {
+    public AbstractProcessInstance<BPMNToken> createProcessInstance(NavigatorInside navigator) {
 
         InstantiationPatternContext patternContext = new InstantiationPatternContextImpl(this);
         return startInstantiationPattern.createProcessInstance(patternContext);

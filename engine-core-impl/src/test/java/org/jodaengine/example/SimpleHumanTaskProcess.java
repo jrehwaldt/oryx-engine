@@ -7,7 +7,7 @@ import org.jodaengine.factory.node.PrintingNodeFactory;
 import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNTokenImpl;
 
 
 
@@ -40,7 +40,7 @@ public final class SimpleHumanTaskProcess {
         navigator.registerPlugin(NavigatorListenerLogger.getInstance());
         navigator.start(new JodaEngine());
         
-        TokenImpl token = processTokenForReview();
+        BPMNTokenImpl token = processTokenForReview();
         navigator.startArbitraryInstance(token);
         
         Thread.sleep(SLEEP_TIME);
@@ -53,7 +53,7 @@ public final class SimpleHumanTaskProcess {
      * 
      * @return the process token impl
      */
-    private static TokenImpl processTokenForReview() {
+    private static BPMNTokenImpl processTokenForReview() {
 
 
         Node startNode = new RoutingBehaviourTestFactory().createWithAndSplitAndLogger();
@@ -70,7 +70,7 @@ public final class SimpleHumanTaskProcess {
         secondNode.transitionTo(thirdNode);
 //        thirdNode.transitionTo(endNode);
 
-        TokenImpl sampleToken = new TokenImpl(startNode);
+        BPMNTokenImpl sampleToken = new BPMNTokenImpl(startNode);
         return sampleToken;
     }
 

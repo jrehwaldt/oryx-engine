@@ -12,8 +12,8 @@ import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 public class BPMNTakeAllBehaviourTest {
 
     /** The process token. */
-    private Token token = null;
+    private BPMNToken bPMNToken = null;
 
     /**
      * Set up. A token is built.
@@ -33,7 +33,7 @@ public class BPMNTakeAllBehaviourTest {
     @BeforeClass
     public void setUp() {
 
-        token = simpleToken();
+        bPMNToken = simpleToken();
     }
 
     /**
@@ -43,16 +43,16 @@ public class BPMNTakeAllBehaviourTest {
     @Test
     public void testClass() {
 
-        Node node = token.getCurrentNode();
-        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
+        Node<BPMNToken> node = bPMNToken.getCurrentNode();
+        Node<BPMNToken> nextNode = node.getOutgoingTransitions().get(0).getDestination();
 
         try {
-            executeSplitAndJoin(token);
+            executeSplitAndJoin(bPMNToken);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        assertEquals(token.getCurrentNode(), nextNode);
+        assertEquals(bPMNToken.getCurrentNode(), nextNode);
     }
 
     /**
@@ -68,38 +68,38 @@ public class BPMNTakeAllBehaviourTest {
      * 
      * @return the process instance that was created within the method
      */
-    private TokenImpl simpleToken() {
+    private BPMNTokenImpl simpleToken() {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
         
-        Node node = builder.getNodeBuilder().setActivityBehavior(new NullActivity())
+        Node<BPMNToken> node = builder.getNodeBuilder().setActivityBehavior(new NullActivity())
         .setIncomingBehaviour(new SimpleJoinBehaviour()).setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
 
-        Node node2 = builder.getNodeBuilder().setActivityBehavior(new NullActivity())
+        Node<BPMNToken> node2 = builder.getNodeBuilder().setActivityBehavior(new NullActivity())
         .setIncomingBehaviour(new SimpleJoinBehaviour()).setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
 
         builder.getTransitionBuilder().transitionGoesFromTo(node, node2).buildTransition();
 
-        return new TokenImpl(node);
+        return new BPMNTokenImpl(node);
     }
 
     /**
      * Execute split and join.
      * 
-     * @param token
+     * @param bPMNToken
      *            the token
      * @return the list
      * @throws Exception
      *             the exception
      */
-    private List<Token> executeSplitAndJoin(Token token)
+    private List<BPMNToken> executeSplitAndJoin(BPMNToken bPMNToken)
     throws Exception {
 
-        Node node = token.getCurrentNode();
-        IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
+        Node<BPMNToken> node = bPMNToken.getCurrentNode();
+        IncomingBehaviour<BPMNToken> incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
 
-        List<Token> joinedTokens = incomingBehaviour.join(token);
+        List<BPMNToken> joinedTokens = incomingBehaviour.join(bPMNToken);
 
         return outgoingBehaviour.split(joinedTokens);
     }

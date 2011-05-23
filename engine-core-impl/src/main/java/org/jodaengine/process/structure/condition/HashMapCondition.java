@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Condition;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,15 +66,15 @@ public class HashMapCondition implements Condition {
     }
 
     @Override
-    public boolean evaluate(Token token) {
+    public boolean evaluate(BPMNToken bPMNToken) {
 
         Iterator<?> i = set.iterator();
         boolean result = true;
         logger.debug("HashMapCondition variables to check: {}", set);
-        logger.debug("instance context variables: {}", token.getInstance().getContext().getVariableMap());
+        logger.debug("instance context variables: {}", bPMNToken.getInstance().getContext().getVariableMap());
 
         while (i.hasNext()) {
-            ProcessInstanceContext context = token.getInstance().getContext();
+            ProcessInstanceContext context = bPMNToken.getInstance().getContext();
             @SuppressWarnings("unchecked")
             Map.Entry<String, Object> me = (Map.Entry<String, Object>) i.next();
             Object contextValue = context.getVariable((String) me.getKey());

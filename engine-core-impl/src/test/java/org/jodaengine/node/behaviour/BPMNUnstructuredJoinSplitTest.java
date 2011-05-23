@@ -11,8 +11,8 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
 public class BPMNUnstructuredJoinSplitTest {
 
     /** The initial token. */
-    private Token initialToken = null;
+    private BPMNToken initialToken = null;
 
     /** The end node. */
     private Node node1 = null, node2 = null, node3 = null, innerJoinNode = null, outerJoinNode = null, endNode = null;
@@ -47,7 +47,7 @@ public class BPMNUnstructuredJoinSplitTest {
     @Test
     public void testOverallBehaviour() {
 
-        List<Token> newTokens;
+        List<BPMNToken> newTokens;
         try {
             initialToken.executeStep();
             newTokens = navigator.getWorkQueue();
@@ -55,9 +55,9 @@ public class BPMNUnstructuredJoinSplitTest {
                 "Two new tokens have been created, one one the inner join node and one on node3");
 
             // we need to find out, which of the new tokens is on node3 and which on the inner join node
-            Token tokenOnNode1 = tokenOnNode(newTokens, node1);
-            Token tokenOnNode2 = tokenOnNode(newTokens, node2);
-            Token tokenOnNode3 = tokenOnNode(newTokens, node3);
+            BPMNToken tokenOnNode1 = tokenOnNode(newTokens, node1);
+            BPMNToken tokenOnNode2 = tokenOnNode(newTokens, node2);
+            BPMNToken tokenOnNode3 = tokenOnNode(newTokens, node3);
             navigator.flushWorkQueue();
 
             // Execute node 1 and 2.
@@ -76,7 +76,7 @@ public class BPMNUnstructuredJoinSplitTest {
             newTokens = navigator.getWorkQueue();
             assertEquals(newTokens.size(), 1, "The two tokens should be synchronized now");
 
-            Token innerJoinedToken = newTokens.get(0);
+            BPMNToken innerJoinedToken = newTokens.get(0);
             assertEquals(innerJoinedToken.getCurrentNode(), outerJoinNode, "It should be on the outer join now.");
             navigator.flushWorkQueue();
 
@@ -108,7 +108,7 @@ public class BPMNUnstructuredJoinSplitTest {
      *   \-> N3-------/
      * @return the list
      */
-    private Token initializeToken() {
+    private BPMNToken initializeToken() {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
         
@@ -134,9 +134,9 @@ public class BPMNUnstructuredJoinSplitTest {
         
         navigator = new NavigatorImplMock();
 
-        Token token = new TokenImpl(splitNode, new ProcessInstanceImpl(null), navigator);
+        BPMNToken bPMNToken = new BPMNTokenImpl(splitNode, new ProcessInstanceImpl(null), navigator);
 
-        return token;
+        return bPMNToken;
     }
 
     /**
@@ -148,12 +148,12 @@ public class BPMNUnstructuredJoinSplitTest {
      *            the node that the pointing token is searched for
      * @return the token
      */
-    private Token tokenOnNode(List<Token> candidateTokens, Node n) {
+    private BPMNToken tokenOnNode(List<BPMNToken> candidateTokens, Node n) {
 
-        Token result = null;
-        for (Token token : candidateTokens) {
-            if (token.getCurrentNode() == n) {
-                result = token;
+        BPMNToken result = null;
+        for (BPMNToken bPMNToken : candidateTokens) {
+            if (bPMNToken.getCurrentNode() == n) {
+                result = bPMNToken;
                 break;
             }
         }

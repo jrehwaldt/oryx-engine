@@ -1,7 +1,7 @@
 package org.jodaengine.eventmanagement.timing.job;
 
 import org.jodaengine.eventmanagement.timing.QuartzJobManager;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -26,7 +26,7 @@ implements Job {
     throws JobExecutionException {
         
         JobDataMap data = context.getJobDetail().getJobDataMap();
-        Token token = (Token) data.get(QuartzJobManager.TOKEN_KEY);
-        token.resume();
+        BPMNToken bPMNToken = (BPMNToken) data.get(QuartzJobManager.TOKEN_KEY);
+        bPMNToken.resume();
     }
 }

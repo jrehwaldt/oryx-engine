@@ -1,7 +1,7 @@
 package org.jodaengine.navigator;
 
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * Extends the NavigatorInterface so that it provides more methods for the internal classes.
@@ -17,25 +17,25 @@ public interface NavigatorInside extends Navigator {
      *            the t
      */
     @Override
-    void addWorkToken(Token t);
+    void addWorkToken(BPMNToken t);
 
     /**
      * Adds a token that is in suspended state.
      * 
-     * @param token
-     *            - the {@link Token} that should be suspended
+     * @param bPMNToken
+     *            - the {@link BPMNToken} that should be suspended
      */
     @Override
-    void addSuspendToken(Token token);
+    void addSuspendToken(BPMNToken bPMNToken);
 
     /**
      * Removes the suspend token.
      * 
-     * @param token
-     *            - the {@link Token} that should not be suspended anymore
+     * @param bPMNToken
+     *            - the {@link BPMNToken} that should not be suspended anymore
      */
     @Override
-    void removeSuspendToken(Token token);
+    void removeSuspendToken(BPMNToken bPMNToken);
 
     /**
      * Signal that a formerly running process instance has ended.

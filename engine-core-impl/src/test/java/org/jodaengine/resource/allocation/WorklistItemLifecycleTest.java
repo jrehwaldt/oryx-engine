@@ -7,7 +7,7 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
 import org.jodaengine.allocation.Form;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.Participant;
@@ -44,12 +44,12 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         ConcreteResourcePattern pattern = CreationPatternFactory.createJannikServesGerardoCreator();
         jannik = (Participant) pattern.getAssignedResources().iterator().next();
 
-        Token token = Mockito.mock(Token.class);
+        BPMNToken bPMNToken = Mockito.mock(BPMNToken.class);
         Set<AbstractResource<?>> resources = pattern.getAssignedResources();
 
         Form form = Mockito.mock(Form.class);
         worklistItem = new WorklistItemImpl(pattern.getItemSubject(), pattern.getItemDescription(),
-            form, resources, token);
+            form, resources, bPMNToken);
 
         ServiceFactory.getWorklistQueue().addWorklistItem(worklistItem, jannik);
     }
@@ -74,16 +74,16 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         // AllocationsStragegies are not important for that test
         // Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, part);
 
-        Token token = Mockito.mock(Token.class);
+        BPMNToken bPMNToken = Mockito.mock(BPMNToken.class);
         Set<AbstractResource<?>> assignedResources = new HashSet<AbstractResource<?>>();
         assignedResources.add(part);
 
         AbstractWorklistItem worklistItemForGerardo = new WorklistItemImpl("Task Subject!!", "Task Decription!!", null,
-            assignedResources, token);
+            assignedResources, bPMNToken);
 
         Assert.assertEquals(worklistItemForGerardo.getSubject(), "Task Subject!!");
         Assert.assertEquals(worklistItemForGerardo.getDescription(), "Task Decription!!");
-        Assert.assertEquals(worklistItemForGerardo.getCorrespondingToken(), token);
+        Assert.assertEquals(worklistItemForGerardo.getCorrespondingToken(), bPMNToken);
         Assert.assertEquals(worklistItemForGerardo.getStatus(), WorklistItemState.CREATED);
 
         // Testing that the creation of a WorklistItem requires a Token

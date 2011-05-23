@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 import org.jodaengine.navigator.schedule.SchedulerAction;
 import org.jodaengine.navigator.schedule.SchedulerEvent;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * The Class MonitorGUI has the task to present input provided by e.g. the Monitor-Plugin.
@@ -83,7 +83,7 @@ public class MonitorGUI extends JFrame {
      * @param instance
      *            the instance
      */
-    public void showInstanceRetrieved(Token instance) {
+    public void showInstanceRetrieved(BPMNToken instance) {
 
         SchedulerEvent event = new SchedulerEvent(SchedulerAction.RETRIEVE, instance, -1);
         notifySurface.addNotification(event);
@@ -95,7 +95,7 @@ public class MonitorGUI extends JFrame {
      * @param instance
      *            the instance
      */
-    public void showInstanceSubmitted(Token instance) {
+    public void showInstanceSubmitted(BPMNToken instance) {
 
         SchedulerEvent event = new SchedulerEvent(SchedulerAction.SUBMIT, instance, -1);
         notifySurface.addNotification(event);

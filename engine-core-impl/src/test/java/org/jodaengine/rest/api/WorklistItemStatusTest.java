@@ -13,7 +13,7 @@ import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.AbstractRole;
@@ -167,7 +167,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
     throws ResourceNotAvailableException {
 
         pattern = CreationPatternFactory.createRoleCreator();
-        TokenImpl token = mock(TokenImpl.class);
+        BPMNTokenImpl token = mock(BPMNTokenImpl.class);
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         AbstractWorklistItem item = pattern.createWorklistItem(token, mock(RepositoryService.class));
         PushPattern pushPattern = new OfferMultiplePattern();

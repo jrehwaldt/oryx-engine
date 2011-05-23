@@ -7,7 +7,7 @@ import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.condition.JuelExpressionCondition;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
  */
 public class JuelExpressionConditionTest {
 
-    private Token token;
+    private BPMNToken bPMNToken;
     private ProcessInstanceContext context;
     private Map<String, Object> returnMap;
 
@@ -30,10 +30,10 @@ public class JuelExpressionConditionTest {
     public void setUp() {
 
         // Preparing all the necessary mocks for the evaluation of the condition
-        token = Mockito.mock(Token.class);
+        bPMNToken = Mockito.mock(BPMNToken.class);
         AbstractProcessInstance instance = Mockito.mock(AbstractProcessInstance.class);
         context = Mockito.mock(ProcessInstanceContext.class);
-        Mockito.when(token.getInstance()).thenReturn(instance);
+        Mockito.when(bPMNToken.getInstance()).thenReturn(instance);
         Mockito.when(instance.getContext()).thenReturn(context);
 
         // The method 'getVariableMap()' should return a map
@@ -65,7 +65,7 @@ public class JuelExpressionConditionTest {
         String juelEspression = "${testBoolean}";
         Condition condition = new JuelExpressionCondition(juelEspression);
 
-        Assert.assertTrue(condition.evaluate(token));
+        Assert.assertTrue(condition.evaluate(bPMNToken));
     }
 
     /**
@@ -79,7 +79,7 @@ public class JuelExpressionConditionTest {
         String juelEspression = "${testBoolean}";
         Condition condition = new JuelExpressionCondition(juelEspression);
         
-        Assert.assertFalse(condition.evaluate(token));
+        Assert.assertFalse(condition.evaluate(bPMNToken));
     }
     
     /**
@@ -94,7 +94,7 @@ public class JuelExpressionConditionTest {
         String juelEspression = "${testInt1 + testInt2 == 3}";
         Condition condition = new JuelExpressionCondition(juelEspression);
 
-        Assert.assertTrue(condition.evaluate(token));
+        Assert.assertTrue(condition.evaluate(bPMNToken));
     }
 
     /**
@@ -108,7 +108,7 @@ public class JuelExpressionConditionTest {
         String juelEspression = "${testBoolean2==12312}";
         Condition condition = new JuelExpressionCondition(juelEspression);
         
-        Assert.assertTrue(condition.evaluate(token));
+        Assert.assertTrue(condition.evaluate(bPMNToken));
         
         Assert.fail("An exception should have been raised.");
     }
@@ -122,15 +122,15 @@ public class JuelExpressionConditionTest {
 
         String juelEspression = "${2 == 3}";
         Condition condition = new JuelExpressionCondition(juelEspression);
-        Assert.assertFalse(condition.evaluate(token));
+        Assert.assertFalse(condition.evaluate(bPMNToken));
 
         juelEspression = "${3 > 4}";
         condition = new JuelExpressionCondition(juelEspression);
-        Assert.assertFalse(condition.evaluate(token));
+        Assert.assertFalse(condition.evaluate(bPMNToken));
 
         juelEspression = "${(2+2) >= 5}";
         condition = new JuelExpressionCondition(juelEspression);
-        Assert.assertFalse(condition.evaluate(token));
+        Assert.assertFalse(condition.evaluate(bPMNToken));
     }
 
     /**
@@ -141,14 +141,14 @@ public class JuelExpressionConditionTest {
 
         String juelEspression = "${2+2 == 4}";
         Condition condition = new JuelExpressionCondition(juelEspression);
-        Assert.assertTrue(condition.evaluate(token));
+        Assert.assertTrue(condition.evaluate(bPMNToken));
 
         juelEspression = "${3 < 4}";
         condition = new JuelExpressionCondition(juelEspression);
-        Assert.assertTrue(condition.evaluate(token));
+        Assert.assertTrue(condition.evaluate(bPMNToken));
 
         juelEspression = "${3 <= 3}";
         condition = new JuelExpressionCondition(juelEspression);
-        Assert.assertTrue(condition.evaluate(token));
+        Assert.assertTrue(condition.evaluate(bPMNToken));
     }
 }

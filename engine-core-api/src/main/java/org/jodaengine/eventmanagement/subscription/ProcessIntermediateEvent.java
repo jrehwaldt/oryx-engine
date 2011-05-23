@@ -1,6 +1,6 @@
 package org.jodaengine.eventmanagement.subscription;
 
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * The Interface IntermediateEvent. An intermediate event, in contrast to the startEvent will not trigger the
@@ -13,6 +13,6 @@ public interface ProcessIntermediateEvent extends ProcessEvent {
      * 
      * @return the definition id
      */
-    Token getToken();
+    BPMNToken getToken();
 
 }

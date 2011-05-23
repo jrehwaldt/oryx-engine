@@ -15,8 +15,8 @@ import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -36,7 +36,7 @@ public class AutomatedDummyActivityTest {
     /** A dummy string. */
     private String dummyString = "I'm dumb";
 
-    private Token token;
+    private BPMNToken bPMNToken;
     
     private Navigator nav;
 
@@ -58,7 +58,7 @@ public class AutomatedDummyActivityTest {
             new AutomatedDummyActivity(dummyString),
             new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        token = new TokenImpl(node, mock(AbstractProcessInstance.class), nav);
+        bPMNToken = new BPMNTokenImpl(node, mock(AbstractProcessInstance.class), nav);
     }
 
 //    /**
@@ -85,7 +85,7 @@ public class AutomatedDummyActivityTest {
     @Test
     public void testExecuteOutput() throws JodaEngineException {
 
-        token.executeStep();
+        bPMNToken.executeStep();
         assertTrue(out.toString().indexOf(dummyString) != -1, "It should print out the given string when executed");
     }
 
@@ -98,8 +98,8 @@ public class AutomatedDummyActivityTest {
     public void testStateAfterExecution() throws JodaEngineException {
 
         //a.execute(token);
-        token.executeStep();
-        assertEquals(token.getCurrentActivityState(), ActivityState.COMPLETED, "It should have the state Completed");
+        bPMNToken.executeStep();
+        assertEquals(bPMNToken.getCurrentActivityState(), ActivityState.COMPLETED, "It should have the state Completed");
     }
 
     /**

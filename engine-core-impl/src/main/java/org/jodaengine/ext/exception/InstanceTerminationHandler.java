@@ -2,7 +2,7 @@ package org.jodaengine.ext.exception;
 
 import org.jodaengine.ext.listener.AbstractExceptionHandler;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,11 +16,11 @@ public class InstanceTerminationHandler extends AbstractExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     @Override
-    protected void processExceptionLocally(Exception exception, Token token) {
+    protected void processExceptionLocally(Exception exception, BPMNToken bPMNToken) {
 
-        AbstractProcessInstance corruptInstance = token.getInstance();
+        AbstractProcessInstance corruptInstance = bPMNToken.getInstance();
         logger.error("Cancelling execution of process instance {}", corruptInstance.getID());
-        token.getNavigator().cancelProcessInstance(corruptInstance);
+        bPMNToken.getNavigator().cancelProcessInstance(corruptInstance);
 
     }
 

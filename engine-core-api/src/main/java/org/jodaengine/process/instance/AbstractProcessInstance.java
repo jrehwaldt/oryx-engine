@@ -8,18 +8,18 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.Identifiable;
 
 /**
  * The Interface ProcessInstance that represents what you actually call a process instance. It has several execution
  * threads, represented as tokens and a context that holds variables.
+ *
+ * @param <T> the generic type
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public abstract class AbstractProcessInstance implements Identifiable<UUID> {
+public abstract class AbstractProcessInstance<T extends Token<?>> implements Identifiable<UUID> {
 
     /**
      * Assigns the token to this instance.
@@ -27,15 +27,15 @@ public abstract class AbstractProcessInstance implements Identifiable<UUID> {
      * @param t
      *            the t
      */
-    public abstract void addToken(Token t);
+    public abstract void addToken(T t);
 
     /**
      * Removes a token from the instance, for example, if it has finished execution.
      * 
-     * @param t
+     * @param token
      *            the t
      */
-    public abstract void removeToken(Token t);
+    public abstract void removeToken(T token);
 
     /**
      * Gets the instance context that is shared among all tokens that belong to this instance.
@@ -51,7 +51,7 @@ public abstract class AbstractProcessInstance implements Identifiable<UUID> {
      * @return the tokens
      */
     @JsonManagedReference
-    public abstract List<Token> getAssignedTokens();
+    public abstract List<T> getAssignedTokens();
 
     /**
      * Gets the definition this instance was created for.
@@ -60,17 +60,6 @@ public abstract class AbstractProcessInstance implements Identifiable<UUID> {
      */
     @JsonProperty
     public abstract ProcessDefinition getDefinition();
-
-    /**
-     * Creates the token referencing the given navigator and places it on the supplied node.
-     * 
-     * @param node
-     *            the node
-     * @param nav
-     *            the nav
-     * @return the token
-     */
-    public abstract Token createToken(Node node, Navigator nav);
 
     /**
      * Checks if there tokens assigned to this instance. This indicates, that this instance is still running. If this

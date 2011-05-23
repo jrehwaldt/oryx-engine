@@ -3,7 +3,7 @@ package org.jodaengine.navigator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -12,18 +12,18 @@ import org.jodaengine.process.token.Token;
  */
 public class NavigatorImplMock extends NavigatorImpl {
 
-    private List<Token> workQueue;
+    private List<BPMNToken> workQueue;
 
     /**
      * Instantiates a new navigator impl mock.
      */
     public NavigatorImplMock() {
 
-        workQueue = new ArrayList<Token>();
+        workQueue = new ArrayList<BPMNToken>();
     }
 
     @Override
-    public void addWorkToken(Token t) {
+    public void addWorkToken(BPMNToken t) {
 
         workQueue.add(t);
 
@@ -43,7 +43,7 @@ public class NavigatorImplMock extends NavigatorImpl {
      *
      * @return the work queue
      */
-    public List<Token> getWorkQueue() {
+    public List<BPMNToken> getWorkQueue() {
 
         return workQueue;
     }
@@ -53,7 +53,7 @@ public class NavigatorImplMock extends NavigatorImpl {
     *
     * @param t the t
     */
-   public void consume(Token t) {
+   public void consume(BPMNToken t) {
        workQueue.remove(t);
    }
 }

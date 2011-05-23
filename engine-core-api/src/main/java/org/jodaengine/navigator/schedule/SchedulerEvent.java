@@ -1,6 +1,6 @@
 package org.jodaengine.navigator.schedule;
 
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 /**
  * An Event for the scheduler listener, may be extended.
@@ -13,7 +13,7 @@ public final class SchedulerEvent {
     private final int numberOfTokens;
 
     /** The token. */
-    private final Token token;
+    private final BPMNToken bPMNToken;
 
     /** The scheduler action. */
     private final SchedulerAction schedulerAction;
@@ -23,15 +23,15 @@ public final class SchedulerEvent {
      * 
      * @param schedulerAction
      *            the scheduler action
-     * @param token
+     * @param bPMNToken
      *            the process instance
      * @param numberOfTokens
      *            the number of instances
      */
-    public SchedulerEvent(SchedulerAction schedulerAction, Token token, int numberOfTokens) {
+    public SchedulerEvent(SchedulerAction schedulerAction, BPMNToken bPMNToken, int numberOfTokens) {
 
         this.schedulerAction = schedulerAction;
-        this.token = token;
+        this.bPMNToken = bPMNToken;
         this.numberOfTokens = numberOfTokens;
     }
 
@@ -53,9 +53,9 @@ public final class SchedulerEvent {
      * 
      * @return the process instance
      */
-    public Token getProcessToken() {
+    public BPMNToken getProcessToken() {
 
-        return token;
+        return bPMNToken;
     }
 
     /**

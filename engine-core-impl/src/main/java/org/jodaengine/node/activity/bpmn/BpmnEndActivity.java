@@ -3,7 +3,7 @@ package org.jodaengine.node.activity.bpmn;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.node.activity.AbstractActivity;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 
 /**
@@ -13,15 +13,15 @@ import org.jodaengine.process.token.Token;
 public class BpmnEndActivity extends AbstractActivity {
 
     @Override
-    protected void executeIntern(@Nonnull Token token) {
+    protected void executeIntern(@Nonnull BPMNToken bPMNToken) {
 
         // as this token has finished, it is removed from the instance, because it is not needed anymore.
-        token.getInstance().removeToken(token);
+        bPMNToken.getInstance().removeToken(bPMNToken);
 
-        if (!token.getInstance().hasAssignedTokens()) {
+        if (!bPMNToken.getInstance().hasAssignedTokens()) {
             // there are no tokens assigned to this instance any longer, so it has finished (as the parameter tokens was
             // the last one).
-            token.getNavigator().signalEndedProcessInstance(token.getInstance());
+            bPMNToken.getNavigator().signalEndedProcessInstance(bPMNToken.getInstance());
         }
         // logger.info("Completed Process", token.getID());
         // TODO Add persistence for process context variables, if we have a method for persistence.

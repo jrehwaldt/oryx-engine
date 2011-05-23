@@ -15,8 +15,8 @@ import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BPMNTokenImpl;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.IdentityBuilder;
@@ -36,7 +36,7 @@ import org.testng.annotations.Test;
  */
 public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 
-    private Token token = null;
+    private BPMNToken bPMNToken = null;
     private AbstractRole hamburgGuysRole = null;
     private AbstractRole mecklenRole = null;
     private AbstractParticipant jannik = null;
@@ -84,7 +84,7 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 
         humanTaskNode.transitionTo(endNode);
 
-        token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
+        bPMNToken = new BPMNTokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
     }
 
     /**
@@ -106,7 +106,7 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
     public void testHamburgGuysReceiveWorkItem()
     throws JodaEngineException {
 
-        token.executeStep();
+        bPMNToken.executeStep();
 
         List<AbstractWorklistItem> worklistItemsForHamburgGuys =
             ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
@@ -146,7 +146,7 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
     public void testJannikClaimsWorklistItem()
     throws JodaEngineException {
      
-        token.executeStep();
+        bPMNToken.executeStep();
         
         List<AbstractWorklistItem> worklistItemsForHamburgGuys =
             ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
@@ -177,7 +177,7 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
     public void testJannikBeginsWorklistItem()
     throws JodaEngineException {
 
-        token.executeStep();
+        bPMNToken.executeStep();
         
         List<AbstractWorklistItem> worklistItemsForHamburgGuys =
             ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
@@ -198,7 +198,7 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
     public void testJannikCompletesTheWorkItem()
     throws JodaEngineException {
 
-        token.executeStep();
+        bPMNToken.executeStep();
         
         List<AbstractWorklistItem> worklistItemsForHamburgGuys =
             ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
@@ -226,7 +226,7 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
     public void testResumptionOfProcess()
     throws JodaEngineException {
 
-        token.executeStep();
+        bPMNToken.executeStep();
         
         List<AbstractWorklistItem> worklistItemsForHamburgGuys =
             ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
@@ -238,7 +238,7 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
         ServiceFactory.getWorklistService().completeWorklistItemBy(worklistItemForHamburgGuy, jannik);
 
         String failureMessage = "Token should point to the endNode, but it points to "
-                                + token.getCurrentNode().getID() + ".";
-        assertEquals(endNode, token.getCurrentNode(), failureMessage);
+                                + bPMNToken.getCurrentNode().getID() + ".";
+        assertEquals(endNode, bPMNToken.getCurrentNode(), failureMessage);
     }
 }

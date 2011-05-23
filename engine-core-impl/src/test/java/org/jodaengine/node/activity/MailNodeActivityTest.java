@@ -6,7 +6,7 @@ import org.jodaengine.factory.node.MailNodeFactory;
 import org.jodaengine.factory.token.SimpleProcessTokenFactory;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.jvnet.mock_javamail.Mailbox;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -22,7 +22,7 @@ public class MailNodeActivityTest {
   private Node node = null;
   
   /** The p. */
-  private Token p = null;
+  private BPMNToken p = null;
   
   /**
    * Set up.

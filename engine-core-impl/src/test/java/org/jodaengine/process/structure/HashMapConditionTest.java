@@ -10,7 +10,7 @@ import java.util.HashMap;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.condition.HashMapCondition;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -25,7 +25,7 @@ public class HashMapConditionTest {
     private Condition condition = null;
     
     /** The instance. */
-    private Token token = null;
+    private BPMNToken bPMNToken = null;
     
     /** The context. */
     private ProcessInstanceContext context = null;
@@ -36,7 +36,7 @@ public class HashMapConditionTest {
    */
   @Test
   public void testFalseConditionOnVariable() {
-      assertFalse(condition.evaluate(token), "Condition was true but should be false.");
+      assertFalse(condition.evaluate(bPMNToken), "Condition was true but should be false.");
   }
   
   
@@ -46,7 +46,7 @@ public class HashMapConditionTest {
   @Test
   public void testTrueConditionOnVariable() {
       when(context.getVariable("a")).thenReturn(1);
-      assertTrue(condition.evaluate(token), "Condition was not true.");
+      assertTrue(condition.evaluate(bPMNToken), "Condition was not true.");
   }
   
   /**
@@ -55,7 +55,7 @@ public class HashMapConditionTest {
   @BeforeMethod
   public void beforeMethod() {
 
-      token = mock(Token.class);
+      bPMNToken = mock(BPMNToken.class);
       AbstractProcessInstance instance = mock(AbstractProcessInstance.class);
       
       HashMap<String, Object> map = new HashMap<String, Object>();
@@ -63,7 +63,7 @@ public class HashMapConditionTest {
       condition = new HashMapCondition(map, "==");
       context = mock(ProcessInstanceContext.class);
       
-      when(token.getInstance()).thenReturn(instance);
+      when(bPMNToken.getInstance()).thenReturn(instance);
       when(instance.getContext()).thenReturn(context);
   }
 
