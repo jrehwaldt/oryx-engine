@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
  */
 public class RuntimeExceptionHandlerTest {
     
-    private AbstractJodaRuntimeExceptionHandler handler1, handler2;
+    private AbstractExceptionHandler handler1, handler2;
     private Token testToken;
     private AbstractProcessInstance mockInstance;
     private Navigator mockNavigator;

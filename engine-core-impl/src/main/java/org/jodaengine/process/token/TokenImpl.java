@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.NoValidPathException;
-import org.jodaengine.exception.handler.AbstractJodaRuntimeExceptionHandler;
+import org.jodaengine.exception.handler.AbstractExceptionHandler;
 import org.jodaengine.exception.handler.InstanceTerminationHandler;
 import org.jodaengine.exception.handler.LoggerExceptionHandler;
 import org.jodaengine.ext.AbstractPluggable;
@@ -44,7 +44,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
     private List<AbstractTokenListener> plugins;
 
-    private AbstractJodaRuntimeExceptionHandler runtimeExceptionHandler;
+    private AbstractExceptionHandler exceptionHandler;
 
     /**
      * Instantiates a new token impl.
@@ -77,11 +77,13 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
         this.plugins = new ArrayList<AbstractTokenListener>();
-
+        
+        //
         // at this point, you can register as much runtime exception handlers as you wish, following the chain of
-        // responsiblity pattern. The handler is used for runtime errors that occur in process execution.
-        this.runtimeExceptionHandler = new LoggerExceptionHandler();
-        this.runtimeExceptionHandler.setNext(new InstanceTerminationHandler());
+        // responsibility pattern. The handler is used for runtime errors that occur in process execution.
+        //
+        this.exceptionHandler = new LoggerExceptionHandler();
+        this.exceptionHandler.setNext(new InstanceTerminationHandler());
     }
 
     /**
@@ -100,24 +102,12 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      */
     protected TokenImpl() { }
 
-    /**
-     * Gets the current node. So the position where the execution of the Processtoken is at.
-     * 
-     * @return the current node
-     * @see org.jodaengine.process.token.Token#getCurrentNode()
-     */
     @Override
     public Node getCurrentNode() {
 
         return currentNode;
     }
 
-    /**
-     * Sets the current node.
-     * 
-     * @param node
-     *            the new current node {@inheritDoc}
-     */
     @Override
     public void setCurrentNode(Node node) {
 
@@ -155,17 +145,10 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
             completeExecution();
         } catch (JodaEngineRuntimeException exception) {
-            runtimeExceptionHandler.processException(exception, this);
+            exceptionHandler.processException(exception, this);
         }
     }
 
-    /**
-     * Navigate to.
-     * 
-     * @param transitionList
-     *            the node list
-     * @return the list
-     */
     @Override
     public List<Token> navigateTo(List<Transition> transitionList) {
 
@@ -247,20 +230,20 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
     @Override
     public void suspend() {
-
+        
         changeActivityState(ActivityState.WAITING);
         navigator.addSuspendToken(this);
     }
 
     @Override
     public void resume() {
-
+        
         navigator.removeSuspendToken(this);
-
+        
         try {
             completeExecution();
-        } catch (NoValidPathException e) {
-            e.printStackTrace();
+        } catch (NoValidPathException nvpe) {
+            exceptionHandler.processException(nvpe, this);
         }
     }
 
