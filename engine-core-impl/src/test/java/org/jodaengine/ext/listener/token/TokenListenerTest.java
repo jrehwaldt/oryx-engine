@@ -7,11 +7,11 @@ import static org.mockito.Mockito.verify;
 
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
-import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.TokenImpl;
@@ -53,7 +53,7 @@ public class TokenListenerTest {
     throws JodaEngineException {
 
         AbstractTokenListener mock = mock(AbstractTokenListener.class);
-        this.token.registerPlugin(mock);
+        this.token.registerListener(mock);
         token.executeStep();
 
         verify(mock, times(2)).update(eq(this.token), this.eventCapturer.capture());

@@ -38,7 +38,7 @@ public final class SimpleHumanTaskProcess {
         
         // the main
         NavigatorImpl navigator = new NavigatorImpl();
-        navigator.registerPlugin(NavigatorListenerLogger.getInstance());
+        navigator.registerListener(NavigatorListenerLogger.getInstance());
         navigator.start(new JodaEngine());
         
         TokenImpl token = processTokenForReview();
