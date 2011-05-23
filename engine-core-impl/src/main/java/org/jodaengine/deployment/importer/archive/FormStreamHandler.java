@@ -1,7 +1,6 @@
 package org.jodaengine.deployment.importer.archive;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -16,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class FormStreamHandler extends AbstractDarHandler {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private static final String FORMS_SUBDIR = "forms/";    
+    private static final String FORMS_SUBDIR = "forms" + DELIMITER;    
 
     @Override
     public void processSingleDarFileEntry(ZipFile darFile, ZipEntry entry, DeploymentBuilder builder) {
