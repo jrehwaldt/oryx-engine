@@ -47,19 +47,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     private AbstractExceptionHandler exceptionHandler;
 
     /**
-     * Instantiates a new token impl.
-     * 
-     * @param startNode
-     *            the start node
-     * @param instance
-     *            the instance
-     */
-    public TokenImpl(Node startNode, AbstractProcessInstance instance) {
-
-        this(startNode, instance, null);
-    }
-
-    /**
      * Instantiates a new process token impl.
      * 
      * @param startNode
@@ -84,17 +71,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         //
         this.exceptionHandler = new LoggerExceptionHandler();
         this.exceptionHandler.setNext(new InstanceTerminationHandler());
-    }
-
-    /**
-     * Instantiates a new token impl.
-     * 
-     * @param startNode
-     *            the start node
-     */
-    public TokenImpl(Node startNode) {
-
-        this(startNode, new ProcessInstanceImpl(null), null);
     }
     
     /**

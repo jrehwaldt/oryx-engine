@@ -9,6 +9,7 @@ import java.util.List;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
+import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.structure.Transition;
@@ -100,6 +101,6 @@ public class ProcessTokenImplTest {
         
         node.transitionTo(node3);
         
-        return new TokenImpl(node);
+        return new TokenImpl(node, new ProcessInstanceImpl(null), null);
     }
 }
