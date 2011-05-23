@@ -2,12 +2,12 @@ package org.jodaengine.process.instantiation;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.registration.StartEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 
 /**
@@ -17,13 +17,13 @@ public class InstantiationPatternContextImpl extends ServiceContextImpl implemen
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private StartEvent startEvent;
+    private ProcessStartEvent startEvent;
     private ProcessDefinitionInside processDefinition;
 
     /**
      * Default constructor.
      * 
-     * In order to have a context without an {@link StartEvent}
+     * In order to have a context without an {@link ProcessStartEvent}
      * 
      * @param processDefinition
      *            - the {@link ProcessDefinitionInside processDefinition} that is assigned to this patternContext
@@ -35,21 +35,21 @@ public class InstantiationPatternContextImpl extends ServiceContextImpl implemen
     }
 
     /**
-     * An extended Constructor in case a {@link StartEvent} was thrown.
+     * An extended Constructor in case a {@link ProcessStartEvent} was thrown.
      * 
      * @param processDefinition
      *            - the {@link ProcessDefinitionInside processDefinition} that is assigned to this patternContext
      * @param startEvent
-     *            - the thrown {@link StartEvent}
+     *            - the thrown {@link ProcessStartEvent}
      */
-    public InstantiationPatternContextImpl(ProcessDefinitionInside processDefinition, StartEvent startEvent) {
+    public InstantiationPatternContextImpl(ProcessDefinitionInside processDefinition, ProcessStartEvent startEvent) {
 
         this(processDefinition);
         this.startEvent = startEvent;
     }
 
     @Override
-    public StartEvent getThrownStartEvent() {
+    public ProcessStartEvent getThrownStartEvent() {
 
         return this.startEvent;
     }

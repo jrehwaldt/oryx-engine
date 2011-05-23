@@ -1,14 +1,11 @@
 package org.jodaengine.rest.demo;
 
 import java.io.File;
-import java.util.UUID;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
-import org.jodaengine.allocation.Form;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.deployment.importer.definition.RawProcessDefintionImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
@@ -19,14 +16,12 @@ import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
-import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.IdentityBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
-import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
 
 /**

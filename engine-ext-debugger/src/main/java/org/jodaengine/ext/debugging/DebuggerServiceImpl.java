@@ -4,6 +4,7 @@ import org.jodaengine.JodaEngineServices;
 import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.rest.DebuggerWebService;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
@@ -19,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * @author Jan Rehwaldt
  * @since 2011-05-19
  */
-@Extension(DebuggerService.EXTENSION_SERVICE_NAME)
+@Extension(value = DebuggerService.DEBUGGER_SERVICE_NAME, webServices = DebuggerWebService.class)
 public class DebuggerServiceImpl implements DebuggerService, BreakpointService {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());

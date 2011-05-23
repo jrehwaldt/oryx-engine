@@ -18,7 +18,6 @@ import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 

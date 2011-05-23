@@ -2,6 +2,7 @@ package org.jodaengine.ext.service;
 
 import java.util.List;
 
+import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
@@ -114,7 +115,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
                 
                 Assert.assertNotNull(testingService, "This will also fails another test and is just a backup assert.");
                 
-                Assert.assertEquals(testingService, testingListener.testing);
+                Assert.assertNotNull(testingListener.testing);
             }
         }
         
@@ -208,5 +209,41 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         List<Class<BpmnXmlParseListener>> listenerClasses
             = this.extensionService.getExtensionTypes(BpmnXmlParseListener.class);
         Assert.assertTrue(listenerClasses.size() > 0);
+    }
+    
+    /**
+     * Tests the proper creation of specified web services.
+     * 
+     * @throws ExtensionNotAvailableException test fails
+     */
+    @Test
+    public void testCreationOfWebServiceSingletons()
+    throws ExtensionNotAvailableException {
+        
+        TestingWebExtensionService testing = this.extensionService.getExtensionService(
+            TestingWebExtensionService.class,
+            TestingWebExtensionService.DEMO_EXTENSION_SERVICE_NAME);
+        
+        Assert.assertNotNull(testing);
+        
+        List<Service> webServices = this.extensionService.getExtensionWebServiceSingletons();
+        
+        Assert.assertNotNull(webServices);
+        Assert.assertFalse(webServices.isEmpty());
+        
+        boolean containsWebService = false;
+        for (Service webService: webServices) {
+            Assert.assertNotNull(webService);
+            
+            if (webService instanceof TestingWebService) {
+                containsWebService = true;
+                TestingWebService testingWebService = (TestingWebService) webService;
+                
+                Assert.assertEquals(testing, testingWebService.getTesting());
+                Assert.assertEquals(this.jodaEngineServices, testingWebService.getServices());
+            }
+        }
+        
+        Assert.assertTrue(containsWebService);
     }
 }

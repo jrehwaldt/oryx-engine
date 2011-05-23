@@ -1,7 +1,6 @@
 package org.jodaengine.rest.api;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,14 +8,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
-import org.jodaengine.mock.utils.MockUtils;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessArtifact;
@@ -26,11 +23,11 @@ import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.io.StringStreamSource;
+import org.jodaengine.util.mock.MockUtils;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.Assert;

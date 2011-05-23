@@ -15,6 +15,7 @@ public class DeploymentImpl implements Deployment {
     
     private Set<ProcessDefinition> definitions;
     private Map<String, AbstractProcessArtifact> artifacts;
+    private Map<String, byte[]> customClasses;
     
     /**
      * Instantiates a new deployment impl.
@@ -22,6 +23,7 @@ public class DeploymentImpl implements Deployment {
     public DeploymentImpl() {
         definitions = new HashSet<ProcessDefinition>();
         artifacts = new HashMap<String, AbstractProcessArtifact>();
+        customClasses = new HashMap<String, byte[]>();
     }
 
     @Override
@@ -48,6 +50,19 @@ public class DeploymentImpl implements Deployment {
     public Map<String, AbstractProcessArtifact> getArtifacts() {
 
         return artifacts;
+    }
+
+    @Override
+    public void addClass(String className, byte[] classData) {
+
+        customClasses.put(className, classData);
+        
+    }
+
+    @Override
+    public Map<String, byte[]> getClasses() {
+
+        return customClasses;
     }
 
     

@@ -109,4 +109,12 @@ public class DeploymentBuilderImpl implements DeploymentBuilder {
         return this;
     }
 
+
+    @Override
+    public void addClass(String className, byte[] classData) {
+
+        currentDeployment.addClass(className, classData);
+        
+    }
+
 }

@@ -14,7 +14,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.codehaus.jackson.map.ObjectMapper;
-
 import org.jodaengine.resource.worklist.AbstractWorklist;
 import org.jodaengine.resource.worklist.EmptyWorklist;
 import org.jodaengine.util.Identifiable;

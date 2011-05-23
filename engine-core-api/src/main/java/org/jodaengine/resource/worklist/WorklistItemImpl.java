@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonProperty;
-
 import org.jodaengine.allocation.Form;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.token.Token;

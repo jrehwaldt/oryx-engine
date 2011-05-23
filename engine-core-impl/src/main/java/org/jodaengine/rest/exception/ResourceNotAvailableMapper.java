@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * This provider maps the {@link ResourceNotAvailableException} to a HTTP status code.
+ * This {@link Provider} maps the {@link ResourceNotAvailableException} to a HTTP status code.
  * 
  * @author Jan Rehwaldt
  */

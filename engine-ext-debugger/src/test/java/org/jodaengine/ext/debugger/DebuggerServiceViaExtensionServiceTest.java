@@ -5,11 +5,14 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import org.jodaengine.JodaEngineServices;
+import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
-import org.jodaengine.ext.debugging.listener.DebuggerDeploymentImportListener;
+import org.jodaengine.ext.debugging.listener.DebuggerBpmnXmlParseListener;
+import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
+import org.jodaengine.ext.debugging.rest.DebuggerWebService;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
@@ -19,7 +22,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * This class tests the {@link ExtensionServiceImpl}.
+ * This class tests the proper creation of any services and instances,
+ * which are available for the {@link DebuggerService}.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-19
@@ -42,11 +46,10 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      */
     @Test
     public void testRequiredComponentsAreAvailable() {
-        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerDeploymentImportListener.class));
+        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerBpmnXmlParseListener.class));
         Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerService.class));
         Assert.assertNotNull(this.extensionService.isExtensionAvailable(BreakpointService.class));
-        
-        // TODO extend
+        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerTokenListener.class));
     }
     
     /**
@@ -54,13 +57,18 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      * 
      * This also tests that required fields are successfully set.
      * 
-     * We use massive reflection here to avoid inheritance (which will possibly confuse the
-     * {@link ExtensionService}). If one of the reflection exceptions is thrown this will most
-     * likely be an issue with the local configuration of the {@link SecurityManager}
-     * or the {@link DebuggerServiceImpl} was refactored (but this is unlikely, the test is rather
-     * independent of a concrete implementation).
-     * 
-     * Keep it synced!
+     * We use massive reflection here to avoid inheritance.
+     * If one of the reflection exceptions is thrown this will most likely be
+     * <ul>
+     * <li>
+     *   a) an issue with the local configuration of the {@link SecurityManager}
+     * </li>
+     * <li>
+     * or
+     *   b) the {@link DebuggerServiceImpl} was refactored (but this is unlikely, the
+     *      test is rather <b>independent</b> of a concrete {@link DebuggerService} implementation).
+     * </li>
+     * </ul>
      * 
      * @throws ExtensionNotAvailableException test fails
      * @throws IllegalAccessException test fails
@@ -71,7 +79,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         
         DebuggerService service = this.extensionService.getExtensionService(
             DebuggerService.class,
-            DebuggerService.EXTENSION_SERVICE_NAME);
+            DebuggerService.DEBUGGER_SERVICE_NAME);
         
         Assert.assertNotNull(service);
         Assert.assertTrue(service.isRunning());
@@ -115,7 +123,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
     }
     
     /**
-     * Tests that the listener for the {@link DebuggerDeploymentImportListener} is successfully provided.
+     * Tests that the listener for the {@link DebuggerBpmnXmlParseListener} is successfully provided.
      */
     @Test
     public void testRequiredDeploymentListenerIsProvided() {
@@ -125,12 +133,88 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         
         boolean listenerAvailable = false;
         for (BpmnXmlParseListener listener: listeners) {
-            if (listener instanceof DebuggerDeploymentImportListener) {
+            if (listener instanceof DebuggerBpmnXmlParseListener) {
                 listenerAvailable = true;
             }
         }
         
         Assert.assertTrue(listenerAvailable);
     }
+
     
+    /**
+     * Tests the proper creation of specified web services.
+     * 
+     * This also tests that required fields are successfully set.
+     * 
+     * We use massive reflection here to avoid inheritance.
+     * If one of the reflection exceptions is thrown this will most likely be
+     * <ul>
+     * <li>
+     *   a) an issue with the local configuration of the {@link SecurityManager}
+     * </li>
+     * <li>
+     * or
+     *   b) the {@link DebuggerServiceImpl} was refactored (but this is unlikely, the
+     *      test is rather <b>independent</b> of a concrete {@link DebuggerService} implementation).
+     * </li>
+     * </ul>
+     * 
+     * @throws ExtensionNotAvailableException test fails
+     * @throws IllegalAccessException test fails
+     */
+    @Test
+    public void testCreationOfWebServiceSingletons()
+    throws ExtensionNotAvailableException, IllegalAccessException {
+        
+        DebuggerService debugger = this.extensionService.getExtensionService(
+            DebuggerService.class,
+            DebuggerService.DEBUGGER_SERVICE_NAME);
+        
+        Assert.assertNotNull(debugger);
+        
+        List<Service> webServices = this.extensionService.getExtensionWebServiceSingletons();
+        
+        Assert.assertNotNull(webServices);
+        Assert.assertFalse(webServices.isEmpty());
+        
+        boolean containsWebService = false;
+        for (Service webService: webServices) {
+            Assert.assertNotNull(webService);
+            
+            if (webService instanceof DebuggerWebService) {
+                containsWebService = true;
+                DebuggerWebService debuggerWebService = (DebuggerWebService) webService;
+                
+                Assert.assertEquals(debugger.isRunning(), webService.isRunning());
+                
+                for (Field field: debuggerWebService.getClass().getDeclaredFields()) {
+                    Type fieldType = field.getGenericType();
+                    
+                    //
+                    // make field accessible
+                    //
+                    if (!field.isAccessible()) {
+                        field.setAccessible(true);
+                    }
+                    
+                    if (fieldType instanceof Class) {
+                        Class<?> fieldClass = (Class<?>) fieldType;
+                        
+                        //
+                        // check that the navigator is set successfully (find the field first, if available)
+                        //
+                        if (DebuggerService.class.isAssignableFrom(fieldClass)) {
+                            Object debuggerService = field.get(debuggerWebService);
+                            
+                            Assert.assertNotNull(debuggerService);
+                            Assert.assertEquals(debugger, debuggerService);
+                        }
+                    }
+                }
+            }
+        }
+        
+        Assert.assertTrue(containsWebService);
+    }
 }

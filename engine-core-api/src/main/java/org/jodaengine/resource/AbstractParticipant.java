@@ -7,7 +7,6 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 
 /**

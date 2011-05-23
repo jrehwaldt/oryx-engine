@@ -1,5 +1,6 @@
 package org.jodaengine.util.testing;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,6 +22,7 @@ import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.mock.MockDispatcherFactory;
 import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
+import org.jodaengine.bootstrap.JodaEngine;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
@@ -42,8 +44,6 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
 
     public static final String TMP_PATH = "./target/";
 
-    public static final String BASE_PACKAGE = "org.jodaengine";
-
     protected Dispatcher dispatcher = null;
     protected ObjectMapper mapper = null;
 
@@ -63,7 +63,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         scanner.addIncludeFilter(new AnnotationTypeFilter(javax.ws.rs.ext.Provider.class));
         scanner.addIncludeFilter(new AssignableTypeFilter(ExceptionMapper.class));
 
-        for (BeanDefinition bd : scanner.findCandidateComponents(BASE_PACKAGE)) {
+        for (BeanDefinition bd : scanner.findCandidateComponents(JodaEngine.BASE_PACKAGE)) {
             try {
                 EXCEPTION_PROVIDERS.add((Class<ExceptionMapper<?>>) Class.forName(bd.getBeanClassName()));
             } catch (ClassNotFoundException e) {
@@ -229,7 +229,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
 
         return invokeSimpleRequest(request);
     }
-
+    
     /**
      * Make patch request.
      * 

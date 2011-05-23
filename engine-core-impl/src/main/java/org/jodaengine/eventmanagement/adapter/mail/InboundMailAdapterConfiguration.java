@@ -5,15 +5,13 @@ import java.util.Properties;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.AdapterRegistrar;
-import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
-import org.jodaengine.eventmanagement.adapter.PullAdapterConfiguration;
-import org.jodaengine.eventmanagement.timing.PullAdapterJob;
-import org.jodaengine.exception.AdapterSchedulingException;
+import org.jodaengine.eventmanagement.timing.QuartzPullAdapterConfiguration;
+import org.jodaengine.eventmanagement.timing.job.PullAdapterJob;
 import org.quartz.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * The mail adapter configuration.
  */
 public final class InboundMailAdapterConfiguration extends AbstractAdapterConfiguration implements
-PullAdapterConfiguration {
+QuartzPullAdapterConfiguration {
 
     private final String userName;
     private final String password;
@@ -195,7 +193,7 @@ PullAdapterConfiguration {
     public static InboundMailAdapterConfiguration jodaGoogleConfiguration() {
 
         // TODO @All: WTF delete this (in July). Other options would be a local file.. but well. no.
-// CHECKSTYLE:OFF
+// CHECKSTYLE:OFF 
         return new InboundMailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
             "imap.googlemail.com", MailProtocol.IMAP.getPort(true), true);
 // CHECKSTYLE:ON
@@ -210,24 +208,70 @@ PullAdapterConfiguration {
     /**
      * create the Adapter which is defined by this Adapter configuration.
      * 
-     * @param correlationManager
-     *            - the {@link CorrelationManager}
      * @return the InboundMailAdapter
      */
-    private InboundImapMailAdapterImpl createAdapter(CorrelationManager correlationManager) {
+    private InboundImapMailAdapter createAdapter() {
 
-        InboundImapMailAdapterImpl adapter = new InboundImapMailAdapterImpl(correlationManager, this);
+        InboundImapMailAdapter adapter = new InboundImapMailAdapter(this);
         logger.debug("Registered mail adapter {}", adapter);
         return adapter;
     }
 
     @Override
-    public CorrelationAdapter registerAdapter(AdapterRegistrar adapterRegistrar, CorrelationManager correlationService)
-    throws AdapterSchedulingException {
+    public CorrelationAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
-        InboundPullAdapter adapter = createAdapter(correlationService);
-        adapterRegistrar.registerPullAdapter(adapter);
+        InboundPullAdapter adapter = createAdapter();
+        adapterRegistrar.registerInboundPullAdapter(adapter);
 
         return adapter;
+    }
+
+    @Override
+    public boolean pullingOnce() {
+
+        return false;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int useSSLModifier = 0;
+        if (useSSL) {
+            useSSLModifier = 1;
+        }
+        return (this.getClass().hashCode()
+                + userName.hashCode() 
+                + password.hashCode() 
+                + address.hashCode() 
+                + protocol.hashCode() 
+                + port 
+                + useSSLModifier);
+    }
+    
+    /**
+     * Checks for the equality of the given argument based on Class and instance variables.
+     *
+     * @param o the Object this is compared to
+     * @return true, if the objects are equal
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o.getClass() == this.getClass()) {
+            InboundMailAdapterConfiguration otherConfiguration = (InboundMailAdapterConfiguration) o;
+            if (this.userName.equals(otherConfiguration.getUserName()) 
+                && this.password.equals(otherConfiguration.getPassword())
+                && this.address.equals(otherConfiguration.getAddress())
+                && this.protocol == otherConfiguration.getProtocol()
+                && this.port == otherConfiguration.getPort()
+                && this.useSSL == otherConfiguration.isUseSSL()) {
+                return true;
+             } 
+        }
+        return false;
     }
 }

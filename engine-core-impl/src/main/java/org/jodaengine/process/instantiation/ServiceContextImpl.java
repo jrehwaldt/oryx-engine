@@ -6,7 +6,7 @@ import java.util.Map;
 import org.jodaengine.IdentityService;
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.eventmanagement.CorrelationManager;
+import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.util.ServiceContext;
 
@@ -30,7 +30,7 @@ public class ServiceContextImpl implements ServiceContext {
     }
 
     @Override
-    public CorrelationManager getCorrelationService() {
+    public EventSubscriptionManager getCorrelationService() {
 
         return ServiceFactory.getCorrelationService();
     }

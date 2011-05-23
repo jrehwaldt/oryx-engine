@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 
 /**
  * The deployment is a container used to be able to deploy a process definition together with forms, custom data types
@@ -42,5 +43,22 @@ public interface Deployment {
      * @return the artifacts
      */
     Map<String, AbstractProcessArtifact> getArtifacts();
+
+    /**
+     * Adds a class to this deployment. It can be used in the context of every contained {@link ProcessDefinition}.
+     * 
+     * @param className
+     *            the class name
+     * @param classData
+     *            the class data
+     */
+    void addClass(String className, byte[] classData);
+
+    /**
+     * Returns a Map of all classes, that were added to this deployment.
+     * 
+     * @return the classes
+     */
+    Map<String, byte[]> getClasses();
 
 }

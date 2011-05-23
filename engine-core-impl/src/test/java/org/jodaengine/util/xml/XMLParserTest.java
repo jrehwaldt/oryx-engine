@@ -5,11 +5,10 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import org.jodaengine.util.ReflectionUtil;
 import org.jodaengine.util.io.IoUtil;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 
 /**
@@ -58,6 +57,20 @@ public class XMLParserTest {
         Assert.assertEquals(elements.get(0).getElements().get(0).getText(), "text 1", getFaliureMessage());
 
         XmlElement secondChild = elements.get(1);
-        Assert.assertEquals(secondChild.getAttributeNS("ls", "as"), "123", getFaliureMessage());
+        Assert.assertEquals(secondChild.getAttributeNS("ls-ns", "as"), "123", getFaliureMessage());
+    }
+
+    @Test
+    public void testProcessingXM1L() {
+        
+        XmlParser parser = new XmlParser();
+        
+        XmlParseBuilder parseBuilder = parser.getXmlParseBuilder();
+        parseBuilder.defineSourceAsResource(XML_TEST_RESOURCE);
+        XmlParse xmlParse = (XmlParse) parseBuilder.buildXmlParse();
+        xmlParse.execute();
+        
+        String str =xmlParse.getRootElement().getElements().get(0).getAttributeNS("http://www.signavio.com", "form");
+        System.out.println(str);
     }
 }

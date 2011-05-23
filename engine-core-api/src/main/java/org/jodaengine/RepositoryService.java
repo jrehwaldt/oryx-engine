@@ -8,11 +8,13 @@ import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.DeploymentScope;
+import org.jodaengine.deployment.importer.archive.DarImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.instance.AbstractProcessInstance;
 
 /**
  * The RepositoryService offers method to manage the processes that have been deployed to the navigator.
@@ -136,9 +138,11 @@ public interface RepositoryService extends Service {
 
     /**
      * Deletes the given {@link AbstractProcessArtifact ProcessResource} from the definitions scope.
-     *
-     * @param processArtifactID the process artifact id
-     * @param definitionID the definition id
+     * 
+     * @param processArtifactID
+     *            the process artifact id
+     * @param definitionID
+     *            the definition id
      */
     void deleteProcessResource(@Nonnull String processArtifactID, @Nonnull ProcessDefinitionID definitionID);
 
@@ -161,4 +165,25 @@ public interface RepositoryService extends Service {
      * @return the scope for the definition
      */
     DeploymentScope getScopeForDefinition(ProcessDefinitionID definitionID);
+
+    /**
+     * Creates a new {@link DarImporter} that uses this service to deploy .dar-Files.
+     * 
+     * @return the new dar importer
+     */
+    DarImporter getNewDarImporter();
+
+    /**
+     * Gets a deployed class from the definitions scope.
+     * 
+     * @param definitionID
+     *            the definition id
+     * @param fullClassName
+     *            has to be the fully qualified classname (with package name)
+     * @return the deployed class
+     * @throws ClassNotFoundException
+     *             thrown if the class does not exist in the definitions scope
+     */
+    Class<?> getDeployedClass(ProcessDefinitionID definitionID, String fullClassName)
+    throws ClassNotFoundException;
 }

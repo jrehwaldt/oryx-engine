@@ -11,7 +11,7 @@ import javax.mail.Part;
 import javax.mail.internet.InternetAddress;
 
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterEvent;
-import org.jodaengine.eventmanagement.adapter.AdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +55,7 @@ public class MailAdapterEvent extends AbstractAdapterEvent {
      * @throws IOException
      *             thrown if getting context fails
      */
+    // TODO @EVENTMANAGERTEAM: eventually add a to and clean this bloody mess.
     public void parseContent()
     throws IOException, MessagingException {
 

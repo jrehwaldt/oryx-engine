@@ -16,13 +16,15 @@ import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
+import org.quartz.SimpleScheduleBuilder;
 import org.quartz.SimpleTrigger;
-import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -180,12 +182,19 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         int i = 0;
         for (AbstractParticipant participant : participants) {
 
-            JobDetail jobDetail = new JobDetail(participant.getName(), JOBGROUP, PseudoHumanJob.class);
+            // === JobDetail ===
+            JobDetail jobDetail = JobBuilder.newJob(PseudoHumanJob.class).withIdentity(participant.getName(), JOBGROUP)
+            .build();
             JobDataMap data = jobDetail.getJobDataMap();
             data.put(PARTICIPANT_KEY, participant);
 
-            Trigger trigger = new SimpleTrigger(participant.getID().toString(), -1, WAITING_TIME[i++]);
+            // === SimpleTrigger ===
+            SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().repeatForever()
+            .withIntervalInMilliseconds(WAITING_TIME[i++]);
 
+            SimpleTrigger trigger = TriggerBuilder.newTrigger().withIdentity(participant.getID().toString()).startNow()
+            .withSchedule(scheduleBuilder).build();
+            
             try {
                 this.scheduler.scheduleJob(jobDetail, trigger);
             } catch (SchedulerException se) {

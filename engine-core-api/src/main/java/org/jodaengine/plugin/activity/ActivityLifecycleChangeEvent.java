@@ -2,8 +2,8 @@ package org.jodaengine.plugin.activity;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -11,28 +11,17 @@ import org.jodaengine.process.token.Token;
  */
 public final class ActivityLifecycleChangeEvent {
 
-    /** The activity. */
-    private final @Nonnull
-    Activity activity;
+    private final @Nonnull Node currentNode;
+    private final @Nonnull Token token;
 
-    /** The prev state. */
-    private final @Nonnull
-    ActivityState prevState;
+    private final @Nonnull ActivityState prevState;
+    private final @Nonnull ActivityState newState;
 
-    /** The new state. */
-    private final @Nonnull
-    ActivityState newState;
-
-    /** The instance. */
-    private final @Nonnull
-    Token token;
-
-    // TODO add the node that this activity was executed on to the event?
     /**
      * Default constructor. All fields are non-null.
      * 
-     * @param activity
-     *            the fired activity
+     * @param currentNode
+     *            the fired node
      * @param prevState
      *            the previous state
      * @param newState
@@ -40,26 +29,24 @@ public final class ActivityLifecycleChangeEvent {
      * @param token
      *            the process token
      */
-    public ActivityLifecycleChangeEvent(@Nonnull Activity activity,
+    public ActivityLifecycleChangeEvent(@Nonnull Node currentNode,
                                         @Nonnull ActivityState prevState,
                                         @Nonnull ActivityState newState,
                                         @Nonnull Token token) {
-
-        this.activity = activity;
+        
+        this.currentNode = currentNode;
         this.prevState = prevState;
         this.newState = newState;
         this.token = token;
     }
 
     /**
-     * Returns the fired activity.
+     * Returns the fired node.
      * 
-     * @return the activity, which fired
+     * @return the node, which fired
      */
-    public @Nonnull
-    Activity getActivity() {
-
-        return activity;
+    public @Nonnull Node getNode() {
+        return this.currentNode;
     }
 
     /**
@@ -67,10 +54,8 @@ public final class ActivityLifecycleChangeEvent {
      * 
      * @return the previous state
      */
-    public @Nonnull
-    ActivityState getPreviousState() {
-
-        return prevState;
+    public @Nonnull ActivityState getPreviousState() {
+        return this.prevState;
     }
 
     /**
@@ -78,10 +63,8 @@ public final class ActivityLifecycleChangeEvent {
      * 
      * @return the new state
      */
-    public @Nonnull
-    ActivityState getNewState() {
-
-        return newState;
+    public @Nonnull ActivityState getNewState() {
+        return this.newState;
     }
 
     /**
@@ -89,10 +72,8 @@ public final class ActivityLifecycleChangeEvent {
      * 
      * @return the process instance
      */
-    public @Nonnull
-    Token getProcessToken() {
-
-        return token;
+    public @Nonnull Token getProcessToken() {
+        return this.token;
     }
 
     /**
@@ -101,9 +82,7 @@ public final class ActivityLifecycleChangeEvent {
      * @return the string {@inheritDoc}
      */
     @Override
-    public @Nonnull
-    String toString() {
-
-        return String.format("%s changed from %s to %s", this.activity, this.prevState, this.newState);
+    public @Nonnull String toString() {
+        return String.format("%s changed from %s to %s", this.currentNode, this.prevState, this.newState);
     }
 }

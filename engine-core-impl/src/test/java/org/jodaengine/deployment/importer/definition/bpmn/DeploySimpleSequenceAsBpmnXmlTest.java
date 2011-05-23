@@ -2,14 +2,13 @@ package org.jodaengine.deployment.importer.definition.bpmn;
 
 import java.util.List;
 
-import org.testng.Assert;
-
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
 import org.jodaengine.node.activity.bpmn.BpmnStartEvent;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
+import org.testng.Assert;
 
 
 /**

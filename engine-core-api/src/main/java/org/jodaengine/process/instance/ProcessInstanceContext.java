@@ -6,7 +6,6 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 
