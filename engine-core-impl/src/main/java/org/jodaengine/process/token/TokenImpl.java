@@ -41,6 +41,8 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     
     private AbstractExceptionHandler exceptionHandler;
     
+    private List<AbstractTokenListener> listeners;
+    
     /**
      * Instantiates a new process {@link TokenImpl}.
      * 
@@ -58,6 +60,8 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         this.navigator = navigator;
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
+        
+        this.listeners = new ArrayList<AbstractTokenListener>();
         
         //
         // at this point, you can register as much runtime exception handlers as you wish, following the chain of
@@ -164,6 +168,9 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
     @Override
     public Token createNewToken(Node node) {
+        
+        Token token = instance.createToken(node, navigator);
+        ((TokenImpl) token).registerListeners(this.listeners);
         
         return instance.createToken(node, navigator);
     }
@@ -278,12 +285,14 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
     @Override
     public void registerListener(@Nonnull AbstractTokenListener listener) {
+        this.listeners.add(listener);
         super.registerListener(listener);
         
     }
 
     @Override
     public void deregisterListener(@Nonnull AbstractTokenListener listener) {
+        this.listeners.remove(listener);
         super.deregisterListener(listener);
     }
 
@@ -308,6 +317,10 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * @param handlers the handlers to call
      */
     public void registerExceptionHandlers(@Nonnull List<AbstractExceptionHandler> handlers) {
+        
+        if (handlers == null) {
+            return;
+        }
         
         //
         // add each handler at the beginning
