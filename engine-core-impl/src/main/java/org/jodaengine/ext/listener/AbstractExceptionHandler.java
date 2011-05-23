@@ -1,4 +1,4 @@
-package org.jodaengine.exception.handler;
+package org.jodaengine.ext.listener;
 
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.JodaEngineRuntimeException;

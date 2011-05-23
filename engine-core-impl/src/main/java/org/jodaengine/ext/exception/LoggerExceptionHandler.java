@@ -1,5 +1,6 @@
-package org.jodaengine.exception.handler;
+package org.jodaengine.ext.exception;
 
+import org.jodaengine.ext.listener.AbstractExceptionHandler;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
