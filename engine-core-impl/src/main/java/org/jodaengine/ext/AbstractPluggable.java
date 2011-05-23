@@ -23,6 +23,7 @@ implements Listenable<IListener> {
     
     @Override
     public void registerListeners(List<IListener> listeners) {
+        
         for (IListener listener: listeners) {
             registerListener(listener);
         }

@@ -128,17 +128,18 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
         List<Token> tokensToNavigate = new ArrayList<Token>();
         
-        //
-        // zero outgoing transitions
-        //
-        if (transitionList.size() == 0) {
-            
-            this.exceptionHandler.processException(new NoValidPathException(), this);
-            
-        //
-        // one outgoing transition
-        //
-        } else if (transitionList.size() == 1) {
+//        //
+//        // zero outgoing transitions
+//        //
+//        if (transitionList.size() == 0) {
+//            
+//            this.exceptionHandler.processException(new NoValidPathException(), this);
+//            
+//        //
+//        // one outgoing transition
+//        //
+//        } else
+        if (transitionList.size() == 1) {
             
             Transition transition = transitionList.get(0);
             Node node = transition.getDestination();
@@ -172,7 +173,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         Token token = instance.createToken(node, navigator);
         ((TokenImpl) token).registerListeners(this.listeners);
         
-        return instance.createToken(node, navigator);
+        return token;
     }
 
     @Override
