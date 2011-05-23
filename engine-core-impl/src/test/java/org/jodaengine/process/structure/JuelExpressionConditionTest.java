@@ -10,7 +10,6 @@ import javax.el.ValueExpression;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.process.structure.condition.JuelExpressionCondition;
 import org.jodaengine.process.structure.condition.ProcessELContext;
 import org.jodaengine.process.token.Token;
