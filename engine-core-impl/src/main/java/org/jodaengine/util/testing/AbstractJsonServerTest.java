@@ -1,6 +1,5 @@
 package org.jodaengine.util.testing;
 
-import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -50,8 +49,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     //
     // add all exception mapper to the mock dispatcher
     //
-    private static final List<Class<? extends ExceptionMapper<?>>> EXCEPTION_PROVIDERS
-        = new ArrayList<Class<? extends ExceptionMapper<?>>>();
+    private static final List<Class<? extends ExceptionMapper<?>>> EXCEPTION_PROVIDERS = new ArrayList<Class<? extends ExceptionMapper<?>>>();
 
     static {
         //
@@ -96,7 +94,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
         this.mapper.configure(DeserializationConfig.Feature.AUTO_DETECT_FIELDS, true);
         this.mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, true);
         // we do this with explicit annotating the type
-//        this.mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        // this.mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
 
         //
         // configure the server mock
@@ -229,7 +227,7 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
 
         return invokeSimpleRequest(request);
     }
-    
+
     /**
      * Make patch request.
      * 

@@ -91,6 +91,11 @@
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jackson-provider</artifactId>
 			<scope>compile</scope>
+		</dependency>		
+		<dependency>
+  			<groupId>org.jboss.resteasy</groupId>
+  			<artifactId>resteasy-multipart-provider</artifactId>
+  			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -117,7 +122,6 @@
 		<dependency>
 			<groupId>net.htmlparser.jericho</groupId>
 			<artifactId>jericho-html</artifactId>
-			<version>3.1</version>
 		</dependency>
 	</dependencies>
 </project>
