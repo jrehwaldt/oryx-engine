@@ -6,7 +6,6 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * Abstract super adapter defining helper functions and a general structure.
  * 
@@ -14,12 +13,13 @@ import org.slf4j.LoggerFactory;
  * @param <Configuration>
  *            the adapter's configuration
  */
-public abstract class AbstractEventAdapter<Configuration extends AdapterConfiguration> implements
-CorrelationAdapter {
+public abstract class AbstractEventAdapter<Configuration extends AdapterConfiguration> implements CorrelationAdapter {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected final Configuration configuration;
+    
+    private static final int MAGIC_HASH = -57;
 
     /**
      * Default constructor.
@@ -45,5 +45,25 @@ CorrelationAdapter {
     Configuration getConfiguration() {
 
         return this.configuration;
+    }
+
+    @Override
+    public int hashCode() {
+
+        // derived from the configurations since it determines what the adapter is like
+        return MAGIC_HASH * this.getConfiguration().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o instanceof CorrelationAdapter) {
+            CorrelationAdapter adapter = (CorrelationAdapter) o;
+            // there should be no 2 adapters with the same configuration, so if their configuration is the same, so are
+            // they
+            return this.configuration.equals(adapter.getConfiguration());
+        } else {
+            return false;
+        }
     }
 }
