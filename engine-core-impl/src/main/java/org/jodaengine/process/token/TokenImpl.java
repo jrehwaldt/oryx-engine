@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.NoValidPathException;
@@ -15,6 +17,8 @@ import org.jodaengine.ext.exception.LoggerExceptionHandler;
 import org.jodaengine.ext.listener.AbstractExceptionHandler;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
+import org.jodaengine.ext.service.ExtensionService;
+import org.jodaengine.ext.util.TypeSafeInstanceMap;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
@@ -38,8 +42,12 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     private Transition lastTakenTransition;
     
     private List<Token> lazySuspendedProcessingTokens;
-    
+
+    @JsonIgnore
     private AbstractExceptionHandler exceptionHandler;
+    
+    @JsonIgnore
+    private TypeSafeInstanceMap extensions;
     
     /**
      * Instantiates a new process {@link TokenImpl}.
@@ -59,6 +67,8 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         this.navigator = navigator;
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
+        
+        this.extensions = new TypeSafeInstanceMap();
         
         //
         // at this point, you can register as much runtime exception handlers as you wish, following the chain of
@@ -312,4 +322,40 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
             this.exceptionHandler = handler;
         }
     }
+    
+    /**
+     * Registers any available extension suitable for {@link TokenImpl}.
+     * 
+     * Those include {@link AbstractExceptionHandler} as well as {@link AbstractTokenListener}.
+     * 
+     * @param extensionService the {@link ExtensionService}, which provides access to the extensions
+     */
+    public void loadExtensions(@Nullable ExtensionService extensionService) {
+        
+        //
+        // no ExtensionService = no extensions
+        //
+        if (extensionService == null) {
+            return;
+        }
+        
+        //
+        // clear any already registered extension
+        //
+        this.extensions.clear();
+        
+        //
+        // get fresh listener and handler instances
+        //
+        List<AbstractExceptionHandler> tokenExHandler = extensionService.getExtensions(AbstractExceptionHandler.class);
+        List<AbstractTokenListener> tokenListener = extensionService.getExtensions(AbstractTokenListener.class);
+        
+        this.extensions.addInstances(AbstractExceptionHandler.class, tokenExHandler);
+        this.extensions.addInstances(AbstractTokenListener.class, tokenListener);
+        
+        // TODO Jan - we have multiple lists here...
+        registerListeners(this.extensions.getInstances(AbstractTokenListener.class));
+        registerExceptionHandlers(this.extensions.getInstances(AbstractExceptionHandler.class));
+    }
+    
 }

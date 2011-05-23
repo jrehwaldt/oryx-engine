@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.jodaengine.ext.listener.AbstractExceptionHandler;
-import org.jodaengine.ext.listener.AbstractTokenListener;
-import org.jodaengine.ext.service.ExtensionService;
-import org.jodaengine.ext.util.TypeSafeInstanceMap;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
@@ -32,9 +25,6 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
     
     private boolean cancelled;
     
-    @JsonIgnore
-    private TypeSafeInstanceMap extensions;
-    
     /**
      * Hidden constructor.
      */
@@ -52,8 +42,6 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
         this.assignedTokens = new ArrayList<Token>();
         this.context = new ProcessInstanceContextImpl();
         this.cancelled = false;
-        
-        this.extensions = new TypeSafeInstanceMap();
     }
 
     @Override
@@ -90,9 +78,6 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
     public Token createToken(Node node, Navigator nav) {
         
         TokenImpl token = new TokenImpl(node, this, nav);
-        
-        token.registerListeners(this.extensions.getInstances(AbstractTokenListener.class));
-        token.registerExceptionHandlers(this.extensions.getInstances(AbstractExceptionHandler.class));
         
         this.assignedTokens.add(token);
         return token;
@@ -131,37 +116,6 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
     public boolean isCancelled() {
 
         return cancelled;
-    }
-    
-    /**
-     * Registers any available extension suitable for {@link ProcessInstanceImpl} and {@link TokenImpl}.
-     * 
-     * Those include {@link AbstractExceptionHandler} as well as {@link AbstractTokenListener}.
-     * 
-     * @param extensionService the {@link ExtensionService}, which provides access to the extensions
-     */
-    public void loadExtensions(@Nullable ExtensionService extensionService) {
-        
-        //
-        // no ExtensionService = no extensions
-        //
-        if (extensionService == null) {
-            return;
-        }
-        
-        //
-        // clear any already registered extension
-        //
-        this.extensions.clear();
-        
-        //
-        // get fresh listener and handler instances
-        //
-        List<AbstractExceptionHandler> tokenExHandler = extensionService.getExtensions(AbstractExceptionHandler.class);
-        List<AbstractTokenListener> tokenListener = extensionService.getExtensions(AbstractTokenListener.class);
-        
-        this.extensions.addInstances(AbstractExceptionHandler.class, tokenExHandler);
-        this.extensions.addInstances(AbstractTokenListener.class, tokenListener);
     }
     
 }

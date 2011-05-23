@@ -2,7 +2,6 @@ package org.jodaengine.ext.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -52,18 +51,9 @@ public class TypeSafeInstanceMap implements Iterable<Class<?>> {
                                          @Nonnull IInstance ... instances) {
         
         //
-        // create an empty list if necessary
-        //
-        if (!this.instances.containsKey(type)) {
-            this.instances.put(type, new ArrayList<IInstance>());
-        }
-        
-        @SuppressWarnings("unchecked")
-        List<IInstance> extensionInstances = (List<IInstance>) this.instances.get(type);
-        
-        //
         // add all instances
         //
+        List<IInstance> extensionInstances = getInstances(type);
         extensionInstances.addAll(Arrays.asList(instances));
     }
     
@@ -76,17 +66,22 @@ public class TypeSafeInstanceMap implements Iterable<Class<?>> {
      */
     @SuppressWarnings("unchecked")
     public @Nonnull <IInstance> List<IInstance> getInstances(@Nonnull Class<IInstance> type) {
+        
         List<IInstance> result = (List<IInstance>) this.instances.get(type);
         
-        if (result == null) {
-            return Collections.emptyList();
+        //
+        // create an empty list if necessary
+        //
+        if (!this.instances.containsKey(type)) {
+            result = new ArrayList<IInstance>();
+            this.instances.put(type, result);
         }
         
         return result;
     }
     
     /**
-     * Clear the list of instances.
+     * Clear the whole map of instances.
      */
     public void clear() {
         this.instances.clear();
