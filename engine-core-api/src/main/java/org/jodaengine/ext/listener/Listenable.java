@@ -40,4 +40,11 @@ public interface Listenable<L extends Listener> {
      *            the listener
      */
     void deregisterListener(@Nonnull L listener);
+    
+    /**
+     * Returns the list of listeners.
+     * 
+     * @return the listeners.
+     */
+    @Nonnull List<L> getListeners();
 }

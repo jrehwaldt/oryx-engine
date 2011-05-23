@@ -1,5 +1,6 @@
 package org.jodaengine.ext;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -16,8 +17,18 @@ public abstract class AbstractPluggable<IListener extends ObersverListener>
 extends Observable
 implements Listenable<IListener> {
     
+    private List<IListener> listeners;
+    
+    /**
+     * Default constructor.
+     */
+    public AbstractPluggable() {
+        this.listeners = new ArrayList<IListener>();
+    }
+    
     @Override
     public void registerListener(IListener listener) {
+        this.listeners.add(listener);
         this.addObserver(listener);
     }
     
@@ -31,6 +42,12 @@ implements Listenable<IListener> {
     
     @Override
     public void deregisterListener(IListener listener) {
+        this.listeners.remove(listener);
         this.deleteObserver(listener);
+    }
+    
+    @Override
+    public List<IListener> getListeners() {
+        return this.listeners;
     }
 }

@@ -41,8 +41,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     
     private AbstractExceptionHandler exceptionHandler;
     
-    private List<AbstractTokenListener> listeners;
-    
     /**
      * Instantiates a new process {@link TokenImpl}.
      * 
@@ -54,14 +52,13 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      *            the navigator
      */
     public TokenImpl(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
-
+        super();
+        
         this.currentNode = startNode;
         this.instance = instance;
         this.navigator = navigator;
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
-        
-        this.listeners = new ArrayList<AbstractTokenListener>();
         
         //
         // at this point, you can register as much runtime exception handlers as you wish, following the chain of
@@ -128,17 +125,18 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
         List<Token> tokensToNavigate = new ArrayList<Token>();
         
-//        //
-//        // zero outgoing transitions
-//        //
-//        if (transitionList.size() == 0) {
-//            
-//            this.exceptionHandler.processException(new NoValidPathException(), this);
-//            
-//        //
-//        // one outgoing transition
-//        //
-//        } else
+        
+        //
+        // zero outgoing transitions
+        //
+        if (transitionList.size() == 0) {
+            
+            this.exceptionHandler.processException(new NoValidPathException(), this);
+            
+        //
+        // one outgoing transition
+        //
+        } else
         if (transitionList.size() == 1) {
             
             Transition transition = transitionList.get(0);
@@ -171,7 +169,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     public Token createNewToken(Node node) {
         
         Token token = instance.createToken(node, navigator);
-        ((TokenImpl) token).registerListeners(this.listeners);
+        ((TokenImpl) token).registerListeners(getListeners());
         
         return token;
     }
@@ -282,19 +280,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     public ActivityState getCurrentActivityState() {
 
         return currentActivityState;
-    }
-
-    @Override
-    public void registerListener(@Nonnull AbstractTokenListener listener) {
-        this.listeners.add(listener);
-        super.registerListener(listener);
-        
-    }
-
-    @Override
-    public void deregisterListener(@Nonnull AbstractTokenListener listener) {
-        this.listeners.remove(listener);
-        super.deregisterListener(listener);
     }
 
     /**
