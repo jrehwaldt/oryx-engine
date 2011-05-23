@@ -15,7 +15,7 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.annotations.BeforeClass;
@@ -68,7 +68,7 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngin
         ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
         List<Node> startNodes = def.getStartNodes();
         Node startNode = startNodes.get(0);
-        pi = new TokenImpl(startNode, new ProcessInstanceImpl(null), null);
+        pi = new AbstractToken(startNode, new ProcessInstanceImpl(null), null);
     }
 
     /**

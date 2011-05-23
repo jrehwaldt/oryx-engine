@@ -11,7 +11,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
-import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
@@ -40,14 +39,14 @@ public interface Token extends Identifiable<UUID> {
      */
     void setCurrentNode(Node node);
 
-    /**
-     * Gets the state of the activity, that belongs to the node that token currently points to. The token holds this
-     * state, as want to have stateless Activity-obejcts.
-     * 
-     * @return the current activity state
-     */
-    @JsonProperty
-    ActivityState getCurrentActivityState();
+//    /**
+//     * Gets the state of the activity, that belongs to the node that token currently points to. The token holds this
+//     * state, as want to have stateless Activity-obejcts.
+//     * 
+//     * @return the current activity state
+//     */
+//    @JsonProperty
+//    ActivityState getCurrentActivityState();
 
     /**
      * Executes a step for the given instance, which is usually a single step beginning with the current node.
@@ -115,17 +114,17 @@ public interface Token extends Identifiable<UUID> {
      */
     void setLastTakenTransition(Transition t);
 
-    /**
-     * Stopping the token navigation.
-     */
-    void suspend();
+//    /**
+//     * Stopping the token navigation.
+//     */
+//    void suspend();
 
-    /**
-     * Continuing the token navigation.
-     * 
-     */
-    // TODO Info-Object muss übergeben werden von wem das Token resumed wurde
-    void resume();
+//    /**
+//     * Continuing the token navigation.
+//     * 
+//     */
+//    // TODO Info-Object muss übergeben werden von wem das Token resumed wurde
+//    void resume();
 
     /**
      * Gets the navigator that this token is assigned to.

@@ -15,7 +15,7 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.testng.annotations.BeforeMethod;
@@ -49,7 +49,7 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
             e.printStackTrace();
         }
         Navigator navigator = new NavigatorImplMock();
-        token = new TokenImpl(processInstance.getDefinition().getStartNodes().get(0), processInstance, navigator);
+        token = new AbstractToken(processInstance.getDefinition().getStartNodes().get(0), processInstance, navigator);
         tobi = instanceDefinition.getTobi();
         jannik = instanceDefinition.getJannik();
         jan = instanceDefinition.getJan();

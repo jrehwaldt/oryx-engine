@@ -7,8 +7,9 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.AbstractToken;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -34,7 +35,7 @@ public class AddNumbersAndStoreActivityTest {
         AddNumbersAndStoreNodeFactory factory = new AddNumbersAndStoreNodeFactory();
         node = factory.create();
         AbstractProcessInstance instance = new ProcessInstanceImpl(null);
-        p = new TokenImpl(node, instance, null);
+        p = new BpmnTokenImpl(node, instance, null);
 
     }
 

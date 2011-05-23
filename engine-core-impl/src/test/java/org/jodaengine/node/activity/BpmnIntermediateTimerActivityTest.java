@@ -20,8 +20,9 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.AbstractToken;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;
 import org.testng.annotations.AfterMethod;
@@ -34,7 +35,7 @@ import org.testng.annotations.Test;
  */
 public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
     
-    private Token token;
+    private BPMNToken token;
     private Node nullNodeStart;
     private Node intermediateTimerEvent;
     private Node nullNodeEnd;
@@ -71,7 +72,7 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
           Mockito.when(processInstanceMock.getContext()).thenReturn(processInstanceContextMock);
           
           
-          token = new TokenImpl(nullNodeStart, processInstanceMock, nav);
+          token = new BpmnTokenImpl(nullNodeStart, processInstanceMock, nav);
       }
 
     /**
@@ -111,7 +112,7 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
   @Test
   public void testActivityStateCompleted() throws Exception {
       token.executeStep();
-      ((TokenImpl) token).registerListener(lifecycleTester);
+      ((AbstractToken) token).registerListener(lifecycleTester);
       token.executeStep();
       assertFalse(lifecycleTester.isCompletedCalled());
       Thread.sleep(LONG_WAITING_TIME_TEST);

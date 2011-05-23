@@ -15,8 +15,8 @@ import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.BpmnTokenImpl;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -36,7 +36,7 @@ public class AutomatedDummyActivityTest {
     /** A dummy string. */
     private String dummyString = "I'm dumb";
 
-    private Token token;
+    private BPMNToken token;
     
     private Navigator nav;
 
@@ -58,7 +58,7 @@ public class AutomatedDummyActivityTest {
             new AutomatedDummyActivity(dummyString),
             new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        token = new TokenImpl(node, mock(AbstractProcessInstance.class), nav);
+        token = new BpmnTokenImpl(node, mock(AbstractProcessInstance.class), nav);
     }
 
 //    /**

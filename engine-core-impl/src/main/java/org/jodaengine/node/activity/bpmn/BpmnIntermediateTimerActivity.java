@@ -8,14 +8,15 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 import org.jodaengine.eventmanagement.adapter.timer.TimerAdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.TimerEventImpl;
-import org.jodaengine.node.activity.AbstractActivity;
+import org.jodaengine.node.activity.AbstractBpmnActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.process.token.Token;
 
 /**
  * The actvity IntermediateTimer is used to wait a specific amount of time before execution is continued.
  */
-public class BpmnIntermediateTimerActivity extends AbstractActivity {
+public class BpmnIntermediateTimerActivity extends AbstractBpmnActivity {
 
     private long time;
 
@@ -33,7 +34,7 @@ public class BpmnIntermediateTimerActivity extends AbstractActivity {
     }
 
     @Override
-    protected void executeIntern(@Nonnull Token token) {
+    protected void executeIntern(@Nonnull BPMNToken token) {
 
         // TODO @Gerardo muss geändert werden keine ServiceFactory mehr
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();

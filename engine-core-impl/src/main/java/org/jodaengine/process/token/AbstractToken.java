@@ -26,27 +26,31 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 
 /**
- * The implementation of a process token.
+ * 
+ * @author Gery
+ * 
+ * @param <T>
  */
-public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implements Token {
-    
-    private UUID id;
-    
-    private Navigator navigator;
-    
-    private ActivityState currentActivityState = null;
-    private AbstractProcessInstance instance;
-    
-    private Node currentNode;
-    private Transition lastTakenTransition;
-    
-    private List<Token> lazySuspendedProcessingTokens;
+public abstract class AbstractToken<T extends AbstractToken<?>> extends AbstractPluggable<AbstractTokenListener>
+implements Token {
+
+    protected UUID id;
+
+    protected Navigator navigator;
+
+    protected ActivityState currentActivityState = null;
+    protected AbstractProcessInstance instance;
+
+    protected Node currentNode;
+    protected Transition lastTakenTransition;
+
+    protected List<Token> lazySuspendedProcessingTokens;
 
     @JsonIgnore
-    private AbstractExceptionHandler exceptionHandler;
-    
+    protected AbstractExceptionHandler exceptionHandler;
+
     /**
-     * Instantiates a new process {@link TokenImpl}.
+     * Instantiates a new process {@link AbstractToken}.
      * 
      * @param startNode
      *            the start node
@@ -55,15 +59,15 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * @param navigator
      *            the navigator
      */
-    public TokenImpl(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
+    public AbstractToken(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
+
         super();
-        
+
         this.currentNode = startNode;
         this.instance = instance;
         this.navigator = navigator;
         this.id = UUID.randomUUID();
-        changeActivityState(ActivityState.INIT);
-        
+
         //
         // at this point, you can register as much runtime exception handlers as you wish, following the chain of
         // responsibility pattern. The handler is used for runtime errors that occur in process execution.
@@ -71,11 +75,13 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         this.exceptionHandler = new LoggerExceptionHandler();
         this.exceptionHandler.setNext(new InstanceTerminationHandler());
     }
-    
+
     /**
      * Hidden constructor.
      */
-    protected TokenImpl() { }
+    protected AbstractToken() {
+
+    }
 
     @Override
     public Node getCurrentNode() {
@@ -128,40 +134,38 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     public List<Token> navigateTo(List<Transition> transitionList) {
 
         List<Token> tokensToNavigate = new ArrayList<Token>();
-        
-        
+
         //
         // zero outgoing transitions
         //
         if (transitionList.size() == 0) {
-            
+
             this.exceptionHandler.processException(new NoValidPathException(), this);
-            
-        //
-        // one outgoing transition
-        //
-        } else
-        if (transitionList.size() == 1) {
-            
+
+            //
+            // one outgoing transition
+            //
+        } else if (transitionList.size() == 1) {
+
             Transition transition = transitionList.get(0);
             Node node = transition.getDestination();
             this.setCurrentNode(node);
             this.lastTakenTransition = transition;
             changeActivityState(ActivityState.INIT);
             tokensToNavigate.add(this);
-            
-        //
-        // multiple outgoing transitions
-        //
+
+            //
+            // multiple outgoing transitions
+            //
         } else {
-            
+
             for (Transition transition : transitionList) {
                 Node node = transition.getDestination();
                 Token newToken = createNewToken(node);
                 newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }
-            
+
             // this is needed, as the this-token would be left on the node that triggers the split.
             instance.removeToken(this);
         }
@@ -171,10 +175,10 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
     @Override
     public Token createNewToken(Node node) {
-        
+
         Token token = instance.createToken(node, navigator);
-        ((TokenImpl) token).registerListeners(getListeners());
-        
+        ((AbstractToken) token).registerListeners(getListeners());
+
         return token;
     }
 
@@ -209,24 +213,24 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         this.lastTakenTransition = t;
     }
 
-    @Override
-    public void suspend() {
-        
-        changeActivityState(ActivityState.WAITING);
-        navigator.addSuspendToken(this);
-    }
-
-    @Override
-    public void resume() {
-        
-        navigator.removeSuspendToken(this);
-        
-        try {
-            completeExecution();
-        } catch (NoValidPathException nvpe) {
-            exceptionHandler.processException(nvpe, this);
-        }
-    }
+    // @Override
+    // public void suspend() {
+    //
+    // changeActivityState(ActivityState.WAITING);
+    // navigator.addSuspendToken(this);
+    // }
+    //
+    // @Override
+    // public void resume() {
+    //
+    // navigator.removeSuspendToken(this);
+    //
+    // try {
+    // completeExecution();
+    // } catch (NoValidPathException nvpe) {
+    // exceptionHandler.processException(nvpe, this);
+    // }
+    // }
 
     /**
      * Completes the execution of the activity.
@@ -234,7 +238,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * @throws NoValidPathException
      *             thrown if there is no valid path to be executed
      */
-    private void completeExecution()
+    protected void completeExecution()
     throws NoValidPathException {
 
         currentNode.getActivityBehaviour().resume(this);
@@ -280,70 +284,66 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
 
     }
 
-    @Override
-    public ActivityState getCurrentActivityState() {
-
-        return currentActivityState;
-    }
-
     /**
      * Changes the state of the activity that the token currently points to.
      * 
      * @param newState
      *            the new state
      */
-    private void changeActivityState(ActivityState newState) {
-        
+    protected void changeActivityState(ActivityState newState) {
+
         final ActivityState prevState = currentActivityState;
         this.currentActivityState = newState;
         setChanged();
-        
+
         notifyObservers(new ActivityLifecycleChangeEvent(currentNode, prevState, newState, this));
     }
-    
+
     /**
      * Registers any number of {@link AbstractExceptionHandler}s.
      * New handlers are added at the beginning of the chain.
      * 
-     * @param handlers the handlers to be added
+     * @param handlers
+     *            the handlers to be added
      */
     public void registerExceptionHandlers(@Nonnull List<AbstractExceptionHandler> handlers) {
-        
+
         //
         // add each handler at the beginning
         //
-        for (AbstractExceptionHandler handler: handlers) {
+        for (AbstractExceptionHandler handler : handlers) {
             handler.addLast(this.exceptionHandler);
             this.exceptionHandler = handler;
         }
     }
-    
+
     /**
-     * Registers any available extension suitable for {@link TokenImpl}.
+     * Registers any available extension suitable for {@link AbstractToken}.
      * 
      * Those include {@link AbstractExceptionHandler} as well as {@link AbstractTokenListener}.
      * 
-     * @param extensionService the {@link ExtensionService}, which provides access to the extensions
+     * @param extensionService
+     *            the {@link ExtensionService}, which provides access to the extensions
      */
     public void loadExtensions(@Nullable ExtensionService extensionService) {
-        
+
         // TODO use this method to register available extensions
-        
+
         //
         // no ExtensionService = no extensions
         //
         if (extensionService == null) {
             return;
         }
-        
+
         //
         // get fresh listener and handler instances
         //
         List<AbstractExceptionHandler> tokenExHandler = extensionService.getExtensions(AbstractExceptionHandler.class);
         List<AbstractTokenListener> tokenListener = extensionService.getExtensions(AbstractTokenListener.class);
-        
+
         registerListeners(tokenListener);
         registerExceptionHandlers(tokenExHandler);
     }
-    
+
 }

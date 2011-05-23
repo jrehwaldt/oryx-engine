@@ -7,8 +7,9 @@ import java.util.UUID;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.AbstractToken;
+import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
 
 
 /**
@@ -77,7 +78,7 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
     @Override
     public Token createToken(Node node, Navigator nav) {
         
-        TokenImpl token = new TokenImpl(node, this, nav);
+        AbstractToken token = new BpmnTokenImpl(node, this, nav);
         
         this.assignedTokens.add(token);
         return token;

@@ -10,7 +10,7 @@ import org.jodaengine.allocation.Form;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.SuspendableToken;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
@@ -73,7 +73,7 @@ public class ConcreteResourcePattern implements CreationPattern {
     }
 
     @Override
-    public AbstractWorklistItem createWorklistItem(Token token, RepositoryService repoService) {
+    public AbstractWorklistItem createWorklistItem(SuspendableToken token, RepositoryService repoService) {
 
         Set<AbstractResource<?>> assignedResourcesCopy = new HashSet<AbstractResource<?>>(
             Arrays.asList(resourcesToAssignTo));

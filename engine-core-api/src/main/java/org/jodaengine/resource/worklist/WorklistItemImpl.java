@@ -10,6 +10,7 @@ import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.allocation.Form;
 import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.process.token.SuspendableToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractResource;
 
@@ -19,7 +20,7 @@ import org.jodaengine.resource.AbstractResource;
 public class WorklistItemImpl extends AbstractWorklistItem {
 
     private WorklistItemState status;
-    private transient Token correspondingToken;
+    private transient SuspendableToken correspondingToken;
     private UUID id;
     private String subject, description;
     private Form form;
@@ -50,7 +51,7 @@ public class WorklistItemImpl extends AbstractWorklistItem {
                             String description,
                             Form form,
                             Set<AbstractResource<?>> assignedResources,
-                            @Nonnull Token correspondingToken) {
+                            @Nonnull SuspendableToken correspondingToken) {
 
         if (correspondingToken == null) {
             throw new NullPointerException("The corresponding Token parameter cannot be null.");
@@ -108,7 +109,7 @@ public class WorklistItemImpl extends AbstractWorklistItem {
     }
 
     @Override
-    public Token getCorrespondingToken() {
+    public SuspendableToken getCorrespondingToken() {
 
         return correspondingToken;
     }

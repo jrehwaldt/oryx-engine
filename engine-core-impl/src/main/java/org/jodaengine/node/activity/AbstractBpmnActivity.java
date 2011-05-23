@@ -2,6 +2,7 @@ package org.jodaengine.node.activity;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.process.token.Token;
 
 
@@ -9,7 +10,7 @@ import org.jodaengine.process.token.Token;
  * The Class AbstractActivityImpl.
  * An activity is the behaviour of a node. It does not perform any control flow routing operations.
  */
-public abstract class AbstractActivity
+public abstract class AbstractBpmnActivity
 implements Activity {
     
     /**
@@ -17,12 +18,12 @@ implements Activity {
      * be notified (since no observer are registered so far).
      * 
      */
-    protected AbstractActivity() {
+    protected AbstractBpmnActivity() {
     }
     
     @Override
     public void execute(@Nonnull Token token) {
-        executeIntern(token);
+        executeIntern((BPMNToken) token);
     }
     
     /**
@@ -30,7 +31,7 @@ implements Activity {
      * 
      * @param token the instance this activity operates on
      */
-    protected abstract void executeIntern(@Nonnull Token token);
+    protected abstract void executeIntern(@Nonnull BPMNToken token);
     
     @Override
     public String toString() {

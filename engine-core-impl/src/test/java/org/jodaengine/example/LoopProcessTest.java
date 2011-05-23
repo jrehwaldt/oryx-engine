@@ -22,8 +22,8 @@ import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
+import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -129,7 +129,7 @@ public class LoopProcessTest {
         instance.getContext().setVariable("increment", "1");
 
         // start node for token is set later on
-        token = new TokenImpl(start, instance, nav);
+        token = new BpmnTokenImpl(start, instance, nav);
     }
 
     /**

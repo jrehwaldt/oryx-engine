@@ -1,6 +1,6 @@
 package org.jodaengine.node.activity;
 
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.BPMNToken;
 
 
 
@@ -9,7 +9,7 @@ import org.jodaengine.process.token.Token;
  * The now empty behaviour of a for instance startnode.
  */
 public class NullActivity
-extends AbstractActivity {
+extends AbstractBpmnActivity {
 
     /**
      * Default constructor. Creates a new start activity.
@@ -24,7 +24,7 @@ extends AbstractActivity {
      * {@inheritDoc}
      */
     @Override
-    public void executeIntern(Token instance) {
+    public void executeIntern(BPMNToken instance) {
         // Nothing toDo
     }
 

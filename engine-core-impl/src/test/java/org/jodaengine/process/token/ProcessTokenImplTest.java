@@ -90,7 +90,7 @@ public class ProcessTokenImplTest {
      * 
      * @return the process instance impl
      */
-    private TokenImpl simpleToken() {
+    private AbstractToken simpleToken() {
         
         node = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         node2 = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
@@ -101,6 +101,6 @@ public class ProcessTokenImplTest {
         
         node.transitionTo(node3);
         
-        return new TokenImpl(node, new ProcessInstanceImpl(null), null);
+        return new BpmnTokenImpl(node, new ProcessInstanceImpl(null), null);
     }
 }

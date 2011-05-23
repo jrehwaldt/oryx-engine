@@ -7,6 +7,7 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
 import org.jodaengine.allocation.Form;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
+import org.jodaengine.process.token.SuspendableToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
@@ -44,7 +45,7 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         ConcreteResourcePattern pattern = CreationPatternFactory.createJannikServesGerardoCreator();
         jannik = (Participant) pattern.getAssignedResources().iterator().next();
 
-        Token token = Mockito.mock(Token.class);
+        SuspendableToken token = Mockito.mock(SuspendableToken.class);
         Set<AbstractResource<?>> resources = pattern.getAssignedResources();
 
         Form form = Mockito.mock(Form.class);
@@ -74,7 +75,7 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         // AllocationsStragegies are not important for that test
         // Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, part);
 
-        Token token = Mockito.mock(Token.class);
+        SuspendableToken token = Mockito.mock(SuspendableToken.class);
         Set<AbstractResource<?>> assignedResources = new HashSet<AbstractResource<?>>();
         assignedResources.add(part);
 
