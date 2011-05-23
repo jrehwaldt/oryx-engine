@@ -185,7 +185,7 @@ public class LoadGenerator {
         navigator = (NavigatorImpl) ServiceFactory.getNavigatorService();
         // navigator = new NavigatorImpl(numberOfThreads);
         NoRunningInstancesLoadgeneratorCaller listener = new NoRunningInstancesLoadgeneratorCaller(this);
-        navigator.registerPlugin(listener);
+        navigator.registerListener(listener);
 
         // start the number of process Instances with our process definition
         for (int i = 0; i < this.numberOfRuns; i++) {

@@ -139,12 +139,4 @@ public interface Token extends Identifiable<UUID> {
      * Cancels the currently ongoing activity.
      */
     void cancelExecution();
-
-    // /**
-    // * Returns the currently executed activity or null, if there is no such activity.
-    // *
-    // * @return the current activity
-    // */
-    // @JsonProperty
-    // Activity getCurrentActivity();
 }

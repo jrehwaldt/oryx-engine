@@ -66,7 +66,7 @@ public final class SimpleExampleProcess {
 
         // Registering the plugin - kind of a hack
         NavigatorImpl navigator = (NavigatorImpl) jodaEngineServices.getNavigatorService();
-        navigator.getScheduler().registerPlugin(monitor);
+        navigator.getScheduler().registerListener(monitor);
 
         ProcessDefinitionID sampleProcessUUID = deploySampleProcess(jodaEngineServices);
 

@@ -13,7 +13,7 @@ import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.TransitionFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
-import org.jodaengine.node.helper.ActivityLifecycleAssurancePlugin;
+import org.jodaengine.node.helper.ActivityLifecycleAssuranceListener;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -41,7 +41,7 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
     private static final int WAITING_TIME = 300;
     private static final int SHORT_WAITING_TIME_TEST = 200;
     private static final int LONG_WAITING_TIME_TEST = 600;
-    private ActivityLifecycleAssurancePlugin lifecycleTester;
+    private ActivityLifecycleAssuranceListener lifecycleTester;
     /**
        * Creates the process. It consists out of three nodes,
        * the central node is an intermediate timer event which waits for 300 MS until execution is continued
@@ -49,8 +49,8 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
       @BeforeMethod
       public void beforeMethod() {
     
-          // Defining the LifeCycle Plugin
-          lifecycleTester = new ActivityLifecycleAssurancePlugin();
+          // Defining the LifeCycle Listener
+          lifecycleTester = new ActivityLifecycleAssuranceListener();
           
           ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
     
@@ -111,7 +111,7 @@ public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
   @Test
   public void testActivityStateCompleted() throws Exception {
       token.executeStep();
-      ((TokenImpl) token).registerPlugin(lifecycleTester);
+      ((TokenImpl) token).registerListener(lifecycleTester);
       token.executeStep();
       assertFalse(lifecycleTester.isCompletedCalled());
       Thread.sleep(LONG_WAITING_TIME_TEST);

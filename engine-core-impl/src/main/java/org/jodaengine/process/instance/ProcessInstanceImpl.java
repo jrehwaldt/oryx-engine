@@ -1,9 +1,7 @@
 package org.jodaengine.process.instance;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -12,6 +10,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.ext.listener.AbstractExceptionHandler;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.service.ExtensionService;
+import org.jodaengine.ext.util.TypeSafeInstanceMap;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
@@ -34,7 +33,7 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
     private boolean cancelled;
     
     @JsonIgnore
-    private Map<Class<?>, Object> extensions;
+    private TypeSafeInstanceMap extensions;
     
     /**
      * Hidden constructor.
@@ -54,50 +53,49 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
         this.context = new ProcessInstanceContextImpl();
         this.cancelled = false;
         
-        this.extensions = new HashMap<Class<?>, Object>();
+        this.extensions = new TypeSafeInstanceMap();
     }
 
     @Override
     public void addToken(Token t) {
-
+        
         this.assignedTokens.add(t);
-
     }
 
     @Override
     public ProcessInstanceContext getContext() {
-
+        
         return context;
     }
 
     @Override
     public List<Token> getAssignedTokens() {
-
+        
         return assignedTokens;
     }
 
     @Override
     public ProcessDefinition getDefinition() {
-
+        
         return definition;
     }
 
     @Override
     public UUID getID() {
-
+        
         return id;
     }
 
     @Override
     public Token createToken(Node node, Navigator nav) {
         
-        Token newToken = new TokenImpl(node, this, nav);
+        TokenImpl token = new TokenImpl(node, this, nav);
         
-        // TODO Jan
-//        newToken.registerTokenListener(this.extensions.get(AbstractTokenListener.class));
+//        token.registerListeners(this.extensions.getInstances(AbstractTokenListener.class));
+//        token.registerExceptionHandlers(this.extensions.getInstances(AbstractExceptionHandler.class));
         
-        this.assignedTokens.add(newToken);
-        return newToken;
+        this.assignedTokens.add(token);
+        return token;
     }
 
     @Override
@@ -162,9 +160,8 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
         List<AbstractExceptionHandler> tokenExHandler = extensionService.getExtensions(AbstractExceptionHandler.class);
         List<AbstractTokenListener> tokenListener = extensionService.getExtensions(AbstractTokenListener.class);
         
-        this.extensions.put(AbstractExceptionHandler.class, tokenExHandler);
-        this.extensions.put(AbstractTokenListener.class, tokenListener);
-        
+        this.extensions.addInstances(AbstractExceptionHandler.class, tokenExHandler);
+        this.extensions.addInstances(AbstractTokenListener.class, tokenListener);
     }
     
 }

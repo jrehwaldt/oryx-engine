@@ -2,8 +2,6 @@ package org.jodaengine.exception;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.timing.TimingManager;
-
 /**
  * Exception implementation for scheduling errors in the {@link TimingManager}.
  * 
@@ -15,10 +13,13 @@ public class AdapterSchedulingException extends JodaEngineException {
     /**
      * Default Constructor.
      * 
+     * @param errorMessage
+     *            the message
      * @param exception
      *            the underlying exception
      */
-    public AdapterSchedulingException(@Nonnull String errorMessage, @Nonnull Throwable exception) {
+    public AdapterSchedulingException(@Nonnull String errorMessage,
+                                      @Nonnull Throwable exception) {
 
         super(errorMessage, exception);
     }

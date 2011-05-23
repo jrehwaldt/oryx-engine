@@ -1,8 +1,8 @@
-package org.jodaengine.plugin;
+package org.jodaengine.ext.listener;
 
 /**
  * Implemented by any plugin suitable for pluggable objects.
  */
-public interface Plugin {
+public interface Listener {
 
 }

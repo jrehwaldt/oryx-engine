@@ -45,7 +45,7 @@ public abstract class AbstractProcessDeployerTest extends AbstractJodaEngineTest
     @AfterMethod
     public void tearDown() {
 
-        engineServices.shutdown();
+        engineServices.stop();
     }
 
     @BeforeMethod(dependsOnMethods = "setUp")

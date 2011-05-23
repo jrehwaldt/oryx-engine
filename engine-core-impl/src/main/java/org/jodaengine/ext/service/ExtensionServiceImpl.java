@@ -13,6 +13,7 @@ import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.ext.Extension;
+import org.jodaengine.ext.util.TypeSafeList;
 import org.jodaengine.util.AndTypeFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

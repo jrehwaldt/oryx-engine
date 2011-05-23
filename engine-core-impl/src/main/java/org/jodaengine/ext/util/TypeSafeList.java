@@ -1,4 +1,4 @@
-package org.jodaengine.ext.service;
+package org.jodaengine.ext.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,7 +19,7 @@ public class TypeSafeList<IInterface> implements Iterable<Class<IInterface>> {
     /**
      * Default constructor.
      */
-    TypeSafeList() {
+    public TypeSafeList() {
         this.types = new ArrayList<Class<IInterface>>();
     }
     
@@ -28,7 +28,7 @@ public class TypeSafeList<IInterface> implements Iterable<Class<IInterface>> {
      * 
      * @param type the type to add
      */
-    void addType(Class<IInterface> type) {
+    public void addType(Class<IInterface> type) {
         this.types.add(type);
     }
     
@@ -37,14 +37,14 @@ public class TypeSafeList<IInterface> implements Iterable<Class<IInterface>> {
      * 
      * @return a list of available types
      */
-    List<Class<IInterface>> getTypes() {
+    public List<Class<IInterface>> getTypes() {
         return this.types;
     }
     
     /**
      * Clear the list of types.
      */
-    void clear() {
+    public void clear() {
         this.types.clear();
     }
     

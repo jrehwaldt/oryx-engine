@@ -9,7 +9,7 @@ import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.TransitionFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import org.jodaengine.node.helper.ActivityLifecycleAssurancePlugin;
+import org.jodaengine.node.helper.ActivityLifecycleAssuranceListener;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -64,8 +64,8 @@ public class ConcurrentActivityStateTest {
         // Execute a step with token1 on instance1. We expect, that the activity state changes for instance1, but not
         // for instance2/token2.
 
-        ActivityLifecycleAssurancePlugin plugin = new ActivityLifecycleAssurancePlugin();
-        ((TokenImpl) token1).registerPlugin(plugin);
+        ActivityLifecycleAssuranceListener plugin = new ActivityLifecycleAssuranceListener();
+        ((TokenImpl) token1).registerListener(plugin);
         token1.executeStep();
         
         assertTrue(plugin.isCompletedCalled());

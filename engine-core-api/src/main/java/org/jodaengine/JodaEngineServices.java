@@ -68,5 +68,5 @@ public interface JodaEngineServices {
     /**
      * Stops the specified service and shuts it's components down.
      */
-    void shutdown();
+    void stop();
 }

@@ -63,7 +63,7 @@ public abstract class AbstractJodaEngineTest {
             return;
         }
 
-        jodaEngineServices.shutdown();
+        jodaEngineServices.stop();
     }
 
     /**
@@ -72,7 +72,7 @@ public abstract class AbstractJodaEngineTest {
     @AfterClass(alwaysRun = true)
     public void zAfterClassJodaEngineTearDown() {
 
-        jodaEngineServices.shutdown();
+        jodaEngineServices.stop();
     }
 
     /**

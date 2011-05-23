@@ -1,27 +1,36 @@
 package org.jodaengine.ext;
 
+import java.util.List;
 import java.util.Observable;
 
-import org.jodaengine.plugin.Pluggable;
+import org.jodaengine.ext.listener.Listenable;
 
 /**
- * This is the abstract representation for pluggable classes.
- * It provides required methods for registering the plugin and
+ * This is the abstract representation for {@link Listenable} classes.
+ * It provides required methods for registering the ObersverListener and
  * implements the observer pattern.
  * 
- * @param <P> the plugin implementation class implemented as observer
+ * @param <IListener> the extension implementation class implemented as observer
  */
-public abstract class AbstractPluggable<P extends ObserverListener>
+public abstract class AbstractPluggable<IListener extends ObersverListener>
 extends Observable
-implements Pluggable<P> {
+implements Listenable<IListener> {
     
     @Override
-    public void registerPlugin(P plugin) {
-        this.addObserver(plugin);
+    public void registerListener(IListener listener) {
+        this.addObserver(listener);
     }
     
     @Override
-    public void deregisterPlugin(P plugin) {
-        this.deleteObserver(plugin);
+    public void registerListeners(List<IListener> listeners) {
+        
+        for (IListener listener: listeners) {
+            registerListener(listener);
+        }
+    }
+    
+    @Override
+    public void deregisterListener(IListener listener) {
+        this.deleteObserver(listener);
     }
 }
