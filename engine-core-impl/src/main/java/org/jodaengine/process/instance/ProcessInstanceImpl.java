@@ -91,8 +91,8 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
         
         TokenImpl token = new TokenImpl(node, this, nav);
         
-//        token.registerListeners(this.extensions.getInstances(AbstractTokenListener.class));
-//        token.registerExceptionHandlers(this.extensions.getInstances(AbstractExceptionHandler.class));
+        token.registerListeners(this.extensions.getInstances(AbstractTokenListener.class));
+        token.registerExceptionHandlers(this.extensions.getInstances(AbstractExceptionHandler.class));
         
         this.assignedTokens.add(token);
         return token;

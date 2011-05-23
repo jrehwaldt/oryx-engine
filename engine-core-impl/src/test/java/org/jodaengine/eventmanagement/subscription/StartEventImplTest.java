@@ -26,8 +26,8 @@ public class StartEventImplTest extends AbstractJodaEngineTest {
     /**
      * Test process event triggering.
      * 
-     * @throws DefinitionNotFoundException
-     * @throws InterruptedException
+     * @throws DefinitionNotFoundException test fails
+     * @throws InterruptedException test fails
      */
     @Test
     public void testProcessEventTriggering()
@@ -48,6 +48,11 @@ public class StartEventImplTest extends AbstractJodaEngineTest {
         Assert.assertEquals(jodaEngineServices.getNavigatorService().getEndedInstances().size(), 1);
     }
 
+    /**
+     * Set up.
+     * 
+     * @throws IllegalStarteventException setup fails
+     */
     @BeforeMethod
     public void setUp()
     throws IllegalStarteventException {
@@ -64,6 +69,7 @@ public class StartEventImplTest extends AbstractJodaEngineTest {
     /**
      * Build a little process that should be started by the {@link ProcessEvent}.
      * 
+     * @throws IllegalStarteventException test fails
      * @return the built {@link ProcessDefinition}
      */
     private ProcessDefinition buildLittleProcessDefinition()
