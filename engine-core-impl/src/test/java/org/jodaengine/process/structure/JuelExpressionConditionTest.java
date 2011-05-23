@@ -20,7 +20,6 @@ import org.testng.annotations.Test;
 
 import de.odysseus.el.ExpressionFactoryImpl;
 
-
 /**
  * It provides several test cases for the {@link JuelExpressionCondition}.
  */
@@ -51,8 +50,10 @@ public class JuelExpressionConditionTest {
     /**
      * Adds a context variable to the process.
      * 
-     * @param variableKey the key
-     * @param variableValue the value
+     * @param variableKey
+     *            the key
+     * @param variableValue
+     *            the value
      */
     private void addProcessVariable(String variableKey, Object variableValue) {
 
@@ -81,14 +82,14 @@ public class JuelExpressionConditionTest {
      */
     @Test
     public void testFalseConditionWithVariableBinding() {
-        
+
         addProcessVariable("testBoolean", false);
         String juelEspression = "${testBoolean}";
         Condition condition = new JuelExpressionCondition(juelEspression);
-        
+
         Assert.assertFalse(condition.evaluate(token));
     }
-    
+
     /**
      * This method tests a expression that binds a variable that is available in the {@link ProcessInstanceContext
      * ProcessContext}.
@@ -110,17 +111,16 @@ public class JuelExpressionConditionTest {
      */
     @Test(expectedExceptions = JodaEngineRuntimeException.class)
     public void testErrorInCondition() {
-        
+
         addProcessVariable("testBoolean", true);
         String juelEspression = "${testBoolean2==12312}";
         Condition condition = new JuelExpressionCondition(juelEspression);
-        
+
         Assert.assertTrue(condition.evaluate(token));
-        
+
         Assert.fail("An exception should have been raised.");
     }
-    
-    
+
     /**
      * This methods tests simple expression like '1 < 1' or '(2+2) == 5' and assert that they become false.
      */
@@ -158,18 +158,21 @@ public class JuelExpressionConditionTest {
         condition = new JuelExpressionCondition(juelEspression);
         Assert.assertTrue(condition.evaluate(token));
     }
-    
-//    @Test
-//    public void testInText() {
-//        token.getInstance().getContext().setVariable("string", "st i ng");
-//        String juelExpression = "This a text. Following is a JUEL expression: ${string.trim()}";
-//        Condition condition = new JuelExpressionCondition(juelExpression);
-//        System.out.println("== " + condition.evaluate(token) + "==");
-//        
-//        ExpressionFactory factory = new ExpressionFactoryImpl();
-//        ELContext context = new ProcessELContext(token.getInstance().getContext());
-//        
-//        ValueExpression e = factory.createValueExpression(context, juelExpression, String.class);
-//        System.out.println(e.getValue(context));
-//    }
+
+    /**
+     * Tests the invocation of methods in a JUEL condition.
+     */
+    @Test
+    public void testMethodInvocation() {
+
+        String expressionString = "string";
+        String juelExpression = "${\"" + expressionString + "\".toUpperCase()}";
+
+        ExpressionFactory factory = new ExpressionFactoryImpl();
+        ELContext elContext = new ProcessELContext(token.getInstance().getContext());
+
+        ValueExpression e = factory.createValueExpression(elContext, juelExpression, String.class);
+        Assert.assertEquals(e.getValue(elContext), expressionString.toUpperCase(),
+            "If this assert fails, it might be, that method invocation in JUEL expressions is turned off.");
+    }
 }
