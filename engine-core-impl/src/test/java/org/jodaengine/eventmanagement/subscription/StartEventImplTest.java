@@ -21,13 +21,14 @@ import org.testng.annotations.Test;
 public class StartEventImplTest extends AbstractJodaEngineTest {
 
     private ProcessDefinitionID processDefinitionID;
+    private static final int SLEEP = 1000;
 
     //
     /**
      * Test process event triggering.
-     * 
-     * @throws DefinitionNotFoundException test fails
-     * @throws InterruptedException test fails
+     *
+     * @throws DefinitionNotFoundException the definition not found exception
+     * @throws InterruptedException the interrupted exception
      */
     @Test
     public void testProcessEventTriggering()
@@ -44,14 +45,15 @@ public class StartEventImplTest extends AbstractJodaEngineTest {
         startEvent.trigger();
 
         // Let the processInstance finish
-        Thread.sleep(1000);
+        Thread.sleep(SLEEP);
         Assert.assertEquals(jodaEngineServices.getNavigatorService().getEndedInstances().size(), 1);
     }
 
     /**
-     * Set up.
-     * 
-     * @throws IllegalStarteventException setup fails
+     * Sets the up.
+     * Ok it builds a process definition and deploys it.
+     *
+     * @throws IllegalStarteventException the illegal startevent exception
      */
     @BeforeMethod
     public void setUp()
@@ -68,9 +70,9 @@ public class StartEventImplTest extends AbstractJodaEngineTest {
 
     /**
      * Build a little process that should be started by the {@link ProcessEvent}.
-     * 
-     * @throws IllegalStarteventException test fails
+     *
      * @return the built {@link ProcessDefinition}
+     * @throws IllegalStarteventException the illegal startevent exception
      */
     private ProcessDefinition buildLittleProcessDefinition()
     throws IllegalStarteventException {

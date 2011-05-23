@@ -11,30 +11,30 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
-// TODO: Auto-generated Javadoc
 /**
- * The Class StartEventSubscriptionTest.
+ * Tests the start event subscriptions.
  */
 public class EventSubscriptionTest {
-    
+
     private EventManager eventManager;
     private AbstractCorrelatingEventAdapter<?> correlationAdapter;
     private AdapterConfiguration adapterConfiguration;
+
     /**
      * Sets the up.
      */
     @BeforeMethod
     public void setUp() {
-    
+
         this.eventManager = new EventManager();
         eventManager.start(new JodaEngine());
-        
+
         correlationAdapter = Mockito.mock(AbstractCorrelatingEventAdapter.class);
         adapterConfiguration = Mockito.mock(AdapterConfiguration.class);
-        Mockito.when(adapterConfiguration.registerAdapter(Mockito.any(AdapterManagement.class))).thenReturn(correlationAdapter);
+        Mockito.when(adapterConfiguration.registerAdapter(Mockito.any(AdapterManagement.class))).thenReturn(
+            correlationAdapter);
     }
-    
+
     /**
      * Tear down.
      */
@@ -54,19 +54,22 @@ public class EventSubscriptionTest {
         Mockito.when(startEvent.getAdapterConfiguration()).thenReturn(adapterConfiguration);
 
         eventManager.registerStartEvent(startEvent);
-        
+
         ArgumentCaptor<StartEventImpl> event = ArgumentCaptor.forClass(StartEventImpl.class);
         Mockito.verify(correlationAdapter).registerStartEvent(event.capture());
     }
 
+    /**
+     * Tests the forwarding process of calls when an intermediate event is subscribed.
+     */
     @Test
     public void testForwardingProcessIntermediateEventSubscription() {
-        
+
         ProcessIntermediateEvent intermediateEvent = Mockito.mock(ProcessIntermediateEvent.class);
         Mockito.when(intermediateEvent.getAdapterConfiguration()).thenReturn(adapterConfiguration);
 
         eventManager.registerIntermediateEvent(intermediateEvent);
-        
+
         ArgumentCaptor<ProcessIntermediateEvent> event = ArgumentCaptor.forClass(ProcessIntermediateEvent.class);
         Mockito.verify(correlationAdapter).registerIntermediateEvent(event.capture());
     }
