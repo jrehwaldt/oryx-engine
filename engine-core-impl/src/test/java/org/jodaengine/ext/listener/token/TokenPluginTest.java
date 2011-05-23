@@ -8,7 +8,6 @@ import static org.mockito.Mockito.verify;
 
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.ext.listener.AbstractTokenListener;
-import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
