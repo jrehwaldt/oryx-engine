@@ -1,9 +1,16 @@
 package org.jodaengine.process.instance;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
+import org.jodaengine.ext.listener.AbstractExceptionHandler;
+import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
@@ -12,7 +19,9 @@ import org.jodaengine.process.token.TokenImpl;
 
 
 /**
- * The Class ProcessInstanceImpl. See {@link AbstractProcessInstance}
+ * The Class ProcessInstanceImpl.
+ * 
+ * See {@link AbstractProcessInstance}.
  */
 public class ProcessInstanceImpl extends AbstractProcessInstance {
 
@@ -20,8 +29,10 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
     private ProcessInstanceContext context;
     private UUID id;
     private List<Token> assignedTokens;
-
+    
     private boolean cancelled;
+    
+    private Map<Class<?>, Object> extensions;
     
     /**
      * Hidden constructor.
@@ -34,12 +45,14 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
      * @param definition the process definition of this instance
      */
     public ProcessInstanceImpl(ProcessDefinition definition) {
-
+        
         this.definition = definition;
         this.id = UUID.randomUUID();
         this.assignedTokens = new ArrayList<Token>();
         this.context = new ProcessInstanceContextImpl();
         this.cancelled = false;
+        
+        this.extensions = new HashMap<Class<?>, Object>();
     }
 
     @Override
@@ -75,8 +88,12 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
 
     @Override
     public Token createToken(Node node, Navigator nav) {
-
+        
         Token newToken = new TokenImpl(node, this, nav);
+        
+        // TODO Jan
+//        newToken.registerTokenListener(this.extensions.get(AbstractTokenListener.class));
+        
         this.assignedTokens.add(newToken);
         return newToken;
     }
@@ -115,5 +132,37 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
 
         return cancelled;
     }
-
+    
+    /**
+     * Registers any available extension suitable for {@link ProcessInstanceImpl} and {@link TokenImpl}.
+     * 
+     * Those include {@link AbstractExceptionHandler} as well as {@link AbstractTokenListener}.
+     * 
+     * @param extensionService the {@link ExtensionService}, which provides access to the extensions
+     */
+    public void loadExtensions(@Nullable ExtensionService extensionService) {
+        
+        //
+        // no ExtensionService = no extensions
+        //
+        if (extensionService == null) {
+            return;
+        }
+        
+        //
+        // clear any already registered extension
+        //
+        this.extensions.clear();
+        
+        //
+        // get fresh listener and handler instances
+        //
+        List<AbstractExceptionHandler> tokenExHandler = extensionService.getExtensions(AbstractExceptionHandler.class);
+        List<AbstractTokenListener> tokenListener = extensionService.getExtensions(AbstractTokenListener.class);
+        
+        this.extensions.put(AbstractExceptionHandler.class, tokenExHandler);
+        this.extensions.put(AbstractTokenListener.class, tokenListener);
+        
+    }
+    
 }

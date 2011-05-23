@@ -47,7 +47,7 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     private AbstractExceptionHandler exceptionHandler;
 
     /**
-     * Instantiates a new process token impl.
+     * Instantiates a new process {@link TokenImpl}.
      * 
      * @param startNode
      *            the start node
