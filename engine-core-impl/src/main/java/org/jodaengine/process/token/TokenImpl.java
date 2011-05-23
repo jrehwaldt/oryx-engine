@@ -303,8 +303,9 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     
     /**
      * Registers any number of {@link AbstractExceptionHandler}s.
+     * New handlers are added at the beginning of the chain.
      * 
-     * @param handlers the handlers to call
+     * @param handlers the handlers to be added
      */
     public void registerExceptionHandlers(@Nonnull List<AbstractExceptionHandler> handlers) {
         
@@ -325,6 +326,8 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * @param extensionService the {@link ExtensionService}, which provides access to the extensions
      */
     public void loadExtensions(@Nullable ExtensionService extensionService) {
+        
+        // TODO use this method to register available extensions
         
         //
         // no ExtensionService = no extensions
