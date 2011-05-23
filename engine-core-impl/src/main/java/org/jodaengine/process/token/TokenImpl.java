@@ -318,10 +318,6 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      */
     public void registerExceptionHandlers(@Nonnull List<AbstractExceptionHandler> handlers) {
         
-        if (handlers == null) {
-            return;
-        }
-        
         //
         // add each handler at the beginning
         //

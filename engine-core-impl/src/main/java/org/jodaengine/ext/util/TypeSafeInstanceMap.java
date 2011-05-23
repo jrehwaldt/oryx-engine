@@ -2,6 +2,7 @@ package org.jodaengine.ext.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -74,8 +75,14 @@ public class TypeSafeInstanceMap implements Iterable<Class<?>> {
      * @return a list of available instances
      */
     @SuppressWarnings("unchecked")
-    public <IInstance> List<IInstance> getInstances(@Nonnull Class<IInstance> type) {
-        return (List<IInstance>) this.instances.get(type);
+    public @Nonnull <IInstance> List<IInstance> getInstances(@Nonnull Class<IInstance> type) {
+        List<IInstance> result = (List<IInstance>) this.instances.get(type);
+        
+        if (result == null) {
+            return Collections.emptyList();
+        }
+        
+        return result;
     }
     
     /**
@@ -86,7 +93,7 @@ public class TypeSafeInstanceMap implements Iterable<Class<?>> {
     }
     
     @Override
-    public Iterator<Class<?>> iterator() {
+    public @Nonnull Iterator<Class<?>> iterator() {
         return this.instances.keySet().iterator();
     }
     
@@ -97,8 +104,7 @@ public class TypeSafeInstanceMap implements Iterable<Class<?>> {
      * @param type the type
      * @return the instances iterator
      */
-    @SuppressWarnings("unchecked")
-    public <IInstance> Iterator<IInstance> iterator(@Nonnull Class<IInstance> type) {
-        return (Iterator<IInstance>) this.instances.get(type).iterator();
+    public @Nonnull <IInstance> Iterator<IInstance> iterator(@Nonnull Class<IInstance> type) {
+        return getInstances(type).iterator();
     }
 }

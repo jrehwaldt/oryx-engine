@@ -3,6 +3,8 @@ package org.jodaengine.ext;
 import java.util.List;
 import java.util.Observable;
 
+import javax.annotation.Nonnull;
+
 import org.jodaengine.ext.listener.Listenable;
 
 /**
@@ -23,10 +25,6 @@ implements Listenable<IListener> {
     
     @Override
     public void registerListeners(List<IListener> listeners) {
-        
-        if (listeners == null) {
-            return;
-        }
         
         for (IListener listener: listeners) {
             registerListener(listener);
