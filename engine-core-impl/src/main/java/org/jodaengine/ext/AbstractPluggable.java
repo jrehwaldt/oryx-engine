@@ -3,8 +3,6 @@ package org.jodaengine.ext;
 import java.util.List;
 import java.util.Observable;
 
-import javax.annotation.Nonnull;
-
 import org.jodaengine.ext.listener.Listenable;
 
 /**

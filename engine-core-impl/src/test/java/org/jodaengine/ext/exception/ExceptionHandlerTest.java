@@ -3,21 +3,12 @@ package org.jodaengine.ext.exception;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.util.Arrays;
-import java.util.Collections;
-
-import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.ext.listener.AbstractExceptionHandler;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.token.TokenImpl;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -57,19 +48,20 @@ public class ExceptionHandlerTest {
         verify(mockNavigator).cancelProcessInstance(mockInstance);
     }
     
-    /**
-     * Tests the registration of {@link AbstractExceptionHandler}s and that navigating to zero transitions will
-     * cause an exception.
-     */
-    @Test
-    public void testExceptionHandlerRegistration() {
-        AbstractExceptionHandler handlerSpy = Mockito.spy(this.handler1);
-        
-        this.testToken.registerExceptionHandlers(Arrays.asList(handlerSpy));
-        this.testToken.navigateTo(Collections.<Transition>emptyList());
-        
-        ArgumentCaptor<JodaEngineException> exception = ArgumentCaptor.forClass(JodaEngineException.class);
-        verify(handlerSpy).processException(exception.capture(), Mockito.eq(this.testToken));
-        Assert.assertTrue(exception.getValue() instanceof NoValidPathException);
-    }
+//    
+//    /**
+//     * Tests the registration of {@link AbstractExceptionHandler}s and that navigating to zero transitions will
+//     * cause an exception.
+//     */
+//    @Test
+//    public void testExceptionHandlerRegistration() {
+//        AbstractExceptionHandler handlerSpy = Mockito.spy(this.handler1);
+//        
+//        this.testToken.registerExceptionHandlers(Arrays.asList(handlerSpy));
+//        this.testToken.navigateTo(Collections.<Transition>emptyList());
+//        
+//        ArgumentCaptor<JodaEngineException> exception = ArgumentCaptor.forClass(JodaEngineException.class);
+//        verify(handlerSpy).processException(exception.capture(), Mockito.eq(this.testToken));
+//        Assert.assertTrue(exception.getValue() instanceof NoValidPathException);
+//    }
 }
