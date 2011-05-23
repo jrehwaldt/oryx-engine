@@ -142,7 +142,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     }
 
     /**
-     * TODO @EVENTMANAGERGROUP this is not a simple getter ---> naming issue
+     * TODO @EVENTMANAGERGROUP this is not a simple getter ---> naming issue??
      * 
      * Gets the adapter for the specified process event.
      * If there is no adapter, a new adapter is returned.
