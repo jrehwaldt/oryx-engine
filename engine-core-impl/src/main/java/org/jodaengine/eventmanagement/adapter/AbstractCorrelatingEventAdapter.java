@@ -26,7 +26,8 @@ import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
  * @param <Configuration>
  *            - the {@link AdapterConfiguration} of this adapter
  */
-public abstract class AbstractCorrelatingEventAdapter<Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
+public abstract class AbstractCorrelatingEventAdapter
+    <Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
 implements EventSubscription, EventUnsubscription, EventCorrelator {
 
     // Both lists are lazyInitialized
@@ -46,8 +47,8 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
 
     @Override
     public void registerStartEvent(ProcessStartEvent startEvent) {
-
-        // TODO @EVENTMANAGERTEAM: Checking if it is already in the list of unCorrelatedAdapterEvents
+        // We don't need to check for uncorrelated events since we only want to know about 
+        // start events from the moment we dployed a process instance
         getProcessEvents().add(startEvent);
     }
 

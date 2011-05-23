@@ -9,7 +9,6 @@ import javax.annotation.Nonnull;
  * 
  * @author Jan Rehwaldt
  */
-// TODO @Gerardo&TobiP man braucht auch noch adaptertypes
 public enum EventTypes
 implements EventType {
     Mail,
