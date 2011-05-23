@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class is a {@link Logger} and may be injected to observe
- * the lifecycle of certain {@link org.jodaengine.node.activity.AbstractBpmnActivity}s.
+ * the lifecycle of certain {@link org.jodaengine.node.activity.AbstractActivity}s.
  */
 public final class TokenListenerLogger
 extends AbstractTokenListener {

@@ -11,9 +11,8 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.allocation.TaskAllocation;
-import org.jodaengine.node.activity.AbstractBpmnActivity;
+import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 
@@ -24,7 +23,7 @@ import org.jodaengine.resource.worklist.AbstractWorklistItem;
  * application. Upon its execution, worklist items are created with a {@link CreationPattern} and the distributed with a
  * {@link PushPattern}.
  */
-public class BpmnHumanTaskActivity extends AbstractBpmnActivity {
+public class BpmnHumanTaskActivity extends AbstractActivity {
 
     @JsonIgnore
     private CreationPattern creationPattern;
@@ -50,7 +49,7 @@ public class BpmnHumanTaskActivity extends AbstractBpmnActivity {
     }
 
     @Override
-    protected void executeIntern(@Nonnull BPMNToken token) {
+    protected void executeIntern(@Nonnull Token token) {
 
         TaskAllocation service = ServiceFactory.getWorklistQueue();
         AbstractWorklistItem item = creationPattern.createWorklistItem(token,

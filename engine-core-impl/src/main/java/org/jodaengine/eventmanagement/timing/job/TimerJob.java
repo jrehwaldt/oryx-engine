@@ -24,9 +24,9 @@ implements Job {
     @Override
     public void execute(JobExecutionContext context)
     throws JobExecutionException {
-//        
-//        JobDataMap data = context.getJobDetail().getJobDataMap();
-//        Token token = (Token) data.get(QuartzJobManager.TOKEN_KEY);
-//        token.resume();
+        
+        JobDataMap data = context.getJobDetail().getJobDataMap();
+        Token token = (Token) data.get(QuartzJobManager.TOKEN_KEY);
+        token.resume();
     }
 }

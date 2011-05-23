@@ -3,15 +3,15 @@ package org.jodaengine.node.activity.custom;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.jodaengine.node.activity.AbstractBpmnActivity;
-import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.node.activity.AbstractActivity;
+import org.jodaengine.process.token.Token;
 
 
 /**
  * The Class AutomatedDummyNode.
  * It really is dumb. It just prints out whatever message is send to it.
  */
-public class AutomatedDummyActivity extends AbstractBpmnActivity {
+public class AutomatedDummyActivity extends AbstractActivity {
 
     /** This is the message the node prints out during its execution. */
     private String message;
@@ -27,7 +27,7 @@ public class AutomatedDummyActivity extends AbstractBpmnActivity {
     }
 
     @Override
-    protected void executeIntern(@Nonnull BPMNToken instance) {
+    protected void executeIntern(@Nonnull Token instance) {
         System.out.println(this.message);
     }
 

@@ -18,8 +18,8 @@ import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
-import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.IdentityBuilder;
@@ -73,7 +73,7 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         humanTask = new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern());
 
         Node node = new NodeImpl(humanTask, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        token = new BpmnTokenImpl(node, new ProcessInstanceImpl(MockUtils.mockProcessDefinition()), new NavigatorImplMock());
+        token = new TokenImpl(node, new ProcessInstanceImpl(MockUtils.mockProcessDefinition()), new NavigatorImplMock());
     }
 
     /**

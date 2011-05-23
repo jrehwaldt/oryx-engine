@@ -13,9 +13,8 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.AbstractToken;
-import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenImpl;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -70,7 +69,7 @@ public class BPMNTakeAllBehaviourTest {
      * 
      * @return the process instance that was created within the method
      */
-    private AbstractToken simpleToken() {
+    private TokenImpl simpleToken() {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
         
@@ -82,7 +81,7 @@ public class BPMNTakeAllBehaviourTest {
 
         builder.getTransitionBuilder().transitionGoesFromTo(node, node2).buildTransition();
 
-        return new BpmnTokenImpl(node, new ProcessInstanceImpl(null), null);
+        return new TokenImpl(node, new ProcessInstanceImpl(null), null);
     }
 
     /**

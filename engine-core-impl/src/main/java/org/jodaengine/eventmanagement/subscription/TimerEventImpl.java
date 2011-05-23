@@ -3,7 +3,6 @@ package org.jodaengine.eventmanagement.subscription;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
-import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.process.token.Token;
 
 
@@ -13,7 +12,7 @@ import org.jodaengine.process.token.Token;
  */
 public class TimerEventImpl extends AbstractProcessEvent implements ProcessIntermediateEvent {
 
-    private BPMNToken token;
+    private Token token;
 
     /**
      * Instantiates a new timer event impl.
@@ -22,7 +21,7 @@ public class TimerEventImpl extends AbstractProcessEvent implements ProcessInter
      * @param token the process token
      */
     public TimerEventImpl(AdapterConfiguration config,
-                          BPMNToken token) {
+                          Token token) {
 
         super(EventTypes.Timer, config, new TrueEventCondition());
         this.token = token;

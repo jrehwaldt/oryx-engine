@@ -17,7 +17,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jodaengine.allocation.Form;
-import org.jodaengine.process.token.SuspendableToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.util.Identifiable;
@@ -44,7 +43,7 @@ public abstract class AbstractWorklistItem implements Identifiable<UUID> {
      */
     @JsonIgnore
     public abstract @Nonnull
-    SuspendableToken getCorrespondingToken();
+    Token getCorrespondingToken();
 
     /**
      * Returns a concrete resource object holding the value of the specified String.

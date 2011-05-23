@@ -10,9 +10,9 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.jodaengine.node.activity.AbstractBpmnActivity;
+import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.Token;
 
 
 /**
@@ -20,7 +20,7 @@ import org.jodaengine.process.token.BPMNToken;
  * value from the process instance.
  */
 public class MailingVariable
-extends AbstractBpmnActivity {
+extends AbstractActivity {
 
     private static String host = "localhost";
     
@@ -51,7 +51,7 @@ extends AbstractBpmnActivity {
      * {@inheritDoc}
      */
     @Override
-    public void executeIntern(@Nonnull BPMNToken token) {
+    public void executeIntern(@Nonnull Token token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
         String calculationResult = (String) context.getVariable(variableName);

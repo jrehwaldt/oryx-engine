@@ -5,15 +5,15 @@ import java.lang.reflect.Method;
 
 import org.jodaengine.RepositoryService;
 import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.node.activity.AbstractBpmnActivity;
+import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.Token;
 
 /**
  * Executes a custom script. The custom script is searched for in the deployment scope.
  */
-public class ScriptingActivity extends AbstractBpmnActivity {
+public class ScriptingActivity extends AbstractActivity {
 
     private String fullClassName;
     private RepositoryService repoService;
@@ -31,7 +31,7 @@ public class ScriptingActivity extends AbstractBpmnActivity {
     }
 
     @Override
-    protected void executeIntern(BPMNToken token) {
+    protected void executeIntern(Token token) {
 
         // get the class from the DeploymentScope of the definition
         ProcessDefinitionID definitionID = token.getInstance().getDefinition().getID();

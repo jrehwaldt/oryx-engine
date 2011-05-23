@@ -70,7 +70,7 @@ public abstract class AbstractProcessInstance implements Identifiable<UUID> {
      *            the {@link Navigator}
      * @return the token
      */
-    public abstract <T extends Token> T createToken(Node node, Navigator nav);
+    public abstract Token createToken(Node node, Navigator nav);
 
     /**
      * Checks if there tokens assigned to this instance. This indicates, that this instance is still running. If this
