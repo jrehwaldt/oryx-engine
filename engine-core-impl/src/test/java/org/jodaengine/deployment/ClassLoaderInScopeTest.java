@@ -137,7 +137,7 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
         repository.deployInNewScope(deployment);
 
         try {
-            Class<?> clazz = repository.getDeployedClass(definition.getID(), "test.reference.Dummy");
+            repository.getDeployedClass(definition.getID(), "test.reference.Dummy");
             Assert.fail("The class should not have been found.");
         } catch (ClassNotFoundException e) {
             // do nothing here, this is what we expect
@@ -172,7 +172,7 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
         repository.deployInNewScope(anotherDeployment);
 
         try {
-            Class<?> clazz = repository.getDeployedClass(anotherDefinition.getID(), "test.simple.Dummy");
+            repository.getDeployedClass(anotherDefinition.getID(), "test.simple.Dummy");
             Assert.fail("The class should not have been found, as it only exists in the other scope.");
         } catch (ClassNotFoundException e) {
             // do nothing here, this is what we expect
