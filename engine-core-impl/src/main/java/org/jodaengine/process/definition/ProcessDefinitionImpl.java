@@ -10,9 +10,9 @@ import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
-import org.jodaengine.process.activation.ProcessDefinitionActivationPattern;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContextImpl;
+import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
 import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivationPattern;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
@@ -39,7 +39,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     private StartInstantiationPattern startInstantiationPattern;
 
     @JsonIgnore
-    private ProcessDefinitionActivationPattern startActivationPattern;
+    private ProcessDefinitionDeActivationPattern startActivationPattern;
 
     @JsonIgnore
     private Map<ProcessStartEvent, Node> startTriggers;
@@ -88,7 +88,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
                                  String description,
                                  List<Node> startNodes,
                                  StartInstantiationPattern startInstantiationPattern,
-                                 ProcessDefinitionActivationPattern startActivationPattern) {
+                                 ProcessDefinitionDeActivationPattern startActivationPattern) {
 
         this.id = id;
         this.name = name;
@@ -205,7 +205,8 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     @Override
     public void deactivate(EventSubscriptionManager correlationManager) {
 
-        // TODO Auto-generated method stub
-
+        ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
+            this);
+        startActivationPattern.deactivateProcessDefinition(patternContext);
     }
 }

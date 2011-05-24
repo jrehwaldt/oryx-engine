@@ -9,7 +9,7 @@ import org.jodaengine.process.activation.ProcessDefinitionActivationPatternConte
 /**
  * This registers all necessary StartEvent of a processDefinition at the EventSubscriptionManager.
  */
-public class RegisterAllStartEventPattern extends AbstractProcessDefinitionActivatorPattern {
+public class RegisterAllStartEventPattern extends AbstractProcessDefinitionDeActivationPattern {
 
     private List<ProcessStartEvent> registeredStartEvents;
 

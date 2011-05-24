@@ -4,8 +4,7 @@ import java.util.UUID;
 
 import org.jodaengine.RepositoryService;
 import org.jodaengine.exception.IllegalStarteventException;
-import org.jodaengine.process.activation.ProcessDefinitionActivationPattern;
-import org.jodaengine.process.activation.ProcessDefinitionActivatorPattern;
+import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -51,7 +50,7 @@ public class DeploymentTest extends AbstractJodaEngineTest {
 
         ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID());
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
-        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionActivatorPattern.class));
+        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
 
         ProcessDefinition definition = defBuilder.buildDefinition();
         Whitebox.setInternalState(definition, "id", id);
@@ -76,7 +75,7 @@ public class DeploymentTest extends AbstractJodaEngineTest {
 
         ProcessDefinitionID id = new ProcessDefinitionID(processUUID);
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
-        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionActivatorPattern.class));
+        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
         ProcessDefinition definition = defBuilder.buildDefinition();
 
         // we have to manipulate the id for our test case.
@@ -88,7 +87,7 @@ public class DeploymentTest extends AbstractJodaEngineTest {
 
         ProcessDefinitionID anotherID = new ProcessDefinitionID(processUUID);
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
-        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionActivatorPattern.class));
+        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
         ProcessDefinition anotherDefinition = defBuilder.buildDefinition();
 
         // we have to manipulate the id for our test case.

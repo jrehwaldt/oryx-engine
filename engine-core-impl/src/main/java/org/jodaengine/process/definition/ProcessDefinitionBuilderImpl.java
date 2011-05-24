@@ -14,8 +14,7 @@ import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.eventmanagement.subscription.condition.complex.AndEventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.process.activation.ProcessDefinitionActivationPattern;
-import org.jodaengine.process.activation.ProcessDefinitionActivatorPattern;
+import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
 import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
@@ -42,7 +41,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     private Map<ProcessStartEvent, Node> temporaryStartTriggers;
     private Map<String, Object> temporaryAttributeTable;
     private List<InstantiationPattern> temporaryInstantiationPatterns;
-    private List<ProcessDefinitionActivatorPattern> temporaryActivationPatterns;
+    private List<ProcessDefinitionDeActivationPattern> temporaryActivationPatterns;
     private StartInstantiationPattern startInstantiationPattern;
 
     /**
@@ -66,7 +65,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         this.temporaryStartTriggers = new HashMap<ProcessStartEvent, Node>();
         this.temporaryAttributeTable = null;
         this.temporaryInstantiationPatterns = new ArrayList<InstantiationPattern>();
-        this.temporaryActivationPatterns = new ArrayList<ProcessDefinitionActivatorPattern>();
+        this.temporaryActivationPatterns = new ArrayList<ProcessDefinitionDeActivationPattern>();
         this.startInstantiationPattern = null;
     }
 
@@ -153,7 +152,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     }
 
     @Override
-    public ProcessDefinitionBuilder addActivationPattern(ProcessDefinitionActivatorPattern activationPattern) {
+    public ProcessDefinitionBuilder addActivationPattern(ProcessDefinitionDeActivationPattern activationPattern) {
 
         this.temporaryActivationPatterns.add(activationPattern);
         return this;
@@ -183,7 +182,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     throws IllegalStarteventException {
 
         StartInstantiationPattern startInstantionPattern = appendingInstantiationPatterns();
-        ProcessDefinitionActivationPattern activationPattern = appendingActivationPatterns();
+        ProcessDefinitionDeActivationPattern activationPattern = appendingActivationPatterns();
 
         ProcessDefinitionImpl definition = new ProcessDefinitionImpl(id, name, description, startNodes,
             startInstantionPattern, activationPattern);
@@ -195,12 +194,12 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         return definition;
     }
 
-    private ProcessDefinitionActivationPattern appendingActivationPatterns() {
+    private ProcessDefinitionDeActivationPattern appendingActivationPatterns() {
 
         // We have already assured that there are activationPatterns
-        PatternAppendable<ProcessDefinitionActivatorPattern> lastActivationPattern = null;
+        PatternAppendable<ProcessDefinitionDeActivationPattern> lastActivationPattern = null;
         boolean firstActivationPassed = false;
-        for (ProcessDefinitionActivatorPattern activationPattern : temporaryActivationPatterns) {
+        for (ProcessDefinitionDeActivationPattern activationPattern : temporaryActivationPatterns) {
 
             if (!firstActivationPassed) {
 

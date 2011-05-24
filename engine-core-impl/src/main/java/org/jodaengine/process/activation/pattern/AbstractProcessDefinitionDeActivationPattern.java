@@ -1,10 +1,8 @@
 package org.jodaengine.process.activation.pattern;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.process.activation.ProcessDefinitionActivationPattern;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
-import org.jodaengine.process.activation.ProcessDefinitionActivatorPattern;
-import org.jodaengine.process.activation.ProcessDefinitionDeactivationPattern;
+import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
 import org.jodaengine.util.AbstractPatternAppendable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +12,8 @@ import org.slf4j.LoggerFactory;
  * {@link ProcessDefinitionDeactivationPattern}. This class provides a method body and basic functionality for all
  * patterns.
  */
-public abstract class AbstractProcessDefinitionActivatorPattern extends AbstractPatternAppendable<ProcessDefinitionActivatorPattern>
-implements ProcessDefinitionActivatorPattern {
+public abstract class AbstractProcessDefinitionDeActivationPattern extends AbstractPatternAppendable<ProcessDefinitionDeActivationPattern>
+implements ProcessDefinitionDeActivationPattern {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
