@@ -1,6 +1,7 @@
 package org.jodaengine.process.activation;
 
-import org.jodaengine.util.PatternAppendable;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionInside;
 
 /**
  * The {@link ProcessDefinitionActivationPattern} is responsible for activation a {@link ProcessDefinition}. This
@@ -10,7 +11,7 @@ import org.jodaengine.util.PatternAppendable;
  * {@link ProcessDefinitionInside#activate(org.jodaengine.eventmanagement.EventSubscriptionManager)
  * processDefinition.activate(...)} is called.
  */
-public interface ProcessDefinitionActivationPattern extends PatternAppendable<ProcessDefinitionActivationPattern> {
+public interface ProcessDefinitionActivationPattern {
 
     /**
      * Activates the {@link ProcessDefinition}.

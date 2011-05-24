@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPattern;
+import org.jodaengine.process.activation.ProcessDefinitionActivatorPattern;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -50,7 +51,7 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
 
         ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID());
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
-        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionActivationPattern.class));
+        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionActivatorPattern.class));
 
         definition = defBuilder.buildDefinition();
         Whitebox.setInternalState(definition, "id", id);
@@ -167,7 +168,7 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
 
         // create another process definition to deploy
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
-        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionActivationPattern.class));
+        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionActivatorPattern.class));
         ProcessDefinition anotherDefinition = defBuilder.buildDefinition();
 
         builder.addProcessDefinition(anotherDefinition);
@@ -213,7 +214,7 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
 
         // create the second deployment
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
-        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionActivationPattern.class));
+        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionActivatorPattern.class));
         ProcessDefinition anotherDefinition = defBuilder.buildDefinition();
         builder.addProcessDefinition(anotherDefinition);
         builder.addClass("test.simple.Dummy", dataB);
