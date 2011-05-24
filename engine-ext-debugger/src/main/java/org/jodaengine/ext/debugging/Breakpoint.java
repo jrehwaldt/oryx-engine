@@ -41,7 +41,7 @@ public class Breakpoint extends DebuggerAttribute {
      * Checks whether the breakpoint will match the current token state.
      * 
      * @param token the token
-     * @return a boolean, whether this token is matched by the corresponding breakpoint
+     * @return a boolean, whether this token is matched by this breakpoint
      */
     public boolean matches(@Nonnull Token token) {
         
@@ -93,4 +93,5 @@ public class Breakpoint extends DebuggerAttribute {
         
         return (Breakpoint) node.getAttribute(ATTRIBUTE_KEY);
     }
+    
 }

@@ -24,7 +24,6 @@ public class StartEventImplTest extends AbstractJodaEngineTest {
 
     private ProcessDefinitionID processDefinitionID;
 
-    //
     /**
      * Test process event triggering.
      *
