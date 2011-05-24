@@ -11,12 +11,11 @@ import java.util.UUID;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
-import org.jodaengine.process.definition.AbstractProcessArtifact;
-import org.jodaengine.process.definition.ProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
@@ -24,6 +23,7 @@ import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
@@ -63,9 +63,9 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
         // deploy definition and artifact
         ProcessDefinition definition = MockUtils.mockProcessDefinition();
-        AbstractProcessArtifact processArtifact = new ProcessArtifact("form", new StringStreamSource("<form></form>"));
+        AbstractForm form = new FormImpl("form", new StringStreamSource("<form></form>"));
         DeploymentBuilder builder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
-        Deployment deployment = builder.addProcessDefinition(definition).addProcessArtifact(processArtifact)
+        Deployment deployment = builder.addProcessDefinition(definition).addForm(form)
         .buildDeployment();
         jodaEngineServices.getRepositoryService().deployInNewScope(deployment);
 

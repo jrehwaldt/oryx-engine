@@ -3,12 +3,11 @@ package org.jodaengine.factories.process;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import org.jodaengine.process.definition.AbstractProcessArtifact;
-import org.jodaengine.process.definition.ProcessArtifact;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.JuelExpressionCondition;
@@ -16,6 +15,7 @@ import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Role;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
+import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
 import org.jodaengine.util.io.ClassPathResourceStreamSource;
 import org.slf4j.Logger;
@@ -389,15 +389,15 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     }
 
     @Override
-    public Set<AbstractProcessArtifact> getArtifactsToDeploy() {
+    public Set<AbstractForm> getFormsToDeploy() {
 
-        AbstractProcessArtifact form1 = createClassPathArtifact("form1", "forms/claimPoints.html");
-        AbstractProcessArtifact form2 = createClassPathArtifact("form2", "forms/checkForNewClaims.html");
-        AbstractProcessArtifact form3 = createClassPathArtifact("form3", "forms/createReport.html");
-        AbstractProcessArtifact form4 = createClassPathArtifact("form4", "forms/postEditingClaim.html");
-        AbstractProcessArtifact form5 = createClassPathArtifact("form5", "forms/enforceAllowance.html");
+        AbstractForm form1 = createClassPathForm("form1", "forms/claimPoints.html");
+        AbstractForm form2 = createClassPathForm("form2", "forms/checkForNewClaims.html");
+        AbstractForm form3 = createClassPathForm("form3", "forms/createReport.html");
+        AbstractForm form4 = createClassPathForm("form4", "forms/postEditingClaim.html");
+        AbstractForm form5 = createClassPathForm("form5", "forms/enforceAllowance.html");
 
-        Set<AbstractProcessArtifact> artifacts = new HashSet<AbstractProcessArtifact>();
+        Set<AbstractForm> artifacts = new HashSet<AbstractForm>();
         artifacts.add(form1);
         artifacts.add(form2);
         artifacts.add(form3);
@@ -413,8 +413,8 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 * @param fileName the file name
 * @return the abstract process artifact
 */
-    private AbstractProcessArtifact createClassPathArtifact(String name, String fileName) {
+    private AbstractForm createClassPathForm(String name, String fileName) {
         ClassPathResourceStreamSource source = new ClassPathResourceStreamSource(fileName);
-        return new ProcessArtifact(name, source);
+        return new FormImpl(name, source);
     }
 }
