@@ -8,7 +8,6 @@ import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.navigator.NavigatorInside;
-import org.jodaengine.util.ServiceContext;
 
 
 /**

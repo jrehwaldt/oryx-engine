@@ -1,5 +1,6 @@
 package org.jodaengine.process.activation.pattern;
 
+import org.jodaengine.process.activation.ProcessDefinitionActivationPattern;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
 
 /**

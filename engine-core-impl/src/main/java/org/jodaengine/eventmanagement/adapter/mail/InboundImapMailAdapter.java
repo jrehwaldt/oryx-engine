@@ -10,7 +10,9 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
 
+import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
+import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.exception.JodaEngineException;
 
