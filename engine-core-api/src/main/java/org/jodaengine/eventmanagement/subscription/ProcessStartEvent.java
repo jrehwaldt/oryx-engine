@@ -1,5 +1,6 @@
 package org.jodaengine.eventmanagement.subscription;
 
+import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 
 /**
@@ -14,4 +15,10 @@ public interface ProcessStartEvent extends ProcessEvent {
      * @return the definition id
      */
     ProcessDefinitionID getDefinitionID();
+    
+    /**
+     * Inject the navigator service needed to start an instance.
+     * @param navigator the Navigator
+     */
+    void injectNavigatorService(Navigator navigator);
 }

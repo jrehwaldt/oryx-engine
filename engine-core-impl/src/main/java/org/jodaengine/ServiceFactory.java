@@ -6,7 +6,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.allocation.TaskDistribution;
 import org.jodaengine.bootstrap.JodaEngineAppContext;
-import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
