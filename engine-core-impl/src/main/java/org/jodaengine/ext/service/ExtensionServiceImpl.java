@@ -41,6 +41,15 @@ public class ExtensionServiceImpl implements ExtensionService {
     
     private boolean running = false;
     
+    /**
+     * Default constructor.
+     */
+    public ExtensionServiceImpl() {
+        this.extensions = new HashMap<Class<?>, TypeSafeList<?>>();
+        this.extensionServices = new HashMap<String, Service>();
+        this.extensionWebServiceSingletons = new HashMap<Service, List<Service>>();
+    }
+    
     @Override
     public synchronized void start(JodaEngineServices services) {
         
@@ -54,9 +63,6 @@ public class ExtensionServiceImpl implements ExtensionService {
         logger.info("Starting the ExtensionService");
         
         this.coreServices = services;
-        this.extensions = new HashMap<Class<?>, TypeSafeList<?>>();
-        this.extensionServices = new HashMap<String, Service>();
-        this.extensionWebServiceSingletons = new HashMap<Service, List<Service>>();
         
         startExtensionServices();
         createExtensionWebServiceSingletons();

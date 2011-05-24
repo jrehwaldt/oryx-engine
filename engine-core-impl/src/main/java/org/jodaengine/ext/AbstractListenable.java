@@ -13,7 +13,7 @@ import org.jodaengine.ext.listener.Listenable;
  * 
  * @param <IListener> the extension implementation class implemented as observer
  */
-public abstract class AbstractPluggable<IListener extends ObersverListener>
+public abstract class AbstractListenable<IListener extends ObersverListener>
 extends Observable
 implements Listenable<IListener> {
     
@@ -22,7 +22,7 @@ implements Listenable<IListener> {
     /**
      * Default constructor.
      */
-    public AbstractPluggable() {
+    public AbstractListenable() {
         this.listeners = new ArrayList<IListener>();
     }
     

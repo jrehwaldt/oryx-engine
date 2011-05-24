@@ -73,10 +73,7 @@ public class JodaEngine implements JodaEngineServices {
         //
         if (serviceTable != null) {
             
-            Iterator<Service> serviceIterator = serviceTable.values().iterator();
-            while (serviceIterator.hasNext()) {
-                
-                Service service = serviceIterator.next();
+            for (Service service: serviceTable.values()) {
                 service.start(jodaEngineSingelton);
             }
         }

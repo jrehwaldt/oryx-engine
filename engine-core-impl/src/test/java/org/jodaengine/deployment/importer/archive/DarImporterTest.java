@@ -38,7 +38,6 @@ public class DarImporterTest extends AbstractJodaEngineTest {
         Assert.assertEquals(containedDefinitions.size(), 1, "There should be one definition");
         ProcessDefinition definition = containedDefinitions.iterator().next();
 
-        // TODO @Thorben keep UUID used here and the test file in sync
         Assert.assertEquals(definition.getName(), PROCESS_NAME,
             "The definition should have the desired id as specified in the files");
     }

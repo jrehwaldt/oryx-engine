@@ -137,7 +137,7 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
         repository.deployInNewScope(deployment);
 
         try {
-            Class<?> clazz = repository.getDeployedClass(definition.getID(), "test.reference.Dummy");
+            repository.getDeployedClass(definition.getID(), "test.reference.Dummy");
             Assert.fail("The class should not have been found.");
         } catch (ClassNotFoundException e) {
             // do nothing here, this is what we expect
@@ -146,9 +146,11 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
 
     /**
      * Test that a deployed class is only visible in this scope and not in the scope of another deployed definition.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
-     * @throws IllegalStarteventException the illegal startevent exception
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws IllegalStarteventException
+     *             the illegal startevent exception
      */
     @Test
     public void testClassIsolation()
@@ -162,7 +164,6 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
         repository.deployInNewScope(deployment);
 
         // create another process definition to deploy
-        ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID());
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
         ProcessDefinition anotherDefinition = defBuilder.buildDefinition();
 
@@ -171,11 +172,65 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
         repository.deployInNewScope(anotherDeployment);
 
         try {
-            Class<?> clazz = repository.getDeployedClass(anotherDefinition.getID(), "test.simple.Dummy");
+            repository.getDeployedClass(anotherDefinition.getID(), "test.simple.Dummy");
             Assert.fail("The class should not have been found, as it only exists in the other scope.");
         } catch (ClassNotFoundException e) {
             // do nothing here, this is what we expect
         }
+    }
+
+    /**
+     * Tests the deployment of the same class (name 'test.simple.Dummy') with two versions into two different scopes.
+     * Version A#getAString returns "A", Version B#getAString returns "B".
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws IllegalStarteventException
+     *             the illegal startevent exception
+     * @throws ClassNotFoundException
+     *             the class not found exception
+     * @throws InstantiationException
+     *             the instantiation exception
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException 
+     */
+    @Test
+    public void testTwoClassVersions()
+    throws IOException, IllegalStarteventException, ClassNotFoundException, InstantiationException,
+    IllegalAccessException, InvocationTargetException {
+
+        byte[] dataA = getClassDataFromFile(CUSTOM_CLASSES_PATH + "test/simple/DummyA.class");
+        byte[] dataB = getClassDataFromFile(CUSTOM_CLASSES_PATH + "test/simple/DummyB.class");
+
+        // create the deployment
+        builder.addClass("test.simple.Dummy", dataA);
+        Deployment deployment = builder.buildDeployment();
+        repository.deployInNewScope(deployment);
+
+        // create the second deployment
+        defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
+        ProcessDefinition anotherDefinition = defBuilder.buildDefinition();
+        builder.addProcessDefinition(anotherDefinition);
+        builder.addClass("test.simple.Dummy", dataB);
+        Deployment anotherDeployment = builder.buildDeployment();
+        repository.deployInNewScope(anotherDeployment);
+
+        Class<?> dummyA = repository.getDeployedClass(definition.getID(), "test.simple.Dummy");
+        Class<?> dummyB = repository.getDeployedClass(anotherDefinition.getID(), "test.simple.Dummy");
+
+        // call the method on dummyA
+        Object instanceA = dummyA.newInstance();
+        Method methodToInvokeA = ReflectionUtil.getMethodFor(dummyA, "getAString");
+        String returnValueA = (String) methodToInvokeA.invoke(instanceA, new Object[] {});
+
+        // call the method on dummyB
+        Object instanceB = dummyB.newInstance();
+        Method methodToInvokeB = ReflectionUtil.getMethodFor(dummyB, "getAString");
+        String returnValueB = (String) methodToInvokeB.invoke(instanceB, new Object[] {});
+
+        Assert.assertEquals(returnValueA, "A", "getAString on a DummyA-Object should have returned 'A'");
+        Assert.assertEquals(returnValueB, "B", "getAString on a DummyA-Object should have returned 'B'");
     }
 
     /**

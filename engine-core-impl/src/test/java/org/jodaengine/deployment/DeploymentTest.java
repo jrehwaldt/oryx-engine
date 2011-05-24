@@ -20,9 +20,9 @@ import org.testng.annotations.Test;
  */
 public class DeploymentTest extends AbstractJodaEngineTest {
 
-    private RepositoryService repository;
-    private DeploymentBuilder builder;
-    private ProcessDefinitionBuilder defBuilder;
+    private RepositoryService repository = null;
+    private DeploymentBuilder builder = null;
+    private ProcessDefinitionBuilder defBuilder = null;
 
     /**
      * Sets services and builders.

@@ -12,9 +12,7 @@ import org.jodaengine.process.token.TokenImpl;
 
 
 /**
- * The Class ProcessInstanceImpl.
- * 
- * See {@link AbstractProcessInstance}.
+ * A concrete implementation of {@link AbstractProcessInstance}.
  */
 public class ProcessInstanceImpl extends AbstractProcessInstance {
 

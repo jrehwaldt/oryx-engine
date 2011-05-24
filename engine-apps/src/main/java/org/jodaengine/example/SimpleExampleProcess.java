@@ -48,8 +48,8 @@ public final class SimpleExampleProcess {
      * 
      * @param args
      *            the arguments
-     * @throws IllegalStarteventException
-     * @throws DefinitionNotFoundException
+     * @throws IllegalStarteventException fails
+     * @throws DefinitionNotFoundException fails
      */
     public static void main(String[] args)
     throws IllegalStarteventException, DefinitionNotFoundException {
