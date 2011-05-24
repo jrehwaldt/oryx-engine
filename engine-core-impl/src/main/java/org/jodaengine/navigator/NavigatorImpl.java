@@ -76,21 +76,7 @@ implements Navigator, NavigatorInside, Service {
      */
     public NavigatorImpl() {
 
-        this(null, NUMBER_OF_NAVIGATOR_THREADS);
-    }
-
-    /**
-     * Instantiates a new navigator implementation.
-     * 
-     * Be aware however that there is a ServiceFactory which has a Navigator Singleton since this should be a Singleton.
-     * So use with caution.
-     * 
-     * @param numberOfThreads
-     *            the number of threads
-     */
-    public NavigatorImpl(int numberOfThreads) {
-
-        this(null, numberOfThreads);
+        this(null, null, NUMBER_OF_NAVIGATOR_THREADS);
     }
 
     /**
@@ -98,10 +84,13 @@ implements Navigator, NavigatorInside, Service {
      * 
      * @param repositoryService
      *            the process repository
+     * @param extensionService
+     *            the {@link ExtensionService} to load available listener plugins
      * @param numberOfThreads
      *            the number of navigator threads
      */
     public NavigatorImpl(RepositoryServiceInside repositoryService,
+                         ExtensionService extensionService,
                          int numberOfThreads) {
 
         this.state = NavigatorState.INIT;
@@ -115,6 +104,7 @@ implements Navigator, NavigatorInside, Service {
         
         this.scheduler = new FIFOScheduler();
         this.repository = repositoryService;
+        this.extensionService = extensionService;
     }
 
     /**
@@ -126,7 +116,6 @@ implements Navigator, NavigatorInside, Service {
     @Override
     public void start(JodaEngineServices services) {
         
-        this.extensionService = services.getExtensionService();
         loadExtensions(this.extensionService);
         
         // "Gentlemen, start your engines"
