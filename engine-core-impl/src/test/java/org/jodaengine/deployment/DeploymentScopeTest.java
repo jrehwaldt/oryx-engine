@@ -19,11 +19,11 @@ import org.testng.annotations.Test;
  * The Class DeploymentScopeTest.
  */
 public class DeploymentScopeTest extends AbstractJodaEngineTest {
-    private RepositoryService repository;
-    private DeploymentBuilder builder;
-    private ProcessDefinitionBuilder defBuilder;
-    private ProcessDefinition definition;
-    private Deployment deployment;
+    private RepositoryService repository = null;
+    private DeploymentBuilder builder = null;
+    private ProcessDefinitionBuilder defBuilder = null;
+    private ProcessDefinition definition = null;
+    private Deployment deployment = null;
 
     /**
      * Test the removal of the scope of a definition.
