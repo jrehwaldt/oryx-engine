@@ -4,7 +4,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.ext.debugging.DebuggerDefinitionAttribute;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.mockito.ArgumentCaptor;
