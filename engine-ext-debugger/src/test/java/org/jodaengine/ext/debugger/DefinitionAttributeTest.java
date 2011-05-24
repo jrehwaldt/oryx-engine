@@ -45,10 +45,9 @@ public class DefinitionAttributeTest {
     
     /**
      * Tests the creation and binding of a {@link DebuggerDefinitionAttribute} to a {@link ProcessDefinition}.
-     * @throws IllegalStarteventException test fails
      */
     @Test
-    public void testCreationAndBindingOfAnAttribute() throws IllegalStarteventException {
+    public void testCreationAndBindingOfAnAttribute() {
         ProcessDefinition definition = mock(ProcessDefinition.class);
         
         DebuggerDefinitionAttribute attribute = DebuggerDefinitionAttribute.getAttribute(definition);
