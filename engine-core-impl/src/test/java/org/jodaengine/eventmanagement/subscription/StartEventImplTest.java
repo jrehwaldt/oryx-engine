@@ -46,6 +46,7 @@ public class StartEventImplTest extends AbstractJodaEngineTest {
 
         // Let the processInstance finish
         Thread.sleep(SLEEP);
+        // TODO @Tobi / Gerardo?: der failt regelmäßig - und ist damit Mist
         Assert.assertEquals(jodaEngineServices.getNavigatorService().getEndedInstances().size(), 1);
     }
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -89,10 +90,10 @@ implements Navigator, NavigatorInside, Service {
      * @param numberOfThreads
      *            the number of navigator threads
      */
-    public NavigatorImpl(RepositoryServiceInside repositoryService,
-                         ExtensionService extensionService,
-                         int numberOfThreads) {
-
+    public NavigatorImpl(@Nonnull RepositoryServiceInside repositoryService,
+                         @Nullable ExtensionService extensionService,
+                         @Nonnegative int numberOfThreads) {
+        
         this.state = NavigatorState.INIT;
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
