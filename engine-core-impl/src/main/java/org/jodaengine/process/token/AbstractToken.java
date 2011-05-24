@@ -8,19 +8,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.jodaengine.exception.JodaEngineException;
-import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.ext.AbstractPluggable;
 import org.jodaengine.ext.exception.InstanceTerminationHandler;
 import org.jodaengine.ext.exception.LoggerExceptionHandler;
 import org.jodaengine.ext.listener.AbstractExceptionHandler;
 import org.jodaengine.ext.listener.AbstractTokenListener;
-import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
-import org.jodaengine.node.activity.Activity;
-import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
@@ -31,6 +25,7 @@ import org.jodaengine.process.structure.Transition;
  * 
  * @param <T>
  */
+
 public abstract class AbstractToken<T extends AbstractToken<?>> extends AbstractPluggable<AbstractTokenListener>
 implements Token {
 
@@ -38,8 +33,7 @@ implements Token {
 
     protected Navigator navigator;
 
-    protected ActivityState currentActivityState = null;
-    protected AbstractProcessInstance instance;
+    protected AbstractProcessInstance<T> instance;
 
     protected Node currentNode;
     protected Transition lastTakenTransition;
@@ -59,7 +53,7 @@ implements Token {
      * @param navigator
      *            the navigator
      */
-    public AbstractToken(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
+    public AbstractToken(Node startNode, AbstractProcessInstance<T> instance, Navigator navigator) {
 
         super();
 
@@ -101,86 +95,6 @@ implements Token {
         return id;
     }
 
-    @Override
-    public void executeStep()
-    throws JodaEngineException {
-
-        if (instance.isCancelled()) {
-            // the following statement was already called, when instance.cancel() was called. Nevertheless, a token
-            // currently in execution might have created new tokens during split that were added to the instance.
-            instance.getAssignedTokens().clear();
-            return;
-        }
-        try {
-
-            lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
-            changeActivityState(ActivityState.ACTIVE);
-
-            Activity currentActivityBehavior = currentNode.getActivityBehaviour();
-            currentActivityBehavior.execute(this);
-
-            // Aborting the further execution of the process by the token, because it was suspended
-            if (this.currentActivityState == ActivityState.WAITING) {
-                return;
-            }
-
-            completeExecution();
-        } catch (JodaEngineRuntimeException exception) {
-            exceptionHandler.processException(exception, this);
-        }
-    }
-
-    @Override
-    public List<Token> navigateTo(List<Transition> transitionList) {
-
-        List<Token> tokensToNavigate = new ArrayList<Token>();
-
-        //
-        // zero outgoing transitions
-        //
-        if (transitionList.size() == 0) {
-
-            this.exceptionHandler.processException(new NoValidPathException(), this);
-
-            //
-            // one outgoing transition
-            //
-        } else if (transitionList.size() == 1) {
-
-            Transition transition = transitionList.get(0);
-            Node node = transition.getDestination();
-            this.setCurrentNode(node);
-            this.lastTakenTransition = transition;
-            changeActivityState(ActivityState.INIT);
-            tokensToNavigate.add(this);
-
-            //
-            // multiple outgoing transitions
-            //
-        } else {
-
-            for (Transition transition : transitionList) {
-                Node node = transition.getDestination();
-                Token newToken = createNewToken(node);
-                newToken.setLastTakenTransition(transition);
-                tokensToNavigate.add(newToken);
-            }
-
-            // this is needed, as the this-token would be left on the node that triggers the split.
-            instance.removeToken(this);
-        }
-        return tokensToNavigate;
-
-    }
-
-    @Override
-    public Token createNewToken(Node node) {
-
-        Token token = instance.createToken(node, navigator);
-        ((AbstractToken) token).registerListeners(getListeners());
-
-        return token;
-    }
 
     @Override
     public boolean joinable() {
@@ -196,7 +110,7 @@ implements Token {
     }
 
     @Override
-    public AbstractProcessInstance getInstance() {
+    public AbstractProcessInstance<T> getInstance() {
 
         return instance;
     }
@@ -233,33 +147,11 @@ implements Token {
     // }
 
     /**
-     * Completes the execution of the activity.
-     * 
-     * @throws NoValidPathException
-     *             thrown if there is no valid path to be executed
-     */
-    protected void completeExecution()
-    throws NoValidPathException {
-
-        currentNode.getActivityBehaviour().resume(this);
-        changeActivityState(ActivityState.COMPLETED);
-
-        List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
-
-        for (Token token : splittedTokens) {
-            navigator.addWorkToken(token);
-        }
-
-        lazySuspendedProcessingTokens = null;
-
-    }
-
-    /**
      * Gets the lazy suspended processing token.
      * 
      * @return the lazy suspended processing token
      */
-    private List<Token> getLazySuspendedProcessingToken() {
+    protected List<Token> getLazySuspendedProcessingToken() {
 
         if (lazySuspendedProcessingTokens == null) {
             lazySuspendedProcessingTokens = new ArrayList<Token>();
@@ -272,31 +164,6 @@ implements Token {
     public Navigator getNavigator() {
 
         return this.navigator;
-    }
-
-    @Override
-    public void cancelExecution() {
-
-        if (this.currentActivityState == ActivityState.ACTIVE || this.currentActivityState == ActivityState.WAITING) {
-            Activity currentActivityBehavior = currentNode.getActivityBehaviour();
-            currentActivityBehavior.cancel(this);
-        }
-
-    }
-
-    /**
-     * Changes the state of the activity that the token currently points to.
-     * 
-     * @param newState
-     *            the new state
-     */
-    protected void changeActivityState(ActivityState newState) {
-
-        final ActivityState prevState = currentActivityState;
-        this.currentActivityState = newState;
-        setChanged();
-
-        notifyObservers(new ActivityLifecycleChangeEvent(currentNode, prevState, newState, this));
     }
 
     /**
@@ -344,6 +211,12 @@ implements Token {
 
         registerListeners(tokenListener);
         registerExceptionHandlers(tokenExHandler);
+    }
+    
+    public T createNewToken(Node node) {
+        T token = instance.createNewToken(node, navigator);
+        token.registerListeners(getListeners());
+        return token;
     }
 
 }

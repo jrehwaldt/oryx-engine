@@ -68,15 +68,6 @@ public interface Token extends Identifiable<UUID> {
     List<Token> navigateTo(List<Transition> transitionList);
 
     /**
-     * Creates a new token pointing to the given node n in the same process instance context.
-     * 
-     * @param n
-     *            the node the new token points to.
-     * @return the new process token
-     */
-    Token createNewToken(Node n);
-
-    /**
      * Returns a boolean whether it is possible to join on the current node.
      * 
      * @return true, if successful
@@ -96,7 +87,7 @@ public interface Token extends Identifiable<UUID> {
      * @return the context
      */
     @JsonBackReference
-    AbstractProcessInstance getInstance();
+    AbstractProcessInstance<?> getInstance();
 
     /**
      * Gets the last taken transition of the token.

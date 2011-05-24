@@ -23,10 +23,10 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
     }
 
     @Override
-    public AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext,
-                                                         AbstractProcessInstance previosProcessInstance) {
+    public AbstractProcessInstance<?> createProcessInstance(InstantiationPatternContext patternContext,
+                                                         AbstractProcessInstance<?> previosProcessInstance) {
 
-        AbstractProcessInstance currentProcessInstance;
+        AbstractProcessInstance<?> currentProcessInstance;
         try {
             currentProcessInstance = createProcessInstanceIntern(patternContext, previosProcessInstance);
 
@@ -58,8 +58,8 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
      * @return if there is no following instantiationPattern then the current result is returned, otherwise the current
      *         process instance is passed on to the next pattern
      */
-    protected AbstractProcessInstance nextInstantiationPatternResult(InstantiationPatternContext patternContext,
-                                                                     AbstractProcessInstance currentProcessInstance) {
+    protected AbstractProcessInstance<?> nextInstantiationPatternResult(InstantiationPatternContext patternContext,
+                                                                     AbstractProcessInstance<?> currentProcessInstance) {
 
         if (this.nextInstantiationPattern == null) {
             return currentProcessInstance;
@@ -80,5 +80,5 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
      * @see ProcessInstantiationPattern#createProcessInstance(AbstractProcessInstance);
      */
     protected abstract AbstractProcessInstance createProcessInstanceIntern(InstantiationPatternContext patternContext,
-                                                                           AbstractProcessInstance previosProcessInstance);
+                                                                           AbstractProcessInstance<?> previosProcessInstance);
 }

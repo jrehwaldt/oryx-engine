@@ -19,8 +19,9 @@ import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.BpmnProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.SuspendableToken;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
@@ -41,7 +42,7 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
 
     private ConcreteResourcePattern pattern;
     private AbstractParticipant jannik;
-    private AbstractProcessInstance instance;
+    private AbstractProcessInstance<BpmnTokenImpl> instance;
 
     private static final String FORM_LOCATION = "src/test/resources/testforms/testForm.html";
 
@@ -76,8 +77,8 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
 
         Whitebox.setInternalState(pattern, "formID", "form");
 
-        instance = new ProcessInstanceImpl(definition);
-        SuspendableToken token = instance.createToken(mock(Node.class), mock(Navigator.class));
+        instance = new BpmnProcessInstance(definition);
+        SuspendableToken token = instance.createNewToken(mock(Node.class), mock(Navigator.class));
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         AbstractWorklistItem item = pattern.createWorklistItem(token, jodaEngineServices.getRepositoryService());
         PushPattern pushPattern = new AllocateSinglePattern();

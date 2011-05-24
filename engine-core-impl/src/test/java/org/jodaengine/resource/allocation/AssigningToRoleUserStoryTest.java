@@ -13,11 +13,10 @@ import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.BpmnProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.IdentityBuilder;
@@ -85,7 +84,7 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 
         humanTaskNode.transitionTo(endNode);
 
-        token = new BpmnTokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
+        token = new BpmnTokenImpl(humanTaskNode, new BpmnProcessInstance(null), new NavigatorImplMock());
     }
 
     /**

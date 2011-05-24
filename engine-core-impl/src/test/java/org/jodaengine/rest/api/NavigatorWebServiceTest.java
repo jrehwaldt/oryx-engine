@@ -17,6 +17,8 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorStatistic;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instance.BpmnProcessInstance;
+import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.rest.TestUtils;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
 import org.testng.Assert;
@@ -132,9 +134,9 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
             
             logger.debug(response.getContentAsString());
             
-            AbstractProcessInstance instance = this.mapper.readValue(
+            AbstractProcessInstance<BpmnTokenImpl> instance = this.mapper.readValue(
                 response.getContentAsString(),
-                AbstractProcessInstance.class);
+                BpmnProcessInstance.class);
             
             Assert.assertNotNull(instance);
             Assert.assertNotNull(instance.getDefinition());
@@ -156,18 +158,18 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         Assert.assertNotNull(jsonFinished);
 
         JavaType typeRef = TypeFactory.collectionType(List.class, AbstractProcessInstance.class);
-        List<AbstractProcessInstance> finInstances = this.mapper.readValue(jsonFinished, typeRef);
+        List<AbstractProcessInstance<BpmnTokenImpl>> finInstances = this.mapper.readValue(jsonFinished, typeRef);
         Assert.assertNotNull(finInstances);
 
         Assert.assertEquals(finInstances.size(), NUMBER_OF_INSTANCES_TO_START);
-        for (AbstractProcessInstance ins : finInstances) {
+        for (AbstractProcessInstance<BpmnTokenImpl> ins : finInstances) {
             Assert.assertEquals(ins.getDefinition().getID(), definition.getID());
         }
 
         String jsonRunning = makeGETRequestReturningJson("/navigator/status/running-instances");
         Assert.assertNotNull(jsonRunning);
 
-        List<AbstractProcessInstance> runInstances = this.mapper.readValue(jsonRunning, typeRef);
+        List<AbstractProcessInstance<BpmnTokenImpl>> runInstances = this.mapper.readValue(jsonRunning, typeRef);
         Assert.assertNotNull(runInstances);
 
         Assert.assertEquals(runInstances.size(), 0);

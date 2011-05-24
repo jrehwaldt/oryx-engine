@@ -7,7 +7,8 @@ import static org.testng.Assert.assertTrue;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.AbstractToken;
+import org.jodaengine.process.token.BpmnTokenImpl;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -17,7 +18,7 @@ import org.testng.annotations.Test;
  */
 public class ProcessInstanceImplTest {
 
-    private AbstractProcessInstance instance = null;
+    private AbstractProcessInstance<BpmnTokenImpl> instance = null;
 
     /**
      * F.
@@ -27,7 +28,7 @@ public class ProcessInstanceImplTest {
 
         Navigator nav = mock(Navigator.class);
         Node node = mock(Node.class);
-        Token token = instance.createToken(node, nav);
+        AbstractToken<BpmnTokenImpl> token = instance.createNewToken(node, nav);
 
         assertTrue(instance.getAssignedTokens().contains(token), "The instance should contain the token now.");
 
@@ -41,7 +42,7 @@ public class ProcessInstanceImplTest {
     public void setUp() {
 
         ProcessDefinition definition = mock(ProcessDefinition.class);
-        instance = new ProcessInstanceImpl(definition);
+        instance = new BpmnProcessInstance(definition);
 
     }
 

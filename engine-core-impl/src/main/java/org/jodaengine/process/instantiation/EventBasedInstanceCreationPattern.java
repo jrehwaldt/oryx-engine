@@ -4,8 +4,9 @@ import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.BpmnProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,26 +25,26 @@ StartInstantiationPattern {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext) {
+    public AbstractProcessInstance<BpmnTokenImpl> createProcessInstance(InstantiationPatternContext patternContext) {
 
         // Extracting the necessary variables from the context
         ProcessDefinitionInside processDefinition = patternContext.getProcessDefinition();
         NavigatorInside navigator = patternContext.getNavigatorService();
         ProcessStartEvent startEvent = patternContext.getThrownStartEvent();
 
-        AbstractProcessInstance processInstance = new ProcessInstanceImpl(processDefinition);
+        AbstractProcessInstance<BpmnTokenImpl> processInstance = new BpmnProcessInstance(processDefinition);
 
         // Extract the startNode
         Node startNode = processDefinition.getStartTriggers().get(startEvent);
-        Token newToken = processInstance.createToken(startNode, navigator);
+        Token newToken = processInstance.createNewToken(startNode, navigator);
         navigator.addWorkToken(newToken);
 
         return processInstance;
     }
 
     @Override
-    protected AbstractProcessInstance createProcessInstanceIntern(InstantiationPatternContext patternContext,
-                                                                  AbstractProcessInstance previosProcessInstance) {
+    protected AbstractProcessInstance<?> createProcessInstanceIntern(InstantiationPatternContext patternContext,
+                                                                  AbstractProcessInstance<?> previosProcessInstance) {
 
         if (previosProcessInstance != null) {
             String warnMessage = "The previous pattern already created an ProcessInstance. This one is now overridden.";

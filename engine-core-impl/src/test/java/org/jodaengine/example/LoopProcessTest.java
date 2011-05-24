@@ -18,7 +18,7 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.BpmnProcessInstance;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
@@ -124,7 +124,7 @@ public class LoopProcessTest {
         ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID(), 0);
         ProcessDefinition definition = new ProcessDefinitionImpl(id, DEFINITION_NAME,
             DEFINITION_DESCRIPTION, startNodes);
-        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
+        AbstractProcessInstance<BpmnTokenImpl> instance = new BpmnProcessInstance(definition);
         instance.getContext().setVariable("counter", "0");
         instance.getContext().setVariable("increment", "1");
 

@@ -9,7 +9,7 @@ import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.BpmnProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.Token;
@@ -134,7 +134,7 @@ public class BPMNUnstructuredJoinSplitTest {
         
         navigator = new NavigatorImplMock();
 
-        Token token = new BpmnTokenImpl(splitNode, new ProcessInstanceImpl(null), navigator);
+        Token token = new BpmnTokenImpl(splitNode, new BpmnProcessInstance(null), navigator);
 
         return token;
     }

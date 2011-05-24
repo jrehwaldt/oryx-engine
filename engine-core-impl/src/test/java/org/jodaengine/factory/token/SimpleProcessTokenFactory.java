@@ -1,6 +1,6 @@
 package org.jodaengine.factory.token;
 
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.BpmnProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.Token;
@@ -18,7 +18,7 @@ public class SimpleProcessTokenFactory {
      * @return the process instance
      */
     public Token create(Node startNode) {
-        Token p = new BpmnTokenImpl(startNode, new ProcessInstanceImpl(null), null);
+        Token p = new BpmnTokenImpl(startNode, new BpmnProcessInstance(null), null);
         return p;
     }
 

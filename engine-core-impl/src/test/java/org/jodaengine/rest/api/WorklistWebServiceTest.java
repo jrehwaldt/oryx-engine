@@ -19,9 +19,10 @@ import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instance.BpmnProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.SuspendableToken;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
@@ -74,7 +75,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
         SuspendableToken token = mock(SuspendableToken.class);
         context = new ProcessInstanceContextImpl();
-        AbstractProcessInstance instance = mock(ProcessInstanceImpl.class);
+        AbstractProcessInstance<BpmnTokenImpl> instance = mock(BpmnProcessInstance.class);
         when(instance.getContext()).thenReturn(context);
         when(instance.getDefinition()).thenReturn(definition);
         when(token.getInstance()).thenReturn(instance);

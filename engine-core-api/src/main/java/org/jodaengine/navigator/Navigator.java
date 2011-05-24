@@ -28,7 +28,7 @@ public interface Navigator extends Service {
      * @return the started instance
      */
     @Nonnull
-    AbstractProcessInstance startProcessInstance(@Nonnull ProcessDefinitionID processID, ProcessStartEvent event)
+    AbstractProcessInstance<?> startProcessInstance(@Nonnull ProcessDefinitionID processID, ProcessStartEvent event)
     throws DefinitionNotFoundException;
 
     /**
@@ -41,7 +41,7 @@ public interface Navigator extends Service {
      * @return the started instance
      */
     @Nonnull
-    AbstractProcessInstance startProcessInstance(@Nonnull ProcessDefinitionID processID)
+    AbstractProcessInstance<?> startProcessInstance(@Nonnull ProcessDefinitionID processID)
     throws DefinitionNotFoundException;
 
     /**
@@ -78,21 +78,21 @@ public interface Navigator extends Service {
      * 
      * @return the instances
      */
-    List<AbstractProcessInstance> getRunningInstances();
+    List<AbstractProcessInstance<?>> getRunningInstances();
 
     /**
      * Gets the instances that were processed by this navigator and have ended.
      * 
      * @return the ended instances
      */
-    List<AbstractProcessInstance> getEndedInstances();
+    List<AbstractProcessInstance<?>> getEndedInstances();
 
     /**
      * Cancel the given process instance. Stops all corresponding tokens as soon as possible and does some cleanup.
      *
      * @param instance the instance
      */
-    void cancelProcessInstance(AbstractProcessInstance instance);
+    void cancelProcessInstance(AbstractProcessInstance<?> instance);
     
     /**
      * Signal that a formerly running process instance has ended.
@@ -100,7 +100,7 @@ public interface Navigator extends Service {
      * @param instance
      *            the instance
      */
-    void signalEndedProcessInstance(AbstractProcessInstance instance);
+    void signalEndedProcessInstance(AbstractProcessInstance<?> instance);
 
     /**
      * Checks if the navigator is idle, so to say if he still has work to do.

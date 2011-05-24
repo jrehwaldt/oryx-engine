@@ -8,7 +8,6 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryServiceInside;
-import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
@@ -44,14 +43,14 @@ implements Navigator, NavigatorInside, Service {
     /**
      * All the process Instances (not tokens!) that are currently running for some reason.
      */
-    private List<AbstractProcessInstance> runningInstances;
+    private List<AbstractProcessInstance<?>> runningInstances;
 
     /**
      * All the process instances that finished i.e. that reached all their end events. Temporary until we can save them,
      * the way they are implemented now, they eat up a huge amount of heap space, as they are the last reference to
      * stuff the garbage collector would normally eat.
      */
-    private List<AbstractProcessInstance> finishedInstances;
+    private List<AbstractProcessInstance<?>> finishedInstances;
 
     /** The execution threads. Yes our navigator is multi-threaded. Pretty awesome. */
     private ArrayList<NavigationThread> executionThreads;
@@ -107,8 +106,8 @@ implements Navigator, NavigatorInside, Service {
         // this.repository = ServiceFactory.getRepositoryService();
         this.repository = repository;
         this.suspendedTokens = new ArrayList<Token>();
-        this.runningInstances = Collections.synchronizedList(new ArrayList<AbstractProcessInstance>());
-        this.finishedInstances = new ArrayList<AbstractProcessInstance>();
+        this.runningInstances = Collections.synchronizedList(new ArrayList<AbstractProcessInstance<?>>());
+        this.finishedInstances = new ArrayList<AbstractProcessInstance<?>>();
     }
 
     /**
@@ -142,13 +141,13 @@ implements Navigator, NavigatorInside, Service {
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID)
+    public AbstractProcessInstance<?> startProcessInstance(ProcessDefinitionID processID)
     throws DefinitionNotFoundException {
 
         // TODO use the variable repository here. This cannot be used in tests, as it requires the bootstrap to have
         // run first, but we definitely do not want to start the whole engine to test a simple feature.
         ProcessDefinitionInside definition = repository.getProcessDefinitionInside(processID);
-        AbstractProcessInstance instance = definition.createProcessInstance(this);
+        AbstractProcessInstance<?> instance = definition.createProcessInstance(this);
 
         // for (Node node : definition.getStartNodes()) {
         // Token newToken = instance.createToken(node, this);
@@ -160,11 +159,11 @@ implements Navigator, NavigatorInside, Service {
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID, ProcessStartEvent event)
+    public AbstractProcessInstance<?> startProcessInstance(ProcessDefinitionID processID, ProcessStartEvent event)
     throws DefinitionNotFoundException {
 
         ProcessDefinitionInside definition = repository.getProcessDefinitionInside(processID);
-        AbstractProcessInstance instance = definition.createProcessInstance(this);
+        AbstractProcessInstance<?> instance = definition.createProcessInstance(this);
         
         runningInstances.add(instance);
 
@@ -257,19 +256,19 @@ implements Navigator, NavigatorInside, Service {
     }
 
     @Override
-    public List<AbstractProcessInstance> getRunningInstances() {
+    public List<AbstractProcessInstance<?>> getRunningInstances() {
 
         return runningInstances;
     }
 
     @Override
-    public List<AbstractProcessInstance> getEndedInstances() {
+    public List<AbstractProcessInstance<?>> getEndedInstances() {
 
         return finishedInstances;
     }
     
     @Override
-    public void cancelProcessInstance(AbstractProcessInstance instance) {
+    public void cancelProcessInstance(AbstractProcessInstance<?> instance) {
 
         instance.cancel();
         signalEndedProcessInstance(instance);
@@ -277,7 +276,7 @@ implements Navigator, NavigatorInside, Service {
     }
 
     @Override
-    public void signalEndedProcessInstance(AbstractProcessInstance instance) {
+    public void signalEndedProcessInstance(AbstractProcessInstance<?> instance) {
 
         boolean instanceContained = runningInstances.remove(instance);
 

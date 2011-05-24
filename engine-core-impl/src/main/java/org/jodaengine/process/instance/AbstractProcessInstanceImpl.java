@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.AbstractToken;
-import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.Token;
 
 
@@ -16,39 +12,41 @@ import org.jodaengine.process.token.Token;
  * The Class ProcessInstanceImpl.
  * 
  * See {@link AbstractProcessInstance}.
+ *
+ * @param <TokenType> the generic type
  */
-public class ProcessInstanceImpl extends AbstractProcessInstance {
+public abstract class AbstractProcessInstanceImpl<TokenType extends Token> extends AbstractProcessInstance<TokenType> {
 
-    private ProcessDefinition definition;
-    private ProcessInstanceContext context;
-    private UUID id;
-    private List<Token> assignedTokens;
+    protected ProcessDefinition definition;
+    protected ProcessInstanceContext context;
+    protected UUID id;
+    protected List<TokenType> assignedTokens;
     
-    private boolean cancelled;
+    protected boolean cancelled;
     
     /**
      * Hidden constructor.
      */
-    protected ProcessInstanceImpl() { }
+    protected AbstractProcessInstanceImpl() { }
 
     /**
      * Default constructor.
      * 
      * @param definition the process definition of this instance
      */
-    public ProcessInstanceImpl(ProcessDefinition definition) {
+    public AbstractProcessInstanceImpl(ProcessDefinition definition) {
         
         this.definition = definition;
         this.id = UUID.randomUUID();
-        this.assignedTokens = new ArrayList<Token>();
+        this.assignedTokens = new ArrayList<TokenType>();
         this.context = new ProcessInstanceContextImpl();
         this.cancelled = false;
     }
 
     @Override
-    public void addToken(Token t) {
+    public void addToken(TokenType token) {
         
-        this.assignedTokens.add(t);
+        this.assignedTokens.add(token);
     }
 
     @Override
@@ -58,7 +56,7 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
     }
 
     @Override
-    public List<Token> getAssignedTokens() {
+    public List<TokenType> getAssignedTokens() {
         
         return assignedTokens;
     }
@@ -76,18 +74,9 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
     }
 
     @Override
-    public Token createToken(Node node, Navigator nav) {
-        
-        AbstractToken token = new BpmnTokenImpl(node, this, nav);
-        
-        this.assignedTokens.add(token);
-        return token;
-    }
+    public void removeToken(TokenType token) {
 
-    @Override
-    public void removeToken(Token t) {
-
-        this.assignedTokens.remove(t);
+        this.assignedTokens.remove(token);
 
     }
 
@@ -104,7 +93,7 @@ public class ProcessInstanceImpl extends AbstractProcessInstance {
         
         // Cancel all ongoing executions
         synchronized (assignedTokens) {
-            for (Token tokenToCancel : assignedTokens) {
+            for (TokenType tokenToCancel : assignedTokens) {
                 tokenToCancel.cancelExecution();
             }
             assignedTokens.clear();

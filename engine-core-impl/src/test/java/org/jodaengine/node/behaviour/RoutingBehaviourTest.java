@@ -11,7 +11,7 @@ import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.BpmnProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.BpmnTokenImpl;
@@ -76,7 +76,7 @@ public class RoutingBehaviourTest {
      * 
      * @return the process token that was created within the method
      */
-    private AbstractToken simpleToken() {
+    private AbstractToken<BpmnTokenImpl> simpleToken() {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
@@ -88,6 +88,6 @@ public class RoutingBehaviourTest {
 
         builder.getTransitionBuilder().transitionGoesFromTo(node, node2).buildTransition();
 
-        return new BpmnTokenImpl(node, new ProcessInstanceImpl(null), null);
+        return new BpmnTokenImpl(node, new BpmnProcessInstance(null), null);
     }
 }
