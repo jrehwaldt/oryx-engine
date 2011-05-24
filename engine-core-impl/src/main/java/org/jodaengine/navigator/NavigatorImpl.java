@@ -12,7 +12,7 @@ import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
-import org.jodaengine.ext.AbstractPluggable;
+import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.listener.AbstractNavigatorListener;
 import org.jodaengine.navigator.schedule.FIFOScheduler;
 import org.jodaengine.navigator.schedule.Scheduler;
@@ -25,7 +25,7 @@ import org.jodaengine.process.token.Token;
 /**
  * The Class NavigatorImpl. Our Implementation of the Navigator.
  */
-public class NavigatorImpl extends AbstractPluggable<AbstractNavigatorListener>
+public class NavigatorImpl extends AbstractListenable<AbstractNavigatorListener>
 implements Navigator, NavigatorInside, Service {
 
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;

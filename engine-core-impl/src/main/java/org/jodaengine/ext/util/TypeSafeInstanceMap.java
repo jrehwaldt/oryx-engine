@@ -81,6 +81,17 @@ public class TypeSafeInstanceMap implements Iterable<Class<?>> {
     }
     
     /**
+     * Returns whether a certain type is contained in this map.
+     * 
+     * @param <IInstance> the instance's type
+     * @param type the type, which may be contained
+     * @return true, if instances exist
+     */
+    public <IInstance> boolean containsInstances(@Nonnull Class<IInstance> type) {
+        return getInstances(type).isEmpty();
+    }
+    
+    /**
      * Clear the whole map of instances.
      */
     public void clear() {

@@ -11,7 +11,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.NoValidPathException;
-import org.jodaengine.ext.AbstractPluggable;
+import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.exception.InstanceTerminationHandler;
 import org.jodaengine.ext.exception.LoggerExceptionHandler;
 import org.jodaengine.ext.listener.AbstractExceptionHandler;
@@ -28,7 +28,7 @@ import org.jodaengine.process.structure.Transition;
 /**
  * The implementation of a process token.
  */
-public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implements Token {
+public class TokenImpl extends AbstractListenable<AbstractTokenListener> implements Token {
     
     private UUID id;
     
@@ -41,12 +41,12 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     private Transition lastTakenTransition;
     
     private List<Token> lazySuspendedProcessingTokens;
-
+    
     @JsonIgnore
     private AbstractExceptionHandler exceptionHandler;
     
     /**
-     * Instantiates a new process {@link TokenImpl}.
+     * Instantiates a new process {@link TokenImpl}. This will not register any available extension.
      * 
      * @param startNode
      *            the start node
@@ -55,8 +55,31 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
      * @param navigator
      *            the navigator
      */
-    public TokenImpl(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
+    public TokenImpl(Node startNode,
+                     AbstractProcessInstance instance,
+                     Navigator navigator) {
+        this(startNode, instance, navigator, null);
+    }
+    
+    /**
+     * Instantiates a new process {@link TokenImpl} and register all available extensions.
+     * 
+     * @param startNode
+     *            the start node
+     * @param instance
+     *            the instance
+     * @param navigator
+     *            the navigator
+     * @param extensionService
+     *            the {@link ExtensionService} to load and register extensions from, may be null
+     */
+    public TokenImpl(Node startNode,
+                     AbstractProcessInstance instance,
+                     Navigator navigator,
+                     @Nullable ExtensionService extensionService) {
         super();
+        
+        // TODO Jan - use this constructor to register potential extensions - wait for Janniks refactoring.
         
         this.currentNode = startNode;
         this.instance = instance;
@@ -65,11 +88,16 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
         changeActivityState(ActivityState.INIT);
         
         //
-        // at this point, you can register as much runtime exception handlers as you wish, following the chain of
-        // responsibility pattern. The handler is used for runtime errors that occur in process execution.
+        // register default exception chain;
+        // additional extensions may be registered via the ExtensionService
         //
         this.exceptionHandler = new LoggerExceptionHandler();
         this.exceptionHandler.setNext(new InstanceTerminationHandler());
+        
+        //
+        // load available extensions, if an ExtensionService is provided
+        //
+        loadExtensions(extensionService);
     }
     
     /**
@@ -319,15 +347,13 @@ public class TokenImpl extends AbstractPluggable<AbstractTokenListener> implemen
     }
     
     /**
-     * Registers any available extension suitable for {@link TokenImpl}.
+     * Registers any available extension suitable for {@link Token}.
      * 
-     * Those include {@link AbstractExceptionHandler} as well as {@link AbstractTokenListener}.
+     * Those include exception handlers as well as token listeners.
      * 
      * @param extensionService the {@link ExtensionService}, which provides access to the extensions
      */
-    public void loadExtensions(@Nullable ExtensionService extensionService) {
-        
-        // TODO use this method to register available extensions
+    protected void loadExtensions(@Nullable ExtensionService extensionService) {
         
         //
         // no ExtensionService = no extensions

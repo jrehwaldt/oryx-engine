@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jodaengine.ext.AbstractPluggable;
+import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.listener.AbstractSchedulerListener;
 import org.jodaengine.process.token.Token;
 
@@ -12,7 +12,7 @@ import org.jodaengine.process.token.Token;
 /**
  * The Class FIFOScheduler. It is a simple FIFO Scheduler so nothing too interesting going on around here.
  */
-public class FIFOScheduler extends AbstractPluggable<AbstractSchedulerListener> implements Scheduler {
+public class FIFOScheduler extends AbstractListenable<AbstractSchedulerListener> implements Scheduler {
 
     /** The process instances we would like to schedule. */
     private List<Token> processtokens;
