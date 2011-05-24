@@ -1,9 +1,10 @@
-package org.jodaengine.process.instantiation;
+package org.jodaengine.process.instantiation.pattern;
 
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instantiation.InstantiationPatternContext;
+import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 /**
  * This is the null object for the instantiationPattern. In case the previous pattern created a
@@ -13,14 +14,6 @@ public class StartNullInstantiationPattern extends AbstractProcessInstantiationP
 StartInstantiationPattern {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    public void logWarnMessage() {
-
-        String warnMessage = "This is a NullInstantiationPattern that does nothing."
-            + "You should be aware of the fact that a processDefinition has defined this pattern"
-            + "as one of the instantiationPattern.";
-        logger.warn(warnMessage);
-    }
 
     @Override
     public AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext) {
@@ -40,5 +33,16 @@ StartInstantiationPattern {
 
         // Otherwise null should be retrieved
         return createProcessInstance(patternContext);
+    }
+
+    /**
+     * Logs a default warn message.
+     */
+    private void logWarnMessage() {
+    
+        String warnMessage = "This is a NullInstantiationPattern that does nothing."
+            + "You should be aware of the fact that a processDefinition has defined this pattern"
+            + "as one of the instantiationPattern.";
+        logger.warn(warnMessage);
     }
 }

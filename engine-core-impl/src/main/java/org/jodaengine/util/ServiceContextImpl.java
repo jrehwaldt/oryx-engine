@@ -1,4 +1,4 @@
-package org.jodaengine.process.instantiation;
+package org.jodaengine.util;
 
 import java.util.HashMap;
 import java.util.Map;

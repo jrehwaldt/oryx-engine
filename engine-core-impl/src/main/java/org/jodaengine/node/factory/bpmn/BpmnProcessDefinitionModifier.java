@@ -1,8 +1,9 @@
 package org.jodaengine.node.factory.bpmn;
 
+import org.jodaengine.process.activation.pattern.RegisterAllStartEventPattern;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.instantiation.DefaultBpmnProcessInstanceCreationPattern;
+import org.jodaengine.process.instantiation.pattern.DefaultBpmnProcessInstanceCreationPattern;
 
 
 /**
@@ -19,7 +20,7 @@ public final class BpmnProcessDefinitionModifier {
      */
     public static ProcessDefinitionBuilder decorateWithDefaultBpmnInstantiationPattern(ProcessDefinitionBuilder builder) {
 
-        builder.addStartInstantiationPattern(new DefaultBpmnProcessInstanceCreationPattern());
+        builder.addStartInstantiationPattern(new DefaultBpmnProcessInstanceCreationPattern()).addActivationPattern(new RegisterAllStartEventPattern());
         return builder;
     }
 

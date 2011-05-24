@@ -1,17 +1,19 @@
-package org.jodaengine.process.instantiation;
+package org.jodaengine.process.instantiation.pattern;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instantiation.InstantiationPattern;
+import org.jodaengine.process.instantiation.InstantiationPatternContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * An abstract class for a {@link InstantiationPattern}. This class provides a method body and basic
- * functionality for all
+ * functionality for all patterns.
  */
 public abstract class AbstractProcessInstantiationPattern implements InstantiationPattern {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     private InstantiationPattern nextInstantiationPattern;
 
@@ -42,7 +44,6 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
             String errorMessage = "An Error occurred.";
             logger.error(errorMessage, anyException);
             throw new JodaEngineRuntimeException(errorMessage, anyException);
-
         }
 
         return nextInstantiationPatternResult(patternContext, currentProcessInstance);
