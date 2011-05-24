@@ -40,6 +40,8 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     private ErrorAdapter errorAdapter;
 
     private boolean running = false;
+    
+    private JodaEngineServices services;
 
     /**
      * Instantiates a new event manager.
@@ -55,6 +57,8 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
 
         logger.info("Starting the Event Manager.");
         registerAdapter(this.errorAdapter);
+        
+        this.services = services;
 
         timingManager.start();
 
@@ -82,6 +86,8 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     @Override
     public void registerStartEvent(ProcessStartEvent startEvent) {
 
+        // startEvents need the NavigatorService in order to start a process instance
+        startEvent.injectNavigatorService(services.getNavigatorService());
         AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(startEvent);
         correlatingAdapter.registerStartEvent(startEvent);
     }

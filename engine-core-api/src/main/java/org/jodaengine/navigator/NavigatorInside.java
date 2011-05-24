@@ -7,6 +7,8 @@ import org.jodaengine.process.token.Token;
  * Extends the NavigatorInterface so that it provides more methods for the internal classes.
  * 
  * This Interface is expected to be used by internal classes.
+ * 
+ * TODO @ll: WTF why not use Impl?
  */
 public interface NavigatorInside extends Navigator {
 
