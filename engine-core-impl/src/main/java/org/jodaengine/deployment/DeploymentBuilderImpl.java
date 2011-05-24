@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.InputStream;
 
 import org.jodaengine.allocation.AbstractForm;
-import org.jodaengine.allocation.Form;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;

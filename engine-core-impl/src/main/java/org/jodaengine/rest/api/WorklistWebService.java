@@ -1,5 +1,6 @@
 package org.jodaengine.rest.api;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +30,8 @@ import org.jodaengine.WorklistService;
 import org.jodaengine.allocation.Form;
 import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.forms.processor.FormProcessor;
+import org.jodaengine.forms.processor.JuelFormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
@@ -162,40 +165,12 @@ public final class WorklistWebService {
         AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);
         ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
 
-        String html = populateForm(item.getForm(), context);
-        return Response.ok(html).build();
+        FormProcessor processor = new JuelFormProcessor();
+        String formHtml = processor.prepareForm(item.getForm(), context);
+        
+//        String html = populateForm(item.getForm(), context);
+        return Response.ok(formHtml).build();
 
-    }
-
-    /**
-     * This method populates the given form with data from the context.
-     * It is required, that the input fields in the form and the context variables have exactly the same name.
-     * 
-     * @param form
-     *            the form
-     * @param context
-     *            the context
-     * @return the string
-     */
-    private String populateForm(Form form, ProcessInstanceContext context) {
-
-        // TODO move this configuration to a place, where it is only executed once
-        Config.CurrentCompatibilityMode.setFormFieldNameCaseInsensitive(false);
-        String unpopulatedFormHtml = form.getFormContentAsHTML();
-        Source source = new Source(unpopulatedFormHtml);
-        FormFields formFields = source.getFormFields();
-        formFields.clearValues();
-
-        for (FormField field : formFields) {
-            String fieldName = field.getName();
-            Object variable = context.getVariable(fieldName);
-            if (variable != null) {
-                formFields.addValue(fieldName, variable.toString());
-            }
-        }
-        OutputDocument output = new OutputDocument(source);
-        output.replace(formFields);
-        return output.toString();
     }
 
     /**
@@ -226,11 +201,24 @@ public final class WorklistWebService {
         AbstractWorklistItem item = this.service.getWorklistItem(resource, itemUUID);
         ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
 
+        FormProcessor processor = new JuelFormProcessor();
+        
+        // convert MultiValuedMap to Map. Duplicate entries might be overriden here
+        Map<String, String> singleValueMap = new HashMap<String, String>();
         Set<Map.Entry<String, List<String>>> entrySet = form.entrySet();
         for (Map.Entry<String, List<String>> entry : entrySet) {
             // We just get the first value since values shall be unique
-            context.setVariable(entry.getKey(), entry.getValue().get(0));
+            singleValueMap.put(entry.getKey(), entry.getValue().get(0));
         }
+        
+        
+        processor.readFilledForm(singleValueMap, item.getForm(), context);
+        
+//        Set<Map.Entry<String, List<String>>> entrySet = form.entrySet();
+//        for (Map.Entry<String, List<String>> entry : entrySet) {
+//            // We just get the first value since values shall be unique
+//            context.setVariable(entry.getKey(), entry.getValue().get(0));
+//        }
 
         logger.debug(context.getVariableMap().toString());
         return Response.ok().build();

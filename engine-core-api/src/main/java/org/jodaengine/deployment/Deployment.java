@@ -4,10 +4,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jodaengine.allocation.AbstractForm;
-import org.jodaengine.allocation.Form;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionID;
 
 /**
  * The deployment is a container used to be able to deploy a process definition together with forms, custom data types
@@ -32,8 +30,18 @@ public interface Deployment {
      */
     void addProcessArtifact(AbstractProcessArtifact artifact);
     
+    /**
+     * Adds an {@link AbstractForm} to the deployment.
+     *
+     * @param form the form
+     */
     void addForm(AbstractForm form);
     
+    /**
+     * Gets {@link Map} of all contained {@link AbstractForm}s.
+     *
+     * @return the forms
+     */
     Map<String, AbstractForm> getForms();
 
     /**

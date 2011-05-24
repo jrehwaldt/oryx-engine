@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jodaengine.allocation.AbstractForm;
-import org.jodaengine.allocation.Form;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 

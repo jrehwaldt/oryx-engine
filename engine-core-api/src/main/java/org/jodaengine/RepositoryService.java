@@ -15,7 +15,6 @@ import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.instance.AbstractProcessInstance;
 
 /**
  * The RepositoryService offers method to manage the processes that have been deployed to the navigator.
@@ -96,10 +95,40 @@ public interface RepositoryService extends Service {
      */
     void activateProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
 
+    /**
+     * Adds a {@link AbstractForm} to the definitions scope.
+     * 
+     * @param form
+     *            the form
+     * @param definitionID
+     *            the definition id
+     */
     void addForm(@Nonnull AbstractForm form, @Nonnull ProcessDefinitionID definitionID);
-    AbstractForm getForm(@Nonnull String formID, @Nonnull ProcessDefinitionID definitionID) throws ProcessArtifactNotFoundException;
+
+    /**
+     * Gets an {@link AbstractForm} from the definitions scope.
+     * 
+     * @param formID
+     *            the form id
+     * @param definitionID
+     *            the definition id
+     * @return the form
+     * @throws ProcessArtifactNotFoundException
+     *             if the form is not available in this scope
+     */
+    AbstractForm getForm(@Nonnull String formID, @Nonnull ProcessDefinitionID definitionID)
+    throws ProcessArtifactNotFoundException;
+
+    /**
+     * Deletes an {@link AbstractForm} from the definitions scope.
+     * 
+     * @param formID
+     *            the form id
+     * @param definitionID
+     *            the definition id
+     */
     void deleteForm(@Nonnull String formID, @Nonnull ProcessDefinitionID definitionID);
-    
+
     /**
      * Adds a process artifact to the repository for the given definition.
      * 

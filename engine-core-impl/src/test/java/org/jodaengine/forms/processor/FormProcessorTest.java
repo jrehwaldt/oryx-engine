@@ -2,6 +2,7 @@ package org.jodaengine.forms.processor;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +16,6 @@ import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.resource.allocation.JodaFormFieldImpl;
-import org.jodaengine.resource.allocation.FormImpl;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -35,6 +35,9 @@ public class FormProcessorTest {
     private ProcessInstanceContext context;
     private JodaFormField field1, field2;
 
+    /**
+     * Creates a form mock.
+     */
     @BeforeMethod
     public void setUp() {
 
@@ -48,6 +51,9 @@ public class FormProcessorTest {
         when(form.getFormContentAsHTML()).thenReturn(EMPTY_FORM_CONTENT);
     }
 
+    /**
+     * Sets context varaibles and checks, if the resulting form is filled.
+     */
     @Test
     public void testFormProcessing() {
 
@@ -58,6 +64,9 @@ public class FormProcessorTest {
         Assert.assertEquals(resultHtml, POPULATED_FORM_CONTENT, "The form should be filled with the correct values");
     }
 
+    /**
+     * Test the reading of input fields.
+     */
     @Test
     public void testFormReading() {
 
@@ -70,6 +79,9 @@ public class FormProcessorTest {
         Assert.assertEquals(context.getVariable("claimPoint2"), "Point 2", "The variable should be set");
     }
 
+    /**
+     * Tests that the form input is converted to the correct types.
+     */
     @Test
     public void testFormTypeInput() {
 
@@ -83,7 +95,7 @@ public class FormProcessorTest {
             "The variable should be an integer not a String");
     }
 
-    // TODO add more complex test
+    // TODO @Thorben-Refactoring add more complex test
 
     /**
      * Reads a file and returns its content as a String.
@@ -91,8 +103,6 @@ public class FormProcessorTest {
      * @param fileName
      *            the file name
      * @return the string
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
      */
     private static String readFile(String fileName) {
 

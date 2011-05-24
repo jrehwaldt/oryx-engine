@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.jodaengine.allocation.AbstractForm;
-import org.jodaengine.allocation.Form;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 
@@ -21,6 +20,7 @@ public class DeploymentScopeImpl implements DeploymentScope {
      * Instantiates a new deployment scope impl with the given artifacts table.
      *
      * @param artifacts the artifacts
+     * @param forms the forms
      */
     public DeploymentScopeImpl(Map<String, AbstractProcessArtifact> artifacts, Map<String, AbstractForm> forms) {
         this.artifactsTable = artifacts;
