@@ -1,8 +1,9 @@
-package org.jodaengine.eventmanagement.subscription;
+package org.jodaengine.eventmanagement.subscription; 
 
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.node.factory.TransitionFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
@@ -11,6 +12,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -21,7 +23,6 @@ import org.testng.annotations.Test;
 public class StartEventImplTest extends AbstractJodaEngineTest {
 
     private ProcessDefinitionID processDefinitionID;
-    private static final int SLEEP = 1000;
 
     //
     /**
@@ -36,18 +37,19 @@ public class StartEventImplTest extends AbstractJodaEngineTest {
 
         // Bind the startEvent to a deployed processDefinition
         StartEventImpl startEvent = new StartEventImpl(null, null, null, processDefinitionID);
+        
 
         Assert.assertNotNull(startEvent.getDefinitionID());
-
-        Assert.assertEquals(jodaEngineServices.getNavigatorService().getEndedInstances().size(), 0);
-
+        
+        NavigatorImpl navigatorMock = Mockito.mock(NavigatorImpl.class);
+        // we don't test the EventManager here, so we inject our mock manually
+        startEvent.injectNavigatorService(navigatorMock);
+        
         // Trigger should start a processInstance of the deployed process
         startEvent.trigger();
 
         // Let the processInstance finish
-        Thread.sleep(SLEEP);
-        // TODO @Tobi / Gerardo?: der failt regelmäßig - und ist damit Mist
-        Assert.assertEquals(jodaEngineServices.getNavigatorService().getEndedInstances().size(), 1);
+        Mockito.verify(navigatorMock).startProcessInstance(processDefinitionID, startEvent);
     }
 
     /**
