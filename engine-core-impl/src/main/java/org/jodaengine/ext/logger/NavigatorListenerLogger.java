@@ -23,27 +23,7 @@ public class NavigatorListenerLogger
 //CHECKSTYLE:ON
 extends AbstractNavigatorListener {
     
-    private static NavigatorListenerLogger instance;
-    
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
-    /**
-     * Hide singleton constructor.
-     */
-    private NavigatorListenerLogger() { }
-    
-    /**
-     * Returns a lazily initialized logger instance.
-     * 
-     * @return a logger instance
-     */
-    public synchronized static @Nonnull NavigatorListenerLogger getInstance() {
-        if (instance == null) {
-            instance = new NavigatorListenerLogger();
-        }
-        
-        return instance;
-    }
     
     @Override
     protected void stateChanged(@Nonnull Navigator navigator,

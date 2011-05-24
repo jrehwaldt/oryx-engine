@@ -5,15 +5,17 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryServiceInside;
-import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.listener.AbstractNavigatorListener;
+import org.jodaengine.ext.listener.AbstractSchedulerListener;
+import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.schedule.FIFOScheduler;
 import org.jodaengine.navigator.schedule.Scheduler;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -23,7 +25,7 @@ import org.jodaengine.process.token.Token;
 
 
 /**
- * The Class NavigatorImpl. Our Implementation of the Navigator.
+ * The Class NavigatorImpl. Our Implementation of the {@link Navigator}.
  */
 public class NavigatorImpl extends AbstractListenable<AbstractNavigatorListener>
 implements Navigator, NavigatorInside, Service {
@@ -32,7 +34,7 @@ implements Navigator, NavigatorInside, Service {
 
     /**
      * Holds all the process tokens that are ready to be executed. Also implements some kind of scheduling algorithm.
-     * (Tokens are the uni in which we schedule)
+     * (Tokens are the unit, which we use to schedule)
      */
     private Scheduler scheduler;
 
@@ -57,12 +59,14 @@ implements Navigator, NavigatorInside, Service {
     private ArrayList<NavigationThread> executionThreads;
 
     private int navigatorThreads;
-
+    
     private NavigatorState state;
-
+    
     private int counter;
-
+    
     private RepositoryServiceInside repository;
+    
+    private ExtensionService extensionService;
 
     /**
      * Instantiates a new navigator implementation.
@@ -92,23 +96,25 @@ implements Navigator, NavigatorInside, Service {
     /**
      * Instantiates a new navigator implementation.
      * 
+     * @param repositoryService
+     *            the process repository
      * @param numberOfThreads
      *            the number of navigator threads
-     * @param repository
-     *            the process repository
      */
-    public NavigatorImpl(RepositoryServiceInside repository, int numberOfThreads) {
+    public NavigatorImpl(RepositoryServiceInside repositoryService,
+                         int numberOfThreads) {
 
-        this.scheduler = new FIFOScheduler();
-        this.executionThreads = new ArrayList<NavigationThread>();
         this.state = NavigatorState.INIT;
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
-        // this.repository = ServiceFactory.getRepositoryService();
-        this.repository = repository;
+        
         this.suspendedTokens = new ArrayList<Token>();
+        this.executionThreads = new ArrayList<NavigationThread>();
         this.runningInstances = Collections.synchronizedList(new ArrayList<AbstractProcessInstance>());
         this.finishedInstances = new ArrayList<AbstractProcessInstance>();
+        
+        this.scheduler = new FIFOScheduler();
+        this.repository = repositoryService;
     }
 
     /**
@@ -119,7 +125,10 @@ implements Navigator, NavigatorInside, Service {
      */
     @Override
     public void start(JodaEngineServices services) {
-
+        
+        this.extensionService = services.getExtensionService();
+        loadExtensions(this.extensionService);
+        
         // "Gentlemen, start your engines"
         for (int i = 0; i < navigatorThreads; i++) {
             addThread();
@@ -232,7 +241,7 @@ implements Navigator, NavigatorInside, Service {
      * @return the scheduler
      */
     public FIFOScheduler getScheduler() {
-
+        // TODO remove
         return (FIFOScheduler) scheduler;
     }
 
@@ -299,5 +308,35 @@ implements Navigator, NavigatorInside, Service {
             getRunningInstances().size(), this.executionThreads.size(), isIdle());
 
         return stat;
+    }
+
+    
+    /**
+     * Registers any available extension suitable for {@link NavigatorImpl} and {@link Scheduler}.
+     * 
+     * Those include {@link AbstractNavigatorListener} as well as {@link AbstractSchedulerListener}.
+     * 
+     * @param extensionService the {@link ExtensionService}, which provides access to the extensions
+     */
+    @SuppressWarnings("unchecked")
+    protected void loadExtensions(@Nullable ExtensionService extensionService) {
+        
+        //
+        // no ExtensionService = no extensions
+        //
+        if (extensionService == null) {
+            return;
+        }
+        
+        //
+        // get fresh listener and handler instances
+        //
+        List<AbstractNavigatorListener> navListener = extensionService.getExtensions(AbstractNavigatorListener.class);
+        registerListeners(navListener);
+        
+        if (this.scheduler instanceof AbstractListenable) {
+            List<AbstractSchedulerListener> listener = extensionService.getExtensions(AbstractSchedulerListener.class);
+            ((AbstractListenable<AbstractSchedulerListener>) this.scheduler).registerListeners(listener);
+        }
     }
 }

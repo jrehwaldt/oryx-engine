@@ -4,6 +4,10 @@ import java.util.List;
 
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
+import org.jodaengine.ext.AbstractListenable;
+import org.jodaengine.ext.listener.AbstractNavigatorListener;
+import org.jodaengine.ext.listener.AbstractSchedulerListener;
+import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -245,5 +249,78 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         }
         
         Assert.assertTrue(containsWebService);
+    }
+    
+    /**
+     * Tests that the navigator extension is successfully found and
+     * registered within our navigator.
+     */
+    @Test
+    public void testNavigatorListenerIntegration() {
+        
+        List<Class<AbstractNavigatorListener>> listenerTypes
+            = this.extensionService.getExtensionTypes(AbstractNavigatorListener.class);
+        
+        Assert.assertTrue(listenerTypes.contains(TestingNavigatorListener.class));
+        
+        NavigatorImpl navigator = (NavigatorImpl) this.jodaEngineServices.getNavigatorService();
+        
+        Assert.assertNotNull(navigator);
+        Assert.assertTrue(navigator.isRunning());
+        
+        List<AbstractNavigatorListener> listeners = navigator.getListeners();
+        
+        //
+        // check that each available listener type is registered as listener instance
+        //
+        forEachType : for (Class<AbstractNavigatorListener> listenerType: listenerTypes) {
+            for (AbstractNavigatorListener listener: listeners) {
+                Assert.assertNotNull(listener);
+                
+                if (listenerType.equals(listener.getClass())) {
+                    continue forEachType;
+                }
+            }
+            
+            Assert.fail("No listener instance found for type " + listenerType);
+        }
+    }
+    
+    /**
+     * Tests that the scheduler extension is successfully found and
+     * registered within our navigator.
+     */
+    @Test
+    public void testSchedulerListenerIntegration() {
+        
+        List<Class<AbstractSchedulerListener>> listenerTypes
+            = this.extensionService.getExtensionTypes(AbstractSchedulerListener.class);
+        
+        Assert.assertTrue(listenerTypes.contains(TestingSchedulerListener.class));
+        
+        NavigatorImpl navigator = (NavigatorImpl) this.jodaEngineServices.getNavigatorService();
+        
+        Assert.assertNotNull(navigator);
+        Assert.assertTrue(navigator.isRunning());
+        
+        AbstractListenable<AbstractSchedulerListener> scheduler
+            = (AbstractListenable<AbstractSchedulerListener>) navigator.getScheduler();
+        
+        List<AbstractSchedulerListener> listeners = scheduler.getListeners();
+        
+        //
+        // check that each available listener type is registered as listener instance
+        //
+        forEachType : for (Class<AbstractSchedulerListener> listenerType: listenerTypes) {
+            for (AbstractSchedulerListener listener: listeners) {
+                Assert.assertNotNull(listener);
+                
+                if (listenerType.equals(listener.getClass())) {
+                    continue forEachType;
+                }
+            }
+            
+            Assert.fail("No listener instance found for type " + listenerType);
+        }
     }
 }

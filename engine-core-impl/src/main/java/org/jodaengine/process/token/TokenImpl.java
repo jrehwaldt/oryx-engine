@@ -79,7 +79,7 @@ public class TokenImpl extends AbstractListenable<AbstractTokenListener> impleme
                      @Nullable ExtensionService extensionService) {
         super();
         
-        // TODO Jan - use this constructor to register potential extensions - wait for Janniks refactoring.
+        // TODO Jan - use this constructor to register potential extensions - wait for Jannik's refactoring.
         
         this.currentNode = startNode;
         this.instance = instance;
@@ -347,9 +347,9 @@ public class TokenImpl extends AbstractListenable<AbstractTokenListener> impleme
     }
     
     /**
-     * Registers any available extension suitable for {@link Token}.
+     * Registers any available extension suitable for {@link TokenImpl}.
      * 
-     * Those include exception handlers as well as token listeners.
+     * Those include {@link AbstractExceptionHandler} as well as {@link AbstractTokenListener}.
      * 
      * @param extensionService the {@link ExtensionService}, which provides access to the extensions
      */
