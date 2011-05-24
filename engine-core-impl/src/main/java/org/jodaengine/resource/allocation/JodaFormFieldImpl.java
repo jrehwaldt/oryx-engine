@@ -1,16 +1,16 @@
 package org.jodaengine.resource.allocation;
 
-import org.jodaengine.allocation.FormField;
+import org.jodaengine.allocation.JodaFormField;
 
 /**
  * Implements a form field.
  */
-public class FormFieldImpl implements FormField {
+public class JodaFormFieldImpl implements JodaFormField {
 
     private String name, expression;
     private Class<?> dataClass;
     
-    public FormFieldImpl(String name, String expression, Class<?> dataclass) {
+    public JodaFormFieldImpl(String name, String expression, Class<?> dataclass) {
         this.name = name;
         this.expression = expression;
         this.dataClass = dataclass;

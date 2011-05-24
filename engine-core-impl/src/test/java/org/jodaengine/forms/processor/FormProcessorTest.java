@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jodaengine.allocation.Form;
-import org.jodaengine.allocation.FormField;
+import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
-import org.jodaengine.resource.allocation.FormFieldImpl;
+import org.jodaengine.resource.allocation.JodaFormFieldImpl;
 import org.jodaengine.resource.allocation.FormImpl;
 import org.mockito.Mockito;
 import org.testng.Assert;
@@ -33,7 +33,7 @@ public class FormProcessorTest {
 
     private Form form;
     private ProcessInstanceContext context;
-    private FormField field1, field2;
+    private JodaFormField field1, field2;
 
     @BeforeMethod
     public void setUp() {
@@ -41,8 +41,8 @@ public class FormProcessorTest {
         context = new ProcessInstanceContextImpl();
 
         form = mock(Form.class);
-        field1 = new FormFieldImpl("claimPoint1", "#{claimPoint1}", String.class);
-        field2 = new FormFieldImpl("claimPoint2", "#{claimPoint2}", String.class);
+        field1 = new JodaFormFieldImpl("claimPoint1", "#{claimPoint1}", String.class);
+        field2 = new JodaFormFieldImpl("claimPoint2", "#{claimPoint2}", String.class);
         when(form.getFormField(Mockito.matches("claimPoint1"))).thenReturn(field1);
         when(form.getFormField(Mockito.matches("claimPoint2"))).thenReturn(field2);
         when(form.getFormContentAsHTML()).thenReturn(EMPTY_FORM_CONTENT);
@@ -73,7 +73,7 @@ public class FormProcessorTest {
     @Test
     public void testFormTypeInput() {
 
-        field1 = new FormFieldImpl("claimPoint1", "#{claimPoint1}", Integer.class);
+        field1 = new JodaFormFieldImpl("claimPoint1", "#{claimPoint1}", Integer.class);
         when(form.getFormField(Mockito.matches("claimPoint1"))).thenReturn(field1);
         Map<String, String> formInput = new HashMap<String, String>();
         formInput.put("claimPoint1", "1");
@@ -83,7 +83,7 @@ public class FormProcessorTest {
             "The variable should be an integer not a String");
     }
 
-    // TODO add more complex test + types
+    // TODO add more complex test
 
     /**
      * Reads a file and returns its content as a String.

@@ -2,6 +2,8 @@ package org.jodaengine.deployment;
 
 import java.util.Map;
 
+import org.jodaengine.allocation.AbstractForm;
+import org.jodaengine.allocation.Form;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 
@@ -44,4 +46,10 @@ public interface DeploymentScope {
     void addClass(String className, byte[] classData);
     
     Class<?> getClass(String className) throws ClassNotFoundException;
+    
+    void addForm(AbstractForm form);
+    
+    void deleteForm(String formID);
+    
+    AbstractForm getForm(String formID) throws ProcessArtifactNotFoundException;
 }

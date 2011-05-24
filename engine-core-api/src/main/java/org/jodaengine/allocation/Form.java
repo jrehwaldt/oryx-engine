@@ -20,9 +20,7 @@ public interface Form {
      */
     String getFormContentAsHTML();
     
-    FormField getFormField(String fieldName);
+    JodaFormField getFormField(String fieldName);
     
-    void addFormField(FormField field);
-    
-    List<FormField> getFormFields();
+    List<JodaFormField> getFormFields();
 }

@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.jodaengine.allocation.AbstractForm;
+import org.jodaengine.allocation.Form;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 
@@ -15,6 +17,7 @@ public class DeploymentImpl implements Deployment {
     
     private Set<ProcessDefinition> definitions;
     private Map<String, AbstractProcessArtifact> artifacts;
+    private Map<String, AbstractForm> forms;
     private Map<String, byte[]> customClasses;
     
     /**
@@ -23,6 +26,7 @@ public class DeploymentImpl implements Deployment {
     public DeploymentImpl() {
         definitions = new HashSet<ProcessDefinition>();
         artifacts = new HashMap<String, AbstractProcessArtifact>();
+        forms = new HashMap<String, AbstractForm>();
         customClasses = new HashMap<String, byte[]>();
     }
 
@@ -63,6 +67,19 @@ public class DeploymentImpl implements Deployment {
     public Map<String, byte[]> getClasses() {
 
         return customClasses;
+    }
+
+    @Override
+    public void addForm(AbstractForm form) {
+
+        forms.put(form.getID(), form);
+        
+    }
+
+    @Override
+    public Map<String, AbstractForm> getForms() {
+
+        return forms;
     }
 
     

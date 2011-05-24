@@ -3,6 +3,8 @@ package org.jodaengine.deployment;
 import java.util.Collections;
 import java.util.Map;
 
+import org.jodaengine.allocation.AbstractForm;
+import org.jodaengine.allocation.Form;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 
@@ -12,6 +14,7 @@ import org.jodaengine.process.definition.AbstractProcessArtifact;
 public class DeploymentScopeImpl implements DeploymentScope {
     
     private Map<String, AbstractProcessArtifact> artifactsTable;
+    private Map<String, AbstractForm> formsTable;
     private CustomClassLoader classLoader;
     
     /**
@@ -19,8 +22,9 @@ public class DeploymentScopeImpl implements DeploymentScope {
      *
      * @param artifacts the artifacts
      */
-    public DeploymentScopeImpl(Map<String, AbstractProcessArtifact> artifacts) {
+    public DeploymentScopeImpl(Map<String, AbstractProcessArtifact> artifacts, Map<String, AbstractForm> forms) {
         this.artifactsTable = artifacts;
+        this.formsTable = forms;
         this.classLoader = new CustomClassLoader();
     }
 
@@ -65,6 +69,30 @@ public class DeploymentScopeImpl implements DeploymentScope {
     public Class<?> getClass(String className) throws ClassNotFoundException {
 
         return classLoader.findClass(className);
+    }
+
+    @Override
+    public void addForm(AbstractForm form) {
+
+        formsTable.put(form.getID(), form);
+        
+    }
+
+    @Override
+    public void deleteForm(String formID) {
+
+        formsTable.remove(formID);
+        
+    }
+
+    @Override
+    public AbstractForm getForm(String formID) throws ProcessArtifactNotFoundException {
+
+        AbstractProcessArtifact form  = formsTable.get(formID);
+        if (form == null) {
+            throw new ProcessArtifactNotFoundException(formID);
+        }
+        return formsTable.get(formID);
     }
 
 }

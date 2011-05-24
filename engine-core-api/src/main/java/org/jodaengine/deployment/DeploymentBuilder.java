@@ -3,6 +3,8 @@ package org.jodaengine.deployment;
 import java.io.File;
 import java.io.InputStream;
 
+import org.jodaengine.allocation.AbstractForm;
+import org.jodaengine.allocation.Form;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
@@ -76,6 +78,11 @@ public interface DeploymentBuilder {
      * @return the deployment builder
      */
     DeploymentBuilder addFileArtifact(String resourceName, File file);
+    
+    
+    DeploymentBuilder addForm(AbstractForm form);
+    
+    DeploymentBuilder addInputStreamForm(String formName, InputStream inputStream);
 
     /**
      * Builds the deployment.

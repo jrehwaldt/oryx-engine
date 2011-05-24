@@ -3,6 +3,8 @@ package org.jodaengine.deployment;
 import java.util.Map;
 import java.util.Set;
 
+import org.jodaengine.allocation.AbstractForm;
+import org.jodaengine.allocation.Form;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -29,6 +31,10 @@ public interface Deployment {
      *            the artifact
      */
     void addProcessArtifact(AbstractProcessArtifact artifact);
+    
+    void addForm(AbstractForm form);
+    
+    Map<String, AbstractForm> getForms();
 
     /**
      * Gets all contained {@link ProcessDefinition}.

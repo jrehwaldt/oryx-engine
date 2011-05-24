@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
@@ -95,6 +96,10 @@ public interface RepositoryService extends Service {
      */
     void activateProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
 
+    void addForm(@Nonnull AbstractForm form, @Nonnull ProcessDefinitionID definitionID);
+    AbstractForm getForm(@Nonnull String formID, @Nonnull ProcessDefinitionID definitionID) throws ProcessArtifactNotFoundException;
+    void deleteForm(@Nonnull String formID, @Nonnull ProcessDefinitionID definitionID);
+    
     /**
      * Adds a process artifact to the repository for the given definition.
      * 
@@ -121,21 +126,6 @@ public interface RepositoryService extends Service {
                                                @Nonnull ProcessDefinitionID definitionID)
     throws ProcessArtifactNotFoundException;
 
-    // /**
-    // * Retrieves all {@link AbstractProcessArtifact ProcessArtifacts} that have been deployed previously.
-    // *
-    // * @return a list containing all {@link AbstractProcessArtifact ProcessResources}
-    // */
-    // List<AbstractProcessArtifact> getProcessArtifacts();
-    //
-    // /**
-    // * Checks whether the repository has saved an artifact with the given id.
-    // *
-    // * @param processResourceID the process resource id
-    // * @return true, if successful
-    // */
-    // boolean containsProcessArtifact(UUID processResourceID);
-
     /**
      * Deletes the given {@link AbstractProcessArtifact ProcessResource} from the definitions scope.
      * 
@@ -144,7 +134,7 @@ public interface RepositoryService extends Service {
      * @param definitionID
      *            the definition id
      */
-    void deleteProcessResource(@Nonnull String processArtifactID, @Nonnull ProcessDefinitionID definitionID);
+    void deleteProcessArtifact(@Nonnull String processArtifactID, @Nonnull ProcessDefinitionID definitionID);
 
     /**
      * Deploys a deployment (i.e. the contained process definition, artifacts, etc.) to the repository. The contained

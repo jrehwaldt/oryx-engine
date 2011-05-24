@@ -8,7 +8,7 @@ import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 
 import org.jodaengine.allocation.Form;
-import org.jodaengine.allocation.FormField;
+import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.condition.ProcessELContext;
 
@@ -45,7 +45,7 @@ public class JuelFormProcessor implements FormProcessor {
             String fieldName = entry.getKey();
             String enteredValue = entry.getValue();
 
-            FormField formField = form.getFormField(fieldName);
+            JodaFormField formField = form.getFormField(fieldName);
             Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
             ValueExpression e = factory.createValueExpression(elContext, formField.getExpression(), String.class);
 
