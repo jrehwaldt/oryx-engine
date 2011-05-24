@@ -2,7 +2,6 @@ package org.jodaengine.ext.service;
 
 import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.listener.AbstractSchedulerListener;
-
 import org.jodaengine.process.token.Token;
 
 /**

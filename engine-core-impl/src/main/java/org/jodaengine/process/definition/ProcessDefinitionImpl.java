@@ -10,14 +10,16 @@ import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
+import org.jodaengine.process.activation.ProcessDefinitionActivationPattern;
+import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
+import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContextImpl;
+import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivationPattern;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
 import org.jodaengine.process.instantiation.InstantiationPatternContextImpl;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
-import org.jodaengine.process.instantiation.StartNullInstantiationPattern;
+import org.jodaengine.process.instantiation.pattern.StartNullInstantiationPattern;
 import org.jodaengine.process.structure.Node;
-
-
 
 /**
  * The Class ProcessDefinitionImpl. A process definition consists of a list of start nodes that, as we have a tree
@@ -35,6 +37,9 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
 
     @JsonIgnore
     private StartInstantiationPattern startInstantiationPattern;
+
+    @JsonIgnore
+    private ProcessDefinitionActivationPattern startActivationPattern;
 
     @JsonIgnore
     private Map<ProcessStartEvent, Node> startTriggers;
@@ -55,7 +60,8 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
      */
     public ProcessDefinitionImpl(ProcessDefinitionID id, String name, String description, List<Node> startNodes) {
 
-        this(id, name, description, startNodes, new StartNullInstantiationPattern());
+        this(id, name, description, startNodes, new StartNullInstantiationPattern(),
+            new NullProcessDefinitionActivationPattern());
     }
 
     /**
@@ -81,7 +87,8 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
                                  String name,
                                  String description,
                                  List<Node> startNodes,
-                                 StartInstantiationPattern startInstantiationPattern) {
+                                 StartInstantiationPattern startInstantiationPattern,
+                                 ProcessDefinitionActivationPattern startActivationPattern) {
 
         this.id = id;
         this.name = name;
@@ -89,6 +96,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
         this.startNodes = startNodes;
         this.startTriggers = new HashMap<ProcessStartEvent, Node>();
         this.startInstantiationPattern = startInstantiationPattern;
+        this.startActivationPattern = startActivationPattern;
     }
 
     @Override
@@ -186,10 +194,12 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     @Override
     public void activate(EventSubscriptionManager correlationManager) {
 
-        // TODO: Auslagern in eine Strategy
-        for (ProcessStartEvent event : this.getStartTriggers().keySet()) {
-            correlationManager.registerStartEvent(event);
-        }
+        // for (ProcessStartEvent event : this.getStartTriggers().keySet()) {
+        // correlationManager.registerStartEvent(event);
+        // }
+        ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
+            this);
+        startActivationPattern.activateProcessDefinition(patternContext);
     }
 
     @Override

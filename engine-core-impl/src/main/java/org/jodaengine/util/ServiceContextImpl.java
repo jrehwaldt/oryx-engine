@@ -1,4 +1,4 @@
-package org.jodaengine.process.instantiation;
+package org.jodaengine.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,6 @@ import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.navigator.NavigatorInside;
-import org.jodaengine.util.ServiceContext;
 
 
 /**

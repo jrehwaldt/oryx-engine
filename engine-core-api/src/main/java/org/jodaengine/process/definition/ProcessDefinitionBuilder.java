@@ -9,6 +9,7 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.process.activation.ProcessDefinitionActivationPattern;
 import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
@@ -111,8 +112,9 @@ public interface ProcessDefinitionBuilder {
     @Nonnull
     ProcessDefinitionBuilder setAttribute(String attributeId, Object attibuteValue);
 
-    // TODO @Gerardo Comminting!!!!
     ProcessDefinitionBuilder addInstantiationPattern(InstantiationPattern instantiationPattern);
 
     ProcessDefinitionBuilder addStartInstantiationPattern(StartInstantiationPattern startInstantiationPattern);
+
+    ProcessDefinitionBuilder addActivationPattern(ProcessDefinitionActivationPattern activationPattern);
 }

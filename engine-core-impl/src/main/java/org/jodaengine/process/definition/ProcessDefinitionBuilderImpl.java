@@ -14,6 +14,7 @@ import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.eventmanagement.subscription.condition.complex.AndEventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.process.activation.ProcessDefinitionActivationPattern;
 import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
@@ -40,6 +41,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     private Map<ProcessStartEvent, Node> temporaryStartTriggers;
     private Map<String, Object> temporaryAttributeTable;
     private List<InstantiationPattern> temporaryInstantiationPatterns;
+    private List<ProcessDefinitionActivationPattern> temporaryActivationPatterns;
     private StartInstantiationPattern startInstantiationPattern;
 
     /**
@@ -50,16 +52,20 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         resetingThisBuilder();
     }
 
+    /**
+     * Resets this builder.
+     */
     private void resetingThisBuilder() {
 
         this.startNodes = new ArrayList<Node>();
-        
+
         this.id = new ProcessDefinitionID(UUID.randomUUID());
         this.name = null;
         this.description = null;
         this.temporaryStartTriggers = new HashMap<ProcessStartEvent, Node>();
         this.temporaryAttributeTable = null;
         this.temporaryInstantiationPatterns = new ArrayList<InstantiationPattern>();
+        this.temporaryActivationPatterns = new ArrayList<ProcessDefinitionActivationPattern>();
         this.startInstantiationPattern = null;
     }
 
@@ -146,6 +152,13 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     }
 
     @Override
+    public ProcessDefinitionBuilder addActivationPattern(ProcessDefinitionActivationPattern activationPattern) {
+
+        this.temporaryActivationPatterns.add(activationPattern);
+        return this;
+    }
+
+    @Override
     public ProcessDefinition buildDefinition()
     throws IllegalStarteventException {
 
@@ -159,14 +172,19 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         return definition;
     }
 
-    // TODO @gerarodo Commenting
+    /**
+     * This method encapsulates
+     * @return
+     * @throws IllegalStarteventException
+     */
     private ProcessDefinitionImpl buildResultDefinition()
     throws IllegalStarteventException {
 
         StartInstantiationPattern startInstantionPattern = appendingInstantiationPatterns();
+        ProcessDefinitionActivationPattern activationPattern = appendingActivationPatterns();
 
         ProcessDefinitionImpl definition = new ProcessDefinitionImpl(id, name, description, startNodes,
-            startInstantionPattern);
+            startInstantionPattern, activationPattern);
 
         for (Map.Entry<ProcessStartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
             definition.addStartTrigger(entry.getKey(), entry.getValue());
@@ -175,6 +193,30 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         return definition;
     }
 
+    private ProcessDefinitionActivationPattern appendingActivationPatterns() {
+
+        // We have already assured that there are activationPatterns
+        PatternAppendable<ProcessDefinitionActivationPattern> lastActivationPattern = null;
+        boolean firstActivationPassed = false;
+        for (ProcessDefinitionActivationPattern activationPattern : temporaryActivationPatterns) {
+
+            if (!firstActivationPassed) {
+
+                lastActivationPattern = activationPattern;
+                continue;
+            }
+
+            lastActivationPattern.setNextPattern(activationPattern);
+            lastActivationPattern = activationPattern;
+        }
+
+        // Returning the first Pattern
+        return temporaryActivationPatterns.get(0);
+    }
+
+    /**
+     * Appends all the instantiationPattern and returns the first one.
+     */
     private StartInstantiationPattern appendingInstantiationPatterns() {
 
         PatternAppendable<InstantiationPattern> lastInstantiationPattern = this.startInstantiationPattern;
@@ -188,6 +230,10 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         return this.startInstantiationPattern;
     }
 
+    /**
+     * Checks the constraints for building a {@link ProcessDefinitionInside}. Throws an exception if a constrained was
+     * not held.
+     */
     private void checkingDefinitionConstraints() {
 
         if (this.startInstantiationPattern == null) {
@@ -198,10 +244,12 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
             throw new JodaEngineRuntimeException(errorMessage);
         }
 
-        if (!temporaryInstantiationPatterns.isEmpty()) {
-            if (this.startInstantiationPattern instanceof PatternAppendable<?>) {
+        if (temporaryActivationPatterns == null || temporaryActivationPatterns.isEmpty()) {
 
-            }
+            String errorMessage = "The ProcessDefinitionActivationPattern was set."
+                + "Please perfom 'addActivationPattern(...)'";
+            logger.error(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
         }
     }
 }

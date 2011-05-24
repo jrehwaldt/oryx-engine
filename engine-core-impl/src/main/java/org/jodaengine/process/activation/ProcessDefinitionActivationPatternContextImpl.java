@@ -1,64 +1,38 @@
-package org.jodaengine.process.instantiation;
+package org.jodaengine.process.activation;
 
-import javax.annotation.Nonnull;
-
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
+import org.jodaengine.process.instantiation.InstantiationPatternContext;
 import org.jodaengine.util.ServiceContextImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
 /**
- * Implementation of the {@link ServiceContextImpl ServiceContext-Interface}.
+ * The implementation of the {@link ProcessDefinitionActivationPatternContext}.
  */
-public class InstantiationPatternContextImpl extends ServiceContextImpl implements InstantiationPatternContext {
+public class ProcessDefinitionActivationPatternContextImpl extends ServiceContextImpl implements
+ProcessDefinitionActivationPatternContext {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private ProcessStartEvent startEvent;
     private ProcessDefinitionInside processDefinition;
 
     /**
      * Default constructor.
      * 
-     * In order to have a context without an {@link ProcessStartEvent}
-     * 
      * @param processDefinition
      *            - the {@link ProcessDefinitionInside processDefinition} that is assigned to this patternContext
      */
-    public InstantiationPatternContextImpl(@Nonnull ProcessDefinitionInside processDefinition) {
+    public ProcessDefinitionActivationPatternContextImpl(ProcessDefinitionInside processDefinition) {
 
         super();
         settingProcessDefinition(processDefinition);
     }
 
-    /**
-     * An extended Constructor in case a {@link ProcessStartEvent} was thrown.
-     * 
-     * @param processDefinition
-     *            - the {@link ProcessDefinitionInside processDefinition} that is assigned to this patternContext
-     * @param startEvent
-     *            - the thrown {@link ProcessStartEvent}
-     */
-    public InstantiationPatternContextImpl(ProcessDefinitionInside processDefinition, ProcessStartEvent startEvent) {
-
-        this(processDefinition);
-        this.startEvent = startEvent;
-    }
-
-    @Override
-    public ProcessStartEvent getThrownStartEvent() {
-
-        return this.startEvent;
-    }
-
     @Override
     public ProcessDefinitionInside getProcessDefinition() {
 
-        return this.processDefinition;
+        return processDefinition;
     }
 
     /**

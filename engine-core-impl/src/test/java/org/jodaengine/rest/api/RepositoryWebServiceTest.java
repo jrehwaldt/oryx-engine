@@ -1,23 +1,11 @@
 package org.jodaengine.rest.api;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
-
-import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
-import org.jboss.resteasy.mock.MockHttpResponse;
-import org.jodaengine.RepositoryService;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotFoundException;
@@ -27,7 +15,6 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.repository.RepositorySetup;
-import org.jodaengine.rest.forms.FileUploadForm;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
