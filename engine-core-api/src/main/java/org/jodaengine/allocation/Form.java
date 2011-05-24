@@ -1,5 +1,8 @@
 package org.jodaengine.allocation;
 
+import java.util.List;
+import java.util.Map;
+
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
@@ -16,4 +19,10 @@ public interface Form {
      * @return a {@link String} representing the form content in the HTML format
      */
     String getFormContentAsHTML();
+    
+    FormField getFormField(String fieldName);
+    
+    void addFormField(FormField field);
+    
+    List<FormField> getFormFields();
 }
