@@ -13,6 +13,7 @@ import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.ext.Extension;
+import org.jodaengine.ext.util.TypeSafeList;
 import org.jodaengine.util.AndTypeFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ public class ExtensionServiceImpl implements ExtensionService {
     private Map<String, Service> extensionServices;
     private Map<Service, List<Service>> extensionWebServiceSingletons;
     
-    private Map<Class<?>, ExtensionList<?>> extensions;
+    private Map<Class<?>, TypeSafeList<?>> extensions;
     
     private boolean running = false;
     
@@ -53,7 +54,7 @@ public class ExtensionServiceImpl implements ExtensionService {
         logger.info("Starting the ExtensionService");
         
         this.coreServices = services;
-        this.extensions = new HashMap<Class<?>, ExtensionList<?>>();
+        this.extensions = new HashMap<Class<?>, TypeSafeList<?>>();
         this.extensionServices = new HashMap<String, Service>();
         this.extensionWebServiceSingletons = new HashMap<Service, List<Service>>();
         
@@ -165,7 +166,7 @@ public class ExtensionServiceImpl implements ExtensionService {
     @Override
     public <IExtension> List<Class<IExtension>> getExtensionTypes(Class<IExtension> extension) {
         List<Class<IExtension>> classes = new ArrayList<Class<IExtension>>();
-        classes.addAll(getExtensionClasses(extension).getExtensionTypes());
+        classes.addAll(getExtensionClasses(extension).getTypes());
         return classes;
     }
 
@@ -180,7 +181,7 @@ public class ExtensionServiceImpl implements ExtensionService {
         
         logger.info("Starting all found extensions services");
         
-        ExtensionList<Service> serviceClasses = getExtensionClasses(Service.class);
+        TypeSafeList<Service> serviceClasses = getExtensionClasses(Service.class);
         
         for (Class<Service> serviceClass: serviceClasses) {
             String name = serviceClass.getAnnotation(Extension.class).value();
@@ -260,17 +261,17 @@ public class ExtensionServiceImpl implements ExtensionService {
      * @return the classes matching the extension point's interface
      */
     @SuppressWarnings("unchecked")
-    private @Nonnull <IExtension> ExtensionList<IExtension> getExtensionClasses(@Nonnull Class<IExtension> extension) {
+    private @Nonnull <IExtension> TypeSafeList<IExtension> getExtensionClasses(@Nonnull Class<IExtension> extension) {
         
         synchronized (extension) {
             //
             // get the cached extension type list
             //
             if (this.extensions.containsKey(extension)) {
-                return (ExtensionList<IExtension>) this.extensions.get(extension);
+                return (TypeSafeList<IExtension>) this.extensions.get(extension);
             }
             
-            ExtensionList<IExtension> classes = new ExtensionList<IExtension>();
+            TypeSafeList<IExtension> classes = new TypeSafeList<IExtension>();
             
             //
             // class path scanner
@@ -293,7 +294,7 @@ public class ExtensionServiceImpl implements ExtensionService {
             for (BeanDefinition bd : scanner.findCandidateComponents(JodaEngine.BASE_PACKAGE)) {
                 try {
                     Class<IExtension> extensionClass = (Class<IExtension>) Class.forName(bd.getBeanClassName());
-                    classes.addExtensionType(extensionClass);
+                    classes.addType(extensionClass);
                     logger.info("Found extension type {}", extensionClass);
                 } catch (ClassNotFoundException cnfe) {
                     //

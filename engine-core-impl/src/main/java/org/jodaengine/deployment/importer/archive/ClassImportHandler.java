@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class ClassImportHandler extends AbstractDarHandler {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private static final String CLASSES_SUBDIR = "classes/";
+    private static final String CLASSES_SUBDIR = "classes" + DELIMITER;
     private static final String CLASS_ENDING = ".class";
 
     @Override
@@ -30,9 +30,9 @@ public class ClassImportHandler extends AbstractDarHandler {
                 int prefixLength = CLASSES_SUBDIR.length();
                 int suffixLength = entry.getName().length() - CLASS_ENDING.length();
                 String fullClassName = entry.getName().substring(prefixLength, suffixLength);
-                fullClassName = fullClassName.replace('/', '.');
+                fullClassName = fullClassName.replace(DELIMITER, '.');
                 builder.addClass(fullClassName, classData);
-                
+
                 inputStream.close();
             } catch (IOException e) {
                 logger.error("Could not read file {} from archive", entry.getName());

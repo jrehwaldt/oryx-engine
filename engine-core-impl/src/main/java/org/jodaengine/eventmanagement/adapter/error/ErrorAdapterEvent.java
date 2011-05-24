@@ -2,7 +2,7 @@ package org.jodaengine.eventmanagement.adapter.error;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.adapter.AbstractEvent;
+import org.jodaengine.eventmanagement.adapter.AbstractAdapterEvent;
 
 
 /**
@@ -11,7 +11,7 @@ import org.jodaengine.eventmanagement.adapter.AbstractEvent;
  * @author Jan Rehwaldt
  */
 public class ErrorAdapterEvent
-extends AbstractEvent {
+extends AbstractAdapterEvent {
     
     /**
      * Default hidden constructor.

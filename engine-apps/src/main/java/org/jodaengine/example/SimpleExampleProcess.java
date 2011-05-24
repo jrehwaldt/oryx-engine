@@ -8,7 +8,6 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.monitor.Monitor;
 import org.jodaengine.monitor.MonitorGUI;
 import org.jodaengine.navigator.NavigatorImpl;
-import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.factory.TransitionFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
@@ -19,9 +18,6 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.core.joran.event.EndEvent;
-import ch.qos.logback.core.joran.event.StartEvent;
 
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
@@ -66,7 +62,7 @@ public final class SimpleExampleProcess {
 
         // Registering the plugin - kind of a hack
         NavigatorImpl navigator = (NavigatorImpl) jodaEngineServices.getNavigatorService();
-        navigator.getScheduler().registerPlugin(monitor);
+        navigator.getScheduler().registerListener(monitor);
 
         ProcessDefinitionID sampleProcessUUID = deploySampleProcess(jodaEngineServices);
 

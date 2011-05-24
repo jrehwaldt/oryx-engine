@@ -19,6 +19,8 @@ public class TimerAdapterConfiguration extends AbstractAdapterConfiguration impl
 
     private long timestamp;
 
+    private final static int[] MAGIC_HASH = {872, -227, -691};
+
     /**
      * Instantiates a new timer configuration impl.
      * 
@@ -65,7 +67,7 @@ public class TimerAdapterConfiguration extends AbstractAdapterConfiguration impl
     public CorrelationAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
         TimerAdapter adapter = createAdapter();
-        adapterRegistrar.registerInboundPullAdapter(adapter);       
+        adapterRegistrar.registerInboundPullAdapter(adapter);
         return adapter;
     }
 
@@ -74,23 +76,27 @@ public class TimerAdapterConfiguration extends AbstractAdapterConfiguration impl
 
         return true;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public int hashCode() {
-        return (int) (this.getClass().hashCode() + this.waitingTime + this.timestamp);
+
+        return (int) (MAGIC_HASH[0] * this.getClass().hashCode() + MAGIC_HASH[1] * this.waitingTime + MAGIC_HASH[2]
+            * this.timestamp);
     }
-    
+
     /**
      * This equals implementation is based on the getUniqueName method.
-     *
-     * @param o the other Object
+     * 
+     * @param o
+     *            the other Object
      * @return true, if the objects are equal
      */
     @Override
     public boolean equals(Object o) {
+
         if (o == null) {
             return false;
         }

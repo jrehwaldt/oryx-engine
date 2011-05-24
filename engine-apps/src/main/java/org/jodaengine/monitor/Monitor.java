@@ -8,7 +8,7 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
 
 /**
- * The Class Monitor is a Plugin that receives Scheduler Events and forwards it to the provided GUI.
+ * The Class Monitor is a Listener that receives Scheduler Events and forwards it to the provided GUI.
  */
 public class Monitor extends AbstractSchedulerListener {
 

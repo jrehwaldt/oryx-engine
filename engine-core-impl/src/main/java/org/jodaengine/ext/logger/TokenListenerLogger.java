@@ -4,22 +4,20 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.listener.AbstractTokenListener;
-import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
+import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * This class is a {@link Logger} and may be injected to observe
- * the lifecycle of certain {@link AbstractActivity}s.
+ * the lifecycle of certain {@link org.jodaengine.node.activity.AbstractActivity}s.
  */
 @Extension("logger-token-listener")
 public final class TokenListenerLogger
 extends AbstractTokenListener {
     
-    /** The instance. */
     private static TokenListenerLogger instance;
     
-    /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**

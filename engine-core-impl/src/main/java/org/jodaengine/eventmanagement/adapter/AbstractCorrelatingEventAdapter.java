@@ -47,8 +47,8 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
 
     @Override
     public void registerStartEvent(ProcessStartEvent startEvent) {
-
-        // TODO @EVENTMANAGERTEAM: Checking if it is already in the list of unCorrelatedAdapterEvents
+        // We don't need to check for uncorrelated events since we only want to know about 
+        // start events from the moment we dployed a process instance
         getProcessEvents().add(startEvent);
     }
 
@@ -87,11 +87,13 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
     }
 
     /**
-     * Protected Getter for {@link ProcessEvent}s.
+     * Getter for {@link ProcessEvent}s.
+     * 
+     * Are public for testing issues.
      * 
      * @return a {@link List} of {@link ProcessEvent}s.
      */
-    protected List<ProcessEvent> getProcessEvents() {
+    public List<ProcessEvent> getProcessEvents() {
 
         if (processEvents == null) {
             this.processEvents = new ArrayList<ProcessEvent>();
@@ -100,11 +102,13 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
     }
 
     /**
-     * Protected Getter for {@link AdapterEvent}s.
+     * Getter for {@link AdapterEvent}s.
+     * 
+     * Are public for testing issues.
      * 
      * @return a {@link List} of {@link AdapterEvent}s.
      */
-    protected List<AdapterEvent> getUnCorrelatedAdapterEvents() {
+    public List<AdapterEvent> getUnCorrelatedAdapterEvents() {
 
         if (unCorrelatedAdapterEvents == null) {
             this.unCorrelatedAdapterEvents = new ArrayList<AdapterEvent>();

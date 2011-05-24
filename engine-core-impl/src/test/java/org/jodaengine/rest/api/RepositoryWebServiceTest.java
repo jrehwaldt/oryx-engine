@@ -1,17 +1,23 @@
 package org.jodaengine.rest.api;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
+import org.jboss.resteasy.mock.MockHttpResponse;
+import org.jodaengine.RepositoryService;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotFoundException;
@@ -21,6 +27,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.repository.RepositorySetup;
+import org.jodaengine.rest.forms.FileUploadForm;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -31,7 +38,7 @@ import org.testng.annotations.Test;
 public class RepositoryWebServiceTest extends AbstractJsonServerTest {
 
     private final static String URL = "/repository/process-definitions";
-    private final static String TEST_ARCHIVE_PATH = "src/test/resources/org/jodaengine/deployment/importer/archive/testWithFroms.dar";
+    private final static String TEST_ARCHIVE_PATH = "src/test/resources/org/jodaengine/deployment/importer/archive/testWithForms.dar";
 
     private final static JavaType TYPE_REF = TypeFactory.collectionType(Set.class, ProcessDefinition.class);
 
@@ -139,17 +146,31 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
         Set<ProcessDefinition> definitions = this.mapper.readValue(json, TYPE_REF);
         Assert.assertEquals(definitions.size(), 2);
     }
-
-    /**
-     * Test archive upload.
-     * @throws FileNotFoundException 
-     */
+//
+//    /**
+//     * Test archive upload.
+//     * @throws IOException 
+//     * @throws URISyntaxException 
+//     */
+    // TODO is file upload testable with MockHttpRequest?
 //    @Test
-//    public void testArchiveUpload() throws FileNotFoundException {
+//    public void testArchiveUpload() throws IOException, URISyntaxException {
 //        File file = new File(TEST_ARCHIVE_PATH);
-//        FileReader reader = new FileReader(file);
-//        BufferedReader bufferedReader = new BufferedReader(reader);
-//        bufferedReader.
-//        makePOSTRequest("/repository/deployments", file.toString(), MediaType.APPLICATION_OCTET_STREAM);
+//        FileUploadForm form = new FileUploadForm();
+//        
+//        byte[] fileData = new byte[(int) file.length()];
+//        BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+//        inputStream.read(fileData);
+//        form.setFileData(fileData);
+//        inputStream.close();
+//        
+//        Map<String, String> formFields = new HashMap<String, String>();
+//        formFields.put("filedata", new String(fileData));
+//        MockHttpResponse response = makePOSTRequest("/repository/deployments", formFields.toString(), MediaType.MULTIPART_FORM_DATA);
+//        
+//        Assert.assertEquals(response.getStatus(), 200, "Result should be OK");
+//        RepositoryService repoService = jodaEngineServices.getRepositoryService();
+//        Assert.assertEquals(repoService.getProcessDefinitions().size(), "There should be one deployed definition now");
+//        
 //    }
 }

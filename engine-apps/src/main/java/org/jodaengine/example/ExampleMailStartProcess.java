@@ -10,7 +10,7 @@ import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
-import org.jodaengine.eventmanagement.subscription.condition.MethodInvokingEventCondition;
+import org.jodaengine.eventmanagement.subscription.condition.simple.MethodInvokingEventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.ext.logger.NavigatorListenerLogger;
 import org.jodaengine.navigator.NavigatorImpl;
@@ -55,7 +55,7 @@ public final class ExampleMailStartProcess {
             // the main
             JodaEngineServices jodaEngineServices = JodaEngine.start();
 
-            ((NavigatorImpl) jodaEngineServices.getNavigatorService()).registerPlugin(NavigatorListenerLogger
+            ((NavigatorImpl) jodaEngineServices.getNavigatorService()).registerListener(NavigatorListenerLogger
             .getInstance());
 
             // Building the ProcessDefintion

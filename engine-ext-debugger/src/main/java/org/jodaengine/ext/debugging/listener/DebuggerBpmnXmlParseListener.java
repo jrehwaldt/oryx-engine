@@ -52,7 +52,7 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     //=================================================================
-    //=================== Parse Listener methods ======================
+    //=================== Parse ObersverListener methods ======================
     //=================================================================
     
     @Override

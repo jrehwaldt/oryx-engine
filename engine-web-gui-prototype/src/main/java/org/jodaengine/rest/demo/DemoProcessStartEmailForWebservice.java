@@ -10,7 +10,7 @@ import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
-import org.jodaengine.eventmanagement.subscription.condition.MethodInvokingEventCondition;
+import org.jodaengine.eventmanagement.subscription.condition.simple.MethodInvokingEventCondition;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;

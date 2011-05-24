@@ -47,7 +47,7 @@ public class StartEventImpl extends AbstractProcessEvent implements ProcessStart
     @Override
     public void trigger() {
 
-        logger.info("Starting a new processInstance for event {}", this);
+//        logger.info("Starting a new processInstance for event {}", this);
         NavigatorInside navigator = (NavigatorInside) ServiceFactory.getNavigatorService();
         try {
             

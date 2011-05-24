@@ -28,7 +28,7 @@ public class NavigatorListenerLoggerTest {
    public void beforeMethod() {
        this.navigator = new NavigatorImpl();
        this.listener = mock(NavigatorListenerLogger.class);
-       this.navigator.registerPlugin(this.listener);
+       this.navigator.registerListener(this.listener);
    }
     
    /**

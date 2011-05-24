@@ -6,7 +6,7 @@ import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.listener.AbstractTokenListener;
-import org.jodaengine.plugin.activity.ActivityLifecycleChangeEvent;
+import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
