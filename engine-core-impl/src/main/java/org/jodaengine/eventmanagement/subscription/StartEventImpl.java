@@ -61,5 +61,13 @@ public class StartEventImpl extends AbstractProcessEvent implements ProcessStart
         }
         logger.info("ProcessInstance created for event {}", this);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "Start event of the processdefinitionId: " + definitionID.toString();
+    }
 
 }
