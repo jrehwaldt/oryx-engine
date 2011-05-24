@@ -3,6 +3,9 @@ package org.jodaengine.rest.api;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -27,6 +30,8 @@ import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.util.io.FileStreamSource;
+import org.jodaengine.util.io.IoUtil;
 import org.jodaengine.util.io.StringStreamSource;
 import org.jodaengine.util.mock.MockUtils;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
@@ -44,6 +49,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
     private ConcreteResourcePattern pattern = null;
     private AbstractParticipant jannik = null;
     private ProcessInstanceContext context = null;
+    private static final String FORM_LOCATION = "src/test/resources/org/jodaengine/deployment/importer/form/testForm.html";
 
     @Override
     protected Object getResourceSingleton() {
@@ -63,10 +69,10 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
         // deploy definition and artifact
         ProcessDefinition definition = MockUtils.mockProcessDefinition();
-        AbstractForm form = new FormImpl("form", new StringStreamSource("<form></form>"));
+        File formFile = new File(FORM_LOCATION);
+        AbstractForm form = new FormImpl("form", new FileStreamSource(formFile));
         DeploymentBuilder builder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
-        Deployment deployment = builder.addProcessDefinition(definition).addForm(form)
-        .buildDeployment();
+        Deployment deployment = builder.addProcessDefinition(definition).addForm(form).buildDeployment();
         jodaEngineServices.getRepositoryService().deployInNewScope(deployment);
 
         // Whitebox.setInternalState(pattern, "form", new FormImpl(processArtifact));
@@ -130,11 +136,17 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
     @Test
     public void testGetForm()
     throws URISyntaxException, IOException {
+        
+
+        context.setVariable("claimPoint1", "hi");
+        context.setVariable("claimPoint2", "ho");
 
         AbstractWorklistItem item = (AbstractWorklistItem) jannik.getWorklist().getWorklistItems().toArray()[0];
         String json = makeGETRequestReturningJson("/worklist/items/" + item.getID() + "/form?participantId="
             + jannik.getID());
-        Assert.assertEquals(json, "<form></form>");
+
+        File file = new File(FORM_LOCATION);
+        Assert.assertEquals(json, readFile(FORM_LOCATION));
     }
 
     /**
@@ -194,16 +206,45 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         Map<String, String> content = new HashMap<String, String>();
 
         // Simulate form data input
-        content.put("form1", "checked");
-        content.put("form2", "yes");
+        content.put("claimPoint1", "checked");
+        content.put("claimPoint2", "yes");
 
         MockHttpResponse response = makePOSTFormRequest(
             String.format("/worklist/items/%s/form?participantId=%s", item.getID(), jannik.getID()), content);
         Assert.assertEquals(response.getStatus(), HTTP_STATUS_OK.getStatusCode(),
             "the result should be OK, that means, the request should have suceeded.");
-        Assert.assertEquals(context.getVariable("form1"), "checked");
-        Assert.assertEquals(context.getVariable("form2"), "yes");
+        Assert.assertEquals(context.getVariable("claimPoint1"), "checked");
+        Assert.assertEquals(context.getVariable("claimPoint2"), "yes");
 
+    }
+    
+    /**
+     * Reads a file and returns its content as a String.
+     * 
+     * @param fileName
+     *            the file name
+     * @return the string
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    private String readFile(String fileName)
+    throws IOException {
+
+        String fileContent = "";
+        File file = new File(fileName);
+        FileReader input = new FileReader(file);
+        BufferedReader reader = new BufferedReader(input);
+
+        String nextLine = reader.readLine();
+        while (nextLine != null) {
+            fileContent = fileContent.concat(nextLine);
+            nextLine = reader.readLine();
+        }
+
+        reader.close();
+        input.close();
+
+        return fileContent;
     }
 
 }

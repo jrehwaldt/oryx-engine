@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import net.htmlparser.jericho.Config;
 import net.htmlparser.jericho.FormControl;
 import net.htmlparser.jericho.FormField;
 import net.htmlparser.jericho.FormFields;
@@ -80,6 +81,7 @@ public class FormImpl extends AbstractForm {
     }
     
     private void parseToFormFields() {
+        Config.CurrentCompatibilityMode.setFormFieldNameCaseInsensitive(false);
         formContent = getFormContentAsHTML();
         Source source = new Source(formContent);
         FormFields formFields = source.getFormFields();

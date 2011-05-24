@@ -20,7 +20,18 @@ public interface Form {
      */
     String getFormContentAsHTML();
     
+    /**
+     * Gets a form field with the specified name.
+     *
+     * @param fieldName the field name
+     * @return the form field
+     */
     JodaFormField getFormField(String fieldName);
     
+    /**
+     * Gets all contained form fields.
+     *
+     * @return the form fields
+     */
     List<JodaFormField> getFormFields();
 }
