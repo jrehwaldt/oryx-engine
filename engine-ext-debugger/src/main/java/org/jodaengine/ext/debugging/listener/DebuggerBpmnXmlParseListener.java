@@ -3,6 +3,7 @@ package org.jodaengine.ext.debugging.listener;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
 import org.jodaengine.ext.Extension;
+import org.jodaengine.ext.debugging.DebuggerDefinitionAttribute;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
@@ -59,8 +60,18 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
     public void parseProcess(XmlElement processXmlElement,
                              ProcessDefinition processDefinition) {
         
-        // TODO Auto-generated method stub
         logger.debug("Parse BPMN-process element {}", processXmlElement);
+        
+        //
+        // enable debug mode via xml definition
+        //
+        String debugMode = processXmlElement.getAttributeNS(JODAENGINE_EXTENSION_DEBUGGER_NS, "debug-mode");
+        
+        if (Boolean.valueOf(debugMode)) {
+            logger.info("Enable debugging for {}.", processDefinition);
+            DebuggerDefinitionAttribute attribute = DebuggerDefinitionAttribute.getAttribute(processDefinition);
+            attribute.enable();
+        }
     }
     
     @Override
