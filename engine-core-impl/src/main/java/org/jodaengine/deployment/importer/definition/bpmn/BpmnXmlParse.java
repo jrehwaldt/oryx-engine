@@ -369,9 +369,11 @@ public class BpmnXmlParse extends XmlParse {
      */
     protected void parseTask(XmlElement taskXmlElement) {
 
-        Node taskNode = processBuilder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
-        .setOutgoingBehaviour(new TakeAllSplitBehaviour())
-        .setActivityBehavior(new AutomatedDummyActivity("Doing something")).buildNode();
+        Node taskNode = processBuilder.getNodeBuilder()
+                                      .setIncomingBehaviour(new SimpleJoinBehaviour())
+                                      .setOutgoingBehaviour(new TakeAllSplitBehaviour())
+                                      .setActivityBehavior(new AutomatedDummyActivity("Doing something"))
+                                      .buildNode();
 
         parseGeneralNodeInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
