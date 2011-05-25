@@ -1,7 +1,6 @@
 package org.jodaengine.node.activity;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -28,7 +27,6 @@ import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.mock.MockUtils;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -37,12 +35,12 @@ import org.testng.annotations.Test;
  * The test for the {@link BpmnHumanTaskActivity}.
  */
 
-public class HumanTaskActivityTest extends AbstractJodaEngineTest {
+public class BpmnHumanTaskActivityTest extends AbstractJodaEngineTest {
 
     private ConcreteResourcePattern pattern = null;
     private AbstractResource<?> resource = null;
 
-    private BpmnHumanTaskActivity humanTask = null;
+    private BpmnHumanTaskActivityMock humanTask = null;
 
     private Token token = null;
 
@@ -56,7 +54,7 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
     public void setUp()
     throws Exception {
 
-        // Prepare the organisation structure
+        // Prepare the organization structure
 
         IdentityBuilder identityBuilder = new IdentityServiceImpl().getIdentityBuilder();
         AbstractParticipant participant = identityBuilder.createParticipant("jannik");
@@ -70,7 +68,7 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
 
         pattern = new ConcreteResourcePattern(subject, description, null, participant);
 
-        humanTask = new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern());
+        humanTask = new BpmnHumanTaskActivityMock(pattern, new AllocateSinglePattern());
 
         Node node = new NodeImpl(humanTask, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         token = new TokenImpl(node, new ProcessInstanceImpl(MockUtils.mockProcessDefinition()), new NavigatorImplMock());
@@ -122,12 +120,9 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         humanTask.execute(token);
         ProcessInstanceContext context = token.getInstance().getContext();
 
-        // If the following line throws an error, it might be that the private variable in the class
-        // BpmnHumanTaskActivity is not called "ITEM_PREFIX" anymore.
-        List<UUID> savedItemIDs = (List<UUID>) context.getInternalVariable((String) Whitebox.getInternalState(
-            humanTask, "ITEM_PREFIX") + token.getID());
+        List<UUID> savedItemIDs = (List<UUID>) context.getInternalVariable(humanTask.getInternaIdentifier(token));
 
-        assertFalse(savedItemIDs == null, "The variable should be initialized");
+        assertNotNull(savedItemIDs, "The variable should be initialized");
         assertEquals(savedItemIDs.size(), 1, "There should be one saved item ID");
 
         UUID itemID = savedItemIDs.get(0);
@@ -148,9 +143,8 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         ServiceFactory.getWorklistQueue().completeWorklistItemBy(item, resource);
 
         ProcessInstanceContext context = token.getInstance().getContext();
-        List<UUID> savedItemIDs = (List<UUID>) context.getInternalVariable((String) Whitebox.getInternalState(
-            humanTask, "ITEM_PREFIX") + token.getID());
+        List<UUID> savedItemIDs = (List<UUID>) context.getInternalVariable(humanTask.getInternaIdentifier(token));
 
-        assertTrue(savedItemIDs == null, "The variable should exist any longer.");
+        assertNotNull(savedItemIDs, "The variable should exist any longer.");
     }
 }
