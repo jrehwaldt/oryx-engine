@@ -52,7 +52,7 @@ public class JuelFormProcessor implements FormProcessor {
             // get the corresponding jodaField
             JodaFormField jodaField = form.getFormField(attributes.getValue("name"));
 
-            // replace the value attribute with the result of the writeExpression (if it exists)
+            // replace the value attribute with the result of the readExpression (if it exists)
             String readExpression = jodaField.getReadExpression();
             if (readExpression != null) {
                 ValueExpression e = factory.createValueExpression(elContext, readExpression, String.class);
@@ -65,7 +65,7 @@ public class JuelFormProcessor implements FormProcessor {
                     // requested variable does not exist.
                     // do not change the value of the input field.
                     logger
-                    .debug("The specified JUEL Expression cannot be resolved. Using the specified default value.");
+                    .debug("The expression {} cannot be resolved. Using the specified default value.", readExpression);
                 }
 
             }
