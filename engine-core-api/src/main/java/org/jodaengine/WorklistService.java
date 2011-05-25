@@ -116,7 +116,8 @@ public interface WorklistService extends Service {
      * @return a map where the key is a {@link AbstractResource} and the value is a list of {@link AbstractWorklistItem}
      */
     @Nonnull
-    Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(@Nonnull Set<? extends AbstractResource<?>> resources);
+    Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(
+        @Nonnull Set<? extends AbstractResource<?>> resources);
 
     /**
      * Claims a {@link AbstractWorklistItem}.
@@ -160,25 +161,21 @@ public interface WorklistService extends Service {
 
     /**
      * Returns a {@link AbstractWorklistItem} by id.
-     * 
-     * @param resource
-     *            the {@link AbstractResource}, to which the {@link AbstractWorklistItem} belongs
-     * @param worklistItemId
-     *            the {@link AbstractWorklistItem}'s id
+     *
+     * @param resource the {@link AbstractResource}, to which the {@link AbstractWorklistItem} belongs
+     * @param worklistItemId the {@link AbstractWorklistItem}'s id
      * @return the {@link AbstractWorklistItem}
-     * @throws InvalidWorkItemException
+     * @throws InvalidWorkItemException thrown if the work item is not found
      */
     @Nullable
     AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource, @Nonnull UUID worklistItemId)
     throws InvalidWorkItemException;
-
-    // TODO: Observable Interface für die GUI
+    
     /**
-     * Returns the number of worklist items which are offered or allocated? to the given resources
-     * 
-     * @param resources
-     *            the resources
-     * @return the int
+     * Delegate a worklist item to a specific resource, this resource should be a participant.
+     *
+     * @param worklistItem the worklist item to be delegated
+     * @param resource the resource to get the item
      */
-    int size(@Nonnull Set<? extends AbstractResource<?>> resources);
+    //void delegateWorklistItemTo(@Nonnull AbstractWorklistItem worklistItem, @Nonnull AbstractResource<?> resource);
 }
