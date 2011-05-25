@@ -22,7 +22,7 @@ public class FormTest {
     private static final String PROCESSED_FORM_LOCATION = FORM_PATH + "processedTestForm.html";
     
   @Test
-  public void f() {
+  public void testFormCreation() {
       FileStreamSource source = new FileStreamSource(new File(FORM_LOCATION));
       Form form = new FormImpl("form", source);
       JodaFormField field1 = form.getFormField("claimPoint1");
@@ -53,7 +53,7 @@ public class FormTest {
 
           String nextLine = reader.readLine();
           while (nextLine != null) {
-              fileContent = fileContent.concat(nextLine + "\n");
+              fileContent = fileContent.concat(nextLine);
               nextLine = reader.readLine();
           }
 
