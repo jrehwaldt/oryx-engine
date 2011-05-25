@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
+import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
 
 import net.htmlparser.jericho.Attributes;
@@ -20,6 +21,8 @@ import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.condition.ProcessELContext;
 import org.jodaengine.resource.allocation.JodaFormFieldConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.odysseus.el.ExpressionFactoryImpl;
 import de.odysseus.el.util.RootPropertyResolver;
@@ -30,37 +33,46 @@ import de.odysseus.el.util.SimpleResolver;
  */
 public class JuelFormProcessor implements FormProcessor {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Override
     public String prepareForm(Form form, ProcessInstanceContext context) {
 
-        Config.CurrentCompatibilityMode.setFormFieldNameCaseInsensitive(false);        
+        Config.CurrentCompatibilityMode.setFormFieldNameCaseInsensitive(false);
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        ELContext elContext = new ProcessELContext(context);        
+        ELContext elContext = new ProcessELContext(context);
 
         String formContent = form.getFormContentAsHTML();
         Source source = new Source(formContent);
         FormFields formFields = source.getFormFields();
         OutputDocument document = new OutputDocument(source);
-        
+
         for (FormField field : formFields) {
             StartTag tag = field.getFormControl().getFirstStartTag();
             Attributes attributes = tag.getAttributes();
-            
+
             // get the corresponding jodaField
             JodaFormField jodaField = form.getFormField(attributes.getValue("name"));
-            
+
             // replace the value attribute with the result of the writeExpression (if it exists)
-            String readExpression = jodaField.getReadExpression();           
+            String readExpression = jodaField.getReadExpression();
             if (readExpression != null) {
                 ValueExpression e = factory.createValueExpression(elContext, readExpression, String.class);
-                String result = (String) e.getValue(elContext);
-                
-                Map<String, String> replacements = document.replace(attributes, false);
-                
-                replacements.put("value", result);
+                try {
+                    String result = (String) e.getValue(elContext);
+                    Map<String, String> replacements = document.replace(attributes, false);
+
+                    replacements.put("value", result);
+                } catch (PropertyNotFoundException exception) {
+                    // requested variable does not exist.
+                    // do not change the value of the input field.
+                    logger
+                    .debug("The specified JUEL Expression cannot be resolved. Using the specified default value.");
+                }
+
             }
-            
+
         }
 
         return document.toString();
