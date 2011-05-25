@@ -86,13 +86,7 @@ public class ProcessELContext extends SimpleContext {
             //
             // check the context and bind the resolved value into our map
             //
-            // this has the consequence, that every variable will be resolved
-            if (instanceContext.getVariable(variable) == null) {
-                instanceContext.setVariable(variable, "");
-            }
             Object contextValue = instanceContext.getVariable(variable);
-            
-            
                         
             ValueExpression valueExpression = null;
             if (contextValue != null) {
