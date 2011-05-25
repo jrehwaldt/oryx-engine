@@ -72,7 +72,6 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
 
         AbstractParticipant part = ServiceFactory.getIdentityService().getParticipants().iterator().next();
         // AllocationsStragegies are not important for that test
-        // Task task = new TaskImpl("Task Subject!!", "Task Decription!!", null, part);
 
         Token token = Mockito.mock(Token.class);
         Set<AbstractResource<?>> assignedResources = new HashSet<AbstractResource<?>>();
@@ -122,10 +121,13 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
 
         worklistService.beginWorklistItemBy(worklistItem, jannik);
         Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
+        Assert.assertEquals(worklistItem.getAssignedResources().size(), 1);
+        Assert.assertEquals(worklistItem.getAssignedResources().iterator().next(), jannik);
         
         worklistService.abortWorklistItemBy(worklistItem, jannik);
-        
-        // TODO add assertions when abort is implemented
+        Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.ALLOCATED);
+        Assert.assertEquals(worklistItem.getAssignedResources().size(), 1);
+        Assert.assertEquals(worklistItem.getAssignedResources().iterator().next(), jannik);
     }
 
     /**
