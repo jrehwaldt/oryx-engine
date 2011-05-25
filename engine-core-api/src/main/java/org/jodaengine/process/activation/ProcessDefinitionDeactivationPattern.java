@@ -11,10 +11,7 @@ import org.jodaengine.util.PatternAppendable;
  * This Pattern is designed to part of a linked list of {@link ProcessDefinitionDeActivationPattern activationPattern}.
  * </p>
  */
-public interface ProcessDefinitionDeActivationPattern extends /*
-                                                            * ProcessDefinitionDeactivationPattern,
-                                                            * ProcessDefinitionActivationPattern,
-                                                            */PatternAppendable<ProcessDefinitionDeActivationPattern> {
+public interface ProcessDefinitionDeActivationPattern extends PatternAppendable<ProcessDefinitionDeActivationPattern> {
 
     /**
      * Activates the {@link ProcessDefinition}.
