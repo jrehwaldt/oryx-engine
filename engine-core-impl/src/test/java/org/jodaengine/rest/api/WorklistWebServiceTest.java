@@ -49,7 +49,9 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
     private ConcreteResourcePattern pattern = null;
     private AbstractParticipant jannik = null;
     private ProcessInstanceContext context = null;
-    private static final String FORM_LOCATION = "src/test/resources/org/jodaengine/deployment/importer/form/testForm.html";
+    private static final String FORM_PATH = "src/test/resources/org/jodaengine/deployment/importer/form/";
+    private static final String FORM_LOCATION = FORM_PATH + "testForm.html";
+    private static final String RESOLVED_FORM_LOCATION = FORM_PATH + "testFormResolved.html";
 
     @Override
     protected Object getResourceSingleton() {
@@ -145,8 +147,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         String json = makeGETRequestReturningJson("/worklist/items/" + item.getID() + "/form?participantId="
             + jannik.getID());
 
-        File file = new File(FORM_LOCATION);
-        Assert.assertEquals(json, readFile(FORM_LOCATION));
+        Assert.assertEquals(json.trim(), readFile(RESOLVED_FORM_LOCATION).trim());
     }
 
     /**
@@ -237,7 +238,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
         String nextLine = reader.readLine();
         while (nextLine != null) {
-            fileContent = fileContent.concat(nextLine);
+            fileContent = fileContent.concat(nextLine + "\n");
             nextLine = reader.readLine();
         }
 

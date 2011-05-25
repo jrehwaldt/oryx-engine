@@ -16,6 +16,7 @@ import org.jodaengine.allocation.Form;
 import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
+import org.jodaengine.process.activation.ProcessDefinitionActivationPattern;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
@@ -54,6 +55,7 @@ public class DeployFormTest extends AbstractJodaEngineTest {
 
         ProcessDefinitionBuilder defBuilder = deploymentBuilder.getProcessDefinitionBuilder();
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
+        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionActivationPattern.class));
         definition = defBuilder.buildDefinition();
     }
 
