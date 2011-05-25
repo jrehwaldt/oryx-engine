@@ -1,4 +1,4 @@
-package org.jodaengine.node.activity;
+package org.jodaengine.node.activity.custom;
 
 import static org.testng.Assert.assertEquals;
 

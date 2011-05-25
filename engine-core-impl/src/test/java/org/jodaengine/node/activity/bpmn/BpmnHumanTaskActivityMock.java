@@ -1,4 +1,4 @@
-package org.jodaengine.node.activity;
+package org.jodaengine.node.activity.bpmn;
 
 import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.allocation.PushPattern;

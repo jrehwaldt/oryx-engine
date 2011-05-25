@@ -1,4 +1,4 @@
-package org.jodaengine.node.activity;
+package org.jodaengine.node.activity.bpmn;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 /**
  * The Class TerminatingEndActivityTest.
  */
-public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest {
+public class BpmnTerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest {
     private CreationPattern pattern = null;
     private AbstractResource<?> resource = null;
     private Node splitNode, humanTaskNode, terminatingEndNode;

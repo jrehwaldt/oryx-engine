@@ -1,9 +1,11 @@
-package org.jodaengine.node.activity;
+package org.jodaengine.node.activity.custom;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.jodaengine.RepositoryService;
+import org.jodaengine.node.activity.Activity;
+import org.jodaengine.node.activity.ContextVariableScript;
 import org.jodaengine.node.activity.custom.ScriptingActivity;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;

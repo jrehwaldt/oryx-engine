@@ -1,4 +1,4 @@
-package org.jodaengine.node.activity;
+package org.jodaengine.node.activity.bpmn;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
 /**
  * The Class EndActivityTest.
  */
-public class EndActivityTest {
+public class BpmnEndActivityTest {
     private AbstractProcessInstance instance = null;
     private Node startNode = null;
 

@@ -1,4 +1,4 @@
-package org.jodaengine.node.activity;
+package org.jodaengine.node.activity.bpmn;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;

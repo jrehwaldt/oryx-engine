@@ -1,4 +1,4 @@
-package org.jodaengine.node.activity;
+package org.jodaengine.node.activity.bpmn;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
 /**
  * The Class TerminatingEndActivityTest.
  */
-public class TerminatingEndActivityTest {
+public class BpmnTerminatingEndActivityTest {
     private ProcessDefinition definition;
     private Node startNode, xorJoinNode;
 

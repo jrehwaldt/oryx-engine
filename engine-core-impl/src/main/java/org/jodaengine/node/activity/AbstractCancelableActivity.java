@@ -1,6 +1,6 @@
-package org.jodaengine.node.activity.bpmn;
+package org.jodaengine.node.activity;
 
-import org.jodaengine.node.activity.AbstractActivity;
+import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.process.token.Token;
 
 /**
