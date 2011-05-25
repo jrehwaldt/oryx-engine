@@ -66,6 +66,11 @@ public class FormImpl extends AbstractForm {
         return formContent;
     }
 
+    /**
+     * Reads the form content from the specified stream.
+     *
+     * @return the string
+     */
     private String readContentFromStream() {
 
         try {

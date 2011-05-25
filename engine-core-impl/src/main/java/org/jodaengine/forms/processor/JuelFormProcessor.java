@@ -20,13 +20,10 @@ import org.jodaengine.allocation.Form;
 import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.condition.ProcessELContext;
-import org.jodaengine.resource.allocation.JodaFormFieldConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.odysseus.el.ExpressionFactoryImpl;
-import de.odysseus.el.util.RootPropertyResolver;
-import de.odysseus.el.util.SimpleResolver;
 
 /**
  * This class uses JUEL to fill in a form and pass results.
