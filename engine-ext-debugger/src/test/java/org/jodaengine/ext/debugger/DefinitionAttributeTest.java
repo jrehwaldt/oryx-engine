@@ -5,7 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.jodaengine.ext.debugger.util.AttributeKeyProvider;
-import org.jodaengine.ext.debugging.DebuggerAttribute;
+import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.mockito.ArgumentCaptor;
 import org.testng.Assert;

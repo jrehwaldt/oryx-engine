@@ -1,6 +1,6 @@
 package org.jodaengine.ext.debugger.util;
 
-import org.jodaengine.ext.debugging.DebuggerAttribute;
+import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 
 /**
  * This class provides access to the {@link DebuggerAttribute}'s attribute key,

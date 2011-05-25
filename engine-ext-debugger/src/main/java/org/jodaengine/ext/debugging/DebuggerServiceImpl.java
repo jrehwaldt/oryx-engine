@@ -5,6 +5,7 @@ import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
+import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
@@ -13,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * A {@link DebuggerService} implementation providing the possibility to set
- * {@link Breakpoint} and debug process instances.
+ * {@link BreakpointImpl} and debug process instances.
  * 
  * This class implements both, the {@link DebuggerService} as well as the {@link BreakpointService}.
  * 
@@ -102,12 +103,12 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService {
     //=================================================================
 
     @Override
-    public Breakpoint addBreakpoint(Node node) {
+    public BreakpointImpl addBreakpoint(Node node) {
         return addBreakpoint(node, null);
     }
 
     @Override
-    public Breakpoint addBreakpoint(Node node,
+    public BreakpointImpl addBreakpoint(Node node,
                                     AbstractProcessInstance instance) {
         // TODO Auto-generated method stub
         logger.debug("Add breakpoint to node {} | instance {}", node, instance);
@@ -115,19 +116,19 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService {
     }
 
     @Override
-    public void removeBreakpoint(Breakpoint breakpoint) {
+    public void removeBreakpoint(BreakpointImpl breakpoint) {
         // TODO Auto-generated method stub
         logger.debug("Remove breakpoint {}", breakpoint);
     }
 
     @Override
-    public void enableBreakpoint(Breakpoint breakpoint) {
+    public void enableBreakpoint(BreakpointImpl breakpoint) {
         // TODO Auto-generated method stub
         logger.debug("Enable breakpoint {}", breakpoint);
     }
 
     @Override
-    public void disableBreakpoint(Breakpoint breakpoint) {
+    public void disableBreakpoint(BreakpointImpl breakpoint) {
         // TODO Auto-generated method stub
         logger.debug("Disable breakpoint {}", breakpoint);
     }

@@ -10,9 +10,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.exception.ServiceUnavailableException;
-import org.jodaengine.ext.debugging.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -132,7 +132,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     @Path("/breakpoints/add-to-definition")
     @POST
     @Override
-    public Breakpoint addBreakpoint(Node node) {
+    public BreakpointImpl addBreakpoint(Node node) {
         if (this.debugger != null) {
             return this.debugger.addBreakpoint(node);
         }
@@ -142,7 +142,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     @Path("/breakpoints/add-to-instance")
     @POST
     @Override
-    public Breakpoint addBreakpoint(Node node, AbstractProcessInstance instance) {
+    public BreakpointImpl addBreakpoint(Node node, AbstractProcessInstance instance) {
         if (this.debugger != null) {
             return this.debugger.addBreakpoint(node, instance);
         }
@@ -152,7 +152,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     @Path("/breakpoints/remove")
     @POST
     @Override
-    public void removeBreakpoint(Breakpoint breakpoint) {
+    public void removeBreakpoint(BreakpointImpl breakpoint) {
         if (this.debugger != null) {
             this.debugger.removeBreakpoint(breakpoint);
         }
@@ -162,7 +162,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     @Path("/breakpoints/enable")
     @POST
     @Override
-    public void enableBreakpoint(Breakpoint breakpoint) {
+    public void enableBreakpoint(BreakpointImpl breakpoint) {
         if (this.debugger != null) {
             this.debugger.enableBreakpoint(breakpoint);
         }
@@ -173,7 +173,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     @Path("/breakpoints/disable")
     @POST
     @Override
-    public void disableBreakpoint(Breakpoint breakpoint) {
+    public void disableBreakpoint(BreakpointImpl breakpoint) {
         if (this.debugger != null) {
             this.debugger.disableBreakpoint(breakpoint);
         }
