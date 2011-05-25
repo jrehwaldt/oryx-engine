@@ -1,4 +1,4 @@
-package org.jodaengine.node.activity;
+package org.jodaengine.node.activity.custom;
 
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
@@ -9,6 +9,7 @@ import java.io.PrintStream;
 
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;

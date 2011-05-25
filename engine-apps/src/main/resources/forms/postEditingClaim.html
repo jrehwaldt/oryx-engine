@@ -5,31 +5,31 @@
         <tr><th colspan="2">Widerspruchspunkte</th></tr>
         <tr>
             <td>Punkt 1</td>
-            <td><input name="newClaimPoint1" type="text" /></td>
+            <td><input name="newClaimPoint1" type="text" joda:readExpression="#{newClaimPoint1}" joda:writeVariable="newClaimPoint1"/></td>
         </tr>
         <tr>
             <td>Punkt 2</td>
-            <td><input name="newClaimPoint2" type="text" /></td>
+            <td><input name="newClaimPoint2" type="text" joda:readExpression="#{newClaimPoint2}" joda:writeVariable="newClaimPoint2"/></td>
         </tr>
         <tr>
             <td>Punkt 3</td>
-            <td><input name="newClaimPoint3" type="text" /></td>
+            <td><input name="newClaimPoint3" type="text" joda:readExpression="#{newClaimPoint3}" joda:writeVariable="newClaimPoint3"/></td>
         </tr>
         <tr>
             <td>Punkt 4</td>
-            <td><input name="newClaimPoint4" type="text" /></td>
+            <td><input name="newClaimPoint4" type="text" joda:readExpression="#{newClaimPoint4}" joda:writeVariable="newClaimPoint4"/></td>
         </tr>
         <tr>
             <td>Punkt 5</td>
-            <td><input name="newClaimPoint5" type="text" /></td>
+            <td><input name="newClaimPoint5" type="text" joda:readExpression="#{newClaimPoint5}" joda:writeVariable="newClaimPoint5"/></td>
         </tr>
         <tr>
             <td>Anmerkung</td>
-            <td><textarea id="textarea" name="comments"></textarea></td>
+            <td><textarea id="textarea" name="comments" joda:readVariable="#{comments}" joda:writeVariable="comments"></textarea></td>
         </tr>
         <tr>
             <td>Bemerkung zur internen Weiterverarbeitung</td>
-            <td><textarea id="textarea" name="internalRemarks"></textarea></td>
+            <td><textarea id="textarea" name="internalRemarks" joda:writeVariable="internalRemarks"></textarea></td>
         </tr>
     </table>
     

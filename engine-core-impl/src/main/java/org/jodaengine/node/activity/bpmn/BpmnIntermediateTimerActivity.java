@@ -8,14 +8,14 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 import org.jodaengine.eventmanagement.adapter.timer.TimerAdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.TimerEventImpl;
-import org.jodaengine.node.activity.AbstractActivity;
+import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.Token;
 
 /**
  * The actvity IntermediateTimer is used to wait a specific amount of time before execution is continued.
  */
-public class BpmnIntermediateTimerActivity extends AbstractActivity {
+public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity {
 
     private long time;
 
@@ -35,7 +35,7 @@ public class BpmnIntermediateTimerActivity extends AbstractActivity {
     @Override
     protected void executeIntern(@Nonnull Token token) {
 
-        // TODO @Gerardo muss geändert werden keine ServiceFactory mehr
+        // TODO @Gerardo muss geändert werden keine ServiceFactory mehr; vielleicht alle coreservices ins token
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
         AdapterConfiguration conf = new TimerAdapterConfiguration(this.time);
         ProcessIntermediateEvent processEvent = new TimerEventImpl(conf, token);
@@ -51,11 +51,6 @@ public class BpmnIntermediateTimerActivity extends AbstractActivity {
         token.suspend();
     }
 
-    private static String internalVariableId(String prefix, Token token) {
-
-        return PROCESS_EVENT_PREFIX + "-" + token.getID() + "-" + token.getCurrentNode().getID();
-    }
-
     @Override
     public void cancel(Token executingToken) {
 
@@ -67,8 +62,5 @@ public class BpmnIntermediateTimerActivity extends AbstractActivity {
 
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
         eventManager.unsubscribeFromIntermediateEvent(intermediateEvent);
-        // TimingManager timer = ServiceFactory.getCorrelationService().getTimer();
-        // timer.unregisterJob(this.jobCompleteName);
     }
-
 }

@@ -25,7 +25,7 @@ public class FormStreamHandler extends AbstractDarHandler {
                 BufferedInputStream inputStream = new BufferedInputStream(darFile.getInputStream(entry));
                 int lastDelimiter = entry.getName().lastIndexOf(DELIMITER);
                 String formName = entry.getName().substring(lastDelimiter + 1);
-                builder.addInputStreamArtifact(formName, inputStream);
+                builder.addInputStreamForm(formName, inputStream);
                 
                 //inputStream.close();
             } catch (IOException e) {

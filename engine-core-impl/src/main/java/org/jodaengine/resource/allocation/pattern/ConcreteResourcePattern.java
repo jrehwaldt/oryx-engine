@@ -84,7 +84,7 @@ public class ConcreteResourcePattern implements CreationPattern {
             // only search for a form, if one has been specified
             try {
                 ProcessDefinitionID definitionID = token.getInstance().getDefinition().getID();
-                formToUse = new FormImpl(repoService.getProcessArtifact(formID, definitionID));
+                formToUse = repoService.getForm(formID, definitionID);
             } catch (ProcessArtifactNotFoundException e) {
                 throw new JodaEngineRuntimeException("The requested form does not exist.", e);
             }

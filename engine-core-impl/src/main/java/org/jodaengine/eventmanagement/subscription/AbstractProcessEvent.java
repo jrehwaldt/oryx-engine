@@ -28,7 +28,6 @@ public abstract class AbstractProcessEvent implements ProcessEvent {
      * @param condition
      *            the conditions
      */
-    // TODO: @EVENTTEAM: Config and Event type? Event type is in the config!
     protected AbstractProcessEvent(EventType type, AdapterConfiguration config, EventCondition condition) {
 
         this.config = config;
