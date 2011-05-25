@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
  */
 public class DeployFormTest extends AbstractJodaEngineTest {
     
-    private static final String TEST_FILE_CLASSPATH = "org/jodaengine/deployment/importer/form/testForm.html";
+    private static final String TEST_FILE_CLASSPATH = "org/jodaengine/deployment/testForm.html";
     private static final String TEST_FILE_SYSTEM_PATH = "src/test/resources/" + TEST_FILE_CLASSPATH;
 
     private DeploymentBuilder deploymentBuilder = null;
@@ -73,6 +73,18 @@ public class DeployFormTest extends AbstractJodaEngineTest {
         Form form = repo.getForm("form", definition.getID());
         List<JodaFormField> fields = form.getFormFields();
         Assert.assertEquals(fields.size(), 2);
-        // TODO @Thorben-Refactoring bessere Asserts.
+
+        JodaFormField field1, field2;
+        field1 = fields.get(0);
+        field2 = fields.get(1);
+        if (field1.getName() != "claimPoint1") {
+            field1 = fields.get(1);
+            field2 = fields.get(0);
+        }
+        if (!"claimPoint1".equals(field1.getName()) || !"claimPoint2".equals(field2.getName())) {
+            Assert.fail("Fields were not read correctly");
+        }
+        
+        
     }
 }

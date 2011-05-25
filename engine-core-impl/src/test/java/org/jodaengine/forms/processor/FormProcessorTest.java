@@ -26,8 +26,9 @@ import org.testng.annotations.Test;
  */
 public class FormProcessorTest {
 
-    private static final String EMPTY_FORM_LOCATION = "src/test/resources/testforms/testForm.html";
-    private static final String POPULATED_FORM_LOCATION = "src/test/resources/testforms/populatedTestForm.html";
+    private static final String FORM_PATH = "src/test/resources/org/jodaengine/forms/processor/";
+    private static final String EMPTY_FORM_LOCATION = FORM_PATH + "testForm.html";
+    private static final String POPULATED_FORM_LOCATION = FORM_PATH + "populatedTestForm.html";
     private static final String EMPTY_FORM_CONTENT = readFile(EMPTY_FORM_LOCATION);
     private static final String POPULATED_FORM_CONTENT = readFile(POPULATED_FORM_LOCATION);
 
@@ -44,10 +45,12 @@ public class FormProcessorTest {
         context = new ProcessInstanceContextImpl();
 
         form = mock(Form.class);
-        field1 = new JodaFormFieldImpl("claimPoint1", "#{claimPoint1}", String.class);
-        field2 = new JodaFormFieldImpl("claimPoint2", "#{claimPoint2}", String.class);
+        field1 = new JodaFormFieldImpl("claimPoint1", "#{claimPoint1}", "#{claimPoint1}", String.class);
+        field2 = new JodaFormFieldImpl("claimPoint2", "#{claimPoint2}", "#{claimPoint2}", String.class);
         when(form.getFormField(Mockito.matches("claimPoint1"))).thenReturn(field1);
         when(form.getFormField(Mockito.matches("claimPoint2"))).thenReturn(field2);
+        
+        // this form does not contain the joda-tags, as it mocks the already parsed state
         when(form.getFormContentAsHTML()).thenReturn(EMPTY_FORM_CONTENT);
     }
 
@@ -85,7 +88,7 @@ public class FormProcessorTest {
     @Test
     public void testFormTypeInput() {
 
-        field1 = new JodaFormFieldImpl("claimPoint1", "#{claimPoint1}", Integer.class);
+        field1 = new JodaFormFieldImpl("claimPoint1", "", "#{claimPoint1}", Integer.class);
         when(form.getFormField(Mockito.matches("claimPoint1"))).thenReturn(field1);
         Map<String, String> formInput = new HashMap<String, String>();
         formInput.put("claimPoint1", "1");

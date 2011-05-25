@@ -7,12 +7,13 @@ import org.jodaengine.allocation.JodaFormField;
  */
 public class JodaFormFieldImpl implements JodaFormField {
 
-    private String name, expression;
+    private String name, readExpression, writeExpression;
     private Class<?> dataClass;
     
-    public JodaFormFieldImpl(String name, String expression, Class<?> dataclass) {
+    public JodaFormFieldImpl(String name, String readExpression, String writeExpression, Class<?> dataclass) {
         this.name = name;
-        this.expression = expression;
+        this.readExpression = readExpression;
+        this.writeExpression = writeExpression;
         this.dataClass = dataclass;
     }
     
@@ -23,9 +24,15 @@ public class JodaFormFieldImpl implements JodaFormField {
     }
 
     @Override
-    public String getExpression() {
+    public String getReadExpression() {
 
-        return expression;
+        return readExpression;
+    }
+    
+    @Override
+    public String getWriteExpression() {
+
+        return writeExpression;
     }
 
     @Override

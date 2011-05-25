@@ -7,10 +7,19 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 
+import net.htmlparser.jericho.Attributes;
+import net.htmlparser.jericho.Config;
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.FormFields;
+import net.htmlparser.jericho.OutputDocument;
+import net.htmlparser.jericho.Source;
+import net.htmlparser.jericho.StartTag;
+
 import org.jodaengine.allocation.Form;
 import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.condition.ProcessELContext;
+import org.jodaengine.resource.allocation.JodaFormFieldConverter;
 
 import de.odysseus.el.ExpressionFactoryImpl;
 import de.odysseus.el.util.RootPropertyResolver;
@@ -24,14 +33,37 @@ public class JuelFormProcessor implements FormProcessor {
     @Override
     public String prepareForm(Form form, ProcessInstanceContext context) {
 
-        String formHtml = form.getFormContentAsHTML();
+        Config.CurrentCompatibilityMode.setFormFieldNameCaseInsensitive(false);        
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        ELContext elContext = new ProcessELContext(context);
+        ELContext elContext = new ProcessELContext(context);        
 
-        ValueExpression e = factory.createValueExpression(elContext, formHtml, String.class);
+        String formContent = form.getFormContentAsHTML();
+        Source source = new Source(formContent);
+        FormFields formFields = source.getFormFields();
+        OutputDocument document = new OutputDocument(source);
+        
+        for (FormField field : formFields) {
+            StartTag tag = field.getFormControl().getFirstStartTag();
+            Attributes attributes = tag.getAttributes();
+            
+            // get the corresponding jodaField
+            JodaFormField jodaField = form.getFormField(attributes.getValue("name"));
+            
+            // replace the value attribute with the result of the writeExpression (if it exists)
+            String readExpression = jodaField.getReadExpression();
+            if (readExpression != null) {
+                ValueExpression e = factory.createValueExpression(elContext, readExpression, String.class);
+                String result = (String) e.getValue(elContext);
+                
+                Map<String, String> replacements = document.replace(attributes, false);
+                
+                replacements.put("value", result);
+            }
+            
+        }
 
-        return (String) e.getValue(elContext);
+        return document.toString();
 
     }
 
@@ -47,7 +79,7 @@ public class JuelFormProcessor implements FormProcessor {
 
             JodaFormField formField = form.getFormField(fieldName);
             Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
-            ValueExpression e = factory.createValueExpression(elContext, formField.getExpression(), String.class);
+            ValueExpression e = factory.createValueExpression(elContext, formField.getWriteExpression(), String.class);
 
             e.setValue(elContext, objectToSet);
         }
