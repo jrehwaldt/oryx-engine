@@ -31,8 +31,6 @@ import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.io.FileStreamSource;
-import org.jodaengine.util.io.IoUtil;
-import org.jodaengine.util.io.StringStreamSource;
 import org.jodaengine.util.mock.MockUtils;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
 import org.mockito.internal.util.reflection.Whitebox;
@@ -49,7 +47,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
     private ConcreteResourcePattern pattern = null;
     private AbstractParticipant jannik = null;
     private ProcessInstanceContext context = null;
-    private static final String FORM_PATH = "src/test/resources/org/jodaengine/deployment/importer/form/";
+    private static final String FORM_PATH = "src/test/resources/org/jodaengine/rest/api/forms/";
     private static final String FORM_LOCATION = FORM_PATH + "testForm.html";
     private static final String RESOLVED_FORM_LOCATION = FORM_PATH + "testFormResolved.html";
 
