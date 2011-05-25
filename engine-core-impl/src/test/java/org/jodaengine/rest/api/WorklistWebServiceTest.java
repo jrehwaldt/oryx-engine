@@ -236,7 +236,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
         String nextLine = reader.readLine();
         while (nextLine != null) {
-            fileContent = fileContent.concat(nextLine + "\n");
+            fileContent = fileContent.concat(nextLine);
             nextLine = reader.readLine();
         }
 
