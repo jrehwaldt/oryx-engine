@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.allocation.AbstractForm;
+import org.jodaengine.allocation.Form;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
@@ -216,7 +218,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     @Override
     public DeploymentScope deployInNewScope(Deployment processDeployment) {
 
-        DeploymentScope scope = new DeploymentScopeImpl(processDeployment.getArtifacts());
+        DeploymentScope scope = new DeploymentScopeImpl(processDeployment.getArtifacts(), processDeployment.getForms());
 
         for (ProcessDefinition definition : processDeployment.getDefinitions()) {
             // determine version of the currently deployed process
@@ -302,7 +304,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     }
 
     @Override
-    public void deleteProcessResource(String processArtifactID, ProcessDefinitionID definitionID) {
+    public void deleteProcessArtifact(String processArtifactID, ProcessDefinitionID definitionID) {
 
         DeploymentScope scope = scopes.get(definitionID);
         scope.deleteProcessArtifact(processArtifactID);
@@ -322,6 +324,29 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
         // get the class loader
         DeploymentScope scope = scopes.get(definitionID);
         return scope.getClass(fullClassName);
+    }
+
+    @Override
+    public void addForm(AbstractForm form, ProcessDefinitionID definitionID) {
+
+        DeploymentScope scope = scopes.get(definitionID);
+        scope.addForm(form);
+        
+    }
+
+    @Override
+    public AbstractForm getForm(String formID, ProcessDefinitionID definitionID) throws ProcessArtifactNotFoundException {
+
+        DeploymentScope scope = scopes.get(definitionID);
+        return scope.getForm(formID);
+    }
+
+    @Override
+    public void deleteForm(String formID, ProcessDefinitionID definitionID) {
+
+        DeploymentScope scope = scopes.get(definitionID);
+        scope.deleteForm(formID);
+        
     }
 
     // @Override

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
-import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.el.VariableMapper;
@@ -39,6 +38,7 @@ public class ProcessELContext extends SimpleContext {
         super();
         this.instanceContext = instanceContext;
         this.expressionFactory = new ExpressionFactoryImpl();
+        
     }
 
     @Override
@@ -87,6 +87,7 @@ public class ProcessELContext extends SimpleContext {
             // check the context and bind the resolved value into our map
             //
             Object contextValue = instanceContext.getVariable(variable);
+                        
             ValueExpression valueExpression = null;
             if (contextValue != null) {
                 valueExpression = expressionFactory.createValueExpression(contextValue, contextValue.getClass());
