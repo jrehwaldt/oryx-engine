@@ -32,7 +32,6 @@ public class FormTest {
       Assert.assertEquals(field1.getWriteVariable(), "claimPoint1");
       Assert.assertEquals(field2.getReadExpression(), "#{claimPoint2}");
       Assert.assertEquals(field2.getWriteVariable(), "claimPoint2");
-      Assert.assertEquals(form.getFormContentAsHTML().trim(), readFile(PROCESSED_FORM_LOCATION).trim());
   }
   
   /**
