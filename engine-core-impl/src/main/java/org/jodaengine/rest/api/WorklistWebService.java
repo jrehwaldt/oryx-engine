@@ -210,7 +210,7 @@ public final class WorklistWebService {
             // We just get the first value since values shall be unique
             singleValueMap.put(entry.getKey(), entry.getValue().get(0));
         }
-        
+        logger.debug("### {}", singleValueMap);
         
         processor.readFilledForm(singleValueMap, item.getForm(), context);
         

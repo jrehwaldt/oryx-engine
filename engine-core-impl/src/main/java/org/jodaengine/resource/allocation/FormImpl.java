@@ -96,7 +96,6 @@ public class FormImpl extends AbstractForm {
             StartTag tag = field.getFormControl().getFirstStartTag();
             Attributes attributes = tag.getAttributes();
 
-            // TODO change class
             JodaFormField formField = converter.convert(attributes);
             converter.cleanJodaAttributes(attributes, document);
             this.jodaFormFields.put(field.getName(), formField);

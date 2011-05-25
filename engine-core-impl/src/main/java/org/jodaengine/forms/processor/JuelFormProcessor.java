@@ -51,7 +51,7 @@ public class JuelFormProcessor implements FormProcessor {
             JodaFormField jodaField = form.getFormField(attributes.getValue("name"));
             
             // replace the value attribute with the result of the writeExpression (if it exists)
-            String readExpression = jodaField.getReadExpression();
+            String readExpression = jodaField.getReadExpression();           
             if (readExpression != null) {
                 ValueExpression e = factory.createValueExpression(elContext, readExpression, String.class);
                 String result = (String) e.getValue(elContext);
@@ -70,25 +70,14 @@ public class JuelFormProcessor implements FormProcessor {
     @Override
     public void readFilledForm(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
 
-        ExpressionFactory factory = new ExpressionFactoryImpl();
-        ELContext elContext = new ProcessELContext(context);
-
         for (Entry<String, String> entry : enteredValues.entrySet()) {
             String fieldName = entry.getKey();
             String enteredValue = entry.getValue();
 
             JodaFormField formField = form.getFormField(fieldName);
             Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
-            ValueExpression e = factory.createValueExpression(elContext, formField.getWriteExpression(), String.class);
-
-            e.setValue(elContext, objectToSet);
-        }
-
-        // set all root properties that were created in the instance context.
-        SimpleResolver resolver = (SimpleResolver) elContext.getELResolver();
-        RootPropertyResolver rootResolver = resolver.getRootPropertyResolver();
-        for (String property : rootResolver.properties()) {
-            context.setVariable(property, rootResolver.getProperty(property));
+            String variableToSet = formField.getWriteVariable();
+            context.setVariable(variableToSet, objectToSet);
         }
     }
 

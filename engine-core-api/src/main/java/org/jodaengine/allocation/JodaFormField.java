@@ -6,6 +6,11 @@ package org.jodaengine.allocation;
  */
 public interface JodaFormField {
 
+    /**
+     * Gets the name of the form field.
+     *
+     * @return the name
+     */
     String getName();
     
     /**
@@ -16,11 +21,17 @@ public interface JodaFormField {
     String getReadExpression();
     
     /**
-     * Gets the expression that is used to write to the context, when an input value for this field is processed.
+     * Gets the variable that is used to write to the context, when an input value for this field is processed.
+     * Currently, no JUEL can be used here, but only context variable names.
      *
      * @return the write expression
      */
-    String getWriteExpression();
+    String getWriteVariable();
     
+    /**
+     * Gets the class the input should be transformed to (from String).
+     *
+     * @return the data clazz
+     */
     Class<?> getDataClazz();
 }
