@@ -11,11 +11,11 @@ import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
-import org.jodaengine.process.instance.BpmnProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.AbstractToken;
-import org.jodaengine.process.token.BpmnTokenImpl;
+import org.jodaengine.process.token.BpmnToken;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
  * The Class TokenPluginTest.
  */
 public class TokenPluginTest {
-    private AbstractToken<BpmnTokenImpl> token;
+    private AbstractToken token;
     private ArgumentCaptor<ActivityLifecycleChangeEvent> eventCapturer = null;
     private AbstractTokenListener mock;
 
@@ -41,7 +41,7 @@ public class TokenPluginTest {
 
         node1 = new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        this.token = new BpmnTokenImpl(node1, new BpmnProcessInstance(null), null);
+        this.token = new BpmnToken(node1, new ProcessInstance(null), null);
 
         mock = mock(AbstractTokenListener.class);
         token.registerListener(mock);
@@ -71,7 +71,7 @@ public class TokenPluginTest {
     public void testPluginRegistrationInheritance()
     throws JodaEngineException {
 
-        AbstractToken<BpmnTokenImpl> newToken = token.createNewToken(token.getCurrentNode());
+        AbstractToken newToken = (AbstractToken) token.createNewToken(token.getCurrentNode());
         newToken.executeStep();
         verify(mock, times(2)).update(eq(newToken), this.eventCapturer.capture());
     }
@@ -86,7 +86,7 @@ public class TokenPluginTest {
     throws JodaEngineException {
 
         token.deregisterListener(mock);
-        AbstractToken<BpmnTokenImpl> newToken = token.createNewToken(token.getCurrentNode());
+        AbstractToken newToken = (AbstractToken) token.createNewToken(token.getCurrentNode());
         newToken.executeStep();
         verify(mock, never()).update(eq(newToken), this.eventCapturer.capture());
     }

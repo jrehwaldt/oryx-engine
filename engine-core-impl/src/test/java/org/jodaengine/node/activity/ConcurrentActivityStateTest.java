@@ -14,11 +14,10 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.BpmnProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.AbstractToken;
-import org.jodaengine.process.token.BPMNToken;
-import org.jodaengine.process.token.BpmnTokenImpl;
+import org.jodaengine.process.token.Token;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -53,11 +52,11 @@ public class ConcurrentActivityStateTest {
 
         // Create two process instances
         NavigatorImplMock nav = new NavigatorImplMock();
-        AbstractProcessInstance<BpmnTokenImpl> instance1 = new BpmnProcessInstance(definition);
-        BPMNToken token1 = instance1.createNewToken(startNode, nav);
+        AbstractProcessInstance instance1 = new ProcessInstance(definition);
+        Token token1 = instance1.createToken(startNode, nav);
 
-        AbstractProcessInstance<BpmnTokenImpl> instance2 = new BpmnProcessInstance(definition);
-        BPMNToken token2 = instance2.createNewToken(startNode, nav);
+        AbstractProcessInstance instance2 = new ProcessInstance(definition);
+        Token token2 = instance2.createToken(startNode, nav);
 
         assertEquals(token1.getCurrentActivityState(), ActivityState.INIT);
         assertEquals(token2.getCurrentActivityState(), ActivityState.INIT);

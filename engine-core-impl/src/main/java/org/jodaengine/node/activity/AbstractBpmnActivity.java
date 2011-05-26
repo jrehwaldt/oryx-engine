@@ -2,7 +2,6 @@ package org.jodaengine.node.activity;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.process.token.Token;
 
 
@@ -23,7 +22,7 @@ implements Activity {
     
     @Override
     public void execute(@Nonnull Token token) {
-        executeIntern((BPMNToken) token);
+        executeIntern(token);
     }
     
     /**
@@ -31,7 +30,7 @@ implements Activity {
      * 
      * @param token the instance this activity operates on
      */
-    protected abstract void executeIntern(@Nonnull BPMNToken token);
+    protected abstract void executeIntern(@Nonnull Token token);
     
     @Override
     public String toString() {

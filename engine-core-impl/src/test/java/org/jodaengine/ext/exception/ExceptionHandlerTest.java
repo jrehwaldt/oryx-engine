@@ -9,7 +9,7 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.AbstractToken;
-import org.jodaengine.process.token.BpmnTokenImpl;
+import org.jodaengine.process.token.BpmnToken;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -35,7 +35,7 @@ public class ExceptionHandlerTest {
         mockInstance = mock(AbstractProcessInstance.class);
         mockNavigator = mock(Navigator.class);
         
-        testToken = new BpmnTokenImpl(mock(Node.class), mockInstance, mockNavigator);
+        testToken = new BpmnToken(mock(Node.class), mockInstance, mockNavigator);
         
     }
 

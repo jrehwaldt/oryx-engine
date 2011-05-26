@@ -12,13 +12,13 @@ import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;
 import org.jodaengine.node.outgoingbehaviour.XORSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
-import org.jodaengine.process.instance.BpmnProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
 import org.jodaengine.process.token.AbstractToken;
-import org.jodaengine.process.token.BpmnTokenImpl;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -110,7 +110,7 @@ public class BPMNXORBehaviourTest {
      * 
      * @return the process token that was created within the method
      */
-    private AbstractToken<BpmnTokenImpl> simpleToken() {
+    private AbstractToken simpleToken() {
 
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
@@ -132,7 +132,7 @@ public class BPMNXORBehaviourTest {
         builder.getTransitionBuilder().transitionGoesFromTo(node, node2).setCondition(c).buildTransition();
         builder.getTransitionBuilder().transitionGoesFromTo(node, node3).buildTransition();
 
-        return new BpmnTokenImpl(node, new BpmnProcessInstance(null), null);
+        return new BpmnToken(node, new ProcessInstance(null), null);
     }
     
     /**

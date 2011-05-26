@@ -9,7 +9,7 @@ import java.util.List;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
-import org.jodaengine.process.instance.BpmnProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.structure.Transition;
@@ -90,7 +90,7 @@ public class ProcessTokenImplTest {
      * 
      * @return the process instance impl
      */
-    private AbstractToken<BpmnTokenImpl> simpleToken() {
+    private AbstractToken simpleToken() {
         
         node = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         node2 = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
@@ -101,6 +101,6 @@ public class ProcessTokenImplTest {
         
         node.transitionTo(node3);
         
-        return new BpmnTokenImpl(node, new BpmnProcessInstance(null), null);
+        return new BpmnToken(node, new ProcessInstance(null), null);
     }
 }

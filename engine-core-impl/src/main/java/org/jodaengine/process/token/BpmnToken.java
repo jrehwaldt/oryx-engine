@@ -19,11 +19,11 @@ import org.jodaengine.process.structure.Transition;
  * @author Gery
  * 
  */
-public class BpmnTokenImpl extends AbstractToken<BpmnTokenImpl> implements BPMNToken {
+public class BpmnToken extends AbstractToken {
 
     private ActivityState currentActivityState = null;
     
-    public BpmnTokenImpl(Node startNode, AbstractProcessInstance<BpmnTokenImpl> instance, Navigator navigator) {
+    public BpmnToken(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
 
         super(startNode, instance, navigator);
         changeActivityState(ActivityState.INIT);
@@ -172,6 +172,13 @@ public class BpmnTokenImpl extends AbstractToken<BpmnTokenImpl> implements BPMNT
         }
         return tokensToNavigate;
 
+    }
+
+    @Override
+    public boolean isSuspandable() {
+
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

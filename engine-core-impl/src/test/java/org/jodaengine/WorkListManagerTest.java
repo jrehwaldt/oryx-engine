@@ -9,7 +9,6 @@ import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
-import org.jodaengine.process.token.SuspendableToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
@@ -41,7 +40,7 @@ public class WorkListManagerTest {
         engineServices = JodaEngine.start();
         pattern = CreationPatternFactory.createJannikServesGerardoCreator();
 
-        SuspendableToken token = MockUtils.fullyMockedToken();
+        Token token = MockUtils.fullyMockedToken();
 
         AbstractWorklistItem item = pattern.createWorklistItem(token, ServiceFactory.getRepositoryService());
         PushPattern pushPattern = new AllocateSinglePattern();
@@ -96,7 +95,7 @@ public class WorkListManagerTest {
         // null);
         // allocation patterns END
         ConcreteResourcePattern anotherPattern = new ConcreteResourcePattern("Go shopping", "I need milk", null, tobi);
-        SuspendableToken token = MockUtils.fullyMockedToken();
+        Token token = MockUtils.fullyMockedToken();
         AbstractWorklistItem item = anotherPattern.createWorklistItem(token, engineServices.getRepositoryService());
 
         PushPattern pushPattern = new AllocateSinglePattern();

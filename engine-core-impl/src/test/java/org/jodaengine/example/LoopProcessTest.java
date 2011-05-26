@@ -18,11 +18,11 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.BpmnProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
-import org.jodaengine.process.token.BpmnTokenImpl;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -124,12 +124,12 @@ public class LoopProcessTest {
         ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID(), 0);
         ProcessDefinition definition = new ProcessDefinitionImpl(id, DEFINITION_NAME,
             DEFINITION_DESCRIPTION, startNodes);
-        AbstractProcessInstance<BpmnTokenImpl> instance = new BpmnProcessInstance(definition);
+        AbstractProcessInstance instance = new ProcessInstance(definition);
         instance.getContext().setVariable("counter", "0");
         instance.getContext().setVariable("increment", "1");
 
         // start node for token is set later on
-        token = new BpmnTokenImpl(start, instance, nav);
+        token = new BpmnToken(start, instance, nav);
     }
 
     /**

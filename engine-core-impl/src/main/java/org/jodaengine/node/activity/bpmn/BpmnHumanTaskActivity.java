@@ -13,7 +13,6 @@ import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.node.activity.AbstractBpmnActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 
@@ -50,7 +49,7 @@ public class BpmnHumanTaskActivity extends AbstractBpmnActivity {
     }
 
     @Override
-    protected void executeIntern(@Nonnull BPMNToken token) {
+    protected void executeIntern(@Nonnull Token token) {
 
         TaskAllocation service = ServiceFactory.getWorklistQueue();
         AbstractWorklistItem item = creationPattern.createWorklistItem(token,

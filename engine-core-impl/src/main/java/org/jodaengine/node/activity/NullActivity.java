@@ -1,6 +1,6 @@
 package org.jodaengine.node.activity;
 
-import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.Token;
 
 
 
@@ -24,7 +24,7 @@ extends AbstractBpmnActivity {
      * {@inheritDoc}
      */
     @Override
-    public void executeIntern(BPMNToken instance) {
+    public void executeIntern(Token instance) {
         // Nothing toDo
     }
 

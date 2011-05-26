@@ -20,9 +20,9 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.BpmnProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.BpmnTokenImpl;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
@@ -55,9 +55,9 @@ public class TerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest 
         ProcessDefinition definition = mock(ProcessDefinition.class);
         when(definition.getID()).thenReturn(new ProcessDefinitionID(UUID.randomUUID()));
         
-        AbstractProcessInstance<BpmnTokenImpl> instance = new BpmnProcessInstance(definition);
+        AbstractProcessInstance instance = new ProcessInstance(definition);
         NavigatorImplMock nav = new NavigatorImplMock();
-        Token token = instance.createNewToken(splitNode, nav);
+        Token token = instance.createToken(splitNode, nav);
 
         // set this instance to running by hand
         nav.getRunningInstances().add(instance);

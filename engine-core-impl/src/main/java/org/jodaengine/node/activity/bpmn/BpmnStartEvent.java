@@ -1,7 +1,7 @@
 package org.jodaengine.node.activity.bpmn;
 
 import org.jodaengine.node.activity.AbstractBpmnActivity;
-import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.Token;
 
 
 /**
@@ -13,7 +13,7 @@ public class BpmnStartEvent extends AbstractBpmnActivity {
      * The start event doesn't really execute something, so it's blank. {@inheritDoc}
      */
     @Override
-    protected void executeIntern(BPMNToken token) {
+    protected void executeIntern(Token token) {
 
     }
 

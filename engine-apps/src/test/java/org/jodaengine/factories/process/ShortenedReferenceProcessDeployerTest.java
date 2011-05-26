@@ -13,9 +13,9 @@ import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.BpmnProcessInstance;
-import org.jodaengine.process.token.BPMNToken;
-import org.jodaengine.process.token.BpmnTokenImpl;
+import org.jodaengine.process.instance.ProcessInstance;
+import org.jodaengine.process.token.BpmnToken;
+import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.testng.annotations.BeforeMethod;
@@ -27,8 +27,8 @@ import org.testng.annotations.Test;
  */
 public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeployerTest {
 
-    private BPMNToken token = null;
-    private AbstractProcessInstance<BpmnTokenImpl> processInstance = null;
+    private Token token = null;
+    private AbstractProcessInstance processInstance = null;
     private ShortenedReferenceProcessDeployer instanceDefinition = null;
     private Participant tobi = null;
     private WorklistService worklistManager = null;
@@ -43,13 +43,13 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         instanceDefinition = new ShortenedReferenceProcessDeployer();
         this.id = instanceDefinition.deploy(engineServices);
         try {
-            processInstance = new BpmnProcessInstance(ServiceFactory.getRepositoryService().getProcessDefinition(id));
+            processInstance = new ProcessInstance(ServiceFactory.getRepositoryService().getProcessDefinition(id));
         } catch (DefinitionNotFoundException e) {
             System.out.println("Definition nicht gefunden! ");
             e.printStackTrace();
         }
         Navigator navigator = new NavigatorImplMock();
-        token = new BpmnTokenImpl(processInstance.getDefinition().getStartNodes().get(0), processInstance, navigator);
+        token = new BpmnToken(processInstance.getDefinition().getStartNodes().get(0), processInstance, navigator);
         tobi = instanceDefinition.getTobi();
         jannik = instanceDefinition.getJannik();
         jan = instanceDefinition.getJan();

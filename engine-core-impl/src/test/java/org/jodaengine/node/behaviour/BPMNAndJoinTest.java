@@ -11,10 +11,10 @@ import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
-import org.jodaengine.process.instance.BpmnProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.AbstractToken;
-import org.jodaengine.process.token.BpmnTokenImpl;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -39,7 +39,7 @@ public class BPMNAndJoinTest {
     @BeforeMethod
     public void setUp() {
 
-        List<AbstractToken<BpmnTokenImpl>> tokens = initializeTokens();
+        List<Token> tokens = initializeTokens();
         newToken1 = tokens.get(0);
         newToken2 = tokens.get(1);
     }
@@ -97,7 +97,7 @@ public class BPMNAndJoinTest {
      * 
      * @return the process token
      */
-    private List<AbstractToken<BpmnTokenImpl>> initializeTokens() {
+    private List<Token> initializeTokens() {
 
         navigator = new NavigatorImplMock();
 
@@ -116,9 +116,9 @@ public class BPMNAndJoinTest {
         BpmnNodeFactory.createTransitionFromTo(builder, node2, joinNode);
         BpmnNodeFactory.createTransitionFromTo(builder, joinNode, node3);
 
-        AbstractToken<BpmnTokenImpl> token = new BpmnTokenImpl(splitNode, new BpmnProcessInstance(null), navigator);
+        AbstractToken token = new BpmnToken(splitNode, new ProcessInstance(null), navigator);
 
-        List<AbstractToken<BpmnTokenImpl>> newTokens = new ArrayList<AbstractToken<BpmnTokenImpl>>();
+        List<Token> newTokens = new ArrayList<Token>();
         newTokens.add(token.createNewToken(node1));
         newTokens.add(token.createNewToken(node2));
         return newTokens;

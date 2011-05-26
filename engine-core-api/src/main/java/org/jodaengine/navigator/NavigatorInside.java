@@ -44,5 +44,5 @@ public interface NavigatorInside extends Navigator {
      *            the instance
      */
     @Override
-    void signalEndedProcessInstance(AbstractProcessInstance<?> instance);
+    void signalEndedProcessInstance(AbstractProcessInstance instance);
 }

@@ -23,17 +23,16 @@ import org.jodaengine.process.structure.Transition;
  * 
  * @author Gery
  * 
- * @param <T>
  */
 
-public abstract class AbstractToken<T extends AbstractToken<?>> extends AbstractPluggable<AbstractTokenListener>
+public abstract class AbstractToken extends AbstractPluggable<AbstractTokenListener>
 implements Token {
 
     protected UUID id;
 
     protected Navigator navigator;
 
-    protected AbstractProcessInstance<T> instance;
+    protected AbstractProcessInstance instance;
 
     protected Node currentNode;
     protected Transition lastTakenTransition;
@@ -53,7 +52,7 @@ implements Token {
      * @param navigator
      *            the navigator
      */
-    public AbstractToken(Node startNode, AbstractProcessInstance<T> instance, Navigator navigator) {
+    public AbstractToken(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
 
         super();
 
@@ -110,7 +109,7 @@ implements Token {
     }
 
     @Override
-    public AbstractProcessInstance<T> getInstance() {
+    public AbstractProcessInstance getInstance() {
 
         return instance;
     }
@@ -213,8 +212,8 @@ implements Token {
         registerExceptionHandlers(tokenExHandler);
     }
     
-    public T createNewToken(Node node) {
-        T token = instance.createNewToken(node, navigator);
+    public Token createNewToken(Node node) {
+        AbstractToken token = (AbstractToken) instance.createToken(node, navigator);
         token.registerListeners(getListeners());
         return token;
     }

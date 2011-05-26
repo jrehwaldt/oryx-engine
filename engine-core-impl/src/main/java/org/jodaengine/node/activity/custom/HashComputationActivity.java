@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 import org.jodaengine.node.activity.AbstractBpmnActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,7 +83,7 @@ public class HashComputationActivity extends AbstractBpmnActivity {
     }
 
     @Override
-    protected void executeIntern(BPMNToken token) {
+    protected void executeIntern(Token token) {
 
         MessageDigest md;
         try {

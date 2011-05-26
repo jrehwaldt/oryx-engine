@@ -10,7 +10,6 @@ import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.TimerEventImpl;
 import org.jodaengine.node.activity.AbstractBpmnActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.BPMNToken;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -34,7 +33,7 @@ public class BpmnIntermediateTimerActivity extends AbstractBpmnActivity {
     }
 
     @Override
-    protected void executeIntern(@Nonnull BPMNToken token) {
+    protected void executeIntern(@Nonnull Token token) {
 
         // TODO @Gerardo muss geändert werden keine ServiceFactory mehr
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();

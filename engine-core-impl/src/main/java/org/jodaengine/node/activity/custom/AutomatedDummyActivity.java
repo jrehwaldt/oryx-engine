@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.jodaengine.node.activity.AbstractBpmnActivity;
-import org.jodaengine.process.token.BPMNToken;
+import org.jodaengine.process.token.Token;
 
 
 /**
@@ -27,7 +27,7 @@ public class AutomatedDummyActivity extends AbstractBpmnActivity {
     }
 
     @Override
-    protected void executeIntern(@Nonnull BPMNToken instance) {
+    protected void executeIntern(@Nonnull Token instance) {
         System.out.println(this.message);
     }
 

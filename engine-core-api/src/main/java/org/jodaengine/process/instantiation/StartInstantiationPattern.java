@@ -16,5 +16,5 @@ public interface StartInstantiationPattern extends PatternAppendable<Instantiati
      *            - the {@link InstantiationPatternContext patternContext}
      * @return an {@link AbstractProcessInstance}
      */
-    AbstractProcessInstance<?> createProcessInstance(InstantiationPatternContext patternContext);
+    AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext);
 }

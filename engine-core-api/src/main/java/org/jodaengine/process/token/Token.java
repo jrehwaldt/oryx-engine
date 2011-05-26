@@ -11,6 +11,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
@@ -87,7 +88,7 @@ public interface Token extends Identifiable<UUID> {
      * @return the context
      */
     @JsonBackReference
-    AbstractProcessInstance<?> getInstance();
+    AbstractProcessInstance getInstance();
 
     /**
      * Gets the last taken transition of the token.
@@ -129,4 +130,20 @@ public interface Token extends Identifiable<UUID> {
      * Cancels the currently ongoing activity.
      */
     void cancelExecution();
+    
+    /**
+     * Stopping the token navigation.
+     */
+    void suspend();
+
+    /**
+     * Continuing the token navigation.
+     * 
+     */
+    // TODO Info-Object muss übergeben werden von wem das Token resumed wurde
+    void resume();
+    
+    ActivityState getCurrentActivityState();
+    
+    boolean isSuspandable();
 }

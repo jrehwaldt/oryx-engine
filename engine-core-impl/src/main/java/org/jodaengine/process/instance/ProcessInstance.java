@@ -4,47 +4,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
 
 
 /**
- * The Class ProcessInstanceImpl.
- * 
- * See {@link AbstractProcessInstance}.
- *
- * @param <TokenType> the generic type
+ * The Class ProcessInstance.
  */
-public abstract class AbstractProcessInstanceImpl<TokenType extends Token> extends AbstractProcessInstance<TokenType> {
+public class ProcessInstance extends AbstractProcessInstance {
 
     protected ProcessDefinition definition;
     protected ProcessInstanceContext context;
     protected UUID id;
-    protected List<TokenType> assignedTokens;
+    protected List<Token> assignedTokens;
     
     protected boolean cancelled;
     
     /**
      * Hidden constructor.
      */
-    protected AbstractProcessInstanceImpl() { }
+    protected ProcessInstance() { }
 
     /**
      * Default constructor.
      * 
      * @param definition the process definition of this instance
      */
-    public AbstractProcessInstanceImpl(ProcessDefinition definition) {
+    public ProcessInstance(ProcessDefinition definition) {
         
         this.definition = definition;
         this.id = UUID.randomUUID();
-        this.assignedTokens = new ArrayList<TokenType>();
+        this.assignedTokens = new ArrayList<Token>();
         this.context = new ProcessInstanceContextImpl();
         this.cancelled = false;
     }
 
     @Override
-    public void addToken(TokenType token) {
+    public void addToken(Token token) {
         
         this.assignedTokens.add(token);
     }
@@ -56,7 +55,7 @@ public abstract class AbstractProcessInstanceImpl<TokenType extends Token> exten
     }
 
     @Override
-    public List<TokenType> getAssignedTokens() {
+    public List<Token> getAssignedTokens() {
         
         return assignedTokens;
     }
@@ -74,7 +73,7 @@ public abstract class AbstractProcessInstanceImpl<TokenType extends Token> exten
     }
 
     @Override
-    public void removeToken(TokenType token) {
+    public void removeToken(Token token) {
 
         this.assignedTokens.remove(token);
 
@@ -93,7 +92,7 @@ public abstract class AbstractProcessInstanceImpl<TokenType extends Token> exten
         
         // Cancel all ongoing executions
         synchronized (assignedTokens) {
-            for (TokenType tokenToCancel : assignedTokens) {
+            for (Token tokenToCancel : assignedTokens) {
                 tokenToCancel.cancelExecution();
             }
             assignedTokens.clear();
@@ -106,6 +105,13 @@ public abstract class AbstractProcessInstanceImpl<TokenType extends Token> exten
     public boolean isCancelled() {
 
         return cancelled;
+    }
+
+    @Override
+    public AbstractToken createToken(Node node, Navigator nav) {
+
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }

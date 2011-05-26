@@ -3,9 +3,8 @@ package org.jodaengine.process.instantiation;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.BpmnProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.BpmnTokenImpl;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,14 +24,14 @@ StartInstantiationPattern {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public AbstractProcessInstance<BpmnTokenImpl> createProcessInstance(InstantiationPatternContext patternContext) {
+    public AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext) {
 
         ProcessDefinitionInside processDefinition = patternContext.getProcessDefinition();
         NavigatorInside navigator = patternContext.getNavigatorService();
         
-        AbstractProcessInstance<BpmnTokenImpl> processInstance = new BpmnProcessInstance(processDefinition);
+        AbstractProcessInstance processInstance = new ProcessInstance(processDefinition);
         for (Node node : processDefinition.getStartNodes()) {
-            Token newToken = processInstance.createNewToken(node, navigator);
+            Token newToken = processInstance.createToken(node, navigator);
             navigator.addWorkToken(newToken);
         }
 
@@ -40,7 +39,7 @@ StartInstantiationPattern {
     }
 
     @Override
-    protected AbstractProcessInstance<?> createProcessInstanceIntern(InstantiationPatternContext patternContext, AbstractProcessInstance<?> previosProcessInstance) {
+    protected AbstractProcessInstance createProcessInstanceIntern(InstantiationPatternContext patternContext, AbstractProcessInstance previosProcessInstance) {
 
         if (previosProcessInstance != null) {
             String warnMessage = "The previous pattern already created an ProcessInstance. This one is now overridden.";

@@ -11,9 +11,9 @@ import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.instance.BpmnProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.BpmnTokenImpl;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
@@ -64,8 +64,8 @@ public class FIFOSchedulerTest extends AbstractJodaEngineTest {
         ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
         List<Node> startNodes = def.getStartNodes();
         Node startNode = startNodes.get(0);
-        firstToken = new BpmnTokenImpl(startNode, new BpmnProcessInstance(null), null);
-        secondToken = new BpmnTokenImpl(startNode, new BpmnProcessInstance(null), null);
+        firstToken = new BpmnToken(startNode, new ProcessInstance(null), null);
+        secondToken = new BpmnToken(startNode, new ProcessInstance(null), null);
     }
 
     /**

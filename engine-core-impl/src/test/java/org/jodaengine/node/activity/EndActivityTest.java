@@ -16,9 +16,9 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.BpmnProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.BpmnTokenImpl;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
  * The Class EndActivityTest.
  */
 public class EndActivityTest {
-    private AbstractProcessInstance<BpmnTokenImpl> instance = null;
+    private AbstractProcessInstance instance = null;
     private Node startNode = null;
 
     /**
@@ -46,7 +46,7 @@ public class EndActivityTest {
         // this is done for test purposes. Usually the startProcessInstance methods of the navigator would do this, but
         // we do not actually want to start the navigator here.
         nav.getRunningInstances().add(instance);
-        Token token = instance.createNewToken(startNode, nav);
+        Token token = instance.createToken(startNode, nav);
 
         // perform fist step, there should be two tokens on forkNode1 and forkNode2 respectively
         token.executeStep();
@@ -123,7 +123,7 @@ public class EndActivityTest {
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition definition = builder.buildDefinition();
 
-        instance = new BpmnProcessInstance(definition);
+        instance = new ProcessInstance(definition);
     }
 
 }

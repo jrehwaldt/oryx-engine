@@ -12,9 +12,9 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.BpmnProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.BpmnTokenImpl;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
@@ -68,7 +68,7 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngin
         ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
         List<Node> startNodes = def.getStartNodes();
         Node startNode = startNodes.get(0);
-        pi = new BpmnTokenImpl(startNode, new BpmnProcessInstance(null), null);
+        pi = new BpmnToken(startNode, new ProcessInstance(null), null);
     }
 
     /**
@@ -78,7 +78,7 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngin
     public void testMethodInvokedOnLoadGenerator() {
 
         nav.startArbitraryInstance(pi);
-        AbstractProcessInstance<BpmnTokenImpl> instance = pi.getInstance();
+        AbstractProcessInstance instance = pi.getInstance();
         nav.signalEndedProcessInstance(instance);
 
         // verify that the method we want is called on the load generator

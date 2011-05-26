@@ -53,7 +53,7 @@ public class NavigatorWebService implements Navigator {
     }
 
     @Override
-    public AbstractProcessInstance<?> startProcessInstance(ProcessDefinitionID definitionId)
+    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID definitionId)
     throws DefinitionNotFoundException {
 
         return navigatorService.startProcessInstance(definitionId);
@@ -73,7 +73,7 @@ public class NavigatorWebService implements Navigator {
      */
     @Path("/process-definitions/{definitionId}/start")
     @POST
-    public AbstractProcessInstance<?> startProcessInstance(@PathParam("definitionId") String definitionID)
+    public AbstractProcessInstance startProcessInstance(@PathParam("definitionId") String definitionID)
     throws DefinitionNotFoundException {
 
         return startProcessInstance(ProcessDefinitionID.fromString(definitionID));
@@ -90,7 +90,7 @@ public class NavigatorWebService implements Navigator {
     @Path("/status/running-instances")
     @GET
     @Override
-    public List<AbstractProcessInstance<?>> getRunningInstances() {
+    public List<AbstractProcessInstance> getRunningInstances() {
 
         return this.navigatorService.getRunningInstances();
     }
@@ -98,7 +98,7 @@ public class NavigatorWebService implements Navigator {
     @Path("/status/finished-instances")
     @GET
     @Override
-    public List<AbstractProcessInstance<?>> getEndedInstances() {
+    public List<AbstractProcessInstance> getEndedInstances() {
 
         return this.navigatorService.getEndedInstances();
     }
@@ -121,20 +121,20 @@ public class NavigatorWebService implements Navigator {
     }
 
     @Override
-    public void cancelProcessInstance(AbstractProcessInstance<?> instance) {
+    public void cancelProcessInstance(AbstractProcessInstance instance) {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
         
     }
 
     @Override
-    public void signalEndedProcessInstance(AbstractProcessInstance<?> instance) {
+    public void signalEndedProcessInstance(AbstractProcessInstance instance) {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
 
     @Override
-    public AbstractProcessInstance<?> startProcessInstance(ProcessDefinitionID processID, ProcessStartEvent event)
+    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID, ProcessStartEvent event)
     throws DefinitionNotFoundException {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
