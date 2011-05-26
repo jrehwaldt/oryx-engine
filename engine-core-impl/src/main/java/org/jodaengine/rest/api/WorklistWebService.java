@@ -28,6 +28,7 @@ import org.jodaengine.forms.processor.JuelFormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.resource.worklist.WorklistItemImpl;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

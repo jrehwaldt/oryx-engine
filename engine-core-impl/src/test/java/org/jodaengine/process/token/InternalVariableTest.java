@@ -46,6 +46,11 @@ public class InternalVariableTest {
         token = new TokenImpl(customNode, processInstanceMock, nav);
     }
 
+    /**
+     * Tests that the internal variables of an activity are deleted at the end of each activity execution.
+     *
+     * @throws JodaEngineException if test fails
+     */
     @Test
     public void testDeletionOfInternalVariables()
     throws JodaEngineException {
