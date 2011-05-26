@@ -18,8 +18,8 @@ import org.jodaengine.util.xml.XmlElement;
  * @author Jan Rehwaldt
  * @since 2011-05-19
  */
-@Extension(TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME)
-public class TestingDeploymentListener implements BpmnXmlParseListener {
+@Extension(TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME + "-bpmn-listener")
+public class TestingBpmnXmlParseListener implements BpmnXmlParseListener {
     
     protected JodaEngineServices services;
     protected Navigator navigator;
@@ -38,7 +38,7 @@ public class TestingDeploymentListener implements BpmnXmlParseListener {
      * @param repository any service
      * @param testing any service
      */
-    public TestingDeploymentListener(JodaEngineServices services,
+    public TestingBpmnXmlParseListener(JodaEngineServices services,
                                      Navigator navigator,
                                      WorklistService worklist,
                                      ExtensionService extension,

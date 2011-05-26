@@ -46,10 +46,10 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      */
     @Test
     public void testRequiredComponentsAreAvailable() {
-        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerBpmnXmlParseListener.class));
-        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerService.class));
-        Assert.assertNotNull(this.extensionService.isExtensionAvailable(BreakpointService.class));
-        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerTokenListener.class));
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerBpmnXmlParseListener.class));
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerService.class));
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(BreakpointService.class));
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerTokenListener.class));
     }
     
     /**
