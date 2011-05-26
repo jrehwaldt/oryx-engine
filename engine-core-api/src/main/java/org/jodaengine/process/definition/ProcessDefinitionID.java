@@ -19,7 +19,7 @@ public class ProcessDefinitionID {
      * @param version the version
      */
     @JsonCreator
-    public ProcessDefinitionID(@JsonProperty("uuid") String identifier, @JsonProperty("version") int version) {
+    public ProcessDefinitionID(@JsonProperty("identifier") String identifier, @JsonProperty("version") int version) {
 
         this.identifier = identifier;
         this.version = version;

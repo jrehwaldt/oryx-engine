@@ -29,8 +29,8 @@ public abstract class AbstractFormFieldHandler {
     }
 
     /**
-     * Fills form fields with values. If a form field was filled successfully, it should be removed from the formFields,
-     * otherwise it might be overriden by later {@link AbstractFormFieldHandler}s.
+     * Fills form fields (in the {@link OutputDocument}) with values. If a form field was filled successfully, it should
+     * be removed from the formFields, otherwise it might be overriden by later {@link AbstractFormFieldHandler}s.
      * 
      * @param form
      *            the form
@@ -39,7 +39,7 @@ public abstract class AbstractFormFieldHandler {
      * @param context
      *            the context
      * @param output
-     *            the output
+     *            the document to fill the values in
      */
     public void setFormValues(Form form,
                               List<FormField> formFields,
@@ -101,7 +101,5 @@ public abstract class AbstractFormFieldHandler {
      * @param context
      *            the context
      */
-    protected abstract void readInternally(Map<String, String> enteredValues, 
-                                           Form form, 
-                                           ProcessInstanceContext context);
+    protected abstract void readInternally(Map<String, String> enteredValues, Form form, ProcessInstanceContext context);
 }

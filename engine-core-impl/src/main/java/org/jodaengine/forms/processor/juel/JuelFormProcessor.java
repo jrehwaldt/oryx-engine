@@ -1,32 +1,22 @@
 package org.jodaengine.forms.processor.juel;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.el.ELContext;
-import javax.el.ExpressionFactory;
-import javax.el.PropertyNotFoundException;
-import javax.el.ValueExpression;
-
-import org.jodaengine.allocation.Form;
-import org.jodaengine.allocation.JodaFormField;
-import org.jodaengine.forms.processor.FormProcessor;
-import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.util.juel.ProcessELContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.beust.jcommander.internal.Lists;
-
-import de.odysseus.el.ExpressionFactoryImpl;
-
-import net.htmlparser.jericho.Attributes;
 import net.htmlparser.jericho.Config;
 import net.htmlparser.jericho.FormField;
 import net.htmlparser.jericho.FormFields;
 import net.htmlparser.jericho.OutputDocument;
 import net.htmlparser.jericho.Source;
-import net.htmlparser.jericho.StartTag;
+
+import org.jodaengine.allocation.Form;
+import org.jodaengine.allocation.JodaFormField;
+import org.jodaengine.forms.processor.FormProcessor;
+import org.jodaengine.process.instance.ProcessInstanceContext;
+
 
 /**
  * This class uses JUEL to fill in a form and pass results.
@@ -51,7 +41,7 @@ public class JuelFormProcessor implements FormProcessor {
         FormFields formFields = source.getFormFields();
         OutputDocument document = new OutputDocument(source);
         
-        firstHandler.setFormValues(form, Lists.newArrayList(formFields), context, document);
+        firstHandler.setFormValues(form, new ArrayList<FormField>(formFields), context, document);
 
 //        ExpressionFactory factory = new ExpressionFactoryImpl();
 //        ELContext elContext = new ProcessELContext(context);
