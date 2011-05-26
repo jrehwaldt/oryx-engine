@@ -27,6 +27,8 @@ import net.htmlparser.jericho.StartTag;
 
 /**
  * This class uses JUEL to fill in a form and pass results.
+ * Variables are set and read hierarchically.
+ * See method comments.
  */
 public class JuelFormProcessor implements FormProcessor {
 
