@@ -45,7 +45,7 @@ public class DarImporterImpl implements DarImporter {
                            ExtensionService extensionService) {
 
         this.repo = repositoryService;
-        this.firstHandler = new ProcessDefinitionHandler();
+        this.firstHandler = new ProcessDefinitionHandler(extensionService);
         this.firstHandler.setNext(new FormStreamHandler()).setNext(new ClassImportHandler());
         
         //

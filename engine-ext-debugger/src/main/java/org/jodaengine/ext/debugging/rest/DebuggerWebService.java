@@ -9,12 +9,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.jodaengine.JodaEngineServices;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ServiceUnavailableException;
+import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
+import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
-import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
+import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
@@ -32,7 +35,7 @@ import org.slf4j.LoggerFactory;
 @Path("/debugger")
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
-public class DebuggerWebService implements DebuggerService, BreakpointService {
+public class DebuggerWebService implements DebuggerService, BreakpointService, DebuggerArtifactService {
 
     private static final String NOT_ACCESSIBLE_VIA_WEBSERVICE = "This method is not accessible via web service.";
     
@@ -132,7 +135,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     @Path("/breakpoints/add-to-definition")
     @POST
     @Override
-    public BreakpointImpl addBreakpoint(Node node) {
+    public Breakpoint addBreakpoint(Node node) {
         if (this.debugger != null) {
             return this.debugger.addBreakpoint(node);
         }
@@ -142,7 +145,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     @Path("/breakpoints/add-to-instance")
     @POST
     @Override
-    public BreakpointImpl addBreakpoint(Node node, AbstractProcessInstance instance) {
+    public Breakpoint addBreakpoint(Node node, AbstractProcessInstance instance) {
         if (this.debugger != null) {
             return this.debugger.addBreakpoint(node, instance);
         }
@@ -152,7 +155,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     @Path("/breakpoints/remove")
     @POST
     @Override
-    public void removeBreakpoint(BreakpointImpl breakpoint) {
+    public void removeBreakpoint(Breakpoint breakpoint) {
         if (this.debugger != null) {
             this.debugger.removeBreakpoint(breakpoint);
         }
@@ -162,7 +165,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     @Path("/breakpoints/enable")
     @POST
     @Override
-    public void enableBreakpoint(BreakpointImpl breakpoint) {
+    public void enableBreakpoint(Breakpoint breakpoint) {
         if (this.debugger != null) {
             this.debugger.enableBreakpoint(breakpoint);
         }
@@ -173,9 +176,25 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     @Path("/breakpoints/disable")
     @POST
     @Override
-    public void disableBreakpoint(BreakpointImpl breakpoint) {
+    public void disableBreakpoint(Breakpoint breakpoint) {
         if (this.debugger != null) {
             this.debugger.disableBreakpoint(breakpoint);
+        }
+        
+        throw new ServiceUnavailableException(DebuggerService.class);
+    }
+
+    //=================================================================
+    //=================== DebuggerArtifactService methods =============
+    //=================================================================
+    @Path("/artifacts")
+    @GET
+    @Override
+    @Produces(MediaType.APPLICATION_SVG_XML)
+    public String getSvgArtifact(ProcessDefinition definition)
+    throws ProcessArtifactNotFoundException {
+        if (this.debugger != null) {
+            this.debugger.getSvgArtifact(definition);
         }
         
         throw new ServiceUnavailableException(DebuggerService.class);

@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class FormStreamHandler extends AbstractDarHandler {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private static final String FORMS_SUBDIR = "forms" + DELIMITER;    
+    private static final String FORMS_SUBDIR = "forms" + DELIMITER;
 
     @Override
     public void processSingleDarFileEntry(ZipFile darFile, ZipEntry entry, DeploymentBuilder builder) {

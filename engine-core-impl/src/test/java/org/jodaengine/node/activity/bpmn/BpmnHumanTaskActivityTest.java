@@ -10,10 +10,8 @@ import java.util.UUID;
 import org.jodaengine.IdentityServiceImpl;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.navigator.NavigatorImplMock;
-import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
-import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
@@ -27,6 +25,7 @@ import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.mock.MockUtils;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -118,9 +117,8 @@ public class BpmnHumanTaskActivityTest extends AbstractJodaEngineTest {
     public void testItemIdInContextStorage() {
 
         humanTask.execute(token);
-        ProcessInstanceContext context = token.getInstance().getContext();
 
-        List<UUID> savedItemIDs = (List<UUID>) context.getInternalVariable(humanTask.getInternaIdentifier(token));
+        List<UUID> savedItemIDs = (List<UUID>) token.getInternalVariable(humanTask.getInternaIdentifier(token));
 
         assertNotNull(savedItemIDs, "The variable should be initialized");
         assertEquals(savedItemIDs.size(), 1, "There should be one saved item ID");
@@ -133,18 +131,18 @@ public class BpmnHumanTaskActivityTest extends AbstractJodaEngineTest {
 
     /**
      * Test that the list of item IDs is removed from the context after the activity has been resumed.
+     * @throws InterruptedException 
      */
     @Test
-    public void testItemIdRemovedFromContext() {
+    public void testItemIdRemovedFromContext() throws InterruptedException {
 
         humanTask.execute(token);
         AbstractWorklistItem item = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
         ServiceFactory.getWorklistQueue().beginWorklistItemBy(item, resource);
         ServiceFactory.getWorklistQueue().completeWorklistItemBy(item, resource);
 
-        ProcessInstanceContext context = token.getInstance().getContext();
-        List<UUID> savedItemIDs = (List<UUID>) context.getInternalVariable(humanTask.getInternaIdentifier(token));
+        List<UUID> savedItemIDs = (List<UUID>) token.getInternalVariable(humanTask.getInternaIdentifier(token));
 
-        assertNotNull(savedItemIDs, "The variable should exist any longer.");
+        Assert.assertNull(savedItemIDs, "The variable should not exist any longer.");
     }
 }

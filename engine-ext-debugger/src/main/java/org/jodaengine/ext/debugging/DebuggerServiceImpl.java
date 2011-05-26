@@ -1,12 +1,16 @@
 package org.jodaengine.ext.debugging;
 
 import org.jodaengine.JodaEngineServices;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.ext.Extension;
+import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
+import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
@@ -22,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * @since 2011-05-19
  */
 @Extension(value = DebuggerService.DEBUGGER_SERVICE_NAME, webServices = DebuggerWebService.class)
-public class DebuggerServiceImpl implements DebuggerService, BreakpointService {
+public class DebuggerServiceImpl implements DebuggerService, BreakpointService, DebuggerArtifactService {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
@@ -103,12 +107,12 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService {
     //=================================================================
 
     @Override
-    public BreakpointImpl addBreakpoint(Node node) {
+    public Breakpoint addBreakpoint(Node node) {
         return addBreakpoint(node, null);
     }
 
     @Override
-    public BreakpointImpl addBreakpoint(Node node,
+    public Breakpoint addBreakpoint(Node node,
                                     AbstractProcessInstance instance) {
         // TODO Auto-generated method stub
         logger.debug("Add breakpoint to node {} | instance {}", node, instance);
@@ -116,21 +120,32 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService {
     }
 
     @Override
-    public void removeBreakpoint(BreakpointImpl breakpoint) {
+    public void removeBreakpoint(Breakpoint breakpoint) {
         // TODO Auto-generated method stub
         logger.debug("Remove breakpoint {}", breakpoint);
     }
 
     @Override
-    public void enableBreakpoint(BreakpointImpl breakpoint) {
+    public void enableBreakpoint(Breakpoint breakpoint) {
         // TODO Auto-generated method stub
         logger.debug("Enable breakpoint {}", breakpoint);
     }
 
     @Override
-    public void disableBreakpoint(BreakpointImpl breakpoint) {
+    public void disableBreakpoint(Breakpoint breakpoint) {
         // TODO Auto-generated method stub
         logger.debug("Disable breakpoint {}", breakpoint);
+    }
+
+    //=================================================================
+    //=================== DebuggerArtifactService methods =============
+    //=================================================================
+    @Override
+    public String getSvgArtifact(ProcessDefinition definition)
+    throws ProcessArtifactNotFoundException {
+        
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

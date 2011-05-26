@@ -39,7 +39,9 @@ public class DarImporterTest extends AbstractJodaEngineTest {
         ProcessDefinition definition = containedDefinitions.iterator().next();
 
         Assert.assertEquals(definition.getName(), PROCESS_NAME,
-            "The definition should have the desired id as specified in the files");
+            "The definition should have the desired name as specified in the files");
+        Assert.assertEquals(definition.getID().getIdentifier(), PROCESS_NAME,
+            "The definition should have the name as the id");
     }
 
     /**

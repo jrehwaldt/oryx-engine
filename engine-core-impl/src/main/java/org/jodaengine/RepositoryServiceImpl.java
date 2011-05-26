@@ -39,8 +39,8 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public static final UUID SIMPLE_PROCESS_UUID = UUID.randomUUID();
-    public static final ProcessDefinitionID SIMPLE_PROCESS_ID = new ProcessDefinitionID(SIMPLE_PROCESS_UUID, 0);
+    public static final String SIMPLE_PROCESS_NAME = UUID.randomUUID().toString();
+    public static final ProcessDefinitionID SIMPLE_PROCESS_ID = new ProcessDefinitionID(SIMPLE_PROCESS_NAME, 0);
 
     private Map<ProcessDefinitionID, ProcessDefinition> processDefinitionsTable;
 
@@ -48,7 +48,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     // dropped, as soon as no definition links to the scope any longer.
     private Map<ProcessDefinitionID, DeploymentScope> scopes;
 
-    private Map<UUID, Integer> processVersions;
+    private Map<String, Integer> processVersions;
 
     // private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
     
@@ -63,7 +63,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
      */
     public RepositoryServiceImpl(@Nullable ExtensionService extensionService) {
         
-        processVersions = new HashMap<UUID, Integer>();
+        processVersions = new HashMap<String, Integer>();
         scopes = new HashMap<ProcessDefinitionID, DeploymentScope>();
         this.extensionService = extensionService;
     }
@@ -277,13 +277,13 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
      */
     private void registerNewProcessVersion(ProcessDefinition definition) {
 
-        Integer currentVersionNumber = processVersions.get(definition.getID().getUUID());
+        Integer currentVersionNumber = processVersions.get(definition.getID().getIdentifier());
         if (currentVersionNumber != null) {
             currentVersionNumber++;
         } else {
             currentVersionNumber = Integer.valueOf(0);
         }
-        processVersions.put(definition.getID().getUUID(), currentVersionNumber);
+        processVersions.put(definition.getID().getIdentifier(), currentVersionNumber);
         definition.getID().setVersion(currentVersionNumber);
     }
 
