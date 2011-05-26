@@ -37,11 +37,16 @@ public class JodaFormFieldConverter {
         String className = formAttributes.getValue(JodaFormAttributes.CLASS_NAME);
 
         Class<?> dataClass;
-        try {
-            dataClass = Class.forName(className);
-        } catch (ClassNotFoundException e) {
+        if (className != null) {
+            try {
+                dataClass = Class.forName(className);
+            } catch (ClassNotFoundException e) {
+                dataClass = String.class;
+            }
+        } else {
             dataClass = String.class;
         }
+       
         JodaFormField formField = new JodaFormFieldImpl(name, attributes, dataClass);
 
         return formField;
