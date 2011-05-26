@@ -27,6 +27,6 @@ implements Job {
         
         JobDataMap data = context.getJobDetail().getJobDataMap();
         Token token = (Token) data.get(QuartzJobManager.TOKEN_KEY);
-        token.resume();
+        token.resume(null);
     }
 }

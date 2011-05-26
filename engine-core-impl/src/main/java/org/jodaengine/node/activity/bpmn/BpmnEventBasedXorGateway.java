@@ -3,8 +3,9 @@ package org.jodaengine.node.activity.bpmn;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.node.activity.AbstractActivity;
+import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.node.activity.Activity;
+import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.token.Token;
@@ -12,7 +13,7 @@ import org.jodaengine.process.token.Token;
 /**
  * This {@link Activity} represents the event-based gateway used in the BPMN.
  */
-public class BpmnEventBasedXorGateway extends AbstractActivity {
+public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
 
     @Override
     protected void executeIntern(Token token) {
@@ -27,17 +28,28 @@ public class BpmnEventBasedXorGateway extends AbstractActivity {
                 .getActivityBehaviour();
 
                 ProcessIntermediateEvent processEvent = eventBasedGatewayEvent.createProcessIntermediateEvent(token);
+                processEvent.setFireringNode(node);
                 eventManager.registerIntermediateEvent(processEvent);
             }
         }
 
-        // ProcessInstanceContext context = token.getInstance().getContext();
-        //
-        // // the name should be unique, as the token can only work on one activity at a time.
-        // final String itemContextVariableId = internalVariableId(PROCESS_EVENT_PREFIX, token);
+        // eine Map bestehend aus dem internalVariableId(PROCESS_EVENT_PREFIX, token) + processEvent.hashcode()
+        // final String itemContextVariableId = internalVariableId(PROCESS_EVENT_PREFIX, token, "");
         // context.setInternalVariable(itemContextVariableId, processEvent);
 
         token.suspend();
     }
 
+    @Override
+    public synchronized void resume(Token token, Object resumeObject) {
+
+        if (!(resumeObject instanceof ProcessIntermediateEvent)) {
+            logger.debug("The resumeObject '{}' is not a ProcessIntermediateEvent.", resumeObject);
+        }
+
+        ProcessIntermediateEvent intermediateProcessEvent = (ProcessIntermediateEvent) resumeObject; 
+        Node nodeToSkip = intermediateProcessEvent.getFireringNode();
+        
+        token.setCurrentNode(nodeToSkip);
+    }
 }

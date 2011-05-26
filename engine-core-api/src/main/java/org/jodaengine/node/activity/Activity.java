@@ -26,15 +26,19 @@ public interface Activity {
 
     /**
      * Do some cleanup, if necessary. Cancellation of the activity's execution is not handled here.
-     *
-     * @param executingToken the token that currently executes the activity
+     * 
+     * @param executingToken
+     *            the token that currently executes the activity
      */
     void cancel(Token executingToken);
-    
+
     /**
      * This method is called when the execution of the activity is resumed.
-     *
-     * @param token the token that resumes this activity
+     * 
+     * @param token
+     *            the token that resumes this activity
+     * @param resumeObject
+     *            - an object that is passed from class that resumes the Token
      */
-    void resume(Token token);
+    void resume(Token token, Object resumeObject);
 }
