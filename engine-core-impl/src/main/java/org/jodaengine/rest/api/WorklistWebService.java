@@ -24,7 +24,7 @@ import org.jodaengine.WorklistService;
 import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.forms.processor.FormProcessor;
-import org.jodaengine.forms.processor.JuelFormProcessor;
+import org.jodaengine.forms.processor.juel.JuelFormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;

@@ -1,4 +1,4 @@
-package org.jodaengine.forms.processor;
+package org.jodaengine.forms.processor.juel;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,6 +10,7 @@ import javax.el.ValueExpression;
 
 import org.jodaengine.allocation.Form;
 import org.jodaengine.allocation.JodaFormField;
+import org.jodaengine.forms.processor.FormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.util.juel.ProcessELContext;
 import org.slf4j.Logger;

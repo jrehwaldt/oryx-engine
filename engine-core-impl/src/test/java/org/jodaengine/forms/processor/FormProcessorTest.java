@@ -14,6 +14,7 @@ import java.util.Map;
 import org.jodaengine.allocation.Form;
 import org.jodaengine.allocation.JodaFormAttributes;
 import org.jodaengine.allocation.JodaFormField;
+import org.jodaengine.forms.processor.juel.JuelFormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.resource.allocation.JodaFormFieldImpl;
@@ -28,10 +29,14 @@ import org.testng.annotations.Test;
 public class FormProcessorTest {
 
     private static final String FORM_PATH = "src/test/resources/org/jodaengine/forms/processor/";
+
     private static final String EMPTY_FORM_LOCATION = FORM_PATH + "testForm.html";
-    private static final String POPULATED_FORM_LOCATION = FORM_PATH + "populatedTestForm.html";
     private static final String EMPTY_FORM_CONTENT = readFile(EMPTY_FORM_LOCATION);
+
+    private static final String POPULATED_FORM_LOCATION = FORM_PATH + "populatedTestForm.html";
     private static final String POPULATED_FORM_CONTENT = readFile(POPULATED_FORM_LOCATION);
+
+
 
     private Form form;
     private ProcessInstanceContext context;
@@ -95,17 +100,7 @@ public class FormProcessorTest {
         Assert.assertEquals(context.getVariable("claimPoint2"), "Point 2", "The variable should be set");
     }
 
-    // @Test
-    // public void simpleJuelTest() {
-    // context = new ProcessInstanceContextImpl();
-    // context.setVariable("asd", "asd");
-    // ExpressionFactory factory = new ExpressionFactoryImpl();
-    // ELContext elContext = new ProcessELContext(context);
-    // ValueExpression e = factory.createValueExpression(elContext, "${asd}", String.class);
-    //
-    // e.setValue(elContext, "asd");
-    // System.out.println(context.getVariable("asd"));
-    // }
+    
 
     /**
      * Tests that the form input is converted to the correct types.
@@ -116,7 +111,7 @@ public class FormProcessorTest {
         Map<String, String> attributes = new HashMap<String, String>();
 
         attributes.put(JodaFormAttributes.WRITE_VARIABLE, "claimPoint1");
-        
+
         field1 = new JodaFormFieldImpl("claimPoint1", attributes, Integer.class);
         when(form.getFormField(Mockito.matches("claimPoint1"))).thenReturn(field1);
         Map<String, String> formInput = new HashMap<String, String>();

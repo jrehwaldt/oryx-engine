@@ -55,7 +55,8 @@ public class TestingBpmnXmlParseListener implements BpmnXmlParseListener {
 
     @Override
     public void parseProcess(XmlElement processXmlElement, ProcessDefinition processDefinition) {
-        // do nothing
+   
+        processDefinition.setAttribute("testListenerCalled", true);
     }
 
     @Override
