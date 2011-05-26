@@ -9,7 +9,6 @@ import java.util.List;
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
@@ -17,8 +16,7 @@ import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.AbstractRole;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
-import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
@@ -32,7 +30,7 @@ import org.testng.annotations.Test;
  */
 public class WorklistItemStatusTest extends AbstractJsonServerTest {
 
-    private ConcreteResourcePattern pattern;
+    private CreationPattern pattern;
     private AbstractRole assignedRole;
     private AbstractResource<?> participant;
     private AbstractResource<?> badParticipant;
@@ -166,15 +164,14 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
     public void setUpTask()
     throws ResourceNotAvailableException {
 
-        pattern = CreationPatternFactory.createRoleCreator();
+        pattern = CreationPatternFactory.createRoleBasedDistribution();
         TokenImpl token = mock(TokenImpl.class);
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         AbstractWorklistItem item = pattern.createWorklistItem(token, mock(RepositoryService.class));
-        PushPattern pushPattern = new OfferMultiplePattern();
-        pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
+        pattern.getPushPattern().distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
 
         // get the participants that are assigned to the role that this task was assigned to.
-        assignedRole = (AbstractRole) pattern.getAssignedResources().iterator().next();
+        assignedRole = (AbstractRole) item.getAssignedResources().iterator().next();
         Iterator<AbstractParticipant> participantsIt = assignedRole.getParticipantsImmutable().iterator();
         participant = participantsIt.next();
 

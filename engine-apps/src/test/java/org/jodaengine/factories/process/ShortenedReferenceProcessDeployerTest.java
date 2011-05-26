@@ -2,6 +2,7 @@ package org.jodaengine.factories.process;
 
 import static org.testng.Assert.assertEquals;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.jodaengine.NavigatorImplMock;
@@ -38,7 +39,8 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
     @BeforeMethod
     @Override
     public void executeDeployer()
-    throws IllegalStarteventException, ResourceNotAvailableException {
+    throws IllegalStarteventException, ResourceNotAvailableException, InstantiationException, IllegalAccessException,
+    InvocationTargetException, NoSuchMethodException {
 
         instanceDefinition = new ShortenedReferenceProcessDeployer();
         this.id = instanceDefinition.deploy(engineServices);
@@ -53,7 +55,7 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         tobi = instanceDefinition.getTobi();
         jannik = instanceDefinition.getJannik();
         jan = instanceDefinition.getJan();
-        worklistManager = ServiceFactory.getWorklistService();
+        worklistManager = engineServices.getWorklistService();
     }
 
     /**

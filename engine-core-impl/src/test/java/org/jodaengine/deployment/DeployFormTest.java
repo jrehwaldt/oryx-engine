@@ -7,14 +7,14 @@ import java.util.List;
 
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.Form;
-import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.resource.allocation.Form;
+import org.jodaengine.resource.allocation.JodaFormField;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;
 import org.testng.Assert;

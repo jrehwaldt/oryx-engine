@@ -15,11 +15,11 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 
-import org.jodaengine.allocation.Form;
-import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.process.structure.condition.ProcessELContext;
+import org.jodaengine.resource.allocation.Form;
+import org.jodaengine.resource.allocation.JodaFormField;
 import org.jodaengine.resource.allocation.JodaFormFieldImpl;
 import org.mockito.Mockito;
 import org.testng.Assert;

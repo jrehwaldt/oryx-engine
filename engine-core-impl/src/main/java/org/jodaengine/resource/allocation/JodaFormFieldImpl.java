@@ -1,6 +1,6 @@
 package org.jodaengine.resource.allocation;
 
-import org.jodaengine.allocation.JodaFormField;
+import org.jodaengine.resource.allocation.JodaFormField;
 
 /**
  * Implements a form field.

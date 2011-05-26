@@ -1,7 +1,6 @@
-package org.jodaengine.allocation;
+package org.jodaengine.resource.allocation;
 
 import java.util.List;
-import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;

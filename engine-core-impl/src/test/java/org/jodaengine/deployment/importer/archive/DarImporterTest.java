@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-import org.jodaengine.allocation.AbstractForm;
-import org.jodaengine.allocation.Form;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.resource.allocation.AbstractForm;
+import org.jodaengine.resource.allocation.Form;
 import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.util.io.IoUtil;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;

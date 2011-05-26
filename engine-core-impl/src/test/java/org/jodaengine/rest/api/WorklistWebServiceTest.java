@@ -14,10 +14,9 @@ import java.util.UUID;
 
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.AbstractForm;
-import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -26,16 +25,17 @@ import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.allocation.AbstractForm;
+import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.FormImpl;
-import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
+import org.jodaengine.resource.allocation.PushPattern;
+import org.jodaengine.resource.allocation.pattern.push.AllocateSinglePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.io.FileStreamSource;
 import org.jodaengine.util.mock.MockUtils;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -44,7 +44,7 @@ import org.testng.annotations.Test;
  */
 public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
-    private ConcreteResourcePattern pattern = null;
+    private CreationPattern pattern = null;
     private AbstractParticipant jannik = null;
     private ProcessInstanceContext context = null;
     private static final String FORM_PATH = "src/test/resources/org/jodaengine/rest/api/forms/";
@@ -65,7 +65,8 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
 
         // We need to start the engine in order to start the WorklistManager who then gets the identityService
         // JodaEngine.start();
-        pattern = CreationPatternFactory.createJannikServesGerardoCreator();
+        jannik = ParticipantFactory.createJannik();
+        pattern = CreationPatternFactory.createDirectDistributionPattern(jannik);
 
         // deploy definition and artifact
         ProcessDefinition definition = MockUtils.mockProcessDefinition();
@@ -91,13 +92,7 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         PushPattern pushPattern = new AllocateSinglePattern();
         pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
 
-        // System.out.println(ServiceFactory.getIdentityService().getParticipants());
-        jannik = (AbstractParticipant) pattern.getAssignedResources().iterator().next();
-    }
-
-    @AfterMethod
-    public void tearDown() {
-
+        // 
     }
 
     /**

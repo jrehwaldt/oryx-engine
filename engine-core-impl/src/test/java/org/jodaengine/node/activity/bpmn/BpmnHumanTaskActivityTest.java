@@ -10,7 +10,6 @@ import java.util.UUID;
 import org.jodaengine.IdentityServiceImpl;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.navigator.NavigatorImplMock;
-import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.instance.ProcessInstanceContext;
@@ -22,12 +21,11 @@ import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.IdentityBuilder;
-import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
+import org.jodaengine.resource.allocation.pattern.creation.AbstractCreationPattern;
+import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.mock.MockUtils;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -37,7 +35,7 @@ import org.testng.annotations.Test;
 
 public class BpmnHumanTaskActivityTest extends AbstractJodaEngineTest {
 
-    private ConcreteResourcePattern pattern = null;
+    private AbstractCreationPattern pattern = null;
     private AbstractResource<?> resource = null;
 
     private BpmnHumanTaskActivityMock humanTask = null;
@@ -66,22 +64,14 @@ public class BpmnHumanTaskActivityTest extends AbstractJodaEngineTest {
         String subject = "Jannik, get Gerardo a cup of coffee!";
         String description = "You know what I mean.";
 
-        pattern = new ConcreteResourcePattern(subject, description, null, participant);
+        pattern = new DirectDistributionPattern(subject, description, null, participant);
 
-        humanTask = new BpmnHumanTaskActivityMock(pattern, new AllocateSinglePattern());
+        humanTask = new BpmnHumanTaskActivityMock(pattern);
 
         Node node = new NodeImpl(humanTask, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        token = new TokenImpl(node, new ProcessInstanceImpl(MockUtils.mockProcessDefinition()), new NavigatorImplMock());
-    }
-
-    /**
-     * Tear down.
-     */
-    @AfterMethod
-    public void tearDown() {
-
-        // Reseting the Worklist Manager after the test case
-        // ServiceFactoryForTesting.clearWorklistManager();
+        token = new TokenImpl(node, 
+                              new ProcessInstanceImpl(MockUtils.mockProcessDefinition()), 
+                              new NavigatorImplMock());
     }
 
     /**
@@ -114,6 +104,7 @@ public class BpmnHumanTaskActivityTest extends AbstractJodaEngineTest {
     /**
      * Test that the ids of the created worklist items are stored in the context during execution.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testItemIdInContextStorage() {
 
@@ -134,6 +125,7 @@ public class BpmnHumanTaskActivityTest extends AbstractJodaEngineTest {
     /**
      * Test that the list of item IDs is removed from the context after the activity has been resumed.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testItemIdRemovedFromContext() {
 

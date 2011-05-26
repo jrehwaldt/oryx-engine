@@ -5,7 +5,7 @@ import java.util.Map;
 import net.htmlparser.jericho.Attributes;
 import net.htmlparser.jericho.OutputDocument;
 
-import org.jodaengine.allocation.JodaFormField;
+import org.jodaengine.resource.allocation.JodaFormField;
 
 /**
  * The Class JodaFormFieldConverterImpl.

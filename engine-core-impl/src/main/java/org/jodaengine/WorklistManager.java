@@ -12,13 +12,14 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.jodaengine.allocation.TaskAllocation;
-import org.jodaengine.allocation.TaskDistribution;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
+import org.jodaengine.resource.allocation.TaskAllocation;
+import org.jodaengine.resource.allocation.TaskDistribution;
+import org.jodaengine.resource.allocation.pattern.detour.StatelessReallocationPattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.DetourPattern;
 import org.jodaengine.resource.worklist.WorklistItemState;
@@ -34,14 +35,14 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     private IdentityService identityService;
     
     private boolean running = false;
-    private DetourPattern defaultCancelationPattern = new StatelessReallocationPattern();
+    private DetourPattern defaultCancellationPattern;
     
     @Override
     public synchronized void start(JodaEngineServices services) {
         
         logger.info("Starting the worklist manager");
         identityService = services.getIdentityService();
-        
+        defaultCancellationPattern = new StatelessReallocationPattern();
         this.running = true;
     }
 
@@ -153,7 +154,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     @Override
     public void abortWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
 
-        defaultCancelationPattern.distribute(worklistItem, resource);
+        defaultCancellationPattern.distribute(worklistItem, resource);
     }
 
     @Override
@@ -265,6 +266,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         AbstractParticipant resource = identityService.getParticipant(id);
         return this.getExecutingWorklistItems(resource);
     }
+    
+    
 
     @Override
     public void removeWorklistItem(UUID worklistItemId) {
@@ -321,4 +324,18 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         }
         return null;
     }
+
+    @Override
+    public DetourPattern getCancellationPattern() {
+
+        return defaultCancellationPattern;
+    }
+
+    @Override
+    public void setCancellationPattern(DetourPattern cancellationPattern) {
+
+        this.defaultCancellationPattern = cancellationPattern;
+    }
+
+   
 }

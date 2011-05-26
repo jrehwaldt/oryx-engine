@@ -1,21 +1,21 @@
 package org.jodaengine.factories.process;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.jodaengine.IdentityService;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
-import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
-import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.resource.IdentityBuilder;
+import org.jodaengine.resource.allocation.AbstractForm;
 
 /**
  * The Class AbstractProcessDeployer.
@@ -30,7 +30,8 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
 
     @Override
     public ProcessDefinitionID deploy(JodaEngineServices engineServices)
-    throws IllegalStarteventException, ResourceNotAvailableException {
+    throws ResourceNotAvailableException, InstantiationException, IllegalAccessException, InvocationTargetException,
+    IllegalStarteventException, NoSuchMethodException {
 
         this.processDefinitionBuilder = engineServices.getRepositoryService().getDeploymentBuilder()
         .getProcessDefinitionBuilder();
@@ -50,6 +51,7 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
      * 
      * @return the id of the deployed process
      * @throws IllegalStarteventException
+     *             the illegal startevent exception
      */
     private ProcessDefinitionID deploy()
     throws IllegalStarteventException {
@@ -80,14 +82,25 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
 
     /**
      * Initialize nodes.
+     * 
+     * @throws InstantiationException
+     *             the instantiation exception
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     * @throws NoSuchMethodException
+     *             the no such method exception
      */
-    public abstract void initializeNodes();
+    public abstract void initializeNodes()
+    throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException;
 
     /**
      * Creates a thread to complete human tasks. So human task Process deployers shall overwrite this method.
      * Nothing happens here for automated task nodes, so they must not overwrite this method.
      * 
      * @throws ResourceNotAvailableException
+     *             the resource not available exception
      */
     public void createPseudoHuman()
     throws ResourceNotAvailableException {

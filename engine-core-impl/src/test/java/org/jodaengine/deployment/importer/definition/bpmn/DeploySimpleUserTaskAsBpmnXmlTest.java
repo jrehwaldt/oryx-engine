@@ -3,7 +3,6 @@ package org.jodaengine.deployment.importer.definition.bpmn;
 import java.util.List;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
@@ -11,7 +10,8 @@ import org.jodaengine.node.activity.bpmn.BpmnStartEvent;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
+import org.jodaengine.resource.allocation.CreationPattern;
+import org.jodaengine.resource.allocation.pattern.creation.AbstractCreationPattern;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 
@@ -65,7 +65,7 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(nextNode.getAttribute("description"), "It is only a demo task.");
 
         // Asserting the task
-        ConcreteResourcePattern pattern = (ConcreteResourcePattern) extractCreationPattern(nextNode);
+        AbstractCreationPattern pattern = (AbstractCreationPattern) extractCreationPattern(nextNode);
 
         Assert.assertEquals(pattern.getItemSubject(), "Thorben, please process this task!");
         Assert.assertEquals(pattern.getItemDescription(), "It is only a demo task.");

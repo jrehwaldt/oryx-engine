@@ -9,8 +9,6 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.allocation.AbstractForm;
-import org.jodaengine.allocation.Form;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
@@ -27,6 +25,8 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
+import org.jodaengine.resource.allocation.AbstractForm;
+import org.jodaengine.resource.allocation.Form;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

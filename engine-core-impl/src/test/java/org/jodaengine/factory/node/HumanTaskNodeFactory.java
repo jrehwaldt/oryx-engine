@@ -1,13 +1,15 @@
 package org.jodaengine.factory.node;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jodaengine.IdentityServiceImpl;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.IdentityBuilder;
-import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
+import org.jodaengine.resource.allocation.CreationPattern;
+import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
 
 
 /**
@@ -26,11 +28,12 @@ public class HumanTaskNodeFactory extends AbstractNodeFactory {
         
         String subject = "Jannik, get me a cup of coffee!";
         String description = "You know what i mean.";
-        AbstractResource<?>[] resources = {participant};
+        List<AbstractResource<?>> resources = new ArrayList<AbstractResource<?>>();
+        resources.add(participant);
         
-        CreationPattern creationPattern = new ConcreteResourcePattern(subject, description, null, resources);
+        CreationPattern creationPattern = new DirectDistributionPattern(subject, description, null, resources);
                 
-        activityBehavior = new BpmnHumanTaskActivity(creationPattern, new AllocateSinglePattern());
+        activityBehavior = new BpmnHumanTaskActivity(creationPattern);
     }
 
 }

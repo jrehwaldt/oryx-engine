@@ -3,9 +3,9 @@ package org.jodaengine.resource.allocation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
+import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
+import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
 
 /**
  * This class helps to build {@link CreationPattern CreationPatterns}.
@@ -66,12 +66,13 @@ public class CreationPatternBuilderImpl implements CreationPatternBuilder {
     }
 
     @Override
-    public ConcreteResourcePattern buildConcreteResourcePattern() {
+    public CreationPattern buildCreationPattern(Class<? extends CreationPattern> creationPatternClass) {
 
-        // TODO the array thing in the next line is not so nice.
-        ConcreteResourcePattern pattern = new ConcreteResourcePattern(taskSubject, taskDescription, formID,
-            abstractResources.toArray(new AbstractResource<?>[0]));
-        return pattern;
+        if (creationPatternClass.equals(RoleBasedDistributionPattern.class)) {
+            return new RoleBasedDistributionPattern(taskSubject, taskDescription, formID, abstractResources);
+        } else {
+            return new DirectDistributionPattern(taskSubject, taskDescription, formID, abstractResources);
+        }
     }
 
     @Override

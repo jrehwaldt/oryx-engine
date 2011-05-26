@@ -5,6 +5,7 @@ import static org.testng.Assert.assertEquals;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.factory.node.SimpleNodeFactory;
+import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
@@ -14,8 +15,6 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
@@ -40,14 +39,12 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
 
         // The organization structure is already prepared in the factory
         // The task is assigned to Jannik
-        ConcreteResourcePattern pattern = CreationPatternFactory.createJannikServesGerardoCreator();
-        jannik = pattern.getAssignedResources().iterator().next();;
+        jannik = ParticipantFactory.createJannik();
+        CreationPattern pattern = CreationPatternFactory.createDirectDistributionPattern(jannik);
 
-        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern,
-            new AllocateSinglePattern()));
+        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern));
 
-        endNode = SimpleNodeFactory
-        .createSimpleNodeWith(new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern()));
+        endNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern));
 
         humanTaskNode.transitionTo(endNode);
 
