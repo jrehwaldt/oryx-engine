@@ -41,7 +41,6 @@ public class JuelFormProcessor implements FormProcessor {
     @Override
     public String prepareForm(Form form, ProcessInstanceContext context) {
 
-        long startTime = System.currentTimeMillis();
         Config.CurrentCompatibilityMode.setFormFieldNameCaseInsensitive(false);
         String formContent = form.getFormContentAsHTML();
         Source source = new Source(formContent);
