@@ -40,7 +40,7 @@ public final class MockUtils {
      */
     public static ProcessDefinition mockProcessDefinition() {
         ProcessDefinition definition = mock(ProcessDefinition.class);
-        when(definition.getID()).thenReturn(new ProcessDefinitionID(UUID.randomUUID()));
+        when(definition.getID()).thenReturn(new ProcessDefinitionID(UUID.randomUUID().toString()));
         return definition;
     }
     

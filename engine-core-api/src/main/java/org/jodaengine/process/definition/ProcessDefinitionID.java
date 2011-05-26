@@ -1,7 +1,5 @@
 package org.jodaengine.process.definition;
 
-import java.util.UUID;
-
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -10,45 +8,42 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class ProcessDefinitionID {
 
-    private UUID uuid;
+    private String identifier;
     private int version;
     private static final String DELIMITER = ":";
 
     /**
      * Instantiates a new process definition id.
-     * 
-     * @param uuid
-     *            the uuid
-     * @param version
-     *            the version
+     *
+     * @param identifier the identifier
+     * @param version the version
      */
     @JsonCreator
-    public ProcessDefinitionID(@JsonProperty("uuid") UUID uuid, @JsonProperty("version") int version) {
+    public ProcessDefinitionID(@JsonProperty("uuid") String identifier, @JsonProperty("version") int version) {
 
-        this.uuid = uuid;
+        this.identifier = identifier;
         this.version = version;
     }
 
     /**
      * Convenience constructor for IDs with version 0.
-     * 
-     * @param uuid
-     *            the uuid
+     *
+     * @param identifier the identifier
      */
-    public ProcessDefinitionID(UUID uuid) {
+    public ProcessDefinitionID(String identifier) {
 
-        this(uuid, 0);
+        this(identifier, 0);
     }
 
     /**
-     * Gets the UUID.
+     * Gets the Identifier of this process.
      * 
-     * @return the uUID
+     * @return the identifier
      */
     @JsonProperty
-    public UUID getUUID() {
+    public String getIdentifier() {
 
-        return uuid;
+        return identifier;
     }
 
     /**
@@ -67,10 +62,10 @@ public class ProcessDefinitionID {
 
         final int prime = 31;
         int result = 1;
-        if (uuid == null) {
+        if (identifier == null) {
             result = prime * result;
         } else {
-            result = prime * result + uuid.hashCode();
+            result = prime * result + identifier.hashCode();
         }
         result = prime * result + version;
         return result;
@@ -82,7 +77,7 @@ public class ProcessDefinitionID {
         if (obj instanceof ProcessDefinitionID) {
             ProcessDefinitionID anotherID = (ProcessDefinitionID) obj;
 
-            if (anotherID.getUUID().equals(uuid) && anotherID.getVersion() == version) {
+            if (anotherID.getIdentifier().equals(identifier) && anotherID.getVersion() == version) {
                 return true;
             }
         }
@@ -92,7 +87,7 @@ public class ProcessDefinitionID {
     @Override
     public String toString() {
 
-        return uuid.toString() + DELIMITER + version;
+        return identifier + DELIMITER + version;
     }
 
     /**
@@ -105,9 +100,9 @@ public class ProcessDefinitionID {
     public static ProcessDefinitionID fromString(String id) {
 
         int delimiterPosition = id.lastIndexOf(DELIMITER);
-        UUID uuid = UUID.fromString(id.subSequence(0, delimiterPosition).toString());
+        String identifier = id.subSequence(0, delimiterPosition).toString();
         int version = new Integer(id.substring(delimiterPosition + 1));
-        return new ProcessDefinitionID(uuid, version);
+        return new ProcessDefinitionID(identifier, version);
 
     }
 
