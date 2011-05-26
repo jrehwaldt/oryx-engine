@@ -20,12 +20,9 @@ import org.slf4j.LoggerFactory;
 /**
  * The mail adapter configuration.
  */
-public final class InboundMailAdapterConfiguration extends AbstractAdapterConfiguration implements
+public final class InboundMailAdapterConfiguration extends AbstractMailConfiguration implements
 QuartzPullAdapterConfiguration {
 
-    private final String userName;
-    private final String password;
-    private final String address;
     private final int port;
     private final boolean useSSL;
     private final MailProtocol protocol;
@@ -60,46 +57,10 @@ QuartzPullAdapterConfiguration {
                                            @Nonnegative int port,
                                            @Nonnull boolean useSSL) {
 
-        super(EventTypes.Mail);
+        super(userName, password, address);
         this.protocol = protocol;
-        this.userName = userName;
-        this.password = password;
-        this.address = address;
         this.port = port;
         this.useSSL = useSSL;
-    }
-
-    /**
-     * Returns the user name.
-     * 
-     * @return the user name
-     */
-    public @Nonnull
-    String getUserName() {
-
-        return userName;
-    }
-
-    /**
-     * Returns the password.
-     * 
-     * @return the password.
-     */
-    public @Nonnull
-    String getPassword() {
-
-        return password;
-    }
-
-    /**
-     * Returns the address. If javax.mail is used, it is recommended to use toCon
-     * 
-     * @return the address
-     */
-    public @Nonnull
-    String getAddress() {
-
-        return address;
     }
 
     /**

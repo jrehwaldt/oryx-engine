@@ -5,12 +5,14 @@ import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
 /**
  * An Adapter for sending emails via the SMTP protocol.
  */
-public class OutgoingMailAdapter extends AbstractEventAdapter<OutgoingMailAdapterConfiguration> {
+// TODO EVENTTEAM:make a more generic configuration
+public class OutgoingMailAdapter extends AbstractEventAdapter<InboundMailAdapterConfiguration> {
 
-    public OutgoingMailAdapter(OutgoingMailAdapterConfiguration configuration) {
+    private InboundMailAdapterConfiguration configuration;
+    
+    public OutgoingMailAdapter(InboundMailAdapterConfiguration configuration) {
 
         super(configuration);
-        // TODO Auto-generated constructor stub
+        this.configuration = configuration;
     }
-
 }
