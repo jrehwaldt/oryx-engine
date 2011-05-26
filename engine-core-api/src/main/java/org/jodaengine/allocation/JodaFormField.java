@@ -21,10 +21,23 @@ public interface JodaFormField {
     String getReadExpression();
     
     /**
+     * Gets the context variable name, which input should be used to fill the forms value-Field initially.
+     * 
+     * @return the context variable name to read from
+     */
+    String getReadVariable();
+    
+    /**
+     * Gets the Expression, the value of this variable should be set with.
+     * @return a JUEL expression
+     */
+    String getWriteExpression();
+    
+    /**
      * Gets the variable that is used to write to the context, when an input value for this field is processed.
      * Currently, no JUEL can be used here, but only context variable names.
      *
-     * @return the write expression
+     * @return a JUEL expression
      */
     String getWriteVariable();
     

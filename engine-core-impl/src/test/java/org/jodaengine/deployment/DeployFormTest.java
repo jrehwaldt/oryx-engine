@@ -63,7 +63,7 @@ public class DeployFormTest extends AbstractJodaEngineTest {
     }
 
     /**
-     * Deploys a form and checks the parsing of the FormFields and joda:*-attributes.
+     * Deploys a form and checks the existence of the parsed form fields.
      *
      * @throws IOException Signals that an I/O exception has occurred.
      * @throws ProcessArtifactNotFoundException the process artifact not found exception

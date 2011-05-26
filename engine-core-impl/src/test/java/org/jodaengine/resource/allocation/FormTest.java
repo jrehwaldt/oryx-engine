@@ -19,8 +19,10 @@ import org.testng.annotations.Test;
 public class FormTest {
     private static final String FORM_PATH = "src/test/resources/org/jodaengine/resource/allocation/";
     private static final String FORM_LOCATION = FORM_PATH + "testForm.html";
-    private static final String PROCESSED_FORM_LOCATION = FORM_PATH + "processedTestForm.html";
     
+  /**
+   * Tests the setting of the formfield variables.
+   */
   @Test
   public void testFormCreation() {
       FileStreamSource source = new FileStreamSource(new File(FORM_LOCATION));
@@ -30,8 +32,26 @@ public class FormTest {
       
       Assert.assertEquals(field1.getReadExpression(), "#{claimPoint1}");
       Assert.assertEquals(field1.getWriteVariable(), "claimPoint1");
+      Assert.assertEquals(field1.getWriteExpression(), "#{claimPoint1}");
+      Assert.assertEquals(field1.getReadVariable(), "claimPoint1");
       Assert.assertEquals(field2.getReadExpression(), "#{claimPoint2}");
       Assert.assertEquals(field2.getWriteVariable(), "claimPoint2");
+      Assert.assertEquals(field2.getWriteExpression(), "#{claimPoint2}");
+      Assert.assertEquals(field2.getReadVariable(), "claimPoint2");
+  }
+  
+  /**
+   * Tests the setting of the class assignment (classes, the input should be converted to) to form fields.
+   */
+  @Test
+  public void testFormClassAssignment() {
+      FileStreamSource source = new FileStreamSource(new File(FORM_LOCATION));
+      Form form = new FormImpl("form", source);
+      JodaFormField field1 = form.getFormField("claimPoint1");
+      JodaFormField field2 = form.getFormField("claimPoint2");
+      
+      Assert.assertEquals(field1.getDataClazz(), String.class);
+      Assert.assertEquals(field2.getDataClazz(), Integer.class);
   }
   
   /**
