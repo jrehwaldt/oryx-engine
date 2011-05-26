@@ -13,8 +13,8 @@ import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.ext.Extension;
+import org.jodaengine.ext.util.AndTypeFilter;
 import org.jodaengine.ext.util.TypeSafeList;
-import org.jodaengine.util.AndTypeFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -105,7 +105,7 @@ public class ExtensionServiceImpl implements ExtensionService {
     @Override
     public <IExtension> boolean isExtensionAvailable(Class<IExtension> extension) {
         
-        return this.extensions.containsKey(extension);
+        return !this.getExtensionTypes(extension).isEmpty();
     }
 
     @Override

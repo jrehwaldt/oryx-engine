@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jodaengine.allocation.AbstractForm;
-import org.jodaengine.allocation.Form;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
@@ -22,6 +22,7 @@ import org.jodaengine.deployment.importer.archive.DarImporterImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
+import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -50,16 +51,21 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     private Map<UUID, Integer> processVersions;
 
     // private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
+    
+    private ExtensionService extensionService;
 
     private boolean running = false;
 
     /**
      * Default constructor.
+     * 
+     * @param extensionService an {@link ExtensionService} instance
      */
-    public RepositoryServiceImpl() {
-
+    public RepositoryServiceImpl(@Nullable ExtensionService extensionService) {
+        
         processVersions = new HashMap<UUID, Integer>();
         scopes = new HashMap<ProcessDefinitionID, DeploymentScope>();
+        this.extensionService = extensionService;
     }
 
     @Override
@@ -314,7 +320,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     @Override
     public DarImporter getNewDarImporter() {
 
-        return new DarImporterImpl(this);
+        return new DarImporterImpl(this, this.extensionService);
     }
 
     @Override
@@ -335,7 +341,8 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     }
 
     @Override
-    public AbstractForm getForm(String formID, ProcessDefinitionID definitionID) throws ProcessArtifactNotFoundException {
+    public AbstractForm getForm(String formID, ProcessDefinitionID definitionID)
+    throws ProcessArtifactNotFoundException {
 
         DeploymentScope scope = scopes.get(definitionID);
         return scope.getForm(formID);

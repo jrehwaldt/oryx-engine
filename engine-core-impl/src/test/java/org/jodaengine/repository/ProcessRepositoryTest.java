@@ -37,7 +37,7 @@ public class ProcessRepositoryTest {
     @BeforeMethod
     public void setUp() {
 
-        this.repository = new RepositoryServiceImpl();
+        this.repository = new RepositoryServiceImpl(null);
     }
 
     /**

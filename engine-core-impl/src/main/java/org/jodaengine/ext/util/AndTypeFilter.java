@@ -1,4 +1,4 @@
-package org.jodaengine.util;
+package org.jodaengine.ext.util;
 
 import java.io.IOException;
 
