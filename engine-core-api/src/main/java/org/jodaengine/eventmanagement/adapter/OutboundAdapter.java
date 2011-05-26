@@ -6,6 +6,6 @@ package org.jodaengine.eventmanagement.adapter;
  * which allow outgoing communication. This includes,
  * e.g. email sending adapter.
  */
-public interface OutboundAdapter extends CorrelationAdapter {
+public interface OutboundAdapter extends EventAdapter {
 
 }

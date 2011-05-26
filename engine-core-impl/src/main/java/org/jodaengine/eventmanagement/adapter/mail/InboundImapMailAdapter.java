@@ -12,12 +12,12 @@ import javax.mail.Store;
 
 import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
-import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
+import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.exception.JodaEngineException;
 
 /**
- * This is the default imap mail client implementation and acts as {@link CorrelationAdapter} for the.
+ * This is the default imap mail client implementation and acts as {@link EventAdapter} for the.
  * 
  * {@link EventCorrelator}.
  */

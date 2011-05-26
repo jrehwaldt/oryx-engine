@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  * @param <Configuration>
  *            the adapter's configuration
  */
-public abstract class AbstractEventAdapter<Configuration extends AdapterConfiguration> implements CorrelationAdapter {
+public abstract class AbstractEventAdapter<Configuration extends AdapterConfiguration> implements EventAdapter {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -57,8 +57,8 @@ public abstract class AbstractEventAdapter<Configuration extends AdapterConfigur
     @Override
     public boolean equals(Object o) {
 
-        if (o instanceof CorrelationAdapter) {
-            CorrelationAdapter adapter = (CorrelationAdapter) o;
+        if (o instanceof EventAdapter) {
+            EventAdapter adapter = (EventAdapter) o;
             // there should be no 2 adapters with the same configuration, so if their configuration is the same, so are
             // they
             return this.configuration.equals(adapter.getConfiguration());

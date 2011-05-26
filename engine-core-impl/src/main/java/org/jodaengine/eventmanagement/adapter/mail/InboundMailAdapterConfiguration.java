@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
+import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.eventmanagement.timing.QuartzPullAdapterConfiguration;
@@ -223,7 +223,7 @@ QuartzPullAdapterConfiguration {
     }
 
     @Override
-    public CorrelationAdapter registerAdapter(AdapterManagement adapterRegistrar) {
+    public EventAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
         InboundPullAdapter adapter = createAdapter();
         adapterRegistrar.registerInboundPullAdapter(adapter);
