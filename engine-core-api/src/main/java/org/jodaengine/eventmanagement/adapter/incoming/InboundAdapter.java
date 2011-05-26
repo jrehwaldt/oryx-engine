@@ -1,4 +1,6 @@
-package org.jodaengine.eventmanagement.adapter;
+package org.jodaengine.eventmanagement.adapter.incoming;
+
+import org.jodaengine.eventmanagement.adapter.EventAdapter;
 
 
 /**

@@ -3,8 +3,8 @@ package org.jodaengine.eventmanagement;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
-import org.jodaengine.eventmanagement.adapter.InboundAdapter;
-import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 

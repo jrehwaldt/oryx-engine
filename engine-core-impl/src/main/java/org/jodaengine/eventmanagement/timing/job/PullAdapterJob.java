@@ -2,8 +2,8 @@ package org.jodaengine.eventmanagement.timing.job;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
 import org.jodaengine.exception.JodaEngineException;
 import org.quartz.Job;
 import org.quartz.JobDataMap;

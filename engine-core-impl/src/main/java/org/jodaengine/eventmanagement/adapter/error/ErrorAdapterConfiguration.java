@@ -4,7 +4,7 @@ import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
-import org.jodaengine.eventmanagement.adapter.InboundAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
 
 /**
  * The error adapter configuration.
@@ -19,12 +19,6 @@ public class ErrorAdapterConfiguration extends AbstractAdapterConfiguration {
     public ErrorAdapterConfiguration() {
 
         super(EventTypes.Error);
-    }
-
-    @Override
-    public String getUniqueName() {
-
-        return "Error";
     }
 
     /**

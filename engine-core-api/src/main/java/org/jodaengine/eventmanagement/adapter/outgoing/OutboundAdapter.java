@@ -1,4 +1,6 @@
-package org.jodaengine.eventmanagement.adapter;
+package org.jodaengine.eventmanagement.adapter.outgoing;
+
+import org.jodaengine.eventmanagement.adapter.EventAdapter;
 
 
 /**
@@ -8,4 +10,5 @@ package org.jodaengine.eventmanagement.adapter;
  */
 public interface OutboundAdapter extends EventAdapter {
 
+    void sendMessage(String Message);
 }

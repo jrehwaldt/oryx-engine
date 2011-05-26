@@ -6,9 +6,9 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
-import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.configuration.PullAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
 import org.jodaengine.eventmanagement.timing.job.PullAdapterJob;
 import org.jodaengine.exception.AdapterSchedulingException;
 import org.jodaengine.exception.EngineInitializationFailedException;
@@ -254,7 +254,7 @@ public class QuartzJobManager implements TimingManager {
      * @return a unique trigger name
      */
     private static @Nonnull
-    String triggerName(@Nonnull AdapterConfiguration configuration) {
+    String triggerName(@Nonnull PullAdapterConfiguration configuration) {
 
         return String.format("trigger-%s", configuration.getUniqueName());
     }
@@ -267,7 +267,7 @@ public class QuartzJobManager implements TimingManager {
      * @return a unique trigger group name
      */
     private static @Nonnull
-    String triggerGroup(@Nonnull AdapterConfiguration configuration) {
+    String triggerGroup(@Nonnull PullAdapterConfiguration configuration) {
 
         return String.format("trigger-group-%s", configuration.getUniqueName());
     }
@@ -280,7 +280,7 @@ public class QuartzJobManager implements TimingManager {
      * @return a unique job name
      */
     private static @Nonnull
-    String jobName(@Nonnull AdapterConfiguration configuration) {
+    String jobName(@Nonnull PullAdapterConfiguration configuration) {
 
         return String.format("job-%s", configuration.getUniqueName());
     }
@@ -293,7 +293,7 @@ public class QuartzJobManager implements TimingManager {
      * @return a unique group name
      */
     private static @Nonnull
-    String jobGroupName(@Nonnull AdapterConfiguration configuration) {
+    String jobGroupName(@Nonnull PullAdapterConfiguration configuration) {
 
         return String.format("job-group-%s", configuration.getUniqueName());
     }
