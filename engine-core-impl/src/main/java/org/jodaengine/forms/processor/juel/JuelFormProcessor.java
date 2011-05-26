@@ -16,7 +16,8 @@ import org.jodaengine.allocation.Form;
 import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.forms.processor.FormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class uses JUEL to fill in a form and pass results.
@@ -26,8 +27,13 @@ import org.jodaengine.process.instance.ProcessInstanceContext;
 public class JuelFormProcessor implements FormProcessor {
 
     private AbstractFormFieldHandler firstHandler;
-    
+
+    /**
+     * Instantiates a new juel form processor using a chain of responsibility to realize the hierachy as described in
+     * the interface {@link FormProcessor}.
+     */
     public JuelFormProcessor() {
+
         firstHandler = new JuelExpressionHandler();
         firstHandler.setNext(new ContextVariableHandler());
     }
@@ -35,49 +41,15 @@ public class JuelFormProcessor implements FormProcessor {
     @Override
     public String prepareForm(Form form, ProcessInstanceContext context) {
 
+        long startTime = System.currentTimeMillis();
         Config.CurrentCompatibilityMode.setFormFieldNameCaseInsensitive(false);
         String formContent = form.getFormContentAsHTML();
         Source source = new Source(formContent);
         FormFields formFields = source.getFormFields();
         OutputDocument document = new OutputDocument(source);
-        
+
         firstHandler.setFormValues(form, new ArrayList<FormField>(formFields), context, document);
 
-//        ExpressionFactory factory = new ExpressionFactoryImpl();
-//        ELContext elContext = new ProcessELContext(context);
-//
-//        String formContent = form.getFormContentAsHTML();
-//        Source source = new Source(formContent);
-//        FormFields formFields = source.getFormFields();
-//        OutputDocument document = new OutputDocument(source);
-//
-//        for (FormField field : formFields) {
-//            StartTag tag = field.getFormControl().getFirstStartTag();
-//            Attributes attributes = tag.getAttributes();
-//
-//            // get the corresponding jodaField
-//            JodaFormField jodaField = form.getFormField(attributes.getValue("name"));
-//
-//            // replace the value attribute with the result of the readExpression (if it exists)
-//            String readExpression = jodaField.getReadExpression();
-//            if (readExpression != null) {
-//                ValueExpression e = factory.createValueExpression(elContext, readExpression, String.class);
-//                try {
-//                    String result = (String) e.getValue(elContext);
-//                    Map<String, String> replacements = document.replace(attributes, false);
-//
-//                    replacements.put("value", result);
-//                } catch (PropertyNotFoundException exception) {
-//                    // requested variable does not exist.
-//                    // do not change the value of the input field.
-//                    logger
-//                    .debug("The expression {} cannot be resolved. Using the specified default value.", readExpression);
-//                }
-//
-//            }
-//
-//        }
-//
         return document.toString();
 
     }
