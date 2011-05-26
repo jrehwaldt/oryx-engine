@@ -35,8 +35,8 @@ public class DebuggerDarHandler extends AbstractDarHandler {
                 //
                 BufferedInputStream inputStream = new BufferedInputStream(darFile.getInputStream(entry));
                 int lastDelimiter = entry.getName().lastIndexOf(DELIMITER);
-                String formName = entry.getName().substring(lastDelimiter + 1);
-                builder.addInputStreamForm(formName, inputStream);
+                String svgName = entry.getName().substring(lastDelimiter + 1);
+                builder.addInputStreamArtifact(SUBFOLDER + svgName, inputStream);
                 
                 inputStream.close();
             } catch (IOException e) {

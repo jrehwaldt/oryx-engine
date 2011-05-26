@@ -46,6 +46,7 @@ import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
+import org.jodaengine.util.Attributable;
 import org.jodaengine.util.io.StreamSource;
 import org.jodaengine.util.xml.XmlElement;
 import org.jodaengine.util.xml.XmlParse;
@@ -182,15 +183,21 @@ public class BpmnXmlParse extends XmlParse {
         processBuilder.setName(processName);
 
         processBuilder.setDescription(parseDocumentation(processElement));
-        processBuilder.setAttribute("idInXml", processElement.getAttribute("id"));
         processBuilder.setAttribute("targetNamespace", rootElement.getAttribute("targetNamespace"));
-
+        
         parseElements(processElement);
-
+        
         try {
-
+            
             BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processBuilder);
             this.finishedProcessDefinition = processBuilder.buildDefinition();
+            
+            //
+            // preserve original attributes
+            //
+            if (this.finishedProcessDefinition != null) {
+                parseGeneralInformation(processElement, this.finishedProcessDefinition);
+            }
         } catch (IllegalStarteventException buildingDefinitionException) {
 
             String errorMessage = "The processDefintion could be built.";
@@ -238,7 +245,7 @@ public class BpmnXmlParse extends XmlParse {
 
             Node startEventNode = BpmnNodeFactory.createBpmnStartEventNode(processBuilder);
 
-            parseGeneralNodeInformation(startEventXmlElement, startEventNode);
+            parseGeneralInformation(startEventXmlElement, startEventNode);
 
             getNodeXmlIdTable().put((String) startEventNode.getAttribute("idXml"), startEventNode);
 
@@ -333,7 +340,7 @@ public class BpmnXmlParse extends XmlParse {
 
         Node exclusiveGatewayNode = BpmnNodeFactory.createBpmnXorGatewayNode(processBuilder);
 
-        parseGeneralNodeInformation(exclusiveGwElement, exclusiveGatewayNode);
+        parseGeneralInformation(exclusiveGwElement, exclusiveGatewayNode);
 
         getNodeXmlIdTable().put((String) exclusiveGatewayNode.getAttribute("idXml"), exclusiveGatewayNode);
 
@@ -352,7 +359,7 @@ public class BpmnXmlParse extends XmlParse {
 
         Node parallelGatewayNode = BpmnNodeFactory.createBpmnAndGatewayNode(processBuilder);
 
-        parseGeneralNodeInformation(parallelGatewayElement, parallelGatewayNode);
+        parseGeneralInformation(parallelGatewayElement, parallelGatewayNode);
 
         getNodeXmlIdTable().put((String) parallelGatewayNode.getAttribute("idXml"), parallelGatewayNode);
 
@@ -375,7 +382,7 @@ public class BpmnXmlParse extends XmlParse {
                                       .setActivityBehavior(new AutomatedDummyActivity("Doing something"))
                                       .buildNode();
 
-        parseGeneralNodeInformation(taskXmlElement, taskNode);
+        parseGeneralInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
@@ -409,7 +416,7 @@ public class BpmnXmlParse extends XmlParse {
         Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, creationPattern,
             new AllocateSinglePattern());
 
-        parseGeneralNodeInformation(taskXmlElement, taskNode);
+        parseGeneralInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
@@ -506,7 +513,7 @@ public class BpmnXmlParse extends XmlParse {
 
             Node endEventNode = BpmnNodeFactory.createBpmnEndEventNode(processBuilder);
 
-            parseGeneralNodeInformation(endEventXmlElement, endEventNode);
+            parseGeneralInformation(endEventXmlElement, endEventNode);
 
             getNodeXmlIdTable().put((String) endEventNode.getAttribute("idXml"), endEventNode);
 
@@ -614,21 +621,22 @@ public class BpmnXmlParse extends XmlParse {
      * 
      * @param activityElement
      *            the activity element to parse
-     * @param node
+     * @param attributable
+     *            the attributable
      */
-    protected void parseGeneralNodeInformation(XmlElement activityElement, Node node) {
+    protected void parseGeneralInformation(XmlElement activityElement, Attributable attributable) {
 
         String id = activityElement.getAttribute("id");
         if (logger.isDebugEnabled()) {
-            logger.debug("Parsing activity " + id);
+            logger.debug("Parsing attributable " + id);
         }
 
-        node.setAttribute("idXml", id);
-        node.setAttribute("name", activityElement.getAttribute("name"));
-        node.setAttribute("description", parseDocumentation(activityElement));
-        node.setAttribute("default", activityElement.getAttribute("default"));
-        node.setAttribute("type", activityElement.getTagName());
-        node.setAttribute("line", activityElement.getLine());
+        attributable.setAttribute("idXml", id);
+        attributable.setAttribute("name", activityElement.getAttribute("name"));
+        attributable.setAttribute("description", parseDocumentation(activityElement));
+        attributable.setAttribute("default", activityElement.getAttribute("default"));
+        attributable.setAttribute("type", activityElement.getTagName());
+        attributable.setAttribute("line", activityElement.getLine());
     }
 
     /**
