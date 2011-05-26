@@ -12,7 +12,6 @@ import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemImpl;
 

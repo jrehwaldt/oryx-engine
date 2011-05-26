@@ -1,6 +1,7 @@
 package org.jodaengine.process.token;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
@@ -123,9 +124,10 @@ public interface Token extends Identifiable<UUID> {
     /**
      * Continuing the token navigation.
      * 
+     * @param resumeObject
+     *            - an object that is passed from class that resumes the Token
      */
-    // TODO Info-Object muss übergeben werden von wem das Token resumed wurde
-    void resume();
+    void resume(Object resumeObject);
 
     /**
      * Gets the navigator that this token is assigned to.
@@ -139,4 +141,41 @@ public interface Token extends Identifiable<UUID> {
      * Cancels the currently ongoing activity.
      */
     void cancelExecution();
+
+    /**
+     * Gets an internal variable. Internal variables can for example be used by activities that need state. These are
+     * not process instance variables.
+     * 
+     * @param id
+     *            the id
+     * @return the internal variable
+     */
+    Object getInternalVariable(String id);
+
+    /**
+     * Get all internal variable. Internal variables can for example be used by activities that need state. These are
+     * not process instance variables.
+     * 
+     * @return the internal variable
+     */
+    Map<String, Object> getAllInternalVariables();
+
+    /**
+     * Sets an internal variable. Internal variables can for example be used by activities that need state. These are
+     * not process instance variables.
+     * 
+     * @param variableId
+     *            the variable id
+     * @param variableValue
+     *            the variable value
+     */
+    void setInternalVariable(String variableId, Object variableValue);
+
+    /**
+     * Delete an internal variable.
+     * 
+     * @param id
+     *            the id
+     */
+    void deleteInternalVariable(String id);
 }
