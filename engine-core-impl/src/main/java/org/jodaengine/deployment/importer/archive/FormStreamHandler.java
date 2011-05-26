@@ -27,7 +27,7 @@ public class FormStreamHandler extends AbstractDarHandler {
                 String formName = entry.getName().substring(lastDelimiter + 1);
                 builder.addInputStreamForm(formName, inputStream);
                 
-                //inputStream.close();
+                inputStream.close();
             } catch (IOException e) {
                 logger.error("Could not read file {} from archive", entry.getName());
             }
