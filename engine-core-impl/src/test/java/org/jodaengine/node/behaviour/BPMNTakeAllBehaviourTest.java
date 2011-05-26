@@ -82,7 +82,7 @@ public class BPMNTakeAllBehaviourTest {
 
         builder.getTransitionBuilder().transitionGoesFromTo(node, node2).buildTransition();
 
-        return new BpmnToken(node, new ProcessInstance(null), null);
+        return new BpmnToken(node, new ProcessInstance(null, null), null);
     }
 
     /**

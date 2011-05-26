@@ -8,14 +8,18 @@ import static org.mockito.Mockito.verify;
 
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
+import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.BpmnToken;
+import org.jodaengine.process.token.TokenBuilder;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -28,6 +32,7 @@ public class TokenPluginTest {
     private AbstractToken token;
     private ArgumentCaptor<ActivityLifecycleChangeEvent> eventCapturer = null;
     private AbstractTokenListener mock;
+    private TokenBuilder builder;
 
     /**
      * Sets up a token that points to a node and registers a mocked plugin.
@@ -41,7 +46,9 @@ public class TokenPluginTest {
 
         node1 = new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        this.token = new BpmnToken(node1, new ProcessInstance(null), null);
+        builder = new BpmnTokenBuilder(mock(Navigator.class), node1);
+        AbstractProcessInstance processInstance = new ProcessInstance(null, builder);
+        this.token = new BpmnToken(node1, processInstance, null);
 
         mock = mock(AbstractTokenListener.class);
         token.registerListener(mock);
@@ -71,7 +78,8 @@ public class TokenPluginTest {
     public void testPluginRegistrationInheritance()
     throws JodaEngineException {
 
-        AbstractToken newToken = (AbstractToken) token.createNewToken(token.getCurrentNode());
+        builder.setNode(token.getCurrentNode());
+        AbstractToken newToken = (AbstractToken) token.createNewToken();
         newToken.executeStep();
         verify(mock, times(2)).update(eq(newToken), this.eventCapturer.capture());
     }
@@ -86,7 +94,8 @@ public class TokenPluginTest {
     throws JodaEngineException {
 
         token.deregisterListener(mock);
-        AbstractToken newToken = (AbstractToken) token.createNewToken(token.getCurrentNode());
+        builder.setNode(token.getCurrentNode());
+        AbstractToken newToken = (AbstractToken) token.createNewToken();
         newToken.executeStep();
         verify(mock, never()).update(eq(newToken), this.eventCapturer.capture());
     }

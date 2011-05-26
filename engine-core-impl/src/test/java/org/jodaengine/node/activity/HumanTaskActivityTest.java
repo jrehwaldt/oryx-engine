@@ -73,7 +73,7 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         humanTask = new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern());
 
         Node node = new NodeImpl(humanTask, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        token = new BpmnToken(node, new ProcessInstance(MockUtils.mockProcessDefinition()), new NavigatorImplMock());
+        token = new BpmnToken(node, new ProcessInstance(MockUtils.mockProcessDefinition(), null), new NavigatorImplMock());
     }
 
     /**

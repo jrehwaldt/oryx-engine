@@ -134,7 +134,7 @@ public class BPMNUnstructuredJoinSplitTest {
         
         navigator = new NavigatorImplMock();
 
-        Token token = new BpmnToken(splitNode, new ProcessInstance(null), navigator);
+        Token token = new BpmnToken(splitNode, new ProcessInstance(null, null), navigator);
 
         return token;
     }

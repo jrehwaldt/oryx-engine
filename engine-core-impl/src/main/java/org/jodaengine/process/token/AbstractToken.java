@@ -212,8 +212,8 @@ implements Token {
         registerExceptionHandlers(tokenExHandler);
     }
     
-    public Token createNewToken(Node node) {
-        AbstractToken token = (AbstractToken) instance.createToken(node, navigator);
+    public Token createNewToken() {
+        AbstractToken token = (AbstractToken) instance.createToken();
         token.registerListeners(getListeners());
         return token;
     }

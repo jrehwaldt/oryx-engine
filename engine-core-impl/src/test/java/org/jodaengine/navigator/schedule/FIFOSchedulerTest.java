@@ -64,8 +64,8 @@ public class FIFOSchedulerTest extends AbstractJodaEngineTest {
         ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
         List<Node> startNodes = def.getStartNodes();
         Node startNode = startNodes.get(0);
-        firstToken = new BpmnToken(startNode, new ProcessInstance(null), null);
-        secondToken = new BpmnToken(startNode, new ProcessInstance(null), null);
+        firstToken = new BpmnToken(startNode, new ProcessInstance(null, null), null);
+        secondToken = new BpmnToken(startNode, new ProcessInstance(null, null), null);
     }
 
     /**

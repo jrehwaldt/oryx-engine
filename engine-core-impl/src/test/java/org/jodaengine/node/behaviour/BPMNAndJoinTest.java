@@ -16,6 +16,7 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -116,11 +117,13 @@ public class BPMNAndJoinTest {
         BpmnNodeFactory.createTransitionFromTo(builder, node2, joinNode);
         BpmnNodeFactory.createTransitionFromTo(builder, joinNode, node3);
 
-        AbstractToken token = new BpmnToken(splitNode, new ProcessInstance(null), navigator);
+        BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, node1);
+        AbstractToken token = new BpmnToken(splitNode,new ProcessInstance(null, tokenBuilder), navigator);
 
         List<Token> newTokens = new ArrayList<Token>();
-        newTokens.add(token.createNewToken(node1));
-        newTokens.add(token.createNewToken(node2));
+        newTokens.add(token.createNewToken());
+        tokenBuilder.setNode(node2);
+        newTokens.add(token.createNewToken());
         return newTokens;
     }
     /**

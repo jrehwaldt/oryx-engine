@@ -124,7 +124,8 @@ public class LoopProcessTest {
         ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID(), 0);
         ProcessDefinition definition = new ProcessDefinitionImpl(id, DEFINITION_NAME,
             DEFINITION_DESCRIPTION, startNodes);
-        AbstractProcessInstance instance = new ProcessInstance(definition);
+        // TokenBuilder is not used here, therefore it can be null
+        AbstractProcessInstance instance = new ProcessInstance(definition, null);
         instance.getContext().setVariable("counter", "0");
         instance.getContext().setVariable("increment", "1");
 

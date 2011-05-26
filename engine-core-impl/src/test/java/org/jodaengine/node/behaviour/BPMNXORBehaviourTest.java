@@ -132,7 +132,7 @@ public class BPMNXORBehaviourTest {
         builder.getTransitionBuilder().transitionGoesFromTo(node, node2).setCondition(c).buildTransition();
         builder.getTransitionBuilder().transitionGoesFromTo(node, node3).buildTransition();
 
-        return new BpmnToken(node, new ProcessInstance(null), null);
+        return new BpmnToken(node, new ProcessInstance(null, null), null);
     }
     
     /**

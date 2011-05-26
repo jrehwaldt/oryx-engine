@@ -10,7 +10,6 @@ import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 
@@ -81,7 +80,7 @@ public final class ExampleProcessForReview {
         thirdNode.transitionTo(fourthNode);
 //        fourthNode.transitionTo(endNode);
 
-        Token sampleToken = new BpmnToken(startNode, new ProcessInstance(null), null);
+        Token sampleToken = new BpmnToken(startNode, new ProcessInstance(null, null), null);
         return sampleToken;
     }
 

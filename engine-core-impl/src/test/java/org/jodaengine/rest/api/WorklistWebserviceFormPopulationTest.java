@@ -22,6 +22,8 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenBuilder;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
@@ -75,9 +77,10 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
         jodaEngineServices.getRepositoryService().deployInNewScope(deployment);
 
         Whitebox.setInternalState(pattern, "formID", "form");
-
-        instance = new ProcessInstance(definition);
-        Token token = instance.createToken(mock(Node.class), mock(Navigator.class));
+        Navigator nav = mock(Navigator.class);
+        TokenBuilder tokenBuilder = new BpmnTokenBuilder(nav, mock(Node.class));
+        instance = new ProcessInstance(definition, tokenBuilder);
+        Token token = instance.createToken();
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         AbstractWorklistItem item = pattern.createWorklistItem(token, jodaEngineServices.getRepositoryService());
         PushPattern pushPattern = new AllocateSinglePattern();

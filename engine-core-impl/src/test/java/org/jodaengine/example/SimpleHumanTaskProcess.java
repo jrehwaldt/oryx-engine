@@ -72,7 +72,8 @@ public final class SimpleHumanTaskProcess {
         secondNode.transitionTo(thirdNode);
 //        thirdNode.transitionTo(endNode);
 
-        Token sampleToken = new BpmnToken(startNode, new ProcessInstance(null), null);
+        // TokenBuilder is not used here therefore it can null
+        Token sampleToken = new BpmnToken(startNode, new ProcessInstance(null, null), null);
         return sampleToken;
     }
 

@@ -51,7 +51,7 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
 
         humanTaskNode.transitionTo(endNode);
 
-        AbstractProcessInstance instance = new ProcessInstance(null);
+        AbstractProcessInstance instance = new ProcessInstance(null, null);
         token = new BpmnToken(humanTaskNode, instance, new NavigatorImplMock());
     }
 

@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenBuilder;
 
 
 /**
@@ -20,6 +18,7 @@ public class ProcessInstance extends AbstractProcessInstance {
     protected ProcessInstanceContext context;
     protected UUID id;
     protected List<Token> assignedTokens;
+    protected TokenBuilder builder;
     
     protected boolean cancelled;
     
@@ -33,13 +32,27 @@ public class ProcessInstance extends AbstractProcessInstance {
      * 
      * @param definition the process definition of this instance
      */
-    public ProcessInstance(ProcessDefinition definition) {
+    public ProcessInstance(ProcessDefinition definition, TokenBuilder builder) {
         
         this.definition = definition;
         this.id = UUID.randomUUID();
         this.assignedTokens = new ArrayList<Token>();
         this.context = new ProcessInstanceContextImpl();
         this.cancelled = false;
+        this.builder = builder;
+        this.builder.setInstance(this);
+    }
+
+    @Override
+    public TokenBuilder getBuilder() {
+    
+        return builder;
+    }
+
+    @Override
+    public void setBuilder(TokenBuilder builder) {
+    
+        this.builder = builder;
     }
 
     @Override
@@ -108,10 +121,8 @@ public class ProcessInstance extends AbstractProcessInstance {
     }
 
     @Override
-    public AbstractToken createToken(Node node, Navigator nav) {
-
-        // TODO Auto-generated method stub
-        return null;
+    public Token createToken() {
+        return builder.create();
     }
     
 }

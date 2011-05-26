@@ -84,7 +84,7 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 
         humanTaskNode.transitionTo(endNode);
 
-        token = new BpmnToken(humanTaskNode, new ProcessInstance(null), new NavigatorImplMock());
+        token = new BpmnToken(humanTaskNode, new ProcessInstance(null, null), new NavigatorImplMock());
     }
 
     /**

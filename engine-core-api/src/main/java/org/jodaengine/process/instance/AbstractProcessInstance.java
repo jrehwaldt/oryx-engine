@@ -12,6 +12,7 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenBuilder;
 import org.jodaengine.util.Identifiable;
 
 /**
@@ -91,6 +92,10 @@ public abstract class AbstractProcessInstance implements Identifiable<UUID> {
      * @param nav the nav
      * @return the new process token
      */
-    public abstract Token createToken(Node node, Navigator nav);
+    public abstract Token createToken();
+    
+    public abstract TokenBuilder getBuilder();
+    
+    public abstract void setBuilder(TokenBuilder builder);
 
 }

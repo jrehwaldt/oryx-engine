@@ -7,6 +7,7 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,11 +32,13 @@ StartInstantiationPattern {
         NavigatorInside navigator = patternContext.getNavigatorService();
         ProcessStartEvent startEvent = patternContext.getThrownStartEvent();
 
-        AbstractProcessInstance processInstance = new ProcessInstance(processDefinition);
+        BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, null);
+        AbstractProcessInstance processInstance = new ProcessInstance(processDefinition, tokenBuilder);
 
         // Extract the startNode
         Node startNode = processDefinition.getStartTriggers().get(startEvent);
-        Token newToken = processInstance.createToken(startNode, navigator);
+        tokenBuilder.setNode(startNode);
+        Token newToken = processInstance.createToken();
         navigator.addWorkToken(newToken);
 
         return processInstance;

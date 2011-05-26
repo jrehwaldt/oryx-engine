@@ -68,7 +68,8 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngin
         ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
         List<Node> startNodes = def.getStartNodes();
         Node startNode = startNodes.get(0);
-        pi = new BpmnToken(startNode, new ProcessInstance(null), null);
+        // Builder is not used here, therefore it can be null
+        pi = new BpmnToken(startNode, new ProcessInstance(null, null), null);
     }
 
     /**

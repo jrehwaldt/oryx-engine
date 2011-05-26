@@ -101,6 +101,6 @@ public class ProcessTokenImplTest {
         
         node.transitionTo(node3);
         
-        return new BpmnToken(node, new ProcessInstance(null), null);
+        return new BpmnToken(node, new ProcessInstance(null, null), null);
     }
 }
