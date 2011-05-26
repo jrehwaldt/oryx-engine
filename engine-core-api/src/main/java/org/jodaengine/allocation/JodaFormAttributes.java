@@ -1,4 +1,4 @@
-package org.jodaengine.resource.allocation;
+package org.jodaengine.allocation;
 
 /**
  * The Class JodaFormAttributes.

@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jodaengine.allocation.Form;
+import org.jodaengine.allocation.JodaFormAttributes;
 import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
-import org.jodaengine.resource.allocation.JodaFormAttributes;
 import org.jodaengine.resource.allocation.JodaFormFieldImpl;
 import org.mockito.Mockito;
 import org.testng.Assert;
