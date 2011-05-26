@@ -16,6 +16,8 @@ import org.jodaengine.util.juel.ProcessELContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.beust.jcommander.internal.Lists;
+
 import de.odysseus.el.ExpressionFactoryImpl;
 
 import net.htmlparser.jericho.Attributes;
@@ -33,48 +35,59 @@ import net.htmlparser.jericho.StartTag;
  */
 public class JuelFormProcessor implements FormProcessor {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private AbstractFormFieldHandler firstHandler;
+    
+    public JuelFormProcessor() {
+        firstHandler = new JuelExpressionHandler();
+        firstHandler.setNext(new ContextVariableHandler());
+    }
 
     @Override
     public String prepareForm(Form form, ProcessInstanceContext context) {
 
         Config.CurrentCompatibilityMode.setFormFieldNameCaseInsensitive(false);
-
-        ExpressionFactory factory = new ExpressionFactoryImpl();
-        ELContext elContext = new ProcessELContext(context);
-
         String formContent = form.getFormContentAsHTML();
         Source source = new Source(formContent);
         FormFields formFields = source.getFormFields();
         OutputDocument document = new OutputDocument(source);
+        
+        firstHandler.setFormValues(form, Lists.newArrayList(formFields), context, document);
 
-        for (FormField field : formFields) {
-            StartTag tag = field.getFormControl().getFirstStartTag();
-            Attributes attributes = tag.getAttributes();
-
-            // get the corresponding jodaField
-            JodaFormField jodaField = form.getFormField(attributes.getValue("name"));
-
-            // replace the value attribute with the result of the readExpression (if it exists)
-            String readExpression = jodaField.getReadExpression();
-            if (readExpression != null) {
-                ValueExpression e = factory.createValueExpression(elContext, readExpression, String.class);
-                try {
-                    String result = (String) e.getValue(elContext);
-                    Map<String, String> replacements = document.replace(attributes, false);
-
-                    replacements.put("value", result);
-                } catch (PropertyNotFoundException exception) {
-                    // requested variable does not exist.
-                    // do not change the value of the input field.
-                    logger
-                    .debug("The expression {} cannot be resolved. Using the specified default value.", readExpression);
-                }
-
-            }
-
-        }
-
+//        ExpressionFactory factory = new ExpressionFactoryImpl();
+//        ELContext elContext = new ProcessELContext(context);
+//
+//        String formContent = form.getFormContentAsHTML();
+//        Source source = new Source(formContent);
+//        FormFields formFields = source.getFormFields();
+//        OutputDocument document = new OutputDocument(source);
+//
+//        for (FormField field : formFields) {
+//            StartTag tag = field.getFormControl().getFirstStartTag();
+//            Attributes attributes = tag.getAttributes();
+//
+//            // get the corresponding jodaField
+//            JodaFormField jodaField = form.getFormField(attributes.getValue("name"));
+//
+//            // replace the value attribute with the result of the readExpression (if it exists)
+//            String readExpression = jodaField.getReadExpression();
+//            if (readExpression != null) {
+//                ValueExpression e = factory.createValueExpression(elContext, readExpression, String.class);
+//                try {
+//                    String result = (String) e.getValue(elContext);
+//                    Map<String, String> replacements = document.replace(attributes, false);
+//
+//                    replacements.put("value", result);
+//                } catch (PropertyNotFoundException exception) {
+//                    // requested variable does not exist.
+//                    // do not change the value of the input field.
+//                    logger
+//                    .debug("The expression {} cannot be resolved. Using the specified default value.", readExpression);
+//                }
+//
+//            }
+//
+//        }
+//
         return document.toString();
 
     }
