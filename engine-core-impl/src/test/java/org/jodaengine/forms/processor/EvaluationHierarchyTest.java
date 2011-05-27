@@ -53,6 +53,8 @@ public class EvaluationHierarchyTest {
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put(JodaFormAttributes.READ_VARIABLE, "var1");
         attributes.put(JodaFormAttributes.READ_EXPRESSION, "#{var2}");
+        attributes.put(JodaFormAttributes.WRITE_VARIABLE, "var1");
+        attributes.put(JodaFormAttributes.WRITE_EXPRESSION, "#{var2}");
         field1 = new JodaFormFieldImpl("field1", attributes, String.class);
 
         when(form.getFormField(Mockito.matches("field1"))).thenReturn(field1);
@@ -63,7 +65,7 @@ public class EvaluationHierarchyTest {
      * takes effect and not the variable setting.
      */
     @Test
-    public void expressionOverridesVariable() {
+    public void readExpressionOverridesVariable() {
 
         context.setVariable("var1", "Variable1");
         context.setVariable("var2", "Variable2");
@@ -86,6 +88,43 @@ public class EvaluationHierarchyTest {
         String resultHtml = processor.prepareForm(form, context);
         Assert.assertTrue(resultHtml.contains("Variable1"),
             "The form should be filled with the value of var1, as the readExpression could not be resolved.");
+    }
+    
+    /**
+     * Tests that the writeVariable of a form field is used, if the evaluation of the writeExpression fails.
+     */
+    @Test
+    public void writeVariableOverridesExpressionOnFail() {
+        FormProcessor processor = new JuelFormProcessor();
+        Map<String, String> formFields = new HashMap<String, String>();
+        formFields.put("field1", "a value");
+        processor.readFilledForm(formFields, form, context);
+        Assert.assertEquals(context.getVariable("var1"), "a value");
+    }
+    
+    /**
+     * Tests that the writeExpression is used, if it can be resolved
+     */
+    @Test
+    public void writeExpressionOverridesVariable() {
+        // create the context object
+        DummyPOJO dummy = new DummyPOJO();
+        dummy.setValue("a value");
+        context.setVariable("dummy", dummy); 
+        context.setVariable("var1", "var 1");
+        
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put(JodaFormAttributes.WRITE_VARIABLE, "var1");
+        attributes.put(JodaFormAttributes.WRITE_EXPRESSION, "#{dummy.value}");
+        field1 = new JodaFormFieldImpl("field1", attributes, String.class);
+        
+        FormProcessor processor = new JuelFormProcessor();
+        Map<String, String> formFields = new HashMap<String, String>();
+        formFields.put("field1", "a value");
+        processor.readFilledForm(formFields, form, context);
+        
+        Assert.assertEquals(context.getVariable("var1"), "var 1", "The value of var1 should not have changed.");
+        Assert.assertEquals(dummy.getValue(), "a value", "The POJO value should have changed, as it has been evaluated in the expression.");
     }
 
     /**
