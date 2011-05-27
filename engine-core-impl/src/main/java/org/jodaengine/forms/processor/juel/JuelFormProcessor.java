@@ -56,29 +56,18 @@ public class JuelFormProcessor implements FormProcessor {
     @Override
     public void readFilledForm(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
 
-        for (Entry<String, String> entry : enteredValues.entrySet()) {
-            String fieldName = entry.getKey();
-            String enteredValue = entry.getValue();
-
-            JodaFormField formField = form.getFormField(fieldName);
-            Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
-            String variableToSet = formField.getWriteVariable();
-            context.setVariable(variableToSet, objectToSet);
-        }
+        firstHandler.readInput(enteredValues, form, context);
+//        for (Entry<String, String> entry : enteredValues.entrySet()) {
+//            String fieldName = entry.getKey();
+//            String enteredValue = entry.getValue();
+//
+//            JodaFormField formField = form.getFormField(fieldName);
+//            Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
+//            String variableToSet = formField.getWriteVariable();
+//            context.setVariable(variableToSet, objectToSet);
+//        }
     }
 
-    // TODO @Thorben-Refactoring make this cooler, e.g. chain of responsibility
-    private Object convertStringInput(String value, Class<?> clazzToConvertTo) {
-
-        Object object = null;
-        if (clazzToConvertTo == String.class) {
-            return value;
-        } else if (clazzToConvertTo == Integer.class) {
-            return Integer.valueOf(value);
-        } else if (clazzToConvertTo == Boolean.class) {
-            return Boolean.valueOf(value);
-        }
-        return object;
-    }
+    
 
 }

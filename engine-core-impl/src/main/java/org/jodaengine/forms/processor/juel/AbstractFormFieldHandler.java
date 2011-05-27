@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jodaengine.allocation.Form;
+import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 
 import net.htmlparser.jericho.FormField;
@@ -102,4 +103,26 @@ public abstract class AbstractFormFieldHandler {
      *            the context
      */
     protected abstract void readInternally(Map<String, String> enteredValues, Form form, ProcessInstanceContext context);
+    
+    
+    // TODO @Thorben-Refactoring make this cooler, e.g. chain of responsibility
+    /**
+     * Converts string input to a an object of the class as specified in the {@link JodaFormField}.
+     *
+     * @param value the value
+     * @param clazzToConvertTo the clazz to convert to
+     * @return the object
+     */
+    protected Object convertStringInput(String value, Class<?> clazzToConvertTo) {
+
+        Object object = null;
+        if (clazzToConvertTo == String.class) {
+            return value;
+        } else if (clazzToConvertTo == Integer.class) {
+            return Integer.valueOf(value);
+        } else if (clazzToConvertTo == Boolean.class) {
+            return Boolean.valueOf(value);
+        }
+        return object;
+    }
 }

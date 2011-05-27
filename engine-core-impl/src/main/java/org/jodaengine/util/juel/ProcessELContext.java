@@ -13,6 +13,7 @@ import org.jodaengine.process.instance.ProcessInstanceContext;
 
 import de.odysseus.el.ExpressionFactoryImpl;
 import de.odysseus.el.util.SimpleContext;
+import de.odysseus.el.util.SimpleResolver;
 
 /**
  * This is a Juel {@link javax.el.ELContext} implementation, which is able to work
