@@ -1,4 +1,4 @@
-package org.jodaengine.ext.debugger;
+package org.jodaengine.ext.debugging;
 
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.process.structure.Node;

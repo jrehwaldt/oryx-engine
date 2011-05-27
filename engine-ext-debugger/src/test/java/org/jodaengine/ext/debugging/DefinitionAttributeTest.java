@@ -1,11 +1,11 @@
-package org.jodaengine.ext.debugger;
+package org.jodaengine.ext.debugging;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.jodaengine.ext.debugger.util.AttributeKeyProvider;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
+import org.jodaengine.ext.debugging.util.AttributeKeyProvider;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.mockito.ArgumentCaptor;
 import org.testng.Assert;

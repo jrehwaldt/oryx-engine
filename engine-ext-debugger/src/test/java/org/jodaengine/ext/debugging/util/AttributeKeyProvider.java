@@ -1,4 +1,4 @@
-package org.jodaengine.ext.debugger.util;
+package org.jodaengine.ext.debugging.util;
 
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 
