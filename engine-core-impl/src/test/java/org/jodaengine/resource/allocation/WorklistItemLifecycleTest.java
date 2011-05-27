@@ -10,8 +10,6 @@ import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.Participant;
-import org.jodaengine.resource.allocation.Form;
 import org.jodaengine.resource.allocation.pattern.creation.AbstractCreationPattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemImpl;

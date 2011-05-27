@@ -8,9 +8,7 @@ import net.htmlparser.jericho.OutputDocument;
 
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.resource.allocation.Form;
-
-import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.resource.allocation.Form;
+import org.jodaengine.resource.allocation.JodaFormField;
 
 /**
  * Realizes a chain of responsibility for form field resolution.

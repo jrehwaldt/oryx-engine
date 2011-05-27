@@ -6,8 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.jodaengine.resource.allocation.Form;
-import org.jodaengine.resource.allocation.JodaFormField;
 import org.jodaengine.util.io.FileStreamSource;
 import org.testng.Assert;
 import org.testng.annotations.Test;

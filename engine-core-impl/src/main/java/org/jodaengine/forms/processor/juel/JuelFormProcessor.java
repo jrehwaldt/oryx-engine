@@ -2,7 +2,6 @@ package org.jodaengine.forms.processor.juel;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.htmlparser.jericho.Config;
 import net.htmlparser.jericho.FormField;
@@ -13,9 +12,6 @@ import net.htmlparser.jericho.Source;
 import org.jodaengine.forms.processor.FormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.resource.allocation.Form;
-import org.jodaengine.resource.allocation.JodaFormField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class uses JUEL to fill in a form and pass results.
