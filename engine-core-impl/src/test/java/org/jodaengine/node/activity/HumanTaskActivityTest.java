@@ -20,6 +20,7 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.IdentityBuilder;
@@ -28,6 +29,7 @@ import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.mock.MockUtils;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.mockito.Mockito;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -73,7 +75,10 @@ public class HumanTaskActivityTest extends AbstractJodaEngineTest {
         humanTask = new BpmnHumanTaskActivity(pattern, new AllocateSinglePattern());
 
         Node node = new NodeImpl(humanTask, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        token = new BpmnToken(node, new ProcessInstance(MockUtils.mockProcessDefinition(), null), new NavigatorImplMock());
+        token = new BpmnToken(node,
+            new ProcessInstance(MockUtils.mockProcessDefinition(),
+                Mockito.mock(BpmnTokenBuilder.class)),
+            new NavigatorImplMock());
     }
 
     /**

@@ -15,6 +15,7 @@ import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.BpmnToken;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.mockito.ArgumentCaptor;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
@@ -38,7 +39,7 @@ public class TokenListenerTest {
         String dummyString = "s.out";
 
         this.token = new BpmnToken(new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour()), new ProcessInstance(null, null), null);
+            new TakeAllSplitBehaviour()), new ProcessInstance(null, mock(BpmnTokenBuilder.class)), null);
         this.eventCapturer = ArgumentCaptor.forClass(ActivityLifecycleChangeEvent.class);
     }
 

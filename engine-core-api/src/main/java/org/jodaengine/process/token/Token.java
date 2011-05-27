@@ -145,5 +145,6 @@ public interface Token extends Identifiable<UUID> {
     
     ActivityState getCurrentActivityState();
     
+    @JsonIgnore
     boolean isSuspandable();
 }

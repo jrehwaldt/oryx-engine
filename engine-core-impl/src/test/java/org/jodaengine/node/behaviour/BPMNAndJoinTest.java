@@ -6,6 +6,7 @@ import static org.testng.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
@@ -36,9 +37,10 @@ public class BPMNAndJoinTest {
 
     /**
      * Sets the up.
+     * @throws IllegalStarteventException 
      */
     @BeforeMethod
-    public void setUp() {
+    public void setUp() throws IllegalStarteventException {
 
         List<Token> tokens = initializeTokens();
         newToken1 = tokens.get(0);
@@ -97,15 +99,15 @@ public class BPMNAndJoinTest {
      * Initialize tokens.
      * 
      * @return the process token
+     * @throws IllegalStarteventException 
      */
-    private List<Token> initializeTokens() {
+    private List<Token> initializeTokens() throws IllegalStarteventException {
 
         navigator = new NavigatorImplMock();
 
         splitNode = mock(Node.class);
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
-
         node1 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
         node2 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 

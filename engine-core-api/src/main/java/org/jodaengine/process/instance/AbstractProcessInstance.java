@@ -3,6 +3,7 @@ package org.jodaengine.process.instance;
 import java.util.List;
 import java.util.UUID;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
@@ -94,8 +95,10 @@ public abstract class AbstractProcessInstance implements Identifiable<UUID> {
      */
     public abstract Token createToken();
     
+    @JsonIgnore
     public abstract TokenBuilder getBuilder();
     
+    @JsonIgnore
     public abstract void setBuilder(TokenBuilder builder);
 
 }

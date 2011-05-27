@@ -4,6 +4,8 @@ import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
+import org.mockito.Mockito;
 
 
 /**
@@ -18,7 +20,7 @@ public class SimpleProcessTokenFactory {
      * @return the process instance
      */
     public Token create(Node startNode) {
-        Token p = new BpmnToken(startNode, new ProcessInstance(null, null), null);
+        Token p = new BpmnToken(startNode, new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)), null);
         return p;
     }
 

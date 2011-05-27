@@ -18,7 +18,6 @@ import org.jodaengine.navigator.NavigatorStatistic;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
-import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.rest.TestUtils;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
 import org.testng.Assert;

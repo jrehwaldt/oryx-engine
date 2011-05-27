@@ -9,6 +9,8 @@ import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
+import org.mockito.Mockito;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -33,7 +35,7 @@ public class AddNumbersAndStoreActivityTest {
 
         AddNumbersAndStoreNodeFactory factory = new AddNumbersAndStoreNodeFactory();
         node = factory.create();
-        AbstractProcessInstance instance = new ProcessInstance(null, null);
+        AbstractProcessInstance instance = new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class));
         p = new BpmnToken(node, instance, null);
 
     }

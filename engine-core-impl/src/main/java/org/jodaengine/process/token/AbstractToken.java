@@ -36,6 +36,9 @@ implements Token {
 
     protected Node currentNode;
     protected Transition lastTakenTransition;
+   
+    @JsonIgnore
+    protected boolean suspandable;
 
     protected List<Token> lazySuspendedProcessingTokens;
 

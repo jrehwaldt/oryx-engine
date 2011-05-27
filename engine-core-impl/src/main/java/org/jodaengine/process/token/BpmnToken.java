@@ -23,6 +23,11 @@ public class BpmnToken extends AbstractToken {
 
     private ActivityState currentActivityState = null;
     
+    //Hidden Constructor
+    protected BpmnToken() {
+        
+    }
+    
     public BpmnToken(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
 
         super(startNode, instance, navigator);

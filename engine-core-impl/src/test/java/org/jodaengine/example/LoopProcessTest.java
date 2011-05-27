@@ -24,6 +24,8 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
+import org.mockito.Mockito;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -125,7 +127,7 @@ public class LoopProcessTest {
         ProcessDefinition definition = new ProcessDefinitionImpl(id, DEFINITION_NAME,
             DEFINITION_DESCRIPTION, startNodes);
         // TokenBuilder is not used here, therefore it can be null
-        AbstractProcessInstance instance = new ProcessInstance(definition, null);
+        AbstractProcessInstance instance = new ProcessInstance(definition, Mockito.mock(BpmnTokenBuilder.class));
         instance.getContext().setVariable("counter", "0");
         instance.getContext().setVariable("increment", "1");
 

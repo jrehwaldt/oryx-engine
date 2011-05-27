@@ -13,6 +13,8 @@ import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
+import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -101,6 +103,7 @@ public class ProcessTokenImplTest {
         
         node.transitionTo(node3);
         
-        return new BpmnToken(node, new ProcessInstance(null, null), null);
+        TokenBuilder tokenBuilder = new BpmnTokenBuilder(null, null);
+        return new BpmnToken(node, new ProcessInstance(null, tokenBuilder), null);
     }
 }

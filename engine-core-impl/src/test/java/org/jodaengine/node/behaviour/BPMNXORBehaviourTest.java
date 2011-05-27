@@ -20,6 +20,8 @@ import org.jodaengine.process.structure.condition.HashMapCondition;
 import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
+import org.mockito.Mockito;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -132,7 +134,7 @@ public class BPMNXORBehaviourTest {
         builder.getTransitionBuilder().transitionGoesFromTo(node, node2).setCondition(c).buildTransition();
         builder.getTransitionBuilder().transitionGoesFromTo(node, node3).buildTransition();
 
-        return new BpmnToken(node, new ProcessInstance(null, null), null);
+        return new BpmnToken(node, new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)), null);
     }
     
     /**

@@ -15,10 +15,13 @@ import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenBuilder;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.jodaengine.util.testing.SkipBuildingJodaEngine;
 import org.jodaengine.util.testing.SkipBuildingJodaEngine.JodaEngineTestSkipMode;
+import org.mockito.Mockito;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -64,8 +67,9 @@ public class FIFOSchedulerTest extends AbstractJodaEngineTest {
         ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
         List<Node> startNodes = def.getStartNodes();
         Node startNode = startNodes.get(0);
-        firstToken = new BpmnToken(startNode, new ProcessInstance(null, null), null);
-        secondToken = new BpmnToken(startNode, new ProcessInstance(null, null), null);
+        TokenBuilder builder = Mockito.mock(BpmnTokenBuilder.class);
+        firstToken = new BpmnToken(startNode, new ProcessInstance(null, builder), null);
+        secondToken = new BpmnToken(startNode, new ProcessInstance(null, builder), null);
     }
 
     /**
