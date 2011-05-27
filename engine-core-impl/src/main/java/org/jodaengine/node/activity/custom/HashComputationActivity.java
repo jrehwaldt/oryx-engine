@@ -3,7 +3,7 @@ package org.jodaengine.node.activity.custom;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.jodaengine.node.activity.AbstractBpmnActivity;
+import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * It uses the Java Message Digest class which supports the following cipher algorithms: MD2 MD5 SHA-1: The Secure Hash
  * Algorithm, as defined in Secure Hash Standard, NIST FIPS 180-1. SHA-256 SHA-384 SHA-512 DSA RSA and many more ;-)
  */
-public class HashComputationActivity extends AbstractBpmnActivity {
+public class HashComputationActivity extends AbstractActivity {
 
     private static final String DEFAULT_ALGORITHM = "SHA1";
 

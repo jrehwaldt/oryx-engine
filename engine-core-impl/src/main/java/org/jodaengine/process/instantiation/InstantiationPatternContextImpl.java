@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
+import org.jodaengine.util.ServiceContextImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

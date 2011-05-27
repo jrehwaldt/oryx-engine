@@ -1,6 +1,6 @@
 package org.jodaengine.node.activity.custom;
 
-import org.jodaengine.node.activity.AbstractBpmnActivity;
+import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  * Prints out a variable value which the activity gets in its constructor.
  */
 public class PrintingVariableActivity
-extends AbstractBpmnActivity {
+extends AbstractActivity {
 
     private String variableName;
     

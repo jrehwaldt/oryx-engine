@@ -8,14 +8,12 @@ import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
-import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
 import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
-import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.structure.TransitionBuilder;
-
 
 /**
  * The Interface ProcessBuilder. The process builder is a comfortable way to construct a process definition.
@@ -69,7 +67,8 @@ public interface ProcessDefinitionBuilder {
     ProcessDefinitionBuilder setDescription(String processDescription);
 
     /**
-     * Sets the name of the {@link ProcessDefinition} to build.
+     * Sets the name of the {@link ProcessDefinition} to build. The name will be also used for identification (as the
+     * String identifier in {@link ProcessDefinitionID}.
      * 
      * @param processName
      *            - the name of the {@link ProcessDefinition}
@@ -90,8 +89,6 @@ public interface ProcessDefinitionBuilder {
      * @param startNode
      *            - the {@link Node startNode}
      * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
-     * @throws JodaEngineRuntimeException
-     *             thrown if the provided node isn't a startNode.
      */
     @Nonnull
     ProcessDefinitionBuilder createStartTrigger(@Nonnull EventType eventType,
@@ -114,4 +111,6 @@ public interface ProcessDefinitionBuilder {
     ProcessDefinitionBuilder addInstantiationPattern(InstantiationPattern instantiationPattern);
 
     ProcessDefinitionBuilder addStartInstantiationPattern(StartInstantiationPattern startInstantiationPattern);
+
+    ProcessDefinitionBuilder addActivationPattern(ProcessDefinitionDeActivationPattern activatorPattern);
 }

@@ -9,7 +9,7 @@ import org.jodaengine.process.token.Token;
  * The now empty behaviour of a for instance startnode.
  */
 public class NullActivity
-extends AbstractBpmnActivity {
+extends AbstractActivity {
 
     /**
      * Default constructor. Creates a new start activity.

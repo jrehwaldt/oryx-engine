@@ -9,12 +9,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.jodaengine.JodaEngineServices;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ServiceUnavailableException;
-import org.jodaengine.ext.debugging.Breakpoint;
+import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
+import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
+import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
@@ -32,7 +35,7 @@ import org.slf4j.LoggerFactory;
 @Path("/debugger")
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
-public class DebuggerWebService implements DebuggerService, BreakpointService {
+public class DebuggerWebService implements DebuggerService, BreakpointService, DebuggerArtifactService {
 
     private static final String NOT_ACCESSIBLE_VIA_WEBSERVICE = "This method is not accessible via web service.";
     
@@ -176,6 +179,22 @@ public class DebuggerWebService implements DebuggerService, BreakpointService {
     public void disableBreakpoint(Breakpoint breakpoint) {
         if (this.debugger != null) {
             this.debugger.disableBreakpoint(breakpoint);
+        }
+        
+        throw new ServiceUnavailableException(DebuggerService.class);
+    }
+
+    //=================================================================
+    //=================== DebuggerArtifactService methods =============
+    //=================================================================
+    @Path("/artifacts")
+    @GET
+    @Override
+    @Produces(MediaType.APPLICATION_SVG_XML)
+    public String getSvgArtifact(ProcessDefinition definition)
+    throws ProcessArtifactNotFoundException {
+        if (this.debugger != null) {
+            this.debugger.getSvgArtifact(definition);
         }
         
         throw new ServiceUnavailableException(DebuggerService.class);

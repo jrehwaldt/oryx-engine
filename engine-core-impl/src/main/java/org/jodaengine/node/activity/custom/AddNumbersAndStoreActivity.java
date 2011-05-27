@@ -2,7 +2,7 @@ package org.jodaengine.node.activity.custom;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.node.activity.AbstractBpmnActivity;
+import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.Token;
 
@@ -12,7 +12,7 @@ import org.jodaengine.process.token.Token;
  * As the name indicates, an activity that adds any number of summands and stores the result.
  */
 public class AddNumbersAndStoreActivity
-extends AbstractBpmnActivity {
+extends AbstractActivity {
 
     /** Summands. */
     private int[] summands;

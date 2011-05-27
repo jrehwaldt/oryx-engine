@@ -20,6 +20,7 @@ import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.resource.worklist.DetourPattern;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     private IdentityService identityService;
     
     private boolean running = false;
+    private DetourPattern defaultCancelationPattern = new StatelessReallocationPattern();
     
     @Override
     public synchronized void start(JodaEngineServices services) {
@@ -114,9 +116,11 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     }
 
     @Override
-    public Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(Set<? extends AbstractResource<?>> resources) {
+    public Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(
+        Set<? extends AbstractResource<?>> resources) {
 
-        Map<AbstractResource<?>, List<AbstractWorklistItem>> result = new HashMap<AbstractResource<?>, List<AbstractWorklistItem>>();
+        Map<AbstractResource<?>, List<AbstractWorklistItem>> result = 
+            new HashMap<AbstractResource<?>, List<AbstractWorklistItem>>();
 
         for (AbstractResource<?> r : resources) {
             result.put(r, getWorklistItems(r));
@@ -149,8 +153,7 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
     @Override
     public void abortWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
 
-        // TODO Hier muss noch was gemacht werden.
-
+        defaultCancelationPattern.distribute(worklistItem, resource);
     }
 
     @Override
@@ -161,7 +164,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         resource.getWorklist().itemIsCompleted(worklistItem);
 
         // Resuming the token
-        worklistItem.getCorrespondingToken().resume();
+        // TODO TobiM - vielleicht willst du da was anderes zurückgeben
+        worklistItem.getCorrespondingToken().resume(null);
 
     }
 
@@ -229,13 +233,6 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
             resource.getWorklist().itemIsStarted(worklistItem);
         }
 
-    }
-
-    @Override
-    public int size(Set<? extends AbstractResource<?>> resources) {
-
-        Map<AbstractResource<?>, List<AbstractWorklistItem>> items = getWorklistItems(resources);
-        return items.size();
     }
 
     @Override

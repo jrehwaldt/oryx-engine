@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
 public class ExceptionHandlerTest {
     
     private AbstractExceptionHandler handler1, handler2;
-    private AbstractToken testToken;
+    private TokenImpl testToken;
     private AbstractProcessInstance mockInstance;
     private Navigator mockNavigator;
 

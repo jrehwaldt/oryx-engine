@@ -40,7 +40,7 @@ public final class ExampleProcessForReview {
         
         // the main
         NavigatorImpl navigator = new NavigatorImpl();
-        navigator.registerListener(NavigatorListenerLogger.getInstance());
+        navigator.registerListener(new NavigatorListenerLogger());
         navigator.start(new JodaEngine());
         
         Token token = processTokenForReview();

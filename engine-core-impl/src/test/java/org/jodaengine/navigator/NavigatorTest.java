@@ -28,7 +28,7 @@ public class NavigatorTest {
 
     private Node node = null, node2 = null;
 
-    private AbstractToken processToken = null;
+    private TokenImpl processToken = null;
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 

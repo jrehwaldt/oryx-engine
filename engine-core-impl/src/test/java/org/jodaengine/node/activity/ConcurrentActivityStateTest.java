@@ -69,7 +69,7 @@ public class ConcurrentActivityStateTest {
         // for instance2/token2.
 
         ActivityLifecycleAssuranceListener plugin = new ActivityLifecycleAssuranceListener();
-        ((AbstractToken) token1).registerListener(plugin);
+        ((TokenImpl) token1).registerListener(plugin);
         token1.executeStep();
         
         assertTrue(plugin.isCompletedCalled());

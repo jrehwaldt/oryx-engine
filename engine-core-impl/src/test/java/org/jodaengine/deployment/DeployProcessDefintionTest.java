@@ -34,7 +34,7 @@ public class DeployProcessDefintionTest extends AbstractJodaEngineTest {
         repo = ServiceFactory.getRepositoryService();
         deploymentBuilder = repo.getDeploymentBuilder();
         ProcessDefinitionFactory factory = new SimpleProcessDefinitionFactory();
-        defID = new ProcessDefinitionID(UUID.randomUUID(), 0);
+        defID = new ProcessDefinitionID(UUID.randomUUID().toString(), 0);
         def = factory.create(defID);
 
     }

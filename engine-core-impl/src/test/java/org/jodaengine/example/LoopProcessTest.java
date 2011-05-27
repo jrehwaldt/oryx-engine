@@ -123,7 +123,7 @@ public class LoopProcessTest {
         Navigator nav = new NavigatorImplMock();
         List<Node> startNodes = new ArrayList<Node>();
         startNodes.add(start);
-        ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID(), 0);
+        ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID().toString(), 0);
         ProcessDefinition definition = new ProcessDefinitionImpl(id, DEFINITION_NAME,
             DEFINITION_DESCRIPTION, startNodes);
         // TokenBuilder is not used here, therefore it can be null

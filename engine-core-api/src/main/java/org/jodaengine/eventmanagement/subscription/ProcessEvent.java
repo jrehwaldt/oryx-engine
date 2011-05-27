@@ -8,6 +8,8 @@ import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 /**
  * The Interface ProcessEvent. All process events have an assigned adapter with a given configuration that may produce
  * incoming events that correlate against the process event.
+ * 
+ * Could extend Attributable!!!
  */
 public interface ProcessEvent extends AdapterEventComparable {
 

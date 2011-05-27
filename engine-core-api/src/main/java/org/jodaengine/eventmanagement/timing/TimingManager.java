@@ -2,7 +2,7 @@ package org.jodaengine.eventmanagement.timing;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
 import org.jodaengine.exception.AdapterSchedulingException;
 
 /**

@@ -92,7 +92,7 @@ public class ProcessTokenImplTest {
      * 
      * @return the process instance impl
      */
-    private AbstractToken simpleToken() {
+    private TokenImpl simpleToken() {
         
         node = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         node2 = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());

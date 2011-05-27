@@ -10,7 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.jodaengine.node.activity.AbstractBpmnActivity;
+import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.Token;
 
@@ -20,14 +20,13 @@ import org.jodaengine.process.token.Token;
  * value from the process instance.
  */
 public class MailingVariable
-extends AbstractBpmnActivity {
+extends AbstractActivity {
 
     private static String host = "localhost";
-    
-// CHECKSTYLE:OFF
+    // CHECKSTYLE:OFF
     private static String defaultSender = "oryxengine@bpt.hpi.uni-potsdam.de";
     private static String defaultRecipient = "gns@oryxengine.de";
-// CHECKSTYLE:ON
+    //CHECKSTYLE:ON
 
     private static String subject = "Hier das Ergebnis deiner Berechnung.";
 

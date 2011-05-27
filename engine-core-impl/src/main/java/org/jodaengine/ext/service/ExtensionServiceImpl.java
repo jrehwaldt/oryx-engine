@@ -13,8 +13,8 @@ import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.ext.Extension;
+import org.jodaengine.ext.util.AndTypeFilter;
 import org.jodaengine.ext.util.TypeSafeList;
-import org.jodaengine.util.AndTypeFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -41,6 +41,15 @@ public class ExtensionServiceImpl implements ExtensionService {
     
     private boolean running = false;
     
+    /**
+     * Default constructor.
+     */
+    public ExtensionServiceImpl() {
+        this.extensions = new HashMap<Class<?>, TypeSafeList<?>>();
+        this.extensionServices = new HashMap<String, Service>();
+        this.extensionWebServiceSingletons = new HashMap<Service, List<Service>>();
+    }
+    
     @Override
     public synchronized void start(JodaEngineServices services) {
         
@@ -54,9 +63,6 @@ public class ExtensionServiceImpl implements ExtensionService {
         logger.info("Starting the ExtensionService");
         
         this.coreServices = services;
-        this.extensions = new HashMap<Class<?>, TypeSafeList<?>>();
-        this.extensionServices = new HashMap<String, Service>();
-        this.extensionWebServiceSingletons = new HashMap<Service, List<Service>>();
         
         startExtensionServices();
         createExtensionWebServiceSingletons();
@@ -99,7 +105,7 @@ public class ExtensionServiceImpl implements ExtensionService {
     @Override
     public <IExtension> boolean isExtensionAvailable(Class<IExtension> extension) {
         
-        return this.extensions.containsKey(extension);
+        return !this.getExtensionTypes(extension).isEmpty();
     }
 
     @Override

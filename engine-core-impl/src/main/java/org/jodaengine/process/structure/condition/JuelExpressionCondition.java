@@ -8,6 +8,7 @@ import javax.el.ValueExpression;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.util.juel.ProcessELContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,11 +26,11 @@ public class JuelExpressionCondition implements Condition {
     /**
      * Creates a Juel-enabled condition.
      * 
-     * @param juelEspression the juel string
+     * @param juelExpression the juel string
      */
-    public JuelExpressionCondition(String juelEspression) {
+    public JuelExpressionCondition(String juelExpression) {
 
-        this.juelExpression = juelEspression;
+        this.juelExpression = juelExpression;
     }
 
     @Override
@@ -45,7 +46,7 @@ public class JuelExpressionCondition implements Condition {
             
         } catch (PropertyNotFoundException propertyNotFoundException) {
             String errorMessage = "The expression '" + juelExpression
-                + "'contains a variable that could not be resolved properly. See message: "
+                + "' contains a variable that could not be resolved properly. See message: "
                 + propertyNotFoundException.getMessage();
             logger.error(errorMessage, propertyNotFoundException);
             throw new JodaEngineRuntimeException(errorMessage, propertyNotFoundException);

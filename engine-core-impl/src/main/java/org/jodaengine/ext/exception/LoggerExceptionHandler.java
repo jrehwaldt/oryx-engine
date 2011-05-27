@@ -6,12 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The LoggerExceptionHandler logs the exception messages.
+ * The {@link LoggerExceptionHandler} logs the exception messages.
  */
 public class LoggerExceptionHandler extends AbstractExceptionHandler {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
+    
     @Override
     protected void processExceptionLocally(Exception exception, Token token) {
 

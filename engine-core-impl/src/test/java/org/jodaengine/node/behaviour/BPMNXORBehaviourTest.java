@@ -112,7 +112,7 @@ public class BPMNXORBehaviourTest {
      * 
      * @return the process token that was created within the method
      */
-    private AbstractToken simpleToken() {
+    private TokenImpl simpleToken() {
 
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();

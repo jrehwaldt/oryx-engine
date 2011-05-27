@@ -1,9 +1,19 @@
 package org.jodaengine.ext.service;
 
+import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import org.jodaengine.bootstrap.Service;
+import org.jodaengine.deployment.importer.archive.AbstractDarHandler;
+import org.jodaengine.deployment.importer.archive.DarImporter;
+import org.jodaengine.deployment.importer.archive.DarImporterImpl;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
+import org.jodaengine.ext.AbstractListenable;
+import org.jodaengine.ext.listener.AbstractNavigatorListener;
+import org.jodaengine.ext.listener.AbstractSchedulerListener;
+import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -18,6 +28,8 @@ import org.testng.annotations.Test;
 public class ExtensionServiceTest extends AbstractJodaEngineTest {
     
     private ExtensionService extensionService = null;
+    
+    private static final String DAR_RESOURCE_PATH = "src/test/resources/org/jodaengine/ext/listener/";
     
     /**
      * Setup.
@@ -92,8 +104,8 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         
         boolean listenerAvailable = false;
         for (BpmnXmlParseListener listener: listeners) {
-            if (listener instanceof TestingDeploymentListener) {
-                TestingDeploymentListener testingListener = (TestingDeploymentListener) listener;
+            if (listener instanceof TestingBpmnXmlParseListener) {
+                TestingBpmnXmlParseListener testingListener = (TestingBpmnXmlParseListener) listener;
                 listenerAvailable = true;
 
                 Assert.assertNotNull(testingListener.extension);
@@ -205,10 +217,17 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
      */
     @Test
     public void testExistanceOfTestingExtensionTypes() {
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(BpmnXmlParseListener.class));
         
-        List<Class<BpmnXmlParseListener>> listenerClasses
+        List<Class<BpmnXmlParseListener>> bpmnListenerClasses
             = this.extensionService.getExtensionTypes(BpmnXmlParseListener.class);
-        Assert.assertTrue(listenerClasses.size() > 0);
+        Assert.assertTrue(bpmnListenerClasses.size() > 0);
+        
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(AbstractDarHandler.class));
+        
+        List<Class<AbstractDarHandler>> darListenerClasses
+            = this.extensionService.getExtensionTypes(AbstractDarHandler.class);
+        Assert.assertTrue(darListenerClasses.size() > 0);
     }
     
     /**
@@ -245,5 +264,147 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         }
         
         Assert.assertTrue(containsWebService);
+    }
+    
+    /**
+     * Tests that the navigator extension is successfully found and
+     * registered within our navigator.
+     */
+    @Test
+    public void testNavigatorListenerIntegration() {
+        
+        List<Class<AbstractNavigatorListener>> listenerTypes
+            = this.extensionService.getExtensionTypes(AbstractNavigatorListener.class);
+        
+        Assert.assertTrue(listenerTypes.contains(TestingNavigatorListener.class));
+        
+        NavigatorImpl navigator = (NavigatorImpl) this.jodaEngineServices.getNavigatorService();
+        
+        Assert.assertNotNull(navigator);
+        Assert.assertTrue(navigator.isRunning());
+        
+        List<AbstractNavigatorListener> listeners = navigator.getListeners();
+        
+        //
+        // check that each available listener type is registered as listener instance
+        //
+        forEachType : for (Class<AbstractNavigatorListener> listenerType: listenerTypes) {
+            for (AbstractNavigatorListener listener: listeners) {
+                Assert.assertNotNull(listener);
+                
+                if (listenerType.equals(listener.getClass())) {
+                    continue forEachType;
+                }
+            }
+            
+            Assert.fail("No listener instance found for type " + listenerType);
+        }
+    }
+    
+    /**
+     * Tests that the scheduler extension is successfully found and
+     * registered within our navigator.
+     */
+    @Test
+    public void testSchedulerListenerIntegration() {
+        
+        List<Class<AbstractSchedulerListener>> listenerTypes
+            = this.extensionService.getExtensionTypes(AbstractSchedulerListener.class);
+        
+        Assert.assertTrue(listenerTypes.contains(TestingSchedulerListener.class));
+        
+        NavigatorImpl navigator = (NavigatorImpl) this.jodaEngineServices.getNavigatorService();
+        
+        Assert.assertNotNull(navigator);
+        Assert.assertTrue(navigator.isRunning());
+        
+        AbstractListenable<AbstractSchedulerListener> scheduler
+            = (AbstractListenable<AbstractSchedulerListener>) navigator.getScheduler();
+        
+        List<AbstractSchedulerListener> listeners = scheduler.getListeners();
+        
+        //
+        // check that each available listener type is registered as listener instance
+        //
+        forEachType : for (Class<AbstractSchedulerListener> listenerType: listenerTypes) {
+            for (AbstractSchedulerListener listener: listeners) {
+                Assert.assertNotNull(listener);
+                
+                if (listenerType.equals(listener.getClass())) {
+                    continue forEachType;
+                }
+            }
+            
+            Assert.fail("No listener instance found for type " + listenerType);
+        }
+    }
+    
+    /**
+     * Creating a {@link DarImporterImpl} should not fail when no {@link ExtensionService} is available.
+     */
+    @Test
+    public void testCreatingADarImporterWithoutExtensionManager() {
+        DarImporter importer = new DarImporterImpl(this.jodaEngineServices.getRepositoryService(), null);
+        Assert.assertNotNull(importer);
+    }
+    
+    /**
+     * Test the proper registration of {@link AbstractDarHandler} within our {@link DarImporter}.
+     * 
+     * @throws IllegalAccessException test fails
+     */
+    @Test
+    public void testRegisteringOfDarHandler() throws IllegalAccessException {
+        DarImporter importer = jodaEngineServices.getRepositoryService().getNewDarImporter();
+        File darFile = new File(DAR_RESOURCE_PATH + "deployment/testDefinitionOnly.dar");
+        
+        //
+        // we need to process the dar for the handler to be invoked
+        //
+        importer.importDarFile(darFile);
+        
+        for (Field field: importer.getClass().getDeclaredFields()) {
+            Type fieldType = field.getGenericType();
+            
+            //
+            // make field accessible
+            //
+            if (!field.isAccessible()) {
+                field.setAccessible(true);
+            }
+            
+            if (fieldType instanceof Class) {
+                Class<?> fieldClass = (Class<?>) fieldType;
+                
+                //
+                // check that the navigator is set successfully (find the field first, if available)
+                //
+                if (AbstractDarHandler.class.isAssignableFrom(fieldClass)) {
+                    AbstractDarHandler handler = (AbstractDarHandler) field.get(importer);
+                    
+                    Assert.assertNotNull(handler);
+                    
+                    //
+                    // is our test handler correctly registered?
+                    //
+                    boolean contains = false;
+                    do {
+                        if (handler instanceof TestingDarHandler) {
+                            contains = true;
+                            
+                            //
+                            // was it called correctly?
+                            //
+                            TestingDarHandler testingHandler = (TestingDarHandler) handler;
+                            Assert.assertTrue(testingHandler.isProcessed());
+                            break;
+                        }
+                        handler = handler.getNext();
+                    } while (handler != null);
+                    
+                    Assert.assertTrue(contains);
+                }
+            }
+        }
     }
 }

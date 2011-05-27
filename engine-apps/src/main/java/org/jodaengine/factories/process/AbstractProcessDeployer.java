@@ -6,11 +6,11 @@ import java.util.Set;
 import org.jodaengine.IdentityService;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
+import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
-import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -57,8 +57,8 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
         DeploymentBuilder deploymentBuilder = this.repoService.getDeploymentBuilder();
         deploymentBuilder.addProcessDefinition(definition);
 
-        for (AbstractProcessArtifact artifact : getArtifactsToDeploy()) {
-            deploymentBuilder.addProcessArtifact(artifact);
+        for (AbstractForm form : getFormsToDeploy()) {
+            deploymentBuilder.addForm(form);
         }
 
         Deployment deployment = deploymentBuilder.buildDeployment();
@@ -72,9 +72,9 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
      * 
      * @return the artifacts to deploy
      */
-    public Set<AbstractProcessArtifact> getArtifactsToDeploy() {
+    public Set<AbstractForm> getFormsToDeploy() {
 
-        return new HashSet<AbstractProcessArtifact>();
+        return new HashSet<AbstractForm>();
     }
 
     /**

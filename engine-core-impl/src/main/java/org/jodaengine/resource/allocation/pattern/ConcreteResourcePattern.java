@@ -12,7 +12,6 @@ import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemImpl;
 
@@ -84,7 +83,7 @@ public class ConcreteResourcePattern implements CreationPattern {
             // only search for a form, if one has been specified
             try {
                 ProcessDefinitionID definitionID = token.getInstance().getDefinition().getID();
-                formToUse = new FormImpl(repoService.getProcessArtifact(formID, definitionID));
+                formToUse = repoService.getForm(formID, definitionID);
             } catch (ProcessArtifactNotFoundException e) {
                 throw new JodaEngineRuntimeException("The requested form does not exist.", e);
             }

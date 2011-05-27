@@ -11,7 +11,7 @@ import org.jodaengine.process.token.Token;
  * JodaEngineRuntimeExceptions that occur during the process execution.
  * This allows you to react to these exceptions flexibly.
  * 
- * See {@link org.jodaengine.process.token.AbstractToken} for the use of these classes.
+ * See {@link org.jodaengine.process.token.TokenImpl} for the use of these classes.
  */
 public abstract class AbstractExceptionHandler {
 

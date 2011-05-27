@@ -5,15 +5,18 @@ import javax.annotation.Nonnull;
 import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
+import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * This listener class belongs to the {@link DebuggerService}. It is called while process execution
  * using the {@link org.jodaengine.process.token.Token} takes place and can handle
- * {@link Breakpoint}, if those are defined.
+ * {@link BreakpointImpl}, if those are defined.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-22
@@ -26,7 +29,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
     private DebuggerServiceImpl debugger;
     
     /**
-     * Default constructor. Creates a token listener for a debugger service.
+     * Default constructor. Creates a {@link DebuggerTokenListener} for a {@link DebuggerService}.
      * 
      * @param debugger the debugger service, this listener belongs to
      */
@@ -37,8 +40,35 @@ public class DebuggerTokenListener extends AbstractTokenListener {
     @Override
     public void stateChanged(ActivityLifecycleChangeEvent event) {
         
-        // TODO Auto-generated method stub
         logger.debug("DebuggerTokenListener#stateChanged {} for {}", event, this.debugger);
+        
+        //
+        // do we have a breakpoint for this node
+        //
+        Node currentNode = event.getNode();
+        BreakpointImpl breakpoint = BreakpointImpl.getAttributeIfExists(currentNode);
+        
+        //
+        // case: no
+        //
+        if (breakpoint == null) {
+            return;
+        }
+        
+        //
+        // case: yes - does the breakpoint match?
+        //
+        Token token = event.getProcessToken();
+        
+        if (breakpoint.matches(token)) {
+            logger.debug("Breakpoint {} matches {}", breakpoint, token);
+            
+            //
+            // TODO Jan crazy stuff: suspend token, remember state and token, ...
+            //
+        } else {
+            logger.debug("Breakpoint {} did not match {}", breakpoint, token);
+        }
     }
     
 }

@@ -14,6 +14,7 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -73,10 +74,7 @@ public class JodaEngine implements JodaEngineServices {
         //
         if (serviceTable != null) {
             
-            Iterator<Service> serviceIterator = serviceTable.values().iterator();
-            while (serviceIterator.hasNext()) {
-                
-                Service service = serviceIterator.next();
+            for (Service service: serviceTable.values()) {
                 service.start(jodaEngineSingelton);
             }
         }

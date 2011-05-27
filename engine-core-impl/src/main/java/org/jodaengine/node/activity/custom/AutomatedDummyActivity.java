@@ -11,7 +11,7 @@ import org.jodaengine.process.token.Token;
  * The Class AutomatedDummyNode.
  * It really is dumb. It just prints out whatever message is send to it.
  */
-public class AutomatedDummyActivity extends AbstractBpmnActivity {
+public class AutomatedDummyActivity extends AbstractActivity {
 
     /** This is the message the node prints out during its execution. */
     private String message;

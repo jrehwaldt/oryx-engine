@@ -1,6 +1,5 @@
 package org.jodaengine.eventmanagement.subscription.condition.simple;
 
-import org.jodaengine.eventmanagement.subscription.condition.simple.MethodInvokingEventCondition;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;

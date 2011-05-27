@@ -17,6 +17,18 @@ public class SimpleProcessTokenFactory {
      * Creates the the simple Process Token starting at a given node with a new ProcessInstance.
      *
      * @param startNode the start node
+     * @param extensionService the {@link ExtensionService}, to get extensions from
+     * @return the process instance
+     */
+    public Token create(Node startNode,
+                        @Nullable ExtensionService extensionService) {
+        return new TokenImpl(startNode, new ProcessInstanceImpl(null), null, extensionService);
+    }
+    
+    /**
+     * Creates the the simple Process Token starting at a given node with a new ProcessInstance.
+     *
+     * @param startNode the start node
      * @return the process instance
      */
     public Token create(Node startNode) {

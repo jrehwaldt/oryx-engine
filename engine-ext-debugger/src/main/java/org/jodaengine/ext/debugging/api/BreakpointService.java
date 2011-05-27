@@ -3,7 +3,6 @@ package org.jodaengine.ext.debugging.api;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.jodaengine.ext.debugging.Breakpoint;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 

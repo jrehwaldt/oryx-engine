@@ -59,9 +59,10 @@ public abstract class AbstractProcessEvent implements ProcessEvent {
     public abstract void trigger();
 
     @Override
+    // TODO @EVENTTEAM: add beauty
     public String toString() {
 
-        String resultString = "ProcessEvent '" + getAdapterConfiguration().getUniqueName() + "' for type "
+        String resultString = "ProcessEvent '" + getAdapterConfiguration().toString() + "' for type "
             + getAdapterConfiguration().getEventType() + ".";
         return resultString;
     }

@@ -4,6 +4,7 @@ import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
+import org.jodaengine.node.activity.bpmn.BpmnEventBasedXorGateway;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.node.activity.bpmn.BpmnIntermediateTimerActivity;
 import org.jodaengine.node.activity.bpmn.BpmnStartEvent;
@@ -18,7 +19,6 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
-
 
 /**
  * This Factory is able to create {@link Node Nodes} for specific BPMN constructs like an BPMN-XOR-Gateway or ...
@@ -93,11 +93,13 @@ public final class BpmnNodeFactory extends TransitionFactory {
      * 
      * @param builder
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
-     * @param task
+     * @param creationPattern
      *            - the task to distribute
      * @return a {@link Node} representing an {@link BpmnHumanTaskActivity}
      */
-    public static Node createBpmnUserTaskNode(ProcessDefinitionBuilder builder, CreationPattern creationPattern, PushPattern pushPattern) {
+    public static Node createBpmnUserTaskNode(ProcessDefinitionBuilder builder,
+                                              CreationPattern creationPattern,
+                                              PushPattern pushPattern) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnHumanTaskActivity activityBehavior = new BpmnHumanTaskActivity(creationPattern, pushPattern);
@@ -118,8 +120,7 @@ public final class BpmnNodeFactory extends TransitionFactory {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnTerminatingEndActivity activityBehavior = new BpmnTerminatingEndActivity();
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
-        .buildNode();
+        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
     }
 
     /**
@@ -151,6 +152,23 @@ public final class BpmnNodeFactory extends TransitionFactory {
 
         NullActivity activityBehavior = new NullActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new AndJoinBehaviour())
+        .setOutgoingBehaviour(new TakeAllSplitBehaviour()).setActivityBehavior(activityBehavior).buildNode();
+    }
+
+    /**
+     * Creates a {@link Node} that represents the BPMN-Event-Based-Xor-Gateway.
+     * 
+     * The IncomingBehaviour is a {@link SimpleJoinBehaviour} and the OutgoingBehaviour is a
+     * {@link TakeAllSplitBehaviour}.
+     * 
+     * @param builder
+     *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
+     * @return a {@link Node} representing a BPMN-Event-Based-Xor-Gateway
+     */
+    public static Node createBpmnEventBasedXorGatewayNode(ProcessDefinitionBuilder builder) {
+
+        BpmnEventBasedXorGateway activityBehavior = new BpmnEventBasedXorGateway();
+        return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
         .setOutgoingBehaviour(new TakeAllSplitBehaviour()).setActivityBehavior(activityBehavior).buildNode();
     }
 

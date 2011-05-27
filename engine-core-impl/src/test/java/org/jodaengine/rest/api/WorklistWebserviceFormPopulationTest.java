@@ -9,14 +9,13 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.navigator.Navigator;
-import org.jodaengine.process.definition.AbstractProcessArtifact;
-import org.jodaengine.process.definition.ProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
@@ -25,6 +24,7 @@ import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
@@ -49,7 +49,7 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
 
     private static final String POPULATED_FORM_LOCATION = "src/test/resources/testforms/populatedTestForm.html";
 
-    private String form = "";
+    private String formContent = "";
     private String populatedForm = "";
 
     /**
@@ -65,14 +65,14 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
         JodaEngine.start();
         pattern = CreationPatternFactory.createJannikServesGerardoCreator();
 
-        form = readFile(FORM_LOCATION);
+        formContent = readFile(FORM_LOCATION);
         populatedForm = readFile(POPULATED_FORM_LOCATION);
 
         // deploy the artifact together with a definition
         ProcessDefinition definition = MockUtils.mockProcessDefinition();
-        AbstractProcessArtifact processArtifact = new ProcessArtifact("form", new StringStreamSource(form));
+        AbstractForm form = new FormImpl("form", new StringStreamSource(formContent));
         DeploymentBuilder builder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
-        Deployment deployment = builder.addProcessDefinition(definition).addProcessArtifact(processArtifact)
+        Deployment deployment = builder.addProcessDefinition(definition).addForm(form)
         .buildDeployment();
         jodaEngineServices.getRepositoryService().deployInNewScope(deployment);
 
@@ -117,7 +117,7 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
 
         Assert.assertFalse("".equals(populatedForm),
             "The populatedForm is empty, maybe file locations and file reading code");
-        Assert.assertFalse("".equals(form), "The form is empty, maybe file locations and file reading code");
+        Assert.assertFalse("".equals(formContent), "The form is empty, maybe file locations and file reading code");
     }
 
     @Override

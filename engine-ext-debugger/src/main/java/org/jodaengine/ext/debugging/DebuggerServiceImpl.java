@@ -1,11 +1,16 @@
 package org.jodaengine.ext.debugging;
 
 import org.jodaengine.JodaEngineServices;
+import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.ext.Extension;
+import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
+import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
+import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
@@ -13,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * A {@link DebuggerService} implementation providing the possibility to set
- * {@link Breakpoint} and debug process instances.
+ * {@link BreakpointImpl} and debug process instances.
  * 
  * This class implements both, the {@link DebuggerService} as well as the {@link BreakpointService}.
  * 
@@ -21,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * @since 2011-05-19
  */
 @Extension(value = DebuggerService.DEBUGGER_SERVICE_NAME, webServices = DebuggerWebService.class)
-public class DebuggerServiceImpl implements DebuggerService, BreakpointService {
+public class DebuggerServiceImpl implements DebuggerService, BreakpointService, DebuggerArtifactService {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
@@ -130,6 +135,17 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService {
     public void disableBreakpoint(Breakpoint breakpoint) {
         // TODO Auto-generated method stub
         logger.debug("Disable breakpoint {}", breakpoint);
+    }
+
+    //=================================================================
+    //=================== DebuggerArtifactService methods =============
+    //=================================================================
+    @Override
+    public String getSvgArtifact(ProcessDefinition definition)
+    throws ProcessArtifactNotFoundException {
+        
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

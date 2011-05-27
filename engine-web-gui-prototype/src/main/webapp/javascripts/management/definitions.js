@@ -58,7 +58,7 @@ $().ready(function() {
  * @returns {String}
  */
 function idToString(definitionID) {
-	return definitionID.uuid + ':' + definitionID.version;
+	return definitionID.identifier + ':' + definitionID.version;
 }
 
 /**

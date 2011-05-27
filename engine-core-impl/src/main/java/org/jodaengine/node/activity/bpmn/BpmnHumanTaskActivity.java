@@ -23,7 +23,7 @@ import org.jodaengine.resource.worklist.AbstractWorklistItem;
  * application. Upon its execution, worklist items are created with a {@link CreationPattern} and the distributed with a
  * {@link PushPattern}.
  */
-public class BpmnHumanTaskActivity extends AbstractBpmnActivity {
+public class BpmnHumanTaskActivity extends AbstractCancelableActivity {
 
     @JsonIgnore
     private CreationPattern creationPattern;
@@ -52,19 +52,15 @@ public class BpmnHumanTaskActivity extends AbstractBpmnActivity {
     protected void executeIntern(@Nonnull Token token) {
 
         TaskAllocation service = ServiceFactory.getWorklistQueue();
-        AbstractWorklistItem item = creationPattern.createWorklistItem(token,
-            ServiceFactory.getRepositoryService());
+        AbstractWorklistItem item = creationPattern.createWorklistItem(token, ServiceFactory.getRepositoryService());
 
         // save the UUIDs of the created items to the instance context, in order to be able to delete them, if execution
         // is canceled
         List<UUID> itemUUIDs = new ArrayList<UUID>();
         itemUUIDs.add(item.getID());
 
-        ProcessInstanceContext context = token.getInstance().getContext();
-
         // the name should be unique, as the token can only work on one activity at a time.
-        final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
-        context.setInternalVariable(itemContextVariableIdentifier, itemUUIDs);
+        token.setInternalVariable(internalVariableId(ITEM_PREFIX, token), itemUUIDs);
 
         pushPattern.distributeWorkitem(service, item);
 
@@ -74,22 +70,17 @@ public class BpmnHumanTaskActivity extends AbstractBpmnActivity {
     @Override
     public void cancel(Token token) {
 
-        ProcessInstanceContext context = token.getInstance().getContext();
-        final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
-        List<UUID> itemUUIDs = (List<UUID>) context.getInternalVariable(itemContextVariableIdentifier);
+        List<UUID> itemUUIDs = (List<UUID>) token.getInternalVariable(internalVariableId(ITEM_PREFIX, token));
 
         for (UUID itemUUID : itemUUIDs) {
             ServiceFactory.getWorklistQueue().removeWorklistItem(itemUUID);
         }
-
     }
 
     @Override
-    public void resume(Token token) {
+    public void resume(Token token, Object resumeObject) {
 
-        ProcessInstanceContext context = token.getInstance().getContext();
-        final String itemContextVariableIdentifier = ITEM_PREFIX + token.getID();
-        context.deleteInternalVariable(itemContextVariableIdentifier);
+        token.deleteInternalVariable(internalVariableId(ITEM_PREFIX, token));
     }
 
     /**

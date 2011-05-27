@@ -15,7 +15,7 @@ import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.navigator.NavigatorState;
 import org.jodaengine.navigator.NavigatorStatistic;
-import org.jodaengine.node.activity.AbstractBpmnActivity;
+import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
@@ -24,7 +24,7 @@ import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.AbstractToken;
+import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.resource.AbstractCapability;
 import org.jodaengine.resource.AbstractOrganizationUnit;
 import org.jodaengine.resource.AbstractParticipant;
@@ -335,14 +335,14 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         Assert.assertTrue(this.mapper.canSerialize(AbstractProcessInstance.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessInstance.class));
         Assert.assertTrue(this.mapper.canSerialize(Token.class));
-        Assert.assertTrue(this.mapper.canSerialize(AbstractToken.class));
+        Assert.assertTrue(this.mapper.canSerialize(TokenImpl.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessDefinition.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessDefinitionImpl.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessInstanceContext.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessInstanceContextImpl.class));
         
         Assert.assertTrue(this.mapper.canSerialize(Activity.class));
-        Assert.assertTrue(this.mapper.canSerialize(AbstractBpmnActivity.class));
+        Assert.assertTrue(this.mapper.canSerialize(AbstractActivity.class));
         
         //
         // check any concrete implementation of Activity

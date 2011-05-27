@@ -55,8 +55,7 @@ public final class ExampleMailStartProcess {
             // the main
             JodaEngineServices jodaEngineServices = JodaEngine.start();
 
-            ((NavigatorImpl) jodaEngineServices.getNavigatorService()).registerListener(NavigatorListenerLogger
-            .getInstance());
+            ((NavigatorImpl) jodaEngineServices.getNavigatorService()).registerListener(new NavigatorListenerLogger());
 
             // Building the ProcessDefintion
             DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();

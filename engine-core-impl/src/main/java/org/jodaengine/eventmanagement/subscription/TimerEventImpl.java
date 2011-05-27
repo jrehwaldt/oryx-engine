@@ -13,6 +13,7 @@ import org.jodaengine.process.token.Token;
 public class TimerEventImpl extends AbstractProcessEvent implements ProcessIntermediateEvent {
 
     private Token token;
+    private Node node;
 
     /**
      * Instantiates a new timer event impl.
@@ -25,6 +26,7 @@ public class TimerEventImpl extends AbstractProcessEvent implements ProcessInter
 
         super(EventTypes.Timer, config, new TrueEventCondition());
         this.token = token;
+        this.node = token.getCurrentNode();
     }
     
     @Override
@@ -36,6 +38,19 @@ public class TimerEventImpl extends AbstractProcessEvent implements ProcessInter
     @Override
     public void trigger() {
 
-        token.resume();
+        // Resuming the token with myself
+        token.resume(this);
+    }
+
+    @Override
+    public Node getFireringNode() {
+
+        return node;
+    }
+
+    @Override
+    public void setFireringNode(Node node) {
+
+        this.node = node;
     }
 }

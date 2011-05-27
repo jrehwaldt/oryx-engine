@@ -3,6 +3,7 @@ package org.jodaengine.deployment;
 import java.io.File;
 import java.io.InputStream;
 
+import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
@@ -78,6 +79,28 @@ public interface DeploymentBuilder {
     DeploymentBuilder addFileArtifact(String resourceName, File file);
 
     /**
+     * Adds a form to the deployment. As {@link AbstractForm} is a subclass of {@link AbstractProcessArtifact} it might
+     * be also deployed as an artifact.
+     * In this case, it cannot be used in HumanTaskActivities, etc.
+     * 
+     * @param form
+     *            the form
+     * @return the deployment builder
+     */
+    DeploymentBuilder addForm(AbstractForm form);
+
+    /**
+     * Adds a form from an {@link InputStream}.
+     * 
+     * @param formName
+     *            the form name
+     * @param inputStream
+     *            the input stream
+     * @return the deployment builder
+     */
+    DeploymentBuilder addInputStreamForm(String formName, InputStream inputStream);
+
+    /**
      * Builds the deployment.
      * 
      * @return the deployment
@@ -94,10 +117,11 @@ public interface DeploymentBuilder {
 
     /**
      * Adds a class to the deployment. This will be visible during every execution of the contained
-     *
-     * @param className the classes name
-     * @param classData the class data
-     * {@link ProcessDefinition}s.
+     * 
+     * @param className
+     *            the classes name
+     * @param classData
+     *            the class data {@link ProcessDefinition}s.
      */
     void addClass(String className, byte[] classData);
 
