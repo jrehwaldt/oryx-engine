@@ -81,4 +81,16 @@ public class DarImporterTest extends AbstractJodaEngineTest {
         Assert.assertNotNull(deployment.getClasses().get("test.simple.Dummy"),
             "Class data should exist in the deployment");
     }
+    
+    /**
+     * Test non exisiting file import.
+     */
+    @Test
+    public void testNonExisitingFileImport() {
+        DarImporter importer = new DarImporterImpl(jodaEngineServices.getRepositoryService());
+        File darFile = new File("a/non/existing/path/file.dar");
+        Deployment deployment = importer.importDarFile(darFile);
+        
+        Assert.assertNull(deployment);
+    }
 }
