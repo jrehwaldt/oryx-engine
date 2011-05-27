@@ -33,8 +33,8 @@ public abstract class AbstractProcessInstance implements Identifiable<UUID> {
     /**
      * Removes a token from the instance, for example, if it has finished execution.
      * 
-     * @param t
-     *            the t
+     * @param token
+     *            the Token
      */
     public abstract void removeToken(Token token);
 
