@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.adapter;
+package org.jodaengine.eventmanagement.adapter.incoming;
 
 import javax.annotation.Nonnull;
 

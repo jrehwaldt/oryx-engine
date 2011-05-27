@@ -6,12 +6,12 @@ import java.util.Map;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
-import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
-import org.jodaengine.eventmanagement.adapter.InboundAdapter;
-import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
@@ -33,7 +33,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
      * A map used to keep track of all the Correlation adapters. One Adapter Configuration is assigned its appropriate
      * event adapter.
      */
-    private Map<AdapterConfiguration, CorrelationAdapter> eventAdapters;
+    private Map<AdapterConfiguration, EventAdapter> eventAdapters;
 
     private QuartzJobManager timingManager;
 
@@ -123,10 +123,10 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
      * Checks if the Event is already registered and adds the eventAdapter if necessary.
      * 
      * @param eventAdapter
-     *            - the {@link CorrelationAdapter eventAdapter} that should be added.
+     *            - the {@link EventAdapter eventAdapter} that should be added.
      * @return true if and event adapter was added and false if the adapter already existed and didn't need to be added
      */
-    private boolean addToEventAdapters(CorrelationAdapter eventAdapter) {
+    private boolean addToEventAdapters(EventAdapter eventAdapter) {
 
         if (!isAlreadyRegistered(eventAdapter)) {
             this.getEventAdapters().put(eventAdapter.getConfiguration(), eventAdapter);
@@ -143,7 +143,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
      * @param eventAdapter the event adapter
      * @return true, if it is already registered, false if it is not.
      */
-    private boolean isAlreadyRegistered(CorrelationAdapter eventAdapter) {
+    private boolean isAlreadyRegistered(EventAdapter eventAdapter) {
         return (getEventAdapters().containsKey(eventAdapter.getConfiguration()));
     }
 
@@ -175,7 +175,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     // TODO @EVENTMANAGERTEAM: registerAdapter and registerInboundAdapter is basically the same + why not register
     // Adapters for adapter configurations?.
     @Override
-    public CorrelationAdapter registerAdapter(CorrelationAdapter adapter) {
+    public EventAdapter registerAdapter(EventAdapter adapter) {
 
         addToEventAdapters(adapter);
         return adapter;
@@ -256,14 +256,14 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
 
     // === Getter ===
     /**
-     * Retrieves the {@link CorrelationAdapter eventAdapters}.
+     * Retrieves the {@link EventAdapter eventAdapters}.
      * 
-     * @return a set containing the currently registered {@link CorrelationAdapter eventAdapters}
+     * @return a set containing the currently registered {@link EventAdapter eventAdapters}
      */
-    public Map<AdapterConfiguration, CorrelationAdapter> getEventAdapters() {
+    public Map<AdapterConfiguration, EventAdapter> getEventAdapters() {
 
         if (eventAdapters == null) {
-            this.eventAdapters = new HashMap<AdapterConfiguration, CorrelationAdapter>();
+            this.eventAdapters = new HashMap<AdapterConfiguration, EventAdapter>();
         }
         return eventAdapters;
     }

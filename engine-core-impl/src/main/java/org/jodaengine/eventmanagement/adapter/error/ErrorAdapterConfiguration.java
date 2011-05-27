@@ -2,9 +2,9 @@ package org.jodaengine.eventmanagement.adapter.error;
 
 import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
+import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
-import org.jodaengine.eventmanagement.adapter.InboundAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
 
 /**
  * The error adapter configuration.
@@ -21,12 +21,6 @@ public class ErrorAdapterConfiguration extends AbstractAdapterConfiguration {
         super(EventTypes.Error);
     }
 
-    @Override
-    public String getUniqueName() {
-
-        return "Error";
-    }
-
     /**
      * Creates the error adapter.
      * 
@@ -39,7 +33,7 @@ public class ErrorAdapterConfiguration extends AbstractAdapterConfiguration {
     }
 
     @Override
-    public CorrelationAdapter registerAdapter(AdapterManagement adapterRegistrar) {
+    public EventAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
         InboundAdapter adapter = createAdapter();
         adapterRegistrar.registerInboundAdapter(adapter);

@@ -23,11 +23,10 @@ public class MailingVariable
 extends AbstractActivity {
 
     private static String host = "localhost";
-    
-// CHECKSTYLE:OFF
+    // CHECKSTYLE:OFF
     private static String defaultSender = "oryxengine@bpt.hpi.uni-potsdam.de";
     private static String defaultRecipient = "gns@oryxengine.de";
-// CHECKSTYLE:ON
+    //CHECKSTYLE:ON
 
     private static String subject = "Hier das Ergebnis deiner Berechnung.";
 

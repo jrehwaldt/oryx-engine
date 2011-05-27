@@ -10,6 +10,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.util.xml.XmlElement;
+import org.testng.Assert;
 
 /**
  * This implementation tests the availability of a {@link BpmnXmlParseListener} implementation
@@ -27,6 +28,7 @@ public class TestingBpmnXmlParseListener implements BpmnXmlParseListener {
     protected ExtensionService extension;
     protected RepositoryService repository;
     protected TestingExtensionService testing;
+    protected TestingListenerExtensionService listenerService;
     
     /**
      * Testing constructor.
@@ -37,13 +39,15 @@ public class TestingBpmnXmlParseListener implements BpmnXmlParseListener {
      * @param extension any service
      * @param repository any service
      * @param testing any service
+     * @param listenerService the listener service
      */
     public TestingBpmnXmlParseListener(JodaEngineServices services,
                                      Navigator navigator,
                                      WorklistService worklist,
                                      ExtensionService extension,
                                      RepositoryService repository,
-                                     TestingExtensionService testing) {
+                                     TestingExtensionService testing,
+                                     TestingListenerExtensionService listenerService) {
 
         this.services = services;
         this.navigator = navigator;
@@ -51,12 +55,14 @@ public class TestingBpmnXmlParseListener implements BpmnXmlParseListener {
         this.extension = extension;
         this.repository = repository;
         this.testing = testing;
+        
+        Assert.assertNotNull(listenerService);
+        this.listenerService = listenerService;
     }
 
     @Override
     public void parseProcess(XmlElement processXmlElement, ProcessDefinition processDefinition) {
-   
-        processDefinition.setAttribute("testListenerCalled", true);
+        listenerService.invoked(this);
     }
 
     @Override

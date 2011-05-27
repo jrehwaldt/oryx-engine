@@ -7,7 +7,7 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 /**
  * General {@link EventManager} adapter.
  */
-public interface CorrelationAdapter {
+public interface EventAdapter {
     /**
      * Returns the adapter's type.
      * 
