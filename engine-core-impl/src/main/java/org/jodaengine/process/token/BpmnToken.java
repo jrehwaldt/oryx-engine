@@ -17,6 +17,11 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 
+/**
+ * The ancient Bpmn Token class, which is used for processing a bpmn model.
+ * Former it was known as TokenImpl, but due to the wish to support mutiple modelling languages
+ * it was renamed.
+ */
 public class BpmnToken extends AbstractToken {
 
     private ActivityState currentActivityState = null;
