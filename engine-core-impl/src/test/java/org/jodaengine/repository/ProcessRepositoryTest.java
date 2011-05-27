@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 public class ProcessRepositoryTest {
 
     private static final UUID EMPTY_UUID = UUID.fromString("00000000-0000-002a-0000-00000000002a");
-    private static final ProcessDefinitionID PROCESS_ID = new ProcessDefinitionID(EMPTY_UUID, 0);
+    private static final ProcessDefinitionID PROCESS_ID = new ProcessDefinitionID(EMPTY_UUID.toString(), 0);
 
     private RepositoryService repository = null;
 
@@ -37,7 +37,7 @@ public class ProcessRepositoryTest {
     @BeforeMethod
     public void setUp() {
 
-        this.repository = new RepositoryServiceImpl();
+        this.repository = new RepositoryServiceImpl(null);
     }
 
     /**

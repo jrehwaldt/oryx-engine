@@ -1,8 +1,12 @@
 package org.jodaengine.ext.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.jodaengine.bootstrap.Service;
+import org.jodaengine.deployment.importer.archive.AbstractDarHandler;
+import org.jodaengine.deployment.importer.archive.DarImporter;
+import org.jodaengine.deployment.importer.archive.DarImporterImpl;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.listener.AbstractNavigatorListener;
@@ -22,6 +26,8 @@ import org.testng.annotations.Test;
 public class ExtensionServiceTest extends AbstractJodaEngineTest {
     
     private ExtensionService extensionService = null;
+    
+    private static final String DAR_RESOURCE_PATH = "src/test/resources/org/jodaengine/ext/listener/";
     
     /**
      * Setup.
@@ -96,8 +102,8 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         
         boolean listenerAvailable = false;
         for (BpmnXmlParseListener listener: listeners) {
-            if (listener instanceof TestingDeploymentListener) {
-                TestingDeploymentListener testingListener = (TestingDeploymentListener) listener;
+            if (listener instanceof TestingBpmnXmlParseListener) {
+                TestingBpmnXmlParseListener testingListener = (TestingBpmnXmlParseListener) listener;
                 listenerAvailable = true;
 
                 Assert.assertNotNull(testingListener.extension);
@@ -209,10 +215,17 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
      */
     @Test
     public void testExistanceOfTestingExtensionTypes() {
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(BpmnXmlParseListener.class));
         
-        List<Class<BpmnXmlParseListener>> listenerClasses
+        List<Class<BpmnXmlParseListener>> bpmnListenerClasses
             = this.extensionService.getExtensionTypes(BpmnXmlParseListener.class);
-        Assert.assertTrue(listenerClasses.size() > 0);
+        Assert.assertTrue(bpmnListenerClasses.size() > 0);
+        
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(AbstractDarHandler.class));
+        
+        List<Class<AbstractDarHandler>> darListenerClasses
+            = this.extensionService.getExtensionTypes(AbstractDarHandler.class);
+        Assert.assertTrue(darListenerClasses.size() > 0);
     }
     
     /**
@@ -322,5 +335,68 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
             
             Assert.fail("No listener instance found for type " + listenerType);
         }
+    }
+    
+    /**
+     * Creating a {@link DarImporterImpl} should not fail when no {@link ExtensionService} is available.
+     */
+    @Test
+    public void testCreatingADarImporterWithoutExtensionManager() {
+        DarImporter importer = new DarImporterImpl(this.jodaEngineServices.getRepositoryService(), null);
+        Assert.assertNotNull(importer);
+    }
+    
+    /**
+     * Test the proper registration of {@link AbstractDarHandler} within our {@link DarImporter}.
+     * 
+     * @throws IllegalAccessException test fails
+     * @throws ExtensionNotAvailableException test fails
+     */
+    @Test
+    public void testRegisteringOfDarHandler() throws IllegalAccessException, ExtensionNotAvailableException {
+        
+        TestingListenerExtensionService listenerService = this.extensionService.getExtensionService(
+            TestingListenerExtensionService.class,
+            TestingListenerExtensionService.DEMO_EXTENSION_SERVICE_NAME);
+        
+        Assert.assertNotNull(listenerService);
+        
+        DarImporter importer = jodaEngineServices.getRepositoryService().getNewDarImporter();
+        File darFile = new File(DAR_RESOURCE_PATH + "deployment/testDefinitionOnly.dar");
+        
+        //
+        // we need to process the dar for the handler to be invoked
+        //
+        importer.importDarFile(darFile);
+        
+        Assert.assertTrue(listenerService.hasBeenInvoked(TestingDarHandler.class));
+    }
+    
+
+    /**
+     * Test of the registration and use of the {@link TestingBpmnXmlParseListener}.
+     * 
+     * @throws ExtensionNotAvailableException test fails
+     */
+    @Test
+    public void testParseListenerRegistrationInDarImporter() throws ExtensionNotAvailableException {
+        
+        TestingListenerExtensionService listenerService = this.extensionService.getExtensionService(
+            TestingListenerExtensionService.class,
+            TestingListenerExtensionService.DEMO_EXTENSION_SERVICE_NAME);
+        
+        Assert.assertNotNull(listenerService);
+        
+        File darFile = new File(DAR_RESOURCE_PATH + "deployment/testDefinitionOnly.dar");
+        DarImporter importer = new DarImporterImpl(
+            this.jodaEngineServices.getRepositoryService(),
+            this.jodaEngineServices.getExtensionService());
+        
+        //
+        // we need to process the dar for the handler to be invoked
+        //
+        importer.importDarFile(darFile);
+        
+        Assert.assertTrue(listenerService.hasBeenInvoked(TestingBpmnXmlParseListener.class));
     }
 }

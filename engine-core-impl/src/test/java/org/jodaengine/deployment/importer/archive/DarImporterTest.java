@@ -6,12 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jodaengine.deployment.Deployment;
-import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.resource.allocation.AbstractForm;
 import org.jodaengine.resource.allocation.Form;
-import org.jodaengine.resource.allocation.FormImpl;
-import org.jodaengine.util.io.IoUtil;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -42,7 +39,9 @@ public class DarImporterTest extends AbstractJodaEngineTest {
         ProcessDefinition definition = containedDefinitions.iterator().next();
 
         Assert.assertEquals(definition.getName(), PROCESS_NAME,
-            "The definition should have the desired id as specified in the files");
+            "The definition should have the desired name as specified in the files");
+        Assert.assertEquals(definition.getID().getIdentifier(), PROCESS_NAME,
+            "The definition should have the name as the id");
     }
 
     /**

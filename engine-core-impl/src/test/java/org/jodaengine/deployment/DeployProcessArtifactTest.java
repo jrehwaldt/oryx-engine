@@ -63,6 +63,12 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         deploymentBuilder.addProcessDefinition(definition);
     }
 
+    /**
+     * Deploys a StringArtifact.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException the process artifact not found exception
+     */
     @Test
     public void testArtifactDeploymentAsString()
     throws IOException, ProcessArtifactNotFoundException {
@@ -81,6 +87,12 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         assertInputStream(processArtifact.getInputStream());
     }
 
+    /**
+     * Deploys a file artifact.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException the process artifact not found exception
+     */
     @Test
     public void testArtifactDeploymentAsFile()
     throws IOException, ProcessArtifactNotFoundException {
@@ -96,6 +108,12 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         assertInputStream(processArtifact.getInputStream());
     }
 
+    /**
+     * Tests the deployment of an artifact as a classpath resource.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException the process artifact not found exception
+     */
     @Test
     public void testArtifactDeploymentAsClasspathResource()
     throws IOException, ProcessArtifactNotFoundException {
@@ -110,6 +128,12 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         assertInputStream(processArtifact.getInputStream());
     }
 
+    /**
+     * Tests the deployment of an artifact as an input stream.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException the process artifact not found exception
+     */
     @Test
     public void testArtifactDeploymentAsInputStream()
     throws IOException, ProcessArtifactNotFoundException {

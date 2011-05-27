@@ -165,7 +165,8 @@ public class WorklistManager implements WorklistService, TaskDistribution, TaskA
         resource.getWorklist().itemIsCompleted(worklistItem);
 
         // Resuming the token
-        worklistItem.getCorrespondingToken().resume();
+        // TODO TobiM - vielleicht willst du da was anderes zurückgeben
+        worklistItem.getCorrespondingToken().resume(null);
 
     }
 

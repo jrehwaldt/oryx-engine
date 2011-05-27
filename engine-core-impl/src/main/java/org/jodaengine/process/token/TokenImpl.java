@@ -1,7 +1,9 @@
 package org.jodaengine.process.token;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
@@ -29,22 +31,24 @@ import org.jodaengine.process.structure.Transition;
  * The implementation of a process token.
  */
 public class TokenImpl extends AbstractListenable<AbstractTokenListener> implements Token {
-    
+
     private UUID id;
-    
+
     private Navigator navigator;
-    
+
     private ActivityState currentActivityState = null;
     private AbstractProcessInstance instance;
-    
+
     private Node currentNode;
     private Transition lastTakenTransition;
-    
+
     private List<Token> lazySuspendedProcessingTokens;
-    
+
+    private HashMap<String, Object> internalVariables;
+
     @JsonIgnore
     private AbstractExceptionHandler exceptionHandler;
-    
+
     /**
      * Instantiates a new process {@link TokenImpl}. This will not register any available extension.
      * 
@@ -55,12 +59,11 @@ public class TokenImpl extends AbstractListenable<AbstractTokenListener> impleme
      * @param navigator
      *            the navigator
      */
-    public TokenImpl(Node startNode,
-                     AbstractProcessInstance instance,
-                     Navigator navigator) {
+    public TokenImpl(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
+
         this(startNode, instance, navigator, null);
     }
-    
+
     /**
      * Instantiates a new process {@link TokenImpl} and register all available extensions.
      * 
@@ -77,33 +80,36 @@ public class TokenImpl extends AbstractListenable<AbstractTokenListener> impleme
                      AbstractProcessInstance instance,
                      Navigator navigator,
                      @Nullable ExtensionService extensionService) {
+
         super();
-        
+
         // TODO Jan - use this constructor to register potential extensions - wait for Jannik's refactoring.
-        
+
         this.currentNode = startNode;
         this.instance = instance;
         this.navigator = navigator;
         this.id = UUID.randomUUID();
         changeActivityState(ActivityState.INIT);
-        
+
         //
         // register default exception chain;
         // additional extensions may be registered via the ExtensionService
         //
         this.exceptionHandler = new LoggerExceptionHandler();
         this.exceptionHandler.setNext(new InstanceTerminationHandler());
-        
+
         //
         // load available extensions, if an ExtensionService is provided
         //
         loadExtensions(extensionService);
     }
-    
+
     /**
      * Hidden constructor.
      */
-    protected TokenImpl() { }
+    protected TokenImpl() {
+
+    }
 
     @Override
     public Node getCurrentNode() {
@@ -156,40 +162,38 @@ public class TokenImpl extends AbstractListenable<AbstractTokenListener> impleme
     public List<Token> navigateTo(List<Transition> transitionList) {
 
         List<Token> tokensToNavigate = new ArrayList<Token>();
-        
-        
+
         //
         // zero outgoing transitions
         //
         if (transitionList.size() == 0) {
-            
+
             this.exceptionHandler.processException(new NoValidPathException(), this);
-            
-        //
-        // one outgoing transition
-        //
-        } else
-        if (transitionList.size() == 1) {
-            
+
+            //
+            // one outgoing transition
+            //
+        } else if (transitionList.size() == 1) {
+
             Transition transition = transitionList.get(0);
             Node node = transition.getDestination();
             this.setCurrentNode(node);
             this.lastTakenTransition = transition;
             changeActivityState(ActivityState.INIT);
             tokensToNavigate.add(this);
-            
-        //
-        // multiple outgoing transitions
-        //
+
+            //
+            // multiple outgoing transitions
+            //
         } else {
-            
+
             for (Transition transition : transitionList) {
                 Node node = transition.getDestination();
                 Token newToken = createNewToken(node);
                 newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }
-            
+
             // this is needed, as the this-token would be left on the node that triggers the split.
             instance.removeToken(this);
         }
@@ -199,10 +203,10 @@ public class TokenImpl extends AbstractListenable<AbstractTokenListener> impleme
 
     @Override
     public Token createNewToken(Node node) {
-        
+
         Token token = instance.createToken(node, navigator);
         ((TokenImpl) token).registerListeners(getListeners());
-        
+
         return token;
     }
 
@@ -239,18 +243,18 @@ public class TokenImpl extends AbstractListenable<AbstractTokenListener> impleme
 
     @Override
     public void suspend() {
-        
+
         changeActivityState(ActivityState.WAITING);
         navigator.addSuspendToken(this);
     }
 
     @Override
-    public void resume() {
-        
+    public void resume(Object resumeObject) {
+
         navigator.removeSuspendToken(this);
-        
+
         try {
-            completeExecution();
+            resumeAndCompleteExecution(resumeObject);
         } catch (NoValidPathException nvpe) {
             exceptionHandler.processException(nvpe, this);
         }
@@ -265,7 +269,6 @@ public class TokenImpl extends AbstractListenable<AbstractTokenListener> impleme
     private void completeExecution()
     throws NoValidPathException {
 
-        currentNode.getActivityBehaviour().resume(this);
         changeActivityState(ActivityState.COMPLETED);
 
         List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
@@ -275,7 +278,23 @@ public class TokenImpl extends AbstractListenable<AbstractTokenListener> impleme
         }
 
         lazySuspendedProcessingTokens = null;
+        internalVariables = null;
+    }
 
+    /**
+     * Resumes the execution of the activity and completes it.
+     * 
+     * @param resumeObject
+     *            - an object that is passed from class that resumes the Token
+     * @throws NoValidPathException
+     *             thrown if there is no valid path to be executed
+     */
+    private void resumeAndCompleteExecution(Object resumeObject)
+    throws NoValidPathException {
+
+        currentNode.getActivityBehaviour().resume(this, resumeObject);
+
+        completeExecution();
     }
 
     /**
@@ -321,55 +340,96 @@ public class TokenImpl extends AbstractListenable<AbstractTokenListener> impleme
      *            the new state
      */
     private void changeActivityState(ActivityState newState) {
-        
+
         final ActivityState prevState = currentActivityState;
         this.currentActivityState = newState;
         setChanged();
-        
+
         notifyObservers(new ActivityLifecycleChangeEvent(currentNode, prevState, newState, this));
     }
-    
+
     /**
      * Registers any number of {@link AbstractExceptionHandler}s.
      * New handlers are added at the beginning of the chain.
      * 
-     * @param handlers the handlers to be added
+     * @param handlers
+     *            the handlers to be added
      */
     public void registerExceptionHandlers(@Nonnull List<AbstractExceptionHandler> handlers) {
-        
+
         //
         // add each handler at the beginning
         //
-        for (AbstractExceptionHandler handler: handlers) {
+        for (AbstractExceptionHandler handler : handlers) {
             handler.addLast(this.exceptionHandler);
             this.exceptionHandler = handler;
         }
     }
-    
+
     /**
      * Registers any available extension suitable for {@link TokenImpl}.
      * 
      * Those include {@link AbstractExceptionHandler} as well as {@link AbstractTokenListener}.
      * 
-     * @param extensionService the {@link ExtensionService}, which provides access to the extensions
+     * @param extensionService
+     *            the {@link ExtensionService}, which provides access to the extensions
      */
     protected void loadExtensions(@Nullable ExtensionService extensionService) {
-        
+
         //
         // no ExtensionService = no extensions
         //
         if (extensionService == null) {
             return;
         }
-        
+
         //
         // get fresh listener and handler instances
         //
         List<AbstractExceptionHandler> tokenExHandler = extensionService.getExtensions(AbstractExceptionHandler.class);
         List<AbstractTokenListener> tokenListener = extensionService.getExtensions(AbstractTokenListener.class);
-        
+
         registerListeners(tokenListener);
         registerExceptionHandlers(tokenExHandler);
     }
-    
+
+    /**
+     * Gets the internal variables.
+     * 
+     * @return the internal variables
+     */
+    @JsonIgnore
+    private Map<String, Object> getInternalVariables() {
+
+        if (internalVariables == null) {
+            internalVariables = new HashMap<String, Object>();
+        }
+        return internalVariables;
+    }
+
+    @Override
+    public Object getInternalVariable(String id) {
+
+        return getInternalVariables().get(id);
+    }
+
+    @Override
+    public void setInternalVariable(String variableId, Object variableValue) {
+
+        getInternalVariables().put(variableId, variableValue);
+
+    }
+
+    @Override
+    public void deleteInternalVariable(String id) {
+
+        getInternalVariables().remove(id);
+
+    }
+
+    @Override
+    public Map<String, Object> getAllInternalVariables() {
+
+        return getInternalVariables();
+    }
 }

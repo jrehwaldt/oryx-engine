@@ -3,6 +3,8 @@ package org.jodaengine.node.activity;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.process.token.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -11,6 +13,8 @@ import org.jodaengine.process.token.Token;
  */
 public abstract class AbstractActivity
 implements Activity {
+    
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**
      * Instantiates a new activity. State is set to INIT, but observers will not
@@ -53,7 +57,7 @@ implements Activity {
      * @param token the token
      */
     @Override
-    public void resume(Token token) {
+    public void resume(Token token, Object resumeObject) {
         
     }
 }

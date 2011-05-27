@@ -9,17 +9,16 @@ import org.jodaengine.eventmanagement.adapter.timer.TimerAdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.TimerEventImpl;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
-import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.Token;
 
 /**
  * The actvity IntermediateTimer is used to wait a specific amount of time before execution is continued.
  */
-public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity {
+public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity implements BpmnEventBasedGatewayEvent {
 
     private long time;
 
-    private static final String PROCESS_EVENT_PREFIX = "PROCESS_EVENT";
+    private static final String PROCESS_EVENT_PREFIX = "PROCESS_EVENT-";
 
     /**
      * Instantiates a new intermediate timer with a given time.
@@ -37,27 +36,31 @@ public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity {
 
         // TODO @Gerardo muss geändert werden keine ServiceFactory mehr; vielleicht alle coreservices ins token
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
-        AdapterConfiguration conf = new TimerAdapterConfiguration(this.time);
-        ProcessIntermediateEvent processEvent = new TimerEventImpl(conf, token);
+        
+        ProcessIntermediateEvent processEvent = createProcessIntermediateEvent(token);
 
         eventManager.registerIntermediateEvent(processEvent);
 
-        ProcessInstanceContext context = token.getInstance().getContext();
-
         // the name should be unique, as the token can only work on one activity at a time.
         final String itemContextVariableId = internalVariableId(PROCESS_EVENT_PREFIX, token);
-        context.setInternalVariable(itemContextVariableId, processEvent);
+        token.setInternalVariable(itemContextVariableId, processEvent);
 
         token.suspend();
     }
 
     @Override
+    public ProcessIntermediateEvent createProcessIntermediateEvent(Token token) {
+    
+        AdapterConfiguration conf = new TimerAdapterConfiguration(this.time);
+        return new TimerEventImpl(conf, token);
+    }
+
+    @Override
     public void cancel(Token executingToken) {
 
-        ProcessInstanceContext context = executingToken.getInstance().getContext();
         final String itemContextVariableId = internalVariableId(PROCESS_EVENT_PREFIX, executingToken);
 
-        ProcessIntermediateEvent intermediateEvent = (ProcessIntermediateEvent) context
+        ProcessIntermediateEvent intermediateEvent = (ProcessIntermediateEvent) executingToken
         .getInternalVariable(itemContextVariableId);
 
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();

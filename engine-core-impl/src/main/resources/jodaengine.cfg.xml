@@ -27,6 +27,9 @@
     
     <bean id="repositoryService" class="org.jodaengine.RepositoryServiceImpl"
         scope="singleton">
+        <constructor-arg type="org.jodaengine.ext.service.ExtensionService">
+            <ref bean="extensionService" />
+        </constructor-arg>
     </bean>
     
     <bean id="correlationService" class="org.jodaengine.eventmanagement.EventManager"

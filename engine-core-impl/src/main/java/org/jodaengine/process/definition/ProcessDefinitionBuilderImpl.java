@@ -59,7 +59,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
 
         this.startNodes = new ArrayList<Node>();
 
-        this.id = new ProcessDefinitionID(UUID.randomUUID());
+        this.id = new ProcessDefinitionID(UUID.randomUUID().toString());
         this.name = null;
         this.description = null;
         this.temporaryStartTriggers = new HashMap<ProcessStartEvent, Node>();
@@ -73,6 +73,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     public ProcessDefinitionBuilder setName(String processName) {
 
         this.name = processName;
+        this.id = new ProcessDefinitionID(name);
         return this;
     }
 

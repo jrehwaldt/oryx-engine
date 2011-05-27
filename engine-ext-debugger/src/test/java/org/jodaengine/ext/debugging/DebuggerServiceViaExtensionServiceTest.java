@@ -1,4 +1,4 @@
-package org.jodaengine.ext.debugger;
+package org.jodaengine.ext.debugging;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -46,10 +46,10 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      */
     @Test
     public void testRequiredComponentsAreAvailable() {
-        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerBpmnXmlParseListener.class));
-        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerService.class));
-        Assert.assertNotNull(this.extensionService.isExtensionAvailable(BreakpointService.class));
-        Assert.assertNotNull(this.extensionService.isExtensionAvailable(DebuggerTokenListener.class));
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerBpmnXmlParseListener.class));
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerService.class));
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(BreakpointService.class));
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerTokenListener.class));
     }
     
     /**

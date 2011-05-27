@@ -1,4 +1,6 @@
-package org.jodaengine.eventmanagement.adapter;
+package org.jodaengine.eventmanagement.adapter.incoming;
+
+import org.jodaengine.eventmanagement.adapter.EventAdapter;
 
 
 /**
@@ -6,6 +8,6 @@ package org.jodaengine.eventmanagement.adapter;
  * which allow incoming communication. This includes,
  * e.g. push-imap email receiving adapter.
  */
-public interface InboundAdapter extends CorrelationAdapter {
+public interface InboundAdapter extends EventAdapter {
 
 }

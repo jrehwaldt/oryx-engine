@@ -63,7 +63,7 @@ public class DeploymentScopeTest extends AbstractJodaEngineTest {
         builder = repository.getDeploymentBuilder();
         defBuilder = builder.getProcessDefinitionBuilder();
 
-        ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID());
+        ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID().toString());
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
         defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
 

@@ -3,7 +3,7 @@ package org.jodaengine.eventmanagement.adapter.error;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
-import org.jodaengine.eventmanagement.adapter.InboundAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
 
 /**
  * This adapter is responsible for exception handling within our engine.

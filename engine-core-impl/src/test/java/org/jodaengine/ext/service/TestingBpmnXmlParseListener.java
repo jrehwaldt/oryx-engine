@@ -10,6 +10,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.util.xml.XmlElement;
+import org.testng.Assert;
 
 /**
  * This implementation tests the availability of a {@link BpmnXmlParseListener} implementation
@@ -18,8 +19,8 @@ import org.jodaengine.util.xml.XmlElement;
  * @author Jan Rehwaldt
  * @since 2011-05-19
  */
-@Extension(TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME)
-public class TestingDeploymentListener implements BpmnXmlParseListener {
+@Extension(TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME + "-bpmn-listener")
+public class TestingBpmnXmlParseListener implements BpmnXmlParseListener {
     
     protected JodaEngineServices services;
     protected Navigator navigator;
@@ -27,6 +28,7 @@ public class TestingDeploymentListener implements BpmnXmlParseListener {
     protected ExtensionService extension;
     protected RepositoryService repository;
     protected TestingExtensionService testing;
+    protected TestingListenerExtensionService listenerService;
     
     /**
      * Testing constructor.
@@ -37,13 +39,15 @@ public class TestingDeploymentListener implements BpmnXmlParseListener {
      * @param extension any service
      * @param repository any service
      * @param testing any service
+     * @param listenerService the listener service
      */
-    public TestingDeploymentListener(JodaEngineServices services,
+    public TestingBpmnXmlParseListener(JodaEngineServices services,
                                      Navigator navigator,
                                      WorklistService worklist,
                                      ExtensionService extension,
                                      RepositoryService repository,
-                                     TestingExtensionService testing) {
+                                     TestingExtensionService testing,
+                                     TestingListenerExtensionService listenerService) {
 
         this.services = services;
         this.navigator = navigator;
@@ -51,11 +55,14 @@ public class TestingDeploymentListener implements BpmnXmlParseListener {
         this.extension = extension;
         this.repository = repository;
         this.testing = testing;
+        
+        Assert.assertNotNull(listenerService);
+        this.listenerService = listenerService;
     }
 
     @Override
     public void parseProcess(XmlElement processXmlElement, ProcessDefinition processDefinition) {
-        // do nothing
+        listenerService.invoked(this);
     }
 
     @Override

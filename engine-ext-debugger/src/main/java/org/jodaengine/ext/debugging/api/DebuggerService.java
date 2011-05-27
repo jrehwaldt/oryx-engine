@@ -16,7 +16,7 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
  * @author Jan Rehwaldt
  * @since 2011-05-17
  */
-public interface DebuggerService extends BreakpointService, Service {
+public interface DebuggerService extends BreakpointService, DebuggerArtifactService, Service {
     
     String DEBUGGER_SERVICE_NAME = "engine-ext-debugger";
     

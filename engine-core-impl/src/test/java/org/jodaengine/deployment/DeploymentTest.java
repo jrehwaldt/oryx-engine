@@ -48,7 +48,7 @@ public class DeploymentTest extends AbstractJodaEngineTest {
     public void testProcessDefinitionDeployment()
     throws IllegalStarteventException {
 
-        ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID());
+        ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID().toString());
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
         defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
 
@@ -71,9 +71,9 @@ public class DeploymentTest extends AbstractJodaEngineTest {
     public void testAutomatedVersioning()
     throws IllegalStarteventException {
 
-        UUID processUUID = UUID.randomUUID();
+        String processIdentifier = UUID.randomUUID().toString();
 
-        ProcessDefinitionID id = new ProcessDefinitionID(processUUID);
+        ProcessDefinitionID id = new ProcessDefinitionID(processIdentifier);
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
         defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
         ProcessDefinition definition = defBuilder.buildDefinition();
@@ -85,7 +85,7 @@ public class DeploymentTest extends AbstractJodaEngineTest {
         Deployment deployment = builder.buildDeployment();
         repository.deployInNewScope(deployment);
 
-        ProcessDefinitionID anotherID = new ProcessDefinitionID(processUUID);
+        ProcessDefinitionID anotherID = new ProcessDefinitionID(processIdentifier);
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
         defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
         ProcessDefinition anotherDefinition = defBuilder.buildDefinition();

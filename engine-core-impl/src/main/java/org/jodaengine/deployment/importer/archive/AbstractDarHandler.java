@@ -4,6 +4,8 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import javax.annotation.Nullable;
+
 import org.jodaengine.deployment.DeploymentBuilder;
 
 /**
@@ -24,6 +26,40 @@ public abstract class AbstractDarHandler {
     public AbstractDarHandler setNext(AbstractDarHandler handler) {
         this.next = handler;
         return next;
+    }
+    
+    /**
+     * Returns the next handler in the chain.
+     * 
+     * @return the next handler
+     */
+    public @Nullable AbstractDarHandler getNext() {
+        return this.next;
+    }
+    
+    /**
+     * Sets the last handler in the chain.
+     * 
+     * @param lastHandler the last handler
+     */
+    public void addLast(@Nullable AbstractDarHandler lastHandler) {
+        
+        AbstractDarHandler handler = this;
+        
+        while (handler.hasNext()) {
+            handler = handler.getNext();
+        }
+        
+        handler.setNext(lastHandler);
+    }
+    
+    /**
+     * Returns true if more {@link AbstractDarHandler} are available.
+     * 
+     * @return indicates whether more handler exist
+     */
+    public boolean hasNext() {
+        return this.next != null;
     }
     
     /**

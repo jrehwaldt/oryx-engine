@@ -2,9 +2,9 @@ package org.jodaengine.eventmanagement;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.adapter.CorrelationAdapter;
-import org.jodaengine.eventmanagement.adapter.InboundAdapter;
-import org.jodaengine.eventmanagement.adapter.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.EventAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 
@@ -18,11 +18,11 @@ public interface AdapterManagement {
      * A call to this method registers the corresponding adapter.
      * 
      * @param adapter
-     *            the {@link CorrelationAdapter} to register
-     * @return the registered {@link CorrelationAdapter}
+     *            the {@link EventAdapter} to register
+     * @return the registered {@link EventAdapter}
      */
     @Nonnull
-    CorrelationAdapter registerAdapter(@Nonnull CorrelationAdapter adapter);
+    EventAdapter registerAdapter(@Nonnull EventAdapter adapter);
     
     /**
      * A call to this method registers the corresponding adapter.

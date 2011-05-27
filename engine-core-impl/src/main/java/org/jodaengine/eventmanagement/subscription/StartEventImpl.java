@@ -28,6 +28,7 @@ public class StartEventImpl extends AbstractProcessEvent implements ProcessStart
      * @param definitionID
      *            the def
      */
+    // TODO @EVENTTEAM: EventType??? WTF? Configuration? hmm? Delete it we must? 
     public StartEventImpl(EventType type,
                           AdapterConfiguration config,
                           EventCondition condition,

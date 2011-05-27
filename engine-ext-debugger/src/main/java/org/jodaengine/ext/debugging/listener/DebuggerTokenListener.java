@@ -3,9 +3,9 @@ package org.jodaengine.ext.debugging.listener;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.ext.Extension;
-import org.jodaengine.ext.debugging.Breakpoint;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.structure.Node;
@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 /**
  * This listener class belongs to the {@link DebuggerService}. It is called while process execution
  * using the {@link org.jodaengine.process.token.Token} takes place and can handle
- * {@link Breakpoint}, if those are defined.
+ * {@link BreakpointImpl}, if those are defined.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-22
@@ -46,7 +46,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
         // do we have a breakpoint for this node
         //
         Node currentNode = event.getNode();
-        Breakpoint breakpoint = Breakpoint.getAttributeIfExists(currentNode);
+        BreakpointImpl breakpoint = BreakpointImpl.getAttributeIfExists(currentNode);
         
         //
         // case: no

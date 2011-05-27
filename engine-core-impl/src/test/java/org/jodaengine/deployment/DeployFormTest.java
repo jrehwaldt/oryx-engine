@@ -62,6 +62,12 @@ public class DeployFormTest extends AbstractJodaEngineTest {
         deploymentBuilder.addProcessDefinition(definition);
     }
 
+    /**
+     * Deploys a form and checks the existence of the parsed form fields.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException the process artifact not found exception
+     */
     @Test
     public void testArtifactDeploymentAsString()
     throws IOException, ProcessArtifactNotFoundException {

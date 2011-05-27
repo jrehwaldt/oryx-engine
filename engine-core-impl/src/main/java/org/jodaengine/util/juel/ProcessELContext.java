@@ -1,4 +1,4 @@
-package org.jodaengine.process.structure.condition;
+package org.jodaengine.util.juel;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import de.odysseus.el.ExpressionFactoryImpl;
 import de.odysseus.el.util.SimpleContext;
 
 /**
- * This is a Juel {@link ELContext} implementation, which is able to work
+ * This is a Juel {@link javax.el.ELContext} implementation, which is able to work
  * with our {@link ProcessInstanceContext}.
  * 
  * @author Jan Rehwaldt

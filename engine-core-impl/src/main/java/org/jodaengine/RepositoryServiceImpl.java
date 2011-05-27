@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.Deployment;
@@ -20,13 +21,13 @@ import org.jodaengine.deployment.importer.archive.DarImporterImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
+import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.resource.allocation.AbstractForm;
-import org.jodaengine.resource.allocation.Form;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,8 +39,8 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public static final UUID SIMPLE_PROCESS_UUID = UUID.randomUUID();
-    public static final ProcessDefinitionID SIMPLE_PROCESS_ID = new ProcessDefinitionID(SIMPLE_PROCESS_UUID, 0);
+    public static final String SIMPLE_PROCESS_NAME = UUID.randomUUID().toString();
+    public static final ProcessDefinitionID SIMPLE_PROCESS_ID = new ProcessDefinitionID(SIMPLE_PROCESS_NAME, 0);
 
     private Map<ProcessDefinitionID, ProcessDefinition> processDefinitionsTable;
 
@@ -47,19 +48,24 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     // dropped, as soon as no definition links to the scope any longer.
     private Map<ProcessDefinitionID, DeploymentScope> scopes;
 
-    private Map<UUID, Integer> processVersions;
+    private Map<String, Integer> processVersions;
 
     // private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
+    
+    private ExtensionService extensionService;
 
     private boolean running = false;
 
     /**
      * Default constructor.
+     * 
+     * @param extensionService an {@link ExtensionService} instance
      */
-    public RepositoryServiceImpl() {
-
-        processVersions = new HashMap<UUID, Integer>();
+    public RepositoryServiceImpl(@Nullable ExtensionService extensionService) {
+        
+        processVersions = new HashMap<String, Integer>();
         scopes = new HashMap<ProcessDefinitionID, DeploymentScope>();
+        this.extensionService = extensionService;
     }
 
     @Override
@@ -80,7 +86,6 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     @Override
     public boolean isRunning() {
-
         return this.running;
     }
 
@@ -271,13 +276,13 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
      */
     private void registerNewProcessVersion(ProcessDefinition definition) {
 
-        Integer currentVersionNumber = processVersions.get(definition.getID().getUUID());
+        Integer currentVersionNumber = processVersions.get(definition.getID().getIdentifier());
         if (currentVersionNumber != null) {
             currentVersionNumber++;
         } else {
             currentVersionNumber = Integer.valueOf(0);
         }
-        processVersions.put(definition.getID().getUUID(), currentVersionNumber);
+        processVersions.put(definition.getID().getIdentifier(), currentVersionNumber);
         definition.getID().setVersion(currentVersionNumber);
     }
 
@@ -314,7 +319,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     @Override
     public DarImporter getNewDarImporter() {
 
-        return new DarImporterImpl(this);
+        return new DarImporterImpl(this, this.extensionService);
     }
 
     @Override
@@ -335,7 +340,8 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     }
 
     @Override
-    public AbstractForm getForm(String formID, ProcessDefinitionID definitionID) throws ProcessArtifactNotFoundException {
+    public AbstractForm getForm(String formID, ProcessDefinitionID definitionID)
+    throws ProcessArtifactNotFoundException {
 
         DeploymentScope scope = scopes.get(definitionID);
         return scope.getForm(formID);

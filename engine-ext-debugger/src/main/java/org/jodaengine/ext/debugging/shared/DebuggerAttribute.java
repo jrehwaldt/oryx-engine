@@ -1,4 +1,4 @@
-package org.jodaengine.ext.debugging;
+package org.jodaengine.ext.debugging.shared;
 
 import java.util.UUID;
 

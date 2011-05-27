@@ -83,31 +83,4 @@ public interface ProcessInstanceContext {
      * @return a {@link Map} with varibaleId and variableValues
      */
     Map<String, Object> getVariableMap();
-
-    /**
-     * Gets an internal variable. Internal variables can for example be used by activities that need state. These are
-     * not process instance variables.
-     *
-     * @param id the id
-     * @return the internal variable
-     */
-    Object getInternalVariable(String id);
-
-    /**
-     * Sets an internal variable. Internal variables can for example be used by activities that need state. These are
-     * not process instance variables.
-     * 
-     * @param variableId
-     *            the variable id
-     * @param variableValue
-     *            the variable value
-     */
-    void setInternalVariable(String variableId, Object variableValue);
-    
-    /**
-     * Delete an internal variable.
-     *
-     * @param id the id
-     */
-    void deleteInternalVariable(String id);
 }

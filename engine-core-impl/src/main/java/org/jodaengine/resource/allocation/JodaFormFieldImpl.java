@@ -1,22 +1,27 @@
 package org.jodaengine.resource.allocation;
 
-import org.jodaengine.resource.allocation.JodaFormField;
+import java.util.Map;
+
+import org.jodaengine.allocation.JodaFormAttributes;
 
 /**
  * Implements a form field.
  */
 public class JodaFormFieldImpl implements JodaFormField {
 
-    private String name, readExpression, writeVariable, variableToInitialize;
+    private String name, readExpression, readVariable, writeVariable, writeExpression;
     private Class<?> dataClass;
-    
-    public JodaFormFieldImpl(String name, String readExpression, String writeVariable, Class<?> dataclass) {
+
+    public JodaFormFieldImpl(String name, Map<String, String> jodaAttributes, Class<?> dataclass) {
+
         this.name = name;
-        this.readExpression = readExpression;
-        this.writeVariable = writeVariable;
+        this.readVariable = jodaAttributes.get(JodaFormAttributes.READ_VARIABLE);
+        this.readExpression = jodaAttributes.get(JodaFormAttributes.READ_EXPRESSION);
+        this.writeVariable = jodaAttributes.get(JodaFormAttributes.WRITE_VARIABLE);
+        this.writeExpression = jodaAttributes.get(JodaFormAttributes.WRITE_EXPRESSION);
         this.dataClass = dataclass;
     }
-    
+
     @Override
     public String getName() {
 
@@ -28,7 +33,7 @@ public class JodaFormFieldImpl implements JodaFormField {
 
         return readExpression;
     }
-    
+
     @Override
     public String getWriteVariable() {
 
@@ -39,6 +44,18 @@ public class JodaFormFieldImpl implements JodaFormField {
     public Class<?> getDataClazz() {
 
         return dataClass;
+    }
+
+    @Override
+    public String getReadVariable() {
+
+        return readVariable;
+    }
+
+    @Override
+    public String getWriteExpression() {
+
+        return writeExpression;
     }
 
 }

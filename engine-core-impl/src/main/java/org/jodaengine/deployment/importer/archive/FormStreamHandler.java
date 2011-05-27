@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class FormStreamHandler extends AbstractDarHandler {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private static final String FORMS_SUBDIR = "forms" + DELIMITER;    
+    private static final String FORMS_SUBDIR = "forms" + DELIMITER;
 
     @Override
     public void processSingleDarFileEntry(ZipFile darFile, ZipEntry entry, DeploymentBuilder builder) {
@@ -27,7 +27,7 @@ public class FormStreamHandler extends AbstractDarHandler {
                 String formName = entry.getName().substring(lastDelimiter + 1);
                 builder.addInputStreamForm(formName, inputStream);
                 
-                //inputStream.close();
+                inputStream.close();
             } catch (IOException e) {
                 logger.error("Could not read file {} from archive", entry.getName());
             }

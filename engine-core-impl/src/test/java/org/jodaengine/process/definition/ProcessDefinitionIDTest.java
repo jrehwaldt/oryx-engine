@@ -15,11 +15,11 @@ public class ProcessDefinitionIDTest {
    */
   @Test
   public void testToString() {
-      UUID uuid = UUID.randomUUID();
+      String identifier = UUID.randomUUID().toString();
       int version = 0;
       
-      ProcessDefinitionID id = new ProcessDefinitionID(uuid, version);
-      Assert.assertEquals(id.toString(), uuid.toString() + ":0");
+      ProcessDefinitionID id = new ProcessDefinitionID(identifier, version);
+      Assert.assertEquals(id.toString(), identifier.toString() + ":0");
   }
   
   /**
@@ -27,11 +27,11 @@ public class ProcessDefinitionIDTest {
    */
   @Test
   public void testFromString() {
-      UUID uuid = UUID.randomUUID();
-      String idString = uuid.toString() + ":0";
+      String identifier = UUID.randomUUID().toString();
+      String idString = identifier + ":0";
       
       ProcessDefinitionID idFromString = ProcessDefinitionID.fromString(idString);
-      Assert.assertEquals(idFromString.getUUID(), uuid, "The UUID should be the one as in the string");
+      Assert.assertEquals(idFromString.getIdentifier(), identifier, "The UUID should be the one as in the string");
       Assert.assertEquals(idFromString.getVersion(), 0, "The version should be the one as in the string");
   }
 }

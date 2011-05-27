@@ -1,6 +1,6 @@
-package org.jodaengine.ext.debugger;
+package org.jodaengine.ext.debugging;
 
-import org.jodaengine.ext.debugging.Breakpoint;
+import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.Token;
@@ -11,14 +11,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * Tests the {@link Breakpoint} functionality.
+ * Tests the {@link BreakpointImpl} functionality.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
 public class BreakpointTest {
     
-    private Breakpoint breakpoint;
+    private BreakpointImpl breakpoint;
     private Token token;
     private Node node;
     
@@ -36,13 +36,13 @@ public class BreakpointTest {
      */
     @BeforeMethod
     public void setUpMethod() {
-        this.breakpoint = Breakpoint.getAttribute(this.node);
+        this.breakpoint = BreakpointImpl.getAttribute(this.node);
         Assert.assertNotNull(this.breakpoint);
         Assert.assertEquals(this.breakpoint.getNode(), this.node);
     }
     
     /**
-     * Tests that a {@link Breakpoint} will be created on Breakpoint#getAttribute(Node).
+     * Tests that a {@link BreakpointImpl} will be created on Breakpoint#getAttribute(Node).
      */
     @Test
     public void testBreakpointIsCreated() {
@@ -50,7 +50,7 @@ public class BreakpointTest {
     }
     
     /**
-     * Tests that a new {@link Breakpoint} is enabled by default.
+     * Tests that a new {@link BreakpointImpl} is enabled by default.
      */
     @Test
     public void testBreakpointEnabledOnDefault() {
@@ -58,7 +58,7 @@ public class BreakpointTest {
     }
     
     /**
-     * Tests that a {@link Breakpoint} will match if a {@link Token} is on the
+     * Tests that a {@link BreakpointImpl} will match if a {@link Token} is on the
      * breakpoint's {@link Node}.
      */
     @Test
@@ -67,7 +67,7 @@ public class BreakpointTest {
     }
     
     /**
-     * Tests that a disabled {@link Breakpoint} will not match if a {@link Token} is on the
+     * Tests that a disabled {@link BreakpointImpl} will not match if a {@link Token} is on the
      * breakpoint's {@link Node}.
      */
     @Test
@@ -77,7 +77,7 @@ public class BreakpointTest {
     }
     
     /**
-     * Tests that a disabled {@link Breakpoint} will not match if a {@link Token} is on the
+     * Tests that a disabled {@link BreakpointImpl} will not match if a {@link Token} is on the
      * breakpoint's {@link Node}.
      */
     @Test
@@ -94,6 +94,6 @@ public class BreakpointTest {
     @Test
     public void testBreakpointWillBeNullIfNoneExists() {
         Node otherNode = new NodeImpl(null, null, null);
-        Assert.assertNull(Breakpoint.getAttributeIfExists(otherNode));
+        Assert.assertNull(BreakpointImpl.getAttributeIfExists(otherNode));
     }
 }
