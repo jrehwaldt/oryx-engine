@@ -36,9 +36,11 @@ public interface TimingManager {
 //    throws AdapterSchedulingException;
 
     /**
-     * Unregister the given job.
-     * 
-     */
+ * Unregister the given job.
+ *
+ * @param inboundPulladapter the inbound pulladapter
+ * @throws AdapterSchedulingException the adapter scheduling exception
+ */
     void unregisterJobForInboundPullAdapter(@Nonnull InboundPullAdapter inboundPulladapter)
     throws AdapterSchedulingException;
 }

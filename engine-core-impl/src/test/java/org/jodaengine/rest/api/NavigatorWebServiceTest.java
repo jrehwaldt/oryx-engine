@@ -17,6 +17,7 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorStatistic;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.rest.TestUtils;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
 import org.testng.Assert;
@@ -134,7 +135,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
             
             AbstractProcessInstance instance = this.mapper.readValue(
                 response.getContentAsString(),
-                AbstractProcessInstance.class);
+                ProcessInstance.class);
             
             Assert.assertNotNull(instance);
             Assert.assertNotNull(instance.getDefinition());

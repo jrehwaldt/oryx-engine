@@ -1,4 +1,4 @@
-package org.jodaengine.allocation;
+package org.jodaengine.resource.allocation;
 
 import java.util.List;
 

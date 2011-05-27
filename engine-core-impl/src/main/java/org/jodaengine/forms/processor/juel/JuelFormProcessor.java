@@ -1,8 +1,6 @@
 package org.jodaengine.forms.processor.juel;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,10 +10,10 @@ import net.htmlparser.jericho.FormFields;
 import net.htmlparser.jericho.OutputDocument;
 import net.htmlparser.jericho.Source;
 
-import org.jodaengine.allocation.Form;
-import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.forms.processor.FormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.resource.allocation.Form;
+import org.jodaengine.resource.allocation.JodaFormField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

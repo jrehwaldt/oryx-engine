@@ -13,6 +13,7 @@ import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.resource.worklist.DetourPattern;
 
 /**
  * The Worklist Service which is used to manage our {@link Worklist}, add tasks and remove them that is. This is the
@@ -170,6 +171,20 @@ public interface WorklistService extends Service {
     @Nullable
     AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource, @Nonnull UUID worklistItemId)
     throws InvalidWorkItemException;
+    
+    /**
+     * Provides the cancellation pattern that is executed on abortion of executing items.
+     *
+     * @return the cancellation pattern
+     */
+    DetourPattern getCancellationPattern();
+    
+    /**
+     * Offers the possibility to change the cancellation pattern.
+     *
+     * @param cancellationPattern the new cancellation pattern
+     */
+    void setCancellationPattern(DetourPattern cancellationPattern);
     
     /**
      * Delegate a worklist item to a specific resource, this resource should be a participant.

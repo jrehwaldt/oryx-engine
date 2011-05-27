@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
@@ -43,9 +42,10 @@ import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.structure.TransitionBuilder;
 import org.jodaengine.process.structure.condition.CheckVariableTrueCondition;
 import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
-import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
+import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.io.StreamSource;
 import org.jodaengine.util.xml.XmlElement;
@@ -413,8 +413,7 @@ public class BpmnXmlParse extends XmlParse {
 
         CreationPattern creationPattern = parseInformationForUserTask(taskXmlElement);
 
-        Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, creationPattern,
-            new AllocateSinglePattern());
+        Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, creationPattern);
 
         parseGeneralInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
@@ -436,7 +435,7 @@ public class BpmnXmlParse extends XmlParse {
 
         parseHumanPerformer(taskXmlElement, patternBuilder);
 
-        return patternBuilder.buildConcreteResourcePattern();
+        return patternBuilder.buildCreationPattern(DirectDistributionPattern.class);
     }
 
     protected void parseHumanPerformer(XmlElement taskXmlElement, CreationPatternBuilder patternBuilder) {

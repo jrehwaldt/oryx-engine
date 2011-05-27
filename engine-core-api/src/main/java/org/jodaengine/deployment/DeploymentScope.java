@@ -2,9 +2,9 @@ package org.jodaengine.deployment;
 
 import java.util.Map;
 
-import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
+import org.jodaengine.resource.allocation.AbstractForm;
 
 /**
  * The DeploymentScope realizes the scoping of process resources.

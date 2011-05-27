@@ -1,5 +1,7 @@
 package org.jodaengine.factories.process;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
@@ -20,9 +22,18 @@ public interface ProcessDeployer {
      *             the illegal startevent exception
      * @throws ResourceNotAvailableException
      *             the resource not available exception
+     * @throws InstantiationException
+     *             the instantiation exception
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     * @throws NoSuchMethodException
+     *             the no such method exception
      */
     ProcessDefinitionID deploy(JodaEngineServices engineServices)
-    throws IllegalStarteventException, ResourceNotAvailableException;
+    throws IllegalStarteventException, ResourceNotAvailableException, InstantiationException, IllegalAccessException,
+    InvocationTargetException, NoSuchMethodException;
 
     /**
      * Stops remaining resources that may have been created. Default behaviour is doing nothing, otherwise the deployer

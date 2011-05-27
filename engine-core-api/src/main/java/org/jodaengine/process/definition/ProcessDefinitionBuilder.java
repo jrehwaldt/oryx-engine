@@ -13,6 +13,7 @@ import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
+import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.structure.TransitionBuilder;
 
 /**

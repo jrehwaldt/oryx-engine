@@ -1,8 +1,7 @@
 package org.jodaengine.node.activity.bpmn;
 
-import org.jodaengine.allocation.CreationPattern;
-import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.resource.allocation.CreationPattern;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.Assert;
 
@@ -12,11 +11,14 @@ import org.testng.Assert;
 public class BpmnHumanTaskActivityMock extends BpmnHumanTaskActivity {
 
     /**
+     * Instantiates a new bpmn human task activity mock.
+     *
+     * @param creationPattern the creation pattern
      * @see BpmnHumanTaskActivity#BpmnHumanTaskActivity(CreationPattern, PushPattern)
      */
-    public BpmnHumanTaskActivityMock(CreationPattern creationPattern, PushPattern pushPattern) {
+    public BpmnHumanTaskActivityMock(CreationPattern creationPattern) {
 
-        super(creationPattern, pushPattern);
+        super(creationPattern);
     }
 
     /**

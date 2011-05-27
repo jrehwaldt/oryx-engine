@@ -3,12 +3,14 @@ package org.jodaengine.process.instantiation.pattern;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
+
 
 /**
  * This pattern encapsulates the default instantiation semantic for BPMN models. This {@link InstantiationPattern
@@ -26,10 +28,13 @@ StartInstantiationPattern {
 
         ProcessDefinitionInside processDefinition = patternContext.getProcessDefinition();
         NavigatorInside navigator = patternContext.getNavigatorService();
-
-        AbstractProcessInstance processInstance = new ProcessInstanceImpl(processDefinition);
+        
+        BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, null);
+        AbstractProcessInstance processInstance = new ProcessInstance(processDefinition, tokenBuilder);
+        
         for (Node node : processDefinition.getStartNodes()) {
-            Token newToken = processInstance.createToken(node, navigator);
+            tokenBuilder.setNode(node);
+            Token newToken = processInstance.createToken();
             navigator.addWorkToken(newToken);
         }
 

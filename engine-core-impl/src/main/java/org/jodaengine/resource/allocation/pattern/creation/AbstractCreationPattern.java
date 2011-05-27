@@ -1,35 +1,35 @@
-package org.jodaengine.resource.allocation.pattern;
+package org.jodaengine.resource.allocation.pattern.creation;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.jodaengine.RepositoryService;
-import org.jodaengine.allocation.CreationPattern;
-import org.jodaengine.allocation.Form;
-import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.exception.ProcessArtifactNotFoundException;
-import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractResource;
+import org.jodaengine.resource.allocation.CreationPattern;
+import org.jodaengine.resource.allocation.PushPattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
-import org.jodaengine.resource.worklist.WorklistItemImpl;
 
 /**
  * 
  */
-public class ConcreteResourcePattern implements CreationPattern {
+public abstract class AbstractCreationPattern implements CreationPattern {
 
-    private String subject;
+    protected String subject;
 
-    private String description;
+    protected String description;
 
-    private String formID;
+    protected String formID;
 
-    private AbstractResource<?>[] resourcesToAssignTo;
+    protected List<AbstractResource<?>> resourcesToAssignTo;
+
+    protected PushPattern pushPattern;
 
     /**
-     * Instantiates a new concrete resource pattern. The parameters are used for the creation of the
+     * Instantiates a new concrete resource pattern. The parameters are used for the creation of the worklist item and
+     * its distribution.
      * 
      * @param subject
      *            the subject
@@ -40,19 +40,25 @@ public class ConcreteResourcePattern implements CreationPattern {
      * @param assignedResources
      *            the assigned resources {@link AbstractWorklistItem}s.
      */
-    public ConcreteResourcePattern(String subject,
+    @SuppressWarnings("unchecked")
+    public AbstractCreationPattern(String subject,
                                    String description,
                                    String formID,
-                                   AbstractResource<?>[] assignedResources) {
-
+                                   List<?> assignedResources) {
         this.subject = subject;
         this.description = description;
         this.formID = formID;
-        this.resourcesToAssignTo = assignedResources;
+        this.resourcesToAssignTo = (List<AbstractResource<?>>) assignedResources;
+        setPushPattern();
     }
 
     /**
-     * Convenience constructor.
+     * Sets the push pattern according to the Pattern, every Creation Pattern has to do this.
+     */
+    protected abstract void setPushPattern();
+
+    /**
+     * Convenience constructor for only one resource.
      * 
      * @param subject
      *            the subject
@@ -63,37 +69,17 @@ public class ConcreteResourcePattern implements CreationPattern {
      * @param assignedResource
      *            the assigned resource
      */
-    public ConcreteResourcePattern(String subject,
+    @SuppressWarnings("unchecked")
+    public AbstractCreationPattern(String subject,
                                    String description,
                                    String formID,
                                    AbstractResource<?> assignedResource) {
-
-        this(subject, description, formID, new AbstractResource<?>[] {assignedResource});
+        
+        this(subject, description, formID, Arrays.asList(assignedResource));
     }
 
     @Override
-    public AbstractWorklistItem createWorklistItem(Token token, RepositoryService repoService) {
-
-        Set<AbstractResource<?>> assignedResourcesCopy = new HashSet<AbstractResource<?>>(
-            Arrays.asList(resourcesToAssignTo));
-
-        Form formToUse = null;
-
-        if (formID != null) {
-            // only search for a form, if one has been specified
-            try {
-                ProcessDefinitionID definitionID = token.getInstance().getDefinition().getID();
-                formToUse = repoService.getForm(formID, definitionID);
-            } catch (ProcessArtifactNotFoundException e) {
-                throw new JodaEngineRuntimeException("The requested form does not exist.", e);
-            }
-        }
-
-        WorklistItemImpl worklistItem = new WorklistItemImpl(subject, description, formToUse, assignedResourcesCopy,
-            token);
-        return worklistItem;
-
-    }
+    public abstract AbstractWorklistItem createWorklistItem(Token token, RepositoryService repoService);
 
     /**
      * Gets the assigned resources of the worklist items. Method is for test purposes only.
@@ -102,7 +88,7 @@ public class ConcreteResourcePattern implements CreationPattern {
      */
     public Set<AbstractResource<?>> getAssignedResources() {
 
-        return new HashSet<AbstractResource<?>>(Arrays.asList(resourcesToAssignTo));
+        return new HashSet<AbstractResource<?>>(resourcesToAssignTo);
     }
 
     /**
@@ -133,6 +119,12 @@ public class ConcreteResourcePattern implements CreationPattern {
     public String getItemFormID() {
 
         return formID;
+    }
+    
+    @Override
+    public PushPattern getPushPattern() {
+
+        return pushPattern;
     }
 
 }

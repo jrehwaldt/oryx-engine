@@ -14,10 +14,11 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.AbstractToken;
+import org.jodaengine.process.token.TokenBuilder;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -52,11 +53,13 @@ public class ConcurrentActivityStateTest {
 
         // Create two process instances
         NavigatorImplMock nav = new NavigatorImplMock();
-        AbstractProcessInstance instance1 = new ProcessInstanceImpl(definition);
-        Token token1 = instance1.createToken(startNode, nav);
+        TokenBuilder builder = new BpmnTokenBuilder(nav, startNode);
+        AbstractProcessInstance instance1 = new ProcessInstance(definition, builder);
+        AbstractToken token1 = (AbstractToken) instance1.createToken();
 
-        AbstractProcessInstance instance2 = new ProcessInstanceImpl(definition);
-        Token token2 = instance2.createToken(startNode, nav);
+        TokenBuilder builder2 = new BpmnTokenBuilder(nav, startNode);
+        AbstractProcessInstance instance2 = new ProcessInstance(definition, builder2);
+        AbstractToken token2 = (AbstractToken) instance2.createToken();
 
         assertEquals(token1.getCurrentActivityState(), ActivityState.INIT);
         assertEquals(token2.getCurrentActivityState(), ActivityState.INIT);
@@ -65,7 +68,7 @@ public class ConcurrentActivityStateTest {
         // for instance2/token2.
 
         ActivityLifecycleAssuranceListener plugin = new ActivityLifecycleAssuranceListener();
-        ((TokenImpl) token1).registerListener(plugin);
+        token1.registerListener(plugin);
         token1.executeStep();
         
         assertTrue(plugin.isCompletedCalled());

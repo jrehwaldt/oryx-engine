@@ -2,7 +2,6 @@ package org.jodaengine.util;
 
 import org.jodaengine.IdentityService;
 import org.jodaengine.RepositoryServiceInside;
-import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.navigator.NavigatorInside;
 

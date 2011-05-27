@@ -70,7 +70,7 @@ public class XMLParserTest {
         XmlParse xmlParse = (XmlParse) parseBuilder.buildXmlParse();
         xmlParse.execute();
         
-        String str =xmlParse.getRootElement().getElements().get(0).getAttributeNS("http://www.signavio.com", "form");
+        String str = xmlParse.getRootElement().getElements().get(0).getAttributeNS("http://www.signavio.com", "form");
         System.out.println(str);
     }
 }

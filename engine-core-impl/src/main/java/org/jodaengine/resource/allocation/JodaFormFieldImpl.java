@@ -3,7 +3,6 @@ package org.jodaengine.resource.allocation;
 import java.util.Map;
 
 import org.jodaengine.allocation.JodaFormAttributes;
-import org.jodaengine.allocation.JodaFormField;
 
 /**
  * Implements a form field.

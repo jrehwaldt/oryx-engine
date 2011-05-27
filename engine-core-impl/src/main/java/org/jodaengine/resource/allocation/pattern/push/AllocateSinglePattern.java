@@ -1,7 +1,7 @@
-package org.jodaengine.resource.allocation.pattern;
+package org.jodaengine.resource.allocation.pattern.push;
 
-import org.jodaengine.allocation.PushPattern;
-import org.jodaengine.allocation.TaskAllocation;
+import org.jodaengine.resource.allocation.PushPattern;
+import org.jodaengine.resource.allocation.TaskAllocation;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemImpl;
 import org.jodaengine.resource.worklist.WorklistItemState;

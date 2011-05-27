@@ -1,5 +1,7 @@
 package org.jodaengine.rest.api;
 
+import java.lang.reflect.InvocationTargetException;
+
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
@@ -102,6 +104,18 @@ public class DemoWebService {
 
             return Response.ok().build();
         } catch (IllegalStarteventException e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+        } catch (NoSuchMethodException e) {
             e.printStackTrace();
             return Response.serverError().build();
         }
