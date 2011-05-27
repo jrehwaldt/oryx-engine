@@ -64,7 +64,7 @@ public class ContextVariableHandler extends AbstractFormFieldHandler {
             // only set the variable, if it has been specified in the JodaFormField
             if (variableToSet != null) {
                 context.setVariable(variableToSet, objectToSet);
-                enteredValues.remove(fieldName);
+                it.remove();
             }
 
         }
