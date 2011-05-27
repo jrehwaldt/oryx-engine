@@ -21,53 +21,52 @@ public class ContextVariableHandler extends AbstractFormFieldHandler {
 
     @Override
     protected void setInternally(Form form,
-                                     List<FormField> formFields,
-                                     ProcessInstanceContext context,
-                                     OutputDocument output) {
+                                 List<FormField> formFields,
+                                 ProcessInstanceContext context,
+                                 OutputDocument output) {
 
         Iterator<FormField> it = formFields.iterator();
         while (it.hasNext()) {
             FormField field = it.next();
             StartTag tag = field.getFormControl().getFirstStartTag();
             Attributes attributes = tag.getAttributes();
-            
+
             JodaFormField jodaField = form.getFormField(attributes.getValue("name"));
             String variable = jodaField.getReadVariable();
-            
+
             if (variable != null) {
                 Object value = context.getVariable(variable);
                 if (value != null) {
                     Map<String, String> replacements = output.replace(attributes, false);
                     replacements.put("value", value.toString());
-                    
+
                     it.remove();
                 }
             }
-            
-            
-            
+
         }
-        
-        
+
     }
 
     @Override
     protected void readInternally(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
 
-        for (Entry<String, String> entry : enteredValues.entrySet()) {
+        Iterator<Entry<String, String>> it = enteredValues.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<String, String> entry = it.next();
             String fieldName = entry.getKey();
             String enteredValue = entry.getValue();
 
             JodaFormField formField = form.getFormField(fieldName);
             Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
             String variableToSet = formField.getWriteVariable();
-            
+
             // only set the variable, if it has been specified in the JodaFormField
             if (variableToSet != null) {
                 context.setVariable(variableToSet, objectToSet);
                 enteredValues.remove(fieldName);
             }
-            
+
         }
     }
 

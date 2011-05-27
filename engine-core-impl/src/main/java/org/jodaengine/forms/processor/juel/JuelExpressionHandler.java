@@ -82,7 +82,9 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
         ExpressionFactory factory = new ExpressionFactoryImpl();
         ELContext elContext = new ProcessELContext(context);
 
-        for (Entry<String, String> entry : enteredValues.entrySet()) {
+        Iterator<Entry<String, String>> it = enteredValues.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<String, String> entry = it.next();
             String fieldName = entry.getKey();
             String enteredValue = entry.getValue();
 
@@ -97,7 +99,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
                     e.setValue(elContext, objectToSet);
 
                     // remove the formField from the formFields list, as it has been processed sucessfully.
-                    enteredValues.remove(fieldName);
+                    it.remove();
                 } catch (PropertyNotFoundException exception) {
                     // requested variable does not exist.
                     // do not change the value of the input field.
@@ -115,9 +117,9 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
         SimpleResolver resolver = (SimpleResolver) elContext.getELResolver();
         RootPropertyResolver rootResolver = resolver.getRootPropertyResolver();
         
-        Iterator<String> it = rootResolver.properties().iterator();
-        while (it.hasNext()) {
-            String propertyName = it.next();
+        Iterator<String> propertyIterator = rootResolver.properties().iterator();
+        while (propertyIterator.hasNext()) {
+            String propertyName = propertyIterator.next();
             Object propertyValue = rootResolver.getProperty(propertyName);
             context.setVariable(propertyName, propertyValue);
         }

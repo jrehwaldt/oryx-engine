@@ -102,14 +102,15 @@ public abstract class AbstractFormFieldHandler {
      *            the context
      */
     protected abstract void readInternally(Map<String, String> enteredValues, Form form, ProcessInstanceContext context);
-    
-    
+
     // TODO @Thorben-Refactoring make this cooler, e.g. chain of responsibility
     /**
      * Converts string input to a an object of the class as specified in the {@link JodaFormField}.
-     *
-     * @param value the value
-     * @param clazzToConvertTo the clazz to convert to
+     * 
+     * @param value
+     *            the value
+     * @param clazzToConvertTo
+     *            the clazz to convert to
      * @return the object
      */
     protected Object convertStringInput(String value, Class<?> clazzToConvertTo) {
