@@ -58,9 +58,11 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
                 ValueExpression e = factory.createValueExpression(elContext, readExpression, String.class);
                 try {
                     String result = (String) e.getValue(elContext);
-                    Map<String, String> replacements = output.replace(attributes, false);
-
-                    replacements.put("value", result);
+//                    Map<String, String> replacements = output.replace(attributes, false);
+//
+//                    replacements.put("value", result);
+                    field.setValue(result);
+                    output.replace(field.getFormControl());
 
                     // remove the formField from the formFields list, as it has been processed sucessfully.
                     it.remove();
