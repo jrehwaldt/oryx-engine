@@ -52,6 +52,7 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
      */
     public static final String JODAENGINE_EXTENSION_DEBUGGER_NS = BpmnXmlParser.JODAENGINE_EXTENSIONS_NS + "/debugger";
     
+    
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     //=================================================================
@@ -65,14 +66,36 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
         logger.debug("Parse BPMN-process element {}", processXmlElement);
         
         //
+        // get the extension element and create a DebuggerAttribute instance in the process context
+        //
+        XmlElement extensionElement = processXmlElement.getElement(BPMN_EXTENSIONS_ELEMENT_NAME);
+        DebuggerAttribute attribute = DebuggerAttribute.getAttribute(processDefinition);
+        
+        if (extensionElement == null) {
+            return;
+        }
+        
+        //
         // enable debug mode via xml definition
         //
-        String debugMode = processXmlElement.getAttributeNS(JODAENGINE_EXTENSION_DEBUGGER_NS, "debug-mode");
+        XmlElement debugModeElement = extensionElement.getElementNS(JODAENGINE_EXTENSION_DEBUGGER_NS, "enabled");
         
-        if (Boolean.valueOf(debugMode)) {
+        if (debugModeElement != null && Boolean.valueOf(debugModeElement.getText())) {
             logger.info("Enable debugging for {}.", processDefinition);
-            DebuggerAttribute attribute = DebuggerAttribute.getAttribute(processDefinition);
             attribute.enable();
+        }
+        
+        //
+        // get the svg artifact resource name, either from
+        //    a) svg-artifact attribute
+        // or
+        //    b) process definition id
+        //
+        XmlElement svgArtifactElement = extensionElement.getElementNS(JODAENGINE_EXTENSION_DEBUGGER_NS, "svg-artifact");
+        if (svgArtifactElement != null) {
+            attribute.setSvgArtifact(svgArtifactElement.getText());
+        } else {
+            attribute.setSvgArtifact(String.format("%s.svg", processDefinition.getID().getIdentifier()));
         }
     }
     

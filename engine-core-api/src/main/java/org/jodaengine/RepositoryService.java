@@ -14,7 +14,7 @@ import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.instance.AbstractProcessInstance;import org.jodaengine.resource.allocation.AbstractForm;
+import org.jodaengine.resource.allocation.AbstractForm;
 
 /**
  * The RepositoryService offers method to manage the processes that have been deployed to the navigator.
@@ -149,11 +149,13 @@ public interface RepositoryService extends Service {
      * @return a {@link AbstractProcessArtifact ProcessResource}
      * @throws ProcessArtifactNotFoundException
      *             thrown if the artifact does not exist
+     * @throws DefinitionNotFoundException
+     *             thrown if the process definition does not exist
      */
     @Nonnull
     AbstractProcessArtifact getProcessArtifact(@Nonnull String processArtifactID,
                                                @Nonnull ProcessDefinitionID definitionID)
-    throws ProcessArtifactNotFoundException;
+    throws ProcessArtifactNotFoundException, DefinitionNotFoundException;
 
     /**
      * Deletes the given {@link AbstractProcessArtifact ProcessResource} from the definitions scope.

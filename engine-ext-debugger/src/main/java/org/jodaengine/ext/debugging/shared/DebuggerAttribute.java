@@ -3,7 +3,9 @@ package org.jodaengine.ext.debugging.shared;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import org.jodaengine.ext.debugging.api.Switchable;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.util.Identifiable;
 
@@ -14,18 +16,21 @@ import org.jodaengine.util.Identifiable;
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
-public class DebuggerAttribute implements Identifiable<UUID> {
+public class DebuggerAttribute implements Switchable, Identifiable<UUID> {
     
     protected static final String ATTRIBUTE_KEY = "extension-debugger-attribute";
     
     private boolean enabled;
     private final UUID id;
     
+    private String svgArtifact;
+    
     /**
      * Creates a new instance. Debugging is disabled by default.
      */
     public DebuggerAttribute() {
         this.id = UUID.randomUUID();
+        this.svgArtifact = null;
         disable();
     }
     
@@ -34,27 +39,37 @@ public class DebuggerAttribute implements Identifiable<UUID> {
         return this.id;
     }
     
-    /**
-     * Disable debugging for this debugging element.
-     */
+    @Override
     public void disable() {
         this.enabled = false;
     }
     
-    /**
-     * Enable debugging for this debugging element.
-     */
+    @Override
     public void enable() {
         this.enabled = true;
     }
     
-    /**
-     * Returns true if this debugging element is enabled.
-     * 
-     * @return true, if debugging is enabled
-     */
+    @Override
     public boolean isEnabled() {
         return enabled;
+    }
+    
+    /**
+     * Sets the svg artifact resource name.
+     * 
+     * @param svgArtifact the svg artifact resource name
+     */
+    public void setSvgArtifact(@Nullable String svgArtifact) {
+        this.svgArtifact = svgArtifact;
+    }
+    
+    /**
+     * Returns the svg artifact resource name.
+     * 
+     * @return the svg artifact resource name
+     */
+    public @Nullable String getSvgArtifact() {
+        return this.svgArtifact;
     }
     
     
@@ -82,5 +97,17 @@ public class DebuggerAttribute implements Identifiable<UUID> {
         }
         
         return attribute;
+    }
+    
+    /**
+     * Returns a {@link DebuggerAttribute} instance related to the provided
+     * {@link ProcessDefinition}. If none exists, null is returned.
+     * 
+     * @param definition the {@link ProcessDefinition}, the attribute is related to
+     * @return an attribute instance, null if none provided
+     */
+    public static @Nullable DebuggerAttribute getAttributeIfExists(@Nonnull ProcessDefinition definition) {
+        
+        return (DebuggerAttribute) definition.getAttribute(ATTRIBUTE_KEY);
     }
 }

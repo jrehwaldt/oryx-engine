@@ -1,6 +1,11 @@
 package org.jodaengine.ext.debugging;
 
+import java.io.IOException;
+
+import org.apache.commons.io.IOUtils;
 import org.jodaengine.JodaEngineServices;
+import org.jodaengine.RepositoryService;
+import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.api.Breakpoint;
@@ -8,7 +13,9 @@ import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
+import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
@@ -31,6 +38,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     
     private JodaEngineServices engineServices;
     private Navigator navigator;
+    private RepositoryService repository;
     
     private boolean running = false;
     
@@ -47,6 +55,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         logger.info("Starting the DebuggerService");
         this.engineServices = services;
         this.navigator = services.getNavigatorService();
+        this.repository = services.getRepositoryService();
         
         this.running = true;
     }
@@ -135,16 +144,38 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         // TODO Auto-generated method stub
         logger.debug("Disable breakpoint {}", breakpoint);
     }
-
+    
     //=================================================================
     //=================== DebuggerArtifactService methods =============
     //=================================================================
+    
     @Override
     public String getSvgArtifact(ProcessDefinition definition)
-    throws ProcessArtifactNotFoundException {
+    throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
         
-        // TODO Auto-generated method stub
-        return null;
+        DebuggerAttribute attribute = DebuggerAttribute.getAttribute(definition);
+        
+        String artifactID = null;
+        
+        //
+        // get the artifact name from the debugger context
+        //
+        if (attribute != null) {
+            artifactID = attribute.getSvgArtifact();
+            
+            if (artifactID != null) {
+                AbstractProcessArtifact artifact = this.repository.getProcessArtifact(
+                    DEBUGGER_ARTIFACT_NAMESPACE + artifactID, definition.getID());
+                
+                try {
+                    return IOUtils.toString(artifact.getInputStream());
+                } catch (IOException ioe) {
+                    logger.error("Unable read artifact stream.", ioe);
+                }
+            }
+        }
+        
+        artifactID = "svg-artifact-for-" + definition.getID().getIdentifier() + "-not-defined";
+        throw new ProcessArtifactNotFoundException(artifactID);
     }
-
 }

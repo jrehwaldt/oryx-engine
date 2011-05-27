@@ -302,9 +302,14 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     @Override
     public AbstractProcessArtifact getProcessArtifact(String processArtifactID, ProcessDefinitionID definitionID)
-    throws ProcessArtifactNotFoundException {
+    throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
 
         DeploymentScope scope = scopes.get(definitionID);
+        
+        if (scope == null) {
+            throw new DefinitionNotFoundException(definitionID);
+        }
+        
         return scope.getProcessArtifact(processArtifactID);
     }
 

@@ -1,9 +1,12 @@
 package org.jodaengine.ext.debugging.api;
 
+import java.util.UUID;
+
 import javax.annotation.Nonnull;
 
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.util.Identifiable;
 
 /**
  * This represents a container class for a breakpoint, which will be available in the
@@ -12,7 +15,7 @@ import org.jodaengine.process.token.Token;
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
-public interface Breakpoint {
+public interface Breakpoint extends Switchable, Identifiable<UUID> {
     
     /**
      * Returns the {@link Node} this breakpoint is bound to.

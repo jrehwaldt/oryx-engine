@@ -1,5 +1,7 @@
 package org.jodaengine.ext.debugging.shared;
 
+import java.util.UUID;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -15,10 +17,16 @@ import org.jodaengine.process.token.Token;
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
-public class BreakpointImpl extends DebuggerAttribute implements Breakpoint {
+public class BreakpointImpl implements Breakpoint {
+    
+    protected static final String ATTRIBUTE_KEY = "extension-debugger-breakpoint-attribute";
+    
+    private final UUID id;
     
     private final Node node;
     private BreakpointCondition condition;
+    
+    private boolean enabled;
     
     /**
      * Default constructor. Creates a new {@link Breakpoint}, which will be enabled by default
@@ -27,10 +35,30 @@ public class BreakpointImpl extends DebuggerAttribute implements Breakpoint {
      * @param node the node, this breakpoint is bound to
      */
     protected BreakpointImpl(@Nonnull Node node) {
-        super();
+        this.id = UUID.randomUUID();
         this.node = node;
         this.condition = null;
         enable();
+    }
+    
+    @Override
+    public UUID getID() {
+        return this.id;
+    }
+    
+    @Override
+    public void disable() {
+        this.enabled = false;
+    }
+    
+    @Override
+    public void enable() {
+        this.enabled = true;
+    }
+    
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
     
     @Override

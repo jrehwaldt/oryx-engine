@@ -75,7 +75,7 @@ public class DarImporterImpl implements DarImporter {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }                
+        }
         
         return builder.buildDeployment();
     }

@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.jodaengine.JodaEngineServices;
+import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ServiceUnavailableException;
 import org.jodaengine.ext.debugging.api.Breakpoint;
@@ -192,7 +193,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Override
     @Produces(MediaType.APPLICATION_SVG_XML)
     public String getSvgArtifact(ProcessDefinition definition)
-    throws ProcessArtifactNotFoundException {
+    throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
         if (this.debugger != null) {
             this.debugger.getSvgArtifact(definition);
         }

@@ -45,7 +45,6 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
     @BeforeMethod
     public void setUp() {
         this.listener = mock(BpmnXmlParseListener.class);
-        
     }
     
     /**

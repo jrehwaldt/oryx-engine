@@ -361,7 +361,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         
         Assert.assertNotNull(listenerService);
         
-        DarImporter importer = jodaEngineServices.getRepositoryService().getNewDarImporter();
+        DarImporter importer = this.jodaEngineServices.getRepositoryService().getNewDarImporter();
         File darFile = new File(DAR_RESOURCE_PATH + "deployment/testDefinitionOnly.dar");
         
         //

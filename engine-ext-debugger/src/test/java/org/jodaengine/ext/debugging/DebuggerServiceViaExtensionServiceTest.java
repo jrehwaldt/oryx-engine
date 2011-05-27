@@ -6,11 +6,12 @@ import java.util.List;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.Service;
+import org.jodaengine.deployment.importer.archive.AbstractDarHandler;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
-import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.listener.DebuggerBpmnXmlParseListener;
+import org.jodaengine.ext.debugging.listener.DebuggerDarHandler;
 import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
@@ -126,7 +127,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
      * Tests that the listener for the {@link DebuggerBpmnXmlParseListener} is successfully provided.
      */
     @Test
-    public void testRequiredDeploymentListenerIsProvided() {
+    public void testRequiredBpmnXmlListenerIsProvided() {
         List<BpmnXmlParseListener> listeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
         
         Assert.assertTrue(listeners.size() > 0);
@@ -139,6 +140,25 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         }
         
         Assert.assertTrue(listenerAvailable);
+    }
+    
+    /**
+     * Tests that the listener for the {@link DebuggerBpmnXmlParseListener} is successfully provided.
+     */
+    @Test
+    public void testRequiredDarHandlerIsProvided() {
+        List<AbstractDarHandler> handlers = this.extensionService.getExtensions(AbstractDarHandler.class);
+        
+        Assert.assertTrue(handlers.size() > 0);
+        
+        boolean handlerAvailable = false;
+        for (AbstractDarHandler handler: handlers) {
+            if (handler instanceof DebuggerDarHandler) {
+                handlerAvailable = true;
+            }
+        }
+        
+        Assert.assertTrue(handlerAvailable);
     }
 
     

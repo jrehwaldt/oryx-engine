@@ -31,7 +31,9 @@ import org.jodaengine.util.xml.XmlElement;
  * If it is necessary to attach while parsing through a BPMN serialized XML file, you can use this class.
  */
 public interface BpmnXmlParseListener {
-
+    
+    String BPMN_EXTENSIONS_ELEMENT_NAME = "extensionElements";
+    
     /**
      * Is called when the {@link BpmnXmlParser} finished creating the {@link ProcessDefinition}. Here you can attach
      * some afterwork. For example reporting.
