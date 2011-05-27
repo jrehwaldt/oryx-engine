@@ -12,10 +12,11 @@ import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.IdentityBuilder;
@@ -23,6 +24,7 @@ import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistribution
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -79,7 +81,8 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 
         humanTaskNode.transitionTo(endNode);
 
-        token = new TokenImpl(humanTaskNode, new ProcessInstanceImpl(null), new NavigatorImplMock());
+        //TODO Jannik refactor to builder
+        token = new BpmnToken(humanTaskNode, new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)), new NavigatorImplMock());
     }
 
     /**

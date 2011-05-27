@@ -1,5 +1,6 @@
 package org.jodaengine.process.activation;
 
+import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.util.PatternAppendable;
 
 /**

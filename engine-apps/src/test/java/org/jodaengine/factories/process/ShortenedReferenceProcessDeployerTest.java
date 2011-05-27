@@ -16,9 +16,11 @@ import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.TokenBuilder;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Role;
@@ -51,13 +53,15 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         instanceDefinition = new ShortenedReferenceProcessDeployer();
         this.id = instanceDefinition.deploy(engineServices);
         try {
-            processInstance = new ProcessInstanceImpl(ServiceFactory.getRepositoryService().getProcessDefinition(id));
+            // The builder is not used in this tested, therefore it can be null
+            TokenBuilder builder = new BpmnTokenBuilder(null, null);
+            processInstance = new ProcessInstance(ServiceFactory.getRepositoryService().getProcessDefinition(id), builder);
         } catch (DefinitionNotFoundException e) {
             System.out.println("Definition nicht gefunden! ");
             e.printStackTrace();
         }
         Navigator navigator = new NavigatorImplMock();
-        token = new TokenImpl(processInstance.getDefinition().getStartNodes().get(0), processInstance, navigator);
+        token = new BpmnToken(processInstance.getDefinition().getStartNodes().get(0), processInstance, navigator);
         tobi = instanceDefinition.getTobi();
         jannik = instanceDefinition.getJannik();
         jan = instanceDefinition.getJan();

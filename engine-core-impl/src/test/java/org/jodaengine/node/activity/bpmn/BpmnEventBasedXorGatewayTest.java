@@ -12,8 +12,8 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;
 import org.testng.Assert;
@@ -57,9 +57,9 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         AbstractProcessInstance processInstanceMock = Mockito.mock(AbstractProcessInstance.class);
         Mockito.when(processInstanceMock.getContext()).thenReturn(processInstanceContextMock);
 
-        token = new TokenImpl(eventBasedXorGatewayNode, processInstanceMock, nav);
-        token = Mockito.spy(token);
-    }
+        token = new BpmnToken(eventBasedXorGatewayNode, processInstanceMock, nav);
+        token = Mockito.spy(token);    
+}
 
     @Test
     public void testRouting()

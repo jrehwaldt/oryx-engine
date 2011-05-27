@@ -10,14 +10,16 @@ import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -48,8 +50,8 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
 
         humanTaskNode.transitionTo(endNode);
 
-        AbstractProcessInstance instance = new ProcessInstanceImpl(null);
-        token = new TokenImpl(humanTaskNode, instance, new NavigatorImplMock());
+        AbstractProcessInstance instance = new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class));
+        token = new BpmnToken(humanTaskNode, instance, new NavigatorImplMock());
     }
 
     /**

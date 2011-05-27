@@ -2,6 +2,8 @@ package org.jodaengine.eventmanagement.adapter.configuration;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
+
 /**
  * Configuration for {@link InboundPullAdapter}.
  */

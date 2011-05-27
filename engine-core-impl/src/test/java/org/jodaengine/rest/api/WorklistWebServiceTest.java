@@ -20,10 +20,10 @@ import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.AbstractForm;
 import org.jodaengine.resource.allocation.CreationPattern;
@@ -79,9 +79,9 @@ public class WorklistWebServiceTest extends AbstractJsonServerTest {
         // Whitebox.setInternalState(pattern, "form", new FormImpl(processArtifact));
         Whitebox.setInternalState(pattern, "formID", "form");
 
-        TokenImpl token = mock(TokenImpl.class);
+        Token token = mock(Token.class);
         context = new ProcessInstanceContextImpl();
-        AbstractProcessInstance instance = mock(ProcessInstanceImpl.class);
+        AbstractProcessInstance instance = mock(ProcessInstance.class);
         when(instance.getContext()).thenReturn(context);
         when(instance.getDefinition()).thenReturn(definition);
         when(token.getInstance()).thenReturn(instance);

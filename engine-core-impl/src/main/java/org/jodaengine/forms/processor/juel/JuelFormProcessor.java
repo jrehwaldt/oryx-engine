@@ -1,8 +1,6 @@
 package org.jodaengine.forms.processor.juel;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 

@@ -12,11 +12,12 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.IdentityBuilder;
@@ -25,6 +26,7 @@ import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPat
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.mock.MockUtils;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -69,9 +71,10 @@ public class BpmnHumanTaskActivityTest extends AbstractJodaEngineTest {
         humanTask = new BpmnHumanTaskActivityMock(pattern);
 
         Node node = new NodeImpl(humanTask, new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        token = new TokenImpl(node, 
-                              new ProcessInstanceImpl(MockUtils.mockProcessDefinition()), 
-                              new NavigatorImplMock());
+        token = new BpmnToken(node,
+            new ProcessInstance(MockUtils.mockProcessDefinition(),
+                Mockito.mock(BpmnTokenBuilder.class)),
+            new NavigatorImplMock());
     }
 
     /**

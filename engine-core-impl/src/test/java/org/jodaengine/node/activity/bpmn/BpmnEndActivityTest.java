@@ -16,9 +16,11 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenBuilder;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -29,6 +31,8 @@ import org.testng.annotations.Test;
 public class BpmnEndActivityTest {
     private AbstractProcessInstance instance = null;
     private Node startNode = null;
+    private NavigatorImplMock nav;
+    private TokenBuilder tokenBuilder;
 
     /**
      * Process instance finalization test.
@@ -40,12 +44,11 @@ public class BpmnEndActivityTest {
     public void processInstanceFinalizationTest()
     throws Exception {
 
-        NavigatorImplMock nav = new NavigatorImplMock();
-
         // this is done for test purposes. Usually the startProcessInstance methods of the navigator would do this, but
         // we do not actually want to start the navigator here.
         nav.getRunningInstances().add(instance);
-        Token token = instance.createToken(startNode, nav);
+        tokenBuilder.setNode(startNode);
+        Token token = instance.createToken();
 
         // perform fist step, there should be two tokens on forkNode1 and forkNode2 respectively
         token.executeStep();
@@ -121,8 +124,11 @@ public class BpmnEndActivityTest {
 
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition definition = builder.buildDefinition();
-
-        instance = new ProcessInstanceImpl(definition);
+        
+        nav = new NavigatorImplMock();
+        tokenBuilder = new BpmnTokenBuilder(nav, null);
+        instance = new ProcessInstance(definition, tokenBuilder);
+        
     }
 
 }

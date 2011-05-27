@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.jodaengine.resource.allocation.Form;
-import org.jodaengine.process.instance.ProcessInstanceContext;
-
 import net.htmlparser.jericho.FormField;
 import net.htmlparser.jericho.OutputDocument;
+import org.jodaengine.allocation.JodaFormField;
+import org.jodaengine.process.instance.ProcessInstanceContext;
 
 /**
  * Realizes a chain of responsibility for form field resolution.
