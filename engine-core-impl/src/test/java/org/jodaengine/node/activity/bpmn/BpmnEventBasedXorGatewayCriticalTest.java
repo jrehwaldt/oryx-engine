@@ -1,8 +1,5 @@
 package org.jodaengine.node.activity.bpmn;
 
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.mockito.Mockito;
-import org.testng.Assert;
 
 /**
  * It test the {@link BpmnEventBasedGateway}. But this is more critical because the two triggers are only 5 ms apart.

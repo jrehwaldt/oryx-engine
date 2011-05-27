@@ -30,9 +30,9 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
 
     // CHECKSTYLE:OFF
     protected static int waiting_time_1 = 300;
-    protected static int waiting_time_2 = 400;
+    protected static int waiting_time_2 = 600;
     // CHECKSTYLE:ON
-    protected static final int LONG_WAITING_TIME_TEST = 600;
+    protected static final int LONG_WAITING_TIME_TEST = 1200;
 
     /**
      * SetUp.
@@ -91,21 +91,21 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         return strBuilder.toString();
     }
 
-//    /**
-//     * The normal routing behavior.
-//     * 
-//     * @throws Exception
-//     */
-//    @Test
-//    public void testRouting()
-//    throws Exception {
-//
-//        token.executeStep();
-//
-//        Thread.sleep(LONG_WAITING_TIME_TEST);
-//
-//        Assert.assertEquals(token.getCurrentNode(), endNode1, errorMessage());
-//
-//        Mockito.verify(token).resume(Mockito.any(ProcessIntermediateEvent.class));
-//    }
+    /**
+     * The normal routing behavior.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testRouting()
+    throws Exception {
+
+        token.executeStep();
+
+        Thread.sleep(LONG_WAITING_TIME_TEST);
+
+        Assert.assertEquals(token.getCurrentNode(), endNode1, errorMessage());
+
+        Mockito.verify(token).resume(Mockito.any(ProcessIntermediateEvent.class));
+    }
 }
