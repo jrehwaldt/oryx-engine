@@ -6,6 +6,7 @@ import java.util.zip.ZipFile;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.archive.AbstractDarHandler;
 import org.jodaengine.ext.Extension;
+import org.testng.Assert;
 
 /**
  * This implementation tests the availability of a {@link AbstractDarHandler} implementation
@@ -16,20 +17,21 @@ import org.jodaengine.ext.Extension;
  */
 @Extension(TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME + "-dar-listener")
 public final class TestingDarHandler extends AbstractDarHandler {
-
-    private boolean processed = false;
+    
+    private TestingListenerExtensionService listenerService;
+    
+    /**
+     * Default constructor.
+     * 
+     * @param listenerService the listener service
+     */
+    public TestingDarHandler(TestingListenerExtensionService listenerService) {
+        Assert.assertNotNull(listenerService);
+        this.listenerService = listenerService;
+    }
 
     @Override
     public void processSingleDarFileEntry(ZipFile darFile, ZipEntry entry, DeploymentBuilder builder) {
-        this.processed = true;
-    }
-
-    /**
-     * Was this handler called to process.
-     * 
-     * @return true, if processSingleDarFileEntry() was invoked
-     */
-    public boolean isProcessed() {
-        return processed;
+        this.listenerService.invoked(this);
     }
 }

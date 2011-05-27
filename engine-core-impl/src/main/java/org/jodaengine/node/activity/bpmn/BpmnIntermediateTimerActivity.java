@@ -18,7 +18,7 @@ public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity im
 
     private long time;
 
-    private static final String PROCESS_EVENT_PREFIX = "PROCESS_EVENT";
+    private static final String PROCESS_EVENT_PREFIX = "PROCESS_EVENT-";
 
     /**
      * Instantiates a new intermediate timer with a given time.

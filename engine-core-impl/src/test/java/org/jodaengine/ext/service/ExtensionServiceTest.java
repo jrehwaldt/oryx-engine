@@ -1,8 +1,6 @@
 package org.jodaengine.ext.service;
 
 import java.io.File;
-import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.util.List;
 
 import org.jodaengine.bootstrap.Service;
@@ -352,9 +350,17 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
      * Test the proper registration of {@link AbstractDarHandler} within our {@link DarImporter}.
      * 
      * @throws IllegalAccessException test fails
+     * @throws ExtensionNotAvailableException test fails
      */
     @Test
-    public void testRegisteringOfDarHandler() throws IllegalAccessException {
+    public void testRegisteringOfDarHandler() throws IllegalAccessException, ExtensionNotAvailableException {
+        
+        TestingListenerExtensionService listenerService = this.extensionService.getExtensionService(
+            TestingListenerExtensionService.class,
+            TestingListenerExtensionService.DEMO_EXTENSION_SERVICE_NAME);
+        
+        Assert.assertNotNull(listenerService);
+        
         DarImporter importer = jodaEngineServices.getRepositoryService().getNewDarImporter();
         File darFile = new File(DAR_RESOURCE_PATH + "deployment/testDefinitionOnly.dar");
         
@@ -363,48 +369,34 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         //
         importer.importDarFile(darFile);
         
-        for (Field field: importer.getClass().getDeclaredFields()) {
-            Type fieldType = field.getGenericType();
-            
-            //
-            // make field accessible
-            //
-            if (!field.isAccessible()) {
-                field.setAccessible(true);
-            }
-            
-            if (fieldType instanceof Class) {
-                Class<?> fieldClass = (Class<?>) fieldType;
-                
-                //
-                // check that the navigator is set successfully (find the field first, if available)
-                //
-                if (AbstractDarHandler.class.isAssignableFrom(fieldClass)) {
-                    AbstractDarHandler handler = (AbstractDarHandler) field.get(importer);
-                    
-                    Assert.assertNotNull(handler);
-                    
-                    //
-                    // is our test handler correctly registered?
-                    //
-                    boolean contains = false;
-                    do {
-                        if (handler instanceof TestingDarHandler) {
-                            contains = true;
-                            
-                            //
-                            // was it called correctly?
-                            //
-                            TestingDarHandler testingHandler = (TestingDarHandler) handler;
-                            Assert.assertTrue(testingHandler.isProcessed());
-                            break;
-                        }
-                        handler = handler.getNext();
-                    } while (handler != null);
-                    
-                    Assert.assertTrue(contains);
-                }
-            }
-        }
+        Assert.assertTrue(listenerService.hasBeenInvoked(TestingDarHandler.class));
+    }
+    
+
+    /**
+     * Test of the registration and use of the {@link TestingBpmnXmlParseListener}.
+     * 
+     * @throws ExtensionNotAvailableException test fails
+     */
+    @Test
+    public void testParseListenerRegistrationInDarImporter() throws ExtensionNotAvailableException {
+        
+        TestingListenerExtensionService listenerService = this.extensionService.getExtensionService(
+            TestingListenerExtensionService.class,
+            TestingListenerExtensionService.DEMO_EXTENSION_SERVICE_NAME);
+        
+        Assert.assertNotNull(listenerService);
+        
+        File darFile = new File(DAR_RESOURCE_PATH + "deployment/testDefinitionOnly.dar");
+        DarImporter importer = new DarImporterImpl(
+            this.jodaEngineServices.getRepositoryService(),
+            this.jodaEngineServices.getExtensionService());
+        
+        //
+        // we need to process the dar for the handler to be invoked
+        //
+        importer.importDarFile(darFile);
+        
+        Assert.assertTrue(listenerService.hasBeenInvoked(TestingBpmnXmlParseListener.class));
     }
 }

@@ -1,5 +1,6 @@
 package org.jodaengine.node.activity.bpmn;
 
+import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.TransitionFactory;
@@ -57,7 +58,8 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         Mockito.when(processInstanceMock.getContext()).thenReturn(processInstanceContextMock);
 
         token = new BpmnToken(eventBasedXorGatewayNode, processInstanceMock, nav);
-    }
+        token = Mockito.spy(token);    
+}
 
     @Test
     public void testRouting()
@@ -68,5 +70,6 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         Thread.sleep(LONG_WAITING_TIME_TEST);
         Assert.assertEquals(token.getCurrentNode(), endNode1);
         
+        Mockito.verify(token).resume(Mockito.any(ProcessIntermediateEvent.class));
     }
 }

@@ -86,7 +86,6 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     @Override
     public boolean isRunning() {
-
         return this.running;
     }
 
