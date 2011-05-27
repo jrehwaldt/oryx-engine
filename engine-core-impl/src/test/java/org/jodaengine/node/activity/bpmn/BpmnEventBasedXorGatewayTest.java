@@ -25,23 +25,43 @@ import org.testng.annotations.Test;
  */
 public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
 
-    private Token token;
-    private Node eventBasedXorGatewayNode, intermediateEvent1Node, intermediateEvent2Node, endNode1, endNode2;
+    protected Token token;
+    protected Node eventBasedXorGatewayNode, intermediateEvent1Node, intermediateEvent2Node, endNode1, endNode2;
 
-    private static final int WAITING_TIME_1 = 300;
-    private static final int WAITING_TIME_2 = 400;
-    private static final int LONG_WAITING_TIME_TEST = 600;
+    // CHECKSTYLE:OFF
+    protected static int waiting_time_1 = 300;
+    protected static int waiting_time_2 = 400;
+    // CHECKSTYLE:ON
+    protected static final int LONG_WAITING_TIME_TEST = 600;
 
+    /**
+     * SetUp.
+     */
     @BeforeMethod
     public void setUp() {
+
+        buildProcessGraph();
+        Navigator nav = new NavigatorImplMock();
+        ProcessInstanceContext processInstanceContextMock = new ProcessInstanceContextImpl();
+        AbstractProcessInstance processInstanceMock = Mockito.mock(AbstractProcessInstance.class);
+        Mockito.when(processInstanceMock.getContext()).thenReturn(processInstanceContextMock);
+
+        token = new TokenImpl(eventBasedXorGatewayNode, processInstanceMock, nav);
+        token = Mockito.spy(token);
+    }
+
+    /**
+     * Builds the graph structure of the little test definition that should be tested.
+     */
+    protected void buildProcessGraph() {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 
         // Building the IntermediateTimer
         eventBasedXorGatewayNode = BpmnNodeFactory.createBpmnEventBasedXorGatewayNode(builder);
 
-        intermediateEvent1Node = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(builder, WAITING_TIME_1);
-        intermediateEvent2Node = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(builder, WAITING_TIME_2);
+        intermediateEvent1Node = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(builder, waiting_time_1);
+        intermediateEvent2Node = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(builder, waiting_time_2);
 
         endNode1 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
         endNode2 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
@@ -52,15 +72,30 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         TransitionFactory.createTransitionFromTo(builder, eventBasedXorGatewayNode, intermediateEvent2Node);
         TransitionFactory.createTransitionFromTo(builder, intermediateEvent2Node, endNode2);
 
-        Navigator nav = new NavigatorImplMock();
-        ProcessInstanceContext processInstanceContextMock = new ProcessInstanceContextImpl();
-        AbstractProcessInstance processInstanceMock = Mockito.mock(AbstractProcessInstance.class);
-        Mockito.when(processInstanceMock.getContext()).thenReturn(processInstanceContextMock);
-
-        token = new TokenImpl(eventBasedXorGatewayNode, processInstanceMock, nav);
-        token = Mockito.spy(token);
     }
 
+    /**
+     * Builds an error Message.
+     * 
+     * @return the errorMessage as String
+     */
+    protected String errorMessage() {
+
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.append(eventBasedXorGatewayNode + " => eventBasedXorGatewayNode \n");
+        strBuilder.append(intermediateEvent1Node + " => intermediateEvent1Node \n");
+        strBuilder.append(intermediateEvent2Node + " => intermediateEvent2Node \n");
+        strBuilder.append(endNode1 + " => endNode1 \n");
+        strBuilder.append(endNode2 + " => endNode2 \n");
+
+        return strBuilder.toString();
+    }
+
+    /**
+     * The normal routing behavior.
+     * 
+     * @throws Exception
+     */
     @Test
     public void testRouting()
     throws Exception {
@@ -68,8 +103,9 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         token.executeStep();
 
         Thread.sleep(LONG_WAITING_TIME_TEST);
-        Assert.assertEquals(token.getCurrentNode(), endNode1);
-        
+
+        Assert.assertEquals(token.getCurrentNode(), endNode1, errorMessage());
+
         Mockito.verify(token).resume(Mockito.any(ProcessIntermediateEvent.class));
     }
 }
