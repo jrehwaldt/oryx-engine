@@ -10,7 +10,7 @@ import org.jodaengine.process.token.TokenBuilder;
 /**
  * The Class BpmnTokenBuilder. A specific Token Builder which creates BPMN Tokens.
  */
-public class BpmnTokenBuilder implements TokenBuilder{
+public class BpmnTokenBuilder implements TokenBuilder {
     
     private Navigator nav;
     private Node node;

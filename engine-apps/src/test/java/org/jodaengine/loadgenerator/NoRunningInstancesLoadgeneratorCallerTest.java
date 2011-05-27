@@ -71,7 +71,7 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngin
         List<Node> startNodes = def.getStartNodes();
         Node startNode = startNodes.get(0);
 
-        TokenBuilder builder = new BpmnTokenBuilder(nav,null);
+        TokenBuilder builder = new BpmnTokenBuilder(nav, null);
         pi = new BpmnToken(startNode, new ProcessInstance(null, builder), null);
     }
 

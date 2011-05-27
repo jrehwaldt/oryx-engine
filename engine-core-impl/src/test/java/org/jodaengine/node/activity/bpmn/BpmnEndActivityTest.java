@@ -126,7 +126,7 @@ public class BpmnEndActivityTest {
         ProcessDefinition definition = builder.buildDefinition();
         
         nav = new NavigatorImplMock();
-        tokenBuilder = new BpmnTokenBuilder(nav,null);
+        tokenBuilder = new BpmnTokenBuilder(nav, null);
         instance = new ProcessInstance(definition, tokenBuilder);
         
     }

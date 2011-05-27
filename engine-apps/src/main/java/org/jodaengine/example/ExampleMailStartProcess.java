@@ -64,7 +64,7 @@ public final class ExampleMailStartProcess {
             Node startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
 
             // Building Node1
-            int[] ints = { 1, 1 };
+            int[] ints = {1, 1};
             Node node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
 
             // Building Node2
