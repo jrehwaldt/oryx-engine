@@ -11,10 +11,8 @@ import javax.el.ExpressionFactory;
 import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
 
-import net.htmlparser.jericho.Attributes;
 import net.htmlparser.jericho.FormField;
 import net.htmlparser.jericho.OutputDocument;
-import net.htmlparser.jericho.StartTag;
 
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.resource.allocation.Form;
@@ -44,25 +42,17 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
         ELContext elContext = new ProcessELContext(context);
 
         Iterator<FormField> it = formFields.iterator();
+        
         while (it.hasNext()) {
             FormField field = it.next();
-            StartTag tag = field.getFormControl().getFirstStartTag();
-            Attributes attributes = tag.getAttributes();
-
-            // get the corresponding jodaField
-            JodaFormField jodaField = form.getFormField(attributes.getValue("name"));
-
-            // replace the value attribute with the result of the readExpression (if it exists)
+            JodaFormField jodaField = form.getFormField(field.getName());
             String readExpression = jodaField.getReadExpression();
             if (readExpression != null) {
                 ValueExpression e = factory.createValueExpression(elContext, readExpression, String.class);
                 try {
                     String result = (String) e.getValue(elContext);
-//                    Map<String, String> replacements = output.replace(attributes, false);
-//
-//                    replacements.put("value", result);
                     field.setValue(result);
-                    output.replace(field.getFormControl());
+//                    output.replace(field.getFormControl());
 
                     // remove the formField from the formFields list, as it has been processed sucessfully.
                     it.remove();
@@ -71,9 +61,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
                     // do not change the value of the input field.
                     logger.debug("The expression {} cannot be resolved.", readExpression);
                 }
-
             }
-
         }
 
     }

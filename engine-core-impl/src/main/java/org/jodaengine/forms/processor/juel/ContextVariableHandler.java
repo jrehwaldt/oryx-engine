@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.htmlparser.jericho.Attributes;
 import net.htmlparser.jericho.FormField;
 import net.htmlparser.jericho.OutputDocument;
-import net.htmlparser.jericho.StartTag;
 
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.resource.allocation.Form;
@@ -28,17 +26,14 @@ public class ContextVariableHandler extends AbstractFormFieldHandler {
         Iterator<FormField> it = formFields.iterator();
         while (it.hasNext()) {
             FormField field = it.next();
-            StartTag tag = field.getFormControl().getFirstStartTag();
-            Attributes attributes = tag.getAttributes();
-
-            JodaFormField jodaField = form.getFormField(attributes.getValue("name"));
+            JodaFormField jodaField = form.getFormField(field.getName());
             String variable = jodaField.getReadVariable();
 
             if (variable != null) {
                 Object value = context.getVariable(variable);
                 if (value != null) {
-                    Map<String, String> replacements = output.replace(attributes, false);
-                    replacements.put("value", value.toString());
+                    field.setValue(value.toString());
+//                    output.replace(field.getFormControl());
 
                     it.remove();
                 }

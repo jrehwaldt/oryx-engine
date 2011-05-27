@@ -46,6 +46,7 @@ public class JuelFormProcessor implements FormProcessor {
         OutputDocument document = new OutputDocument(source);
 
         firstHandler.setFormValues(form, new ArrayList<FormField>(formFields), context, document);
+        document.replace(formFields);
 
         return document.toString();
 
