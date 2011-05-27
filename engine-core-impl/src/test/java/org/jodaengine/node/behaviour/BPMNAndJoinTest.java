@@ -6,15 +6,18 @@ import static org.testng.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.AbstractToken;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -34,9 +37,10 @@ public class BPMNAndJoinTest {
 
     /**
      * Sets the up.
+     * @throws IllegalStarteventException 
      */
     @BeforeMethod
-    public void setUp() {
+    public void setUp() throws IllegalStarteventException {
 
         List<Token> tokens = initializeTokens();
         newToken1 = tokens.get(0);
@@ -95,15 +99,15 @@ public class BPMNAndJoinTest {
      * Initialize tokens.
      * 
      * @return the process token
+     * @throws IllegalStarteventException 
      */
-    private List<Token> initializeTokens() {
+    private List<Token> initializeTokens() throws IllegalStarteventException {
 
         navigator = new NavigatorImplMock();
 
         splitNode = mock(Node.class);
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
-
         node1 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
         node2 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
@@ -115,11 +119,13 @@ public class BPMNAndJoinTest {
         BpmnNodeFactory.createTransitionFromTo(builder, node2, joinNode);
         BpmnNodeFactory.createTransitionFromTo(builder, joinNode, node3);
 
-        Token token = new TokenImpl(splitNode, new ProcessInstanceImpl(null), navigator);
+        BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, node1);
+        AbstractToken token = new BpmnToken(splitNode, new ProcessInstance(null, tokenBuilder), navigator);
 
         List<Token> newTokens = new ArrayList<Token>();
-        newTokens.add(token.createNewToken(node1));
-        newTokens.add(token.createNewToken(node2));
+        newTokens.add(token.createNewToken());
+        tokenBuilder.setNode(node2);
+        newTokens.add(token.createNewToken());
         return newTokens;
     }
     /**

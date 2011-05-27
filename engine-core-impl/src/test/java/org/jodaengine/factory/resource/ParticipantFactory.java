@@ -6,14 +6,14 @@ import java.util.Random;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
-import org.jodaengine.allocation.CreationPattern;
-import org.jodaengine.allocation.PushPattern;
-import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.Participant;
-import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
+import org.jodaengine.resource.allocation.CreationPattern;
+import org.jodaengine.resource.allocation.PushPattern;
+import org.jodaengine.resource.allocation.TaskAllocation;
+import org.jodaengine.resource.allocation.pattern.push.AllocateSinglePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.mockito.Mockito;
 
@@ -88,7 +88,7 @@ public class ParticipantFactory extends ResourceFactory {
 
         CreationPattern pattern = null;
         for (int i = 0; i < NUMBER_OF_ITEMS_FOR_BUSY_PARTICIPANT; i++) {
-            pattern = CreationPatternFactory.createParticipantCreator(willi);
+            pattern = CreationPatternFactory.createDirectDistributionPattern(willi);
             AbstractWorklistItem item = pattern.createWorklistItem(Mockito.mock(Token.class),
                 Mockito.mock(RepositoryService.class));
             PushPattern pushPattern = new AllocateSinglePattern();

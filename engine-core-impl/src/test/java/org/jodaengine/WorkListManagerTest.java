@@ -3,7 +3,6 @@ package org.jodaengine;
 import java.util.List;
 import java.util.UUID;
 
-import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
@@ -11,8 +10,14 @@ import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
+import org.jodaengine.resource.AbstractRole;
+import org.jodaengine.resource.allocation.CreationPattern;
+import org.jodaengine.resource.allocation.CreationPatternBuilder;
+import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
+import org.jodaengine.resource.allocation.PushPattern;
+import org.jodaengine.resource.allocation.pattern.creation.AbstractCreationPattern;
+import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
+import org.jodaengine.resource.allocation.pattern.push.AllocateSinglePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.jodaengine.util.mock.MockUtils;
@@ -26,9 +31,9 @@ import org.testng.annotations.Test;
  */
 public class WorkListManagerTest {
 
-    private ConcreteResourcePattern pattern;
-    private AbstractParticipant jannik;
-    private JodaEngineServices engineServices;
+    private CreationPattern pattern;
+    private AbstractParticipant jannik = null;
+    private JodaEngineServices engineServices = null;
 
     /**
      * Creates the participant and task and initializes the test with necessary data.
@@ -38,7 +43,8 @@ public class WorkListManagerTest {
 
         // We need to start the engine in order to start the WorklistManager who then gets the identityService
         engineServices = JodaEngine.start();
-        pattern = CreationPatternFactory.createJannikServesGerardoCreator();
+        jannik = ParticipantFactory.createJannik();
+        pattern = CreationPatternFactory.createDirectDistributionPattern(jannik);
 
         Token token = MockUtils.fullyMockedToken();
 
@@ -48,13 +54,14 @@ public class WorkListManagerTest {
         // ServiceFactory.getTaskDistribution().distribute(pattern, token);
 
         // "hack" to get the participant the task belongs to
-        jannik = (AbstractParticipant) pattern.getAssignedResources().iterator().next();
+        jannik = (AbstractParticipant) ((AbstractCreationPattern) pattern).getAssignedResources().iterator().next();
     }
 
     /**
      * Test and assert that Jannik has one task with the description and subject given in the factory.
      * 
      * @throws ResourceNotAvailableException
+     *             the resource not available exception
      */
     public void testAndAssertThatJannikHasOneTask()
     throws ResourceNotAvailableException {
@@ -72,6 +79,7 @@ public class WorkListManagerTest {
      * Test get worklist items by the id of the participant.
      * 
      * @throws ResourceNotAvailableException
+     *             the resource not available exception
      */
     @Test
     public void testGetWorklistItemsByIDOfParticipant()
@@ -84,28 +92,37 @@ public class WorkListManagerTest {
     /**
      * Creates the another participant with another task.
      * A lot of annoying setUps
+     * 
+     * @throws ResourceNotAvailableException
      */
-    public void createAnotherParticipantWithAnotherTask() {
+    public void createAnotherParticipantWithAnotherTask()
+    throws ResourceNotAvailableException {
 
         AbstractParticipant tobi = ParticipantFactory.createTobi();
+        AbstractRole testRole = ServiceFactory.getIdentityService().getIdentityBuilder().createRole("testRole");
+        ServiceFactory.getIdentityService().getIdentityBuilder()
+        .participantBelongsToRole(tobi.getID(), testRole.getID());
         // allocation patterns START
         // Pattern pushPattern = new DirectDistributionPattern();
         // Pattern pullPattern = new SimplePullPattern();
         // AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null,
         // null);
         // allocation patterns END
-        ConcreteResourcePattern anotherPattern = new ConcreteResourcePattern("Go shopping", "I need milk", null, tobi);
+        CreationPatternBuilder creationPatternBuilder = new CreationPatternBuilderImpl();
+        CreationPattern anotherPattern = creationPatternBuilder.setItemSubject("Go shopping")
+        .setItemDescription("I need milk").setItemFormID(null).addResourceAssignedToItem(tobi)
+        .buildCreationPattern(RoleBasedDistributionPattern.class);
         Token token = MockUtils.fullyMockedToken();
         AbstractWorklistItem item = anotherPattern.createWorklistItem(token, engineServices.getRepositoryService());
 
-        PushPattern pushPattern = new AllocateSinglePattern();
-        pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
+        anotherPattern.getPushPattern().distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
     }
 
     /**
      * Test get worklist items returns just items of this participant, not the ones of another participant.
      * 
      * @throws ResourceNotAvailableException
+     *             the resource not available exception
      */
     @Test
     public void testGetWorklistItemsReturnsJustItemsOfThisParticipant()

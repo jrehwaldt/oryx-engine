@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
@@ -15,6 +14,7 @@ import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.instance.AbstractProcessInstance;import org.jodaengine.resource.allocation.AbstractForm;
 
 /**
  * The RepositoryService offers method to manage the processes that have been deployed to the navigator.

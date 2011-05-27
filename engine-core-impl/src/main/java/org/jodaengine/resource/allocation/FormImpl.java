@@ -14,9 +14,6 @@ import net.htmlparser.jericho.OutputDocument;
 import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.StartTag;
 
-import org.jodaengine.allocation.AbstractForm;
-import org.jodaengine.allocation.Form;
-import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.util.io.IoUtil;

@@ -1,4 +1,4 @@
-package org.jodaengine.ext.debugger;
+package org.jodaengine.ext.debugging;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;

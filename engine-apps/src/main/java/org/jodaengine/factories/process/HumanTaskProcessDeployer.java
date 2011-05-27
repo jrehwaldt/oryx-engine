@@ -14,8 +14,8 @@ import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Role;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
-import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
-import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
+import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -88,21 +88,21 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         // CreationPattern task = TaskFactory.createParticipantTask((AbstractResource<?>) participants[0]);)
 
         node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
-            builder.buildConcreteResourcePattern(), new AllocateSinglePattern());
+            builder.buildCreationPattern(DirectDistributionPattern.class));
 
         // Create the task
         resourceToAssign = (AbstractResource<?>) participants[1];
         builder.flushAssignedResources().addResourceAssignedToItem(resourceToAssign);
 
         node2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
-            builder.buildConcreteResourcePattern(), new AllocateSinglePattern());
+            builder.buildCreationPattern(DirectDistributionPattern.class));
 
         // Create the task
         resourceToAssign = (AbstractResource<?>) participants[2];
         builder.flushAssignedResources().addResourceAssignedToItem(resourceToAssign);
 
         node3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
-            builder.buildConcreteResourcePattern(), new AllocateSinglePattern());
+            builder.buildCreationPattern(DirectDistributionPattern.class));
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
@@ -127,13 +127,13 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
         .addResourceAssignedToItem(role);
 
         node1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
-            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
+            builder.buildCreationPattern(RoleBasedDistributionPattern.class));
 
         node2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
-            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
+            builder.buildCreationPattern(RoleBasedDistributionPattern.class));
 
         node3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
-            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
+            builder.buildCreationPattern(RoleBasedDistributionPattern.class));
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 

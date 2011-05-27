@@ -5,9 +5,12 @@ import java.io.PrintStream;
 
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BpmnToken;
+import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
+import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -25,7 +28,7 @@ public class NavigatorTest {
 
     private Node node = null, node2 = null;
 
-    private TokenImpl processToken = null;
+    private Token processToken = null;
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -50,7 +53,7 @@ public class NavigatorTest {
         node = new RoutingBehaviourTestFactory().createWithAndSplit();
         node2 = new RoutingBehaviourTestFactory().createWithAndSplit();
         node.transitionTo(node2);
-        processToken = new TokenImpl(node, new ProcessInstanceImpl(null), navigator);
+        processToken = new BpmnToken(node, new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)), navigator);
 
     }
 

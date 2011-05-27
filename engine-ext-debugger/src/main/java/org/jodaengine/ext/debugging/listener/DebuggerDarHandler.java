@@ -1,5 +1,7 @@
 package org.jodaengine.ext.debugging.listener;
 
+import static org.jodaengine.ext.debugging.api.DebuggerArtifactService.DEBUGGER_ARTIFACT_NAMESPACE;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
@@ -30,13 +32,14 @@ public class DebuggerDarHandler extends AbstractDarHandler {
         
         if (!entry.isDirectory() && entry.getName().startsWith(SUBFOLDER)) {
             try {
-                //
-                // Mr. Guttenberg-Code
-                //
                 BufferedInputStream inputStream = new BufferedInputStream(darFile.getInputStream(entry));
                 int lastDelimiter = entry.getName().lastIndexOf(DELIMITER);
                 String svgName = entry.getName().substring(lastDelimiter + 1);
-                builder.addInputStreamArtifact(SUBFOLDER + svgName, inputStream);
+                
+                //
+                // register the artifact in the correct namespace
+                //
+                builder.addInputStreamArtifact(DEBUGGER_ARTIFACT_NAMESPACE + svgName, inputStream);
                 
                 inputStream.close();
             } catch (IOException e) {

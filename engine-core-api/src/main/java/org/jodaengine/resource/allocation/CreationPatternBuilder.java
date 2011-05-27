@@ -1,11 +1,10 @@
 package org.jodaengine.resource.allocation;
 
-import org.jodaengine.allocation.Form;
 import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
 
 /**
- * This class helps to build {@link WorklistItem WorklistItems}.
+ * This class helps to build {@link WorklistItem Worklist Items}.
+ * One can set description, subject etc. and build multiple Patterns with the same information.
  */
 public interface CreationPatternBuilder {
 
@@ -29,8 +28,9 @@ public interface CreationPatternBuilder {
 
     /**
      * Sets the {@link Form} of the {@link WorklistItem} that should be built.
-     *
-     * @param formID the id of the process artifact that represents this form
+     * 
+     * @param formID
+     *            the id of the process artifact that represents this form
      * @return the current {@link CreationPatternBuilder} in order continue configuring the creation pattern
      */
     CreationPatternBuilder setItemFormID(String formID);
@@ -55,7 +55,10 @@ public interface CreationPatternBuilder {
      * Builds a concrete resource pattern out of the given specification. For other Patterns, you would extend this
      * interface.
      * 
-     * @return the {@link ConcreteResourcePattern} specified before by the {@link CreationPatternBuilder}
+     * @param creationPatternClass
+     *            the specific creation pattern class that implements the {@link CreationPattern Creation Pattern
+     *            Interface}
+     * @return the {@link AbstractCreationPattern} specified before by the {@link CreationPatternBuilder}
      */
-    ConcreteResourcePattern buildConcreteResourcePattern();
+    CreationPattern buildCreationPattern(Class<? extends CreationPattern> creationPatternClass);
 }

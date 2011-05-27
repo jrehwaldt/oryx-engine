@@ -10,7 +10,6 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
@@ -28,6 +27,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
+import org.jodaengine.resource.allocation.AbstractForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,7 +86,6 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     @Override
     public boolean isRunning() {
-
         return this.running;
     }
 

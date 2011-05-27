@@ -3,10 +3,13 @@ package org.jodaengine.factory.token;
 import javax.annotation.Nullable;
 
 import org.jodaengine.ext.service.ExtensionService;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.TokenBuilder;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
+import org.mockito.Mockito;
 
 
 /**
@@ -23,7 +26,8 @@ public class SimpleProcessTokenFactory {
      */
     public Token create(Node startNode,
                         @Nullable ExtensionService extensionService) {
-        return new TokenImpl(startNode, new ProcessInstanceImpl(null), null, extensionService);
+        TokenBuilder builder = new BpmnTokenBuilder(null, startNode);
+        return new BpmnToken(startNode, new ProcessInstance(null, builder), null, extensionService);
     }
     
     /**
@@ -33,7 +37,8 @@ public class SimpleProcessTokenFactory {
      * @return the process instance
      */
     public Token create(Node startNode) {
-        return create(startNode, null);
+        Token p = new BpmnToken(startNode, new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)), null);
+        return p;
     }
 
 }

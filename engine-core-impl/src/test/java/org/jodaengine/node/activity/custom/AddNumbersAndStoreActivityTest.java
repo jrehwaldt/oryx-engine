@@ -4,11 +4,13 @@ import static org.testng.Assert.assertEquals;
 
 import org.jodaengine.factory.node.AddNumbersAndStoreNodeFactory;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
+import org.mockito.Mockito;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -33,8 +35,8 @@ public class AddNumbersAndStoreActivityTest {
 
         AddNumbersAndStoreNodeFactory factory = new AddNumbersAndStoreNodeFactory();
         node = factory.create();
-        AbstractProcessInstance instance = new ProcessInstanceImpl(null);
-        p = new TokenImpl(node, instance, null);
+        AbstractProcessInstance instance = new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class));
+        p = new BpmnToken(node, instance, null);
 
     }
 

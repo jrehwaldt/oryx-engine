@@ -5,13 +5,12 @@ import java.util.Set;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
-import org.jodaengine.allocation.Form;
+import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.Participant;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
+import org.jodaengine.resource.allocation.pattern.creation.AbstractCreationPattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemImpl;
 import org.jodaengine.resource.worklist.WorklistItemState;
@@ -40,16 +39,16 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
     public void setUp() {
 
         worklistService = ServiceFactory.getWorklistService();
-
-        ConcreteResourcePattern pattern = CreationPatternFactory.createJannikServesGerardoCreator();
-        jannik = (Participant) pattern.getAssignedResources().iterator().next();
+        jannik = ParticipantFactory.createJannik();
+        AbstractCreationPattern pattern = (AbstractCreationPattern) CreationPatternFactory
+        .createDirectDistributionPattern(jannik);
 
         Token token = Mockito.mock(Token.class);
         Set<AbstractResource<?>> resources = pattern.getAssignedResources();
 
         Form form = Mockito.mock(Form.class);
-        worklistItem = new WorklistItemImpl(pattern.getItemSubject(), pattern.getItemDescription(),
-            form, resources, token);
+        worklistItem = new WorklistItemImpl(pattern.getItemSubject(), pattern.getItemDescription(), form, resources,
+            token);
 
         ServiceFactory.getWorklistQueue().addWorklistItem(worklistItem, jannik);
     }
@@ -86,8 +85,8 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         Assert.assertEquals(worklistItemForGerardo.getStatus(), WorklistItemState.CREATED);
 
         // Testing that the creation of a WorklistItem requires a Token
-        worklistItemForGerardo = new WorklistItemImpl("Task Subject!!", "Task Decription!!", null,
-            assignedResources, null);
+        worklistItemForGerardo = new WorklistItemImpl("Task Subject!!", "Task Decription!!", null, assignedResources,
+            null);
         String failureMessage = "An NullPointerException should have occurred, "
             + "because the WorklistItem was created without a Token.";
         Assert.fail(failureMessage);
@@ -123,7 +122,7 @@ public class WorklistItemLifecycleTest extends AbstractJodaEngineTest {
         Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.EXECUTING);
         Assert.assertEquals(worklistItem.getAssignedResources().size(), 1);
         Assert.assertEquals(worklistItem.getAssignedResources().iterator().next(), jannik);
-        
+
         worklistService.abortWorklistItemBy(worklistItem, jannik);
         Assert.assertEquals(worklistItem.getStatus(), WorklistItemState.ALLOCATED);
         Assert.assertEquals(worklistItem.getAssignedResources().size(), 1);

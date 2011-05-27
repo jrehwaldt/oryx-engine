@@ -1,4 +1,4 @@
-package org.jodaengine.allocation;
+package org.jodaengine.resource.allocation;
 
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 
