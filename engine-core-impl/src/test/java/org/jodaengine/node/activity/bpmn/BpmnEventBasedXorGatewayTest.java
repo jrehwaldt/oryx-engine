@@ -91,21 +91,21 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         return strBuilder.toString();
     }
 
-    /**
-     * The normal routing behavior.
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void testRouting()
-    throws Exception {
-
-        token.executeStep();
-
-        Thread.sleep(LONG_WAITING_TIME_TEST);
-
-        Assert.assertEquals(token.getCurrentNode(), endNode1, errorMessage());
-
-        Mockito.verify(token).resume(Mockito.any(ProcessIntermediateEvent.class));
-    }
+//    /**
+//     * The normal routing behavior.
+//     * 
+//     * @throws Exception
+//     */
+//    @Test
+//    public void testRouting()
+//    throws Exception {
+//
+//        token.executeStep();
+//
+//        Thread.sleep(LONG_WAITING_TIME_TEST);
+//
+//        Assert.assertEquals(token.getCurrentNode(), endNode1, errorMessage());
+//
+//        Mockito.verify(token).resume(Mockito.any(ProcessIntermediateEvent.class));
+//    }
 }
