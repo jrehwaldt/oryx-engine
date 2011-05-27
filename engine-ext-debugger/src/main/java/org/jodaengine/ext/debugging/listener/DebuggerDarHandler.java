@@ -30,12 +30,13 @@ public class DebuggerDarHandler extends AbstractDarHandler {
         
         if (!entry.isDirectory() && entry.getName().startsWith(SUBFOLDER)) {
             try {
-                //
-                // Mr. Guttenberg-Code
-                //
                 BufferedInputStream inputStream = new BufferedInputStream(darFile.getInputStream(entry));
                 int lastDelimiter = entry.getName().lastIndexOf(DELIMITER);
                 String svgName = entry.getName().substring(lastDelimiter + 1);
+                
+                //
+                // TODO how to figure out the name
+                //
                 builder.addInputStreamArtifact(SUBFOLDER + svgName, inputStream);
                 
                 inputStream.close();

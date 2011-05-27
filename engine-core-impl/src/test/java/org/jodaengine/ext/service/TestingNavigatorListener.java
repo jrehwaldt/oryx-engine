@@ -4,6 +4,7 @@ import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.listener.AbstractNavigatorListener;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorState;
+import org.testng.Assert;
 
 /**
  * Listener implementation for testing the {@link ExtensionService} integration in
@@ -15,9 +16,21 @@ import org.jodaengine.navigator.NavigatorState;
 @Extension("testing-navigator-integration")
 public class TestingNavigatorListener extends AbstractNavigatorListener {
     
+    protected TestingListenerExtensionService listenerService;
+    
+    /**
+     * Default constructor.
+     * 
+     * @param listenerService the listener service
+     */
+    public TestingNavigatorListener(TestingListenerExtensionService listenerService) {
+        Assert.assertNotNull(listenerService);
+        this.listenerService = listenerService;
+    }
+    
     @Override
     protected void stateChanged(Navigator nav,
                                 NavigatorState navState) {
-        
+        this.listenerService.invoked(this);
     }
 }
