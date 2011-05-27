@@ -15,7 +15,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
  */
 public interface DebuggerArtifactService {
     
-    public static final String DEBUGGER_ARTIFACT_NAMESPACE = "debugger/";
+    String DEBUGGER_ARTIFACT_NAMESPACE = "debugger/";
     
     /**
      * Provides access to the svg resources bound to a certain process via {@link ProcessDefinitionID}.
