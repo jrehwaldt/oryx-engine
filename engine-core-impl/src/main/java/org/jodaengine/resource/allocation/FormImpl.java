@@ -98,6 +98,7 @@ public class FormImpl extends AbstractForm {
         OutputDocument document = new OutputDocument(source);
 
         for (FormField field : formFields) {
+            
             StartTag tag = field.getFormControl().getFirstStartTag();
             Attributes attributes = tag.getAttributes();
 
