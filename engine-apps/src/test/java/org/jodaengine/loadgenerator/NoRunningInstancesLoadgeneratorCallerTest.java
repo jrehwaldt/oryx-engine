@@ -16,6 +16,8 @@ import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenBuilder;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.annotations.BeforeClass;
@@ -68,8 +70,9 @@ public class NoRunningInstancesLoadgeneratorCallerTest extends AbstractJodaEngin
         ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
         List<Node> startNodes = def.getStartNodes();
         Node startNode = startNodes.get(0);
-        // Builder is not used here, therefore it can be null
-        pi = new BpmnToken(startNode, new ProcessInstance(null, null), null);
+
+        TokenBuilder builder = new BpmnTokenBuilder(nav,null);
+        pi = new BpmnToken(startNode, new ProcessInstance(null, builder), null);
     }
 
     /**

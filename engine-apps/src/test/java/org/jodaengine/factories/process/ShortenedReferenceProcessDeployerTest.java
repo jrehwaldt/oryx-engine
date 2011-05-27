@@ -16,6 +16,8 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenBuilder;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.testng.annotations.BeforeMethod;
@@ -44,7 +46,8 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         this.id = instanceDefinition.deploy(engineServices);
         try {
             // The builder is not used in this tested, therefore it can be null
-            processInstance = new ProcessInstance(ServiceFactory.getRepositoryService().getProcessDefinition(id), null);
+            TokenBuilder builder = new BpmnTokenBuilder(null, null);
+            processInstance = new ProcessInstance(ServiceFactory.getRepositoryService().getProcessDefinition(id), builder);
         } catch (DefinitionNotFoundException e) {
             System.out.println("Definition nicht gefunden! ");
             e.printStackTrace();
