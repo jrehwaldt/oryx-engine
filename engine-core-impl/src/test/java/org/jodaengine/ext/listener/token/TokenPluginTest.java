@@ -29,7 +29,7 @@ import org.testng.annotations.Test;
  * The Class TokenPluginTest.
  */
 public class TokenPluginTest {
-    private TokenImpl token;
+    private AbstractToken token;
     private ArgumentCaptor<ActivityLifecycleChangeEvent> eventCapturer = null;
     private AbstractTokenListener mock;
     private TokenBuilder builder;

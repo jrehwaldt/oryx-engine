@@ -1,6 +1,7 @@
 package org.jodaengine.ext.listener.scheduler;
 
 import org.jodaengine.ext.listener.Listener;
+import org.jodaengine.navigator.schedule.SchedulerEvent;
 import org.jodaengine.process.token.Token;
 
 /**

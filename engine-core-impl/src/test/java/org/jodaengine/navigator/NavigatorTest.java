@@ -7,8 +7,8 @@ import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.BpmnToken;
+import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.mockito.Mockito;
 import org.testng.Assert;
@@ -28,7 +28,7 @@ public class NavigatorTest {
 
     private Node node = null, node2 = null;
 
-    private TokenImpl processToken = null;
+    private Token processToken = null;
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 

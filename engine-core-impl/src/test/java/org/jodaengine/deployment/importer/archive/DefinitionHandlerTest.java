@@ -1,8 +1,13 @@
 package org.jodaengine.deployment.importer.archive;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.zip.ZipException;
 
 import org.jodaengine.deployment.Deployment;
+import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
+import org.jodaengine.ext.service.ExtensionService;
+import org.jodaengine.ext.service.TestingBpmnXmlParseListener;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;

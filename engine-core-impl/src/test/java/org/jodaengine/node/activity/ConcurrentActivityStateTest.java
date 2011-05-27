@@ -56,11 +56,11 @@ public class ConcurrentActivityStateTest {
         NavigatorImplMock nav = new NavigatorImplMock();
         TokenBuilder builder = new BpmnTokenBuilder(nav,startNode);
         AbstractProcessInstance instance1 = new ProcessInstance(definition, builder);
-        Token token1 = instance1.createToken();
+        AbstractToken token1 = (AbstractToken) instance1.createToken();
 
         TokenBuilder builder2 = new BpmnTokenBuilder(nav,startNode);
         AbstractProcessInstance instance2 = new ProcessInstance(definition, builder2);
-        Token token2 = instance2.createToken();
+        AbstractToken token2 = (AbstractToken) instance2.createToken();
 
         assertEquals(token1.getCurrentActivityState(), ActivityState.INIT);
         assertEquals(token2.getCurrentActivityState(), ActivityState.INIT);
@@ -69,7 +69,7 @@ public class ConcurrentActivityStateTest {
         // for instance2/token2.
 
         ActivityLifecycleAssuranceListener plugin = new ActivityLifecycleAssuranceListener();
-        ((TokenImpl) token1).registerListener(plugin);
+        token1.registerListener(plugin);
         token1.executeStep();
         
         assertTrue(plugin.isCompletedCalled());

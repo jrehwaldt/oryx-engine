@@ -15,7 +15,6 @@ import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
-import org.mockito.Mockito;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 

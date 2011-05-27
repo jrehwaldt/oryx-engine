@@ -6,7 +6,8 @@ import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.logger.TokenListenerLogger;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.AbstractToken;
+import org.jodaengine.process.token.BpmnToken;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -19,7 +20,7 @@ public class TokenListenerLoggerTest {
     
     private Node node = null;
     private AbstractTokenListener listener = null;
-    private TokenImpl token = null;
+    private AbstractToken token = null;
     private ActivityLifecycleChangeEvent event = null;
     
     /**
@@ -38,7 +39,7 @@ public class TokenListenerLoggerTest {
    public void beforeMethod() {
        this.node = mock(Node.class);
        this.listener = TokenListenerLogger.getInstance();
-       this.token = mock(TokenImpl.class);
+       this.token = mock(BpmnToken.class);
        this.event = new ActivityLifecycleChangeEvent(
            this.node, ActivityState.ACTIVE, ActivityState.COMPLETED, this.token);
    }

@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.jodaengine.ext.AbstractPluggable;
+import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.exception.InstanceTerminationHandler;
 import org.jodaengine.ext.exception.LoggerExceptionHandler;
 import org.jodaengine.ext.listener.AbstractExceptionHandler;
@@ -21,13 +21,11 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 
-/**
- * 
- * @author Gery
- * 
- */
 
-public abstract class AbstractToken extends AbstractPluggable<AbstractTokenListener>
+/**
+ * AbstractToken class, which is used by other specific Token classes like the BPMN Token.
+ */
+public abstract class AbstractToken extends AbstractListenable<AbstractTokenListener>
 implements Token {
 
     protected UUID id;
@@ -43,25 +41,10 @@ implements Token {
     protected boolean suspandable;
 
     protected List<Token> lazySuspendedProcessingTokens;
-    private HashMap<String, Object> internalVariables;
+    protected HashMap<String, Object> internalVariables;
 
     @JsonIgnore
-    private AbstractExceptionHandler exceptionHandler;
-
-    /**
-     * Instantiates a new process {@link TokenImpl}. This will not register any available extension.
-     * 
-     * @param startNode
-     *            the start node
-     * @param instance
-     *            the instance
-     * @param navigator
-     *            the navigator
-     */
-    public TokenImpl(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
-
-        this(startNode, instance, navigator, null);
-    }
+    protected AbstractExceptionHandler exceptionHandler;
 
     /**
      * Instantiates a new process {@link TokenImpl} and register all available extensions.
@@ -75,12 +58,11 @@ implements Token {
      * @param extensionService
      *            the {@link ExtensionService} to load and register extensions from, may be null
      */
-    public TokenImpl(Node startNode,
+    public AbstractToken(Node startNode,
                      AbstractProcessInstance instance,
                      Navigator navigator,
                      @Nullable ExtensionService extensionService) {
 
-        super();
 
         // TODO Jan - use this constructor to register potential extensions - wait for Jannik's refactoring.
 
@@ -88,7 +70,6 @@ implements Token {
         this.instance = instance;
         this.navigator = navigator;
         this.id = UUID.randomUUID();
-        changeActivityState(ActivityState.INIT);
 
         //
         // register default exception chain;
@@ -106,7 +87,7 @@ implements Token {
     /**
      * Hidden constructor.
      */
-    protected TokenImpl() {
+    protected AbstractToken() {
 
     }
 
@@ -159,25 +140,6 @@ implements Token {
         this.lastTakenTransition = t;
     }
 
-    @Override
-    public void suspend() {
-
-        changeActivityState(ActivityState.WAITING);
-        navigator.addSuspendToken(this);
-    }
-
-    @Override
-    public void resume(Object resumeObject) {
-
-        navigator.removeSuspendToken(this);
-
-        try {
-            resumeAndCompleteExecution(resumeObject);
-        } catch (NoValidPathException nvpe) {
-            exceptionHandler.processException(nvpe, this);
-        }
-    }
-
     /**
      * Gets the lazy suspended processing token.
      * 
@@ -198,7 +160,7 @@ implements Token {
         return this.navigator;
     }
 
-	/**
+    /**
      * Registers any number of {@link AbstractExceptionHandler}s.
      * New handlers are added at the beginning of the chain.
      * 
@@ -243,6 +205,11 @@ implements Token {
         registerExceptionHandlers(tokenExHandler);
     }
     
+    /**
+     * Creates a new token and registers this for the listeners.
+     *
+     * @return the token
+     */
     public Token createNewToken() {
         AbstractToken token = (AbstractToken) instance.createToken();
         token.registerListeners(getListeners());

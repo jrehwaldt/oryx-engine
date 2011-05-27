@@ -2,7 +2,7 @@ package org.jodaengine.node.activity.bpmn;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.node.activity.AbstractBpmnActivity;
+import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.token.Token;
 
 

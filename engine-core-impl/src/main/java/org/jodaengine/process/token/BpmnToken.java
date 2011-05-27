@@ -3,10 +3,13 @@ package org.jodaengine.process.token;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
+import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
@@ -23,14 +26,39 @@ public class BpmnToken extends AbstractToken {
 
     private ActivityState currentActivityState = null;
     
-    //Hidden Constructor
+    /**
+     * Hidden Constructor
+     */
     protected BpmnToken() {
         
     }
     
+    /**
+     * Instantiates a new process {@link TokenImpl}. This will not register any available extension.
+     *
+     * @param startNode the start node
+     * @param instance the instance
+     * @param navigator the navigator
+     */
     public BpmnToken(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
 
-        super(startNode, instance, navigator);
+        this(startNode, instance, navigator, null);
+    }
+    
+    /**
+     * Instantiates a new process {@link TokenImpl} and register all available extensions.
+     *
+     * @param startNode the start node
+     * @param instance the instance
+     * @param navigator the navigator
+     * @param extensionService the extension service
+     */
+    public BpmnToken(Node startNode,
+                     AbstractProcessInstance instance,
+                     Navigator navigator,
+                     @Nullable ExtensionService extensionService) {
+
+        super(startNode, instance, navigator, extensionService);
         changeActivityState(ActivityState.INIT);
     }
 
@@ -48,12 +76,12 @@ public class BpmnToken extends AbstractToken {
     }
 
     @Override
-    public void resume() {
+    public void resume(Object resumeObject) {
 
         navigator.removeSuspendToken(this);
 
         try {
-            completeExecution();
+            resumeAndCompleteExecution(resumeObject);
         } catch (NoValidPathException nvpe) {
             exceptionHandler.processException(nvpe, this);
         }
@@ -61,14 +89,13 @@ public class BpmnToken extends AbstractToken {
     
     /**
      * Completes the execution of the activity.
-     * 
+     *
      * @throws NoValidPathException
      *             thrown if there is no valid path to be executed
      */
-    protected void completeExecution()
+    private void completeExecution()
     throws NoValidPathException {
 
-        currentNode.getActivityBehaviour().resume(this);
         changeActivityState(ActivityState.COMPLETED);
 
         List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
@@ -77,9 +104,8 @@ public class BpmnToken extends AbstractToken {
             navigator.addWorkToken(token);
         }
 
-        
         lazySuspendedProcessingTokens = null;
-
+        internalVariables = null;
     }
     
     @Override
@@ -185,6 +211,22 @@ public class BpmnToken extends AbstractToken {
 
         // TODO Auto-generated method stub
         return false;
+    }
+    
+    /**
+     * Resumes the execution of the activity and completes it.
+     *
+     * @param resumeObject
+     *            - an object that is passed from class that resumes the Token
+     * @throws NoValidPathException
+     *             thrown if there is no valid path to be executed
+     */
+    private void resumeAndCompleteExecution(Object resumeObject)
+    throws NoValidPathException {
+
+        currentNode.getActivityBehaviour().resume(this, resumeObject);
+
+        completeExecution();
     }
 
 }

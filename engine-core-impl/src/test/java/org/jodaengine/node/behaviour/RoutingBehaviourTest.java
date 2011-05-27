@@ -13,7 +13,6 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
@@ -78,7 +77,7 @@ public class RoutingBehaviourTest {
      * 
      * @return the process token that was created within the method
      */
-    private TokenImpl simpleToken() {
+    private Token simpleToken() {
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
 

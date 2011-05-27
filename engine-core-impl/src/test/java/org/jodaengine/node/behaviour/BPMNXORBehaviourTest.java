@@ -17,7 +17,6 @@ import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
-import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
@@ -112,7 +111,7 @@ public class BPMNXORBehaviourTest {
      * 
      * @return the process token that was created within the method
      */
-    private TokenImpl simpleToken() {
+    private Token simpleToken() {
 
 
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();

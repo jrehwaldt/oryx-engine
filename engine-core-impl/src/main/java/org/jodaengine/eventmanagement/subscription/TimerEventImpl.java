@@ -3,6 +3,7 @@ package org.jodaengine.eventmanagement.subscription;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 

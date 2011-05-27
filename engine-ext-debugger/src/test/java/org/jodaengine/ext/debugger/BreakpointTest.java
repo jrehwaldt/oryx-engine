@@ -3,8 +3,8 @@ package org.jodaengine.ext.debugger;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -28,7 +28,7 @@ public class BreakpointTest {
     @BeforeClass
     public void setUpClass() {
         this.node = new NodeImpl(null, null, null);
-        this.token = new TokenImpl(this.node, null, null);
+        this.token = new BpmnToken(this.node, null, null);
     }
     
     /**
@@ -83,7 +83,7 @@ public class BreakpointTest {
     @Test
     public void testBreakpointWillNotMatchWhenTokenOnOtherNode() {
         Node otherNode = new NodeImpl(null, null, null);
-        Token otherToken = new TokenImpl(otherNode, null, null);
+        Token otherToken = new BpmnToken(otherNode, null, null);
         Assert.assertNotSame(this.breakpoint.getNode(), otherNode);
         Assert.assertFalse(this.breakpoint.matches(otherToken));
     }

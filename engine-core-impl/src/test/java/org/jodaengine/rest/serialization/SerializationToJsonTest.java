@@ -23,8 +23,8 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
 import org.jodaengine.resource.AbstractCapability;
 import org.jodaengine.resource.AbstractOrganizationUnit;
 import org.jodaengine.resource.AbstractParticipant;
@@ -335,7 +335,7 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         Assert.assertTrue(this.mapper.canSerialize(AbstractProcessInstance.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessInstance.class));
         Assert.assertTrue(this.mapper.canSerialize(Token.class));
-        Assert.assertTrue(this.mapper.canSerialize(TokenImpl.class));
+        Assert.assertTrue(this.mapper.canSerialize(BpmnToken.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessDefinition.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessDefinitionImpl.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessInstanceContext.class));

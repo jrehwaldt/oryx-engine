@@ -14,7 +14,6 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
-import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -92,7 +91,7 @@ public class ProcessTokenImplTest {
      * 
      * @return the process instance impl
      */
-    private TokenImpl simpleToken() {
+    private Token simpleToken() {
         
         node = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         node2 = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());

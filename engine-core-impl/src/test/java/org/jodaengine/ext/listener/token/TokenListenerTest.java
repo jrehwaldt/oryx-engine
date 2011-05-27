@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
  */
 public class TokenListenerTest {
 
-    private TokenImpl token = null;
+    private AbstractToken token = null;
     private ArgumentCaptor<ActivityLifecycleChangeEvent> eventCapturer = null;
 
     /**

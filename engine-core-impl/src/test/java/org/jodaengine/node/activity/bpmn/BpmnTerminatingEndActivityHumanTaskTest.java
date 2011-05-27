@@ -53,7 +53,7 @@ public class BpmnTerminatingEndActivityHumanTaskTest extends AbstractJodaEngineT
     public void testCancellingOfHumanTasks()
     throws JodaEngineException {
         ProcessDefinition definition = mock(ProcessDefinition.class);
-        when(definition.getID()).thenReturn(new ProcessDefinitionID(UUID.randomUUID()));
+        when(definition.getID()).thenReturn(new ProcessDefinitionID(UUID.randomUUID().toString()));
         NavigatorImplMock nav = new NavigatorImplMock();
         TokenBuilder builder = new BpmnTokenBuilder(nav, splitNode);
         AbstractProcessInstance instance = new ProcessInstance(definition, builder);
