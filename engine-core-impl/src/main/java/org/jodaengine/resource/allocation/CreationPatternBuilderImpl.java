@@ -1,6 +1,7 @@
 package org.jodaengine.resource.allocation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.jodaengine.resource.AbstractResource;
@@ -68,10 +69,12 @@ public class CreationPatternBuilderImpl implements CreationPatternBuilder {
     @Override
     public CreationPattern buildCreationPattern(Class<? extends CreationPattern> creationPatternClass) {
 
+        List<AbstractResource<?>> resourcesCopy = new ArrayList<AbstractResource<?>>(abstractResources);
+        Collections.copy(resourcesCopy, abstractResources);
         if (creationPatternClass.equals(RoleBasedDistributionPattern.class)) {
-            return new RoleBasedDistributionPattern(taskSubject, taskDescription, formID, abstractResources);
+            return new RoleBasedDistributionPattern(taskSubject, taskDescription, formID, resourcesCopy);
         } else {
-            return new DirectDistributionPattern(taskSubject, taskDescription, formID, abstractResources);
+            return new DirectDistributionPattern(taskSubject, taskDescription, formID, resourcesCopy);
         }
     }
 

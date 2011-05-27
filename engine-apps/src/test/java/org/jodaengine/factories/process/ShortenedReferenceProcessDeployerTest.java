@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Set;
 
 import org.jodaengine.NavigatorImplMock;
 import org.jodaengine.ServiceFactory;
@@ -13,12 +14,17 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceImpl;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.Participant;
+import org.jodaengine.resource.Role;
+import org.jodaengine.resource.allocation.pattern.creation.AbstractCreationPattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -56,6 +62,28 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         jannik = instanceDefinition.getJannik();
         jan = instanceDefinition.getJan();
         worklistManager = engineServices.getWorklistService();
+    }
+
+    /**
+     * Tests correct assignment of items to roles.
+     */
+    @Test
+    void testCorrectAssignmentOfItemsToRoles() {
+
+        BpmnHumanTaskActivity humanActivity1 = (BpmnHumanTaskActivity) instanceDefinition.getHuman1()
+        .getActivityBehaviour();
+        BpmnHumanTaskActivity humanActivity2 = (BpmnHumanTaskActivity) instanceDefinition.getHuman5()
+        .getActivityBehaviour();
+        AbstractCreationPattern pattern1 = (AbstractCreationPattern) humanActivity1.getCreationPattern();
+        AbstractCreationPattern pattern2 = (AbstractCreationPattern) humanActivity2.getCreationPattern();
+        Set<AbstractResource<?>> assignedResources1 = pattern1.getAssignedResources();
+        Set<AbstractResource<?>> assignedResources2 = pattern2.getAssignedResources();
+        Role objectionClerk = instanceDefinition.getObjectionClerk();
+        Role allowanceClerk = instanceDefinition.getAllowanceClerk();
+        Assert.assertTrue(assignedResources1.contains(objectionClerk));
+        Assert.assertFalse(assignedResources1.contains(allowanceClerk));
+        Assert.assertTrue(assignedResources2.contains(allowanceClerk));
+        Assert.assertFalse(assignedResources2.contains(objectionClerk));
     }
 
     /**

@@ -207,6 +207,16 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
         return objectionClerk;
     }
+    
+    /**
+     * Gets the allowance clerk.
+     * 
+     * @return the allowance clerk
+     */
+    public Role getAllowanceClerk() {
+
+        return allowanceClerk;
+    }
 
     /**
      * Gets the participant "Jan".
