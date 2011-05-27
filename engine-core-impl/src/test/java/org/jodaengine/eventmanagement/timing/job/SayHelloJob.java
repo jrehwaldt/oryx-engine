@@ -22,7 +22,7 @@ public class SayHelloJob implements Job {
         long currentTimeMillis = System.currentTimeMillis();
         logger.info("Hello World!! - Called at " + currentTimeMillis);
         
-        timesIsaidHello ++;
+        timesIsaidHello++;
     }
     
     /**

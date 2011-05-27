@@ -1,4 +1,4 @@
-package org.jodaengine.allocation;
+package org.jodaengine.resource.allocation;
 
 /**
  * A FormField is made up of a name, an expression for variable getting and setting and a data type that form input

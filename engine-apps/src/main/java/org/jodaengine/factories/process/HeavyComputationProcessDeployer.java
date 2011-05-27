@@ -17,7 +17,7 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
     private final static int NUMBER_OF_NODES = 5;
 
     /** The Constant PASSWORDS. */
-    private final static String[] PASSWORDS = { "Hallo", "toor", "278dahka!§-", "muhhhh", "HPI" };
+    private final static String[] PASSWORDS = {"Hallo", "toor", "278dahka!§-", "muhhhh", "HPI"};
 
     private Node startNode;
 

@@ -1,4 +1,4 @@
-package org.jodaengine.allocation;
+package org.jodaengine.resource.allocation;
 
 /**
  * Internal interface for the distribution of human tasks.

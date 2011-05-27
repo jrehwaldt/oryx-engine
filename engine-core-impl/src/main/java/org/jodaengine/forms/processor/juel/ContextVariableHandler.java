@@ -10,9 +10,9 @@ import net.htmlparser.jericho.FormField;
 import net.htmlparser.jericho.OutputDocument;
 import net.htmlparser.jericho.StartTag;
 
-import org.jodaengine.allocation.Form;
-import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.resource.allocation.Form;
+import org.jodaengine.resource.allocation.JodaFormField;
 
 /**
  * Reads and writes formField-Data according to variable specified in the {@link JodaFormField}.

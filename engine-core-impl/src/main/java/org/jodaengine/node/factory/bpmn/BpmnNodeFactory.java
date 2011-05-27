@@ -1,7 +1,5 @@
 package org.jodaengine.node.factory.bpmn;
 
-import org.jodaengine.allocation.CreationPattern;
-import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
 import org.jodaengine.node.activity.bpmn.BpmnEventBasedXorGateway;
@@ -15,10 +13,10 @@ import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.EmptyOutgoingBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.XORSplitBehaviour;
-import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
+import org.jodaengine.resource.allocation.CreationPattern;
 
 /**
  * This Factory is able to create {@link Node Nodes} for specific BPMN constructs like an BPMN-XOR-Gateway or ...
@@ -94,15 +92,13 @@ public final class BpmnNodeFactory extends TransitionFactory {
      * @param builder
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @param creationPattern
-     *            - the task to distribute
+     *            - the creation pattern to distribute an item
      * @return a {@link Node} representing an {@link BpmnHumanTaskActivity}
      */
-    public static Node createBpmnUserTaskNode(ProcessDefinitionBuilder builder,
-                                              CreationPattern creationPattern,
-                                              PushPattern pushPattern) {
+    public static Node createBpmnUserTaskNode(ProcessDefinitionBuilder builder, CreationPattern creationPattern) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        BpmnHumanTaskActivity activityBehavior = new BpmnHumanTaskActivity(creationPattern, pushPattern);
+        BpmnHumanTaskActivity activityBehavior = new BpmnHumanTaskActivity(creationPattern);
         return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
     }
 

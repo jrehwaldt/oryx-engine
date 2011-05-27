@@ -88,7 +88,7 @@ public final class RepositorySetup {
 
         Node startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
 
-        int[] integers = { 1, 1 };
+        int[] integers = {1, 1};
         Node node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
 
         Node node2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);

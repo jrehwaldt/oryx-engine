@@ -8,9 +8,10 @@ import org.jodaengine.factory.node.MailNodeFactory;
 import org.jodaengine.factory.node.PrintingNodeFactory;
 import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
 import org.jodaengine.navigator.NavigatorImpl;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.BpmnToken;
+import org.jodaengine.process.token.Token;
 
 
 /**
@@ -42,7 +43,7 @@ public final class ExampleProcessForReview {
         navigator.registerListener(new NavigatorListenerLogger());
         navigator.start(new JodaEngine());
         
-        TokenImpl token = processTokenForReview();
+        Token token = processTokenForReview();
         navigator.startArbitraryInstance(token);
         
         Thread.sleep(SLEEP_TIME);
@@ -55,7 +56,7 @@ public final class ExampleProcessForReview {
      * 
      * @return the process token impl
      */
-    private static TokenImpl processTokenForReview() {
+    private static Token processTokenForReview() {
 
         /*
          * The process looks like this: start => calc5Plus5 => printResult => mailingTheResult => end
@@ -79,7 +80,7 @@ public final class ExampleProcessForReview {
         thirdNode.transitionTo(fourthNode);
 //        fourthNode.transitionTo(endNode);
 
-        TokenImpl sampleToken = new TokenImpl(startNode, new ProcessInstanceImpl(null), null);
+        Token sampleToken = new BpmnToken(startNode, new ProcessInstance(null, null), null);
         return sampleToken;
     }
 

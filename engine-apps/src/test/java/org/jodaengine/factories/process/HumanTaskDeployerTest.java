@@ -2,6 +2,8 @@ package org.jodaengine.factories.process;
 
 import static org.testng.Assert.assertEquals;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.jodaengine.IdentityService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -18,14 +20,26 @@ public class HumanTaskDeployerTest extends AbstractProcessDeployerTest {
     private final static int NUMBER_OF_PARTICIPANTS = 3;
 
     /**
-     * {@inheritDoc}
+     * Execute deployer.
      * 
+     * @throws IllegalStarteventException
+     *             the illegal startevent exception
      * @throws ResourceNotAvailableException
+     *             the resource not available exception
+     * @throws InstantiationException
+     *             the instantiation exception
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     * @throws NoSuchMethodException
+     *             the no such method exception {@inheritDoc}
      */
     @Override
     @BeforeMethod
     public void executeDeployer()
-    throws IllegalStarteventException, ResourceNotAvailableException {
+    throws IllegalStarteventException, ResourceNotAvailableException, InstantiationException, IllegalAccessException,
+    InvocationTargetException, NoSuchMethodException {
 
         this.deployer = new HumanTaskProcessDeployer();
         this.id = deployer.deploy(engineServices);

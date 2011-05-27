@@ -43,7 +43,7 @@ public class InternalVariableTest {
 
         Navigator nav = new NavigatorImplMock();
         AbstractProcessInstance processInstanceMock = Mockito.mock(AbstractProcessInstance.class);
-        token = new TokenImpl(customNode, processInstanceMock, nav);
+        token = new BpmnToken(customNode, processInstanceMock, nav);
     }
 
     /**

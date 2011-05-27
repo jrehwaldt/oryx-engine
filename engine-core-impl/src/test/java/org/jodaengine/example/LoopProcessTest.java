@@ -18,12 +18,14 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
+import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenImpl;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
+import org.mockito.Mockito;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -124,12 +126,13 @@ public class LoopProcessTest {
         ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID().toString(), 0);
         ProcessDefinition definition = new ProcessDefinitionImpl(id, DEFINITION_NAME,
             DEFINITION_DESCRIPTION, startNodes);
-        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
+        // TokenBuilder is not used here, therefore it can be null
+        AbstractProcessInstance instance = new ProcessInstance(definition, Mockito.mock(BpmnTokenBuilder.class));
         instance.getContext().setVariable("counter", "0");
         instance.getContext().setVariable("increment", "1");
 
         // start node for token is set later on
-        token = new TokenImpl(start, instance, nav);
+        token = new BpmnToken(start, instance, nav);
     }
 
     /**

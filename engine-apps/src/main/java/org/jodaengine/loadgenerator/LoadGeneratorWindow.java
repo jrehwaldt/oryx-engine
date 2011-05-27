@@ -153,8 +153,8 @@ public class LoadGeneratorWindow extends JPanel implements ActionListener, Prope
          * 
          * new approach: Class.forName(qualifiedSuperClassName).? <---------- it's your turn to find something!!!!
          */
-        String[] processModels = { "ExampleProcessDeployer", "HeavyComputationProcessDeployer",
-            "HumanTaskProcessDeployer", "ShortenedReferenceProcessDeployer" };
+        String[] processModels = {"ExampleProcessDeployer", "HeavyComputationProcessDeployer",
+            "HumanTaskProcessDeployer", "ShortenedReferenceProcessDeployer"};
         return processModels;
     }
 

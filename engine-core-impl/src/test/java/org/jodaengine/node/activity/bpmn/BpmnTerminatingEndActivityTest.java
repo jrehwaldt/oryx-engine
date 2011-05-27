@@ -17,9 +17,11 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenBuilder;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -37,8 +39,9 @@ public class BpmnTerminatingEndActivityTest {
     throws JodaEngineException {
 
         NavigatorImplMock nav = new NavigatorImplMock();
-        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
-        Token startToken = instance.createToken(startNode, nav);
+        TokenBuilder builder = new BpmnTokenBuilder(nav, startNode);
+        AbstractProcessInstance instance = new ProcessInstance(definition, builder);
+        Token startToken = instance.createToken();
 
         startToken.executeStep();
 

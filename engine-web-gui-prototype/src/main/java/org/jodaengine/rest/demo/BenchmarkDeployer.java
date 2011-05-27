@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.jodaengine.IdentityService;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -21,9 +20,10 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.resource.IdentityBuilder;
 import org.jodaengine.resource.Role;
+import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
-import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
 import org.jodaengine.util.io.ClassPathResourceStreamSource;
 
 /**
@@ -78,45 +78,35 @@ public final class BenchmarkDeployer {
                .setItemDescription("Do it")
                .setItemFormID("dummyform")
                .addResourceAssignedToItem(roleA);
-        CreationPattern patternA = builder.buildConcreteResourcePattern();
+        CreationPattern patternA = builder.buildCreationPattern(RoleBasedDistributionPattern.class);
 
         builder.flushAssignedResources().addResourceAssignedToItem(roleB);
-        CreationPattern patternB = builder.buildConcreteResourcePattern();
+        CreationPattern patternB = builder.buildCreationPattern(RoleBasedDistributionPattern.class);
 
         builder.flushAssignedResources().addResourceAssignedToItem(roleC);
-        CreationPattern patternC = builder.buildConcreteResourcePattern();
+        CreationPattern patternC = builder.buildCreationPattern(RoleBasedDistributionPattern.class);
 
         builder.flushAssignedResources().addResourceAssignedToItem(roleD);
-        CreationPattern patternD = builder.buildConcreteResourcePattern();
+        CreationPattern patternD = builder.buildCreationPattern(RoleBasedDistributionPattern.class);
 
         builder.flushAssignedResources().addResourceAssignedToItem(roleE);
-        CreationPattern patternE = builder.buildConcreteResourcePattern();
+        CreationPattern patternE = builder.buildCreationPattern(RoleBasedDistributionPattern.class);
         // Task roleATask = createRoleTask("Do stuff", "Do it", form, roleA);
         // Task roleBTask = createRoleTask("Do stuff", "Do it", form, roleB);
         // Task roleCTask = createRoleTask("Do stuff", "Do it", form, roleC);
         // Task roleDTask = createRoleTask("Do stuff", "Do it", form, roleD);
         // Task roleETask = createRoleTask("Do stuff", "Do it", form, roleE);
 
-        Node activityA1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternA,
-            new OfferMultiplePattern());
-        Node activityB1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternB,
-            new OfferMultiplePattern());
-        Node activityB2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternB,
-            new OfferMultiplePattern());
-        Node activityB3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternB,
-            new OfferMultiplePattern());
-        Node activityC1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternC,
-            new OfferMultiplePattern());
-        Node activityC2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternC,
-            new OfferMultiplePattern());
-        Node activityD1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternD,
-            new OfferMultiplePattern());
-        Node activityD2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternD,
-            new OfferMultiplePattern());
-        Node activityD3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternD,
-            new OfferMultiplePattern());
-        Node activityE1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternE,
-            new OfferMultiplePattern());
+        Node activityA1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternA);
+        Node activityB1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternB);
+        Node activityB2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternB);
+        Node activityB3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternB);
+        Node activityC1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternC);
+        Node activityC2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternC);
+        Node activityD1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternD);
+        Node activityD2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternD);
+        Node activityD3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternD);
+        Node activityE1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder, patternE);
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 

@@ -6,9 +6,7 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterManagement;
-import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
-import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
 import org.jodaengine.eventmanagement.timing.QuartzPullAdapterConfiguration;
 import org.jodaengine.eventmanagement.timing.job.PullAdapterJob;

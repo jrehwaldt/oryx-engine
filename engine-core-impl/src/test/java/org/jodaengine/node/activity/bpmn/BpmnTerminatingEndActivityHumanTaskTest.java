@@ -9,7 +9,6 @@ import static org.testng.Assert.assertTrue;
 import java.util.UUID;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
@@ -19,14 +18,16 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstanceImpl;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenBuilder;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.IdentityBuilder;
-import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
+import org.jodaengine.resource.allocation.CreationPattern;
+import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -52,10 +53,10 @@ public class BpmnTerminatingEndActivityHumanTaskTest extends AbstractJodaEngineT
     throws JodaEngineException {
         ProcessDefinition definition = mock(ProcessDefinition.class);
         when(definition.getID()).thenReturn(new ProcessDefinitionID(UUID.randomUUID().toString()));
-        
-        AbstractProcessInstance instance = new ProcessInstanceImpl(definition);
         NavigatorImplMock nav = new NavigatorImplMock();
-        Token token = instance.createToken(splitNode, nav);
+        TokenBuilder builder = new BpmnTokenBuilder(nav, splitNode);
+        AbstractProcessInstance instance = new ProcessInstance(definition, builder);
+        Token token = instance.createToken();
 
         // set this instance to running by hand
         nav.getRunningInstances().add(instance);
@@ -108,11 +109,7 @@ public class BpmnTerminatingEndActivityHumanTaskTest extends AbstractJodaEngineT
         String subject = "Jannik, get Gerardo a cup of coffee!";
         String description = "You know what I mean.";
 
-//        Pattern pushPattern = new DirectDistributionPattern();
-//        Pattern pullPattern = new SimplePullPattern();
-//
-//        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-        pattern = new ConcreteResourcePattern(subject, description, null, participant);
+        pattern = new DirectDistributionPattern(subject, description, null, participant);
     }
 
     /**
@@ -125,7 +122,7 @@ public class BpmnTerminatingEndActivityHumanTaskTest extends AbstractJodaEngineT
 
         splitNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
-        humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, pattern, new AllocateSinglePattern());
+        humanTaskNode = BpmnNodeFactory.createBpmnUserTaskNode(builder, pattern);
 
         terminatingEndNode = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);
 

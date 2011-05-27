@@ -3,12 +3,11 @@ package org.jodaengine.forms.processor.juel;
 import java.util.List;
 import java.util.Map;
 
-import org.jodaengine.allocation.Form;
-import org.jodaengine.allocation.JodaFormField;
-import org.jodaengine.process.instance.ProcessInstanceContext;
-
 import net.htmlparser.jericho.FormField;
 import net.htmlparser.jericho.OutputDocument;
+
+import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.resource.allocation.Form;
 
 /**
  * Realizes a chain of responsibility for form field resolution.

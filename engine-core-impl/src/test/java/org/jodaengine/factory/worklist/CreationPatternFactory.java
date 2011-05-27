@@ -7,7 +7,9 @@ import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.IdentityBuilder;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
+import org.jodaengine.resource.allocation.CreationPattern;
+import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
+import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
 
 /**
  * Little factory for creating Resources. A short cut for the implementation.
@@ -26,29 +28,15 @@ public final class CreationPatternFactory {
     }
 
     /**
-     * Creates a new Task object where Jannik shall get coffee for Gerardo. Note that the Participant who shall complete
-     * this task (Jannik) is also created in the course of this method(side effect).
-     * 
-     * @return the task
-     */
-    public static ConcreteResourcePattern createJannikServesGerardoCreator() {
-
-        // creates the participant Jannik
-        AbstractResource<?> resource = ParticipantFactory.createJannik();
-
-        return createParticipantCreator(resource);
-    }
-
-    /**
      * Creates a new Task object for a given Participant.
      * 
      * @param r
      *            the resource
      * @return the task
      */
-    public static ConcreteResourcePattern createParticipantCreator(AbstractResource<?> r) {
+    public static CreationPattern createDirectDistributionPattern(AbstractResource<?> r) {
 
-        ConcreteResourcePattern pattern = new ConcreteResourcePattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION,
+        CreationPattern pattern = new DirectDistributionPattern(SIMPLE_TASK_SUBJECT, SIMPLE_TASK_DESCRIPTION,
             null, r);
         return pattern;
     }
@@ -60,7 +48,7 @@ public final class CreationPatternFactory {
      * @throws ResourceNotAvailableException
      *             if the resource is not available
      */
-    public static ConcreteResourcePattern createRoleCreator()
+    public static CreationPattern createRoleBasedDistribution()
     throws ResourceNotAvailableException {
 
         // The organization structure is already prepared in the factory
@@ -75,8 +63,8 @@ public final class CreationPatternFactory {
         identityBuilder.participantBelongsToRole(jannik.getID(), hamburgGuysRole.getID()).participantBelongsToRole(
             gerardo.getID(), hamburgGuysRole.getID());
 
-        ConcreteResourcePattern pattern = new ConcreteResourcePattern("Clean the office.", "It is very dirty.", null,
-            hamburgGuysRole);
+        CreationPattern pattern = new RoleBasedDistributionPattern("Clean the office.", "It is very dirty.",
+            null, hamburgGuysRole);
 
         return pattern;
     }

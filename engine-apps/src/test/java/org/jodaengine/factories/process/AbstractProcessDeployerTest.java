@@ -2,6 +2,8 @@ package org.jodaengine.factories.process;
 
 import static org.testng.Assert.assertNotNull;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.bootstrap.JodaEngine;
@@ -50,7 +52,8 @@ public abstract class AbstractProcessDeployerTest extends AbstractJodaEngineTest
 
     @BeforeMethod(dependsOnMethods = "setUp")
     abstract public void executeDeployer()
-    throws IllegalStarteventException, ResourceNotAvailableException;
+    throws IllegalStarteventException, ResourceNotAvailableException, InstantiationException, IllegalAccessException,
+    InvocationTargetException, NoSuchMethodException;
 
     /**
      * Tests that the UUID after the deployment isn't null.

@@ -8,11 +8,11 @@ import javax.annotation.Nonnull;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.CreationPattern;
-import org.jodaengine.allocation.PushPattern;
-import org.jodaengine.allocation.TaskAllocation;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.resource.allocation.CreationPattern;
+import org.jodaengine.resource.allocation.PushPattern;
+import org.jodaengine.resource.allocation.TaskAllocation;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 
 /**
@@ -35,16 +35,13 @@ public class BpmnHumanTaskActivity extends AbstractCancelableActivity {
 
     /**
      * Default Constructor.
-     * 
-     * @param creationPattern
-     *            the creation pattern to use
-     * @param pushPattern
-     *            the push pattern to use
+     *
+     * @param creationPattern the creation pattern to use
      */
-    public BpmnHumanTaskActivity(CreationPattern creationPattern, PushPattern pushPattern) {
+    public BpmnHumanTaskActivity(CreationPattern creationPattern) {
 
         this.creationPattern = creationPattern;
-        this.pushPattern = pushPattern;
+        this.pushPattern = creationPattern.getPushPattern();
     }
 
     @Override
@@ -66,6 +63,7 @@ public class BpmnHumanTaskActivity extends AbstractCancelableActivity {
         token.suspend();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void cancel(Token token) {
 

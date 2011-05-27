@@ -26,7 +26,7 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
 
         startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(processDefinitionBuilder);
 
-        int[] ints = { 1, 1 };
+        int[] ints = {1, 1};
         node1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(processDefinitionBuilder, "result", ints);
         node2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(processDefinitionBuilder, "result", ints);
 
