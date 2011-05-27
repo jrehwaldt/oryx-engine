@@ -17,11 +17,6 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 
-/**
- * 
- * @author Gery
- * 
- */
 public class BpmnToken extends AbstractToken {
 
     private ActivityState currentActivityState = null;
@@ -34,7 +29,7 @@ public class BpmnToken extends AbstractToken {
     }
     
     /**
-     * Instantiates a new process {@link TokenImpl}. This will not register any available extension.
+     * Instantiates a new process {@link Token}. This will not register any available extension.
      *
      * @param startNode the start node
      * @param instance the instance

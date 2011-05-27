@@ -133,6 +133,11 @@ public interface Token extends Identifiable<UUID> {
      */
     void cancelExecution();
     
+    /**
+     * Checks if this token is suspandable.
+     *
+     * @return true, if is suspandable
+     */
     @JsonIgnore
     boolean isSuspandable();
 
@@ -172,4 +177,5 @@ public interface Token extends Identifiable<UUID> {
      *            the id
      */
     void deleteInternalVariable(String id);
+    
 }
