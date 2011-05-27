@@ -2,6 +2,7 @@ package org.jodaengine.node.activity.bpmn;
 
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.allocation.CreationPattern;
+import org.jodaengine.resource.allocation.PushPattern;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.testng.Assert;
 

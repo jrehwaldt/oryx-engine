@@ -16,9 +16,6 @@ import net.htmlparser.jericho.StartTag;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
-import org.jodaengine.resource.allocation.AbstractForm;
-import org.jodaengine.resource.allocation.Form;
-import org.jodaengine.resource.allocation.JodaFormField;
 import org.jodaengine.util.io.IoUtil;
 import org.jodaengine.util.io.StreamSource;
 import org.slf4j.Logger;
@@ -98,6 +95,7 @@ public class FormImpl extends AbstractForm {
         OutputDocument document = new OutputDocument(source);
 
         for (FormField field : formFields) {
+            
             StartTag tag = field.getFormControl().getFirstStartTag();
             Attributes attributes = tag.getAttributes();
 

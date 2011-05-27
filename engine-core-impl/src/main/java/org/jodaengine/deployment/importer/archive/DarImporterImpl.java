@@ -73,9 +73,11 @@ public class DarImporterImpl implements DarImporter {
             firstHandler.processDarFile(darFile, builder);
         } catch (ZipException e) {
             e.printStackTrace();
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
-        }
+            return null;
+        }                
         
         return builder.buildDeployment();
     }

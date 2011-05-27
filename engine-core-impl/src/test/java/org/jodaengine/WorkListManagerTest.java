@@ -16,7 +16,6 @@ import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
 import org.jodaengine.resource.allocation.PushPattern;
 import org.jodaengine.resource.allocation.pattern.creation.AbstractCreationPattern;
-import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
 import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
 import org.jodaengine.resource.allocation.pattern.push.AllocateSinglePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
