@@ -39,6 +39,7 @@
             <thead>
                 <tr>
                     <th class="loading-data">Name</th>
+                    <th class="loading-data">Version</th>
                     <th class="loading-data">Description</th>
                     <th class="loading-data">Action</th>
                 </tr>
