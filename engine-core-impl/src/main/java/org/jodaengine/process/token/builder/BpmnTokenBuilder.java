@@ -16,39 +16,79 @@ public class BpmnTokenBuilder implements TokenBuilder {
     private Node node;
     private AbstractProcessInstance instance;
     
+    /**
+     * Instantiates a new bpmn token builder.
+     *
+     * @param nav the navigator
+     * @param node the node
+     */
     public BpmnTokenBuilder(Navigator nav, Node node) {
 
         this.nav = nav;
         this.node = node;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public AbstractProcessInstance getInstance() {
     
         return instance;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public TokenBuilder setInstance(AbstractProcessInstance instance) {
     
         this.instance = instance;
         return this;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Navigator getNav() {
     
         return nav;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public TokenBuilder setNav(Navigator nav) {
     
         this.nav = nav;
         return this;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Node getNode() {
     
         return node;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public TokenBuilder setNode(Node node) {
     
         this.node = node;
         return this;
     }
     
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Token create() {
         return new BpmnToken(node, instance, nav);
     }

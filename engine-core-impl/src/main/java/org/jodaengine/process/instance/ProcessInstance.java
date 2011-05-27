@@ -35,8 +35,9 @@ public class ProcessInstance extends AbstractProcessInstance {
 
     /**
      * Default constructor.
-     * 
+     *
      * @param definition the process definition of this instance
+     * @param builder the builder to create specific tokens
      */
     public ProcessInstance(ProcessDefinition definition, @Nonnull TokenBuilder builder) {
         

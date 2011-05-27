@@ -87,15 +87,23 @@ public abstract class AbstractProcessInstance implements Identifiable<UUID> {
     /**
      * Creates a new token pointing to the given node n in the same process instance context.
      *
-     * @param node the node
-     * @param nav the nav
      * @return the new process token
      */
     public abstract Token createToken();
     
+    /**
+     * Gets the builder.
+     *
+     * @return the builder
+     */
     @JsonIgnore
     public abstract TokenBuilder getBuilder();
     
+    /**
+     * Sets the builder.
+     *
+     * @param builder the new builder
+     */
     @JsonIgnore
     public abstract void setBuilder(TokenBuilder builder);
 

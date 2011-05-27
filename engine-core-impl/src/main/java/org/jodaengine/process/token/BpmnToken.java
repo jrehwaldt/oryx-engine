@@ -27,7 +27,7 @@ public class BpmnToken extends AbstractToken {
     private ActivityState currentActivityState = null;
     
     /**
-     * Hidden Constructor
+     * Hidden Constructor.
      */
     protected BpmnToken() {
         
