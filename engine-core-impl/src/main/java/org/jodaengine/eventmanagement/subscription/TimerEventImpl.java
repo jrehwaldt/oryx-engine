@@ -2,56 +2,26 @@ package org.jodaengine.eventmanagement.subscription;
 
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.timer.TimerAdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
-
-
 /**
- * The Class TimerEventImpl.
+ * The Class {@link TimerEventImpl}.
  */
-public class TimerEventImpl extends AbstractProcessEvent implements ProcessIntermediateEvent {
-
-    private Token token;
-    private Node node;
+public class TimerEventImpl extends ProcessIntermediateEventBase {
 
     /**
-     * Instantiates a new timer event impl.
-     *
-     * @param config the config for the event, consists out of options for scheduling and for the adaptor.
-     * @param token the process token
+     * Instantiates a new {@link TimerEventImpl}.
+     * 
+     * @param eventWaitingTime
+     *            - the time the event is supposed to trigger
+     * @param token
+     *            - the process token
      */
-    public TimerEventImpl(AdapterConfiguration config,
-                          Token token) {
+    public TimerEventImpl(long eventWaitingTime, Token token) {
 
-        super(EventTypes.Timer, config, new TrueEventCondition());
-        this.token = token;
-        this.node = token.getCurrentNode();
-    }
-    
-    @Override
-    public Token getToken() {
-
-        return token;
-    }
-
-    @Override
-    public void trigger() {
-
-        // Resuming the token with myself
-        token.resume(this);
-    }
-
-    @Override
-    public Node getFireringNode() {
-
-        return node;
-    }
-
-    @Override
-    public void setFireringNode(Node node) {
-
-        this.node = node;
+        super(EventTypes.Timer, new TimerAdapterConfiguration(eventWaitingTime), new TrueEventCondition(), token);
     }
 }

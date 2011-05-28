@@ -4,16 +4,16 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.timer.TimerAdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.TimerEventImpl;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.token.Token;
 
 /**
- * The actvity IntermediateTimer is used to wait a specific amount of time before execution is continued.
+ * The {@link BpmnIntermediateTimerActivity IntermediateTimer} is used to wait a specific amount of time before
+ * execution is continued.
  */
+// TODO @Gerardo: Name ändern nach BpmnTimerIntermediateActivity
 public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity implements BpmnEventBasedGatewayEvent {
 
     private long time;
@@ -36,7 +36,7 @@ public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity im
 
         // TODO @Gerardo muss geändert werden keine ServiceFactory mehr; vielleicht alle coreservices ins token
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
-        
+
         ProcessIntermediateEvent processEvent = createProcessIntermediateEvent(token);
 
         eventManager.registerIntermediateEvent(processEvent);
@@ -50,9 +50,8 @@ public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity im
 
     @Override
     public ProcessIntermediateEvent createProcessIntermediateEvent(Token token) {
-    
-        AdapterConfiguration conf = new TimerAdapterConfiguration(this.time);
-        return new TimerEventImpl(conf, token);
+
+        return new TimerEventImpl(time, token);
     }
 
     @Override

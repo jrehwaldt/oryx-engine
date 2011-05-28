@@ -9,28 +9,37 @@ import javax.annotation.Nonnull;
  * 
  * @author Jan Rehwaldt
  */
-public enum EventTypes
-implements EventType {
+public enum EventTypes implements EventType {
     Mail,
     Error,
-    Timer;
-    
-    private final @Nonnull UUID id;
-    
+    Timer,
+    /**
+     * Only for testing but it needs to registered here.
+     */
+    ManualTriggered;
+
+    private final @Nonnull
+    UUID id;
+
     /**
      * Default constructor.
      */
     private EventTypes() {
+
         this.id = UUID.randomUUID();
     }
-    
+
     @Override
-    public @Nonnull UUID getID() {
+    public @Nonnull
+    UUID getID() {
+
         return this.id;
     }
-    
+
     @Override
-    public @Nonnull String getName() {
+    public @Nonnull
+    String getName() {
+
         return name();
     }
 }
