@@ -201,14 +201,11 @@ public class BpmnToken extends AbstractToken {
             instance.removeToken(this);
         }
         return tokensToNavigate;
-
     }
 
     @Override
     public boolean isSuspandable() {
-
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
     
     /**

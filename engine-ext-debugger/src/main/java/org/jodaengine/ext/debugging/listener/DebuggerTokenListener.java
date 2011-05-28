@@ -8,6 +8,7 @@ import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
@@ -63,9 +64,10 @@ public class DebuggerTokenListener extends AbstractTokenListener {
         if (breakpoint.matches(token)) {
             logger.debug("Breakpoint {} matches {}", breakpoint, token);
             
-            //
-            // TODO Jan crazy stuff: suspend token, remember state and token, ...
-            //
+            Node node = event.getNode();
+            ActivityState currentState = event.getNewState();
+            this.debugger.breakpointTriggered(node, token, breakpoint, currentState, this);
+            
         } else {
             logger.debug("Breakpoint {} did not match {}", breakpoint, token);
         }

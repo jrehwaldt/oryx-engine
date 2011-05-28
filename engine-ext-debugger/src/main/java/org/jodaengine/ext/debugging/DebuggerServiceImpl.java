@@ -2,6 +2,8 @@ package org.jodaengine.ext.debugging;
 
 import java.io.IOException;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.io.IOUtils;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
@@ -12,19 +14,22 @@ import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * A {@link DebuggerService} implementation providing the possibility to set
- * {@link BreakpointImpl} and debug process instances.
+ * {@link Breakpoint} and debug process instances.
  * 
  * This class implements both, the {@link DebuggerService} as well as the {@link BreakpointService}.
  * 
@@ -177,5 +182,42 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         
         artifactID = "svg-artifact-for-" + definition.getID().getIdentifier() + "-not-defined";
         throw new ProcessArtifactNotFoundException(artifactID);
+    }
+
+    
+    //=================================================================
+    //=================== Intern methods ==============================
+    //=================================================================
+    /**
+     * The {@link DebuggerTokenListener} triggers this method when a {@link Breakpoint}
+     * matched the {@link ProcessInstance}'s current {@link Node}.
+     * 
+     * It will not check the proper matching of the breakpoint, as it is verified beforehand.
+     * 
+     * @param node the {@link Node}, where the process actually is
+     * @param token the {@link Token}, which matched the breakpoint
+     * @param breakpoint the {@link Breakpoint}, which matched
+     * @param currentState the {@link ActivityState}, the node currently is in
+     * @param listener the {@link DebuggerTokenListener}, which is registered within the process
+     * 
+     */
+    public void breakpointTriggered(@Nonnull Node node,
+                                    @Nonnull Token token,
+                                    @Nonnull Breakpoint breakpoint,
+                                    @Nonnull ActivityState currentState,
+                                    @Nonnull DebuggerTokenListener listener) {
+        
+        //
+        // is token suspendable?
+        //
+        if (!token.isSuspandable()) {
+            logger.warn("Breakpoint triggered, but token implementation is not suspendable. Debugger skipped.");
+            return;
+        }
+        
+        //
+        // TODO Jan crazy stuff: suspend token, remember state and token, ...
+        //
+        
     }
 }
