@@ -1,6 +1,7 @@
-package org.jodaengine.eventmanagement.subscription; 
+package org.jodaengine.eventmanagement.subscription.processevent.start; 
 
 import org.jodaengine.deployment.Deployment;
+import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -21,7 +22,7 @@ import org.testng.annotations.Test;
 /**
  * Tests the {@link DefaultProcessStartEvent}.
  */
-public class StartEventImplTest extends AbstractJodaEngineTest {
+public class DefaultProcessStartEventTest extends AbstractJodaEngineTest {
 
     private ProcessDefinitionID processDefinitionID;
 

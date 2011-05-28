@@ -4,7 +4,7 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateManualTriggeringEvent;
+import org.jodaengine.eventmanagement.subscription.processevent.intermediate.ProcessIntermediateManualTriggeringEvent;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.token.Token;
 
