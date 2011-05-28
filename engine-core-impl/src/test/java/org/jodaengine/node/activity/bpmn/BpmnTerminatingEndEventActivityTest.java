@@ -30,7 +30,7 @@ import org.testng.annotations.Test;
 /**
  * The Class TerminatingEndActivityTest.
  */
-public class BpmnTerminatingEndActivityTest {
+public class BpmnTerminatingEndEventActivityTest {
     private ProcessDefinition definition;
     private Node startNode, xorJoinNode;
 

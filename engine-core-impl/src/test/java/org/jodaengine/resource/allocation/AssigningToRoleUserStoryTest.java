@@ -10,7 +10,7 @@ import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factory.node.SimpleNodeFactory;
 import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.navigator.NavigatorImplMock;
-import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
+import org.jodaengine.node.activity.bpmn.BpmnEndEventActivity;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
@@ -77,7 +77,7 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 
         Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern));
 
-        endNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnEndActivity());
+        endNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnEndEventActivity());
 
         humanTaskNode.transitionTo(endNode);
 

@@ -10,11 +10,11 @@ import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.token.Token;
 
 /**
- * The {@link BpmnIntermediateTimerActivity IntermediateTimer} is used to wait a specific amount of time before
+ * The {@link BpmnTimerIntermediateEventActivity IntermediateTimer} is used to wait a specific amount of time before
  * execution is continued.
  */
 // TODO @Gerardo: Name ändern nach BpmnTimerIntermediateActivity
-public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity implements BpmnEventBasedGatewayEvent {
+public class BpmnTimerIntermediateEventActivity extends AbstractCancelableActivity implements BpmnEventBasedGatewayEvent {
 
     private long time;
 
@@ -26,7 +26,7 @@ public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity im
      * @param time
      *            - the time (in ms) to wait for
      */
-    public BpmnIntermediateTimerActivity(long time) {
+    public BpmnTimerIntermediateEventActivity(long time) {
 
         this.time = time;
     }

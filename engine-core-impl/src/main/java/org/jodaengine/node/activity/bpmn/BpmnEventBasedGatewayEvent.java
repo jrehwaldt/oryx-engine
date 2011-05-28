@@ -4,7 +4,7 @@ import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.process.token.Token;
 
 /**
- * The interface can be attached to BpmnEventActivities like {@link BpmnIntermediateTimerActivity}. The interface also
+ * The interface can be attached to BpmnEventActivities like {@link BpmnTimerIntermediateEventActivity}. The interface also
  * declares that the eventActivity can also be attached to the {@link BpmnEventBasedGatewayEvent}.
  */
 public interface BpmnEventBasedGatewayEvent {

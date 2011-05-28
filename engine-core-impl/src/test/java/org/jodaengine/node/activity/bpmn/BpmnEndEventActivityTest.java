@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
 /**
  * The Class EndActivityTest.
  */
-public class BpmnEndActivityTest {
+public class BpmnEndEventActivityTest {
     private AbstractProcessInstance instance = null;
     private Node startNode = null;
     private NavigatorImplMock nav;

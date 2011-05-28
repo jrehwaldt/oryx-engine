@@ -1,12 +1,12 @@
 package org.jodaengine.node.factory.bpmn;
 
 import org.jodaengine.node.activity.NullActivity;
-import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
+import org.jodaengine.node.activity.bpmn.BpmnEndEventActivity;
 import org.jodaengine.node.activity.bpmn.BpmnEventBasedXorGateway;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
-import org.jodaengine.node.activity.bpmn.BpmnIntermediateTimerActivity;
+import org.jodaengine.node.activity.bpmn.BpmnTimerIntermediateEventActivity;
 import org.jodaengine.node.activity.bpmn.BpmnStartEvent;
-import org.jodaengine.node.activity.bpmn.BpmnTerminatingEndActivity;
+import org.jodaengine.node.activity.bpmn.BpmnTerminatingEndEventActivity;
 import org.jodaengine.node.factory.TransitionFactory;
 import org.jodaengine.node.incomingbehaviour.AndJoinBehaviour;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -49,24 +49,24 @@ public final class BpmnNodeFactory extends TransitionFactory {
     }
 
     /**
-     * Creates a {@link Node EndNode} that represents the {@link BpmnEndActivity}.
+     * Creates a {@link Node EndNode} that represents the {@link BpmnEndEventActivity}.
      * 
      * The IncomingBehaviour is a {@link AndJoinBehaviour} and the OutgoingBehaviour is a {@link EmptyOutgoingBehaviour}
      * .
      * 
      * @param builder
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
-     * @return a {@link Node} representing an {@link BpmnEndActivity}
+     * @return a {@link Node} representing an {@link BpmnEndEventActivity}
      */
     public static Node createBpmnEndEventNode(ProcessDefinitionBuilder builder) {
 
-        BpmnEndActivity activityBehavior = new BpmnEndActivity();
+        BpmnEndEventActivity activityBehavior = new BpmnEndEventActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
         .setOutgoingBehaviour(new EmptyOutgoingBehaviour()).setActivityBehavior(activityBehavior).buildNode();
     }
 
     /**
-     * Creates a {@link Node} that represents the {@link BpmnIntermediateTimerActivity}.
+     * Creates a {@link Node} that represents the {@link BpmnTimerIntermediateEventActivity}.
      * 
      * It has the default BPMN Incoming- and OutgoingBehaviour as specified
      * {@link BpmnNodeFactory#decorateBpmnDefaultRouting(NodeBuilder) here}.
@@ -75,12 +75,12 @@ public final class BpmnNodeFactory extends TransitionFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @param waitingTime
      *            - the time (in milliseconds) to wait for
-     * @return a {@link Node} representing an {@link BpmnIntermediateTimerActivity}
+     * @return a {@link Node} representing an {@link BpmnTimerIntermediateEventActivity}
      */
     public static Node createBpmnIntermediateTimerEventNode(ProcessDefinitionBuilder builder, long waitingTime) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        BpmnIntermediateTimerActivity activityBehavior = new BpmnIntermediateTimerActivity(waitingTime);
+        BpmnTimerIntermediateEventActivity activityBehavior = new BpmnTimerIntermediateEventActivity(waitingTime);
         return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
     }
 
@@ -104,19 +104,19 @@ public final class BpmnNodeFactory extends TransitionFactory {
     }
 
     /**
-     * Creates a {@link Node EndNode} that represents the {@link BpmnTerminatingEndActivity}.
+     * Creates a {@link Node EndNode} that represents the {@link BpmnTerminatingEndEventActivity}.
      * 
      * The IncomingBehaviour is a {@link AndJoinBehaviour} and the OutgoingBehaviour is a {@link EmptyOutgoingBehaviour}
      * .
      * 
      * @param builder
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
-     * @return a {@link Node} representing an {@link BpmnEndActivity}
+     * @return a {@link Node} representing an {@link BpmnEndEventActivity}
      */
     public static Node createBpmnTerminatingEndEventNode(ProcessDefinitionBuilder builder) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        BpmnTerminatingEndActivity activityBehavior = new BpmnTerminatingEndActivity();
+        BpmnTerminatingEndEventActivity activityBehavior = new BpmnTerminatingEndEventActivity();
         return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
     }
 

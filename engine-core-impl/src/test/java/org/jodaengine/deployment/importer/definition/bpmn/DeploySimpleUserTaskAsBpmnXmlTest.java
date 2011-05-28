@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.node.activity.Activity;
-import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
+import org.jodaengine.node.activity.bpmn.BpmnEndEventActivity;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.node.activity.bpmn.BpmnStartEvent;
 import org.jodaengine.process.definition.ProcessDefinition;
@@ -75,7 +75,7 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
         Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(extractActivityClass(endNode), BpmnEndActivity.class);
+        Assert.assertEquals(extractActivityClass(endNode), BpmnEndEventActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
         Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
     }

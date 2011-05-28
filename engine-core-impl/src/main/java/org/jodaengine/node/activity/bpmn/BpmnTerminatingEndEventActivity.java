@@ -8,7 +8,7 @@ import org.jodaengine.process.token.Token;
  * cancelled. In contrast to the BPMN 2.0 specification, ongoing activity execution are not interrupted, only suspended
  * activities are cancelled, etc.
  */
-public class BpmnTerminatingEndActivity extends BpmnEndActivity {
+public class BpmnTerminatingEndEventActivity extends BpmnEndEventActivity {
 
     @Override
     protected void executeIntern(Token token) {
