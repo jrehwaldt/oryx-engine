@@ -36,7 +36,7 @@ public class BpmnTokenBuilder implements TokenBuilder {
         this.node = node;
     }
     
-    // TODO Jannik... die hälfte aller Methoden hier drin ist sinnlos oder nur von tests verwendet.
+    // TODO Jannik... die Hälfte aller Methoden hier drin ist sinnlos oder wird nur von Tests verwendet.
     //      Alle Getter wegschmeißen.
     
     @Override
