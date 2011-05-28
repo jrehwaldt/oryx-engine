@@ -28,6 +28,8 @@ public final class TestingDarHandler extends AbstractDarHandler {
     public TestingDarHandler(TestingListenerExtensionService listenerService) {
         Assert.assertNotNull(listenerService);
         this.listenerService = listenerService;
+        
+        this.listenerService.registered(this);
     }
 
     @Override

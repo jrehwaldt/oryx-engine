@@ -42,12 +42,12 @@ public class TestingBpmnXmlParseListener implements BpmnXmlParseListener {
      * @param listenerService the listener service
      */
     public TestingBpmnXmlParseListener(JodaEngineServices services,
-                                     Navigator navigator,
-                                     WorklistService worklist,
-                                     ExtensionService extension,
-                                     RepositoryService repository,
-                                     TestingExtensionService testing,
-                                     TestingListenerExtensionService listenerService) {
+                                       Navigator navigator,
+                                       WorklistService worklist,
+                                       ExtensionService extension,
+                                       RepositoryService repository,
+                                       TestingExtensionService testing,
+                                       TestingListenerExtensionService listenerService) {
 
         this.services = services;
         this.navigator = navigator;
@@ -58,6 +58,8 @@ public class TestingBpmnXmlParseListener implements BpmnXmlParseListener {
         
         Assert.assertNotNull(listenerService);
         this.listenerService = listenerService;
+        
+        this.listenerService.registered(this);
     }
 
     @Override

@@ -3,15 +3,27 @@ package org.jodaengine.ext.service;
 import java.io.File;
 import java.util.List;
 
+import org.jodaengine.RepositoryService;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.importer.archive.AbstractDarHandler;
 import org.jodaengine.deployment.importer.archive.DarImporter;
 import org.jodaengine.deployment.importer.archive.DarImporterImpl;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
+import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.listener.AbstractNavigatorListener;
 import org.jodaengine.ext.listener.AbstractSchedulerListener;
+import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImpl;
+import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -368,7 +380,8 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         // we need to process the dar for the handler to be invoked
         //
         importer.importDarFile(darFile);
-        
+
+        Assert.assertTrue(listenerService.hasBeenRegistered(TestingDarHandler.class));
         Assert.assertTrue(listenerService.hasBeenInvoked(TestingDarHandler.class));
     }
     
@@ -397,6 +410,71 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         //
         importer.importDarFile(darFile);
         
+        Assert.assertTrue(listenerService.hasBeenRegistered(TestingBpmnXmlParseListener.class));
         Assert.assertTrue(listenerService.hasBeenInvoked(TestingBpmnXmlParseListener.class));
+    }
+    
+    /**
+     * Test of the registration and use of the {@link TestingTokenListener}.
+     * 
+     * @throws IllegalStarteventException test fails
+     * @throws ExtensionNotAvailableException test fails
+     * @throws DefinitionNotFoundException test fails
+     */
+    @Test
+    public void testTokenListenerIntegrationInNavigatorForBpmnToken()
+    throws IllegalStarteventException, ExtensionNotAvailableException, DefinitionNotFoundException {
+        
+        //
+        // get ExtensionService
+        //
+        TestingListenerExtensionService listenerService = this.extensionService.getExtensionService(
+            TestingListenerExtensionService.class,
+            TestingListenerExtensionService.DEMO_EXTENSION_SERVICE_NAME);
+        
+        Assert.assertNotNull(listenerService);
+        
+        //
+        // create a demo process
+        //
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
+        
+        Node startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
+        
+        int[] ints = {1, 1};
+        Node forkNode1 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", ints);
+        
+        int[] anotherInts = {2, 2};
+        Node forkNode2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result2", anotherInts);
+        
+        Node endNode1 = BpmnNodeFactory.createBpmnEndEventNode(builder); 
+        Node endNode2 = BpmnNodeFactory.createBpmnEndEventNode(builder);
+        
+        TransitionFactory.createTransitionFromTo(builder, startNode, forkNode1);
+        TransitionFactory.createTransitionFromTo(builder, startNode, forkNode2);
+        TransitionFactory.createTransitionFromTo(builder, forkNode1, endNode1);
+        TransitionFactory.createTransitionFromTo(builder, forkNode2, endNode2);
+        
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
+        ProcessDefinition definition = builder.buildDefinition();
+        
+        RepositoryService repository = this.jodaEngineServices.getRepositoryService();
+        Navigator navigator = this.jodaEngineServices.getNavigatorService();
+        
+        
+        //
+        // deploy the instance
+        //
+        repository.addProcessDefinition(definition);
+        
+        //
+        // start it
+        //
+        navigator.startProcessInstance(definition.getID());
+        
+        //
+        // tests the registering of the listener (invocation is tested elsewhere)
+        //
+        Assert.assertTrue(listenerService.hasBeenRegistered(TestingTokenListener.class));
     }
 }

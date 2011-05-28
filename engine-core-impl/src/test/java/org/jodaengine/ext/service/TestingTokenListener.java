@@ -1,19 +1,19 @@
 package org.jodaengine.ext.service;
 
 import org.jodaengine.ext.Extension;
-import org.jodaengine.ext.listener.AbstractSchedulerListener;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.testng.Assert;
 
 /**
  * Listener implementation for testing the {@link ExtensionService} integration in
- * our {@link Scheduler} as {@link AbstractSchedulerListener}.
+ * our {@link Token} as {@link AbstractTokenListener}.
  * 
  * @author Jan Rehwaldt
- * @since 2011-05-24
+ * @since 2011-05-28
  */
-@Extension("testing-scheduler-integration")
-public class TestingSchedulerListener extends AbstractSchedulerListener {
+@Extension("testing-token-integration")
+public class TestingTokenListener extends AbstractTokenListener {
     
     protected TestingListenerExtensionService listenerService;
     
@@ -22,21 +22,15 @@ public class TestingSchedulerListener extends AbstractSchedulerListener {
      * 
      * @param listenerService the listener service
      */
-    public TestingSchedulerListener(TestingListenerExtensionService listenerService) {
+    public TestingTokenListener(TestingListenerExtensionService listenerService) {
         Assert.assertNotNull(listenerService);
         this.listenerService = listenerService;
         
         this.listenerService.registered(this);
     }
-    
-    @Override
-    public void processInstanceSubmitted(int numberOfTokens, Token token) {
-        this.listenerService.invoked(this);
-    }
 
     @Override
-    public void processInstanceRetrieved(int numberOfTokens, Token token) {
+    public void stateChanged(ActivityLifecycleChangeEvent event) {
         this.listenerService.invoked(this);
     }
-
 }

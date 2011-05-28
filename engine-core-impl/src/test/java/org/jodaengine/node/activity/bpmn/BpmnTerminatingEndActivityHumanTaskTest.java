@@ -54,7 +54,7 @@ public class BpmnTerminatingEndActivityHumanTaskTest extends AbstractJodaEngineT
         ProcessDefinition definition = mock(ProcessDefinition.class);
         when(definition.getID()).thenReturn(new ProcessDefinitionID(UUID.randomUUID().toString()));
         NavigatorImplMock nav = new NavigatorImplMock();
-        TokenBuilder builder = new BpmnTokenBuilder(nav, splitNode);
+        TokenBuilder builder = new BpmnTokenBuilder(nav, null, splitNode);
         AbstractProcessInstance instance = new ProcessInstance(definition, builder);
         Token token = instance.createToken();
 

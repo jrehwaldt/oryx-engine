@@ -7,6 +7,7 @@ import org.jodaengine.IdentityService;
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
 
 
@@ -16,29 +17,32 @@ import org.jodaengine.navigator.NavigatorInside;
 public class ServiceContextImpl implements ServiceContext {
 
     private Map<String, Object> attributeTable;
+    
     @Override
     public RepositoryServiceInside getRepositiory() {
-
         return (RepositoryServiceInside) ServiceFactory.getRepositoryService();
     }
 
     @Override
     public IdentityService getIdentityService() {
-
         return ServiceFactory.getIdentityService();
     }
 
     @Override
     public EventSubscriptionManager getCorrelationService() {
-
         return ServiceFactory.getCorrelationService();
     }
 
     @Override
     public NavigatorInside getNavigatorService() {
-
         return (NavigatorInside) ServiceFactory.getNavigatorService();
     }
+
+    @Override
+    public ExtensionService getExtensionService() {
+        return (ExtensionService) ServiceFactory.getExtensionService();
+    }
+    
     @Override
     public Map<String, Object> getAttributes() {
 

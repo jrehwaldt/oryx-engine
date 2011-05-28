@@ -54,8 +54,10 @@ public class ShortenedReferenceProcessDeployerTest extends AbstractProcessDeploy
         this.id = instanceDefinition.deploy(engineServices);
         try {
             // The builder is not used in this tested, therefore it can be null
-            TokenBuilder builder = new BpmnTokenBuilder(null, null);
-            processInstance = new ProcessInstance(ServiceFactory.getRepositoryService().getProcessDefinition(id), builder);
+            TokenBuilder builder = new BpmnTokenBuilder(null, null, null);
+            processInstance = new ProcessInstance(
+                ServiceFactory.getRepositoryService().getProcessDefinition(id),
+                builder);
         } catch (DefinitionNotFoundException e) {
             System.out.println("Definition nicht gefunden! ");
             e.printStackTrace();
