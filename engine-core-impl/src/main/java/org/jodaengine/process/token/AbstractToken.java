@@ -63,8 +63,6 @@ implements Token {
                          Navigator navigator,
                          @Nullable ExtensionService extensionService) {
 
-        // TODO Jan - use this constructor to register potential extensions - wait for Jannik's refactoring.
-
         this.currentNode = startNode;
         this.instance = instance;
         this.navigator = navigator;
