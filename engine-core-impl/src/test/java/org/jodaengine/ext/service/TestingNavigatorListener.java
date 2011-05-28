@@ -26,6 +26,8 @@ public class TestingNavigatorListener extends AbstractNavigatorListener {
     public TestingNavigatorListener(TestingListenerExtensionService listenerService) {
         Assert.assertNotNull(listenerService);
         this.listenerService = listenerService;
+        
+        this.listenerService.registered(this);
     }
     
     @Override

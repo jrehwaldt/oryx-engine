@@ -18,8 +18,8 @@ public interface InstantiationPatternContext extends ServiceContext {
     ProcessDefinitionInside getProcessDefinition();
 
     /**
-     * In case an {@link ProcessStartEvent startEvent} was thrown (starting the {@link InstantiationPattern}) then this method
-     * returns the thrown event.
+     * In case an {@link ProcessStartEvent startEvent} was thrown (starting the {@link InstantiationPattern})
+     * then this method returns the thrown event.
      * 
      * @return the thrown {@link ProcessStartEvent}
      */

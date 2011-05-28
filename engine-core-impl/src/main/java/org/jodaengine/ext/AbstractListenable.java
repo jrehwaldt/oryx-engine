@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.ext.listener.Listenable;
 
 /**
@@ -46,6 +47,7 @@ implements Listenable<IListener> {
         this.deleteObserver(listener);
     }
     
+    @JsonIgnore
     @Override
     public List<IListener> getListeners() {
         return this.listeners;

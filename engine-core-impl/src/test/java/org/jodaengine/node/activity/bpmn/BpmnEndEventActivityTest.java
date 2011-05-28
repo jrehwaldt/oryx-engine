@@ -89,16 +89,9 @@ public class BpmnEndEventActivityTest {
     }
 
     /**
-     * Persistence of instance variables test.
-     */
-    @Test
-    public void persistenceOfInstanceVariablesTest() {
-
-        // TODO implement this, as soon as we have persistence in the engine.
-    }
-
-    /**
      * This method prepares a process for this test.
+     * 
+     * @throws IllegalStarteventException test fails
      */
     @BeforeClass
     public void prepareProcessForTest()
@@ -126,9 +119,8 @@ public class BpmnEndEventActivityTest {
         ProcessDefinition definition = builder.buildDefinition();
         
         nav = new NavigatorImplMock();
-        tokenBuilder = new BpmnTokenBuilder(nav, null);
+        tokenBuilder = new BpmnTokenBuilder(nav, null, null);
         instance = new ProcessInstance(definition, tokenBuilder);
-        
     }
 
 }

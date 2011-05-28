@@ -1,10 +1,10 @@
 package org.jodaengine.process.instantiation.pattern;
 
+import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
-import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
@@ -28,8 +28,9 @@ StartInstantiationPattern {
 
         ProcessDefinitionInside processDefinition = patternContext.getProcessDefinition();
         NavigatorInside navigator = patternContext.getNavigatorService();
+        ExtensionService extensions = patternContext.getExtensionService();
         
-        BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, null);
+        BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, extensions, null);
         AbstractProcessInstance processInstance = new ProcessInstance(processDefinition, tokenBuilder);
         
         for (Node node : processDefinition.getStartNodes()) {

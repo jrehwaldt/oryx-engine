@@ -29,9 +29,7 @@ public class BpmnToken extends AbstractToken {
     /**
      * Hidden Constructor.
      */
-    protected BpmnToken() {
-        
-    }
+    protected BpmnToken() { }
     
     /**
      * Instantiates a new process {@link TokenImpl}. This will not register any available extension.

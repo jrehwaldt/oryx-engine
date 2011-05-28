@@ -18,10 +18,10 @@ import org.testng.annotations.Test;
  */
 public class ExceptionHandlerTest {
     
-    private AbstractExceptionHandler handler1, handler2;
-    private Token testToken;
-    private AbstractProcessInstance mockInstance;
-    private Navigator mockNavigator;
+    private AbstractExceptionHandler handler1 = null, handler2 = null;
+    private Token testToken = null;
+    private AbstractProcessInstance mockInstance = null;
+    private Navigator mockNavigator = null;
 
     /**
      * Sets up the exception handlers and creates some mocks.
@@ -36,7 +36,6 @@ public class ExceptionHandlerTest {
         mockNavigator = mock(Navigator.class);
         
         testToken = new BpmnToken(mock(Node.class), mockInstance, mockNavigator);
-        
     }
 
     /**
@@ -48,21 +47,4 @@ public class ExceptionHandlerTest {
         
         verify(mockNavigator).cancelProcessInstance(mockInstance);
     }
-    
-//    
-//    /**
-//     * Tests the registration of {@link AbstractExceptionHandler}s and that navigating to zero transitions will
-//     * cause an exception.
-//     */
-//    @Test
-//    public void testExceptionHandlerRegistration() {
-//        AbstractExceptionHandler handlerSpy = Mockito.spy(this.handler1);
-//        
-//        this.testToken.registerExceptionHandlers(Arrays.asList(handlerSpy));
-//        this.testToken.navigateTo(Collections.<Transition>emptyList());
-//        
-//        ArgumentCaptor<JodaEngineException> exception = ArgumentCaptor.forClass(JodaEngineException.class);
-//        verify(handlerSpy).processException(exception.capture(), Mockito.eq(this.testToken));
-//        Assert.assertTrue(exception.getValue() instanceof NoValidPathException);
-//    }
 }

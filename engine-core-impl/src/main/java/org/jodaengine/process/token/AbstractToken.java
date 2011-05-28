@@ -59,12 +59,9 @@ implements Token {
      *            the {@link ExtensionService} to load and register extensions from, may be null
      */
     public AbstractToken(Node startNode,
-                     AbstractProcessInstance instance,
-                     Navigator navigator,
-                     @Nullable ExtensionService extensionService) {
-
-
-        // TODO Jan - use this constructor to register potential extensions - wait for Jannik's refactoring.
+                         AbstractProcessInstance instance,
+                         Navigator navigator,
+                         @Nullable ExtensionService extensionService) {
 
         this.currentNode = startNode;
         this.instance = instance;
@@ -87,9 +84,7 @@ implements Token {
     /**
      * Hidden constructor.
      */
-    protected AbstractToken() {
-
-    }
+    protected AbstractToken() { }
 
     @Override
     public Node getCurrentNode() {

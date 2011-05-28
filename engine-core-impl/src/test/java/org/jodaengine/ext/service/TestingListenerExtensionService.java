@@ -21,8 +21,9 @@ public class TestingListenerExtensionService implements Service {
     
     public static final String DEMO_EXTENSION_SERVICE_NAME
         = TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME + "-listener-test";
-    
+
     private List<Object> invokedInstances = new ArrayList<Object>();
+    private List<Object> registeredInstances = new ArrayList<Object>();
     
     
     /**
@@ -51,19 +52,42 @@ public class TestingListenerExtensionService implements Service {
         return false;
     }
     
-    @Override
-    public void start(JodaEngineServices services) {
-        
+    /**
+     * Specifies that a certain instance was registered.
+     * 
+     * @param instance the instance, which was registered
+     */
+    public void registered(@Nonnull Object instance) {
+        this.registeredInstances.add(instance);
     }
+    
+    /**
+     * Returns true in case an instance of the specified type was registered.
+     * 
+     * @param type the type to lookup
+     * @return true, if any was registered
+     */
+    public boolean hasBeenRegistered(@Nonnull Class<?> type) {
+        
+        for (Object instance: this.registeredInstances) {
+            if (instance.getClass().isAssignableFrom(type)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public void start(JodaEngineServices services) { }
 
     @Override
-    public void stop() {
-        
-    }
+    public void stop() { }
 
     @Override
     public boolean isRunning() {
         return true;
     }
+
     
 }

@@ -3,6 +3,7 @@ package org.jodaengine.util;
 import org.jodaengine.IdentityService;
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
 
 /**
@@ -37,4 +38,11 @@ public interface ServiceContext extends Attributable {
      * @return the {@link NavigatorInside}
      */
     NavigatorInside getNavigatorService();
+
+    /**
+     * Gets the {@link ExtensionService extensionService}.
+     * 
+     * @return the {@link ExtensionService}
+     */
+    ExtensionService getExtensionService();
 }
