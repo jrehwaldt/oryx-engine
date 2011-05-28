@@ -13,7 +13,6 @@ import org.jodaengine.process.token.Token;
  * The {@link BpmnTimerIntermediateEventActivity IntermediateTimer} is used to wait a specific amount of time before
  * execution is continued.
  */
-// TODO @Gerardo: Name ändern nach BpmnTimerIntermediateActivity
 public class BpmnTimerIntermediateEventActivity extends AbstractCancelableActivity implements BpmnEventBasedGatewayEvent {
 
     private long time;

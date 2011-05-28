@@ -3,10 +3,12 @@ package org.jodaengine.resource.allocation;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jodaengine.allocation.JodaFormAttributes;
+
 import net.htmlparser.jericho.Attributes;
 import net.htmlparser.jericho.OutputDocument;
 
-import org.jodaengine.allocation.JodaFormAttributes;
+
 
 /**
  * The Class JodaFormFieldConverterImpl.

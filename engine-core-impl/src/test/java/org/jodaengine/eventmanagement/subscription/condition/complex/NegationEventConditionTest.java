@@ -13,19 +13,26 @@ import org.testng.annotations.Test;
  */
 public class NegationEventConditionTest {
 
+    /**
+     * Tests whether the NegationEventCondition evaluates the {@link TrueEventCondition} to false.
+     */
     @Test
     public void testNegationForTrue() {
+
         EventCondition eventCondition = new NegationEventCondition(new TrueEventCondition());
-        
+
         boolean evaluationResult = eventCondition.evaluate(Mockito.mock(AdapterEvent.class));
         Assert.assertFalse(evaluationResult);
     }
 
+    /**
+     * Tests whether the NegationEventCondition evaluates the {@link FalseEventCondition} to true.
+     */
     @Test
     public void testNegationForFalse() {
-        
+
         EventCondition eventCondition = new NegationEventCondition(new FalseEventCondition());
-        
+
         boolean evaluationResult = eventCondition.evaluate(Mockito.mock(AdapterEvent.class));
         Assert.assertTrue(evaluationResult);
     }

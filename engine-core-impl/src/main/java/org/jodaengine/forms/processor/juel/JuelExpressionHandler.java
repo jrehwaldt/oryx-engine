@@ -11,9 +11,6 @@ import javax.el.ExpressionFactory;
 import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
 
-import net.htmlparser.jericho.FormField;
-import net.htmlparser.jericho.OutputDocument;
-
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.resource.allocation.Form;
 import org.jodaengine.resource.allocation.JodaFormField;
@@ -24,6 +21,9 @@ import org.slf4j.LoggerFactory;
 import de.odysseus.el.ExpressionFactoryImpl;
 import de.odysseus.el.util.RootPropertyResolver;
 import de.odysseus.el.util.SimpleResolver;
+
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.OutputDocument;
 
 /**
  * The Class JUELExpressionHandler. Tries to evaluate all JUEL conditions for the forms, if they exist.
