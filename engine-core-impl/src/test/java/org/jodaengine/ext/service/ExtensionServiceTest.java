@@ -461,7 +461,6 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         RepositoryService repository = this.jodaEngineServices.getRepositoryService();
         Navigator navigator = this.jodaEngineServices.getNavigatorService();
         
-        
         //
         // deploy the instance
         //
@@ -473,7 +472,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         navigator.startProcessInstance(definition.getID());
         
         //
-        // tests the registering of the listener (invocation is tested elsewhere)
+        // tests the registering of the listener (proper invocation is tested elsewhere)
         //
         Assert.assertTrue(listenerService.hasBeenRegistered(TestingTokenListener.class));
     }
