@@ -9,9 +9,9 @@ import java.util.UUID;
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
-import org.jodaengine.eventmanagement.subscription.StartEventImpl;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.eventmanagement.subscription.condition.complex.AndEventCondition;
+import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
@@ -91,7 +91,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
                                                        List<EventCondition> eventConditions,
                                                        Node startNode) {
 
-        ProcessStartEvent event = new StartEventImpl(eventType, adapterConfig, new AndEventCondition(eventConditions),
+        ProcessStartEvent event = new DefaultProcessStartEvent(eventType, adapterConfig, new AndEventCondition(eventConditions),
             id);
         this.temporaryStartTriggers.put(event, startNode);
 

@@ -1,8 +1,10 @@
-package org.jodaengine.eventmanagement.subscription;
+package org.jodaengine.eventmanagement.subscription.processevent.start;
 
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
+import org.jodaengine.eventmanagement.subscription.processevent.AbstractProcessEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.navigator.Navigator;
@@ -11,7 +13,7 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
 /**
  * The Class StartEventImpl. Have a look at {@link ProcessStartEvent}.
  */
-public class StartEventImpl extends AbstractProcessEvent implements ProcessStartEvent {
+public class DefaultProcessStartEvent extends AbstractProcessEvent implements ProcessStartEvent {
 
     private ProcessDefinitionID definitionID;
     private Navigator navigator;
@@ -29,7 +31,7 @@ public class StartEventImpl extends AbstractProcessEvent implements ProcessStart
      *            the def
      */
     // TODO @EVENTTEAM: EventType??? WTF? Configuration? hmm? Delete it we must? 
-    public StartEventImpl(EventType type,
+    public DefaultProcessStartEvent(EventType type,
                           AdapterConfiguration config,
                           EventCondition condition,
                           ProcessDefinitionID definitionID) {

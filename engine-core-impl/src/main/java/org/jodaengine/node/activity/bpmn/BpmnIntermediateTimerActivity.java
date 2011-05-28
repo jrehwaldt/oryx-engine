@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.TimerEventImpl;
+import org.jodaengine.eventmanagement.subscription.processevent.intermediate.TimerProcessIntermediateEvent;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.token.Token;
 
@@ -51,7 +51,7 @@ public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity im
     @Override
     public ProcessIntermediateEvent createProcessIntermediateEvent(Token token) {
 
-        return new TimerEventImpl(time, token);
+        return new TimerProcessIntermediateEvent(time, token);
     }
 
     @Override

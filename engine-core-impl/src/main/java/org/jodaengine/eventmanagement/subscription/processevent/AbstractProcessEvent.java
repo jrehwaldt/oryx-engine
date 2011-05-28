@@ -1,8 +1,9 @@
-package org.jodaengine.eventmanagement.subscription;
+package org.jodaengine.eventmanagement.subscription.processevent;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
 import org.slf4j.Logger;

@@ -1,15 +1,18 @@
-package org.jodaengine.eventmanagement.subscription;
+package org.jodaengine.eventmanagement.subscription.processevent.intermediate;
 
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.subscription.ProcessEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
+import org.jodaengine.eventmanagement.subscription.processevent.AbstractProcessEvent;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 /**
  * This is the base implementation for all {@link ProcessIntermediateEvent}s.
  */
-public class ProcessIntermediateEventBase extends AbstractProcessEvent implements ProcessIntermediateEvent {
+public abstract class AbstractProcessIntermediateEvent extends AbstractProcessEvent implements ProcessIntermediateEvent {
 
     protected Token token;
     protected Node node;
@@ -27,10 +30,10 @@ public class ProcessIntermediateEventBase extends AbstractProcessEvent implement
      * @param token
      *            - the {@link Token processToken}
      */
-    protected ProcessIntermediateEventBase(EventType type,
-                                           AdapterConfiguration config,
-                                           EventCondition condition,
-                                           Token token) {
+    protected AbstractProcessIntermediateEvent(EventType type,
+                                               AdapterConfiguration config,
+                                               EventCondition condition,
+                                               Token token) {
 
         super(type, config, condition);
         this.token = token;
