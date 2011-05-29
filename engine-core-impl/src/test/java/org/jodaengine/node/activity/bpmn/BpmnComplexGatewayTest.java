@@ -49,8 +49,10 @@ public class BpmnComplexGatewayTest {
         beforeNode3 = builder.buildNode();
         afterNode = builder.buildNode();
 
-        // TODO comment parameter
+        // parameter is 1: we want a 1-out-of-n-join
         builder.setIncomingBehaviour(new ComplexJoinBehaviour(1));
+        
+        // TODO use ComplexSplitBehaviour
         builder.setOutgoingBehaviour(new TakeAllSplitBehaviour());
 
         discriminator = builder.buildNode();
