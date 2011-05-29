@@ -63,7 +63,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         this.name = null;
         this.description = null;
         this.temporaryStartTriggers = new HashMap<ProcessStartEvent, Node>();
-        this.temporaryAttributeTable = null;
+        this.temporaryAttributeTable = new HashMap<String, Object>();
         this.temporaryInstantiationPatterns = new ArrayList<InstantiationPattern>();
         this.temporaryActivationPatterns = new ArrayList<ProcessDefinitionDeActivationPattern>();
         this.startInstantiationPattern = null;
@@ -100,11 +100,6 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
 
     @Override
     public void setAttribute(String attributeId, Object attibuteValue) {
-
-        if (this.temporaryAttributeTable == null) {
-            this.temporaryAttributeTable = new HashMap<String, Object>();
-        }
-
         this.temporaryAttributeTable.put(attributeId, attibuteValue);
     }
 
