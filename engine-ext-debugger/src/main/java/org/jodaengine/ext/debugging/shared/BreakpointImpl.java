@@ -118,11 +118,13 @@ public class BreakpointImpl implements Breakpoint {
      * Default breakpoints will be enabled.
      * 
      * @param node the {@link Node}, the attribute is related to
+     * @param token the {@link Token}, which processes the instance
      * @return an attribute instance, null if none provided
      */
-    public static @Nonnull BreakpointImpl getAttribute(@Nonnull Node node) {
+    public static @Nonnull Breakpoint getAttribute(@Nonnull Node node,
+                                                   @Nonnull Token token) {
         
-        BreakpointImpl breakpoint = getAttributeIfExists(node);
+        Breakpoint breakpoint = getAttributeIfExists(node, token);
         
         //
         // register a new instance
@@ -140,10 +142,25 @@ public class BreakpointImpl implements Breakpoint {
      * {@link Node}. If none exists, null is returned.
      * 
      * @param node the {@link Node}, the attribute is related to
+     * @param token the {@link Token}, which processes the instance
      * @return an attribute instance, null if none provided
      */
-    public static @Nullable BreakpointImpl getAttributeIfExists(@Nonnull Node node) {
+    public static @Nullable Breakpoint getAttributeIfExists(@Nonnull Node node,
+                                                            @Nonnull Token token) {
         
-        return (BreakpointImpl) node.getAttribute(ATTRIBUTE_KEY);
+        DebuggerAttribute attribute = DebuggerAttribute.getAttributeIfExists(token.getInstance().getDefinition());
+        
+        if (attribute == null) {
+            return null;
+        }
+        
+        for (Breakpoint breakpoint: attribute.getBreakpoints()) {
+            if (breakpoint.getNode().equals(node)) {
+                return breakpoint;
+            }
+        }
+        
+        return null;
+//        return (BreakpointImpl) node.getAttribute(ATTRIBUTE_KEY);
     }
 }
