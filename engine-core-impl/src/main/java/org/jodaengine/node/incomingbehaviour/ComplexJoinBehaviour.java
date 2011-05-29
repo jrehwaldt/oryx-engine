@@ -90,6 +90,13 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
         return proceedingTokens;
     }
 
+    /**
+     * Gets the {@link ComplexGatewayState} of the gateway, that is represented by the node.
+     *
+     * @param context the context
+     * @param node the node
+     * @return the gateway state
+     */
     private synchronized ComplexGatewayState getGatewayState(ProcessInstanceContext context, Node node) {
 
         String variableIdentifier = node.getID() + "-state";
@@ -103,6 +110,13 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
         return state;
     }
 
+    /**
+     * Sets the gateway state for the supplied node.
+     *
+     * @param context the context
+     * @param node the node
+     * @param state the state
+     */
     private void setGatewayState(ProcessInstanceContext context, Node node, ComplexGatewayState state) {
 
         String variableIdentifier = node.getID() + "-state";

@@ -14,7 +14,6 @@ public class ComplexSplitBehaviour implements OutgoingBehaviour {
     public List<Token> split(List<Token> instances)
     throws NoValidPathException {
 
-        // TODO Auto-generated method stub
         return null;
     }
 
