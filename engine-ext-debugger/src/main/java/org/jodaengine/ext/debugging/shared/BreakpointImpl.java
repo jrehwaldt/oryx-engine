@@ -72,6 +72,11 @@ public class BreakpointImpl implements Breakpoint {
     }
 
     @Override
+    public BreakpointCondition getCondition() {
+        return this.condition;
+    }
+
+    @Override
     public boolean matches(Token token) {
         
         //

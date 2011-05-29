@@ -5,19 +5,19 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.io.InputStream;
 import java.util.List;
 
 import org.jodaengine.RepositoryService;
-import org.jodaengine.deployment.ProcessDefinitionImporter;
-import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
+import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.listener.RepositoryDeploymentListener;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
+import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.util.ReflectionUtil;
+import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.ArgumentCaptor;
 import org.testng.Assert;
@@ -32,10 +32,6 @@ import org.testng.annotations.Test;
  */
 public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngineTest {
     
-    private static final String RESOURCE_PATH = "org/jodaengine/ext/debugging/listener/";
-    private static final String BREAKPOINT_DEFINED = RESOURCE_PATH + "DebuggingEnabledAndBreakpointAvailable.bpmn.xml";
-    
-    private BpmnXmlParseListener bpmnListener;
     private RepositoryDeploymentListener deployListener;
     private DebuggerServiceImpl debugger;
     
@@ -47,28 +43,25 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
     @BeforeClass
     public void setUp() throws ExtensionNotAvailableException {
         this.debugger = mock(DebuggerServiceImpl.class);
-        this.bpmnListener = new DebuggerBpmnXmlParseListener();
         this.deployListener = new DebuggerRepositoryDeploymentListener(this.debugger);
     }
-
+    
     /**
      * Tests that the listener correctly extracts the debugger enabled state.
+     * 
+     * @throws IllegalStarteventException test fails
      */
     @SuppressWarnings("unchecked")
     @Test
-    public void testBreakpointsAreCorrectlyRegistered() {
+    public void testBreakpointsAreCorrectlyRegistered() throws IllegalStarteventException {
         
-        InputStream bpmnXml = ReflectionUtil.getResourceAsStream(BREAKPOINT_DEFINED);
-        Assert.assertNotNull(bpmnXml);
-        
-        ProcessDefinitionImporter importer = new BpmnXmlImporter(bpmnXml, this.bpmnListener);
         //
-        // parse the process definition, extract the breakpoints
+        // build a definition
         //
-        ProcessDefinition definition = importer.createProcessDefinition();
-        
-        Assert.assertNotNull(definition);
-        Assert.assertNotNull(definition.getID());
+        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
+        BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
+        ProcessDefinition definition = builder.buildDefinition();
         
         DebuggerAttribute attribute = DebuggerAttribute.getAttributeIfExists(definition);
         Assert.assertNotNull(attribute);
