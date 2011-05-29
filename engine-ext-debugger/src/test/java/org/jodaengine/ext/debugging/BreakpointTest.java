@@ -1,5 +1,6 @@
 package org.jodaengine.ext.debugging;
 
+import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
@@ -18,7 +19,7 @@ import org.testng.annotations.Test;
  */
 public class BreakpointTest {
     
-    private BreakpointImpl breakpoint;
+    private Breakpoint breakpoint;
     private Token token;
     private Node node;
     
@@ -36,17 +37,7 @@ public class BreakpointTest {
      */
     @BeforeMethod
     public void setUpMethod() {
-        this.breakpoint = BreakpointImpl.getAttribute(this.node);
-        Assert.assertNotNull(this.breakpoint);
-        Assert.assertEquals(this.breakpoint.getNode(), this.node);
-    }
-    
-    /**
-     * Tests that a {@link BreakpointImpl} will be created on Breakpoint#getAttribute(Node).
-     */
-    @Test
-    public void testBreakpointIsCreated() {
-        Assert.assertNotNull(this.breakpoint);
+        this.breakpoint = new BreakpointImpl(this.node);
     }
     
     /**
@@ -86,14 +77,5 @@ public class BreakpointTest {
         Token otherToken = new BpmnToken(otherNode, null, null);
         Assert.assertNotSame(this.breakpoint.getNode(), otherNode);
         Assert.assertFalse(this.breakpoint.matches(otherToken));
-    }
-    
-    /**
-     * Tests that no instance is created when calling getAttributeIfExists().
-     */
-    @Test
-    public void testBreakpointWillBeNullIfNoneExists() {
-        Node otherNode = new NodeImpl(null, null, null);
-        Assert.assertNull(BreakpointImpl.getAttributeIfExists(otherNode));
     }
 }
