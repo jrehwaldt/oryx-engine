@@ -104,18 +104,18 @@ implements Token {
         return id;
     }
 
-    @Override
-    public boolean joinable() {
-
-        return this.instance.getContext().allIncomingTransitionsSignaled(this.currentNode);
-    }
-
-    @Override
-    public Token performJoin() {
-
-        instance.getContext().removeIncomingTransitions(currentNode);
-        return this;
-    }
+//    @Override
+//    public boolean joinable() {
+//
+//        return this.instance.getContext().allIncomingTransitionsSignaled(this.currentNode);
+//    }
+//
+//    @Override
+//    public Token performJoin() {
+//
+//        instance.getContext().removeIncomingTransitions(currentNode);
+//        return this;
+//    }
 
     @Override
     public AbstractProcessInstance getInstance() {

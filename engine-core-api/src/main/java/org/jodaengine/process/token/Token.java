@@ -70,20 +70,6 @@ public interface Token extends Identifiable<UUID> {
     List<Token> navigateTo(List<Transition> transitionList);
 
     /**
-     * Returns a boolean whether it is possible to join on the current node.
-     * 
-     * @return true, if successful
-     */
-    boolean joinable();
-
-    /**
-     * Perform the join.
-     * 
-     * @return the token
-     */
-    Token performJoin();
-
-    /**
      * Gets the process instance this token belongs to.
      * 
      * @return the context
