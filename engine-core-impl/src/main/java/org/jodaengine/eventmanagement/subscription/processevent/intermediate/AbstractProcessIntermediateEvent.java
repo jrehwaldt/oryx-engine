@@ -3,6 +3,7 @@ package org.jodaengine.eventmanagement.subscription.processevent.intermediate;
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
+import org.jodaengine.eventmanagement.subscription.ProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.eventmanagement.subscription.processevent.AbstractProcessEvent;
@@ -16,6 +17,8 @@ public abstract class AbstractProcessIntermediateEvent extends AbstractProcessEv
 
     protected Token token;
     protected Node node;
+
+    protected ProcessEventGroup parentEventGroup;
 
     /**
      * Default constructor.
@@ -35,9 +38,19 @@ public abstract class AbstractProcessIntermediateEvent extends AbstractProcessEv
                                                EventCondition condition,
                                                Token token) {
 
+        this(type, config, condition, token, null);
+    }
+
+    protected AbstractProcessIntermediateEvent(EventType type,
+                                               AdapterConfiguration config,
+                                               EventCondition condition,
+                                               Token token,
+                                               ProcessEventGroup parentEventGroup) {
+
         super(type, config, condition);
         this.token = token;
         this.node = token.getCurrentNode();
+        this.parentEventGroup = parentEventGroup;
     }
 
     @Override
@@ -49,13 +62,16 @@ public abstract class AbstractProcessIntermediateEvent extends AbstractProcessEv
     @Override
     public void trigger() {
 
-        // TODO hier kommt das hin mit der EventGruppe
-        // Bsp. if (called) {
-        // return;
-        // }
+        if (parentEventGroup == null) {
+
+            // Resuming the token with myself
+            token.resume(this);
+        } else {
+
+            parentEventGroup.trigger(this);
+        }
+
         // triggerIntern(); -> this can be abstract
-        // Resuming the token with myself
-        token.resume(this);
     }
 
     @Override

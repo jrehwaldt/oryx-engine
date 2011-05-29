@@ -49,4 +49,8 @@ implements InboundAdapter {
         ManualTriggeringAdapter manualTriggeringAdapter = manualTriggeringAdapters.get(manualTriggeringAdapterIndex);
         manualTriggeringAdapter.triggerManually();
     }
+    
+    public static void resetManualTriggeringAdapter() {
+        manualTriggeringAdapters = new ArrayList<ManualTriggeringAdapter>();
+    }
 }
