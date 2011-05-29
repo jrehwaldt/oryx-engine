@@ -91,23 +91,21 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
                                                        List<EventCondition> eventConditions,
                                                        Node startNode) {
 
-        ProcessStartEvent event = new DefaultProcessStartEvent(eventType, adapterConfig, new AndEventCondition(eventConditions),
-            id);
+        ProcessStartEvent event = new DefaultProcessStartEvent(
+            eventType, adapterConfig, new AndEventCondition(eventConditions), id);
         this.temporaryStartTriggers.put(event, startNode);
 
         return this;
     }
 
     @Override
-    public ProcessDefinitionBuilder setAttribute(String attributeId, Object attibuteValue) {
+    public void setAttribute(String attributeId, Object attibuteValue) {
 
         if (this.temporaryAttributeTable == null) {
             this.temporaryAttributeTable = new HashMap<String, Object>();
         }
 
         this.temporaryAttributeTable.put(attributeId, attibuteValue);
-
-        return this;
     }
 
     @Override
@@ -177,7 +175,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
      * This method encapsulates.
      * 
      * @return the {@link ProcessDefinitionImpl processDefinition} as result of this builder
-     * @throws IllegalStarteventException
+     * @throws IllegalStarteventException no valid start event found
      */
     private ProcessDefinitionImpl buildResultDefinition()
     throws IllegalStarteventException {
@@ -190,6 +188,10 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
 
         for (Map.Entry<ProcessStartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
             definition.addStartTrigger(entry.getKey(), entry.getValue());
+        }
+        
+        for (Map.Entry<String, Object> entry : temporaryAttributeTable.entrySet()) {
+            definition.setAttribute(entry.getKey(), entry.getValue());
         }
 
         return definition;
@@ -253,5 +255,15 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
             logger.error(errorMessage);
             throw new JodaEngineRuntimeException(errorMessage);
         }
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return this.temporaryAttributeTable;
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+        return this.temporaryAttributeTable.get(attributeKey);
     }
 }

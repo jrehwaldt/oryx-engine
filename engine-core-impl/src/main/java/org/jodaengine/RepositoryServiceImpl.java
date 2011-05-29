@@ -207,7 +207,7 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
             registerNewProcessVersion(definition);
 
             // add the definition
-            getProcessDefinitionsTable().put(definition.getID(), definition);
+            addProcessDefinition(definition);
 
             // create the connection between definition and scope
             setScopeForDefinition(definition.getID(), scope);

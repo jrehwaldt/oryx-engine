@@ -83,6 +83,7 @@ public class RepositoryDeploymentListenerTest extends AbstractJodaEngineTest {
         
         Mockito.verify(this.listener, Mockito.times(1)).deploymentDeployed(repository, deployment);
         Mockito.verify(this.listener, Mockito.never()).deploymentDeleted(repository, deployment);
+        Mockito.verify(this.listener, Mockito.times(2)).definitionDeployed(repository, definition);
         
         //
         // Artifact test

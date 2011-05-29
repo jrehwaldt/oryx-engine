@@ -196,7 +196,7 @@ public class BpmnXmlParse extends XmlParse {
             // preserve original attributes
             //
             if (this.finishedProcessDefinition != null) {
-                parseGeneralInformation(processElement, this.finishedProcessDefinition);
+                parseGeneralInformation(processElement, processBuilder);
             }
         } catch (IllegalStarteventException buildingDefinitionException) {
 
@@ -258,7 +258,7 @@ public class BpmnXmlParse extends XmlParse {
 
             // Doing some afterwork
             for (BpmnXmlParseListener parseListener : parseListeners) {
-                parseListener.parseStartEvent(startEventXmlElement, startEventNode);
+                parseListener.parseStartEvent(startEventXmlElement, startEventNode, processBuilder);
             }
         }
     }
@@ -345,7 +345,10 @@ public class BpmnXmlParse extends XmlParse {
         getNodeXmlIdTable().put((String) exclusiveGatewayNode.getAttribute("idXml"), exclusiveGatewayNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseExclusiveGateway(exclusiveGwElement, exclusiveGatewayNode);
+            parseListener.parseExclusiveGateway(
+                exclusiveGwElement,
+                exclusiveGatewayNode,
+                processBuilder);
         }
     }
 
@@ -364,7 +367,10 @@ public class BpmnXmlParse extends XmlParse {
         getNodeXmlIdTable().put((String) parallelGatewayNode.getAttribute("idXml"), parallelGatewayNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseParallelGateway(parallelGatewayElement, parallelGatewayNode);
+            parseListener.parseParallelGateway(
+                parallelGatewayElement,
+                parallelGatewayNode,
+                processBuilder);
         }
     }
 
@@ -386,7 +392,7 @@ public class BpmnXmlParse extends XmlParse {
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseTask(taskXmlElement, taskNode);
+            parseListener.parseTask(taskXmlElement, taskNode, processBuilder);
         }
     }
 
@@ -419,7 +425,7 @@ public class BpmnXmlParse extends XmlParse {
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseUserTask(taskXmlElement, taskNode);
+            parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
         }
     }
 
@@ -518,7 +524,7 @@ public class BpmnXmlParse extends XmlParse {
 
             // Doing some afterwork
             for (BpmnXmlParseListener parseListener : parseListeners) {
-                parseListener.parseEndEvent(endEventXmlElement, endEventNode);
+                parseListener.parseEndEvent(endEventXmlElement, endEventNode, processBuilder);
             }
         }
     }
@@ -573,7 +579,7 @@ public class BpmnXmlParse extends XmlParse {
             Transition transition = transitionBuilder.buildTransition();
 
             for (BpmnXmlParseListener parseListener : parseListeners) {
-                parseListener.parseSequenceFlow(sequenceFlowElement, transition);
+                parseListener.parseSequenceFlow(sequenceFlowElement, transition, processBuilder);
             }
         }
     }

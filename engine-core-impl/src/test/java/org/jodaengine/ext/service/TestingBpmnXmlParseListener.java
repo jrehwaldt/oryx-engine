@@ -9,6 +9,7 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
+import org.jodaengine.util.Attributable;
 import org.jodaengine.util.xml.XmlElement;
 import org.testng.Assert;
 
@@ -68,37 +69,58 @@ public class TestingBpmnXmlParseListener implements BpmnXmlParseListener {
     }
 
     @Override
-    public void parseStartEvent(XmlElement startEventXmlElement, Node startNode) {
-        // do nothing
+    public void parseStartEvent(XmlElement startEventXmlElement,
+                                Node startNode,
+                                Attributable definitionScopeAttributable) {
+        
+        this.listenerService.invoked(this);
     }
 
     @Override
-    public void parseExclusiveGateway(XmlElement exclusiveGatewayXmlElement, Node exclusiveGatewayNode) {
-        // do nothing
+    public void parseExclusiveGateway(XmlElement exclusiveGatewayXmlElement,
+                                      Node exclusiveGatewayNode,
+                                      Attributable definitionScopeAttributable) {
+        
+        this.listenerService.invoked(this);
     }
 
     @Override
-    public void parseParallelGateway(XmlElement parallelGatewayXmlElement, Node parallelGatewayNode) {
-        // do nothing
+    public void parseParallelGateway(XmlElement parallelGatewayXmlElement,
+                                     Node parallelGatewayNode,
+                                     Attributable definitionScopeAttributable) {
+        
+        this.listenerService.invoked(this);
     }
 
     @Override
-    public void parseTask(XmlElement taskXmlElement, Node taskNode) {
-        // do nothing
+    public void parseTask(XmlElement taskXmlElement,
+                          Node taskNode,
+                          Attributable definitionScopeAttributable) {
+        
+        this.listenerService.invoked(this);
     }
 
     @Override
-    public void parseUserTask(XmlElement userTaskXmlElement, Node userTaskNode) {
-        // do nothing
+    public void parseUserTask(XmlElement userTaskXmlElement,
+                              Node userTaskNode,
+                              Attributable definitionScopeAttributable) {
+        
+        this.listenerService.invoked(this);
     }
 
     @Override
-    public void parseEndEvent(XmlElement endEventXmlElemnt, Node endEventNode) {
-        // do nothing
+    public void parseEndEvent(XmlElement endEventXmlElemnt,
+                              Node endEventNode,
+                              Attributable definitionScopeAttributable) {
+        
+        this.listenerService.invoked(this);
     }
 
     @Override
-    public void parseSequenceFlow(XmlElement sequenceFlowElement, Transition transition) {
-        // do nothing
+    public void parseSequenceFlow(XmlElement sequenceFlowElement,
+                                  Transition transition,
+                                  Attributable definitionScopeAttributable) {
+        
+        this.listenerService.invoked(this);
     }
 }

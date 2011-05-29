@@ -34,7 +34,7 @@ public class BreakpointImpl implements Breakpoint {
      * 
      * @param node the node, this breakpoint is bound to
      */
-    protected BreakpointImpl(@Nonnull Node node) {
+    public BreakpointImpl(@Nonnull Node node) {
         this.id = UUID.randomUUID();
         this.node = node;
         this.condition = null;
