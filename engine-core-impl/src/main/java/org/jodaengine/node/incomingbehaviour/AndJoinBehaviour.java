@@ -22,7 +22,8 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
     @Override
     protected boolean joinable(Token token) {
 
-        return token.joinable();
+        ProcessInstanceContext context = token.getInstance().getContext();
+        return context.allIncomingTransitionsSignaled(token.getCurrentNode());
     }
 
     @Override
@@ -30,7 +31,10 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
 
         // We can do this, as we currently assume that an and join has a single outgoing transition
         List<Token> newTokens = new LinkedList<Token>();
-        newTokens.add(token.performJoin());
+        
+        ProcessInstanceContext context = token.getInstance().getContext();
+        context.removeIncomingTransitions(token.getCurrentNode());
+        newTokens.add(token);
         return newTokens;
     }
 

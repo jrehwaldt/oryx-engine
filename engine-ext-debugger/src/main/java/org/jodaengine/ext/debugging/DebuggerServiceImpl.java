@@ -1,6 +1,11 @@
 package org.jodaengine.ext.debugging;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
 
 import org.apache.commons.io.IOUtils;
 import org.jodaengine.JodaEngineServices;
@@ -24,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * A {@link DebuggerService} implementation providing the possibility to set
- * {@link BreakpointImpl} and debug process instances.
+ * {@link Breakpoint}s and debug instances of {@link ProcessDefinition}s.
  * 
  * This class implements both, the {@link DebuggerService} as well as the {@link BreakpointService}.
  * 
@@ -39,6 +44,8 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     private JodaEngineServices engineServices;
     private Navigator navigator;
     private RepositoryService repository;
+    
+    private Map<ProcessDefinition, List<Breakpoint>> breakpoints;
     
     private boolean running = false;
     
@@ -56,6 +63,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         this.engineServices = services;
         this.navigator = services.getNavigatorService();
         this.repository = services.getRepositoryService();
+        this.breakpoints = new HashMap<ProcessDefinition, List<Breakpoint>>();
         
         this.running = true;
     }
@@ -116,17 +124,12 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
 
     @Override
     public Breakpoint addBreakpoint(Node node) {
-        return addBreakpoint(node, null);
-    }
-
-    @Override
-    public Breakpoint addBreakpoint(Node node,
-                                    AbstractProcessInstance instance) {
+        logger.debug("Add breakpoint to node {}", node);
+        
         // TODO Auto-generated method stub
-        logger.debug("Add breakpoint to node {} | instance {}", node, instance);
         return null;
     }
-
+    
     @Override
     public void removeBreakpoint(Breakpoint breakpoint) {
         // TODO Auto-generated method stub
@@ -177,5 +180,29 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         
         artifactID = "svg-artifact-for-" + definition.getID().getIdentifier() + "-not-defined";
         throw new ProcessArtifactNotFoundException(artifactID);
+    }
+    
+    /**
+     * Registers a list of {@link Breakpoint}s for a certain {@link ProcessDefinition}.
+     * 
+     * @param breakpoints the breakpoints to register
+     * @param definition the process definition, the breakpoint belong to
+     */
+    public void registerBreakpoints(@Nonnull List<Breakpoint> breakpoints,
+                                    @Nonnull ProcessDefinition definition) {
+        
+        logger.info("Registering {} breakpoints for {}", breakpoints.size(), definition);
+        this.breakpoints.put(definition, breakpoints);
+    }
+    
+    /**
+     * Unregisters all {@link Breakpoint}s for a certain {@link ProcessDefinition}.
+     * 
+     * @param definition the process definition
+     */
+    public void unregisterBreakpoints(@Nonnull ProcessDefinition definition) {
+        
+        logger.info("Unregistering breakpoints for {}", definition);
+        this.breakpoints.remove(definition);
     }
 }

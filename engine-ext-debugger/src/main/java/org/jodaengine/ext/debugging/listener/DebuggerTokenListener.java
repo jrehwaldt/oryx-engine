@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
+import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.listener.AbstractTokenListener;
@@ -43,10 +44,11 @@ public class DebuggerTokenListener extends AbstractTokenListener {
         logger.debug("DebuggerTokenListener#stateChanged {} for {}", event, this.debugger);
         
         //
-        // do we have a breakpoint for this node
+        // do we have a breakpoint for this node?
         //
-        Node currentNode = event.getNode();
-        BreakpointImpl breakpoint = BreakpointImpl.getAttributeIfExists(currentNode);
+        Node node = event.getNode();
+        Token token = event.getProcessToken();
+        Breakpoint breakpoint = BreakpointImpl.getAttributeIfExists(node, token);
         
         //
         // case: no
@@ -58,8 +60,6 @@ public class DebuggerTokenListener extends AbstractTokenListener {
         //
         // case: yes - does the breakpoint match?
         //
-        Token token = event.getProcessToken();
-        
         if (breakpoint.matches(token)) {
             logger.debug("Breakpoint {} matches {}", breakpoint, token);
             

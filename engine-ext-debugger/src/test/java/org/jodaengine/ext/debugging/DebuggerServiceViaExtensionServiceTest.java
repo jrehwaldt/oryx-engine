@@ -12,8 +12,11 @@ import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.listener.DebuggerBpmnXmlParseListener;
 import org.jodaengine.ext.debugging.listener.DebuggerDarHandler;
+import org.jodaengine.ext.debugging.listener.DebuggerRepositoryDeploymentListener;
 import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
+import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.ext.listener.RepositoryDeploymentListener;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
@@ -48,9 +51,11 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
     @Test
     public void testRequiredComponentsAreAvailable() {
         Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerBpmnXmlParseListener.class));
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerRepositoryDeploymentListener.class));
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerDarHandler.class));
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerTokenListener.class));
         Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerService.class));
         Assert.assertTrue(this.extensionService.isExtensionAvailable(BreakpointService.class));
-        Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerTokenListener.class));
     }
     
     /**
@@ -159,6 +164,48 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         }
         
         Assert.assertTrue(handlerAvailable);
+    }
+    
+    /**
+     * Tests that the listener for the {@link DebuggerRepositoryDeploymentListener} is successfully provided.
+     */
+    @Test
+    public void testRequiredRepositoryDeploymentListenerIsProvided() {
+        
+        List<RepositoryDeploymentListener> listeners
+            = this.extensionService.getExtensions(RepositoryDeploymentListener.class);
+        
+        Assert.assertTrue(listeners.size() > 0);
+        
+        boolean listenerAvailable = false;
+        for (RepositoryDeploymentListener listener: listeners) {
+            if (listener instanceof DebuggerRepositoryDeploymentListener) {
+                listenerAvailable = true;
+            }
+        }
+        
+        Assert.assertTrue(listenerAvailable);
+    }
+    
+    /**
+     * Tests that the listener for the {@link DebuggerTokenListener} is successfully provided.
+     */
+    @Test
+    public void testRequiredDebuggerTokenListenerIsProvided() {
+        
+        List<AbstractTokenListener> listeners
+            = this.extensionService.getExtensions(AbstractTokenListener.class);
+        
+        Assert.assertTrue(listeners.size() > 0);
+        
+        boolean listenerAvailable = false;
+        for (AbstractTokenListener listener: listeners) {
+            if (listener instanceof DebuggerTokenListener) {
+                listenerAvailable = true;
+            }
+        }
+        
+        Assert.assertTrue(listenerAvailable);
     }
 
     

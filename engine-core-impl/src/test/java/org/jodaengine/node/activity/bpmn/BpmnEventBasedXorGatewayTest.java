@@ -74,9 +74,9 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         // Building the IntermediateTimer
         eventBasedXorGatewayNode = BpmnNodeFactory.createBpmnEventBasedXorGatewayNode(builder);
 
-        intermediateEvent1Node = createBpmnManualTrigœgeringIntermediateEventNode(builder);
+        intermediateEvent1Node = createBpmnManualTriggeringIntermediateEventNode(builder);
 
-        intermediateEvent2Node = createBpmnManualTrigœgeringIntermediateEventNode(builder);
+        intermediateEvent2Node = createBpmnManualTriggeringIntermediateEventNode(builder);
 
         endNode1 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
         endNode2 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
@@ -134,10 +134,11 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
      *            - the {@link ProcessDefinitionBuilder} in order to build the {@link Node}
      * @return the created {@link Node}
      */
-    protected static Node createBpmnManualTrigœgeringIntermediateEventNode(ProcessDefinitionBuilder defBuilder) {
+    protected static Node createBpmnManualTriggeringIntermediateEventNode(ProcessDefinitionBuilder defBuilder) {
 
         NodeBuilder nodeBuilder = defBuilder.getNodeBuilder();
-        BpmnManualTriggeringIntermediateEventActivity activityBehavior = new BpmnManualTriggeringIntermediateEventActivity();
+        BpmnManualTriggeringIntermediateEventActivity activityBehavior
+            = new BpmnManualTriggeringIntermediateEventActivity();
         return nodeBuilder.setIncomingBehaviour(new SimpleJoinBehaviour()).setActivityBehavior(activityBehavior)
         .setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
     }

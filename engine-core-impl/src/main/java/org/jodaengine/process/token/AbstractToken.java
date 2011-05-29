@@ -13,7 +13,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.exception.InstanceTerminationHandler;
 import org.jodaengine.ext.exception.LoggerExceptionHandler;
-import org.jodaengine.ext.listener.AbstractExceptionHandler;
+import org.jodaengine.ext.handler.AbstractExceptionHandler;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
@@ -104,18 +104,18 @@ implements Token {
         return id;
     }
 
-    @Override
-    public boolean joinable() {
-
-        return this.instance.getContext().allIncomingTransitionsSignaled(this.currentNode);
-    }
-
-    @Override
-    public Token performJoin() {
-
-        instance.getContext().removeIncomingTransitions(currentNode);
-        return this;
-    }
+//    @Override
+//    public boolean joinable() {
+//
+//        return this.instance.getContext().allIncomingTransitionsSignaled(this.currentNode);
+//    }
+//
+//    @Override
+//    public Token performJoin() {
+//
+//        instance.getContext().removeIncomingTransitions(currentNode);
+//        return this;
+//    }
 
     @Override
     public AbstractProcessInstance getInstance() {

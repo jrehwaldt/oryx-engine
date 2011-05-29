@@ -40,7 +40,7 @@ public interface DeploymentScope {
      *
      * @param identifier the identifier
      */
-    void deleteProcessArtifact(String identifier);
+    AbstractProcessArtifact deleteProcessArtifact(String identifier);
         
     /**
      * Adds a custom class to this scope.

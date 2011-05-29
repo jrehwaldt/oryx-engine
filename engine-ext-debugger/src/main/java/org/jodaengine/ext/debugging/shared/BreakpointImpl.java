@@ -34,7 +34,7 @@ public class BreakpointImpl implements Breakpoint {
      * 
      * @param node the node, this breakpoint is bound to
      */
-    protected BreakpointImpl(@Nonnull Node node) {
+    public BreakpointImpl(@Nonnull Node node) {
         this.id = UUID.randomUUID();
         this.node = node;
         this.condition = null;
@@ -69,6 +69,11 @@ public class BreakpointImpl implements Breakpoint {
     @Override
     public void setCondition(BreakpointCondition condition) {
         this.condition = condition;
+    }
+
+    @Override
+    public BreakpointCondition getCondition() {
+        return this.condition;
     }
 
     @Override
@@ -113,11 +118,13 @@ public class BreakpointImpl implements Breakpoint {
      * Default breakpoints will be enabled.
      * 
      * @param node the {@link Node}, the attribute is related to
+     * @param token the {@link Token}, which processes the instance
      * @return an attribute instance, null if none provided
      */
-    public static @Nonnull BreakpointImpl getAttribute(@Nonnull Node node) {
+    public static @Nonnull Breakpoint getAttribute(@Nonnull Node node,
+                                                   @Nonnull Token token) {
         
-        BreakpointImpl breakpoint = getAttributeIfExists(node);
+        Breakpoint breakpoint = getAttributeIfExists(node, token);
         
         //
         // register a new instance
@@ -135,10 +142,25 @@ public class BreakpointImpl implements Breakpoint {
      * {@link Node}. If none exists, null is returned.
      * 
      * @param node the {@link Node}, the attribute is related to
+     * @param token the {@link Token}, which processes the instance
      * @return an attribute instance, null if none provided
      */
-    public static @Nullable BreakpointImpl getAttributeIfExists(@Nonnull Node node) {
+    public static @Nullable Breakpoint getAttributeIfExists(@Nonnull Node node,
+                                                            @Nonnull Token token) {
         
-        return (BreakpointImpl) node.getAttribute(ATTRIBUTE_KEY);
+        DebuggerAttribute attribute = DebuggerAttribute.getAttributeIfExists(token.getInstance().getDefinition());
+        
+        if (attribute == null) {
+            return null;
+        }
+        
+        for (Breakpoint breakpoint: attribute.getBreakpoints()) {
+            if (breakpoint.getNode().equals(node)) {
+                return breakpoint;
+            }
+        }
+        
+        return null;
+//        return (BreakpointImpl) node.getAttribute(ATTRIBUTE_KEY);
     }
 }
