@@ -294,7 +294,6 @@ public final class IdentityWebService implements IdentityService, IdentityBuilde
      *            the role id
      * @param changeset
      *            the changeset that contains the UUIDs (as Strings) of the participants to add/remove
-     * @return the response whether the API call was successful
      * @throws ResourceNotAvailableException
      *             the resource not available exception
      */

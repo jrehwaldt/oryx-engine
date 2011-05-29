@@ -66,10 +66,13 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
     /**
      * Deploys a StringArtifact.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
-     * @throws ProcessArtifactNotFoundException the process artifact not found exception
-     * @throws DefinitionNotFoundException test fails
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException
+     *             the process artifact not found exception
+     * @throws DefinitionNotFoundException
+     *             test fails
      */
     @Test
     public void testArtifactDeploymentAsString()
@@ -91,10 +94,13 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
     /**
      * Deploys a file artifact.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
-     * @throws ProcessArtifactNotFoundException the process artifact not found exception
-     * @throws DefinitionNotFoundException test fails
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException
+     *             the process artifact not found exception
+     * @throws DefinitionNotFoundException
+     *             test fails
      */
     @Test
     public void testArtifactDeploymentAsFile()
@@ -113,10 +119,13 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
     /**
      * Tests the deployment of an artifact as a classpath resource.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
-     * @throws ProcessArtifactNotFoundException the process artifact not found exception
-     * @throws DefinitionNotFoundException test fails
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException
+     *             the process artifact not found exception
+     * @throws DefinitionNotFoundException
+     *             test fails
      */
     @Test
     public void testArtifactDeploymentAsClasspathResource()
@@ -134,10 +143,13 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
     /**
      * Tests the deployment of an artifact as an input stream.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
-     * @throws ProcessArtifactNotFoundException the process artifact not found exception
-     * @throws DefinitionNotFoundException test fails
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException
+     *             the process artifact not found exception
+     * @throws DefinitionNotFoundException
+     *             test fails
      */
     @Test
     public void testArtifactDeploymentAsInputStream()
@@ -166,9 +178,10 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
      *             the illegal startevent exception
      * @throws ProcessArtifactNotFoundException
      *             the process artifact not found exception
-     * @throws DefinitionNotFoundException test fails
+     * @throws DefinitionNotFoundException
+     *             test fails
      */
-    @Test
+    @Test(expectedExceptions = ProcessArtifactNotFoundException.class)
     public void testArtifactIsolation()
     throws IllegalStarteventException, ProcessArtifactNotFoundException, DefinitionNotFoundException {
 
@@ -189,13 +202,8 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         repo.deployInNewScope(anotherDeployment);
 
         // the following line should trigger the expected exception.
-        try {
-            repo.getProcessArtifact("stringArtifact", anotherDefinition.getID());
-            Assert.fail("Exception expected");
-        } catch (ProcessArtifactNotFoundException exception) {
-            // do nothing as this is the expected path
-        }
-
+        repo.getProcessArtifact("stringArtifact", anotherDefinition.getID());
+        Assert.fail("Exception expected");
     }
 
     private void assertInputStream(InputStream inputStream)

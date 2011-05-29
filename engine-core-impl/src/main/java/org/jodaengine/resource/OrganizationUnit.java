@@ -43,7 +43,8 @@ public class OrganizationUnit extends AbstractOrganizationUnit {
     public OrganizationUnit(@Nonnull String organizationalUnitName) {
 
         super(organizationalUnitName);
-        superOrganizationalUnit = null; // TODO never set to something else...
+        // TODO never set to something else...
+        superOrganizationalUnit = null; 
     }
 
     @Override

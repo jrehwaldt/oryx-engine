@@ -8,7 +8,6 @@ import org.jodaengine.IdentityServiceImpl;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 
-
 /**
  * Implementation of {@link IdentityBuilder} Interface.
  */
@@ -17,7 +16,7 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     /** The identity service. */
     private IdentityServiceImpl identityService;
 
-//    private final Logger logger = LoggerFactory.getLogger(getClass());
+    // private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Default Constructor.
@@ -51,11 +50,11 @@ public class IdentityBuilderImpl implements IdentityBuilder {
         for (Role roleImpl : participantImpl.getMyRoles()) {
             roleImpl.getParticipants().remove(participantImpl);
         }
-        
+
         for (Position positionImpl : participantImpl.getMyPositions()) {
             positionImpl.setPositionHolder(null);
         }
-        
+
         identityService.getParticipantImpls().remove(participantImpl.getID());
         return this;
     }
@@ -95,7 +94,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder participantHasCapability(UUID participantId, AbstractCapability capability) {
 
-        return null; // TODO
+        // TODO
+        return null;
     }
 
     @Override
@@ -128,11 +128,12 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public AbstractCapability createCapability(String capabilityId) {
 
+        // TODO
         // hier könnte man das FlyWeight-Pattern verwenden ...
         // Capability capability = new CapabilityImpl(capabilityId);
 
         // return capability;
-        return null; // TODO
+        return null; 
     }
 
     // -------- OrganizationUnit Builder Methods ------
@@ -291,7 +292,8 @@ public class IdentityBuilderImpl implements IdentityBuilder {
     @Override
     public IdentityBuilder subRoleOf(UUID subRole, UUID superRole) {
 
-        return null; // TODO @Gerardo - bin mir nicht sicher ob wir überhaupt Oberrollen brauchen; sollte nochmal
-                     // diskutiert werden
+        // TODO @Gerardo - bin mir nicht sicher ob wir überhaupt Oberrollen brauchen; sollte nochmal
+        // diskutiert werden
+        return null;
     }
 }
