@@ -52,10 +52,9 @@ public class DeploymentScopeImpl implements DeploymentScope {
     }
 
     @Override
-    public void deleteProcessArtifact(String identifier) {
+    public AbstractProcessArtifact deleteProcessArtifact(String identifier) {
 
-        artifactsTable.remove(identifier);
-        
+        return artifactsTable.remove(identifier);
     }
 
     @Override

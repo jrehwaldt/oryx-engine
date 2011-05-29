@@ -92,6 +92,16 @@ public class TypeSafeInstanceMap implements Iterable<Class<?>> {
     }
     
     /**
+     * Clears any instances registered with this type.
+     * 
+     * @param <IInstance> the instance's type
+     * @param type the type
+     */
+    public <IInstance> void clearInstances(@Nonnull Class<IInstance> type) {
+        this.getInstances(type).clear();
+    }
+    
+    /**
      * Clear the whole map of instances.
      */
     public void clear() {
