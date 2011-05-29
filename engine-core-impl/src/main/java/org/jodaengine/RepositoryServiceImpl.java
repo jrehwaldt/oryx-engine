@@ -27,7 +27,6 @@ import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.resource.allocation.AbstractForm;
 import org.slf4j.Logger;
@@ -113,7 +112,7 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
     @Override
     public void addProcessDefinition(ProcessDefinition definition) {
 
-        getProcessDefinitionsTable().put(definition.getID(), (ProcessDefinitionImpl) definition);
+        getProcessDefinitionsTable().put(definition.getID(), definition);
         
         for (RepositoryDeploymentListener listener: this.getListeners(RepositoryDeploymentListener.class)) {
             listener.definitionDeployed(this, definition);
