@@ -50,7 +50,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
      * @throws URISyntaxException test fails, file uri not valid
      */
     @Test
-    public void testDarHandlerRegisteringASvg()
+    public void testTriggeringOfBreakpoints()
     throws ExtensionNotAvailableException, ProcessArtifactNotFoundException, URISyntaxException,
     DefinitionNotFoundException {
         
