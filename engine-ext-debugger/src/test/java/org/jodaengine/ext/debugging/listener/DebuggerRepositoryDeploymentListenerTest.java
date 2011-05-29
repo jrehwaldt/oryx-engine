@@ -10,6 +10,8 @@ import java.util.List;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
+import org.jodaengine.ext.debugging.api.Breakpoint;
+import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.listener.RepositoryDeploymentListener;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
@@ -61,13 +63,23 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
         BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
+        
+        //
+        // register breakpoint
+        //
+        DebuggerAttribute attribute = DebuggerAttribute.getAttribute(builder);
+        Assert.assertNotNull(attribute);
+        Breakpoint breakpoint = new BreakpointImpl(null);
+        attribute.addBreakpoint(breakpoint);
+        
         ProcessDefinition definition = builder.buildDefinition();
         
-        DebuggerAttribute attribute = DebuggerAttribute.getAttributeIfExists(definition);
-        Assert.assertNotNull(attribute);
+        DebuggerAttribute attribute2 = DebuggerAttribute.getAttributeIfExists(definition);
+        Assert.assertNotNull(attribute2);
+        Assert.assertEquals(attribute, attribute2);
         
-        Assert.assertNotNull(attribute.getBreakpoints());
-        Assert.assertEquals(attribute.getBreakpoints().size(), 1);
+        Assert.assertNotNull(attribute2.getBreakpoints());
+        Assert.assertEquals(attribute2.getBreakpoints().size(), 1);
         
         //
         // simulate the definition deployment
@@ -82,7 +94,7 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         ArgumentCaptor<List> breakpointsCaptor = ArgumentCaptor.forClass(List.class);
         verify(this.debugger, times(1)).registerBreakpoints(breakpointsCaptor.capture(), eq(definition));
         
-        Assert.assertEquals(attribute.getBreakpoints().size(), breakpointsCaptor.getValue().size());
-        Assert.assertEquals(attribute.getBreakpoints(), breakpointsCaptor.getValue());
+        Assert.assertEquals(attribute2.getBreakpoints().size(), breakpointsCaptor.getValue().size());
+        Assert.assertEquals(attribute2.getBreakpoints(), breakpointsCaptor.getValue());
     }
 }
