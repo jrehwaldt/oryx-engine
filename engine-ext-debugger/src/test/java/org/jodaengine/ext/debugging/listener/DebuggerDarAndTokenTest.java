@@ -43,7 +43,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
     
     private static final String RESOURCE_PATH = "org/jodaengine/ext/debugging/listener/";
     private static final String WORKING_PROCESS_AVAILABLE = RESOURCE_PATH + "WorkingProcessWithSvgAvailable.dar";
-
+    
     private DebuggerTokenListener listener;
     private ActivityLifecycleChangeEvent event;
     
@@ -168,7 +168,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
             this.listener.stateChanged(event);
             
             verify(this.mockDebugger, times(1)).getBreakpoints(node, this.mockInstance);
-            verify(this.mockDebugger, times(1)).breakpointMatched(this.mockToken, breakpoint);
+            verify(this.mockDebugger, times(1)).breakpointTriggered(this.mockToken, breakpoint);
             
             //
             // breakpoint is disabled
@@ -179,7 +179,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
             this.listener.stateChanged(event);
             
             verify(this.mockDebugger, times(2)).getBreakpoints(node, this.mockInstance);
-            verify(this.mockDebugger, times(1)).breakpointMatched(this.mockToken, breakpoint);
+            verify(this.mockDebugger, times(1)).breakpointTriggered(this.mockToken, breakpoint);
         }
     }
 

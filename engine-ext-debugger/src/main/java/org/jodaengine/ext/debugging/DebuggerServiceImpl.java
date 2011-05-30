@@ -76,7 +76,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         //
         // skip method if the service is already stopped
         //
-        if (this.running) {
+        if (!this.running) {
             return;
         }
         
@@ -125,8 +125,8 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     //=================================================================
 
     @Override
-    public Breakpoint addBreakpoint(Node node) {
-        logger.debug("Add breakpoint to node {}", node);
+    public Breakpoint createBreakpoint(Node node) {
+        logger.debug("Create a breakpoint for node {}", node);
         
         // TODO Auto-generated method stub
         return null;
@@ -158,7 +158,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     public String getSvgArtifact(ProcessDefinition definition)
     throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
         
-        DebuggerAttribute attribute = DebuggerAttribute.getAttribute(definition);
+        DebuggerAttribute attribute = DebuggerAttribute.getAttributeIfExists(definition);
         
         String artifactID = null;
         
@@ -243,15 +243,28 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         
         return nodeBreakpoints;
     }
-    
+
+    /**
+     * The {@link DebuggerTokenListener} triggers this method when a {@link Breakpoint}
+     * matched the {@link ProcessInstance}'s current {@link Node}.
+     * 
+     * It will not check the proper matching of the breakpoint, as it is verified beforehand.
+     * 
+     * @param node the {@link Node}, where the process actually is
+     * @param token the {@link Token}, which matched the breakpoint
+     * @param breakpoint the {@link Breakpoint}, which matched
+     * @param currentState the {@link ActivityState}, the node currently is in
+     * @param listener the {@link DebuggerTokenListener}, which is registered within the process
+     * 
+     */
     /**
      * Indicates that a breakpoint matched.
      * 
      * @param token the {@link Token}, which matched a breakpoint
      * @param breakpoint the {@link Breakpoint}, which was matched
      */
-    public void breakpointMatched(@Nonnull Token token,
-                                  @Nonnull Breakpoint breakpoint) {
+    public void breakpointTriggered(@Nonnull Token token,
+                                    @Nonnull Breakpoint breakpoint) {
         
         //
         // TODO Jan crazy stuff: suspend token, remember state and token, ...

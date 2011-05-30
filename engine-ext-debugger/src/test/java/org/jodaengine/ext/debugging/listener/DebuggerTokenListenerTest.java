@@ -125,7 +125,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.listenerWithBreakpoint.stateChanged(event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.node, this.mockInstance);
-        verify(this.mockDebuggerWithBreakpoint, times(1)).breakpointMatched(this.mockToken, this.breakpoint);
+        verify(this.mockDebuggerWithBreakpoint, times(1)).breakpointTriggered(this.mockToken, this.breakpoint);
     }
     
     /**
@@ -141,7 +141,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.listenerWithoutBreakpoint.stateChanged(event);
         
         verify(this.mockDebuggerWithoutBreakpoint, times(1)).getBreakpoints(this.node, this.mockInstance);
-        verify(this.mockDebuggerWithoutBreakpoint, times(0)).breakpointMatched(this.mockToken, this.breakpoint);
+        verify(this.mockDebuggerWithoutBreakpoint, times(0)).breakpointTriggered(this.mockToken, this.breakpoint);
     }
     
     /**
@@ -158,7 +158,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.listenerWithBreakpoint.stateChanged(event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.node, this.mockInstance);
-        verify(this.mockDebuggerWithBreakpoint, times(0)).breakpointMatched(this.mockToken, this.breakpoint);
+        verify(this.mockDebuggerWithBreakpoint, times(0)).breakpointTriggered(this.mockToken, this.breakpoint);
     }
     
     /**
@@ -176,7 +176,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.listenerWithBreakpoint.stateChanged(event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.node, this.mockInstance);
-        verify(this.mockDebuggerWithBreakpoint, times(0)).breakpointMatched(this.mockToken, this.breakpoint);
+        verify(this.mockDebuggerWithBreakpoint, times(0)).breakpointTriggered(this.mockToken, this.breakpoint);
         
         this.breakpoint.enable();
         Assert.assertTrue(this.breakpoint.isEnabled());
@@ -184,6 +184,6 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.listenerWithBreakpoint.stateChanged(event);
         
         verify(this.mockDebuggerWithBreakpoint, times(2)).getBreakpoints(this.node, this.mockInstance);
-        verify(this.mockDebuggerWithBreakpoint, times(1)).breakpointMatched(this.mockToken, this.breakpoint);
+        verify(this.mockDebuggerWithBreakpoint, times(1)).breakpointTriggered(this.mockToken, this.breakpoint);
     }
 }

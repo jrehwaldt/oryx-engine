@@ -41,6 +41,8 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
         ExpressionFactory factory = new ExpressionFactoryImpl();
         ELContext elContext = new ProcessELContext(context);
 
+        // TODO REVIEW hier gibt es keinerlei Kommentare
+        
         Iterator<FormField> it = formFields.iterator();
         
         while (it.hasNext()) {
@@ -88,7 +90,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
                 try {
                     e.setValue(elContext, objectToSet);
 
-                    // remove the formField from the formFields list, as it has been processed sucessfully.
+                    // remove the formField from the formFields list, as it has been processed successfully.
                     it.remove();
                 } catch (PropertyNotFoundException exception) {
                     // requested variable does not exist.
@@ -99,7 +101,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
                         exception.getMessage());
                 }
 
-            }            
+            }
 
         }
         

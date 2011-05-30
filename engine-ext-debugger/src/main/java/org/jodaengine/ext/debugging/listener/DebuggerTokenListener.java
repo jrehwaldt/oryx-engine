@@ -65,7 +65,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
             if (breakpoint.matches(token)) {
                 logger.debug("Breakpoint {} matches {}", breakpoint, token);
                 
-                this.debugger.breakpointMatched(token, breakpoint);
+                this.debugger.breakpointTriggered(token, breakpoint);
                 
                 //
                 // ignore any subsequent breakpoints

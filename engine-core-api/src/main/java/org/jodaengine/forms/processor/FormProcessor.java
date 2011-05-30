@@ -15,7 +15,9 @@ public interface FormProcessor {
      * Fills a form with initial values in a hierarchical way:
      * 1) Use the ReadExpression, if present (e.g. a JUEL-Expression)
      * 2) Use the ReadVariable, if present (a concrete context variable)
-     * 3) Use the default value attribute from the HTML form     * 
+     * 3) Use the default value attribute from the HTML form
+     * 
+     * TODO REVIEW add <ul><li>-tags for better readability
      * 
      * @param form
      *            the form
@@ -26,7 +28,7 @@ public interface FormProcessor {
     String prepareForm(Form form, ProcessInstanceContext context);
 
     /**
-     * Reads the values of a form(provided as a {@link Map} of entries) and adds them to the
+     * Reads the values of a form (provided as a {@link Map} of entries) and adds them to the
      * {@link ProcessInstanceContext}.
      * Does this in a hierarchical way:
      * 1) Evaluates the WriteExpression, if present

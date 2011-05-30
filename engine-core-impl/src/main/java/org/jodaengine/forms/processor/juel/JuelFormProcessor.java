@@ -23,7 +23,7 @@ public class JuelFormProcessor implements FormProcessor {
     private AbstractFormFieldHandler firstHandler;
 
     /**
-     * Instantiates a new juel form processor using a chain of responsibility to realize the hierachy as described in
+     * Instantiates a new juel form processor using a chain of responsibility to realize the hierarchy as described in
      * the interface {@link FormProcessor}.
      */
     public JuelFormProcessor() {
@@ -51,6 +51,8 @@ public class JuelFormProcessor implements FormProcessor {
     @Override
     public void readFilledForm(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
 
+        // TODO REVIEW auskommentierter Code bleibt meist sehr lange auskommentiert...
+        
         firstHandler.readInput(enteredValues, form, context);
 //        for (Entry<String, String> entry : enteredValues.entrySet()) {
 //            String fieldName = entry.getKey();
