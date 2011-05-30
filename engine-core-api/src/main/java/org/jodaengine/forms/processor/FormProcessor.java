@@ -13,8 +13,8 @@ public interface FormProcessor {
 
     /**
      * Fills a form with initial values in a hierarchical way:
-     * 1) Use the ReadExpression, if present (e.g. a JUEL-Expression)
-     * 2) Use the ReadVariable, if present (a concrete context variable)
+     * 1) Use the outputExpression, if present (e.g. a JUEL-Expression)
+     * 2) Use the outputVariable, if present (a concrete context variable)
      * 3) Use the default value attribute from the HTML form
      * 
      * TODO REVIEW add <ul><li>-tags for better readability
@@ -31,8 +31,8 @@ public interface FormProcessor {
      * Reads the values of a form (provided as a {@link Map} of entries) and adds them to the
      * {@link ProcessInstanceContext}.
      * Does this in a hierarchical way:
-     * 1) Evaluates the WriteExpression, if present
-     * 2) Sets the WriteVariable to the input, if present and if the expression failed
+     * 1) Evaluates the inputExpression, if present
+     * 2) Sets the inputVariable to the input, if present and if the expression failed
      * 3) drops the input
      * 
      * @param formFields

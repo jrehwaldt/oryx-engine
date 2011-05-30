@@ -49,7 +49,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
             FormField field = it.next();
             JodaFormField jodaField = form.getFormField(field.getName());
             
-            String readExpression = jodaField.getReadExpression();
+            String readExpression = jodaField.getOutputExpression();
             if (readExpression != null) {
                 ValueExpression e = factory.createValueExpression(elContext, readExpression, String.class);
                 try {
@@ -82,7 +82,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
 
             JodaFormField formField = form.getFormField(fieldName);
             Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
-            String expressionToEvaluate = formField.getWriteExpression();
+            String expressionToEvaluate = formField.getInputExpression();
 
             // only set the variable, if it has been specified in the JodaFormField
             if (expressionToEvaluate != null) {

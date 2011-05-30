@@ -29,13 +29,11 @@ public class JodaFormFieldConverter {
         String name = formAttributes.getValue("name");
 
         // remove the attributes from the form field, as we have read them and they are no valid html.
-        Map<String, String> attributes = new HashMap<String, String>();
-
-        attributes.put(JodaFormAttributes.READ_VARIABLE, formAttributes.getValue(JodaFormAttributes.READ_VARIABLE));
-        attributes.put(JodaFormAttributes.WRITE_VARIABLE, formAttributes.getValue(JodaFormAttributes.WRITE_VARIABLE));
-        attributes.put(JodaFormAttributes.READ_EXPRESSION, formAttributes.getValue(JodaFormAttributes.READ_EXPRESSION));
-        attributes.put(JodaFormAttributes.WRITE_EXPRESSION,
-            formAttributes.getValue(JodaFormAttributes.WRITE_EXPRESSION));
+        JodaFormFieldArguments jodaArgs = new JodaFormFieldArguments();
+        jodaArgs.setOutputVariable(formAttributes.getValue(JodaFormAttributes.READ_VARIABLE));
+        jodaArgs.setOutputExpression(formAttributes.getValue(JodaFormAttributes.READ_EXPRESSION));
+        jodaArgs.setInputVariable(formAttributes.getValue(JodaFormAttributes.WRITE_VARIABLE));
+        jodaArgs.setInputExpression(formAttributes.getValue(JodaFormAttributes.WRITE_EXPRESSION));
 
         String className = formAttributes.getValue(JodaFormAttributes.CLASS_NAME);
 
@@ -52,7 +50,7 @@ public class JodaFormFieldConverter {
 
         // TODO REVIEW Wieso eine jodaAttributes Map und keine konkrete Implementierung mit 
         //             Standardwerten, falls die Felder nicht gesetzt sind?
-        JodaFormField formField = new JodaFormFieldImpl(name, attributes, dataClass);
+        JodaFormField formField = new JodaFormFieldImpl(name, jodaArgs, dataClass);
 
         return formField;
     }

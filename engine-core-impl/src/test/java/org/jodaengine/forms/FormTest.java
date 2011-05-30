@@ -28,14 +28,14 @@ public class FormTest {
       JodaFormField field1 = form.getFormField("claimPoint1");
       JodaFormField field2 = form.getFormField("claimPoint2");
       
-      Assert.assertEquals(field1.getReadExpression(), "#{claimPoint1}");
-      Assert.assertEquals(field1.getWriteVariable(), "claimPoint1");
-      Assert.assertEquals(field1.getWriteExpression(), "#{claimPoint1}");
-      Assert.assertEquals(field1.getReadVariable(), "claimPoint1");
-      Assert.assertEquals(field2.getReadExpression(), "#{claimPoint2}");
-      Assert.assertEquals(field2.getWriteVariable(), "claimPoint2");
-      Assert.assertEquals(field2.getWriteExpression(), "#{claimPoint2}");
-      Assert.assertEquals(field2.getReadVariable(), "claimPoint2");
+      Assert.assertEquals(field1.getOutputExpression(), "#{claimPoint1}");
+      Assert.assertEquals(field1.getInputVariable(), "claimPoint1");
+      Assert.assertEquals(field1.getInputExpression(), "#{claimPoint1}");
+      Assert.assertEquals(field1.getOutputVariable(), "claimPoint1");
+      Assert.assertEquals(field2.getOutputExpression(), "#{claimPoint2}");
+      Assert.assertEquals(field2.getInputVariable(), "claimPoint2");
+      Assert.assertEquals(field2.getInputExpression(), "#{claimPoint2}");
+      Assert.assertEquals(field2.getOutputVariable(), "claimPoint2");
   }
   
   /**

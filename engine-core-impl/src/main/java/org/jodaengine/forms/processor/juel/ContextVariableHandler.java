@@ -27,7 +27,7 @@ public class ContextVariableHandler extends AbstractFormFieldHandler {
         while (it.hasNext()) {
             FormField field = it.next();
             JodaFormField jodaField = form.getFormField(field.getName());
-            String variable = jodaField.getReadVariable();
+            String variable = jodaField.getOutputVariable();
 
             if (variable != null) {
                 Object value = context.getVariable(variable);
@@ -53,7 +53,7 @@ public class ContextVariableHandler extends AbstractFormFieldHandler {
 
             JodaFormField formField = form.getFormField(fieldName);
             Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
-            String variableToSet = formField.getWriteVariable();
+            String variableToSet = formField.getInputVariable();
 
             // only set the variable, if it has been specified in the JodaFormField
             if (variableToSet != null) {

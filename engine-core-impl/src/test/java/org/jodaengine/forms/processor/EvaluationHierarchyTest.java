@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jodaengine.forms.Form;
-import org.jodaengine.forms.JodaFormAttributes;
 import org.jodaengine.forms.JodaFormField;
+import org.jodaengine.forms.JodaFormFieldArguments;
 import org.jodaengine.forms.JodaFormFieldImpl;
 import org.jodaengine.forms.processor.juel.JuelFormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
@@ -50,11 +50,11 @@ public class EvaluationHierarchyTest {
         // this form does not contain the joda-tags, as it mocks the already parsed state
         when(form.getFormContentAsHTML()).thenReturn(SINGLE_FIELD_FORM);
 
-        Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put(JodaFormAttributes.READ_VARIABLE, "var1");
-        attributes.put(JodaFormAttributes.READ_EXPRESSION, "#{var2}");
-        attributes.put(JodaFormAttributes.WRITE_VARIABLE, "var1");
-        attributes.put(JodaFormAttributes.WRITE_EXPRESSION, "#{var2}");
+        JodaFormFieldArguments attributes = new JodaFormFieldArguments();
+        attributes.setInputVariable("var1");
+        attributes.setInputExpression("#{var2}");
+        attributes.setOutputVariable("var1");
+        attributes.setOutputExpression("#{var2}");
         field1 = new JodaFormFieldImpl("field1", attributes, String.class);
 
         when(form.getFormField("field1")).thenReturn(field1);
@@ -134,9 +134,9 @@ public class EvaluationHierarchyTest {
         context.setVariable("dummy", dummy);
         context.setVariable("var1", "var 1");
 
-        Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put(JodaFormAttributes.WRITE_VARIABLE, "var1");
-        attributes.put(JodaFormAttributes.WRITE_EXPRESSION, "#{dummy.value}");
+        JodaFormFieldArguments attributes = new JodaFormFieldArguments();
+        attributes.setInputVariable("var1");
+        attributes.setInputExpression("#{dummy.value}");
         field1 = new JodaFormFieldImpl("field1", attributes, String.class);
 
         when(form.getFormField(Mockito.matches("field1"))).thenReturn(field1);

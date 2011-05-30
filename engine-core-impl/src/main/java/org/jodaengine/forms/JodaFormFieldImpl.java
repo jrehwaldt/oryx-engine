@@ -1,24 +1,29 @@
 package org.jodaengine.forms;
 
-import java.util.Map;
 
 /**
  * Implements a form field.
  */
 public class JodaFormFieldImpl implements JodaFormField {
     
-    private String name, readExpression, readVariable, writeVariable, writeExpression;
+    private String name, outputExpression, outputVariable, inputVariable, inputExpression;
     private Class<?> dataClass;
 
 
-    public JodaFormFieldImpl(String name, Map<String, String> jodaAttributes, Class<?> dataclass) {
+    /**
+     * Creates a new JodaFormFieldImpl from the data as specified.
+     *
+     * @param name the name of the form field in the corresponding HTML.
+     * @param jodaAttributes a container that holds all the joda:*-attributes from the HTML.
+     * @param dataclass the class that the input should be coerced to from {@link String}.
+     */
+    public JodaFormFieldImpl(String name, JodaFormFieldArguments jodaAttributes, Class<?> dataclass) {
         
         this.name = name;
-        // TODO REVIEW It is never explained what happens, if the fields are filled with null
-        this.readVariable = jodaAttributes.get(JodaFormAttributes.READ_VARIABLE);
-        this.readExpression = jodaAttributes.get(JodaFormAttributes.READ_EXPRESSION);
-        this.writeVariable = jodaAttributes.get(JodaFormAttributes.WRITE_VARIABLE);
-        this.writeExpression = jodaAttributes.get(JodaFormAttributes.WRITE_EXPRESSION);
+        this.outputVariable = jodaAttributes.getOutputVariable();
+        this.outputExpression = jodaAttributes.getOutputExpression();
+        this.inputVariable = jodaAttributes.getInputVariable();
+        this.inputExpression = jodaAttributes.getInputExpression();
         this.dataClass = dataclass;
     }
 
@@ -29,15 +34,15 @@ public class JodaFormFieldImpl implements JodaFormField {
     }
     
     @Override
-    public String getReadExpression() {
+    public String getOutputExpression() {
 
-        return readExpression;
+        return outputExpression;
     }
 
     @Override
-    public String getWriteVariable() {
+    public String getInputVariable() {
 
-        return writeVariable;
+        return inputVariable;
     }
 
     @Override
@@ -47,15 +52,15 @@ public class JodaFormFieldImpl implements JodaFormField {
     }
 
     @Override
-    public String getReadVariable() {
+    public String getOutputVariable() {
 
-        return readVariable;
+        return outputVariable;
     }
 
     @Override
-    public String getWriteExpression() {
+    public String getInputExpression() {
 
-        return writeExpression;
+        return inputExpression;
     }
 
 }
