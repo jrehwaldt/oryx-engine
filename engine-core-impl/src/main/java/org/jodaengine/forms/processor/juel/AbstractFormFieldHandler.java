@@ -3,8 +3,8 @@ package org.jodaengine.forms.processor.juel;
 import java.util.List;
 import java.util.Map;
 
+import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.forms.Form;
-import org.jodaengine.forms.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 
 import net.htmlparser.jericho.FormField;
@@ -15,7 +15,7 @@ import net.htmlparser.jericho.OutputDocument;
  */
 public abstract class AbstractFormFieldHandler {
     protected AbstractFormFieldHandler next;
-
+ 
     /**
      * Sets the next handler in this chain.
      * 
@@ -109,27 +109,31 @@ public abstract class AbstractFormFieldHandler {
     // TODO @Thorben-Refactoring make this cooler, e.g. chain of responsibility
     /**
      * Converts string input to an object of the class as specified in the {@link JodaFormField}.
-     * 
-     * @param value
-     *            the value
-     * @param clazzToConvertTo
-     *            the clazz to convert to
+     *
+     * @param value the value
+     * @param classToConvertTo the clazz to convert to
      * @return the object
+     * @throws JodaEngineException thrown if the supplied String value could not be converted to the desired class.
      */
-    protected Object convertStringInput(String value, Class<?> clazzToConvertTo) {
+    protected Object convertStringInput(String value, Class<?> classToConvertTo) throws JodaEngineException {
         
         // TODO REVIEW Wo findet die Fehlerbehandlung statt?
         //      Beim Fehler wird die Kette nicht weiterverfolgt und bricht ab (wird bei readInput(...) durchgereicht.)
         
-        Object object = null;
-        if (clazzToConvertTo == String.class) {
-            return value;
-        } else if (clazzToConvertTo == Integer.class) {
-            return Integer.valueOf(value);
-        // TODO REVIEW Test für Boolean?
-        } else if (clazzToConvertTo == Boolean.class) {
-            return Boolean.valueOf(value);
+        try {
+
+            Object object = null;
+            if (classToConvertTo == String.class) {
+                return value;
+            } else if (classToConvertTo == Integer.class) {
+                return Integer.valueOf(value);
+            // TODO REVIEW Test für Boolean?
+            } else if (classToConvertTo == Boolean.class) {
+                return Boolean.valueOf(value);
+            }
+            return object;
+        } catch (Exception e) {
+            throw new JodaEngineException("Could not convert '" + value + "' to class " + classToConvertTo, e);
         }
-        return object;
     }
 }

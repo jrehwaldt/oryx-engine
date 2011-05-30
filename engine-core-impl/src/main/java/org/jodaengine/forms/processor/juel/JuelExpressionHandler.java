@@ -11,6 +11,7 @@ import javax.el.ExpressionFactory;
 import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
 
+import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.forms.Form;
 import org.jodaengine.forms.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
@@ -41,9 +42,9 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
      */
     @Override
     protected void generateOutputValuesInternally(Form form,
-                                 List<FormField> formFields,
-                                 ProcessInstanceContext context,
-                                 OutputDocument output) {
+                                                  List<FormField> formFields,
+                                                  ProcessInstanceContext context,
+                                                  OutputDocument output) {
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
         ELContext elContext = new ProcessELContext(context);
@@ -77,7 +78,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
     /**
      * Identifies the form fields of the supplied formInput and evalutes the inputExpression via JUEL, if it exists.
      * If successful, the map-entry that was looked at is removed from the formInput-Map to prevent it from being
-     * executed by following handlers. 
+     * executed by following handlers.
      * 
      * {@inheritDoc}
      */
@@ -89,31 +90,37 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
 
         Iterator<Entry<String, String>> it = formInput.entrySet().iterator();
         while (it.hasNext()) {
-            Entry<String, String> entry = it.next();
-            String fieldName = entry.getKey();
-            String enteredValue = entry.getValue();
+            try {
+                Entry<String, String> entry = it.next();
+                String fieldName = entry.getKey();
+                String enteredValue = entry.getValue();
 
-            JodaFormField formField = form.getFormField(fieldName);
-            Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
-            String expressionToEvaluate = formField.getInputExpression();
+                JodaFormField formField = form.getFormField(fieldName);
+                Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
+                String expressionToEvaluate = formField.getInputExpression();
 
-            // only set the variable, if it has been specified in the JodaFormField
-            if (expressionToEvaluate != null) {
-                ValueExpression e = factory.createValueExpression(elContext, expressionToEvaluate, String.class);
-                try {
-                    e.setValue(elContext, objectToSet);
+                // only set the variable, if it has been specified in the JodaFormField
+                if (expressionToEvaluate != null) {
+                    ValueExpression e = factory.createValueExpression(elContext, expressionToEvaluate, String.class);
+                    try {
+                        e.setValue(elContext, objectToSet);
 
-                    // remove the formField from the formFields list, as it has been processed successfully.
-                    it.remove();
-                } catch (PropertyNotFoundException exception) {
-                    // requested variable does not exist.
-                    // do not change the value of the input field.
-                    logger.debug("The expression {} cannot be resolved.", expressionToEvaluate);
-                } catch (ELException exception) {
-                    logger.debug("The expression {} cannot be set because of: {}.", expressionToEvaluate,
-                        exception.getMessage());
+                        // remove the formField from the formFields list, as it has been processed successfully.
+                        it.remove();
+                    } catch (PropertyNotFoundException exception) {
+                        // requested variable does not exist.
+                        // do not change the value of the input field.
+                        logger.debug("The expression {} cannot be resolved.", expressionToEvaluate);
+                    } catch (ELException exception) {
+                        logger.debug("The expression {} cannot be set because of: {}.", expressionToEvaluate,
+                            exception.getMessage());
+                    }
+
                 }
-
+            } catch (JodaEngineException e) {
+                logger.error("Cannot set input to context variable");
+                logger.error(e.getMessage(), e);
+                continue;
             }
 
         }

@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.forms.Form;
 import org.jodaengine.forms.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.htmlparser.jericho.FormField;
 import net.htmlparser.jericho.OutputDocument;
@@ -17,6 +20,8 @@ import net.htmlparser.jericho.OutputDocument;
  */
 public class ContextVariableHandler extends AbstractFormFieldHandler {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     /**
      * Iterates over all the formFields of the form. For every form field, the output variable is determined and if
      * present, the value of the corresponding context variable is inserted into the form HTML.
@@ -25,9 +30,9 @@ public class ContextVariableHandler extends AbstractFormFieldHandler {
      */
     @Override
     protected void generateOutputValuesInternally(Form form,
-                                 List<FormField> formFields,
-                                 ProcessInstanceContext context,
-                                 OutputDocument output) {
+                                                  List<FormField> formFields,
+                                                  ProcessInstanceContext context,
+                                                  OutputDocument output) {
 
         Iterator<FormField> it = formFields.iterator();
         while (it.hasNext()) {
@@ -58,22 +63,31 @@ public class ContextVariableHandler extends AbstractFormFieldHandler {
     protected void readInputInternally(Map<String, String> formInput, Form form, ProcessInstanceContext context) {
 
         Iterator<Entry<String, String>> it = formInput.entrySet().iterator();
+
         while (it.hasNext()) {
-            Entry<String, String> entry = it.next();
-            String fieldName = entry.getKey();
-            String enteredValue = entry.getValue();
+            try {
+                Entry<String, String> entry = it.next();
+                String fieldName = entry.getKey();
+                String enteredValue = entry.getValue();
 
-            JodaFormField formField = form.getFormField(fieldName);
-            Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
-            String variableToSet = formField.getInputVariable();
+                JodaFormField formField = form.getFormField(fieldName);
+                Object objectToSet;
 
-            // only set the variable, if it has been specified in the JodaFormField
-            if (variableToSet != null) {
-                context.setVariable(variableToSet, objectToSet);
-                it.remove();
+                objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
+
+                String variableToSet = formField.getInputVariable();
+
+                // only set the variable, if it has been specified in the JodaFormField
+                if (variableToSet != null) {
+                    context.setVariable(variableToSet, objectToSet);
+                    it.remove();
+                }
+
+            } catch (JodaEngineException e) {
+                logger.error("Cannot set input to context variable");
+                logger.error(e.getMessage(), e);
+                continue;
             }
-
         }
     }
-
 }
