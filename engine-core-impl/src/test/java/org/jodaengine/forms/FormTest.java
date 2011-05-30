@@ -1,4 +1,4 @@
-package org.jodaengine.resource.allocation;
+package org.jodaengine.forms;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
  */
 
 public class FormTest {
-    private static final String FORM_PATH = "src/test/resources/org/jodaengine/resource/allocation/";
+    private static final String FORM_PATH = "src/test/resources/org/jodaengine/forms/";
     private static final String FORM_LOCATION = FORM_PATH + "testForm.html";
     
   /**
@@ -28,14 +28,14 @@ public class FormTest {
       JodaFormField field1 = form.getFormField("claimPoint1");
       JodaFormField field2 = form.getFormField("claimPoint2");
       
-      Assert.assertEquals(field1.getReadExpression(), "#{claimPoint1}");
-      Assert.assertEquals(field1.getWriteVariable(), "claimPoint1");
-      Assert.assertEquals(field1.getWriteExpression(), "#{claimPoint1}");
-      Assert.assertEquals(field1.getReadVariable(), "claimPoint1");
-      Assert.assertEquals(field2.getReadExpression(), "#{claimPoint2}");
-      Assert.assertEquals(field2.getWriteVariable(), "claimPoint2");
-      Assert.assertEquals(field2.getWriteExpression(), "#{claimPoint2}");
-      Assert.assertEquals(field2.getReadVariable(), "claimPoint2");
+      Assert.assertEquals(field1.getOutputExpression(), "#{claimPoint1}");
+      Assert.assertEquals(field1.getInputVariable(), "claimPoint1");
+      Assert.assertEquals(field1.getInputExpression(), "#{claimPoint1}");
+      Assert.assertEquals(field1.getOutputVariable(), "claimPoint1");
+      Assert.assertEquals(field2.getOutputExpression(), "#{claimPoint2}");
+      Assert.assertEquals(field2.getInputVariable(), "claimPoint2");
+      Assert.assertEquals(field2.getInputExpression(), "#{claimPoint2}");
+      Assert.assertEquals(field2.getOutputVariable(), "claimPoint2");
   }
   
   /**

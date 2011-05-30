@@ -24,11 +24,11 @@ import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.ext.AbstractExtensible;
 import org.jodaengine.ext.listener.RepositoryDeploymentListener;
 import org.jodaengine.ext.service.ExtensionService;
+import org.jodaengine.forms.AbstractForm;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
-import org.jodaengine.resource.allocation.AbstractForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

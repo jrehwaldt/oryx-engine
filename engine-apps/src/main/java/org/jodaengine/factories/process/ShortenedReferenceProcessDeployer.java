@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.forms.AbstractForm;
+import org.jodaengine.forms.FormImpl;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
@@ -13,10 +15,8 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.JuelExpressionCondition;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Role;
-import org.jodaengine.resource.allocation.AbstractForm;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
-import org.jodaengine.resource.allocation.FormImpl;
 import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
 import org.jodaengine.util.io.ClassPathResourceStreamSource;
 

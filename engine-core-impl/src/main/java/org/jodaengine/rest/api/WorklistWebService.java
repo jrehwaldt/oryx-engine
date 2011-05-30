@@ -146,7 +146,7 @@ public final class WorklistWebService {
     @Path("/items/{worklistitemId}/form")
     @Produces(MediaType.TEXT_PLAIN)
     @GET
-    public Response getForm(@PathParam("worklistitemId") String worklistitemId,
+    public String getForm(@PathParam("worklistitemId") String worklistitemId,
                             @QueryParam("participantId") String participantId)
     throws ResourceNotAvailableException, InvalidWorkItemException {
 
@@ -162,9 +162,7 @@ public final class WorklistWebService {
         FormProcessor processor = new JuelFormProcessor();
         String formHtml = processor.prepareForm(item.getForm(), context);
         
-//        String html = populateForm(item.getForm(), context);
-        // TODO REVIEW return formHtml; - wieso so kompliziert?
-        return Response.ok(formHtml).build();
+        return formHtml;
 
     }
 
@@ -207,7 +205,7 @@ public final class WorklistWebService {
         }
         logger.debug("### {}", singleValueMap);
         
-        processor.readFilledForm(singleValueMap, item.getForm(), context);
+        processor.processFormInput(singleValueMap, item.getForm(), context);
         
 //        Set<Map.Entry<String, List<String>>> entrySet = form.entrySet();
 //        for (Map.Entry<String, List<String>> entry : entrySet) {

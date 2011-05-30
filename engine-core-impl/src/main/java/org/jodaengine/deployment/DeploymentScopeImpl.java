@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
+import org.jodaengine.forms.AbstractForm;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
-import org.jodaengine.resource.allocation.AbstractForm;
 
 /**
  * The Class DeploymentScopeImpl.
