@@ -210,11 +210,15 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
         // is debugging enabled?
         //
         DebuggerAttribute attribute = DebuggerAttribute.getAttribute(definitionAttributes);
-        // TODO @Gerardo(CodeReview) Warum ist das hier einkommentiert?
-//        if (!attribute.isEnabled()) {
-//            return;
-//        }
-
+        
+        //
+        // we do not skip in case debugging for the definition is disabled,
+        // because we want to load the breakpoints anyway
+        //
+        if (!attribute.isEnabled()) {
+            logger.debug("Loading definition breakpoints, although debugging is disabled.");
+        }
+        
         //
         // register breakpoint, if available
         //

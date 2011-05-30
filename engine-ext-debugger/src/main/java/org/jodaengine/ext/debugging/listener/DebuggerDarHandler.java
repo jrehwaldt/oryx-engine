@@ -45,11 +45,10 @@ public class DebuggerDarHandler extends AbstractDarHandler {
                 logger.info("Register svg artifact {} in process scope", artifactName);
                 builder.addInputStreamArtifact(artifactName, inputStream);
                 
-                // TODO @Thorben(CodeReview from Gerardo) Why not??
                 //
-                // do not close
+                // do not close, because otherwise we cannot get the svg artifact more then once
+                // --> NOT INVOKE inputStream.close();
                 //
-//                inputStream.close();
             } catch (IOException e) {
                 logger.error("Could not read file {} from archive", entry.getName());
             }
