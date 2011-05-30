@@ -55,7 +55,8 @@ public class FormProcessorTest {
         field2 = new JodaFormFieldImpl("claimPoint2", createAttributesMap("claimPoint2"), String.class);
         when(form.getFormField(Mockito.matches("claimPoint1"))).thenReturn(field1);
         when(form.getFormField(Mockito.matches("claimPoint2"))).thenReturn(field2);
-
+        
+        // TODO REVIEW Was sind "joda-tags"?
         // this form does not contain the joda-tags, as it mocks the already parsed state
         when(form.getFormContentAsHTML()).thenReturn(EMPTY_FORM_CONTENT);
     }
@@ -73,7 +74,7 @@ public class FormProcessorTest {
     }
 
     /**
-     * Sets context varaibles and checks, if the resulting form is filled.
+     * Sets context variables and checks, whether the resulting form is filled.
      */
     @Test
     public void testFormProcessing() {
@@ -95,6 +96,8 @@ public class FormProcessorTest {
         formInput.put("claimPoint1", "Point 1");
         formInput.put("claimPoint2", "Point 2");
         FormProcessor processor = new JuelFormProcessor();
+        
+        // TODO REVIEW 'read' suggeriert, dass da was zurückkommt...
         processor.readFilledForm(formInput, form, context);
         Assert.assertEquals(context.getVariable("claimPoint1"), "Point 1", "The variable should be set");
         Assert.assertEquals(context.getVariable("claimPoint2"), "Point 2", "The variable should be set");
@@ -113,7 +116,7 @@ public class FormProcessorTest {
         attributes.put(JodaFormAttributes.WRITE_VARIABLE, "claimPoint1");
 
         field1 = new JodaFormFieldImpl("claimPoint1", attributes, Integer.class);
-        when(form.getFormField(Mockito.matches("claimPoint1"))).thenReturn(field1);
+        when(form.getFormField("claimPoint1")).thenReturn(field1);
         Map<String, String> formInput = new HashMap<String, String>();
         formInput.put("claimPoint1", "1");
         FormProcessor processor = new JuelFormProcessor();
@@ -123,6 +126,7 @@ public class FormProcessorTest {
     }
 
     // TODO @Thorben-Refactoring add more complex test
+    // TODO REVIEW Gibt es Tests, wo die JodaFormAttributes (joda-tags) im Demoformular gesetzt und extrahiert werden?
 
     /**
      * Reads a file and returns its content as a String.
@@ -130,6 +134,9 @@ public class FormProcessorTest {
      * @param fileName
      *            the file name
      * @return the string
+     * 
+     * TODO REVIEW siehe FileUtils von Apache.
+     * http://commons.apache.org/io/apidocs/org/apache/commons/io/FileUtils.html#readFileToString(java.io.File)
      */
     private static String readFile(String fileName) {
 

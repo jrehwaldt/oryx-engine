@@ -27,7 +27,7 @@ public class JodaFormFieldConverter {
 
         String name = formAttributes.getValue("name");
 
-        // remove the attributes from the form field, as we have read them and the are not valid html.
+        // remove the attributes from the form field, as we have read them and they are no valid html.
         Map<String, String> attributes = new HashMap<String, String>();
 
         attributes.put(JodaFormAttributes.READ_VARIABLE, formAttributes.getValue(JodaFormAttributes.READ_VARIABLE));
@@ -48,7 +48,9 @@ public class JodaFormFieldConverter {
         } else {
             dataClass = String.class;
         }
-       
+
+        // TODO REVIEW Wieso eine jodaAttributes Map und keine konkrete Implementierung mit 
+        //             Standardwerten, falls die Felder nicht gesetzt sind?
         JodaFormField formField = new JodaFormFieldImpl(name, attributes, dataClass);
 
         return formField;

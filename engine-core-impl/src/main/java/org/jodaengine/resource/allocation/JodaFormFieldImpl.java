@@ -8,13 +8,15 @@ import org.jodaengine.allocation.JodaFormAttributes;
  * Implements a form field.
  */
 public class JodaFormFieldImpl implements JodaFormField {
-
+    
     private String name, readExpression, readVariable, writeVariable, writeExpression;
     private Class<?> dataClass;
 
-    public JodaFormFieldImpl(String name, Map<String, String> jodaAttributes, Class<?> dataclass) {
 
+    public JodaFormFieldImpl(String name, Map<String, String> jodaAttributes, Class<?> dataclass) {
+        
         this.name = name;
+        // TODO REVIEW It is never explained what happens, if the fields are filled with null
         this.readVariable = jodaAttributes.get(JodaFormAttributes.READ_VARIABLE);
         this.readExpression = jodaAttributes.get(JodaFormAttributes.READ_EXPRESSION);
         this.writeVariable = jodaAttributes.get(JodaFormAttributes.WRITE_VARIABLE);
@@ -27,7 +29,7 @@ public class JodaFormFieldImpl implements JodaFormField {
 
         return name;
     }
-
+    
     @Override
     public String getReadExpression() {
 

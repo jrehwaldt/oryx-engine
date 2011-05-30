@@ -102,11 +102,13 @@ public abstract class AbstractFormFieldHandler {
      * @param context
      *            the context
      */
-    protected abstract void readInternally(Map<String, String> enteredValues, Form form, ProcessInstanceContext context);
+    protected abstract void readInternally(Map<String, String> enteredValues,
+                                           Form form,
+                                           ProcessInstanceContext context);
 
     // TODO @Thorben-Refactoring make this cooler, e.g. chain of responsibility
     /**
-     * Converts string input to a an object of the class as specified in the {@link JodaFormField}.
+     * Converts string input to an object of the class as specified in the {@link JodaFormField}.
      * 
      * @param value
      *            the value
@@ -115,12 +117,16 @@ public abstract class AbstractFormFieldHandler {
      * @return the object
      */
     protected Object convertStringInput(String value, Class<?> clazzToConvertTo) {
-
+        
+        // TODO REVIEW Wo findet die Fehlerbehandlung statt?
+        //      Beim Fehler wird die Kette nicht weiterverfolgt und bricht ab (wird bei readInput(...) durchgereicht.)
+        
         Object object = null;
         if (clazzToConvertTo == String.class) {
             return value;
         } else if (clazzToConvertTo == Integer.class) {
             return Integer.valueOf(value);
+        // TODO REVIEW Test für Boolean?
         } else if (clazzToConvertTo == Boolean.class) {
             return Boolean.valueOf(value);
         }

@@ -56,8 +56,8 @@ public class EvaluationHierarchyTest {
         attributes.put(JodaFormAttributes.WRITE_VARIABLE, "var1");
         attributes.put(JodaFormAttributes.WRITE_EXPRESSION, "#{var2}");
         field1 = new JodaFormFieldImpl("field1", attributes, String.class);
-
-        when(form.getFormField(Mockito.matches("field1"))).thenReturn(field1);
+        
+        when(form.getFormField("field1")).thenReturn(field1);
     }
 
     /**
@@ -119,6 +119,8 @@ public class EvaluationHierarchyTest {
         formFields.put("field1", "a value");
         processor.readFilledForm(formFields, form, context);
         Assert.assertEquals(context.getVariable("var2"), "a value");
+        
+        // TODO REVIEW And what happened with field1? Is that defined?
     }
 
     /**

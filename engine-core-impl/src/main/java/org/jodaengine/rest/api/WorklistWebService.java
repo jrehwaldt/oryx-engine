@@ -157,11 +157,13 @@ public final class WorklistWebService {
         AbstractResource<?> resource = identity.getParticipant(participantUUID);
         AbstractWorklistItem item = service.getWorklistItem(resource, itemUUID);
         ProcessInstanceContext context = item.getCorrespondingToken().getInstance().getContext();
-
+        
+        // TODO REVIEW Hardkodiert nur dieser Prozessor verfügbar und eingebunden - nicht so schön.
         FormProcessor processor = new JuelFormProcessor();
         String formHtml = processor.prepareForm(item.getForm(), context);
         
 //        String html = populateForm(item.getForm(), context);
+        // TODO REVIEW return formHtml; - wieso so kompliziert?
         return Response.ok(formHtml).build();
 
     }

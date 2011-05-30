@@ -45,7 +45,8 @@ public class ContextVariableHandler extends AbstractFormFieldHandler {
 
     @Override
     protected void readInternally(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
-
+        
+        // TODO REVIEW enteredValues enthält auch die Schlüssel?
         Iterator<Entry<String, String>> it = enteredValues.entrySet().iterator();
         while (it.hasNext()) {
             Entry<String, String> entry = it.next();
