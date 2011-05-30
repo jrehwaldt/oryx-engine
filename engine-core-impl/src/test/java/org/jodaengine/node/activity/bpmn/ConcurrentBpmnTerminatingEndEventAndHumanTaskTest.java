@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 /**
  * The Class TerminatingEndActivityTest.
  */
-public class BpmnTerminatingEndActivityHumanTaskTest extends AbstractJodaEngineTest {
+public class ConcurrentBpmnTerminatingEndEventAndHumanTaskTest extends AbstractJodaEngineTest {
     private CreationPattern pattern = null;
     private AbstractResource<?> resource = null;
     private Node splitNode, humanTaskNode, terminatingEndNode;

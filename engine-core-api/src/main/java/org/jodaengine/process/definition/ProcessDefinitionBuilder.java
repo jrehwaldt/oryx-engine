@@ -13,13 +13,13 @@ import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
-import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.structure.TransitionBuilder;
+import org.jodaengine.util.Attributable;
 
 /**
  * The Interface ProcessBuilder. The process builder is a comfortable way to construct a process definition.
  */
-public interface ProcessDefinitionBuilder {
+public interface ProcessDefinitionBuilder extends Attributable {
 
     /**
      * Gets the definition as the result of the building process.
@@ -104,10 +104,9 @@ public interface ProcessDefinitionBuilder {
      *            - the id of the attribute
      * @param attibuteValue
      *            - value of the attribute
-     * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
      */
     @Nonnull
-    ProcessDefinitionBuilder setAttribute(String attributeId, Object attibuteValue);
+    void setAttribute(String attributeId, Object attibuteValue);
 
     ProcessDefinitionBuilder addInstantiationPattern(InstantiationPattern instantiationPattern);
 

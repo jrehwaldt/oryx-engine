@@ -33,7 +33,7 @@ import org.testng.annotations.Test;
 /**
  * The Class IntermediateTimerTest. Checks if the intermediate timer is working.
  */
-public class BpmnIntermediateTimerActivityTest extends AbstractJodaEngineTest {
+public class BpmnTimerIntermediateEventActivityTest extends AbstractJodaEngineTest {
     
     private AbstractToken token;
     private Node nullNodeStart;

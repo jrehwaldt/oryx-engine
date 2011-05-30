@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.NullActivity;
-import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
+import org.jodaengine.node.activity.bpmn.BpmnEndEventActivity;
 import org.jodaengine.node.activity.bpmn.BpmnStartEvent;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.incomingbehaviour.AndJoinBehaviour;
@@ -98,7 +98,7 @@ public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
 
         Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
-        Assert.assertEquals(extractClass(endNode), BpmnEndActivity.class);
+        Assert.assertEquals(extractClass(endNode), BpmnEndEventActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
         Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
     }

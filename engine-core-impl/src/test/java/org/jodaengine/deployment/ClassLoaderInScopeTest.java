@@ -131,19 +131,18 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
 
     /**
      * Try to access a class that was not deployed.
+     * 
+     * @throws ClassNotFoundException
      */
-    @Test
-    public void testUndeployedClassAccess() {
+    @Test(expectedExceptions = ClassNotFoundException.class)
+    public void testUndeployedClassAccess()
+    throws ClassNotFoundException {
 
         Deployment deployment = builder.buildDeployment();
         repository.deployInNewScope(deployment);
 
-        try {
-            repository.getDeployedClass(definition.getID(), "test.reference.Dummy");
-            Assert.fail("The class should not have been found.");
-        } catch (ClassNotFoundException e) {
-            // do nothing here, this is what we expect
-        }
+        repository.getDeployedClass(definition.getID(), "test.reference.Dummy");
+        Assert.fail("The class should not have been found.");
     }
 
     /**
@@ -152,11 +151,13 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      * @throws IllegalStarteventException
-     *             the illegal startevent exception
+     *             - the illegal startevent exception
+     * @throws ClassNotFoundException
+     *             - this exception is expected
      */
-    @Test
+    @Test(expectedExceptions = ClassNotFoundException.class)
     public void testClassIsolation()
-    throws IOException, IllegalStarteventException {
+    throws IOException, IllegalStarteventException, ClassNotFoundException {
 
         byte[] data = getClassDataFromFile(CUSTOM_CLASSES_PATH + "test/simple/Dummy.class");
 
@@ -174,12 +175,8 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
         Deployment anotherDeployment = builder.buildDeployment();
         repository.deployInNewScope(anotherDeployment);
 
-        try {
-            repository.getDeployedClass(anotherDefinition.getID(), "test.simple.Dummy");
-            Assert.fail("The class should not have been found, as it only exists in the other scope.");
-        } catch (ClassNotFoundException e) {
-            // do nothing here, this is what we expect
-        }
+        repository.getDeployedClass(anotherDefinition.getID(), "test.simple.Dummy");
+        Assert.fail("The class should not have been found, as it only exists in the other scope.");
     }
 
     /**
@@ -196,7 +193,7 @@ public class ClassLoaderInScopeTest extends AbstractJodaEngineTest {
      *             the instantiation exception
      * @throws IllegalAccessException
      *             the illegal access exception
-     * @throws InvocationTargetException 
+     * @throws InvocationTargetException - if the test fails
      */
     @Test
     public void testTwoClassVersions()

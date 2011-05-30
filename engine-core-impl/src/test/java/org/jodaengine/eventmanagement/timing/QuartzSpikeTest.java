@@ -35,6 +35,12 @@ public class QuartzSpikeTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private Scheduler sched;
 
+    /**
+     * Setting up all necessary objects and mocks.
+     * 
+     * @throws SchedulerException
+     *             if ti fails
+     */
     @BeforeMethod
     public void setUp()
     throws SchedulerException {
@@ -50,6 +56,15 @@ public class QuartzSpikeTest {
 
     }
 
+    /**
+     * This method tests the Quartz implementation and some configurations. This method tests that a job is constantly
+     * called.
+     * 
+     * @throws SchedulerException
+     *             - if it fails
+     * @throws InterruptedException
+     *             - if it fails
+     */
     @Test
     public void testUnlimitedJopRepitition()
     throws SchedulerException, InterruptedException {
@@ -67,6 +82,14 @@ public class QuartzSpikeTest {
         Thread.sleep(TIME_TO_SLEEP);
     }
 
+    /**
+     * This method tests the configuration of the quartz scheduler in order to execute a job only once.
+     * 
+     * @throws SchedulerException
+     *             - if it fails
+     * @throws InterruptedException
+     *             - if it fails
+     */
     @Test
     public void testSingleJobCall()
     throws SchedulerException, InterruptedException {
@@ -83,8 +106,8 @@ public class QuartzSpikeTest {
         scheduleJob(jobDetail, trigger);
 
         Thread.sleep(TIME_TO_SLEEP);
-        
-        Assert.assertEquals(SayHelloJob.timesIsaidHello, 1);
+
+        Assert.assertEquals(SayHelloJob.getTimesIsaidHello(), 1);
     }
 
     private void scheduleJob(JobDetail jobDetail, SimpleTrigger trigger)
@@ -96,6 +119,12 @@ public class QuartzSpikeTest {
             + " times, every " + trigger.getRepeatInterval() + " seconds");
     }
 
+    /**
+     * Cleaning up the scheduler and other things.
+     * 
+     * @throws SchedulerException
+     *             - if it fails
+     */
     @AfterMethod
     public void tearDown()
     throws SchedulerException {
@@ -104,7 +133,7 @@ public class QuartzSpikeTest {
         logger.info("------- Shutting Down ---------------------");
         sched.shutdown(true);
         logger.info("------- Shutdown Complete -----------------");
-        
+
         SayHelloJob.reset();
     }
 }

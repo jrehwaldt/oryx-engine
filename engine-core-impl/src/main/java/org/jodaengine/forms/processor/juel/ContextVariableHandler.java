@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.htmlparser.jericho.FormField;
-import net.htmlparser.jericho.OutputDocument;
-
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.resource.allocation.Form;
 import org.jodaengine.resource.allocation.JodaFormField;
+
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.OutputDocument;
 
 /**
  * Reads and writes formField-Data according to variable specified in the {@link JodaFormField}.

@@ -10,7 +10,7 @@ import org.jodaengine.process.token.Token;
  * The Class EndActivity. Just the activity which gets executed on the endevent. So nothing is done, in the future maybe
  * more should be done.
  */
-public class BpmnEndActivity extends AbstractActivity {
+public class BpmnEndEventActivity extends AbstractActivity {
 
     @Override
     protected void executeIntern(@Nonnull Token token) {

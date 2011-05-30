@@ -1,22 +1,27 @@
 package org.jodaengine.node.activity.bpmn;
 
+import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.TransitionFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.structure.NodeBuilder;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -49,6 +54,15 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         token = new BpmnToken(eventBasedXorGatewayNode, processInstanceMock, nav);
         token = Mockito.spy(token);
     }
+    
+    /**
+     * Cleaning up some objects.
+     */
+    @AfterMethod
+    public void tearDown() {
+
+        ManualTriggeringAdapter.resetManualTriggeringAdapter();
+    }
 
     /**
      * Builds the graph structure of the little test definition that should be tested.
@@ -60,8 +74,9 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         // Building the IntermediateTimer
         eventBasedXorGatewayNode = BpmnNodeFactory.createBpmnEventBasedXorGatewayNode(builder);
 
-        intermediateEvent1Node = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(builder, waiting_time_1);
-        intermediateEvent2Node = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(builder, waiting_time_2);
+        intermediateEvent1Node = createBpmnManualTriggeringIntermediateEventNode(builder, "manualTrigger1");
+
+        intermediateEvent2Node = createBpmnManualTriggeringIntermediateEventNode(builder, "manualTrigger2");
 
         endNode1 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
         endNode2 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
@@ -91,21 +106,40 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         return strBuilder.toString();
     }
 
-//    /**
-//     * The normal routing behavior.
-//     * 
-//     * @throws Exception
-//     */
-//    @Test
-//    public void testRouting()
-//    throws Exception {
-//
-//        token.executeStep();
-//
-//        Thread.sleep(LONG_WAITING_TIME_TEST);
-//
-//        Assert.assertEquals(token.getCurrentNode(), endNode1, errorMessage());
-//
-//        Mockito.verify(token).resume(Mockito.any(ProcessIntermediateEvent.class));
-//    }
+     /**
+     * The normal routing behavior.
+     *
+     * @throws Exception
+     */
+     @Test
+     public void testRouting()
+     throws Exception {
+    
+     token.executeStep();
+    
+     Thread.sleep(LONG_WAITING_TIME_TEST);
+    
+     ManualTriggeringAdapter.triggerManually("manualTrigger1");
+     
+     Assert.assertEquals(token.getCurrentNode(), endNode1, errorMessage());
+    
+     Mockito.verify(token).resume(Mockito.any(ProcessIntermediateEvent.class));
+     }
+
+    /**
+     * Creates a {@link Node} that represents {@link BpmnManualTriggeringIntermediateEventActivity
+     * BpmnManualTriggeringIntermediateEvent}.
+     * 
+     * @param defBuilder
+     *            - the {@link ProcessDefinitionBuilder} in order to build the {@link Node}
+     * @return the created {@link Node}
+     */
+    protected static Node createBpmnManualTriggeringIntermediateEventNode(ProcessDefinitionBuilder defBuilder, String name) {
+
+        NodeBuilder nodeBuilder = defBuilder.getNodeBuilder();
+        BpmnManualTriggeringIntermediateEventActivity activityBehavior
+            = new BpmnManualTriggeringIntermediateEventActivity(name);
+        return nodeBuilder.setIncomingBehaviour(new SimpleJoinBehaviour()).setActivityBehavior(activityBehavior)
+        .setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
+    }
 }

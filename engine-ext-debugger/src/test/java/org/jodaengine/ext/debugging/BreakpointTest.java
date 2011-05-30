@@ -1,10 +1,16 @@
 package org.jodaengine.ext.debugging;
 
+import org.jodaengine.ext.debugging.api.Breakpoint;
+import org.jodaengine.ext.debugging.api.BreakpointCondition;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
+import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
+import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -18,7 +24,7 @@ import org.testng.annotations.Test;
  */
 public class BreakpointTest {
     
-    private BreakpointImpl breakpoint;
+    private Breakpoint breakpoint;
     private Token token;
     private Node node;
     
@@ -28,7 +34,8 @@ public class BreakpointTest {
     @BeforeClass
     public void setUpClass() {
         this.node = new NodeImpl(null, null, null);
-        this.token = new BpmnToken(this.node, null, null);
+        AbstractProcessInstance instance = new ProcessInstance(null, new BpmnTokenBuilder(null, null, this.node));
+        this.token = new BpmnToken(this.node, instance, null);
     }
     
     /**
@@ -36,17 +43,7 @@ public class BreakpointTest {
      */
     @BeforeMethod
     public void setUpMethod() {
-        this.breakpoint = BreakpointImpl.getAttribute(this.node);
-        Assert.assertNotNull(this.breakpoint);
-        Assert.assertEquals(this.breakpoint.getNode(), this.node);
-    }
-    
-    /**
-     * Tests that a {@link BreakpointImpl} will be created on Breakpoint#getAttribute(Node).
-     */
-    @Test
-    public void testBreakpointIsCreated() {
-        Assert.assertNotNull(this.breakpoint);
+        this.breakpoint = new BreakpointImpl(this.node);
     }
     
     /**
@@ -89,11 +86,22 @@ public class BreakpointTest {
     }
     
     /**
-     * Tests that no instance is created when calling getAttributeIfExists().
+     * Tests the proper evaluation of a breakpoint with true condition.
      */
     @Test
-    public void testBreakpointWillBeNullIfNoneExists() {
-        Node otherNode = new NodeImpl(null, null, null);
-        Assert.assertNull(BreakpointImpl.getAttributeIfExists(otherNode));
+    public void testBreakpointWithTrueCondition() {
+        BreakpointCondition condition = new JuelBreakpointCondition("true");
+        this.breakpoint.setCondition(condition);
+        Assert.assertTrue(this.breakpoint.matches(this.token));
+    }
+    
+    /**
+     * Tests the proper evaluation of a breakpoint with false condition.
+     */
+    @Test
+    public void testBreakpointWithFalseCondition() {
+        BreakpointCondition condition = new JuelBreakpointCondition("false");
+        this.breakpoint.setCondition(condition);
+        Assert.assertFalse(this.breakpoint.matches(this.token));
     }
 }

@@ -385,7 +385,6 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         Assert.assertTrue(listenerService.hasBeenInvoked(TestingDarHandler.class));
     }
     
-
     /**
      * Test of the registration and use of the {@link TestingBpmnXmlParseListener}.
      * 
@@ -475,5 +474,26 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         // tests the registering of the listener (proper invocation is tested elsewhere)
         //
         Assert.assertTrue(listenerService.hasBeenRegistered(TestingTokenListener.class));
+    }
+    
+    /**
+     * Test of the registration and use of the {@link TestingBpmnXmlParseListener}.
+     * 
+     * @throws ExtensionNotAvailableException test fails
+     */
+    @Test
+    public void testDeploymentListenerRegistrationInRepository() throws ExtensionNotAvailableException {
+        
+        TestingListenerExtensionService listenerService = this.extensionService.getExtensionService(
+            TestingListenerExtensionService.class,
+            TestingListenerExtensionService.DEMO_EXTENSION_SERVICE_NAME);
+        
+        Assert.assertNotNull(listenerService);
+        
+        Assert.assertTrue(listenerService.hasBeenRegistered(TestingRepositoryDeploymentListener.class));
+        
+        RepositoryService repository = this.jodaEngineServices.getRepositoryService();
+        repository.deployInNewScope(repository.getDeploymentBuilder().buildDeployment());
+        Assert.assertTrue(listenerService.hasBeenInvoked(TestingRepositoryDeploymentListener.class));
     }
 }

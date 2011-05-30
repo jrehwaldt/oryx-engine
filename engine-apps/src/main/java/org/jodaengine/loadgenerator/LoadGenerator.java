@@ -49,7 +49,8 @@ public class LoadGenerator {
     /** The start time. */
     private long startTime;
 
-    private int numberOfThreads; // TODO unused
+    // TODO unused
+    private int numberOfThreads;
 
     /** The navigator. */
     private NavigatorImpl navigator;

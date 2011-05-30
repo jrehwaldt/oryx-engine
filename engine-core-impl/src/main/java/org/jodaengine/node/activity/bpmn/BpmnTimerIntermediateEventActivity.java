@@ -4,17 +4,16 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.timer.TimerAdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.TimerEventImpl;
+import org.jodaengine.eventmanagement.subscription.processevent.intermediate.TimerProcessIntermediateEvent;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.token.Token;
 
 /**
- * The actvity IntermediateTimer is used to wait a specific amount of time before execution is continued.
+ * The {@link BpmnTimerIntermediateEventActivity IntermediateTimer} is used to wait a specific amount of time before
+ * execution is continued.
  */
-public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity implements BpmnEventBasedGatewayEvent {
+public class BpmnTimerIntermediateEventActivity extends AbstractCancelableActivity implements BpmnEventBasedGatewayEvent {
 
     private long time;
 
@@ -26,7 +25,7 @@ public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity im
      * @param time
      *            - the time (in ms) to wait for
      */
-    public BpmnIntermediateTimerActivity(long time) {
+    public BpmnTimerIntermediateEventActivity(long time) {
 
         this.time = time;
     }
@@ -36,7 +35,7 @@ public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity im
 
         // TODO @Gerardo muss geändert werden keine ServiceFactory mehr; vielleicht alle coreservices ins token
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
-        
+
         ProcessIntermediateEvent processEvent = createProcessIntermediateEvent(token);
 
         eventManager.registerIntermediateEvent(processEvent);
@@ -50,9 +49,8 @@ public class BpmnIntermediateTimerActivity extends AbstractCancelableActivity im
 
     @Override
     public ProcessIntermediateEvent createProcessIntermediateEvent(Token token) {
-    
-        AdapterConfiguration conf = new TimerAdapterConfiguration(this.time);
-        return new TimerEventImpl(conf, token);
+
+        return new TimerProcessIntermediateEvent(time, token);
     }
 
     @Override

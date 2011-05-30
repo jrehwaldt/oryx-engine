@@ -3,6 +3,7 @@ package org.jodaengine.ext.debugging.api;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
@@ -31,6 +32,14 @@ public interface Breakpoint extends Switchable, Identifiable<UUID> {
      * @param condition a condition
      */
     void setCondition(@Nonnull BreakpointCondition condition);
+    
+    /**
+     * Returns a {@link BreakpointCondition}, which is considered when evaluating whether
+     * this breakpoint matches to a {@link Token} state.
+     * 
+     * @return a condition, max be null
+     */
+    @Nullable BreakpointCondition getCondition();
     
     /**
      * Checks whether the breakpoint will match the current token state.

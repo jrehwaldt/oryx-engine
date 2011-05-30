@@ -1,9 +1,7 @@
 package org.jodaengine.ext.debugging.api;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
-import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 
 /**
@@ -21,18 +19,7 @@ public interface BreakpointService {
      * @param node the node, this breakpoint is bound to
      * @return the breakpoint
      */
-    @Nonnull Breakpoint addBreakpoint(@Nonnull Node node);
-    
-    /**
-     * This method allows to add a breakpoint to a certain node and process instance.
-     * Providing no instance is equals to calling <code>addBreakpoint(Node node)</code>.
-     * 
-     * @param node the node, this breakpoint is bound to
-     * @param instance the instance, this breakpoint is bound to
-     * @return the breakpoint
-     */
-    @Nonnull Breakpoint addBreakpoint(@Nonnull Node node,
-                                      @Nullable AbstractProcessInstance instance);
+    @Nonnull Breakpoint createBreakpoint(@Nonnull Node node);
     
     /**
      * Removes the specified breakpoint.

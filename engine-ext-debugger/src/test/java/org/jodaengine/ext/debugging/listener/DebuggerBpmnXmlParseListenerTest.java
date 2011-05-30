@@ -5,6 +5,7 @@ import java.io.InputStream;
 import org.jodaengine.deployment.ProcessDefinitionImporter;
 import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
+import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.util.ReflectionUtil;
@@ -27,6 +28,7 @@ public class DebuggerBpmnXmlParseListenerTest extends AbstractJodaEngineTest {
     private static final String SVG_AVAILABLE     = RESOURCE_PATH + "DebuggingEnabledAndSvgAvailable.bpmn.xml";
     private static final String NO_SVG_AVAILABLE  = RESOURCE_PATH + "DebuggingEnabledAndNoSvgAvailable.bpmn.xml";
     private static final String NO_CONTEXT        = RESOURCE_PATH + "NoDebuggingExtension.bpmn.xml";
+    private static final String BREAKPOINT_DEFINED = RESOURCE_PATH + "DebuggingEnabledAndBreakpointAvailable.bpmn.xml";
     
     private BpmnXmlParseListener listener;
     
@@ -141,5 +143,48 @@ public class DebuggerBpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         Assert.assertNotNull(attribute);
         
         Assert.assertFalse(attribute.isEnabled());
+    }
+    
+    /**
+     * Tests that breakpoints are extracted correctly.
+     */
+    @Test
+    public void testBreakpointExtraction() {
+        
+        InputStream bpmnXml = ReflectionUtil.getResourceAsStream(BREAKPOINT_DEFINED);
+        Assert.assertNotNull(bpmnXml);
+        
+        ProcessDefinitionImporter importer = new BpmnXmlImporter(bpmnXml, this.listener);
+        
+        //
+        // parse the process definition, extract the breakpoints
+        //
+        ProcessDefinition definition = importer.createProcessDefinition();
+        
+        Assert.assertNotNull(definition);
+        Assert.assertNotNull(definition.getID());
+        
+        DebuggerAttribute attribute = DebuggerAttribute.getAttributeIfExists(definition);
+        Assert.assertNotNull(attribute);
+        
+        Assert.assertNotNull(attribute.getBreakpoints());
+        Assert.assertEquals(attribute.getBreakpoints().size(), 2);
+        
+        //
+        // correct extraction?
+        //
+        short withCondition = 0;
+        short withoutCondition = 0;
+        for (Breakpoint breakpoint: attribute.getBreakpoints()) {
+            Assert.assertNotNull(breakpoint);
+            
+            if (breakpoint.getCondition() == null) {
+                withoutCondition++;
+            } else {
+                withCondition++;
+            }
+        }
+        Assert.assertEquals(withCondition, 1);
+        Assert.assertEquals(withoutCondition, 1);
     }
 }

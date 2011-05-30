@@ -1,6 +1,8 @@
-package org.jodaengine.eventmanagement.subscription; 
+package org.jodaengine.eventmanagement.subscription.processevent.start; 
 
 import org.jodaengine.deployment.Deployment;
+import org.jodaengine.eventmanagement.subscription.ProcessEvent;
+import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImpl;
@@ -18,9 +20,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * Tests the {@link StartEventImpl}.
+ * Tests the {@link DefaultProcessStartEvent}.
  */
-public class StartEventImplTest extends AbstractJodaEngineTest {
+public class DefaultProcessStartEventTest extends AbstractJodaEngineTest {
 
     private ProcessDefinitionID processDefinitionID;
 
@@ -35,7 +37,7 @@ public class StartEventImplTest extends AbstractJodaEngineTest {
     throws DefinitionNotFoundException, InterruptedException {
 
         // Bind the startEvent to a deployed processDefinition
-        StartEventImpl startEvent = new StartEventImpl(null, null, null, processDefinitionID);
+        DefaultProcessStartEvent startEvent = new DefaultProcessStartEvent(null, null, null, processDefinitionID);
         
 
         Assert.assertNotNull(startEvent.getDefinitionID());

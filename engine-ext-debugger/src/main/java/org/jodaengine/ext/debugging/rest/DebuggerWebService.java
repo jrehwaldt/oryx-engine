@@ -133,22 +133,12 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     //=================== BreakpointService methods ===================
     //=================================================================
 
-    @Path("/breakpoints/add-to-definition")
+    @Path("/breakpoints/create")
     @POST
     @Override
-    public Breakpoint addBreakpoint(Node node) {
+    public Breakpoint createBreakpoint(Node node) {
         if (this.debugger != null) {
-            return this.debugger.addBreakpoint(node);
-        }
-        throw new ServiceUnavailableException(DebuggerService.class);
-    }
-
-    @Path("/breakpoints/add-to-instance")
-    @POST
-    @Override
-    public Breakpoint addBreakpoint(Node node, AbstractProcessInstance instance) {
-        if (this.debugger != null) {
-            return this.debugger.addBreakpoint(node, instance);
+            return this.debugger.createBreakpoint(node);
         }
         throw new ServiceUnavailableException(DebuggerService.class);
     }

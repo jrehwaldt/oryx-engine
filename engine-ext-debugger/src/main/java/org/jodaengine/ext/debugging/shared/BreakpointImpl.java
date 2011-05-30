@@ -3,7 +3,6 @@ package org.jodaengine.ext.debugging.shared;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointCondition;
@@ -34,7 +33,7 @@ public class BreakpointImpl implements Breakpoint {
      * 
      * @param node the node, this breakpoint is bound to
      */
-    protected BreakpointImpl(@Nonnull Node node) {
+    public BreakpointImpl(@Nonnull Node node) {
         this.id = UUID.randomUUID();
         this.node = node;
         this.condition = null;
@@ -72,6 +71,11 @@ public class BreakpointImpl implements Breakpoint {
     }
 
     @Override
+    public BreakpointCondition getCondition() {
+        return this.condition;
+    }
+
+    @Override
     public boolean matches(Token token) {
         
         //
@@ -102,43 +106,5 @@ public class BreakpointImpl implements Breakpoint {
         }
         
         return false;
-    }
-
-    
-    /**
-     * Returns a {@link BreakpointImpl} instance related to the provided
-     * {@link Node}. If none exists, a new one is created and associated
-     * with the definition.
-     * 
-     * Default breakpoints will be enabled.
-     * 
-     * @param node the {@link Node}, the attribute is related to
-     * @return an attribute instance, null if none provided
-     */
-    public static @Nonnull BreakpointImpl getAttribute(@Nonnull Node node) {
-        
-        BreakpointImpl breakpoint = getAttributeIfExists(node);
-        
-        //
-        // register a new instance
-        //
-        if (breakpoint == null) {
-            breakpoint = new BreakpointImpl(node);
-            node.setAttribute(ATTRIBUTE_KEY, breakpoint);
-        }
-        
-        return breakpoint;
-    }
-    
-    /**
-     * Returns a {@link BreakpointImpl} instance related to the provided
-     * {@link Node}. If none exists, null is returned.
-     * 
-     * @param node the {@link Node}, the attribute is related to
-     * @return an attribute instance, null if none provided
-     */
-    public static @Nullable BreakpointImpl getAttributeIfExists(@Nonnull Node node) {
-        
-        return (BreakpointImpl) node.getAttribute(ATTRIBUTE_KEY);
     }
 }
