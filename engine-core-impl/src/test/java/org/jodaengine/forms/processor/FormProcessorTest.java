@@ -56,8 +56,8 @@ public class FormProcessorTest {
         when(form.getFormField(Mockito.matches("claimPoint1"))).thenReturn(field1);
         when(form.getFormField(Mockito.matches("claimPoint2"))).thenReturn(field2);
 
-        // TODO REVIEW Was sind "joda-tags"?
-        // this form does not contain the joda-tags, as it mocks the already parsed state
+        // this form does not contain the joda:*-tags for variable and expression specification, as it mocks the already
+        // parsed state
         when(form.getFormContentAsHTML()).thenReturn(unpopulatedFormContent);
     }
 

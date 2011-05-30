@@ -30,10 +30,10 @@ public class JodaFormFieldConverter {
 
         // remove the attributes from the form field, as we have read them and they are no valid html.
         JodaFormFieldArguments jodaArgs = new JodaFormFieldArguments();
-        jodaArgs.setOutputVariable(formAttributes.getValue(JodaFormAttributes.READ_VARIABLE));
-        jodaArgs.setOutputExpression(formAttributes.getValue(JodaFormAttributes.READ_EXPRESSION));
-        jodaArgs.setInputVariable(formAttributes.getValue(JodaFormAttributes.WRITE_VARIABLE));
-        jodaArgs.setInputExpression(formAttributes.getValue(JodaFormAttributes.WRITE_EXPRESSION));
+        jodaArgs.setOutputVariable(formAttributes.getValue(JodaFormAttributes.OUTPUT_VARIABLE));
+        jodaArgs.setOutputExpression(formAttributes.getValue(JodaFormAttributes.OUTPUT_EXPRESSION));
+        jodaArgs.setInputVariable(formAttributes.getValue(JodaFormAttributes.INPUT_VARIABLE));
+        jodaArgs.setInputExpression(formAttributes.getValue(JodaFormAttributes.INPUT_EXPRESSION));
 
         String className = formAttributes.getValue(JodaFormAttributes.CLASS_NAME);
 
@@ -61,10 +61,10 @@ public class JodaFormFieldConverter {
     public void cleanJodaAttributes(Attributes attributes, OutputDocument document) {
 
         Map<String, String> replacements = document.replace(attributes, false);
-        replacements.remove(JodaFormAttributes.READ_VARIABLE);
-        replacements.remove(JodaFormAttributes.WRITE_VARIABLE);
-        replacements.remove(JodaFormAttributes.READ_EXPRESSION);
-        replacements.remove(JodaFormAttributes.WRITE_EXPRESSION);
+        replacements.remove(JodaFormAttributes.OUTPUT_VARIABLE);
+        replacements.remove(JodaFormAttributes.INPUT_VARIABLE);
+        replacements.remove(JodaFormAttributes.OUTPUT_EXPRESSION);
+        replacements.remove(JodaFormAttributes.INPUT_EXPRESSION);
     }
 
 }
