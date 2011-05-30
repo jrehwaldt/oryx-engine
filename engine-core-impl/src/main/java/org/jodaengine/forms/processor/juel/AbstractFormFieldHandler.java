@@ -3,9 +3,9 @@ package org.jodaengine.forms.processor.juel;
 import java.util.List;
 import java.util.Map;
 
+import org.jodaengine.forms.Form;
+import org.jodaengine.forms.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.resource.allocation.Form;
-import org.jodaengine.resource.allocation.JodaFormField;
 
 import net.htmlparser.jericho.FormField;
 import net.htmlparser.jericho.OutputDocument;

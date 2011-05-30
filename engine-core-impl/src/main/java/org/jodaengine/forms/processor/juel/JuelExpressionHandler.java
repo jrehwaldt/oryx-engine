@@ -11,9 +11,9 @@ import javax.el.ExpressionFactory;
 import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
 
+import org.jodaengine.forms.Form;
+import org.jodaengine.forms.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.resource.allocation.Form;
-import org.jodaengine.resource.allocation.JodaFormField;
 import org.jodaengine.util.juel.ProcessELContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +48,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
         while (it.hasNext()) {
             FormField field = it.next();
             JodaFormField jodaField = form.getFormField(field.getName());
+            
             String readExpression = jodaField.getReadExpression();
             if (readExpression != null) {
                 ValueExpression e = factory.createValueExpression(elContext, readExpression, String.class);

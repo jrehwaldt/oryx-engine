@@ -1,4 +1,4 @@
-package org.jodaengine.allocation;
+package org.jodaengine.forms;
 // TODO REVIEW Wo kommt dieses Paket here? Entweder resource.allocation oder form?
 
 /**

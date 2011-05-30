@@ -2,8 +2,8 @@ package org.jodaengine.forms.processor;
 
 import java.util.Map;
 
+import org.jodaengine.forms.Form;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.resource.allocation.Form;
 
 /**
  * The Interface FormProcessor provides methods to fill a form-string with values from a {@link ProcessInstanceContext}

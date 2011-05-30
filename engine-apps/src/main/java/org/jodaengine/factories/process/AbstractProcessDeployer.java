@@ -11,11 +11,11 @@ import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.forms.AbstractForm;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.resource.IdentityBuilder;
-import org.jodaengine.resource.allocation.AbstractForm;
 
 /**
  * The Class AbstractProcessDeployer.

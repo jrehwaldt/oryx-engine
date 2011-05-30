@@ -1,5 +1,6 @@
 package org.jodaengine.resource.allocation;
 
+import org.jodaengine.forms.Form;
 import org.jodaengine.resource.AbstractResource;
 
 /**

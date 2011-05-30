@@ -7,6 +7,7 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.WorklistService;
 import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
+import org.jodaengine.forms.Form;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;

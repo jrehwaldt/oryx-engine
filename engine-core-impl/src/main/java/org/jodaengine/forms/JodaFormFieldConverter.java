@@ -1,12 +1,13 @@
-package org.jodaengine.resource.allocation;
+package org.jodaengine.forms;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jodaengine.allocation.JodaFormAttributes;
-
 import net.htmlparser.jericho.Attributes;
 import net.htmlparser.jericho.OutputDocument;
+
+import org.jodaengine.forms.JodaFormAttributes;
+import org.jodaengine.forms.JodaFormField;
 
 
 

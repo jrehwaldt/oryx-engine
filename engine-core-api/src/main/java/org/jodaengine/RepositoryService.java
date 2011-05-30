@@ -11,10 +11,10 @@ import org.jodaengine.deployment.DeploymentScope;
 import org.jodaengine.deployment.importer.archive.DarImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
+import org.jodaengine.forms.AbstractForm;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.resource.allocation.AbstractForm;
 
 /**
  * The RepositoryService offers method to manage the processes that have been deployed to the navigator.

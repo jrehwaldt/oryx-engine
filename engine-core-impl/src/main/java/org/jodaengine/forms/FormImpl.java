@@ -1,4 +1,4 @@
-package org.jodaengine.resource.allocation;
+package org.jodaengine.forms;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.forms.AbstractForm;
+import org.jodaengine.forms.Form;
+import org.jodaengine.forms.JodaFormField;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.util.io.IoUtil;
 import org.jodaengine.util.io.StreamSource;

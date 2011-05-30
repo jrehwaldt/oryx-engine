@@ -1,4 +1,4 @@
-package org.jodaengine.resource.allocation;
+package org.jodaengine.forms;
 
 import java.io.BufferedReader;
 import java.io.File;

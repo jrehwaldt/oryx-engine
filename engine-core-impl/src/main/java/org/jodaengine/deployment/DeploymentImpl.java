@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.jodaengine.forms.AbstractForm;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.resource.allocation.AbstractForm;
 
 /**
  * The Class DeploymentImpl is a container for resources that should be deployed in the same scope.

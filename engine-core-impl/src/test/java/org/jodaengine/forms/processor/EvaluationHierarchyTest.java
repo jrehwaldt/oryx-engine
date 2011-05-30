@@ -11,13 +11,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jodaengine.allocation.JodaFormAttributes;
+import org.jodaengine.forms.Form;
+import org.jodaengine.forms.JodaFormAttributes;
+import org.jodaengine.forms.JodaFormField;
+import org.jodaengine.forms.JodaFormFieldImpl;
 import org.jodaengine.forms.processor.juel.JuelFormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
-import org.jodaengine.resource.allocation.Form;
-import org.jodaengine.resource.allocation.JodaFormField;
-import org.jodaengine.resource.allocation.JodaFormFieldImpl;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;

@@ -3,10 +3,10 @@ package org.jodaengine.deployment;
 import java.io.File;
 import java.io.InputStream;
 
+import org.jodaengine.forms.AbstractForm;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.resource.allocation.AbstractForm;
 
 /**
  * The class helps to define a deployment and to deploy it.
