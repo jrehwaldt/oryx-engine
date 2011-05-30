@@ -42,14 +42,14 @@ public abstract class AbstractFormFieldHandler {
      * @param output
      *            the document to fill the values in
      */
-    public void setFormValues(Form form,
+    public void generateOutputValues(Form form,
                               List<FormField> formFields,
                               ProcessInstanceContext context,
                               OutputDocument output) {
 
-        setInternally(form, formFields, context, output);
+        generateOutputValuesInternally(form, formFields, context, output);
         if (next != null) {
-            next.setFormValues(form, formFields, context, output);
+            next.generateOutputValues(form, formFields, context, output);
         }
     }
 
@@ -67,7 +67,7 @@ public abstract class AbstractFormFieldHandler {
      * @param output
      *            the output
      */
-    protected abstract void setInternally(Form form,
+    protected abstract void generateOutputValuesInternally(Form form,
                                           List<FormField> formFields,
                                           ProcessInstanceContext context,
                                           OutputDocument output);
@@ -85,7 +85,7 @@ public abstract class AbstractFormFieldHandler {
      */
     public void readInput(Map<String, String> formInput, Form form, ProcessInstanceContext context) {
 
-        readInternally(formInput, form, context);
+        readInputInternally(formInput, form, context);
         if (next != null) {
             next.readInput(formInput, form, context);
         }
@@ -102,7 +102,7 @@ public abstract class AbstractFormFieldHandler {
      * @param context
      *            the context
      */
-    protected abstract void readInternally(Map<String, String> enteredValues,
+    protected abstract void readInputInternally(Map<String, String> enteredValues,
                                            Form form,
                                            ProcessInstanceContext context);
 

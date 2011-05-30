@@ -24,7 +24,7 @@ public class ContextVariableHandler extends AbstractFormFieldHandler {
      * {@inheritDoc}
      */
     @Override
-    protected void setInternally(Form form,
+    protected void generateOutputValuesInternally(Form form,
                                  List<FormField> formFields,
                                  ProcessInstanceContext context,
                                  OutputDocument output) {
@@ -55,7 +55,7 @@ public class ContextVariableHandler extends AbstractFormFieldHandler {
      * {@inheritDoc}
      */
     @Override
-    protected void readInternally(Map<String, String> formInput, Form form, ProcessInstanceContext context) {
+    protected void readInputInternally(Map<String, String> formInput, Form form, ProcessInstanceContext context) {
 
         Iterator<Entry<String, String>> it = formInput.entrySet().iterator();
         while (it.hasNext()) {
