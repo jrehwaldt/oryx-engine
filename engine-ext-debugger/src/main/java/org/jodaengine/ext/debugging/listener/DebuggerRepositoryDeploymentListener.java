@@ -46,8 +46,17 @@ public class DebuggerRepositoryDeploymentListener implements RepositoryDeploymen
                                    ProcessDefinition definition) {
         
         logger.debug("Definition {} deployed", definition);
+        
+        //
+        // register the available breakpoints (extracted from serialization)
+        // in case debugging is not disabled
+        //
         DebuggerAttribute attribute = DebuggerAttribute.getAttributeIfExists(definition);
         if (attribute == null) {
+            return;
+        }
+        
+        if (!attribute.isEnabled()) {
             return;
         }
         
@@ -57,6 +66,10 @@ public class DebuggerRepositoryDeploymentListener implements RepositoryDeploymen
     @Override
     public void definitionDeleted(RepositoryService repository,
                                   ProcessDefinition definition) {
+        
+        //
+        // unregister any breakpoints, no matter if debugging is disabled
+        //
         
         logger.debug("Definition {} deleted", definition);
         this.debugger.unregisterBreakpoints(definition);

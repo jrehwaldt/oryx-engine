@@ -23,7 +23,7 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.ArgumentCaptor;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -36,26 +36,20 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
     
     private RepositoryDeploymentListener listener;
     private DebuggerServiceImpl debugger;
+    private ProcessDefinition definition;
+    private Breakpoint breakpoint;
+    private DebuggerAttribute attributesDeployed;
     
     /**
      * Setup.
      * 
      * @throws ExtensionNotAvailableException test fails
-     */
-    @BeforeClass
-    public void setUp() throws ExtensionNotAvailableException {
-        this.debugger = mock(DebuggerServiceImpl.class);
-        this.listener = new DebuggerRepositoryDeploymentListener(this.debugger);
-    }
-    
-    /**
-     * Tests that the listener correctly extracts the debugger enabled state.
-     * 
      * @throws IllegalStarteventException test fails
      */
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testBreakpointsAreCorrectlyRegisteredAndUnregistered() throws IllegalStarteventException {
+    @BeforeMethod
+    public void setUp() throws ExtensionNotAvailableException, IllegalStarteventException {
+        this.debugger = mock(DebuggerServiceImpl.class);
+        this.listener = new DebuggerRepositoryDeploymentListener(this.debugger);
         
         //
         // build a definition
@@ -69,17 +63,28 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         //
         DebuggerAttribute attribute = DebuggerAttribute.getAttribute(builder);
         Assert.assertNotNull(attribute);
-        Breakpoint breakpoint = new BreakpointImpl(null);
-        attribute.addBreakpoint(breakpoint);
+        this.breakpoint = new BreakpointImpl(null);
+        attribute.addBreakpoint(this.breakpoint);
         
-        ProcessDefinition definition = builder.buildDefinition();
+        this.definition = builder.buildDefinition();
         
-        DebuggerAttribute attribute2 = DebuggerAttribute.getAttributeIfExists(definition);
-        Assert.assertNotNull(attribute2);
-        Assert.assertEquals(attribute, attribute2);
+        this.attributesDeployed = DebuggerAttribute.getAttributeIfExists(this.definition);
+        Assert.assertNotNull(this.attributesDeployed);
+        Assert.assertEquals(attribute, this.attributesDeployed);
         
-        Assert.assertNotNull(attribute2.getBreakpoints());
-        Assert.assertEquals(attribute2.getBreakpoints().size(), 1);
+        Assert.assertNotNull(this.attributesDeployed.getBreakpoints());
+        Assert.assertEquals(this.attributesDeployed.getBreakpoints().size(), 1);
+    }
+    
+    /**
+     * Tests that the listener correctly registers the breakpoints.
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testBreakpointsAreCorrectlyRegisteredAndUnregistered() {
+        
+        this.attributesDeployed.enable();
+        Assert.assertTrue(this.attributesDeployed.isEnabled());
         
         //
         // simulate the definition deployment
@@ -94,11 +99,42 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         ArgumentCaptor<List> breakpointsCaptor = ArgumentCaptor.forClass(List.class);
         verify(this.debugger, times(1)).registerBreakpoints(breakpointsCaptor.capture(), eq(definition));
         
-        Assert.assertEquals(attribute2.getBreakpoints().size(), breakpointsCaptor.getValue().size());
-        Assert.assertEquals(attribute2.getBreakpoints(), breakpointsCaptor.getValue());
+        Assert.assertEquals(this.attributesDeployed.getBreakpoints().size(), breakpointsCaptor.getValue().size());
+        Assert.assertEquals(this.attributesDeployed.getBreakpoints(), breakpointsCaptor.getValue());
         
         //
         // the breakpoints should be unregistered successfully
+        //
+        this.listener.definitionDeleted(repository, definition);
+        verify(this.debugger, times(1)).unregisterBreakpoints(eq(definition));
+    }
+
+    
+    /**
+     * Tests that the listener does not register the breakpoints when debugging is disabled.
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testBreakpointsAreNotRegisteredIfDisabled() {
+        
+        this.attributesDeployed.disable();
+        Assert.assertFalse(this.attributesDeployed.isEnabled());
+        
+        //
+        // simulate the definition deployment
+        //
+        RepositoryService repository = this.jodaEngineServices.getRepositoryService();
+        this.listener.definitionDeployed(repository, definition);
+        
+        //
+        // the breakpoints should not be registered, because the definition is disabled
+        //
+        @SuppressWarnings("rawtypes")
+        ArgumentCaptor<List> breakpointsCaptor = ArgumentCaptor.forClass(List.class);
+        verify(this.debugger, times(0)).registerBreakpoints(breakpointsCaptor.capture(), eq(definition));
+        
+        //
+        // the breakpoints should be unregistered (even if none were registered)
         //
         this.listener.definitionDeleted(repository, definition);
         verify(this.debugger, times(1)).unregisterBreakpoints(eq(definition));
