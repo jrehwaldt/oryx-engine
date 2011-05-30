@@ -68,12 +68,12 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
     }
 
     @Override
-    protected void readInternally(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
+    protected void readInternally(Map<String, String> formInput, Form form, ProcessInstanceContext context) {
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
         ELContext elContext = new ProcessELContext(context);
 
-        Iterator<Entry<String, String>> it = enteredValues.entrySet().iterator();
+        Iterator<Entry<String, String>> it = formInput.entrySet().iterator();
         while (it.hasNext()) {
             Entry<String, String> entry = it.next();
             String fieldName = entry.getKey();

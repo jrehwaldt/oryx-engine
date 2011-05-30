@@ -76,18 +76,18 @@ public abstract class AbstractFormFieldHandler {
      * Reads the input of a form. A handler can remove the value from the value-Map, if not succeeding handlers should
      * take notice of this input.
      * 
-     * @param enteredValues
-     *            a map of entered values, mapping the form input id to the entered value
+     * @param formInput
+     *            mapping the form input id to the entered value
      * @param form
      *            the form
      * @param context
      *            the context
      */
-    public void readInput(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
+    public void readInput(Map<String, String> formInput, Form form, ProcessInstanceContext context) {
 
-        readInternally(enteredValues, form, context);
+        readInternally(formInput, form, context);
         if (next != null) {
-            next.readInput(enteredValues, form, context);
+            next.readInput(formInput, form, context);
         }
     }
 
