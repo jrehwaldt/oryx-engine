@@ -41,6 +41,4 @@ public interface BreakpointService {
      * @param breakpoint the breakpoint to disable
      */
     void disableBreakpoint(@Nonnull Breakpoint breakpoint);
-    
-    
 }

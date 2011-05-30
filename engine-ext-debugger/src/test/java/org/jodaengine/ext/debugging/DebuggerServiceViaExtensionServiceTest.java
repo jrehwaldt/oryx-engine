@@ -135,8 +135,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
     public void testRequiredBpmnXmlListenerIsProvided() {
         List<BpmnXmlParseListener> listeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
         
-        Assert.assertTrue(listeners.size() > 0);
-        
+        Assert.assertFalse(listeners.isEmpty());
         boolean listenerAvailable = false;
         for (BpmnXmlParseListener listener: listeners) {
             if (listener instanceof DebuggerBpmnXmlParseListener) {
@@ -154,7 +153,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
     public void testRequiredDarHandlerIsProvided() {
         List<AbstractDarHandler> handlers = this.extensionService.getExtensions(AbstractDarHandler.class);
         
-        Assert.assertTrue(handlers.size() > 0);
+        Assert.assertFalse(handlers.isEmpty());
         
         boolean handlerAvailable = false;
         for (AbstractDarHandler handler: handlers) {
@@ -175,8 +174,8 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         List<RepositoryDeploymentListener> listeners
             = this.extensionService.getExtensions(RepositoryDeploymentListener.class);
         
-        Assert.assertTrue(listeners.size() > 0);
-        
+        Assert.assertFalse(listeners.isEmpty());
+        // TODO @Gerardo(CodeReview) kannst du nicht diese Schleife als extra Assert emthod machen
         boolean listenerAvailable = false;
         for (RepositoryDeploymentListener listener: listeners) {
             if (listener instanceof DebuggerRepositoryDeploymentListener) {
@@ -196,7 +195,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         List<AbstractTokenListener> listeners
             = this.extensionService.getExtensions(AbstractTokenListener.class);
         
-        Assert.assertTrue(listeners.size() > 0);
+        Assert.assertFalse(listeners.isEmpty());
         
         boolean listenerAvailable = false;
         for (AbstractTokenListener listener: listeners) {

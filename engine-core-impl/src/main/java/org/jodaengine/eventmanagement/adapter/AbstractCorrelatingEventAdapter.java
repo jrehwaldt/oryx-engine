@@ -75,8 +75,8 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
     @Override
     public void correlate(AdapterEvent e) {
 
+        // Copy the list of processEvents because the array is modified while it is iterated
         List<ProcessEvent> tmpProcessEvents = new ArrayList<ProcessEvent>(getProcessEvents());
-        
         for (ProcessEvent processEvent : tmpProcessEvents) {
 
             if (processEvent.evaluate(e)) {

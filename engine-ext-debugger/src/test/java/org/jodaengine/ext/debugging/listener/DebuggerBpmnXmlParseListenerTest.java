@@ -22,6 +22,7 @@ import org.testng.annotations.Test;
  */
 public class DebuggerBpmnXmlParseListenerTest extends AbstractJodaEngineTest {
 
+    // TODO @Gerardo(CodeReview) Unbedingt die Xmls auf räumen; teilweise sind da tags drinne die keine Sau braucht
     private static final String RESOURCE_PATH = "org/jodaengine/ext/debugging/listener/";
     private static final String DEBUGGER_ENABLED  = RESOURCE_PATH + "DebuggingEnabledAndSvgAvailable.bpmn.xml";
     private static final String DEBUGGER_DISABLED = RESOURCE_PATH + "DebuggingDisabledAndSvgAvailable.bpmn.xml";
@@ -45,7 +46,7 @@ public class DebuggerBpmnXmlParseListenerTest extends AbstractJodaEngineTest {
      */
     @Test
     public void testBpmnParseListenerEnablingTheDebugContext() {
-        
+
         InputStream bpmnXml = ReflectionUtil.getResourceAsStream(DEBUGGER_ENABLED);
         Assert.assertNotNull(bpmnXml);
         

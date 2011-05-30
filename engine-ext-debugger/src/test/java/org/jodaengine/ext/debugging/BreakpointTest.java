@@ -28,6 +28,7 @@ public class BreakpointTest {
      */
     @BeforeClass
     public void setUpClass() {
+        // TODO @Gerardo(CodeReview) Das schreit ja geradezu nach Mock, aber daran hast du sicherlich schon gedacht?
         this.node = new NodeImpl(null, null, null);
         this.token = new BpmnToken(this.node, null, null);
     }
