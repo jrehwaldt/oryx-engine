@@ -116,10 +116,7 @@ public abstract class AbstractFormFieldHandler {
      * @throws JodaEngineException thrown if the supplied String value could not be converted to the desired class.
      */
     protected Object convertStringInput(String value, Class<?> classToConvertTo) throws JodaEngineException {
-        
-        // TODO REVIEW Wo findet die Fehlerbehandlung statt?
-        //      Beim Fehler wird die Kette nicht weiterverfolgt und bricht ab (wird bei readInput(...) durchgereicht.)
-        
+                
         try {
 
             Object object = null;

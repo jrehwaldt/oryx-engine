@@ -1,13 +1,9 @@
 package org.jodaengine.forms;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import net.htmlparser.jericho.Attributes;
 import net.htmlparser.jericho.OutputDocument;
-
-import org.jodaengine.forms.JodaFormAttributes;
-import org.jodaengine.forms.JodaFormField;
 
 
 
@@ -47,9 +43,7 @@ public class JodaFormFieldConverter {
         } else {
             dataClass = String.class;
         }
-
-        // TODO REVIEW Wieso eine jodaAttributes Map und keine konkrete Implementierung mit 
-        //             Standardwerten, falls die Felder nicht gesetzt sind?
+        
         JodaFormField formField = new JodaFormFieldImpl(name, jodaArgs, dataClass);
 
         return formField;
@@ -57,6 +51,9 @@ public class JodaFormFieldConverter {
 
     /**
      * Removes all JodaAttributes from the OutputDocument.
+     *
+     * @param attributes the {@link Attributes} object that contains joda:*-attributes and is to be cleaned
+     * @param document the document the changes should be applied to
      */
     public void cleanJodaAttributes(Attributes attributes, OutputDocument document) {
 
