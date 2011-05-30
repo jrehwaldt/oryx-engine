@@ -1,11 +1,11 @@
 package org.jodaengine.eventmanagement.subscription;
 
-import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultProcessStartEvent;
+import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.testng.annotations.AfterMethod;
@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 /**
  * Tests the start event subscriptions.
  */
-public class EventSubscriptionTest {
+public class EventSubscriptionTest extends AbstractJodaEngineTest {
 
     private EventManager eventManager;
     private AbstractCorrelatingEventAdapter<?> correlationAdapter;
@@ -26,9 +26,9 @@ public class EventSubscriptionTest {
      */
     @BeforeMethod
     public void setUp() {
-
+        
         this.eventManager = new EventManager();
-        eventManager.start(new JodaEngine());
+        eventManager.start(this.jodaEngineServices);
 
         correlationAdapter = Mockito.mock(AbstractCorrelatingEventAdapter.class);
         adapterConfiguration = Mockito.mock(AdapterConfiguration.class);
