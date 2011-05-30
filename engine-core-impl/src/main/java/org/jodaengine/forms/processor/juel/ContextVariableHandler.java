@@ -17,6 +17,12 @@ import net.htmlparser.jericho.OutputDocument;
  */
 public class ContextVariableHandler extends AbstractFormFieldHandler {
 
+    /**
+     * Iterates over all the formFields of the form. For every form field, the output variable is determined and if
+     * present, the value of the corresponding context variable is inserted into the form HTML.
+     * 
+     * {@inheritDoc}
+     */
     @Override
     protected void setInternally(Form form,
                                  List<FormField> formFields,
@@ -42,9 +48,15 @@ public class ContextVariableHandler extends AbstractFormFieldHandler {
 
     }
 
+    /**
+     * Iterates over all the supplied form input pairs of form-field-name and value. Sets them to the context variables,
+     * if an inputVariable exists in the corresponding {@link JodaFormField} object.
+     * 
+     * {@inheritDoc}
+     */
     @Override
     protected void readInternally(Map<String, String> formInput, Form form, ProcessInstanceContext context) {
-        
+
         Iterator<Entry<String, String>> it = formInput.entrySet().iterator();
         while (it.hasNext()) {
             Entry<String, String> entry = it.next();

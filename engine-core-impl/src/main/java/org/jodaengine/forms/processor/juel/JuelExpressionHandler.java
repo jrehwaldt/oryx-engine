@@ -32,6 +32,13 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * Iterates over all the form fields and evaluates the supplied output expressions.
+     * If successful the determined value is inserted into the HTML and the formField is removed from the formFields
+     * list as the list is used by the succeeding handlers.
+     * 
+     * {@inheritDoc}
+     */
     @Override
     protected void setInternally(Form form,
                                  List<FormField> formFields,
@@ -41,17 +48,16 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
         ExpressionFactory factory = new ExpressionFactoryImpl();
         ELContext elContext = new ProcessELContext(context);
 
-        // TODO REVIEW hier gibt es keinerlei Kommentare
-        
         Iterator<FormField> it = formFields.iterator();
-        
+
         while (it.hasNext()) {
             FormField field = it.next();
             JodaFormField jodaField = form.getFormField(field.getName());
-            
-            String readExpression = jodaField.getOutputExpression();
-            if (readExpression != null) {
-                ValueExpression e = factory.createValueExpression(elContext, readExpression, String.class);
+
+            // only evaluate the outputExpression if it was supplied
+            String outputExpression = jodaField.getOutputExpression();
+            if (outputExpression != null) {
+                ValueExpression e = factory.createValueExpression(elContext, outputExpression, String.class);
                 try {
                     String result = (String) e.getValue(elContext);
                     field.setValue(result);
@@ -61,13 +67,20 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
                 } catch (PropertyNotFoundException exception) {
                     // requested variable does not exist.
                     // do not change the value of the input field.
-                    logger.debug("The expression {} cannot be resolved.", readExpression);
+                    logger.debug("The expression {} cannot be resolved.", outputExpression);
                 }
             }
         }
 
     }
 
+    /**
+     * Identifies the form fields of the supplied formInput and evalutes the inputExpression via JUEL, if it exists.
+     * If successful, the map-entry that was looked at is removed from the formInput-Map to prevent it from being
+     * executed by following handlers. 
+     * 
+     * {@inheritDoc}
+     */
     @Override
     protected void readInternally(Map<String, String> formInput, Form form, ProcessInstanceContext context) {
 
@@ -104,11 +117,11 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
             }
 
         }
-        
+
         // write all set root properties to the context.
         SimpleResolver resolver = (SimpleResolver) elContext.getELResolver();
         RootPropertyResolver rootResolver = resolver.getRootPropertyResolver();
-        
+
         Iterator<String> propertyIterator = rootResolver.properties().iterator();
         while (propertyIterator.hasNext()) {
             String propertyName = propertyIterator.next();
