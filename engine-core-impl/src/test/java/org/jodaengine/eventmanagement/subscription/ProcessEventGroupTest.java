@@ -36,8 +36,10 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
         ProcessEventGroup eventGroup = new ProcessEventGroup(token);
         // 2. die einzelnen Elemente der Eventgruppe registrieren
 
-        ProcessIntermediateEvent intermediateEvent1 = new ProcessIntermediateManualTriggeringEvent(token, eventGroup);
-        ProcessIntermediateEvent intermediateEvent2 = new ProcessIntermediateManualTriggeringEvent(token, eventGroup);
+        ProcessIntermediateEvent intermediateEvent1 = new ProcessIntermediateManualTriggeringEvent("manualTrigger1",
+            token, eventGroup);
+        ProcessIntermediateEvent intermediateEvent2 = new ProcessIntermediateManualTriggeringEvent("manualTrigger2",
+            token, eventGroup);
 
         eventGroup.add(intermediateEvent1);
         eventGroup.add(intermediateEvent2);
@@ -45,7 +47,7 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
         ServiceFactory.getCorrelationService().registerIntermediateEvent(intermediateEvent1);
         ServiceFactory.getCorrelationService().registerIntermediateEvent(intermediateEvent2);
 
-        ManualTriggeringAdapter.triggerManually(0);
+        ManualTriggeringAdapter.triggerManually("manualTrigger1");
 
         EventManager eventManager = (EventManager) ServiceFactory.getCorrelationService();
         // Iterator<EventAdapter> eventAdapterIterator = eventManager.getEventAdapters().values().iterator();

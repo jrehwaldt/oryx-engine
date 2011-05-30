@@ -1,7 +1,7 @@
 package org.jodaengine.eventmanagement.adapter.manual;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
@@ -13,7 +13,8 @@ import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
 public class ManualTriggeringAdapter extends AbstractCorrelatingEventAdapter<ManualTriggeringAdapterConfiguration>
 implements InboundAdapter {
 
-    private static List<ManualTriggeringAdapter> manualTriggeringAdapters = new ArrayList<ManualTriggeringAdapter>();
+    private static Map<String, ManualTriggeringAdapter> manualTriggeringAdapters =
+        new HashMap<String, ManualTriggeringAdapter>();
 
     /**
      * Default Constructor.
@@ -24,7 +25,7 @@ implements InboundAdapter {
     public ManualTriggeringAdapter(ManualTriggeringAdapterConfiguration configuration) {
 
         super(configuration);
-        manualTriggeringAdapters.add(this);
+        manualTriggeringAdapters.put(configuration.getName(), this);
     }
 
     /**
@@ -40,17 +41,20 @@ implements InboundAdapter {
      * This method is called in order to trigger manually {@link ManualTriggeringAdapter this adapter}. Afterwards the
      * {@link ManualTriggeringAdapterEvent} is correlated.
      * 
-     * @param manualTriggeringAdapterIndex
-     *            - the index of the {@link ManualTriggeringAdapter} (is basically the order in which the adapter have
-     *            been created); the first manualAdapter gets the index 0, the seond manualadapter gets the index 1, ...
+     * @param manualTriggeringAdapterName
+     *            - the name of the {@link ManualTriggeringAdapter} that was stored previously
      */
-    public static void triggerManually(int manualTriggeringAdapterIndex) {
+    public static void triggerManually(String manualTriggeringAdapterName) {
 
-        ManualTriggeringAdapter manualTriggeringAdapter = manualTriggeringAdapters.get(manualTriggeringAdapterIndex);
+        ManualTriggeringAdapter manualTriggeringAdapter = manualTriggeringAdapters.get(manualTriggeringAdapterName);
         manualTriggeringAdapter.triggerManually();
     }
-    
+
+    /**
+     * Resets the static variables of the {@link ManualTriggeringAdapter this adapter}.
+     */
     public static void resetManualTriggeringAdapter() {
-        manualTriggeringAdapters = new ArrayList<ManualTriggeringAdapter>();
+
+        manualTriggeringAdapters.clear();
     }
 }

@@ -12,14 +12,28 @@ import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
  */
 public class ManualTriggeringAdapterConfiguration extends AbstractAdapterConfiguration {
 
-    private static final int HASH_CODE = 12345;
-    
+    private String name;
+
     /**
      * Default constructor.
+     * 
+     * @param name
+     *            the name of the {@link ManualTriggeringAdapter}
      */
-    public ManualTriggeringAdapterConfiguration() {
+    public ManualTriggeringAdapterConfiguration(String name) {
 
         super(EventTypes.ManualTriggered);
+        this.name = name;
+    }
+
+    /**
+     * Gets the name of the {@link ManualTriggeringAdapter}.
+     * 
+     * @return a {@link String} representing the name of the {@link ManualTriggeringAdapter}
+     */
+    public String getName() {
+
+        return name;
     }
 
     /**
@@ -41,24 +55,25 @@ public class ManualTriggeringAdapterConfiguration extends AbstractAdapterConfigu
 
         return adapter;
     }
-    
-//    @Override
-//    public int hashCode() {
-//
-//        return HASH_CODE;
-//    }
-//    
-//    @Override
-//    public boolean equals(Object object) {
-//
-//        if (object == null) {
-//            return false;
-//        }
-//        
-//        if (!(object instanceof ManualTriggeringAdapterConfiguration)) {
-//            return false;
-//        }
-//        
-//        return true;
-//    }
+
+    @Override
+    public int hashCode() {
+
+        return name.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+
+        if (object == null) {
+            return false;
+        }
+
+        if (!(object instanceof ManualTriggeringAdapterConfiguration)) {
+            return false;
+        }
+
+        ManualTriggeringAdapterConfiguration manualTriggeringAdapterConfigToCompare = (ManualTriggeringAdapterConfiguration) object;
+        return name.equals(manualTriggeringAdapterConfigToCompare.getName());
+    }
 }
