@@ -1,6 +1,7 @@
 package org.jodaengine.ext.debugging;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -182,6 +184,10 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         throw new ProcessArtifactNotFoundException(artifactID);
     }
     
+    //=================================================================
+    //=================== Intern methods ==============================
+    //=================================================================
+    
     /**
      * Registers a list of {@link Breakpoint}s for a certain {@link ProcessDefinition}.
      * 
@@ -204,5 +210,52 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         
         logger.info("Unregistering breakpoints for {}", definition);
         this.breakpoints.remove(definition);
+    }
+    
+    /**
+     * Returns a possibly registered breakpoint.
+     * 
+     * @param node the {@link Node}, for which the breakpoint should be registered
+     * @param instance the {@link AbstractProcessInstance}
+     * @return a list of {@link Breakpoint}s
+     */
+    public @Nonnull List<Breakpoint> getBreakpoints(@Nonnull Node node,
+                                                    @Nonnull AbstractProcessInstance instance) {
+        
+        //
+        // are there any breakpoints?
+        //
+        ProcessDefinition definition = instance.getDefinition();
+        List<Breakpoint> nodeBreakpoints = new ArrayList<Breakpoint>();
+        
+        if (!this.breakpoints.containsKey(definition)) {
+            return nodeBreakpoints;
+        }
+        
+        //
+        // does any of the breakpoints match?
+        //
+        for (Breakpoint breakpoint: this.breakpoints.get(definition)) {
+            if (breakpoint.getNode().equals(node)) {
+                nodeBreakpoints.add(breakpoint);
+            }
+        }
+        
+        return nodeBreakpoints;
+    }
+    
+    /**
+     * Indicates that a breakpoint matched.
+     * 
+     * @param token the {@link Token}, which matched a breakpoint
+     * @param breakpoint the {@link Breakpoint}, which was matched
+     */
+    public void breakpointMatched(@Nonnull Token token,
+                                  @Nonnull Breakpoint breakpoint) {
+        
+        //
+        // TODO Jan crazy stuff: suspend token, remember state and token, ...
+        //
+        
     }
 }

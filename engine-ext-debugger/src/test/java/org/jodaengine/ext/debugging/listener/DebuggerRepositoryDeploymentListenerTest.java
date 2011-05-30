@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
  */
 public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngineTest {
     
-    private RepositoryDeploymentListener deployListener;
+    private RepositoryDeploymentListener listener;
     private DebuggerServiceImpl debugger;
     
     /**
@@ -45,7 +45,7 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
     @BeforeClass
     public void setUp() throws ExtensionNotAvailableException {
         this.debugger = mock(DebuggerServiceImpl.class);
-        this.deployListener = new DebuggerRepositoryDeploymentListener(this.debugger);
+        this.listener = new DebuggerRepositoryDeploymentListener(this.debugger);
     }
     
     /**
@@ -85,7 +85,7 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         // simulate the definition deployment
         //
         RepositoryService repository = this.jodaEngineServices.getRepositoryService();
-        this.deployListener.definitionDeployed(repository, definition);
+        this.listener.definitionDeployed(repository, definition);
         
         //
         // the breakpoints should be registered within our DebuggerService

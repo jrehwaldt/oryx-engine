@@ -78,4 +78,12 @@ public class BreakpointTest {
         Assert.assertNotSame(this.breakpoint.getNode(), otherNode);
         Assert.assertFalse(this.breakpoint.matches(otherToken));
     }
+    
+    /**
+     * Tests the proper evaluation of a breakpoint with condition.
+     */
+    @Test
+    public void testBreakpointWithCondition() {
+        // TODO Jan add such a test
+    }
 }
