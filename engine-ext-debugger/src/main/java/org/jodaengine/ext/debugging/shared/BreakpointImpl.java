@@ -3,7 +3,6 @@ package org.jodaengine.ext.debugging.shared;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointCondition;
@@ -107,60 +106,5 @@ public class BreakpointImpl implements Breakpoint {
         }
         
         return false;
-    }
-
-    
-    /**
-     * Returns a {@link BreakpointImpl} instance related to the provided
-     * {@link Node}. If none exists, a new one is created and associated
-     * with the definition.
-     * 
-     * Default breakpoints will be enabled.
-     * 
-     * @param node the {@link Node}, the attribute is related to
-     * @param token the {@link Token}, which processes the instance
-     * @return an attribute instance, null if none provided
-     */
-    public static @Nonnull Breakpoint getAttribute(@Nonnull Node node,
-                                                   @Nonnull Token token) {
-        
-        Breakpoint breakpoint = getAttributeIfExists(node, token);
-        
-        //
-        // register a new instance
-        //
-        if (breakpoint == null) {
-            breakpoint = new BreakpointImpl(node);
-            node.setAttribute(ATTRIBUTE_KEY, breakpoint);
-        }
-        
-        return breakpoint;
-    }
-    
-    /**
-     * Returns a {@link BreakpointImpl} instance related to the provided
-     * {@link Node}. If none exists, null is returned.
-     * 
-     * @param node the {@link Node}, the attribute is related to
-     * @param token the {@link Token}, which processes the instance
-     * @return an attribute instance, null if none provided
-     */
-    public static @Nullable Breakpoint getAttributeIfExists(@Nonnull Node node,
-                                                            @Nonnull Token token) {
-        
-        DebuggerAttribute attribute = DebuggerAttribute.getAttributeIfExists(token.getInstance().getDefinition());
-        
-        if (attribute == null) {
-            return null;
-        }
-        
-        for (Breakpoint breakpoint: attribute.getBreakpoints()) {
-            if (breakpoint.getNode().equals(node)) {
-                return breakpoint;
-            }
-        }
-        
-        return null;
-//        return (BreakpointImpl) node.getAttribute(ATTRIBUTE_KEY);
     }
 }
