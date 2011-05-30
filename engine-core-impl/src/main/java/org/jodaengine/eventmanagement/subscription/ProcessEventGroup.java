@@ -6,7 +6,6 @@ import java.util.List;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
