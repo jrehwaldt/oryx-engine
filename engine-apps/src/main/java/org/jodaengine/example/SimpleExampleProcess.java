@@ -85,6 +85,10 @@ public final class SimpleExampleProcess {
 
     /**
      * Deploys the sample process.
+     *
+     * @param jodaEngineServices the joda engine services
+     * @return the process definition id
+     * @throws IllegalStarteventException the illegal startevent exception
      */
     private static ProcessDefinitionID deploySampleProcess(JodaEngineServices jodaEngineServices)
     throws IllegalStarteventException {
@@ -107,6 +111,10 @@ public final class SimpleExampleProcess {
      * Builds the {@link ProcessDefinition} for the sample process.
      * <p>
      * The sample process contains: {@link StartEvent} => {@link AutomatedDummyActivity AutomatedDummyActivityNode} =>
+     *
+     * @param definitionBuilder the definition builder
+     * @return the process definition
+     * @throws IllegalStarteventException the illegal startevent exception
      * {@link AutomatedDummyActivity AutomatedDummyActivityNode} => {@link EndEvent} .
      * </p>
      */

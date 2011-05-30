@@ -29,9 +29,7 @@ public class BpmnToken extends AbstractToken {
     /**
      * Hidden Constructor.
      */
-    protected BpmnToken() {
-        
-    }
+    protected BpmnToken() { }
     
     /**
      * Instantiates a new process {@link Token}. This will not register any available extension.
@@ -203,14 +201,11 @@ public class BpmnToken extends AbstractToken {
             instance.removeToken(this);
         }
         return tokensToNavigate;
-
     }
 
     @Override
     public boolean isSuspandable() {
-
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
     
     /**

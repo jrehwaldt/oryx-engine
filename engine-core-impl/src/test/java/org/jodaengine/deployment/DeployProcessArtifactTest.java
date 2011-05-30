@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
@@ -65,13 +66,17 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
     /**
      * Deploys a StringArtifact.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
-     * @throws ProcessArtifactNotFoundException the process artifact not found exception
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException
+     *             the process artifact not found exception
+     * @throws DefinitionNotFoundException
+     *             test fails
      */
     @Test
     public void testArtifactDeploymentAsString()
-    throws IOException, ProcessArtifactNotFoundException {
+    throws IOException, ProcessArtifactNotFoundException, DefinitionNotFoundException {
 
         // Deploying the String "Hello Joda-Engine ..."
         StringBuilder stringBuilder = new StringBuilder();
@@ -89,13 +94,17 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
     /**
      * Deploys a file artifact.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
-     * @throws ProcessArtifactNotFoundException the process artifact not found exception
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException
+     *             the process artifact not found exception
+     * @throws DefinitionNotFoundException
+     *             test fails
      */
     @Test
     public void testArtifactDeploymentAsFile()
-    throws IOException, ProcessArtifactNotFoundException {
+    throws IOException, ProcessArtifactNotFoundException, DefinitionNotFoundException {
 
         File fileToDeploy = new File(TEST_FILE_SYSTEM_PATH);
 
@@ -110,13 +119,17 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
     /**
      * Tests the deployment of an artifact as a classpath resource.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
-     * @throws ProcessArtifactNotFoundException the process artifact not found exception
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException
+     *             the process artifact not found exception
+     * @throws DefinitionNotFoundException
+     *             test fails
      */
     @Test
     public void testArtifactDeploymentAsClasspathResource()
-    throws IOException, ProcessArtifactNotFoundException {
+    throws IOException, ProcessArtifactNotFoundException, DefinitionNotFoundException {
 
         Deployment deployment = deploymentBuilder
         .addClasspathResourceArtifact("classpathArtifact", TEST_FILE_CLASSPATH).buildDeployment();
@@ -130,13 +143,17 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
     /**
      * Tests the deployment of an artifact as an input stream.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
-     * @throws ProcessArtifactNotFoundException the process artifact not found exception
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws ProcessArtifactNotFoundException
+     *             the process artifact not found exception
+     * @throws DefinitionNotFoundException
+     *             test fails
      */
     @Test
     public void testArtifactDeploymentAsInputStream()
-    throws IOException, ProcessArtifactNotFoundException {
+    throws IOException, ProcessArtifactNotFoundException, DefinitionNotFoundException {
 
         // Deploying the String "Hello Joda-Engine ..."
         StringBuilder stringBuilder = new StringBuilder();
@@ -161,10 +178,12 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
      *             the illegal startevent exception
      * @throws ProcessArtifactNotFoundException
      *             the process artifact not found exception
+     * @throws DefinitionNotFoundException
+     *             test fails
      */
-    @Test
+    @Test(expectedExceptions = ProcessArtifactNotFoundException.class)
     public void testArtifactIsolation()
-    throws IllegalStarteventException, ProcessArtifactNotFoundException {
+    throws IllegalStarteventException, ProcessArtifactNotFoundException, DefinitionNotFoundException {
 
         // do the first deployment with a String artifact
         StringBuilder stringBuilder = new StringBuilder();
@@ -183,13 +202,8 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         repo.deployInNewScope(anotherDeployment);
 
         // the following line should trigger the expected exception.
-        try {
-            repo.getProcessArtifact("stringArtifact", anotherDefinition.getID());
-            Assert.fail("Exception expected");
-        } catch (ProcessArtifactNotFoundException exception) {
-            // do nothing as this is the expected path
-        }
-
+        repo.getProcessArtifact("stringArtifact", anotherDefinition.getID());
+        Assert.fail("Exception expected");
     }
 
     private void assertInputStream(InputStream inputStream)

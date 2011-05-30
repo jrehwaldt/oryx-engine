@@ -29,10 +29,10 @@ import org.testng.annotations.Test;
  * The Class TokenPluginTest.
  */
 public class TokenPluginTest {
-    private AbstractToken token;
+    private AbstractToken token = null;
     private ArgumentCaptor<ActivityLifecycleChangeEvent> eventCapturer = null;
-    private AbstractTokenListener mock;
-    private TokenBuilder builder;
+    private AbstractTokenListener mock = null;
+    private TokenBuilder builder = null;
 
     /**
      * Sets up a token that points to a node and registers a mocked plugin.
@@ -46,7 +46,7 @@ public class TokenPluginTest {
 
         node1 = new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        builder = new BpmnTokenBuilder(mock(Navigator.class), node1);
+        builder = new BpmnTokenBuilder(mock(Navigator.class), null, node1);
         AbstractProcessInstance processInstance = new ProcessInstance(null, builder);
         this.token = new BpmnToken(node1, processInstance, null);
 

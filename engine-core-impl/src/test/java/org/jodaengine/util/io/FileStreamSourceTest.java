@@ -10,15 +10,19 @@ import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
 /**
  * Tests {@link FileStreamSource}. I hate Checkstyle ;-D.
  */
 public class FileStreamSourceTest {
 
-    private static final String TEST_FILE_PATH =
-        "src/test/resources/org/jodaengine/util/io/file-streamsource-test.file";
+    private static final String TEST_FILE_PATH = "src/test/resources/org/jodaengine/util/io/file-streamsource-test.file";
 
+    /**
+     * Tests whether a file system resource can be processed as {@link StreamSource}.
+     * 
+     * @throws IOException
+     *             - if it fails
+     */
     @Test
     public void testCorrectInputStream()
     throws IOException {
@@ -33,6 +37,9 @@ public class FileStreamSourceTest {
         Assert.assertEquals(line, "Hello Joda-Engine");
     }
 
+    /**
+     * Tests whether a non existing file can be processed as {@link FileStreamSource}.
+     */
     @Test(expectedExceptions = JodaEngineRuntimeException.class)
     public void testIntantiationWithNoExistingFile() {
 

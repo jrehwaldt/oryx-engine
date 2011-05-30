@@ -13,7 +13,7 @@ public interface DarImporter {
      * Imports a .dar-file and creates a {@link Deployment} out of it, that contains process definitions, forms, etc.
      *
      * @param file the .dar-file
-     * @return the deployment
+     * @return the deployment or null, if the file does not exist or could not be unzipped correctly
      */
     Deployment importDarFile(File file);
 

@@ -1,6 +1,17 @@
 package org.jodaengine.ext.debugging;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+
+import org.apache.commons.io.IOUtils;
 import org.jodaengine.JodaEngineServices;
+import org.jodaengine.RepositoryService;
+import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.api.Breakpoint;
@@ -8,16 +19,19 @@ import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
+import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * A {@link DebuggerService} implementation providing the possibility to set
- * {@link BreakpointImpl} and debug process instances.
+ * {@link Breakpoint}s and debug instances of {@link ProcessDefinition}s.
  * 
  * This class implements both, the {@link DebuggerService} as well as the {@link BreakpointService}.
  * 
@@ -31,6 +45,9 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     
     private JodaEngineServices engineServices;
     private Navigator navigator;
+    private RepositoryService repository;
+    
+    private Map<ProcessDefinition, List<Breakpoint>> breakpoints;
     
     private boolean running = false;
     
@@ -47,6 +64,8 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         logger.info("Starting the DebuggerService");
         this.engineServices = services;
         this.navigator = services.getNavigatorService();
+        this.repository = services.getRepositoryService();
+        this.breakpoints = new HashMap<ProcessDefinition, List<Breakpoint>>();
         
         this.running = true;
     }
@@ -57,7 +76,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         //
         // skip method if the service is already stopped
         //
-        if (this.running) {
+        if (!this.running) {
             return;
         }
         
@@ -106,18 +125,13 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     //=================================================================
 
     @Override
-    public Breakpoint addBreakpoint(Node node) {
-        return addBreakpoint(node, null);
-    }
-
-    @Override
-    public Breakpoint addBreakpoint(Node node,
-                                    AbstractProcessInstance instance) {
+    public Breakpoint createBreakpoint(Node node) {
+        logger.debug("Create a breakpoint for node {}", node);
+        
         // TODO Auto-generated method stub
-        logger.debug("Add breakpoint to node {} | instance {}", node, instance);
         return null;
     }
-
+    
     @Override
     public void removeBreakpoint(Breakpoint breakpoint) {
         // TODO Auto-generated method stub
@@ -135,16 +149,126 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         // TODO Auto-generated method stub
         logger.debug("Disable breakpoint {}", breakpoint);
     }
-
+    
     //=================================================================
     //=================== DebuggerArtifactService methods =============
     //=================================================================
+    
     @Override
     public String getSvgArtifact(ProcessDefinition definition)
-    throws ProcessArtifactNotFoundException {
+    throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
         
-        // TODO Auto-generated method stub
-        return null;
+        DebuggerAttribute attribute = DebuggerAttribute.getAttributeIfExists(definition);
+        
+        String artifactID = null;
+        
+        //
+        // get the artifact name from the debugger context
+        //
+        if (attribute != null) {
+            artifactID = attribute.getSvgArtifact();
+            
+            if (artifactID != null) {
+                AbstractProcessArtifact artifact = this.repository.getProcessArtifact(
+                    DEBUGGER_ARTIFACT_NAMESPACE + artifactID, definition.getID());
+                
+                try {
+                    return IOUtils.toString(artifact.getInputStream());
+                } catch (IOException ioe) {
+                    logger.error("Unable read artifact stream.", ioe);
+                }
+            }
+        }
+        
+        artifactID = "svg-artifact-for-" + definition.getID().getIdentifier() + "-not-defined";
+        throw new ProcessArtifactNotFoundException(artifactID);
+    }
+    
+    //=================================================================
+    //=================== Intern methods ==============================
+    //=================================================================
+    
+    /**
+     * Registers a list of {@link Breakpoint}s for a certain {@link ProcessDefinition}.
+     * 
+     * @param breakpoints the breakpoints to register
+     * @param definition the process definition, the breakpoint belong to
+     */
+    public void registerBreakpoints(@Nonnull List<Breakpoint> breakpoints,
+                                    @Nonnull ProcessDefinition definition) {
+        
+        logger.info("Registering {} breakpoints for {}", breakpoints.size(), definition);
+        this.breakpoints.put(definition, breakpoints);
+    }
+    
+    /**
+     * Unregisters all {@link Breakpoint}s for a certain {@link ProcessDefinition}.
+     * 
+     * @param definition the process definition
+     */
+    public void unregisterBreakpoints(@Nonnull ProcessDefinition definition) {
+        
+        logger.info("Unregistering breakpoints for {}", definition);
+        this.breakpoints.remove(definition);
+    }
+    
+    /**
+     * Returns a possibly registered breakpoint.
+     * 
+     * @param node the {@link Node}, for which the breakpoint should be registered
+     * @param instance the {@link AbstractProcessInstance}
+     * @return a list of {@link Breakpoint}s
+     */
+    public @Nonnull List<Breakpoint> getBreakpoints(@Nonnull Node node,
+                                                    @Nonnull AbstractProcessInstance instance) {
+        
+        //
+        // are there any breakpoints?
+        //
+        ProcessDefinition definition = instance.getDefinition();
+        List<Breakpoint> nodeBreakpoints = new ArrayList<Breakpoint>();
+        
+        if (!this.breakpoints.containsKey(definition)) {
+            return nodeBreakpoints;
+        }
+        
+        //
+        // does any of the breakpoints match?
+        //
+        for (Breakpoint breakpoint: this.breakpoints.get(definition)) {
+            if (breakpoint.getNode().equals(node)) {
+                nodeBreakpoints.add(breakpoint);
+            }
+        }
+        
+        return nodeBreakpoints;
     }
 
+    /**
+     * The {@link DebuggerTokenListener} triggers this method when a {@link Breakpoint}
+     * matched the {@link ProcessInstance}'s current {@link Node}.
+     * 
+     * It will not check the proper matching of the breakpoint, as it is verified beforehand.
+     * 
+     * @param node the {@link Node}, where the process actually is
+     * @param token the {@link Token}, which matched the breakpoint
+     * @param breakpoint the {@link Breakpoint}, which matched
+     * @param currentState the {@link ActivityState}, the node currently is in
+     * @param listener the {@link DebuggerTokenListener}, which is registered within the process
+     * 
+     */
+    /**
+     * Indicates that a breakpoint matched.
+     * 
+     * @param token the {@link Token}, which matched a breakpoint
+     * @param breakpoint the {@link Breakpoint}, which was matched
+     */
+    public void breakpointTriggered(@Nonnull Token token,
+                                    @Nonnull Breakpoint breakpoint) {
+        
+        //
+        // TODO Jan crazy stuff: suspend token, remember state and token, ...
+        //
+        
+    }
 }

@@ -3,7 +3,6 @@ package org.jodaengine.rest.demo;
 import java.io.File;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotFoundException;
@@ -20,9 +19,10 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.IdentityBuilder;
+import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
-import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
 
 /**
  * The Class DemoDataForWebservice generates some example data when called.
@@ -116,8 +116,6 @@ public final class DemoDataForWebservice {
     private static void generateDemoWorklistItems()
     throws IllegalStarteventException, ProcessArtifactNotFoundException, DefinitionNotFoundException {
 
-        // TODO Use Example Process to create some tasks for the role demo
-
         ProcessDefinitionBuilder processBuilder = new ProcessDefinitionBuilderImpl();
 
         Node startNode, node1, node2, node3, endNode;
@@ -138,14 +136,14 @@ public final class DemoDataForWebservice {
         CreationPatternBuilder builder = new CreationPatternBuilderImpl();
         builder.setItemDescription("Really do something we got a demo coming up guys!").setItemSubject("do something")
         .setItemFormID("form1").addResourceAssignedToItem(role);
-        CreationPattern pattern = builder.buildConcreteResourcePattern();
+        CreationPattern pattern = builder.buildCreationPattern(RoleBasedDistributionPattern.class);
 
-        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, pattern, new OfferMultiplePattern());
+        node1 = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, pattern);
 
-        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, pattern, new OfferMultiplePattern());
+        node2 = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, pattern);
 
         // Create the task
-        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, pattern, new OfferMultiplePattern());
+        node3 = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, pattern);
 
         endNode = BpmnNodeFactory.createBpmnEndEventNode(processBuilder);
 

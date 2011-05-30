@@ -11,6 +11,7 @@ import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
+import org.jodaengine.util.Attributable;
 import org.jodaengine.util.ReflectionUtil;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.jodaengine.util.xml.XmlElement;
@@ -45,7 +46,6 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
     @BeforeMethod
     public void setUp() {
         this.listener = mock(BpmnXmlParseListener.class);
-        
     }
     
     /**
@@ -75,13 +75,15 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         ArgumentCaptor<Node> nodeArgument = ArgumentCaptor.forClass(Node.class);
         ArgumentCaptor<ProcessDefinition> processDefinitionArgument = ArgumentCaptor.forClass(ProcessDefinition.class);
         ArgumentCaptor<Transition> transitionArgument = ArgumentCaptor.forClass(Transition.class);
+        ArgumentCaptor<Attributable> attributable = ArgumentCaptor.forClass(Attributable.class);
         
         //
         // parseEndEvent
         //
         Mockito.verify(this.listener, Mockito.times(1)).parseEndEvent(
             xmlElementArgument.capture(),
-            nodeArgument.capture());
+            nodeArgument.capture(),
+            attributable.capture());
         
         Assert.assertNotNull(xmlElementArgument.getValue());
         Assert.assertNotNull(nodeArgument.getValue());
@@ -101,7 +103,8 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         //
         Mockito.verify(this.listener, Mockito.times(1)).parseStartEvent(
             xmlElementArgument.capture(),
-            nodeArgument.capture());
+            nodeArgument.capture(),
+            attributable.capture());
         
         Assert.assertNotNull(xmlElementArgument.getValue());
         Assert.assertNotNull(nodeArgument.getValue());
@@ -111,7 +114,8 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         //
         Mockito.verify(this.listener, Mockito.times(2)).parseSequenceFlow(
             xmlElementArgument.capture(),
-            transitionArgument.capture());
+            transitionArgument.capture(),
+            attributable.capture());
         
         Assert.assertNotNull(xmlElementArgument.getValue());
         Assert.assertNotNull(transitionArgument.getValue());
@@ -121,7 +125,8 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         //
         Mockito.verify(this.listener, Mockito.times(1)).parseUserTask(
             xmlElementArgument.capture(),
-            nodeArgument.capture());
+            nodeArgument.capture(),
+            attributable.capture());
         
         Assert.assertNotNull(xmlElementArgument.getValue());
         Assert.assertNotNull(nodeArgument.getValue());
@@ -146,13 +151,15 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         ArgumentCaptor<Node> nodeArgument = ArgumentCaptor.forClass(Node.class);
         ArgumentCaptor<ProcessDefinition> processDefinitionArgument = ArgumentCaptor.forClass(ProcessDefinition.class);
         ArgumentCaptor<Transition> transitionArgument = ArgumentCaptor.forClass(Transition.class);
+        ArgumentCaptor<Attributable> attributable = ArgumentCaptor.forClass(Attributable.class);
         
         //
         // parseEndEvent
         //
         Mockito.verify(this.listener, Mockito.times(1)).parseEndEvent(
             xmlElementArgument.capture(),
-            nodeArgument.capture());
+            nodeArgument.capture(),
+            attributable.capture());
         
         Assert.assertNotNull(xmlElementArgument.getValue());
         Assert.assertNotNull(nodeArgument.getValue());
@@ -172,7 +179,8 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         //
         Mockito.verify(this.listener, Mockito.times(1)).parseStartEvent(
             xmlElementArgument.capture(),
-            nodeArgument.capture());
+            nodeArgument.capture(),
+            attributable.capture());
         
         Assert.assertNotNull(xmlElementArgument.getValue());
         Assert.assertNotNull(nodeArgument.getValue());
@@ -182,7 +190,8 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         //
         Mockito.verify(this.listener, Mockito.times(NUMBER_OF_SEQUENCE_FLOWS)).parseSequenceFlow(
             xmlElementArgument.capture(),
-            transitionArgument.capture());
+            transitionArgument.capture(),
+            attributable.capture());
         
         Assert.assertNotNull(xmlElementArgument.getValue());
         Assert.assertNotNull(transitionArgument.getValue());
@@ -192,7 +201,8 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         //
         Mockito.verify(this.listener, Mockito.times(NUMBER_OF_TASKS)).parseTask(
             xmlElementArgument.capture(),
-            nodeArgument.capture());
+            nodeArgument.capture(),
+            attributable.capture());
         
         Assert.assertNotNull(xmlElementArgument.getValue());
         Assert.assertNotNull(nodeArgument.getValue());
@@ -202,7 +212,8 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         //
         Mockito.verify(this.listener, Mockito.times(2)).parseExclusiveGateway(
             xmlElementArgument.capture(),
-            nodeArgument.capture());
+            nodeArgument.capture(),
+            attributable.capture());
         
         Assert.assertNotNull(xmlElementArgument.getValue());
         Assert.assertNotNull(nodeArgument.getValue());
@@ -212,7 +223,8 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         //
         Mockito.verify(this.listener, Mockito.times(2)).parseParallelGateway(
             xmlElementArgument.capture(),
-            nodeArgument.capture());
+            nodeArgument.capture(),
+            attributable.capture());
         
         Assert.assertNotNull(xmlElementArgument.getValue());
         Assert.assertNotNull(nodeArgument.getValue());

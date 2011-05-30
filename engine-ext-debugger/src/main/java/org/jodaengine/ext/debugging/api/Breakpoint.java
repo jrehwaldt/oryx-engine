@@ -1,9 +1,13 @@
 package org.jodaengine.ext.debugging.api;
 
+import java.util.UUID;
+
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.util.Identifiable;
 
 /**
  * This represents a container class for a breakpoint, which will be available in the
@@ -12,7 +16,7 @@ import org.jodaengine.process.token.Token;
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
-public interface Breakpoint {
+public interface Breakpoint extends Switchable, Identifiable<UUID> {
     
     /**
      * Returns the {@link Node} this breakpoint is bound to.
@@ -28,6 +32,14 @@ public interface Breakpoint {
      * @param condition a condition
      */
     void setCondition(@Nonnull BreakpointCondition condition);
+    
+    /**
+     * Returns a {@link BreakpointCondition}, which is considered when evaluating whether
+     * this breakpoint matches to a {@link Token} state.
+     * 
+     * @return a condition, max be null
+     */
+    @Nullable BreakpointCondition getCondition();
     
     /**
      * Checks whether the breakpoint will match the current token state.

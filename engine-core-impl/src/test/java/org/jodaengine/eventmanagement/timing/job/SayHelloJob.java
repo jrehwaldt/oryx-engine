@@ -11,20 +11,30 @@ import org.slf4j.LoggerFactory;
  */
 public class SayHelloJob implements Job {
 
-    public static int timesIsaidHello = 0;
-    
+    private static int timesIsaidHello = 0;
+
+    /**
+     * Getter for {@link Integer} that represents how many times this job was called.
+     * 
+     * @return {@link Integer} that represents how many times this job was called.
+     */
+    public static int getTimesIsaidHello() {
+
+        return timesIsaidHello;
+    }
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     @Override
     public void execute(JobExecutionContext context)
     throws JobExecutionException {
 
         long currentTimeMillis = System.currentTimeMillis();
         logger.info("Hello World!! - Called at " + currentTimeMillis);
-        
+
         timesIsaidHello++;
     }
-    
+
     /**
      * Reset the {@link SayHelloJob}.
      */

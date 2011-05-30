@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-import org.jodaengine.allocation.AbstractForm;
-import org.jodaengine.allocation.Form;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.resource.allocation.AbstractForm;
+import org.jodaengine.resource.allocation.Form;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -80,5 +80,17 @@ public class DarImporterTest extends AbstractJodaEngineTest {
             "The class entry should exist in the deployment.");
         Assert.assertNotNull(deployment.getClasses().get("test.simple.Dummy"),
             "Class data should exist in the deployment");
+    }
+    
+    /**
+     * Test non exisiting file import.
+     */
+    @Test
+    public void testNonExisitingFileImport() {
+        DarImporter importer = new DarImporterImpl(jodaEngineServices.getRepositoryService());
+        File darFile = new File("a/non/existing/path/file.dar");
+        Deployment deployment = importer.importDarFile(darFile);
+        
+        Assert.assertNull(deployment);
     }
 }

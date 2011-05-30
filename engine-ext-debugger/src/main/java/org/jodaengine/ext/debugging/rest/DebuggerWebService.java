@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.jodaengine.JodaEngineServices;
+import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ServiceUnavailableException;
 import org.jodaengine.ext.debugging.api.Breakpoint;
@@ -132,22 +133,12 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     //=================== BreakpointService methods ===================
     //=================================================================
 
-    @Path("/breakpoints/add-to-definition")
+    @Path("/breakpoints/create")
     @POST
     @Override
-    public Breakpoint addBreakpoint(Node node) {
+    public Breakpoint createBreakpoint(Node node) {
         if (this.debugger != null) {
-            return this.debugger.addBreakpoint(node);
-        }
-        throw new ServiceUnavailableException(DebuggerService.class);
-    }
-
-    @Path("/breakpoints/add-to-instance")
-    @POST
-    @Override
-    public Breakpoint addBreakpoint(Node node, AbstractProcessInstance instance) {
-        if (this.debugger != null) {
-            return this.debugger.addBreakpoint(node, instance);
+            return this.debugger.createBreakpoint(node);
         }
         throw new ServiceUnavailableException(DebuggerService.class);
     }
@@ -192,7 +183,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Override
     @Produces(MediaType.APPLICATION_SVG_XML)
     public String getSvgArtifact(ProcessDefinition definition)
-    throws ProcessArtifactNotFoundException {
+    throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
         if (this.debugger != null) {
             this.debugger.getSvgArtifact(definition);
         }

@@ -16,6 +16,9 @@ public class AndEventConditionTest {
     private AndEventCondition andEventCondition;
     private AdapterEvent adapterEventMock;
 
+    /**
+     * Setting up all necessary objects and mocks.
+     */
     @BeforeMethod
     public void setUp() {
 
@@ -23,6 +26,9 @@ public class AndEventConditionTest {
         adapterEventMock = Mockito.mock(AdapterEvent.class);
     }
 
+    /**
+     * Tests whether the {@link AndEventCondition} evaluates three {@link TrueEventCondition}s to true.
+     */
     @Test
     public void testAndEventConditionWithAllTrue() {
 
@@ -31,6 +37,10 @@ public class AndEventConditionTest {
         Assert.assertTrue(andEventCondition.evaluate(adapterEventMock));
     }
 
+    /**
+     * Tests whether the {@link AndEventCondition} evaluates two {@link TrueEventCondition}s and one
+     * {@link FalseEventCondition} to false.
+     */
     @Test
     public void testAndEventConditionWithOneFalse() {
 
@@ -40,6 +50,9 @@ public class AndEventConditionTest {
         Assert.assertFalse(andEventCondition.evaluate(adapterEventMock));
     }
 
+    /**
+     * Tests whether the {@link AndEventCondition} evaluates three {@link FalseEventCondition}s to false.
+     */
     @Test
     public void testAndEventConditionWithAllFalse() {
 

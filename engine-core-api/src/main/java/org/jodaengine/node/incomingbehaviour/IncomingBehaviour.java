@@ -14,7 +14,7 @@ public interface IncomingBehaviour {
      * 
      * @param instance
      *            the instance for which the join-algorithm is invoked.
-     * @return the result of the joining. Usually this list contains one or zero ProcessInstances (Example: And-Join).
+     * @return the result of the joining. Usually this list contains one or zero Tokens (Example: And-Join).
      */
     List<Token> join(Token instance);
 }

@@ -7,7 +7,7 @@ import org.testng.Assert;
 
 /**
  * Listener implementation for testing the {@link ExtensionService} integration in
- * our {@link Scheduler}.
+ * our {@link Scheduler} as {@link AbstractSchedulerListener}.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-24
@@ -25,6 +25,8 @@ public class TestingSchedulerListener extends AbstractSchedulerListener {
     public TestingSchedulerListener(TestingListenerExtensionService listenerService) {
         Assert.assertNotNull(listenerService);
         this.listenerService = listenerService;
+        
+        this.listenerService.registered(this);
     }
     
     @Override

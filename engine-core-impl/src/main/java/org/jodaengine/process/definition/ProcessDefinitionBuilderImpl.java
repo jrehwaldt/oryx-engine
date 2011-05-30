@@ -9,9 +9,9 @@ import java.util.UUID;
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
-import org.jodaengine.eventmanagement.subscription.StartEventImpl;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.eventmanagement.subscription.condition.complex.AndEventCondition;
+import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
@@ -63,7 +63,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         this.name = null;
         this.description = null;
         this.temporaryStartTriggers = new HashMap<ProcessStartEvent, Node>();
-        this.temporaryAttributeTable = null;
+        this.temporaryAttributeTable = new HashMap<String, Object>();
         this.temporaryInstantiationPatterns = new ArrayList<InstantiationPattern>();
         this.temporaryActivationPatterns = new ArrayList<ProcessDefinitionDeActivationPattern>();
         this.startInstantiationPattern = null;
@@ -91,23 +91,16 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
                                                        List<EventCondition> eventConditions,
                                                        Node startNode) {
 
-        ProcessStartEvent event = new StartEventImpl(eventType, adapterConfig, new AndEventCondition(eventConditions),
-            id);
+        ProcessStartEvent event = new DefaultProcessStartEvent(
+            eventType, adapterConfig, new AndEventCondition(eventConditions), id);
         this.temporaryStartTriggers.put(event, startNode);
 
         return this;
     }
 
     @Override
-    public ProcessDefinitionBuilder setAttribute(String attributeId, Object attibuteValue) {
-
-        if (this.temporaryAttributeTable == null) {
-            this.temporaryAttributeTable = new HashMap<String, Object>();
-        }
-
+    public void setAttribute(String attributeId, Object attibuteValue) {
         this.temporaryAttributeTable.put(attributeId, attibuteValue);
-
-        return this;
     }
 
     @Override
@@ -177,7 +170,7 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
      * This method encapsulates.
      * 
      * @return the {@link ProcessDefinitionImpl processDefinition} as result of this builder
-     * @throws IllegalStarteventException
+     * @throws IllegalStarteventException no valid start event found
      */
     private ProcessDefinitionImpl buildResultDefinition()
     throws IllegalStarteventException {
@@ -190,6 +183,10 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
 
         for (Map.Entry<ProcessStartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
             definition.addStartTrigger(entry.getKey(), entry.getValue());
+        }
+        
+        for (Map.Entry<String, Object> entry : temporaryAttributeTable.entrySet()) {
+            definition.setAttribute(entry.getKey(), entry.getValue());
         }
 
         return definition;
@@ -253,5 +250,15 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
             logger.error(errorMessage);
             throw new JodaEngineRuntimeException(errorMessage);
         }
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return this.temporaryAttributeTable;
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+        return this.temporaryAttributeTable.get(attributeKey);
     }
 }

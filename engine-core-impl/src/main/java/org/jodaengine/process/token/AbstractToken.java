@@ -13,7 +13,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.exception.InstanceTerminationHandler;
 import org.jodaengine.ext.exception.LoggerExceptionHandler;
-import org.jodaengine.ext.listener.AbstractExceptionHandler;
+import org.jodaengine.ext.handler.AbstractExceptionHandler;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
@@ -59,12 +59,9 @@ implements Token {
      *            the {@link ExtensionService} to load and register extensions from, may be null
      */
     public AbstractToken(Node startNode,
-                     AbstractProcessInstance instance,
-                     Navigator navigator,
-                     @Nullable ExtensionService extensionService) {
-
-
-        // TODO Jan - use this constructor to register potential extensions - wait for Jannik's refactoring.
+                         AbstractProcessInstance instance,
+                         Navigator navigator,
+                         @Nullable ExtensionService extensionService) {
 
         this.currentNode = startNode;
         this.instance = instance;
@@ -87,9 +84,7 @@ implements Token {
     /**
      * Hidden constructor.
      */
-    protected AbstractToken() {
-
-    }
+    protected AbstractToken() { }
 
     @Override
     public Node getCurrentNode() {
@@ -109,18 +104,18 @@ implements Token {
         return id;
     }
 
-    @Override
-    public boolean joinable() {
-
-        return this.instance.getContext().allIncomingTransitionsSignaled(this.currentNode);
-    }
-
-    @Override
-    public Token performJoin() {
-
-        instance.getContext().removeIncomingTransitions(currentNode);
-        return this;
-    }
+//    @Override
+//    public boolean joinable() {
+//
+//        return this.instance.getContext().allIncomingTransitionsSignaled(this.currentNode);
+//    }
+//
+//    @Override
+//    public Token performJoin() {
+//
+//        instance.getContext().removeIncomingTransitions(currentNode);
+//        return this;
+//    }
 
     @Override
     public AbstractProcessInstance getInstance() {

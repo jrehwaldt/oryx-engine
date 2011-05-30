@@ -9,11 +9,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.AbstractForm;
-import org.jodaengine.allocation.PushPattern;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
@@ -24,9 +23,11 @@ import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.allocation.AbstractForm;
+import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.FormImpl;
-import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
+import org.jodaengine.resource.allocation.PushPattern;
+import org.jodaengine.resource.allocation.pattern.push.AllocateSinglePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.util.io.StringStreamSource;
 import org.jodaengine.util.mock.MockUtils;
@@ -41,9 +42,9 @@ import org.testng.annotations.Test;
  */
 public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest {
 
-    private ConcreteResourcePattern pattern;
-    private AbstractParticipant jannik;
-    private AbstractProcessInstance instance;
+    private CreationPattern pattern;
+    private AbstractParticipant jannik = null;
+    private AbstractProcessInstance instance = null;
 
     private static final String FORM_LOCATION = "src/test/resources/testforms/testForm.html";
 
@@ -63,7 +64,8 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
     throws IOException {
 
         JodaEngine.start();
-        pattern = CreationPatternFactory.createJannikServesGerardoCreator();
+        jannik = ParticipantFactory.createJannik();
+        pattern = CreationPatternFactory.createDirectDistributionPattern(jannik);
 
         formContent = readFile(FORM_LOCATION);
         populatedForm = readFile(POPULATED_FORM_LOCATION);
@@ -78,14 +80,13 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
 
         Whitebox.setInternalState(pattern, "formID", "form");
         Navigator nav = mock(Navigator.class);
-        TokenBuilder tokenBuilder = new BpmnTokenBuilder(nav, mock(Node.class));
+        TokenBuilder tokenBuilder = new BpmnTokenBuilder(nav, null, mock(Node.class));
         instance = new ProcessInstance(definition, tokenBuilder);
         Token token = instance.createToken();
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         AbstractWorklistItem item = pattern.createWorklistItem(token, jodaEngineServices.getRepositoryService());
         PushPattern pushPattern = new AllocateSinglePattern();
         pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
-        jannik = (AbstractParticipant) pattern.getAssignedResources().iterator().next();
     }
 
     /**

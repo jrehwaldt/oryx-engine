@@ -2,6 +2,7 @@ package org.jodaengine.ext.debugging.api;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinition;
 
@@ -15,7 +16,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
  */
 public interface DebuggerArtifactService {
     
-    public static final String DEBUGGER_ARTIFACT_NAMESPACE = "debugger/";
+    String DEBUGGER_ARTIFACT_NAMESPACE = "debugger/";
     
     /**
      * Provides access to the svg resources bound to a certain process via {@link ProcessDefinitionID}.
@@ -23,7 +24,8 @@ public interface DebuggerArtifactService {
      * @param definition the process' definition
      * @return a string representation for the requested svg artifact
      * @throws ProcessArtifactNotFoundException in case the artifact is not found
+     * @throws DefinitionNotFoundException in case the definition is not valid
      */
     @Nonnull String getSvgArtifact(@Nonnull ProcessDefinition definition)
-    throws ProcessArtifactNotFoundException;
+    throws ProcessArtifactNotFoundException, DefinitionNotFoundException;
 }

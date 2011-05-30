@@ -1,9 +1,9 @@
 package org.jodaengine.factories.process;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
@@ -13,18 +13,17 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.JuelExpressionCondition;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Role;
+import org.jodaengine.resource.allocation.AbstractForm;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
 import org.jodaengine.resource.allocation.FormImpl;
-import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
 import org.jodaengine.util.io.ClassPathResourceStreamSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
-* The Class ShortenedReferenceProcessDeployer. This is the implementation of the shortened version of the AOK reference
-* process.
-*/
+ * The Class ShortenedReferenceProcessDeployer. This is the implementation of the shortened version of the AOK reference
+ * process.
+ */
 public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
 
     // configuration constants
@@ -34,8 +33,6 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     private static final String JAN = "Jan";
     private static final String OBJECTION_CLERK = "Objection Clerk";
     private static final String ALLOWANCE_CLERK = "Allowance Clerk";
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     // Nodes
     private Node startNode;
@@ -54,140 +51,140 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     private Node endNode;
 
     /**
-* Gets the start node.
-*
-* @return the start node
-*/
+     * Gets the start node.
+     * 
+     * @return the start node
+     */
     public Node getStartNode() {
 
         return startNode;
     }
 
     /**
-* Gets the first system task.
-*
-* @return the system1
-*/
+     * Gets the first system task.
+     * 
+     * @return the system1
+     */
     public Node getSystem1() {
 
         return system1;
     }
 
     /**
-* Gets the second system task.
-*
-* @return the system2
-*/
+     * Gets the second system task.
+     * 
+     * @return the system2
+     */
     public Node getSystem2() {
 
         return system2;
     }
 
     /**
-* Gets the first human task.
-*
-* @return the human1
-*/
+     * Gets the first human task.
+     * 
+     * @return the human1
+     */
     public Node getHuman1() {
 
         return human1;
     }
 
     /**
-* Gets the second human task.
-*
-* @return the human2
-*/
+     * Gets the second human task.
+     * 
+     * @return the human2
+     */
     public Node getHuman2() {
 
         return human2;
     }
 
     /**
-* Gets the third human task.
-*
-* @return the human3
-*/
+     * Gets the third human task.
+     * 
+     * @return the human3
+     */
     public Node getHuman3() {
 
         return human3;
     }
 
     /**
-* Gets the fourth human task.
-*
-* @return the human4
-*/
+     * Gets the fourth human task.
+     * 
+     * @return the human4
+     */
     public Node getHuman4() {
 
         return human4;
     }
 
     /**
-* Gets the fifth human task.
-*
-* @return the human5
-*/
+     * Gets the fifth human task.
+     * 
+     * @return the human5
+     */
     public Node getHuman5() {
 
         return human5;
     }
 
     /**
-* Gets first the xor.
-*
-* @return the xor1
-*/
+     * Gets first the xor.
+     * 
+     * @return the xor1
+     */
     public Node getXor1() {
 
         return xor1;
     }
 
     /**
-* Gets the second xor.
-*
-* @return the xor2
-*/
+     * Gets the second xor.
+     * 
+     * @return the xor2
+     */
     public Node getXor2() {
 
         return xor2;
     }
 
     /**
-* Gets the third xor.
-*
-* @return the xor3
-*/
+     * Gets the third xor.
+     * 
+     * @return the xor3
+     */
     public Node getXor3() {
 
         return xor3;
     }
 
     /**
-* Gets the fourth xor.
-*
-* @return the xor4
-*/
+     * Gets the fourth xor.
+     * 
+     * @return the xor4
+     */
     public Node getXor4() {
 
         return xor4;
     }
 
     /**
-* Gets the fifth xor.
-*
-* @return the xor5
-*/
+     * Gets the fifth xor.
+     * 
+     * @return the xor5
+     */
     public Node getXor5() {
 
         return xor5;
     }
 
     /**
-* Gets the end node.
-*
-* @return the end node
-*/
+     * Gets the end node.
+     * 
+     * @return the end node
+     */
     public Node getEndNode() {
 
         return endNode;
@@ -202,57 +199,68 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
     private Participant jannik;
 
     /**
-* Gets the objection clerk.
-*
-* @return the objection clerk
-*/
+     * Gets the objection clerk.
+     * 
+     * @return the objection clerk
+     */
     public Role getObjectionClerk() {
 
         return objectionClerk;
     }
+    
+    /**
+     * Gets the allowance clerk.
+     * 
+     * @return the allowance clerk
+     */
+    public Role getAllowanceClerk() {
+
+        return allowanceClerk;
+    }
 
     /**
-* Gets the participant "Jan".
-*
-* @return the participant "Jan"
-*/
+     * Gets the participant "Jan".
+     * 
+     * @return the participant "Jan"
+     */
     public Participant getJan() {
 
         return jan;
     }
 
     /**
-* Gets the participant "Gerardo".
-*
-* @return the participant "Gerardo"
-*/
+     * Gets the participant "Gerardo".
+     * 
+     * @return the participant "Gerardo"
+     */
     public Participant getGerardo() {
 
         return gerardo;
     }
 
     /**
-* Gets the participant "Tobi".
-*
-* @return the participant "Tobi"
-*/
+     * Gets the participant "Tobi".
+     * 
+     * @return the participant "Tobi"
+     */
     public Participant getTobi() {
 
         return tobi;
     }
 
     /**
-* Gets the participant "Jannik".
-*
-* @return the participant "Jannik"
-*/
+     * Gets the participant "Jannik".
+     * 
+     * @return the participant "Jannik"
+     */
     public Participant getJannik() {
 
         return jannik;
     }
 
     @Override
-    public void initializeNodes() {
+    public void initializeNodes()
+    throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 
         // start node, blank
         startNode = BpmnNodeFactory.createBpmnStartEventNode(processDefinitionBuilder);
@@ -263,10 +271,11 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         // human task for objection clerk, task is to check
         // positions of objection
         CreationPatternBuilder builder = new CreationPatternBuilderImpl();
-        builder.setItemDescription("Anspruchspositionen überprüfen").setItemSubject("Positionen auf Anspruch prüfen")
-        .setItemFormID("form1").addResourceAssignedToItem(objectionClerk);
+        builder.flushAssignedResources().setItemDescription("Anspruchspositionen überprüfen")
+        .setItemSubject("Positionen auf Anspruch prüfen").setItemFormID("form1")
+        .addResourceAssignedToItem(objectionClerk);
         human1 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
-            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
+            builder.buildCreationPattern(RoleBasedDistributionPattern.class));
 
         // XOR Split, condition is objection existence
         xor1 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
@@ -278,7 +287,7 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         builder.setItemDescription("Widerspruch erneut prüfen auf neue Ansprüche").setItemSubject("Widerspruch prüfen")
         .setItemFormID("form2");
         human2 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
-            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
+            builder.buildCreationPattern(RoleBasedDistributionPattern.class));
 
         // XOR Split, condition is new relevant aspects existence
         xor2 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
@@ -289,14 +298,14 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         builder.setItemDescription("Anspruchspunkte in neues Gutachten übertragen")
         .setItemSubject("neues Gutachten erstellen").setItemFormID("form3");
         human3 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
-            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
+            builder.buildCreationPattern(RoleBasedDistributionPattern.class));
 
         // intermediate mail event, customer answer
         // needs to be implemented and inserted here
 
         // XOR Split, condition is existence of objection in answer of customer
         xor3 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
-        
+
         Condition condition5 = new JuelExpressionCondition("${aufrecht == \"ja\"}");
         Condition condition6 = new JuelExpressionCondition("${aufrecht  == \"nein\"}");
 
@@ -307,14 +316,14 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         builder.setItemDescription("abschließende Nachbearbeitung des Falls").setItemSubject("Nachbearbeitung")
         .setItemFormID("form4");
         human4 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
-            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
+            builder.buildCreationPattern(RoleBasedDistributionPattern.class));
 
         // human task for allowance clerk, task is to enforce allowance
         builder.flushAssignedResources().setItemDescription("Leistungsansprüche durchsetzen")
         .setItemSubject("Leistungsgewährung umsetzen").setItemFormID("form5").addResourceAssignedToItem(allowanceClerk);
         // task = createRoleTask("Leistungsgewährung umsetzen", "Leistungsansprüche durchsetzen", form, allowanceClerk);
         human5 = BpmnNodeFactory.createBpmnUserTaskNode(processDefinitionBuilder,
-            builder.buildConcreteResourcePattern(), new OfferMultiplePattern());
+            builder.buildCreationPattern(RoleBasedDistributionPattern.class));
 
         // final XOR Join
         xor5 = BpmnNodeFactory.createBpmnXorGatewayNode(processDefinitionBuilder);
@@ -349,28 +358,28 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         processDefinitionBuilder.setName("Shortened Reference Process").setDescription("Shortened Reference Process");
     }
 
-// /**
-// * Extracts a {@link Form} object from a local file.
-// *
-// * @param formName
-// * the form name
-// * @param formFileName
-// * the form path
-// * @return the form
-// */
-// private AbstractProcessArtifact (String formName, String formFileName) {
-//
-// DeploymentBuilder deploymentBuilder = repoService.getDeploymentBuilder();
-// deploymentBuilder.addClasspathResourceArtifact(formName, "forms/" + formFileName);
-// Form form = null;
-// try {
-// form = new FormImpl(repoService.getProcessArtifact(formName));
-// } catch (ProcessArtifactNotFoundException e) {
-// logger.error("The recently deployed artifact is not there. Something critical is going wrong.");
-// e.printStackTrace();
-// }
-// return form;
-// }
+    // /**
+    // * Extracts a {@link Form} object from a local file.
+    // *
+    // * @param formName
+    // * the form name
+    // * @param formFileName
+    // * the form path
+    // * @return the form
+    // */
+    // private AbstractProcessArtifact (String formName, String formFileName) {
+    //
+    // DeploymentBuilder deploymentBuilder = repoService.getDeploymentBuilder();
+    // deploymentBuilder.addClasspathResourceArtifact(formName, "forms/" + formFileName);
+    // Form form = null;
+    // try {
+    // form = new FormImpl(repoService.getProcessArtifact(formName));
+    // } catch (ProcessArtifactNotFoundException e) {
+    // logger.error("The recently deployed artifact is not there. Something critical is going wrong.");
+    // e.printStackTrace();
+    // }
+    // return form;
+    // }
 
     @Override
     public void createPseudoHuman()
@@ -405,15 +414,18 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         artifacts.add(form5);
         return artifacts;
     }
-    
+
     /**
-* Creates a process artifact from a classpath resource.
-*
-* @param name the name
-* @param fileName the file name
-* @return the abstract process artifact
-*/
+     * Creates a process artifact from a classpath resource.
+     * 
+     * @param name
+     *            the name
+     * @param fileName
+     *            the file name
+     * @return the abstract process artifact
+     */
     private AbstractForm createClassPathForm(String name, String fileName) {
+
         ClassPathResourceStreamSource source = new ClassPathResourceStreamSource(fileName);
         return new FormImpl(name, source);
     }

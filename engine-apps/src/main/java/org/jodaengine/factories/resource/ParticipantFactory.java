@@ -1,7 +1,6 @@
 package org.jodaengine.factories.resource;
 
 import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.Participant;
 
 /**
  * A little factory for creating {@link AbstractParticipant}s.

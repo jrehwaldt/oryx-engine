@@ -1,11 +1,13 @@
 package org.jodaengine.ext.debugging.listener;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
+import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.DebuggerService;
-import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.structure.Node;
@@ -15,8 +17,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This listener class belongs to the {@link DebuggerService}. It is called while process execution
- * using the {@link org.jodaengine.process.token.Token} takes place and can handle
- * {@link BreakpointImpl}, if those are defined.
+ * using the {@link Token} takes place and can handle {@link Breakpoint}s, if those are defined.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-22
@@ -43,31 +44,37 @@ public class DebuggerTokenListener extends AbstractTokenListener {
         logger.debug("DebuggerTokenListener#stateChanged {} for {}", event, this.debugger);
         
         //
-        // do we have a breakpoint for this node
+        // do we have breakpoints for this node?
         //
-        Node currentNode = event.getNode();
-        BreakpointImpl breakpoint = BreakpointImpl.getAttributeIfExists(currentNode);
+        Node node = event.getNode();
+        Token token = event.getProcessToken();
+        List<Breakpoint> breakpoints = this.debugger.getBreakpoints(node, token.getInstance());
         
         //
         // case: no
         //
-        if (breakpoint == null) {
+        if (breakpoints.isEmpty()) {
             return;
         }
         
         //
-        // case: yes - does the breakpoint match?
+        // case: yes - does any breakpoint match?
         //
-        Token token = event.getProcessToken();
-        
-        if (breakpoint.matches(token)) {
-            logger.debug("Breakpoint {} matches {}", breakpoint, token);
+        for (Breakpoint breakpoint: breakpoints) {
             
-            //
-            // TODO Jan crazy stuff: suspend token, remember state and token, ...
-            //
-        } else {
-            logger.debug("Breakpoint {} did not match {}", breakpoint, token);
+            if (breakpoint.matches(token)) {
+                logger.debug("Breakpoint {} matches {}", breakpoint, token);
+                
+                this.debugger.breakpointTriggered(token, breakpoint);
+                
+                //
+                // ignore any subsequent breakpoints
+                //
+                return;
+                
+            } else {
+                logger.debug("Breakpoint {} did not match {}", breakpoint, token);
+            }
         }
     }
     

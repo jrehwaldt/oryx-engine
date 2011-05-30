@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
@@ -43,9 +42,10 @@ import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.structure.TransitionBuilder;
 import org.jodaengine.process.structure.condition.CheckVariableTrueCondition;
 import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
-import org.jodaengine.resource.allocation.pattern.AllocateSinglePattern;
+import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.io.StreamSource;
 import org.jodaengine.util.xml.XmlElement;
@@ -196,7 +196,7 @@ public class BpmnXmlParse extends XmlParse {
             // preserve original attributes
             //
             if (this.finishedProcessDefinition != null) {
-                parseGeneralInformation(processElement, this.finishedProcessDefinition);
+                parseGeneralInformation(processElement, processBuilder);
             }
         } catch (IllegalStarteventException buildingDefinitionException) {
 
@@ -258,7 +258,7 @@ public class BpmnXmlParse extends XmlParse {
 
             // Doing some afterwork
             for (BpmnXmlParseListener parseListener : parseListeners) {
-                parseListener.parseStartEvent(startEventXmlElement, startEventNode);
+                parseListener.parseStartEvent(startEventXmlElement, startEventNode, processBuilder);
             }
         }
     }
@@ -345,7 +345,10 @@ public class BpmnXmlParse extends XmlParse {
         getNodeXmlIdTable().put((String) exclusiveGatewayNode.getAttribute("idXml"), exclusiveGatewayNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseExclusiveGateway(exclusiveGwElement, exclusiveGatewayNode);
+            parseListener.parseExclusiveGateway(
+                exclusiveGwElement,
+                exclusiveGatewayNode,
+                processBuilder);
         }
     }
 
@@ -364,7 +367,10 @@ public class BpmnXmlParse extends XmlParse {
         getNodeXmlIdTable().put((String) parallelGatewayNode.getAttribute("idXml"), parallelGatewayNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseParallelGateway(parallelGatewayElement, parallelGatewayNode);
+            parseListener.parseParallelGateway(
+                parallelGatewayElement,
+                parallelGatewayNode,
+                processBuilder);
         }
     }
 
@@ -386,7 +392,7 @@ public class BpmnXmlParse extends XmlParse {
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseTask(taskXmlElement, taskNode);
+            parseListener.parseTask(taskXmlElement, taskNode, processBuilder);
         }
     }
 
@@ -413,14 +419,13 @@ public class BpmnXmlParse extends XmlParse {
 
         CreationPattern creationPattern = parseInformationForUserTask(taskXmlElement);
 
-        Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, creationPattern,
-            new AllocateSinglePattern());
+        Node taskNode = BpmnNodeFactory.createBpmnUserTaskNode(processBuilder, creationPattern);
 
         parseGeneralInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseUserTask(taskXmlElement, taskNode);
+            parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
         }
     }
 
@@ -436,7 +441,7 @@ public class BpmnXmlParse extends XmlParse {
 
         parseHumanPerformer(taskXmlElement, patternBuilder);
 
-        return patternBuilder.buildConcreteResourcePattern();
+        return patternBuilder.buildCreationPattern(DirectDistributionPattern.class);
     }
 
     protected void parseHumanPerformer(XmlElement taskXmlElement, CreationPatternBuilder patternBuilder) {
@@ -519,7 +524,7 @@ public class BpmnXmlParse extends XmlParse {
 
             // Doing some afterwork
             for (BpmnXmlParseListener parseListener : parseListeners) {
-                parseListener.parseEndEvent(endEventXmlElement, endEventNode);
+                parseListener.parseEndEvent(endEventXmlElement, endEventNode, processBuilder);
             }
         }
     }
@@ -574,7 +579,7 @@ public class BpmnXmlParse extends XmlParse {
             Transition transition = transitionBuilder.buildTransition();
 
             for (BpmnXmlParseListener parseListener : parseListeners) {
-                parseListener.parseSequenceFlow(sequenceFlowElement, transition);
+                parseListener.parseSequenceFlow(sequenceFlowElement, transition, processBuilder);
             }
         }
     }

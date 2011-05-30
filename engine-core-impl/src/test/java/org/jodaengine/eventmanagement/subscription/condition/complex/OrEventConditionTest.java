@@ -13,48 +13,66 @@ import org.testng.annotations.Test;
  */
 public class OrEventConditionTest {
 
-    private OrEventCondition andEventCondition;
+    private OrEventCondition orEventCondition;
     private AdapterEvent adapterEventMock;
 
+    /**
+     * Setting up all necessary objects and mocks.
+     */
     @BeforeMethod
     public void setUp() {
 
-        andEventCondition = new OrEventCondition();
+        orEventCondition = new OrEventCondition();
         adapterEventMock = Mockito.mock(AdapterEvent.class);
     }
 
+    /**
+     * Tests whether the {@link OrEventCondition} evaluates three {@link TrueEventCondition}s to true.
+     */
     @Test
     public void testAndEventConditionWithAllTrue() {
 
-        andEventCondition.addEventCondition(new TrueEventCondition()).addEventCondition(new TrueEventCondition())
+        orEventCondition.addEventCondition(new TrueEventCondition()).addEventCondition(new TrueEventCondition())
         .addEventCondition(new TrueEventCondition());
-        Assert.assertTrue(andEventCondition.evaluate(adapterEventMock));
+        Assert.assertTrue(orEventCondition.evaluate(adapterEventMock));
     }
 
+    /**
+     * Tests whether the {@link OrEventCondition} evaluates two {@link TrueEventCondition}s and one
+     * {@link FalseEventCondition} to true.
+     */
     @Test
     public void testAndEventConditionWithOneFalse() {
 
-        andEventCondition.addEventCondition(new TrueEventCondition()).addEventCondition(new FalseEventCondition())
+        orEventCondition.addEventCondition(new TrueEventCondition()).addEventCondition(new FalseEventCondition())
         .addEventCondition(new TrueEventCondition());
 
-        Assert.assertTrue(andEventCondition.evaluate(adapterEventMock));
+        Assert.assertTrue(orEventCondition.evaluate(adapterEventMock));
     }
-    
+
+    /**
+     * Tests whether the {@link OrEventCondition} evaluates two {@link TrueEventCondition}s and one
+     * {@link FalseEventCondition} to true. But in this case the {@link FalseEventCondition} is the first condition.
+     * This methods tests a faster implementation of {@link OrEventCondition#evaluate(AdapterEvent)}.
+     */
     @Test
     public void testAndEventConditionWithOneFalseAtFirst() {
 
-        andEventCondition.addEventCondition(new FalseEventCondition()).addEventCondition(new TrueEventCondition())
+        orEventCondition.addEventCondition(new FalseEventCondition()).addEventCondition(new TrueEventCondition())
         .addEventCondition(new TrueEventCondition());
 
-        Assert.assertTrue(andEventCondition.evaluate(adapterEventMock));
+        Assert.assertTrue(orEventCondition.evaluate(adapterEventMock));
     }
 
+    /**
+     * Tests whether the {@link OrEventCondition} evaluates three {@link FalseEventCondition}s to false.
+     */
     @Test
     public void testAndEventConditionWithAllFalse() {
 
-        andEventCondition.addEventCondition(new FalseEventCondition()).addEventCondition(new FalseEventCondition())
+        orEventCondition.addEventCondition(new FalseEventCondition()).addEventCondition(new FalseEventCondition())
         .addEventCondition(new FalseEventCondition());
 
-        Assert.assertFalse(andEventCondition.evaluate(adapterEventMock));
+        Assert.assertFalse(orEventCondition.evaluate(adapterEventMock));
     }
 }

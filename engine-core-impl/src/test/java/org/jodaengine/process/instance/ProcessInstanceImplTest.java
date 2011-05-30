@@ -40,7 +40,7 @@ public class ProcessInstanceImplTest {
         ProcessDefinition definition = mock(ProcessDefinition.class);
         Navigator nav = mock(Navigator.class);
         Node node = mock(Node.class);
-        TokenBuilder builder = new BpmnTokenBuilder(nav, node);
+        TokenBuilder builder = new BpmnTokenBuilder(nav, null, node);
         instance = new ProcessInstance(definition, builder);
         token = instance.createToken();
 

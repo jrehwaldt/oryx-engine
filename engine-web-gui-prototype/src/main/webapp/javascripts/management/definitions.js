@@ -74,6 +74,7 @@ function loadProcessDefinitionsOverview() {
                 tableBody.append(
                     '<tr definition-id="' + idToString(definition.id) + '">'
                         + '<td>' + definition.name + '</td>'
+                        + '<td>' + definition.id.version + '</td>'
                         + '<td>' + definition.description + '</td>'
                         + '<td class="controls">'
                             + '<a href="#" class="start-instance">Start</a> '

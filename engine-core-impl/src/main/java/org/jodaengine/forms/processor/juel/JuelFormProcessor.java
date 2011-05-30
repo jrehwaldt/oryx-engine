@@ -2,18 +2,16 @@ package org.jodaengine.forms.processor.juel;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Map.Entry;
+
+import org.jodaengine.forms.processor.FormProcessor;
+import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.resource.allocation.Form;
 
 import net.htmlparser.jericho.Config;
 import net.htmlparser.jericho.FormField;
 import net.htmlparser.jericho.FormFields;
 import net.htmlparser.jericho.OutputDocument;
 import net.htmlparser.jericho.Source;
-
-import org.jodaengine.allocation.Form;
-import org.jodaengine.allocation.JodaFormField;
-import org.jodaengine.forms.processor.FormProcessor;
-import org.jodaengine.process.instance.ProcessInstanceContext;
 
 /**
  * This class uses JUEL to fill in a form and pass results.
@@ -44,6 +42,7 @@ public class JuelFormProcessor implements FormProcessor {
         OutputDocument document = new OutputDocument(source);
 
         firstHandler.setFormValues(form, new ArrayList<FormField>(formFields), context, document);
+        document.replace(formFields);
 
         return document.toString();
 
@@ -52,29 +51,18 @@ public class JuelFormProcessor implements FormProcessor {
     @Override
     public void readFilledForm(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
 
-        for (Entry<String, String> entry : enteredValues.entrySet()) {
-            String fieldName = entry.getKey();
-            String enteredValue = entry.getValue();
-
-            JodaFormField formField = form.getFormField(fieldName);
-            Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
-            String variableToSet = formField.getWriteVariable();
-            context.setVariable(variableToSet, objectToSet);
-        }
+        firstHandler.readInput(enteredValues, form, context);
+//        for (Entry<String, String> entry : enteredValues.entrySet()) {
+//            String fieldName = entry.getKey();
+//            String enteredValue = entry.getValue();
+//
+//            JodaFormField formField = form.getFormField(fieldName);
+//            Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
+//            String variableToSet = formField.getWriteVariable();
+//            context.setVariable(variableToSet, objectToSet);
+//        }
     }
 
-    // TODO @Thorben-Refactoring make this cooler, e.g. chain of responsibility
-    private Object convertStringInput(String value, Class<?> clazzToConvertTo) {
-
-        Object object = null;
-        if (clazzToConvertTo == String.class) {
-            return value;
-        } else if (clazzToConvertTo == Integer.class) {
-            return Integer.valueOf(value);
-        } else if (clazzToConvertTo == Boolean.class) {
-            return Boolean.valueOf(value);
-        }
-        return object;
-    }
+    
 
 }

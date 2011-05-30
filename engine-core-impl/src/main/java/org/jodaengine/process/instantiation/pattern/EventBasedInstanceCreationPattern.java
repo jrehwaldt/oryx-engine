@@ -1,6 +1,7 @@
 package org.jodaengine.process.instantiation.pattern;
 
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -14,7 +15,8 @@ import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 
 
 /**
- * This pattern encapsulates the instantiation semantic for BPMN models that are with an dedicated {@link ProcessStartEvent}.
+ * This pattern encapsulates the instantiation semantic for BPMN models that are with an
+ * dedicated {@link ProcessStartEvent}.
  * 
  * It also implements the {@link StartInstantiationPattern StartInstantiationPattern-Interface}, so that it can be used
  * as one of the first instantiationPattern.
@@ -28,9 +30,10 @@ StartInstantiationPattern {
         // Extracting the necessary variables from the context
         ProcessDefinitionInside processDefinition = patternContext.getProcessDefinition();
         NavigatorInside navigator = patternContext.getNavigatorService();
+        ExtensionService extensions = patternContext.getExtensionService();
         ProcessStartEvent startEvent = patternContext.getThrownStartEvent();
 
-        BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, null);
+        BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, extensions, null);
         AbstractProcessInstance processInstance = new ProcessInstance(processDefinition, tokenBuilder);
 
         // Extract the startNode

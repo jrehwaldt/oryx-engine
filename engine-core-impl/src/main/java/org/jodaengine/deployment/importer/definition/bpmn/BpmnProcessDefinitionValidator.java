@@ -7,6 +7,7 @@ import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
+import org.jodaengine.util.Attributable;
 import org.jodaengine.util.xml.XmlElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,37 +40,51 @@ public class BpmnProcessDefinitionValidator implements BpmnXmlParseListener {
     }
 
     @Override
-    public void parseStartEvent(XmlElement startEventXmlElement, Node startNode) {
+    public void parseStartEvent(XmlElement startEventXmlElement,
+                                Node startNode,
+                                Attributable definitionScopeAttributable) {
 
     }
 
     @Override
-    public void parseExclusiveGateway(XmlElement exclusiveGatewayXmlElement, Node exclusiveGatewayNode) {
+    public void parseExclusiveGateway(XmlElement exclusiveGatewayXmlElement,
+                                      Node exclusiveGatewayNode,
+                                      Attributable definitionScopeAttributable) {
 
     }
 
     @Override
-    public void parseParallelGateway(XmlElement parallelGatewayXmlElement, Node parallelGatewayNode) {
+    public void parseParallelGateway(XmlElement parallelGatewayXmlElement,
+                                     Node parallelGatewayNode,
+                                     Attributable definitionScopeAttributable) {
 
     }
 
     @Override
-    public void parseTask(XmlElement taskXmlElement, Node taskNode) {
+    public void parseTask(XmlElement taskXmlElement,
+                          Node taskNode,
+                          Attributable definitionScopeAttributable) {
 
     }
 
     @Override
-    public void parseEndEvent(XmlElement endEventXmlElemnt, Node endEventNode) {
+    public void parseEndEvent(XmlElement endEventXmlElemnt,
+                              Node endEventNode,
+                              Attributable definitionScopeAttributable) {
 
     }
 
     @Override
-    public void parseSequenceFlow(XmlElement sequenceFlowElement, Transition transition) {
+    public void parseSequenceFlow(XmlElement sequenceFlowElement,
+                                  Transition transition,
+                                  Attributable definitionScopeAttributable) {
 
     }
 
     @Override
-    public void parseUserTask(XmlElement userTaskXmlElement, Node userTaskNode) {
+    public void parseUserTask(XmlElement userTaskXmlElement,
+                              Node userTaskNode,
+                              Attributable definitionScopeAttributable) {
 
     }
 

@@ -1,6 +1,7 @@
 package org.jodaengine.eventmanagement.adapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -26,8 +27,7 @@ import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
  * @param <Configuration>
  *            - the {@link AdapterConfiguration} of this adapter
  */
-public abstract class AbstractCorrelatingEventAdapter
-    <Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
+public abstract class AbstractCorrelatingEventAdapter<Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
 implements EventSubscription, EventUnsubscription, EventCorrelator {
 
     // Both lists are lazyInitialized
@@ -47,7 +47,8 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
 
     @Override
     public void registerStartEvent(ProcessStartEvent startEvent) {
-        // We don't need to check for uncorrelated events since we only want to know about 
+
+        // We don't need to check for uncorrelated events since we only want to know about
         // start events from the moment we dployed a process instance
         getProcessEvents().add(startEvent);
     }
@@ -74,10 +75,13 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
     @Override
     public void correlate(AdapterEvent e) {
 
-        for (ProcessEvent processEvent : getProcessEvents()) {
+        List<ProcessEvent> tmpProcessEvents = new ArrayList<ProcessEvent>(getProcessEvents());
+        
+        for (ProcessEvent processEvent : tmpProcessEvents) {
 
             if (processEvent.evaluate(e)) {
                 processEvent.trigger();
+                getProcessEvents().remove(processEvent);
             }
         }
 

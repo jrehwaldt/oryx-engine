@@ -1,6 +1,7 @@
 package org.jodaengine.loadgenerator;
 
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.NoRunningInstancesLoadgeneratorCaller;
@@ -48,7 +49,8 @@ public class LoadGenerator {
     /** The start time. */
     private long startTime;
 
-    private int numberOfThreads; // TODO unused
+    // TODO unused
+    private int numberOfThreads;
 
     /** The navigator. */
     private NavigatorImpl navigator;
@@ -153,7 +155,13 @@ public class LoadGenerator {
             logger.debug("Loading of class " + className + " failed , start node was wrong.", e);
             e.printStackTrace();
         } catch (ResourceNotAvailableException e) {
-            // TODO Auto-generated catch block
+            logger.debug("Deployment of " + definitionId + " failed.", e);
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            logger.debug("Deployment of " + definitionId + " failed.", e);
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            logger.debug("Deployment of " + definitionId + " failed.", e);
             e.printStackTrace();
         }
 

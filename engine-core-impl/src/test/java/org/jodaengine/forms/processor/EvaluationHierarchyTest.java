@@ -11,12 +11,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jodaengine.allocation.Form;
 import org.jodaengine.allocation.JodaFormAttributes;
-import org.jodaengine.allocation.JodaFormField;
 import org.jodaengine.forms.processor.juel.JuelFormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
+import org.jodaengine.resource.allocation.Form;
+import org.jodaengine.resource.allocation.JodaFormField;
 import org.jodaengine.resource.allocation.JodaFormFieldImpl;
 import org.mockito.Mockito;
 import org.testng.Assert;
@@ -53,6 +53,8 @@ public class EvaluationHierarchyTest {
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put(JodaFormAttributes.READ_VARIABLE, "var1");
         attributes.put(JodaFormAttributes.READ_EXPRESSION, "#{var2}");
+        attributes.put(JodaFormAttributes.WRITE_VARIABLE, "var1");
+        attributes.put(JodaFormAttributes.WRITE_EXPRESSION, "#{var2}");
         field1 = new JodaFormFieldImpl("field1", attributes, String.class);
 
         when(form.getFormField(Mockito.matches("field1"))).thenReturn(field1);
@@ -63,7 +65,7 @@ public class EvaluationHierarchyTest {
      * takes effect and not the variable setting.
      */
     @Test
-    public void expressionOverridesVariable() {
+    public void readExpressionOverridesVariable() {
 
         context.setVariable("var1", "Variable1");
         context.setVariable("var2", "Variable2");
@@ -87,6 +89,69 @@ public class EvaluationHierarchyTest {
         Assert.assertTrue(resultHtml.contains("Variable1"),
             "The form should be filled with the value of var1, as the readExpression could not be resolved.");
     }
+
+    /**
+     * Tests that the writeVariable of a form field is used, if the evaluation of the writeExpression fails.
+     */
+    @Test
+    public void writeVariableOverridesExpressionOnFail() {
+
+        FormProcessor processor = new JuelFormProcessor();
+
+        // this should fail, as JUEL is not able to assign a value to a literal, that #{var2} will be resolved to
+        context.setVariable("var2", "var 2");
+        Map<String, String> formFields = new HashMap<String, String>();
+        formFields.put("field1", "a value");
+        processor.readFilledForm(formFields, form, context);
+        Assert.assertEquals(context.getVariable("var1"), "a value");
+    }
+
+    /**
+     * Tests that a writeExpression, that creates a new JUEL RootProperty (e.g. #{var2}, if var2 does not exist in the
+     * instance context) also writes it result back to the context.
+     */
+    @Test
+    public void testRootPropertyWriting() {
+
+        FormProcessor processor = new JuelFormProcessor();
+
+        Map<String, String> formFields = new HashMap<String, String>();
+        formFields.put("field1", "a value");
+        processor.readFilledForm(formFields, form, context);
+        Assert.assertEquals(context.getVariable("var2"), "a value");
+    }
+
+    /**
+     * Tests that the writeExpression is used, if it can be resolved.
+     */
+    @Test
+    public void writeExpressionOverridesVariable() {
+
+        // create the context object
+        DummyPOJO dummy = new DummyPOJO();
+        dummy.setValue("a value");
+        context.setVariable("dummy", dummy);
+        context.setVariable("var1", "var 1");
+
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put(JodaFormAttributes.WRITE_VARIABLE, "var1");
+        attributes.put(JodaFormAttributes.WRITE_EXPRESSION, "#{dummy.value}");
+        field1 = new JodaFormFieldImpl("field1", attributes, String.class);
+
+        when(form.getFormField(Mockito.matches("field1"))).thenReturn(field1);
+
+        FormProcessor processor = new JuelFormProcessor();
+        Map<String, String> formFields = new HashMap<String, String>();
+        formFields.put("field1", "a value");
+        processor.readFilledForm(formFields, form, context);
+
+        Assert.assertEquals(context.getVariable("var1"), "var 1", "The value of var1 should not have changed.");
+        Assert.assertEquals(dummy.getValue(), "a value",
+            "The POJO value should have changed, as it has been evaluated in the expression.");
+    }
+
+    // TODO write test for writeExpression auf nicht initialisierte variable (null pointer exception müsste
+    // wahrscheinlich abgefangen werden.
 
     /**
      * Reads a file and returns its content as a String.

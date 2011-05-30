@@ -5,11 +5,15 @@ import javax.annotation.Nonnull;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
 import org.jodaengine.ext.Extension;
+import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
+import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
+import org.jodaengine.util.Attributable;
 import org.jodaengine.util.xml.XmlElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +56,7 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
      */
     public static final String JODAENGINE_EXTENSION_DEBUGGER_NS = BpmnXmlParser.JODAENGINE_EXTENSIONS_NS + "/debugger";
     
+    
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     //=================================================================
@@ -65,71 +70,127 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
         logger.debug("Parse BPMN-process element {}", processXmlElement);
         
         //
+        // get the extension element and create a DebuggerAttribute instance in the process context
+        //
+        XmlElement extensionElement = processXmlElement.getElement(BPMN_EXTENSIONS_ELEMENT_NAME);
+        DebuggerAttribute attribute = DebuggerAttribute.getAttribute(processDefinition);
+        
+        if (extensionElement == null) {
+            return;
+        }
+        
+        //
         // enable debug mode via xml definition
         //
-        String debugMode = processXmlElement.getAttributeNS(JODAENGINE_EXTENSION_DEBUGGER_NS, "debug-mode");
+        XmlElement debugModeElement = extensionElement.getElementNS(JODAENGINE_EXTENSION_DEBUGGER_NS, "enabled");
         
-        if (Boolean.valueOf(debugMode)) {
+        if (debugModeElement != null && Boolean.valueOf(debugModeElement.getText())) {
             logger.info("Enable debugging for {}.", processDefinition);
-            DebuggerAttribute attribute = DebuggerAttribute.getAttribute(processDefinition);
             attribute.enable();
+        }
+        
+        //
+        // get the svg artifact resource name, either from
+        //    a) svg-artifact attribute
+        // or
+        //    b) process definition id
+        //
+        XmlElement svgArtifactElement = extensionElement.getElementNS(JODAENGINE_EXTENSION_DEBUGGER_NS, "svg-artifact");
+        if (svgArtifactElement != null) {
+            attribute.setSvgArtifact(svgArtifactElement.getText());
+        } else {
+            attribute.setSvgArtifact(String.format("%s.svg", processDefinition.getID().getIdentifier()));
         }
     }
     
     @Override
     public void parseTask(XmlElement taskXmlElement,
-                          Node taskNode) {
+                          Node taskNode,
+                          Attributable definitionScopeAttributable) {
         
         logger.debug("Parse BPMN-task element {}", taskNode);
-        parseElement(taskXmlElement, taskNode, BpmnConstructType.ACTIVITY);
+        parseElement(
+            taskXmlElement,
+            taskNode,
+            definitionScopeAttributable,
+            BpmnConstructType.ACTIVITY);
     }
     
     @Override
     public void parseUserTask(XmlElement userTaskXmlElement,
-                              Node userTaskNode) {
+                              Node userTaskNode,
+                              Attributable definitionScopeAttributable) {
         
         logger.debug("Parse BPMN-user-task element {}", userTaskNode);
-        parseElement(userTaskXmlElement, userTaskNode, BpmnConstructType.ACTIVITY);
+        parseElement(
+            userTaskXmlElement,
+            userTaskNode,
+            definitionScopeAttributable,
+            BpmnConstructType.ACTIVITY);
     }
     
     @Override
     public void parseSequenceFlow(XmlElement sequenceFlowElement,
-                                  Transition transition) {
+                                  Transition transition,
+                                  Attributable definitionScopeAttributable) {
 
         logger.debug("Parse BPMN-sequence element {}", transition);
-        parseSequenceElement(sequenceFlowElement, transition);
+        parseSequenceElement(
+            sequenceFlowElement,
+            transition,
+            definitionScopeAttributable);
     }
 
     @Override
     public void parseStartEvent(XmlElement startEventXmlElement,
-                                Node startNode) {
+                                Node startNode,
+                                Attributable definitionScopeAttributable) {
         
         logger.debug("Parse BPMN-start-event element {}", startNode);
-        parseElement(startEventXmlElement, startNode, BpmnConstructType.EVENT);
+        parseElement(
+            startEventXmlElement,
+            startNode,
+            definitionScopeAttributable,
+            BpmnConstructType.EVENT);
     }
     
     @Override
     public void parseEndEvent(XmlElement endEventXmlElemnt,
-                              Node endEventNode) {
+                              Node endEventNode,
+                              Attributable definitionScopeAttributable) {
         
         logger.debug("Parse BPMN-end element {}", endEventNode);
-        parseElement(endEventXmlElemnt, endEventNode, BpmnConstructType.EVENT);
+        parseElement(
+            endEventXmlElemnt,
+            endEventNode,
+            definitionScopeAttributable,
+            BpmnConstructType.EVENT);
     }
     
     @Override
     public void parseExclusiveGateway(XmlElement exclusiveGatewayXmlElement,
-                                      Node exclusiveGatewayNode) {
+                                      Node exclusiveGatewayNode,
+                                      Attributable definitionScopeAttributable) {
         
         logger.debug("Parse BPMN-exclusive-gateway element {}", exclusiveGatewayNode);
-        parseElement(exclusiveGatewayXmlElement, exclusiveGatewayNode, BpmnConstructType.GATEWAY);
+        parseElement(
+            exclusiveGatewayXmlElement,
+            exclusiveGatewayNode,
+            definitionScopeAttributable,
+            BpmnConstructType.GATEWAY);
     }
     
     @Override
     public void parseParallelGateway(XmlElement parallelGatewayXmlElement,
-                                     Node parallelGatewayNode) {
+                                     Node parallelGatewayNode,
+                                     Attributable definitionScopeAttributable) {
         
         logger.debug("Parse BPMN-parallel-gateway element {}", parallelGatewayNode);
-        parseElement(parallelGatewayXmlElement, parallelGatewayNode, BpmnConstructType.GATEWAY);
+        parseElement(
+            parallelGatewayXmlElement,
+            parallelGatewayNode,
+            definitionScopeAttributable,
+            BpmnConstructType.GATEWAY);
     }
     
     /**
@@ -137,13 +198,30 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
      * 
      * @param xmlElement the {@link XmlElement} representation
      * @param node the parsed and constructed {@link Node} representation
+     * @param definitionAttributes a definition-scoped {@link Attributable}
      * @param type the element's control flow construct type
      */
     private void parseElement(@Nonnull XmlElement xmlElement,
                               @Nonnull Node node,
+                              @Nonnull Attributable definitionAttributes,
                               @Nonnull BpmnConstructType type) {
         
+        //
+        // is debugging enabled?
+        //
+        DebuggerAttribute attribute = DebuggerAttribute.getAttribute(definitionAttributes);
+//        if (!attribute.isEnabled()) {
+//            return;
+//        }
         
+        //
+        // register breakpoint, if available
+        //
+        Breakpoint breakpoint = parseBreakpoint(xmlElement, node);
+        if (breakpoint != null) {
+            attribute.addBreakpoint(breakpoint);
+            logger.info("Breakpoint {} for {} registered.", breakpoint, node);
+        }
     }
     
     /**
@@ -151,11 +229,53 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
      * 
      * @param xmlElement the {@link XmlElement} representation
      * @param transition the parsed and constructed {@link Transition} representation
+     * @param definitionAttributes a definition-scoped {@link Attributable}
      */
     private void parseSequenceElement(@Nonnull XmlElement xmlElement,
-                                      @Nonnull Transition transition) {
+                                      @Nonnull Transition transition,
+                                      @Nonnull Attributable definitionAttributes) {
         
         
+    }
+    
+    /**
+     * Parses an {@link XmlElement} for a breakpoint definition.
+     * 
+     * @param xmlElement the node's {@link XmlElement}
+     * @param node the {@link Node}
+     * @return the {@link Breakpoint}, if available
+     */
+    private Breakpoint parseBreakpoint(@Nonnull XmlElement xmlElement,
+                                       @Nonnull Node node) {
+        
+        //
+        // do we have an extension?
+        //
+        XmlElement extensionElement = xmlElement.getElement(BPMN_EXTENSIONS_ELEMENT_NAME);
+        if (extensionElement == null) {
+            return null;
+        }
+        
+        //
+        // create a new breakpoint, if available
+        //
+        XmlElement breakpointElement = extensionElement.getElementNS(JODAENGINE_EXTENSION_DEBUGGER_NS, "breakpoint");
+        
+        if (breakpointElement == null) {
+            return null;
+        }
+        
+        Breakpoint breakpoint = new BreakpointImpl(node);
+        
+        //
+        // condition available?
+        //
+        String conditionString = breakpointElement.getAttribute("juelCondition");
+        if (conditionString != null) {
+            breakpoint.setCondition(new JuelBreakpointCondition(conditionString));
+        }
+        
+        return breakpoint;
     }
     
     /**

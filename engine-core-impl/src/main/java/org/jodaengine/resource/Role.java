@@ -48,7 +48,8 @@ public class Role extends AbstractRole {
      */
     public @Nullable Role getSuperRole() {
 
-        return null; // TODO ever null
+        // TODO ever null
+        return null;
     }
 
     /**

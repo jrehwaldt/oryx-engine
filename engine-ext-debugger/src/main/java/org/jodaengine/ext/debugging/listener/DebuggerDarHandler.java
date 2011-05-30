@@ -9,6 +9,8 @@ import java.util.zip.ZipFile;
 
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.importer.archive.AbstractDarHandler;
+import org.jodaengine.ext.Extension;
+import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +22,7 @@ import org.slf4j.LoggerFactory;
  * @author Jan Rehwaldt
  * @since 2011-05-26
  */
+@Extension(DebuggerService.DEBUGGER_SERVICE_NAME)
 public class DebuggerDarHandler extends AbstractDarHandler {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -34,14 +37,18 @@ public class DebuggerDarHandler extends AbstractDarHandler {
             try {
                 BufferedInputStream inputStream = new BufferedInputStream(darFile.getInputStream(entry));
                 int lastDelimiter = entry.getName().lastIndexOf(DELIMITER);
-                String svgName = entry.getName().substring(lastDelimiter + 1);
                 
                 //
                 // register the artifact in the correct namespace
                 //
-                builder.addInputStreamArtifact(DEBUGGER_ARTIFACT_NAMESPACE + svgName, inputStream);
+                String artifactName = DEBUGGER_ARTIFACT_NAMESPACE + entry.getName().substring(lastDelimiter + 1);
+                logger.info("Register svg artifact {} in process scope", artifactName);
+                builder.addInputStreamArtifact(artifactName, inputStream);
                 
-                inputStream.close();
+                //
+                // do not close
+                //
+//                inputStream.close();
             } catch (IOException e) {
                 logger.error("Could not read file {} from archive", entry.getName());
             }

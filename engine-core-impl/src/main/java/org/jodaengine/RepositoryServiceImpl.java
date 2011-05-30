@@ -10,7 +10,6 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
@@ -22,12 +21,14 @@ import org.jodaengine.deployment.importer.archive.DarImporterImpl;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
+import org.jodaengine.ext.AbstractExtensible;
+import org.jodaengine.ext.listener.RepositoryDeploymentListener;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
+import org.jodaengine.resource.allocation.AbstractForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +36,7 @@ import org.slf4j.LoggerFactory;
  * The Class ProcessRepositoryImpl. The Repository holds the process definitions in the engine. To instantiate these,
  * the repository has to be asked.
  */
-public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
+public class RepositoryServiceImpl extends AbstractExtensible implements RepositoryServiceInside, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -70,9 +71,15 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     @Override
     public synchronized void start(JodaEngineServices services) {
-
+        
         logger.info("Starting the RespositoryService.");
-
+        
+        if (this.extensionService != null) {
+            this.registerListeners(
+                RepositoryDeploymentListener.class,
+                this.extensionService.getExtensions(RepositoryDeploymentListener.class));
+        }
+        
         this.running = true;
     }
 
@@ -105,8 +112,11 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     @Override
     public void addProcessDefinition(ProcessDefinition definition) {
 
-        getProcessDefinitionsTable().put(definition.getID(), (ProcessDefinitionImpl) definition);
-
+        getProcessDefinitionsTable().put(definition.getID(), definition);
+        
+        for (RepositoryDeploymentListener listener: this.getListeners(RepositoryDeploymentListener.class)) {
+            listener.definitionDeployed(this, definition);
+        }
     }
 
     @Override
@@ -138,41 +148,20 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     @Override
     public void deactivateProcessDefinition(ProcessDefinitionID processDefintionID) {
-
+        
         // TODO Auto-generated method stub
     }
 
     @Override
     public void deleteProcessDefinition(ProcessDefinitionID processDefinitionID) {
-
+        
         removeDefinitionFromScope(processDefinitionID);
-        getProcessDefinitionsTable().remove(processDefinitionID);
+        ProcessDefinition deleted = getProcessDefinitionsTable().remove(processDefinitionID);
+        
+        for (RepositoryDeploymentListener listener: this.getListeners(RepositoryDeploymentListener.class)) {
+            listener.definitionDeleted(this, deleted);
+        }
     }
-
-    // @Override
-    // public AbstractProcessArtifact getProcessArtifact(UUID processResourceID)
-    // throws ProcessArtifactNotFoundException {
-    //
-    // AbstractProcessArtifact processArtifact = getProcessArtifactsTable().get(processResourceID);
-    // if (processArtifact == null) {
-    // throw new ProcessArtifactNotFoundException(processResourceID);
-    // }
-    // return getProcessArtifactsTable().get(processResourceID);
-    // }
-    //
-    // @Override
-    // public List<AbstractProcessArtifact> getProcessArtifacts() {
-    //
-    // List<AbstractProcessArtifact> listToReturn = new ArrayList<AbstractProcessArtifact>(getProcessArtifactsTable()
-    // .values());
-    // return Collections.unmodifiableList(listToReturn);
-    // }
-    //
-    // @Override
-    // public void deleteProcessResource(UUID processResourceID) {
-    //
-    // getProcessArtifactsTable().remove(processResourceID);
-    // }
 
     /**
      * Returns a map of all deployed process definitions.
@@ -180,7 +169,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
      * @return the process definitions table
      */
     public Map<ProcessDefinitionID, ProcessDefinition> getProcessDefinitionsTable() {
-
+        
         if (processDefinitionsTable == null) {
             this.processDefinitionsTable = new HashMap<ProcessDefinitionID, ProcessDefinition>();
         }
@@ -190,47 +179,34 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     @Override
     public ProcessDefinition getProcessDefinition(ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException {
-
+        
         ProcessDefinition processDefinition = getProcessDefinitionsTable().get(processDefintionID);
-
+        
         if (processDefinition == null) {
             throw new DefinitionNotFoundException(processDefintionID);
         }
-
+        
         return processDefinition;
     }
-
-    // /**
-    // * Returns a map of all deployed process artifacts, such as forms, etc.
-    // *
-    // * @return the process artifacts table
-    // */
-    // public Map<UUID, AbstractProcessArtifact> getProcessArtifactsTable() {
-    //
-    // if (processArtifactsTable == null) {
-    // this.processArtifactsTable = new HashMap<UUID, AbstractProcessArtifact>();
-    // }
-    // return this.processArtifactsTable;
-    // }
 
     @Override
     public ProcessDefinitionInside getProcessDefinitionInside(ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException {
-
+        
         return (ProcessDefinitionInside) getProcessDefinition(processDefintionID);
     }
 
     @Override
     public DeploymentScope deployInNewScope(Deployment processDeployment) {
-
+        
         DeploymentScope scope = new DeploymentScopeImpl(processDeployment.getArtifacts(), processDeployment.getForms());
-
+        
         for (ProcessDefinition definition : processDeployment.getDefinitions()) {
             // determine version of the currently deployed process
             registerNewProcessVersion(definition);
 
             // add the definition
-            getProcessDefinitionsTable().put(definition.getID(), definition);
+            addProcessDefinition(definition);
 
             // create the connection between definition and scope
             setScopeForDefinition(definition.getID(), scope);
@@ -240,7 +216,11 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
         for (String className : customClasses.keySet()) {
             scope.addClass(className, customClasses.get(className));
         }
-
+        
+        for (RepositoryDeploymentListener listener: this.getListeners(RepositoryDeploymentListener.class)) {
+            listener.deploymentDeployed(this, processDeployment);
+        }
+        
         return scope;
     }
 
@@ -253,7 +233,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
      *            the scope
      */
     private void setScopeForDefinition(ProcessDefinitionID definitionID, DeploymentScope scope) {
-
+        
         scopes.put(definitionID, scope);
     }
 
@@ -264,7 +244,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
      *            the definition id
      */
     private void removeDefinitionFromScope(ProcessDefinitionID definitionID) {
-
+        
         scopes.remove(definitionID);
     }
 
@@ -275,7 +255,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
      *            the definition
      */
     private void registerNewProcessVersion(ProcessDefinition definition) {
-
+        
         Integer currentVersionNumber = processVersions.get(definition.getID().getIdentifier());
         if (currentVersionNumber != null) {
             currentVersionNumber++;
@@ -288,44 +268,55 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     @Override
     public DeploymentScope getScopeForDefinition(ProcessDefinitionID definitionID) {
-
+        
         return scopes.get(definitionID);
     }
 
     @Override
     public void addProcessArtifact(AbstractProcessArtifact artifact, ProcessDefinitionID definitionID) {
-
+        
         DeploymentScope scope = scopes.get(definitionID);
         scope.addProcessArtifact(artifact);
-
+        
+        for (RepositoryDeploymentListener listener: this.getListeners(RepositoryDeploymentListener.class)) {
+            listener.artifactDeployed(this, artifact);
+        }
     }
 
     @Override
     public AbstractProcessArtifact getProcessArtifact(String processArtifactID, ProcessDefinitionID definitionID)
-    throws ProcessArtifactNotFoundException {
-
+    throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
+        
         DeploymentScope scope = scopes.get(definitionID);
+        
+        if (scope == null) {
+            throw new DefinitionNotFoundException(definitionID);
+        }
+        
         return scope.getProcessArtifact(processArtifactID);
     }
 
     @Override
     public void deleteProcessArtifact(String processArtifactID, ProcessDefinitionID definitionID) {
-
+        
         DeploymentScope scope = scopes.get(definitionID);
-        scope.deleteProcessArtifact(processArtifactID);
-
+        AbstractProcessArtifact deleted = scope.deleteProcessArtifact(processArtifactID);
+        
+        for (RepositoryDeploymentListener listener: this.getListeners(RepositoryDeploymentListener.class)) {
+            listener.artifactDeleted(this, deleted);
+        }
     }
 
     @Override
     public DarImporter getNewDarImporter() {
-
+        
         return new DarImporterImpl(this, this.extensionService);
     }
 
     @Override
     public Class<?> getDeployedClass(ProcessDefinitionID definitionID, String fullClassName)
     throws ClassNotFoundException {
-
+        
         // get the class loader
         DeploymentScope scope = scopes.get(definitionID);
         return scope.getClass(fullClassName);
@@ -333,7 +324,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
 
     @Override
     public void addForm(AbstractForm form, ProcessDefinitionID definitionID) {
-
+        
         DeploymentScope scope = scopes.get(definitionID);
         scope.addForm(form);
         
@@ -342,7 +333,7 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
     @Override
     public AbstractForm getForm(String formID, ProcessDefinitionID definitionID)
     throws ProcessArtifactNotFoundException {
-
+        
         DeploymentScope scope = scopes.get(definitionID);
         return scope.getForm(formID);
     }
@@ -355,16 +346,8 @@ public class RepositoryServiceImpl implements RepositoryServiceInside, Service {
         
     }
 
-    // @Override
-    // public boolean containsProcessArtifact(UUID processResourceID) {
-    //
-    // return this.getProcessArtifactsTable().containsKey(processResourceID);
-    // }
-    //
-    // @Override
-    // public void addProcessArtifact(AbstractProcessArtifact artifact) {
-    //
-    // getProcessArtifactsTable().put(artifact.getID(), artifact);
-    //
-    // }
+    @Override
+    public boolean supportsExtension(Class<?> type) {
+        return RepositoryDeploymentListener.class.isAssignableFrom(type);
+    }
 }

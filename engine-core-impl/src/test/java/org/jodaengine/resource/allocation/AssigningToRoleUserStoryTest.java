@@ -5,13 +5,12 @@ import static org.testng.Assert.assertEquals;
 import java.util.List;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.allocation.CreationPattern;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.factory.node.SimpleNodeFactory;
 import org.jodaengine.factory.resource.ParticipantFactory;
 import org.jodaengine.navigator.NavigatorImplMock;
-import org.jodaengine.node.activity.bpmn.BpmnEndActivity;
+import org.jodaengine.node.activity.bpmn.BpmnEndEventActivity;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
@@ -21,8 +20,7 @@ import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.IdentityBuilder;
-import org.jodaengine.resource.allocation.pattern.ConcreteResourcePattern;
-import org.jodaengine.resource.allocation.pattern.OfferMultiplePattern;
+import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
@@ -31,7 +29,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 
 /**
  * This test assigns a task to a role or to a resource that contains other resources.
@@ -49,10 +46,13 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 
     /**
      * Setup.
-     * @throws ResourceNotAvailableException 
+     * 
+     * @throws ResourceNotAvailableException
+     *             the resource not available exception
      */
     @BeforeMethod
-    public void setUp() throws ResourceNotAvailableException {
+    public void setUp()
+    throws ResourceNotAvailableException {
 
         // The organization structure is already prepared in the factory
         // There is role containing Gerardo and Jannik
@@ -60,29 +60,24 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
         jannik = ParticipantFactory.createJannik();
         tobi = ParticipantFactory.createTobi();
         tobi2 = ParticipantFactory.createTobi2();
-        
+
         IdentityBuilder identityBuilder = ServiceFactory.getIdentityService().getIdentityBuilder();
         hamburgGuysRole = identityBuilder.createRole("hamburgGuys");
         mecklenRole = identityBuilder.createRole("Mecklenburger");
-        
+
         // look out all these methods are are called on the identity builder (therefore the format)
-        identityBuilder
-            .participantBelongsToRole(jannik.getID(), hamburgGuysRole.getID())
-            .participantBelongsToRole(gerardo.getID(), hamburgGuysRole.getID())
-            .participantBelongsToRole(tobi2.getID(), mecklenRole.getID());
+        identityBuilder.participantBelongsToRole(jannik.getID(), hamburgGuysRole.getID())
+        .participantBelongsToRole(gerardo.getID(), hamburgGuysRole.getID())
+        .participantBelongsToRole(tobi2.getID(), mecklenRole.getID());
 
-//        Pattern pushPattern = new RoleDistributionPattern();
-//        Pattern pullPattern = new SimplePullPattern();
-//
-//        AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null, null);
-        
-        CreationPattern pattern = new ConcreteResourcePattern("Clean the office.", "It is very dirty.", null, hamburgGuysRole);
+        CreationPattern pattern = new RoleBasedDistributionPattern("Clean the office.", "It is very dirty.", null,
+            hamburgGuysRole);
 
-//        Task task = new TaskImpl("Clean the office.", "It is very dirty.", allocationStrategies, hamburgGuysRole);
+        // Task task = new TaskImpl("Clean the office.", "It is very dirty.", allocationStrategies, hamburgGuysRole);
 
-        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern, new OfferMultiplePattern()));
+        Node humanTaskNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern));
 
-        endNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnEndActivity());
+        endNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnEndEventActivity());
 
         humanTaskNode.transitionTo(endNode);
 
@@ -96,14 +91,15 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
     @AfterMethod
     public void tearDown() {
 
-//        ServiceFactoryForTesting.clearWorklistManager();
-//        ServiceFactoryForTesting.clearIdentityService();
+        // ServiceFactoryForTesting.clearWorklistManager();
+        // ServiceFactoryForTesting.clearIdentityService();
     }
 
     /**
      * Test receive work item.
      * 
-     * @throws JodaEngineException test fails
+     * @throws JodaEngineException
+     *             test fails
      */
     @Test
     public void testHamburgGuysReceiveWorkItem()
@@ -111,111 +107,114 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 
         token.executeStep();
 
-        List<AbstractWorklistItem> worklistItemsForHamburgGuys =
-            ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
+        List<AbstractWorklistItem> worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(
+            hamburgGuysRole);
         Assert.assertTrue(worklistItemsForHamburgGuys.size() == 1);
 
         List<AbstractWorklistItem> worklistItemsForJannik = ServiceFactory.getWorklistService()
-                                                                          .getWorklistItems(jannik);
+        .getWorklistItems(jannik);
         Assert.assertTrue(worklistItemsForJannik.size() == 1);
-        
-        List<AbstractWorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService()
-                                                                           .getWorklistItems(gerardo);
+
+        List<AbstractWorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService().getWorklistItems(
+            gerardo);
         Assert.assertTrue(worklistItemsForGerardo.size() == 1);
-        
+
         // Tobi doesn't belong to any role so he shouldn't have anything to do
         List<AbstractWorklistItem> worklistItemsForTobi = ServiceFactory.getWorklistService().getWorklistItems(tobi);
         Assert.assertTrue(worklistItemsForTobi.isEmpty());
-        
+
         // Tobi2 doesn't belong to the HamburgGuysRole so he shouldn't have anything to do
         List<AbstractWorklistItem> worklistItemsForTobi2 = ServiceFactory.getWorklistService().getWorklistItems(tobi);
         Assert.assertTrue(worklistItemsForTobi2.isEmpty());
-        
+
         AbstractWorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         Assert.assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.OFFERED);
 
         AbstractWorklistItem worklistItemForJannik = worklistItemsForHamburgGuys.get(0);
         Assert.assertEquals(worklistItemForJannik.getStatus(), WorklistItemState.OFFERED);
-        
+
         Assert.assertEquals(worklistItemForJannik, worklistItemForHamburgGuy);
     }
-    
+
     /**
      * Test work item claim.
      * 
-     * @throws JodaEngineException test fails
+     * @throws JodaEngineException
+     *             test fails
      */
     @Test
     public void testJannikClaimsWorklistItem()
     throws JodaEngineException {
-     
+
         token.executeStep();
-        
-        List<AbstractWorklistItem> worklistItemsForHamburgGuys =
-            ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
+
+        List<AbstractWorklistItem> worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(
+            hamburgGuysRole);
         AbstractWorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
         Assert.assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.OFFERED);
-        
+
         ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);
         assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.ALLOCATED);
-        
+
         worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         Assert.assertEquals(worklistItemsForHamburgGuys.size(), 0);
-        
-        List<AbstractWorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService()
-                                                                           .getWorklistItems(gerardo);
+
+        List<AbstractWorklistItem> worklistItemsForGerardo = ServiceFactory.getWorklistService().getWorklistItems(
+            gerardo);
         Assert.assertEquals(worklistItemsForGerardo.size(), 0);
-        
+
         List<AbstractWorklistItem> worklistItemsForJannik = ServiceFactory.getWorklistService()
-                                                                          .getWorklistItems(jannik);
+        .getWorklistItems(jannik);
         Assert.assertEquals(worklistItemsForJannik.size(), 1);
     }
-    
+
     /**
      * Test that Jannik begins the work on the work item.
      * 
-     * @throws JodaEngineException test fails
+     * @throws JodaEngineException
+     *             test fails
      */
     @Test
     public void testJannikBeginsWorklistItem()
     throws JodaEngineException {
 
         token.executeStep();
-        
-        List<AbstractWorklistItem> worklistItemsForHamburgGuys =
-            ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
+
+        List<AbstractWorklistItem> worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(
+            hamburgGuysRole);
         AbstractWorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
-        
+
         ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);
-        
+
         ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItemForHamburgGuy, jannik);
         assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.EXECUTING);
     }
-    
+
     /**
      * Test the case that Jannik completes the work item.
      * 
-     * @throws JodaEngineException test fails
+     * @throws JodaEngineException
+     *             test fails
      */
     @Test
     public void testJannikCompletesTheWorkItem()
     throws JodaEngineException {
 
         token.executeStep();
-        
-        List<AbstractWorklistItem> worklistItemsForHamburgGuys =
-            ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
+
+        List<AbstractWorklistItem> worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(
+            hamburgGuysRole);
         AbstractWorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
-        
-        ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);        
+
+        ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);
         ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItemForHamburgGuy, jannik);
 
         ServiceFactory.getWorklistService().completeWorklistItemBy(worklistItemForHamburgGuy, jannik);
         assertEquals(worklistItemForHamburgGuy.getStatus(), WorklistItemState.COMPLETED);
-        
+
         worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
         String failureMessage = "Jannik should have completed the task."
-                           + "So there should be no item in his worklist and in the worklist of the Role HamburgGuys.";
+            + "So there should be no item in his worklist and in the worklist of the Role HamburgGuys.";
         Assert.assertTrue(ServiceFactory.getWorklistService().getWorklistItems(jannik).size() == 0, failureMessage);
         Assert.assertTrue(worklistItemsForHamburgGuys.size() == 0, failureMessage);
     }
@@ -223,25 +222,26 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
     /**
      * Test work item resume.
      * 
-     * @throws JodaEngineException test fails
+     * @throws JodaEngineException
+     *             test fails
      */
     @Test
     public void testResumptionOfProcess()
     throws JodaEngineException {
 
         token.executeStep();
-        
-        List<AbstractWorklistItem> worklistItemsForHamburgGuys =
-            ServiceFactory.getWorklistService().getWorklistItems(hamburgGuysRole);
+
+        List<AbstractWorklistItem> worklistItemsForHamburgGuys = ServiceFactory.getWorklistService().getWorklistItems(
+            hamburgGuysRole);
         AbstractWorklistItem worklistItemForHamburgGuy = worklistItemsForHamburgGuys.get(0);
-        
+
         ServiceFactory.getWorklistService().claimWorklistItemBy(worklistItemForHamburgGuy, jannik);
         ServiceFactory.getWorklistService().beginWorklistItemBy(worklistItemForHamburgGuy, jannik);
 
         ServiceFactory.getWorklistService().completeWorklistItemBy(worklistItemForHamburgGuy, jannik);
 
-        String failureMessage = "Token should point to the endNode, but it points to "
-                                + token.getCurrentNode().getID() + ".";
+        String failureMessage = "Token should point to the endNode, but it points to " + token.getCurrentNode().getID()
+            + ".";
         assertEquals(endNode, token.getCurrentNode(), failureMessage);
     }
 }

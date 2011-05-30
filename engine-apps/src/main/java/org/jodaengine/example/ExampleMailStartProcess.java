@@ -23,7 +23,6 @@ import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * The Class ExampleMailStartProcess. This is an example process that is started
  * by an arriving email.
@@ -78,7 +77,8 @@ public final class ExampleMailStartProcess {
             // Create a mail adapater event here.
             // TODO @TobiP Could create a builder for this later.
             InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
-            EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic", "Hallo");
+            EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class,
+                "getMessageTopic", "Hallo");
             List<EventCondition> conditions = new ArrayList<EventCondition>();
             conditions.add(subjectCondition);
 
@@ -92,7 +92,7 @@ public final class ExampleMailStartProcess {
 
             ProcessDefinitionID exampleProcessUUID = def.getID();
             deploymentBuilder.addProcessDefinition(def);
-            
+
             jodaEngineServices.getRepositoryService().deployInNewScope(deploymentBuilder.buildDeployment());
 
             jodaEngineServices.getRepositoryService().activateProcessDefinition(exampleProcessUUID);

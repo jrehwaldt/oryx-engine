@@ -3,9 +3,9 @@ package org.jodaengine.deployment;
 import java.util.Collections;
 import java.util.Map;
 
-import org.jodaengine.allocation.AbstractForm;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
+import org.jodaengine.resource.allocation.AbstractForm;
 
 /**
  * The Class DeploymentScopeImpl.
@@ -52,10 +52,9 @@ public class DeploymentScopeImpl implements DeploymentScope {
     }
 
     @Override
-    public void deleteProcessArtifact(String identifier) {
+    public AbstractProcessArtifact deleteProcessArtifact(String identifier) {
 
-        artifactsTable.remove(identifier);
-        
+        return artifactsTable.remove(identifier);
     }
 
     @Override

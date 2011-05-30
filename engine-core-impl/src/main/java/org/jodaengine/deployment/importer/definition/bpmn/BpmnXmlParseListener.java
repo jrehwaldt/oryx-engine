@@ -24,6 +24,7 @@ package org.jodaengine.deployment.importer.definition.bpmn;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
+import org.jodaengine.util.Attributable;
 import org.jodaengine.util.xml.XmlElement;
 
 
@@ -31,7 +32,9 @@ import org.jodaengine.util.xml.XmlElement;
  * If it is necessary to attach while parsing through a BPMN serialized XML file, you can use this class.
  */
 public interface BpmnXmlParseListener {
-
+    
+    String BPMN_EXTENSIONS_ELEMENT_NAME = "extensionElements";
+    
     /**
      * Is called when the {@link BpmnXmlParser} finished creating the {@link ProcessDefinition}. Here you can attach
      * some afterwork. For example reporting.
@@ -42,7 +45,8 @@ public interface BpmnXmlParseListener {
      * @param processDefinition
      *            - the created {@link ProcessDefinition}
      */
-    void parseProcess(XmlElement processXmlElement, ProcessDefinition processDefinition);
+    void parseProcess(XmlElement processXmlElement,
+                      ProcessDefinition processDefinition);
 
     /**
      * Is called when the {@link BpmnXmlParser} finished creating the {@link Node startNode}. Here you can attach some
@@ -52,8 +56,12 @@ public interface BpmnXmlParseListener {
      *            - the original {@link XmlElement startEventXMLElement}
      * @param startNode
      *            - the created {@link Node startNode}
+     * @param definitionScopeAttributable
+     *            - a globally (within this definition) available {@link Attributable}
      */
-    void parseStartEvent(XmlElement startEventXmlElement, Node startNode);
+    void parseStartEvent(XmlElement startEventXmlElement,
+                         Node startNode,
+                         Attributable definitionScopeAttributable);
 
     /**
      * Is called when the {@link BpmnXmlParser} finished creating the {@link Node exclusiveGatewayNode}.
@@ -62,8 +70,12 @@ public interface BpmnXmlParseListener {
      *            - the original {@link XmlElement exclusiveGatewayXmlElement}
      * @param exclusiveGatewayNode
      *            - the created {@link Node exclusiveGatewayNode}
+     * @param definitionScopeAttributable
+     *            - a globally (within this definition) available {@link Attributable}
      */
-    void parseExclusiveGateway(XmlElement exclusiveGatewayXmlElement, Node exclusiveGatewayNode);
+    void parseExclusiveGateway(XmlElement exclusiveGatewayXmlElement,
+                               Node exclusiveGatewayNode,
+                               Attributable definitionScopeAttributable);
 
     /**
      * Is called when the {@link BpmnXmlParser} finished creating the {@link Node parallelGatewayNode}.
@@ -72,8 +84,12 @@ public interface BpmnXmlParseListener {
      *            - the original {@link XmlElement parallelGatewayXmlElement}
      * @param parallelGatewayNode
      *            - the created {@link Node parallelGatewayNode}
+     * @param definitionScopeAttributable
+     *            - a globally (within this definition) available {@link Attributable}
      */
-    void parseParallelGateway(XmlElement parallelGatewayXmlElement, Node parallelGatewayNode);
+    void parseParallelGateway(XmlElement parallelGatewayXmlElement,
+                              Node parallelGatewayNode,
+                              Attributable definitionScopeAttributable);
 
     /**
      * Is called when the {@link BpmnXmlParser} finished creating the {@link Node taskNode}.
@@ -82,8 +98,12 @@ public interface BpmnXmlParseListener {
      *            - the original {@link XmlElement taskXmlElement}
      * @param taskNode
      *            - the created {@link Node taskNode}
+     * @param definitionScopeAttributable
+     *            - a globally (within this definition) available {@link Attributable}
      */
-    void parseTask(XmlElement taskXmlElement, Node taskNode);
+    void parseTask(XmlElement taskXmlElement,
+                   Node taskNode,
+                   Attributable definitionScopeAttributable);
 
     /**
      * Is called when the {@link BpmnXmlParser} finished creating the {@link Node userTaskNode}.
@@ -92,8 +112,12 @@ public interface BpmnXmlParseListener {
      *            - the original {@link XmlElement userTaskXmlElement}
      * @param userTaskNode
      *            - the created {@link Node userTaskNode}
+     * @param definitionScopeAttributable
+     *            - a globally (within this definition) available {@link Attributable}
      */
-    void parseUserTask(XmlElement userTaskXmlElement, Node userTaskNode);
+    void parseUserTask(XmlElement userTaskXmlElement,
+                       Node userTaskNode,
+                       Attributable definitionScopeAttributable);
     
     /**
      * Is called when the {@link BpmnXmlParser} finished creating the {@link Node endEventNode}.
@@ -102,8 +126,12 @@ public interface BpmnXmlParseListener {
      *            - the original {@link XmlElement endEventXmlElemnt}
      * @param endEventNode
      *            - the created {@link Node endEventNode}
+     * @param definitionScopeAttributable
+     *            - a globally (within this definition) available {@link Attributable}
      */
-    void parseEndEvent(XmlElement endEventXmlElemnt, Node endEventNode);
+    void parseEndEvent(XmlElement endEventXmlElemnt,
+                       Node endEventNode,
+                       Attributable definitionScopeAttributable);
     
     
     /**
@@ -113,6 +141,10 @@ public interface BpmnXmlParseListener {
      *            - the original {@link XmlElement sequenceFlowElement}
      * @param transition
      *            - the created {@link Transition transition}
+     * @param definitionScopeAttributable
+     *            - a globally (within this definition) available {@link Attributable}
      */
-    void parseSequenceFlow(XmlElement sequenceFlowElement, Transition transition);
+    void parseSequenceFlow(XmlElement sequenceFlowElement,
+                           Transition transition,
+                           Attributable definitionScopeAttributable);
 }
