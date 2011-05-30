@@ -19,7 +19,7 @@ public interface BreakpointService {
      * @param node the node, this breakpoint is bound to
      * @return the breakpoint
      */
-    @Nonnull Breakpoint addBreakpoint(@Nonnull Node node);
+    @Nonnull Breakpoint createBreakpoint(@Nonnull Node node);
     
     /**
      * Removes the specified breakpoint.

@@ -76,7 +76,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         //
         // skip method if the service is already stopped
         //
-        if (this.running) {
+        if (!this.running) {
             return;
         }
         
@@ -125,8 +125,8 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     //=================================================================
 
     @Override
-    public Breakpoint addBreakpoint(Node node) {
-        logger.debug("Add breakpoint to node {}", node);
+    public Breakpoint createBreakpoint(Node node) {
+        logger.debug("Create a breakpoint for node {}", node);
         
         // TODO Auto-generated method stub
         return null;
@@ -158,7 +158,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     public String getSvgArtifact(ProcessDefinition definition)
     throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
         
-        DebuggerAttribute attribute = DebuggerAttribute.getAttribute(definition);
+        DebuggerAttribute attribute = DebuggerAttribute.getAttributeIfExists(definition);
         
         String artifactID = null;
         
