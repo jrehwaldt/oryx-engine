@@ -49,20 +49,10 @@ public class JuelFormProcessor implements FormProcessor {
     }
 
     @Override
-    public void readFilledForm(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
+    public void processFormInput(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
 
-        // TODO REVIEW auskommentierter Code bleibt meist sehr lange auskommentiert...
         
         firstHandler.readInput(enteredValues, form, context);
-//        for (Entry<String, String> entry : enteredValues.entrySet()) {
-//            String fieldName = entry.getKey();
-//            String enteredValue = entry.getValue();
-//
-//            JodaFormField formField = form.getFormField(fieldName);
-//            Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
-//            String variableToSet = formField.getWriteVariable();
-//            context.setVariable(variableToSet, objectToSet);
-//        }
     }
 
     

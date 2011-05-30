@@ -54,7 +54,6 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
                 try {
                     String result = (String) e.getValue(elContext);
                     field.setValue(result);
-//                    output.replace(field.getFormControl());
 
                     // remove the formField from the formFields list, as it has been processed sucessfully.
                     it.remove();

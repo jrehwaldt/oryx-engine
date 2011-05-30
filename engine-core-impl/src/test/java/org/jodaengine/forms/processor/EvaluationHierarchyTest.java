@@ -56,7 +56,7 @@ public class EvaluationHierarchyTest {
         attributes.put(JodaFormAttributes.WRITE_VARIABLE, "var1");
         attributes.put(JodaFormAttributes.WRITE_EXPRESSION, "#{var2}");
         field1 = new JodaFormFieldImpl("field1", attributes, String.class);
-        
+
         when(form.getFormField("field1")).thenReturn(field1);
     }
 
@@ -102,13 +102,14 @@ public class EvaluationHierarchyTest {
         context.setVariable("var2", "var 2");
         Map<String, String> formFields = new HashMap<String, String>();
         formFields.put("field1", "a value");
-        processor.readFilledForm(formFields, form, context);
+        processor.processFormInput(formFields, form, context);
         Assert.assertEquals(context.getVariable("var1"), "a value");
     }
 
     /**
      * Tests that a writeExpression, that creates a new JUEL RootProperty (e.g. #{var2}, if var2 does not exist in the
-     * instance context) also writes it result back to the context.
+     * instance context) also writes it result back to the context. The input is set for "field1", as this form field is
+     * the on the joda-attributes from the BeforeMethod-Part are associated to.
      */
     @Test
     public void testRootPropertyWriting() {
@@ -117,10 +118,8 @@ public class EvaluationHierarchyTest {
 
         Map<String, String> formFields = new HashMap<String, String>();
         formFields.put("field1", "a value");
-        processor.readFilledForm(formFields, form, context);
+        processor.processFormInput(formFields, form, context);
         Assert.assertEquals(context.getVariable("var2"), "a value");
-        
-        // TODO REVIEW And what happened with field1? Is that defined?
     }
 
     /**
@@ -145,7 +144,7 @@ public class EvaluationHierarchyTest {
         FormProcessor processor = new JuelFormProcessor();
         Map<String, String> formFields = new HashMap<String, String>();
         formFields.put("field1", "a value");
-        processor.readFilledForm(formFields, form, context);
+        processor.processFormInput(formFields, form, context);
 
         Assert.assertEquals(context.getVariable("var1"), "var 1", "The value of var1 should not have changed.");
         Assert.assertEquals(dummy.getValue(), "a value",

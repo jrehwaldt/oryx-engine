@@ -207,7 +207,7 @@ public final class WorklistWebService {
         }
         logger.debug("### {}", singleValueMap);
         
-        processor.readFilledForm(singleValueMap, item.getForm(), context);
+        processor.processFormInput(singleValueMap, item.getForm(), context);
         
 //        Set<Map.Entry<String, List<String>>> entrySet = form.entrySet();
 //        for (Map.Entry<String, List<String>> entry : entrySet) {

@@ -33,7 +33,6 @@ public class ContextVariableHandler extends AbstractFormFieldHandler {
                 Object value = context.getVariable(variable);
                 if (value != null) {
                     field.setValue(value.toString());
-//                    output.replace(field.getFormControl());
 
                     it.remove();
                 }

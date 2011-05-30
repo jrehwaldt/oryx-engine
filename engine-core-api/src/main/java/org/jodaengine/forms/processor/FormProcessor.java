@@ -42,5 +42,5 @@ public interface FormProcessor {
      * @param context
      *            the context
      */
-    void readFilledForm(Map<String, String> formFields, Form form, ProcessInstanceContext context);
+    void processFormInput(Map<String, String> formFields, Form form, ProcessInstanceContext context);
 }

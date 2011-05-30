@@ -97,8 +97,7 @@ public class FormProcessorTest {
         formInput.put("claimPoint2", "Point 2");
         FormProcessor processor = new JuelFormProcessor();
         
-        // TODO REVIEW 'read' suggeriert, dass da was zurückkommt...
-        processor.readFilledForm(formInput, form, context);
+        processor.processFormInput(formInput, form, context);
         Assert.assertEquals(context.getVariable("claimPoint1"), "Point 1", "The variable should be set");
         Assert.assertEquals(context.getVariable("claimPoint2"), "Point 2", "The variable should be set");
     }
@@ -120,7 +119,7 @@ public class FormProcessorTest {
         Map<String, String> formInput = new HashMap<String, String>();
         formInput.put("claimPoint1", "1");
         FormProcessor processor = new JuelFormProcessor();
-        processor.readFilledForm(formInput, form, context);
+        processor.processFormInput(formInput, form, context);
         Assert.assertEquals(context.getVariable("claimPoint1").getClass(), Integer.class,
             "The variable should be an integer not a String");
     }
