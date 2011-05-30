@@ -2,6 +2,7 @@ package org.jodaengine.node.activity.bpmn;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.processevent.intermediate.ProcessIntermediateManualTriggeringEvent;
@@ -15,10 +16,17 @@ import org.jodaengine.process.token.Token;
 public class BpmnManualTriggeringIntermediateEventActivity extends AbstractActivity implements
 BpmnEventBasedGatewayEvent {
 
-    @Override
-    public ProcessIntermediateEvent createProcessIntermediateEvent(Token token) {
+    private String name;
 
-        return new ProcessIntermediateManualTriggeringEvent(token);
+    /**
+     * Default Constructor.
+     * 
+     * @param name
+     *            - the name of the {@link ManualTriggeringAdapter}
+     */
+    public BpmnManualTriggeringIntermediateEventActivity(String name) {
+
+        this.name = name;
     }
 
     @Override
@@ -31,5 +39,11 @@ BpmnEventBasedGatewayEvent {
         eventManager.registerIntermediateEvent(processEvent);
 
         token.suspend();
+    }
+
+    @Override
+    public ProcessIntermediateEvent createProcessIntermediateEvent(Token token) {
+
+        return new ProcessIntermediateManualTriggeringEvent(name, token);
     }
 }

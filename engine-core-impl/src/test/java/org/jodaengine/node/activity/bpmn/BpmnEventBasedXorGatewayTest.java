@@ -74,9 +74,9 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         // Building the IntermediateTimer
         eventBasedXorGatewayNode = BpmnNodeFactory.createBpmnEventBasedXorGatewayNode(builder);
 
-        intermediateEvent1Node = createBpmnManualTriggeringIntermediateEventNode(builder);
+        intermediateEvent1Node = createBpmnManualTriggeringIntermediateEventNode(builder, "manualTrigger1");
 
-        intermediateEvent2Node = createBpmnManualTriggeringIntermediateEventNode(builder);
+        intermediateEvent2Node = createBpmnManualTriggeringIntermediateEventNode(builder, "manualTrigger2");
 
         endNode1 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
         endNode2 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
@@ -119,7 +119,7 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
     
      Thread.sleep(LONG_WAITING_TIME_TEST);
     
-     ManualTriggeringAdapter.triggerManually(0);
+     ManualTriggeringAdapter.triggerManually("manualTrigger1");
      
      Assert.assertEquals(token.getCurrentNode(), endNode1, errorMessage());
     
@@ -134,11 +134,11 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
      *            - the {@link ProcessDefinitionBuilder} in order to build the {@link Node}
      * @return the created {@link Node}
      */
-    protected static Node createBpmnManualTriggeringIntermediateEventNode(ProcessDefinitionBuilder defBuilder) {
+    protected static Node createBpmnManualTriggeringIntermediateEventNode(ProcessDefinitionBuilder defBuilder, String name) {
 
         NodeBuilder nodeBuilder = defBuilder.getNodeBuilder();
         BpmnManualTriggeringIntermediateEventActivity activityBehavior
-            = new BpmnManualTriggeringIntermediateEventActivity();
+            = new BpmnManualTriggeringIntermediateEventActivity(name);
         return nodeBuilder.setIncomingBehaviour(new SimpleJoinBehaviour()).setActivityBehavior(activityBehavior)
         .setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
     }
