@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
  */
 
 public class FormTest {
-    private static final String FORM_PATH = "src/test/resources/org/jodaengine/resource/allocation/";
+    private static final String FORM_PATH = "src/test/resources/org/jodaengine/forms/";
     private static final String FORM_LOCATION = FORM_PATH + "testForm.html";
     
   /**

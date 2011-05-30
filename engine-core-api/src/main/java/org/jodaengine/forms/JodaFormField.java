@@ -3,8 +3,6 @@ package org.jodaengine.forms;
 /**
  * A FormField is made up of a name, an expression for variable getting and setting and a data type that form input
  * should be converted to.
- * 
- * TODO REVIEW Wieso ist das unter *.resource.allocation und nicht *.form?
  */
 public interface JodaFormField {
 

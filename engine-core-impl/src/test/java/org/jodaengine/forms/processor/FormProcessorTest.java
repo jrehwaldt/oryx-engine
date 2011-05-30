@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.jodaengine.forms.Form;
 import org.jodaengine.forms.JodaFormAttributes;
 import org.jodaengine.forms.JodaFormField;
@@ -19,6 +20,8 @@ import org.jodaengine.forms.processor.juel.JuelFormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -31,11 +34,12 @@ public class FormProcessorTest {
     private static final String FORM_PATH = "src/test/resources/org/jodaengine/forms/processor/";
 
     private static final String EMPTY_FORM_LOCATION = FORM_PATH + "testForm.html";
-    private static final String EMPTY_FORM_CONTENT = readFile(EMPTY_FORM_LOCATION);
+    private final String unpopulatedFormContent = readFile(EMPTY_FORM_LOCATION);
 
     private static final String POPULATED_FORM_LOCATION = FORM_PATH + "populatedTestForm.html";
-    private static final String POPULATED_FORM_CONTENT = readFile(POPULATED_FORM_LOCATION);
+    private final String populatedFormContent = readFile(POPULATED_FORM_LOCATION);
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
     private Form form;
@@ -58,7 +62,7 @@ public class FormProcessorTest {
         
         // TODO REVIEW Was sind "joda-tags"?
         // this form does not contain the joda-tags, as it mocks the already parsed state
-        when(form.getFormContentAsHTML()).thenReturn(EMPTY_FORM_CONTENT);
+        when(form.getFormContentAsHTML()).thenReturn(unpopulatedFormContent);
     }
 
     private Map<String, String> createAttributesMap(String variableName) {
@@ -83,7 +87,7 @@ public class FormProcessorTest {
         context.setVariable("claimPoint2", "Point 2");
         FormProcessor processor = new JuelFormProcessor();
         String resultHtml = processor.prepareForm(form, context);
-        Assert.assertEquals(resultHtml, POPULATED_FORM_CONTENT, "The form should be filled with the correct values");
+        Assert.assertEquals(resultHtml, populatedFormContent, "The form should be filled with the correct values");
     }
 
     /**
@@ -125,42 +129,23 @@ public class FormProcessorTest {
     }
 
     // TODO @Thorben-Refactoring add more complex test
-    // TODO REVIEW Gibt es Tests, wo die JodaFormAttributes (joda-tags) im Demoformular gesetzt und extrahiert werden?
-
     /**
      * Reads a file and returns its content as a String.
      * 
      * @param fileName
      *            the file name
      * @return the string
-     * 
-     * TODO REVIEW siehe FileUtils von Apache.
-     * http://commons.apache.org/io/apidocs/org/apache/commons/io/FileUtils.html#readFileToString(java.io.File)
      */
-    private static String readFile(String fileName) {
+    private String readFile(String fileName) {
 
-        String fileContent = "";
-        File file = new File(fileName);
-        FileReader input;
+        String fileContent = null;
         try {
-            input = new FileReader(file);
-            BufferedReader reader = new BufferedReader(input);
-
-            String nextLine = reader.readLine();
-            while (nextLine != null) {
-                fileContent = fileContent.concat(nextLine);
-                nextLine = reader.readLine();
-            }
-
-            reader.close();
-            input.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            fileContent = FileUtils.readFileToString(new File(fileName));
+            fileContent = fileContent.trim();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Could not find/read the specified test file: {}", fileName);
         }
 
-        fileContent = fileContent.trim();
         return fileContent;
     }
 }
