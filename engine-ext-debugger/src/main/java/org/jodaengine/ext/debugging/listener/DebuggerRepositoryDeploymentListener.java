@@ -18,8 +18,8 @@ import org.slf4j.LoggerFactory;
  * This implementation is triggered when the repository deploys an
  * artifact or a whole deployment.
  * 
- * It will react on {@link org.jodaengine.ext.debugging.api.ProcessDefinition} deployments
- * and register the therein defined {@link org.jodaengine.ext.debugging.api.Breakpoint}s
+ * It will react on {@link ProcessDefinition} deployments
+ * and register the therein defined {@link Breakpoint}s
  * within the {@link DebuggerServiceImpl}.
  * 
  * @author Jan Rehwaldt

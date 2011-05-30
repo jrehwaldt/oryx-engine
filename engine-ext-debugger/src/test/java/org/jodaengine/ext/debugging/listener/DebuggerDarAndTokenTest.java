@@ -71,7 +71,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
     }
     
     /**
-     * Tests that the dar handler properly registers an svg artifact within the repository.
+     * Tests that the dar handler properly registers a svg artifact within the repository.
      * 
      * @throws ExtensionNotAvailableException test fails
      * @throws ProcessArtifactNotFoundException test fails

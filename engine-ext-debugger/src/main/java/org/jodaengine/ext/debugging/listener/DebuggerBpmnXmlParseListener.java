@@ -210,10 +210,11 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
         // is debugging enabled?
         //
         DebuggerAttribute attribute = DebuggerAttribute.getAttribute(definitionAttributes);
+        // TODO @Gerardo(CodeReview) Warum ist das hier einkommentiert?
 //        if (!attribute.isEnabled()) {
 //            return;
 //        }
-        
+
         //
         // register breakpoint, if available
         //
@@ -281,7 +282,7 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
     /**
      * Any available bpmn control flow construct.
      * 
-     * @author Jan Eehwaldt
+     * @author Jan Rehwaldt
      * @since 2011-05-24
      */
     private enum BpmnConstructType {

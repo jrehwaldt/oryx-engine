@@ -33,6 +33,7 @@ public class BreakpointTest {
      */
     @BeforeClass
     public void setUpClass() {
+        // TODO @Gerardo(CodeReview) Das schreit ja geradezu nach Mock, aber daran hast du sicherlich schon gedacht?
         this.node = new NodeImpl(null, null, null);
         AbstractProcessInstance instance = new ProcessInstance(null, new BpmnTokenBuilder(null, null, this.node));
         this.token = new BpmnToken(this.node, instance, null);

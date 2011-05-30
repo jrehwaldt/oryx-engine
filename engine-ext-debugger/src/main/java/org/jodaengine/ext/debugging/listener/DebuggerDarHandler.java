@@ -45,6 +45,7 @@ public class DebuggerDarHandler extends AbstractDarHandler {
                 logger.info("Register svg artifact {} in process scope", artifactName);
                 builder.addInputStreamArtifact(artifactName, inputStream);
                 
+                // TODO @Thorben(CodeReview from Gerardo) Why not??
                 //
                 // do not close
                 //
