@@ -51,7 +51,7 @@ public class JuelBreakpointCondition implements BreakpointCondition {
         try {
             return ((Boolean) e.getValue(context)).booleanValue();
         } catch (PropertyNotFoundException pnfe) {
-            logger.error(
+            logger.warn(
                 "The breakpoint condition '" + expression + "' contains an expression that could not be evaluated.",
                 pnfe);
             return true;

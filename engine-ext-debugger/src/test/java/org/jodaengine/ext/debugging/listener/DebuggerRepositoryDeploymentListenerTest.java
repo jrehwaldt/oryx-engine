@@ -55,7 +55,7 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
      */
     @SuppressWarnings("unchecked")
     @Test
-    public void testBreakpointsAreCorrectlyRegistered() throws IllegalStarteventException {
+    public void testBreakpointsAreCorrectlyRegisteredAndUnregistered() throws IllegalStarteventException {
         
         //
         // build a definition
@@ -96,5 +96,11 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         
         Assert.assertEquals(attribute2.getBreakpoints().size(), breakpointsCaptor.getValue().size());
         Assert.assertEquals(attribute2.getBreakpoints(), breakpointsCaptor.getValue());
+        
+        //
+        // the breakpoints should be unregistered successfully
+        //
+        this.listener.definitionDeleted(repository, definition);
+        verify(this.debugger, times(1)).unregisterBreakpoints(eq(definition));
     }
 }
