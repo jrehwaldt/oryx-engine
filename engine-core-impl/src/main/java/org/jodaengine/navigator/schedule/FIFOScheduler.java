@@ -66,6 +66,12 @@ public class FIFOScheduler extends AbstractListenable<AbstractSchedulerListener>
         setChanged();
         notifyObservers(event);
     }
+
+    @Override
+    public int size() {
+
+        return processtokens.size();
+    }
     
     
 }

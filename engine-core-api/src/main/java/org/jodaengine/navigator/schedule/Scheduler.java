@@ -39,5 +39,12 @@ public interface Scheduler {
      *            the list of tokens
      */
     void submitAll(List<Token> listOfTokens);
+    
+    /**
+     * Get the number of all submitted tokens.
+     *
+     * @return the int
+     */
+    int size();
 
 }

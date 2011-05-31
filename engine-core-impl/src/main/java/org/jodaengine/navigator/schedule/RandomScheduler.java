@@ -8,6 +8,10 @@ import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.listener.AbstractSchedulerListener;
 import org.jodaengine.process.token.Token;
 
+/**
+ * The Class RandomScheduler. Random scheduling is important, for modeling languages where are multiple ways possible.
+ * An example could be in a petri net, where a token could be consumed by two different transitions.
+ */
 public class RandomScheduler extends AbstractListenable<AbstractSchedulerListener> implements Scheduler{
 
     /** The process instances we would like to schedule. */
@@ -43,6 +47,13 @@ public class RandomScheduler extends AbstractListenable<AbstractSchedulerListene
     public void submitAll(List<Token> listOfTokens) {
 
         this.processtokens.addAll(listOfTokens);        
+    }
+    
+
+    @Override
+    public int size() {
+
+        return processtokens.size();
     }
 
 }
