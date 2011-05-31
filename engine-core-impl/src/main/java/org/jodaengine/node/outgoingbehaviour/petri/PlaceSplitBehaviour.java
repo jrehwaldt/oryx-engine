@@ -47,7 +47,7 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
             
             //save all possible Transitions
             nextPetriTranisiton = t.getDestination();
-            boolean joinPossible = nextPetriTranisiton.getIncomingBehaviour().joinable(token);
+            boolean joinPossible = nextPetriTranisiton.getIncomingBehaviour().joinable(token, nextPetriTranisiton);
             
             if(joinPossible) {
                 possibleTransitionsToTake.add(t);

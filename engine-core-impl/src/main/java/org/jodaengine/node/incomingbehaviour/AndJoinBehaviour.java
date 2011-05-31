@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 
@@ -23,10 +24,10 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
     }
 
     @Override
-    public boolean joinable(Token token) {
+    public boolean joinable(Token token, Node node) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
-        return context.allIncomingTransitionsSignaled(token.getCurrentNode());
+        return context.allIncomingTransitionsSignaled(node);
     }
 
     @Override

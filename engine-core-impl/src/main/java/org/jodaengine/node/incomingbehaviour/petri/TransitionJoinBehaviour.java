@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
 import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 
@@ -24,10 +25,11 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
     }
 
     @Override
-    public boolean joinable(Token token) {
+    public boolean joinable(Token token, Node node) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
-        return context.allIncomingTransitionsSignaled(token.getCurrentNode());
+        //TODO Warum kennt das Behavior die zugehörige node nicht?
+        return context.allIncomingTransitionsSignaled(node);
     }
     
     protected List<Token> performJoin(Token token) {

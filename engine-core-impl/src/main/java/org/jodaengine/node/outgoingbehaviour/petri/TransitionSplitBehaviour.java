@@ -6,7 +6,6 @@ import java.util.List;
 import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -27,34 +26,21 @@ public class TransitionSplitBehaviour implements OutgoingBehaviour {
     public List<Token> split(List<Token> tokens)
     throws NoValidPathException {
 
-        if (tokens.size() == 0) {
+        if (tokens == null || tokens.size() == 0) {
             return tokens;
         }
+        List<Token> tokensToNavigate = new ArrayList<Token>();
+        
+        for (Token token : tokens) {
+            Node currentNode = token.getCurrentNode();
 
-        List<Transition> transitionList = new ArrayList<Transition>();
-        List<Token> transitionsToNavigate = null;
-
-        // we look through the outgoing transitions and try to find one at least, whose condition evaluates true and
-        // then return it as the to-be-taken transition
-        for (Token instance : tokens) {
-            Node currentNode = instance.getCurrentNode();
-            for (Transition transition : currentNode.getOutgoingTransitions()) {
-                if (transition.getCondition().evaluate(instance)) {
-                    transitionList.add(transition);
-                    break;
-                }
+            try {
+                tokensToNavigate.addAll(token.navigateTo(currentNode.getOutgoingTransitions()));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            if (transitionList.size() == 0) {
-
-                throw new NoValidPathException();
-
-            }
-
-            transitionsToNavigate = instance.navigateTo(transitionList);
-
         }
-        return transitionsToNavigate;
+        return tokensToNavigate;
     }
 
 }

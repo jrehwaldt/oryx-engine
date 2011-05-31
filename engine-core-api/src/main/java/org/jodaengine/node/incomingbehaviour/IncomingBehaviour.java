@@ -2,6 +2,7 @@ package org.jodaengine.node.incomingbehaviour;
 
 import java.util.List;
 
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -20,11 +21,11 @@ public interface IncomingBehaviour {
     
     /**
      * Checks if the behaviour could perform a join.
-     * 
-     * @param token
-     *            the token that the join is triggered for.
+     *
+     * @param token the token that the join is triggered for.
+     * @param node the node
      * @return true, if a join can be performed, e.g. for a BPMN AND-Join, all sibling-instances have to reached the
-     *         join node as well.
+     * join node as well.
      */
-    boolean joinable(Token token);
+    boolean joinable(Token token, Node node);
 }

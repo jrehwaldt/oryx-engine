@@ -40,8 +40,8 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     }
 
     @Override
-    public boolean joinable(Token token) {
-
+    public boolean joinable(Token token, Node node) {
+        //TODO Use node instead of getCurrentNode, Ask Thorben if this is ok!
         ProcessInstanceContext context = token.getInstance().getContext();
         List<Transition> signaledTransitions = context.getWaitingExecutions(token.getCurrentNode());
 

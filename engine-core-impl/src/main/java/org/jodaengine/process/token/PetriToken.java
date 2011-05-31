@@ -118,9 +118,6 @@ public class PetriToken extends AbstractToken {
                 newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }
-
-            // this is needed, as the this-token would be left on the node that triggers the split.
-            instance.removeToken(this);
         }
         return tokensToNavigate;
 

@@ -26,7 +26,7 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
         List<Token> tokens = new LinkedList<Token>();
         
         // Are all required paths there?
-        if (joinable(token)) {
+        if (joinable(token, token.getCurrentNode())) {
             // then lets do the join
             tokens = performJoin(token);
         } else {
@@ -36,8 +36,6 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
         return tokens;
     }
 
-    @Override
-    public abstract boolean joinable(Token token);
 
     /**
      * Perform join.
