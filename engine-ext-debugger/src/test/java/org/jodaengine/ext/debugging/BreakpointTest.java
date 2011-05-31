@@ -1,16 +1,17 @@
 package org.jodaengine.ext.debugging;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointCondition;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -27,16 +28,18 @@ public class BreakpointTest {
     private Breakpoint breakpoint;
     private Token token;
     private Node node;
+    private AbstractProcessInstance instance;
     
     /**
      * Set up whole class.
      */
     @BeforeClass
     public void setUpClass() {
-        // TODO @Gerardo(CodeReview) Das schreit ja geradezu nach Mock, aber daran hast du sicherlich schon gedacht?
-        this.node = new NodeImpl(null, null, null);
-        AbstractProcessInstance instance = new ProcessInstance(null, new BpmnTokenBuilder(null, null, this.node));
-        this.token = new BpmnToken(this.node, instance, null);
+        this.node = mock(Node.class);
+        this.instance = mock(AbstractProcessInstance.class);
+        this.token = mock(Token.class);
+        when(this.token.getCurrentNode()).thenReturn(this.node);
+        when(this.token.getInstance()).thenReturn(this.instance);
     }
     
     /**

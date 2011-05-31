@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.importer.archive.AbstractDarHandler;
@@ -136,14 +138,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         List<BpmnXmlParseListener> listeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
         
         Assert.assertFalse(listeners.isEmpty());
-        boolean listenerAvailable = false;
-        for (BpmnXmlParseListener listener: listeners) {
-            if (listener instanceof DebuggerBpmnXmlParseListener) {
-                listenerAvailable = true;
-            }
-        }
-        
-        Assert.assertTrue(listenerAvailable);
+        Assert.assertTrue(isTypeContained(listeners, DebuggerBpmnXmlParseListener.class));
     }
     
     /**
@@ -154,15 +149,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         List<AbstractDarHandler> handlers = this.extensionService.getExtensions(AbstractDarHandler.class);
         
         Assert.assertFalse(handlers.isEmpty());
-        
-        boolean handlerAvailable = false;
-        for (AbstractDarHandler handler: handlers) {
-            if (handler instanceof DebuggerDarHandler) {
-                handlerAvailable = true;
-            }
-        }
-        
-        Assert.assertTrue(handlerAvailable);
+        Assert.assertTrue(isTypeContained(handlers, DebuggerDarHandler.class));
     }
     
     /**
@@ -175,15 +162,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
             = this.extensionService.getExtensions(RepositoryDeploymentListener.class);
         
         Assert.assertFalse(listeners.isEmpty());
-        // TODO @Gerardo(CodeReview) kannst du nicht diese Schleife als extra Assert emthod machen
-        boolean listenerAvailable = false;
-        for (RepositoryDeploymentListener listener: listeners) {
-            if (listener instanceof DebuggerRepositoryDeploymentListener) {
-                listenerAvailable = true;
-            }
-        }
-        
-        Assert.assertTrue(listenerAvailable);
+        Assert.assertTrue(isTypeContained(listeners, DebuggerRepositoryDeploymentListener.class));
     }
     
     /**
@@ -196,15 +175,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
             = this.extensionService.getExtensions(AbstractTokenListener.class);
         
         Assert.assertFalse(listeners.isEmpty());
-        
-        boolean listenerAvailable = false;
-        for (AbstractTokenListener listener: listeners) {
-            if (listener instanceof DebuggerTokenListener) {
-                listenerAvailable = true;
-            }
-        }
-        
-        Assert.assertTrue(listenerAvailable);
+        Assert.assertTrue(isTypeContained(listeners, DebuggerTokenListener.class));
     }
 
     
@@ -282,5 +253,24 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         }
         
         Assert.assertTrue(containsWebService);
+    }
+    
+    /**
+     * This method verifies, that a certain instance type is available.
+     * 
+     * @param objects the instances
+     * @param type the type, which should be available
+     * @return true, if available
+     */
+    private boolean isTypeContained(@Nonnull List<? extends Object> objects,
+                                    @Nonnull Class<?> type) {
+        
+        for (Object object: objects) {
+            if (type.equals(object.getClass())) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }
