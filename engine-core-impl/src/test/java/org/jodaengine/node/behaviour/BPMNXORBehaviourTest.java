@@ -31,7 +31,6 @@ import org.testng.annotations.Test;
  */
 public class BPMNXORBehaviourTest {
 
-    /** The process instance. */
     private Token token;
 
     /**
