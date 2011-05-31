@@ -9,7 +9,11 @@ import java.util.List;
 
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import org.jodaengine.node.incomingbehaviour.petri.PlaceJoinBehaviour;
+import org.jodaengine.node.incomingbehaviour.petri.TransitionJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
+import org.jodaengine.node.outgoingbehaviour.petri.PlaceSplitBehaviour;
+import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
@@ -31,9 +35,9 @@ public class PetriTokenTest {
     private Token token = null;
 
     /** Different Nodes. */
-    private PetriNetPlace node = null, node3 = null, node5 = null;
+    private Node node = null, node3 = null, node5 = null;
     
-    private PetriNetTransition node2, node4;
+    private Node node2, node4;
 
     /** The transition to be taken. */
     private Transition transitionToTake = null;
@@ -47,22 +51,27 @@ public class PetriTokenTest {
     @BeforeMethod
     public void setUp() {
 
-        node = new PetriNetPlace();
-        node2 = new PetriNetTransition();
-        node3 = new PetriNetPlace();
-        node4 = new PetriNetTransition();
-        node5 = new PetriNetPlace();
+        // Place
+        node = new NodeImpl(new NullActivity(), new PlaceJoinBehaviour(), new PlaceSplitBehaviour());
+        // Transition
+        node2 = new NodeImpl(new NullActivity(), new TransitionJoinBehaviour(), new TransitionSplitBehaviour());
+        // Place
+        node3 = new NodeImpl(new NullActivity(), new PlaceJoinBehaviour(), new PlaceSplitBehaviour());
+        // Transition
+        node4 = new NodeImpl(new NullActivity(), new TransitionJoinBehaviour(), new TransitionSplitBehaviour());
+        // Place
+        node5 = new NodeImpl(new NullActivity(), new PlaceJoinBehaviour(), new PlaceSplitBehaviour());
 
         node.transitionTo(node2);
         node2.transitionTo(node3);
         node3.transitionTo(node4);
         node4.transitionTo(node5);
         
-        transitionToTake = place.getOutgoingTransitions().get(0);
+        transitionToTake = node.getOutgoingTransitions().get(0);
         
         TokenBuilder tokenBuilder = new BpmnTokenBuilder(null, null, null);
         instance = new ProcessInstance(null, tokenBuilder);
-        token = PetriToken(place, instance, null);
+        token = PetriToken(node, instance, null);
     }
 
     /**
@@ -78,7 +87,7 @@ public class PetriTokenTest {
         Node currentNode = token.getCurrentNode();
         
         List<Token> newTokens = token.navigateTo(currentNode.getOutgoingTransitions());
-        assertEquals(newTokens.size(), 1, "You should have two new process tokens");
+        assertEquals(newTokens.size(), 1, "You should have one new token");
 
 
         Node[] expectedCurrentNodes = {node2};
@@ -92,7 +101,7 @@ public class PetriTokenTest {
      * @throws Exception if it fails
      */
     @Test
-    public void testAPetriStepExecution() throws Exception {
+    public void testPetriStepExecution() throws Exception {
 
         token.executeStep();
         assertEquals(instance.getAssignedTokens().size(), 1, "There should be one new token created");

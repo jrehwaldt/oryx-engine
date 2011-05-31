@@ -24,10 +24,13 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
     public List<Token> join(Token token) {
 
         List<Token> tokens = new LinkedList<Token>();
+        
+        // Are all required paths there?
         if (joinable(token)) {
+            // then lets do the join
             tokens = performJoin(token);
         } else {
-            // remove the token because we don't need it later on
+            // remove the token because we don't need it later on. The path was already signaled.
             token.getInstance().removeToken(token);
         }
         return tokens;

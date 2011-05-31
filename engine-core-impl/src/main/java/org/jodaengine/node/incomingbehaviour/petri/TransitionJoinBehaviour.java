@@ -1,8 +1,9 @@
-package org.jodaengine.node.incomingbehaviour;
+package org.jodaengine.node.incomingbehaviour.petri;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.Token;
 
@@ -10,7 +11,7 @@ import org.jodaengine.process.token.Token;
 /**
  * The Class AndJoinBehaviour. Realizes the joining of more than one incoming path.
  */
-public class AndJoinBehaviour extends AbstractIncomingBehaviour {
+public class TransitionJoinBehaviour implements IncomingBehaviour {
 
     @Override
     public List<Token> join(Token token) {

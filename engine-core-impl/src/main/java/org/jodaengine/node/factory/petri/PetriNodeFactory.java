@@ -34,7 +34,7 @@ public final class PetriNodeFactory extends TransitionFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing an {@link BpmnStartEvent}
      */
-    public static Node createPlaceNode(ProcessDefinitionBuilder builder) {
+    public static Node createPlaceNode(PetriProcessDefinitionBuilder builder) {
 
         NodeBuilder nodeBuilder = builder.getStartNodeBuilder();
         return decorateBpmnDefaultRouting(nodeBuilder).buildNode();
@@ -50,7 +50,7 @@ public final class PetriNodeFactory extends TransitionFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing an {@link BpmnEndEventActivity}
      */
-    public static Node createBpmnEndEventNode(ProcessDefinitionBuilder builder) {
+    public static Node createBpmnEndEventNode(PetriProcessDefinitionBuilder builder) {
 
         BpmnEndEventActivity activityBehavior = new BpmnEndEventActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
@@ -68,7 +68,7 @@ public final class PetriNodeFactory extends TransitionFactory {
      *            - a {@link NodeBuilder} that configures the {@link Node}
      * @return a {@link NodeBuilder}
      */
-    static NodeBuilder decorateBpmnDefaultRouting(NodeBuilder nodeBuilder) {
+    static NodeBuilder decorateBpmnDefaultRouting(PetriProcessDefinitionBuilder nodeBuilder) {
 
         return nodeBuilder.setIncomingBehaviour(new SimpleJoinBehaviour()).setOutgoingBehaviour(
             new TakeAllSplitBehaviour());
