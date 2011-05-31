@@ -73,21 +73,22 @@ public class PetriToken extends AbstractToken {
             return;
         }
        // We assume to be on a place
-       //TODO Aktiviere ausgehende Kanten von dieser Stelle (jedes mal neuberechnen, sonst könnte es Fehler geben)
-       for(Transition t : currentNode.getOutgoingTransitions()) {
-           //TODO alle alten signalisierten müssen gelöscht werden
-           
-           //aktiviere Transisitonen
-           instance.getContext().setWaitingExecution(t);
+       List<Token> tokens = new ArrayList<Token>();
+       tokens.add(this);
+       
+       //Put Token on the Transition after the Place
+       List<Token> newTokens = currentNode.getOutgoingBehaviour().split(tokens);
+       
+       //Now split at the Transition
+       lazySuspendedProcessingTokens = newTokens.get(0).getCurrentNode().getOutgoingBehaviour().split(newTokens);
+       
+       for (Token token : lazySuspendedProcessingTokens) {
+           navigator.addWorkToken(token);
        }
-        //TODO Waehle zuufaellig eine aktivierte Kante, prüfe auf weitere eingehende Verbindungen
-       //und betrete diese dann
+
+       lazySuspendedProcessingTokens = null;
+       internalVariables = null;
        
-       currentNode.getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
-       
-       //TODO entferne waitingExecutions...+token
-       //TODO Split in der Transition durchführen
-       //TODO Tokens setzen
     }
    
 

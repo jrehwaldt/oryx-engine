@@ -40,7 +40,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     }
 
     @Override
-    protected boolean joinable(Token token) {
+    public boolean joinable(Token token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
         List<Transition> signaledTransitions = context.getWaitingExecutions(token.getCurrentNode());

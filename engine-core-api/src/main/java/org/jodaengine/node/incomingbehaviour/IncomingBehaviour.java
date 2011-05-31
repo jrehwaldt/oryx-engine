@@ -17,4 +17,14 @@ public interface IncomingBehaviour {
      * @return the result of the joining. Usually this list contains one or zero Tokens (Example: And-Join).
      */
     List<Token> join(Token instance);
+    
+    /**
+     * Checks if the behaviour could perform a join.
+     * 
+     * @param token
+     *            the token that the join is triggered for.
+     * @return true, if a join can be performed, e.g. for a BPMN AND-Join, all sibling-instances have to reached the
+     *         join node as well.
+     */
+    boolean joinable(Token token);
 }

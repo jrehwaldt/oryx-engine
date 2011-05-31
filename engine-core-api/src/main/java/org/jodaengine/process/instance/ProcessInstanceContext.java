@@ -52,6 +52,14 @@ public interface ProcessInstanceContext {
      *            the node that triggered
      */
     void removeIncomingTransitions(Node n);
+    
+    /**
+     * Removes the incoming transition for a specific node.
+     *
+     * @param transition the transition
+     * @param node the node
+     */
+    void removeIncomingTransition(Transition transition, Node node);
 
     /**
      * Sets the variable in the process context.

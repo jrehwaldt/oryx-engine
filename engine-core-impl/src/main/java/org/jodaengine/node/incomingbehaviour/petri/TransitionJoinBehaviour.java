@@ -23,7 +23,8 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
         return null;
     }
 
-    protected boolean joinable(Token token) {
+    @Override
+    public boolean joinable(Token token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
         return context.allIncomingTransitionsSignaled(token.getCurrentNode());

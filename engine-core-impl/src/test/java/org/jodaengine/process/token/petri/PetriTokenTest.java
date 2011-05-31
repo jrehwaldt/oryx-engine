@@ -1,13 +1,11 @@
 package org.jodaengine.process.token.petri;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertEqualsNoOrder;
 import static org.testng.Assert.assertFalse;
 
 import java.util.List;
 
 import org.jodaengine.node.activity.NullActivity;
-import org.jodaengine.node.incomingbehaviour.petri.PlaceJoinBehaviour;
 import org.jodaengine.node.incomingbehaviour.petri.TransitionJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.petri.PlaceSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
@@ -35,9 +33,6 @@ public class PetriTokenTest {
     private Node node = null, node3 = null, node5 = null;
     
     private Node node2, node4;
-
-    /** The transition to be taken. */
-    private Transition transitionToTake = null;
     
     private ProcessInstance instance;
 
@@ -49,22 +44,21 @@ public class PetriTokenTest {
     public void setUp() {
 
         // Place
-        node = new NodeImpl(new NullActivity(), new PlaceJoinBehaviour(), new PlaceSplitBehaviour());
+        node = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
         // Transition
         node2 = new NodeImpl(new NullActivity(), new TransitionJoinBehaviour(), new TransitionSplitBehaviour());
         // Place
-        node3 = new NodeImpl(new NullActivity(), new PlaceJoinBehaviour(), new PlaceSplitBehaviour());
+        node3 = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
         // Transition
         node4 = new NodeImpl(new NullActivity(), new TransitionJoinBehaviour(), new TransitionSplitBehaviour());
         // Place
-        node5 = new NodeImpl(new NullActivity(), new PlaceJoinBehaviour(), new PlaceSplitBehaviour());
+        node5 = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
 
         node.transitionTo(node2);
         node2.transitionTo(node3);
         node3.transitionTo(node4);
         node4.transitionTo(node5);
         
-        transitionToTake = node.getOutgoingTransitions().get(0);
         
         TokenBuilder tokenBuilder = new BpmnTokenBuilder(null, null);
         instance = new ProcessInstance(null, tokenBuilder);

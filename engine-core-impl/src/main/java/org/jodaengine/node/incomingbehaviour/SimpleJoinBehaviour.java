@@ -19,4 +19,10 @@ public class SimpleJoinBehaviour implements IncomingBehaviour {
         return joinedInstances;
     }
 
+    @Override
+    public boolean joinable(Token token) {
+
+        return true;
+    }
+
 }

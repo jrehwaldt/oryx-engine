@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
 public class RandomSchedulerTest extends AbstractJodaEngineTest {
 
     /** The scheduler. */
-    private RandomScheduler scheduler = null;
+    private RandomPetriNetScheduler scheduler = null;
     
     /** The first token. */
     private Token firstToken = null;
@@ -62,7 +62,7 @@ public class RandomSchedulerTest extends AbstractJodaEngineTest {
     public void beforeTest()
     throws Exception {
 
-        scheduler = new RandomScheduler();
+        scheduler = new RandomPetriNetScheduler();
         RepositoryService repo = ServiceFactory.getRepositoryService();
         ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
         List<Node> startNodes = def.getStartNodes();

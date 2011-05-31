@@ -23,7 +23,7 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
     }
 
     @Override
-    protected boolean joinable(Token token) {
+    public boolean joinable(Token token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
         return context.allIncomingTransitionsSignaled(token.getCurrentNode());
