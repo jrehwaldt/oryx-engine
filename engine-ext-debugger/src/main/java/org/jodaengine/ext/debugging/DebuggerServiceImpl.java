@@ -1,7 +1,7 @@
 package org.jodaengine.ext.debugging;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +18,7 @@ import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.navigator.Navigator;
@@ -125,7 +126,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     //=================================================================
 
     @Override
-    public Breakpoint createBreakpoint(Node node) {
+    public synchronized Breakpoint createBreakpoint(Node node) {
         logger.debug("Create a breakpoint for node {}", node);
         
         // TODO Auto-generated method stub
@@ -133,9 +134,25 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     }
     
     @Override
-    public void removeBreakpoint(Breakpoint breakpoint) {
-        // TODO Auto-generated method stub
-        logger.debug("Remove breakpoint {}", breakpoint);
+    public synchronized void removeBreakpoint(Breakpoint breakpoint) {
+        
+        logger.info("Remove breakpoint {}", breakpoint);
+        
+        //
+        // we remove it from the local breakpoint registration map
+        //
+        for (Map.Entry<ProcessDefinition, List<Breakpoint>> entry: this.breakpoints.entrySet()) {
+            
+            for (Breakpoint registeredBreakpoint: entry.getValue()) {
+                
+                if (registeredBreakpoint.equals(breakpoint)) {
+                    entry.getValue().remove(registeredBreakpoint);
+                    return;
+                }
+            }
+        }
+        
+        logger.info("Brekpoint {} could not be removed. It was not found.", breakpoint);
     }
 
     @Override
@@ -194,8 +211,8 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
      * @param breakpoints the breakpoints to register
      * @param definition the process definition, the breakpoint belong to
      */
-    public void registerBreakpoints(@Nonnull List<Breakpoint> breakpoints,
-                                    @Nonnull ProcessDefinition definition) {
+    public synchronized void registerBreakpoints(@Nonnull List<Breakpoint> breakpoints,
+                                                 @Nonnull ProcessDefinition definition) {
         
         logger.info("Registering {} breakpoints for {}", breakpoints.size(), definition);
         this.breakpoints.put(definition, breakpoints);
@@ -206,65 +223,50 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
      * 
      * @param definition the process definition
      */
-    public void unregisterBreakpoints(@Nonnull ProcessDefinition definition) {
+    public synchronized void unregisterBreakpoints(@Nonnull ProcessDefinition definition) {
         
         logger.info("Unregistering breakpoints for {}", definition);
         this.breakpoints.remove(definition);
     }
     
     /**
-     * Returns a possibly registered breakpoint.
+     * Returns a list of registered breakpoints for a certain process instance.
      * 
-     * @param node the {@link Node}, for which the breakpoint should be registered
      * @param instance the {@link AbstractProcessInstance}
      * @return a list of {@link Breakpoint}s
      */
-    public @Nonnull List<Breakpoint> getBreakpoints(@Nonnull Node node,
-                                                    @Nonnull AbstractProcessInstance instance) {
+    public synchronized @Nonnull List<Breakpoint> getBreakpoints(@Nonnull AbstractProcessInstance instance) {
         
         //
         // are there any breakpoints?
         //
         ProcessDefinition definition = instance.getDefinition();
-        List<Breakpoint> nodeBreakpoints = new ArrayList<Breakpoint>();
         
         if (!this.breakpoints.containsKey(definition)) {
-            return nodeBreakpoints;
+            return Collections.emptyList();
         }
         
         //
         // does any of the breakpoints match?
         //
-        for (Breakpoint breakpoint: this.breakpoints.get(definition)) {
-            if (breakpoint.getNode().equals(node)) {
-                nodeBreakpoints.add(breakpoint);
-            }
-        }
-        
-        return nodeBreakpoints;
+        return this.breakpoints.get(definition);
     }
 
     /**
      * The {@link DebuggerTokenListener} triggers this method when a {@link Breakpoint}
-     * matched the {@link ProcessInstance}'s current {@link Node}.
+     * matched the {@link AbstractProcessInstance}'s current {@link Node}.
      * 
      * It will not check the proper matching of the breakpoint, as it is verified beforehand.
      * 
-     * @param node the {@link Node}, where the process actually is
-     * @param token the {@link Token}, which matched the breakpoint
-     * @param breakpoint the {@link Breakpoint}, which matched
-     * @param currentState the {@link ActivityState}, the node currently is in
-     * @param listener the {@link DebuggerTokenListener}, which is registered within the process
-     * 
-     */
-    /**
-     * Indicates that a breakpoint matched.
-     * 
      * @param token the {@link Token}, which matched a breakpoint
      * @param breakpoint the {@link Breakpoint}, which was matched
+     * @param listener the {@link DebuggerTokenListener}, which triggered this breakpoint match
      */
     public void breakpointTriggered(@Nonnull Token token,
-                                    @Nonnull Breakpoint breakpoint) {
+                                    @Nonnull Breakpoint breakpoint,
+                                    @Nonnull DebuggerTokenListener listener) {
+        
+        logger.info("Breakpoint {} triggered for token {}", breakpoint, token);
         
         //
         // TODO Jan crazy stuff: suspend token, remember state and token, ...
