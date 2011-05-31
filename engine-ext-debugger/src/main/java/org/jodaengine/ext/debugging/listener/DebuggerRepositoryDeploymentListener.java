@@ -72,7 +72,7 @@ public class DebuggerRepositoryDeploymentListener implements RepositoryDeploymen
         //
         
         logger.debug("Definition {} deleted", definition);
-        this.debugger.unregisterBreakpoints(definition);
+        this.debugger.unregisterAllBreakpoints(definition);
     }
 
     @Override

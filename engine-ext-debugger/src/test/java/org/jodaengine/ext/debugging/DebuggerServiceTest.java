@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.jodaengine.RepositoryService;
@@ -102,7 +103,7 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         //
         // unregister them
         //
-        this.debugger.unregisterBreakpoints(this.mockDefinition);
+        this.debugger.unregisterAllBreakpoints(this.mockDefinition);
         
         registered = this.debugger.getBreakpoints(this.mockInstance);
         Assert.assertNotNull(registered);
@@ -148,10 +149,7 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         // register this breakpoint
         //
         Breakpoint breakpoint = mock(Breakpoint.class);
-        
-        List<Breakpoint> removalBreakpoints = new ArrayList<Breakpoint>();
-        removalBreakpoints.add(breakpoint);
-        this.debugger.registerBreakpoints(removalBreakpoints, this.mockDefinition);
+        this.debugger.registerBreakpoints(Arrays.asList(breakpoint), this.mockDefinition);
         
         //
         // remove it
@@ -171,7 +169,6 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         // register other breakpoints
         //
         Breakpoint breakpoint = mock(Breakpoint.class);
-        
         this.debugger.registerBreakpoints(this.breakpoints, this.mockDefinition);
         
         //
@@ -210,5 +207,19 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         Assert.assertEquals(enabledBreakpoint, breakpoint);
         
         verify(breakpoint, times(1)).disable();
+    }
+    
+    /**
+     * Adding breakpoints will keep those previously added.
+     */
+    @Test
+    public void testBreakpointRegisteringKeepsOldBreakpoints() {
+        
+        this.debugger.registerBreakpoints(this.breakpoints, this.mockDefinition);
+        Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), NUM_OF_BREAKPOINTS);
+        
+        Breakpoint breakpoint = mock(Breakpoint.class);
+        this.debugger.registerBreakpoints(Arrays.asList(breakpoint), this.mockDefinition);
+        Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), NUM_OF_BREAKPOINTS + 1);
     }
 }

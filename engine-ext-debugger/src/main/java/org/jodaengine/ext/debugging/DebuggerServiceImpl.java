@@ -2,6 +2,7 @@ package org.jodaengine.ext.debugging;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,9 @@ import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
+import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
+import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
@@ -133,8 +136,14 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     throws DefinitionNotFoundException {
         logger.debug("Create a breakpoint for node {}", targetNode);
         
-        // TODO Auto-generated method stub
-        return null;
+        Breakpoint breakpoint = new BreakpointImpl(targetNode);
+        
+        if (juelCondition != null) {
+            breakpoint.setCondition(new JuelBreakpointCondition(juelCondition));
+        }
+        
+        registerBreakpoints(Arrays.asList(breakpoint), targetDefinition);
+        return breakpoint;
     }
     
     @Override
@@ -228,7 +237,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     /**
      * Registers a list of {@link Breakpoint}s for a certain {@link ProcessDefinition}.
      * 
-     * Any previously registered breakpoint will be removed.
+     * Any previously registered breakpoint will still be available.
      * 
      * @param breakpoints the breakpoints to register
      * @param definition the process definition, the breakpoint belong to
@@ -237,7 +246,14 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
                                                  @Nonnull ProcessDefinition definition) {
         
         logger.info("Registering {} breakpoints for {}", breakpoints.size(), definition);
-        this.breakpoints.put(definition, breakpoints);
+        
+        if (this.breakpoints.containsKey(definition)) {
+            this.breakpoints.get(definition).addAll(breakpoints);
+        } else {
+            List<Breakpoint> registered = new ArrayList<Breakpoint>();
+            registered.addAll(breakpoints);
+            this.breakpoints.put(definition, registered);
+        }
     }
     
     /**
@@ -245,7 +261,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
      * 
      * @param definition the process definition
      */
-    public synchronized void unregisterBreakpoints(@Nonnull ProcessDefinition definition) {
+    public synchronized void unregisterAllBreakpoints(@Nonnull ProcessDefinition definition) {
         
         logger.info("Unregistering breakpoints for {}", definition);
         this.breakpoints.remove(definition);
