@@ -30,6 +30,8 @@ import org.testng.annotations.Test;
  */
 public class DebuggerServiceTest extends AbstractJodaEngineTest {
     
+    private static final int NUM_OF_BREAKPOINTS = 4;
+    
     private ExtensionService extensionService;
     private DebuggerServiceImpl debugger;
     private List<Breakpoint> breakpoints;
@@ -58,10 +60,9 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         when(this.mockDefinition.getID()).thenReturn(definitionID);
         
         this.breakpoints = new ArrayList<Breakpoint>();
-        this.breakpoints.add(mock(Breakpoint.class));
-        this.breakpoints.add(mock(Breakpoint.class));
-        this.breakpoints.add(mock(Breakpoint.class));
-        this.breakpoints.add(mock(Breakpoint.class));
+        for (int i = 0; i < NUM_OF_BREAKPOINTS; i++) {
+            this.breakpoints.add(mock(Breakpoint.class));
+        }
     }
     
     /**
@@ -140,8 +141,16 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
      */
     @Test
     public void testRemovalOfBreakpoint() {
+
+        Breakpoint breakpoint = mock(Breakpoint.class);
         
-        // TODO write test
+        List<Breakpoint> removalBreakpoints = new ArrayList<Breakpoint>();
+        removalBreakpoints.add(breakpoint);
+        this.debugger.registerBreakpoints(removalBreakpoints, this.mockDefinition);
+        
+        Assert.assertFalse(this.debugger.getBreakpoints(this.mockInstance).isEmpty());
+        Assert.assertTrue(this.debugger.removeBreakpoint(breakpoint));
+        Assert.assertTrue(this.debugger.getBreakpoints(this.mockInstance).isEmpty());
     }
     
     /**
@@ -149,7 +158,13 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
      */
     @Test
     public void testRemovalOfMissingBreakpoint() {
+
+        Breakpoint breakpoint = mock(Breakpoint.class);
         
-        // TODO write test
+        this.debugger.registerBreakpoints(this.breakpoints, this.mockDefinition);
+        
+        Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), NUM_OF_BREAKPOINTS);
+        Assert.assertFalse(this.debugger.removeBreakpoint(breakpoint));
+        Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), NUM_OF_BREAKPOINTS);
     }
 }
