@@ -141,13 +141,19 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
      */
     @Test
     public void testRemovalOfBreakpoint() {
-
+        
+        //
+        // register this breakpoint
+        //
         Breakpoint breakpoint = mock(Breakpoint.class);
         
         List<Breakpoint> removalBreakpoints = new ArrayList<Breakpoint>();
         removalBreakpoints.add(breakpoint);
         this.debugger.registerBreakpoints(removalBreakpoints, this.mockDefinition);
         
+        //
+        // remove it
+        //
         Assert.assertFalse(this.debugger.getBreakpoints(this.mockInstance).isEmpty());
         Assert.assertTrue(this.debugger.removeBreakpoint(breakpoint));
         Assert.assertTrue(this.debugger.getBreakpoints(this.mockInstance).isEmpty());
@@ -158,11 +164,17 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
      */
     @Test
     public void testRemovalOfMissingBreakpoint() {
-
+        
+        //
+        // register other breakpoints
+        //
         Breakpoint breakpoint = mock(Breakpoint.class);
         
         this.debugger.registerBreakpoints(this.breakpoints, this.mockDefinition);
         
+        //
+        // remove it
+        //
         Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), NUM_OF_BREAKPOINTS);
         Assert.assertFalse(this.debugger.removeBreakpoint(breakpoint));
         Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), NUM_OF_BREAKPOINTS);
