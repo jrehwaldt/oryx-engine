@@ -144,8 +144,8 @@ public class ComplexJoinBehaviourTest {
      * not trigger. transition2 is signaled. gateway should reset itself AND trigger again, as the triggering conditions
      * is already fulfilled.
      */
-    @Test
-    public void testMultipleStartResetCycle() {
-
-    }
+//    @Test
+//    public void testMultipleStartResetCycle() {
+//
+//    }
 }
