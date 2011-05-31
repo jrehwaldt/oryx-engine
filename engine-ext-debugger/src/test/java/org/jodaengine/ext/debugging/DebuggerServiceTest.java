@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.jodaengine.RepositoryService;
@@ -86,7 +87,7 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         //
         this.debugger.registerBreakpoints(this.breakpoints, this.mockDefinition);
         
-        List<Breakpoint> registered = this.debugger.getBreakpoints(this.mockInstance);
+        Collection<Breakpoint> registered = this.debugger.getBreakpoints(this.mockInstance);
         Assert.assertNotNull(registered);
         Assert.assertFalse(registered.isEmpty());
         
@@ -236,7 +237,7 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         Assert.assertTrue(breakpoint.isEnabled());
         Assert.assertNull(breakpoint.getCondition());
         Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), 1);
-        Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).get(0), breakpoint);
+        Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).iterator().next(), breakpoint);
     }
     
     /**
@@ -251,6 +252,6 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         Assert.assertTrue(breakpoint.isEnabled());
         Assert.assertNotNull(breakpoint.getCondition());
         Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), 1);
-        Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).get(0), breakpoint);
+        Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).iterator().next(), breakpoint);
     }
 }

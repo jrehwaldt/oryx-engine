@@ -9,7 +9,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.List;
+import java.util.Collection;
 
 import org.jodaengine.RepositoryService;
 import org.jodaengine.deployment.Deployment;
@@ -118,10 +118,10 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
             
             Assert.assertEquals(attribute.getSvgArtifact(), "svg1.svg");
             
-            List<Breakpoint> breakpoints = attribute.getBreakpoints();
+            Collection<Breakpoint> breakpoints = attribute.getBreakpoints();
             Assert.assertFalse(breakpoints.isEmpty());
             
-            Breakpoint breakpoint = breakpoints.get(0);
+            Breakpoint breakpoint = breakpoints.iterator().next();
             Assert.assertNotNull(breakpoint);
             Assert.assertTrue(breakpoint.isEnabled());
             Assert.assertNotNull(breakpoint.getCondition());
@@ -141,10 +141,10 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
             // (via DebuggerRepositoryDeploymentListener)
             //
             when(this.mockInstance.getDefinition()).thenReturn(definition);
-            List<Breakpoint> deployedBreakpoints = debugger.getBreakpoints(this.mockInstance);
+            Collection<Breakpoint> deployedBreakpoints = debugger.getBreakpoints(this.mockInstance);
             Assert.assertNotNull(deployedBreakpoints);
             Assert.assertEquals(deployedBreakpoints.size(), breakpoints.size());
-            Assert.assertEquals(deployedBreakpoints.get(0), breakpoints.get(0));
+            Assert.assertEquals(deployedBreakpoints.iterator().next(), breakpoints.iterator().next());
             
             //=======================================
             //==== Test the TokenListener ===========

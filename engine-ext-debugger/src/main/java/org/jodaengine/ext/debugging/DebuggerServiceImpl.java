@@ -3,6 +3,7 @@ package org.jodaengine.ext.debugging;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -134,8 +135,8 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
                                                     Node targetNode,
                                                     String juelCondition)
     throws DefinitionNotFoundException {
-        logger.debug("Create a breakpoint for node {}", targetNode);
         
+        logger.debug("Create a breakpoint for node {}", targetNode);
         Breakpoint breakpoint = new BreakpointImpl(targetNode);
         
         if (juelCondition != null) {
@@ -187,7 +188,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     }
     
     @Override
-    public List<Breakpoint> getAllBreakpoints() {
+    public Collection<Breakpoint> getAllBreakpoints() {
         
         List<Breakpoint> knownBreakpoints = new ArrayList<Breakpoint>();
         for (List<Breakpoint> tmp: breakpoints.values()) {
@@ -242,7 +243,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
      * @param breakpoints the breakpoints to register
      * @param definition the process definition, the breakpoint belong to
      */
-    public synchronized void registerBreakpoints(@Nonnull List<Breakpoint> breakpoints,
+    public synchronized void registerBreakpoints(@Nonnull Collection<Breakpoint> breakpoints,
                                                  @Nonnull ProcessDefinition definition) {
         
         logger.info("Registering {} breakpoints for {}", breakpoints.size(), definition);
@@ -273,7 +274,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
      * @param instance the {@link AbstractProcessInstance}
      * @return a list of {@link Breakpoint}s
      */
-    public synchronized @Nonnull List<Breakpoint> getBreakpoints(@Nonnull AbstractProcessInstance instance) {
+    public synchronized @Nonnull Collection<Breakpoint> getBreakpoints(@Nonnull AbstractProcessInstance instance) {
         
         //
         // are there any breakpoints?

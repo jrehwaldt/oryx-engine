@@ -1,6 +1,6 @@
 package org.jodaengine.ext.debugging.api;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -64,5 +64,5 @@ public interface BreakpointService {
      * 
      * @return a list of all known breakpoints
      */
-    @Nonnull List<Breakpoint> getAllBreakpoints();
+    @Nonnull Collection<Breakpoint> getAllBreakpoints();
 }

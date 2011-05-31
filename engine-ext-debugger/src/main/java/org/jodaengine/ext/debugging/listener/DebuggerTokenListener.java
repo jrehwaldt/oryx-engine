@@ -1,6 +1,6 @@
 package org.jodaengine.ext.debugging.listener;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.annotation.Nonnull;
 
@@ -46,7 +46,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
         // do we have breakpoints for this instance?
         //
         Token token = event.getProcessToken();
-        List<Breakpoint> breakpoints = this.debugger.getBreakpoints(token.getInstance());
+        Collection<Breakpoint> breakpoints = this.debugger.getBreakpoints(token.getInstance());
         
         //
         // case: no

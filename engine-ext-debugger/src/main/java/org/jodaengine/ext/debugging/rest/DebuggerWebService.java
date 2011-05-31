@@ -1,6 +1,6 @@
 package org.jodaengine.ext.debugging.rest;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.annotation.Nonnull;
 import javax.ws.rs.Consumes;
@@ -194,7 +194,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     }
     
     @Override
-    public List<Breakpoint> getAllBreakpoints() {
+    public Collection<Breakpoint> getAllBreakpoints() {
         
         if (this.debugger != null) {
             return this.debugger.getAllBreakpoints();
