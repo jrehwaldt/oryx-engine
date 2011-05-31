@@ -136,7 +136,9 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Path("/breakpoints/create")
     @POST
     @Override
-    public Breakpoint createBreakpoint(Node node) {
+    public Breakpoint createBreakpoint(Node dereferencedNode) {
+        Node node = rereferenceNode(dereferencedNode);
+        
         if (this.debugger != null) {
             return this.debugger.createBreakpoint(node);
         }
@@ -146,9 +148,11 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Path("/breakpoints/remove")
     @POST
     @Override
-    public void removeBreakpoint(Breakpoint breakpoint) {
+    public boolean removeBreakpoint(Breakpoint dereferencedBreakpoint) {
+        Breakpoint breakpoint = rereferenceBreakpoint(dereferencedBreakpoint);
+        
         if (this.debugger != null) {
-            this.debugger.removeBreakpoint(breakpoint);
+            return this.debugger.removeBreakpoint(breakpoint);
         }
         throw new ServiceUnavailableException(DebuggerService.class);
     }
@@ -156,7 +160,9 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Path("/breakpoints/enable")
     @POST
     @Override
-    public void enableBreakpoint(Breakpoint breakpoint) {
+    public void enableBreakpoint(Breakpoint dereferencedBreakpoint) {
+        Breakpoint breakpoint = rereferenceBreakpoint(dereferencedBreakpoint);
+        
         if (this.debugger != null) {
             this.debugger.enableBreakpoint(breakpoint);
         }
@@ -167,7 +173,9 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Path("/breakpoints/disable")
     @POST
     @Override
-    public void disableBreakpoint(Breakpoint breakpoint) {
+    public void disableBreakpoint(Breakpoint dereferencedBreakpoint) {
+        Breakpoint breakpoint = rereferenceBreakpoint(dereferencedBreakpoint);
+        
         if (this.debugger != null) {
             this.debugger.disableBreakpoint(breakpoint);
         }
@@ -189,6 +197,30 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
         }
         
         throw new ServiceUnavailableException(DebuggerService.class);
+    }
+    
+    /**
+     * Searches for a reference of a {@link Breakpoint} and returns it, if available.
+     * 
+     * @param dereferencedBreakpoint the dereferenced {@link Breakpoint}
+     * @return the referenced {@link Breakpoint}
+     */
+    private @Nonnull Breakpoint rereferenceBreakpoint(@Nonnull Breakpoint dereferencedBreakpoint) {
+        
+        // TODO Auto-generated method stub; throw exception if not available + Mapper
+        return null;
+    }
+
+    /**
+     * Searches for a reference of a {@link Node} and returns it, if available.
+     * 
+     * @param dereferencedNode the dereferenced {@link Node}
+     * @return the referenced {@link Node}
+     */
+    private @Nonnull Node rereferenceNode(@Nonnull Node dereferencedNode) {
+        
+        // TODO Auto-generated method stub; throw exception if not available + Mapper
+        return null;
     }
 
 }

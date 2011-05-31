@@ -107,4 +107,64 @@ public class BreakpointImpl implements Breakpoint {
         
         return false;
     }
+    
+// CHECKSTYLE:OFF
+    @Override
+    public int hashCode() {
+        return this.id.hashCode()
+            + 7  * this.node.hashCode()
+            + 11 * (this.condition != null ? this.condition.hashCode() : 0);
+    }
+// CHECKSTYLE:ON
+    
+    /**
+     * Two breakpoints are equal to each other, if they both implement
+     * the {@link Breakpoint} interface, and have equal {@link UUID} and {@link Node}.
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object object) {
+        
+        //
+        // will never be equal to null
+        //
+        if (object == null) {
+            return false;
+        }
+        
+        //
+        // or to a non-Breakpoint instance
+        //
+        if (object instanceof Breakpoint) {
+            Breakpoint breakpoint = (Breakpoint) object;
+            
+            //
+            // same id
+            //
+            if (!this.getID().equals(breakpoint.getID())) {
+                return false;
+            }
+            
+            //
+            // same node
+            //
+            if (!this.getNode().equals(breakpoint.getNode())) {
+                return false;
+            }
+            
+            //
+            // same condition (both null or equal)
+            //
+            if (this.getCondition() != null && breakpoint.getCondition() != null) {
+                if (this.getCondition().equals(breakpoint.getCondition())) {
+                    return true;
+                }
+            } else if (this.getCondition() == null && breakpoint.getCondition() == null) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }

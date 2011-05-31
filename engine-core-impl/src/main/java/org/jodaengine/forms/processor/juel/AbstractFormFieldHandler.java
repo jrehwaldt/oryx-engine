@@ -3,9 +3,9 @@ package org.jodaengine.forms.processor.juel;
 import java.util.List;
 import java.util.Map;
 
+import org.jodaengine.exception.JodaEngineException;
+import org.jodaengine.forms.Form;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.resource.allocation.Form;
-import org.jodaengine.resource.allocation.JodaFormField;
 
 import net.htmlparser.jericho.FormField;
 import net.htmlparser.jericho.OutputDocument;
@@ -15,7 +15,7 @@ import net.htmlparser.jericho.OutputDocument;
  */
 public abstract class AbstractFormFieldHandler {
     protected AbstractFormFieldHandler next;
-
+ 
     /**
      * Sets the next handler in this chain.
      * 
@@ -42,14 +42,14 @@ public abstract class AbstractFormFieldHandler {
      * @param output
      *            the document to fill the values in
      */
-    public void setFormValues(Form form,
+    public void generateOutputValues(Form form,
                               List<FormField> formFields,
                               ProcessInstanceContext context,
                               OutputDocument output) {
 
-        setInternally(form, formFields, context, output);
+        generateOutputValuesInternally(form, formFields, context, output);
         if (next != null) {
-            next.setFormValues(form, formFields, context, output);
+            next.generateOutputValues(form, formFields, context, output);
         }
     }
 
@@ -67,7 +67,7 @@ public abstract class AbstractFormFieldHandler {
      * @param output
      *            the output
      */
-    protected abstract void setInternally(Form form,
+    protected abstract void generateOutputValuesInternally(Form form,
                                           List<FormField> formFields,
                                           ProcessInstanceContext context,
                                           OutputDocument output);
@@ -76,18 +76,18 @@ public abstract class AbstractFormFieldHandler {
      * Reads the input of a form. A handler can remove the value from the value-Map, if not succeeding handlers should
      * take notice of this input.
      * 
-     * @param enteredValues
-     *            a map of entered values, mapping the form input id to the entered value
+     * @param formInput
+     *            mapping the form input id to the entered value
      * @param form
      *            the form
      * @param context
      *            the context
      */
-    public void readInput(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
+    public void readInput(Map<String, String> formInput, Form form, ProcessInstanceContext context) {
 
-        readInternally(enteredValues, form, context);
+        readInputInternally(formInput, form, context);
         if (next != null) {
-            next.readInput(enteredValues, form, context);
+            next.readInput(formInput, form, context);
         }
     }
 
@@ -102,28 +102,35 @@ public abstract class AbstractFormFieldHandler {
      * @param context
      *            the context
      */
-    protected abstract void readInternally(Map<String, String> enteredValues, Form form, ProcessInstanceContext context);
+    protected abstract void readInputInternally(Map<String, String> enteredValues,
+                                           Form form,
+                                           ProcessInstanceContext context);
 
     // TODO @Thorben-Refactoring make this cooler, e.g. chain of responsibility
     /**
-     * Converts string input to a an object of the class as specified in the {@link JodaFormField}.
-     * 
-     * @param value
-     *            the value
-     * @param clazzToConvertTo
-     *            the clazz to convert to
+     * Converts string input to an object of the class as specified in the {@link JodaFormField}.
+     *
+     * @param value the value
+     * @param classToConvertTo the clazz to convert to
      * @return the object
+     * @throws JodaEngineException thrown if the supplied String value could not be converted to the desired class.
      */
-    protected Object convertStringInput(String value, Class<?> clazzToConvertTo) {
+    protected Object convertStringInput(String value, Class<?> classToConvertTo) throws JodaEngineException {
+                
+        try {
 
-        Object object = null;
-        if (clazzToConvertTo == String.class) {
-            return value;
-        } else if (clazzToConvertTo == Integer.class) {
-            return Integer.valueOf(value);
-        } else if (clazzToConvertTo == Boolean.class) {
-            return Boolean.valueOf(value);
+            Object object = null;
+            if (classToConvertTo == String.class) {
+                return value;
+            } else if (classToConvertTo == Integer.class) {
+                return Integer.valueOf(value);
+            // TODO REVIEW Test für Boolean?
+            } else if (classToConvertTo == Boolean.class) {
+                return Boolean.valueOf(value);
+            }
+            return object;
+        } catch (Exception e) {
+            throw new JodaEngineException("Could not convert '" + value + "' to class " + classToConvertTo, e);
         }
-        return object;
     }
 }

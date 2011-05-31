@@ -16,9 +16,9 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.jodaengine.forms.Form;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.allocation.Form;
 import org.jodaengine.util.Identifiable;
 
 /**

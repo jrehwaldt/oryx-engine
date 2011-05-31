@@ -2,8 +2,8 @@ package org.jodaengine.forms.processor;
 
 import java.util.Map;
 
+import org.jodaengine.forms.Form;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.resource.allocation.Form;
 
 /**
  * The Interface FormProcessor provides methods to fill a form-string with values from a {@link ProcessInstanceContext}
@@ -13,10 +13,12 @@ public interface FormProcessor {
 
     /**
      * Fills a form with initial values in a hierarchical way:
-     * 1) Use the ReadExpression, if present (e.g. a JUEL-Expression)
-     * 2) Use the ReadVariable, if present (a concrete context variable)
-     * 3) Use the default value attribute from the HTML form     * 
-     * 
+     * <ul>
+     * <li>Use the outputExpression, if present (e.g. a JUEL-Expression)</li>
+     * <li>Use the outputVariable, if present (a concrete context variable)</li>
+     * <li>Use the default value attribute from the HTML form</li>
+     * </ul>
+     *  
      * @param form
      *            the form
      * @param context
@@ -26,12 +28,15 @@ public interface FormProcessor {
     String prepareForm(Form form, ProcessInstanceContext context);
 
     /**
-     * Reads the values of a form(provided as a {@link Map} of entries) and adds them to the
+     * Reads the values of a form (provided as a {@link Map} of entries) and adds them to the
      * {@link ProcessInstanceContext}.
      * Does this in a hierarchical way:
-     * 1) Evaluates the WriteExpression, if present
-     * 2) Sets the WriteVariable to the input, if present and if the expression failed
-     * 3) drops the input
+     * 
+     * <ul>
+     * <li>Evaluates the inputExpression, if present</li>
+     * <li>Sets the inputVariable to the input, if present and if the expression failed</li>
+     * <li>drops the input</li>
+     * </ul>
      * 
      * @param formFields
      *            the form fields
@@ -40,5 +45,5 @@ public interface FormProcessor {
      * @param context
      *            the context
      */
-    void readFilledForm(Map<String, String> formFields, Form form, ProcessInstanceContext context);
+    void processFormInput(Map<String, String> formFields, Form form, ProcessInstanceContext context);
 }

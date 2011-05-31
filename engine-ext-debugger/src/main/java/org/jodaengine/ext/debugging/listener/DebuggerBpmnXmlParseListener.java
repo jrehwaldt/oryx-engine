@@ -1,6 +1,7 @@
 package org.jodaengine.ext.debugging.listener;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
@@ -210,9 +211,14 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
         // is debugging enabled?
         //
         DebuggerAttribute attribute = DebuggerAttribute.getAttribute(definitionAttributes);
-//        if (!attribute.isEnabled()) {
-//            return;
-//        }
+        
+        //
+        // we do not skip in case debugging for the definition is disabled,
+        // because we want to load the breakpoints anyway
+        //
+        if (!attribute.isEnabled()) {
+            logger.debug("Loading definition breakpoints, although debugging is disabled.");
+        }
         
         //
         // register breakpoint, if available
@@ -245,8 +251,8 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
      * @param node the {@link Node}
      * @return the {@link Breakpoint}, if available
      */
-    private Breakpoint parseBreakpoint(@Nonnull XmlElement xmlElement,
-                                       @Nonnull Node node) {
+    private @Nullable Breakpoint parseBreakpoint(@Nonnull XmlElement xmlElement,
+                                                 @Nonnull Node node) {
         
         //
         // do we have an extension?
@@ -281,7 +287,7 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
     /**
      * Any available bpmn control flow construct.
      * 
-     * @author Jan Eehwaldt
+     * @author Jan Rehwaldt
      * @since 2011-05-24
      */
     private enum BpmnConstructType {

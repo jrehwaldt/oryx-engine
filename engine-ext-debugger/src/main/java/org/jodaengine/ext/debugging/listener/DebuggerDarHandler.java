@@ -46,9 +46,9 @@ public class DebuggerDarHandler extends AbstractDarHandler {
                 builder.addInputStreamArtifact(artifactName, inputStream);
                 
                 //
-                // do not close
+                // do not close, because otherwise we cannot get the svg artifact more then once
+                // --> NOT INVOKE inputStream.close();
                 //
-//                inputStream.close();
             } catch (IOException e) {
                 logger.error("Could not read file {} from archive", entry.getName());
             }

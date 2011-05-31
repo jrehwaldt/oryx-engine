@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Imports classes from a .dar-file, that are located in the /classes directory and any sub-directories.
+ * 
+ * These classes are imported as Resources for the process, such as custom classes, that can then be used in Script
+ * Tasks, Forms, etc.
  */
 public class ClassImportHandler extends AbstractDarHandler {
 

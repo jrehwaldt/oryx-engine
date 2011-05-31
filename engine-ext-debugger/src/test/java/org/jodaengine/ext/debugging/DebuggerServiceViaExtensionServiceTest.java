@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.deployment.importer.archive.AbstractDarHandler;
@@ -135,16 +137,8 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
     public void testRequiredBpmnXmlListenerIsProvided() {
         List<BpmnXmlParseListener> listeners = this.extensionService.getExtensions(BpmnXmlParseListener.class);
         
-        Assert.assertTrue(listeners.size() > 0);
-        
-        boolean listenerAvailable = false;
-        for (BpmnXmlParseListener listener: listeners) {
-            if (listener instanceof DebuggerBpmnXmlParseListener) {
-                listenerAvailable = true;
-            }
-        }
-        
-        Assert.assertTrue(listenerAvailable);
+        Assert.assertFalse(listeners.isEmpty());
+        Assert.assertTrue(isTypeContained(listeners, DebuggerBpmnXmlParseListener.class));
     }
     
     /**
@@ -154,16 +148,8 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
     public void testRequiredDarHandlerIsProvided() {
         List<AbstractDarHandler> handlers = this.extensionService.getExtensions(AbstractDarHandler.class);
         
-        Assert.assertTrue(handlers.size() > 0);
-        
-        boolean handlerAvailable = false;
-        for (AbstractDarHandler handler: handlers) {
-            if (handler instanceof DebuggerDarHandler) {
-                handlerAvailable = true;
-            }
-        }
-        
-        Assert.assertTrue(handlerAvailable);
+        Assert.assertFalse(handlers.isEmpty());
+        Assert.assertTrue(isTypeContained(handlers, DebuggerDarHandler.class));
     }
     
     /**
@@ -175,16 +161,8 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         List<RepositoryDeploymentListener> listeners
             = this.extensionService.getExtensions(RepositoryDeploymentListener.class);
         
-        Assert.assertTrue(listeners.size() > 0);
-        
-        boolean listenerAvailable = false;
-        for (RepositoryDeploymentListener listener: listeners) {
-            if (listener instanceof DebuggerRepositoryDeploymentListener) {
-                listenerAvailable = true;
-            }
-        }
-        
-        Assert.assertTrue(listenerAvailable);
+        Assert.assertFalse(listeners.isEmpty());
+        Assert.assertTrue(isTypeContained(listeners, DebuggerRepositoryDeploymentListener.class));
     }
     
     /**
@@ -196,16 +174,8 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         List<AbstractTokenListener> listeners
             = this.extensionService.getExtensions(AbstractTokenListener.class);
         
-        Assert.assertTrue(listeners.size() > 0);
-        
-        boolean listenerAvailable = false;
-        for (AbstractTokenListener listener: listeners) {
-            if (listener instanceof DebuggerTokenListener) {
-                listenerAvailable = true;
-            }
-        }
-        
-        Assert.assertTrue(listenerAvailable);
+        Assert.assertFalse(listeners.isEmpty());
+        Assert.assertTrue(isTypeContained(listeners, DebuggerTokenListener.class));
     }
 
     
@@ -283,5 +253,24 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         }
         
         Assert.assertTrue(containsWebService);
+    }
+    
+    /**
+     * This method verifies, that a certain instance type is available.
+     * 
+     * @param objects the instances
+     * @param type the type, which should be available
+     * @return true, if available
+     */
+    private boolean isTypeContained(@Nonnull List<? extends Object> objects,
+                                    @Nonnull Class<?> type) {
+        
+        for (Object object: objects) {
+            if (type.equals(object.getClass())) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }

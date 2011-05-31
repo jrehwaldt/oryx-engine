@@ -3,9 +3,9 @@ package org.jodaengine.forms.processor.juel;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.jodaengine.forms.Form;
 import org.jodaengine.forms.processor.FormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.resource.allocation.Form;
 
 import net.htmlparser.jericho.Config;
 import net.htmlparser.jericho.FormField;
@@ -23,7 +23,7 @@ public class JuelFormProcessor implements FormProcessor {
     private AbstractFormFieldHandler firstHandler;
 
     /**
-     * Instantiates a new juel form processor using a chain of responsibility to realize the hierachy as described in
+     * Instantiates a new juel form processor using a chain of responsibility to realize the hierarchy as described in
      * the interface {@link FormProcessor}.
      */
     public JuelFormProcessor() {
@@ -41,7 +41,7 @@ public class JuelFormProcessor implements FormProcessor {
         FormFields formFields = source.getFormFields();
         OutputDocument document = new OutputDocument(source);
 
-        firstHandler.setFormValues(form, new ArrayList<FormField>(formFields), context, document);
+        firstHandler.generateOutputValues(form, new ArrayList<FormField>(formFields), context, document);
         document.replace(formFields);
 
         return document.toString();
@@ -49,18 +49,10 @@ public class JuelFormProcessor implements FormProcessor {
     }
 
     @Override
-    public void readFilledForm(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
+    public void processFormInput(Map<String, String> enteredValues, Form form, ProcessInstanceContext context) {
 
+        
         firstHandler.readInput(enteredValues, form, context);
-//        for (Entry<String, String> entry : enteredValues.entrySet()) {
-//            String fieldName = entry.getKey();
-//            String enteredValue = entry.getValue();
-//
-//            JodaFormField formField = form.getFormField(fieldName);
-//            Object objectToSet = convertStringInput(enteredValue, formField.getDataClazz());
-//            String variableToSet = formField.getWriteVariable();
-//            context.setVariable(variableToSet, objectToSet);
-//        }
     }
 
     

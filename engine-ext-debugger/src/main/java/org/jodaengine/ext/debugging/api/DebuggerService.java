@@ -45,9 +45,15 @@ public interface DebuggerService extends BreakpointService, DebuggerArtifactServ
     
     /**
      * This method will release the {@link AbstractProcessInstance} and continues until it
+     * <ul>
+     * <li>
      *   a) will reach a {@link Breakpoint}
+     * </li>
+     * <li>
      * or
      *   b) reaches the process' end.
+     * </li>
+     * </ul>
      * 
      * @param instance the instance, to release
      */

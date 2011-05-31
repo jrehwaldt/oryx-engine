@@ -10,7 +10,6 @@ import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,11 +43,10 @@ public class DebuggerTokenListener extends AbstractTokenListener {
         logger.debug("DebuggerTokenListener#stateChanged {} for {}", event, this.debugger);
         
         //
-        // do we have breakpoints for this node?
+        // do we have breakpoints for this instance?
         //
-        Node node = event.getNode();
         Token token = event.getProcessToken();
-        List<Breakpoint> breakpoints = this.debugger.getBreakpoints(node, token.getInstance());
+        List<Breakpoint> breakpoints = this.debugger.getBreakpoints(token.getInstance());
         
         //
         // case: no
@@ -65,7 +63,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
             if (breakpoint.matches(token)) {
                 logger.debug("Breakpoint {} matches {}", breakpoint, token);
                 
-                this.debugger.breakpointTriggered(token, breakpoint);
+                this.debugger.breakpointTriggered(token, breakpoint, this);
                 
                 //
                 // ignore any subsequent breakpoints

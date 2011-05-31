@@ -11,13 +11,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jodaengine.allocation.JodaFormAttributes;
+import org.jodaengine.forms.Form;
+import org.jodaengine.forms.JodaFormField;
+import org.jodaengine.forms.JodaFormFieldArguments;
+import org.jodaengine.forms.JodaFormFieldImpl;
 import org.jodaengine.forms.processor.juel.JuelFormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
-import org.jodaengine.resource.allocation.Form;
-import org.jodaengine.resource.allocation.JodaFormField;
-import org.jodaengine.resource.allocation.JodaFormFieldImpl;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -50,14 +50,14 @@ public class EvaluationHierarchyTest {
         // this form does not contain the joda-tags, as it mocks the already parsed state
         when(form.getFormContentAsHTML()).thenReturn(SINGLE_FIELD_FORM);
 
-        Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put(JodaFormAttributes.READ_VARIABLE, "var1");
-        attributes.put(JodaFormAttributes.READ_EXPRESSION, "#{var2}");
-        attributes.put(JodaFormAttributes.WRITE_VARIABLE, "var1");
-        attributes.put(JodaFormAttributes.WRITE_EXPRESSION, "#{var2}");
+        JodaFormFieldArguments attributes = new JodaFormFieldArguments();
+        attributes.setInputVariable("var1");
+        attributes.setInputExpression("#{var2}");
+        attributes.setOutputVariable("var1");
+        attributes.setOutputExpression("#{var2}");
         field1 = new JodaFormFieldImpl("field1", attributes, String.class);
 
-        when(form.getFormField(Mockito.matches("field1"))).thenReturn(field1);
+        when(form.getFormField("field1")).thenReturn(field1);
     }
 
     /**
@@ -102,13 +102,14 @@ public class EvaluationHierarchyTest {
         context.setVariable("var2", "var 2");
         Map<String, String> formFields = new HashMap<String, String>();
         formFields.put("field1", "a value");
-        processor.readFilledForm(formFields, form, context);
+        processor.processFormInput(formFields, form, context);
         Assert.assertEquals(context.getVariable("var1"), "a value");
     }
 
     /**
      * Tests that a writeExpression, that creates a new JUEL RootProperty (e.g. #{var2}, if var2 does not exist in the
-     * instance context) also writes it result back to the context.
+     * instance context) also writes it result back to the context. The input is set for "field1", as this form field is
+     * the on the joda-attributes from the BeforeMethod-Part are associated to.
      */
     @Test
     public void testRootPropertyWriting() {
@@ -117,7 +118,7 @@ public class EvaluationHierarchyTest {
 
         Map<String, String> formFields = new HashMap<String, String>();
         formFields.put("field1", "a value");
-        processor.readFilledForm(formFields, form, context);
+        processor.processFormInput(formFields, form, context);
         Assert.assertEquals(context.getVariable("var2"), "a value");
     }
 
@@ -133,9 +134,9 @@ public class EvaluationHierarchyTest {
         context.setVariable("dummy", dummy);
         context.setVariable("var1", "var 1");
 
-        Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put(JodaFormAttributes.WRITE_VARIABLE, "var1");
-        attributes.put(JodaFormAttributes.WRITE_EXPRESSION, "#{dummy.value}");
+        JodaFormFieldArguments attributes = new JodaFormFieldArguments();
+        attributes.setInputVariable("var1");
+        attributes.setInputExpression("#{dummy.value}");
         field1 = new JodaFormFieldImpl("field1", attributes, String.class);
 
         when(form.getFormField(Mockito.matches("field1"))).thenReturn(field1);
@@ -143,7 +144,7 @@ public class EvaluationHierarchyTest {
         FormProcessor processor = new JuelFormProcessor();
         Map<String, String> formFields = new HashMap<String, String>();
         formFields.put("field1", "a value");
-        processor.readFilledForm(formFields, form, context);
+        processor.processFormInput(formFields, form, context);
 
         Assert.assertEquals(context.getVariable("var1"), "var 1", "The value of var1 should not have changed.");
         Assert.assertEquals(dummy.getValue(), "a value",

@@ -51,7 +51,7 @@ public class ProcessEventGroup {
         if (called) {
             return;
         }
-
+        
         if (!getIntermediateEvents().remove(processIntermediateEvent)) {
             // Then it means the element that should be deleted was not in the list of registered Events
             String errorMessage = "The event-based Xor Gateway was resumed by an event that it has not registered.";

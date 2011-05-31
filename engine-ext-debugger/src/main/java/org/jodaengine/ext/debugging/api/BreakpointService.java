@@ -14,7 +14,7 @@ import org.jodaengine.process.structure.Node;
 public interface BreakpointService {
     
     /**
-     * This method allows to add a breakpoint to a certain node.
+     * This method allows to add a {@link Breakpoint} to a certain {@link Node}.
      * 
      * @param node the node, this breakpoint is bound to
      * @return the breakpoint
@@ -22,25 +22,24 @@ public interface BreakpointService {
     @Nonnull Breakpoint createBreakpoint(@Nonnull Node node);
     
     /**
-     * Removes the specified breakpoint.
+     * Removes the specified {@link Breakpoint}.
      * 
      * @param breakpoint the breakpoint to remove
+     * @return true, if the breakpoint was found and removed
      */
-    void removeBreakpoint(@Nonnull Breakpoint breakpoint);
+    boolean removeBreakpoint(@Nonnull Breakpoint breakpoint);
     
     /**
-     * Enables the specified breakpoint.
+     * Enables the specified {@link Breakpoint}.
      * 
      * @param breakpoint the breakpoint to enable
      */
     void enableBreakpoint(@Nonnull Breakpoint breakpoint);
     
     /**
-     * Disables the specified breakpoint.
+     * Disables the specified {@link Breakpoint}.
      * 
      * @param breakpoint the breakpoint to disable
      */
     void disableBreakpoint(@Nonnull Breakpoint breakpoint);
-    
-    
 }

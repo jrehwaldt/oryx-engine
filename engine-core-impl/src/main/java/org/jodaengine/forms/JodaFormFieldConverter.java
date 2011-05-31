@@ -1,9 +1,6 @@
-package org.jodaengine.resource.allocation;
+package org.jodaengine.forms;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import org.jodaengine.allocation.JodaFormAttributes;
 
 import net.htmlparser.jericho.Attributes;
 import net.htmlparser.jericho.OutputDocument;
@@ -27,14 +24,12 @@ public class JodaFormFieldConverter {
 
         String name = formAttributes.getValue("name");
 
-        // remove the attributes from the form field, as we have read them and the are not valid html.
-        Map<String, String> attributes = new HashMap<String, String>();
-
-        attributes.put(JodaFormAttributes.READ_VARIABLE, formAttributes.getValue(JodaFormAttributes.READ_VARIABLE));
-        attributes.put(JodaFormAttributes.WRITE_VARIABLE, formAttributes.getValue(JodaFormAttributes.WRITE_VARIABLE));
-        attributes.put(JodaFormAttributes.READ_EXPRESSION, formAttributes.getValue(JodaFormAttributes.READ_EXPRESSION));
-        attributes.put(JodaFormAttributes.WRITE_EXPRESSION,
-            formAttributes.getValue(JodaFormAttributes.WRITE_EXPRESSION));
+        // remove the attributes from the form field, as we have read them and they are no valid html.
+        JodaFormFieldArguments jodaArgs = new JodaFormFieldArguments();
+        jodaArgs.setOutputVariable(formAttributes.getValue(JodaFormAttributes.OUTPUT_VARIABLE));
+        jodaArgs.setOutputExpression(formAttributes.getValue(JodaFormAttributes.OUTPUT_EXPRESSION));
+        jodaArgs.setInputVariable(formAttributes.getValue(JodaFormAttributes.INPUT_VARIABLE));
+        jodaArgs.setInputExpression(formAttributes.getValue(JodaFormAttributes.INPUT_EXPRESSION));
 
         String className = formAttributes.getValue(JodaFormAttributes.CLASS_NAME);
 
@@ -48,22 +43,25 @@ public class JodaFormFieldConverter {
         } else {
             dataClass = String.class;
         }
-       
-        JodaFormField formField = new JodaFormFieldImpl(name, attributes, dataClass);
+        
+        JodaFormField formField = new JodaFormFieldImpl(name, jodaArgs, dataClass);
 
         return formField;
     }
 
     /**
      * Removes all JodaAttributes from the OutputDocument.
+     *
+     * @param attributes the {@link Attributes} object that contains joda:*-attributes and is to be cleaned
+     * @param document the document the changes should be applied to
      */
     public void cleanJodaAttributes(Attributes attributes, OutputDocument document) {
 
         Map<String, String> replacements = document.replace(attributes, false);
-        replacements.remove(JodaFormAttributes.READ_VARIABLE);
-        replacements.remove(JodaFormAttributes.WRITE_VARIABLE);
-        replacements.remove(JodaFormAttributes.READ_EXPRESSION);
-        replacements.remove(JodaFormAttributes.WRITE_EXPRESSION);
+        replacements.remove(JodaFormAttributes.OUTPUT_VARIABLE);
+        replacements.remove(JodaFormAttributes.INPUT_VARIABLE);
+        replacements.remove(JodaFormAttributes.OUTPUT_EXPRESSION);
+        replacements.remove(JodaFormAttributes.INPUT_EXPRESSION);
     }
 
 }

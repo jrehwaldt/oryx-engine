@@ -18,8 +18,8 @@ import org.slf4j.LoggerFactory;
  * This implementation is triggered when the repository deploys an
  * artifact or a whole deployment.
  * 
- * It will react on {@link org.jodaengine.ext.debugging.api.ProcessDefinition} deployments
- * and register the therein defined {@link org.jodaengine.ext.debugging.api.Breakpoint}s
+ * It will react on {@link ProcessDefinition} deployments
+ * and register the therein defined {@link Breakpoint}s
  * within the {@link DebuggerServiceImpl}.
  * 
  * @author Jan Rehwaldt
@@ -46,8 +46,17 @@ public class DebuggerRepositoryDeploymentListener implements RepositoryDeploymen
                                    ProcessDefinition definition) {
         
         logger.debug("Definition {} deployed", definition);
+        
+        //
+        // register the available breakpoints (extracted from serialization)
+        // in case debugging is not disabled
+        //
         DebuggerAttribute attribute = DebuggerAttribute.getAttributeIfExists(definition);
         if (attribute == null) {
+            return;
+        }
+        
+        if (!attribute.isEnabled()) {
             return;
         }
         
@@ -57,6 +66,10 @@ public class DebuggerRepositoryDeploymentListener implements RepositoryDeploymen
     @Override
     public void definitionDeleted(RepositoryService repository,
                                   ProcessDefinition definition) {
+        
+        //
+        // unregister any breakpoints, no matter if debugging is disabled
+        //
         
         logger.debug("Definition {} deleted", definition);
         this.debugger.unregisterBreakpoints(definition);
