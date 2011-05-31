@@ -9,6 +9,7 @@ import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.incomingbehaviour.ComplexJoinBehaviour;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import org.jodaengine.node.outgoingbehaviour.ComplexGatewayState;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.ProcessInstance;
@@ -103,8 +104,9 @@ public class ComplexJoinBehaviourTest {
     /**
      * Let the gateway fire once and then have another token come to the gateway on the same transition. The gateway
      * should not fire again.
-     *
-     * @throws JodaEngineException the joda engine exception
+     * 
+     * @throws JodaEngineException
+     *             the joda engine exception
      */
     @Test
     public void testGatewayReset()
@@ -143,9 +145,54 @@ public class ComplexJoinBehaviourTest {
      * Tests the following case: transition1 is signaled, gateway triggers. transition1 is signaled again, gateway does
      * not trigger. transition2 is signaled. gateway should reset itself AND trigger again, as the triggering conditions
      * is already fulfilled.
+     * 
+     * @throws JodaEngineException
      */
-//    @Test
-//    public void testMultipleStartResetCycle() {
-//
-//    }
+    @Test
+    public void testMultipleStartResetCycle()
+    throws JodaEngineException {
+
+        setComplexGatewayState(ComplexGatewayState.WAITING_FOR_RESET);
+
+        // transition has been signaled twice.
+        instance.getContext().setWaitingExecution(incomingTransition1);
+        instance.getContext().setWaitingExecution(incomingTransition1);
+
+        // now the discriminator should reset and trigger, as the triggering condition is already met.
+        token.setLastTakenTransition(incomingTransition2);
+        token.executeStep();
+
+        List<Token> newTokens = nav.getWorkQueue();
+        Assert.assertEquals(newTokens.size(), 1,
+            "There should be one new token, that has been created as the joinBehaviour just triggered another time.");
+
+        ProcessInstanceContext context = instance.getContext();
+        Assert.assertEquals(context.getWaitingExecutions(joinNode).size(), 1,
+            "There should be the one waiting execution");
+
+        Assert.assertEquals(getComplexGatewayState(), ComplexGatewayState.WAITING_FOR_RESET,
+            "The complex gateway should, again, be waiting for the reset operation.");
+    }
+
+    /**
+     * Gets the state of the complex gateway.
+     * 
+     * @return the complex gateway state
+     */
+    private ComplexGatewayState getComplexGatewayState() {
+
+        return (ComplexGatewayState) instance.getContext().getNodeVariable(joinNode,
+            ComplexJoinBehaviour.STATE_VARIABLE_NAME);
+    }
+
+    /**
+     * Sets the state of the complex gateway. 
+     * 
+     * @param state
+     *            the new complex gateway state
+     */
+    private void setComplexGatewayState(ComplexGatewayState state) {
+
+        instance.getContext().setNodeVariable(joinNode, ComplexJoinBehaviour.STATE_VARIABLE_NAME, state);
+    }
 }

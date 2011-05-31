@@ -16,6 +16,7 @@ import org.jodaengine.process.token.Token;
  */
 public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
 
+    public static final String STATE_VARIABLE_NAME = "state";
     private int triggerNumber;
 
     /**
@@ -83,8 +84,11 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
                 // we do not forward tokens here, as this is not specified by the discriminator pattern. Implement this,
                 // if you want to implement the complete complex gateway behaviour as specified.
                 setGatewayState(context, token.getCurrentNode(), ComplexGatewayState.WAITING_FOR_START);
-                
                 context.removeIncomingTransitions(token.getCurrentNode());
+
+                // recursively trigger again as often, as its possible (should be usually only once, as the gateway
+                // cannot be reset after anymore.
+                proceedingTokens.addAll(super.join(token));
                 break;
             default:
                 break;
@@ -94,14 +98,16 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
 
     /**
      * Gets the {@link ComplexGatewayState} of the gateway, that is represented by the node.
-     *
-     * @param context the context
-     * @param node the node
+     * 
+     * @param context
+     *            the context
+     * @param node
+     *            the node
      * @return the gateway state
      */
     private synchronized ComplexGatewayState getGatewayState(ProcessInstanceContext context, Node node) {
 
-        String variableIdentifier = "state";
+        String variableIdentifier = STATE_VARIABLE_NAME;
         Object variable = context.getNodeVariable(node, variableIdentifier);
         if (variable == null) {
             variable = ComplexGatewayState.WAITING_FOR_START;
@@ -114,14 +120,17 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
 
     /**
      * Sets the gateway state for the supplied node.
-     *
-     * @param context the context
-     * @param node the node
-     * @param state the state
+     * 
+     * @param context
+     *            the context
+     * @param node
+     *            the node
+     * @param state
+     *            the state
      */
     private void setGatewayState(ProcessInstanceContext context, Node node, ComplexGatewayState state) {
 
-        String variableIdentifier = "state";
+        String variableIdentifier = STATE_VARIABLE_NAME;
         context.setNodeVariable(node, variableIdentifier, state);
     }
 
