@@ -49,10 +49,13 @@ public class DeploymentTest extends AbstractJodaEngineTest {
     throws IllegalStarteventException {
 
         ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID().toString());
+        // this pattern is required for a valid process definition
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
         defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
 
         ProcessDefinition definition = defBuilder.buildDefinition();
+        // we set the id explicitly to be able to identify the process definition, when accessing the repository
+        // service.
         Whitebox.setInternalState(definition, "id", id);
         builder.addProcessDefinition(definition);
         Deployment deployment = builder.buildDeployment();
@@ -64,8 +67,9 @@ public class DeploymentTest extends AbstractJodaEngineTest {
 
     /**
      * Deploys two processes with the same id and checks for automated versioning of these.
-     *
-     * @throws IllegalStarteventException the illegal startevent exception
+     * 
+     * @throws IllegalStarteventException
+     *             the illegal startevent exception
      */
     @Test
     public void testAutomatedVersioning()
@@ -86,6 +90,7 @@ public class DeploymentTest extends AbstractJodaEngineTest {
         repository.deployInNewScope(deployment);
 
         ProcessDefinitionID anotherID = new ProcessDefinitionID(processIdentifier);
+        // we have to set these again, as the builder resets its state after building
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
         defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
         ProcessDefinition anotherDefinition = defBuilder.buildDefinition();
