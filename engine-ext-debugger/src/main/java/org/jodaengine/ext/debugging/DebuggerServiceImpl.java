@@ -134,7 +134,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     }
     
     @Override
-    public synchronized void removeBreakpoint(Breakpoint breakpoint) {
+    public synchronized boolean removeBreakpoint(Breakpoint breakpoint) {
         
         logger.info("Remove breakpoint {}", breakpoint);
         
@@ -143,28 +143,32 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         //
         for (Map.Entry<ProcessDefinition, List<Breakpoint>> entry: this.breakpoints.entrySet()) {
             
-            for (Breakpoint registeredBreakpoint: entry.getValue()) {
-                
-                if (registeredBreakpoint.equals(breakpoint)) {
-                    entry.getValue().remove(registeredBreakpoint);
-                    return;
-                }
+            //
+            // remove it, if it is available in this map
+            //
+            boolean removed = entry.getValue().remove(breakpoint);
+            if (removed) {
+                logger.info("Removed breakpoint {} from {}", breakpoint, entry.getKey());
+                return true;
             }
         }
         
         logger.info("Brekpoint {} could not be removed. It was not found.", breakpoint);
+        return false;
     }
 
     @Override
     public void enableBreakpoint(Breakpoint breakpoint) {
-        // TODO Auto-generated method stub
+        
         logger.debug("Enable breakpoint {}", breakpoint);
+        breakpoint.enable();
     }
 
     @Override
     public void disableBreakpoint(Breakpoint breakpoint) {
-        // TODO Auto-generated method stub
+        
         logger.debug("Disable breakpoint {}", breakpoint);
+        breakpoint.disable();
     }
     
     //=================================================================

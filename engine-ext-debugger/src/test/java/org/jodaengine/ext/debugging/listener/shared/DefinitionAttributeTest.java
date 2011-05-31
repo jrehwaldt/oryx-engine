@@ -1,4 +1,4 @@
-package org.jodaengine.ext.debugging;
+package org.jodaengine.ext.debugging.listener.shared;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
