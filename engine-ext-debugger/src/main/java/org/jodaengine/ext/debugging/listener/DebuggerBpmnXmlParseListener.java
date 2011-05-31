@@ -1,6 +1,7 @@
 package org.jodaengine.ext.debugging.listener;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
@@ -250,8 +251,8 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
      * @param node the {@link Node}
      * @return the {@link Breakpoint}, if available
      */
-    private Breakpoint parseBreakpoint(@Nonnull XmlElement xmlElement,
-                                       @Nonnull Node node) {
+    private @Nullable Breakpoint parseBreakpoint(@Nonnull XmlElement xmlElement,
+                                                 @Nonnull Node node) {
         
         //
         // do we have an extension?

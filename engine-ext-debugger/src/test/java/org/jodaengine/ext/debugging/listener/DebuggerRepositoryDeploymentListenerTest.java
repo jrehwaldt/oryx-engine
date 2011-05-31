@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngineTest {
     
     private RepositoryDeploymentListener listener;
-    private DebuggerServiceImpl debugger;
+    private DebuggerServiceImpl mockDebugger;
     private ProcessDefinition definition;
     private Breakpoint breakpoint;
     private DebuggerAttribute attributesDeployed;
@@ -48,8 +48,8 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
      */
     @BeforeMethod
     public void setUp() throws ExtensionNotAvailableException, IllegalStarteventException {
-        this.debugger = mock(DebuggerServiceImpl.class);
-        this.listener = new DebuggerRepositoryDeploymentListener(this.debugger);
+        this.mockDebugger = mock(DebuggerServiceImpl.class);
+        this.listener = new DebuggerRepositoryDeploymentListener(this.mockDebugger);
         
         //
         // build a definition
@@ -97,7 +97,7 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         //
         @SuppressWarnings("rawtypes")
         ArgumentCaptor<List> breakpointsCaptor = ArgumentCaptor.forClass(List.class);
-        verify(this.debugger, times(1)).registerBreakpoints(breakpointsCaptor.capture(), eq(definition));
+        verify(this.mockDebugger, times(1)).registerBreakpoints(breakpointsCaptor.capture(), eq(definition));
         
         Assert.assertEquals(this.attributesDeployed.getBreakpoints().size(), breakpointsCaptor.getValue().size());
         Assert.assertEquals(this.attributesDeployed.getBreakpoints(), breakpointsCaptor.getValue());
@@ -106,7 +106,7 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         // the breakpoints should be unregistered successfully
         //
         this.listener.definitionDeleted(repository, definition);
-        verify(this.debugger, times(1)).unregisterBreakpoints(eq(definition));
+        verify(this.mockDebugger, times(1)).unregisterBreakpoints(eq(definition));
     }
 
     
@@ -131,12 +131,12 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         //
         @SuppressWarnings("rawtypes")
         ArgumentCaptor<List> breakpointsCaptor = ArgumentCaptor.forClass(List.class);
-        verify(this.debugger, times(0)).registerBreakpoints(breakpointsCaptor.capture(), eq(definition));
+        verify(this.mockDebugger, times(0)).registerBreakpoints(breakpointsCaptor.capture(), eq(definition));
         
         //
         // the breakpoints should be unregistered (even if none were registered)
         //
         this.listener.definitionDeleted(repository, definition);
-        verify(this.debugger, times(1)).unregisterBreakpoints(eq(definition));
+        verify(this.mockDebugger, times(1)).unregisterBreakpoints(eq(definition));
     }
 }

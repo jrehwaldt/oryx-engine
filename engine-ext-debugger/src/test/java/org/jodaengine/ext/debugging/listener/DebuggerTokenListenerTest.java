@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.jodaengine.exception.IllegalStarteventException;
@@ -117,11 +118,9 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     
     /**
      * Tests the invocation of a simple process with a single breakpoint.
-     * 
-     * @throws IllegalStarteventException test fails
      */
     @Test
-    public void testSimpleProcessWithBreakpoint() throws IllegalStarteventException {
+    public void testSimpleProcessWithBreakpoint() {
         
         this.listenerWithBreakpoint.stateChanged(event);
         
@@ -132,11 +131,9 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     
     /**
      * Tests the invocation of a simple process without any breakpoint.
-     * 
-     * @throws IllegalStarteventException test fails
      */
     @Test
-    public void testSimpleProcessWithoutBreakpoint() throws IllegalStarteventException {
+    public void testSimpleProcessWithoutBreakpoint() {
         
         Assert.assertTrue(this.breakpoint.isEnabled());
         
@@ -149,11 +146,9 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     
     /**
      * Tests the invocation of a simple process with a single breakpoint, which is disabled.
-     * 
-     * @throws IllegalStarteventException test fails
      */
     @Test
-    public void testSimpleProcessWithBreakpointDisabled() throws IllegalStarteventException {
+    public void testSimpleProcessWithBreakpointDisabled() {
         
         this.breakpoint.disable();
         Assert.assertFalse(this.breakpoint.isEnabled());
@@ -168,11 +163,9 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     /**
      * Tests the invocation of a simple process with a single breakpoint,
      * which is disabled at first and enabled afterwards.
-     * 
-     * @throws IllegalStarteventException test fails
      */
     @Test
-    public void testSimpleProcessWithBreakpointDisabledAndEnabledAfterwards() throws IllegalStarteventException {
+    public void testSimpleProcessWithBreakpointDisabledAndEnabledAfterwards() {
         
         this.breakpoint.disable();
         Assert.assertFalse(this.breakpoint.isEnabled());
@@ -190,6 +183,45 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         
         verify(this.mockDebuggerWithBreakpoint, times(2)).getBreakpoints(this.mockInstance);
         verify(this.mockDebuggerWithBreakpoint, times(1)).breakpointTriggered(
+            this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
+    }
+    
+    /**
+     * Tests the invocation of a simple process without any breakpoint.
+     */
+    @Test
+    public void testSimpleProcessWithNoBreakpointsAttached() {
+        
+        Assert.assertTrue(this.breakpoint.isEnabled());
+        when(this.mockDebuggerWithBreakpoint.getBreakpoints(this.mockInstance)).thenReturn(
+            Collections.<Breakpoint>emptyList());
+        
+        this.listenerWithBreakpoint.stateChanged(event);
+        
+        verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
+        verify(this.mockDebuggerWithBreakpoint, times(0)).breakpointTriggered(
+            this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
+    }
+    
+    /**
+     * Tests the invocation of a simple process with any number of breakpoints,
+     * where none of those matches.
+     */
+    @Test
+    public void testSimpleProcessWithWrongBreakpointsAttached() {
+        
+        Assert.assertTrue(this.breakpoint.isEnabled());
+        
+        List<Breakpoint> breakpoints = new ArrayList<Breakpoint>();
+        breakpoints.add(new BreakpointImpl(mock(Node.class)));
+        breakpoints.add(new BreakpointImpl(mock(Node.class)));
+        breakpoints.add(new BreakpointImpl(mock(Node.class)));
+        when(this.mockDebuggerWithBreakpoint.getBreakpoints(this.mockInstance)).thenReturn(breakpoints);
+        
+        this.listenerWithBreakpoint.stateChanged(event);
+        
+        verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
+        verify(this.mockDebuggerWithBreakpoint, times(0)).breakpointTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
     }
 }

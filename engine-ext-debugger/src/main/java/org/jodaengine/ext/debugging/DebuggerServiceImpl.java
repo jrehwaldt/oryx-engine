@@ -197,7 +197,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
             }
         }
         
-        artifactID = "svg-artifact-for-" + definition.getID().getIdentifier() + "-not-defined";
+        artifactID = "svg-artifact-for-" + definition.getID() + "-not-defined";
         throw new ProcessArtifactNotFoundException(artifactID);
     }
     
@@ -207,6 +207,8 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     
     /**
      * Registers a list of {@link Breakpoint}s for a certain {@link ProcessDefinition}.
+     * 
+     * Any previously registered breakpoint will be removed.
      * 
      * @param breakpoints the breakpoints to register
      * @param definition the process definition, the breakpoint belong to
