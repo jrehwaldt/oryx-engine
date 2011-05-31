@@ -49,8 +49,6 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
         Set<Transition> singaledTransitionsSet = new HashSet<Transition>(signaledTransitions);
         ComplexGatewayState state = getGatewayState(context, token.getCurrentNode());
 
-        // TODO synchronization
-
         switch (state) {
             case WAITING_FOR_START:
                 if (singaledTransitionsSet.size() >= triggerNumber) {
