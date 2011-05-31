@@ -1,6 +1,7 @@
 package org.jodaengine.ext.debugging;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -126,8 +127,11 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     //=================================================================
 
     @Override
-    public synchronized Breakpoint createBreakpoint(Node node) {
-        logger.debug("Create a breakpoint for node {}", node);
+    public synchronized Breakpoint createBreakpoint(ProcessDefinition targetDefinition,
+                                                    Node targetNode,
+                                                    String juelCondition)
+    throws DefinitionNotFoundException {
+        logger.debug("Create a breakpoint for node {}", targetNode);
         
         // TODO Auto-generated method stub
         return null;
@@ -169,6 +173,16 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         
         logger.debug("Disable breakpoint {}", breakpoint);
         breakpoint.disable();
+    }
+    
+    @Override
+    public List<Breakpoint> getAllBreakpoints() {
+        
+        List<Breakpoint> knownBreakpoints = new ArrayList<Breakpoint>();
+        for (List<Breakpoint> tmp: breakpoints.values()) {
+            knownBreakpoints.addAll(tmp);
+        }
+        return knownBreakpoints;
     }
     
     //=================================================================

@@ -1,5 +1,7 @@
 package org.jodaengine.ext.debugging.rest;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -16,6 +18,7 @@ import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.api.ReferenceResolverService;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.process.definition.ProcessDefinition;
@@ -43,6 +46,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     private DebuggerService debugger;
+    private ReferenceResolverService resolver;
     private final JodaEngineServices engineServices;
     
     /**
@@ -54,9 +58,11 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
         logger.info("Starting Debugger REST API");
         this.engineServices = engineServices;
         
-        ExtensionService extService = this.engineServices.getExtensionService();
+        ExtensionService extensionService = this.engineServices.getExtensionService();
         try {
-            this.debugger = extService.getExtensionService(DebuggerService.class, DEBUGGER_SERVICE_NAME);
+            this.debugger = extensionService.getExtensionService(DebuggerService.class, DEBUGGER_SERVICE_NAME);
+            this.resolver = extensionService.getExtensionService(
+                ReferenceResolverService.class, ReferenceResolverService.RESOLVER_SERVICE_NAME);
         } catch (ExtensionNotAvailableException e) {
             logger.error("The Debugger REST API will be unavailable. No Debugger Service found.");
             this.debugger = null;
@@ -136,11 +142,15 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Path("/breakpoints/create")
     @POST
     @Override
-    public Breakpoint createBreakpoint(Node dereferencedNode) {
-        Node node = rereferenceNode(dereferencedNode);
+    public Breakpoint createBreakpoint(ProcessDefinition dereferencedTargetDefinition,
+                                       Node dereferencedTargetNode,
+                                       String juelCondition)
+    throws DefinitionNotFoundException {
         
         if (this.debugger != null) {
-            return this.debugger.createBreakpoint(node);
+            ProcessDefinition definition = resolver.resolveDefinition(dereferencedTargetDefinition);
+            Node node = resolver.resolveNode(definition, dereferencedTargetNode);
+            return this.debugger.createBreakpoint(definition, node, juelCondition);
         }
         throw new ServiceUnavailableException(DebuggerService.class);
     }
@@ -149,9 +159,9 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @POST
     @Override
     public boolean removeBreakpoint(Breakpoint dereferencedBreakpoint) {
-        Breakpoint breakpoint = rereferenceBreakpoint(dereferencedBreakpoint);
         
         if (this.debugger != null) {
+            Breakpoint breakpoint = resolver.resolveBreakpoint(dereferencedBreakpoint);
             return this.debugger.removeBreakpoint(breakpoint);
         }
         throw new ServiceUnavailableException(DebuggerService.class);
@@ -161,9 +171,9 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @POST
     @Override
     public void enableBreakpoint(Breakpoint dereferencedBreakpoint) {
-        Breakpoint breakpoint = rereferenceBreakpoint(dereferencedBreakpoint);
         
         if (this.debugger != null) {
+            Breakpoint breakpoint = this.resolver.resolveBreakpoint(dereferencedBreakpoint);
             this.debugger.enableBreakpoint(breakpoint);
         }
         
@@ -174,10 +184,20 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @POST
     @Override
     public void disableBreakpoint(Breakpoint dereferencedBreakpoint) {
-        Breakpoint breakpoint = rereferenceBreakpoint(dereferencedBreakpoint);
         
         if (this.debugger != null) {
+            Breakpoint breakpoint = this.resolver.resolveBreakpoint(dereferencedBreakpoint);
             this.debugger.disableBreakpoint(breakpoint);
+        }
+        
+        throw new ServiceUnavailableException(DebuggerService.class);
+    }
+    
+    @Override
+    public List<Breakpoint> getAllBreakpoints() {
+        
+        if (this.debugger != null) {
+            return this.debugger.getAllBreakpoints();
         }
         
         throw new ServiceUnavailableException(DebuggerService.class);
@@ -192,35 +212,11 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Produces(MediaType.APPLICATION_SVG_XML)
     public String getSvgArtifact(ProcessDefinition definition)
     throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
+        
         if (this.debugger != null) {
             this.debugger.getSvgArtifact(definition);
         }
         
         throw new ServiceUnavailableException(DebuggerService.class);
     }
-    
-    /**
-     * Searches for a reference of a {@link Breakpoint} and returns it, if available.
-     * 
-     * @param dereferencedBreakpoint the dereferenced {@link Breakpoint}
-     * @return the referenced {@link Breakpoint}
-     */
-    private @Nonnull Breakpoint rereferenceBreakpoint(@Nonnull Breakpoint dereferencedBreakpoint) {
-        
-        // TODO Auto-generated method stub; throw exception if not available + Mapper
-        return null;
-    }
-
-    /**
-     * Searches for a reference of a {@link Node} and returns it, if available.
-     * 
-     * @param dereferencedNode the dereferenced {@link Node}
-     * @return the referenced {@link Node}
-     */
-    private @Nonnull Node rereferenceNode(@Nonnull Node dereferencedNode) {
-        
-        // TODO Auto-generated method stub; throw exception if not available + Mapper
-        return null;
-    }
-
 }
