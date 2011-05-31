@@ -162,17 +162,19 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     }
 
     @Override
-    public void enableBreakpoint(Breakpoint breakpoint) {
+    public Breakpoint enableBreakpoint(Breakpoint breakpoint) {
         
         logger.debug("Enable breakpoint {}", breakpoint);
         breakpoint.enable();
+        return breakpoint;
     }
 
     @Override
-    public void disableBreakpoint(Breakpoint breakpoint) {
+    public Breakpoint disableBreakpoint(Breakpoint breakpoint) {
         
         logger.debug("Disable breakpoint {}", breakpoint);
         breakpoint.disable();
+        return breakpoint;
     }
     
     @Override

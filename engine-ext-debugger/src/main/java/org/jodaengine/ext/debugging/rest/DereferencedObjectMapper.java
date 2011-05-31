@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
  * This {@link Provider} maps the {@link DereferencedObjectException} to a HTTP status code.
  * 
  * @author Jan Rehwaldt
+ * @since 2011-05-31
  */
 @Provider
 public class DereferencedObjectMapper implements ExceptionMapper<DereferencedObjectException> {

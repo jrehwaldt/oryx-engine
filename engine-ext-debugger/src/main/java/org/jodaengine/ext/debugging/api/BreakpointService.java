@@ -47,15 +47,17 @@ public interface BreakpointService {
      * Enables the specified {@link Breakpoint}.
      * 
      * @param breakpoint the breakpoint to enable
+     * @return the enabled breakpoint
      */
-    void enableBreakpoint(@Nonnull Breakpoint breakpoint);
+    Breakpoint enableBreakpoint(@Nonnull Breakpoint breakpoint);
     
     /**
      * Disables the specified {@link Breakpoint}.
      * 
      * @param breakpoint the breakpoint to disable
+     * @return the enabled breakpoint
      */
-    void disableBreakpoint(@Nonnull Breakpoint breakpoint);
+    Breakpoint disableBreakpoint(@Nonnull Breakpoint breakpoint);
     
     /**
      * Returns a list of all known {@link Breakpoint}s.

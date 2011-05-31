@@ -50,6 +50,6 @@ public class DereferencedObjectException extends JodaEngineRuntimeException {
     
     @Override
     public String toString() {
-        return String.format("Reference[%s, type=%s]", this.targetID, this.targetClass.getSimpleName());
+        return String.format("Reference[%s, type=%s]", getTargetID(), getTargetClass().getSimpleName());
     }
 }

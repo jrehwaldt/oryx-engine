@@ -170,11 +170,11 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Path("/breakpoints/enable")
     @POST
     @Override
-    public void enableBreakpoint(Breakpoint dereferencedBreakpoint) {
+    public Breakpoint enableBreakpoint(Breakpoint dereferencedBreakpoint) {
         
         if (this.debugger != null) {
             Breakpoint breakpoint = this.resolver.resolveBreakpoint(dereferencedBreakpoint);
-            this.debugger.enableBreakpoint(breakpoint);
+            return this.debugger.enableBreakpoint(breakpoint);
         }
         
         throw new ServiceUnavailableException(DebuggerService.class);
@@ -183,11 +183,11 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Path("/breakpoints/disable")
     @POST
     @Override
-    public void disableBreakpoint(Breakpoint dereferencedBreakpoint) {
+    public Breakpoint disableBreakpoint(Breakpoint dereferencedBreakpoint) {
         
         if (this.debugger != null) {
             Breakpoint breakpoint = this.resolver.resolveBreakpoint(dereferencedBreakpoint);
-            this.debugger.disableBreakpoint(breakpoint);
+            return this.debugger.disableBreakpoint(breakpoint);
         }
         
         throw new ServiceUnavailableException(DebuggerService.class);

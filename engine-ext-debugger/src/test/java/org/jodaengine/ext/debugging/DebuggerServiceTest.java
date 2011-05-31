@@ -1,6 +1,8 @@
 package org.jodaengine.ext.debugging;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -178,5 +180,35 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), NUM_OF_BREAKPOINTS);
         Assert.assertFalse(this.debugger.removeBreakpoint(breakpoint));
         Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), NUM_OF_BREAKPOINTS);
+    }
+    
+    /**
+     * Tests the enabling of a breakpoint.
+     */
+    @Test
+    public void testEnablingABreakpoint() {
+        
+        Breakpoint breakpoint = mock(Breakpoint.class);
+        
+        Breakpoint enabledBreakpoint = this.debugger.enableBreakpoint(breakpoint);
+        Assert.assertNotNull(enabledBreakpoint);
+        Assert.assertEquals(enabledBreakpoint, breakpoint);
+        
+        verify(breakpoint, times(1)).enable();
+    }
+    
+    /**
+     * Tests the disabling of a breakpoint.
+     */
+    @Test
+    public void testDisablingABreakpoint() {
+        
+        Breakpoint breakpoint = mock(Breakpoint.class);
+        
+        Breakpoint enabledBreakpoint = this.debugger.disableBreakpoint(breakpoint);
+        Assert.assertNotNull(enabledBreakpoint);
+        Assert.assertEquals(enabledBreakpoint, breakpoint);
+        
+        verify(breakpoint, times(1)).disable();
     }
 }
