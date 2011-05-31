@@ -26,9 +26,9 @@ public class SimpleProcessTokenFactory {
      */
     public Token create(Node startNode,
                         @Nullable ExtensionService extensionService) {
-        TokenBuilder builder = new BpmnTokenBuilder(null, extensionService, startNode);
+        TokenBuilder builder = new BpmnTokenBuilder(null, extensionService);
         builder.setInstance(new ProcessInstance(null, builder));
-        return builder.create();
+        return builder.create(startNode);
     }
     
     /**

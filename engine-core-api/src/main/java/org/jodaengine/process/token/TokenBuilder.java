@@ -16,7 +16,7 @@ public interface TokenBuilder {
      *
      * @return the token
      */
-    Token create();
+    Token create(Node node);
     
     /**
      * Sets the nav.

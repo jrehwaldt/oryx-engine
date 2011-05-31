@@ -33,6 +33,7 @@ public class TokenPluginTest {
     private ArgumentCaptor<ActivityLifecycleChangeEvent> eventCapturer = null;
     private AbstractTokenListener mock = null;
     private TokenBuilder builder = null;
+    private Node node1;
 
     /**
      * Sets up a token that points to a node and registers a mocked plugin.
@@ -42,11 +43,9 @@ public class TokenPluginTest {
 
         String dummyString = "s.out";
 
-        Node node1;
-
         node1 = new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(),
             new TakeAllSplitBehaviour());
-        builder = new BpmnTokenBuilder(mock(Navigator.class), null, node1);
+        builder = new BpmnTokenBuilder(mock(Navigator.class), null);
         AbstractProcessInstance processInstance = new ProcessInstance(null, builder);
         this.token = new BpmnToken(node1, processInstance, null);
 
@@ -78,8 +77,7 @@ public class TokenPluginTest {
     public void testPluginRegistrationInheritance()
     throws JodaEngineException {
 
-        builder.setNode(token.getCurrentNode());
-        AbstractToken newToken = (AbstractToken) token.createNewToken();
+        AbstractToken newToken = (AbstractToken) token.createNewToken(node1);
         newToken.executeStep();
         verify(mock, times(2)).update(eq(newToken), this.eventCapturer.capture());
     }
@@ -94,8 +92,7 @@ public class TokenPluginTest {
     throws JodaEngineException {
 
         token.deregisterListener(mock);
-        builder.setNode(token.getCurrentNode());
-        AbstractToken newToken = (AbstractToken) token.createNewToken();
+        AbstractToken newToken = (AbstractToken) token.createNewToken(token.getCurrentNode());
         newToken.executeStep();
         verify(mock, never()).update(eq(newToken), this.eventCapturer.capture());
     }

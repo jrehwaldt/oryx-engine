@@ -7,6 +7,7 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnToken;
+import org.jodaengine.process.token.PetriToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
 
@@ -28,12 +29,11 @@ public class PetriTokenBuilder implements TokenBuilder {
      * @param node the node
      */
     public PetriTokenBuilder(Navigator nav,
-                            @Nullable ExtensionService extensionService,
-                            Node node) {
+                            @Nullable ExtensionService extensionService) {
         
         this.nav = nav;
         this.extensionService = extensionService;
-        this.node = node;
+        this.node = null;
     }
     
     // TODO Jannik... die Hälfte aller Methoden hier drin ist sinnlos oder wird nur von Tests verwendet.
@@ -79,8 +79,8 @@ public class PetriTokenBuilder implements TokenBuilder {
     }
     
     @Override
-    public Token create() {
-        return new BpmnToken(node, instance, nav, this.extensionService);
+    public Token create(Node node) {
+        return new PetriToken(node, instance, nav, this.extensionService);
     }
 
 }

@@ -70,7 +70,7 @@ public class BpmnComplexGatewayTest {
     throws JodaEngineException {
 
         AbstractProcessInstance instance = new ProcessInstance(mock(ProcessDefinition.class), new BpmnTokenBuilder(nav,
-            null, null));
+            null));
 
         // set a token on each of the nodes before the discriminator
         BpmnToken token1 = new BpmnToken(beforeNode1, instance, nav);

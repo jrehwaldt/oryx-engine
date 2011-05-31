@@ -20,17 +20,15 @@ public class PlaceJoinBehaviour implements IncomingBehaviour {
         // We have an AND Join, so we have to wait untill all paths are ready.
         // The following line states, that the path with the current token is ready.
         context.setWaitingExecution(token.getLastTakenTransition());
-        return super.join(token);
+        return null;
     }
 
-    @Override
     protected boolean joinable(Token token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
         return context.allIncomingTransitionsSignaled(token.getCurrentNode());
     }
 
-    @Override
     protected List<Token> performJoin(Token token) {
 
         // We can do this, as we currently assume that an and join has a single outgoing transition

@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
 
@@ -132,8 +133,8 @@ public class ProcessInstance extends AbstractProcessInstance {
     }
 
     @Override
-    public Token createToken() {
-        Token token = builder.create();
+    public Token createToken(Node startNode) {
+        Token token = builder.create(startNode);
         assignedTokens.add(token);
         return token;
     }

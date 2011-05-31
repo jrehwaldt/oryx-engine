@@ -205,8 +205,8 @@ implements Token {
      *
      * @return the token
      */
-    public Token createNewToken() {
-        AbstractToken token = (AbstractToken) instance.createToken();
+    public Token createNewToken(Node startNode) {
+        AbstractToken token = (AbstractToken) instance.createToken(startNode);
         token.registerListeners(getListeners());
         return token;
     }

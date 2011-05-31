@@ -1,17 +1,14 @@
 package org.jodaengine.process.token.petri;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertEqualsNoOrder;
+import static org.testng.Assert.assertFalse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jodaengine.node.activity.NullActivity;
-import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.incomingbehaviour.petri.PlaceJoinBehaviour;
 import org.jodaengine.node.incomingbehaviour.petri.TransitionJoinBehaviour;
-import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.petri.PlaceSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
 import org.jodaengine.process.instance.ProcessInstance;
@@ -69,9 +66,9 @@ public class PetriTokenTest {
         
         transitionToTake = node.getOutgoingTransitions().get(0);
         
-        TokenBuilder tokenBuilder = new BpmnTokenBuilder(null, null, null);
+        TokenBuilder tokenBuilder = new BpmnTokenBuilder(null, null);
         instance = new ProcessInstance(null, tokenBuilder);
-        token = PetriToken(node, instance, null);
+        token = new PetriToken(node, instance, null);
     }
 
     /**
@@ -90,9 +87,8 @@ public class PetriTokenTest {
         assertEquals(newTokens.size(), 1, "You should have one new token");
 
 
-        Node[] expectedCurrentNodes = {node2};
-        assertEqualsNoOrder(currentNodes, expectedCurrentNodes,
-            "The new tokens should point to the following nodes.");
+        assertEquals(newTokens.get(0).getCurrentNode(), node2,
+            "The new token should point to the following nodes.");
     }
 
     /**
@@ -107,7 +103,8 @@ public class PetriTokenTest {
         assertEquals(instance.getAssignedTokens().size(), 1, "There should be one new token created");
         Token newToken = instance.getAssignedTokens().get(0);
         assertFalse(newToken == token, "A new token should be produced, and not the old one reused");
-        assertEquals(newToken.getCurrentNode(), node3, "After one step the token should be located on the next place and NOT on the Transition");
+        assertEquals(newToken.getCurrentNode(), node3,
+            "After one step the token should be located on the next place and NOT on the Transition");
     }
 
 

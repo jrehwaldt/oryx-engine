@@ -39,9 +39,9 @@ public class BpmnTerminatingEndEventActivityTest {
     throws JodaEngineException {
 
         NavigatorImplMock nav = new NavigatorImplMock();
-        TokenBuilder builder = new BpmnTokenBuilder(nav, null, startNode);
+        TokenBuilder builder = new BpmnTokenBuilder(nav, null);
         AbstractProcessInstance instance = new ProcessInstance(definition, builder);
-        Token startToken = instance.createToken();
+        Token startToken = instance.createToken(startNode);
 
         startToken.executeStep();
 

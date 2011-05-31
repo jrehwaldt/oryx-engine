@@ -70,7 +70,7 @@ public class ComplexJoinBehaviourTest {
     public void createTokenOnJoinNode() {
 
         nav = new NavigatorImplMock();
-        instance = new ProcessInstance(mock(ProcessDefinition.class), new BpmnTokenBuilder(nav, null, null));
+        instance = new ProcessInstance(mock(ProcessDefinition.class), new BpmnTokenBuilder(nav, null));
         token = new BpmnToken(joinNode, instance, nav);
     }
 

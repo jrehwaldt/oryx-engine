@@ -102,7 +102,7 @@ public class ProcessTokenImplTest {
         
         node.transitionTo(node3);
         
-        TokenBuilder tokenBuilder = new BpmnTokenBuilder(null, null, null);
+        TokenBuilder tokenBuilder = new BpmnTokenBuilder(null, null);
         return new BpmnToken(node, new ProcessInstance(null, tokenBuilder), null);
     }
 }
