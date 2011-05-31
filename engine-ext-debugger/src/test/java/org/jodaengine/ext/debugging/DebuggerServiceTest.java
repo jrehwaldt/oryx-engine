@@ -20,6 +20,7 @@ import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -221,5 +222,35 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         Breakpoint breakpoint = mock(Breakpoint.class);
         this.debugger.registerBreakpoints(Arrays.asList(breakpoint), this.mockDefinition);
         Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), NUM_OF_BREAKPOINTS + 1);
+    }
+    
+    /**
+     * Tests creating a new breakpoint.
+     * 
+     * @throws DefinitionNotFoundException test fails
+     */
+    @Test
+    public void testCreatingBreakpoints() throws DefinitionNotFoundException {
+        
+        Breakpoint breakpoint = this.debugger.createBreakpoint(this.mockDefinition, mock(Node.class), null);
+        Assert.assertTrue(breakpoint.isEnabled());
+        Assert.assertNull(breakpoint.getCondition());
+        Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), 1);
+        Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).get(0), breakpoint);
+    }
+    
+    /**
+     * Tests creating a new breakpoint with a condition.
+     * 
+     * @throws DefinitionNotFoundException test fails
+     */
+    @Test
+    public void testCreatingBreakpointsWithConditions() throws DefinitionNotFoundException {
+        
+        Breakpoint breakpoint = this.debugger.createBreakpoint(this.mockDefinition, mock(Node.class), "true");
+        Assert.assertTrue(breakpoint.isEnabled());
+        Assert.assertNotNull(breakpoint.getCondition());
+        Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), 1);
+        Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).get(0), breakpoint);
     }
 }
