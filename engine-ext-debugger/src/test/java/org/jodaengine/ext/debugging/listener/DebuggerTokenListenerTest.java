@@ -26,7 +26,6 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -51,12 +50,12 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     private Token mockToken;
     
     /**
-     * Setup.
+     * Setup before method.
      * 
      * @throws IllegalStarteventException setup fails
      */
-    @BeforeClass
-    public void setUp() throws IllegalStarteventException {
+    @BeforeMethod
+    public void setupMethod() throws IllegalStarteventException {
         
         //
         // build a definition
@@ -80,13 +79,6 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         Assert.assertEquals(this.definition.getStartNodes().get(0), this.node);
         
         Assert.assertEquals(this.node, this.breakpoint.getNode());
-    }
-    
-    /**
-     * Setup before method.
-     */
-    @BeforeMethod
-    public void setupMethod() {
         
         //
         // setup clean mocks

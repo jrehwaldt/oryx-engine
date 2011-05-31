@@ -158,4 +158,38 @@ public class NodeImpl implements Node {
 
         return this.activityBehaviour;
     }
+    
+    @Override
+    public int hashCode() {
+        return this.id.hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object object) {
+        
+        //
+        // will never be equal to null
+        //
+        if (object == null) {
+            return false;
+        }
+        
+        //
+        // or to a non-Node instance
+        //
+        if (object instanceof Node) {
+            Node node = (Node) object;
+            
+            //
+            // same id
+            //
+            if (!this.getID().equals(node.getID())) {
+                return false;
+            }
+            
+            return true;
+        }
+        
+        return false;
+    }
 }

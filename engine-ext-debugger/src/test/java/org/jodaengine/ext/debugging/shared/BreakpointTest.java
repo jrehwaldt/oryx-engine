@@ -1,4 +1,4 @@
-package org.jodaengine.ext.debugging.listener.shared;
+package org.jodaengine.ext.debugging.shared;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -7,8 +7,6 @@ import java.util.UUID;
 
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointCondition;
-import org.jodaengine.ext.debugging.shared.BreakpointImpl;
-import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
 import org.jodaengine.ext.debugging.util.UUIDBreakpointImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;

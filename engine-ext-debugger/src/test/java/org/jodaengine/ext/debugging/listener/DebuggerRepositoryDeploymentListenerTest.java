@@ -106,7 +106,7 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         // the breakpoints should be unregistered successfully
         //
         this.listener.definitionDeleted(repository, definition);
-        verify(this.mockDebugger, times(1)).unregisterBreakpoints(eq(definition));
+        verify(this.mockDebugger, times(1)).unregisterAllBreakpoints(eq(definition));
     }
 
     
@@ -137,6 +137,6 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         // the breakpoints should be unregistered (even if none were registered)
         //
         this.listener.definitionDeleted(repository, definition);
-        verify(this.mockDebugger, times(1)).unregisterBreakpoints(eq(definition));
+        verify(this.mockDebugger, times(1)).unregisterAllBreakpoints(eq(definition));
     }
 }

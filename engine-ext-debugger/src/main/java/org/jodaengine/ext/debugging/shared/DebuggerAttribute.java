@@ -1,6 +1,7 @@
 package org.jodaengine.ext.debugging.shared;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -100,7 +101,7 @@ public class DebuggerAttribute implements Switchable, Identifiable<UUID> {
      * 
      * @return the {@link Breakpoint}s
      */
-    public List<Breakpoint> getBreakpoints() {
+    public Collection<Breakpoint> getBreakpoints() {
         return this.breakpoints;
     }
     

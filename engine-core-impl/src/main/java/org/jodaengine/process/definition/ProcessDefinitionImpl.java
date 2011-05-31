@@ -209,4 +209,38 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
             this);
         startActivationPattern.deactivateProcessDefinition(patternContext);
     }
+    
+    @Override
+    public int hashCode() {
+        return this.id.hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object object) {
+        
+        //
+        // will never be equal to null
+        //
+        if (object == null) {
+            return false;
+        }
+        
+        //
+        // or to a non-ProcessDefinition instance
+        //
+        if (object instanceof ProcessDefinition) {
+            ProcessDefinition definition = (ProcessDefinition) object;
+            
+            //
+            // same id
+            //
+            if (!this.getID().equals(definition.getID())) {
+                return false;
+            }
+            
+            return true;
+        }
+        
+        return false;
+    }
 }

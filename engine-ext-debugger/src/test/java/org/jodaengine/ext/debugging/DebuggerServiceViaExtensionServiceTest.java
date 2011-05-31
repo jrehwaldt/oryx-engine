@@ -12,6 +12,7 @@ import org.jodaengine.deployment.importer.archive.AbstractDarHandler;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.api.ReferenceResolverService;
 import org.jodaengine.ext.debugging.listener.DebuggerBpmnXmlParseListener;
 import org.jodaengine.ext.debugging.listener.DebuggerDarHandler;
 import org.jodaengine.ext.debugging.listener.DebuggerRepositoryDeploymentListener;
@@ -58,6 +59,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerTokenListener.class));
         Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerService.class));
         Assert.assertTrue(this.extensionService.isExtensionAvailable(BreakpointService.class));
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(ReferenceResolverService.class));
     }
     
     /**
@@ -128,6 +130,25 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
                 }
             }
         }
+    }
+    
+    /**
+     * Tests that our {@link ReferenceResolverService} is available.
+     * 
+     * @throws ExtensionNotAvailableException test fails
+     */
+    @Test
+    public void testRequiredReferenceResolverServiceIsStarted()
+    throws ExtensionNotAvailableException {
+        
+        ReferenceResolverService service = this.extensionService.getExtensionService(
+            ReferenceResolverService.class,
+            ReferenceResolverService.RESOLVER_SERVICE_NAME);
+        
+        Assert.assertNotNull(service);
+        Assert.assertTrue(service.isRunning());
+        
+        Assert.assertTrue(ReferenceResolverServiceImpl.class.equals(service.getClass()));
     }
     
     /**
