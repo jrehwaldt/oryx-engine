@@ -134,4 +134,22 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         //
         this.debugger.getSvgArtifact(this.mockDefinition);
     }
+    
+    /**
+     * Tests the removal of an existing breakpoint.
+     */
+    @Test
+    public void testRemovalOfBreakpoint() {
+        
+        // TODO write test
+    }
+    
+    /**
+     * Tests the removal of a not existing breakpoint.
+     */
+    @Test
+    public void testRemovalOfMissingBreakpoint() {
+        
+        // TODO write test
+    }
 }
