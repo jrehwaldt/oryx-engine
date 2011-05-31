@@ -26,7 +26,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     private Map<Node, List<Transition>> waitingTransitions;
 
     private Map<String, Object> contextVariables;
-    private Map<String, Object> internalVariables;
+    private Map<String, Object> nodeVariables;
 
     /**
      * Instantiates a new process instance context impl.
@@ -162,29 +162,35 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     @Override
-    public void setInternalVariable(String name, Object value) {
+    public void setNodeVariable(Node node, String name, Object value) {
 
-        getInternalVariables().put(name, value);
+        String variableName = generateNodeVariableIdentifier(node, name);
+        getInternalVariables().put(variableName, value);
     }
 
     @Override
-    public Object getInternalVariable(String name) {
+    public Object getNodeVariable(Node node, String name) {
 
-        return getInternalVariables().get(name);
+        String variableName = generateNodeVariableIdentifier(node, name);
+        return getInternalVariables().get(variableName);
     }
 
     /**
      * Lazily initializes the map of internal variables. It is a synchronized map as concurrent access to the variable
-     * map is likely to occur.
+     * map is likely to occur. We use only one map to handle not that much nested data structures.
      * 
      * @return the internal variables map
      */
     @JsonIgnore
     private Map<String, Object> getInternalVariables() {
 
-        if (internalVariables == null) {
-            internalVariables = Collections.synchronizedMap(new HashMap<String, Object>());
+        if (nodeVariables == null) {
+            nodeVariables = Collections.synchronizedMap(new HashMap<String, Object>());
         }
-        return internalVariables;
+        return nodeVariables;
+    }
+    
+    private String generateNodeVariableIdentifier(Node node, String variableName) {
+        return node.getID() + "-" + variableName;
     }
 }

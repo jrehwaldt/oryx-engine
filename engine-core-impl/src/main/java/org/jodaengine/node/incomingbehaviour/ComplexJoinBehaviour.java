@@ -83,6 +83,8 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
                 // we do not forward tokens here, as this is not specified by the discriminator pattern. Implement this,
                 // if you want to implement the complete complex gateway behaviour as specified.
                 setGatewayState(context, token.getCurrentNode(), ComplexGatewayState.WAITING_FOR_START);
+                
+                context.removeIncomingTransitions(token.getCurrentNode());
                 break;
             default:
                 break;
@@ -100,10 +102,10 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     private synchronized ComplexGatewayState getGatewayState(ProcessInstanceContext context, Node node) {
 
         String variableIdentifier = node.getID() + "-state";
-        Object variable = context.getInternalVariable(variableIdentifier);
+        Object variable = context.getNodeVariable(node, variableIdentifier);
         if (variable == null) {
             variable = ComplexGatewayState.WAITING_FOR_START;
-            context.setInternalVariable(variableIdentifier, variable);
+            context.setNodeVariable(node, variableIdentifier, variable);
         }
         ComplexGatewayState state = (ComplexGatewayState) variable;
 
@@ -120,7 +122,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     private void setGatewayState(ProcessInstanceContext context, Node node, ComplexGatewayState state) {
 
         String variableIdentifier = node.getID() + "-state";
-        context.setInternalVariable(variableIdentifier, state);
+        context.setNodeVariable(node, variableIdentifier, state);
     }
 
 }

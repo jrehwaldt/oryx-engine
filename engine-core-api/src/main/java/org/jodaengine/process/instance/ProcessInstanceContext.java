@@ -85,22 +85,22 @@ public interface ProcessInstanceContext {
     Map<String, Object> getVariableMap();
 
     /**
-     * Sets a variable that might be required by basically any token that belongs to the {@link AbstractProcessInstance}
-     * to perform process execution.
-     * 
-     * @param name
-     *            the name
-     * @param value
-     *            the value
+     * Sets a variable for a node that might be required by basically any token that belongs to the.
+     *
+     * @param node the node
+     * @param name the name
+     * @param value the value
+     * {@link AbstractProcessInstance} to perform process execution.
      */
-    void setInternalVariable(String name, Object value);
+    void setNodeVariable(Node node, String name, Object value);
 
     /**
-     * Gets an internal variable identified by its name.
+     * Gets a variable that has been defined for this node in the current context.
      *
+     * @param node the node
      * @param name the name
      * @return the internal variable or <code>null</code>, if the variable was not previously set
      */
-    Object getInternalVariable(String name);
+    Object getNodeVariable(Node node, String name);
 
 }
