@@ -83,4 +83,24 @@ public interface ProcessInstanceContext {
      * @return a {@link Map} with varibaleId and variableValues
      */
     Map<String, Object> getVariableMap();
+
+    /**
+     * Sets a variable that might be required by basically any token that belongs to the {@link AbstractProcessInstance}
+     * to perform process execution.
+     * 
+     * @param name
+     *            the name
+     * @param value
+     *            the value
+     */
+    void setInternalVariable(String name, Object value);
+
+    /**
+     * Gets an internal variable identified by its name.
+     *
+     * @param name the name
+     * @return the internal variable or <code>null</code>, if the variable was not previously set
+     */
+    Object getInternalVariable(String name);
+
 }

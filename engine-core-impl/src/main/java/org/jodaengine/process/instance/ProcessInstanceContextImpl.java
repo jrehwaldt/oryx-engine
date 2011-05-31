@@ -13,12 +13,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 
-
 /**
  * The Class ProcessInstanceContextImpl.
  */
 public class ProcessInstanceContextImpl implements ProcessInstanceContext {
-    
+
     private static final int MAGIC_HASH_CONSTANT_TWO = 31;
 
     private static final int MAGIC_HASH_CONSTANT_ONE = 7;
@@ -27,7 +26,8 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     private Map<Node, List<Transition>> waitingTransitions;
 
     private Map<String, Object> contextVariables;
-    
+    private Map<String, Object> internalVariables;
+
     /**
      * Instantiates a new process instance context impl.
      */
@@ -96,7 +96,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
 
     @Override
     public Map<String, Object> getVariableMap() {
-    
+
         return getInstanceVariables();
     }
 
@@ -104,7 +104,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     public void setVariable(String name, Object value) {
 
         getInstanceVariables().put(name, value);
-        
+
     }
 
     @Override
@@ -120,35 +120,35 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
      */
     @JsonProperty
     private Map<String, Object> getInstanceVariables() {
-        
+
         if (contextVariables == null) {
             contextVariables = Collections.synchronizedMap(new HashMap<String, Object>());
         }
         return contextVariables;
     }
-    
-    
+
     @Override
     public boolean equals(@Nullable Object object) {
-        
+
         if (object instanceof ProcessInstanceContextImpl) {
             ProcessInstanceContextImpl context = (ProcessInstanceContextImpl) object;
-            
+
             if (getInstanceVariables().equals(context.getInstanceVariables())) {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     @Override
     public int hashCode() {
+
         int hash = MAGIC_HASH_CONSTANT_ONE;
         int magicHashSummand = 0;
-        
+
         Object o;
-        for (String key: getInstanceVariables().keySet()) {
+        for (String key : getInstanceVariables().keySet()) {
             o = getInstanceVariables().get(key);
             if (null == o) {
                 magicHashSummand = 0;
@@ -157,7 +157,34 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
             }
             hash = MAGIC_HASH_CONSTANT_TWO * hash + magicHashSummand;
         }
-        
+
         return hash;
+    }
+
+    @Override
+    public void setInternalVariable(String name, Object value) {
+
+        getInternalVariables().put(name, value);
+    }
+
+    @Override
+    public Object getInternalVariable(String name) {
+
+        return getInternalVariables().get(name);
+    }
+
+    /**
+     * Lazily initializes the map of internal variables. It is a synchronized map as concurrent access to the variable
+     * map is likely to occur.
+     * 
+     * @return the internal variables map
+     */
+    @JsonIgnore
+    private Map<String, Object> getInternalVariables() {
+
+        if (internalVariables == null) {
+            internalVariables = Collections.synchronizedMap(new HashMap<String, Object>());
+        }
+        return internalVariables;
     }
 }

@@ -100,10 +100,10 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     private synchronized ComplexGatewayState getGatewayState(ProcessInstanceContext context, Node node) {
 
         String variableIdentifier = node.getID() + "-state";
-        Object variable = context.getVariable(variableIdentifier);
+        Object variable = context.getInternalVariable(variableIdentifier);
         if (variable == null) {
             variable = ComplexGatewayState.WAITING_FOR_START;
-            context.setVariable(variableIdentifier, variable);
+            context.setInternalVariable(variableIdentifier, variable);
         }
         ComplexGatewayState state = (ComplexGatewayState) variable;
 
@@ -120,7 +120,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     private void setGatewayState(ProcessInstanceContext context, Node node, ComplexGatewayState state) {
 
         String variableIdentifier = node.getID() + "-state";
-        context.setVariable(variableIdentifier, state);
+        context.setInternalVariable(variableIdentifier, state);
     }
 
 }
