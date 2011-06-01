@@ -12,6 +12,8 @@ import java.util.List;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.Breakpoint;
+import org.jodaengine.ext.debugging.api.DebuggerCommand;
+import org.jodaengine.ext.debugging.api.Interrupter;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
@@ -25,6 +27,7 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -86,6 +89,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         //
         // setup clean mocks
         //
+        Interrupter interrupter = mock(Interrupter.class);
         this.mockDebuggerWithBreakpoint = mock(DebuggerServiceImpl.class);
         this.mockDebuggerWithoutBreakpoint = mock(DebuggerServiceImpl.class);
         this.mockToken = mock(Token.class);
@@ -98,11 +102,27 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         breakpoints.add(this.breakpoint);
         breakpoints.add(new BreakpointImpl(mock(Node.class), this.state));
         
+        //
+        // general definition mock
+        //
         when(this.mockToken.getInstance()).thenReturn(this.mockInstance);
         when(this.mockToken.getCurrentNode()).thenReturn(this.node);
         when(this.mockToken.getCurrentActivityState()).thenReturn(this.state);
         when(this.mockInstance.getDefinition()).thenReturn(this.definition);
         when(this.mockDebuggerWithBreakpoint.getBreakpoints(this.mockInstance)).thenReturn(breakpoints);
+        
+        //
+        // interrupter mock
+        //
+        when(interrupter.interrupt()).thenReturn(DebuggerCommand.CONTINUE);
+        when(this.mockDebuggerWithBreakpoint.breakpointTriggered(
+            Mockito.<Token>any(),
+            Mockito.<Breakpoint>any(),
+            Mockito.<DebuggerTokenListener>any())).thenReturn(interrupter);
+        when(this.mockDebuggerWithoutBreakpoint.breakpointTriggered(
+            Mockito.<Token>any(),
+            Mockito.<Breakpoint>any(),
+            Mockito.<DebuggerTokenListener>any())).thenReturn(interrupter);
         
         //
         // create bounded listeners

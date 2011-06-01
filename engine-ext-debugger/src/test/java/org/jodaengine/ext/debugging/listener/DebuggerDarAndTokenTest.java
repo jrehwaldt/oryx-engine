@@ -18,6 +18,8 @@ import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.Breakpoint;
+import org.jodaengine.ext.debugging.api.DebuggerCommand;
+import org.jodaengine.ext.debugging.api.Interrupter;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
@@ -28,6 +30,7 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.ReflectionUtil;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -63,6 +66,16 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
         this.mockDebugger = mock(DebuggerServiceImpl.class);
         this.mockToken = mock(Token.class);
         this.mockInstance = mock(AbstractProcessInstance.class);
+        
+        //
+        // interrupter mock
+        //
+        Interrupter interrupter = mock(Interrupter.class);
+        when(interrupter.interrupt()).thenReturn(DebuggerCommand.CONTINUE);
+        when(this.mockDebugger.breakpointTriggered(
+            Mockito.<Token>any(),
+            Mockito.<Breakpoint>any(),
+            Mockito.<DebuggerTokenListener>any())).thenReturn(interrupter);
         
         //
         // create bounded listeners
