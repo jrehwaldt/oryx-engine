@@ -24,14 +24,19 @@ import org.slf4j.LoggerFactory;
  * which were matched by a {@link Breakpoint}.
  * 
  * It, furthermore, implements the {@link Interrupter}, which interrupts and signals
- * the {@link DebuggerTokenListener}. It therefore uses the Java Atomic* classes.
+ * the {@link DebuggerTokenListener}. It therefore uses the Java Concurrent classes.
  * 
  * @see http://www.ibm.com/developerworks/java/library/j-jtp11234/
+ * @see http://download.oracle.com/javase/tutorial/essential/concurrency/
+ * @see http://stackoverflow.com/questions/289434/how-to-make-a-java-thread-wait-for-another-threads-output
  * 
  * @author Jan Rehwaldt
  * @since 2011-06-01
  */
 public final class InterruptedInstanceImpl implements InterruptedInstance, Interrupter {
+    
+    private static final String ILLEGAL_INTERRUPTION
+        = "Interrupting an InterruptedInstance multiple times is not allowed.";
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
@@ -60,7 +65,12 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
         this.id = UUID.randomUUID();
         
         this.interruptingListener = interruptingListener;
-        this.mutex = new Semaphore(1);
+        
+        //
+        // create our semaphore with zero permits
+        // -> it needs to be release before the first acquire will continue
+        //
+        this.mutex = new Semaphore(0);
     }
     
     /**
@@ -83,6 +93,10 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
         this.mutex = null;
     }
     
+    //=================================================================
+    //=================== InterruptedInstance methods =================
+    //=================================================================
+    
     @Override
     public UUID getID() {
         return this.id;
@@ -97,11 +111,66 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     public Breakpoint getCausingBreakpoint() {
         return causingBreakpoint;
     }
-
+    
     @Override
     public AbstractProcessInstance getInterruptedInstance() {
         return getInterruptedToken().getInstance();
     }
+    
+    //=================================================================
+    //=================== Interrupter methods =========================
+    //=================================================================
+    
+    @Override
+    public DebuggerCommand interrupt() {
+        
+        //
+        // invoked the second time? - fool!
+        //
+        assert this.command == null;
+        if (this.command != null) {
+            logger.warn(
+                "There is **most likely** an issue with your programmar. Just replace her or him! Cause: %s",
+                ILLEGAL_INTERRUPTION);
+            throw new IllegalStateException(ILLEGAL_INTERRUPTION);
+        }
+        
+        logger.info("Token {} is interrupted.", getInterruptedToken());
+        assert this.mutex != null;
+        
+        //
+        // wait until we get signaled...
+        //
+        this.mutex.acquireUninterruptibly();
+        
+        //
+        // ...and return the signaled command
+        //
+        assert this.command != null;
+        return this.command;
+    }
+    
+    @Override
+    public synchronized void continueInstance(DebuggerCommand command) {
+        
+        logger.info("Token {} is continued.", getInterruptedToken());
+        
+        //
+        // keep the command...
+        //
+        assert this.command != null;
+        this.command = command;
+        
+        //
+        // ...and signal our mutex to resume the interrupted instance
+        //
+        assert this.mutex != null;
+        this.mutex.release();
+    }
+    
+    //=================================================================
+    //=================== Implementation-specific methods =============
+    //=================================================================
     
     /**
      * This is a transient field. Deserialized and serialized representations may not have
@@ -118,7 +187,6 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
         
         return interruptingListener;
     }
-
     
 // CHECKSTYLE:OFF
     @Override
@@ -185,41 +253,5 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
         }
         
         return false;
-    }
-
-    @Override
-    public DebuggerCommand interrupt() {
-        
-        logger.info("Token {} is interrupted.", getInterruptedToken());
-        assert this.mutex != null;
-        
-        //
-        // wait until we get signaled...
-        //
-        this.mutex.acquireUninterruptibly();
-        
-        //
-        // ...and return the signaled command
-        //
-        assert this.command != null;
-        return this.command;
-    }
-
-    @Override
-    public synchronized void continueInstance(DebuggerCommand command) {
-        
-        logger.info("Token {} is continued.", getInterruptedToken());
-        
-        //
-        // keep the command...
-        //
-        assert this.command != null;
-        this.command = command;
-        
-        //
-        // ...and signal our mutex to resume the interrupted instance
-        //
-        assert this.mutex != null;
-        this.mutex.release();
     }
 }
