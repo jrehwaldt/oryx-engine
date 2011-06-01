@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 
 import org.jodaengine.RepositoryService;
+import org.jodaengine.deployment.Deployment;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.Breakpoint;
@@ -17,6 +18,7 @@ import org.jodaengine.ext.listener.RepositoryDeploymentListener;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
+import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
@@ -138,5 +140,28 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         //
         this.listener.definitionDeleted(repository, definition);
         verify(this.mockDebugger, times(1)).unregisterAllBreakpoints(eq(definition));
+    }
+    
+    /**
+     * Tests that the invocation of the not used methods will not cause an exception.
+     */
+    @Test
+    public void testNotUsedMethodsWillNotCauseAnError() {
+        
+        RepositoryService repository = this.jodaEngineServices.getRepositoryService();
+        
+        //
+        // artifact - causes NO error
+        //
+        AbstractProcessArtifact artifact = mock(AbstractProcessArtifact.class);
+        this.listener.artifactDeployed(repository, artifact);
+        this.listener.artifactDeleted(repository, artifact);
+        
+        //
+        // deployment - causes NO error
+        //
+        Deployment deployment = mock(Deployment.class);
+        this.listener.deploymentDeployed(repository, deployment);
+        this.listener.deploymentDeleted(repository, deployment);
     }
 }
