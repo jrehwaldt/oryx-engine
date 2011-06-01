@@ -67,5 +67,5 @@ public interface BreakpointService {
      * 
      * @return a list of all known breakpoints
      */
-    @Nonnull Collection<Breakpoint> getAllBreakpoints();
+    @Nonnull Collection<Breakpoint> getBreakpoints();
 }

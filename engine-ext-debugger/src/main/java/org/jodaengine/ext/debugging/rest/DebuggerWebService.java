@@ -18,6 +18,7 @@ import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.api.InterruptedInstance;
 import org.jodaengine.ext.debugging.api.ReferenceResolverService;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
@@ -69,6 +70,27 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
             this.debugger = null;
         }
     }
+
+    @Path("/status/is-running")
+    @GET
+    @Override
+    public boolean isRunning() {
+        if (this.debugger != null) {
+            return this.debugger.isRunning();
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public void start(JodaEngineServices services) {
+        throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
+    }
+    
+    @Override
+    public void stop() {
+        throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
+    }
     
     //=================================================================
     //=================== DebuggerService methods =====================
@@ -114,26 +136,13 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
         }
         throw new ServiceUnavailableException(DebuggerService.class);
     }
-
-    @Path("/status/is-running")
-    @GET
+    
     @Override
-    public boolean isRunning() {
+    public Collection<InterruptedInstance> getInterruptedInstances() {
         if (this.debugger != null) {
-            return this.debugger.isRunning();
+            return this.debugger.getInterruptedInstances();
         }
-        
-        return false;
-    }
-    
-    @Override
-    public void start(JodaEngineServices services) {
-        throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
-    }
-    
-    @Override
-    public void stop() {
-        throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
+        throw new ServiceUnavailableException(DebuggerService.class);
     }
     
     //=================================================================
@@ -196,10 +205,10 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     }
     
     @Override
-    public Collection<Breakpoint> getAllBreakpoints() {
+    public Collection<Breakpoint> getBreakpoints() {
         
         if (this.debugger != null) {
-            return this.debugger.getAllBreakpoints();
+            return this.debugger.getBreakpoints();
         }
         
         throw new ServiceUnavailableException(DebuggerService.class);

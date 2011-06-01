@@ -7,7 +7,9 @@ import javax.annotation.Nonnull;
 import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.Breakpoint;
+import org.jodaengine.ext.debugging.api.DebuggerCommand;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.api.Interrupter;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.process.token.Token;
@@ -63,10 +65,24 @@ public class DebuggerTokenListener extends AbstractTokenListener {
             if (breakpoint.matches(token)) {
                 logger.debug("Breakpoint {} matches {}", breakpoint, token);
                 
-                this.debugger.breakpointTriggered(token, breakpoint, this);
+                //
+                // inform the DebuggerService
+                //
+                Interrupter signal = this.debugger.breakpointTriggered(token, breakpoint, this);
                 
                 //
-                // ignore any subsequent breakpoints
+                // interrupt
+                //
+                logger.info("Interrupting token {}", token);
+                DebuggerCommand command = signal.interrupt();
+                
+                logger.info("Token {} resumed with command {}", token, command);
+                //
+                // TODO consider the command and go on
+                //
+                
+                //
+                // ignore any subsequent breakpoints and go on with the process instance
                 //
                 return;
                 

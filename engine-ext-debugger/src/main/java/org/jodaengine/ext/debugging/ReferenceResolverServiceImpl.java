@@ -58,7 +58,7 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
             this.debugger = extensionService.getExtensionService(
                 DebuggerService.class, DebuggerService.DEBUGGER_SERVICE_NAME);
         } catch (ExtensionNotAvailableException enae) {
-            logger.error("The Debugger Resolver will be unavailable. No Debugger Service found.");
+            logger.error("The Breakpoint Resolver will be unavailable. No Debugger Service found.");
             this.debugger = null;
         }
         
@@ -128,7 +128,7 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
             throw new ServiceUnavailableException(DebuggerService.class);
         }
         
-        for (Breakpoint breakpoint: this.debugger.getAllBreakpoints()) {
+        for (Breakpoint breakpoint: this.debugger.getBreakpoints()) {
             if (breakpoint.equals(dereferencedBreakpoint)) {
                 return breakpoint;
             }

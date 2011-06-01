@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
@@ -21,10 +22,13 @@ import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.api.InterruptedInstance;
+import org.jodaengine.ext.debugging.api.Interrupter;
 import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
+import org.jodaengine.ext.debugging.shared.InterruptedInstanceImpl;
 import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.ActivityState;
@@ -55,6 +59,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     private RepositoryService repository;
     
     private Map<ProcessDefinition, List<Breakpoint>> breakpoints;
+    private Map<UUID, InterruptedInstanceImpl> interruptedInstances;
     
     private boolean running = false;
     
@@ -72,7 +77,9 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         this.engineServices = services;
         this.navigator = services.getNavigatorService();
         this.repository = services.getRepositoryService();
+        
         this.breakpoints = new HashMap<ProcessDefinition, List<Breakpoint>>();
+        this.interruptedInstances = new HashMap<UUID, InterruptedInstanceImpl>();
         
         this.running = true;
     }
@@ -90,6 +97,9 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         logger.info("Stopping the DebuggerService");
         this.engineServices = null;
         this.navigator = null;
+        
+        this.breakpoints = null;
+        this.interruptedInstances = null;
         
         this.running = false;
     }
@@ -125,6 +135,14 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     public void continueInstance(AbstractProcessInstance instance) {
         // TODO Auto-generated method stub
         logger.debug("Continue instance {}", instance);
+    }
+
+    @Override
+    public synchronized Collection<InterruptedInstance> getInterruptedInstances() {
+        
+        Collection<InterruptedInstance> result = new ArrayList<InterruptedInstance>();
+        result.addAll(this.interruptedInstances.values());
+        return result;
     }
     
     //=================================================================
@@ -191,7 +209,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     }
     
     @Override
-    public Collection<Breakpoint> getAllBreakpoints() {
+    public Collection<Breakpoint> getBreakpoints() {
         
         List<Breakpoint> knownBreakpoints = new ArrayList<Breakpoint>();
         for (List<Breakpoint> tmp: breakpoints.values()) {
@@ -300,19 +318,31 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
      * 
      * It will not check the proper matching of the breakpoint, as it is verified beforehand.
      * 
-     * @param token the {@link Token}, which matched a breakpoint
-     * @param breakpoint the {@link Breakpoint}, which was matched
-     * @param listener the {@link DebuggerTokenListener}, which triggered this breakpoint match
+     * @param interruptedToken the {@link Token}, which matched a breakpoint
+     * @param causingBreakpoint the {@link Breakpoint}, which was matched
+     * @param interruptingListener the {@link DebuggerTokenListener}, which triggered this breakpoint match
+     * 
+     * @return the signaler for out {@link InterruptedInstance}
      */
-    public void breakpointTriggered(@Nonnull Token token,
-                                    @Nonnull Breakpoint breakpoint,
-                                    @Nonnull DebuggerTokenListener listener) {
+    public synchronized Interrupter breakpointTriggered(@Nonnull Token interruptedToken,
+                                                               @Nonnull Breakpoint causingBreakpoint,
+                                                               @Nonnull DebuggerTokenListener interruptingListener) {
         
-        logger.info("Breakpoint {} triggered for token {}", breakpoint, token);
+        logger.info("Breakpoint {} triggered for token {}", causingBreakpoint, interruptedToken);
         
         //
-        // TODO Jan crazy stuff: suspend token, remember state and token, ...
+        // remember the token's state
         //
+        InterruptedInstanceImpl instance = new InterruptedInstanceImpl(
+            interruptedToken,
+            causingBreakpoint,
+            interruptingListener);
         
+        this.interruptedInstances.put(instance.getID(), instance);
+        
+        //
+        // and resume this object as Interrupter
+        //
+        return instance;
     }
 }
