@@ -6,6 +6,7 @@
              xmlns:signavio="http://www.signavio.com"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:debugger="http://jodaengine.org/bpmn-extensions/debugger"
+             xmlns:joda="http://jodaengine.org/bpmn-extensions"
              exporter="Signavio Process Editor, http://www.signavio.com"
              exporterVersion="4.6.0"
              expressionLanguage="http://www.w3.org/1999/XPath"
@@ -45,10 +46,15 @@
          <outgoing>sid-EA9DEB72-BDCE-43F1-B234-A01BF7399B99</outgoing>
          <outgoing>sid-62578835-A6BF-4AA5-ABC2-25220A65EB49</outgoing>
       </parallelGateway>
-      <task completionQuantity="1" id="sid-F75CFE09-4C07-46A0-BF01-0E07942007A1" isForCompensation="false" name="B" startQuantity="1">
+      <userTask id="sid-F75CFE09-4C07-46A0-BF01-0E07942007A1" joda:form="some-form.html">
+         <humanPerformer resourceRef="Thorben">
+            <resourceAssignmentExpression>
+               <formalExpression>participant(Thorben)</formalExpression>
+            </resourceAssignmentExpression>
+         </humanPerformer>
          <incoming>sid-EA9DEB72-BDCE-43F1-B234-A01BF7399B99</incoming>
          <outgoing>sid-F6AA0DF0-BE66-4272-BBFD-C886FBF83864</outgoing>
-      </task>
+      </userTask>
       <parallelGateway gatewayDirection="Converging" id="sid-07A306AF-8074-4347-BF47-96469FE0285B">
          <incoming>sid-A0899BB3-8E18-4D2B-B47E-9C720ADAFADA</incoming>
          <incoming>sid-F6AA0DF0-BE66-4272-BBFD-C886FBF83864</incoming>

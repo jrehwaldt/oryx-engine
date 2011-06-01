@@ -155,6 +155,11 @@ public class DebuggerBpmnXmlParseListenerTest extends AbstractJodaEngineTest {
     @Test
     public void testBreakpointExtraction() {
         
+        //
+        // just create Thorben, as he helps us reach more code coverage ;-)
+        //
+        this.jodaEngineServices.getIdentityService().getIdentityBuilder().createParticipant("Thorben");
+        
         InputStream bpmnXml = ReflectionUtil.getResourceAsStream(BREAKPOINT_DEFINED);
         Assert.assertNotNull(bpmnXml);
         
