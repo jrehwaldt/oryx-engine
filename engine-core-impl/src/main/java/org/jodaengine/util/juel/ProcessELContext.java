@@ -87,7 +87,7 @@ public class ProcessELContext extends SimpleContext {
             // check the context and bind the resolved value into our map
             //
             Object contextValue = instanceContext.getVariable(variable);
-                        
+            
             ValueExpression valueExpression = null;
             if (contextValue != null) {
                 valueExpression = expressionFactory.createValueExpression(contextValue, contextValue.getClass());

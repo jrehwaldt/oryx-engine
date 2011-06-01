@@ -3,7 +3,6 @@ package org.jodaengine.ext.debugging.shared;
 import javax.annotation.Nonnull;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
-import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -46,14 +45,12 @@ public class JuelBreakpointCondition implements BreakpointCondition {
         ELContext context = new ProcessELContext(token.getInstance().getContext());
         
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        ValueExpression e = factory.createValueExpression(context, expression, boolean.class);
         
         try {
+            ValueExpression e = factory.createValueExpression(context, expression, boolean.class);
             return ((Boolean) e.getValue(context)).booleanValue();
-        } catch (PropertyNotFoundException pnfe) {
-            logger.warn(
-                "The breakpoint condition '" + expression + "' contains an expression that could not be evaluated.",
-                pnfe);
+        } catch (Exception e) {
+            logger.warn("The condition '" + expression + "' contains an expression that could not be evaluated.", e);
             return true;
         }
     }
