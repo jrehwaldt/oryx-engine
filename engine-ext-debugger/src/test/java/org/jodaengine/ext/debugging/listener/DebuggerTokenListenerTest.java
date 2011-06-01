@@ -57,9 +57,10 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
      * Setup before method.
      * 
      * @throws IllegalStarteventException setup fails
+     * @throws InterruptedException nonsense
      */
     @BeforeMethod
-    public void setupMethod() throws IllegalStarteventException {
+    public void setupMethod() throws IllegalStarteventException, InterruptedException {
         
         this.state = ActivityState.READY;
         

@@ -30,7 +30,6 @@ import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.debugging.shared.InterruptedInstanceImpl;
 import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
-import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
@@ -54,8 +53,6 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    private JodaEngineServices engineServices;
-    private Navigator navigator;
     private RepositoryService repository;
     
     private Map<ProcessDefinition, List<Breakpoint>> breakpoints;
@@ -74,8 +71,6 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         }
         
         logger.info("Starting the DebuggerService");
-        this.engineServices = services;
-        this.navigator = services.getNavigatorService();
         this.repository = services.getRepositoryService();
         
         this.breakpoints = new HashMap<ProcessDefinition, List<Breakpoint>>();
@@ -95,8 +90,6 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         }
         
         logger.info("Stopping the DebuggerService");
-        this.engineServices = null;
-        this.navigator = null;
         
         this.breakpoints = null;
         this.interruptedInstances = null;
@@ -344,5 +337,20 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         // and resume this object as Interrupter
         //
         return instance;
+    }
+    
+    /**
+     * The {@link DebuggerTokenListener} invokes this method to signalize, that it was
+     * interrupted by a non-Debugger component.
+     * 
+     * @param signal the signal, which was unexpectedly (=ignoring the Debugger) interrupted
+     */
+    public void unexspectedInterruption(@Nonnull Interrupter signal) {
+        
+        //
+        // we are, unfortunately, no longer waiting for this instance - someone else stole it
+        //
+        InterruptedInstanceImpl instance = this.interruptedInstances.remove(signal.getID());
+        logger.info("Interrupted instance {} unexpectedly continued. Breakpoint cleared.", instance);
     }
 }

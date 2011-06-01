@@ -74,12 +74,26 @@ public class DebuggerTokenListener extends AbstractTokenListener {
                 // interrupt
                 //
                 logger.info("Interrupting token {}", token);
-                DebuggerCommand command = signal.interrupt();
-                
-                logger.info("Token {} resumed with command {}", token, command);
-                //
-                // TODO consider the command and go on
-                //
+                DebuggerCommand command;
+                try {
+                    command = signal.interrupt();
+                    
+                    logger.info("Token {} resumed with command {}", token, command);
+                    //
+                    // TODO consider the command and go on
+                    //
+                } catch (InterruptedException ie) {
+                    //
+                    // Some other thread interrupted this one unexpectedly.
+                    // This means that the Debugger will no longer wait for this token (breakpoint).
+                    //
+                    logger.warn("Unexpected thread interruption. Token " + token.toString() + " will continue.", ie);
+                    
+                    //
+                    // we inform the Debugger, so it may unregister the breakpoint
+                    //
+                    this.debugger.unexspectedInterruption(signal);
+                }
                 
                 //
                 // ignore any subsequent breakpoints and go on with the process instance

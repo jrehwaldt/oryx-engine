@@ -56,9 +56,11 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
     
     /**
      * Setup before method.
+     * 
+     * @throws InterruptedException nonsense
      */
     @BeforeMethod
-    public void setupMethod() {
+    public void setupMethod() throws InterruptedException {
         
         //
         // setup clean mocks

@@ -1,7 +1,7 @@
 package org.jodaengine.ext.debugging.shared;
 
 import java.util.UUID;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.CountDownLatch;
 
 import javax.annotation.Nonnull;
 
@@ -28,15 +28,15 @@ import org.slf4j.LoggerFactory;
  * 
  * @see http://www.ibm.com/developerworks/java/library/j-jtp11234/
  * @see http://download.oracle.com/javase/tutorial/essential/concurrency/
- * @see http://stackoverflow.com/questions/289434/how-to-make-a-java-thread-wait-for-another-threads-output
+ * @see http://stackoverflow.com/questions/184147/countdownlatch-vs-semaphore
  * 
  * @author Jan Rehwaldt
  * @since 2011-06-01
  */
 public final class InterruptedInstanceImpl implements InterruptedInstance, Interrupter {
     
-    private static final String ILLEGAL_INTERRUPTION
-        = "Interrupting an InterruptedInstance multiple times is not allowed.";
+    private static final String ILLEGAL_USAGE
+        = "Interrupting or continuing an InterruptedInstance multiple times is not allowed.";
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
@@ -46,7 +46,7 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     private final Breakpoint causingBreakpoint;
     
     private transient final DebuggerTokenListener interruptingListener;
-    private transient final Semaphore mutex;
+    private transient final CountDownLatch latch;
     private transient DebuggerCommand command;
     
     /**
@@ -67,10 +67,14 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
         this.interruptingListener = interruptingListener;
         
         //
-        // create our semaphore with zero permits
-        // -> it needs to be release before the first acquire will continue
+        // create our latch with count one
+        // -> it needs to be decremented one time before all acquires will continue
         //
-        this.mutex = new Semaphore(0);
+        // We use a CountDownLatch here (over a Semaphore), because we are interested
+        // in a single-use, always-firing solution. The latch will directly fire, if it
+        // already was released. 
+        //
+        this.latch = new CountDownLatch(1);
     }
     
     /**
@@ -90,7 +94,7 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
         this.id = id;
         
         this.interruptingListener = null;
-        this.mutex = null;
+        this.latch = null;
     }
     
     //=================================================================
@@ -122,50 +126,47 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     //=================================================================
     
     @Override
-    public DebuggerCommand interrupt() {
+    public DebuggerCommand interrupt() throws InterruptedException {
         
         //
-        // invoked the second time? - fool!
+        // disallow multiple invocations
         //
-        assert this.command == null;
-        if (this.command != null) {
-            logger.warn(
-                "There is **most likely** an issue with your programmar. Just replace her or him! Cause: %s",
-                ILLEGAL_INTERRUPTION);
-            throw new IllegalStateException(ILLEGAL_INTERRUPTION);
-        }
+        ensureProperInitialization();
         
-        logger.info("Token {} is interrupted.", getInterruptedToken());
-        assert this.mutex != null;
+        logger.debug("Token {} is interrupted.", getInterruptedToken());
         
         //
         // wait until we get signaled...
         //
-        this.mutex.acquireUninterruptibly();
+        this.latch.await();
+        assert this.command != null;
         
         //
         // ...and return the signaled command
         //
-        assert this.command != null;
         return this.command;
     }
     
     @Override
     public synchronized void continueInstance(DebuggerCommand command) {
         
-        logger.info("Token {} is continued.", getInterruptedToken());
+        //
+        // disallow multiple invocations
+        //
+        ensureProperInitialization();
+        
+        logger.debug("Token {} is continued.", getInterruptedToken());
         
         //
         // keep the command...
         //
-        assert this.command != null;
         this.command = command;
         
         //
-        // ...and signal our mutex to resume the interrupted instance
+        // ...and signal our latch to resume the interrupted instance
         //
-        assert this.mutex != null;
-        this.mutex.release();
+        assert this.latch.getCount() == 1L;
+        this.latch.countDown();
     }
     
     //=================================================================
@@ -186,6 +187,25 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
         }
         
         return interruptingListener;
+    }
+    
+    /**
+     * This method checks the proper initialization of our {@link CountDownLatch}
+     * and disallows multiple invocations of the interruption-relevant methods.
+     */
+    private void ensureProperInitialization() {
+        
+        //
+        // invoked the second time? - fool!
+        //
+        assert this.command == null;
+        assert this.latch != null;
+        if (this.command != null || this.latch == null) {
+            logger.warn(
+                "There is **most likely** an issue with your programmar. Just replace her or him! Cause: {}",
+                ILLEGAL_USAGE);
+            throw new IllegalStateException(ILLEGAL_USAGE);
+        }
     }
     
 // CHECKSTYLE:OFF
