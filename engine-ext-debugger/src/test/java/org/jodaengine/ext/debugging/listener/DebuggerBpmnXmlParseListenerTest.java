@@ -7,6 +7,7 @@ import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.util.ReflectionUtil;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
@@ -30,6 +31,9 @@ public class DebuggerBpmnXmlParseListenerTest extends AbstractJodaEngineTest {
     private static final String NO_SVG_AVAILABLE  = RESOURCE_PATH + "DebuggingEnabledAndNoSvgAvailable.bpmn.xml";
     private static final String NO_CONTEXT        = RESOURCE_PATH + "NoDebuggingExtension.bpmn.xml";
     private static final String BREAKPOINT_DEFINED = RESOURCE_PATH + "DebuggingEnabledAndBreakpointAvailable.bpmn.xml";
+
+    private static final short WITH_CONDITION = 1;
+    private static final short WITHOUT_CONDITION = 2;
     
     private BpmnXmlParseListener listener;
     
@@ -169,7 +173,7 @@ public class DebuggerBpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         Assert.assertNotNull(attribute);
         
         Assert.assertNotNull(attribute.getBreakpoints());
-        Assert.assertEquals(attribute.getBreakpoints().size(), 2);
+        Assert.assertEquals(attribute.getBreakpoints().size(), WITH_CONDITION + WITHOUT_CONDITION);
         
         //
         // correct extraction?
@@ -179,13 +183,21 @@ public class DebuggerBpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         for (Breakpoint breakpoint: attribute.getBreakpoints()) {
             Assert.assertNotNull(breakpoint);
             
+            //
+            // we have three breakpoints in the file
+            //   a) with condition and COMPLETED
+            //   b) without condition and INVALID_STATE_WILL_AUTOGENERATE_READY (-> READY)
+            //   b) without condition and auto-generated READY
+            //
             if (breakpoint.getCondition() == null) {
                 withoutCondition++;
+                Assert.assertEquals(breakpoint.getState(), ActivityState.READY);
             } else {
                 withCondition++;
+                Assert.assertEquals(breakpoint.getState(), ActivityState.COMPLETED);
             }
         }
-        Assert.assertEquals(withCondition, 1);
-        Assert.assertEquals(withoutCondition, 1);
+        Assert.assertEquals(withCondition, WITH_CONDITION);
+        Assert.assertEquals(withoutCondition, WITHOUT_CONDITION);
     }
 }

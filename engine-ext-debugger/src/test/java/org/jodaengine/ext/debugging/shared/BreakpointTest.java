@@ -8,10 +8,9 @@ import java.util.UUID;
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointCondition;
 import org.jodaengine.ext.debugging.util.UUIDBreakpointImpl;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.NodeImpl;
-import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -29,6 +28,7 @@ public class BreakpointTest {
     private Breakpoint breakpoint;
     private Token token;
     private Node node;
+    private ActivityState state;
     private AbstractProcessInstance instance;
     
     /**
@@ -39,7 +39,9 @@ public class BreakpointTest {
         this.node = mock(Node.class);
         this.instance = mock(AbstractProcessInstance.class);
         this.token = mock(Token.class);
+        this.state = ActivityState.READY;
         when(this.token.getCurrentNode()).thenReturn(this.node);
+        when(this.token.getCurrentActivityState()).thenReturn(this.state);
         when(this.token.getInstance()).thenReturn(this.instance);
     }
     
@@ -48,7 +50,7 @@ public class BreakpointTest {
      */
     @BeforeMethod
     public void setUpMethod() {
-        this.breakpoint = new BreakpointImpl(this.node);
+        this.breakpoint = new BreakpointImpl(this.node, this.state);
     }
     
     /**
@@ -79,14 +81,28 @@ public class BreakpointTest {
     }
     
     /**
-     * Tests that a disabled {@link BreakpointImpl} will not match if a {@link Token} is on the
-     * breakpoint's {@link Node}.
+     * Tests that a {@link BreakpointImpl} will not match if a {@link Token} is on another {@link Node}.
      */
     @Test
     public void testBreakpointWillNotMatchWhenTokenOnOtherNode() {
-        Node otherNode = new NodeImpl(null, null, null);
-        Token otherToken = new BpmnToken(otherNode, null, null);
+        Node otherNode = mock(Node.class);
+        Token otherToken = mock(Token.class);
+        when(otherToken.getCurrentNode()).thenReturn(otherNode);
+        when(otherToken.getCurrentActivityState()).thenReturn(this.state);
         Assert.assertNotSame(this.breakpoint.getNode(), otherNode);
+        Assert.assertFalse(this.breakpoint.matches(otherToken));
+    }
+    
+    /**
+     * Tests that a {@link BreakpointImpl} will not match if a {@link Token} is in another {@link ActivityState}.
+     */
+    @Test
+    public void testBreakpointWillNotMatchWhenTokenInOtherActivityState() {
+        ActivityState otherState = ActivityState.COMPLETED;
+        Token otherToken = mock(Token.class);
+        when(otherToken.getCurrentNode()).thenReturn(this.node);
+        when(otherToken.getCurrentActivityState()).thenReturn(otherState);
+        Assert.assertNotSame(this.breakpoint.getState(), otherState);
         Assert.assertFalse(this.breakpoint.matches(otherToken));
     }
     
@@ -119,15 +135,15 @@ public class BreakpointTest {
     @Test
     public void testBreakpointEquals() throws NoSuchFieldException, IllegalAccessException {
         
-        Breakpoint breakpointOriginal = new BreakpointImpl(node);
+        Breakpoint breakpointOriginal = new BreakpointImpl(node, this.state);
         Breakpoint breakpointNull = null;
         UUID id = breakpointOriginal.getID();
         
-        Breakpoint breakpoint1 = new UUIDBreakpointImpl(id, this.node);
-        Breakpoint breakpoint2 = new UUIDBreakpointImpl(id, this.node);
+        Breakpoint breakpoint1 = new UUIDBreakpointImpl(id, this.node, this.state);
+        Breakpoint breakpoint2 = new UUIDBreakpointImpl(id, this.node, this.state);
         
-        Breakpoint breakpointId = new UUIDBreakpointImpl(UUID.randomUUID(), this.node);
-        Breakpoint breakpointNode = new UUIDBreakpointImpl(id, mock(Node.class));
+        Breakpoint breakpointId = new UUIDBreakpointImpl(UUID.randomUUID(), this.node, this.state);
+        Breakpoint breakpointNode = new UUIDBreakpointImpl(id, mock(Node.class), this.state);
         
         //
         // equals

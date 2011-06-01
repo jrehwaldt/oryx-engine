@@ -18,6 +18,7 @@ import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.debugging.util.AttributeKeyProvider;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -233,8 +234,14 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
     @Test
     public void testCreatingBreakpoints() throws DefinitionNotFoundException {
         
-        Breakpoint breakpoint = this.debugger.createBreakpoint(this.mockDefinition, mock(Node.class), null);
+        Breakpoint breakpoint = this.debugger.createBreakpoint(
+            this.mockDefinition,
+            mock(Node.class),
+            ActivityState.READY,
+            null);
+        
         Assert.assertTrue(breakpoint.isEnabled());
+        Assert.assertEquals(breakpoint.getState(), ActivityState.READY);
         Assert.assertNull(breakpoint.getCondition());
         Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), 1);
         Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).iterator().next(), breakpoint);
@@ -248,8 +255,13 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
     @Test
     public void testCreatingBreakpointsWithConditions() throws DefinitionNotFoundException {
         
-        Breakpoint breakpoint = this.debugger.createBreakpoint(this.mockDefinition, mock(Node.class), "true");
+        Breakpoint breakpoint = this.debugger.createBreakpoint(
+            this.mockDefinition,
+            mock(Node.class),
+            ActivityState.WAITING,
+            "true");
         Assert.assertTrue(breakpoint.isEnabled());
+        Assert.assertEquals(breakpoint.getState(), ActivityState.WAITING);
         Assert.assertNotNull(breakpoint.getCondition());
         Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).size(), 1);
         Assert.assertEquals(this.debugger.getBreakpoints(this.mockInstance).iterator().next(), breakpoint);

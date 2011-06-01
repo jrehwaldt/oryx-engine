@@ -27,6 +27,7 @@ import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -133,13 +134,15 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     @Override
     public synchronized Breakpoint createBreakpoint(ProcessDefinition targetDefinition,
                                                     Node targetNode,
+                                                    ActivityState targetActivityState,
                                                     String juelCondition)
     throws DefinitionNotFoundException {
         
-        logger.debug("Create a breakpoint for node {}", targetNode);
-        Breakpoint breakpoint = new BreakpointImpl(targetNode);
+        logger.info("Create a breakpoint for node {} on {}", targetNode, targetActivityState);
+        Breakpoint breakpoint = new BreakpointImpl(targetNode, targetActivityState);
         
         if (juelCondition != null) {
+            logger.info("Adding condition {}", juelCondition);
             breakpoint.setCondition(new JuelBreakpointCondition(juelCondition));
         }
         

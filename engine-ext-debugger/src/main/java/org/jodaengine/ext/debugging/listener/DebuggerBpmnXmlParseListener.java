@@ -11,6 +11,7 @@ import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
@@ -271,7 +272,23 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
             return null;
         }
         
-        Breakpoint breakpoint = new BreakpointImpl(node);
+        //
+        // state available?
+        //
+        ActivityState activityState = ActivityState.READY;
+        String activityStateString = breakpointElement.getAttribute("activityState");
+        if (activityStateString != null) {
+            try {
+                activityState = ActivityState.valueOf(activityStateString);
+            } catch (IllegalArgumentException iae) {
+                logger.warn(
+                    "Unable to parse activity state {}. Using default ({}) instead.",
+                    activityStateString,
+                    activityState);
+            }
+        }
+        
+        Breakpoint breakpoint = new BreakpointImpl(node, activityState);
         
         //
         // condition available?

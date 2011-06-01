@@ -157,6 +157,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
             
             when(this.mockToken.getInstance()).thenReturn(this.mockInstance);
             when(this.mockToken.getCurrentNode()).thenReturn(node);
+            when(this.mockToken.getCurrentActivityState()).thenReturn(ActivityState.COMPLETED);
             when(this.mockInstance.getDefinition()).thenReturn(definition);
             when(this.mockDebugger.getBreakpoints(this.mockInstance)).thenReturn(breakpoints);
             
@@ -165,7 +166,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
             //
             Assert.assertTrue(breakpoint.isEnabled());
             
-            this.listener.stateChanged(event);
+            this.listener.stateChanged(this.event);
             
             verify(this.mockDebugger, times(1)).getBreakpoints(this.mockInstance);
             verify(this.mockDebugger, times(1)).breakpointTriggered(this.mockToken, breakpoint, this.listener);
@@ -176,7 +177,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
             breakpoint.disable();
             Assert.assertFalse(breakpoint.isEnabled());
             
-            this.listener.stateChanged(event);
+            this.listener.stateChanged(this.event);
             
             verify(this.mockDebugger, times(2)).getBreakpoints(this.mockInstance);
             verify(this.mockDebugger, times(1)).breakpointTriggered(this.mockToken, breakpoint, this.listener);

@@ -41,6 +41,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     private DebuggerTokenListener listenerWithoutBreakpoint;
     private ProcessDefinition definition;
     private Node node;
+    private ActivityState state;
     private Breakpoint breakpoint;
     private ActivityLifecycleChangeEvent event;
     
@@ -57,6 +58,8 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     @BeforeMethod
     public void setupMethod() throws IllegalStarteventException {
         
+        this.state = ActivityState.READY;
+        
         //
         // build a definition
         //
@@ -70,7 +73,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         //
         DebuggerAttribute attribute = DebuggerAttribute.getAttribute(builder);
         Assert.assertNotNull(attribute);
-        this.breakpoint = new BreakpointImpl(this.node);
+        this.breakpoint = new BreakpointImpl(this.node, this.state);
         attribute.addBreakpoint(this.breakpoint);
         
         this.definition = builder.buildDefinition();
@@ -93,10 +96,11 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         
         List<Breakpoint> breakpoints = new ArrayList<Breakpoint>();
         breakpoints.add(this.breakpoint);
-        breakpoints.add(new BreakpointImpl(mock(Node.class)));
+        breakpoints.add(new BreakpointImpl(mock(Node.class), this.state));
         
         when(this.mockToken.getInstance()).thenReturn(this.mockInstance);
         when(this.mockToken.getCurrentNode()).thenReturn(this.node);
+        when(this.mockToken.getCurrentActivityState()).thenReturn(this.state);
         when(this.mockInstance.getDefinition()).thenReturn(this.definition);
         when(this.mockDebuggerWithBreakpoint.getBreakpoints(this.mockInstance)).thenReturn(breakpoints);
         
@@ -114,7 +118,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     @Test
     public void testSimpleProcessWithBreakpoint() {
         
-        this.listenerWithBreakpoint.stateChanged(event);
+        this.listenerWithBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
         verify(this.mockDebuggerWithBreakpoint, times(1)).breakpointTriggered(
@@ -129,7 +133,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         
         Assert.assertTrue(this.breakpoint.isEnabled());
         
-        this.listenerWithoutBreakpoint.stateChanged(event);
+        this.listenerWithoutBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithoutBreakpoint, times(1)).getBreakpoints(this.mockInstance);
         verify(this.mockDebuggerWithoutBreakpoint, times(0)).breakpointTriggered(
@@ -145,7 +149,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.breakpoint.disable();
         Assert.assertFalse(this.breakpoint.isEnabled());
         
-        this.listenerWithBreakpoint.stateChanged(event);
+        this.listenerWithBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
         verify(this.mockDebuggerWithBreakpoint, times(0)).breakpointTriggered(
@@ -162,7 +166,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.breakpoint.disable();
         Assert.assertFalse(this.breakpoint.isEnabled());
         
-        this.listenerWithBreakpoint.stateChanged(event);
+        this.listenerWithBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
         verify(this.mockDebuggerWithBreakpoint, times(0)).breakpointTriggered(
@@ -171,7 +175,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.breakpoint.enable();
         Assert.assertTrue(this.breakpoint.isEnabled());
         
-        this.listenerWithBreakpoint.stateChanged(event);
+        this.listenerWithBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithBreakpoint, times(2)).getBreakpoints(this.mockInstance);
         verify(this.mockDebuggerWithBreakpoint, times(1)).breakpointTriggered(
@@ -188,7 +192,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         when(this.mockDebuggerWithBreakpoint.getBreakpoints(this.mockInstance)).thenReturn(
             Collections.<Breakpoint>emptyList());
         
-        this.listenerWithBreakpoint.stateChanged(event);
+        this.listenerWithBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
         verify(this.mockDebuggerWithBreakpoint, times(0)).breakpointTriggered(
@@ -205,12 +209,12 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         Assert.assertTrue(this.breakpoint.isEnabled());
         
         List<Breakpoint> breakpoints = new ArrayList<Breakpoint>();
-        breakpoints.add(new BreakpointImpl(mock(Node.class)));
-        breakpoints.add(new BreakpointImpl(mock(Node.class)));
-        breakpoints.add(new BreakpointImpl(mock(Node.class)));
+        breakpoints.add(new BreakpointImpl(mock(Node.class), this.state));
+        breakpoints.add(new BreakpointImpl(mock(Node.class), this.state));
+        breakpoints.add(new BreakpointImpl(mock(Node.class), this.state));
         when(this.mockDebuggerWithBreakpoint.getBreakpoints(this.mockInstance)).thenReturn(breakpoints);
         
-        this.listenerWithBreakpoint.stateChanged(event);
+        this.listenerWithBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
         verify(this.mockDebuggerWithBreakpoint, times(0)).breakpointTriggered(

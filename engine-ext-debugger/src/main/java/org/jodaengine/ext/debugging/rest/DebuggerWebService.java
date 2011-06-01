@@ -21,6 +21,7 @@ import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.api.ReferenceResolverService;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
@@ -144,13 +145,14 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Override
     public Breakpoint createBreakpoint(ProcessDefinition dereferencedTargetDefinition,
                                        Node dereferencedTargetNode,
+                                       ActivityState targetActivityState,
                                        String juelCondition)
     throws DefinitionNotFoundException {
         
         if (this.debugger != null) {
             ProcessDefinition definition = resolver.resolveDefinition(dereferencedTargetDefinition);
             Node node = resolver.resolveNode(definition, dereferencedTargetNode);
-            return this.debugger.createBreakpoint(definition, node, juelCondition);
+            return this.debugger.createBreakpoint(definition, node, targetActivityState, juelCondition);
         }
         throw new ServiceUnavailableException(DebuggerService.class);
     }

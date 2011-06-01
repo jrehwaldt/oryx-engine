@@ -16,6 +16,7 @@ import org.jodaengine.ext.debugging.util.IDProcessDefinitionImpl;
 import org.jodaengine.ext.debugging.util.UUIDBreakpointImpl;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
@@ -86,10 +87,10 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
         this.definition = new IDProcessDefinitionImpl(this.definitionID, nodes);
         
         this.breakpoints = new ArrayList<Breakpoint>();
-        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node));
-        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node));
-        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node));
-        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node));
+        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node, ActivityState.READY));
+        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node, ActivityState.READY));
+        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node, ActivityState.READY));
+        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node, ActivityState.READY));
         Assert.assertFalse(this.breakpoints.isEmpty());
         this.breakpoint = this.breakpoints.get(0);
     }

@@ -63,7 +63,7 @@ public class DebuggerRepositoryDeploymentListenerTest extends AbstractJodaEngine
         //
         DebuggerAttribute attribute = DebuggerAttribute.getAttribute(builder);
         Assert.assertNotNull(attribute);
-        this.breakpoint = new BreakpointImpl(null);
+        this.breakpoint = new BreakpointImpl(null, null);
         attribute.addBreakpoint(this.breakpoint);
         
         this.definition = builder.buildDefinition();

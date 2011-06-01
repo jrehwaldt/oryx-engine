@@ -29,7 +29,7 @@
             <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffcc"/>
             <signavio:signavioMetaData metaKey="risklevel" metaValue=""/>
             <signavio:signavioMetaData metaKey="externaldocuments" metaValue="[]"/>
-            <debugger:breakpoint juelCondition="true" />
+            <debugger:breakpoint juelCondition="true" activityState="COMPLETED" />
          </extensionElements>
          <incoming>sid-96AF92EA-275E-457F-8075-DE4E927DA96E</incoming>
          <outgoing>sid-25401D0B-D5A7-40C2-9522-A9DF4F8C6FAD</outgoing>
@@ -37,7 +37,7 @@
       <exclusiveGateway default="sid-2E69F4F8-D08A-4255-A6FB-721F1F566A74" gatewayDirection="Diverging" id="sid-79981DB0-0BAF-4503-925F-47E623ECFA58" name="Question?">
          <extensionElements>
             <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
-            <debugger:breakpoint />
+            <debugger:breakpoint activityState="INVALID_STATE_WILL_AUTOGENERATE_READY" />
          </extensionElements>
          <incoming>sid-25401D0B-D5A7-40C2-9522-A9DF4F8C6FAD</incoming>
          <outgoing>sid-BA767D8F-A0C8-44CB-9FA7-C44AFDD57EE5</outgoing>
@@ -46,6 +46,8 @@
       <parallelGateway gatewayDirection="Diverging" id="sid-7AACDF15-57D5-435C-910E-6FEFADD87425">
          <extensionElements>
             <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+            <!-- no state will autogenerate READY, too -->
+            <debugger:breakpoint />
          </extensionElements>
          <incoming>sid-BA767D8F-A0C8-44CB-9FA7-C44AFDD57EE5</incoming>
          <outgoing>sid-EA9DEB72-BDCE-43F1-B234-A01BF7399B99</outgoing>
