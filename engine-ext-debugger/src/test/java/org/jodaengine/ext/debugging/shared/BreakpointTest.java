@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
  */
 public class BreakpointTest {
     
-    private Breakpoint breakpoint;
+    private BreakpointImpl breakpoint;
     private Token token;
     private Node node;
     private ActivityState state;

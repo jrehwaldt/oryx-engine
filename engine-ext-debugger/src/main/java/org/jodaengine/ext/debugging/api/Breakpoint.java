@@ -5,33 +5,30 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.jodaengine.node.activity.ActivityState;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.Identifiable;
 
 /**
- * This represents a container class for a breakpoint, which will be available in the
- * {@link Node} attribute set. Static getter methods are provided within this class.
+ * This represents a container interface for a breakpoint.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
 public interface Breakpoint extends Switchable, Identifiable<UUID> {
     
-    /**
-     * Returns the {@link Node} this breakpoint is bound to.
-     * 
-     * @return a node
-     */
-    @Nonnull Node getNode();
+//    /**
+//     * Returns the {@link Node} this breakpoint is bound to.
+//     * 
+//     * @return a node
+//     */
+//    @Nonnull Node getNode();
     
-    /**
-     * Returns the {@link ActivityState} this breakpoint is bound to.
-     * 
-     * @return a state
-     */
-    @Nonnull ActivityState getState();
+//    /**
+//     * Returns the {@link ActivityState} this breakpoint is bound to.
+//     * 
+//     * @return a state
+//     */
+//    @Nonnull ActivityState getState();
     
     /**
      * Sets a {@link BreakpointCondition}, which is considered when evaluating whether

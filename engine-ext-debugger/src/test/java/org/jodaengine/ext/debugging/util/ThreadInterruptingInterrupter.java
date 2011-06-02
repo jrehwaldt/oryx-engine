@@ -25,7 +25,7 @@ public class ThreadInterruptingInterrupter implements Interrupter {
     }
 
     @Override
-    public void continueInstance(DebuggerCommand command) {
+    public void releaseInstance(DebuggerCommand command) {
         
     }
     

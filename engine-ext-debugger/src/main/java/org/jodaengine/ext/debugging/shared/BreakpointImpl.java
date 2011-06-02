@@ -4,20 +4,20 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointCondition;
+import org.jodaengine.ext.debugging.api.NodeBreakpoint;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 /**
- * This represents a container class for a {@link Breakpoint}, which will be available in the
+ * This represents a container class for a {@link NodeBreakpoint}, which will be available in the
  * {@link Node} attribute set. Static getter methods are provided within this class.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
-public class BreakpointImpl implements Breakpoint {
+public class BreakpointImpl implements NodeBreakpoint {
     
     protected static final String ATTRIBUTE_KEY = "extension-debugger-breakpoint-attribute";
     
@@ -153,8 +153,8 @@ public class BreakpointImpl implements Breakpoint {
         //
         // or to a non-Breakpoint instance
         //
-        if (object instanceof Breakpoint) {
-            Breakpoint breakpoint = (Breakpoint) object;
+        if (object instanceof NodeBreakpoint) {
+            NodeBreakpoint breakpoint = (NodeBreakpoint) object;
             
             //
             // same id
@@ -183,5 +183,15 @@ public class BreakpointImpl implements Breakpoint {
         }
         
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "BreakpointImpl [%s, State: %s, Node: %s, Condition: %s]",
+            getID(),
+            getState(),
+            getNode(),
+            getCondition());
     }
 }

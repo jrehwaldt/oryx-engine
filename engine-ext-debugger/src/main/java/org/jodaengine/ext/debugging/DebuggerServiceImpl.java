@@ -21,9 +21,11 @@ import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
+import org.jodaengine.ext.debugging.api.DebuggerCommand;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.api.InterruptedInstance;
 import org.jodaengine.ext.debugging.api.Interrupter;
+import org.jodaengine.ext.debugging.api.NodeBreakpoint;
 import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
@@ -107,27 +109,31 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     //=================================================================
 
     @Override
-    public void stepOverInstance(AbstractProcessInstance instance) {
-        // TODO Auto-generated method stub
+    public void stepOverInstance(InterruptedInstance instance) {
+        
         logger.debug("Step over instance {}", instance);
+        releaseInstance(instance, DebuggerCommand.STEP_OVER);
     }
 
     @Override
-    public void termianteInstance(AbstractProcessInstance instance) {
-        // TODO Auto-generated method stub
+    public void termianteInstance(InterruptedInstance instance) {
+        
         logger.debug("Terminate instance {}", instance);
+        releaseInstance(instance, DebuggerCommand.TERMINATE);
     }
 
     @Override
-    public void resumeInstance(AbstractProcessInstance instance) {
-        // TODO Auto-generated method stub
+    public void resumeInstance(InterruptedInstance instance) {
+        
         logger.debug("Resume instance {}", instance);
+        releaseInstance(instance, DebuggerCommand.RESUME);
     }
 
     @Override
-    public void continueInstance(AbstractProcessInstance instance) {
-        // TODO Auto-generated method stub
+    public void continueInstance(InterruptedInstance instance) {
+        
         logger.debug("Continue instance {}", instance);
+        releaseInstance(instance, DebuggerCommand.CONTINUE);
     }
 
     @Override
@@ -143,21 +149,21 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     //=================================================================
 
     @Override
-    public synchronized Breakpoint createBreakpoint(ProcessDefinition targetDefinition,
-                                                    Node targetNode,
-                                                    ActivityState targetActivityState,
-                                                    String juelCondition)
+    public synchronized NodeBreakpoint createNodeBreakpoint(ProcessDefinition targetDefinition,
+                                                            Node targetNode,
+                                                            ActivityState targetActivityState,
+                                                            String juelCondition)
     throws DefinitionNotFoundException {
         
         logger.info("Create a breakpoint for node {} on {}", targetNode, targetActivityState);
-        Breakpoint breakpoint = new BreakpointImpl(targetNode, targetActivityState);
+        NodeBreakpoint breakpoint = new BreakpointImpl(targetNode, targetActivityState);
         
         if (juelCondition != null) {
             logger.info("Adding condition {}", juelCondition);
             breakpoint.setCondition(new JuelBreakpointCondition(juelCondition));
         }
         
-        registerBreakpoints(Arrays.asList(breakpoint), targetDefinition);
+        registerBreakpoints(Arrays.<Breakpoint>asList(breakpoint), targetDefinition);
         return breakpoint;
     }
     
@@ -352,5 +358,28 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         //
         InterruptedInstanceImpl instance = this.interruptedInstances.remove(signal.getID());
         logger.info("Interrupted instance {} unexpectedly continued. Breakpoint cleared.", instance);
+    }
+    
+    /**
+     * Releases an {@link InterruptedInstance} (a interrupted token) and continues execution with the
+     * provided scope.
+     * 
+     * @param instance the instance to continue
+     * @param command the command, within which scope it is requested to be continued
+     */
+    private void releaseInstance(@Nonnull InterruptedInstance instance,
+                                 @Nonnull DebuggerCommand command) {
+        
+        logger.info("Release instance {} with command {}", instance, command);
+        
+        //
+        // get the registered signal
+        //
+        Interrupter signal = this.interruptedInstances.get(instance.getID());
+        
+        //
+        // release it
+        //
+        signal.releaseInstance(command);
     }
 }

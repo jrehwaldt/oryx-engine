@@ -20,6 +20,7 @@ import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.DebuggerCommand;
 import org.jodaengine.ext.debugging.api.Interrupter;
+import org.jodaengine.ext.debugging.api.NodeBreakpoint;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
@@ -140,13 +141,16 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
             Assert.assertNotNull(breakpoint);
             Assert.assertTrue(breakpoint.isEnabled());
             Assert.assertNotNull(breakpoint.getCondition());
-            Assert.assertNotNull(breakpoint.getNode());
+            
+            Assert.assertTrue(breakpoint instanceof NodeBreakpoint);
+            NodeBreakpoint concreteBreakpoint = (NodeBreakpoint) breakpoint;
+            Assert.assertNotNull(concreteBreakpoint.getNode());
             Assert.assertNotNull(breakpoint.getID());
             
             Node node = definition.getStartNodes().get(0);
             Assert.assertNotNull(node);
             
-            Assert.assertEquals(node, breakpoint.getNode());
+            Assert.assertEquals(node, concreteBreakpoint.getNode());
             
             //=======================================
             //==== Test the RepositoryListener ======

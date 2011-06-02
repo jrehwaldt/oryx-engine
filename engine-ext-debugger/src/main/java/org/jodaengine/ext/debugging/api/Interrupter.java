@@ -28,5 +28,5 @@ public interface Interrupter extends Identifiable<UUID> {
      * 
      * @param command the {@link DebuggerCommand}, how the process instance should be continued
      */
-    void continueInstance(@Nonnull DebuggerCommand command);
+    void releaseInstance(@Nonnull DebuggerCommand command);
 }

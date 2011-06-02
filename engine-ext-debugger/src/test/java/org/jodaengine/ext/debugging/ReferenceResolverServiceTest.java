@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.ext.debugging.api.Breakpoint;
+import org.jodaengine.ext.debugging.api.NodeBreakpoint;
 import org.jodaengine.ext.debugging.api.ReferenceResolverService;
 import org.jodaengine.ext.debugging.rest.DereferencedObjectException;
 import org.jodaengine.ext.debugging.util.IDProcessDefinitionImpl;
@@ -43,7 +44,7 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
     private ProcessDefinition definition;
     private Node node;
     private Node nodeTarget;
-    private Breakpoint breakpoint;
+    private NodeBreakpoint breakpoint;
     
     /**
      * Setup.
@@ -95,7 +96,7 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
         this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node, ActivityState.READY));
         this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node, ActivityState.READY));
         Assert.assertFalse(this.breakpoints.isEmpty());
-        this.breakpoint = this.breakpoints.get(0);
+        this.breakpoint = (NodeBreakpoint) this.breakpoints.get(0);
     }
     
     /**
@@ -233,7 +234,7 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
         //
         // same id - resolution
         //
-        Breakpoint dereferencedBreakpoint = mock(Breakpoint.class);
+        NodeBreakpoint dereferencedBreakpoint = mock(NodeBreakpoint.class);
         when(dereferencedBreakpoint.getID()).thenReturn(this.breakpoint.getID());
         when(dereferencedBreakpoint.getNode()).thenReturn(this.breakpoint.getNode());
         when(dereferencedBreakpoint.getCondition()).thenReturn(this.breakpoint.getCondition());
@@ -248,7 +249,7 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
     @Test(dependsOnMethods = "testBreakpointResolution", expectedExceptions = DereferencedObjectException.class)
     public void testFailingBreakpointResolution() {
         
-        Breakpoint dereferencedBreakpoint = mock(Breakpoint.class);
+        NodeBreakpoint dereferencedBreakpoint = mock(NodeBreakpoint.class);
         when(dereferencedBreakpoint.getNode()).thenReturn(this.breakpoint.getNode());
         when(dereferencedBreakpoint.getCondition()).thenReturn(this.breakpoint.getCondition());
         

@@ -148,7 +148,7 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     }
     
     @Override
-    public synchronized void continueInstance(DebuggerCommand command) {
+    public synchronized void releaseInstance(DebuggerCommand command) {
         
         //
         // disallow multiple invocations
@@ -206,6 +206,19 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
                 ILLEGAL_USAGE);
             throw new IllegalStateException(ILLEGAL_USAGE);
         }
+    }
+    
+    /**
+     * Returns the state of this interrupted instance.
+     * 
+     * @return a String describing the state
+     */
+    private String getState() {
+        if (this.latch.getCount() == 0) {
+            return "released";
+        }
+        
+        return "interrupted";
     }
     
 // CHECKSTYLE:OFF
@@ -273,5 +286,15 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
         }
         
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "InterruptedInstance [%s|%s, Breakpoint: %s, Token: %s]",
+            getID(),
+            getState(),
+            getCausingBreakpoint(),
+            getInterruptedToken());
     }
 }

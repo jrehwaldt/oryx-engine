@@ -15,6 +15,7 @@ import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.DebuggerCommand;
 import org.jodaengine.ext.debugging.api.Interrupter;
+import org.jodaengine.ext.debugging.api.NodeBreakpoint;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.debugging.util.ThreadInterruptingInterrupter;
@@ -47,7 +48,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     private ProcessDefinition definition;
     private Node node;
     private ActivityState state;
-    private Breakpoint breakpoint;
+    private NodeBreakpoint breakpoint;
     private ActivityLifecycleChangeEvent event;
     
     private DebuggerServiceImpl mockDebuggerWithoutBreakpoint;
@@ -87,7 +88,6 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         
         Assert.assertFalse(this.definition.getStartNodes().isEmpty());
         Assert.assertEquals(this.definition.getStartNodes().get(0), this.node);
-        
         Assert.assertEquals(this.node, this.breakpoint.getNode());
         
         //

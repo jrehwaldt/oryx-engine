@@ -20,7 +20,7 @@ import org.jodaengine.process.structure.Node;
 public interface BreakpointService {
     
     /**
-     * This method allows to add a {@link Breakpoint} to a certain {@link Node}.
+     * This method allows to add a {@link NodeBreakpoint} to a certain {@link Node}.
      * 
      * Optionally a condition may be specified
      * 
@@ -32,10 +32,10 @@ public interface BreakpointService {
      * 
      * @throws DefinitionNotFoundException thrown if the {@link ProcessDefinition} or {@link Node} could not be found
      */
-    @Nonnull Breakpoint createBreakpoint(@Nonnull ProcessDefinition targetDefinition,
-                                         @Nonnull Node targetNode,
-                                         @Nonnull ActivityState targetActivityState,
-                                         @Nullable String juelCondition)
+    @Nonnull NodeBreakpoint createNodeBreakpoint(@Nonnull ProcessDefinition targetDefinition,
+                                                 @Nonnull Node targetNode,
+                                                 @Nonnull ActivityState targetActivityState,
+                                                 @Nullable String juelCondition)
     throws DefinitionNotFoundException;
     
     /**
