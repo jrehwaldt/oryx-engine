@@ -5,7 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
+import javax.el.ArrayELResolver;
+import javax.el.BeanELResolver;
+import javax.el.CompositeELResolver;
 import javax.el.ExpressionFactory;
+import javax.el.ListELResolver;
+import javax.el.MapELResolver;
+import javax.el.ResourceBundleELResolver;
 import javax.el.ValueExpression;
 import javax.el.VariableMapper;
 
@@ -13,6 +19,7 @@ import org.jodaengine.process.instance.ProcessInstanceContext;
 
 import de.odysseus.el.ExpressionFactoryImpl;
 import de.odysseus.el.util.SimpleContext;
+import de.odysseus.el.util.SimpleResolver;
 
 /**
  * This is a Juel {@link javax.el.ELContext} implementation, which is able to work
@@ -25,6 +32,7 @@ public class ProcessELContext extends SimpleContext {
     
     private ProcessInstanceContext instanceContext;
     private ExpressionFactory expressionFactory;
+    private JodaRootPropertyResolver root;
     
     private Variables variables;
     
@@ -39,6 +47,27 @@ public class ProcessELContext extends SimpleContext {
         this.instanceContext = instanceContext;
         this.expressionFactory = new ExpressionFactoryImpl();
         
+        root = new JodaRootPropertyResolver();
+        
+        CompositeELResolver composite = new CompositeELResolver();
+        composite.add(root);
+        composite.add(new ArrayELResolver(true));
+        composite.add(new ListELResolver(true));
+        composite.add(new MapELResolver(true));
+        composite.add(new ResourceBundleELResolver());
+        composite.add(new BeanELResolver(true));
+        
+        this.setELResolver(composite);
+        
+    }
+    
+    /**
+     * Gets the root property resolver to access the variables that may have been created.
+     *
+     * @return the root property resolver
+     */
+    public JodaRootPropertyResolver getRootPropertyResolver() {
+        return root;
     }
 
     @Override

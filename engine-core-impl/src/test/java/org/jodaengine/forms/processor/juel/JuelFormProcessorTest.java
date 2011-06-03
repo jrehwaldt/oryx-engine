@@ -1,4 +1,4 @@
-package org.jodaengine.forms.processor;
+package org.jodaengine.forms.processor.juel;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -13,6 +13,7 @@ import org.jodaengine.forms.Form;
 import org.jodaengine.forms.JodaFormField;
 import org.jodaengine.forms.JodaFormFieldArguments;
 import org.jodaengine.forms.JodaFormFieldImpl;
+import org.jodaengine.forms.processor.FormProcessor;
 import org.jodaengine.forms.processor.juel.JuelFormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
@@ -26,7 +27,7 @@ import org.testng.annotations.Test;
 /**
  * Tests the Behaviour of the FormProcessors, namely JUEL.
  */
-public class FormProcessorTest {
+public class JuelFormProcessorTest {
 
     private static final String FORM_PATH = "src/test/resources/org/jodaengine/forms/processor/";
 
@@ -130,7 +131,53 @@ public class FormProcessorTest {
             "The variable should be an integer not a String");
     }
 
-    // TODO @Thorben-Refactoring add more complex test
+    /**
+     * Tests, that JUEL expressions, that are not specified in a joda:*-attribute, are evaluated too.
+     */
+    @Test
+    public void testFinalJuelEvaluation() {
+
+        form = mock(Form.class);
+        when(form.getFormContentAsHTML()).thenReturn("#{variable}");
+
+        context.setVariable("variable", "hello");
+
+        FormProcessor processor = new JuelFormProcessor();
+        String resultHtml = processor.prepareForm(form, context);
+        Assert.assertEquals(resultHtml, "hello");
+    }
+
+    /**
+     * Tests the final evaluation for the case, that a defined property is not defined (in this case, the variable
+     * 'variable' is not set in the {@link ProcessInstanceContext}).
+     */
+    @Test
+    public void testFinalJuelEvaluationOnFailure() {
+
+        form = mock(Form.class);
+        when(form.getFormContentAsHTML()).thenReturn("#{variable} #{variable2}");
+
+        context.setVariable("variable2", "John");
+        FormProcessor processor = new JuelFormProcessor();
+        String resultHtml = processor.prepareForm(form, context);
+        Assert.assertEquals(resultHtml, " John");
+    }
+
+    /**
+     * Tests the final evaluation with an error, that is thrown if #{obj.property} is to be evaluated, but obj is not
+     * defined.
+     */
+    @Test
+    public void testFinalEvaluationOnBeanResolverFailure() {
+
+        form = mock(Form.class);
+        when(form.getFormContentAsHTML()).thenReturn("#{obj.property}");
+
+        FormProcessor processor = new JuelFormProcessor();
+        String resultHtml = processor.prepareForm(form, context);
+        Assert.assertEquals(resultHtml, "");
+    }
+
     /**
      * Reads a file and returns its content as a String.
      * 
@@ -143,11 +190,10 @@ public class FormProcessorTest {
         String fileContent = null;
         try {
             fileContent = FileUtils.readFileToString(new File(fileName));
-            fileContent = fileContent.trim();
         } catch (IOException e) {
-            logger.error("Could not find/read the specified test file: {}", fileName);
+            logger.error("File from location {} unreadable", fileName);
         }
 
-        return fileContent;
+        return fileContent.trim();
     }
 }
