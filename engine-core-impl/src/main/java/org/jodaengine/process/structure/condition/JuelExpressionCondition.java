@@ -37,7 +37,7 @@ public class JuelExpressionCondition implements Condition {
     public boolean evaluate(Token token) {
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        ELContext context = new ProcessELContext(token.getInstance().getContext());
+        ELContext context = new ProcessELContext(token.getInstance().getContext(), false);
         
         ValueExpression e = factory.createValueExpression(context, juelExpression, boolean.class);
         

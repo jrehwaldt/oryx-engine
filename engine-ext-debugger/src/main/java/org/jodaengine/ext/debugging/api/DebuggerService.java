@@ -1,5 +1,7 @@
 package org.jodaengine.ext.debugging.api;
 
+import java.util.Collection;
+
 import javax.annotation.Nonnull;
 
 import org.jodaengine.bootstrap.Service;
@@ -58,4 +60,13 @@ public interface DebuggerService extends BreakpointService, DebuggerArtifactServ
      * @param instance the instance, to release
      */
     void continueInstance(@Nonnull AbstractProcessInstance instance);
+    
+    /**
+     * Provides a list of all {@link InterruptedInstance}, which describes the
+     * interrupted {@link org.jodaengine.process.token.Token} and it's {@link Breakpoint}.
+     * 
+     * @return a list of all interrupted instances
+     */
+    @Nonnull Collection<InterruptedInstance> getInterruptedInstances();
+    
 }

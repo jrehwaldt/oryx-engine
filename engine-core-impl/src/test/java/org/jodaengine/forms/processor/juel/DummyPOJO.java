@@ -1,4 +1,4 @@
-package org.jodaengine.forms.processor;
+package org.jodaengine.forms.processor.juel;
 
 /**
  * The Class DummyPOJO provides a getter and setter for a string property and is used for testing.

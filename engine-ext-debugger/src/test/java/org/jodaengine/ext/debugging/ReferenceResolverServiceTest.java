@@ -16,6 +16,7 @@ import org.jodaengine.ext.debugging.util.IDProcessDefinitionImpl;
 import org.jodaengine.ext.debugging.util.UUIDBreakpointImpl;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionImpl;
@@ -41,6 +42,7 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
     private ProcessDefinitionID definitionID;
     private ProcessDefinition definition;
     private Node node;
+    private Node nodeTarget;
     private Breakpoint breakpoint;
     
     /**
@@ -80,16 +82,18 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
         //
         
         this.node = new NodeImpl(null, null, null);
+        this.nodeTarget = new NodeImpl(null, null, null);
         List<Node> nodes = new ArrayList<Node>();
         nodes.add(this.node);
+        this.node.transitionTo(this.nodeTarget);
         this.definitionID = new ProcessDefinitionID("test", 1);
         this.definition = new IDProcessDefinitionImpl(this.definitionID, nodes);
         
         this.breakpoints = new ArrayList<Breakpoint>();
-        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node));
-        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node));
-        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node));
-        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node));
+        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node, ActivityState.READY));
+        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node, ActivityState.READY));
+        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node, ActivityState.READY));
+        this.breakpoints.add(new UUIDBreakpointImpl(UUID.randomUUID(), this.node, ActivityState.READY));
         Assert.assertFalse(this.breakpoints.isEmpty());
         this.breakpoint = this.breakpoints.get(0);
     }
@@ -138,7 +142,11 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
         when(dereferencedDefinition.getID()).thenReturn(definitionIDDifferent);
         
         Assert.assertFalse(this.definition.equals(dereferencedDefinition));
-        Assert.assertSame(this.resolver.resolveDefinition(dereferencedDefinition), this.definition);
+        
+        //
+        // cause an error
+        //
+        this.resolver.resolveDefinition(dereferencedDefinition);
     }
     
     /**
@@ -175,8 +183,40 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
         //
         when(dereferencedNode.getID()).thenReturn(UUID.randomUUID());
         
+        //
+        // it might, magically, be the case that our random id is equal to the id before...
+        //
+        while (dereferencedNode.getID().equals(this.node.getID())) {
+            when(dereferencedNode.getID()).thenReturn(UUID.randomUUID());
+        }
+        
         Assert.assertFalse(this.node.equals(dereferencedNode));
-        Assert.assertSame(this.resolver.resolveNode(this.definition, dereferencedNode), this.node);
+        
+        //
+        // cause an error
+        //
+        this.resolver.resolveNode(this.definition, dereferencedNode);
+    }
+    
+    /**
+     * This tests the resolution of a {@link Node}, which is not the start node.
+     */
+    @Test
+    public void testGraphBasedNodeResolution() {
+        
+        //
+        // deploy process definition
+        //
+        this.repository.addProcessDefinition(this.definition);
+        
+        //
+        // same id - resolution
+        //
+        Node dereferencedNode = mock(NodeImpl.class);
+        when(dereferencedNode.getID()).thenReturn(this.nodeTarget.getID());
+        
+        Assert.assertTrue(this.nodeTarget.equals(dereferencedNode));
+        Assert.assertSame(this.resolver.resolveNode(this.definition, dereferencedNode), this.nodeTarget);
     }
     
     /**
@@ -217,7 +257,18 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
         //
         when(dereferencedBreakpoint.getID()).thenReturn(UUID.randomUUID());
         
+        //
+        // it might, magically, be the case that our random id is equal to the id before...
+        //
+        while (dereferencedBreakpoint.getID().equals(this.breakpoint.getID())) {
+            when(dereferencedBreakpoint.getID()).thenReturn(UUID.randomUUID());
+        }
+        
         Assert.assertFalse(this.breakpoint.equals(dereferencedBreakpoint));
-        Assert.assertSame(this.resolver.resolveBreakpoint(dereferencedBreakpoint), this.breakpoint);
+        
+        //
+        // cause an error
+        //
+        this.resolver.resolveBreakpoint(dereferencedBreakpoint);
     }
 }

@@ -25,8 +25,7 @@ public class PetriTokenBuilder implements TokenBuilder {
      * Instantiates a new {@link BpmnToken} builder.
      *
      * @param nav the navigator
-     * @param extensionService the {@link ExtensionService}
-     * @param node the node
+     * @param extensionService the extension service
      */
     public PetriTokenBuilder(Navigator nav,
                             @Nullable ExtensionService extensionService) {

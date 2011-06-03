@@ -5,6 +5,7 @@ import static org.testng.Assert.assertFalse;
 
 import java.util.List;
 
+import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.incomingbehaviour.petri.TransitionJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.petri.PlaceSplitBehaviour;
@@ -12,10 +13,10 @@ import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
-import org.jodaengine.process.token.PetriToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
 import org.jodaengine.process.token.builder.PetriTokenBuilder;
+import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -59,9 +60,9 @@ public class PetriTokenTest {
         node4.transitionTo(node5);
         
         
-        TokenBuilder tokenBuilder = new PetriTokenBuilder(null, null);
+        TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);
         instance = new ProcessInstance(null, tokenBuilder);
-        token = new PetriToken(node, instance, null);
+        token = instance.createToken(node);
     }
 
     /**
@@ -77,7 +78,9 @@ public class PetriTokenTest {
         Node currentNode = token.getCurrentNode();
         
         List<Token> newTokens = token.navigateTo(currentNode.getOutgoingTransitions());
-        assertEquals(newTokens.size(), 1, "You should have one new token");
+        
+        assertEquals(instance.getAssignedTokens().size(), 2, "There should now be two tokens."
+            + "Somewhere after navigation one of them should be deleted.");
 
 
         assertEquals(newTokens.get(0).getCurrentNode(), node2,

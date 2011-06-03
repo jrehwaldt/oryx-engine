@@ -11,7 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class groups several events together to a logical unit.
+ * This class groups several events together to a logical unit. If the {@link ProcessEvent} is connected to another
+ * {@link ProcessEvent} than a {@link ProcessEventGroup} can be used to specify that connection
  * 
  */
 // TODO @Gerardo Mach mal weiter commenting ...
@@ -51,7 +52,7 @@ public class ProcessEventGroup {
         if (called) {
             return;
         }
-        
+
         if (!getIntermediateEvents().remove(processIntermediateEvent)) {
             // Then it means the element that should be deleted was not in the list of registered Events
             String errorMessage = "The event-based Xor Gateway was resumed by an event that it has not registered.";
@@ -59,11 +60,11 @@ public class ProcessEventGroup {
             throw new JodaEngineRuntimeException(errorMessage);
         }
 
-         unsubscribingOtherEvent();
-         
-         token.resume(processIntermediateEvent);
+        unsubscribingOtherEvent();
+
+        token.resume(processIntermediateEvent);
     }
-    
+
     private void unsubscribingOtherEvent() {
 
         // Unsubscribing the other registered events; doing it as early as possible

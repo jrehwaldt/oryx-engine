@@ -16,7 +16,7 @@ import org.jodaengine.process.token.Token;
  */
 public class PlaceSplitBehaviour implements OutgoingBehaviour {
     
-    AbstractProcessInstance instance = null;
+    private AbstractProcessInstance instance = null;
 
     /**
      * Split according to the transitions.
@@ -76,6 +76,8 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
             if(oldTokens.size() == 1) {
                 instance.getContext().removeIncomingTransition(t, currentNode);
             }
+            // One token of the place should be deleted.
+            // Because these are ordinary petri nets's all tokens are equal and therefore we can delete just the first.
             instance.removeToken(oldTokens.get(0));
             //TODO Token auch aus dem Navigator löschen...das ist aber nicht so einfach wegen
             // Cuncurrency issues...hier muss beim herausnehmen miot Locks aquire/release gearbeitet werden

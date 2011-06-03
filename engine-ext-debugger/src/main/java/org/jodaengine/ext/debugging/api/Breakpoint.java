@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.Identifiable;
@@ -24,6 +25,13 @@ public interface Breakpoint extends Switchable, Identifiable<UUID> {
      * @return a node
      */
     @Nonnull Node getNode();
+    
+    /**
+     * Returns the {@link ActivityState} this breakpoint is bound to.
+     * 
+     * @return a state
+     */
+    @Nonnull ActivityState getState();
     
     /**
      * Sets a {@link BreakpointCondition}, which is considered when evaluating whether

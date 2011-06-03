@@ -58,7 +58,7 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
             this.debugger = extensionService.getExtensionService(
                 DebuggerService.class, DebuggerService.DEBUGGER_SERVICE_NAME);
         } catch (ExtensionNotAvailableException enae) {
-            logger.error("The Debugger Resolver will be unavailable. No Debugger Service found.");
+            logger.error("The Breakpoint Resolver will be unavailable. No Debugger Service found.");
             this.debugger = null;
         }
         
@@ -128,7 +128,7 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
             throw new ServiceUnavailableException(DebuggerService.class);
         }
         
-        for (Breakpoint breakpoint: this.debugger.getAllBreakpoints()) {
+        for (Breakpoint breakpoint: this.debugger.getBreakpoints()) {
             if (breakpoint.equals(dereferencedBreakpoint)) {
                 return breakpoint;
             }
@@ -143,6 +143,9 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
     /**
      * A helper method allowing to traverse the node's graph and search for a certain {@link Node}.
      * 
+     * This method works recursively. Calling it with cyclic node-transition-node-references will,
+     * of course, cause a {@link StackOverflowError}.
+     * 
      * @param initialNode the searching start point
      * @param dereferencedNode the node, which is required
      * @return the node if found, or null
@@ -155,7 +158,7 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
         }
         
         for (Transition transition: initialNode.getOutgoingTransitions()) {
-            Node tmp = rereferenceNode(transition.getSource(), dereferencedNode);
+            Node tmp = rereferenceNode(transition.getDestination(), dereferencedNode);
             
             if (tmp != null) {
                 return tmp;

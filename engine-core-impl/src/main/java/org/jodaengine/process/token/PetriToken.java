@@ -2,6 +2,7 @@ package org.jodaengine.process.token;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -146,6 +147,27 @@ public class PetriToken extends AbstractToken {
 
     @Override
     public void cancelExecution() {
+
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
 
         // TODO Auto-generated method stub
         

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;
+import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
@@ -25,6 +27,8 @@ public class TransitionSplitBehaviour implements OutgoingBehaviour {
     @Override
     public List<Token> split(List<Token> tokens)
     throws NoValidPathException {
+        
+        AbstractProcessInstance instance;
 
         if (tokens == null || tokens.size() == 0) {
             return tokens;
@@ -32,6 +36,7 @@ public class TransitionSplitBehaviour implements OutgoingBehaviour {
         List<Token> tokensToNavigate = new ArrayList<Token>();
         
         for (Token token : tokens) {
+            instance = token.getInstance();
             Node currentNode = token.getCurrentNode();
 
             try {
@@ -39,6 +44,8 @@ public class TransitionSplitBehaviour implements OutgoingBehaviour {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            
+            instance.removeToken(token);
         }
         return tokensToNavigate;
     }

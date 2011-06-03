@@ -197,10 +197,17 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     @Override
     public void removeIncomingTransition(Transition transition, Node node) {
 
-        List<Transition> signaledTransitions = waitingTransitions.get(node);
-        List<Transition> incomingTransitions = new ArrayList<Transition>();
-        incomingTransitions.add(transition);
-        removeSubset(signaledTransitions, incomingTransitions);
+        List<Transition> signaledTransitions = waitingTransitions.get(transition.getDestination());
+        // The map is referencing to every Destination all the incoming Transitions. But we need to check the start node, in order to delete it.
+        for(Transition t : signaledTransitions) {
+            if(t.getSource() == node) {
+                List<Transition> incomingTransitions = new ArrayList<Transition>();
+                incomingTransitions.add(transition);
+                removeSubset(signaledTransitions, incomingTransitions);
+                break;
+            }
+        }
+
         
     }
 }

@@ -2,6 +2,7 @@ package org.jodaengine.process.token;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -22,6 +23,7 @@ import org.jodaengine.process.structure.Transition;
  * Former it was known as TokenImpl, but due to the wish to support mutiple modelling languages
  * it was renamed.
  */
+// TODO @Jannik Kommentieren, aber ganz schnell ^^ ;-)
 public class BpmnToken extends AbstractToken {
 
     private ActivityState currentActivityState = null;
@@ -223,4 +225,24 @@ public class BpmnToken extends AbstractToken {
         completeExecution();
     }
 
+    @Override
+    public Map<String, Object> getAttributes() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+
+        // TODO Auto-generated method stub
+        
+    }
 }

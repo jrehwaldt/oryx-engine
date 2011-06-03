@@ -9,6 +9,7 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
+import org.jodaengine.resource.allocation.TaskAllocation;
 
 
 /**
@@ -63,5 +64,11 @@ public class ServiceContextImpl implements ServiceContext {
     public void setAttribute(String attributeKey, Object attributeValue) {
 
         getAttributes().put(attributeKey, attributeValue);
+    }
+
+    @Override
+    public TaskAllocation getWorklistService() {
+
+        return ServiceFactory.getWorklistQueue();
     }
 }

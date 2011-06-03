@@ -20,7 +20,7 @@ public interface Activity {
      * Execute. Starts the execution of the Activity.
      * 
      * @param token
-     *            the instance the activity operates on
+     *            - the instance the activity operates on
      */
     void execute(@Nonnull Token token);
 
@@ -28,7 +28,7 @@ public interface Activity {
      * Do some cleanup, if necessary. Cancellation of the activity's execution is not handled here.
      * 
      * @param executingToken
-     *            the token that currently executes the activity
+     *            - the token that currently executes the activity
      */
     void cancel(Token executingToken);
 
@@ -36,7 +36,7 @@ public interface Activity {
      * This method is called when the execution of the activity is resumed.
      * 
      * @param token
-     *            the token that resumes this activity
+     *            - the token that resumes this activity
      * @param resumeObject
      *            - an object that is passed from class that resumes the Token
      */
