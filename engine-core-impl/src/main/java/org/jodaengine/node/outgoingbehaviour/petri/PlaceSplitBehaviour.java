@@ -10,6 +10,7 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.TokenUtil;
 
 /**
  * The Class TakeAllSplitBehaviour. Will signal the first outgoing transition, of which the condition evaluates to true.
@@ -31,6 +32,8 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
     public List<Token> split(List<Token> tokens)
     throws NoValidPathException {
         
+        TokenUtil util = new TokenUtil();
+        
         // We only work if one token, due to petri net semantic
         Token token = tokens.get(0);
         
@@ -43,7 +46,7 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
         for(Transition t : currentNode.getOutgoingTransitions()) {
 
             //TODO activate possible Transitions ?? is this necessary?
-            instance.getContext().setWaitingExecution(t);
+            //instance.getContext().setWaitingExecution(t);
             
             //save all possible Transitions
             nextPetriTranisiton = t.getDestination();
@@ -67,15 +70,16 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
         //Delete tokens in the places before the Transition
         
         List<Token> oldTokens;
-        for(Transition t : nextPetriTranisiton.getIncomingTransitions()) {
+        //nextPetriTranisiton.getIncomingTransitions()
+        for(Transition t : chosenTransitionList.get(0).getDestination().getIncomingTransitions()) {
             Node placeBeforeTransition = t.getSource();
             //Count Tokens, which are still there
-            oldTokens = getTokensWhichAreOnPlace(placeBeforeTransition);
+            oldTokens = util.getTokensWhichAreOnPlace(placeBeforeTransition, instance);
             
             // Remove the signaled transition, because there are no tokens left.
-            if(oldTokens.size() == 1) {
-                instance.getContext().removeIncomingTransition(t, currentNode);
-            }
+            //if(oldTokens.size() == 1) {
+            //    instance.getContext().removeIncomingTransition(t, currentNode);
+            //}
             // One token of the place should be deleted.
             // Because these are ordinary petri nets's all tokens are equal and therefore we can delete just the first.
             instance.removeToken(oldTokens.get(0));
@@ -86,20 +90,6 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
 
         return transitionsToNavigate;
     }
-    
-    private List<Token> getTokensWhichAreOnPlace(Node placeBeforeTransition) {
-        List<Token> tokensOnPlace = new ArrayList<Token>();
-        for(Token token : instance.getAssignedTokens()) {
-            if(checkIfTokenIsOnPlace(token, placeBeforeTransition)) {
-                tokensOnPlace.add(token);
-            }
-        }
-        return tokensOnPlace;
 
-    }
-    
-    private boolean checkIfTokenIsOnPlace(Token token, Node placeBeforeTransition) {
-        return token.getCurrentNode() == placeBeforeTransition;
-    }
 
 }

@@ -1,11 +1,14 @@
 package org.jodaengine.node.incomingbehaviour.petri;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
+import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.token.Token;
 
 
@@ -27,20 +30,34 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
     @Override
     public boolean joinable(Token token, Node node) {
 
-        ProcessInstanceContext context = token.getInstance().getContext();
+        //ProcessInstanceContext context = token.getInstance().getContext();
         //TODO Warum kennt das Behavior die zugehörige node nicht?
-        return context.allIncomingTransitionsSignaled(node);
+        //return context.allIncomingTransitionsSignaled(node);
+        
+        //node ist die nächste...
+        boolean check = true;
+        for(Transition t : node.getIncomingTransitions()) {
+            if(getTokensWhichAreOnPlace(t.getSource(), token.getInstance()).size() == 0) {
+                check = false;
+                break;
+            }
+        }
+        return check;
     }
     
-    protected List<Token> performJoin(Token token) {
+    private List<Token> getTokensWhichAreOnPlace(Node placeBeforeTransition, AbstractProcessInstance instance) {
+        List<Token> tokensOnPlace = new ArrayList<Token>();
+        for(Token token : instance.getAssignedTokens()) {
+            if(checkIfTokenIsOnPlace(token, placeBeforeTransition)) {
+                tokensOnPlace.add(token);
+            }
+        }
+        return tokensOnPlace;
 
-        // We can do this, as we currently assume that an and join has a single outgoing transition
-        List<Token> newTokens = new LinkedList<Token>();
-        
-        ProcessInstanceContext context = token.getInstance().getContext();
-        context.removeIncomingTransitions(token.getCurrentNode());
-        newTokens.add(token);
-        return newTokens;
+    }
+    
+    private boolean checkIfTokenIsOnPlace(Token token, Node placeBeforeTransition) {
+        return token.getCurrentNode() == placeBeforeTransition;
     }
 
 }
