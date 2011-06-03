@@ -169,7 +169,7 @@ public class JuelExpressionConditionTest {
         String juelExpression = "${\"" + expressionString + "\".toUpperCase()}";
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        ELContext elContext = new ProcessELContext(token.getInstance().getContext());
+        ELContext elContext = new ProcessELContext(token.getInstance().getContext(), false);
 
         ValueExpression e = factory.createValueExpression(elContext, juelExpression, String.class);
         Assert.assertEquals(e.getValue(elContext), expressionString.toUpperCase(),
