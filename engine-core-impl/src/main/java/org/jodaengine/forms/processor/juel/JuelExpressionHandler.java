@@ -17,12 +17,12 @@ import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.forms.Form;
 import org.jodaengine.forms.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.util.juel.JodaRootPropertyResolver;
 import org.jodaengine.util.juel.ProcessELContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.odysseus.el.ExpressionFactoryImpl;
+import de.odysseus.el.util.RootPropertyResolver;
 
 /**
  * The Class JUELExpressionHandler. Tries to evaluate all JUEL conditions for the forms, if they exist.
@@ -45,7 +45,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
                                                   OutputDocument output) {
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        ProcessELContext elContext = new ProcessELContext(context);
+        ProcessELContext elContext = new ProcessELContext(context, false);
 
         Iterator<FormField> it = formFields.iterator();
 
@@ -84,7 +84,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
     protected void readInputInternally(Map<String, String> formInput, Form form, ProcessInstanceContext context) {
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        ProcessELContext elContext = new ProcessELContext(context);
+        ProcessELContext elContext = new ProcessELContext(context, false);
 
         Iterator<Entry<String, String>> it = formInput.entrySet().iterator();
         while (it.hasNext()) {
@@ -124,7 +124,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
         }
 
         // write all set root properties to the context.
-        JodaRootPropertyResolver rootResolver = elContext.getRootPropertyResolver();
+        RootPropertyResolver rootResolver = elContext.getRootPropertyResolver();
 
         Iterator<String> propertyIterator = rootResolver.properties().iterator();
         while (propertyIterator.hasNext()) {

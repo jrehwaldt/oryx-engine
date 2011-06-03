@@ -79,7 +79,7 @@ public class JuelFormProcessor implements FormProcessor {
     private String evaluateJuelString(ProcessInstanceContext context, String expressionText) {
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        ProcessELContext elContext = new ProcessELContext(context);
+        ProcessELContext elContext = new ProcessELContext(context, true);
         ValueExpression expr = factory.createValueExpression(elContext, expressionText, String.class);
         try {
             String evaluatedText = (String) expr.getValue(elContext);
