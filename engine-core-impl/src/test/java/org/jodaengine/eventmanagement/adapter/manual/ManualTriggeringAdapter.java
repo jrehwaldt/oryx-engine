@@ -3,9 +3,12 @@ package org.jodaengine.eventmanagement.adapter.manual;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
+import org.jodaengine.exception.JodaEngineRuntimeException;
 
 /**
  * This adapter is responsible for exception handling within our engine.
@@ -13,8 +16,7 @@ import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
 public class ManualTriggeringAdapter extends AbstractCorrelatingEventAdapter<ManualTriggeringAdapterConfiguration>
 implements InboundAdapter {
 
-    private static Map<String, ManualTriggeringAdapter> manualTriggeringAdapters =
-        new HashMap<String, ManualTriggeringAdapter>();
+    private static Map<String, ManualTriggeringAdapter> manualTriggeringAdapters = new HashMap<String, ManualTriggeringAdapter>();
 
     /**
      * Default Constructor.
@@ -46,8 +48,27 @@ implements InboundAdapter {
      */
     public static void triggerManually(String manualTriggeringAdapterName) {
 
-        ManualTriggeringAdapter manualTriggeringAdapter = manualTriggeringAdapters.get(manualTriggeringAdapterName);
-        manualTriggeringAdapter.triggerManually();
+        getManualTriggeringAdapter(manualTriggeringAdapterName).triggerManually();
+    }
+
+    /**
+     * Gets the {@link ManualTriggeringAdapter} that is associated to the name.
+     * 
+     * @param manualTriggeringAdapterName
+     *            - the name of the {@link ManualTriggeringAdapter} that was stored previously
+     * @return the {@link ManualTriggeringAdapter} that is associated to the name
+     */
+    @Nonnull
+    public static ManualTriggeringAdapter getManualTriggeringAdapter(@Nonnull String manualTriggeringAdapterName) {
+
+        ManualTriggeringAdapter triggeringAdapter = manualTriggeringAdapters.get(manualTriggeringAdapterName);
+
+        if (triggeringAdapter == null) {
+            String errorMessage = "A ManualTriggeringAdapter '" + manualTriggeringAdapterName + "' does not exists.";
+            throw new JodaEngineRuntimeException(errorMessage);
+        }
+
+        return triggeringAdapter;
     }
 
     /**

@@ -23,12 +23,14 @@ public class ProcessIntermediateManualTriggeringEvent extends AbstractProcessInt
      */
     public ProcessIntermediateManualTriggeringEvent(String name, Token token) {
 
-        this(name, token, null);
+        super(EventTypes.ManualTriggered, new ManualTriggeringAdapterConfiguration(name), token);
     }
 
     /**
-     * Default Constructor.
+     * Default Constructor for this event that belongs to a {@link ProcessEventGroup}.
      * 
+     * @param name
+     *            - the name of the {@link ManualTriggeringAdapter}
      * @param token
      *            - the {@link Token} that registered this event.
      * @param eventGroup

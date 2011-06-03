@@ -30,6 +30,8 @@ import org.testng.annotations.Test;
  */
 public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
 
+    private static final String NAME_MANUAL_TRIGGER2 = "manualTrigger2";
+    private static final String NAME_MANUAL_TRIGGER1 = "manualTrigger1";
     protected Token token;
     protected Node eventBasedXorGatewayNode, intermediateEvent1Node, intermediateEvent2Node, endNode1, endNode2;
 
@@ -54,7 +56,7 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         token = new BpmnToken(eventBasedXorGatewayNode, processInstanceMock, nav);
         token = Mockito.spy(token);
     }
-    
+
     /**
      * Cleaning up some objects.
      */
@@ -62,6 +64,34 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
     public void tearDown() {
 
         ManualTriggeringAdapter.resetManualTriggeringAdapter();
+    }
+
+    /**
+     * The normal routing behavior.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testRouting()
+    throws Exception {
+
+        token.executeStep();
+
+        Thread.sleep(LONG_WAITING_TIME_TEST);
+
+        ManualTriggeringAdapter.triggerManually(NAME_MANUAL_TRIGGER1);
+
+        Assert.assertEquals(token.getCurrentNode(), endNode1, errorMessage());
+
+        Mockito.verify(token).resume(Mockito.any(ProcessIntermediateEvent.class));
+
+        ManualTriggeringAdapter manualTriggeringAdapterToAssert = ManualTriggeringAdapter
+        .getManualTriggeringAdapter(NAME_MANUAL_TRIGGER1);
+        Assert.assertTrue(manualTriggeringAdapterToAssert.getProcessEvents().isEmpty());
+
+        // The event of the other adapter should already have been unsubscribed
+        manualTriggeringAdapterToAssert = ManualTriggeringAdapter.getManualTriggeringAdapter(NAME_MANUAL_TRIGGER2);
+        Assert.assertTrue(manualTriggeringAdapterToAssert.getProcessEvents().isEmpty());
     }
 
     /**
@@ -74,9 +104,9 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         // Building the IntermediateTimer
         eventBasedXorGatewayNode = BpmnNodeFactory.createBpmnEventBasedXorGatewayNode(builder);
 
-        intermediateEvent1Node = createBpmnManualTriggeringIntermediateEventNode(builder, "manualTrigger1");
+        intermediateEvent1Node = createBpmnManualTriggeringIntermediateEventNode(builder, NAME_MANUAL_TRIGGER1);
 
-        intermediateEvent2Node = createBpmnManualTriggeringIntermediateEventNode(builder, "manualTrigger2");
+        intermediateEvent2Node = createBpmnManualTriggeringIntermediateEventNode(builder, NAME_MANUAL_TRIGGER2);
 
         endNode1 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
         endNode2 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
@@ -106,26 +136,6 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
         return strBuilder.toString();
     }
 
-     /**
-     * The normal routing behavior.
-     *
-     * @throws Exception
-     */
-     @Test
-     public void testRouting()
-     throws Exception {
-    
-     token.executeStep();
-    
-     Thread.sleep(LONG_WAITING_TIME_TEST);
-    
-     ManualTriggeringAdapter.triggerManually("manualTrigger1");
-     
-     Assert.assertEquals(token.getCurrentNode(), endNode1, errorMessage());
-    
-     Mockito.verify(token).resume(Mockito.any(ProcessIntermediateEvent.class));
-     }
-
     /**
      * Creates a {@link Node} that represents {@link BpmnManualTriggeringIntermediateEventActivity
      * BpmnManualTriggeringIntermediateEvent}.
@@ -134,11 +144,12 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
      *            - the {@link ProcessDefinitionBuilder} in order to build the {@link Node}
      * @return the created {@link Node}
      */
-    protected static Node createBpmnManualTriggeringIntermediateEventNode(ProcessDefinitionBuilder defBuilder, String name) {
+    protected static Node createBpmnManualTriggeringIntermediateEventNode(ProcessDefinitionBuilder defBuilder,
+                                                                          String name) {
 
         NodeBuilder nodeBuilder = defBuilder.getNodeBuilder();
-        BpmnManualTriggeringIntermediateEventActivity activityBehavior
-            = new BpmnManualTriggeringIntermediateEventActivity(name);
+        BpmnManualTriggeringIntermediateEventActivity activityBehavior = new BpmnManualTriggeringIntermediateEventActivity(
+            name);
         return nodeBuilder.setIncomingBehaviour(new SimpleJoinBehaviour()).setActivityBehavior(activityBehavior)
         .setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
     }

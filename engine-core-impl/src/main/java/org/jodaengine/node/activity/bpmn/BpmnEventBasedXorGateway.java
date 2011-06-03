@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.eventmanagement.subscription.ProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.process.structure.Node;
@@ -28,34 +28,38 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
 
         List<ProcessIntermediateEvent> registeredIntermediateEvents = new ArrayList<ProcessIntermediateEvent>();
 
+        ProcessEventGroup eventXorGroup = new ProcessEventGroup(token);
+
         for (Transition transition : token.getCurrentNode().getOutgoingTransitions()) {
             Node node = transition.getDestination();
             if (node.getActivityBehaviour() instanceof BpmnEventBasedGatewayEvent) {
                 BpmnEventBasedGatewayEvent eventBasedGatewayEvent = (BpmnEventBasedGatewayEvent) node
                 .getActivityBehaviour();
 
-                ProcessIntermediateEvent processEvent = eventBasedGatewayEvent.createProcessIntermediateEvent(token);
+                ProcessIntermediateEvent processEvent = eventBasedGatewayEvent.createProcessIntermediateEventInEventGroup(token, eventXorGroup);
                 // Setting the node that has fired the event; the node is not that one the execution is currently
                 // pointing at but rather the node that contained the event
                 processEvent.setFireringNode(node);
 
+                eventXorGroup.add(processEvent);
+
                 // Subscribing on the event
                 eventManager.registerIntermediateEvent(processEvent);
 
-                // Putting the intermediate Events in the queue for later reference
-                registeredIntermediateEvents.add(processEvent);
+                // // Putting the intermediate Events in the queue for later reference
+                // registeredIntermediateEvents.add(processEvent);
             }
         }
 
         // Storing the list of intermediateProcessEvents as internal varibale for later reference
-        token.setInternalVariable(internalVariableId(REGISTERED_PROCESS_EVENT_PREFIX, token),
-            registeredIntermediateEvents);
+        // token.setInternalVariable(internalVariableId(REGISTERED_PROCESS_EVENT_PREFIX, token),
+        // registeredIntermediateEvents);
 
         token.suspend();
     }
 
     @Override
-    public synchronized void resume(Token token, Object resumeObject) {
+    public void resume(Token token, Object resumeObject) {
 
         if (!(resumeObject instanceof ProcessIntermediateEvent)) {
             logger.debug("The resumeObject '{}' is not a ProcessIntermediateEvent.", resumeObject);
@@ -65,21 +69,22 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
 
         // Maybe checking if it is in the list of registered events
 
-        @SuppressWarnings("unchecked")
-        List<ProcessIntermediateEvent> registeredIntermediateEvents = (List<ProcessIntermediateEvent>) token
-        .getInternalVariable(internalVariableId(REGISTERED_PROCESS_EVENT_PREFIX, token));
+        // @SuppressWarnings("unchecked")
+        // List<ProcessIntermediateEvent> registeredIntermediateEvents = (List<ProcessIntermediateEvent>) token
+        // .getInternalVariable(internalVariableId(REGISTERED_PROCESS_EVENT_PREFIX, token));
+        //
+        // if (!registeredIntermediateEvents.remove(intermediateProcessEvent)) {
+        // // Then it means the element that should be deleted was not in the list of registered Events
+        // String errorMessage = "The event-based Xor Gateway was resumed by an event that it has not registered.";
+        // logger.error(errorMessage);
+        // throw new JodaEngineRuntimeException(errorMessage);
+        // }
 
-        if (!registeredIntermediateEvents.remove(intermediateProcessEvent)) {
-            // Then it means the element that should be deleted was not in the list of registered Events
-            String errorMessage = "The event-based Xor Gateway was resumed by an event that it has not registered.";
-            logger.error(errorMessage);
-            throw new JodaEngineRuntimeException(errorMessage);
-        }
+        // unsubscribingFrom(registeredIntermediateEvents);
 
-        unsubscribingFrom(registeredIntermediateEvents);
-        
         Node nodeToSkip = intermediateProcessEvent.getFireringNode();
-        // Define the new starting point of the token; the new starting point is one of the nodes that comes right after that one
+        // Define the new starting point of the token; the new starting point is one of the nodes that comes right after
+        // that one
         token.setCurrentNode(nodeToSkip);
     }
 
@@ -92,5 +97,14 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
         for (ProcessIntermediateEvent registeredProcessEvent : registeredIntermediateEvents) {
             eventManager.unsubscribeFromIntermediateEvent(registeredProcessEvent);
         }
+    }
+    
+    @Override
+    public void cancel(Token executingToken) {
+    
+        // TODO @Gerardo zuvor Test schreiben
+        // TODO @Gerardo Implementing canceling all registered ProcessIntermediateEvents
+        
+        super.cancel(executingToken);
     }
 }
