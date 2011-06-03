@@ -8,13 +8,12 @@ import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
-import org.jodaengine.node.activity.Activity;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.token.Token;
 
 /**
- * This {@link Activity} represents the event-based gateway used in the BPMN.
+ * This {@link BpmnEventBasedXorGateway Activity} represents the event-based gateway used in the BPMN.
  */
 public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
 
@@ -32,11 +31,17 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
 
         for (Transition transition : token.getCurrentNode().getOutgoingTransitions()) {
             Node node = transition.getDestination();
+
+            // This node needs to trigger create processIntermediateEvents for the node that are attached to him
+            // That's why we need to check whether the activity of the next node allows the creation of
+            // processIntermediateEvents
             if (node.getActivityBehaviour() instanceof BpmnEventBasedGatewayEvent) {
                 BpmnEventBasedGatewayEvent eventBasedGatewayEvent = (BpmnEventBasedGatewayEvent) node
                 .getActivityBehaviour();
 
-                ProcessIntermediateEvent processEvent = eventBasedGatewayEvent.createProcessIntermediateEventInEventGroup(token, eventXorGroup);
+                // Creating a processIntermediateEvent
+                ProcessIntermediateEvent processEvent = eventBasedGatewayEvent
+                .createProcessIntermediateEventInEventGroup(token, eventXorGroup);
                 // Setting the node that has fired the event; the node is not that one the execution is currently
                 // pointing at but rather the node that contained the event
                 processEvent.setFireringNode(node);
@@ -46,14 +51,21 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
                 // Subscribing on the event
                 eventManager.registerIntermediateEvent(processEvent);
 
-                // // Putting the intermediate Events in the queue for later reference
-                // registeredIntermediateEvents.add(processEvent);
+                // Putting the intermediate Events in the queue for later reference
+                registeredIntermediateEvents.add(processEvent);
+            } else {
+
+                String errorMessage = "The node '" + node.toString() + "' with the activity '"
+                    + node.getActivityBehaviour().toString()
+                    + "' cannot create a ProcessIntermediateEvent. Needs to be of the type BpmnEventBasedGatewayEvent.";
+                logAndThrowError(errorMessage);
             }
         }
 
-        // Storing the list of intermediateProcessEvents as internal varibale for later reference
-        // token.setInternalVariable(internalVariableId(REGISTERED_PROCESS_EVENT_PREFIX, token),
-        // registeredIntermediateEvents);
+        // Storing the list of registered intermediateProcessEvents as internal variable for later reference
+        // (see canceling)
+        token.setInternalVariable(internalVariableId(REGISTERED_PROCESS_EVENT_PREFIX, token),
+            registeredIntermediateEvents);
 
         token.suspend();
     }
@@ -65,46 +77,29 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
             logger.debug("The resumeObject '{}' is not a ProcessIntermediateEvent.", resumeObject);
         }
 
+        // Each processIntermediateEvent knows which node is waiting for the event to fire
         ProcessIntermediateEvent intermediateProcessEvent = (ProcessIntermediateEvent) resumeObject;
-
-        // Maybe checking if it is in the list of registered events
-
-        // @SuppressWarnings("unchecked")
-        // List<ProcessIntermediateEvent> registeredIntermediateEvents = (List<ProcessIntermediateEvent>) token
-        // .getInternalVariable(internalVariableId(REGISTERED_PROCESS_EVENT_PREFIX, token));
-        //
-        // if (!registeredIntermediateEvents.remove(intermediateProcessEvent)) {
-        // // Then it means the element that should be deleted was not in the list of registered Events
-        // String errorMessage = "The event-based Xor Gateway was resumed by an event that it has not registered.";
-        // logger.error(errorMessage);
-        // throw new JodaEngineRuntimeException(errorMessage);
-        // }
-
-        // unsubscribingFrom(registeredIntermediateEvents);
-
         Node nodeToSkip = intermediateProcessEvent.getFireringNode();
-        // Define the new starting point of the token; the new starting point is one of the nodes that comes right after
-        // that one
+
+        // Define where the token continue his execution
+        // In this case it starts at the outgoingbehavior of the node that represents the intermediateEvent
         token.setCurrentNode(nodeToSkip);
+
+        // The ProcessEventGroup already takes care of unsubscribing from the other event
     }
 
-    private void unsubscribingFrom(List<ProcessIntermediateEvent> registeredIntermediateEvents) {
+    @Override
+    public void cancel(Token executingToken) {
 
-        // Unsubscribing the other registered events; doing it as early as possible
+        // Extracting the variable
+        @SuppressWarnings("unchecked")
+        List<ProcessIntermediateEvent> registeredIntermediateEvents = (List<ProcessIntermediateEvent>) executingToken
+        .getInternalVariable(internalVariableId(REGISTERED_PROCESS_EVENT_PREFIX, executingToken));
 
-        // TODO @Gerardo muss geändert werden keine ServiceFactory mehr - vielleicht im Token
+        // Unsubscribing from all processIntermediateEvents
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
         for (ProcessIntermediateEvent registeredProcessEvent : registeredIntermediateEvents) {
             eventManager.unsubscribeFromIntermediateEvent(registeredProcessEvent);
         }
-    }
-    
-    @Override
-    public void cancel(Token executingToken) {
-    
-        // TODO @Gerardo zuvor Test schreiben
-        // TODO @Gerardo Implementing canceling all registered ProcessIntermediateEvents
-        
-        super.cancel(executingToken);
     }
 }

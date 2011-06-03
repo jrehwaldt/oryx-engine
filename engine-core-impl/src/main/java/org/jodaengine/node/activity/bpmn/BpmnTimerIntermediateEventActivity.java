@@ -43,8 +43,7 @@ BpmnEventBasedGatewayEvent {
         eventManager.registerIntermediateEvent(processEvent);
 
         // the name should be unique, as the token can only work on one activity at a time.
-        final String itemContextVariableId = internalVariableId(PROCESS_EVENT_PREFIX, token);
-        token.setInternalVariable(itemContextVariableId, processEvent);
+        token.setInternalVariable(internalVariableId(PROCESS_EVENT_PREFIX, token), processEvent);
 
         token.suspend();
     }
@@ -52,10 +51,8 @@ BpmnEventBasedGatewayEvent {
     @Override
     public void cancel(Token executingToken) {
 
-        final String itemContextVariableId = internalVariableId(PROCESS_EVENT_PREFIX, executingToken);
-
         ProcessIntermediateEvent intermediateEvent = (ProcessIntermediateEvent) executingToken
-        .getInternalVariable(itemContextVariableId);
+        .getInternalVariable(internalVariableId(PROCESS_EVENT_PREFIX, executingToken));
 
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
         eventManager.unsubscribeFromIntermediateEvent(intermediateEvent);
