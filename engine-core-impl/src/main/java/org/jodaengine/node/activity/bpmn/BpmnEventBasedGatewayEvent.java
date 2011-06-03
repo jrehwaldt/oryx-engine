@@ -1,8 +1,9 @@
 package org.jodaengine.node.activity.bpmn;
 
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -28,8 +29,8 @@ public interface BpmnEventBasedGatewayEvent {
      *            - the {@link Token} that is used in order to build the {@link ProcessIntermediateEvent}
      * @param eventGroup
      *            - if the {@link ProcessIntermediateEvent} is connected to another {@link ProcessEvent} than a
-     *            {@link ProcessEventGroup} can be used to specify that connection
+     *            {@link AbstractProcessIntermediateEventGroup} can be used to specify that connection
      * @return a specific {@link ProcessIntermediateEvent}
      */
-    ProcessIntermediateEvent createProcessIntermediateEventForEventGroup(Token token, ProcessEventGroup eventGroup);
+    ProcessIntermediateEvent createProcessIntermediateEventForEventGroup(Token token, TriggeringBehaviour eventGroup);
 }

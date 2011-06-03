@@ -1,13 +1,17 @@
 package org.jodaengine.eventmanagement.subscription.processevent.intermediate;
 
+import javax.annotation.Nonnull;
+
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
 import org.jodaengine.eventmanagement.subscription.processevent.AbstractProcessEvent;
+import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
+import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.DefaultTokenResumption;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
@@ -19,12 +23,19 @@ public abstract class AbstractProcessIntermediateEvent extends AbstractProcessEv
     protected Token token;
     protected Node node;
 
-    protected ProcessEventGroup parentEventGroup;
+    protected TriggeringBehaviour parentEventGroup;
 
     /**
      * Another builder for syntactical sugaring.
      * 
      * It only predefines a default {@link EventCondition} which is the {@link TrueEventCondition}.
+     * 
+     * @param type
+     *            the type of this {@link ProcessEvent}
+     * @param config
+     *            - the {@link AdapterConfiguration configuration of the adapter} corresponding to this
+     * @param token
+     *            - the {@link Token processToken}
      * 
      * @see AbstractProcessIntermediateEvent#AbstractProcessIntermediateEvent(EventType, AdapterConfiguration,
      *      EventCondition, Token)
@@ -37,17 +48,26 @@ public abstract class AbstractProcessIntermediateEvent extends AbstractProcessEv
     /**
      * Another builder for syntactical sugaring.
      * 
-     * It only predefines a default {@link ProcessEventGroup}.
+     * It only predefines a default {@link AbstractProcessIntermediateEventGroup}.
+     * 
+     * @param type
+     *            the type of this {@link ProcessEvent}
+     * @param config
+     *            - the {@link AdapterConfiguration configuration of the adapter} corresponding to this
+     * @param condition
+     *            - the conditions of this {@link ProcessEvent}
+     * @param token
+     *            - the {@link Token processToken}F
      * 
      * @see AbstractProcessIntermediateEvent#AbstractProcessIntermediateEvent(EventType, AdapterConfiguration,
-     *      EventCondition, Token, ProcessEventGroup)
+     *      EventCondition, Token, AbstractProcessIntermediateEventGroup)
      */
     protected AbstractProcessIntermediateEvent(EventType type,
                                                AdapterConfiguration config,
                                                EventCondition condition,
                                                Token token) {
 
-        this(type, config, condition, token, null);
+        this(type, config, condition, token, new DefaultTokenResumption(token));
     }
 
     /**
@@ -62,13 +82,13 @@ public abstract class AbstractProcessIntermediateEvent extends AbstractProcessEv
      * @param token
      *            - the {@link Token processToken}
      * @param parentEventGroup
-     *            the {@link ProcessEventGroup} this {@link ProcessEvent} belongs to
+     *            the {@link AbstractProcessIntermediateEventGroup} this {@link ProcessEvent} belongs to
      */
     protected AbstractProcessIntermediateEvent(EventType type,
                                                AdapterConfiguration config,
                                                EventCondition condition,
                                                Token token,
-                                               ProcessEventGroup parentEventGroup) {
+                                               @Nonnull TriggeringBehaviour parentEventGroup) {
 
         super(type, config, condition);
         this.token = token;
@@ -85,16 +105,14 @@ public abstract class AbstractProcessIntermediateEvent extends AbstractProcessEv
     @Override
     public void trigger() {
 
-        if (parentEventGroup == null) {
-
-            // Resuming the token with myself
-            token.resume(this);
-        } else {
+//        if (parentEventGroup == null) {
+//
+//            // Resuming the token with myself
+//            token.resume(this);
+//        } else {
 
             parentEventGroup.trigger(this);
-        }
-
-        // triggerIntern(); -> this can be abstract
+//        }
     }
 
     @Override

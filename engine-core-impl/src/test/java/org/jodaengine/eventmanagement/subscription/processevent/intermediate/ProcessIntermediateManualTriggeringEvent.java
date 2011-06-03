@@ -3,9 +3,10 @@ package org.jodaengine.eventmanagement.subscription.processevent.intermediate;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
+import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -27,7 +28,7 @@ public class ProcessIntermediateManualTriggeringEvent extends AbstractProcessInt
     }
 
     /**
-     * Default Constructor for this event that belongs to a {@link ProcessEventGroup}.
+     * Default Constructor for this event that belongs to a {@link AbstractProcessIntermediateEventGroup}.
      * 
      * @param name
      *            - the name of the {@link ManualTriggeringAdapter}
@@ -35,9 +36,9 @@ public class ProcessIntermediateManualTriggeringEvent extends AbstractProcessInt
      *            - the {@link Token} that registered this event.
      * @param eventGroup
      *            - if this {@link ProcessIntermediateEvent} is related to other {@link ProcessIntermediateEvent} then
-     *            the {@link ProcessEventGroup} can be specified here
+     *            the {@link AbstractProcessIntermediateEventGroup} can be specified here
      */
-    public ProcessIntermediateManualTriggeringEvent(String name, Token token, ProcessEventGroup eventGroup) {
+    public ProcessIntermediateManualTriggeringEvent(String name, Token token, TriggeringBehaviour eventGroup) {
 
         super(EventTypes.ManualTriggered, new ManualTriggeringAdapterConfiguration(name), new TrueEventCondition(),
             token, eventGroup);

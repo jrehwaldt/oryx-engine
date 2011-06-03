@@ -5,8 +5,9 @@ import java.util.List;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.subscription.ProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
+import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.ExclusiveProcessEventGroup;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
@@ -27,7 +28,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
 
         List<ProcessIntermediateEvent> registeredIntermediateEvents = new ArrayList<ProcessIntermediateEvent>();
 
-        ProcessEventGroup eventXorGroup = new ProcessEventGroup(token);
+        AbstractProcessIntermediateEventGroup eventXorGroup = new ExclusiveProcessEventGroup(token);
 
         for (Transition transition : token.getCurrentNode().getOutgoingTransitions()) {
             Node node = transition.getDestination();
