@@ -4,6 +4,8 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
 import org.jodaengine.eventmanagement.subscription.processevent.intermediate.ProcessIntermediateManualTriggeringEvent;
+import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
+import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.ExclusiveProcessEventGroup;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;
@@ -30,7 +32,7 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
 
         token = Mockito.mock(Token.class);
 
-        ProcessEventGroup eventGroup = new ProcessEventGroup(token);
+        AbstractProcessIntermediateEventGroup eventGroup = new ExclusiveProcessEventGroup(token);
 
         intermediateEvent1 = new ProcessIntermediateManualTriggeringEvent("manualTrigger1", token, eventGroup);
         intermediateEvent2 = new ProcessIntermediateManualTriggeringEvent("manualTrigger2", token, eventGroup);
@@ -55,7 +57,7 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
     }
 
     /**
-     * Tests that after an {@link ProcessEvent} of the {@link ProcessEventGroup} is triggered that all other
+     * Tests that after an {@link ProcessEvent} of the {@link AbstractProcessIntermediateEventGroup} is triggered that all other
      * {@link ProcessEvent processEvents} are unsubscribed.
      */
     @Test
@@ -77,7 +79,7 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
     }
 
     /**
-     * Tests that two {@link ProcessEvent}s belonging to a {@link ProcessEventGroup} are triggered one after another.
+     * Tests that two {@link ProcessEvent}s belonging to a {@link AbstractProcessIntermediateEventGroup} are triggered one after another.
      * The second call should be ignored.
      */
     @Test

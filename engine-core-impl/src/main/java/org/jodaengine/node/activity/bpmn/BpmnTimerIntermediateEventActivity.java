@@ -3,8 +3,8 @@ package org.jodaengine.node.activity.bpmn;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.subscription.ProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.subscription.processevent.intermediate.TimerProcessIntermediateEvent;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.token.Token;
@@ -75,7 +75,7 @@ BpmnEventBasedGatewayEvent {
 
     @Override
     public ProcessIntermediateEvent createProcessIntermediateEventForEventGroup(Token token,
-                                                                                ProcessEventGroup eventGroup) {
+                                                                                TriggeringBehaviour eventGroup) {
 
         return new TimerProcessIntermediateEvent(time, token, eventGroup);
     }

@@ -16,7 +16,8 @@ import org.jodaengine.exception.JodaEngineRuntimeException;
 public class ManualTriggeringAdapter extends AbstractCorrelatingEventAdapter<ManualTriggeringAdapterConfiguration>
 implements InboundAdapter {
 
-    private static Map<String, ManualTriggeringAdapter> manualTriggeringAdapters = new HashMap<String, ManualTriggeringAdapter>();
+    private static Map<String, ManualTriggeringAdapter> manualTriggeringAdapters =
+        new HashMap<String, ManualTriggeringAdapter>();
 
     /**
      * Default Constructor.
