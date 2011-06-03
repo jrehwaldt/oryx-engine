@@ -23,7 +23,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
     protected void executeIntern(Token token) {
 
         // TODO @Gerardo muss geändert werden keine ServiceFactory mehr - vielleicht im Token
-        EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
+        EventSubscriptionManager eventManager = token.getCorrelationService();
 
         List<ProcessIntermediateEvent> registeredIntermediateEvents = new ArrayList<ProcessIntermediateEvent>();
 
@@ -41,7 +41,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
 
                 // Creating a processIntermediateEvent
                 ProcessIntermediateEvent processEvent = eventBasedGatewayEvent
-                .createProcessIntermediateEventInEventGroup(token, eventXorGroup);
+                .createProcessIntermediateEventForEventGroup(token, eventXorGroup);
                 // Setting the node that has fired the event; the node is not that one the execution is currently
                 // pointing at but rather the node that contained the event
                 processEvent.setFireringNode(node);
@@ -97,7 +97,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
         .getInternalVariable(internalVariableId(REGISTERED_PROCESS_EVENT_PREFIX, executingToken));
 
         // Unsubscribing from all processIntermediateEvents
-        EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
+        EventSubscriptionManager eventManager = executingToken.getCorrelationService();
         for (ProcessIntermediateEvent registeredProcessEvent : registeredIntermediateEvents) {
             eventManager.unsubscribeFromIntermediateEvent(registeredProcessEvent);
         }

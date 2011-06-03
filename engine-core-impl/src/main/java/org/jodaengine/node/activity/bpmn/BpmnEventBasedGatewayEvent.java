@@ -31,5 +31,5 @@ public interface BpmnEventBasedGatewayEvent {
      *            {@link ProcessEventGroup} can be used to specify that connection
      * @return a specific {@link ProcessIntermediateEvent}
      */
-    ProcessIntermediateEvent createProcessIntermediateEventInEventGroup(Token token, ProcessEventGroup eventGroup);
+    ProcessIntermediateEvent createProcessIntermediateEventForEventGroup(Token token, ProcessEventGroup eventGroup);
 }

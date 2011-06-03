@@ -2,7 +2,6 @@ package org.jodaengine.node.activity.bpmn;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
@@ -35,8 +34,7 @@ BpmnEventBasedGatewayEvent {
     @Override
     protected void executeIntern(@Nonnull Token token) {
 
-        // TODO @Gerardo muss geändert werden keine ServiceFactory mehr; vielleicht alle coreservices ins token
-        EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
+        EventSubscriptionManager eventManager = token.getCorrelationService();
 
         ProcessIntermediateEvent processEvent = createProcessIntermediateEvent(token);
 
@@ -49,12 +47,20 @@ BpmnEventBasedGatewayEvent {
     }
 
     @Override
+    public void resume(Token token, Object resumeObject) {
+
+        super.resume(token, resumeObject);
+
+        // Doing nothing because the fact the this method already means that the TimerEvent occurred
+    }
+
+    @Override
     public void cancel(Token executingToken) {
 
         ProcessIntermediateEvent intermediateEvent = (ProcessIntermediateEvent) executingToken
         .getInternalVariable(internalVariableId(PROCESS_EVENT_PREFIX, executingToken));
 
-        EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
+        EventSubscriptionManager eventManager = executingToken.getCorrelationService();
         eventManager.unsubscribeFromIntermediateEvent(intermediateEvent);
     }
 
@@ -68,7 +74,8 @@ BpmnEventBasedGatewayEvent {
     }
 
     @Override
-    public ProcessIntermediateEvent createProcessIntermediateEventInEventGroup(Token token, ProcessEventGroup eventGroup) {
+    public ProcessIntermediateEvent createProcessIntermediateEventForEventGroup(Token token,
+                                                                                ProcessEventGroup eventGroup) {
 
         return new TimerProcessIntermediateEvent(time, token, eventGroup);
     }

@@ -11,8 +11,6 @@ import org.jodaengine.eventmanagement.subscription.processevent.AbstractProcessE
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
-import ch.qos.logback.core.joran.conditional.Condition;
-
 /**
  * This is the base implementation for all {@link ProcessIntermediateEvent}s.
  */

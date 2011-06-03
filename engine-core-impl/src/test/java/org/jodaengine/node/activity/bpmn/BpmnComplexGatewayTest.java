@@ -7,7 +7,6 @@ import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.incomingbehaviour.ComplexJoinBehaviour;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
-import org.jodaengine.node.outgoingbehaviour.ComplexSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;

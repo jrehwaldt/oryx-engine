@@ -53,7 +53,7 @@ BpmnEventBasedGatewayEvent {
     }
 
     @Override
-    public ProcessIntermediateEvent createProcessIntermediateEventInEventGroup(Token token, ProcessEventGroup eventGroup) {
+    public ProcessIntermediateEvent createProcessIntermediateEventForEventGroup(Token token, ProcessEventGroup eventGroup) {
 
         return new ProcessIntermediateManualTriggeringEvent(name, token, eventGroup);
     }
