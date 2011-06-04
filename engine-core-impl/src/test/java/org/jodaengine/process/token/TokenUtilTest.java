@@ -17,11 +17,9 @@ import org.testng.annotations.Test;
 
 
 /**
- * The test for the process instance.
+ * The test for the utility class.
  */
 public class TokenUtilTest {
-
-    /** The process instance. */
 
     /** Different Nodes. */
     private Node node, node2, node3;
@@ -33,7 +31,6 @@ public class TokenUtilTest {
 
     /**
      * Set up.     
-     * An instance is build.
      */
     @BeforeMethod
     public void setUp() {
