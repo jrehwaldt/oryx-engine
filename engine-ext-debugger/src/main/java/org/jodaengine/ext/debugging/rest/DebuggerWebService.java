@@ -110,9 +110,9 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Path("/instance/terminate")
     @POST
     @Override
-    public void termianteInstance(InterruptedInstance targetInstance) {
+    public void terminateInstance(InterruptedInstance targetInstance) {
         if (this.debugger != null) {
-            this.debugger.termianteInstance(targetInstance);
+            this.debugger.terminateInstance(targetInstance);
         }
         throw new ServiceUnavailableException(DebuggerService.class);
     }

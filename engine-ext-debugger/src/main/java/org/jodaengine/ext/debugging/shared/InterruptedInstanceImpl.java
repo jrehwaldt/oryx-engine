@@ -35,9 +35,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class InterruptedInstanceImpl implements InterruptedInstance, Interrupter {
     
-    private static final String ILLEGAL_USAGE
-        = "Interrupting or continuing an InterruptedInstance multiple times is not allowed.";
-    
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     private final UUID id;
@@ -128,11 +125,6 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     @Override
     public DebuggerCommand interrupt() throws InterruptedException {
         
-        //
-        // disallow multiple invocations
-        //
-        ensureProperInitialization();
-        
         logger.debug("Token {} is interrupted.", getInterruptedToken());
         
         //
@@ -149,11 +141,6 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     
     @Override
     public synchronized void releaseInstance(DebuggerCommand command) {
-        
-        //
-        // disallow multiple invocations
-        //
-        ensureProperInitialization();
         
         logger.debug("Token {} is continued.", getInterruptedToken());
         
@@ -190,22 +177,12 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     }
     
     /**
-     * This method checks the proper initialization of our {@link CountDownLatch}
-     * and disallows multiple invocations of the interruption-relevant methods.
+     * Returns true if this instances is already released.
+     * 
+     * @return true, when released
      */
-    private void ensureProperInitialization() {
-        
-        //
-        // invoked the second time? - fool!
-        //
-        assert this.command == null;
-        assert this.latch != null;
-        if (this.command != null || this.latch == null) {
-            logger.warn(
-                "There is **most likely** an issue with your programmar. Just replace her or him! Cause: {}",
-                ILLEGAL_USAGE);
-            throw new IllegalStateException(ILLEGAL_USAGE);
-        }
+    public boolean isReleased() {
+        return this.latch.getCount() == 0;
     }
     
     /**

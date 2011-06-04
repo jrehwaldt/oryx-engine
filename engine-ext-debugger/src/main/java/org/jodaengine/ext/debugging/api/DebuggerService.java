@@ -33,7 +33,7 @@ public interface DebuggerService extends BreakpointService, DebuggerArtifactServ
      * 
      * @param instance the instance, to release
      */
-    void termianteInstance(@Nonnull InterruptedInstance instance);
+    void terminateInstance(@Nonnull InterruptedInstance instance);
     
     /**
      * This method will release the {@link InterruptedInstance} and continues until it reaches the process' end.

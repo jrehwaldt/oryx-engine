@@ -116,7 +116,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     }
 
     @Override
-    public void termianteInstance(InterruptedInstance instance) {
+    public void terminateInstance(InterruptedInstance instance) {
         
         logger.debug("Terminate instance {}", instance);
         releaseInstance(instance, DebuggerCommand.TERMINATE);
@@ -367,15 +367,20 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
      * @param instance the instance to continue
      * @param command the command, within which scope it is requested to be continued
      */
-    private void releaseInstance(@Nonnull InterruptedInstance instance,
-                                 @Nonnull DebuggerCommand command) {
+    private synchronized void releaseInstance(@Nonnull InterruptedInstance instance,
+                                              @Nonnull DebuggerCommand command) {
         
         logger.info("Release instance {} with command {}", instance, command);
         
         //
         // get the registered signal
         //
-        Interrupter signal = this.interruptedInstances.get(instance.getID());
+        Interrupter signal = this.interruptedInstances.remove(instance.getID());
+        
+        if (signal == null) {
+            throw new IllegalStateException(
+                "The signal is no longer available. The requested instances has already been released.");
+        }
         
         //
         // release it
