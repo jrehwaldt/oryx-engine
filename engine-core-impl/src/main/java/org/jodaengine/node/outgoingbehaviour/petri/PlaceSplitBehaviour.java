@@ -6,15 +6,13 @@ import java.util.Random;
 
 import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;
-import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenUtil;
 
 /**
  * The Class PlaceSplitBehaviour. It searches for PetriTransitions which are activated and reachable.
- *  Then it chooses randomly one of them and deletes the consumed tokens.
+ * Then it chooses randomly one of them and deletes the consumed tokens.
  *
  */
 public class PlaceSplitBehaviour implements OutgoingBehaviour {
@@ -22,8 +20,6 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
     @Override
     public List<Token> split(List<Token> tokens)
     throws NoValidPathException {
-        
-        TokenUtil util = new TokenUtil();
         
         // We only work if one token, due to petri net semantic
         Token token = tokens.get(0);

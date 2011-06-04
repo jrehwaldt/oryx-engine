@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javassist.expr.Instanceof;
-
 import javax.annotation.Nullable;
 
 import org.jodaengine.exception.JodaEngineException;
@@ -130,9 +128,9 @@ public class PetriToken extends AbstractToken {
                 Node node = transition.getDestination();
                 Token newToken;
                 // Only create a new token, if a PetriTransition was before 
-                if(transition.getSource().getOutgoingBehaviour() instanceof TransitionSplitBehaviour) {
+                if (transition.getSource().getOutgoingBehaviour() instanceof TransitionSplitBehaviour) {
                     newToken = createNewToken(node);
-                }else{
+                } else {
                     newToken = this;
                 }
                 newToken.setCurrentNode(node);

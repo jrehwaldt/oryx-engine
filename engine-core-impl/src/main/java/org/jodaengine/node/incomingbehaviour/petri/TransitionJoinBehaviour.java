@@ -12,7 +12,7 @@ import org.jodaengine.process.token.TokenUtil;
 
 
 /**
- * The Class AndJoinBehaviour. Realizes the joining of more than one incoming path.
+ * The Class TransitionJoinBehaviour. Consumes tokens and checks if it's possible to join.
  */
 public class TransitionJoinBehaviour implements IncomingBehaviour {
 

@@ -214,7 +214,8 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
 
     /**
      * Creates a new token and registers this for the listeners.
-     * 
+     *
+     * @param startNode the start node
      * @return the token
      */
     public Token createNewToken(Node startNode) {

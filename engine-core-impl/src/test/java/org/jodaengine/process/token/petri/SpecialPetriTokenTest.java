@@ -88,8 +88,8 @@ public class SpecialPetriTokenTest {
 
         Token newToken;
         token2.executeStep();
-        assertEquals(instance.getAssignedTokens().size(), 2, "There should be one token consumed," +
-            " and one left at the end and one left at the beginning node.");
+        assertEquals(instance.getAssignedTokens().size(), 2, "There should be one token consumed,"
+            + " and one left at the end and one left at the beginning node.");
         assertEquals(util.getTokensWhichAreOnPlace(node6, instance).size(), 1);
         newToken = util.getTokensWhichAreOnPlace(node6, instance).get(0);
         assertFalse(newToken == token2, "A new token should be produced, and not the old one reused");

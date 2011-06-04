@@ -6,24 +6,14 @@ import java.util.List;
 import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 /**
- * The Class TakeAllSplitBehaviour. Will signal the first outgoing transition, of which the condition evaluates to true.
+ * The Class TransitionSplitBehaviour. It creates for every following place one new token.
  */
 public class TransitionSplitBehaviour implements OutgoingBehaviour {
 
-    /**
-     * Split according to the transitions.
-     * 
-     * @param tokens
-     *            the instances
-     * @return the list
-     * @throws NoValidPathException
-     *             the no valid path exception {@inheritDoc}
-     */
     @Override
     public List<Token> split(List<Token> tokens)
     throws NoValidPathException {

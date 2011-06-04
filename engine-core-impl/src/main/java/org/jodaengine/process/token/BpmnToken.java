@@ -23,7 +23,6 @@ import org.jodaengine.process.structure.Transition;
  * Former it was known as TokenImpl, but due to the wish to support mutiple modelling languages
  * it was renamed.
  */
-// TODO @Jannik Kommentieren, aber ganz schnell ^^ ;-)
 public class BpmnToken extends AbstractToken {
 
     private ActivityState currentActivityState = null;

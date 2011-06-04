@@ -21,8 +21,8 @@ public class TokenUtil {
      */
     public List<Token> getTokensWhichAreOnPlace(Node node, AbstractProcessInstance instance) {
         List<Token> tokensOnNode = new ArrayList<Token>();
-        for(Token token : instance.getAssignedTokens()) {
-            if(checkIfTokenIsOnPlace(token, node)) {
+        for (Token token : instance.getAssignedTokens()) {
+            if (checkIfTokenIsOnPlace(token, node)) {
                 tokensOnNode.add(token);
             }
         }
