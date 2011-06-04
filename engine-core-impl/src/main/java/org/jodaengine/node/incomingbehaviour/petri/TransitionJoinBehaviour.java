@@ -31,7 +31,7 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
         
         // attention: the node is not the current node of the token, it is a reachable node from the current node.
         for (Transition t : node.getIncomingTransitions()) {
-            if (util.getTokensWhichAreOnPlace(t.getSource(), token.getInstance()).size() == 0) {
+            if (util.getTokensWhichAreOnNode(t.getSource(), token.getInstance()).size() == 0) {
                 return false;
             }
         }
@@ -51,7 +51,7 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
         for (Transition t : transitions) {
             Node placeBeforePetriTransition = t.getSource();
             // get Tokens, which are still there
-            oldTokensOnPlace = util.getTokensWhichAreOnPlace(placeBeforePetriTransition, instance);
+            oldTokensOnPlace = util.getTokensWhichAreOnNode(placeBeforePetriTransition, instance);
             
             // One token of the place should be deleted.
             // Because these are ordinary petri net's all tokens are equal and therefore we can delete just the first.

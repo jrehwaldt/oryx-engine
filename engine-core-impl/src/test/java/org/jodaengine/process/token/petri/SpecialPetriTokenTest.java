@@ -90,8 +90,8 @@ public class SpecialPetriTokenTest {
         token2.executeStep();
         assertEquals(instance.getAssignedTokens().size(), 2, "There should be one token consumed,"
             + " and one left at the end and one left at the beginning node.");
-        assertEquals(util.getTokensWhichAreOnPlace(node6, instance).size(), 1);
-        newToken = util.getTokensWhichAreOnPlace(node6, instance).get(0);
+        assertEquals(util.getTokensWhichAreOnNode(node6, instance).size(), 1);
+        newToken = util.getTokensWhichAreOnNode(node6, instance).get(0);
         assertFalse(newToken == token2, "A new token should be produced, and not the old one reused");
         assertEquals(token3.getCurrentNode(), node, "The third token should not be affected");
         
@@ -108,12 +108,12 @@ public class SpecialPetriTokenTest {
         
         token2.executeStep();
         // We don't now which token is left, so lookup one of it
-        Token remainingToken = util.getTokensWhichAreOnPlace(node, instance).get(0);
+        Token remainingToken = util.getTokensWhichAreOnNode(node, instance).get(0);
         remainingToken.executeStep();
 
         assertEquals(instance.getAssignedTokens().size(), 2, "There should one token be consumed and two at the end.");
-        assertEquals(util.getTokensWhichAreOnPlace(node3, instance).size(), 1);
-        assertEquals(util.getTokensWhichAreOnPlace(node6, instance).size(), 1);
+        assertEquals(util.getTokensWhichAreOnNode(node3, instance).size(), 1);
+        assertEquals(util.getTokensWhichAreOnNode(node6, instance).size(), 1);
         
     }
     
@@ -128,17 +128,17 @@ public class SpecialPetriTokenTest {
         token2.executeStep();
         // We dont now which token is left, so lookup one of it
         Token remainingToken;
-        remainingToken = util.getTokensWhichAreOnPlace(node, instance).get(0);
+        remainingToken = util.getTokensWhichAreOnNode(node, instance).get(0);
         remainingToken.executeStep();
         
         // Both paths are at the end, now try to execute one of the tokens, which are located at the end.
-        remainingToken = util.getTokensWhichAreOnPlace(node3, instance).get(0);
+        remainingToken = util.getTokensWhichAreOnNode(node3, instance).get(0);
         remainingToken.executeStep();
         
         // There should not occur an error, nor should there be new tokens created.
         assertEquals(instance.getAssignedTokens().size(), 2, "There should be no new tokens.");
-        assertEquals(util.getTokensWhichAreOnPlace(node3, instance).size(), 1);
-        assertEquals(util.getTokensWhichAreOnPlace(node6, instance).size(), 1);
+        assertEquals(util.getTokensWhichAreOnNode(node3, instance).size(), 1);
+        assertEquals(util.getTokensWhichAreOnNode(node6, instance).size(), 1);
         
     }
 

@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
 /**
  * The Class PlaceSplitTest. Tests the Class TransitionSplitBehaviour.
  */
-public class PetriTransitionSplitTest {
+public class TransitionSplitTest {
     
     /** The process instance. */
     private Token token = null;

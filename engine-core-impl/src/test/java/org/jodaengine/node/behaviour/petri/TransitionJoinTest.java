@@ -101,8 +101,8 @@ public class TransitionJoinTest {
       node2.getIncomingBehaviour().join(token);
       
       assertTrue(instance.getAssignedTokens().size() == 1, "There should be now just one token left.");
-      assertTrue(util.getTokensWhichAreOnPlace(node3, instance).size() == 0, "Start nodes should be token free.");
-      assertTrue(util.getTokensWhichAreOnPlace(node, instance).size() == 0, "Start nodes should be token free.");
+      assertTrue(util.getTokensWhichAreOnNode(node3, instance).size() == 0, "Start nodes should be token free.");
+      assertTrue(util.getTokensWhichAreOnNode(node, instance).size() == 0, "Start nodes should be token free.");
       
   }
   

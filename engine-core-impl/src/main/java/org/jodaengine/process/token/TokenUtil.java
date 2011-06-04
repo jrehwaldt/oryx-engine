@@ -25,10 +25,10 @@ public class TokenUtil {
      * @param instance the instance
      * @return the tokens which are on the node
      */
-    public List<Token> getTokensWhichAreOnPlace(Node node, AbstractProcessInstance instance) {
+    public List<Token> getTokensWhichAreOnNode(Node node, AbstractProcessInstance instance) {
         List<Token> tokensOnNode = new ArrayList<Token>();
         for (Token token : instance.getAssignedTokens()) {
-            if (checkIfTokenIsOnPlace(token, node)) {
+            if (checkIfTokenIsOnNode(token, node)) {
                 tokensOnNode.add(token);
             }
         }
@@ -43,7 +43,7 @@ public class TokenUtil {
      * @param nodeBeforeTransition the node before transition
      * @return true, if successful
      */
-    private boolean checkIfTokenIsOnPlace(Token token, Node nodeBeforeTransition) {
+    private boolean checkIfTokenIsOnNode(Token token, Node nodeBeforeTransition) {
         return token.getCurrentNode() == nodeBeforeTransition;
     }
 
