@@ -67,9 +67,9 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     public void testGetStatistic()
     throws URISyntaxException, IOException {
         String json = makeGETRequestReturningJson(STATISTIC_URL);
+        Assert.assertNotNull(json);
         
         NavigatorStatistic stats = this.navigator.getStatistics();
-        Assert.assertNotNull(json);
 
         NavigatorStatistic callStats = this.mapper.readValue(json, NavigatorStatistic.class);
         Assert.assertNotNull(callStats);

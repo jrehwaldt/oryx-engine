@@ -66,7 +66,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
             this.resolver = extensionService.getExtensionService(
                 ReferenceResolverService.class, ReferenceResolverService.RESOLVER_SERVICE_NAME);
         } catch (ExtensionNotAvailableException e) {
-            logger.error("The Debugger REST API will be unavailable. No Debugger Service found.");
+            logger.error("The Debugger REST API will be unavailable. No Debugger/Resolver Service found.");
             this.debugger = null;
         }
     }
@@ -204,6 +204,8 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
         throw new ServiceUnavailableException(DebuggerService.class);
     }
     
+    @Path("/breakpoints")
+    @GET
     @Override
     public Collection<Breakpoint> getBreakpoints() {
         
