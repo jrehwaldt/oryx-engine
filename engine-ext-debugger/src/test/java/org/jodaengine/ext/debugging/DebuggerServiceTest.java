@@ -240,6 +240,6 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         //
         // we interrupt the instance, which should directly release us
         //
-        Assert.assertEquals(instance.interrupt(), DebuggerCommand.CONTINUE);
+        Assert.assertEquals(instance.interrupt(), command);
     }
 }
