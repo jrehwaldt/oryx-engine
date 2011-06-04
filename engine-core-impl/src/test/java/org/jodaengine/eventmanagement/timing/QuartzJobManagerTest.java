@@ -58,7 +58,7 @@ public class QuartzJobManagerTest {
      * @throws JodaEngineException
      *             test fails if either pulling or registering fails
      */
-    @Test(invocationCount = 10)
+    @Test
     public void testRegisteringAPullAdapter()
     throws JodaEngineException {
 
