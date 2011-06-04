@@ -9,8 +9,8 @@ import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.token.Token;
 
 /**
- * This represents a {@link TriggeringBehaviour} that a soon a {@link ProcessEvent} of this group is triggered this group
- * will unregister all other {@link ProcessEvent} that are in this group.
+ * This represents a {@link TriggeringBehaviour} that a soon a {@link ProcessEvent} of this group is triggered this
+ * group will unregister all other {@link ProcessEvent} that are in this group.
  */
 public class ExclusiveProcessEventGroup extends AbstractProcessIntermediateEventGroup {
 
@@ -26,7 +26,7 @@ public class ExclusiveProcessEventGroup extends AbstractProcessIntermediateEvent
     }
 
     @Override
-    public synchronized void triggerIntern(ProcessIntermediateEvent processIntermediateEvent) {
+    public void triggerIntern(ProcessIntermediateEvent processIntermediateEvent) {
 
         if (!getIntermediateEvents().remove(processIntermediateEvent)) {
 
