@@ -71,12 +71,11 @@ public class DebuggerTokenListener extends AbstractTokenListener {
                 Interrupter signal = this.debugger.breakpointTriggered(token, breakpoint, this);
                 
                 //
-                // interrupt
+                // interrupt the token
                 //
-                logger.info("Interrupting token {}", token);
-                DebuggerCommand command;
                 try {
-                    command = signal.interruptInstance();
+                    logger.info("Interrupting token {}", token);
+                    DebuggerCommand command = signal.interruptInstance();
                     
                     logger.info("Token {} resumed with command {}", token, command);
                     //
