@@ -84,12 +84,9 @@ public class PetriTokenTest {
         
         List<Token> newTokens = token.navigateTo(currentNode.getOutgoingTransitions());
         
-        assertEquals(instance.getAssignedTokens().size(), 2, "There should now be two tokens."
-            + "Somewhere after navigation one of them should be deleted.");
-
-
+        assertEquals(instance.getAssignedTokens().size(), 1, "There should be one moved token.");
         assertEquals(newTokens.get(0).getCurrentNode(), node2,
-            "The new token should point to the following nodes.");
+            "The new token should point to the following node.");
     }
 
     /**

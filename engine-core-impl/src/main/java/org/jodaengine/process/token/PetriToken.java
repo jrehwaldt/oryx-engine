@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javassist.expr.Instanceof;
+
 import javax.annotation.Nullable;
 
 import org.jodaengine.exception.JodaEngineException;
@@ -11,6 +13,7 @@ import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.ActivityState;
+import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
@@ -77,10 +80,20 @@ public class PetriToken extends AbstractToken {
        List<Token> tokens = new ArrayList<Token>();
        tokens.add(this);
        
-       //Put Token on the Transition after the Place
+       // Put Token on the Transition after the Place
        List<Token> newTokens = currentNode.getOutgoingBehaviour().split(tokens);
        
-       //Now split at the Transition
+       // If there are no possible options, this token has to be skipped
+       if (newTokens == null) {
+           //Perhaps the future brings success
+           navigator.addWorkToken(this);
+           return;
+       }
+       
+       // During the split the token was moved to the next node...there we join to consume old tokens
+       newTokens = currentNode.getIncomingBehaviour().join(newTokens.get(0));
+       
+       // Now split at the Transition
        lazySuspendedProcessingTokens = newTokens.get(0).getCurrentNode().getOutgoingBehaviour().split(newTokens);
        
        for (Token token : lazySuspendedProcessingTokens) {
@@ -115,7 +128,14 @@ public class PetriToken extends AbstractToken {
 
             for (Transition transition : transitionList) {
                 Node node = transition.getDestination();
-                Token newToken = createNewToken(node);
+                Token newToken;
+                // Only create a new token, if a PetriTransition was before 
+                if(transition.getSource().getOutgoingBehaviour() instanceof TransitionSplitBehaviour) {
+                    newToken = createNewToken(node);
+                }else{
+                    newToken = this;
+                }
+                newToken.setCurrentNode(node);
                 newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }

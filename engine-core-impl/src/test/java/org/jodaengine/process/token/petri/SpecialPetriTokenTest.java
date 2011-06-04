@@ -3,8 +3,6 @@ package org.jodaengine.process.token.petri;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
-import java.util.List;
-
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.incomingbehaviour.petri.TransitionJoinBehaviour;
@@ -28,7 +26,7 @@ import org.testng.annotations.Test;
 public class SpecialPetriTokenTest {
 
     /** The process instance. */
-    private Token token = null, token2 = null, token3 = null;
+    private Token token2 = null, token3 = null;
 
     /** Different Nodes. */
     private Node node = null, node3 = null, node5 = null, node6 = null;
@@ -73,7 +71,7 @@ public class SpecialPetriTokenTest {
         
         TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);
         instance = new ProcessInstance(null, tokenBuilder);
-        token = instance.createToken(node);
+        instance.createToken(node);
         token2 = instance.createToken(node5);
         token3 = instance.createToken(node);
         
@@ -81,7 +79,7 @@ public class SpecialPetriTokenTest {
     }
 
     /**
-     * Test the taking of a single transition.
+     * Tests the lower path.
      * 
      * @throws Exception if it fails
      */
@@ -90,19 +88,18 @@ public class SpecialPetriTokenTest {
 
         Token newToken;
         token2.executeStep();
-        assertEquals(instance.getAssignedTokens().size(), 2, "There should be one new token created");
+        assertEquals(instance.getAssignedTokens().size(), 2, "There should be one token consumed," +
+            " and one left at the end and one left at the beginning node.");
         assertEquals(util.getTokensWhichAreOnPlace(node6, instance).size(), 1);
         newToken = util.getTokensWhichAreOnPlace(node6, instance).get(0);
         assertFalse(newToken == token2, "A new token should be produced, and not the old one reused");
-        assertEquals(newToken.getCurrentNode(), node6,
-            "After one step the token should be located on the next place and NOT on the Transition");
         assertEquals(token3.getCurrentNode(), node, "The third token should not be affected");
         
     }
 
     
     /**
-     * Test the taking of a single transition.
+     * Tests both ways of the example petri net. First the lower way is taken, then the upper way.
      * 
      * @throws Exception if it fails
      */
@@ -110,11 +107,36 @@ public class SpecialPetriTokenTest {
     public void testBothSimplePetriStepExecution() throws Exception {
         
         token2.executeStep();
-        //We dont now which token is left, so lookup one of it
+        // We don't now which token is left, so lookup one of it
         Token remainingToken = util.getTokensWhichAreOnPlace(node, instance).get(0);
         remainingToken.executeStep();
 
-        assertEquals(instance.getAssignedTokens().size(), 2, "There should be one new token created");
+        assertEquals(instance.getAssignedTokens().size(), 2, "There should one token be consumed and two at the end.");
+        assertEquals(util.getTokensWhichAreOnPlace(node3, instance).size(), 1);
+        assertEquals(util.getTokensWhichAreOnPlace(node6, instance).size(), 1);
+        
+    }
+    
+    /**
+     * Tests dead ends.
+     * 
+     * @throws Exception if it fails
+     */
+    @Test
+    public void testdeadEndPetriStepExecution() throws Exception {
+        
+        token2.executeStep();
+        // We dont now which token is left, so lookup one of it
+        Token remainingToken;
+        remainingToken = util.getTokensWhichAreOnPlace(node, instance).get(0);
+        remainingToken.executeStep();
+        
+        // Both paths are at the end, now try to execute one of the tokens, which are located at the end.
+        remainingToken = util.getTokensWhichAreOnPlace(node3, instance).get(0);
+        remainingToken.executeStep();
+        
+        // There should not occur an error, nor should there be new tokens created.
+        assertEquals(instance.getAssignedTokens().size(), 2, "There should be no new tokens.");
         assertEquals(util.getTokensWhichAreOnPlace(node3, instance).size(), 1);
         assertEquals(util.getTokensWhichAreOnPlace(node6, instance).size(), 1);
         
