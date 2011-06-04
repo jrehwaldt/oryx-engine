@@ -19,6 +19,6 @@ public interface OutgoingBehaviour {
      * @throws NoValidPathException
      *             the routing found no path with a true condition
      */
-    List<Token> split(List<Token> instances)
+    List<Token> split(List<Token> tokens)
     throws NoValidPathException;
 }

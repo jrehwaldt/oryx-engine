@@ -28,7 +28,7 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
     public boolean joinable(Token token, Node node) {
         TokenUtil util = new TokenUtil();
         
-        //node ist die nächste...
+        // attention: the node is not the current node of the token, it is a reachable node from the current node.
         boolean check = true;
         for (Transition t : node.getIncomingTransitions()) {
             if (util.getTokensWhichAreOnPlace(t.getSource(), token.getInstance()).size() == 0) {
@@ -61,8 +61,8 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
                 instance.removeToken(oldTokensOnPlace.get(0));
             }
             
-            //TODO Token auch aus dem Navigator löschen...das ist aber nicht so einfach wegen
-            // Cuncurrency issues...hier muss beim herausnehmen miot Locks aquire/release gearbeitet werden
+            // TODO Token auch aus dem Navigator löschen...das ist aber nicht so einfach wegen
+            // Concurrency issues...hier muss beim herausnehmen miot Locks aquire/release gearbeitet werden
             
         }
     }

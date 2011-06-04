@@ -111,16 +111,9 @@ public class PetriToken extends AbstractToken {
 
         List<Token> tokensToNavigate = new ArrayList<Token>();
 
-        //
-        // zero outgoing transitions
-        //
         if (transitionList.size() == 0) {
-
             this.exceptionHandler.processException(new NoValidPathException(), this);
 
-            //
-            // one outgoing transition
-            //
         //Petri Net Semantic: Produce a new Token after a Transition
         } else {
 

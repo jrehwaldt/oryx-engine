@@ -7,6 +7,12 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 
 /**
+ * 
+ * @author Jannik
+ * 
+ */
+
+/**
  * The Class TokenUtil, which can be used for some useful token operations. However,
  *  not every modeling language may need these functions, so it was bundled here.
  */
