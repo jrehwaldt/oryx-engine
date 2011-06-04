@@ -74,7 +74,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
         // interrupter mock
         //
         Interrupter interrupter = mock(Interrupter.class);
-        when(interrupter.interrupt()).thenReturn(DebuggerCommand.CONTINUE);
+        when(interrupter.interruptInstance()).thenReturn(DebuggerCommand.CONTINUE);
         when(this.mockDebugger.breakpointTriggered(
             Mockito.<Token>any(),
             Mockito.<Breakpoint>any(),

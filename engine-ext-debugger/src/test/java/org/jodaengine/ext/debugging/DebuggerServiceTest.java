@@ -23,7 +23,7 @@ import com.google.inject.internal.Nullable;
 
 /**
  * This class tests the proper functions of the {@link DebuggerServiceImpl}.
- * It specifically tests the interruption-part.
+ * It specifically tests the interruption/release-part.
  * 
  * @author Jan Rehwaldt
  * @since 2011-06-01
@@ -197,6 +197,9 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         assertIsRelease(instance, DebuggerCommand.TERMINATE);
     }
     
+    //=================================================================
+    //=================== Helper methods ==============================
+    //=================================================================
     /**
      * Creates a new {@link InterruptedInstanceImpl} in the debugger.
      * 
@@ -240,6 +243,6 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         //
         // we interrupt the instance, which should directly release us
         //
-        Assert.assertEquals(instance.interrupt(), command);
+        Assert.assertEquals(instance.interruptInstance(), command);
     }
 }

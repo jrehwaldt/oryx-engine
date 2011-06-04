@@ -18,7 +18,7 @@ import org.jodaengine.ext.debugging.api.Interrupter;
 import org.jodaengine.ext.debugging.api.NodeBreakpoint;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
-import org.jodaengine.ext.debugging.util.ThreadInterruptingInterrupter;
+import org.jodaengine.ext.debugging.util.DirectlyInterruptingInterrupter;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
@@ -118,7 +118,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         //
         // interrupter mock
         //
-        when(this.mockInterrupter.interrupt()).thenReturn(DebuggerCommand.CONTINUE);
+        when(this.mockInterrupter.interruptInstance()).thenReturn(DebuggerCommand.CONTINUE);
         when(this.mockDebuggerWithBreakpoint.breakpointTriggered(
             Mockito.<Token>any(),
             Mockito.<Breakpoint>any(),
@@ -147,7 +147,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.listenerWithBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
-        verify(this.mockInterrupter, times(1)).interrupt();
+        verify(this.mockInterrupter, times(1)).interruptInstance();
         verify(this.mockDebuggerWithBreakpoint, times(1)).breakpointTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
     }
@@ -165,7 +165,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.listenerWithoutBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithoutBreakpoint, times(1)).getBreakpoints(this.mockInstance);
-        verify(this.mockInterrupter, never()).interrupt();
+        verify(this.mockInterrupter, never()).interruptInstance();
         verify(this.mockDebuggerWithoutBreakpoint, never()).breakpointTriggered(
             this.mockToken, this.breakpoint, this.listenerWithoutBreakpoint);
     }
@@ -184,7 +184,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.listenerWithBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
-        verify(this.mockInterrupter, never()).interrupt();
+        verify(this.mockInterrupter, never()).interruptInstance();
         verify(this.mockDebuggerWithBreakpoint, never()).breakpointTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
     }
@@ -213,7 +213,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.listenerWithBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithBreakpoint, times(2)).getBreakpoints(this.mockInstance);
-        verify(this.mockInterrupter, times(1)).interrupt();
+        verify(this.mockInterrupter, times(1)).interruptInstance();
         verify(this.mockDebuggerWithBreakpoint, times(1)).breakpointTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
     }
@@ -233,7 +233,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.listenerWithBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
-        verify(this.mockInterrupter, never()).interrupt();
+        verify(this.mockInterrupter, never()).interruptInstance();
         verify(this.mockDebuggerWithBreakpoint, never()).breakpointTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
     }
@@ -258,7 +258,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.listenerWithBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
-        verify(this.mockInterrupter, never()).interrupt();
+        verify(this.mockInterrupter, never()).interruptInstance();
         verify(this.mockDebuggerWithBreakpoint, never()).breakpointTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
     }
@@ -274,7 +274,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         //
         // create an immediately interrupting interrupter
         //
-        Interrupter interrupter = new ThreadInterruptingInterrupter();
+        Interrupter interrupter = new DirectlyInterruptingInterrupter();
         when(this.mockDebuggerWithBreakpoint.breakpointTriggered(
             Mockito.<Token>any(),
             Mockito.<Breakpoint>any(),

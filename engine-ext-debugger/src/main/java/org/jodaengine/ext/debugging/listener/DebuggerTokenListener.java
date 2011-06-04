@@ -76,7 +76,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
                 logger.info("Interrupting token {}", token);
                 DebuggerCommand command;
                 try {
-                    command = signal.interrupt();
+                    command = signal.interruptInstance();
                     
                     logger.info("Token {} resumed with command {}", token, command);
                     //

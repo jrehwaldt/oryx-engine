@@ -123,7 +123,7 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     //=================================================================
     
     @Override
-    public DebuggerCommand interrupt() throws InterruptedException {
+    public DebuggerCommand interruptInstance() throws InterruptedException {
         
         logger.debug("Token {} is interrupted.", getInterruptedToken());
         
