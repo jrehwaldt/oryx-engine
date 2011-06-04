@@ -46,7 +46,7 @@ public class InterruptedInstanceTest {
         AbstractProcessInstance process = mock(AbstractProcessInstance.class);
         when(this.token.getInstance()).thenReturn(process);
         
-        InterruptedInstance instance = new InterruptedInstanceImpl(this.token, this.breakpoint, this.listener);
+        InterruptedInstance instance = new InterruptedInstanceImpl(this.token, this.breakpoint);
         Assert.assertNotNull(instance.getInterruptedInstance());
         Assert.assertEquals(process, instance.getInterruptedInstance());
     }

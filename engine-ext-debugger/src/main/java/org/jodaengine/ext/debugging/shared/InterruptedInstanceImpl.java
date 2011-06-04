@@ -6,14 +6,11 @@ import java.util.concurrent.CountDownLatch;
 import javax.annotation.Nonnull;
 
 import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.DebuggerCommand;
 import org.jodaengine.ext.debugging.api.InterruptedInstance;
 import org.jodaengine.ext.debugging.api.Interrupter;
-import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
-import org.jodaengine.ext.debugging.rest.DereferencedObjectException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
@@ -24,7 +21,8 @@ import org.slf4j.LoggerFactory;
  * which were matched by a {@link Breakpoint}.
  * 
  * It, furthermore, implements the {@link Interrupter}, which interrupts and signals
- * the {@link DebuggerTokenListener}. It therefore uses the Java Concurrent classes.
+ * the {@link org.jodaengine.ext.debugging.listener.DebuggerTokenListener}.
+ * Therefore, it uses the Java Concurrency classes.
  * 
  * @see http://www.ibm.com/developerworks/java/library/j-jtp11234/
  * @see http://download.oracle.com/javase/tutorial/essential/concurrency/
@@ -42,7 +40,6 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     private final Token interruptedToken;
     private final Breakpoint causingBreakpoint;
     
-    private transient final DebuggerTokenListener interruptingListener;
     private transient final CountDownLatch latch;
     private transient DebuggerCommand command;
     
@@ -51,17 +48,13 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
      * 
      * @param interruptedToken the {@link Token}, which was interrupted
      * @param causingBreakpoint the {@link Breakpoint}, which caused the interruption
-     * @param interruptingListener the {@link DebuggerTokenListener}, which triggered the interruption
      */
     public InterruptedInstanceImpl(@Nonnull Token interruptedToken,
-                                   @Nonnull Breakpoint causingBreakpoint,
-                                   @Nonnull DebuggerTokenListener interruptingListener) {
+                                   @Nonnull Breakpoint causingBreakpoint) {
         
         this.interruptedToken = interruptedToken;
         this.causingBreakpoint = causingBreakpoint;
         this.id = UUID.randomUUID();
-        
-        this.interruptingListener = interruptingListener;
         
         //
         // create our latch with count one
@@ -90,7 +83,6 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
         this.causingBreakpoint = causingBreakpoint;
         this.id = id;
         
-        this.interruptingListener = null;
         this.latch = null;
     }
     
@@ -161,22 +153,6 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     //=================================================================
     
     /**
-     * This is a transient field. Deserialized and serialized representations may not have
-     * an instance and will cause an {@link DereferencedObjectException}.
-     * 
-     * @return the {@link DebuggerTokenListener}, which triggered the interruption
-     */
-    @JsonIgnore
-    public @Nonnull DebuggerTokenListener getInterruptingListener() {
-        
-        if (this.interruptingListener == null) {
-            throw new DereferencedObjectException(DebuggerTokenListener.class, getID());
-        }
-        
-        return interruptingListener;
-    }
-    
-    /**
      * Returns true if this instances is already released.
      * 
      * @return true, when released
@@ -191,7 +167,7 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
      * @return a String describing the state
      */
     private String getState() {
-        if (this.latch.getCount() == 0) {
+        if (isReleased()) {
             return "released";
         }
         
@@ -215,7 +191,7 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
      * </li>
      * <li>
      * and
-     *   b) all of their fields, except the {@link DebuggerTokenListener} are equal.
+     *   b) all of their <b>non-transient</b> fields are equal.
      * </li>
      * </ul>
      * 

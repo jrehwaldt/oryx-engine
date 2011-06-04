@@ -332,10 +332,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         //
         // remember the token's state
         //
-        InterruptedInstanceImpl instance = new InterruptedInstanceImpl(
-            interruptedToken,
-            causingBreakpoint,
-            interruptingListener);
+        InterruptedInstanceImpl instance = new InterruptedInstanceImpl(interruptedToken, causingBreakpoint);
         
         this.interruptedInstances.put(instance.getID(), instance);
         
