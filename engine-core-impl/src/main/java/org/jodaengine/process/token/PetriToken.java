@@ -83,8 +83,8 @@ public class PetriToken extends AbstractToken {
        
        // If there are no possible options, this token has to be skipped
        if (newTokens == null) {
-           //Perhaps the future brings success
-           navigator.addWorkToken(this);
+           // The old token is not put in the navigator again, we assume that an another token will 
+           // trigger the following PetriTransition later on.
            return;
        }
        

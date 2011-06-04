@@ -17,6 +17,7 @@ import org.jodaengine.process.token.TokenUtil;
 public class TransitionJoinBehaviour implements IncomingBehaviour {
 
     @Override
+    // Just for info: The join is not directly needed, but the call of the method consumeTokens is important.
     public List<Token> join(Token token) {
         consumeTokens(token.getCurrentNode().getIncomingTransitions(), token.getInstance());
         List<Token> tokens = new ArrayList<Token>();
@@ -29,14 +30,12 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
         TokenUtil util = new TokenUtil();
         
         // attention: the node is not the current node of the token, it is a reachable node from the current node.
-        boolean check = true;
         for (Transition t : node.getIncomingTransitions()) {
             if (util.getTokensWhichAreOnPlace(t.getSource(), token.getInstance()).size() == 0) {
-                check = false;
-                break;
+                return false;
             }
         }
-        return check;
+        return true;
     }
     
     /**
