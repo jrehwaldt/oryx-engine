@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ContextVariableScript;
+import org.jodaengine.node.activity.bpmn.BpmnJavaClassScriptingActivity;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
@@ -56,7 +57,7 @@ public class ScriptingActivityTest {
     public void testScriptExecution() throws ClassNotFoundException {
 
 
-        Activity activity = new ScriptingActivity("org.jodaengine.node.activity.ContextVariableScript", repoMock);
+        Activity activity = new BpmnJavaClassScriptingActivity("org.jodaengine.node.activity.ContextVariableScript");
         activity.execute(token);
 
         Assert.assertEquals(context.getVariable("scriptVariable"), "set",
