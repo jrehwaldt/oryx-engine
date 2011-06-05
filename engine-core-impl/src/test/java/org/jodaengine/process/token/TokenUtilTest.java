@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 public class TokenUtilTest {
 
     /** Different Nodes. */
-    private Node node, node2, node3;
+    private Node startPlace, petriTransition, endPlace;
     
     private ProcessInstance instance;
     private TokenUtil util;
@@ -36,30 +36,30 @@ public class TokenUtilTest {
     public void setUp() {
 
         // Place
-        node = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
-        node.setAttribute("name", "1");
+        startPlace = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
+        startPlace.setAttribute("name", "1");
         // Transition
-        node2 = new NodeImpl(new NullActivity(), new TransitionJoinBehaviour(), new TransitionSplitBehaviour());
-        node2.setAttribute("name", "2");
+        petriTransition = new NodeImpl(new NullActivity(), new TransitionJoinBehaviour(), new TransitionSplitBehaviour());
+        petriTransition.setAttribute("name", "2");
         // Place
-        node3 = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
-        node3.setAttribute("name", "3");
+        endPlace = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
+        endPlace.setAttribute("name", "3");
 
 
-        node.transitionTo(node2);
-        node2.transitionTo(node3);
+        startPlace.transitionTo(petriTransition);
+        petriTransition.transitionTo(endPlace);
         
         TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);
         instance = new ProcessInstance(null, tokenBuilder);
         
         util = new TokenUtil();
         
-        instance.createToken(node);
-        instance.createToken(node);
-        instance.createToken(node);
-        instance.createToken(node);
-        instance.createToken(node3);
-        instance.createToken(node3);
+        instance.createToken(startPlace);
+        instance.createToken(startPlace);
+        instance.createToken(startPlace);
+        instance.createToken(startPlace);
+        instance.createToken(endPlace);
+        instance.createToken(endPlace);
     }
 
      /**
@@ -67,8 +67,8 @@ public class TokenUtilTest {
       */
      @Test
      public void testTokensOnNode() {
-         assertTrue(util.getTokensWhichAreOnNode(node, instance).size() == TOKENS_ON_NODE);
-         assertTrue(util.getTokensWhichAreOnNode(node3, instance).size() == TOKENS_ON_NODE3);
+         assertTrue(util.getTokensWhichAreOnNode(startPlace, instance).size() == TOKENS_ON_NODE);
+         assertTrue(util.getTokensWhichAreOnNode(endPlace, instance).size() == TOKENS_ON_NODE3);
          
      }
 }
