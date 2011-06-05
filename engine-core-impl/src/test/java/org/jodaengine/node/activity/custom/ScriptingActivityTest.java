@@ -3,7 +3,7 @@ package org.jodaengine.node.activity.custom;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.jodaengine.RepositoryService;
+import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ContextVariableScript;
 import org.jodaengine.node.activity.bpmn.BpmnJavaClassScriptingActivity;
@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 public class ScriptingActivityTest {
     
     private Token token = null;
-    private RepositoryService repoMock = null;
+    private RepositoryServiceInside repoMock = null;
     private ProcessInstanceContext context = null;
 
     /**
@@ -40,10 +40,11 @@ public class ScriptingActivityTest {
         context = new ProcessInstanceContextImpl();
         when(mockInstance.getContext()).thenReturn(context);
 
-        repoMock = mock(RepositoryService.class);
+        repoMock = mock(RepositoryServiceInside.class);
 
         // as soon as we infer generic type arguments her (<?>), we get compile errors with #thenReturn()?!
         Class clazz = ContextVariableScript.class;
+        when(token.getRepositiory()).thenReturn(repoMock);
         when(repoMock.getDeployedClass(mockDefinition.getID(), "org.jodaengine.node.activity.ContextVariableScript"))
             .thenReturn(clazz);
     }
