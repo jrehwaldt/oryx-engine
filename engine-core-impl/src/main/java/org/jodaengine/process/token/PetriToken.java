@@ -17,9 +17,9 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 
 /**
- * 
+ * The Class PetriToken. The token is used for petri nets.
+ *
  * @author Jannik
- * 
  */
 public class PetriToken extends AbstractToken {
     
@@ -74,24 +74,25 @@ public class PetriToken extends AbstractToken {
             instance.getAssignedTokens().clear();
             return;
         }
-       // We assume to be on a place
+       // We assume to be on a place and start with the split behaviour of the place.
        List<Token> tokens = new ArrayList<Token>();
        tokens.add(this);
        
-       // Put Token on the Transition after the Place
+       // Put the token on the transition after the place
        List<Token> newTokens = currentNode.getOutgoingBehaviour().split(tokens);
        
-       // If there are no possible options, this token has to be skipped
+       // If there are no possible options, the token execution has to be skipped.
        if (newTokens == null) {
+           // TODO: Does this make a difference ?
            // The old token is not put in the navigator again, we assume that an another token will 
            // trigger the following PetriTransition later on.
            return;
        }
        
-       // During the split the token was moved to the next node...there we join to consume old tokens
+       // During the split the token was moved to the next node...there we join, to consume other used tokens.
        newTokens = currentNode.getIncomingBehaviour().join(newTokens.get(0));
        
-       // Now split at the Transition
+       // Now split at the Transition and put tokens on the following places.
        lazySuspendedProcessingTokens = newTokens.get(0).getCurrentNode().getOutgoingBehaviour().split(newTokens);
        
        for (Token token : lazySuspendedProcessingTokens) {
@@ -102,9 +103,6 @@ public class PetriToken extends AbstractToken {
        internalVariables = null;
        
     }
-   
-
-   
     
     @Override
     public List<Token> navigateTo(List<Transition> transitionList) {
@@ -114,7 +112,7 @@ public class PetriToken extends AbstractToken {
         if (transitionList.size() == 0) {
             this.exceptionHandler.processException(new NoValidPathException(), this);
 
-        //Petri Net Semantic: Produce a new Token after a Transition
+        // petri net semantic: Produce a new token after a transition
         } else {
 
             for (Transition transition : transitionList) {
@@ -122,12 +120,12 @@ public class PetriToken extends AbstractToken {
                 Token newToken;
                 // Only create a new token, if a PetriTransition was before 
                 if (transition.getSource().getOutgoingBehaviour() instanceof TransitionSplitBehaviour) {
-                    newToken = createNewToken(node);
+                    newToken = createToken(node);
                 } else {
                     newToken = this;
                 }
                 newToken.setCurrentNode(node);
-                newToken.setLastTakenTransition(transition);
+                //newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }
         }

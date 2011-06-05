@@ -77,7 +77,7 @@ public class TokenPluginTest {
     public void testPluginRegistrationInheritance()
     throws JodaEngineException {
 
-        AbstractToken newToken = (AbstractToken) token.createNewToken(node1);
+        AbstractToken newToken = (AbstractToken) token.createToken(node1);
         newToken.executeStep();
         verify(mock, times(2)).update(eq(newToken), this.eventCapturer.capture());
     }
@@ -92,7 +92,7 @@ public class TokenPluginTest {
     throws JodaEngineException {
 
         token.deregisterListener(mock);
-        AbstractToken newToken = (AbstractToken) token.createNewToken(token.getCurrentNode());
+        AbstractToken newToken = (AbstractToken) token.createToken(token.getCurrentNode());
         newToken.executeStep();
         verify(mock, never()).update(eq(newToken), this.eventCapturer.capture());
     }

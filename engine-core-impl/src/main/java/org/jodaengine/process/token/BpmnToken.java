@@ -192,7 +192,7 @@ public class BpmnToken extends AbstractToken {
 
             for (Transition transition : transitionList) {
                 Node node = transition.getDestination();
-                Token newToken = createNewToken(node);
+                Token newToken = createToken(node);
                 newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }

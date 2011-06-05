@@ -218,7 +218,7 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
      * @param startNode the start node
      * @return the token
      */
-    public Token createNewToken(Node startNode) {
+    public Token createToken(Node startNode) {
         AbstractToken token = (AbstractToken) instance.createToken(startNode);
         token.registerListeners(getListeners());
         return token;

@@ -17,6 +17,14 @@ public interface Scheduler {
      *            the p
      */
     void submit(Token p);
+    
+    /**
+     * Remove a token
+     * 
+     * @param token
+     *            the Token
+     */
+    boolean remove(Token token);
 
     /**
      * Retrive a processtoken in order to do your work on it.

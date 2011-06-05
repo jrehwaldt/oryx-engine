@@ -123,8 +123,8 @@ public class BPMNAndJoinTest {
         AbstractToken token = new BpmnToken(splitNode, new ProcessInstance(null, tokenBuilder), navigator);
 
         List<Token> newTokens = new ArrayList<Token>();
-        newTokens.add(token.createNewToken(node1));
-        newTokens.add(token.createNewToken(node2));
+        newTokens.add(token.createToken(node1));
+        newTokens.add(token.createToken(node2));
         return newTokens;
     }
     /**

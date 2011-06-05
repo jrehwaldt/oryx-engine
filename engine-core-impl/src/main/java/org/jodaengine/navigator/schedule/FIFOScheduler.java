@@ -72,6 +72,12 @@ public class FIFOScheduler extends AbstractListenable<AbstractSchedulerListener>
 
         return processtokens.size();
     }
+
+    @Override
+    public boolean remove(Token token) {
+
+        return processtokens.remove(token);
+    }
     
     
 }

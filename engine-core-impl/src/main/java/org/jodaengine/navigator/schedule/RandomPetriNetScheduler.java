@@ -7,7 +7,6 @@ import java.util.List;
 import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.listener.AbstractSchedulerListener;
 import org.jodaengine.process.token.Token;
-import org.springframework.ui.context.Theme;
 
 /**
  * The Class RandomScheduler. Random scheduling is important, for modeling languages where are multiple ways possible.
@@ -18,6 +17,9 @@ public class RandomPetriNetScheduler extends AbstractListenable<AbstractSchedule
     /** The process instances we would like to schedule. */
     private List<Token> processtokens;
     
+    /**
+     * Instantiates a new random petri net scheduler.
+     */
     public RandomPetriNetScheduler() {
 
         this.processtokens = new LinkedList<Token>();
@@ -61,6 +63,12 @@ public class RandomPetriNetScheduler extends AbstractListenable<AbstractSchedule
     public int size() {
 
         return processtokens.size();
+    }
+
+    @Override
+    public boolean remove(Token token) {
+
+        return processtokens.remove(token);
     }
 
 }

@@ -29,7 +29,11 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
     public boolean joinable(Token token, Node node) {
         TokenUtil util = new TokenUtil();
         
-        // attention: the node is not the current node of the token, it is a reachable node from the current node.
+        // Attention: the node is not the current node of the token, it is a reachable node from the current node.
+        // In this case, it is the node of the current behaviour.
+        // The behaviour itself does not know the node which it is belonging to.
+        
+        // Now check each place before the petri transition, if there are enough tokens.
         for (Transition t : node.getIncomingTransitions()) {
             if (util.getTokensWhichAreOnNode(t.getSource(), token.getInstance()).size() == 0) {
                 return false;
@@ -57,11 +61,13 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
             // Because these are ordinary petri net's all tokens are equal and therefore we can delete just the first.
             if (oldTokensOnPlace.size() > 0) {
                 //oldTokens.get(0).setCurrentNode(nextPetriTranisiton);
-                instance.removeToken(oldTokensOnPlace.get(0));
+                Token oldToken = oldTokensOnPlace.get(0);
+                instance.removeToken(oldToken);
+                // Remove the consumed tokens from the navigator.
+                //TODO: -.-
+                instance.getBuilder().getNav().removeSuspendToken(oldToken);
             }
             
-            // TODO Token auch aus dem Navigator löschen...das ist aber nicht so einfach wegen
-            // Concurrency issues...hier muss beim herausnehmen miot Locks aquire/release gearbeitet werden
             
         }
     }
