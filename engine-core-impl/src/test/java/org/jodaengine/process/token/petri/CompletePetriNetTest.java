@@ -19,6 +19,8 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.petri.PetriProcessDefinitionBuilder;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.jodaengine.util.testing.JodaEngineTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
@@ -30,9 +32,9 @@ import com.mchange.util.AssertException;
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
  */
-public class CompletePetriNetTest {
+@JodaEngineTest(configurationFile = "petriNetjodaengine.cfg.xml")
+public class CompletePetriNetTest extends AbstractJodaEngineTest{
 
-    private static JodaEngineServices jodaEngineServices;
     private static ProcessDefinitionID sampleProcessUUID;
     private Node startPlace, secondStartPlace, endPlace, firstTransition;
 
@@ -50,17 +52,13 @@ public class CompletePetriNetTest {
     @BeforeMethod
     public void setUp()
     throws IllegalStarteventException, DefinitionNotFoundException {
-
-        jodaEngineServices = JodaEngine.start();
         sampleProcessUUID = deploySampleProcess(jodaEngineServices);
 
     }
     
     @AfterMethod
     public void setDown() {
-        jodaEngineServices = null;
         sampleProcessUUID = null;
-        JodaEngine.shutdown();
     }
     
     @Test
