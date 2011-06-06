@@ -3,7 +3,6 @@ package org.jodaengine.node.activity.bpmn;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
