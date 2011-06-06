@@ -21,7 +21,8 @@ import org.testng.annotations.Test;
  */
 public class CustomClassLoaderTest {
 
-    private static final String CLASS_FILE_LOCATION = "src/test/resources/org/jodaengine/deployment/script/TestScript.class";
+    // don't use .class as an ending, as eclipse will index it.
+    private static final String CLASS_FILE_LOCATION = "src/test/resources/org/jodaengine/deployment/script/TestScript";
     private static final String FULL_CLASS_NAME = "org.jodaengine.deployment.script.TestScript";
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -29,17 +30,20 @@ public class CustomClassLoaderTest {
      * Test the loading of a class that extends {@link AbstractJodaScript}. The challenge for the class loader is to
      * also resolve the AbstractJodaScript-class and ProcessInstanceContext etc.
      * 
-     * @throws IOException - if the test class file does not exist
-     * @throws NoSuchMethodException - if there is not "execute"-Method in the TestScript
-     * @throws InvocationTargetException -
-     * @throws IllegalAccessException - 
+     * @throws IOException
+     *             - if the test class file does not exist
+     * @throws NoSuchMethodException
+     *             - if there is not "execute"-Method in the TestScript
+     * @throws InvocationTargetException
+     *             -
+     * @throws IllegalAccessException
+     *             -
      */
     @Test
     public void testScriptClassLoading()
-    throws IOException, NoSuchMethodException, IllegalAccessException,
-    InvocationTargetException {
+    throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
-        CustomClassLoader loader = new CustomClassLoader();
+        CustomClassLoader loader = new CustomClassLoader(Thread.currentThread().getContextClassLoader());
         File classFile = new File(CLASS_FILE_LOCATION);
 
         byte[] classData = FileUtils.readFileToByteArray(classFile);
