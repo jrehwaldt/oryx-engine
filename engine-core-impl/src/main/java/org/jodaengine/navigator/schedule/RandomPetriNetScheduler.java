@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.SynchronousQueue;
 
 import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.listener.AbstractSchedulerListener;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.token.Token;
 
 /**

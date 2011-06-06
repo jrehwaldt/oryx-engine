@@ -1,17 +1,14 @@
 package org.jodaengine.process.token.petri;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jodaengine.JodaEngineServices;
-import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
-import org.jodaengine.navigator.schedule.RandomPetriNetScheduler;
 import org.jodaengine.node.factory.PetriTransitionFactory;
 import org.jodaengine.node.factory.petri.PetriNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
@@ -20,19 +17,17 @@ import org.jodaengine.process.definition.petri.PetriProcessDefinitionBuilder;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
-import org.jodaengine.util.testing.JodaEngineTest;
+import org.jodaengine.util.testing.JodaEngineTestConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.mchange.util.AssertException;
-
 /**
  * The Class CompletePetriNetTest. It deploys a petri net and starts instances of it.
  */
-@JodaEngineTest(configurationFile = "petriNetjodaengine.cfg.xml")
+@JodaEngineTestConfiguration(configurationFile = "petriNetjodaengine.cfg.xml")
 public class CompletePetriNetTest extends AbstractJodaEngineTest{
 
     private static ProcessDefinitionID sampleProcessUUID;

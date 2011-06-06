@@ -8,7 +8,6 @@ import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
-import org.jodaengine.navigator.schedule.RandomPetriNetScheduler;
 import org.jodaengine.node.factory.PetriTransitionFactory;
 import org.jodaengine.node.factory.petri.PetriNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinition;

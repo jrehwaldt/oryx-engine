@@ -6,7 +6,6 @@ import org.jodaengine.node.activity.bpmn.BpmnJavaServiceActivity;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.testng.Assert;
-import org.testng.annotations.Test;
 
 /**
  * Tests the import of a BPMN-xml-file that has a script task defined that refers to a java class.
