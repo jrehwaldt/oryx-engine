@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.apache.commons.io.FileUtils;
-import org.jodaengine.node.activity.bpmn.AbstractJodaScript;
+import org.jodaengine.node.activity.bpmn.AbstractJavaTask;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +22,13 @@ import org.testng.annotations.Test;
 public class CustomClassLoaderTest {
 
     // don't use .class as an ending, as eclipse will index it.
-    private static final String CLASS_FILE_LOCATION = "src/test/resources/org/jodaengine/deployment/script/TestScript";
-    private static final String FULL_CLASS_NAME = "org.jodaengine.deployment.script.TestScript";
+    private static final String CLASS_FILE_LOCATION = 
+        "src/test/resources/org/jodaengine/deployment/service/TestService";
+    private static final String FULL_CLASS_NAME = "org.jodaengine.deployment.service.TestService";
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     * Test the loading of a class that extends {@link AbstractJodaScript}. The challenge for the class loader is to
+     * Test the loading of a class that extends {@link AbstractJavaTask}. The challenge for the class loader is to
      * also resolve the AbstractJodaScript-class and ProcessInstanceContext etc.
      * 
      * @throws IOException
@@ -51,7 +52,7 @@ public class CustomClassLoaderTest {
 
         // now try to instantiate the class and execute it.
         try {
-            Class<AbstractJodaScript> scriptClass = (Class<AbstractJodaScript>) loader.loadClass(FULL_CLASS_NAME);
+            Class<AbstractJavaTask> scriptClass = (Class<AbstractJavaTask>) loader.loadClass(FULL_CLASS_NAME);
             Method executeMethod = scriptClass.getMethod("execute", ProcessInstanceContext.class);
             executeMethod.invoke(null, mock(ProcessInstanceContext.class));
         } catch (ClassNotFoundException e) {

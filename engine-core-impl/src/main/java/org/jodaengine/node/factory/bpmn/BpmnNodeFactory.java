@@ -4,7 +4,7 @@ import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.activity.bpmn.BpmnEndEventActivity;
 import org.jodaengine.node.activity.bpmn.BpmnEventBasedXorGateway;
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
-import org.jodaengine.node.activity.bpmn.BpmnJavaClassScriptingActivity;
+import org.jodaengine.node.activity.bpmn.BpmnJavaServiceActivity;
 import org.jodaengine.node.activity.bpmn.BpmnStartEvent;
 import org.jodaengine.node.activity.bpmn.BpmnTerminatingEndEventActivity;
 import org.jodaengine.node.activity.bpmn.BpmnTimerIntermediateEventActivity;
@@ -105,9 +105,9 @@ public final class BpmnNodeFactory extends TransitionFactory {
         return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
     }
     
-    public static Node createBpmnJavaClassScriptTaskNode(ProcessDefinitionBuilder builder, String className) {
+    public static Node createBpmnJavaClassServiceTaskNode(ProcessDefinitionBuilder builder, String className) {
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
-        BpmnJavaClassScriptingActivity activityBehavior = new BpmnJavaClassScriptingActivity(className);
+        BpmnJavaServiceActivity activityBehavior = new BpmnJavaServiceActivity(className);
         return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
     }
 

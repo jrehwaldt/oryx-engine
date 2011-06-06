@@ -2,7 +2,7 @@ package org.jodaengine.deployment.importer.definition.bpmn;
 
 import java.util.List;
 
-import org.jodaengine.node.activity.bpmn.BpmnJavaClassScriptingActivity;
+import org.jodaengine.node.activity.bpmn.BpmnJavaServiceActivity;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.testng.Assert;
@@ -12,14 +12,15 @@ import org.testng.annotations.Test;
  * Tests the import of a BPMN-xml-file that has a script task defined that refers to a java class.
  * 
  * You can inspect the test process here:
- * http://academic.signavio.com/p/model/71aab663a24140bebf1c3632a86086bf/png?inline&authkey=
- * d9af67a8aa85add848d649e087387231daadc81b66c9fcd535e6679ef57abd
+ * http://academic.signavio.com/p/model/14e78858a7484bf5886ae89ebb909c0c/png?inline&authkey=
+ * fb977a7c40ec4784e8e53d7cbd2d89c2c561396d74c3649ea15645ece65bd
  */
-public class DeploySimpleScriptTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest {
+public class DeploySimpleJavaTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest {
 
-    public DeploySimpleScriptTaskAsBpmnXmlTest() {
+    public DeploySimpleJavaTaskAsBpmnXmlTest() {
 
-        executableProcessResourcePath = "org/jodaengine/deployment/importer/definition/bpmn/SimpleScriptTask.bpmn.xml";
+        executableProcessResourcePath = 
+            "org/jodaengine/deployment/importer/definition/bpmn/SimpleJavaServiceTask.bpmn.xml";
     }
 
     @Override
@@ -29,11 +30,11 @@ public class DeploySimpleScriptTaskAsBpmnXmlTest extends AbstractBPMNDeployerTes
         Node startNode = startNodes.get(0);
         Node scriptNode = startNode.getOutgoingTransitions().get(0).getDestination();
 
-        Assert.assertEquals(scriptNode.getActivityBehaviour().getClass(), BpmnJavaClassScriptingActivity.class,
+        Assert.assertEquals(scriptNode.getActivityBehaviour().getClass(), BpmnJavaServiceActivity.class,
             "The node should have the correct activity behaviour class assigned.");
 
-        BpmnJavaClassScriptingActivity activity = (BpmnJavaClassScriptingActivity) scriptNode.getActivityBehaviour();
-        Assert.assertEquals(activity.getScriptingClassName(), "org.jodaengine.an.example.class",
+        BpmnJavaServiceActivity activity = (BpmnJavaServiceActivity) scriptNode.getActivityBehaviour();
+        Assert.assertEquals(activity.getServiceClassName(), "org.jodaengine.an.example.class",
             "The script class should be the one as specified in the process model.");
 
     }
