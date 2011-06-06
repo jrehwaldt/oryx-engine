@@ -8,7 +8,7 @@
         scope="singleton">
     </bean>
     
-    <bean id="scheduler" class="org.jodaengine.navigator.schedule.FIFOScheduler"
+    <bean id="scheduler" class="org.jodaengine.navigator.schedule.RandomPetriNetScheduler"
         scope="singleton">
     </bean>
     

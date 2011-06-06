@@ -30,10 +30,11 @@ import com.mchange.util.AssertException;
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
  */
-public final class CompletePetriNetTest {
+public class CompletePetriNetTest {
 
     private static JodaEngineServices jodaEngineServices;
-    static ProcessDefinitionID sampleProcessUUID;
+    private static ProcessDefinitionID sampleProcessUUID;
+    private Node startPlace, secondStartPlace, endPlace, firstTransition;
 
     /** The logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(CompletePetriNetTest.class);
@@ -49,7 +50,6 @@ public final class CompletePetriNetTest {
     @BeforeMethod
     public void setUp()
     throws IllegalStarteventException, DefinitionNotFoundException {
-
 
         jodaEngineServices = JodaEngine.start();
         sampleProcessUUID = deploySampleProcess(jodaEngineServices);
@@ -68,11 +68,11 @@ public final class CompletePetriNetTest {
         
         AbstractProcessInstance processInstance = jodaEngineServices.getNavigatorService().startProcessInstance(
             sampleProcessUUID);
-        Thread.sleep(5000);
-        System.out.println(processInstance.getAssignedTokens().get(1).getCurrentNode().getAttribute("name"));
-        System.out.println(processInstance.getAssignedTokens().get(0).getCurrentNode().getAttribute("name"));
-        System.out.println(jodaEngineServices.getNavigatorService().getRunningInstances());
+
+        Thread.sleep(1000);
+
         assertEquals(processInstance.getAssignedTokens().size(), 1);
+        assertEquals(processInstance.getAssignedTokens().get(0).getCurrentNode(), endPlace);
         
         
     }
@@ -84,7 +84,7 @@ public final class CompletePetriNetTest {
      * @return the process definition id
      * @throws IllegalStarteventException the illegal startevent exception
      */
-    private static ProcessDefinitionID deploySampleProcess(JodaEngineServices jodaEngineServices)
+    private ProcessDefinitionID deploySampleProcess(JodaEngineServices jodaEngineServices)
     throws IllegalStarteventException {
 
         DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
@@ -108,22 +108,20 @@ public final class CompletePetriNetTest {
      * @throws IllegalStarteventException the illegal startevent exception
      * </p>
      */
-    private static ProcessDefinition buildSampleProcessDefinition(PetriProcessDefinitionBuilder definitionBuilder)
+    private ProcessDefinition buildSampleProcessDefinition(PetriProcessDefinitionBuilder definitionBuilder)
     throws IllegalStarteventException {
 
         String sampleProcessName = "Sample petri net";
         String sampleProcessDescription = "A simple petri net.";
 
-        Node startPlace, secondStartPlace, endPlace, firstTransition;
-
         startPlace = PetriNodeFactory.createPlace();
-        startPlace.setAttribute("name", "0");
+        startPlace.setAttribute("name", "S0");
         secondStartPlace = PetriNodeFactory.createPlace();
-        secondStartPlace.setAttribute("name", "1");
+        secondStartPlace.setAttribute("name", "S1");
         endPlace = PetriNodeFactory.createPlace();
-        endPlace.setAttribute("name", "3");
+        endPlace.setAttribute("name", "S3");
         firstTransition = PetriNodeFactory.createPetriTransition();
-        firstTransition.setAttribute("name", "2");
+        firstTransition.setAttribute("name", "T2");
 
 
         PetriTransitionFactory.createTransitionFromTo(definitionBuilder, startPlace, firstTransition);

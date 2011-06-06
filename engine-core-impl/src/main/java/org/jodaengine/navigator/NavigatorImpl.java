@@ -80,6 +80,13 @@ implements Navigator, NavigatorInside, Service {
 
         this(null, null, new FIFOScheduler(), NUMBER_OF_NAVIGATOR_THREADS);
     }
+    
+    @Override
+    public void removeTokenFromScheduler(Token t) {
+    
+        this.scheduler.remove(t);
+        
+    }
 
     /**
      * Instantiates a new navigator implementation.
