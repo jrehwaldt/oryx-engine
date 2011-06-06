@@ -36,14 +36,15 @@ public class RandomPetriNetScheduler extends AbstractListenable<AbstractSchedule
     @Override
     public Token retrieve() {
         Token theChosenOne = null;
-        synchronized(this.processtokens) {
+        synchronized (this.processtokens) {
+            if (this.processtokens.isEmpty()) {
+                return null;
+            }
             Collections.shuffle(this.processtokens);
-            
-            //TODO Only take it if not locked
             theChosenOne = this.processtokens.remove(0);
-            //TODO lock all other tokens, which....GNARF this solution doesnt work, does it?
         }
-            return theChosenOne;
+        changed(new SchedulerEvent(SchedulerAction.RETRIEVE, theChosenOne, processtokens.size()));
+        return theChosenOne;
     }
 
     @Override
@@ -63,6 +64,16 @@ public class RandomPetriNetScheduler extends AbstractListenable<AbstractSchedule
     public int size() {
 
         return processtokens.size();
+    }
+    
+    /**
+     * We changed, tell everybody now!.
+     *
+     * @param event the event
+     */
+    private void changed(SchedulerEvent event) {
+        setChanged();
+        notifyObservers(event);
     }
 
     @Override
