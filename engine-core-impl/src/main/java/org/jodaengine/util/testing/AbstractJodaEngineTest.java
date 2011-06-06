@@ -96,15 +96,21 @@ public abstract class AbstractJodaEngineTest {
         return false;
     }
 
+    /**
+     * Returns the XML configurationFile that should be used for this test.
+     * 
+     * @return a String that specifies the file which contains the spring framework configurations
+     */
     private String jodaEngineConfigurationXml() {
 
         // Extracting a desired annotation
-        JodaEngineTest jodaEngineTestAnnotation = this.getClass().getAnnotation(JodaEngineTest.class);
+        JodaEngineTestConfiguration jodaEngineTestAnnotation = this.getClass().getAnnotation(
+            JodaEngineTestConfiguration.class);
 
         if (jodaEngineTestAnnotation == null) {
-            return JodaEngineTest.JODAENGINE_CFG_XML;
+            return JodaEngineTestConfiguration.JODAENGINE_CFG_XML;
         }
-            
+
         return jodaEngineTestAnnotation.configurationFile();
     }
 }
