@@ -1,4 +1,4 @@
-package org.jodaengine.node.activity.custom;
+package org.jodaengine.node.activity.bpmn;
 
 import org.jodaengine.process.instance.ProcessInstanceContext;
 

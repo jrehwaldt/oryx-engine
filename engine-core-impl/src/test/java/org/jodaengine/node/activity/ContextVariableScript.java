@@ -1,6 +1,6 @@
 package org.jodaengine.node.activity;
 
-import org.jodaengine.node.activity.custom.AbstractJodaScript;
+import org.jodaengine.node.activity.bpmn.AbstractJodaScript;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 
 /**

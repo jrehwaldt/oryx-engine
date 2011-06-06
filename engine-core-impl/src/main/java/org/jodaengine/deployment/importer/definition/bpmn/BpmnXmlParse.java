@@ -278,9 +278,9 @@ public class BpmnXmlParse extends XmlParse {
             } else if (("parallelGateway").equals(activityElement.getTagName())) {
                 parseParallelGateway(activityElement);
 
-                // } else if (activityElement.getTagName().equals("scriptTask")) {
-                // parseScriptTask(activityElement);
-                //
+                 } else if (("scriptTask").equals(activityElement.getTagName())) {                   
+                 parseScriptTask(activityElement);
+                
                 // } else if (activityElement.getTagName().equals("serviceTask")) {
                 // parseServiceTask(activityElement);
                 //
@@ -328,6 +328,27 @@ public class BpmnXmlParse extends XmlParse {
         // if (activity != null) {
         // parseMultiInstanceLoopCharacteristics(activityElement, activity);
         // }
+    }
+
+    protected void parseScriptTask(XmlElement activityElement) {
+
+        String scriptFormat = activityElement.getAttribute("scriptFormat");
+        if ("JavaClass".equals(scriptFormat)) {
+            String className = activityElement.getElement("script").getText();
+            Node scriptNode = BpmnNodeFactory.createBpmnJavaClassScriptTaskNode(processBuilder, className);
+
+            parseGeneralInformation(activityElement, scriptNode);
+            getNodeXmlIdTable().put((String) scriptNode.getAttribute("idXml"), scriptNode);
+
+           
+//            for (BpmnXmlParseListener parseListener : parseListeners) {
+//                parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
+//            }
+        } else {
+            getProblemLogger().addWarning("Ignoring unsupported script format", activityElement);
+        }
+        
+        
     }
 
     /**

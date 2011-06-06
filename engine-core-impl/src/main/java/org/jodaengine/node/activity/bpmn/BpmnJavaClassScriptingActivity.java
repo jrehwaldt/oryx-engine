@@ -1,4 +1,4 @@
-package org.jodaengine.node.activity.custom;
+package org.jodaengine.node.activity.bpmn;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,21 +13,18 @@ import org.jodaengine.process.token.Token;
 /**
  * Executes a custom script. The custom script is searched for in the deployment scope.
  */
-public class ScriptingActivity extends AbstractActivity {
+public class BpmnJavaClassScriptingActivity extends AbstractActivity {
 
     private String fullClassName;
-    private RepositoryService repoService;
 
     /**
      * Instantiates a new scripting activity.
      *
      * @param fullClassName the full class name
-     * @param repoService the repoService is used to look up the Script-Class.
      */
-    public ScriptingActivity(String fullClassName, RepositoryService repoService) {
+    public BpmnJavaClassScriptingActivity(String fullClassName) {
 
         this.fullClassName = fullClassName;
-        this.repoService = repoService;
     }
 
     @Override
@@ -36,8 +33,9 @@ public class ScriptingActivity extends AbstractActivity {
         // get the class from the DeploymentScope of the definition
         ProcessDefinitionID definitionID = token.getInstance().getDefinition().getID();
         try {
+            RepositoryService repoService = token.getRepositiory();
             // we expect this class to be a JodaScript (i.e. an implementation of it). No other classes can be used.
-            Class<AbstractJodaScript> scriptClass = (Class<AbstractJodaScript>) this.repoService.getDeployedClass(definitionID,
+            Class<AbstractJodaScript> scriptClass = (Class<AbstractJodaScript>) repoService.getDeployedClass(definitionID,
                 fullClassName);
             Method executeMethod = scriptClass.getMethod("execute", ProcessInstanceContext.class);
             executeMethod.invoke(null, token.getInstance().getContext());
@@ -55,6 +53,15 @@ public class ScriptingActivity extends AbstractActivity {
             e.printStackTrace();
         }
 
+    }
+    
+    /**
+     * This method is for testing purposes only.
+     *
+     * @return the scripting class name
+     */
+    public String getScriptingClassName() {
+        return fullClassName;
     }
 
 }
