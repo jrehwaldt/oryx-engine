@@ -1,15 +1,11 @@
 package org.jodaengine.eventmanagement.timing;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.timeout;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import org.jodaengine.eventmanagement.adapter.configuration.PullAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.exception.JodaEngineException;
+import org.mockito.Mockito;
 import org.quartz.SchedulerException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -36,7 +32,7 @@ public class QuartzJobManagerTest {
     public void beforeMethod()
     throws SchedulerException {
 
-        ErrorAdapter errorAdapter = mock(ErrorAdapter.class);
+        ErrorAdapter errorAdapter = Mockito.mock(ErrorAdapter.class);
         // CorrelationManagerImpl correlation = mock(CorrelationManagerImpl.class);
         this.quartzJobManager = new QuartzJobManager(errorAdapter);
         quartzJobManager.start();
@@ -62,14 +58,14 @@ public class QuartzJobManagerTest {
     public void testRegisteringAPullAdapter()
     throws JodaEngineException {
 
-        InboundPullAdapter adapter = mock(InboundPullAdapter.class);
+        InboundPullAdapter adapter = Mockito.mock(InboundPullAdapter.class);
         // Unfortunately mocking doesn't seem to work with classes as return value,
         // therefore the PullAdapterConfiguration is instantiated manually
         PullAdapterConfiguration configuration = new InboundMailAdapterConfiguration(null, null, null, null, 0, false);
-        when(adapter.getConfiguration()).thenReturn(configuration);
+        Mockito.when(adapter.getConfiguration()).thenReturn(configuration);
         this.quartzJobManager.registerJobForInboundPullAdapter(adapter);
 
-        verify(adapter, timeout(PULL_TIMEOUT * VERIFY_FACTOR).atLeastOnce()).pull();
+        Mockito.verify(adapter, Mockito.timeout(PULL_TIMEOUT * VERIFY_FACTOR).atLeastOnce()).pull();
     }
 
     // /**
