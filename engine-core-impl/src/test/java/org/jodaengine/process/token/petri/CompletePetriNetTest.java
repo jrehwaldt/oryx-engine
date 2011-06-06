@@ -30,7 +30,7 @@ import org.testng.annotations.Test;
 import com.mchange.util.AssertException;
 
 /**
- * The Class SimpleExampleProcess. It really is just a simple example process.
+ * The Class CompletePetriNetTest. It deploys a petri net and starts instances of it.
  */
 @JodaEngineTest(configurationFile = "petriNetjodaengine.cfg.xml")
 public class CompletePetriNetTest extends AbstractJodaEngineTest{
@@ -41,13 +41,12 @@ public class CompletePetriNetTest extends AbstractJodaEngineTest{
     /** The logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(CompletePetriNetTest.class);
 
+
     /**
-     * The main method. It starts a a specified number of instances.
-     * 
-     * @param args
-     *            the arguments
-     * @throws IllegalStarteventException fails
-     * @throws DefinitionNotFoundException fails
+     * Sets the process up.
+     *
+     * @throws IllegalStarteventException the illegal startevent exception
+     * @throws DefinitionNotFoundException the definition not found exception
      */
     @BeforeMethod
     public void setUp()
@@ -56,11 +55,20 @@ public class CompletePetriNetTest extends AbstractJodaEngineTest{
 
     }
     
+    /**
+     * Sets the process down.
+     */
     @AfterMethod
     public void setDown() {
         sampleProcessUUID = null;
     }
     
+    /**
+     * Test one process execution.
+     *
+     * @throws DefinitionNotFoundException the definition not found exception
+     * @throws InterruptedException the interrupted exception
+     */
     @Test
     public void testTheProcessExecution() throws DefinitionNotFoundException, InterruptedException {
         
@@ -71,6 +79,42 @@ public class CompletePetriNetTest extends AbstractJodaEngineTest{
 
         assertEquals(processInstance.getAssignedTokens().size(), 1);
         assertEquals(processInstance.getAssignedTokens().get(0).getCurrentNode(), endPlace);
+        
+        
+    }
+    
+    /**
+     * Test two process executions.
+     *
+     * @throws DefinitionNotFoundException the definition not found exception
+     * @throws InterruptedException the interrupted exception
+     */
+    @Test
+    public void testTheProcessExecutionOfTwo() throws DefinitionNotFoundException, InterruptedException {
+        int counter = 0;
+        
+        AbstractProcessInstance processInstance = jodaEngineServices.getNavigatorService().startProcessInstance(
+            sampleProcessUUID);
+        
+        AbstractProcessInstance processInstanceTwo = jodaEngineServices.getNavigatorService().startProcessInstance(
+            sampleProcessUUID);
+
+        while(counter < 5000) {
+            
+            Thread.sleep(500);
+            if((processInstance.getAssignedTokens().size() == 1) && (processInstanceTwo.getAssignedTokens().size() == 1)) {
+                break;
+            }else {
+                counter = counter+500;
+            }
+
+        }
+
+        assertEquals(processInstance.getAssignedTokens().size(), 1);
+        assertEquals(processInstance.getAssignedTokens().get(0).getCurrentNode(), endPlace);
+        
+        assertEquals(processInstanceTwo.getAssignedTokens().size(), 1);
+        assertEquals(processInstanceTwo.getAssignedTokens().get(0).getCurrentNode(), endPlace);
         
         
     }
