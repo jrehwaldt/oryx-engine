@@ -52,8 +52,8 @@ public class CustomClassLoaderTest {
 
         // now try to instantiate the class and execute it.
         try {
-            Class<AbstractJavaTask> scriptClass = (Class<AbstractJavaTask>) loader.loadClass(FULL_CLASS_NAME);
-            Method executeMethod = scriptClass.getMethod("execute", ProcessInstanceContext.class);
+            Class<AbstractJavaTask> serviceClass = (Class<AbstractJavaTask>) loader.loadClass(FULL_CLASS_NAME);
+            Method executeMethod = serviceClass.getMethod("execute", ProcessInstanceContext.class);
             executeMethod.invoke(null, mock(ProcessInstanceContext.class));
         } catch (ClassNotFoundException e) {
             logger.error("", e);
