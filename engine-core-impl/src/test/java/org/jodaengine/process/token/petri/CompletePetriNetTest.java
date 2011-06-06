@@ -94,12 +94,13 @@ public class CompletePetriNetTest extends AbstractJodaEngineTest{
         AbstractProcessInstance processInstanceTwo = jodaEngineServices.getNavigatorService().startProcessInstance(
             sampleProcessUUID);
 
+        // Anti Waiting
         while(counter < 5000) {
             
             Thread.sleep(500);
             if((processInstance.getAssignedTokens().size() == 1) && (processInstanceTwo.getAssignedTokens().size() == 1)) {
                 break;
-            }else {
+            } else {
                 counter = counter+500;
             }
 
