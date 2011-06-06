@@ -10,8 +10,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
-import net.htmlparser.jericho.Config;
-
 /**
  * This is the abstract class all test classes should inherit from, if they need the application context to some extend.
  * <p>
@@ -36,7 +34,7 @@ public abstract class AbstractJodaEngineTest {
     public void aBeforeClassJodaEngineSetUp() {
 
         // Starting the engine and storing the engineServices
-        this.jodaEngineServices = JodaEngine.startWithConfig(JODAENGINE_CFG_XML);
+        this.jodaEngineServices = JodaEngine.startWithConfig(jodaEngineConfigurationXml());
     }
 
     /**
@@ -49,7 +47,7 @@ public abstract class AbstractJodaEngineTest {
             return;
         }
 
-        this.jodaEngineServices = JodaEngine.startWithConfig(JODAENGINE_CFG_XML);
+        this.jodaEngineServices = JodaEngine.startWithConfig(jodaEngineConfigurationXml());
     }
 
     /**
