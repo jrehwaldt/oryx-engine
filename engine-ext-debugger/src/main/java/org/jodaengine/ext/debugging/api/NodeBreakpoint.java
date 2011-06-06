@@ -2,6 +2,7 @@ package org.jodaengine.ext.debugging.api;
 
 import javax.annotation.Nonnull;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.structure.Node;
 
@@ -18,6 +19,7 @@ public interface NodeBreakpoint extends Breakpoint {
      * 
      * @return a node
      */
+    @JsonProperty
     @Nonnull Node getNode();
 
     /**
@@ -25,5 +27,6 @@ public interface NodeBreakpoint extends Breakpoint {
      * 
      * @return a state
      */
+    @JsonProperty
     @Nonnull ActivityState getState();
 }

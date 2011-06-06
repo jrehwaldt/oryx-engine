@@ -6,6 +6,11 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+
+if (request.getParameter("debugger") != null) {
+   session.setAttribute("debugger", true);
+}
+
 String current_user = null;
 
 String class_for_selected_item = null;
@@ -34,6 +39,9 @@ navigation.put("resources", new NavigationEntry[] {
     new NavigationEntry("roles", "Roles")
 });
 navigation.put("settings", new NavigationEntry[] {});
+if (session.getAttribute("debugger") != null) {
+    navigation.put("debugger", new NavigationEntry[] {});
+}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -89,6 +97,9 @@ navigation.put("settings", new NavigationEntry[] {});
                         <!--<li><a class="reports" href="/reports">Reports</a></li>-->
                         <li><a class="resources" href="/resources">Resource Management</a></li>
                         <li><a class="settings" href="/settings">Settings</a></li>
+                        <% if (session.getAttribute("debugger") != null) { %>
+                            <li><a class="debugger" href="/debugger">Debugger</a></li>
+                        <% } %>
                     </ul>
                     <!--end nav-level-1-->
                   </div>

@@ -1,11 +1,15 @@
 package org.jodaengine.resource.worklist;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.resource.AbstractResource;
 
 /**
  * The Interface DetourPattern. Such a pattern, deriving from this interface, handles the way of a
  * {@link WorklistItemImpl Worklist Item} when it is canceled, delegated, reallocated or deallocated
  */
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface DetourPattern {
 
     /**

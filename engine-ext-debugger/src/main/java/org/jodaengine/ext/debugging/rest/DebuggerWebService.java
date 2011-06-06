@@ -219,7 +219,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     //=================================================================
     //=================== DebuggerArtifactService methods =============
     //=================================================================
-    @Path("/artifacts")
+    @Path("/artifacts/svg")
     @GET
     @Override
     @Produces(MediaType.APPLICATION_SVG_XML)

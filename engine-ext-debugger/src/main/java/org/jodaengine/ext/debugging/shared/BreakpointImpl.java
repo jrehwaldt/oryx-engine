@@ -18,7 +18,8 @@ import org.jodaengine.process.token.Token;
  * @since 2011-05-24
  */
 public class BreakpointImpl implements NodeBreakpoint {
-    
+    private static final long serialVersionUID = -8087910825104908672L;
+
     protected static final String ATTRIBUTE_KEY = "extension-debugger-breakpoint-attribute";
     
     private final UUID id;

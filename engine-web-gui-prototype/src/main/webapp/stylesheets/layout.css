@@ -314,6 +314,7 @@ legend:hover {
 #tab-level-1.item_4,
 #tab-level-1.item_settings,
 #tab-level-1.item_5,
+#tab-level-1.item_debugger,
 #tab-level-1.item_6,
 #tab-level-1.item_7,
 #tab-level-1.item_8 {
@@ -340,7 +341,8 @@ legend:hover {
 #tab-level-1.item_settings {
     left: 481px;
 }
-#tab-level-1.item_5 {
+#tab-level-1.item_5,
+#tab-level-1.item_debugger {
     left: 554px;
 }
 #tab-level-1.item_6 {

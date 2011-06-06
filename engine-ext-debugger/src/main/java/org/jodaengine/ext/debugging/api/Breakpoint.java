@@ -1,10 +1,15 @@
 package org.jodaengine.ext.debugging.api;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.Identifiable;
 
@@ -14,21 +19,8 @@ import org.jodaengine.util.Identifiable;
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
-public interface Breakpoint extends Switchable, Identifiable<UUID> {
-    
-//    /**
-//     * Returns the {@link Node} this breakpoint is bound to.
-//     * 
-//     * @return a node
-//     */
-//    @Nonnull Node getNode();
-    
-//    /**
-//     * Returns the {@link ActivityState} this breakpoint is bound to.
-//     * 
-//     * @return a state
-//     */
-//    @Nonnull ActivityState getState();
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
+public interface Breakpoint extends Switchable, Identifiable<UUID>, Serializable {
     
     /**
      * Sets a {@link BreakpointCondition}, which is considered when evaluating whether
@@ -44,6 +36,7 @@ public interface Breakpoint extends Switchable, Identifiable<UUID> {
      * 
      * @return a condition, max be null
      */
+    @JsonProperty
     @Nullable BreakpointCondition getCondition();
     
     /**

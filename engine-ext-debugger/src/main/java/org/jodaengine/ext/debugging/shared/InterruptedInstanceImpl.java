@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
  * @since 2011-06-01
  */
 public final class InterruptedInstanceImpl implements InterruptedInstance, Interrupter {
+    private static final long serialVersionUID = 4018473494661993018L;
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     

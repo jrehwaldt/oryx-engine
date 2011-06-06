@@ -1,5 +1,8 @@
 package org.jodaengine.resource.allocation;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 
 /**
@@ -9,6 +12,7 @@ import org.jodaengine.resource.worklist.AbstractWorklistItem;
  * web reference:
  * http://www.workflowpatterns.com/patterns/resource/#Push
  */
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface PushPattern {
 
     /**
