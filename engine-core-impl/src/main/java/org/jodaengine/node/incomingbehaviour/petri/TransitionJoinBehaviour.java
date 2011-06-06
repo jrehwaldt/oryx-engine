@@ -26,6 +26,7 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
     }
 
     @Override
+    // In the case of petri nets, it is also called isEnabled
     public boolean joinable(Token token, Node node) {
         TokenUtil util = new TokenUtil();
         
