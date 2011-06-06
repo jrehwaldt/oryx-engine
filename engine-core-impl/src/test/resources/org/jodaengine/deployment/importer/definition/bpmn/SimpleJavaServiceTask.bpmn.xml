@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:signavio="http://www.signavio.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com" exporterVersion="5.0.0" expressionLanguage="http://www.w3.org/1999/XPath" id="sid-5ae83f3d-3ec1-4f75-b2e5-a26bbf03d2dd" targetNamespace="http://www.signavio.com/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd" xmlns:joda="http://jodaengine.org/bpmn-extensions">
+   <process id="sid-b930949a-972f-4208-b33f-564361324b92" isExecutable="false">
+      <startEvent id="sid-FFAF533D-C7C0-4C82-A2DF-948A394058E1" name="Start">
+         <outgoing>sid-91629CF5-190E-4DF7-869F-39E72F71DD4E</outgoing>
+      </startEvent>
+      <serviceTask completionQuantity="1" id="sid-322C7191-C5C0-4792-9952-3411BAE90963" joda:class="org.jodaengine.an.example.class" name="Demo Service &#10;Task" startQuantity="1">
+         <documentation id="sid-1610952a-f989-4899-a0ef-43b3d97f839e">It stands for itself.</documentation>
+         <incoming>sid-91629CF5-190E-4DF7-869F-39E72F71DD4E</incoming>
+         <outgoing>sid-9A83B56D-836B-4BAB-9741-1414556BCE39</outgoing>
+      </serviceTask>
+      <endEvent id="sid-8D686A5B-55C5-4E70-B25E-DBFDC1FB5B99" name="End">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+         <incoming>sid-9A83B56D-836B-4BAB-9741-1414556BCE39</incoming>
+      </endEvent>
+      <sequenceFlow id="sid-91629CF5-190E-4DF7-869F-39E72F71DD4E" name="" sourceRef="sid-FFAF533D-C7C0-4C82-A2DF-948A394058E1" targetRef="sid-322C7191-C5C0-4792-9952-3411BAE90963"/>
+      <sequenceFlow id="sid-9A83B56D-836B-4BAB-9741-1414556BCE39" name="" sourceRef="sid-322C7191-C5C0-4792-9952-3411BAE90963" targetRef="sid-8D686A5B-55C5-4E70-B25E-DBFDC1FB5B99"/>
+   </process>
+</definitions>

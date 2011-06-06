@@ -8,7 +8,7 @@ import org.jodaengine.process.instance.ProcessInstanceContext;
  * Implement this interface, if you want to implement a custom script. You need a publicly visible no-arguments
  * constructor.
  */
-public abstract class AbstractJodaScript {
+public abstract class AbstractJavaTask {
 
     /**
      * Executes the custom behaviour.
