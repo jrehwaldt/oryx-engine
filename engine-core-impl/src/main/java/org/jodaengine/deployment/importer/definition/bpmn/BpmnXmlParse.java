@@ -340,6 +340,7 @@ public class BpmnXmlParse extends XmlParse {
             parseGeneralInformation(activityElement, scriptNode);
             getNodeXmlIdTable().put((String) scriptNode.getAttribute("idXml"), scriptNode);
 
+           
 //            for (BpmnXmlParseListener parseListener : parseListeners) {
 //                parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
 //            }

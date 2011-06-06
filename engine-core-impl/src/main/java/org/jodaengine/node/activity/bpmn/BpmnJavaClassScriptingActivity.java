@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.node.activity.AbstractActivity;
-import org.jodaengine.node.activity.custom.AbstractJodaScript;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.Token;

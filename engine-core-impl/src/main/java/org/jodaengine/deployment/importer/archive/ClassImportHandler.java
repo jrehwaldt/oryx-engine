@@ -36,6 +36,7 @@ public class ClassImportHandler extends AbstractDarHandler {
                 fullClassName = fullClassName.replace(DELIMITER, '.');
                 builder.addClass(fullClassName, classData);
 
+                logger.info("deployed class {}", fullClassName);
                 inputStream.close();
             } catch (IOException e) {
                 logger.error("Could not read file {} from archive", entry.getName());
