@@ -24,26 +24,25 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
 /**
  * The Class NavigatorWebServiceTest.
  */
 public class NavigatorWebServiceTest extends AbstractJsonServerTest {
 
     private Navigator navigator = null;
-    private final static String STATISTIC_URL = "/navigator/status/statistic";  
+    private final static String STATISTIC_URL = "/navigator/status/statistic";
     private final static String STATUS_IDLE_URL = "/navigator/status/is-idle";
-    
+
     protected static final int WAIT_FOR_PROCESSES_TO_FINISH = 100;
     protected static final int TRIES_UNTIL_PROCESSES_FINISH = 100;
     protected static final short NUMBER_OF_INSTANCES_TO_START = 2;
-    
+
     /**
      * Set up.
      */
     @BeforeMethod
     public void setUpNavigatorService() {
-        
+
         this.logger.debug("Start navigator");
 
         this.navigator = ServiceFactory.getNavigatorService();
@@ -52,6 +51,7 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
 
     @Override
     protected Object getResourceSingleton() {
+
         return new NavigatorWebService(jodaEngineServices);
     }
 
@@ -91,9 +91,10 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
     @Test
     public void testGetIsIdle()
     throws URISyntaxException, IOException {
+
         boolean isIdle = this.navigator.isIdle();
         String result = makeGETRequestReturningJson(STATUS_IDLE_URL);
-        
+
         Assert.assertNotNull(result);
 
         boolean callIdIdle = Boolean.valueOf(result);
@@ -123,23 +124,24 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
         MockHttpRequest request;
         MockHttpResponse response;
         for (int i = 0; i < NUMBER_OF_INSTANCES_TO_START; i++) {
-            request = MockHttpRequest.post(String.format("/navigator/process-definitions/%s/start",
-                definition.getID()));
+            request = MockHttpRequest
+            .post(String.format("/navigator/process-definitions/%s/start", definition.getID()));
             response = new MockHttpResponse();
 
             this.dispatcher.invoke(request, response);
-            
-            Assert.assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
-            
+
+            String failureMessage = "Take a look at the console logs,"
+                                    + "because internal RESTEasy-Exeption are not propagated up to this level!!!";
+            Assert.assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), failureMessage);
+
             logger.debug(response.getContentAsString());
-            
-            AbstractProcessInstance instance = this.mapper.readValue(
-                response.getContentAsString(),
+
+            AbstractProcessInstance instance = this.mapper.readValue(response.getContentAsString(),
                 ProcessInstance.class);
-            
+
             Assert.assertNotNull(instance);
             Assert.assertNotNull(instance.getDefinition());
-            
+
             Assert.assertEquals(instance.getDefinition().getID(), definition.getID());
         }
 
@@ -209,45 +211,46 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
      * @throws DefinitionNotFoundException
      *             test fails
      */
-//    @Test
-//    public void testSerializationAndDesirializationOfRealWorldProcessInstance()
-//    throws JAXBException, IOException, IllegalStarteventException, InterruptedException, DefinitionNotFoundException {
-//
-//        File xml = new File(TMP_PATH + "RealWorldProcessInstance.js");
-//        if (xml.exists()) {
-//            Assert.assertTrue(xml.delete());
-//        }
-//
-//        ProcessDefinition definition = TestUtils.deploySimpleProcess();
-//
-//        this.navigator = ServiceFactory.getNavigatorService();
-//        this.navigator.start();
-//
-//        this.navigator.startProcessInstance(definition.getID());
-//
-//        // wait for the service to be finished
-//        // TODO needs to be viewed again, got a strange bug there:
-//        // assert on ended instances fails on my machine but only my mine as it seems (Tobi M)
-//        for (int i = 0; (!this.navigator.isIdle()) && (this.navigator.getEndedInstances().size() == 0); i++) {
-//            Thread.sleep(WAIT_FOR_PROCESSES_TO_FINISH);
-//
-//            if (i == TRIES_UNTIL_PROCESSES_FINISH) {
-//                this.logger.error("Process instance never finished");
-//                throw new IllegalStateException("Process instance never finished");
-//            }
-//        }
-//
-//        Assert.assertTrue(this.navigator.getEndedInstances().size() > 0);
-//        AbstractProcessInstance instance = this.navigator.getEndedInstances().get(0);
-//
-//        this.mapper.writeValue(xml, instance);
-//
-//        Assert.assertTrue(xml.exists());
-//        Assert.assertTrue(xml.length() > 0);
-//
-//        AbstractProcessInstance desInstance = this.mapper.readValue(xml, AbstractProcessInstance.class);
-//        Assert.assertNotNull(desInstance);
-//
-//        Assert.assertEquals(instance.getDefinition().getID(), definition.getID());
-//    }
+    // @Test
+    // public void testSerializationAndDesirializationOfRealWorldProcessInstance()
+    // throws JAXBException, IOException, IllegalStarteventException, InterruptedException, DefinitionNotFoundException
+    // {
+    //
+    // File xml = new File(TMP_PATH + "RealWorldProcessInstance.js");
+    // if (xml.exists()) {
+    // Assert.assertTrue(xml.delete());
+    // }
+    //
+    // ProcessDefinition definition = TestUtils.deploySimpleProcess();
+    //
+    // this.navigator = ServiceFactory.getNavigatorService();
+    // this.navigator.start();
+    //
+    // this.navigator.startProcessInstance(definition.getID());
+    //
+    // // wait for the service to be finished
+    // // TODO needs to be viewed again, got a strange bug there:
+    // // assert on ended instances fails on my machine but only my mine as it seems (Tobi M)
+    // for (int i = 0; (!this.navigator.isIdle()) && (this.navigator.getEndedInstances().size() == 0); i++) {
+    // Thread.sleep(WAIT_FOR_PROCESSES_TO_FINISH);
+    //
+    // if (i == TRIES_UNTIL_PROCESSES_FINISH) {
+    // this.logger.error("Process instance never finished");
+    // throw new IllegalStateException("Process instance never finished");
+    // }
+    // }
+    //
+    // Assert.assertTrue(this.navigator.getEndedInstances().size() > 0);
+    // AbstractProcessInstance instance = this.navigator.getEndedInstances().get(0);
+    //
+    // this.mapper.writeValue(xml, instance);
+    //
+    // Assert.assertTrue(xml.exists());
+    // Assert.assertTrue(xml.length() > 0);
+    //
+    // AbstractProcessInstance desInstance = this.mapper.readValue(xml, AbstractProcessInstance.class);
+    // Assert.assertNotNull(desInstance);
+    //
+    // Assert.assertEquals(instance.getDefinition().getID(), definition.getID());
+    // }
 }

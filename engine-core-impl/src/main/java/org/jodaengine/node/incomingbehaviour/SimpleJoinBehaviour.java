@@ -3,6 +3,7 @@ package org.jodaengine.node.incomingbehaviour;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 
@@ -17,6 +18,12 @@ public class SimpleJoinBehaviour implements IncomingBehaviour {
         List<Token> joinedInstances = new ArrayList<Token>();
         joinedInstances.add(token);
         return joinedInstances;
+    }
+
+    @Override
+    public boolean joinable(Token token, Node node) {
+
+        return true;
     }
 
 }

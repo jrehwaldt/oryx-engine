@@ -54,9 +54,9 @@ public class ConcurrentBpmnTerminatingEndEventAndHumanTaskTest extends AbstractJ
         ProcessDefinition definition = mock(ProcessDefinition.class);
         when(definition.getID()).thenReturn(new ProcessDefinitionID(UUID.randomUUID().toString()));
         NavigatorImplMock nav = new NavigatorImplMock();
-        TokenBuilder builder = new BpmnTokenBuilder(nav, null, splitNode);
+        TokenBuilder builder = new BpmnTokenBuilder(nav, null);
         AbstractProcessInstance instance = new ProcessInstance(definition, builder);
-        Token token = instance.createToken();
+        Token token = instance.createToken(splitNode);
 
         // set this instance to running by hand
         nav.getRunningInstances().add(instance);

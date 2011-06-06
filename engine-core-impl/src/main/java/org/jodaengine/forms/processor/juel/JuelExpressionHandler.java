@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.el.ELContext;
 import javax.el.ELException;
 import javax.el.ExpressionFactory;
 import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
+
+import net.htmlparser.jericho.FormField;
+import net.htmlparser.jericho.OutputDocument;
 
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.forms.Form;
@@ -21,10 +23,6 @@ import org.slf4j.LoggerFactory;
 
 import de.odysseus.el.ExpressionFactoryImpl;
 import de.odysseus.el.util.RootPropertyResolver;
-import de.odysseus.el.util.SimpleResolver;
-
-import net.htmlparser.jericho.FormField;
-import net.htmlparser.jericho.OutputDocument;
 
 /**
  * The Class JUELExpressionHandler. Tries to evaluate all JUEL conditions for the forms, if they exist.
@@ -47,7 +45,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
                                                   OutputDocument output) {
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        ELContext elContext = new ProcessELContext(context);
+        ProcessELContext elContext = new ProcessELContext(context, false);
 
         Iterator<FormField> it = formFields.iterator();
 
@@ -86,7 +84,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
     protected void readInputInternally(Map<String, String> formInput, Form form, ProcessInstanceContext context) {
 
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        ELContext elContext = new ProcessELContext(context);
+        ProcessELContext elContext = new ProcessELContext(context, false);
 
         Iterator<Entry<String, String>> it = formInput.entrySet().iterator();
         while (it.hasNext()) {
@@ -126,8 +124,7 @@ public class JuelExpressionHandler extends AbstractFormFieldHandler {
         }
 
         // write all set root properties to the context.
-        SimpleResolver resolver = (SimpleResolver) elContext.getELResolver();
-        RootPropertyResolver rootResolver = resolver.getRootPropertyResolver();
+        RootPropertyResolver rootResolver = elContext.getRootPropertyResolver();
 
         Iterator<String> propertyIterator = rootResolver.properties().iterator();
         while (propertyIterator.hasNext()) {

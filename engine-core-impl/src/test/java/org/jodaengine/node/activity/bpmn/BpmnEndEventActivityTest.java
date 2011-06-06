@@ -47,8 +47,7 @@ public class BpmnEndEventActivityTest {
         // this is done for test purposes. Usually the startProcessInstance methods of the navigator would do this, but
         // we do not actually want to start the navigator here.
         nav.getRunningInstances().add(instance);
-        tokenBuilder.setNode(startNode);
-        Token token = instance.createToken();
+        Token token = instance.createToken(startNode);
 
         // perform fist step, there should be two tokens on forkNode1 and forkNode2 respectively
         token.executeStep();
@@ -119,7 +118,7 @@ public class BpmnEndEventActivityTest {
         ProcessDefinition definition = builder.buildDefinition();
         
         nav = new NavigatorImplMock();
-        tokenBuilder = new BpmnTokenBuilder(nav, null, null);
+        tokenBuilder = new BpmnTokenBuilder(nav, null);
         instance = new ProcessInstance(definition, tokenBuilder);
     }
 

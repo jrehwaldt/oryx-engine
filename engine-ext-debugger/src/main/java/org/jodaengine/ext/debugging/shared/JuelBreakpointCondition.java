@@ -45,7 +45,7 @@ public class JuelBreakpointCondition implements BreakpointCondition {
     @Override
     public boolean evaluate(Token token) {
         
-        ELContext context = new ProcessELContext(token.getInstance().getContext());
+        ELContext context = new ProcessELContext(token.getInstance().getContext(), false);
         
         ExpressionFactory factory = new ExpressionFactoryImpl();
         

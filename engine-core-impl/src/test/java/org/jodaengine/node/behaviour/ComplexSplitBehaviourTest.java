@@ -64,8 +64,7 @@ public class ComplexSplitBehaviourTest {
     throws JodaEngineException {
 
         NavigatorImplMock nav = new NavigatorImplMock();
-        ProcessInstance instance = new ProcessInstance(mock(ProcessDefinition.class), new BpmnTokenBuilder(nav, null,
-            null));
+        ProcessInstance instance = new ProcessInstance(mock(ProcessDefinition.class), new BpmnTokenBuilder(nav, null));
 
         Token token = new BpmnToken(splitNode, instance, nav);
         instance.getContext().setVariable("variable", 3);

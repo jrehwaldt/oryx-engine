@@ -1,4 +1,4 @@
-package org.jodaengine.forms.processor;
+package org.jodaengine.forms.processor.juel;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -15,6 +15,7 @@ import org.jodaengine.forms.Form;
 import org.jodaengine.forms.JodaFormField;
 import org.jodaengine.forms.JodaFormFieldArguments;
 import org.jodaengine.forms.JodaFormFieldImpl;
+import org.jodaengine.forms.processor.FormProcessor;
 import org.jodaengine.forms.processor.juel.JuelFormProcessor;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;

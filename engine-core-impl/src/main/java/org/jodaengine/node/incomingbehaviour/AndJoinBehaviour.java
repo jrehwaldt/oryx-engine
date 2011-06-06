@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 
@@ -15,15 +16,18 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
     @Override
     public List<Token> join(Token token) {
         ProcessInstanceContext context = token.getInstance().getContext();
+        
+        // We have an AND Join, so we have to wait untill all paths are ready.
+        // The following line states, that the path with the current token is ready.
         context.setWaitingExecution(token.getLastTakenTransition());
         return super.join(token);
     }
 
     @Override
-    protected boolean joinable(Token token) {
+    public boolean joinable(Token token, Node node) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
-        return context.allIncomingTransitionsSignaled(token.getCurrentNode());
+        return context.allIncomingTransitionsSignaled(node);
     }
 
     @Override

@@ -80,9 +80,9 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
 
         Whitebox.setInternalState(pattern, "formID", "form");
         Navigator nav = mock(Navigator.class);
-        TokenBuilder tokenBuilder = new BpmnTokenBuilder(nav, null, mock(Node.class));
+        TokenBuilder tokenBuilder = new BpmnTokenBuilder(nav, null);
         instance = new ProcessInstance(definition, tokenBuilder);
-        Token token = instance.createToken();
+        Token token = instance.createToken(mock(Node.class));
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         AbstractWorklistItem item = pattern.createWorklistItem(token, jodaEngineServices.getRepositoryService());
         PushPattern pushPattern = new AllocateSinglePattern();

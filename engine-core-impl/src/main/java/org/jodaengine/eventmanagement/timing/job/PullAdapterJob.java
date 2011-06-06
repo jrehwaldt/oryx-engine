@@ -16,30 +16,35 @@ import org.quartz.JobExecutionException;
  * 
  * @author Jan Rehwaldt
  */
-public class PullAdapterJob
-implements Job {
-    
+public class PullAdapterJob implements Job {
+
     public static final String ADAPTER_KEY = "adapter";
     public static final String ERROR_HANDLER_KEY = "error-handler";
-    
+
     /**
      * Whenever it is our turn, the adapter for which this Job is for pulls e.g. gets new mails.
-     *
-     * @param context the context in which this job is executed
-     * @throws JobExecutionException the job execution exception
+     * 
+     * @param context
+     *            the context in which this job is executed
+     * @throws JobExecutionException
+     *             the job execution exception
      */
     @Override
     public void execute(@Nonnull JobExecutionContext context)
     throws JobExecutionException {
-        JobDataMap data = context.getJobDetail().getJobDataMap();
-        
-        InboundPullAdapter adapter = (InboundPullAdapter) data.get(ADAPTER_KEY);
-        try {
-            
-            adapter.pull();
-        } catch (JodaEngineException e) {
-            ErrorAdapter error = (ErrorAdapter) data.get(ERROR_HANDLER_KEY);
-            error.exceptionOccured("Adapter failed while pulling.", e);
+
+        synchronized (PullAdapterJob.class) {
+
+            JobDataMap data = context.getJobDetail().getJobDataMap();
+
+            InboundPullAdapter adapter = (InboundPullAdapter) data.get(ADAPTER_KEY);
+            try {
+
+                adapter.pull();
+            } catch (JodaEngineException e) {
+                ErrorAdapter error = (ErrorAdapter) data.get(ERROR_HANDLER_KEY);
+                error.exceptionOccured("Adapter failed while pulling.", e);
+            }
         }
     }
 }

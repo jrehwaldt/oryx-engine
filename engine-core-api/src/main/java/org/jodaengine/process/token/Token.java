@@ -17,13 +17,14 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 import org.jodaengine.util.Identifiable;
+import org.jodaengine.util.ServiceContext;
 
 /**
  * The Interface Token. A Token is able to navigate through the process, but does not make up the whole process
  * instance. Moreover it is a single strand of execution.
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public interface Token extends Identifiable<UUID> {
+public interface Token extends Identifiable<UUID>, ServiceContext {
 
     /**
      * Gets the current node.
@@ -119,6 +120,11 @@ public interface Token extends Identifiable<UUID> {
      */
     void cancelExecution();
     
+    /**
+     * Checks if this token is suspandable.
+     *
+     * @return true, if is suspandable
+     */
     @JsonIgnore
     boolean isSuspandable();
 
@@ -158,4 +164,5 @@ public interface Token extends Identifiable<UUID> {
      *            the id
      */
     void deleteInternalVariable(String id);
+    
 }

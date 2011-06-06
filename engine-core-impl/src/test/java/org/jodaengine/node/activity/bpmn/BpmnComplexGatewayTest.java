@@ -7,7 +7,6 @@ import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.incomingbehaviour.ComplexJoinBehaviour;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
-import org.jodaengine.node.outgoingbehaviour.ComplexSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -70,7 +69,7 @@ public class BpmnComplexGatewayTest {
     throws JodaEngineException {
 
         AbstractProcessInstance instance = new ProcessInstance(mock(ProcessDefinition.class), new BpmnTokenBuilder(nav,
-            null, null));
+            null));
 
         // set a token on each of the nodes before the discriminator
         BpmnToken token1 = new BpmnToken(beforeNode1, instance, nav);

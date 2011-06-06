@@ -2,6 +2,7 @@ package org.jodaengine.process.token;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -18,9 +19,9 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 
 /**
- * 
- * @author Gery
- * 
+ * The ancient Bpmn Token class, which is used for processing a bpmn model.
+ * Former it was known as TokenImpl, but due to the wish to support mutiple modelling languages
+ * it was renamed.
  */
 public class BpmnToken extends AbstractToken {
 
@@ -32,7 +33,7 @@ public class BpmnToken extends AbstractToken {
     protected BpmnToken() { }
     
     /**
-     * Instantiates a new process {@link TokenImpl}. This will not register any available extension.
+     * Instantiates a new process {@link Token}. This will not register any available extension.
      *
      * @param startNode the start node
      * @param instance the instance
@@ -191,8 +192,7 @@ public class BpmnToken extends AbstractToken {
 
             for (Transition transition : transitionList) {
                 Node node = transition.getDestination();
-                instance.getBuilder().setNode(node);
-                Token newToken = createNewToken();
+                Token newToken = createToken(node);
                 newToken.setLastTakenTransition(transition);
                 tokensToNavigate.add(newToken);
             }
@@ -224,4 +224,24 @@ public class BpmnToken extends AbstractToken {
         completeExecution();
     }
 
+    @Override
+    public Map<String, Object> getAttributes() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+
+        // TODO Auto-generated method stub
+        
+    }
 }
