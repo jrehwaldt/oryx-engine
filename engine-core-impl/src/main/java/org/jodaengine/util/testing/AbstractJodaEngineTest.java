@@ -10,7 +10,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
-
 /**
  * This is the abstract class all test classes should inherit from, if they need the application context to some extend.
  * <p>
@@ -24,8 +23,6 @@ import org.testng.annotations.BeforeMethod;
  */
 public abstract class AbstractJodaEngineTest {
 
-    private static final String JODAENGINE_CFG_XML = "jodaengine.cfg.xml";
-
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected JodaEngineServices jodaEngineServices;
@@ -37,7 +34,7 @@ public abstract class AbstractJodaEngineTest {
     public void aBeforeClassJodaEngineSetUp() {
 
         // Starting the engine and storing the engineServices
-        this.jodaEngineServices = JodaEngine.startWithConfig(JODAENGINE_CFG_XML);
+        this.jodaEngineServices = JodaEngine.startWithConfig(jodaEngineConfigurationXml());
     }
 
     /**
@@ -50,7 +47,7 @@ public abstract class AbstractJodaEngineTest {
             return;
         }
 
-        this.jodaEngineServices = JodaEngine.startWithConfig(JODAENGINE_CFG_XML);
+        this.jodaEngineServices = JodaEngine.startWithConfig(jodaEngineConfigurationXml());
     }
 
     /**
@@ -98,5 +95,16 @@ public abstract class AbstractJodaEngineTest {
 
         return false;
     }
-    
+
+    private String jodaEngineConfigurationXml() {
+
+        // Extracting a desired annotation
+        JodaEngineTest jodaEngineTestAnnotation = this.getClass().getAnnotation(JodaEngineTest.class);
+
+        if (jodaEngineTestAnnotation == null) {
+            return JodaEngineTest.JODAENGINE_CFG_XML;
+        }
+            
+        return jodaEngineTestAnnotation.configurationFile();
+    }
 }
