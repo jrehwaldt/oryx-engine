@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.navigator.schedule.Scheduler;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
@@ -73,6 +74,14 @@ public interface Navigator extends Service {
      */
     void removeSuspendToken(Token t);
 
+    /**
+     * Removes the Token from the scheduler.
+     * 
+     * @param t
+     *            the token
+     */
+    void removeTokenFromScheduler(Token t);
+    
     /**
      * Gets all the instances that were ever started/executed by this navigator.
      * 

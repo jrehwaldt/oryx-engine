@@ -26,6 +26,7 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
     }
 
     @Override
+    // In the case of petri nets, it is also called isEnabled
     public boolean joinable(Token token, Node node) {
         TokenUtil util = new TokenUtil();
         
@@ -64,8 +65,8 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
                 Token oldToken = oldTokensOnPlace.get(0);
                 instance.removeToken(oldToken);
                 // Remove the consumed tokens from the navigator.
-                //TODO: -.-
-                instance.getBuilder().getNav().removeSuspendToken(oldToken);
+                //TODO: -.- from instance>tokenBuilder>Nav ...
+                instance.getBuilder().getNav().removeTokenFromScheduler(oldToken);
             }
             
             
