@@ -34,10 +34,13 @@ import org.jodaengine.ext.debugging.shared.InterruptedInstanceImpl;
 import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
+import org.jodaengine.process.definition.ProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.util.io.StreamSource;
+import org.jodaengine.util.io.StringStreamSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -249,6 +252,26 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         
         artifactID = "svg-artifact-for-" + definition.getID() + "-not-defined";
         throw new ProcessArtifactNotFoundException(artifactID);
+    }
+
+    @Override
+    public void setSvgArtifact(ProcessDefinition definition,
+                               String svgArtifact) {
+        
+        //
+        // add the svg artifact to the repository
+        //
+        String artifactID = definition.getID().toString();
+        StreamSource stream = new StringStreamSource(svgArtifact);
+        AbstractProcessArtifact artifact = new ProcessArtifact(DEBUGGER_ARTIFACT_NAMESPACE + artifactID, stream);
+        
+        this.repository.addProcessArtifact(artifact, definition.getID());
+        
+        //
+        // add the artifact name to the process definition
+        //
+        DebuggerAttribute attribute = DebuggerAttribute.getAttribute(definition);
+        attribute.setSvgArtifact(artifactID);
     }
     
     //=================================================================

@@ -14,6 +14,7 @@ import org.jodaengine.ext.debugging.rest.DereferencedObjectException;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
 import org.slf4j.Logger;
@@ -111,14 +112,21 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
     }
     
     @Override
-    public ProcessDefinition resolveDefinition(ProcessDefinition dereferencedDefinition)
+    public ProcessDefinition resolveDefinition(ProcessDefinitionID dereferencedDefinitionID)
     throws DefinitionNotFoundException {
         
         if (this.repository == null) {
             throw new ServiceUnavailableException(RepositoryService.class);
         }
         
-        return this.repository.getProcessDefinition(dereferencedDefinition.getID());
+        return this.repository.getProcessDefinition(dereferencedDefinitionID);
+    }
+    
+    @Override
+    public ProcessDefinition resolveDefinition(ProcessDefinition dereferencedDefinition)
+    throws DefinitionNotFoundException {
+        
+        return resolveDefinition(dereferencedDefinition.getID());
     }
     
     @Override

@@ -6,11 +6,6 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-
-if (request.getParameter("debugger") != null) {
-   session.setAttribute("debugger", true);
-}
-
 String current_user = null;
 
 String class_for_selected_item = null;
@@ -39,9 +34,9 @@ navigation.put("resources", new NavigationEntry[] {
     new NavigationEntry("roles", "Roles")
 });
 navigation.put("settings", new NavigationEntry[] {});
-if (session.getAttribute("debugger") != null) {
-    navigation.put("debugger", new NavigationEntry[] {});
-}
+navigation.put("debugger", new NavigationEntry[]  {
+    new NavigationEntry("artifacts", "SVG Artifacts")
+});
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -68,6 +63,12 @@ if (session.getAttribute("debugger") != null) {
         <script type="text/javascript" src="/javascripts/lib/jquery.ui.widget.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.ui.dialog.js"></script>
         
+        <!--begin-debugger-service-->
+        <link rel="stylesheet" type="text/css" href="/stylesheets/debugger.css">
+        <script type="text/javascript" src="/javascripts/debugger/debugger-menu.js"></script>
+        <script type="text/javascript" src="/javascripts/debugger/debugger-crud.js"></script>
+        <!--end-debugger-service-->
+        
         <title><decorator:title default="JodaEngine" /></title>
         <decorator:head />
         
@@ -84,8 +85,8 @@ if (session.getAttribute("debugger") != null) {
               <div class="col1">
                 <div id="header">
                   <div id="logo">
-                    <a href="/" alt="JodaEngine home">
-                        <img src="/images/jodaengine.png" height="69" width="185" border="0" alt="Joda Engine home" />
+                    <a href="/" text="JodaEngine home">
+                        <img src="/images/jodaengine.png" height="69" width="185" border="0" alt="JodaEngine home" />
                     </a>
                   </div>
                   <div id="menu-level-1">
@@ -97,9 +98,7 @@ if (session.getAttribute("debugger") != null) {
                         <!--<li><a class="reports" href="/reports">Reports</a></li>-->
                         <li><a class="resources" href="/resources">Resource Management</a></li>
                         <li><a class="settings" href="/settings">Settings</a></li>
-                        <% if (session.getAttribute("debugger") != null) { %>
-                            <li><a class="debugger" href="/debugger">Debugger</a></li>
-                        <% } %>
+                        <li class="debugger"><a class="debugger" href="/debugger">Debugger</a></li>
                     </ul>
                     <!--end nav-level-1-->
                   </div>

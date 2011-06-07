@@ -19,7 +19,8 @@ public class ProcessDefinitionID {
      * @param version the version
      */
     @JsonCreator
-    public ProcessDefinitionID(@JsonProperty("identifier") String identifier, @JsonProperty("version") int version) {
+    public ProcessDefinitionID(@JsonProperty("identifier") String identifier,
+                               @JsonProperty("version") int version) {
 
         this.identifier = identifier;
         this.version = version;
@@ -28,11 +29,21 @@ public class ProcessDefinitionID {
     /**
      * Convenience constructor for IDs with version 0.
      *
-     * @param identifier the identifier
+     * @param fullIdentifier the identifier, with or without version
      */
-    public ProcessDefinitionID(String identifier) {
-
-        this(identifier, 0);
+    public ProcessDefinitionID(String fullIdentifier) {
+        
+        this(fullIdentifier, 0);
+        
+        //
+        // do we have a full identifier
+        //
+        int position = fullIdentifier.lastIndexOf(DELIMITER);
+        if (position != -1) {
+            
+            this.identifier = fullIdentifier.substring(0, position);
+            this.version = Integer.valueOf(fullIdentifier.substring(position + 1));
+        }
     }
 
     /**
@@ -95,22 +106,6 @@ public class ProcessDefinitionID {
     }
 
     /**
-     * Reads a ProcessDefinitionID from a given String.
-     * 
-     * @param id
-     *            the id
-     * @return the process definition id
-     */
-    public static ProcessDefinitionID fromString(String id) {
-
-        int delimiterPosition = id.lastIndexOf(DELIMITER);
-        String identifier = id.subSequence(0, delimiterPosition).toString();
-        int version = new Integer(id.substring(delimiterPosition + 1));
-        return new ProcessDefinitionID(identifier, version);
-
-    }
-
-    /**
      * Sets the version of the ID. This should be possible, as a new version number may be assigned to a process
      * definition.
      * 
@@ -121,5 +116,25 @@ public class ProcessDefinitionID {
 
         this.version = newVersion;
     }
-
+    
+    /**
+     * Static creator method for full qualifiers.
+     * 
+     * @param fullIdentifier a full identifier (name DELIMITER version)
+     * @return a {@link ProcessDefinitionID}
+     */
+    public static final ProcessDefinitionID fromString(String fullIdentifier) {
+        
+        return new ProcessDefinitionID(fullIdentifier);
+    }
+    /**
+     * Static creator method for full qualifiers.
+     * 
+     * @param fullIdentifier a full identifier (name DELIMITER version)
+     * @return a {@link ProcessDefinitionID}
+     */
+    public static final ProcessDefinitionID valueOf(String fullIdentifier) {
+        
+        return fromString(fullIdentifier);
+    }
 }

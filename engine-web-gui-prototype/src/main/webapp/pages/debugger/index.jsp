@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
     <head>
-        <script type="text/javascript" src="/javascripts/management/navigator-crud.js"></script>
-        <script type="text/javascript" src="/javascripts/management/repository-crud.js"></script>
-        <script type="text/javascript" src="/javascripts/management/definitions.js"></script>
-        <script type="text/javascript" src="/javascripts/management/instances.js"></script>
+        <script type="text/javascript" src="/javascripts/lib/jquery.tools.1.2.5.min.js"></script>
         
+        <script type="text/javascript" src="/javascripts/management/repository-crud.js"></script>
+        
+        <script type="text/javascript" src="/javascripts/debugger/debugger-crud.js"></script>
+        <script type="text/javascript" src="/javascripts/debugger/breakpoint-crud.js"></script>
+        <script type="text/javascript" src="/javascripts/debugger/debugger-svg-crud.js"></script>
+        <script type="text/javascript" src="/javascripts/debugger/debugger.js"></script>
         <%-- optional 
         <script type="text/javascript" src="/javascripts/lib/jquery.timers-1.2.js"></script>
         --%>

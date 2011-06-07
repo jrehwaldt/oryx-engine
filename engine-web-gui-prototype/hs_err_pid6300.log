@@ -1,0 +1,207 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x6d8b2f11, pid=6300, tid=6856
+#
+# JRE version: 6.0_21-b07
+# Java VM: Java HotSpot(TM) Client VM (17.0-b17 mixed mode windows-x86 )
+# Problematic frame:
+# V  [jvm.dll+0x2f11]
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x01a04800):  VMThread [stack: 0x17be0000,0x17c30000] [id=6856]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x000000a8
+
+Registers:
+EAX=0x00000058, EBX=0x01990cf8, ECX=0x000100d3, EDX=0x1605c3f8
+ESP=0x17c2f4e4, EBP=0x17c2f4ec, ESI=0x000100d3, EDI=0x1605c3f8
+EIP=0x6d8b2f11, EFLAGS=0x00010246
+
+Top of Stack: (sp=0x17c2f4e4)
+0x17c2f4e4:   1605c3f8 1605c3f8 17c2f4fc 6d8b2ecc
+0x17c2f4f4:   00000000 6da67a42 17c2f514 6d8d127b
+0x17c2f504:   1605c3f8 17c2f564 17c2f564 01b2ef60
+0x17c2f514:   17c2f520 6d93523b 1605c44f 17c2f530
+0x17c2f524:   6d980c43 1605c44f 01990b10 17c2f53c
+0x17c2f534:   6d9809f3 01990cb8 17c2f554 6d9352b4
+0x17c2f544:   17c2f564 00000000 01b2efbc 1605c44f
+0x17c2f554:   17c2f570 6d980765 17c2f564 00000000 
+
+Instructions: (pc=0x6d8b2f11)
+0x6d8b2f01:   02 25 fe ff ff 3f 5e 5d c2 04 00 8b 06 52 8b ce
+0x6d8b2f11:   ff 50 50 5e 5d c2 04 00 cc cc cc cc cc cc cc 55 
+
+
+Stack: [0x17be0000,0x17c30000],  sp=0x17c2f4e4,  free space=13d17c2f040k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x2f11]
+V  [jvm.dll+0x2ecc]
+V  [jvm.dll+0x2127b]
+V  [jvm.dll+0x8523b]
+V  [jvm.dll+0xd0c43]
+V  [jvm.dll+0xd09f3]
+V  [jvm.dll+0x852b4]
+V  [jvm.dll+0xd0765]
+V  [jvm.dll+0xcb0c7]
+V  [jvm.dll+0x170c75]
+V  [jvm.dll+0x21b95]
+V  [jvm.dll+0xcd7b6]
+V  [jvm.dll+0xd0535]
+V  [jvm.dll+0x17fedb]
+V  [jvm.dll+0x18016d]
+V  [jvm.dll+0x1803b3]
+V  [jvm.dll+0x180454]
+V  [jvm.dll+0xdbb26]
+V  [jvm.dll+0x171114]
+V  [jvm.dll+0xb6277]
+V  [jvm.dll+0xb6392]
+V  [jvm.dll+0x1e4468]
+V  [jvm.dll+0x1e484f]
+V  [jvm.dll+0x1a9109]
+V  [jvm.dll+0xcc110]
+V  [jvm.dll+0xccac2]
+V  [jvm.dll+0xccd7b]
+V  [jvm.dll+0xd0dea]
+V  [jvm.dll+0x1e1382]
+V  [jvm.dll+0xcbb78]
+V  [jvm.dll+0x8002b]
+V  [jvm.dll+0x1fd4bb]
+V  [jvm.dll+0x2002e3]
+V  [jvm.dll+0x1ff5ce]
+V  [jvm.dll+0x1ff8f0]
+V  [jvm.dll+0x1ffce2]
+V  [jvm.dll+0x185f5c]
+C  [msvcr71.dll+0x9565]
+C  [kernel32.dll+0x53c45]
+C  [ntdll.dll+0x637f5]
+C  [ntdll.dll+0x637c8]
+
+JavaThread 0x18fabc00 (nid = 5820) was being processed
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+
+[error occurred during error reporting (printing target Java thread stack), id 0xc0000005]
+
+VM_Operation (0x1a54f424): GenCollectForAllocation, mode: safepoint, requested by thread 0x193eac00
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x19321400 JavaThread "Unknown thread" [_thread_blocked, id=4952, stack(0x1b500000,0x1b550000)]
+  0x19321000 JavaThread "À€$À€ç§ á˜°é•˜á˜°æ–€á³èœ°á˜°é–¨á˜°À€À€À€À€À€À€À€À€À€À€é á˜°èœ°á˜°É°á’À€À€À€À€À€! À€À€À€À€À€À€À€À€À€À€À€À€À€è¹€á˜°é•°á˜°è­á˜°é•˜á˜°è¸˜á˜°è¤¨á˜°í§€à§¼èŠ¸à¨‚À€À€À€À€ï²€á’ À€À€á‡˜á³À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€Ä€ÄÀ€1À€ê°€á¤¾À€	À€À€À€À€À€À€À€À€À€À€À€á‘˜á¥»À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€
+À€æ‘˜á³å¾ˆá³è„á˜°å»°á³æ€á³é€¸á˜°è‘°á˜°ç´˜á˜°è¾á˜°è‡¨á˜°ç·€á˜°éá˜°é‘€á˜°é”ˆá˜°èŠ€á˜°éˆá˜°éŠ¸á˜°é…¸á˜°éƒ˜á˜°À€À€ç§ á˜°Æ˜À€è±°á˜°Æ À€À€À€À€À€ç´˜á˜°ç·€á˜°éˆá˜°À€À€À€À€À€À€ç¤ƒá˜°ç­ á´é–¨á˜°À€À€À€À€À€À€À€À€äˆá”­À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€ç¥£á˜°à¼ˆá³é¥°á˜°ç’€ášé½ á˜°À€À€bÀ€À€À€À€À€À€îá’Œé½ á˜°ê©ˆá’Œèœ°á˜°î›˜á’ î›˜á’ à°¸á’¡à±á’¡ì¾°á’™â´á³à¦á’Ÿà¢ˆá’
+î‚ á’”à±˜á˜¹à±¨á’¡îƒ¨á’”	ïŠáâ†ˆá’ê¬ˆá´â•ˆá’™â¶€á³ä¨˜á³åŸ¸á‘½ê©¨á’Œêªá’Œéáš€à²ˆá’¡ë™°á’Œ!" #ä‚¸á¾î—€á’ ï²¸á’ ï²¸á’ à² á’¡à²¸á’¡)*(+ïµˆá’ ïµ á’ å² á³äŸá³î¸á’”ï›á˜¸ì˜€á¸324ëµá’Œä¸á½ã„˜á½ãµ¸á½89:ä»°á’ä¼ˆá’â€á¯Ò á’•>?2@äŒ°á½ä“á’‹ã…á³ä³¨á’ïº°áæ©á’‹å¶˜á’ ä»ˆá’å¾¨á’ å¿€á’ æ¤á’‹æ¤á’‹ê¯˜á’ê¯°á’NOMP/0Ræ¨á’æ¨á’î¸á’Œè¶ˆá¾VWUXëŸáŒëŸáŒá¬á³á­˜á³á¬¸á³á°€á³î¢°á’ á«ˆá³À€À€ç¬“á˜°à¡á³bÀ€Ä€Ä‡Ä‡Å¤ÄÄà°ÄŠÄ‡à°à°ŠÄ‰ÄÄÄÄÄ‡à°Ä‰ÄÅ¤à°Ä‹ÄÄÄ‡à¤ŒÄÄà¤ŒÄÄà¨ŒÄÄÄÄÄæÄà¬Œà¨ŒæÄà¨Œæ˜ÄÄÄÀ€ç®ƒá˜°á‚€á³À€è±°á˜°ç®“á˜°à¦¨á³À€	À€À€À€À€À€À€ç®³á˜°á‚€á³À€éª¨á˜°é²ˆá˜°é¯¨á˜°é­€á˜°é´ á˜°é·°á˜°é»á˜°ç¯›á˜°à¸˜á³À€À€À€è€€À€éª¨á˜°À€À€á‡¨á³À€×¿
+À€À€â¬ªÂ·â¨€ë ¬Êµë„€Ã¿â©¬AÀ€À€À€À€À€À€À€À€À€À€ç±‹á˜°à¶ á³é¨¸á˜°éŸ€á˜°À€À€À€À€À€ï¿¾ï¿¿À€À€À€À€È¹À€À€í‰°Æ³ã˜Æ ä ”Æ¶À€À€í‰°Æ³À€À€ç²›á˜°à¸˜á³À€À€À€è€€À€é­€á˜°À€À€á‡¨á³À€×¿À€Î²ë€€Ã¿xÀ€À€À€À€ç³£á˜°à¶ á³é«¸á˜°éŸ€á˜°À€À€À€À€À€À€È€À€À€À€à¯…À€À€í‰°Æ³ã Æ á»€È­á·ˆÈ­ì§€ÆµÀ€À€ç´³á˜°à¸˜á³À€À€À€è€€À€é¯¨á˜°À€À€á‡¨á³À€×¿%&À€â¨«Ò¹È€ë€€Ã¿ÂˆÀ€À€À€À€À€-.À€ç¶‹á˜°à¶ á³é®á˜°éŸ€á˜°À€À€À€À€À€À€À€À€À€À€À€À€í‰°Æ³ãÆ ì ŠÆµÀ€À€í‰°Æ³À€À€ç·›á˜°à¸˜á³À€À€À€è€€À€é²ˆá˜°À€À€á‡¨á³À€×¿/0À€ëªÖ´ë€€Ã¿Â˜À€À€À€À€À€À€ daemon [_thread_blocked, id=940, stack(0x1b4b0000,0x1b500000)]
+  0x19320800 JavaThread "À€(À€ç§ á˜°ä•¸á™¶æ–€á³èœ°á˜°ã§¸á˜½ä—€á™¶À€À€À€À€À€À€À€À€ä€á™¶ã§¸á˜½ë€á’ŒÀ€À€à©á™¶À€! À€À€À€À€À€À€À€À€À€À€À€À€À€ãº˜á™¶ä–á™¶ã¹ á™¶ä•¸á™¶ã¹°á™¶ã°ˆá™¶í§€à§¼èŠ¸à¨‚À€À€À€À€Óˆá”ƒÀ€À€á‡˜á³À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€Ä€ÄÀ€1À€ê°€á¤¾À€À€À€À€À€À€À€À€À€À€À€À€ã›¸á§‚À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€	À€æ‘˜á³å¾ˆá³è„á˜°å»°á³æ€á³ä„¸á™¶è‘°á˜°ç´˜á˜°ä‚á™¶è‡¨á˜°ç·€á˜°ã ˆá˜½ä°á™¶è•¸á˜°èŠ€á˜°ã˜á˜½ã¥¨á˜½ãš°á˜½ã˜ˆá˜½ã”¸á˜½ã’˜á˜½ã°á˜½ä‰¸á™¶ä‡ á™¶ä’á™¶À€À€ç§ á˜°Æ¨À€À€À€À€À€ç´˜á˜°ç·€á˜°À€À€À€À€À€âŠ“á™¶ç­ á´ä—€á™¶À€À€À€À€À€À€À€À€äˆ á”­À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€À€â‹³á™¶à¼ˆá³ä¤ á™¶ë©¸áš©äº°á™¶À€À€GÀ€À€À€À€À€À€ï €á’Œäº°á™¶ê©ˆá’Œèœ°á˜°â¦¨á”€â¦¨á”€á…¨á”ƒã€á³äŠ°á³â´á³á†€á”ƒà¢ˆá’
+	ïŠáï¡˜á’Œê¬ˆá´â•ˆá’™åŸ¸á‘½ê©¨á’Œêªá’Œéáš€á†¸á”ƒë™°á’Œä‚¸á¾î—€á’ ï²¸á’ ï²¸á’ á‡á”ƒá‡¨á”ƒ!" #ïµˆá’ ïµ á’ ç•á³ä‡ á³åá»ë…¨á·ëµá’Œä¸á½ã„˜á½ãµ¸á½-./ä»°á’ä¼ˆá’ç°°á’ç°°á’ä•¸á¦ìŸá’5647äŒ°á½ä“á’‹ã…á³ä³¨á’ïº°áæ©á’‹å¶˜á’ ä»ˆá’á¬á³á­˜á³á¬¸á³á°€á³î¢°á’ á«ˆá³â³á™¶à¡á³GÀ€Ä€Ä‡Ä‡Å¤ÄÄà°à°ŠÄ‰ÄÄÄÄ‡à°Ä‰ÄÅ¤à°Ä‹ÄÄÄÄà°Ä‰ÄÅ¤à°ÄŠÄÄÄÄÄÄÀ€À€â’‹á™¶á‚€á³À€î–¨á™µâ’›á™¶à¦¨á³À€	À€À€À€À€À€À€â’»á™¶á‚€á³À€ä¨¸á™¶ä°á™¶ä²¸á™¶ä­¸á™¶ä«á™¶äµá™¶ä¸ á™¶â“£á™¶à¸˜á³À€À€À€è€€À€ä¨¸á™¶À€À€á‡¨á³À€×¿
+À€À€â¬ªÂ·â¨€ë”¨ï¾±æ €â¤©À€À€À€À€À€À€À€	À€â•‹á™¶à¶ á³ä§á™¶äŸ á™¶À€À€À€À€À€ï¿¾ï¿¿À€À€À€À€YÀ€À€í‰°Æ³ãœˆÆ äºÆ·À€À€í‰°Æ³À€À€â–›á™¶à¸˜á³À€À€À€è€€À€ä«á™¶À€À€á‡¨á³À€×¿À€Ê²ë€€Ã¿rÀ€À€À€À€â—£á™¶à¶ á³äªˆá™¶äŸ á™¶À€À€À€À€À€À€À€À€À€À€YÀ€À€í‰°Æ³ã Æ ì¨‡ÆµÀ€À€í‰°Æ³À€À€â˜³á™¶à¸˜á³À€À€À€è€€À€ä­¸á™¶À€À€á‡¨á³À€×¿À€â¨«Î¹È€ë€€Ã¿zÀ€À€À€À€À€%&À€âš‹á™¶à¶ á³ä¬ á™¶äŸ á™¶À€À€À€À€À€À€À€À€À€À€À€À€í‰°Æ³ãÆ ì ŠÆµÀ€À€í‰°Æ³À€À€â››á™¶à¸˜á³À€À€À€è€€À€ä°á™¶À€À€á‡¨á³À€×¿'(À€ëªï¾¯è¨€À€À€À€À€âœ£á™¶à¶ á³ä¯ˆá™¶äŸ á™¶À€À€À€À€À€À€À€À€À€À€À€À€í‰°Æ³ã Æ ì¨‡ÆµÀ€À€í‰°Æ³À€À€â³á™¶à¸˜á³À€À€À€è€€À€ä²¸á™¶À€À€á‡¨á³À€×¿)*À€âœªÆµë„€Ã¿â¦šÀ€À€À€ daemon [_thread_blocked, id=1444, stack(0x1b460000,0x1b4b0000)]
+  0x19320400 JavaThread "À€" daemon [_thread_blocked, id=6844, stack(0x1b410000,0x1b460000)]
+  0x1931fc00 
+[error occurred during error reporting (printing all threads), id 0xc0000005]
+
+VM state:at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x01b27ce8] Threads_lock - owner thread: 0x01a04800
+[0x01b280f8] Heap_lock - owner thread: 0x193eac00
+
+Heap
+ def new generation   total 24064K, used 2166K [0x03b30000, 0x05540000, 0x09080000)
+  eden space 21440K,   0% used [0x03b30000, 0x03b30000, 0x05020000)
+  from space 2624K,  82% used [0x05020000, 0x0523da48, 0x052b0000)
+  to   space 2624K,   0% used [0x052b0000, 0x052b0000, 0x05540000)
+ tenured generation   total 53344K, used 53303K [0x09080000, 0x0c498000, 0x13b30000)
+   the space 53344K,  99% used [0x09080000, 0x0c48de10, 0x0b2a5e00, 0x0c498000)
+ compacting perm gen  total 64512K, used 64271K [0x13b30000, 0x17a30000, 0x17b30000)
+   the space 64512K,  99% used [0x13b30000, 0x179f3ce0, 0x179c5200, 0x17a30000)
+No shared spaces configured.
+
+Dynamic libraries:
+0x00400000 - 0x00424000 	C:\Program Files\Java\JDKEE6\jdk\bin\javaw.exe
+0x774d0000 - 0x7760c000 	C:\Windows\SYSTEM32\ntdll.dll
+0x76420000 - 0x764f4000 	C:\Windows\system32\kernel32.dll
+0x75890000 - 0x758da000 	C:\Windows\system32\KERNELBASE.dll
+0x76500000 - 0x765a0000 	C:\Windows\system32\ADVAPI32.dll
+0x77650000 - 0x776fc000 	C:\Windows\system32\msvcrt.dll
+0x77620000 - 0x77639000 	C:\Windows\SYSTEM32\sechost.dll
+0x76700000 - 0x767a1000 	C:\Windows\system32\RPCRT4.dll
+0x77400000 - 0x774c9000 	C:\Windows\system32\USER32.dll
+0x76140000 - 0x7618e000 	C:\Windows\system32\GDI32.dll
+0x77640000 - 0x7764a000 	C:\Windows\system32\LPK.dll
+0x75970000 - 0x75a0d000 	C:\Windows\system32\USP10.dll
+0x76350000 - 0x7636f000 	C:\Windows\system32\IMM32.DLL
+0x76070000 - 0x7613c000 	C:\Windows\system32\MSCTF.dll
+0x7c340000 - 0x7c396000 	C:\Program Files\Java\JDKEE6\jdk\jre\bin\msvcr71.dll
+0x6d8b0000 - 0x6db57000 	C:\Program Files\Java\JDKEE6\jdk\jre\bin\client\jvm.dll
+0x73210000 - 0x73242000 	C:\Windows\system32\WINMM.dll
+0x755a0000 - 0x755ec000 	C:\Windows\system32\apphelp.dll
+0x6d860000 - 0x6d86c000 	C:\Program Files\Java\JDKEE6\jdk\jre\bin\verify.dll
+0x6d3e0000 - 0x6d3ff000 	C:\Program Files\Java\JDKEE6\jdk\jre\bin\java.dll
+0x6d340000 - 0x6d348000 	C:\Program Files\Java\JDKEE6\jdk\jre\bin\hpi.dll
+0x75a60000 - 0x75a65000 	C:\Windows\system32\PSAPI.DLL
+0x6d430000 - 0x6d459000 	C:\Program Files\Java\JDKEE6\jdk\jre\bin\jdwp.dll
+0x6d750000 - 0x6d756000 	C:\Program Files\Java\JDKEE6\jdk\jre\bin\npt.dll
+0x6d8a0000 - 0x6d8af000 	C:\Program Files\Java\JDKEE6\jdk\jre\bin\zip.dll
+0x6d2b0000 - 0x6d2b7000 	C:\Program Files\Java\JDKEE6\jdk\jre\bin\dt_socket.dll
+0x766c0000 - 0x766f5000 	C:\Windows\system32\WS2_32.dll
+0x75a70000 - 0x75a76000 	C:\Windows\system32\NSI.dll
+0x74470000 - 0x74480000 	C:\Windows\system32\NLAapi.dll
+0x6e6b0000 - 0x6e6c0000 	C:\Windows\system32\napinsp.dll
+0x6e510000 - 0x6e522000 	C:\Windows\system32\pnrpnsp.dll
+0x6e4d0000 - 0x6e4f7000 	C:\Program Files\Common Files\Microsoft Shared\Windows Live\WLIDNSP.DLL
+0x75e90000 - 0x75ee7000 	C:\Windows\system32\SHLWAPI.dll
+0x6e4c0000 - 0x6e4cd000 	C:\Windows\system32\wshbth.dll
+0x750e0000 - 0x7511c000 	C:\Windows\System32\mswsock.dll
+0x74fa0000 - 0x74fe4000 	C:\Windows\system32\DNSAPI.dll
+0x6e350000 - 0x6e358000 	C:\Windows\System32\winrnr.dll
+0x73dc0000 - 0x73ddc000 	C:\Windows\system32\IPHLPAPI.DLL
+0x73db0000 - 0x73db7000 	C:\Windows\system32\WINNSI.DLL
+0x73b00000 - 0x73b38000 	C:\Windows\System32\fwpuclnt.dll
+0x6e220000 - 0x6e226000 	C:\Windows\system32\rasadhlp.dll
+0x74710000 - 0x74715000 	C:\Windows\System32\wshtcpip.dll
+0x6d6c0000 - 0x6d6d3000 	C:\Program Files\Java\JDKEE6\jdk\jre\bin\net.dll
+0x750d0000 - 0x750d6000 	C:\Windows\System32\wship6.dll
+0x6d6e0000 - 0x6d6e9000 	C:\Program Files\Java\JDKEE6\jdk\jre\bin\nio.dll
+0x6d610000 - 0x6d619000 	C:\Program Files\Java\JDKEE6\jdk\jre\bin\management.dll
+0x75120000 - 0x75136000 	C:\Windows\system32\CRYPTSP.dll
+0x74ec0000 - 0x74efb000 	C:\Windows\system32\rsaenh.dll
+0x747e0000 - 0x747f7000 	C:\Windows\system32\USERENV.dll
+0x75670000 - 0x7567b000 	C:\Windows\system32\profapi.dll
+0x755f0000 - 0x755fc000 	C:\Windows\system32\CRYPTBASE.dll
+0x19250000 - 0x192a2000 	C:\Users\Naane\AppData\Local\Temp\jna3567068876707747092.tmp
+0x1a650000 - 0x1a6a2000 	C:\Users\Naane\AppData\Local\Temp\jna2518495585684755392.tmp
+0x1b640000 - 0x1b692000 	C:\Users\Naane\AppData\Local\Temp\jna3516980104674262029.tmp
+
+VM Arguments:
+jvm_args: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:56583 -Dm2eclipse.workspace.state=C:\Dokumente\Eclipse-WS\JavaEE\.metadata\.plugins\org.eclipse.m2e.core\workspacestate.properties -Dmaven.home=EMBEDDED -Dclassworlds.conf=C:\Dokumente\Eclipse-WS\JavaEE\.metadata\.plugins\org.eclipse.m2e.core\launches\m2conf7707673077015683156.tmp -Dfile.encoding=Cp1252 
+java_command: org.codehaus.plexus.classworlds.launcher.Launcher -B -o -s C:\Users\Naane\.m2\settings.xml clean jetty:run
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\JDKEE6\jdk\jre
+PATH=C:\Program Files\PC Connectivity Solution\;C:\Portables\Ruby187\bin;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\ThinkPad\Bluetooth Software\;C:\Program Files\Java\JDKEE6\jdk\;C:\Program Files\Java\JDKEE6\jdk\jre\bin\;C:\Program Files\Windows Live\Shared;C:\Program Files\Git\cmd;C:\Portables\MySQL-5.0.90\bin\;C:\Portables\RubyPik\;C:\Portables\SysinternalsSuite;C:\Program Files\Common Files\Lenovo;C:\Program Files\WIDCOMM\Bluetooth Software\;C:\Program Files\TortoiseGit\bin;C:\Potables\Ruby192\bin
+USERNAME=Naane
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 37 Stepping 2, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 Build 7601 Service Pack 1
+
+CPU:total 4 (8 cores per cpu, 2 threads per core) family 6 model 37 stepping 2, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, ht
+
+Memory: 4k page, physical 3067568k(387456k free), swap 6133380k(3331964k free)
+
+vm_info: Java HotSpot(TM) Client VM (17.0-b17) for windows-x86 JRE (1.6.0_21-b07), built on Jul 17 2010 01:10:15 by "java_re" with MS VC++ 7.1 (VS2003)
+
+time: Tue Jun 07 17:21:41 2011
+elapsed time: 317 seconds
+

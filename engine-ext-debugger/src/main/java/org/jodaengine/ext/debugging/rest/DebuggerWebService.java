@@ -7,9 +7,11 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
@@ -25,9 +27,12 @@ import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.internal.Nullable;
 
 /**
  * The rest web service for our {@link DebuggerService}.
@@ -42,7 +47,7 @@ import org.slf4j.LoggerFactory;
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
 public class DebuggerWebService implements DebuggerService, BreakpointService, DebuggerArtifactService {
-
+    
     private static final String NOT_ACCESSIBLE_VIA_WEBSERVICE = "This method is not accessible via web service.";
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -57,6 +62,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
      * @param engineServices the engine's loaded services
      */
     public DebuggerWebService(@Nonnull JodaEngineServices engineServices) {
+        
         logger.info("Starting Debugger REST API");
         this.engineServices = engineServices;
         
@@ -100,49 +106,58 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @POST
     @Override
     public void stepOverInstance(InterruptedInstance targetInstance) {
-        if (this.debugger != null) {
-            this.debugger.stepOverInstance(targetInstance);
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
         }
         
-        throw new ServiceUnavailableException(DebuggerService.class);
+        this.debugger.stepOverInstance(targetInstance);
     }
 
     @Path("/instance/terminate")
     @POST
     @Override
     public void terminateInstance(InterruptedInstance targetInstance) {
-        if (this.debugger != null) {
-            this.debugger.terminateInstance(targetInstance);
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
         }
-        throw new ServiceUnavailableException(DebuggerService.class);
+        
+        this.debugger.terminateInstance(targetInstance);
     }
 
     @Path("/instance/resume")
     @POST
     @Override
     public void resumeInstance(InterruptedInstance targetInstance) {
-        if (this.debugger != null) {
-            this.debugger.resumeInstance(targetInstance);
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
         }
-        throw new ServiceUnavailableException(DebuggerService.class);
+        
+        this.debugger.resumeInstance(targetInstance);
     }
 
     @Path("/instance/continue")
     @POST
     @Override
     public void continueInstance(InterruptedInstance targetInstance) {
-        if (this.debugger != null) {
-            this.debugger.continueInstance(targetInstance);
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
         }
-        throw new ServiceUnavailableException(DebuggerService.class);
+        
+        this.debugger.continueInstance(targetInstance);
     }
     
     @Override
     public Collection<InterruptedInstance> getInterruptedInstances() {
-        if (this.debugger != null) {
-            return this.debugger.getInterruptedInstances();
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
         }
-        throw new ServiceUnavailableException(DebuggerService.class);
+        
+        return this.debugger.getInterruptedInstances();
     }
     
     //=================================================================
@@ -158,12 +173,13 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
                                                String juelCondition)
     throws DefinitionNotFoundException {
         
-        if (this.debugger != null) {
-            ProcessDefinition definition = resolver.resolveDefinition(dereferencedTargetDefinition);
-            Node node = resolver.resolveNode(definition, dereferencedTargetNode);
-            return this.debugger.createNodeBreakpoint(definition, node, targetActivityState, juelCondition);
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
         }
-        throw new ServiceUnavailableException(DebuggerService.class);
+        
+        ProcessDefinition definition = resolver.resolveDefinition(dereferencedTargetDefinition);
+        Node node = resolver.resolveNode(definition, dereferencedTargetNode);
+        return this.debugger.createNodeBreakpoint(definition, node, targetActivityState, juelCondition);
     }
 
     @Path("/breakpoints/remove")
@@ -171,11 +187,12 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Override
     public boolean removeBreakpoint(Breakpoint dereferencedBreakpoint) {
         
-        if (this.debugger != null) {
-            Breakpoint breakpoint = resolver.resolveBreakpoint(dereferencedBreakpoint);
-            return this.debugger.removeBreakpoint(breakpoint);
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
         }
-        throw new ServiceUnavailableException(DebuggerService.class);
+        
+        Breakpoint breakpoint = resolver.resolveBreakpoint(dereferencedBreakpoint);
+        return this.debugger.removeBreakpoint(breakpoint);
     }
 
     @Path("/breakpoints/enable")
@@ -183,12 +200,12 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Override
     public Breakpoint enableBreakpoint(Breakpoint dereferencedBreakpoint) {
         
-        if (this.debugger != null) {
-            Breakpoint breakpoint = this.resolver.resolveBreakpoint(dereferencedBreakpoint);
-            return this.debugger.enableBreakpoint(breakpoint);
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
         }
         
-        throw new ServiceUnavailableException(DebuggerService.class);
+        Breakpoint breakpoint = this.resolver.resolveBreakpoint(dereferencedBreakpoint);
+        return this.debugger.enableBreakpoint(breakpoint);
     }
 
     @Path("/breakpoints/disable")
@@ -196,12 +213,12 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Override
     public Breakpoint disableBreakpoint(Breakpoint dereferencedBreakpoint) {
         
-        if (this.debugger != null) {
-            Breakpoint breakpoint = this.resolver.resolveBreakpoint(dereferencedBreakpoint);
-            return this.debugger.disableBreakpoint(breakpoint);
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
         }
         
-        throw new ServiceUnavailableException(DebuggerService.class);
+        Breakpoint breakpoint = this.resolver.resolveBreakpoint(dereferencedBreakpoint);
+        return this.debugger.disableBreakpoint(breakpoint);
     }
     
     @Path("/breakpoints")
@@ -209,27 +226,88 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     @Override
     public Collection<Breakpoint> getBreakpoints() {
         
-        if (this.debugger != null) {
-            return this.debugger.getBreakpoints();
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
         }
         
-        throw new ServiceUnavailableException(DebuggerService.class);
+        return this.debugger.getBreakpoints();
     }
 
     //=================================================================
     //=================== DebuggerArtifactService methods =============
     //=================================================================
-    @Path("/artifacts/svg")
-    @GET
     @Override
-    @Produces(MediaType.APPLICATION_SVG_XML)
     public String getSvgArtifact(ProcessDefinition definition)
     throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
         
-        if (this.debugger != null) {
-            this.debugger.getSvgArtifact(definition);
+        return this.debugger.getSvgArtifact(definition);
+    }
+    
+    @Override
+    public void setSvgArtifact(ProcessDefinition definition,
+                               String svgArtifact) {
+        
+        this.debugger.setSvgArtifact(definition, svgArtifact);
+    }
+//    
+//    /**
+//     * Helper method mapping the rest parameter to the implemented api.
+//     * 
+//     * @param dereferencedDefinitionID the process' definition id
+//     * @return svgArtifact the artifact to set
+//     * @throws DefinitionNotFoundException in case the definition is unknown
+//     * @throws ProcessArtifactNotFoundException in case no artifact is found
+//     */
+//    @Path("/artifacts/{definitionID}/svg.svg")
+//    @GET
+//    @Produces("image/svg+xml")
+//    public String getSvgArtifact2(@Nonnull @PathParam("definitionID") ProcessDefinitionID dereferencedDefinitionID)
+//    throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
+//        
+//        return getSvgArtifact(dereferencedDefinitionID);
+//    }
+    
+    /**
+     * Helper method mapping the rest parameter to the implemented api.
+     * 
+     * @param dereferencedDefinitionID the process' definition id
+     * @return svgArtifact the artifact to set
+     * @throws DefinitionNotFoundException in case the definition is unknown
+     * @throws ProcessArtifactNotFoundException in case no artifact is found
+     */
+    @Path("/artifacts/{definitionID}/svg")
+    @GET
+    @Produces("image/svg+xml")
+    public String getSvgArtifact(@Nonnull @PathParam("definitionID") ProcessDefinitionID dereferencedDefinitionID)
+    throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
         }
         
-        throw new ServiceUnavailableException(DebuggerService.class);
+        ProcessDefinition definition = this.resolver.resolveDefinition(dereferencedDefinitionID);
+        return getSvgArtifact(definition);
+    }
+    
+    /**
+     * Helper method mapping the rest parameter to the implemented api.
+     * 
+     * @param dereferencedDefinitionID the process' definition id
+     * @param formData the artifact data
+     * @throws DefinitionNotFoundException in case the definition is unknown
+     */
+    @Path("/artifacts/{definitionID}/svg")
+    @POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public void setSvgArtifact(@Nonnull @PathParam("definitionID") ProcessDefinitionID dereferencedDefinitionID,
+                               @Nullable @MultipartForm SvgArtifactFormData formData)
+    throws DefinitionNotFoundException {
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
+        }
+        
+        ProcessDefinition definition = this.resolver.resolveDefinition(dereferencedDefinitionID);
+        setSvgArtifact(definition, formData.getSvgArtifactString());
     }
 }

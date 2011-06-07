@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
 
 /**
@@ -27,6 +28,17 @@ public interface ReferenceResolverService extends Service {
      */
     @Nonnull Node resolveNode(@Nonnull ProcessDefinition definition,
                               @Nonnull Node dereferencedNode);
+    
+    /**
+     * Searches for a reference of a {@link ProcessDefinition} and returns it, if available.
+     * 
+     * @param dereferencedDefinitionID the dereferenced {@link ProcessDefinitionID}
+     * @return the referenced {@link ProcessDefinition}
+     * 
+     * @throws DefinitionNotFoundException if the {@link ProcessDefinition} could not be found
+     */
+    @Nonnull ProcessDefinition resolveDefinition(ProcessDefinitionID dereferencedDefinitionID)
+    throws DefinitionNotFoundException;
     
     /**
      * Searches for a reference of a {@link ProcessDefinition} and returns it, if available.
