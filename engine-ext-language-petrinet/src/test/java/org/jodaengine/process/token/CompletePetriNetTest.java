@@ -162,9 +162,9 @@ public class CompletePetriNetTest extends AbstractJodaEngineTest{
         firstTransition.setAttribute("name", "T2");
 
 
-        PetriTransitionFactory.createTransitionFromTo(definitionBuilder, startPlace, firstTransition);
-        PetriTransitionFactory.createTransitionFromTo(definitionBuilder, secondStartPlace, firstTransition);
-        PetriTransitionFactory.createTransitionFromTo(definitionBuilder, firstTransition, endPlace);
+        PetriTransitionFactory.createControlFlowFromTo(definitionBuilder, startPlace, firstTransition);
+        PetriTransitionFactory.createControlFlowFromTo(definitionBuilder, secondStartPlace, firstTransition);
+        PetriTransitionFactory.createControlFlowFromTo(definitionBuilder, firstTransition, endPlace);
         List<Node> startNodes = new ArrayList<Node>();
         startNodes.add(startPlace);
         startNodes.add(secondStartPlace);

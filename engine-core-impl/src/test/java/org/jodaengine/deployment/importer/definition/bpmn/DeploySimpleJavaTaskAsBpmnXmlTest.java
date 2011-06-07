@@ -27,7 +27,7 @@ public class DeploySimpleJavaTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
 
         List<Node> startNodes = processDefinition.getStartNodes();
         Node startNode = startNodes.get(0);
-        Node scriptNode = startNode.getOutgoingTransitions().get(0).getDestination();
+        Node scriptNode = startNode.getOutgoingControlFlows().get(0).getDestination();
 
         Assert.assertEquals(scriptNode.getActivityBehaviour().getClass(), BpmnJavaServiceActivity.class,
             "The node should have the correct activity behaviour class assigned.");

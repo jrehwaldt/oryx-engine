@@ -54,6 +54,7 @@ public class DefaultProcessStartEvent extends AbstractProcessEvent implements Pr
         logger.info("Starting a new processInstance for event {}", this);
         try {
 
+            logger.debug("========================================================================================================================");
             navigator.startProcessInstance(getDefinitionID(), this);
 
         } catch (DefinitionNotFoundException e) {

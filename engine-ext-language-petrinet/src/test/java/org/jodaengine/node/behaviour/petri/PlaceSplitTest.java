@@ -12,6 +12,7 @@ import org.jodaengine.node.incomingbehaviour.petri.TransitionJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.petri.PlaceSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
 import org.jodaengine.process.instance.ProcessInstance;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.Token;
@@ -52,8 +53,8 @@ public class PlaceSplitTest {
         node3 = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
         node3.setAttribute("name", "3");
 
-        node.transitionTo(node2);
-        node2.transitionTo(node3);
+        node.controlFlowTo(node2);
+        node2.controlFlowTo(node3);
 
         TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);
         instance = new ProcessInstance(null, tokenBuilder);
@@ -78,7 +79,7 @@ public class PlaceSplitTest {
   }
   
   /**
-   * Tests a case, where there is no possible transition to take. The return value should be null.
+   * Tests a case, where there is no possible {@link ControlFlow}s to take. The return value should be null.
    *
    * @throws NoValidPathException the no valid path exception
    */
@@ -88,7 +89,7 @@ public class PlaceSplitTest {
       // Place
       Node node4 = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
       node4.setAttribute("name", "4");
-      node4.transitionTo(node2);
+      node4.controlFlowTo(node2);
       
       List<Token> tokens = new ArrayList<Token>();
       List<Token> movedTokens = null;

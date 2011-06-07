@@ -46,8 +46,8 @@ public class TokenUtilTest {
         endPlace.setAttribute("name", "3");
 
 
-        startPlace.transitionTo(petriTransition);
-        petriTransition.transitionTo(endPlace);
+        startPlace.controlFlowTo(petriTransition);
+        petriTransition.controlFlowTo(endPlace);
         
         TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);
         instance = new ProcessInstance(null, tokenBuilder);

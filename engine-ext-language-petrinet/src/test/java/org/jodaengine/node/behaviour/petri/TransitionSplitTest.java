@@ -50,7 +50,7 @@ public class TransitionSplitTest {
         node3 = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
         node3.setAttribute("name", "3");
 
-        node2.transitionTo(node3);
+        node2.controlFlowTo(node3);
 
         TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);
         instance = new ProcessInstance(null, tokenBuilder);

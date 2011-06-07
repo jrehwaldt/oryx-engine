@@ -9,7 +9,7 @@ import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediat
 import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.ExclusiveProcessEventGroup;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -29,8 +29,8 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
 
         AbstractProcessIntermediateEventGroup eventXorGroup = new ExclusiveProcessEventGroup(token);
 
-        for (Transition transition : token.getCurrentNode().getOutgoingTransitions()) {
-            Node node = transition.getDestination();
+        for (ControlFlow controlFlow : token.getCurrentNode().getOutgoingControlFlows()) {
+            Node node = controlFlow.getDestination();
 
             // This node needs to trigger create processIntermediateEvents for the node that are attached to him
             // That's why we need to check whether the activity of the next node allows the creation of

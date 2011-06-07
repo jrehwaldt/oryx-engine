@@ -6,18 +6,18 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.petri.PetriProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 
 //TODO: This class is nonsense. Gerardo go 4 refactoring
 /**
- * This Factory is able to create {@link Transition Transitions}.
+ * This Factory is able to create {@link ControlFlow}s.
  */
 // CHECKSTYLE:OFF
 public class PetriTransitionFactory {
 // CHECKSTYLE:ON
 
     /**
-     * Creates a {@link Transition} and connects two {@link Nodes} with the created {@link Transition}.
+     * Creates a {@link ControlFlow} and connects two {@link Nodes} with the created {@link ControlFlow}.
      * 
      * @param builder
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
@@ -25,15 +25,15 @@ public class PetriTransitionFactory {
      *            - the {@link Node SourceNode}
      * @param destination
      *            - the {@link Node DestinationNode}
-     * @return a {@link Transition}
+     * @return a {@link ControlFlow}
      */
-    public static Transition createTransitionFromTo(PetriProcessDefinitionBuilder builder, Node source, Node destination) {
+    public static ControlFlow createControlFlowFromTo(PetriProcessDefinitionBuilder builder, Node source, Node destination) {
 
-        return builder.getTransitionBuilder().transitionGoesFromTo(source, destination).buildTransition();
+        return builder.getControlFlowBuilder().controlFlowGoesFromTo(source, destination).buildControlFlow();
     }
 
     /**
-     * Creates a {@link Transition} and connects two {@link Nodes} with the created {@link Transition}.
+     * Creates a {@link ControlFlow} and connects two {@link Nodes} with the created {@link ControlFlow}.
      * 
      * @param builder
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
@@ -42,15 +42,15 @@ public class PetriTransitionFactory {
      * @param destination
      *            - the {@link Node DestinationNode}
      * @param condition
-     *            - the {@link Condition} that is assigned to this {@link Transition}
-     * @return a {@link Transition}
+     *            - the {@link Condition} that is assigned to this {@link ControlFlow}
+     * @return a {@link ControlFlow}
      */
-    public static Transition createTransitionFromTo(ProcessDefinitionBuilder builder,
+    public static ControlFlow createControlFlowFromTo(ProcessDefinitionBuilder builder,
                                                     Node source,
                                                     Node destination,
                                                     Condition condition) {
 
-        return builder.getTransitionBuilder().transitionGoesFromTo(source, destination).setCondition(condition)
-        .buildTransition();
+        return builder.getControlFlowBuilder().controlFlowGoesFromTo(source, destination).setCondition(condition)
+        .buildControlFlow();
     }
 }

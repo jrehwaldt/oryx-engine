@@ -336,22 +336,22 @@ public class ShortenedReferenceProcessDeployer extends AbstractProcessDeployer {
         endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
         // connect the nodes
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, startNode, system1);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, system1, human1);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human1, xor1);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor1, human2, condition2);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor1, human5, condition1);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human2, xor2);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor2, human3, condition3);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor2, xor4, condition4);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human3, xor3);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor3, xor4, condition5);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor3, xor5, condition6);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor4, human4);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human4, human5);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, xor5, system2);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, human5, xor5);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, system2, endNode);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, startNode, system1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, system1, human1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, human1, xor1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, xor1, human2, condition2);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, xor1, human5, condition1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, human2, xor2);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, xor2, human3, condition3);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, xor2, xor4, condition4);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, human3, xor3);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, xor3, xor4, condition5);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, xor3, xor5, condition6);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, xor4, human4);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, human4, human5);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, xor5, system2);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, human5, xor5);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, system2, endNode);
 
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
 

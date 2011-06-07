@@ -12,6 +12,7 @@ import org.jodaengine.node.incomingbehaviour.petri.TransitionJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.petri.PlaceSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
 import org.jodaengine.process.instance.ProcessInstance;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.Token;
@@ -63,10 +64,10 @@ public class BasicPetriTokenTest {
         endPlace = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
         endPlace.setAttribute("name", "5");
 
-        startPlace.transitionTo(petriTransition);
-        petriTransition.transitionTo(secondPlace);
-        secondPlace.transitionTo(secondPetriTransition);
-        secondPetriTransition.transitionTo(endPlace);
+        startPlace.controlFlowTo(petriTransition);
+        petriTransition.controlFlowTo(secondPlace);
+        secondPlace.controlFlowTo(secondPetriTransition);
+        secondPetriTransition.controlFlowTo(endPlace);
         
         
         TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);
@@ -75,18 +76,18 @@ public class BasicPetriTokenTest {
     }
 
     /**
-     * Test for taking all transitions.
+     * Test for taking all {@link ControlFlow}s.
      * Two new tokens shall be ready for execution if the parent token goes along all edges.
      * The new tokens should then point to the succeeding nodes of the initial token's node.
      *
      * @throws Exception the exception
      */
     @Test
-    public void testTakeTransition() throws Exception {
+    public void testTakeControlFlow() throws Exception {
 
         Node currentNode = token.getCurrentNode();
         
-        List<Token> newTokens = token.navigateTo(currentNode.getOutgoingTransitions());
+        List<Token> newTokens = token.navigateTo(currentNode.getOutgoingControlFlows());
         
         assertEquals(instance.getAssignedTokens().size(), 1, "There should be one moved token.");
         assertEquals(newTokens.get(0).getCurrentNode(), petriTransition,
@@ -94,7 +95,7 @@ public class BasicPetriTokenTest {
     }
 
     /**
-     * Test the taking of a single transition.
+     * Test the taking of a single {@link ControlFlow}.
      * 
      * @throws Exception if it fails
      */

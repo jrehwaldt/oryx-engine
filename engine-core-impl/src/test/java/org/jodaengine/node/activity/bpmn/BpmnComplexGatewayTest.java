@@ -11,6 +11,7 @@ import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
 import org.jodaengine.process.structure.NodeBuilderImpl;
@@ -30,7 +31,7 @@ public class BpmnComplexGatewayTest {
     private NavigatorImplMock nav;
 
     /**
-     * Sets up a structure with 3 nodes connected by control flow to a 2-of-3 discriminator and one outgoing transition
+     * Sets up a structure with 3 nodes connected by control flow to a 2-of-3 discriminator and one outgoing {@link ControlFlow}
      * to the next node.
      */
     @BeforeMethod
@@ -57,11 +58,11 @@ public class BpmnComplexGatewayTest {
         discriminator = builder.buildNode();
 
         // create Transitions
-        beforeNode1.transitionTo(discriminator);
-        beforeNode2.transitionTo(discriminator);
-        beforeNode3.transitionTo(discriminator);
+        beforeNode1.controlFlowTo(discriminator);
+        beforeNode2.controlFlowTo(discriminator);
+        beforeNode3.controlFlowTo(discriminator);
 
-        discriminator.transitionTo(afterNode);
+        discriminator.controlFlowTo(afterNode);
     }
 
     @Test

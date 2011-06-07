@@ -52,7 +52,7 @@ public class NavigatorTest {
 
         node = new RoutingBehaviourTestFactory().createWithAndSplit();
         node2 = new RoutingBehaviourTestFactory().createWithAndSplit();
-        node.transitionTo(node2);
+        node.controlFlowTo(node2);
         processToken = new BpmnToken(node, new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)), navigator);
 
     }

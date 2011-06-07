@@ -49,9 +49,9 @@ public class ComplexSplitBehaviourTest {
         nextNode2 = builder.buildNode();
         nextNode3 = builder.buildNode();
 
-        splitNode.transitionToWithCondition(nextNode1, new JuelExpressionCondition("#{variable > 1}"));
-        splitNode.transitionToWithCondition(nextNode2, new JuelExpressionCondition("#{variable > 2}"));
-        splitNode.transitionToWithCondition(nextNode3, new JuelExpressionCondition("#{variable > 3}"));
+        splitNode.controlFlowToWithCondition(nextNode1, new JuelExpressionCondition("#{variable > 1}"));
+        splitNode.controlFlowToWithCondition(nextNode2, new JuelExpressionCondition("#{variable > 2}"));
+        splitNode.controlFlowToWithCondition(nextNode3, new JuelExpressionCondition("#{variable > 3}"));
     }
 
     /**

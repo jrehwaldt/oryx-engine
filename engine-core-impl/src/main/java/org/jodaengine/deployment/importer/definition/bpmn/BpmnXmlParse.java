@@ -38,8 +38,8 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
-import org.jodaengine.process.structure.TransitionBuilder;
+import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.process.structure.condition.CheckVariableTrueCondition;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.CreationPattern;
@@ -589,18 +589,18 @@ public class BpmnXmlParse extends XmlParse {
                 return;
             }
 
-            Condition transitionCondition = parseSequenceFlowCondition(sequenceFlowElement);
+            Condition controlFlowCondition = parseSequenceFlowCondition(sequenceFlowElement);
 
-            TransitionBuilder transitionBuilder = processBuilder.getTransitionBuilder().transitionGoesFromTo(
+            ControlFlowBuilder controlFlowBuilder = processBuilder.getControlFlowBuilder().controlFlowGoesFromTo(
                 sourceNode, destinationNode);
-            if (transitionCondition != null) {
-                transitionBuilder.setCondition(transitionCondition);
+            if (controlFlowCondition != null) {
+                controlFlowBuilder.setCondition(controlFlowCondition);
             }
 
-            Transition transition = transitionBuilder.buildTransition();
+            ControlFlow controlFlow = controlFlowBuilder.buildControlFlow();
 
             for (BpmnXmlParseListener parseListener : parseListeners) {
-                parseListener.parseSequenceFlow(sequenceFlowElement, transition, processBuilder);
+                parseListener.parseSequenceFlow(sequenceFlowElement, controlFlow, processBuilder);
             }
         }
     }

@@ -8,7 +8,7 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.monitor.Monitor;
 import org.jodaengine.monitor.MonitorGUI;
 import org.jodaengine.navigator.NavigatorImpl;
-import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
@@ -136,9 +136,9 @@ public final class SimpleExampleProcess {
 
         endNode = BpmnNodeFactory.createBpmnEndEventNode(definitionBuilder);
 
-        TransitionFactory.createTransitionFromTo(definitionBuilder, startNode, automatedDummyNode1);
-        TransitionFactory.createTransitionFromTo(definitionBuilder, automatedDummyNode1, automatedDummyNode2);
-        TransitionFactory.createTransitionFromTo(definitionBuilder, automatedDummyNode2, endNode);
+        ControlFlowFactory.createControlFlowFromTo(definitionBuilder, startNode, automatedDummyNode1);
+        ControlFlowFactory.createControlFlowFromTo(definitionBuilder, automatedDummyNode1, automatedDummyNode2);
+        ControlFlowFactory.createControlFlowFromTo(definitionBuilder, automatedDummyNode2, endNode);
 
         definitionBuilder.setName(sampleProcessName).setDescription(sampleProcessDescription);
 

@@ -3,7 +3,7 @@ package org.jodaengine.node.activity.bpmn;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImplMock;
-import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
@@ -85,11 +85,11 @@ public class BpmnEventBasedXorGatewayCriticalTest extends AbstractJodaEngineTest
         endNode1 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
         endNode2 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
-        TransitionFactory.createTransitionFromTo(builder, eventBasedXorGatewayNode, intermediateEvent1Node);
-        TransitionFactory.createTransitionFromTo(builder, intermediateEvent1Node, endNode1);
+        ControlFlowFactory.createControlFlowFromTo(builder, eventBasedXorGatewayNode, intermediateEvent1Node);
+        ControlFlowFactory.createControlFlowFromTo(builder, intermediateEvent1Node, endNode1);
 
-        TransitionFactory.createTransitionFromTo(builder, eventBasedXorGatewayNode, intermediateEvent2Node);
-        TransitionFactory.createTransitionFromTo(builder, intermediateEvent2Node, endNode2);
+        ControlFlowFactory.createControlFlowFromTo(builder, eventBasedXorGatewayNode, intermediateEvent2Node);
+        ControlFlowFactory.createControlFlowFromTo(builder, intermediateEvent2Node, endNode2);
 
     }
 

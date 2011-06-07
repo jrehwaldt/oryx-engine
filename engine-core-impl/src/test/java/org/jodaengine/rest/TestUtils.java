@@ -49,9 +49,9 @@ public final class TestUtils {
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
-        BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
-        BpmnNodeFactory.createTransitionFromTo(builder, node2, endNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, startNode, node1);
+        BpmnNodeFactory.createControlFlowFromTo(builder, node1, node2);
+        BpmnNodeFactory.createControlFlowFromTo(builder, node2, endNode);
 
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
 

@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 
 /**
  * The Class ProcessInstanceContextImpl.
@@ -23,7 +23,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     private static final int MAGIC_HASH_CONSTANT_ONE = 7;
 
     @JsonIgnore
-    private Map<Node, List<Transition>> waitingTransitions;
+    private Map<Node, List<ControlFlow>> waitingControlFlows;
 
     private Map<String, Object> contextVariables;
     private Map<String, Object> nodeVariables;
@@ -33,49 +33,49 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
      */
     public ProcessInstanceContextImpl() {
 
-        waitingTransitions = new HashMap<Node, List<Transition>>();
+        waitingControlFlows = new HashMap<Node, List<ControlFlow>>();
     }
 
     @Override
-    public void setWaitingExecution(Transition t) {
+    public void setWaitingExecution(ControlFlow t) {
 
-        List<Transition> tmpList;
-        if (waitingTransitions.get(t.getDestination()) != null) {
-            tmpList = waitingTransitions.get(t.getDestination());
+        List<ControlFlow> tmpList;
+        if (waitingControlFlows.get(t.getDestination()) != null) {
+            tmpList = waitingControlFlows.get(t.getDestination());
 
         } else {
-            tmpList = new ArrayList<Transition>();
-            waitingTransitions.put(t.getDestination(), tmpList);
+            tmpList = new ArrayList<ControlFlow>();
+            waitingControlFlows.put(t.getDestination(), tmpList);
         }
         tmpList.add(t);
 
     }
 
     @Override
-    public List<Transition> getWaitingExecutions(Node n) {
+    public List<ControlFlow> getWaitingExecutions(Node n) {
 
-        return waitingTransitions.get(n);
+        return waitingControlFlows.get(n);
     }
 
     @Override
-    public boolean allIncomingTransitionsSignaled(Node n) {
+    public boolean allIncomingControlFlowsSignaled(Node n) {
 
-        List<Transition> signaledTransitions = waitingTransitions.get(n);
+        List<ControlFlow> signaledControlFlows = waitingControlFlows.get(n);
 
-        // If there are no waiting transitions yet, the list might not be initialized yet
-        if (signaledTransitions == null) {
+        // If there are no waiting {@link ControlFlow}s yet, the list might not be initialized yet
+        if (signaledControlFlows == null) {
             return false;
         }
-        List<Transition> incomingTransitions = n.getIncomingTransitions();
-        return signaledTransitions.containsAll(incomingTransitions);
+        List<ControlFlow> incomingControlFlows = n.getIncomingControlFlows();
+        return signaledControlFlows.containsAll(incomingControlFlows);
     }
 
     @Override
-    public void removeIncomingTransitions(Node node) {
+    public void removeIncomingControlFlows(Node node) {
 
-        List<Transition> signaledTransitions = waitingTransitions.get(node);
-        List<Transition> incomingTransitions = node.getIncomingTransitions();
-        removeSubset(signaledTransitions, incomingTransitions);
+        List<ControlFlow> signaledControlFlows = waitingControlFlows.get(node);
+        List<ControlFlow> incomingControlFlows = node.getIncomingControlFlows();
+        removeSubset(signaledControlFlows, incomingControlFlows);
 
     }
 
@@ -87,9 +87,9 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
      * @param subList
      *            the sub list
      */
-    private void removeSubset(List<Transition> superList, List<Transition> subList) {
+    private void removeSubset(List<ControlFlow> superList, List<ControlFlow> subList) {
 
-        for (Transition t : subList) {
+        for (ControlFlow t : subList) {
             superList.remove(t);
         }
     }
@@ -195,15 +195,15 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     @Override
-    public void removeIncomingTransition(Transition transition, Node node) {
+    public void removeIncomingControlFlow(ControlFlow controlFlow, Node node) {
 
-        List<Transition> signaledTransitions = waitingTransitions.get(transition.getDestination());
+        List<ControlFlow> signaledControlFlows = waitingControlFlows.get(controlFlow.getDestination());
         // The map is referencing to every Destination all the incoming Transitions. But we need to check the start node, in order to delete it.
-        for(Transition t : signaledTransitions) {
+        for(ControlFlow t : signaledControlFlows) {
             if(t.getSource() == node) {
-                List<Transition> incomingTransitions = new ArrayList<Transition>();
-                incomingTransitions.add(transition);
-                removeSubset(signaledTransitions, incomingTransitions);
+                List<ControlFlow> incomingControlFlows = new ArrayList<ControlFlow>();
+                incomingControlFlows.add(controlFlow);
+                removeSubset(signaledControlFlows, incomingControlFlows);
                 break;
             }
         }

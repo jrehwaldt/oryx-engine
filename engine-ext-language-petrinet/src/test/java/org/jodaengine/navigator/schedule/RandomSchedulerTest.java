@@ -19,12 +19,13 @@ import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.jodaengine.util.testing.SkipBuildingJodaEngine;
 import org.jodaengine.util.testing.SkipBuildingJodaEngine.JodaEngineTestSkipMode;
 import org.mockito.Mockito;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 
 /**
- * The Class FIFOSchedulerTest. tests our awesome FIFO Scheduler.
+ * The Class RandomSchedulerTest.
  */
 @SkipBuildingJodaEngine(skippingMode = JodaEngineTestSkipMode.FOR_EACH_TEST_METHOD)
 public class RandomSchedulerTest extends AbstractJodaEngineTest {
@@ -53,6 +54,16 @@ public class RandomSchedulerTest extends AbstractJodaEngineTest {
         firstToken = new BpmnToken(startNode, new ProcessInstance(null, builder), null);
         secondToken = new BpmnToken(startNode, new ProcessInstance(null, builder), null);
     }
+    
+    /**
+     * After test.
+     */
+    @AfterMethod
+    public void afterTest() {
+        scheduler = null;
+        firstToken = null;
+        secondToken = null;
+    }
 
     /**
      * Test submit and retrieve.
@@ -73,6 +84,25 @@ public class RandomSchedulerTest extends AbstractJodaEngineTest {
 
         scheduler.submit(firstToken);
         assertFalse(scheduler.isEmpty(), "Scheduler is empty after something got submitted.");
+
+    }
+    
+    
+    /**
+     * Anti Concurrency Behaviour, positive situation: After one retrieval of a token, the scheduler should be locked.
+     * When a new token is added, it can continue execution.
+     * This results in a single threaded solution for an instance, which is important due to petriNet definition.
+     * There can be multiple working threads, if there are multiple instances.
+     */
+    @Test
+    public void testSequentialRetrieval() {
+
+        scheduler.submit(firstToken);
+        Token goodToken = scheduler.retrieve();
+        scheduler.submit(secondToken);
+        Token anotherGoodToken = scheduler.retrieve();
+        assertEquals(goodToken, firstToken, "Scheduler is empty after something got submitted.");
+        assertEquals(anotherGoodToken, secondToken, "Scheduler is empty after something got submitted.");
 
     }
 

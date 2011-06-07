@@ -6,7 +6,7 @@ import static org.testng.Assert.assertTrue;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.NavigatorImplMock;
-import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.node.helper.ActivityLifecycleAssuranceListener;
@@ -92,7 +92,7 @@ public class ConcurrentActivityStateTest {
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        TransitionFactory.createTransitionFromTo(builder, startNode, endNode);
+        ControlFlowFactory.createControlFlowFromTo(builder, startNode, endNode);
         
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         

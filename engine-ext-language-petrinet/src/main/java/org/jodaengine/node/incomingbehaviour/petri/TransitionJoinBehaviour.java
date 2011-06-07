@@ -6,7 +6,7 @@ import java.util.List;
 import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenUtil;
 
@@ -19,7 +19,7 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
     @Override
     // Just for info: The join is not directly needed, but the call of the method consumeTokens is important.
     public List<Token> join(Token token) {
-        consumeTokens(token.getCurrentNode().getIncomingTransitions(), token.getInstance());
+        consumeTokens(token.getCurrentNode().getIncomingControlFlows(), token.getInstance());
         List<Token> tokens = new ArrayList<Token>();
         tokens.add(token);
         return tokens;
@@ -35,7 +35,7 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
         // The behaviour itself does not know the node which it is belonging to.
         
         // Now check each place before the petri transition, if there are enough tokens.
-        for (Transition t : node.getIncomingTransitions()) {
+        for (ControlFlow t : node.getIncomingControlFlows()) {
             if (util.getTokensWhichAreOnNode(t.getSource(), token.getInstance()).size() == 0) {
                 return false;
             }
@@ -46,14 +46,14 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
     /**
      * Consumes used tokens. 
      *
-     * @param transitions the incoming transitions to get the source places
+     * @param controlFlows the incoming {@link ControlFlow}s to get the source places
      * @param instance the instance
      */
-    private void consumeTokens(List<Transition> transitions, AbstractProcessInstance instance) {
+    private void consumeTokens(List<ControlFlow> controlFlows, AbstractProcessInstance instance) {
 
         TokenUtil util = new TokenUtil();
         List<Token> oldTokensOnPlace;
-        for (Transition t : transitions) {
+        for (ControlFlow t : controlFlows) {
             Node placeBeforePetriTransition = t.getSource();
             // get Tokens, which are still there
             oldTokensOnPlace = util.getTokensWhichAreOnNode(placeBeforePetriTransition, instance);

@@ -112,12 +112,12 @@ public class LoopProcessTest {
         Condition condition1 = new HashMapCondition(map, "<=");
         Condition condition2 = new HashMapCondition(map, "==");
 
-        // Create Transitions
-        BpmnNodeFactory.createTransitionFromTo(builder, start, xorJoin);
-        BpmnNodeFactory.createTransitionFromTo(builder, xorJoin, node);
-        BpmnNodeFactory.createTransitionFromTo(builder, node, xorSplit);
-        BpmnNodeFactory.createTransitionFromTo(builder, xorSplit, end, condition2);
-        BpmnNodeFactory.createTransitionFromTo(builder, xorSplit, xorJoin, condition1);
+        // Create {@link ControlFlow}s
+        BpmnNodeFactory.createControlFlowFromTo(builder, start, xorJoin);
+        BpmnNodeFactory.createControlFlowFromTo(builder, xorJoin, node);
+        BpmnNodeFactory.createControlFlowFromTo(builder, node, xorSplit);
+        BpmnNodeFactory.createControlFlowFromTo(builder, xorSplit, end, condition2);
+        BpmnNodeFactory.createControlFlowFromTo(builder, xorSplit, xorJoin, condition1);
 
         // Bootstrap
         Navigator nav = new NavigatorImplMock();

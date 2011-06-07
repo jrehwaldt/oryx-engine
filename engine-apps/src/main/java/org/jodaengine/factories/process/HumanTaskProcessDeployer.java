@@ -106,10 +106,10 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, startNode, node1);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node1, node2);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node2, node3);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node3, endNode);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, startNode, node1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, node1, node2);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, node2, node3);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, node3, endNode);
 
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
     }
@@ -137,10 +137,10 @@ public class HumanTaskProcessDeployer extends AbstractProcessDeployer {
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, startNode, node1);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node1, node2);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node2, node3);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node3, endNode);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, startNode, node1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, node1, node2);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, node2, node3);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, node3, endNode);
 
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
     }

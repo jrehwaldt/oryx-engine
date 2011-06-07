@@ -6,7 +6,7 @@ import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultPro
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImpl;
-import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
@@ -83,7 +83,7 @@ public class DefaultProcessStartEventTest extends AbstractJodaEngineTest {
 
         ProcessDefinitionBuilder definitionBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder()
         .getProcessDefinitionBuilder();
-        TransitionFactory.createTransitionFromTo(definitionBuilder,
+        ControlFlowFactory.createControlFlowFromTo(definitionBuilder,
             BpmnCustomNodeFactory.createBpmnNullStartNode(definitionBuilder),
             BpmnNodeFactory.createBpmnEndEventNode(definitionBuilder));
 

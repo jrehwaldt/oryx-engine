@@ -44,13 +44,13 @@ public class HeavyComputationProcessDeployer extends AbstractProcessDeployer {
             Node tmpNode = BpmnCustomNodeFactory.createBpmnHashComputationNode(processDefinitionBuilder, "hash",
                 PASSWORDS[i % PASSWORDS.length]);
 
-            BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, this.lastNode, tmpNode);
+            BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, this.lastNode, tmpNode);
             this.lastNode = tmpNode;
         }
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, this.lastNode, endNode);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, this.lastNode, endNode);
 
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
     }

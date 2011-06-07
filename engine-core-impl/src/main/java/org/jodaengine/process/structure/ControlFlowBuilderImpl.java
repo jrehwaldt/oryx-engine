@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * The implementation of the {@link TransitionBuilder}.
+ * The implementation of the {@link ControlFlowBuilder}.
  */
-public class TransitionBuilderImpl implements TransitionBuilder {
+public class ControlFlowBuilderImpl implements ControlFlowBuilder {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -16,7 +16,7 @@ public class TransitionBuilderImpl implements TransitionBuilder {
     private Node source, destination;
 
     @Override
-    public TransitionBuilder transitionGoesFromTo(Node source, Node destination) {
+    public ControlFlowBuilder controlFlowGoesFromTo(Node source, Node destination) {
 
         this.source = source;
         this.destination = destination;
@@ -25,7 +25,7 @@ public class TransitionBuilderImpl implements TransitionBuilder {
     }
 
     @Override
-    public TransitionBuilder setCondition(Condition condition) {
+    public ControlFlowBuilder setCondition(Condition condition) {
 
         this.condition = condition;
 
@@ -33,35 +33,35 @@ public class TransitionBuilderImpl implements TransitionBuilder {
     }
 
     @Override
-    public Transition buildTransition() {
+    public ControlFlow buildControlFlow() {
 
-        checkingTransitionConstraints();
+        checkingControlFlowConstraints();
 
-        return buildResultTransition();
+        return buildResultControlFlow();
     }
 
     /**
-     * Builds the transition to be retrieved. This method encapsulates the creation of the {@link Transition}.
+     * Builds the ControlFlow to be retrieved. This method encapsulates the creation of the {@link ControlFlow}.
      * 
-     * @return the {@link Transition} to be retrieved
+     * @return the {@link ControlFlow} to be retrieved
      */
-    private Transition buildResultTransition() {
+    private ControlFlow buildResultControlFlow() {
 
-        Transition resultTransition;
+        ControlFlow resultControlFlow;
 
         if (condition != null) {
-            resultTransition = source.transitionToWithCondition(destination, condition);
+            resultControlFlow = source.controlFlowToWithCondition(destination, condition);
         } else {
-            resultTransition = source.transitionTo(destination);
+            resultControlFlow = source.controlFlowTo(destination);
         }
 
-        return resultTransition;
+        return resultControlFlow;
     }
 
     /**
      * This method checks the constraints for creating a node.
      */
-    private void checkingTransitionConstraints() {
+    private void checkingControlFlowConstraints() {
 
         if (source == null || destination == null) {
 

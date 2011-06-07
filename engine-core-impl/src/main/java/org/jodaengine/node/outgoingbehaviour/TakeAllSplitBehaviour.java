@@ -3,18 +3,19 @@ package org.jodaengine.node.outgoingbehaviour;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 
 /**
- * The Class TakeAllSplitBehaviour. Will signalize all outgoing transitions.
+ * The Class TakeAllSplitBehaviour. Will signalize all outgoing {@link ControlFlow}s.
  */
 public class TakeAllSplitBehaviour implements OutgoingBehaviour {
 
     /**
      * Split Behaviour.
-     * It takes all transitions so a classic AND-Split behaviour.
+     * It takes all {@link ControlFlow}s so a classic AND-Split behaviour.
      *
      * @param tokens the instances
      * @return the list
@@ -32,7 +33,7 @@ public class TakeAllSplitBehaviour implements OutgoingBehaviour {
             Node currentNode = token.getCurrentNode();
 
             try {
-                tokensToNavigate.addAll(token.navigateTo(currentNode.getOutgoingTransitions()));
+                tokensToNavigate.addAll(token.navigateTo(currentNode.getOutgoingControlFlows()));
             } catch (Exception e) {
                 e.printStackTrace();
             }

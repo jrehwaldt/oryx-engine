@@ -7,7 +7,7 @@ import java.util.Random;
 import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -25,7 +25,7 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
         Token token = tokens.get(0);
         
         // The activated transitions we can reach from this place
-        List<Transition> possibleTransitionsToTake = new ArrayList<Transition>();
+        List<ControlFlow> possibleControlFlowsToTake = new ArrayList<ControlFlow>();
         
         Node currentNode = token.getCurrentNode();
         
@@ -33,31 +33,31 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
         Node nextPetriTranisiton = null;
         
         // Now check for reachable transitions
-        for (Transition t : currentNode.getOutgoingTransitions()) {
+        for (ControlFlow t : currentNode.getOutgoingControlFlows()) {
             
             //save all possible Transitions
             nextPetriTranisiton = t.getDestination();
             boolean joinPossible = nextPetriTranisiton.getIncomingBehaviour().joinable(token, nextPetriTranisiton);
             
             if (joinPossible) {
-                possibleTransitionsToTake.add(t);
+                possibleControlFlowsToTake.add(t);
             }
         }
         
         // If there are no available transitions return
-        if (possibleTransitionsToTake.size() == 0) {
+        if (possibleControlFlowsToTake.size() == 0) {
             return transitionsToNavigate;
         }
         
         // In case there are possible transitions: Randomly choose an activated Transition
-        int size = possibleTransitionsToTake.size();
+        int size = possibleControlFlowsToTake.size();
         int randomNumber = new Random().nextInt(size);
         
-        List<Transition> chosenTransitionList = new ArrayList<Transition>();
+        List<ControlFlow> chosenControlFlowList = new ArrayList<ControlFlow>();
         
         // Now move the token to the next node and return it 
-        chosenTransitionList.add(possibleTransitionsToTake.get(randomNumber));
-        transitionsToNavigate = token.navigateTo(chosenTransitionList);
+        chosenControlFlowList.add(possibleControlFlowsToTake.get(randomNumber));
+        transitionsToNavigate = token.navigateTo(chosenControlFlowList);
 
         return transitionsToNavigate;
     }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 
 /**
@@ -40,11 +41,11 @@ public class TokenUtil {
      * Checks, if the token is on the given node.
      *
      * @param token the token
-     * @param nodeBeforeTransition the node before transition
+     * @param nodeBeforeControlFlow the node before {@link ControlFlow}
      * @return true, if successful
      */
-    private boolean checkIfTokenIsOnNode(Token token, Node nodeBeforeTransition) {
-        return token.getCurrentNode() == nodeBeforeTransition;
+    private boolean checkIfTokenIsOnNode(Token token, Node nodeBeforeControlFlow) {
+        return token.getCurrentNode() == nodeBeforeControlFlow;
     }
 
 }
