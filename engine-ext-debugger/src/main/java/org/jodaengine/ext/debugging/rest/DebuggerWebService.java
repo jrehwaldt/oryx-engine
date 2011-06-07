@@ -3,6 +3,7 @@ package org.jodaengine.ext.debugging.rest;
 import java.util.Collection;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -31,8 +32,6 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.inject.internal.Nullable;
 
 /**
  * The rest web service for our {@link DebuggerService}.
