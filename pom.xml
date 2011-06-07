@@ -13,23 +13,23 @@
         <developerConnection>Tobias Pfeiffer, Gerardo Navarro Suarez, Jannik Streek, Tobias Metzke, Thorben Lindhauer, Jan Rehwaldt</developerConnection>
         <url>https://github.com/jrehwaldt/oryx-engine</url>
     </scm>
-    <url>http://oryx-engine.nixis.de/</url>
+    <url>http://jodaengine.nixis.de/</url>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<checkstyle-config>.checkstyle_for_jodaengine</checkstyle-config>
-		<slf4j-version>1.6.1</slf4j-version>
-		<logback-version>0.9.28</logback-version>
-		<jetty-version>7.3.0.v20110203</jetty-version>
-		<jersey-version>1.5</jersey-version>
-		<quartz-scheduler.version>2.0.0</quartz-scheduler.version>
-		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
-		<resteasy-version>2.0.1.GA</resteasy-version>
-		<sitemesh-version>2.4.2</sitemesh-version>
-		<urlrewrite-version>3.1.0</urlrewrite-version>
-		<jackson-version>1.7.6</jackson-version> <!-- 1.5.3 version is default; 1.7.6 is newest -->
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <checkstyle-config>.checkstyle_for_jodaengine</checkstyle-config>
+        <slf4j-version>1.6.1</slf4j-version>
+        <logback-version>0.9.28</logback-version>
+        <jetty-version>7.3.0.v20110203</jetty-version>
+        <jersey-version>1.5</jersey-version>
+        <quartz-scheduler.version>2.0.1</quartz-scheduler.version>
+        <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+        <resteasy-version>2.0.1.GA</resteasy-version>
+        <sitemesh-version>2.4.2</sitemesh-version>
+        <urlrewrite-version>3.1.0</urlrewrite-version>
+        <jackson-version>1.7.6</jackson-version> <!-- 1.5.3 version is default; 1.7.6 is newest -->
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -173,16 +173,16 @@
                 <version>2.2.3</version>
             </dependency>
             <dependency>
-				<groupId>net.htmlparser.jericho</groupId>
-				<artifactId>jericho-html</artifactId>
-				<version>3.1</version>
-			</dependency>
-			<dependency>
-  				<groupId>org.jboss.resteasy</groupId>
-  				<artifactId>resteasy-multipart-provider</artifactId>
-  				<version>2.0-beta-2</version>
-			</dependency>
-		</dependencies>
+                <groupId>net.htmlparser.jericho</groupId>
+                <artifactId>jericho-html</artifactId>
+                <version>3.1</version>
+            </dependency>
+            <dependency>
+                  <groupId>org.jboss.resteasy</groupId>
+                  <artifactId>resteasy-multipart-provider</artifactId>
+                  <version>2.0-beta-2</version>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 
     <modules>
