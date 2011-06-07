@@ -23,7 +23,7 @@
         <logback-version>0.9.28</logback-version>
         <jetty-version>7.3.0.v20110203</jetty-version>
         <jersey-version>1.5</jersey-version>
-        <quartz-scheduler.version>2.0.1</quartz-scheduler.version>
+        <quartz-scheduler.version>2.0.0</quartz-scheduler.version>
         <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
         <resteasy-version>2.0.1.GA</resteasy-version>
         <sitemesh-version>2.4.2</sitemesh-version>
