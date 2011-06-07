@@ -278,12 +278,12 @@ public class BpmnXmlParse extends XmlParse {
             } else if (("parallelGateway").equals(activityElement.getTagName())) {
                 parseParallelGateway(activityElement);
 
-                 } else if (("scriptTask").equals(activityElement.getTagName())) {                   
-                 parseScriptTask(activityElement);
+//                 } else if (("scriptTask").equals(activityElement.getTagName())) {                   
+//                 parseScriptTask(activityElement);
+//                
+                 } else if ("serviceTask".equals(activityElement.getTagName())) {
+                 parseServiceTask(activityElement);
                 
-                // } else if (activityElement.getTagName().equals("serviceTask")) {
-                // parseServiceTask(activityElement);
-                //
                 // } else if (activityElement.getTagName().equals("businessRuleTask")) {
                 // parseBusinessRuleTask(activityElement);
                 //
@@ -330,12 +330,12 @@ public class BpmnXmlParse extends XmlParse {
         // }
     }
 
-    protected void parseScriptTask(XmlElement activityElement) {
+    protected void parseServiceTask(XmlElement activityElement) {
 
-        String scriptFormat = activityElement.getAttribute("scriptFormat");
-        if ("JavaClass".equals(scriptFormat)) {
-            String className = activityElement.getElement("script").getText();
-            Node scriptNode = BpmnNodeFactory.createBpmnJavaClassScriptTaskNode(processBuilder, className);
+        String className = activityElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS,
+            "class");
+        if (className != null) {
+            Node scriptNode = BpmnNodeFactory.createBpmnJavaClassServiceTaskNode(processBuilder, className);
 
             parseGeneralInformation(activityElement, scriptNode);
             getNodeXmlIdTable().put((String) scriptNode.getAttribute("idXml"), scriptNode);
@@ -345,7 +345,7 @@ public class BpmnXmlParse extends XmlParse {
 //                parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
 //            }
         } else {
-            getProblemLogger().addWarning("Ignoring unsupported script format", activityElement);
+            getProblemLogger().addWarning("Ignoring unsupported service task format", activityElement);
         }
         
         

@@ -11,9 +11,9 @@ import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.Token;
 
 /**
- * Executes a custom script. The custom script is searched for in the deployment scope.
+ * Executes a custom java class. The custom class is searched for in the deployment scope.
  */
-public class BpmnJavaClassScriptingActivity extends AbstractActivity {
+public class BpmnJavaServiceActivity extends AbstractActivity {
 
     private String fullClassName;
 
@@ -22,7 +22,7 @@ public class BpmnJavaClassScriptingActivity extends AbstractActivity {
      *
      * @param fullClassName the full class name
      */
-    public BpmnJavaClassScriptingActivity(String fullClassName) {
+    public BpmnJavaServiceActivity(String fullClassName) {
 
         this.fullClassName = fullClassName;
     }
@@ -35,7 +35,7 @@ public class BpmnJavaClassScriptingActivity extends AbstractActivity {
         try {
             RepositoryService repoService = token.getRepositiory();
             // we expect this class to be a JodaScript (i.e. an implementation of it). No other classes can be used.
-            Class<AbstractJodaScript> scriptClass = (Class<AbstractJodaScript>) repoService.getDeployedClass(definitionID,
+            Class<AbstractJavaTask> scriptClass = (Class<AbstractJavaTask>) repoService.getDeployedClass(definitionID,
                 fullClassName);
             Method executeMethod = scriptClass.getMethod("execute", ProcessInstanceContext.class);
             executeMethod.invoke(null, token.getInstance().getContext());
@@ -58,9 +58,9 @@ public class BpmnJavaClassScriptingActivity extends AbstractActivity {
     /**
      * This method is for testing purposes only.
      *
-     * @return the scripting class name
+     * @return the service class name
      */
-    public String getScriptingClassName() {
+    public String getServiceClassName() {
         return fullClassName;
     }
 

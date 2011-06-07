@@ -163,4 +163,11 @@ public class NavigatorWebService implements Navigator {
 
         throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
+
+    @Override
+    public void removeTokenFromScheduler(Token t) {
+
+        this.navigatorService.removeTokenFromScheduler(t);
+        
+    }
 }

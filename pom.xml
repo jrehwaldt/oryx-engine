@@ -191,6 +191,7 @@
         <module>engine-apps</module>
         <module>engine-web-gui-prototype</module>
         <module>engine-ext-debugger</module>
+        <module>engine-ext-language-petrinet</module>
     </modules>
 
     <build>

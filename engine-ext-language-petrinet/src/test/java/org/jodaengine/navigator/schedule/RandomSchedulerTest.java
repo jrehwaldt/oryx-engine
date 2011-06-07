@@ -1,5 +1,6 @@
 package org.jodaengine.navigator.schedule;
 
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -7,22 +8,17 @@ import static org.testng.Assert.assertTrue;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jodaengine.RepositoryService;
-import org.jodaengine.ServiceFactory;
-import org.jodaengine.exception.IllegalStarteventException;
-import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.node.factory.petri.PetriNodeFactory;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
-import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.jodaengine.util.testing.SkipBuildingJodaEngine;
 import org.jodaengine.util.testing.SkipBuildingJodaEngine.JodaEngineTestSkipMode;
 import org.mockito.Mockito;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -42,17 +38,6 @@ public class RandomSchedulerTest extends AbstractJodaEngineTest {
     /** The second token. */
     private Token secondToken = null;
 
-    
-    /**
-     * Sets the up repo.
-     * @throws IllegalStarteventException 
-     */
-    @BeforeClass
-    public void setUpRepo() throws IllegalStarteventException {
-
-        RepositorySetup.fillRepository();
-    }
-
     /**
      * Before test.
      *
@@ -63,10 +48,7 @@ public class RandomSchedulerTest extends AbstractJodaEngineTest {
     throws Exception {
 
         scheduler = new RandomPetriNetScheduler();
-        RepositoryService repo = ServiceFactory.getRepositoryService();
-        ProcessDefinition def = repo.getProcessDefinition(RepositorySetup.getProcess1Plus1ProcessID());
-        List<Node> startNodes = def.getStartNodes();
-        Node startNode = startNodes.get(0);
+        Node startNode = PetriNodeFactory.createPlace();
         TokenBuilder builder = Mockito.mock(BpmnTokenBuilder.class);
         firstToken = new BpmnToken(startNode, new ProcessInstance(null, builder), null);
         secondToken = new BpmnToken(startNode, new ProcessInstance(null, builder), null);

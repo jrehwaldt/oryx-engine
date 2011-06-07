@@ -5,8 +5,8 @@ import static org.mockito.Mockito.when;
 
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.node.activity.Activity;
-import org.jodaengine.node.activity.ContextVariableScript;
-import org.jodaengine.node.activity.bpmn.BpmnJavaClassScriptingActivity;
+import org.jodaengine.node.activity.ContextVariableJavaTask;
+import org.jodaengine.node.activity.bpmn.BpmnJavaServiceActivity;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 /**
  * The Class ScriptingActivityTest.
  */
-public class ScriptingActivityTest {
+public class JavaServiceActivityTest {
     
     private Token token = null;
     private RepositoryServiceInside repoMock = null;
@@ -43,14 +43,14 @@ public class ScriptingActivityTest {
         repoMock = mock(RepositoryServiceInside.class);
 
         // as soon as we infer generic type arguments her (<?>), we get compile errors with #thenReturn()?!
-        Class clazz = ContextVariableScript.class;
+        Class clazz = ContextVariableJavaTask.class;
         when(token.getRepositiory()).thenReturn(repoMock);
-        when(repoMock.getDeployedClass(mockDefinition.getID(), "org.jodaengine.node.activity.ContextVariableScript"))
+        when(repoMock.getDeployedClass(mockDefinition.getID(), "org.jodaengine.node.activity.ContextVariableJavaTask"))
             .thenReturn(clazz);
     }
     
     /**
-     * Test the execution of the {@link ContextVariableScript}.
+     * Test the execution of the {@link ContextVariableJavaTask}.
      *
      * @throws ClassNotFoundException the class not found exception
      */
@@ -58,10 +58,10 @@ public class ScriptingActivityTest {
     public void testScriptExecution() throws ClassNotFoundException {
 
 
-        Activity activity = new BpmnJavaClassScriptingActivity("org.jodaengine.node.activity.ContextVariableScript");
+        Activity activity = new BpmnJavaServiceActivity("org.jodaengine.node.activity.ContextVariableJavaTask");
         activity.execute(token);
 
-        Assert.assertEquals(context.getVariable("scriptVariable"), "set",
+        Assert.assertEquals(context.getVariable("serviceVariable"), "set",
             "The variable scriptVariable should be set to 'set'");
     }
 }

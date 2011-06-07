@@ -74,6 +74,14 @@ public interface Navigator extends Service {
     void removeSuspendToken(Token t);
 
     /**
+     * Removes the Token from the scheduler.
+     * 
+     * @param t
+     *            the token
+     */
+    void removeTokenFromScheduler(Token t);
+    
+    /**
      * Gets all the instances that were ever started/executed by this navigator.
      * 
      * @return the instances

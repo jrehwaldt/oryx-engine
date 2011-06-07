@@ -1,5 +1,6 @@
 package org.jodaengine.process.token;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,8 @@ import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.token.AbstractToken;
+import org.jodaengine.process.token.Token;
 
 /**
  * The Class PetriToken. The token is used for petri nets.
@@ -90,10 +93,10 @@ public class PetriToken extends AbstractToken {
        }
        
        // During the split the token was moved to the next node...there we join, to consume other used tokens.
-       newTokens = currentNode.getIncomingBehaviour().join(newTokens.get(0));
+       currentNode.getIncomingBehaviour().join(newTokens.get(0));
        
        // Now split at the Transition and put tokens on the following places.
-       lazySuspendedProcessingTokens = newTokens.get(0).getCurrentNode().getOutgoingBehaviour().split(newTokens);
+       lazySuspendedProcessingTokens = currentNode.getOutgoingBehaviour().split(newTokens);
        
        for (Token token : lazySuspendedProcessingTokens) {
            navigator.addWorkToken(token);
