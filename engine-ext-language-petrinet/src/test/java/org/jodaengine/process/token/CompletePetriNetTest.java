@@ -1,4 +1,5 @@
-package org.jodaengine.process.token.petri;
+package org.jodaengine.process.token;
+
 
 import static org.testng.Assert.assertEquals;
 
@@ -105,7 +106,6 @@ public class CompletePetriNetTest extends AbstractJodaEngineTest{
             }
 
         }
-
         assertEquals(processInstance.getAssignedTokens().size(), 1);
         assertEquals(processInstance.getAssignedTokens().get(0).getCurrentNode(), endPlace);
         

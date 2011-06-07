@@ -1,5 +1,6 @@
 package org.jodaengine.process.token;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,8 @@ import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.token.AbstractToken;
+import org.jodaengine.process.token.Token;
 
 /**
  * The Class PetriToken. The token is used for petri nets.

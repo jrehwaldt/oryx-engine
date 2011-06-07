@@ -1,4 +1,5 @@
-package org.jodaengine.process.token.petri;
+package org.jodaengine.process.token;
+
 
 import static org.testng.Assert.assertEquals;
 
