@@ -1,135 +1,173 @@
 package org.jodaengine.eventmanagement.subscription;
 
+import java.util.UUID;
+
+import javax.mail.MessagingException;
+
+import org.jodaengine.RepositoryService;
+import org.jodaengine.ServiceFactory;
+import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.eventmanagement.EventManager;
+import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
+import org.jodaengine.eventmanagement.adapter.EventType;
+import org.jodaengine.eventmanagement.adapter.EventTypes;
+import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
+import org.jodaengine.eventmanagement.adapter.mail.MailProtocol;
+import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
+import org.jodaengine.eventmanagement.subscription.condition.simple.MethodInvokingEventCondition;
+import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultProcessStartEvent;
+import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.IllegalStarteventException;
+import org.jodaengine.factory.definition.SimpleProcessDefinitionFactory;
+import org.jodaengine.navigator.Navigator;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.mockito.Mockito;
+import org.quartz.SchedulerException;
+import org.quartz.impl.StdSchedulerFactory;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * The Class EventRegistrationAndEvaluationTest.
  */
 public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEngineTest {
-//
-//    private ProcessStartEvent event, anotherEvent;
-//    private MailAdapterEvent incomingEvent, anotherIncomingEvent;
-//    public static final int MAIL_PORT = 25;
-//
-//    /**
-//     * Tests that a process instance is started.
-//     * 
-//     * @throws DefinitionNotFoundException
-//     *             fails
-//     */
-//    @Test
-//    public void shouldAttemptToStartTheSimpleProcessInstance()
-//    throws DefinitionNotFoundException {
-//
-//        Navigator navigator = mock(Navigator.class);
-//        EventManager correlation = new EventManager();
-//        correlation.registerStartEvent(event);
-//
-//        correlation.correlate(incomingEvent);
-//
-//        // we use eq(...) because if you use mockito matchers as the parameters, all parameters have to be matchers.
-//        verify(navigator).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID), any(ProcessStartEvent.class));
-//    }
-//
-//    /**
-//     * Tests that no process is invoked on wrong event.
-//     * 
-//     * @throws DefinitionNotFoundException
-//     *             fails
-//     */
-//    @Test
-//    public void shouldNotAttemptToStartTheSimpleProcessInstance()
-//    throws DefinitionNotFoundException {
-//
-//        Navigator navigator = mock(Navigator.class);
-//        EventManagerImpl correlation = new EventManagerImpl(navigator);
-//        correlation.registerStartEvent(event);
-//
-//        correlation.correlate(anotherIncomingEvent);
-//
-//        verify(navigator, never()).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID),
-//            any(ProcessStartEvent.class));
-//    }
-//
-//    /**
-//     * Test that two similar start events with diferrent configurations work appropiately. That is the process is just
-//     * called one time.
-//     * 
-//     * @throws DefinitionNotFoundException
-//     *             the definition not found exception
-//     */
-//    @Test
-//    public void testTwoSimilarEventsWithDiferrentConfig()
-//    throws DefinitionNotFoundException {
-//
-//        Navigator navigator = mock(Navigator.class);
-//        EventManager correlation = new EventManager();
-//        correlation.registerStartEvent(event);
-//        correlation.registerStartEvent(anotherEvent);
-//
-//        correlation.correlate(incomingEvent);
-//
-//        verify(navigator, times(1)).startProcessInstance(eq(RepositoryServiceImpl.SIMPLE_PROCESS_ID),
-//            any(ProcessStartEvent.class));
-//    }
-//
-//    /**
-//     * Class initialization.
-//     * 
-//     * @throws NoSuchMethodException
-//     *             unlikely to be thrown...
-//     * @throws IllegalStarteventException
-//     *             test will fail
-//     */
-//    @BeforeClass
-//    public void beforeClass()
-//    throws NoSuchMethodException, IllegalStarteventException {
-//
-//        RepositorySetup.fillRepository();
-//        // register some events
-//        UUID definitionID = RepositoryServiceImpl.SIMPLE_PROCESS_ID;
-//        EventType mailType = EventTypes.Mail;
-//
-//        EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic", "Hallo");
-//
-//        List<EventCondition> conditions1 = new ArrayList<EventCondition>();
-//        conditions1.add(subjectCondition);
-//
-//        // Mockito isnt able to mock final classes so the next line doesnt work :(
-//        // MailAdapterConfiguration config = mock(MailAdapterConfiguration.class);
-//        InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
-//        event = new StartEventImpl(mailType, config, conditions1, definitionID);
-//
-//        InboundMailAdapterConfiguration anotherConfig = new InboundMailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin",
-//            "imap.horst.de", MAIL_PORT, false);
-//        anotherEvent = new StartEventImpl(mailType, anotherConfig, conditions1, definitionID);
-//
-//        Method method = MailAdapterEvent.class.getMethod("getAdapterConfiguration");
-//        method.setAccessible(true);
-//
-//        // create some incoming events, for example from a mailbox
-//        incomingEvent = mock(MailAdapterEvent.class);
-//        when(incomingEvent.getAdapterType()).thenReturn(mailType);
-//        when(incomingEvent.getMessageTopic()).thenReturn("Hallo");
-//        when(incomingEvent.getAdapterConfiguration()).thenReturn(config);
-//
-//        anotherIncomingEvent = mock(MailAdapterEvent.class);
-//        when(anotherIncomingEvent.getAdapterType()).thenReturn(mailType);
-//        when(anotherIncomingEvent.getMessageTopic()).thenReturn("HalliHallo");
-//        when(anotherIncomingEvent.getAdapterConfiguration()).thenReturn(config);
-//    }
-//
-//    /**
-//     * Tear down.
-//     * 
-//     * @throws SchedulerException
-//     *             tear down fails
-//     */
-//    @AfterMethod
-//    public void flushJobRepository()
-//    throws SchedulerException {
-//
-//        new StdSchedulerFactory().getScheduler().shutdown();
-//    }
-//
+
+    private ProcessStartEvent event, anotherEvent;
+    private MailAdapterEvent incomingAdapterEvent, anotherIncomingAdapterEvent;
+    private static final int MAIL_PORT = 25;
+    private InboundMailAdapterConfiguration config;
+    private InboundMailAdapterConfiguration anotherConfig;
+    private EventManager eventManager;
+    private Navigator navigatorServiceSpy;
+    private ProcessDefinitionID definitionID;
+
+    /**
+     * Class initialization.
+     * 
+     * @throws NoSuchMethodException
+     *             unlikely to be thrown...
+     * @throws IllegalStarteventException
+     *             test will fail
+     * @throws MessagingException
+     */
+    @BeforeMethod
+    public void beforeMethod()
+    throws NoSuchMethodException, IllegalStarteventException, MessagingException {
+    
+        eventManager = (EventManager) ServiceFactory.getCorrelationService();
+    
+        // Deploy the process
+        RepositoryService repo = ServiceFactory.getRepositoryService();
+        DeploymentBuilder deploymentBuilder = repo.getDeploymentBuilder();
+        definitionID = new ProcessDefinitionID(UUID.randomUUID().toString(), 0);
+        ProcessDefinition processDefinition = new SimpleProcessDefinitionFactory().create(definitionID);
+        deploymentBuilder.addProcessDefinition(processDefinition);
+        repo.deployInNewScope(deploymentBuilder.buildDeployment());
+    
+        // Spying on the navigatorService
+        navigatorServiceSpy = Mockito.spy(jodaEngineServices.getNavigatorService());
+    
+        // register some processStartEvents
+        // register first processStartEvent
+        EventType mailType = EventTypes.Mail;
+        EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic",
+            "Hallo");
+        config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
+        event = new DefaultProcessStartEvent(mailType, config, subjectCondition, definitionID);
+    
+        // register another processStartEvent
+        anotherConfig = new InboundMailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin", "imap.horst.de",
+            MAIL_PORT, false);
+        anotherEvent = new DefaultProcessStartEvent(mailType, anotherConfig, subjectCondition, definitionID);
+        anotherEvent.injectNavigatorService(navigatorServiceSpy);
+    
+        // create some incoming events, for example from a mailbox
+        incomingAdapterEvent = Mockito.mock(MailAdapterEvent.class);
+        Mockito.when(incomingAdapterEvent.getAdapterType()).thenReturn(mailType);
+        Mockito.when(incomingAdapterEvent.getMessageTopic()).thenReturn("Hallo");
+        Mockito.when(incomingAdapterEvent.getAdapterConfiguration()).thenReturn(config);
+    
+        anotherIncomingAdapterEvent = Mockito.mock(MailAdapterEvent.class);
+        Mockito.when(anotherIncomingAdapterEvent.getAdapterType()).thenReturn(mailType);
+        Mockito.when(anotherIncomingAdapterEvent.getMessageTopic()).thenReturn("HalliHallo");
+        Mockito.when(anotherIncomingAdapterEvent.getAdapterConfiguration()).thenReturn(config);
+    
+    }
+
+    /**
+     * Tests that a process instance is started.
+     * 
+     * @throws DefinitionNotFoundException
+     *             fails
+     */
+    @Test
+    public void shouldAttemptToStartTheSimpleProcessInstance()
+    throws DefinitionNotFoundException {
+    
+        eventManager.registerStartEvent(event);
+        event.injectNavigatorService(navigatorServiceSpy);
+    
+        getCorrelatingAdapter(config).correlate(incomingAdapterEvent);
+    
+        // we use eq(...) because if you use mockito matchers as the parameters, all parameters have to be matchers.
+        Mockito.verify(navigatorServiceSpy).startProcessInstance(Mockito.eq(definitionID), Mockito.eq(event));
+    }
+
+    /**
+     * Tests that no process is invoked on wrong event.
+     * 
+     * @throws DefinitionNotFoundException
+     *             fails
+     */
+    @Test
+    public void shouldNotAttemptToStartTheSimpleProcessInstance()
+    throws DefinitionNotFoundException {
+
+        eventManager.registerStartEvent(event);
+        event.injectNavigatorService(navigatorServiceSpy);
+
+        getCorrelatingAdapter(config).correlate(anotherIncomingAdapterEvent);
+
+        Mockito.verify(navigatorServiceSpy, Mockito.never()).startProcessInstance(
+            Mockito.any(ProcessDefinitionID.class), Mockito.any(ProcessStartEvent.class));
+    }
+
+    /**
+     * Test that two similar start events with different configurations work appropriately. That is the process is just
+     * called one time.
+     * 
+     * @throws DefinitionNotFoundException
+     *             the definition not found exception
+     */
+    @Test
+    public void testTwoSimilarEventsWithDiferrentConfig()
+    throws DefinitionNotFoundException {
+
+        eventManager.registerStartEvent(event);
+        event.injectNavigatorService(navigatorServiceSpy);
+        eventManager.registerStartEvent(anotherEvent);
+        anotherEvent.injectNavigatorService(navigatorServiceSpy);
+
+        getCorrelatingAdapter(config).correlate(incomingAdapterEvent);
+
+        Mockito.verify(navigatorServiceSpy).startProcessInstance(Mockito.eq(definitionID), Mockito.eq(event));
+    }
+
+    /**
+     * Returns the {@link AbstractCorrelatingEventAdapter} that belongs to that {@link AdapterConfiguration}.
+     * 
+     * @param config
+     *            - the {@link AdapterConfiguration}
+     * @return the {@link AbstractCorrelatingEventAdapter} that belongs to that {@link AdapterConfiguration}
+     */
+    private AbstractCorrelatingEventAdapter<? extends AdapterConfiguration> getCorrelatingAdapter(AdapterConfiguration config) {
+
+        return (AbstractCorrelatingEventAdapter<?>) eventManager.getEventAdapters().get(config);
+    }
 }

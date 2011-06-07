@@ -12,6 +12,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterEvent;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,8 +43,7 @@ public class MailAdapterEvent extends AbstractAdapterEvent {
      * @throws IOException
      *             thrown if parseContent throws exception
      */
-    public MailAdapterEvent(@Nonnull AdapterConfiguration configuration, @Nonnull Message message)
-    throws IOException, MessagingException {
+    public MailAdapterEvent(@Nonnull AdapterConfiguration configuration, @Nonnull Message message) {
 
         super(configuration);
         this.message = message;
@@ -52,71 +52,78 @@ public class MailAdapterEvent extends AbstractAdapterEvent {
 
     /**
      * Parse the mail content and save the results.
-     * 
-     * @throws MessagingException
-     *             thrown if getting context fails
-     * @throws IOException
-     *             thrown if getting context fails
      */
     // TODO @EVENTMANAGERTEAM: eventually add a to and clean this bloody mess.
-    public void parseContent()
-    throws IOException, MessagingException {
+    public void parseContent() {
 
-        // Retrieve the this.message content
-        Object messageContentObject = this.message.getContent();
-        String sender = ((InternetAddress) this.message.getFrom()[0]).getPersonal();
+        try {
+            // Retrieve the this.message content
+            Object messageContentObject = this.message.getContent();
+            String sender = ((InternetAddress) this.message.getFrom()[0]).getPersonal();
 
-        this.from = sender;
-        if (sender == null) {
-            sender = ((InternetAddress) this.message.getFrom()[0]).getAddress();
-            logger.debug("sender in NULL. Printing Address:" + sender);
-        }
-
-        // Get the subject information
-        String subject = this.message.getSubject();
-        this.topic = subject;
-
-        // Determine email type
-        if (messageContentObject instanceof Multipart) {
-            logger.debug("Found Email with Attachment");
-
-            // If the "personal" information has no entry, check the address for the sender information
-            logger.debug("If the personal information has no entry, check the address for the sender information.");
-
-            logger.debug("Sender -." + sender);
-
-            logger.debug("subject=" + subject);
-
-            // Retrieve the Multipart object from the this.message
-            Multipart multipart = (Multipart) this.message.getContent();
-
-            logger.debug("Retrieve the Multipart object from the message");
-
-            // Loop over the parts of the email
-            for (int i = 0; i < multipart.getCount(); i++) {
-                // Retrieve the next part
-                Part part = multipart.getBodyPart(i);
-
-                // Get the content type
-                String contentType = part.getContentType();
-
-                // Display the content type
-                logger.debug("Content: " + contentType);
-
-                if (contentType.startsWith("text/plain")) {
-                    logger.debug("---------reading content type text/plain  mail -------------");
-                    this.content = (String) part.getContent();
-                } else {
-                    // Retrieve the file name
-                    String fileName = part.getFileName();
-                    logger.debug("retrive the fileName=" + fileName);
-                }
-
+            this.from = sender;
+            if (sender == null) {
+                sender = ((InternetAddress) this.message.getFrom()[0]).getAddress();
+                logger.debug("sender in NULL. Printing Address:" + sender);
             }
-        } else {
 
-            logger.debug("Found Mail Without Attachment");
-            logger.debug("subject=" + subject);
+            // Get the subject information
+            String subject = this.message.getSubject();
+            this.topic = subject;
+
+            // Determine email type
+            if (messageContentObject instanceof Multipart) {
+                logger.debug("Found Email with Attachment");
+
+                // If the "personal" information has no entry, check the address for the sender information
+                logger.debug("If the personal information has no entry, check the address for the sender information.");
+
+                logger.debug("Sender -." + sender);
+
+                logger.debug("subject=" + subject);
+
+                // Retrieve the Multipart object from the this.message
+                Multipart multipart = (Multipart) this.message.getContent();
+
+                logger.debug("Retrieve the Multipart object from the message");
+
+                // Loop over the parts of the email
+                for (int i = 0; i < multipart.getCount(); i++) {
+                    // Retrieve the next part
+                    Part part = multipart.getBodyPart(i);
+
+                    // Get the content type
+                    String contentType = part.getContentType();
+
+                    // Display the content type
+                    logger.debug("Content: " + contentType);
+
+                    if (contentType.startsWith("text/plain")) {
+                        logger.debug("---------reading content type text/plain  mail -------------");
+                        this.content = (String) part.getContent();
+                    } else {
+                        // Retrieve the file name
+                        String fileName = part.getFileName();
+                        logger.debug("retrive the fileName=" + fileName);
+                    }
+
+                }
+            } else {
+
+                logger.debug("Found Mail Without Attachment");
+                logger.debug("subject=" + subject);
+            }
+        } catch (IOException ioException) {
+
+            String errorMessage = "The following exception occurred: " + ioException.getMessage();
+            logger.error(errorMessage, ioException);
+            throw new JodaEngineRuntimeException(errorMessage, ioException);
+
+        } catch (MessagingException messageException) {
+
+            String errorMessage = "The following exception occurred: " + messageException.getMessage();
+            logger.error(errorMessage, messageException);
+            throw new JodaEngineRuntimeException(errorMessage, messageException);
         }
     }
 
