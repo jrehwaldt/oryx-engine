@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.subscription;
+package org.jodaengine.eventmanagement.subscription.processevent.start;
 
 import java.util.UUID;
 
@@ -15,9 +15,9 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.adapter.mail.MailProtocol;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.eventmanagement.subscription.condition.simple.MethodInvokingEventCondition;
-import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.factory.definition.SimpleProcessDefinitionFactory;
@@ -26,10 +26,6 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;
-import org.quartz.SchedulerException;
-import org.quartz.impl.StdSchedulerFactory;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
