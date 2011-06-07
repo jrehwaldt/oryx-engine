@@ -12,6 +12,7 @@ import org.jodaengine.node.incomingbehaviour.petri.TransitionJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.petri.PlaceSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
 import org.jodaengine.process.instance.ProcessInstance;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.Token;
@@ -78,7 +79,7 @@ public class PlaceSplitTest {
   }
   
   /**
-   * Tests a case, where there is no possible transition to take. The return value should be null.
+   * Tests a case, where there is no possible {@link ControlFlow}s to take. The return value should be null.
    *
    * @throws NoValidPathException the no valid path exception
    */

@@ -25,7 +25,7 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
         Token token = tokens.get(0);
         
         // The activated transitions we can reach from this place
-        List<ControlFlow> possibleTransitionsToTake = new ArrayList<ControlFlow>();
+        List<ControlFlow> possibleControlFlowsToTake = new ArrayList<ControlFlow>();
         
         Node currentNode = token.getCurrentNode();
         
@@ -40,24 +40,24 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
             boolean joinPossible = nextPetriTranisiton.getIncomingBehaviour().joinable(token, nextPetriTranisiton);
             
             if (joinPossible) {
-                possibleTransitionsToTake.add(t);
+                possibleControlFlowsToTake.add(t);
             }
         }
         
         // If there are no available transitions return
-        if (possibleTransitionsToTake.size() == 0) {
+        if (possibleControlFlowsToTake.size() == 0) {
             return transitionsToNavigate;
         }
         
         // In case there are possible transitions: Randomly choose an activated Transition
-        int size = possibleTransitionsToTake.size();
+        int size = possibleControlFlowsToTake.size();
         int randomNumber = new Random().nextInt(size);
         
-        List<ControlFlow> chosenTransitionList = new ArrayList<ControlFlow>();
+        List<ControlFlow> chosenControlFlowList = new ArrayList<ControlFlow>();
         
         // Now move the token to the next node and return it 
-        chosenTransitionList.add(possibleTransitionsToTake.get(randomNumber));
-        transitionsToNavigate = token.navigateTo(chosenTransitionList);
+        chosenControlFlowList.add(possibleControlFlowsToTake.get(randomNumber));
+        transitionsToNavigate = token.navigateTo(chosenControlFlowList);
 
         return transitionsToNavigate;
     }

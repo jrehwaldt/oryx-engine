@@ -108,17 +108,17 @@ public class PetriToken extends AbstractToken {
     }
     
     @Override
-    public List<Token> navigateTo(List<ControlFlow> transitionList) {
+    public List<Token> navigateTo(List<ControlFlow> controlFlowList) {
 
         List<Token> tokensToNavigate = new ArrayList<Token>();
 
-        if (transitionList.size() == 0) {
+        if (controlFlowList.size() == 0) {
             this.exceptionHandler.processException(new NoValidPathException(), this);
 
         // petri net semantic: Produce a new token after a transition
         } else {
 
-            for (ControlFlow controlFlow : transitionList) {
+            for (ControlFlow controlFlow : controlFlowList) {
                 Node node = controlFlow.getDestination();
                 Token newToken;
                 // Only create a new token, if a PetriTransition was before 

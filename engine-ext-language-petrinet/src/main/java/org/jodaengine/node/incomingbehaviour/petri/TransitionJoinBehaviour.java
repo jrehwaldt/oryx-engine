@@ -46,7 +46,7 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
     /**
      * Consumes used tokens. 
      *
-     * @param controlFlows the incoming transitions to get the source places
+     * @param controlFlows the incoming {@link ControlFlow}s to get the source places
      * @param instance the instance
      */
     private void consumeTokens(List<ControlFlow> controlFlows, AbstractProcessInstance instance) {
