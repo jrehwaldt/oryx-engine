@@ -55,13 +55,14 @@ public class RandomSchedulerTest extends AbstractJodaEngineTest {
         secondToken = new BpmnToken(startNode, new ProcessInstance(null, builder), null);
     }
     
+    /**
+     * After test.
+     */
     @AfterMethod
     public void afterTest() {
-    	
-    	scheduler = null;
-    	firstToken = null;
-    	secondToken = null;
-    	
+        scheduler = null;
+        firstToken = null;
+        secondToken = null;
     }
 
     /**
@@ -86,23 +87,6 @@ public class RandomSchedulerTest extends AbstractJodaEngineTest {
 
     }
     
-    /**
-     * Anti Concurrency Behaviour, negative situation: After one retrieval of a token, the scheduler should be locked.
-     * When a new token is added, it can continue execution.
-     * This results in a single threaded solution for an instance, which is important due to petriNet definition.
-     * There can be multiple working threads, if there are multiple instances.
-     */
-    @Test
-    public void testParallelRetrieval() {
-
-        scheduler.submit(firstToken);
-        scheduler.submit(secondToken);
-        Token goodToken = scheduler.retrieve();
-        Token nullToken = scheduler.retrieve();
-        assertEquals(goodToken, firstToken, "Scheduler is empty after something got submitted.");
-        assertEquals(nullToken, null, "Scheduler is empty after something got submitted.");
-
-    }
     
     /**
      * Anti Concurrency Behaviour, positive situation: After one retrieval of a token, the scheduler should be locked.
