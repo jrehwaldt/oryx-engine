@@ -18,6 +18,7 @@ import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -35,13 +36,14 @@ public class DebuggerWebServiceTest extends AbstractJsonServerTest {
      * 
      * @throws ExtensionNotAvailableException test fails
      */
-    @BeforeClass
+    @BeforeMethod
     public void setUp() throws ExtensionNotAvailableException {
         this.debugger = this.jodaEngineServices.getExtensionService().getExtensionService(
             DebuggerServiceImpl.class,
             DebuggerServiceImpl.DEBUGGER_SERVICE_NAME);
         
         Assert.assertNotNull(this.debugger);
+        Assert.assertTrue(this.debugger.isRunning());
     }
     
     @Override
