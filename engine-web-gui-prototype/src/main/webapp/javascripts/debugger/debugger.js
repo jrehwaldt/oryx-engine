@@ -96,7 +96,7 @@ function loadArtifactsOverview() {
  * @param definitionId the definition to show the svg for
  */
 function showFullSvg(definitionId) {
-    $('#svg-artifact-full-overlay .full-svg-artifact').attr('src', '/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime()');
+    $('#svg-artifact-full-overlay .full-svg-artifact').attr('src', '/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime());
 };
 
 /**
