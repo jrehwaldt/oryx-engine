@@ -110,32 +110,32 @@ public final class BenchmarkDeployer {
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, startNode, andSplit1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, startNode, andSplit1);
 
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, andSplit1, activityB1);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, andSplit1, activityC1);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, andSplit1, activityD1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, andSplit1, activityB1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, andSplit1, activityC1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, andSplit1, activityD1);
 
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, activityB1, andSplit3);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, andSplit3, activityB2);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, andSplit3, activityA1);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, activityA1, andJoin3);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, activityB2, andJoin3);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, andJoin3, activityB3);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, activityB3, andJoin1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, activityB1, andSplit3);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, andSplit3, activityB2);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, andSplit3, activityA1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, activityA1, andJoin3);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, activityB2, andJoin3);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, andJoin3, activityB3);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, activityB3, andJoin1);
 
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, activityC1, activityC2);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, activityC2, andJoin1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, activityC1, activityC2);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, activityC2, andJoin1);
 
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, activityD1, andSplit2);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, andSplit2, activityD2);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, andSplit2, activityE1);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, activityE1, andJoin2);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, activityD2, andJoin2);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, andJoin2, activityD3);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, activityD3, andJoin1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, activityD1, andSplit2);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, andSplit2, activityD2);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, andSplit2, activityE1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, activityE1, andJoin2);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, activityD2, andJoin2);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, andJoin2, activityD3);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, activityD3, andJoin1);
 
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, andJoin1, endNode);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, andJoin1, endNode);
 
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
 

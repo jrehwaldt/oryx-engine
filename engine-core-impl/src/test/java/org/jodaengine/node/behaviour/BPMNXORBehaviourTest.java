@@ -49,7 +49,7 @@ public class BPMNXORBehaviourTest {
     public void testTrueNextNode() {
 
         Node node = token.getCurrentNode();
-        Node nextNode = node.getOutgoingTransitions().get(1).getDestination();
+        Node nextNode = node.getOutgoingControlFlows().get(1).getDestination();
 
         try {
             executeSplitAndJoin(token);
@@ -68,7 +68,7 @@ public class BPMNXORBehaviourTest {
         ProcessInstanceContext context = token.getInstance().getContext();
         context.setVariable("a", 1);
         Node node = token.getCurrentNode();
-        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
+        Node nextNode = node.getOutgoingControlFlows().get(0).getDestination();
 
         try {
             executeSplitAndJoin(token);
@@ -86,7 +86,7 @@ public class BPMNXORBehaviourTest {
     public void testFalseDestinationNode() {
         
         Node node = token.getCurrentNode();
-        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
+        Node nextNode = node.getOutgoingControlFlows().get(0).getDestination();
         
         try {
             executeSplitAndJoin(token);
@@ -129,8 +129,8 @@ public class BPMNXORBehaviourTest {
         map.put("a", 1);
         Condition c = new HashMapCondition(map, "==");
 
-        builder.getTransitionBuilder().transitionGoesFromTo(node, node2).setCondition(c).buildTransition();
-        builder.getTransitionBuilder().transitionGoesFromTo(node, node3).buildTransition();
+        builder.getControlFlowBuilder().controlFlowGoesFromTo(node, node2).setCondition(c).buildControlFlow();
+        builder.getControlFlowBuilder().controlFlowGoesFromTo(node, node3).buildControlFlow();
 
         return new BpmnToken(node, new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)), null);
     }

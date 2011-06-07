@@ -32,9 +32,9 @@ public class ExampleProcessDeployer extends AbstractProcessDeployer {
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(processDefinitionBuilder);
 
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, startNode, node1);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node1, node2);
-        BpmnNodeFactory.createTransitionFromTo(processDefinitionBuilder, node2, endNode);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, startNode, node1);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, node1, node2);
+        BpmnNodeFactory.createControlFlowFromTo(processDefinitionBuilder, node2, endNode);
 
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processDefinitionBuilder);
     }

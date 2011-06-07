@@ -10,7 +10,7 @@ import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.ReflectionUtil;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
@@ -74,7 +74,7 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         ArgumentCaptor<XmlElement> xmlElementArgument = ArgumentCaptor.forClass(XmlElement.class);
         ArgumentCaptor<Node> nodeArgument = ArgumentCaptor.forClass(Node.class);
         ArgumentCaptor<ProcessDefinition> processDefinitionArgument = ArgumentCaptor.forClass(ProcessDefinition.class);
-        ArgumentCaptor<Transition> transitionArgument = ArgumentCaptor.forClass(Transition.class);
+        ArgumentCaptor<ControlFlow> transitionArgument = ArgumentCaptor.forClass(ControlFlow.class);
         ArgumentCaptor<Attributable> attributable = ArgumentCaptor.forClass(Attributable.class);
         
         //
@@ -150,7 +150,7 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         ArgumentCaptor<XmlElement> xmlElementArgument = ArgumentCaptor.forClass(XmlElement.class);
         ArgumentCaptor<Node> nodeArgument = ArgumentCaptor.forClass(Node.class);
         ArgumentCaptor<ProcessDefinition> processDefinitionArgument = ArgumentCaptor.forClass(ProcessDefinition.class);
-        ArgumentCaptor<Transition> transitionArgument = ArgumentCaptor.forClass(Transition.class);
+        ArgumentCaptor<ControlFlow> transitionArgument = ArgumentCaptor.forClass(ControlFlow.class);
         ArgumentCaptor<Attributable> attributable = ArgumentCaptor.forClass(Attributable.class);
         
         //

@@ -30,7 +30,7 @@ public class TransitionSplitBehaviour implements OutgoingBehaviour {
             Node currentNode = token.getCurrentNode();
 
             try {
-                tokensToNavigate.addAll(token.navigateTo(currentNode.getOutgoingTransitions()));
+                tokensToNavigate.addAll(token.navigateTo(currentNode.getOutgoingControlFlows()));
             } catch (Exception e) {
                 e.printStackTrace();
             }

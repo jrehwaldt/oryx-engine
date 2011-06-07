@@ -23,7 +23,7 @@ package org.jodaengine.deployment.importer.definition.bpmn;
 
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.xml.XmlElement;
 
@@ -135,16 +135,16 @@ public interface BpmnXmlParseListener {
     
     
     /**
-     * Is called when the {@link BpmnXmlParser} finished creating the {@link Transition transition}.
+     * Is called when the {@link BpmnXmlParser} finished creating the {@link ControlFlow transition}.
      * 
      * @param sequenceFlowElement
      *            - the original {@link XmlElement sequenceFlowElement}
-     * @param transition
-     *            - the created {@link Transition transition}
+     * @param controlFlow
+     *            - the created {@link ControlFlow transition}
      * @param definitionScopeAttributable
      *            - a globally (within this definition) available {@link Attributable}
      */
     void parseSequenceFlow(XmlElement sequenceFlowElement,
-                           Transition transition,
+                           ControlFlow controlFlow,
                            Attributable definitionScopeAttributable);
 }

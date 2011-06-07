@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImplMock;
-import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
@@ -109,10 +109,10 @@ public class BpmnEndEventActivityTest {
         Node endNode1 = BpmnNodeFactory.createBpmnEndEventNode(builder); 
         Node endNode2 = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        TransitionFactory.createTransitionFromTo(builder, startNode, forkNode1);
-        TransitionFactory.createTransitionFromTo(builder, startNode, forkNode2);
-        TransitionFactory.createTransitionFromTo(builder, forkNode1, endNode1);
-        TransitionFactory.createTransitionFromTo(builder, forkNode2, endNode2);
+        ControlFlowFactory.createControlFlowFromTo(builder, startNode, forkNode1);
+        ControlFlowFactory.createControlFlowFromTo(builder, startNode, forkNode2);
+        ControlFlowFactory.createControlFlowFromTo(builder, forkNode1, endNode1);
+        ControlFlowFactory.createControlFlowFromTo(builder, forkNode2, endNode2);
 
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition definition = builder.buildDefinition();

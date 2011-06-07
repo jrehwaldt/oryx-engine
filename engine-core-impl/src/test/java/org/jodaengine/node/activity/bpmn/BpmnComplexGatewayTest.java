@@ -57,11 +57,11 @@ public class BpmnComplexGatewayTest {
         discriminator = builder.buildNode();
 
         // create Transitions
-        beforeNode1.transitionTo(discriminator);
-        beforeNode2.transitionTo(discriminator);
-        beforeNode3.transitionTo(discriminator);
+        beforeNode1.controlFlowTo(discriminator);
+        beforeNode2.controlFlowTo(discriminator);
+        beforeNode3.controlFlowTo(discriminator);
 
-        discriminator.transitionTo(afterNode);
+        discriminator.controlFlowTo(afterNode);
     }
 
     @Test

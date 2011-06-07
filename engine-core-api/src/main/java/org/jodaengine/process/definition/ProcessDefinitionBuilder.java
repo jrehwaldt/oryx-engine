@@ -13,7 +13,7 @@ import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
-import org.jodaengine.process.structure.TransitionBuilder;
+import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.util.Attributable;
 
 /**
@@ -50,12 +50,12 @@ public interface ProcessDefinitionBuilder extends Attributable {
     NodeBuilder getStartNodeBuilder();
 
     /**
-     * Creates a {@link TransitionBuilder} in order to customize and build a {@link Transition}.
+     * Creates a {@link ControlFlowBuilder} in order to customize and build a {@link ControlFlow}.
      * 
-     * @return a {@link TransitionBuilder}
+     * @return a {@link ControlFlowBuilder}
      */
     @Nonnull
-    TransitionBuilder getTransitionBuilder();
+    ControlFlowBuilder getControlFlowBuilder();
 
     /**
      * Sets the description.

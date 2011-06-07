@@ -69,8 +69,8 @@ public final class ExampleMailStartProcess {
             // Building Node2
             Node node2 = BpmnCustomNodeFactory.createBpmnPrintingVariableNode(builder, "result");
 
-            BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
-            BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
+            BpmnNodeFactory.createControlFlowFromTo(builder, startNode, node1);
+            BpmnNodeFactory.createControlFlowFromTo(builder, node1, node2);
 
             builder.setDescription("description").setName(exampleProcessName);
 

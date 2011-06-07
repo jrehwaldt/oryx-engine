@@ -75,9 +75,9 @@ public final class ExampleProcessForReview {
 //        Node endNode = new NodeImpl(BpmnEndActivity.class);
 
         // Setting the transitions
-        startNode.transitionTo(secondNode);
-        secondNode.transitionTo(thirdNode);
-        thirdNode.transitionTo(fourthNode);
+        startNode.controlFlowTo(secondNode);
+        secondNode.controlFlowTo(thirdNode);
+        thirdNode.controlFlowTo(fourthNode);
 //        fourthNode.transitionTo(endNode);
 
         Token sampleToken = new BpmnToken(startNode, new ProcessInstance(null, null), null);

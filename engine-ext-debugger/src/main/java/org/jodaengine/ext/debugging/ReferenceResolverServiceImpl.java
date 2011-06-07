@@ -15,7 +15,7 @@ import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -157,8 +157,8 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
             return initialNode;
         }
         
-        for (Transition transition: initialNode.getOutgoingTransitions()) {
-            Node tmp = rereferenceNode(transition.getDestination(), dereferencedNode);
+        for (ControlFlow controlFlow: initialNode.getOutgoingControlFlows()) {
+            Node tmp = rereferenceNode(controlFlow.getDestination(), dereferencedNode);
             
             if (tmp != null) {
                 return tmp;

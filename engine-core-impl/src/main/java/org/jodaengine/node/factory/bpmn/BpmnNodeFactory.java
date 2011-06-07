@@ -8,7 +8,7 @@ import org.jodaengine.node.activity.bpmn.BpmnJavaServiceActivity;
 import org.jodaengine.node.activity.bpmn.BpmnStartEvent;
 import org.jodaengine.node.activity.bpmn.BpmnTerminatingEndEventActivity;
 import org.jodaengine.node.activity.bpmn.BpmnTimerIntermediateEventActivity;
-import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.incomingbehaviour.AndJoinBehaviour;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.EmptyOutgoingBehaviour;
@@ -23,7 +23,7 @@ import org.jodaengine.resource.allocation.CreationPattern;
 /**
  * This Factory is able to create {@link Node Nodes} for specific BPMN constructs like an BPMN-XOR-Gateway or ...
  */
-public final class BpmnNodeFactory extends TransitionFactory {
+public final class BpmnNodeFactory extends ControlFlowFactory {
 
     /**
      * Hidden Constructor.

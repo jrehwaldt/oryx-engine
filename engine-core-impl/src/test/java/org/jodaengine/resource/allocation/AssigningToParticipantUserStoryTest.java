@@ -48,7 +48,7 @@ public class AssigningToParticipantUserStoryTest extends AbstractJodaEngineTest 
 
         endNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnHumanTaskActivity(pattern));
 
-        humanTaskNode.transitionTo(endNode);
+        humanTaskNode.controlFlowTo(endNode);
 
         AbstractProcessInstance instance = new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class));
         token = new BpmnToken(humanTaskNode, instance, new NavigatorImplMock());

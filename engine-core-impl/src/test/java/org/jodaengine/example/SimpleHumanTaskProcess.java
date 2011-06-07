@@ -68,8 +68,8 @@ public final class SimpleHumanTaskProcess {
 //        Node endNode = new NodeImpl(BpmnEndActivity.class);
 
         // Setting the transitions
-        startNode.transitionTo(secondNode);
-        secondNode.transitionTo(thirdNode);
+        startNode.controlFlowTo(secondNode);
+        secondNode.controlFlowTo(thirdNode);
 //        thirdNode.transitionTo(endNode);
 
         // TokenBuilder is not used here therefore it can null

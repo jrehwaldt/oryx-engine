@@ -2,9 +2,9 @@ package org.jodaengine.process.structure;
 
 
 /**
- * The Class TransitionImpl. The implementation of a transition that is. A transition is the edge between to nodes.
+ * The Class ControlFlowImpl. The implementation of a {@link ControlFlow} that is. A {@link ControlFlow} is the edge between to nodes.
  */
-public class TransitionImpl implements Transition {
+public class ControlFlowImpl implements ControlFlow {
 
     /** The destination. E.g. where does the arrow point to. */
     private Node destination;
@@ -12,11 +12,11 @@ public class TransitionImpl implements Transition {
     /** The start. E.g. Where does the arrow/edge originate. */
     private Node source;
 
-    /** The condition. The transition can only be done with a true condition. */
+    /** The condition. The {@link ControlFlow} can only be done with a true condition. */
     private Condition condition;
 
     /**
-     * Instantiates a new transition impl.
+     * Instantiates a new {@link ControlFlow} impl.
      * 
      * @param start
      *            the startnode
@@ -25,7 +25,7 @@ public class TransitionImpl implements Transition {
      * @param c
      *            the condition
      */
-    public TransitionImpl(Node start, Node destination, Condition c) {
+    public ControlFlowImpl(Node start, Node destination, Condition c) {
 
         this.source = start;
         this.destination = destination;
@@ -37,7 +37,7 @@ public class TransitionImpl implements Transition {
      * Gets the condition.
      *
      * @return the condition
-     * @see org.jodaengine.process.structure.Transition#getCondition()
+     * @see org.jodaengine.process.structure.ControlFlow#getCondition()
      */
     @Override
     public Condition getCondition() {
@@ -48,7 +48,7 @@ public class TransitionImpl implements Transition {
      * Gets the destination.
      *
      * @return the destination
-     * @see org.jodaengine.process.structure.Transition#getDestination()
+     * @see org.jodaengine.process.structure.ControlFlow#getDestination()
      */
     @Override
     public Node getDestination() {

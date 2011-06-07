@@ -3,7 +3,7 @@ package org.jodaengine.process.token;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImplMock;
-import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
@@ -39,7 +39,7 @@ public class InternalVariableTest {
 
         endNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
-        TransitionFactory.createTransitionFromTo(builder, customNode, endNode);
+        ControlFlowFactory.createControlFlowFromTo(builder, customNode, endNode);
 
         Navigator nav = new NavigatorImplMock();
         AbstractProcessInstance processInstanceMock = Mockito.mock(AbstractProcessInstance.class);

@@ -8,7 +8,7 @@ import org.jodaengine.ext.Extension;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.xml.XmlElement;
 import org.testng.Assert;
@@ -118,7 +118,7 @@ public class TestingBpmnXmlParseListener implements BpmnXmlParseListener {
 
     @Override
     public void parseSequenceFlow(XmlElement sequenceFlowElement,
-                                  Transition transition,
+                                  ControlFlow controlFlow,
                                   Attributable definitionScopeAttributable) {
         
         this.listenerService.invoked(this);

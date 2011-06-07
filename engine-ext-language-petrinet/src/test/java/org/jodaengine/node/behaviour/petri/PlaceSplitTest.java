@@ -52,8 +52,8 @@ public class PlaceSplitTest {
         node3 = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
         node3.setAttribute("name", "3");
 
-        node.transitionTo(node2);
-        node2.transitionTo(node3);
+        node.controlFlowTo(node2);
+        node2.controlFlowTo(node3);
 
         TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);
         instance = new ProcessInstance(null, tokenBuilder);
@@ -88,7 +88,7 @@ public class PlaceSplitTest {
       // Place
       Node node4 = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
       node4.setAttribute("name", "4");
-      node4.transitionTo(node2);
+      node4.controlFlowTo(node2);
       
       List<Token> tokens = new ArrayList<Token>();
       List<Token> movedTokens = null;

@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 
 /**
  * The Class ProcessInstanceContextImpl.
@@ -23,7 +23,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     private static final int MAGIC_HASH_CONSTANT_ONE = 7;
 
     @JsonIgnore
-    private Map<Node, List<Transition>> waitingTransitions;
+    private Map<Node, List<ControlFlow>> waitingTransitions;
 
     private Map<String, Object> contextVariables;
     private Map<String, Object> nodeVariables;
@@ -33,18 +33,18 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
      */
     public ProcessInstanceContextImpl() {
 
-        waitingTransitions = new HashMap<Node, List<Transition>>();
+        waitingTransitions = new HashMap<Node, List<ControlFlow>>();
     }
 
     @Override
-    public void setWaitingExecution(Transition t) {
+    public void setWaitingExecution(ControlFlow t) {
 
-        List<Transition> tmpList;
+        List<ControlFlow> tmpList;
         if (waitingTransitions.get(t.getDestination()) != null) {
             tmpList = waitingTransitions.get(t.getDestination());
 
         } else {
-            tmpList = new ArrayList<Transition>();
+            tmpList = new ArrayList<ControlFlow>();
             waitingTransitions.put(t.getDestination(), tmpList);
         }
         tmpList.add(t);
@@ -52,7 +52,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     @Override
-    public List<Transition> getWaitingExecutions(Node n) {
+    public List<ControlFlow> getWaitingExecutions(Node n) {
 
         return waitingTransitions.get(n);
     }
@@ -60,21 +60,21 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     @Override
     public boolean allIncomingTransitionsSignaled(Node n) {
 
-        List<Transition> signaledTransitions = waitingTransitions.get(n);
+        List<ControlFlow> signaledTransitions = waitingTransitions.get(n);
 
         // If there are no waiting transitions yet, the list might not be initialized yet
         if (signaledTransitions == null) {
             return false;
         }
-        List<Transition> incomingTransitions = n.getIncomingTransitions();
+        List<ControlFlow> incomingTransitions = n.getIncomingControlFlows();
         return signaledTransitions.containsAll(incomingTransitions);
     }
 
     @Override
     public void removeIncomingTransitions(Node node) {
 
-        List<Transition> signaledTransitions = waitingTransitions.get(node);
-        List<Transition> incomingTransitions = node.getIncomingTransitions();
+        List<ControlFlow> signaledTransitions = waitingTransitions.get(node);
+        List<ControlFlow> incomingTransitions = node.getIncomingControlFlows();
         removeSubset(signaledTransitions, incomingTransitions);
 
     }
@@ -87,9 +87,9 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
      * @param subList
      *            the sub list
      */
-    private void removeSubset(List<Transition> superList, List<Transition> subList) {
+    private void removeSubset(List<ControlFlow> superList, List<ControlFlow> subList) {
 
-        for (Transition t : subList) {
+        for (ControlFlow t : subList) {
             superList.remove(t);
         }
     }
@@ -195,14 +195,14 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     @Override
-    public void removeIncomingTransition(Transition transition, Node node) {
+    public void removeIncomingTransition(ControlFlow controlFlow, Node node) {
 
-        List<Transition> signaledTransitions = waitingTransitions.get(transition.getDestination());
+        List<ControlFlow> signaledTransitions = waitingTransitions.get(controlFlow.getDestination());
         // The map is referencing to every Destination all the incoming Transitions. But we need to check the start node, in order to delete it.
-        for(Transition t : signaledTransitions) {
+        for(ControlFlow t : signaledTransitions) {
             if(t.getSource() == node) {
-                List<Transition> incomingTransitions = new ArrayList<Transition>();
-                incomingTransitions.add(transition);
+                List<ControlFlow> incomingTransitions = new ArrayList<ControlFlow>();
+                incomingTransitions.add(controlFlow);
                 removeSubset(signaledTransitions, incomingTransitions);
                 break;
             }

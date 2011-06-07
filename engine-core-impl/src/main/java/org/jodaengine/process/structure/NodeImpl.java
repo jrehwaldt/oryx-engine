@@ -26,7 +26,7 @@ public class NodeImpl implements Node {
     private OutgoingBehaviour outgoingBehaviour;
     private IncomingBehaviour incomingBehaviour;
 
-    private List<Transition> outgoingTransitions, incomingTransitions;
+    private List<ControlFlow> outgoingControlFlows, incomingControlFlows;
 
     private UUID id;
     private Map<String, Object> attributes;
@@ -53,8 +53,8 @@ public class NodeImpl implements Node {
         this.activityBehaviour = activityBehavior;
         this.incomingBehaviour = incomingBehaviour;
         this.outgoingBehaviour = outgoingBehaviour;
-        this.outgoingTransitions = new ArrayList<Transition>();
-        this.incomingTransitions = new ArrayList<Transition>();
+        this.outgoingControlFlows = new ArrayList<ControlFlow>();
+        this.incomingControlFlows = new ArrayList<ControlFlow>();
 
         this.id = UUID.randomUUID();
     }
@@ -72,34 +72,34 @@ public class NodeImpl implements Node {
     }
 
     @Override
-    public Transition transitionTo(Node node) {
+    public ControlFlow controlFlowTo(Node node) {
 
         Condition condition = new HashMapCondition();
-        return createTransitionWithCondition(node, condition);
+        return createControlFlowWithCondition(node, condition);
     }
 
     @Override
-    public Transition transitionToWithCondition(Node node, Condition c) {
+    public ControlFlow controlFlowToWithCondition(Node node, Condition c) {
 
-        return createTransitionWithCondition(node, c);
+        return createControlFlowWithCondition(node, c);
     }
 
     /**
-     * Creates the transition with condition.
+     * Creates the {@link ControlFlow} with condition.
      * 
      * @param node
      *            the destination
      * @param c
      *            the condition
      */
-    private Transition createTransitionWithCondition(Node node, Condition c) {
+    private ControlFlow createControlFlowWithCondition(Node node, Condition c) {
 
-        Transition transition = new TransitionImpl(this, node, c);
-        this.outgoingTransitions.add(transition);
-        List<Transition> nextIncoming = node.getIncomingTransitions();
-        nextIncoming.add(transition);
+        ControlFlow controlFlow = new ControlFlowImpl(this, node, c);
+        this.outgoingControlFlows.add(controlFlow);
+        List<ControlFlow> nextIncoming = node.getIncomingControlFlows();
+        nextIncoming.add(controlFlow);
 
-        return transition;
+        return controlFlow;
     }
 
     @Override
@@ -109,26 +109,26 @@ public class NodeImpl implements Node {
     }
 
     /**
-     * Sets the transitions.
+     * Sets the {@link ControlFlow}s.
      * 
-     * @param transitions
-     *            the new transitions
+     * @param controlFlows
+     *            the new {@link ControlFlow}s
      */
-    public void setTransitions(List<Transition> transitions) {
+    public void setControlFlows(List<ControlFlow> controlFlows) {
 
-        this.outgoingTransitions = transitions;
+        this.outgoingControlFlows = controlFlows;
     }
 
     @Override
-    public List<Transition> getOutgoingTransitions() {
+    public List<ControlFlow> getOutgoingControlFlows() {
 
-        return outgoingTransitions;
+        return outgoingControlFlows;
     }
 
     @Override
-    public List<Transition> getIncomingTransitions() {
+    public List<ControlFlow> getIncomingControlFlows() {
 
-        return incomingTransitions;
+        return incomingControlFlows;
     }
 
     @JsonProperty

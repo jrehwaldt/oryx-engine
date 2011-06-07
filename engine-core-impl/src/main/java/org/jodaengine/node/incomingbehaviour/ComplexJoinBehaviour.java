@@ -8,7 +8,7 @@ import java.util.Set;
 import org.jodaengine.node.outgoingbehaviour.ComplexGatewayState;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -43,10 +43,10 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     public boolean joinable(Token token, Node node) {
         //TODO Use node instead of getCurrentNode, Ask Thorben if this is ok!
         ProcessInstanceContext context = token.getInstance().getContext();
-        List<Transition> signaledTransitions = context.getWaitingExecutions(token.getCurrentNode());
+        List<ControlFlow> signaledTransitions = context.getWaitingExecutions(token.getCurrentNode());
 
         // make a set to ignore doubled entries, etc.
-        Set<Transition> singaledTransitionsSet = new HashSet<Transition>(signaledTransitions);
+        Set<ControlFlow> singaledTransitionsSet = new HashSet<ControlFlow>(signaledTransitions);
         ComplexGatewayState state = getGatewayState(context, token.getCurrentNode());
 
         switch (state) {
@@ -57,7 +57,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
                 break;
 
             case WAITING_FOR_RESET:
-                if (singaledTransitionsSet.size() == token.getCurrentNode().getIncomingTransitions().size()) {
+                if (singaledTransitionsSet.size() == token.getCurrentNode().getIncomingControlFlows().size()) {
                     return true;
                 }
                 break;

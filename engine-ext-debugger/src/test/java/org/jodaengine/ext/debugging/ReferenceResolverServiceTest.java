@@ -85,7 +85,7 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
         this.nodeTarget = new NodeImpl(null, null, null);
         List<Node> nodes = new ArrayList<Node>();
         nodes.add(this.node);
-        this.node.transitionTo(this.nodeTarget);
+        this.node.controlFlowTo(this.nodeTarget);
         this.definitionID = new ProcessDefinitionID("test", 1);
         this.definition = new IDProcessDefinitionImpl(this.definitionID, nodes);
         

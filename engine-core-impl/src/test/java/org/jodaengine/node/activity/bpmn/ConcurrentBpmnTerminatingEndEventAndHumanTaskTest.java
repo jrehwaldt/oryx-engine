@@ -126,7 +126,7 @@ public class ConcurrentBpmnTerminatingEndEventAndHumanTaskTest extends AbstractJ
 
         terminatingEndNode = BpmnNodeFactory.createBpmnTerminatingEndEventNode(builder);
 
-        BpmnNodeFactory.createTransitionFromTo(builder, splitNode, humanTaskNode);
-        BpmnNodeFactory.createTransitionFromTo(builder, splitNode, terminatingEndNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, splitNode, humanTaskNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, splitNode, terminatingEndNode);
     }
 }

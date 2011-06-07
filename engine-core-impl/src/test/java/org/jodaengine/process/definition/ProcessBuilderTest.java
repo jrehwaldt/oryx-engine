@@ -8,7 +8,7 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -35,7 +35,7 @@ public class ProcessBuilderTest {
 
         endNode = builder.getNodeBuilder().setActivityBehavior(new NullActivity()).buildNode();
 
-        builder.getTransitionBuilder().transitionGoesFromTo(startNode, endNode).buildTransition();
+        builder.getControlFlowBuilder().controlFlowGoesFromTo(startNode, endNode).buildControlFlow();
         
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition definition = builder.buildDefinition();
@@ -46,11 +46,11 @@ public class ProcessBuilderTest {
         Node node = startNodes.get(0);
         assertEquals(node, startNode, "This node should be the defined startNode");
 
-        List<Transition> outgoingTransitions = node.getOutgoingTransitions();
+        List<ControlFlow> outgoingTransitions = node.getOutgoingControlFlows();
         assertEquals(outgoingTransitions.size(), 1, "There should be one outgoing transition");
 
-        Transition transition = outgoingTransitions.get(0);
-        assertEquals(transition.getDestination(), endNode, "startNode should be connected to endNode");
+        ControlFlow controlFlow = outgoingTransitions.get(0);
+        assertEquals(controlFlow.getDestination(), endNode, "startNode should be connected to endNode");
 
     }
 

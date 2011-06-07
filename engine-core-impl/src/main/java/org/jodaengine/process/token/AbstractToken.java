@@ -23,7 +23,7 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.resource.allocation.TaskAllocation;
 import org.jodaengine.util.ServiceContext;
 import org.jodaengine.util.ServiceContextImpl;
@@ -40,7 +40,7 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
     protected AbstractProcessInstance instance;
 
     protected Node currentNode;
-    protected Transition lastTakenTransition;
+    protected ControlFlow lastTakenTransition;
 
     @JsonIgnore
     private ServiceContext serviceContext;
@@ -136,13 +136,13 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
     }
 
     @Override
-    public Transition getLastTakenTransition() {
+    public ControlFlow getLastTakenTransition() {
 
         return lastTakenTransition;
     }
 
     @Override
-    public void setLastTakenTransition(Transition t) {
+    public void setLastTakenTransition(ControlFlow t) {
 
         this.lastTakenTransition = t;
     }

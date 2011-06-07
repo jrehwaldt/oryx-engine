@@ -7,7 +7,7 @@ import java.util.Random;
 import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -25,7 +25,7 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
         Token token = tokens.get(0);
         
         // The activated transitions we can reach from this place
-        List<Transition> possibleTransitionsToTake = new ArrayList<Transition>();
+        List<ControlFlow> possibleTransitionsToTake = new ArrayList<ControlFlow>();
         
         Node currentNode = token.getCurrentNode();
         
@@ -33,7 +33,7 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
         Node nextPetriTranisiton = null;
         
         // Now check for reachable transitions
-        for (Transition t : currentNode.getOutgoingTransitions()) {
+        for (ControlFlow t : currentNode.getOutgoingControlFlows()) {
             
             //save all possible Transitions
             nextPetriTranisiton = t.getDestination();
@@ -53,7 +53,7 @@ public class PlaceSplitBehaviour implements OutgoingBehaviour {
         int size = possibleTransitionsToTake.size();
         int randomNumber = new Random().nextInt(size);
         
-        List<Transition> chosenTransitionList = new ArrayList<Transition>();
+        List<ControlFlow> chosenTransitionList = new ArrayList<ControlFlow>();
         
         // Now move the token to the next node and return it 
         chosenTransitionList.add(possibleTransitionsToTake.get(randomNumber));

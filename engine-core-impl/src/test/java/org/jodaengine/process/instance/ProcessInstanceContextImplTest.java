@@ -9,7 +9,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -31,14 +31,14 @@ public class ProcessInstanceContextImplTest {
     @Test
     public void setWaitingExecutionWithEmptyWaitingTransitions() {
 
-        Transition t = mock(Transition.class);
+        ControlFlow t = mock(ControlFlow.class);
 
         Node n = mock(Node.class);
         when(t.getDestination()).thenReturn(n);
 
         context.setWaitingExecution(t);
 
-        ArrayList<Transition> expected = new ArrayList<Transition>();
+        ArrayList<ControlFlow> expected = new ArrayList<ControlFlow>();
         expected.add(t);
         assertEquals(context.getWaitingExecutions(n), expected);
 
@@ -50,8 +50,8 @@ public class ProcessInstanceContextImplTest {
     @Test
     public void setWaitingExecution() {
 
-        Transition t = mock(Transition.class);
-        Transition t2 = mock(Transition.class);
+        ControlFlow t = mock(ControlFlow.class);
+        ControlFlow t2 = mock(ControlFlow.class);
 
         Node n = mock(Node.class);
         when(t.getDestination()).thenReturn(n);
@@ -60,7 +60,7 @@ public class ProcessInstanceContextImplTest {
         context.setWaitingExecution(t);
         context.setWaitingExecution(t2);
 
-        ArrayList<Transition> expected = new ArrayList<Transition>();
+        ArrayList<ControlFlow> expected = new ArrayList<ControlFlow>();
         expected.add(t);
         expected.add(t2);
         assertEquals(context.getWaitingExecutions(n), expected);
@@ -73,7 +73,7 @@ public class ProcessInstanceContextImplTest {
     public void removeIncomingTransitionsSignaled() {
 
         // Create a transition mock with a Destination Node as Mock
-        Transition t = mock(Transition.class);
+        ControlFlow t = mock(ControlFlow.class);
         Node n = mock(Node.class);
         when(t.getDestination()).thenReturn(n);
 
@@ -81,11 +81,11 @@ public class ProcessInstanceContextImplTest {
         context.setWaitingExecution(t);
 
         // Build a list out of it
-        ArrayList<Transition> transitionList = new ArrayList<Transition>();
+        ArrayList<ControlFlow> transitionList = new ArrayList<ControlFlow>();
         transitionList.add(t);
 
         // Return the list, if for incoming Transitions is asked
-        when(n.getIncomingTransitions()).thenReturn(transitionList);
+        when(n.getIncomingControlFlows()).thenReturn(transitionList);
 
         // The method to test, finally...
         context.removeIncomingTransitions(n);
@@ -111,8 +111,8 @@ public class ProcessInstanceContextImplTest {
     public void allIncomingTransitionsSignaled() {
 
         // Create a transition mock with a Destination Node as Mock
-        Transition t = mock(Transition.class);
-        Transition t2 = mock(Transition.class);
+        ControlFlow t = mock(ControlFlow.class);
+        ControlFlow t2 = mock(ControlFlow.class);
         
         Node n = mock(Node.class);
         
@@ -123,11 +123,11 @@ public class ProcessInstanceContextImplTest {
         context.setWaitingExecution(t2);
 
         // Build a list out of it
-        ArrayList<Transition> transitionList = new ArrayList<Transition>();
+        ArrayList<ControlFlow> transitionList = new ArrayList<ControlFlow>();
         transitionList.add(t);
 
         // Return the list, if for incoming Transitions is asked
-        when(n.getIncomingTransitions()).thenReturn(transitionList);
+        when(n.getIncomingControlFlows()).thenReturn(transitionList);
 
         assertTrue(context.allIncomingTransitionsSignaled(n), "should contain all incoming transitions");
     }

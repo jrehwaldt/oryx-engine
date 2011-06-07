@@ -16,7 +16,7 @@ import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 
 /**
  * The ancient Bpmn Token class, which is used for processing a bpmn model.
@@ -162,7 +162,7 @@ public class BpmnToken extends AbstractToken {
     }
     
     @Override
-    public List<Token> navigateTo(List<Transition> transitionList) {
+    public List<Token> navigateTo(List<ControlFlow> transitionList) {
 
         List<Token> tokensToNavigate = new ArrayList<Token>();
 
@@ -178,10 +178,10 @@ public class BpmnToken extends AbstractToken {
             //
         } else if (transitionList.size() == 1) {
 
-            Transition transition = transitionList.get(0);
-            Node node = transition.getDestination();
+            ControlFlow controlFlow = transitionList.get(0);
+            Node node = controlFlow.getDestination();
             this.setCurrentNode(node);
-            this.lastTakenTransition = transition;
+            this.lastTakenTransition = controlFlow;
             changeActivityState(ActivityState.INIT);
             tokensToNavigate.add(this);
 
@@ -190,10 +190,10 @@ public class BpmnToken extends AbstractToken {
             //
         } else {
 
-            for (Transition transition : transitionList) {
-                Node node = transition.getDestination();
+            for (ControlFlow controlFlow : transitionList) {
+                Node node = controlFlow.getDestination();
                 Token newToken = createToken(node);
-                newToken.setLastTakenTransition(transition);
+                newToken.setLastTakenTransition(controlFlow);
                 tokensToNavigate.add(newToken);
             }
 

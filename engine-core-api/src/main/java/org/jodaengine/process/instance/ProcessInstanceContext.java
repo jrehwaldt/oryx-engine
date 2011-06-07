@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 
 /**
  * The Interface ProcessInstanceContext. It is shared between Tokens that work in the same process scope, for example in
@@ -24,7 +24,7 @@ public interface ProcessInstanceContext {
      * @param t
      *            the transition that is signaled
      */
-    void setWaitingExecution(Transition t);
+    void setWaitingExecution(ControlFlow t);
 
     /**
      * Gets all transitions that are incoming to a node and that have been signaled.
@@ -33,7 +33,7 @@ public interface ProcessInstanceContext {
      *            the node that the signaled transitions are checked for
      * @return a list of all incoming transitions that have been signaled so far
      */
-    List<Transition> getWaitingExecutions(Node n);
+    List<ControlFlow> getWaitingExecutions(Node n);
 
     /**
      * Determines, whether all incoming transitions for the given node haven been signaled.
@@ -56,10 +56,10 @@ public interface ProcessInstanceContext {
     /**
      * Removes the incoming transition for a specific node.
      *
-     * @param transition the transition
+     * @param controlFlow the transition
      * @param node the node
      */
-    void removeIncomingTransition(Transition transition, Node node);
+    void removeIncomingTransition(ControlFlow controlFlow, Node node);
 
     /**
      * Sets the variable in the process context.

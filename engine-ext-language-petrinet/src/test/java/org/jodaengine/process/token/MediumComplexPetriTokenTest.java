@@ -69,11 +69,11 @@ public class MediumComplexPetriTokenTest {
         secondEndPlace = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
         secondEndPlace.setAttribute("name", "6");
 
-        firstStartPlace.transitionTo(petriTransition);
-        petriTransition.transitionTo(firstEndPlace);
-        firstStartPlace.transitionTo(secondPetriTransition);
-        secondStartPlace.transitionTo(secondPetriTransition);
-        secondPetriTransition.transitionTo(secondEndPlace);
+        firstStartPlace.controlFlowTo(petriTransition);
+        petriTransition.controlFlowTo(firstEndPlace);
+        firstStartPlace.controlFlowTo(secondPetriTransition);
+        secondStartPlace.controlFlowTo(secondPetriTransition);
+        secondPetriTransition.controlFlowTo(secondEndPlace);
         
         
         TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);

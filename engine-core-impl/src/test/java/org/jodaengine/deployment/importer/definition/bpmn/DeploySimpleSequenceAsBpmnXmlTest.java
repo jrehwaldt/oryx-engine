@@ -38,25 +38,25 @@ public class DeploySimpleSequenceAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Node onlyStartNode = startNodes.get(0);
         Assert.assertEquals(extractClass(onlyStartNode), BpmnStartEvent.class);
         Assert.assertEquals(onlyStartNode.getAttribute("name"), "Start");
-        Assert.assertEquals(onlyStartNode.getOutgoingTransitions().size(), 1);
+        Assert.assertEquals(onlyStartNode.getOutgoingControlFlows().size(), 1);
 
-        Node nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
+        Node nextNode = onlyStartNode.getOutgoingControlFlows().get(0).getDestination();
         Assert.assertEquals(extractClass(nextNode), AutomatedDummyActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "A");
-        Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
+        Assert.assertEquals(nextNode.getOutgoingControlFlows().size(), 1);
 
-        nextNode = nextNode.getOutgoingTransitions().get(0).getDestination();
+        nextNode = nextNode.getOutgoingControlFlows().get(0).getDestination();
         Assert.assertEquals(nextNode.getAttribute("name"), "B");
-        Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
+        Assert.assertEquals(nextNode.getOutgoingControlFlows().size(), 1);
 
-        nextNode = nextNode.getOutgoingTransitions().get(0).getDestination();
+        nextNode = nextNode.getOutgoingControlFlows().get(0).getDestination();
         Assert.assertEquals(nextNode.getAttribute("name"), "C");
-        Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
+        Assert.assertEquals(nextNode.getOutgoingControlFlows().size(), 1);
 
-        Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
+        Node endNode = nextNode.getOutgoingControlFlows().get(0).getDestination();
         Assert.assertEquals(extractClass(endNode), BpmnEndEventActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
-        Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
+        Assert.assertEquals(endNode.getOutgoingControlFlows().size(), 0);
     }
 
     public Class<? extends Activity> extractClass(Node node) {

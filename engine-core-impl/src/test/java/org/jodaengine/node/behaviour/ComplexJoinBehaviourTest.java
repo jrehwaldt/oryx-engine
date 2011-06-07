@@ -17,7 +17,7 @@ import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
 import org.jodaengine.process.structure.NodeBuilderImpl;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
@@ -32,7 +32,7 @@ import org.testng.annotations.Test;
 public class ComplexJoinBehaviourTest {
 
     private Node beforeNode1, beforeNode2, joinNode, nextNode;
-    private Transition incomingTransition1, incomingTransition2;
+    private ControlFlow incomingTransition1, incomingTransition2;
 
     private NavigatorImplMock nav;
     private Token token;
@@ -57,9 +57,9 @@ public class ComplexJoinBehaviourTest {
         beforeNode1 = builder.buildNode();
         beforeNode2 = builder.buildNode();
 
-        incomingTransition1 = beforeNode1.transitionTo(joinNode);
-        incomingTransition2 = beforeNode2.transitionTo(joinNode);
-        joinNode.transitionTo(nextNode);
+        incomingTransition1 = beforeNode1.controlFlowTo(joinNode);
+        incomingTransition2 = beforeNode2.controlFlowTo(joinNode);
+        joinNode.controlFlowTo(nextNode);
 
     }
 

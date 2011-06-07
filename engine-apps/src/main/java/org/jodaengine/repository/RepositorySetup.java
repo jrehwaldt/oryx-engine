@@ -93,8 +93,8 @@ public final class RepositorySetup {
 
         Node node2 = BpmnCustomNodeFactory.createBpmnAddNumbersAndStoreNode(builder, "result", integers);
 
-        BpmnNodeFactory.createTransitionFromTo(builder, startNode, node1);
-        BpmnNodeFactory.createTransitionFromTo(builder, node1, node2);
+        BpmnNodeFactory.createControlFlowFromTo(builder, startNode, node1);
+        BpmnNodeFactory.createControlFlowFromTo(builder, node1, node2);
 
         builder.setName(processName).setDescription(processDescription);
 

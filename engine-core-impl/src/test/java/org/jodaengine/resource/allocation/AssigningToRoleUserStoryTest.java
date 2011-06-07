@@ -79,7 +79,7 @@ public class AssigningToRoleUserStoryTest extends AbstractJodaEngineTest {
 
         endNode = SimpleNodeFactory.createSimpleNodeWith(new BpmnEndEventActivity());
 
-        humanTaskNode.transitionTo(endNode);
+        humanTaskNode.controlFlowTo(endNode);
 
         //TODO Jannik refactor to builder
         token = new BpmnToken(humanTaskNode, new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)), new NavigatorImplMock());

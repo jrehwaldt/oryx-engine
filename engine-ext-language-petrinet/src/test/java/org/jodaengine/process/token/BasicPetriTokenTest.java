@@ -63,10 +63,10 @@ public class BasicPetriTokenTest {
         endPlace = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
         endPlace.setAttribute("name", "5");
 
-        startPlace.transitionTo(petriTransition);
-        petriTransition.transitionTo(secondPlace);
-        secondPlace.transitionTo(secondPetriTransition);
-        secondPetriTransition.transitionTo(endPlace);
+        startPlace.controlFlowTo(petriTransition);
+        petriTransition.controlFlowTo(secondPlace);
+        secondPlace.controlFlowTo(secondPetriTransition);
+        secondPetriTransition.controlFlowTo(endPlace);
         
         
         TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);
@@ -86,7 +86,7 @@ public class BasicPetriTokenTest {
 
         Node currentNode = token.getCurrentNode();
         
-        List<Token> newTokens = token.navigateTo(currentNode.getOutgoingTransitions());
+        List<Token> newTokens = token.navigateTo(currentNode.getOutgoingControlFlows());
         
         assertEquals(instance.getAssignedTokens().size(), 1, "There should be one moved token.");
         assertEquals(newTokens.get(0).getCurrentNode(), petriTransition,

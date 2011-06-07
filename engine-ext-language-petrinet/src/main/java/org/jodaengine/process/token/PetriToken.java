@@ -15,7 +15,7 @@ import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
 
@@ -108,7 +108,7 @@ public class PetriToken extends AbstractToken {
     }
     
     @Override
-    public List<Token> navigateTo(List<Transition> transitionList) {
+    public List<Token> navigateTo(List<ControlFlow> transitionList) {
 
         List<Token> tokensToNavigate = new ArrayList<Token>();
 
@@ -118,11 +118,11 @@ public class PetriToken extends AbstractToken {
         // petri net semantic: Produce a new token after a transition
         } else {
 
-            for (Transition transition : transitionList) {
-                Node node = transition.getDestination();
+            for (ControlFlow controlFlow : transitionList) {
+                Node node = controlFlow.getDestination();
                 Token newToken;
                 // Only create a new token, if a PetriTransition was before 
-                if (transition.getSource().getOutgoingBehaviour() instanceof TransitionSplitBehaviour) {
+                if (controlFlow.getSource().getOutgoingBehaviour() instanceof TransitionSplitBehaviour) {
                     newToken = createToken(node);
                 } else {
                     newToken = this;

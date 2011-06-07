@@ -59,9 +59,9 @@ public class TransitionJoinTest {
         node4 = new NodeImpl(new NullActivity(), null, new PlaceSplitBehaviour());
         node4.setAttribute("name", "4");
 
-        node.transitionTo(node2);
-        node3.transitionTo(node2);
-        node2.transitionTo(node4);
+        node.controlFlowTo(node2);
+        node3.controlFlowTo(node2);
+        node2.controlFlowTo(node4);
 
         util = new TokenUtil();
         TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);

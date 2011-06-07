@@ -48,7 +48,7 @@ public class RoutingBehaviourTest {
     public void testClass() {
 
         Node node = token.getCurrentNode();
-        Node nextNode = node.getOutgoingTransitions().get(0).getDestination();
+        Node nextNode = node.getOutgoingControlFlows().get(0).getDestination();
 
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
@@ -87,7 +87,7 @@ public class RoutingBehaviourTest {
         Node node2 = builder.getNodeBuilder().setActivityBehavior(new NullActivity())
         .setIncomingBehaviour(new SimpleJoinBehaviour()).setOutgoingBehaviour(new TakeAllSplitBehaviour()).buildNode();
 
-        builder.getTransitionBuilder().transitionGoesFromTo(node, node2).buildTransition();
+        builder.getControlFlowBuilder().controlFlowGoesFromTo(node, node2).buildControlFlow();
 
         return new BpmnToken(node, new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)), null);
     }

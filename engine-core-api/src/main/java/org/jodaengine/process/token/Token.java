@@ -15,7 +15,7 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.util.Identifiable;
 import org.jodaengine.util.ServiceContext;
 
@@ -68,7 +68,7 @@ public interface Token extends Identifiable<UUID>, ServiceContext {
      *            a list with redirections
      * @return newly created subprocesses
      */
-    List<Token> navigateTo(List<Transition> transitionList);
+    List<Token> navigateTo(List<ControlFlow> transitionList);
 
     /**
      * Gets the process instance this token belongs to.
@@ -84,7 +84,7 @@ public interface Token extends Identifiable<UUID>, ServiceContext {
      * @return the last taken transition
      */
     @JsonIgnore
-    Transition getLastTakenTransition();
+    ControlFlow getLastTakenTransition();
 
     /**
      * Sets the last taken transition.
@@ -92,7 +92,7 @@ public interface Token extends Identifiable<UUID>, ServiceContext {
      * @param t
      *            the new last taken transitions
      */
-    void setLastTakenTransition(Transition t);
+    void setLastTakenTransition(ControlFlow t);
 
     /**
      * Stopping the token navigation.

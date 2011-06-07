@@ -12,7 +12,7 @@ import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -30,7 +30,7 @@ public class ProcessTokenImplTest {
     private NodeImpl node = null, node2 = null, node3 = null;
 
     /** The transition to be taken. */
-    private Transition transitionToTake = null;
+    private ControlFlow transitionToTake = null;
 
     /**
      * Set up.     
@@ -54,7 +54,7 @@ public class ProcessTokenImplTest {
 
         Node currentNode = token.getCurrentNode();
         
-        List<Token> newTokens = token.navigateTo(currentNode.getOutgoingTransitions());
+        List<Token> newTokens = token.navigateTo(currentNode.getOutgoingControlFlows());
         assertEquals(newTokens.size(), 2, "You should have two new process tokens");
 
         Node[] currentNodes = new Node[2];
@@ -75,7 +75,7 @@ public class ProcessTokenImplTest {
     @Test
     public void testTakeSingleTransition() throws Exception {
 
-        List<Transition> transitionList = new ArrayList<Transition>();
+        List<ControlFlow> transitionList = new ArrayList<ControlFlow>();
         transitionList.add(transitionToTake);
         List<Token> newTokens = token.navigateTo(transitionList);
         assertEquals(newTokens.size(), 1, "You should have a single process token.");
@@ -96,11 +96,11 @@ public class ProcessTokenImplTest {
         node = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         node2 = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         node3 = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
-        node.transitionTo(node2);
+        node.controlFlowTo(node2);
         
-        transitionToTake = node.getOutgoingTransitions().get(0);
+        transitionToTake = node.getOutgoingControlFlows().get(0);
         
-        node.transitionTo(node3);
+        node.controlFlowTo(node3);
         
         TokenBuilder tokenBuilder = new BpmnTokenBuilder(null, null);
         return new BpmnToken(node, new ProcessInstance(null, tokenBuilder), null);
