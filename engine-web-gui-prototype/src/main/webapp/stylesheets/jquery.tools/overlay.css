@@ -12,7 +12,8 @@
     background-color: white;
     
     width: 1200px;
-    min-height: 200px;
+    min-height: 600px;
+    max-height: 60%;
     border: 1px solid #666;
     
     /* CSS3 styling for latest browsers */
@@ -29,4 +30,5 @@
     cursor: pointer;
     height: 35px;
     width: 35px;
+    z-index: 1001;
 }

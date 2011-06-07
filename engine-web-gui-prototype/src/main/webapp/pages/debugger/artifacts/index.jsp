@@ -9,9 +9,9 @@
         <script type="text/javascript" src="/javascripts/debugger/debugger-svg-crud.js"></script>
         <script type="text/javascript" src="/javascripts/debugger/debugger.js"></script>
         
-        <%-- optional 
+        <%-- optional --%>
         <script type="text/javascript" src="/javascripts/lib/jquery.timers-1.2.js"></script>
-        --%>
+        
         
         <link rel="stylesheet" type="text/css" href="/stylesheets/jquery.tools/overlay.css">
         <link rel="stylesheet" type="text/css" href="/stylesheets/jquery.ui/ui-lightness/jquery-ui-1.8.12.custom.css">
@@ -43,8 +43,11 @@
             </form>
         </div>
         
+        <!-- Full SVG Artifact Overlay -->
         <div class="overlay" id="svg-artifact-full-overlay">
-            <img class="full-svg-artifact" src="" width="100%" />
+            <!--<img class="full-svg-artifact" src="" width="100%" />-->
+            <!--<embed class="full-svg-artifact" src="" type="image/svg+xml"></embed>-->
+            <div class="full-svg-artifact"></div>
         </div>
     </body>
 </html>

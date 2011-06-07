@@ -2,3 +2,15 @@
     display: none;
 }
 
+embed.full-svg-artifact {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+div.full-svg-artifact {
+    overflow-x: auto;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+}

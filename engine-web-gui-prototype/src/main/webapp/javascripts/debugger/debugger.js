@@ -15,21 +15,22 @@ $().ready(function() {
     // 
     loadArtifactsOverview();
     
-//    //
-//    // enable continues refresh, if available
-//    //
-//    if ($(document).everyTime) {
-//        $(document).everyTime(2500, function(i) {
-//            loadArtifactsOverview();
-//        }, 0); // 0 = unbound
-//    }
-    
     //
     // register the refresh overview handler
     //
     $('#definitions-overview-refresh').click(function(event) {
         event.preventDefault();
         loadArtifactsOverview();
+    });
+    
+    //
+    // register click handler for the svg bpmn elements (gateway, event, task)
+    //
+    $('g.me > g[id]', $('div.full-svg-artifact')).live('click', function(event) {
+        var elementContainer = $(this);
+        var elementId = elementContainer.attr('id'); // sid-XXXX
+        var element = elementContainer.children('*[id=' + elementId + 'bg_frame]');
+        element.css('fill', 'red');
     });
 });
 
@@ -61,7 +62,7 @@ function loadArtifactsOverview() {
                         + '<td>' + definition.description + '</td>'
                         + '<td class="artifact-cell">'
                             + '<a href="#" class="show-full-svg-artifact">'
-                                + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" width="300" height="100" type="image/svg.svg+xml" rel="#svg-artifact-full-overlay" />'
+                                + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" width="300" height="100" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
                             + '</a> '
                             + '<a href="#" class="set-svg-artifact">Set</a> '
                         + '</td>'
@@ -76,7 +77,9 @@ function loadArtifactsOverview() {
                 showFullSvg(definitionId);
             });
             
-            $('img.svg-artifact[rel]', tableBody).overlay();
+            if ($(document).overlay) {
+                $('img.svg-artifact[rel]', tableBody).overlay();
+            }
             
             $('.artifact-cell a.set-svg-artifact', tableBody).click(function(event) {
                 event.preventDefault();
@@ -96,7 +99,19 @@ function loadArtifactsOverview() {
  * @param definitionId the definition to show the svg for
  */
 function showFullSvg(definitionId) {
-    $('#svg-artifact-full-overlay .full-svg-artifact').attr('src', '/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime());
+//    $('#svg-artifact-full-overlay .full-svg-artifact').prop('src', '/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime());
+    
+    getDebuggerSvgArtifact(definitionId, function(artifact, definitionId) {
+        //
+        // see
+        //    http://stackoverflow.com/questions/156133/loading-xhtml-fragments-over-ajax-with-jquery
+        // and
+        //    http://stackoverflow.com/questions/3679114/jquery-append-dom
+        // for an explanation, why adding the svg is so complicated.
+        //
+        $('#svg-artifact-full-overlay div.full-svg-artifact').html($(artifact).children().clone());
+    });
+    
 };
 
 /**
@@ -131,8 +146,8 @@ function showSetSvgArtifactForm(definitionId) {
                 //
                 if ($(document).oneTime) {
                     $(document).oneTime(100, function() {
-                        var img = $('tr[definition-id=' + definitionId + '] img.svg-artifact');
-                        img.prop('src', '/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime());
+                        var overlay = $('tr[definition-id=' + definitionId + '] .svg-artifact');
+                        overlay.prop('src', '/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime());
                     });
                 }
             }
