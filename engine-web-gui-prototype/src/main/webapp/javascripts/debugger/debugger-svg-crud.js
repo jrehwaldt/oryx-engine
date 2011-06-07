@@ -29,7 +29,7 @@ function setDebuggerSvgArtifact(definitionId, svgArtifact, successHandler) {
 function getDebuggerSvgArtifact(definitionId, successHandler) {
     $.ajax({
         type: 'GET',
-        url: '/api/debugger/artifacts/' + definitionId + '/svg',
+        url: '/api/debugger/artifacts/' + definitionId + '/svg.svg',
         success: function(svgXmlArtifact) {
             if (successHandler)
                 successHandler.apply(null, [svgXmlArtifact, definitionId]);

@@ -9,9 +9,9 @@
         <script type="text/javascript" src="/javascripts/debugger/debugger-svg-crud.js"></script>
         <script type="text/javascript" src="/javascripts/debugger/debugger.js"></script>
         
-        <%-- optional --%>
+        <%-- optional 
         <script type="text/javascript" src="/javascripts/lib/jquery.timers-1.2.js"></script>
-        
+        --%>
         
         <link rel="stylesheet" type="text/css" href="/stylesheets/jquery.tools/overlay.css">
         <link rel="stylesheet" type="text/css" href="/stylesheets/jquery.ui/ui-lightness/jquery-ui-1.8.12.custom.css">

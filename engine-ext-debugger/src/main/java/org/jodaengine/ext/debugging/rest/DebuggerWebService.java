@@ -249,23 +249,23 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
         
         this.debugger.setSvgArtifact(definition, svgArtifact);
     }
-//    
-//    /**
-//     * Helper method mapping the rest parameter to the implemented api.
-//     * 
-//     * @param dereferencedDefinitionID the process' definition id
-//     * @return svgArtifact the artifact to set
-//     * @throws DefinitionNotFoundException in case the definition is unknown
-//     * @throws ProcessArtifactNotFoundException in case no artifact is found
-//     */
-//    @Path("/artifacts/{definitionID}/svg.svg")
-//    @GET
-//    @Produces("image/svg+xml")
-//    public String getSvgArtifact2(@Nonnull @PathParam("definitionID") ProcessDefinitionID dereferencedDefinitionID)
-//    throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
-//        
-//        return getSvgArtifact(dereferencedDefinitionID);
-//    }
+    
+    /**
+     * Helper method mapping the rest parameter to the implemented api.
+     * 
+     * @param dereferencedDefinitionID the process' definition id
+     * @return svgArtifact the artifact to set
+     * @throws DefinitionNotFoundException in case the definition is unknown
+     * @throws ProcessArtifactNotFoundException in case no artifact is found
+     */
+    @Path("/artifacts/{definitionID}/svg.svg")
+    @GET
+    @Produces("image/svg+xml")
+    public String getSvgArtifact2(@Nonnull @PathParam("definitionID") ProcessDefinitionID dereferencedDefinitionID)
+    throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
+        
+        return getSvgArtifact(dereferencedDefinitionID);
+    }
     
     /**
      * Helper method mapping the rest parameter to the implemented api.

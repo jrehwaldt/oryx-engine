@@ -61,7 +61,7 @@ function loadArtifactsOverview() {
                         + '<td>' + definition.description + '</td>'
                         + '<td class="artifact-cell">'
                             + '<a href="#" class="show-full-svg-artifact">'
-                                + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg?timestamp=' + new Date() + '" width="300" height="100" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
+                                + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" width="300" height="100" type="image/svg.svg+xml" rel="#svg-artifact-full-overlay" />'
                             + '</a> '
                             + '<a href="#" class="set-svg-artifact">Set</a> '
                         + '</td>'
@@ -96,7 +96,7 @@ function loadArtifactsOverview() {
  * @param definitionId the definition to show the svg for
  */
 function showFullSvg(definitionId) {
-    $('#svg-artifact-full-overlay .full-svg-artifact').attr('src', '/api/debugger/artifacts/' + definitionId + '/svg.svg');
+    $('#svg-artifact-full-overlay .full-svg-artifact').attr('src', '/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime()');
 };
 
 /**
@@ -132,7 +132,7 @@ function showSetSvgArtifactForm(definitionId) {
                 if ($(document).oneTime) {
                     $(document).oneTime(100, function() {
                         var img = $('tr[definition-id=' + definitionId + '] img.svg-artifact');
-                        img.prop('src', '/api/debugger/artifacts/' + definitionId + '/svg?timestamp=' + new Date());
+                        img.prop('src', '/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime());
                     });
                 }
             }
