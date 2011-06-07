@@ -18,48 +18,48 @@ import org.jodaengine.process.structure.ControlFlow;
 public interface ProcessInstanceContext {
 
     /**
-     * Signals that the declared transition has been taken.
+     * Signals that the declared {@link ControlFlow} has been taken.
      * If all transitions (e.g. for an AND-join) have been signaled the process can continue execution.
      * 
      * @param t
-     *            the transition that is signaled
+     *            the {@link ControlFlow} that is signaled
      */
     void setWaitingExecution(ControlFlow t);
 
     /**
-     * Gets all transitions that are incoming to a node and that have been signaled.
+     * Gets all {@link ControlFlow}s that are incoming to a node and that have been signaled.
      * 
      * @param n
-     *            the node that the signaled transitions are checked for
-     * @return a list of all incoming transitions that have been signaled so far
+     *            the node that the signaled {@link ControlFlow}s are checked for
+     * @return a list of all incoming {@link ControlFlow}s that have been signaled so far
      */
     List<ControlFlow> getWaitingExecutions(Node n);
 
     /**
-     * Determines, whether all incoming transitions for the given node haven been signaled.
+     * Determines, whether all incoming {@link ControlFlow}s for the given node haven been signaled.
      * 
      * @param n
      *            the node that is checked
      * @return true, if successful
      */
-    boolean allIncomingTransitionsSignaled(Node n);
+    boolean allIncomingControlFlowsSignaled(Node n);
 
     /**
-     * Removes all incoming transitions of a node from the internal storage of all signaled incoming transitions.
-     * This is used in the case, e.g. that the AND-Join triggers. Then the signaled transitions have to be reset.
+     * Removes all incoming {@link ControlFlow}s of a node from the internal storage of all signaled incoming {@link ControlFlow}s.
+     * This is used in the case, e.g. that the AND-Join triggers. Then the signaled {@link ControlFlow}s have to be reset.
      * 
      * @param n
      *            the node that triggered
      */
-    void removeIncomingTransitions(Node n);
+    void removeIncomingControlFlows(Node n);
     
     /**
-     * Removes the incoming transition for a specific node.
+     * Removes the incoming {@link ControlFlow} for a specific node.
      *
-     * @param controlFlow the transition
+     * @param controlFlow the {@link ControlFlow}
      * @param node the node
      */
-    void removeIncomingTransition(ControlFlow controlFlow, Node node);
+    void removeIncomingControlFlow(ControlFlow controlFlow, Node node);
 
     /**
      * Sets the variable in the process context.

@@ -40,7 +40,7 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
     protected AbstractProcessInstance instance;
 
     protected Node currentNode;
-    protected ControlFlow lastTakenTransition;
+    protected ControlFlow lastTakenControlFlow;
 
     @JsonIgnore
     private ServiceContext serviceContext;
@@ -136,15 +136,15 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
     }
 
     @Override
-    public ControlFlow getLastTakenTransition() {
+    public ControlFlow getLastTakenControlFlow() {
 
-        return lastTakenTransition;
+        return lastTakenControlFlow;
     }
 
     @Override
-    public void setLastTakenTransition(ControlFlow t) {
+    public void setLastTakenControlFlow(ControlFlow t) {
 
-        this.lastTakenTransition = t;
+        this.lastTakenControlFlow = t;
     }
 
     /**

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.jodaengine.process.instance.ProcessInstanceContext;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
@@ -19,7 +20,7 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
         
         // We have an AND Join, so we have to wait untill all paths are ready.
         // The following line states, that the path with the current token is ready.
-        context.setWaitingExecution(token.getLastTakenTransition());
+        context.setWaitingExecution(token.getLastTakenControlFlow());
         return super.join(token);
     }
 
@@ -27,17 +28,17 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
     public boolean joinable(Token token, Node node) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
-        return context.allIncomingTransitionsSignaled(node);
+        return context.allIncomingControlFlowsSignaled(node);
     }
 
     @Override
     protected List<Token> performJoin(Token token) {
 
-        // We can do this, as we currently assume that an and join has a single outgoing transition
+        // We can do this, as we currently assume that an and join has a single outgoing {@link ControlFlow}
         List<Token> newTokens = new LinkedList<Token>();
         
         ProcessInstanceContext context = token.getInstance().getContext();
-        context.removeIncomingTransitions(token.getCurrentNode());
+        context.removeIncomingControlFlows(token.getCurrentNode());
         newTokens.add(token);
         return newTokens;
     }

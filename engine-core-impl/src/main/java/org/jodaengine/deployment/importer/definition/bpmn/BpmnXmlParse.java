@@ -589,12 +589,12 @@ public class BpmnXmlParse extends XmlParse {
                 return;
             }
 
-            Condition transitionCondition = parseSequenceFlowCondition(sequenceFlowElement);
+            Condition controlFlowCondition = parseSequenceFlowCondition(sequenceFlowElement);
 
             ControlFlowBuilder controlFlowBuilder = processBuilder.getControlFlowBuilder().controlFlowGoesFromTo(
                 sourceNode, destinationNode);
-            if (transitionCondition != null) {
-                controlFlowBuilder.setCondition(transitionCondition);
+            if (controlFlowCondition != null) {
+                controlFlowBuilder.setCondition(controlFlowCondition);
             }
 
             ControlFlow controlFlow = controlFlowBuilder.buildControlFlow();

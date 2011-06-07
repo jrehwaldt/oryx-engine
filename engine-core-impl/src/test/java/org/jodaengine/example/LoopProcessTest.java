@@ -20,6 +20,7 @@ import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Condition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
 import org.jodaengine.process.token.BpmnToken;
@@ -112,7 +113,7 @@ public class LoopProcessTest {
         Condition condition1 = new HashMapCondition(map, "<=");
         Condition condition2 = new HashMapCondition(map, "==");
 
-        // Create Transitions
+        // Create {@link ControlFlow}s
         BpmnNodeFactory.createControlFlowFromTo(builder, start, xorJoin);
         BpmnNodeFactory.createControlFlowFromTo(builder, xorJoin, node);
         BpmnNodeFactory.createControlFlowFromTo(builder, node, xorSplit);

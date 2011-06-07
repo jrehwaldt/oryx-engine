@@ -23,7 +23,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     private static final int MAGIC_HASH_CONSTANT_ONE = 7;
 
     @JsonIgnore
-    private Map<Node, List<ControlFlow>> waitingTransitions;
+    private Map<Node, List<ControlFlow>> waitingControlFlows;
 
     private Map<String, Object> contextVariables;
     private Map<String, Object> nodeVariables;
@@ -33,19 +33,19 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
      */
     public ProcessInstanceContextImpl() {
 
-        waitingTransitions = new HashMap<Node, List<ControlFlow>>();
+        waitingControlFlows = new HashMap<Node, List<ControlFlow>>();
     }
 
     @Override
     public void setWaitingExecution(ControlFlow t) {
 
         List<ControlFlow> tmpList;
-        if (waitingTransitions.get(t.getDestination()) != null) {
-            tmpList = waitingTransitions.get(t.getDestination());
+        if (waitingControlFlows.get(t.getDestination()) != null) {
+            tmpList = waitingControlFlows.get(t.getDestination());
 
         } else {
             tmpList = new ArrayList<ControlFlow>();
-            waitingTransitions.put(t.getDestination(), tmpList);
+            waitingControlFlows.put(t.getDestination(), tmpList);
         }
         tmpList.add(t);
 
@@ -54,28 +54,28 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     @Override
     public List<ControlFlow> getWaitingExecutions(Node n) {
 
-        return waitingTransitions.get(n);
+        return waitingControlFlows.get(n);
     }
 
     @Override
-    public boolean allIncomingTransitionsSignaled(Node n) {
+    public boolean allIncomingControlFlowsSignaled(Node n) {
 
-        List<ControlFlow> signaledTransitions = waitingTransitions.get(n);
+        List<ControlFlow> signaledControlFlows = waitingControlFlows.get(n);
 
-        // If there are no waiting transitions yet, the list might not be initialized yet
-        if (signaledTransitions == null) {
+        // If there are no waiting {@link ControlFlow}s yet, the list might not be initialized yet
+        if (signaledControlFlows == null) {
             return false;
         }
-        List<ControlFlow> incomingTransitions = n.getIncomingControlFlows();
-        return signaledTransitions.containsAll(incomingTransitions);
+        List<ControlFlow> incomingControlFlows = n.getIncomingControlFlows();
+        return signaledControlFlows.containsAll(incomingControlFlows);
     }
 
     @Override
-    public void removeIncomingTransitions(Node node) {
+    public void removeIncomingControlFlows(Node node) {
 
-        List<ControlFlow> signaledTransitions = waitingTransitions.get(node);
-        List<ControlFlow> incomingTransitions = node.getIncomingControlFlows();
-        removeSubset(signaledTransitions, incomingTransitions);
+        List<ControlFlow> signaledControlFlows = waitingControlFlows.get(node);
+        List<ControlFlow> incomingControlFlows = node.getIncomingControlFlows();
+        removeSubset(signaledControlFlows, incomingControlFlows);
 
     }
 
@@ -195,15 +195,15 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     @Override
-    public void removeIncomingTransition(ControlFlow controlFlow, Node node) {
+    public void removeIncomingControlFlow(ControlFlow controlFlow, Node node) {
 
-        List<ControlFlow> signaledTransitions = waitingTransitions.get(controlFlow.getDestination());
+        List<ControlFlow> signaledControlFlows = waitingControlFlows.get(controlFlow.getDestination());
         // The map is referencing to every Destination all the incoming Transitions. But we need to check the start node, in order to delete it.
-        for(ControlFlow t : signaledTransitions) {
+        for(ControlFlow t : signaledControlFlows) {
             if(t.getSource() == node) {
-                List<ControlFlow> incomingTransitions = new ArrayList<ControlFlow>();
-                incomingTransitions.add(controlFlow);
-                removeSubset(signaledTransitions, incomingTransitions);
+                List<ControlFlow> incomingControlFlows = new ArrayList<ControlFlow>();
+                incomingControlFlows.add(controlFlow);
+                removeSubset(signaledControlFlows, incomingControlFlows);
                 break;
             }
         }

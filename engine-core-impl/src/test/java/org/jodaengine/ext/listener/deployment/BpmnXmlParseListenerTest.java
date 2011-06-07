@@ -74,7 +74,7 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         ArgumentCaptor<XmlElement> xmlElementArgument = ArgumentCaptor.forClass(XmlElement.class);
         ArgumentCaptor<Node> nodeArgument = ArgumentCaptor.forClass(Node.class);
         ArgumentCaptor<ProcessDefinition> processDefinitionArgument = ArgumentCaptor.forClass(ProcessDefinition.class);
-        ArgumentCaptor<ControlFlow> transitionArgument = ArgumentCaptor.forClass(ControlFlow.class);
+        ArgumentCaptor<ControlFlow> controlFlowArgument = ArgumentCaptor.forClass(ControlFlow.class);
         ArgumentCaptor<Attributable> attributable = ArgumentCaptor.forClass(Attributable.class);
         
         //
@@ -114,11 +114,11 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         //
         Mockito.verify(this.listener, Mockito.times(2)).parseSequenceFlow(
             xmlElementArgument.capture(),
-            transitionArgument.capture(),
+            controlFlowArgument.capture(),
             attributable.capture());
         
         Assert.assertNotNull(xmlElementArgument.getValue());
-        Assert.assertNotNull(transitionArgument.getValue());
+        Assert.assertNotNull(controlFlowArgument.getValue());
         
         //
         // parseUserTask
@@ -150,7 +150,7 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         ArgumentCaptor<XmlElement> xmlElementArgument = ArgumentCaptor.forClass(XmlElement.class);
         ArgumentCaptor<Node> nodeArgument = ArgumentCaptor.forClass(Node.class);
         ArgumentCaptor<ProcessDefinition> processDefinitionArgument = ArgumentCaptor.forClass(ProcessDefinition.class);
-        ArgumentCaptor<ControlFlow> transitionArgument = ArgumentCaptor.forClass(ControlFlow.class);
+        ArgumentCaptor<ControlFlow> controlFlowArgument = ArgumentCaptor.forClass(ControlFlow.class);
         ArgumentCaptor<Attributable> attributable = ArgumentCaptor.forClass(Attributable.class);
         
         //
@@ -190,11 +190,11 @@ public class BpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         //
         Mockito.verify(this.listener, Mockito.times(NUMBER_OF_SEQUENCE_FLOWS)).parseSequenceFlow(
             xmlElementArgument.capture(),
-            transitionArgument.capture(),
+            controlFlowArgument.capture(),
             attributable.capture());
         
         Assert.assertNotNull(xmlElementArgument.getValue());
-        Assert.assertNotNull(transitionArgument.getValue());
+        Assert.assertNotNull(controlFlowArgument.getValue());
         
         //
         // parseTask

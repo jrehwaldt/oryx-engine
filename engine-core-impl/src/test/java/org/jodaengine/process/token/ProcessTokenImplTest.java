@@ -29,8 +29,8 @@ public class ProcessTokenImplTest {
     /** Different Nodes. */
     private NodeImpl node = null, node2 = null, node3 = null;
 
-    /** The transition to be taken. */
-    private ControlFlow transitionToTake = null;
+    /** The {@link ControlFlow} to be taken. */
+    private ControlFlow controlFlowToTake = null;
 
     /**
      * Set up.     
@@ -43,14 +43,14 @@ public class ProcessTokenImplTest {
     }
 
     /**
-     * Test for taking all transitions.
+     * Test for taking all {@link ControlFlow}s.
      * Two new tokens shall be ready for execution if the parent token goes along all edges.
      * The new tokens should then point to the succeeding nodes of the initial token's node.
      *
      * @throws Exception the exception
      */
     @Test
-    public void testTakeAllTransitions() throws Exception {
+    public void testTakeAllControlFlows() throws Exception {
 
         Node currentNode = token.getCurrentNode();
         
@@ -68,16 +68,16 @@ public class ProcessTokenImplTest {
     }
 
     /**
-     * Test the taking of a single transition.
+     * Test the taking of a single {@link ControlFlow}.
      * 
      * @throws Exception if it fails
      */
     @Test
     public void testTakeSingleTransition() throws Exception {
 
-        List<ControlFlow> transitionList = new ArrayList<ControlFlow>();
-        transitionList.add(transitionToTake);
-        List<Token> newTokens = token.navigateTo(transitionList);
+        List<ControlFlow> controlFlowList = new ArrayList<ControlFlow>();
+        controlFlowList.add(controlFlowToTake);
+        List<Token> newTokens = token.navigateTo(controlFlowList);
         assertEquals(newTokens.size(), 1, "You should have a single process token.");
 
         Token newToken = newTokens.get(0);
@@ -98,7 +98,7 @@ public class ProcessTokenImplTest {
         node3 = new NodeImpl(new NullActivity(), new SimpleJoinBehaviour(), new TakeAllSplitBehaviour());
         node.controlFlowTo(node2);
         
-        transitionToTake = node.getOutgoingControlFlows().get(0);
+        controlFlowToTake = node.getOutgoingControlFlows().get(0);
         
         node.controlFlowTo(node3);
         

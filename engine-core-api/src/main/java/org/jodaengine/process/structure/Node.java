@@ -55,7 +55,7 @@ public interface Node extends Identifiable<UUID>, Attributable {
     /**
      * Gets the incoming ControlFlows.
      * 
-     * @return the incoming transitions
+     * @return the incoming {@link ControlFlow}s
      */
     @JsonIgnore
     List<ControlFlow> getIncomingControlFlows();
@@ -64,8 +64,8 @@ public interface Node extends Identifiable<UUID>, Attributable {
      * Describes a new outgoing edge to the given node.
      * 
      * @param node
-     *            the node to which a new transition shall be established
-     * @return the created transition
+     *            the node to which a new {@link ControlFlow} shall be established
+     * @return the created {@link ControlFlow}
      */
     ControlFlow controlFlowTo(Node node);
 
@@ -76,7 +76,7 @@ public interface Node extends Identifiable<UUID>, Attributable {
      *            the destination
      * @param c
      *            the condition
-     * @return the created transition
+     * @return the created {@link ControlFlow}
      */
     ControlFlow controlFlowToWithCondition(Node node, Condition c);
 

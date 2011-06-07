@@ -24,7 +24,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
      * 
      * @param triggerNumber
      *            sets how many incoming branches have to be signaled until the join can be performed. should be greater
-     *            than the number of incoming transitions, as this lets the process instance die.
+     *            than the number of incoming {@link ControlFlow}s, as this lets the process instance die.
      */
     public ComplexJoinBehaviour(int triggerNumber) {
 
@@ -35,7 +35,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     public synchronized List<Token> join(Token token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
-        context.setWaitingExecution(token.getLastTakenTransition());
+        context.setWaitingExecution(token.getLastTakenControlFlow());
         return super.join(token);
     }
 
@@ -43,21 +43,21 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     public boolean joinable(Token token, Node node) {
         //TODO Use node instead of getCurrentNode, Ask Thorben if this is ok!
         ProcessInstanceContext context = token.getInstance().getContext();
-        List<ControlFlow> signaledTransitions = context.getWaitingExecutions(token.getCurrentNode());
+        List<ControlFlow> signaledControlFlows = context.getWaitingExecutions(token.getCurrentNode());
 
         // make a set to ignore doubled entries, etc.
-        Set<ControlFlow> singaledTransitionsSet = new HashSet<ControlFlow>(signaledTransitions);
+        Set<ControlFlow> singaledControlFlowsSet = new HashSet<ControlFlow>(signaledControlFlows);
         ComplexGatewayState state = getGatewayState(context, token.getCurrentNode());
 
         switch (state) {
             case WAITING_FOR_START:
-                if (singaledTransitionsSet.size() >= triggerNumber) {
+                if (singaledControlFlowsSet.size() >= triggerNumber) {
                     return true;
                 }
                 break;
 
             case WAITING_FOR_RESET:
-                if (singaledTransitionsSet.size() == token.getCurrentNode().getIncomingControlFlows().size()) {
+                if (singaledControlFlowsSet.size() == token.getCurrentNode().getIncomingControlFlows().size()) {
                     return true;
                 }
                 break;
@@ -82,7 +82,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
                 // we do not forward tokens here, as this is not specified by the discriminator pattern. Implement this,
                 // if you want to implement the complete complex gateway behaviour as specified.
                 setGatewayState(context, token.getCurrentNode(), ComplexGatewayState.WAITING_FOR_START);
-                context.removeIncomingTransitions(token.getCurrentNode());
+                context.removeIncomingControlFlows(token.getCurrentNode());
 
                 // recursively trigger again as often, as its possible (should be usually only once, as the gateway
                 // cannot be reset after anymore.

@@ -46,10 +46,10 @@ public class ProcessBuilderTest {
         Node node = startNodes.get(0);
         assertEquals(node, startNode, "This node should be the defined startNode");
 
-        List<ControlFlow> outgoingTransitions = node.getOutgoingControlFlows();
-        assertEquals(outgoingTransitions.size(), 1, "There should be one outgoing transition");
+        List<ControlFlow> outgoingControlFlows = node.getOutgoingControlFlows();
+        assertEquals(outgoingControlFlows.size(), 1, "There should be one outgoing ControlFlow");
 
-        ControlFlow controlFlow = outgoingTransitions.get(0);
+        ControlFlow controlFlow = outgoingControlFlows.get(0);
         assertEquals(controlFlow.getDestination(), endNode, "startNode should be connected to endNode");
 
     }

@@ -64,11 +64,11 @@ public interface Token extends Identifiable<UUID>, ServiceContext {
      * Create a new to navigate instance for every node. Therefore it is possible to use this generic for e.g. and,
      * xor...
      * 
-     * @param transitionList
+     * @param controlFlowList
      *            a list with redirections
      * @return newly created subprocesses
      */
-    List<Token> navigateTo(List<ControlFlow> transitionList);
+    List<Token> navigateTo(List<ControlFlow> controlFlowList);
 
     /**
      * Gets the process instance this token belongs to.
@@ -79,20 +79,20 @@ public interface Token extends Identifiable<UUID>, ServiceContext {
     AbstractProcessInstance getInstance();
 
     /**
-     * Gets the last taken transition of the token.
+     * Gets the last taken {@link ControlFlow} of the token.
      * 
-     * @return the last taken transition
+     * @return the last taken {@link ControlFlow}
      */
     @JsonIgnore
-    ControlFlow getLastTakenTransition();
+    ControlFlow getLastTakenControlFlow();
 
     /**
-     * Sets the last taken transition.
+     * Sets the last taken {@link ControlFlow}.
      * 
      * @param t
-     *            the new last taken transitions
+     *            the new last taken {@link ControlFlow}s
      */
-    void setLastTakenTransition(ControlFlow t);
+    void setLastTakenControlFlow(ControlFlow t);
 
     /**
      * Stopping the token navigation.

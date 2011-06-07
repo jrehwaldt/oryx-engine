@@ -32,14 +32,14 @@ import org.testng.annotations.Test;
 public class ComplexJoinBehaviourTest {
 
     private Node beforeNode1, beforeNode2, joinNode, nextNode;
-    private ControlFlow incomingTransition1, incomingTransition2;
+    private ControlFlow incomingControlFlow1, incomingControlFlow2;
 
     private NavigatorImplMock nav;
     private Token token;
     private ProcessInstance instance;
 
     /**
-     * Creates a complex gateway node with two incoming transition and one following node.
+     * Creates a complex gateway node with two incoming {@link ControlFlow} and one following node.
      */
     @BeforeClass
     public void setUpStructure() {
@@ -57,8 +57,8 @@ public class ComplexJoinBehaviourTest {
         beforeNode1 = builder.buildNode();
         beforeNode2 = builder.buildNode();
 
-        incomingTransition1 = beforeNode1.controlFlowTo(joinNode);
-        incomingTransition2 = beforeNode2.controlFlowTo(joinNode);
+        incomingControlFlow1 = beforeNode1.controlFlowTo(joinNode);
+        incomingControlFlow2 = beforeNode2.controlFlowTo(joinNode);
         joinNode.controlFlowTo(nextNode);
 
     }
@@ -76,7 +76,7 @@ public class ComplexJoinBehaviourTest {
 
     /**
      * Creates a token + process instance + context and executes the joinNode-Behaviour without having set any Gateway
-     * state or incoming transitions in the context.
+     * state or incoming {@link ControlFlow}s in the context.
      * 
      * @throws JodaEngineException
      *             the joda engine exception
@@ -85,7 +85,7 @@ public class ComplexJoinBehaviourTest {
     public void testGatewayTriggering()
     throws JodaEngineException {
 
-        token.setLastTakenTransition(incomingTransition1);
+        token.setLastTakenControlFlow(incomingControlFlow1);
         token.executeStep();
 
         List<Token> createdTokens = nav.getWorkQueue();
@@ -96,12 +96,12 @@ public class ComplexJoinBehaviourTest {
 
         ProcessInstanceContext context = instance.getContext();
         Assert.assertEquals(context.getWaitingExecutions(joinNode).size(), 1,
-            "There should still one transition marked as waiting for the joinNode, as it is not reset yet.");
+            "There should still one {@link ControlFlow} marked as waiting for the joinNode, as it is not reset yet.");
 
     }
 
     /**
-     * Let the gateway fire once and then have another token come to the gateway on the same transition. The gateway
+     * Let the gateway fire once and then have another token come to the gateway on the same {@link ControlFlow}. The gateway
      * should not fire again.
      * 
      * @throws JodaEngineException
@@ -111,14 +111,14 @@ public class ComplexJoinBehaviourTest {
     public void testGatewayReset()
     throws JodaEngineException {
 
-        token.setLastTakenTransition(incomingTransition1);
+        token.setLastTakenControlFlow(incomingControlFlow1);
         token.executeStep();
 
         // remove the created token from the work queue as it is not of interest here.
         nav.flushWorkQueue();
 
         Token anotherToken = new BpmnToken(joinNode, instance, nav);
-        anotherToken.setLastTakenTransition(incomingTransition1);
+        anotherToken.setLastTakenControlFlow(incomingControlFlow1);
         anotherToken.executeStep();
 
         List<Token> newTokens = nav.getWorkQueue();
@@ -127,22 +127,22 @@ public class ComplexJoinBehaviourTest {
 
         ProcessInstanceContext context = instance.getContext();
         Assert.assertEquals(context.getWaitingExecutions(joinNode).size(), 2,
-            "There should two waiting incoming transitions, as the gateway has not reset yet.");
+            "There should two waiting incoming {@link ControlFlow}s, as the gateway has not reset yet.");
 
         // the next token should not trigger the outgoing behaviour, but reset the complex join behaviour and thus
-        // remove the waiting transitions
+        // remove the waiting {@link ControlFlow}s
         anotherToken = new BpmnToken(joinNode, instance, nav);
-        anotherToken.setLastTakenTransition(incomingTransition2);
+        anotherToken.setLastTakenControlFlow(incomingControlFlow2);
         anotherToken.executeStep();
 
         Assert.assertEquals(context.getWaitingExecutions(joinNode).size(), 1,
-            "The reset should have removed both transitions from the waiting transitions, ");
+            "The reset should have removed both {@link ControlFlow}s from the waiting {@link ControlFlow}s, ");
 
     }
 
     /**
-     * Tests the following case: transition1 is signaled, gateway triggers. transition1 is signaled again, gateway does
-     * not trigger. transition2 is signaled. gateway should reset itself AND trigger again, as the triggering conditions
+     * Tests the following case: {@link ControlFlow}1 is signaled, gateway triggers. {@link ControlFlow}1 is signaled again, gateway does
+     * not trigger. {@link ControlFlow}2 is signaled. gateway should reset itself AND trigger again, as the triggering conditions
      * is already fulfilled.
      * 
      * @throws JodaEngineException
@@ -153,12 +153,12 @@ public class ComplexJoinBehaviourTest {
 
         setComplexGatewayState(ComplexGatewayState.WAITING_FOR_RESET);
 
-        // transition has been signaled twice.
-        instance.getContext().setWaitingExecution(incomingTransition1);
-        instance.getContext().setWaitingExecution(incomingTransition1);
+        // {@link ControlFlow} has been signaled twice.
+        instance.getContext().setWaitingExecution(incomingControlFlow1);
+        instance.getContext().setWaitingExecution(incomingControlFlow1);
 
         // now the discriminator should reset and trigger, as the triggering condition is already met.
-        token.setLastTakenTransition(incomingTransition2);
+        token.setLastTakenControlFlow(incomingControlFlow2);
         token.executeStep();
 
         List<Token> newTokens = nav.getWorkQueue();

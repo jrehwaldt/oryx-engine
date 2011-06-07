@@ -9,6 +9,7 @@ import org.jodaengine.factory.node.PrintingNodeFactory;
 import org.jodaengine.factory.node.RoutingBehaviourTestFactory;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.process.instance.ProcessInstance;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
@@ -74,7 +75,7 @@ public final class ExampleProcessForReview {
         //die endNode muss dann wieder einkommentiert bzw. korrekt implementiert werden
 //        Node endNode = new NodeImpl(BpmnEndActivity.class);
 
-        // Setting the transitions
+        // Setting the {@link ControlFlow}s
         startNode.controlFlowTo(secondNode);
         secondNode.controlFlowTo(thirdNode);
         thirdNode.controlFlowTo(fourthNode);

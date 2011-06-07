@@ -15,6 +15,7 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Condition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.HashMapCondition;
 import org.jodaengine.process.token.BpmnToken;
@@ -105,8 +106,8 @@ public class BPMNXORBehaviourTest {
     }
 
     /**
-     * Simple token. An activity is set up, it gets a behavior and a transition to a second and third node.
-     * The first transition gets a false condition, which has to be not taken.
+     * Simple token. An activity is set up, it gets a behavior and a {@link ControlFlow} to a second and third node.
+     * The first {@link ControlFlow} gets a false condition, which has to be not taken.
      * 
      * @return the process token that was created within the method
      */

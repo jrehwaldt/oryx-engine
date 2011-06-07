@@ -12,6 +12,7 @@ import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.instance.ProcessInstance;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnToken;
 import org.jodaengine.process.token.Token;
@@ -73,7 +74,7 @@ public class RoutingBehaviourTest {
     }
 
     /**
-     * Simple token. An activity is set up, it gets a behavior and a transition to a second node.
+     * Simple token. An activity is set up, it gets a behavior and a {@link ControlFlow} to a second node.
      * 
      * @return the process token that was created within the method
      */

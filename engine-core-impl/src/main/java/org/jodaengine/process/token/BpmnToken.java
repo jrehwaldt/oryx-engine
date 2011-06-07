@@ -162,38 +162,38 @@ public class BpmnToken extends AbstractToken {
     }
     
     @Override
-    public List<Token> navigateTo(List<ControlFlow> transitionList) {
+    public List<Token> navigateTo(List<ControlFlow> controlFlowList) {
 
         List<Token> tokensToNavigate = new ArrayList<Token>();
 
         //
-        // zero outgoing transitions
+        // zero outgoing {@link ControlFlow}s
         //
-        if (transitionList.size() == 0) {
+        if (controlFlowList.size() == 0) {
 
             this.exceptionHandler.processException(new NoValidPathException(), this);
 
             //
-            // one outgoing transition
+            // one outgoing {@link ControlFlow}
             //
-        } else if (transitionList.size() == 1) {
+        } else if (controlFlowList.size() == 1) {
 
-            ControlFlow controlFlow = transitionList.get(0);
+            ControlFlow controlFlow = controlFlowList.get(0);
             Node node = controlFlow.getDestination();
             this.setCurrentNode(node);
-            this.lastTakenTransition = controlFlow;
+            this.lastTakenControlFlow = controlFlow;
             changeActivityState(ActivityState.INIT);
             tokensToNavigate.add(this);
 
             //
-            // multiple outgoing transitions
+            // multiple outgoing {@link ControlFlow}s
             //
         } else {
 
-            for (ControlFlow controlFlow : transitionList) {
+            for (ControlFlow controlFlow : controlFlowList) {
                 Node node = controlFlow.getDestination();
                 Token newToken = createToken(node);
-                newToken.setLastTakenTransition(controlFlow);
+                newToken.setLastTakenControlFlow(controlFlow);
                 tokensToNavigate.add(newToken);
             }
 

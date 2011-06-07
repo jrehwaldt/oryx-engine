@@ -135,12 +135,12 @@ public interface BpmnXmlParseListener {
     
     
     /**
-     * Is called when the {@link BpmnXmlParser} finished creating the {@link ControlFlow transition}.
+     * Is called when the {@link BpmnXmlParser} finished creating the {@link ControlFlow}.
      * 
      * @param sequenceFlowElement
      *            - the original {@link XmlElement sequenceFlowElement}
      * @param controlFlow
-     *            - the created {@link ControlFlow transition}
+     *            - the created {@link ControlFlow}
      * @param definitionScopeAttributable
      *            - a globally (within this definition) available {@link Attributable}
      */

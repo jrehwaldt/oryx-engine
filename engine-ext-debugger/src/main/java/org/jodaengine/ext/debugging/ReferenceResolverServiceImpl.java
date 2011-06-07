@@ -143,7 +143,7 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
     /**
      * A helper method allowing to traverse the node's graph and search for a certain {@link Node}.
      * 
-     * This method works recursively. Calling it with cyclic node-transition-node-references will,
+     * This method works recursively. Calling it with cyclic node-{@link ControlFlow}-node-references will,
      * of course, cause a {@link StackOverflowError}.
      * 
      * @param initialNode the searching start point
