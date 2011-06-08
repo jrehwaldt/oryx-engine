@@ -130,6 +130,7 @@ $().ready(function() {
  * @param nodeId the node, the breakpoint should be added to
  */
 function showCreateNodeBreakpointForm(definitionId, nodeId, nodeFrame) {
+    
     var dialog = $('#create-node-breakpoint-dialog.dialog');
     var form = $('form#create-node-breakpoint', dialog);
     
@@ -196,7 +197,9 @@ function refreshBreakpoints() {
  * @return the original definition id
  */
 function resolveSvgDefinitionId(svgDefinitionId) {
-    var definitionId = $('tr[definition-svg-id="' + svgDefinitionId.toLowerCase() + '"]').attr('definition-id');
+    
+//    var definitionId = $('tr[definition-svg-id="' + svgDefinitionId.toLowerCase() + '"]').attr('definition-id');
+    var definitionId = $('#svg-artifact-full-overlay div.full-svg-artifact').filter(':has(svg[id="' + svgDefinitionId + '"])').attr('definition-id');
     return definitionId;
 }
 

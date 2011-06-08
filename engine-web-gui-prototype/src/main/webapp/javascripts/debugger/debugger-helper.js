@@ -81,6 +81,8 @@ function showFullSvg(definitionId) {
         // .children() for FF
         // .clone() for Chrome
         //
-        $('#svg-artifact-full-overlay div.full-svg-artifact').html($(artifact).children().clone());
+        var frame = $('#svg-artifact-full-overlay div.full-svg-artifact');
+        frame.attr('definition-id', definitionId);
+        frame.html($(artifact).children().clone());
     });
 };
