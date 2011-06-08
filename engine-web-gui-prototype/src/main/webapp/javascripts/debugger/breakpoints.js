@@ -16,6 +16,14 @@ $().ready(function() {
     //
     $('g.me > g[id]', $('div.full-svg-artifact')).live('click', function(event) {
         var nodeContainer = $(this);
+        
+        //
+        // ignore those nasty comments!
+        //
+        if ($(this).filter(':has(defs)').length == 0) {
+            return;
+        }
+        
         var svgNodeId = nodeContainer.attr('id'); // sid-XXXX
         
         //
@@ -43,6 +51,16 @@ $().ready(function() {
             + '</a>'
         );
         
+        //
+        // store the svg id with the definition id
+        //
+        if (definition.attributes['idXml']) {
+            definitionRow.attr('definition-svg-id', definition.attributes['idXml'].toLowerCase());
+        }
+        
+        //
+        // store the definition and debugger data
+        //
         definitionRow.data('debugger-data', definition.attributes['extension-debugger-attribute']);
         definitionRow.data('definition', definition);
     });
@@ -132,18 +150,18 @@ function showCreateNodeBreakpointForm(definitionId, nodeId, nodeFrame) {
             text: 'Cancel',
             click: function() {
                 $(this).dialog('close');
-                nodeFrame.css('fill', nodeFrame.prop('previous-fill'));
+                nodeFrame.attr('fill', nodeFrame.prop('previous-fill'));
             }
         }, {
             text: 'Create node breakpoint',
             click: function() {
                 $(this).dialog('close');
                 form.submit();
-                nodeFrame.css('fill', nodeFrame.prop('previous-fill'));
+                nodeFrame.attr('fill', nodeFrame.prop('previous-fill'));
             }
         }],
         close: function(event, ui) { 
-            nodeFrame.css('fill', nodeFrame.prop('previous-fill'));
+            nodeFrame.attr('fill', nodeFrame.prop('previous-fill'));
         }
     });
 };
@@ -157,8 +175,8 @@ function showCreateNodeBreakpointForm(definitionId, nodeId, nodeFrame) {
  * @param nodeFrame the node's graphical frame
  */
 function svgNodeClicked(svgNodeId, svgDefinitionId, nodeContainer, nodeFrame) {
-    nodeFrame.prop('previous-fill', nodeFrame.css('fill'));
-    nodeFrame.css('fill', 'red');
+    nodeFrame.prop('previous-fill', nodeFrame.attr('fill'));
+    nodeFrame.attr('fill', 'red');
     var resolvedDefinitionId = resolveSvgDefinitionId(svgDefinitionId);
     var resolvedNodeId = resolveSvgNodeId(svgNodeId);
     showCreateNodeBreakpointForm(resolvedDefinitionId, resolvedNodeId, nodeFrame);
@@ -178,7 +196,8 @@ function refreshBreakpoints() {
  * @return the original definition id
  */
 function resolveSvgDefinitionId(svgDefinitionId) {
-    return svgDefinitionId.replace('sid-', '');
+    var definitionId = $('tr[definition-svg-id="' + svgDefinitionId.toLowerCase() + '"]').attr('definition-id');
+    return definitionId;
 }
 
 /**

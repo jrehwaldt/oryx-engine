@@ -83,7 +83,7 @@ function showSetSvgArtifactForm(definitionId) {
                 //
                 if ($(document).oneTime) {
                     $(document).oneTime(100, function() {
-                        var overlay = $('tr[definition-id=' + definitionId + '] .svg-artifact');
+                        var overlay = $('tr[definition-id="' + definitionId + '"] .svg-artifact');
                         overlay.prop('src', '/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime());
                     });
                 }
