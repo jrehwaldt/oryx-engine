@@ -2,9 +2,16 @@ package org.jodaengine.process.structure;
 
 import javax.annotation.Nonnull;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
+
 /**
  * The Interface for control flows. Control flows are the edges between nodes.
  */
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface ControlFlow {
 
     /**
@@ -13,6 +20,7 @@ public interface ControlFlow {
      * @return the condition
      */
     @Nonnull
+    @JsonProperty
     Condition getCondition();
 
     /**
@@ -21,6 +29,7 @@ public interface ControlFlow {
      * @return the destination node of the edge.
      */
     @Nonnull
+    @JsonProperty
     Node getDestination();
 
     /**
@@ -29,5 +38,6 @@ public interface ControlFlow {
      * @return the source node of the edge.
      */
     @Nonnull
+    @JsonIgnore
     Node getSource();
 }

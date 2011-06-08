@@ -24,7 +24,7 @@ $().ready(function() {
             return;
         }
         
-        var svgNodeId = nodeContainer.attr('id'); // sid-XXXX
+        var svgNodeId = nodeContainer.parent().parent().parent().attr('id').replace('svg-', ''); // svg-sid-XXXX
         
         //
         // get the definition id
@@ -35,7 +35,7 @@ $().ready(function() {
         }
         
         var svgDefinitionId = el.attr('id');
-        var nodeFrame = nodeContainer.children('*[id=' + svgNodeId + 'bg_frame]');
+        var nodeFrame = nodeContainer.children('*[id=' + nodeContainer.attr('id') + 'bg_frame]');
         svgNodeClicked(svgNodeId, svgDefinitionId, nodeContainer, nodeFrame);
     });
     
@@ -179,7 +179,7 @@ function svgNodeClicked(svgNodeId, svgDefinitionId, nodeContainer, nodeFrame) {
     nodeFrame.prop('previous-fill', nodeFrame.attr('fill'));
     nodeFrame.attr('fill', 'red');
     var resolvedDefinitionId = resolveSvgDefinitionId(svgDefinitionId);
-    var resolvedNodeId = resolveSvgNodeId(svgNodeId);
+    var resolvedNodeId = resolveSvgNodeId(resolvedDefinitionId, svgNodeId);
     showCreateNodeBreakpointForm(resolvedDefinitionId, resolvedNodeId, nodeFrame);
 }
 
@@ -198,7 +198,6 @@ function refreshBreakpoints() {
  */
 function resolveSvgDefinitionId(svgDefinitionId) {
     
-//    var definitionId = $('tr[definition-svg-id="' + svgDefinitionId.toLowerCase() + '"]').attr('definition-id');
     var definitionId = $('#svg-artifact-full-overlay div.full-svg-artifact').filter(':has(svg[id="' + svgDefinitionId + '"])').attr('definition-id');
     return definitionId;
 }
@@ -206,9 +205,52 @@ function resolveSvgDefinitionId(svgDefinitionId) {
 /**
  * Resolves the svg-based node id to the original node id.
  * 
+ * @param definitionId the original definition id
  * @param svgNodeId the svg-based node id
  * @return the original node id
  */
-function resolveSvgNodeId(svgNodeId) {
-    return svgNodeId.replace('sid-', '');
+function resolveSvgNodeId(definitionId, svgNodeId) {
+    
+    var definition = $('tr[definition-id="' + definitionId + '"]').data('definition');
+    svgNodeId = svgNodeId.toLowerCase();
+    
+    //
+    // resolve all start node's graphs
+    //
+    var nodeId = null;
+    $(definition.startNodes).each(function(index, node) {
+        
+        if (nodeId != null) {
+            return;
+        }
+        
+        nodeId = _resolveSvgNodeIdFromGraph(node, svgNodeId);
+    });
+    
+    return nodeId;
+}
+
+function _resolveSvgNodeIdFromGraph(node, svgNodeId) {
+    
+    //
+    // is it this node?
+    //
+    if (node.attributes["idXml"].toLowerCase() == svgNodeId) {
+        return node.id;
+    }
+    
+    //
+    // is it one of it's destinations?
+    //
+    var nodeId = null;
+    $(node.outgoingControlFlows).each(function(index, controlFlow) {
+        
+        if (nodeId != null) {
+            return;
+        }
+        
+        nodeId = _resolveSvgNodeIdFromGraph(controlFlow.destination, svgNodeId);
+    });
+    
+    return nodeId;
 }
