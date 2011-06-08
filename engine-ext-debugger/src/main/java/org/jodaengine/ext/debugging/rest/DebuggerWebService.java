@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -182,7 +183,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     }
 
     @Path("/breakpoints/remove")
-    @POST
+    @DELETE
     @Override
     public boolean removeBreakpoint(Breakpoint dereferencedBreakpoint) {
         

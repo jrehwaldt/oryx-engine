@@ -25,7 +25,7 @@
         <jersey-version>1.5</jersey-version>
         <quartz-scheduler.version>2.0.0</quartz-scheduler.version>
         <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
-        <resteasy-version>2.0.1.GA</resteasy-version>
+        <resteasy-version>2.2.0.GA</resteasy-version> <!-- 2.0.1.GA -->
         <sitemesh-version>2.4.2</sitemesh-version>
         <urlrewrite-version>3.1.0</urlrewrite-version>
         <jackson-version>1.7.6</jackson-version> <!-- 1.5.3 version is default; 1.7.6 is newest -->

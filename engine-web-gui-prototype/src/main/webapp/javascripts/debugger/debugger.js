@@ -29,8 +29,8 @@ $().ready(function() {
     $('g.me > g[id]', $('div.full-svg-artifact')).live('click', function(event) {
         var elementContainer = $(this);
         var elementId = elementContainer.attr('id'); // sid-XXXX
-        var element = elementContainer.children('*[id=' + elementId + 'bg_frame]');
-        element.css('fill', 'red');
+        var elementFrame = elementContainer.children('*[id=' + elementId + 'bg_frame]');
+        svgNodeClicked(elementContainer, elementId, elementFrame);
     });
 });
 
@@ -154,3 +154,14 @@ function showSetSvgArtifactForm(definitionId) {
         }]
     });
 };
+
+/**
+ * Click handler method for svg node elements.
+ * 
+ * @param elementContainer the node container
+ * @param elementId the node's id
+ * @param elementFrame the node's graphical frame
+ */
+function svgNodeClicked(elementContainer, elementId, elementFrame) {
+    elementFrame.css('fill', 'red');
+}
