@@ -141,7 +141,10 @@ function showCreateNodeBreakpointForm(definitionId, nodeId, nodeFrame) {
                 form.submit();
                 nodeFrame.css('fill', nodeFrame.prop('previous-fill'));
             }
-        }]
+        }],
+        close: function(event, ui) { 
+            nodeFrame.css('fill', nodeFrame.prop('previous-fill'));
+        }
     });
 };
 
