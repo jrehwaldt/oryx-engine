@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
@@ -165,19 +166,43 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     //=================================================================
     //=================== BreakpointService methods ===================
     //=================================================================
-
+    
+    /**
+     * Helper method mapping the rest interface to the underlying api.
+     * 
+     * @param definitionID the target {@link ProcessDefinition}'s id
+     * @param nodeID the target {@link Node}'s id
+     * @param targetActivityState the {@link ActivityState}
+     * @param juelCondition the condition
+     * 
+     * @return the created {@link Breakpoint}
+     * 
+     * @throws DefinitionNotFoundException in case the definition is not found
+     */
     @Path("/breakpoints/create")
     @POST
+    public NodeBreakpoint createNodeBreakpoint(@Nonnull @QueryParam("definitionId") ProcessDefinitionID definitionID,
+                                               @Nonnull @QueryParam("nodeId") UUID nodeID,
+                                               @Nonnull @QueryParam("activityState") ActivityState targetActivityState,
+                                               @Nullable @QueryParam("juelCondition") String juelCondition)
+    throws DefinitionNotFoundException {
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
+        }
+        
+        ProcessDefinition definition = this.resolver.resolveDefinition(definitionID);
+        Node node = this.resolver.resolveNode(definition, nodeID);
+        
+        return createNodeBreakpoint(definition, node, targetActivityState, juelCondition);
+    }
+    
     @Override
     public NodeBreakpoint createNodeBreakpoint(ProcessDefinition dereferencedTargetDefinition,
                                                Node dereferencedTargetNode,
                                                ActivityState targetActivityState,
                                                String juelCondition)
     throws DefinitionNotFoundException {
-        
-        if (this.debugger == null) {
-            throw new ServiceUnavailableException(DebuggerService.class);
-        }
         
         ProcessDefinition definition = resolver.resolveDefinition(dereferencedTargetDefinition);
         Node node = resolver.resolveNode(definition, dereferencedTargetNode);

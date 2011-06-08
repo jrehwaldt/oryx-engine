@@ -5,7 +5,7 @@
     display: none;
     
     /* place overlay on top of other elements */
-    z-index: 10000;
+    z-index: 900;
     
     /* styling 
     background-color: #333;*/
@@ -30,5 +30,5 @@
     cursor: pointer;
     height: 35px;
     width: 35px;
-    z-index: 1001;
+    z-index: 901;
 }

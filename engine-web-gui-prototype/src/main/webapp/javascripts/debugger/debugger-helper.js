@@ -8,6 +8,19 @@
 
 $().ready(function() {
     
+    // 
+    // refresh the artifacts table
+    // 
+    loadProcessDefinitionsOverview();
+    
+    //
+    // register the refresh overview handler
+    //
+    $('#definitions-overview-refresh').click(function(event) {
+        event.preventDefault();
+        loadProcessDefinitionsOverview();
+    });
+    
 });
 
 /**
@@ -31,7 +44,7 @@ function loadProcessDefinitionsOverview() {
             tableBody.empty();
             $(definitions).each(function(index, definition) {
                 var definitionId = idToString(definition.id);
-                var definitionRow = tableBody.append(
+                var definitionRow = $(
                     '<tr definition-id="' + definitionId + '">'
                         + '<td>' + definition.name + '</td>'
                         + '<td>' + definition.id.version + '</td>'
@@ -40,7 +53,8 @@ function loadProcessDefinitionsOverview() {
                         + '</td>'
                     + '</tr>'
                 );
-                tableBody.trigger('definition-table-entry:ready', [definitionId, $(definitionRow), tableBody]);
+                tableBody.append(definitionRow);
+                tableBody.trigger('definition-table-entry:ready', [definition, definitionId, $(definitionRow), tableBody]);
             });
             
             tableBody.trigger('definition-table:ready', [tableBody]);

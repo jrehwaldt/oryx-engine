@@ -21,3 +21,25 @@ function loadBreakpoints(successHandler, instanceId) {
         dataType: 'json'
     });
 };
+
+/**
+* Creates a new node breakpoint.
+* 
+* @param breakpoint the breakpoint, which should be created
+* @param successHandler the anonymous function to call, gets the created breakpoint as #1 parameter
+*/
+function createNodeBreakpoint(processDefinitionId, nodeId, activityState, juelCondition, successHandler) {
+    
+    $.ajax({
+        type: 'POST',
+        url: '/api/debugger/breakpoints/create?definitionId=' + processDefinitionId
+                                           + '&nodeId=' + nodeId
+                                           + '&activityState=' + activityState
+                                           + '&juelCondition=' + juelCondition,
+        success: function(breakpoint) {
+            if (successHandler)
+                successHandler.apply(null, [breakpoint]);
+        },
+        data: null
+    });
+}
