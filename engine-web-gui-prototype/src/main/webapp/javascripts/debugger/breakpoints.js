@@ -27,7 +27,7 @@ $().ready(function() {
         }
         
         var svgDefinitionId = el.attr('id');
-        var nodeFrame = nodeContainer.children('*[id=' + nodeId + 'bg_frame]');
+        var nodeFrame = nodeContainer.children('*[id=' + svgNodeId + 'bg_frame]');
         svgNodeClicked(svgNodeId, svgDefinitionId, nodeContainer, nodeFrame);
     });
     
@@ -111,9 +111,10 @@ $().ready(function() {
  * @param definitionId the definition, the breakpoint should be added to
  * @param nodeId the node, the breakpoint should be added to
  */
-function showCreateNodeBreakpointForm(definitionId, nodeId) {
+function showCreateNodeBreakpointForm(definitionId, nodeId, nodeFrame) {
     var dialog = $('#create-node-breakpoint-dialog.dialog');
     var form = $('form#create-node-breakpoint', dialog);
+    
     
     //
     // set the hidden fields
@@ -131,12 +132,14 @@ function showCreateNodeBreakpointForm(definitionId, nodeId) {
             text: 'Cancel',
             click: function() {
                 $(this).dialog('close');
+                nodeFrame.css('fill', nodeFrame.prop('previous-fill'));
             }
         }, {
             text: 'Create node breakpoint',
             click: function() {
                 $(this).dialog('close');
                 form.submit();
+                nodeFrame.css('fill', nodeFrame.prop('previous-fill'));
             }
         }]
     });
@@ -151,10 +154,11 @@ function showCreateNodeBreakpointForm(definitionId, nodeId) {
  * @param nodeFrame the node's graphical frame
  */
 function svgNodeClicked(svgNodeId, svgDefinitionId, nodeContainer, nodeFrame) {
+    nodeFrame.prop('previous-fill', nodeFrame.css('fill'));
     nodeFrame.css('fill', 'red');
     var resolvedDefinitionId = resolveSvgDefinitionId(svgDefinitionId);
     var resolvedNodeId = resolveSvgNodeId(svgNodeId);
-    showCreateNodeBreakpointForm(resolvedDefinitionId, resolvedNodeId);
+    showCreateNodeBreakpointForm(resolvedDefinitionId, resolvedNodeId, nodeFrame);
 }
 
 /**
