@@ -311,13 +311,8 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         this.breakpoints.remove(definition);
     }
     
-    /**
-     * Returns a list of registered breakpoints for a certain process instance.
-     * 
-     * @param instance the {@link AbstractProcessInstance}
-     * @return a list of {@link Breakpoint}s
-     */
-    public synchronized @Nonnull Collection<Breakpoint> getBreakpoints(@Nonnull AbstractProcessInstance instance) {
+    @Override
+    public synchronized Collection<Breakpoint> getBreakpoints(AbstractProcessInstance instance) {
         
         //
         // are there any breakpoints?

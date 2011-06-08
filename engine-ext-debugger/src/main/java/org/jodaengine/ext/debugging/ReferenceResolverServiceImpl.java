@@ -1,5 +1,7 @@
 package org.jodaengine.ext.debugging;
 
+import java.util.UUID;
+
 import javax.annotation.Nonnull;
 
 import org.jodaengine.JodaEngineServices;
@@ -13,10 +15,12 @@ import org.jodaengine.ext.debugging.api.ReferenceResolverService;
 import org.jodaengine.ext.debugging.rest.DereferencedObjectException;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
+import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +38,7 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
     
     private RepositoryService repository;
     private DebuggerService debugger;
+    private Navigator navigator;
     
     private boolean running = false;
     
@@ -55,6 +60,7 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
         ExtensionService extensionService = services.getExtensionService();
         
         this.repository = services.getRepositoryService();
+        this.navigator = services.getNavigatorService();
         try {
             this.debugger = extensionService.getExtensionService(
                 DebuggerService.class, DebuggerService.DEBUGGER_SERVICE_NAME);
@@ -79,6 +85,7 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
         logger.info("Stopping the ReferenceResolverService");
         this.repository = null;
         this.debugger = null;
+        this.navigator = null;
         
         this.running = false;
     }
@@ -130,19 +137,47 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
     }
     
     @Override
-    public Breakpoint resolveBreakpoint(Breakpoint dereferencedBreakpoint) {
+    public Breakpoint resolveBreakpoint(UUID dereferencedBreakpointID) {
         
         if (this.debugger == null) {
             throw new ServiceUnavailableException(DebuggerService.class);
         }
         
         for (Breakpoint breakpoint: this.debugger.getBreakpoints()) {
-            if (breakpoint.equals(dereferencedBreakpoint)) {
+            if (breakpoint.getID().equals(dereferencedBreakpointID)) {
                 return breakpoint;
             }
         }
         
-        throw new DereferencedObjectException(Breakpoint.class, dereferencedBreakpoint.getID());
+        throw new DereferencedObjectException(Breakpoint.class, dereferencedBreakpointID);
+    }
+    
+    @Override
+    public Breakpoint resolveBreakpoint(Breakpoint dereferencedBreakpoint) {
+        
+        return resolveBreakpoint(dereferencedBreakpoint.getID());
+    }
+    
+    @Override
+    public AbstractProcessInstance resolveInstance(UUID dereferencedInstanceID) {
+        
+        if (this.repository == null) {
+            throw new ServiceUnavailableException(RepositoryService.class);
+        }
+        
+        for (AbstractProcessInstance instance: this.navigator.getRunningInstances()) {
+            if (instance.getID().equals(dereferencedInstanceID)) {
+                return instance;
+            }
+        }
+        
+        throw new DereferencedObjectException(AbstractProcessInstance.class, dereferencedInstanceID);
+    }
+
+    @Override
+    public AbstractProcessInstance resolveInstance(AbstractProcessInstance dereferencedInstance) {
+        
+        return resolveInstance(dereferencedInstance.getID());
     }
     
     //=================================================================
@@ -175,5 +210,4 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
         
         return null;
     }
-    
 }

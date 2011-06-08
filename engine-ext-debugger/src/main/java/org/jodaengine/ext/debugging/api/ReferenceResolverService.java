@@ -1,11 +1,14 @@
 package org.jodaengine.ext.debugging.api;
 
+import java.util.UUID;
+
 import javax.annotation.Nonnull;
 
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 
 /**
@@ -32,6 +35,17 @@ public interface ReferenceResolverService extends Service {
     /**
      * Searches for a reference of a {@link ProcessDefinition} and returns it, if available.
      * 
+     * @param dereferencedDefinition the dereferenced {@link ProcessDefinition}
+     * @return the referenced {@link ProcessDefinition}
+     * 
+     * @throws DefinitionNotFoundException if the {@link ProcessDefinition} could not be found
+     */
+    @Nonnull ProcessDefinition resolveDefinition(ProcessDefinition dereferencedDefinition)
+    throws DefinitionNotFoundException;
+    
+    /**
+     * Searches for a reference of a {@link ProcessDefinition} and returns it, if available.
+     * 
      * @param dereferencedDefinitionID the dereferenced {@link ProcessDefinitionID}
      * @return the referenced {@link ProcessDefinition}
      * 
@@ -41,23 +55,35 @@ public interface ReferenceResolverService extends Service {
     throws DefinitionNotFoundException;
     
     /**
-     * Searches for a reference of a {@link ProcessDefinition} and returns it, if available.
-     * 
-     * @param dereferencedDefinition the dereferenced {@link ProcessDefinition}
-     * @return the referenced {@link ProcessDefinition}
-     * 
-     * @throws DefinitionNotFoundException if the {@link ProcessDefinition} could not be found
-     */
-    @Nonnull ProcessDefinition resolveDefinition(ProcessDefinition dereferencedDefinition)
-    throws DefinitionNotFoundException;
-
-    
-    /**
      * Searches for a reference of a {@link Breakpoint} and returns it, if available.
      * 
      * @param dereferencedBreakpoint the dereferenced {@link Breakpoint}
      * @return the referenced {@link Breakpoint}
      */
     @Nonnull Breakpoint resolveBreakpoint(@Nonnull Breakpoint dereferencedBreakpoint);
+    
+    /**
+     * Searches for a reference of a {@link Breakpoint} and returns it, if available.
+     * 
+     * @param dereferencedBreakpointID the dereferenced {@link Breakpoint}'s id
+     * @return the referenced {@link Breakpoint}
+     */
+    @Nonnull Breakpoint resolveBreakpoint(@Nonnull UUID dereferencedBreakpointID);
+    
+    /**
+     * Searches for a reference of a {@link AbstractProcessInstance} and returns it, if available.
+     * 
+     * @param dereferencedInstanceID the dereferenced {@link AbstractProcessInstance}'s id
+     * @return the referenced {@link AbstractProcessInstance}
+     */
+    @Nonnull AbstractProcessInstance resolveInstance(@Nonnull UUID dereferencedInstanceID);
+    
+    /**
+     * Searches for a reference of a {@link AbstractProcessInstance} and returns it, if available.
+     * 
+     * @param dereferencedInstance the dereferenced {@link AbstractProcessInstance}
+     * @return the referenced {@link AbstractProcessInstance}
+     */
+    @Nonnull AbstractProcessInstance resolveInstance(@Nonnull AbstractProcessInstance dereferencedInstance);
     
 }

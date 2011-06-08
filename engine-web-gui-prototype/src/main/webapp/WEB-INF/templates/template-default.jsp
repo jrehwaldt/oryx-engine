@@ -35,6 +35,7 @@ navigation.put("resources", new NavigationEntry[] {
 });
 navigation.put("settings", new NavigationEntry[] {});
 navigation.put("debugger", new NavigationEntry[]  {
+    new NavigationEntry("breakpoints", "Breakpoints"),
     new NavigationEntry("artifacts", "SVG Artifacts")
 });
 %>

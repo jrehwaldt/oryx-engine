@@ -1,6 +1,7 @@
 package org.jodaengine.ext.debugging.rest;
 
 import java.util.Collection;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,6 +31,7 @@ import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -219,6 +221,30 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
         
         Breakpoint breakpoint = this.resolver.resolveBreakpoint(dereferencedBreakpoint);
         return this.debugger.disableBreakpoint(breakpoint);
+    }
+    
+    /**
+     * Helper method mapping the rest interface to the underlying api.
+     * 
+     * @param dereferencedInstanceID the {@link AbstractProcessInstance}'s id
+     * @return the related {@link Breakpoint}s
+     */
+    @Path("/breakpoints/{instance-id}")
+    @GET
+    public Collection<Breakpoint> getBreakpoints(@Nonnull @PathParam("instance-id") UUID dereferencedInstanceID) {
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
+        }
+        
+        AbstractProcessInstance instance = this.resolver.resolveInstance(dereferencedInstanceID);
+        return getBreakpoints(instance);
+    }
+    
+    @Override
+    public Collection<Breakpoint> getBreakpoints(AbstractProcessInstance instance) {
+        
+        return this.debugger.getBreakpoints(instance);
     }
     
     @Path("/breakpoints")
