@@ -3,7 +3,7 @@ package org.jodaengine.eventmanagement.timing.job;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 import org.jodaengine.exception.JodaEngineException;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -37,7 +37,7 @@ public class PullAdapterJob implements Job {
 
             JobDataMap data = context.getJobDetail().getJobDataMap();
 
-            InboundPullAdapter adapter = (InboundPullAdapter) data.get(ADAPTER_KEY);
+            IncomingPullAdapter adapter = (IncomingPullAdapter) data.get(ADAPTER_KEY);
             try {
 
                 adapter.pull();

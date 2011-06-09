@@ -3,12 +3,12 @@ package org.jodaengine.eventmanagement.adapter.error;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 
 /**
  * This adapter is responsible for exception handling within our engine.
  */
-public class ErrorAdapter extends AbstractCorrelatingEventAdapter<ErrorAdapterConfiguration> implements InboundAdapter {
+public class ErrorAdapter extends AbstractCorrelatingEventAdapter<ErrorAdapterConfiguration> implements IncomingAdapter {
 
     /**
      * Default constructor.

@@ -12,7 +12,7 @@ import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.adapter.mail.MailProtocol;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
@@ -37,8 +37,8 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
     private ProcessStartEvent event, anotherEvent;
     private MailAdapterEvent incomingAdapterEvent, anotherIncomingAdapterEvent;
     private static final int MAIL_PORT = 25;
-    private InboundMailAdapterConfiguration config;
-    private InboundMailAdapterConfiguration anotherConfig;
+    private IncomingMailAdapterConfiguration config;
+    private IncomingMailAdapterConfiguration anotherConfig;
     private EventManager eventManager;
     private Navigator navigatorServiceSpy;
     private ProcessDefinitionID definitionID;
@@ -74,11 +74,11 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
         EventType mailType = EventTypes.Mail;
         EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic",
             "Hallo");
-        config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
+        config = IncomingMailAdapterConfiguration.jodaGoogleConfiguration();
         event = new DefaultProcessStartEvent(mailType, config, subjectCondition, definitionID);
     
         // register another processStartEvent
-        anotherConfig = new InboundMailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin", "imap.horst.de",
+        anotherConfig = new IncomingMailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin", "imap.horst.de",
             MAIL_PORT, false);
         anotherEvent = new DefaultProcessStartEvent(mailType, anotherConfig, subjectCondition, definitionID);
         anotherEvent.injectNavigatorService(navigatorServiceSpy);

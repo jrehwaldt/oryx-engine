@@ -7,14 +7,14 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 
 /**
  * This adapter is responsible for exception handling within our engine.
  */
 public class ManualTriggeringAdapter extends AbstractCorrelatingEventAdapter<ManualTriggeringAdapterConfiguration>
-implements InboundAdapter {
+implements IncomingAdapter {
 
     private static Map<String, ManualTriggeringAdapter> manualTriggeringAdapters =
         new HashMap<String, ManualTriggeringAdapter>();

@@ -4,7 +4,7 @@ import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 
 /**
  * The error adapter configuration.
@@ -26,7 +26,7 @@ public class ErrorAdapterConfiguration extends AbstractAdapterConfiguration {
      * 
      * @return the inbound adapter
      */
-    private InboundAdapter createAdapter() {
+    private IncomingAdapter createAdapter() {
 
         ErrorAdapter e = new ErrorAdapter(this);
         return e;
@@ -35,7 +35,7 @@ public class ErrorAdapterConfiguration extends AbstractAdapterConfiguration {
     @Override
     public EventAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
-        InboundAdapter adapter = createAdapter();
+        IncomingAdapter adapter = createAdapter();
         adapterRegistrar.registerInboundAdapter(adapter);
 
         return adapter;

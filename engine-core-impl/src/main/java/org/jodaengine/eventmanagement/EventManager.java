@@ -10,8 +10,8 @@ import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
@@ -113,8 +113,8 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
         AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(intermediateEvent);
         correlatingAdapter.unsubscribeFromIntermediateEvent(intermediateEvent);
 
-        if (correlatingAdapter instanceof InboundPullAdapter) {
-            InboundPullAdapter inboundPullAdapter = (InboundPullAdapter) correlatingAdapter;
+        if (correlatingAdapter instanceof IncomingPullAdapter) {
+            IncomingPullAdapter inboundPullAdapter = (IncomingPullAdapter) correlatingAdapter;
             unregisterInboundPullAdapterAtJobManager(inboundPullAdapter);
         }
     }
@@ -182,14 +182,14 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     }
 
     @Override
-    public InboundAdapter registerInboundAdapter(InboundAdapter inboundAdapter) {
+    public IncomingAdapter registerInboundAdapter(IncomingAdapter inboundAdapter) {
 
         addToEventAdapters(inboundAdapter);
         return inboundAdapter;
     }
 
     @Override
-    public InboundPullAdapter registerInboundPullAdapter(InboundPullAdapter inboundPullAdapter) {
+    public IncomingPullAdapter registerInboundPullAdapter(IncomingPullAdapter inboundPullAdapter) {
 
         // if the the Event Adapter has to be added to the list, we also need to register it with the timing manager
         // otherwise a registration at the timing manager should already be present.
@@ -202,12 +202,12 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     }
 
     /**
-     * Encapsulates the registration of the {@link InboundPullAdapter}.
+     * Encapsulates the registration of the {@link IncomingPullAdapter}.
      * 
      * @param inboundPullAdapter
-     *            - the {@link InboundPullAdapter} to register
+     *            - the {@link IncomingPullAdapter} to register
      */
-    private void registerInboundPullAdapterAtJobManager(InboundPullAdapter inboundPullAdapter) {
+    private void registerInboundPullAdapterAtJobManager(IncomingPullAdapter inboundPullAdapter) {
 
         try {
 
@@ -222,12 +222,12 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     }
 
     /**
-     * Encapsulates the 'unregistration' of the {@link InboundPullAdapter}.
+     * Encapsulates the 'unregistration' of the {@link IncomingPullAdapter}.
      * 
      * @param inboundPullAdapter
-     *            - the {@link InboundPullAdapter} to unregister
+     *            - the {@link IncomingPullAdapter} to unregister
      */
-    private void unregisterInboundPullAdapterAtJobManager(InboundPullAdapter inboundPullAdapter) {
+    private void unregisterInboundPullAdapterAtJobManager(IncomingPullAdapter inboundPullAdapter) {
 
         try {
 
