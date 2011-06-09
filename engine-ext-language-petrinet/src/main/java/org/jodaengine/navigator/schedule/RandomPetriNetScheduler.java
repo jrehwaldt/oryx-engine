@@ -1,6 +1,5 @@
 package org.jodaengine.navigator.schedule;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -38,14 +37,11 @@ public class RandomPetriNetScheduler extends AbstractListenable<AbstractSchedule
     
     @Override
     public synchronized void submit(Token p) {
-        AbstractProcessInstance instance = p.getInstance();
-        if (lockedInstances.contains(instance)) {
-            lockedInstances.remove(instance);
-        }
+        releaseLock(p);
         this.processtokens.add(p);
         
     }
-
+   
     @Override
     public synchronized Token retrieve() {
         Token theChosenOne = null;
@@ -112,6 +108,14 @@ public class RandomPetriNetScheduler extends AbstractListenable<AbstractSchedule
     public boolean remove(Token token) {
 
         return processtokens.remove(token);
+    }
+
+    @Override
+    public void releaseLock(Token token) {
+        AbstractProcessInstance instance = token.getInstance();
+        if (lockedInstances.contains(instance)) {
+            lockedInstances.remove(instance);
+        }
     }
 
 }

@@ -19,7 +19,7 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
     @Override
     // Just for info: The join is not directly needed, but the call of the method consumeTokens is important.
     public List<Token> join(Token token) {
-        consumeTokens(token.getCurrentNode().getIncomingControlFlows(), token.getInstance());
+        consumeTokens(token);
         List<Token> tokens = new ArrayList<Token>();
         tokens.add(token);
         return tokens;
@@ -49,10 +49,12 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
      * @param controlFlows the incoming {@link ControlFlow}s to get the source places
      * @param instance the instance
      */
-    private void consumeTokens(List<ControlFlow> controlFlows, AbstractProcessInstance instance) {
-
+    private void consumeTokens(Token token) {
+        List<ControlFlow> controlFlows = token.getCurrentNode().getIncomingControlFlows();
+        AbstractProcessInstance instance = token.getInstance();
         TokenUtil util = new TokenUtil();
         List<Token> oldTokensOnPlace;
+        
         for (ControlFlow t : controlFlows) {
             Node placeBeforePetriTransition = t.getSource();
             // get Tokens, which are still there
@@ -66,7 +68,7 @@ public class TransitionJoinBehaviour implements IncomingBehaviour {
                 instance.removeToken(oldToken);
                 // Remove the consumed tokens from the navigator.
                 //TODO: -.- from instance>tokenBuilder>Nav ...
-                instance.getBuilder().getNav().removeTokenFromScheduler(oldToken);
+                token.getNavigator().removeTokenFromScheduler(oldToken);
             }
             
             
