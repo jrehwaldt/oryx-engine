@@ -35,14 +35,14 @@ public class OutgoingMailAdapter extends AbstractEventAdapter<OutgoingMailAdapte
     }
 
     @Override
-    public void sendMessage(String receipent, String message) {
-        sendMessage(receipent, DEFAULT_SUBJECT, message);
+    public void sendMessage(String recipient, String message) {
+        sendMessage(recipient, DEFAULT_SUBJECT, message);
     }
 
     @Override
-    public void sendMessage(String receipent, String subject, String message) {
+    public void sendMessage(String recipient, String subject, String message) {
 
-        String[] receipents = {receipent};
+        String[] receipents = {recipient};
         this.sendEmail(receipents, subject, message);
         
     }

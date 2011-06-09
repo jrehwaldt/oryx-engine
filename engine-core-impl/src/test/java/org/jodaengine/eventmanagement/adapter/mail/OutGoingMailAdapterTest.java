@@ -18,6 +18,11 @@ import org.testng.annotations.Test;
 
 /**
  * Testing the class Outgoing Mail Adapter Test.. i.e. whether it sends emails as we excpect it too.
+ * 
+ * ATTENTION
+ * 
+ * Be aware that the Mailbox used here is pure magic, as soon as it is in the classpath it 
+ * takes care of all the emailstuff for testing purposes.
  */
 public class OutGoingMailAdapterTest {
 
@@ -26,8 +31,8 @@ public class OutGoingMailAdapterTest {
     private final static String USER_NAME = "test";
     private final static String ADDRESS = "example.com";
     private final static String SMTP_SERVER = "localhost";
-    private final static String RECEIPENT = "testie@test.de";
-    private final static String OTHER_RECEIPENT = "other@receipent.org";
+    private final static String RECIPIENT = "testie@test.de";
+    private final static String OTHER_RECIPIENT = "other@recipient.org";
     private final static String SUBJECT = "Test me!";
     private final static String MESSAGE = "A wonderful test this is.";
     private final static int SMTP_PORT = 25;
@@ -52,9 +57,9 @@ public class OutGoingMailAdapterTest {
      */
     @Test
     public void testSendingEmailWithDefaultSubject() throws MessagingException, IOException {
-        outgoingMailAdapter.sendMessage(RECEIPENT, MESSAGE);
+        outgoingMailAdapter.sendMessage(RECIPIENT, MESSAGE);
         
-        Mailbox mailbox = Mailbox.get(RECEIPENT);
+        Mailbox mailbox = Mailbox.get(RECIPIENT);
         Assert.assertEquals(mailbox.size(), 1);
         Message message = mailbox.get(0);
         Assert.assertEquals(message.getSubject(), OutgoingMailAdapter.DEFAULT_SUBJECT);
@@ -62,15 +67,15 @@ public class OutGoingMailAdapterTest {
     }
     
     /**
-     * Test simply sending an email and afterwards retrievein it.
+     * Test simply sending an email and afterwards retrieveing it.
      * @throws MessagingException 
      * @throws IOException 
      */
     @Test
     public void testSimpleSend() throws MessagingException, IOException {
-        outgoingMailAdapter.sendMessage(RECEIPENT, SUBJECT, MESSAGE);
+        outgoingMailAdapter.sendMessage(RECIPIENT, SUBJECT, MESSAGE);
         
-        Mailbox mailbox = Mailbox.get(RECEIPENT);
+        Mailbox mailbox = Mailbox.get(RECIPIENT);
         Assert.assertEquals(mailbox.size(), 1);
         Message message = mailbox.get(0);
         Assert.assertEquals(message.getSubject(), SUBJECT);
@@ -84,24 +89,24 @@ public class OutGoingMailAdapterTest {
      */
     @Test
     public void testSendTwoEmails() throws AddressException {
-        outgoingMailAdapter.sendMessage(RECEIPENT, SUBJECT, MESSAGE);
-        outgoingMailAdapter.sendMessage(RECEIPENT, "another subject", "Another message");
+        outgoingMailAdapter.sendMessage(RECIPIENT, SUBJECT, MESSAGE);
+        outgoingMailAdapter.sendMessage(RECIPIENT, "another subject", "Another message");
         
-        Assert.assertEquals(Mailbox.get(RECEIPENT).size(), 2);
+        Assert.assertEquals(Mailbox.get(RECIPIENT).size(), 2);
     }
     
     /**
-     * Test send two emails to different receipents (1mail/receiepent).
+     * Test send two emails to different recipients (1mail/recipient).
      *
      * @throws AddressException the address exception
      */
     @Test
     public void testSendTwoEmailsToDifferentReceipents() throws AddressException {
-        outgoingMailAdapter.sendMessage(RECEIPENT, MESSAGE);
-        outgoingMailAdapter.sendMessage(OTHER_RECEIPENT, "Hello other guy!");
+        outgoingMailAdapter.sendMessage(RECIPIENT, MESSAGE);
+        outgoingMailAdapter.sendMessage(OTHER_RECIPIENT, "Hello other guy!");
         
-        Assert.assertEquals(Mailbox.get(RECEIPENT).size(), 1);
-        Assert.assertEquals(Mailbox.get(OTHER_RECEIPENT).size(), 1);
+        Assert.assertEquals(Mailbox.get(RECIPIENT).size(), 1);
+        Assert.assertEquals(Mailbox.get(OTHER_RECIPIENT).size(), 1);
     }
     
     /**

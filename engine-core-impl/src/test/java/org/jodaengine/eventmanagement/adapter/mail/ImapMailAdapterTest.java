@@ -20,6 +20,11 @@ import org.testng.annotations.Test;
 /**
  * Tests the {@link IncomingImapMailAdapter imap mail adapter}.
  * which provides methods for testing.
+ * 
+ * ATTENTION
+ * 
+ * Be aware that the Mailbox used here is pure magic, as soon as it is in the classpath it 
+ * takes care of all the emailstuff for testing purposes.
  */
 public class ImapMailAdapterTest {
 
