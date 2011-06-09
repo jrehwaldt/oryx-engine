@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public class OutgoingMailAdapter extends AbstractEventAdapter<OutgoingMailAdapterConfiguration> 
     implements OutgoingAdapter {
 
-    private final static String DEFAULT_SUBJECT = "JodaMail, you have!";
+    public final static String DEFAULT_SUBJECT = "JodaMail, you have!";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     /**
