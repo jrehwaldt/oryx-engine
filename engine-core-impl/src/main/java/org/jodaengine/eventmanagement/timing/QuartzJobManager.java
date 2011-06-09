@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.adapter.configuration.PullAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 import org.jodaengine.eventmanagement.timing.job.PullAdapterJob;
 import org.jodaengine.exception.AdapterSchedulingException;
 import org.jodaengine.exception.EngineInitializationFailedException;
@@ -37,7 +37,7 @@ public class QuartzJobManager implements TimingManager {
     private final ErrorAdapter errorAdapter;
     public static final String TOKEN_KEY = "token";
 
-    private Map<InboundPullAdapter, JobKey> runningJobKeyTable;
+    private Map<IncomingPullAdapter, JobKey> runningJobKeyTable;
 
     /**
      * Default constructor.
@@ -91,7 +91,7 @@ public class QuartzJobManager implements TimingManager {
     }
 
     @Override
-    public void registerJobForInboundPullAdapter(@Nonnull InboundPullAdapter inboundPulladapter)
+    public void registerJobForInboundPullAdapter(@Nonnull IncomingPullAdapter inboundPulladapter)
     throws AdapterSchedulingException {
 
         final QuartzPullAdapterConfiguration configuration = (QuartzPullAdapterConfiguration) inboundPulladapter
@@ -109,7 +109,7 @@ public class QuartzJobManager implements TimingManager {
     }
 
     @Override
-    public void unregisterJobForInboundPullAdapter(InboundPullAdapter inboundPulladapter)
+    public void unregisterJobForInboundPullAdapter(IncomingPullAdapter inboundPulladapter)
     throws AdapterSchedulingException {
 
         JobKey jobKeyOfAdapter = getRunningJobKeyTable().get(inboundPulladapter);
@@ -142,14 +142,14 @@ public class QuartzJobManager implements TimingManager {
 
     /**
      * Prepares the jobDataMap which is past to a job. This map contains the {@link ErrorAdapter} and the
-     * {@link InboundPullAdapter} for which the QuartzJob is registered.
+     * {@link IncomingPullAdapter} for which the QuartzJob is registered.
      * 
      * @param adapter
-     *            - the {@link InboundPullAdapter} for which the QuartzJob is registered
+     *            - the {@link IncomingPullAdapter} for which the QuartzJob is registered
      * @param jobDetail
      *            - a jobDetail in order to modify his {@link JobDataMap dataMap}
      */
-    private void prepareJobDataMap(InboundPullAdapter adapter, JobDetail jobDetail) {
+    private void prepareJobDataMap(IncomingPullAdapter adapter, JobDetail jobDetail) {
 
         JobDataMap data = jobDetail.getJobDataMap();
 
@@ -197,7 +197,7 @@ public class QuartzJobManager implements TimingManager {
      * Registers a job for QUARTZ Scheduler.
      * 
      * @param adapter
-     *            - the {@link InboundPullAdapter}for which a job is registered
+     *            - the {@link IncomingPullAdapter}for which a job is registered
      * @param jobDetail
      *            - the job detail which includes the data for the job.
      * @param trigger
@@ -205,7 +205,7 @@ public class QuartzJobManager implements TimingManager {
      * @throws AdapterSchedulingException
      *             - the adapter scheduling exception
      */
-    private void registerQuartzJob(InboundPullAdapter adapter, JobDetail jobDetail, Trigger trigger)
+    private void registerQuartzJob(IncomingPullAdapter adapter, JobDetail jobDetail, Trigger trigger)
     throws AdapterSchedulingException {
 
         try {
@@ -222,16 +222,16 @@ public class QuartzJobManager implements TimingManager {
     }
 
     /**
-     * Deleting the QuartzJob assigned to an {@link InboundPullAdapter}.
+     * Deleting the QuartzJob assigned to an {@link IncomingPullAdapter}.
      * 
      * @param adapter
-     *            - the {@link InboundPullAdapter}for which a job is registered
+     *            - the {@link IncomingPullAdapter}for which a job is registered
      * @param jobKeyOfAdapter
-     *            - the key of the job that is assigned the {@link InboundPullAdapter}
+     *            - the key of the job that is assigned the {@link IncomingPullAdapter}
      * @throws AdapterSchedulingException
      *             - the adapter scheduling exception
      */
-    private void unregisterQuartzJob(InboundPullAdapter adapter, JobKey jobKeyOfAdapter)
+    private void unregisterQuartzJob(IncomingPullAdapter adapter, JobKey jobKeyOfAdapter)
     throws AdapterSchedulingException {
 
         try {
@@ -332,12 +332,12 @@ public class QuartzJobManager implements TimingManager {
     /**
      * Getter for {@link QuartzJobManager#runningJobKeyTable}.
      * 
-     * @return the {@link Map} that links an {@link InboundPullAdapter} to it corresponding {@link JobKey QuartzJobKey}
+     * @return the {@link Map} that links an {@link IncomingPullAdapter} to it corresponding {@link JobKey QuartzJobKey}
      */
-    private Map<InboundPullAdapter, JobKey> getRunningJobKeyTable() {
+    private Map<IncomingPullAdapter, JobKey> getRunningJobKeyTable() {
 
         if (runningJobKeyTable == null) {
-            this.runningJobKeyTable = new HashMap<InboundPullAdapter, JobKey>();
+            this.runningJobKeyTable = new HashMap<IncomingPullAdapter, JobKey>();
         }
         return runningJobKeyTable;
     }

@@ -26,8 +26,9 @@ import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
  * @param <Configuration>
  *            - the {@link AdapterConfiguration} of this adapter
  */
-public abstract class AbstractCorrelatingEventAdapter<Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
-implements EventSubscription, EventUnsubscription, EventCorrelator {
+public abstract class AbstractCorrelatingEventAdapter
+    <Configuration extends AdapterConfiguration> extends AbstractEventAdapter<Configuration>
+    implements EventSubscription, EventUnsubscription, EventCorrelator {
 
     // Both lists are lazyInitialized
     private List<ProcessEvent> processEvents;

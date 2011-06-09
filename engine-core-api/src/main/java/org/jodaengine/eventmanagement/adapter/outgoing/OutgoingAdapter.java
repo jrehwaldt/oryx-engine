@@ -8,7 +8,7 @@ import org.jodaengine.eventmanagement.adapter.EventAdapter;
  * which allow outgoing communication. This includes,
  * e.g. email sending adapter.
  */
-public interface OutboundAdapter extends EventAdapter {
+public interface OutgoingAdapter extends EventAdapter {
 
     void sendMessage(String Message);
 }

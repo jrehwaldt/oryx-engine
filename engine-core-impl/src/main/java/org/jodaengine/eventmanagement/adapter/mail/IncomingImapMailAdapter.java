@@ -10,10 +10,8 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
 
-import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
-import org.jodaengine.eventmanagement.adapter.EventAdapter;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 import org.jodaengine.exception.JodaEngineException;
 
 /**
@@ -21,8 +19,8 @@ import org.jodaengine.exception.JodaEngineException;
  * 
  * {@link EventCorrelator}.
  */
-public class InboundImapMailAdapter extends AbstractCorrelatingEventAdapter<InboundMailAdapterConfiguration>
-implements InboundPullAdapter {
+public class IncomingImapMailAdapter extends AbstractCorrelatingEventAdapter<IncomingMailAdapterConfiguration>
+implements IncomingPullAdapter {
 
     /**
      * Default constructor.
@@ -31,7 +29,7 @@ implements InboundPullAdapter {
      *            the adapter's configuration
      */
     @SuppressWarnings("restriction")
-    public InboundImapMailAdapter(@Nonnull InboundMailAdapterConfiguration configuration) {
+    public IncomingImapMailAdapter(@Nonnull IncomingMailAdapterConfiguration configuration) {
 
         super(configuration);
 
@@ -43,7 +41,7 @@ implements InboundPullAdapter {
     }
 
     /**
-     * This mailer adapter will receive mails as specified in {@link InboundMailAdapterConfiguration}.
+     * This mailer adapter will receive mails as specified in {@link IncomingMailAdapterConfiguration}.
      * 
      * {@inheritDoc}
      */

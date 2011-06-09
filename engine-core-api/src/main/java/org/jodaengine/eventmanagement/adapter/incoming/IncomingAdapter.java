@@ -8,6 +8,6 @@ import org.jodaengine.eventmanagement.adapter.EventAdapter;
  * which allow incoming communication. This includes,
  * e.g. push-imap email receiving adapter.
  */
-public interface InboundAdapter extends EventAdapter {
+public interface IncomingAdapter extends EventAdapter {
 
 }

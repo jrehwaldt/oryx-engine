@@ -18,13 +18,13 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * Tests the {@link InboundImapMailAdapter imap mail adapter}. This test uses the {@link InboundImapMailAdapterMock}
+ * Tests the {@link IncomingImapMailAdapter imap mail adapter}. This test uses the {@link InboundImapMailAdapterMock}
  * which provides methods for testing.
  */
 public class ImapMailAdapterTest {
 
-    private InboundImapMailAdapter inboundImapAdapterSpy;
-    private InboundMailAdapterConfiguration config;
+    private IncomingImapMailAdapter inboundImapAdapterSpy;
+    private IncomingMailAdapterConfiguration config;
     private String address;
 
     /**
@@ -86,7 +86,7 @@ public class ImapMailAdapterTest {
      */
     private void preparingInboundImapAdapter() {
 
-        this.config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
-        this.inboundImapAdapterSpy = Mockito.spy(new InboundImapMailAdapter(this.config));
+        this.config = IncomingMailAdapterConfiguration.jodaGoogleConfiguration();
+        this.inboundImapAdapterSpy = Mockito.spy(new IncomingImapMailAdapter(this.config));
     }
 }

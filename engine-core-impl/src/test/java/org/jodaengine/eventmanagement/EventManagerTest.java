@@ -3,7 +3,7 @@ package org.jodaengine.eventmanagement;
 import static org.testng.Assert.assertEquals;
 
 import org.jodaengine.bootstrap.JodaEngine;
-import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.factory.eventmanagement.AdapterConfigurationFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -57,9 +57,9 @@ public class EventManagerTest {
     public void testEqualAdapterConfigurationsAreNoticed() {
 
         int initialAdapterCount = manager.getEventAdapters().size();
-        InboundMailAdapterConfiguration config1 = AdapterConfigurationFactory.createMailAdapterConfiguration();
+        IncomingMailAdapterConfiguration config1 = AdapterConfigurationFactory.createMailAdapterConfiguration();
         config1.registerAdapter(manager);
-        InboundMailAdapterConfiguration config2 = AdapterConfigurationFactory.createMailAdapterConfiguration();
+        IncomingMailAdapterConfiguration config2 = AdapterConfigurationFactory.createMailAdapterConfiguration();
         config2.registerAdapter(manager);
 
         assertEquals(manager.getEventAdapters().size(), initialAdapterCount + 1,

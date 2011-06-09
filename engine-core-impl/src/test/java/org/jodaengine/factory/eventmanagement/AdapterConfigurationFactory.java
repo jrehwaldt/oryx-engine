@@ -1,6 +1,6 @@
 package org.jodaengine.factory.eventmanagement;
 
-import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailProtocol;
 
 /**
@@ -27,9 +27,9 @@ public final class AdapterConfigurationFactory {
      * 
      * @return the InboundMailAdapterConfiguration
      */
-    public static InboundMailAdapterConfiguration createMailAdapterConfiguration() {
+    public static IncomingMailAdapterConfiguration createMailAdapterConfiguration() {
 
-        return new InboundMailAdapterConfiguration(MAIL_PROTOCOL, USER_NAME, PASSWORD, ADDRESS, PORT, USE_SSL);
+        return new IncomingMailAdapterConfiguration(MAIL_PROTOCOL, USER_NAME, PASSWORD, ADDRESS, PORT, USE_SSL);
     }
 
     /**
@@ -38,9 +38,9 @@ public final class AdapterConfigurationFactory {
      * 
      * @return the inbound mail adapter configuration
      */
-    public static InboundMailAdapterConfiguration createSlightlyDifferentMailAdapterConfiguration() {
+    public static IncomingMailAdapterConfiguration createSlightlyDifferentMailAdapterConfiguration() {
 
-        return new InboundMailAdapterConfiguration(MAIL_PROTOCOL, "Harrie", PASSWORD, ADDRESS, PORT, USE_SSL);
+        return new IncomingMailAdapterConfiguration(MAIL_PROTOCOL, "Harrie", PASSWORD, ADDRESS, PORT, USE_SSL);
     }
 
 }

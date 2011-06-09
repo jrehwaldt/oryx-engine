@@ -3,8 +3,8 @@ package org.jodaengine.eventmanagement;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 
@@ -28,21 +28,21 @@ public interface AdapterManagement {
      * A call to this method registers the corresponding adapter.
      * 
      * @param adapter
-     *            the {@link InboundAdapter} to register
-     * @return the registered {@link InboundAdapter}
+     *            the {@link IncomingAdapter} to register
+     * @return the registered {@link IncomingAdapter}
      */
     @Nonnull
-    InboundAdapter registerInboundAdapter(@Nonnull InboundAdapter adapter);
+    IncomingAdapter registerInboundAdapter(@Nonnull IncomingAdapter adapter);
 
     /**
      * A call to this method registers the corresponding adapter.
      * 
      * @param adapter
-     *            the {@link InboundPullAdapter} to register
-     * @return the registered {@link InboundPullAdapter}
+     *            the {@link IncomingPullAdapter} to register
+     * @return the registered {@link IncomingPullAdapter}
      */
     @Nonnull
-    InboundPullAdapter registerInboundPullAdapter(@Nonnull InboundPullAdapter adapter);
+    IncomingPullAdapter registerInboundPullAdapter(@Nonnull IncomingPullAdapter adapter);
 
     /**
      * Gets the timer.

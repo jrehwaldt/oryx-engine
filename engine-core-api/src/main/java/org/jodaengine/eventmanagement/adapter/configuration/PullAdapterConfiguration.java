@@ -2,10 +2,10 @@ package org.jodaengine.eventmanagement.adapter.configuration;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 
 /**
- * Configuration for {@link InboundPullAdapter}.
+ * Configuration for {@link IncomingPullAdapter}.
  */
 public interface PullAdapterConfiguration extends AdapterConfiguration {
 

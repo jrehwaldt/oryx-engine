@@ -5,7 +5,7 @@ import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 
 /**
  * The {@link AdapterConfiguration} for an adapter that can be triggered manually.
@@ -41,7 +41,7 @@ public class ManualTriggeringAdapterConfiguration extends AbstractAdapterConfigu
      * 
      * @return an {@link ManualTriggeringAdapter}
      */
-    private InboundAdapter createAdapter() {
+    private IncomingAdapter createAdapter() {
 
         ManualTriggeringAdapter manualTriggeringAdapter = new ManualTriggeringAdapter(this);
         return manualTriggeringAdapter;
@@ -50,7 +50,7 @@ public class ManualTriggeringAdapterConfiguration extends AbstractAdapterConfigu
     @Override
     public EventAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
-        InboundAdapter adapter = createAdapter();
+        IncomingAdapter adapter = createAdapter();
         adapterRegistrar.registerInboundAdapter(adapter);
 
         return adapter;
@@ -73,7 +73,8 @@ public class ManualTriggeringAdapterConfiguration extends AbstractAdapterConfigu
             return false;
         }
 
-        ManualTriggeringAdapterConfiguration manualTriggeringAdapterConfigToCompare = (ManualTriggeringAdapterConfiguration) object;
+        ManualTriggeringAdapterConfiguration manualTriggeringAdapterConfigToCompare = 
+            (ManualTriggeringAdapterConfiguration) object;
         return name.equals(manualTriggeringAdapterConfigToCompare.getName());
     }
 }
