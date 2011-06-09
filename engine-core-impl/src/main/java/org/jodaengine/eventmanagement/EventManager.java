@@ -250,7 +250,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     @Override
     public EventCorrelator getEventCorrelator() {
 
-        // TODO Auto-generated method stub
+        // TODO @EVENTTEAM: lol empty wtf is this srsly? GEEERAARRDOOO???
         return null;
     }
 

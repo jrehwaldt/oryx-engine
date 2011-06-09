@@ -10,5 +10,21 @@ import org.jodaengine.eventmanagement.adapter.EventAdapter;
  */
 public interface OutgoingAdapter extends EventAdapter {
 
-    void sendMessage(String Message);
+    /**
+     * Send the message to the specified receipent.
+     *
+     * @param receipent the receipent (might be email adress or ICQ Number etc...:)
+     * @param message the message
+     */
+    void sendMessage(String receipent, String message);
+    
+    
+    /**
+     * Sends the message with the specified subject to the specified receipent.
+     *
+     * @param receipent the receipent (might be email adress or ICQ Number etc...:)
+     * @param subject the subject
+     * @param message the message
+     */
+    void sendMessage(String receipent, String subject, String message);
 }

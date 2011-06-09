@@ -9,13 +9,15 @@ import org.jodaengine.eventmanagement.adapter.EventAdapter;
 /**
  * The configuration for our outgoing mail adapter with the necessary information to send an email via SMTP.
  */
-
-// TODO well does this implementation more or less equal the one for the POP/IMAP stuff?
 public class OutgoingMailAdapterConfiguration extends AbstractMailConfiguration {
     
     /** The protocol. */
     private MailProtocol protocol;
     
+    private String smtpServer;
+    
+    /** The port. */
+    private int port;
 
     /**
      * Instantiates a new outgoing mail adapter configuration.
@@ -24,17 +26,20 @@ public class OutgoingMailAdapterConfiguration extends AbstractMailConfiguration 
      * @param userName the user name
      * @param password the password
      * @param address the address
+     * @param smtpServer the SMTP server to use for sending the emails
      * @param port the port
      */
     public OutgoingMailAdapterConfiguration(@Nonnull MailProtocol protocol,
                                             @Nonnull String userName,
                                             @Nonnull String password,
                                             @Nonnull String address,
+                                            @Nonnull String smtpServer,
                                             @Nonnegative int port) {
 
         super(userName, password, address);
         this.protocol = protocol;
         this.port = port;
+        this.smtpServer = smtpServer;
         
     }
 
@@ -58,13 +63,26 @@ public class OutgoingMailAdapterConfiguration extends AbstractMailConfiguration 
     
         return port;
     }
-
-    /** The port. */
-    private int port;
     
+    /**
+     * Gets the smtp server adress.
+     *
+     * @return the smtp server adress
+     */
+    public String getSmtpServer() {
+        
+        return smtpServer;
+    }
+    
+    /**
+     * Creates the outgoing Mail adapter.
+     *
+     * @return the outgoing mail adapter
+     */
     private OutgoingMailAdapter createAdapter() {
-        OutgoingMailAdapter outgoingMailAdapter = new OutgoingMailAdapter(this);
-        return outgoingMailAdapter;
+   
+        return new OutgoingMailAdapter(this);
+         
     }
     
     /**
@@ -73,8 +91,9 @@ public class OutgoingMailAdapterConfiguration extends AbstractMailConfiguration 
     @Override
     public EventAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
-        // TODO Auto-generated method stub
-        return null;
+        OutgoingMailAdapter outgoingMailAdapter = this.createAdapter();
+        adapterRegistrar.registerAdapter(outgoingMailAdapter);
+        return outgoingMailAdapter;
     }
 
 }

@@ -18,7 +18,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * Tests the {@link IncomingImapMailAdapter imap mail adapter}. This test uses the {@link InboundImapMailAdapterMock}
+ * Tests the {@link IncomingImapMailAdapter imap mail adapter}.
  * which provides methods for testing.
  */
 public class ImapMailAdapterTest {
@@ -77,8 +77,6 @@ public class ImapMailAdapterTest {
         msg.setFrom(new InternetAddress(this.address));
         msg.setText("Huhu");
         Transport.send(msg);
-
-        assertEquals(Mailbox.get(this.address).size(), 1);
     }
 
     /**
