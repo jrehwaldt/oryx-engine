@@ -16,6 +16,7 @@ public abstract class AbstractMailConfiguration extends AbstractAdapterConfigura
     /** The password. */
     protected final String password;
     
+    // TODO: EVENTTEAM: Better name? Address is misleading (this appears to be the hsoter like web.de...)
     /** The address. */
     protected final String address;
     

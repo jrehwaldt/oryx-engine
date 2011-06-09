@@ -12,7 +12,8 @@ public enum MailProtocol {
     
     // (defaultPort, sslPort)
     POP3(110, 995), 
-    IMAP(143, 993);
+    IMAP(143, 993),
+    SMTP(25, 465);
     
     private int defaultPort;
     private int sslPort;
