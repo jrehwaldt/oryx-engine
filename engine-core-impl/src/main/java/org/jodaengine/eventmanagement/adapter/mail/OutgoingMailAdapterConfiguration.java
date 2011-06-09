@@ -8,14 +8,27 @@ import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.EventType;
 
+// TODO: Auto-generated Javadoc
 /**
  * The configuration for our outgoing mail adapter with the necessary information to send an email via SMTP.
  */
 
 // TODO well does this implementation more or less equal the one for the POP/IMAP stuff?
 public class OutgoingMailAdapterConfiguration extends AbstractMailConfiguration {
+    
+    /** The protocol. */
+    private MailProtocol protocol;
+    
 
-
+    /**
+     * Instantiates a new outgoing mail adapter configuration.
+     *
+     * @param protocol the protocol
+     * @param userName the user name
+     * @param password the password
+     * @param address the address
+     * @param port the port
+     */
     public OutgoingMailAdapterConfiguration(@Nonnull MailProtocol protocol,
                                             @Nonnull String userName,
                                             @Nonnull String password,
@@ -23,9 +36,38 @@ public class OutgoingMailAdapterConfiguration extends AbstractMailConfiguration 
                                             @Nonnegative int port) {
 
         super(userName, password, address);
+        this.protocol = protocol;
+        this.port = port;
         
     }
 
+    /**
+     * Gets the protocol used (will mostly be SMTP).
+     *
+     * @return the protocol
+     */
+    public MailProtocol getProtocol() {
+        
+        return protocol;
+    }
+
+    
+    /**
+     * Gets the port used, the default SMTP port is 25.
+     *
+     * @return the port
+     */
+    public int getPort() {
+    
+        return port;
+    }
+
+    /** The port. */
+    private int port;
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public EventAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
