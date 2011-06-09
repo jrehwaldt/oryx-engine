@@ -37,9 +37,9 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.structure.Condition;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.ControlFlowBuilder;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.CheckVariableTrueCondition;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.CreationPattern;
@@ -187,17 +187,15 @@ public class BpmnXmlParse extends XmlParse {
         
         parseElements(processElement);
         
+        //
+        // preserve original attributes
+        //
+        parseGeneralInformation(processElement, processBuilder);
+        
         try {
             
             BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processBuilder);
             this.finishedProcessDefinition = processBuilder.buildDefinition();
-            
-            //
-            // preserve original attributes
-            //
-            if (this.finishedProcessDefinition != null) {
-                parseGeneralInformation(processElement, processBuilder);
-            }
         } catch (IllegalStarteventException buildingDefinitionException) {
 
             String errorMessage = "The processDefintion could be built.";

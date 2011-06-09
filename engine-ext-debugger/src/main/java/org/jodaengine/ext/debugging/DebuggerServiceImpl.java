@@ -220,6 +220,36 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         return knownBreakpoints;
     }
     
+    @Override
+    public synchronized Collection<Breakpoint> getBreakpoints(AbstractProcessInstance instance) {
+        
+        //
+        // are there any breakpoints?
+        //
+        ProcessDefinition definition = instance.getDefinition();
+        
+        //
+        // we only support definition-based breakpoints
+        //
+        return getBreakpoints(definition);
+    }
+    
+    @Override
+    public synchronized Collection<Breakpoint> getBreakpoints(ProcessDefinition definition) {
+        
+        //
+        // are there any breakpoints?
+        //
+        if (!this.breakpoints.containsKey(definition)) {
+            return Collections.emptyList();
+        }
+        
+        //
+        // yes - return any matching breakpoint
+        //
+        return this.breakpoints.get(definition);
+    }
+    
     //=================================================================
     //=================== DebuggerArtifactService methods =============
     //=================================================================
@@ -291,6 +321,10 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         
         logger.info("Registering {} breakpoints for {}", breakpoints.size(), definition);
         
+        //
+        // register it within the debugger service structure
+        //   -> keep old breakpoints
+        //
         if (this.breakpoints.containsKey(definition)) {
             this.breakpoints.get(definition).addAll(breakpoints);
         } else {
@@ -311,24 +345,6 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         this.breakpoints.remove(definition);
     }
     
-    @Override
-    public synchronized Collection<Breakpoint> getBreakpoints(AbstractProcessInstance instance) {
-        
-        //
-        // are there any breakpoints?
-        //
-        ProcessDefinition definition = instance.getDefinition();
-        
-        if (!this.breakpoints.containsKey(definition)) {
-            return Collections.emptyList();
-        }
-        
-        //
-        // does any of the breakpoints match?
-        //
-        return this.breakpoints.get(definition);
-    }
-
     /**
      * The {@link DebuggerTokenListener} triggers this method when a {@link Breakpoint}
      * matched the {@link AbstractProcessInstance}'s current {@link Node}.

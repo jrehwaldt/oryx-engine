@@ -136,9 +136,10 @@ public class NavigatorWebServiceTest extends AbstractJsonServerTest {
 
             logger.debug(response.getContentAsString());
 
-            AbstractProcessInstance instance = this.mapper.readValue(response.getContentAsString(),
+            AbstractProcessInstance instance = this.mapper.readValue(
+                response.getContentAsString(),
                 ProcessInstance.class);
-
+            
             Assert.assertNotNull(instance);
             Assert.assertNotNull(instance.getDefinition());
 

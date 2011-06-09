@@ -1,36 +1,42 @@
 package org.jodaengine.process.structure;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 
 /**
- * The Class ControlFlowImpl. The implementation of a {@link ControlFlow} that is. A {@link ControlFlow} is the edge between to nodes.
+ * The implementation of a {@link ControlFlow} that is.
+ * A control flow is an edge between two nodes.
  */
 public class ControlFlowImpl implements ControlFlow {
 
     /** The destination. E.g. where does the arrow point to. */
-    private Node destination;
+    private final Node destination;
 
     /** The start. E.g. Where does the arrow/edge originate. */
-    private Node source;
+    private final Node source;
 
-    /** The condition. The {@link ControlFlow} can only be done with a true condition. */
-    private Condition condition;
+    /** The condition. The {@link ControlFlow} can only be executed with a true condition. */
+    private final Condition condition;
 
     /**
      * Instantiates a new {@link ControlFlow} impl.
      * 
-     * @param start
-     *            the startnode
+     * @param source
+     *            the source node
      * @param destination
-     *            the destinationnode
-     * @param c
+     *            the destination node
+     * @param condition
      *            the condition
      */
-    public ControlFlowImpl(Node start, Node destination, Condition c) {
-
-        this.source = start;
+    @JsonCreator
+    public ControlFlowImpl(@JsonProperty("source") Node source,
+                           @JsonProperty("destination") Node destination,
+                           @JsonProperty("condition") Condition condition) {
+        
+        this.source = source;
         this.destination = destination;
-        this.condition = c;
-
+        this.condition = condition;
     }
 
     /**
@@ -65,40 +71,6 @@ public class ControlFlowImpl implements ControlFlow {
     public Node getSource() {
 
         return source;
-    }
-
-    // TODO the following three methods diverge from the interface. Do we want to expose them in the interface?
-    /**
-     * Sets the start.
-     * 
-     * @param start
-     *            the new start
-     */
-    public void setSource(Node start) {
-
-        this.source = start;
-    }
-
-    /**
-     * Sets the destination.
-     * 
-     * @param destination
-     *            the new destination
-     */
-    public void setDestination(Node destination) {
-
-        this.destination = destination;
-    }
-
-    /**
-     * Sets the condition.
-     * 
-     * @param condition
-     *            the new condition
-     */
-    public void setCondition(Condition condition) {
-
-        this.condition = condition;
     }
 
 }

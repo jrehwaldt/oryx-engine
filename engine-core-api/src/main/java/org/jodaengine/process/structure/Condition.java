@@ -1,5 +1,8 @@
 package org.jodaengine.process.structure;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -7,6 +10,7 @@ import org.jodaengine.process.token.Token;
  * 
  * @author Jannik Streek
  */
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface Condition {
 
     /**

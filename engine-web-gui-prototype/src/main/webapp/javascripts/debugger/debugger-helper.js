@@ -8,6 +8,19 @@
 
 $().ready(function() {
     
+    // 
+    // refresh the artifacts table
+    // 
+    loadProcessDefinitionsOverview();
+    
+    //
+    // register the refresh overview handler
+    //
+    $('#definitions-overview-refresh').click(function(event) {
+        event.preventDefault();
+        loadProcessDefinitionsOverview();
+    });
+    
 });
 
 /**
@@ -31,16 +44,13 @@ function loadProcessDefinitionsOverview() {
             tableBody.empty();
             $(definitions).each(function(index, definition) {
                 var definitionId = idToString(definition.id);
-                var definitionRow = tableBody.append(
+                var definitionRow = $(
                     '<tr definition-id="' + definitionId + '">'
-                        + '<td>' + definition.name + '</td>'
-                        + '<td>' + definition.id.version + '</td>'
-                        + '<td>' + definition.description + '</td>'
-                        + '<td class="extra-cell">'
-                        + '</td>'
+                        + '<td>' + _generateDefinitionHTML(definition) + '</td>'
                     + '</tr>'
                 );
-                tableBody.trigger('definition-table-entry:ready', [definitionId, $(definitionRow), tableBody]);
+                tableBody.append(definitionRow);
+                tableBody.trigger('definition-table-entry:ready', [definition, definitionId, $(definitionRow), tableBody]);
             });
             
             tableBody.trigger('definition-table:ready', [tableBody]);
@@ -67,6 +77,19 @@ function showFullSvg(definitionId) {
         // .children() for FF
         // .clone() for Chrome
         //
-        $('#svg-artifact-full-overlay div.full-svg-artifact').html($(artifact).children().clone());
+        var frame = $('#svg-artifact-full-overlay div.full-svg-artifact');
+        frame.attr('definition-id', definitionId);
+        frame.html($(artifact).children().clone());
     });
 };
+
+/**
+ * Generates definition html.
+ * 
+ * @param definition the definition object
+ */
+function _generateDefinitionHTML(definition) {
+    return definition.name + '; Version: '
+         + definition.id.version
+         + (definition.description ? '<br/>' + definition.description : '');
+}
