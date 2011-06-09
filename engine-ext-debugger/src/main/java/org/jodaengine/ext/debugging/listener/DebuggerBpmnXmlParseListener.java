@@ -11,9 +11,10 @@ import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.xml.XmlElement;
 import org.slf4j.Logger;
@@ -132,13 +133,13 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
     
     @Override
     public void parseSequenceFlow(XmlElement sequenceFlowElement,
-                                  Transition transition,
+                                  ControlFlow controlFlow,
                                   Attributable definitionScopeAttributable) {
 
-        logger.debug("Parse BPMN-sequence element {}", transition);
+        logger.debug("Parse BPMN-sequence element {}", controlFlow);
         parseSequenceElement(
             sequenceFlowElement,
-            transition,
+            controlFlow,
             definitionScopeAttributable);
     }
 
@@ -195,7 +196,7 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
     }
     
     /**
-     * Parse any constructed element except {@link Transition}s.
+     * Parse any constructed element except {@link ControlFlow}s.
      * 
      * @param xmlElement the {@link XmlElement} representation
      * @param node the parsed and constructed {@link Node} representation
@@ -231,14 +232,14 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
     }
     
     /**
-     * Parse any constructed {@link Transition}.
+     * Parse any constructed {@link ControlFlow}.
      * 
      * @param xmlElement the {@link XmlElement} representation
-     * @param transition the parsed and constructed {@link Transition} representation
+     * @param controlFlow the parsed and constructed {@link ControlFlow} representation
      * @param definitionAttributes a definition-scoped {@link Attributable}
      */
     private void parseSequenceElement(@Nonnull XmlElement xmlElement,
-                                      @Nonnull Transition transition,
+                                      @Nonnull ControlFlow controlFlow,
                                       @Nonnull Attributable definitionAttributes) {
         
         
@@ -271,7 +272,23 @@ public class DebuggerBpmnXmlParseListener implements BpmnXmlParseListener {
             return null;
         }
         
-        Breakpoint breakpoint = new BreakpointImpl(node);
+        //
+        // state available?
+        //
+        ActivityState activityState = ActivityState.READY;
+        String activityStateString = breakpointElement.getAttribute("activityState");
+        if (activityStateString != null) {
+            try {
+                activityState = ActivityState.valueOf(activityStateString);
+            } catch (IllegalArgumentException iae) {
+                logger.warn(
+                    "Unable to parse activity state {}. Using default ({}) instead.",
+                    activityStateString,
+                    activityState);
+            }
+        }
+        
+        Breakpoint breakpoint = new BreakpointImpl(node, activityState);
         
         //
         // condition available?

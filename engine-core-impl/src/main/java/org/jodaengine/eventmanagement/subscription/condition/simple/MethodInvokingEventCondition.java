@@ -47,7 +47,7 @@ public class MethodInvokingEventCondition implements EventCondition {
     @Override
     public boolean evaluate(AdapterEvent adapterEvent) {
 
-        if (!adapterEvent.getClass().equals(clazzOfMethod)) {
+         if (!clazzOfMethod.isInstance(adapterEvent)) {
             String debugMessage = "The class of the adapterEvent '" + adapterEvent.getClass() + "' occured at '"
                 + adapterEvent.getTimestamp() + "' does not match to the desired class '"
                 + clazzOfMethod.getCanonicalName() + "'.";

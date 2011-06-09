@@ -3,9 +3,9 @@ package org.jodaengine.ext.debugging.shared;
 import javax.annotation.Nonnull;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
-import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
 
+import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.ext.debugging.api.BreakpointCondition;
@@ -23,6 +23,7 @@ import de.odysseus.el.ExpressionFactoryImpl;
  * @since 2011-05-24
  */
 public class JuelBreakpointCondition implements BreakpointCondition {
+    private static final long serialVersionUID = 3286057388232773948L;
     
     @JsonIgnore
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -36,24 +37,23 @@ public class JuelBreakpointCondition implements BreakpointCondition {
      * 
      * @param juelExpression the Juel expression
      */
-    public JuelBreakpointCondition(@Nonnull String juelExpression) {
+    @JsonCreator
+    public JuelBreakpointCondition(@Nonnull @JsonProperty("expression") String juelExpression) {
         this.expression = juelExpression;
     }
     
     @Override
     public boolean evaluate(Token token) {
         
-        ELContext context = new ProcessELContext(token.getInstance().getContext());
+        ELContext context = new ProcessELContext(token.getInstance().getContext(), false);
         
         ExpressionFactory factory = new ExpressionFactoryImpl();
-        ValueExpression e = factory.createValueExpression(context, expression, boolean.class);
         
         try {
+            ValueExpression e = factory.createValueExpression(context, expression, boolean.class);
             return ((Boolean) e.getValue(context)).booleanValue();
-        } catch (PropertyNotFoundException pnfe) {
-            logger.warn(
-                "The breakpoint condition '" + expression + "' contains an expression that could not be evaluated.",
-                pnfe);
+        } catch (Exception e) {
+            logger.warn("The condition '" + expression + "' contains an expression that could not be evaluated.", e);
             return true;
         }
     }

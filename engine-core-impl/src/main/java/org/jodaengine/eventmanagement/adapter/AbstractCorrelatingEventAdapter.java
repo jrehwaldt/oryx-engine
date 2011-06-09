@@ -1,7 +1,6 @@
 package org.jodaengine.eventmanagement.adapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -80,14 +79,32 @@ implements EventSubscription, EventUnsubscription, EventCorrelator {
         for (ProcessEvent processEvent : tmpProcessEvents) {
 
             if (processEvent.evaluate(e)) {
-                processEvent.trigger();
-                getProcessEvents().remove(processEvent);
+
+                correlateProcessEvent(processEvent);
             }
         }
 
         // Push it anyway to the queue of uncorrelated adapterEvents because there may be processEvent that is
         // registered afterwards
         getUnCorrelatedAdapterEvents().add(e);
+    }
+
+    /**
+     * Knows what to do with a processEvent when it was correlated successfully.
+     * 
+     * @param processEvent
+     *            - the {@link ProcessEvent} that was correlated successfully
+     */
+    private void correlateProcessEvent(ProcessEvent processEvent) {
+
+        processEvent.trigger();
+
+        // If the processEvent is an processIntermediateEvent then it is removed from the list so that it cannot be
+        // correlated more
+        if (processEvent instanceof ProcessIntermediateEvent) {
+
+            getProcessEvents().remove(processEvent);
+        }
     }
 
     /**

@@ -49,7 +49,8 @@ public abstract class AbstractJsonServerTest extends AbstractJodaEngineTest {
     //
     // add all exception mapper to the mock dispatcher
     //
-    private static final List<Class<? extends ExceptionMapper<?>>> EXCEPTION_PROVIDERS = new ArrayList<Class<? extends ExceptionMapper<?>>>();
+    private static final List<Class<? extends ExceptionMapper<?>>> EXCEPTION_PROVIDERS
+        = new ArrayList<Class<? extends ExceptionMapper<?>>>();
 
     static {
         //

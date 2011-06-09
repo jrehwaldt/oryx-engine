@@ -3,9 +3,10 @@ package org.jodaengine.ext.debugging.util;
 import java.lang.reflect.Field;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.structure.Node;
 
 /**
@@ -21,14 +22,16 @@ public class UUIDBreakpointImpl extends BreakpointImpl {
      * 
      * @param id the id
      * @param node the node
+     * @param state the state
      * 
      * @throws NoSuchFieldException reflection error
      * @throws IllegalAccessException reflection error
      */
-    public UUIDBreakpointImpl(@Nullable UUID id,
-                              @Nullable Node node)
+    public UUIDBreakpointImpl(@Nonnull UUID id,
+                              @Nonnull Node node,
+                              @Nonnull ActivityState state)
     throws NoSuchFieldException, IllegalAccessException {
-        super(node);
+        super(node, state);
         
         //
         // avoid making the id field protected... so we use reflection here

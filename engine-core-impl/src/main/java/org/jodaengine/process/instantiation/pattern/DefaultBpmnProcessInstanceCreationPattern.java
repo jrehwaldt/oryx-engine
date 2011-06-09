@@ -30,12 +30,11 @@ StartInstantiationPattern {
         NavigatorInside navigator = patternContext.getNavigatorService();
         ExtensionService extensions = patternContext.getExtensionService();
         
-        BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, extensions, null);
+        BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, extensions);
         AbstractProcessInstance processInstance = new ProcessInstance(processDefinition, tokenBuilder);
         
         for (Node node : processDefinition.getStartNodes()) {
-            tokenBuilder.setNode(node);
-            Token newToken = processInstance.createToken();
+            Token newToken = processInstance.createToken(node);
             navigator.addWorkToken(newToken);
         }
 

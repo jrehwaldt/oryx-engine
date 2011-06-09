@@ -18,6 +18,9 @@ import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.ext.debugging.DebuggerServiceImpl;
 import org.jodaengine.ext.debugging.api.Breakpoint;
+import org.jodaengine.ext.debugging.api.DebuggerCommand;
+import org.jodaengine.ext.debugging.api.Interrupter;
+import org.jodaengine.ext.debugging.api.NodeBreakpoint;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
@@ -28,6 +31,7 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.ReflectionUtil;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
+import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -53,9 +57,11 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
     
     /**
      * Setup before method.
+     * 
+     * @throws InterruptedException nonsense
      */
     @BeforeMethod
-    public void setupMethod() {
+    public void setupMethod() throws InterruptedException {
         
         //
         // setup clean mocks
@@ -63,6 +69,16 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
         this.mockDebugger = mock(DebuggerServiceImpl.class);
         this.mockToken = mock(Token.class);
         this.mockInstance = mock(AbstractProcessInstance.class);
+        
+        //
+        // interrupter mock
+        //
+        Interrupter interrupter = mock(Interrupter.class);
+        when(interrupter.interruptInstance()).thenReturn(DebuggerCommand.CONTINUE);
+        when(this.mockDebugger.breakpointTriggered(
+            Mockito.<Token>any(),
+            Mockito.<Breakpoint>any(),
+            Mockito.<DebuggerTokenListener>any())).thenReturn(interrupter);
         
         //
         // create bounded listeners
@@ -125,13 +141,16 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
             Assert.assertNotNull(breakpoint);
             Assert.assertTrue(breakpoint.isEnabled());
             Assert.assertNotNull(breakpoint.getCondition());
-            Assert.assertNotNull(breakpoint.getNode());
+            
+            Assert.assertTrue(breakpoint instanceof NodeBreakpoint);
+            NodeBreakpoint concreteBreakpoint = (NodeBreakpoint) breakpoint;
+            Assert.assertNotNull(concreteBreakpoint.getNode());
             Assert.assertNotNull(breakpoint.getID());
             
             Node node = definition.getStartNodes().get(0);
             Assert.assertNotNull(node);
             
-            Assert.assertEquals(node, breakpoint.getNode());
+            Assert.assertEquals(node, concreteBreakpoint.getNode());
             
             //=======================================
             //==== Test the RepositoryListener ======
@@ -157,6 +176,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
             
             when(this.mockToken.getInstance()).thenReturn(this.mockInstance);
             when(this.mockToken.getCurrentNode()).thenReturn(node);
+            when(this.mockToken.getCurrentActivityState()).thenReturn(ActivityState.COMPLETED);
             when(this.mockInstance.getDefinition()).thenReturn(definition);
             when(this.mockDebugger.getBreakpoints(this.mockInstance)).thenReturn(breakpoints);
             
@@ -165,7 +185,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
             //
             Assert.assertTrue(breakpoint.isEnabled());
             
-            this.listener.stateChanged(event);
+            this.listener.stateChanged(this.event);
             
             verify(this.mockDebugger, times(1)).getBreakpoints(this.mockInstance);
             verify(this.mockDebugger, times(1)).breakpointTriggered(this.mockToken, breakpoint, this.listener);
@@ -176,7 +196,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
             breakpoint.disable();
             Assert.assertFalse(breakpoint.isEnabled());
             
-            this.listener.stateChanged(event);
+            this.listener.stateChanged(this.event);
             
             verify(this.mockDebugger, times(2)).getBreakpoints(this.mockInstance);
             verify(this.mockDebugger, times(1)).breakpointTriggered(this.mockToken, breakpoint, this.listener);

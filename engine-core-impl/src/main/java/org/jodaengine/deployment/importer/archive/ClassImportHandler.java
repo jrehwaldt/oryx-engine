@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.apache.commons.io.IOUtils;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +27,8 @@ public class ClassImportHandler extends AbstractDarHandler {
 
         if (entry.getName().startsWith(CLASSES_SUBDIR) && !entry.isDirectory()) {
             try {
-                byte[] classData = new byte[(int) entry.getSize()];
                 BufferedInputStream inputStream = new BufferedInputStream(darFile.getInputStream(entry));
-                inputStream.read(classData);
+                byte[] classData = IOUtils.toByteArray(inputStream);
 
                 int prefixLength = CLASSES_SUBDIR.length();
                 int suffixLength = entry.getName().length() - CLASS_ENDING.length();
@@ -36,6 +36,7 @@ public class ClassImportHandler extends AbstractDarHandler {
                 fullClassName = fullClassName.replace(DELIMITER, '.');
                 builder.addClass(fullClassName, classData);
 
+                logger.info("deployed class {}", fullClassName);
                 inputStream.close();
             } catch (IOException e) {
                 logger.error("Could not read file {} from archive", entry.getName());

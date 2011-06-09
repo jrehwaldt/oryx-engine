@@ -1,5 +1,8 @@
 package org.jodaengine.resource.allocation;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
@@ -7,6 +10,7 @@ import org.jodaengine.resource.worklist.AbstractWorklistItem;
 /**
  * A pattern interface for the creation of worklist items.
  */
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
 public interface CreationPattern {
 
     /**

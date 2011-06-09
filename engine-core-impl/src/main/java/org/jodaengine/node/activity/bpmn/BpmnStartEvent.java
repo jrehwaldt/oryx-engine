@@ -16,5 +16,4 @@ public class BpmnStartEvent extends AbstractActivity {
     protected void executeIntern(Token token) {
 
     }
-
 }

@@ -6,7 +6,7 @@ import static org.testng.Assert.assertTrue;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.NavigatorImplMock;
-import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.node.helper.ActivityLifecycleAssuranceListener;
@@ -53,13 +53,13 @@ public class ConcurrentActivityStateTest {
 
         // Create two process instances
         NavigatorImplMock nav = new NavigatorImplMock();
-        TokenBuilder builder = new BpmnTokenBuilder(nav, null, startNode);
+        TokenBuilder builder = new BpmnTokenBuilder(nav, null);
         AbstractProcessInstance instance1 = new ProcessInstance(definition, builder);
-        AbstractToken token1 = (AbstractToken) instance1.createToken();
+        AbstractToken token1 = (AbstractToken) instance1.createToken(startNode);
 
-        TokenBuilder builder2 = new BpmnTokenBuilder(nav, null, startNode);
+        TokenBuilder builder2 = new BpmnTokenBuilder(nav, null);
         AbstractProcessInstance instance2 = new ProcessInstance(definition, builder2);
-        AbstractToken token2 = (AbstractToken) instance2.createToken();
+        AbstractToken token2 = (AbstractToken) instance2.createToken(startNode);
 
         assertEquals(token1.getCurrentActivityState(), ActivityState.INIT);
         assertEquals(token2.getCurrentActivityState(), ActivityState.INIT);
@@ -92,7 +92,7 @@ public class ConcurrentActivityStateTest {
 
         Node endNode = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        TransitionFactory.createTransitionFromTo(builder, startNode, endNode);
+        ControlFlowFactory.createControlFlowFromTo(builder, startNode, endNode);
         
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         

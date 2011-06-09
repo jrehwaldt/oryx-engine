@@ -5,6 +5,7 @@ import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.subscription.processevent.intermediate.ProcessIntermediateManualTriggeringEvent;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.token.Token;
@@ -41,9 +42,19 @@ BpmnEventBasedGatewayEvent {
         token.suspend();
     }
 
+    
+    //
+    // ==== Interface that represents that this event can also be used by other nodes like event-based Gateway ====
+    //
     @Override
     public ProcessIntermediateEvent createProcessIntermediateEvent(Token token) {
 
         return new ProcessIntermediateManualTriggeringEvent(name, token);
+    }
+
+    @Override
+    public ProcessIntermediateEvent createProcessIntermediateEventForEventGroup(Token token, TriggeringBehaviour eventGroup) {
+
+        return new ProcessIntermediateManualTriggeringEvent(name, token, eventGroup);
     }
 }

@@ -125,18 +125,18 @@ public class BPMNUnstructuredJoinSplitTest {
 //        endNode = new RoutingBehaviourTestFactory().createWithAndSplit();
         endNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
-        BpmnNodeFactory.createTransitionFromTo(builder, splitNode, node1);
-        BpmnNodeFactory.createTransitionFromTo(builder, splitNode, node2);
-        BpmnNodeFactory.createTransitionFromTo(builder, splitNode, node3);
-        BpmnNodeFactory.createTransitionFromTo(builder, node1, innerJoinNode);
-        BpmnNodeFactory.createTransitionFromTo(builder, node2, innerJoinNode);
-        BpmnNodeFactory.createTransitionFromTo(builder, innerJoinNode, outerJoinNode);
-        BpmnNodeFactory.createTransitionFromTo(builder, node3, outerJoinNode);
-        BpmnNodeFactory.createTransitionFromTo(builder, outerJoinNode, endNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, splitNode, node1);
+        BpmnNodeFactory.createControlFlowFromTo(builder, splitNode, node2);
+        BpmnNodeFactory.createControlFlowFromTo(builder, splitNode, node3);
+        BpmnNodeFactory.createControlFlowFromTo(builder, node1, innerJoinNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, node2, innerJoinNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, innerJoinNode, outerJoinNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, node3, outerJoinNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, outerJoinNode, endNode);
         
         navigator = new NavigatorImplMock();
 
-        TokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, null, null);
+        TokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, null);
         Token token = new BpmnToken(splitNode, new ProcessInstance(null, tokenBuilder), navigator);
 
         return token;

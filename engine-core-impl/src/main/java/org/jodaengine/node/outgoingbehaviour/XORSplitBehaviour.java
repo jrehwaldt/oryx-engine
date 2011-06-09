@@ -5,16 +5,16 @@ import java.util.List;
 
 import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.token.Token;
 
 /**
- * The Class TakeAllSplitBehaviour. Will signal the first outgoing transition, of which the condition evaluates to true.
+ * The Class TakeAllSplitBehaviour. Will signal the first outgoing {@link ControlFlow}, of which the condition evaluates to true.
  */
 public class XORSplitBehaviour implements OutgoingBehaviour {
 
     /**
-     * Split according to the transitions.
+     * Split according to the {@link ControlFlow}s.
      * 
      * @param tokens
      *            the instances
@@ -30,30 +30,30 @@ public class XORSplitBehaviour implements OutgoingBehaviour {
             return tokens;
         }
 
-        List<Transition> transitionList = new ArrayList<Transition>();
-        List<Token> transitionsToNavigate = null;
+        List<ControlFlow> controlFlowList = new ArrayList<ControlFlow>();
+        List<Token> controlFlowsToNavigate = null;
 
-        // we look through the outgoing transitions and try to find one at least, whose condition evaluates true and
-        // then return it as the to-be-taken transition
+        // we look through the outgoing {@link ControlFlow}s and try to find one at least, whose condition evaluates true and
+        // then return it as the to-be-taken {@link ControlFlow}
         for (Token instance : tokens) {
             Node currentNode = instance.getCurrentNode();
-            for (Transition transition : currentNode.getOutgoingTransitions()) {
-                if (transition.getCondition().evaluate(instance)) {
-                    transitionList.add(transition);
+            for (ControlFlow controlFlow : currentNode.getOutgoingControlFlows()) {
+                if (controlFlow.getCondition().evaluate(instance)) {
+                    controlFlowList.add(controlFlow);
                     break;
                 }
             }
 
-            if (transitionList.size() == 0) {
+            if (controlFlowList.size() == 0) {
 
                 throw new NoValidPathException();
 
             }
 
-            transitionsToNavigate = instance.navigateTo(transitionList);
+            controlFlowsToNavigate = instance.navigateTo(controlFlowList);
 
         }
-        return transitionsToNavigate;
+        return controlFlowsToNavigate;
     }
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -21,29 +21,29 @@ public class ComplexSplitBehaviour implements OutgoingBehaviour {
             return tokens;
         }
 
-        List<Transition> transitionList = new ArrayList<Transition>();
-        List<Token> transitionsToNavigate = null;
+        List<ControlFlow> controlFlowList = new ArrayList<ControlFlow>();
+        List<Token> controlFlowsToNavigate = null;
 
-        // we look through the outgoing transitions and try to find one at least, whose condition evaluates true and
-        // then return it as the to-be-taken transition
-        for (Token instance : tokens) {
-            Node currentNode = instance.getCurrentNode();
-            for (Transition transition : currentNode.getOutgoingTransitions()) {
-                if (transition.getCondition().evaluate(instance)) {
-                    transitionList.add(transition);
+        // we look through the outgoing {@link ControlFlow}s and try to find one at least, whose condition evaluates true and
+        // then return it as the to-be-taken {@link ControlFlow}
+        for (Token token : tokens) {
+            Node currentNode = token.getCurrentNode();
+            for (ControlFlow controlFlow : currentNode.getOutgoingControlFlows()) {
+                if (controlFlow.getCondition().evaluate(token)) {
+                    controlFlowList.add(controlFlow);
                 }
             }
 
-            if (transitionList.size() == 0) {
+            if (controlFlowList.size() == 0) {
 
                 throw new NoValidPathException();
 
             }
 
-            transitionsToNavigate = instance.navigateTo(transitionList);
+            controlFlowsToNavigate = token.navigateTo(controlFlowList);
 
         }
-        return transitionsToNavigate;
+        return controlFlowsToNavigate;
     }
 
 }

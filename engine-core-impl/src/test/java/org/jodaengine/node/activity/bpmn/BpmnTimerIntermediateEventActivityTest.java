@@ -11,7 +11,7 @@ import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.activity.ActivityState;
-import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.helper.ActivityLifecycleAssuranceListener;
@@ -31,7 +31,7 @@ import org.testng.annotations.Test;
 
 
 /**
- * The Class IntermediateTimerTest. Checks if the intermediate timer is working.
+ * The Class {@link BpmnTimerIntermediateEventActivity}. Checks if the intermediate timer is working.
  */
 public class BpmnTimerIntermediateEventActivityTest extends AbstractJodaEngineTest {
     
@@ -63,8 +63,8 @@ public class BpmnTimerIntermediateEventActivityTest extends AbstractJodaEngineTe
           
           nullNodeEnd = BpmnCustomNodeFactory.createBpmnNullNode(builder);
           
-          TransitionFactory.createTransitionFromTo(builder, nullNodeStart, intermediateTimerEvent);
-          TransitionFactory.createTransitionFromTo(builder, intermediateTimerEvent, nullNodeEnd);
+          ControlFlowFactory.createControlFlowFromTo(builder, nullNodeStart, intermediateTimerEvent);
+          ControlFlowFactory.createControlFlowFromTo(builder, intermediateTimerEvent, nullNodeEnd);
           
           Navigator nav = new NavigatorImplMock();
           ProcessInstanceContext processInstanceContextMock = new ProcessInstanceContextImpl(); 

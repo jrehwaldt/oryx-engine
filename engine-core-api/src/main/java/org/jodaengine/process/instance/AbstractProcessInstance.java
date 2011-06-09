@@ -10,6 +10,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
 import org.jodaengine.util.Identifiable;
@@ -89,7 +90,7 @@ public abstract class AbstractProcessInstance implements Identifiable<UUID> {
      *
      * @return the new process token
      */
-    public abstract Token createToken();
+    public abstract Token createToken(Node startNode);
     
     /**
      * Gets the builder.

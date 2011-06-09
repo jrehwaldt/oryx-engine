@@ -17,5 +17,4 @@ public class BpmnTerminatingEndEventActivity extends BpmnEndEventActivity {
 
         token.getNavigator().cancelProcessInstance(instance);
     }
-
 }

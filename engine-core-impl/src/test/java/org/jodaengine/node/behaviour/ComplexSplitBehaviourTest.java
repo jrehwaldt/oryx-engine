@@ -49,9 +49,9 @@ public class ComplexSplitBehaviourTest {
         nextNode2 = builder.buildNode();
         nextNode3 = builder.buildNode();
 
-        splitNode.transitionToWithCondition(nextNode1, new JuelExpressionCondition("#{variable > 1}"));
-        splitNode.transitionToWithCondition(nextNode2, new JuelExpressionCondition("#{variable > 2}"));
-        splitNode.transitionToWithCondition(nextNode3, new JuelExpressionCondition("#{variable > 3}"));
+        splitNode.controlFlowToWithCondition(nextNode1, new JuelExpressionCondition("#{variable > 1}"));
+        splitNode.controlFlowToWithCondition(nextNode2, new JuelExpressionCondition("#{variable > 2}"));
+        splitNode.controlFlowToWithCondition(nextNode3, new JuelExpressionCondition("#{variable > 3}"));
     }
 
     /**
@@ -64,8 +64,7 @@ public class ComplexSplitBehaviourTest {
     throws JodaEngineException {
 
         NavigatorImplMock nav = new NavigatorImplMock();
-        ProcessInstance instance = new ProcessInstance(mock(ProcessDefinition.class), new BpmnTokenBuilder(nav, null,
-            null));
+        ProcessInstance instance = new ProcessInstance(mock(ProcessDefinition.class), new BpmnTokenBuilder(nav, null));
 
         Token token = new BpmnToken(splitNode, instance, nav);
         instance.getContext().setVariable("variable", 3);

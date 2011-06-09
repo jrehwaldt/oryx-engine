@@ -4,25 +4,28 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointCondition;
+import org.jodaengine.ext.debugging.api.NodeBreakpoint;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 /**
- * This represents a container class for a {@link Breakpoint}, which will be available in the
+ * This represents a container class for a {@link NodeBreakpoint}, which will be available in the
  * {@link Node} attribute set. Static getter methods are provided within this class.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
-public class BreakpointImpl implements Breakpoint {
-    
+public class BreakpointImpl implements NodeBreakpoint {
+    private static final long serialVersionUID = -8087910825104908672L;
+
     protected static final String ATTRIBUTE_KEY = "extension-debugger-breakpoint-attribute";
     
     private final UUID id;
     
     private final Node node;
+    private final ActivityState state;
     private BreakpointCondition condition;
     
     private boolean enabled;
@@ -32,10 +35,13 @@ public class BreakpointImpl implements Breakpoint {
      * and bound to a specified {@link Node}.
      * 
      * @param node the node, this breakpoint is bound to
+     * @param state the state, this breakpoint is bound to
      */
-    public BreakpointImpl(@Nonnull Node node) {
+    public BreakpointImpl(@Nonnull Node node,
+                          @Nonnull ActivityState state) {
         this.id = UUID.randomUUID();
         this.node = node;
+        this.state = state;
         this.condition = null;
         enable();
     }
@@ -64,6 +70,11 @@ public class BreakpointImpl implements Breakpoint {
     public Node getNode() {
         return node;
     }
+    
+    @Override
+    public ActivityState getState() {
+        return state;
+    }
 
     @Override
     public void setCondition(BreakpointCondition condition) {
@@ -86,9 +97,16 @@ public class BreakpointImpl implements Breakpoint {
         }
         
         //
-        // does the token's position match (which node?)
+        // does the token's position match the breakpoint's node
         //
         if (token.getCurrentNode().equals(this.node)) {
+            
+            //
+            // does the activity state match
+            //
+            if (!this.state.equals(token.getCurrentActivityState())) {
+                return false;
+            }
             
             //
             // no condition attached?
@@ -136,8 +154,8 @@ public class BreakpointImpl implements Breakpoint {
         //
         // or to a non-Breakpoint instance
         //
-        if (object instanceof Breakpoint) {
-            Breakpoint breakpoint = (Breakpoint) object;
+        if (object instanceof NodeBreakpoint) {
+            NodeBreakpoint breakpoint = (NodeBreakpoint) object;
             
             //
             // same id
@@ -166,5 +184,15 @@ public class BreakpointImpl implements Breakpoint {
         }
         
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "BreakpointImpl [%s, State: %s, Node: %s, Condition: %s]",
+            getID(),
+            getState(),
+            getNode(),
+            getCondition());
     }
 }

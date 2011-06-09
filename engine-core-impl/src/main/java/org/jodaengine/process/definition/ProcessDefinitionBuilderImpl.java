@@ -21,8 +21,8 @@ import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
 import org.jodaengine.process.structure.NodeBuilderImpl;
 import org.jodaengine.process.structure.StartNodeBuilderImpl;
-import org.jodaengine.process.structure.TransitionBuilder;
-import org.jodaengine.process.structure.TransitionBuilderImpl;
+import org.jodaengine.process.structure.ControlFlowBuilder;
+import org.jodaengine.process.structure.ControlFlowBuilderImpl;
 import org.jodaengine.util.PatternAppendable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,9 +110,9 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     }
 
     @Override
-    public TransitionBuilder getTransitionBuilder() {
+    public ControlFlowBuilder getControlFlowBuilder() {
 
-        return new TransitionBuilderImpl();
+        return new ControlFlowBuilderImpl();
     }
 
     @Override

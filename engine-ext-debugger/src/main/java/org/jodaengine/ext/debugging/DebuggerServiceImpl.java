@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
@@ -20,18 +21,26 @@ import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.BreakpointService;
 import org.jodaengine.ext.debugging.api.DebuggerArtifactService;
+import org.jodaengine.ext.debugging.api.DebuggerCommand;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.api.InterruptedInstance;
+import org.jodaengine.ext.debugging.api.Interrupter;
+import org.jodaengine.ext.debugging.api.NodeBreakpoint;
 import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
+import org.jodaengine.ext.debugging.shared.InterruptedInstanceImpl;
 import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
-import org.jodaengine.navigator.Navigator;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
+import org.jodaengine.process.definition.ProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.util.io.StreamSource;
+import org.jodaengine.util.io.StringStreamSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,11 +58,10 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    private JodaEngineServices engineServices;
-    private Navigator navigator;
     private RepositoryService repository;
     
     private Map<ProcessDefinition, List<Breakpoint>> breakpoints;
+    private Map<UUID, InterruptedInstanceImpl> interruptedInstances;
     
     private boolean running = false;
     
@@ -68,10 +76,10 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         }
         
         logger.info("Starting the DebuggerService");
-        this.engineServices = services;
-        this.navigator = services.getNavigatorService();
         this.repository = services.getRepositoryService();
+        
         this.breakpoints = new HashMap<ProcessDefinition, List<Breakpoint>>();
+        this.interruptedInstances = new HashMap<UUID, InterruptedInstanceImpl>();
         
         this.running = true;
     }
@@ -87,8 +95,9 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         }
         
         logger.info("Stopping the DebuggerService");
-        this.engineServices = null;
-        this.navigator = null;
+        
+        this.breakpoints = null;
+        this.interruptedInstances = null;
         
         this.running = false;
     }
@@ -103,27 +112,39 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     //=================================================================
 
     @Override
-    public void stepOverInstance(AbstractProcessInstance instance) {
-        // TODO Auto-generated method stub
+    public void stepOverInstance(InterruptedInstance instance) {
+        
         logger.debug("Step over instance {}", instance);
+        releaseInstance(instance, DebuggerCommand.STEP_OVER);
     }
 
     @Override
-    public void termianteInstance(AbstractProcessInstance instance) {
-        // TODO Auto-generated method stub
+    public void terminateInstance(InterruptedInstance instance) {
+        
         logger.debug("Terminate instance {}", instance);
+        releaseInstance(instance, DebuggerCommand.TERMINATE);
     }
 
     @Override
-    public void resumeInstance(AbstractProcessInstance instance) {
-        // TODO Auto-generated method stub
+    public void resumeInstance(InterruptedInstance instance) {
+        
         logger.debug("Resume instance {}", instance);
+        releaseInstance(instance, DebuggerCommand.RESUME);
     }
 
     @Override
-    public void continueInstance(AbstractProcessInstance instance) {
-        // TODO Auto-generated method stub
+    public void continueInstance(InterruptedInstance instance) {
+        
         logger.debug("Continue instance {}", instance);
+        releaseInstance(instance, DebuggerCommand.CONTINUE);
+    }
+
+    @Override
+    public synchronized Collection<InterruptedInstance> getInterruptedInstances() {
+        
+        Collection<InterruptedInstance> result = new ArrayList<InterruptedInstance>();
+        result.addAll(this.interruptedInstances.values());
+        return result;
     }
     
     //=================================================================
@@ -131,19 +152,21 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     //=================================================================
 
     @Override
-    public synchronized Breakpoint createBreakpoint(ProcessDefinition targetDefinition,
-                                                    Node targetNode,
-                                                    String juelCondition)
+    public synchronized NodeBreakpoint createNodeBreakpoint(ProcessDefinition targetDefinition,
+                                                            Node targetNode,
+                                                            ActivityState targetActivityState,
+                                                            String juelCondition)
     throws DefinitionNotFoundException {
         
-        logger.debug("Create a breakpoint for node {}", targetNode);
-        Breakpoint breakpoint = new BreakpointImpl(targetNode);
+        logger.info("Create a breakpoint for node {} on {}", targetNode, targetActivityState);
+        NodeBreakpoint breakpoint = new BreakpointImpl(targetNode, targetActivityState);
         
         if (juelCondition != null) {
+            logger.info("Adding condition {}", juelCondition);
             breakpoint.setCondition(new JuelBreakpointCondition(juelCondition));
         }
         
-        registerBreakpoints(Arrays.asList(breakpoint), targetDefinition);
+        registerBreakpoints(Arrays.<Breakpoint>asList(breakpoint), targetDefinition);
         return breakpoint;
     }
     
@@ -188,7 +211,7 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
     }
     
     @Override
-    public Collection<Breakpoint> getAllBreakpoints() {
+    public Collection<Breakpoint> getBreakpoints() {
         
         List<Breakpoint> knownBreakpoints = new ArrayList<Breakpoint>();
         for (List<Breakpoint> tmp: breakpoints.values()) {
@@ -230,6 +253,26 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         artifactID = "svg-artifact-for-" + definition.getID() + "-not-defined";
         throw new ProcessArtifactNotFoundException(artifactID);
     }
+
+    @Override
+    public void setSvgArtifact(ProcessDefinition definition,
+                               String svgArtifact) {
+        
+        //
+        // add the svg artifact to the repository
+        //
+        String artifactID = definition.getID().toString();
+        StreamSource stream = new StringStreamSource(svgArtifact);
+        AbstractProcessArtifact artifact = new ProcessArtifact(DEBUGGER_ARTIFACT_NAMESPACE + artifactID, stream);
+        
+        this.repository.addProcessArtifact(artifact, definition.getID());
+        
+        //
+        // add the artifact name to the process definition
+        //
+        DebuggerAttribute attribute = DebuggerAttribute.getAttribute(definition);
+        attribute.setSvgArtifact(artifactID);
+    }
     
     //=================================================================
     //=================== Intern methods ==============================
@@ -268,13 +311,8 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         this.breakpoints.remove(definition);
     }
     
-    /**
-     * Returns a list of registered breakpoints for a certain process instance.
-     * 
-     * @param instance the {@link AbstractProcessInstance}
-     * @return a list of {@link Breakpoint}s
-     */
-    public synchronized @Nonnull Collection<Breakpoint> getBreakpoints(@Nonnull AbstractProcessInstance instance) {
+    @Override
+    public synchronized Collection<Breakpoint> getBreakpoints(AbstractProcessInstance instance) {
         
         //
         // are there any breakpoints?
@@ -297,19 +335,71 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
      * 
      * It will not check the proper matching of the breakpoint, as it is verified beforehand.
      * 
-     * @param token the {@link Token}, which matched a breakpoint
-     * @param breakpoint the {@link Breakpoint}, which was matched
-     * @param listener the {@link DebuggerTokenListener}, which triggered this breakpoint match
+     * @param interruptedToken the {@link Token}, which matched a breakpoint
+     * @param causingBreakpoint the {@link Breakpoint}, which was matched
+     * @param interruptingListener the {@link DebuggerTokenListener}, which triggered this breakpoint match
+     * 
+     * @return the signaler for out {@link InterruptedInstance}
      */
-    public void breakpointTriggered(@Nonnull Token token,
-                                    @Nonnull Breakpoint breakpoint,
-                                    @Nonnull DebuggerTokenListener listener) {
+    public synchronized Interrupter breakpointTriggered(@Nonnull Token interruptedToken,
+                                                               @Nonnull Breakpoint causingBreakpoint,
+                                                               @Nonnull DebuggerTokenListener interruptingListener) {
         
-        logger.info("Breakpoint {} triggered for token {}", breakpoint, token);
+        logger.info("Breakpoint {} triggered for token {}", causingBreakpoint, interruptedToken);
         
         //
-        // TODO Jan crazy stuff: suspend token, remember state and token, ...
+        // remember the token's state
         //
+        InterruptedInstanceImpl instance = new InterruptedInstanceImpl(interruptedToken, causingBreakpoint);
         
+        this.interruptedInstances.put(instance.getID(), instance);
+        
+        //
+        // and resume this object as Interrupter
+        //
+        return instance;
+    }
+    
+    /**
+     * The {@link DebuggerTokenListener} invokes this method to signalize, that it was
+     * interrupted by a non-Debugger component.
+     * 
+     * @param signal the signal, which was unexpectedly (=ignoring the Debugger) interrupted
+     */
+    public void unexspectedInterruption(@Nonnull Interrupter signal) {
+        
+        //
+        // we are, unfortunately, no longer waiting for this instance - someone else stole it
+        //
+        InterruptedInstanceImpl instance = this.interruptedInstances.remove(signal.getID());
+        logger.info("Interrupted instance {} unexpectedly continued. Breakpoint cleared.", instance);
+    }
+    
+    /**
+     * Releases an {@link InterruptedInstance} (a interrupted token) and continues execution with the
+     * provided scope.
+     * 
+     * @param instance the instance to continue
+     * @param command the command, within which scope it is requested to be continued
+     */
+    private synchronized void releaseInstance(@Nonnull InterruptedInstance instance,
+                                              @Nonnull DebuggerCommand command) {
+        
+        logger.info("Release instance {} with command {}", instance, command);
+        
+        //
+        // get the registered signal
+        //
+        Interrupter signal = this.interruptedInstances.remove(instance.getID());
+        
+        if (signal == null) {
+            throw new IllegalStateException(
+                "The signal is no longer available. The requested instances has already been released.");
+        }
+        
+        //
+        // release it
+        //
+        signal.releaseInstance(command);
     }
 }

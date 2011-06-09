@@ -2,6 +2,7 @@ package org.jodaengine.process.token;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -15,12 +16,12 @@ import org.jodaengine.node.activity.Activity;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
+import org.jodaengine.process.structure.ControlFlow;
 
 /**
- * 
- * @author Gery
- * 
+ * The ancient Bpmn Token class, which is used for processing a bpmn model.
+ * Former it was known as TokenImpl, but due to the wish to support mutiple modelling languages
+ * it was renamed.
  */
 public class BpmnToken extends AbstractToken {
 
@@ -32,7 +33,7 @@ public class BpmnToken extends AbstractToken {
     protected BpmnToken() { }
     
     /**
-     * Instantiates a new process {@link TokenImpl}. This will not register any available extension.
+     * Instantiates a new process {@link Token}. This will not register any available extension.
      *
      * @param startNode the start node
      * @param instance the instance
@@ -161,39 +162,38 @@ public class BpmnToken extends AbstractToken {
     }
     
     @Override
-    public List<Token> navigateTo(List<Transition> transitionList) {
+    public List<Token> navigateTo(List<ControlFlow> controlFlowList) {
 
         List<Token> tokensToNavigate = new ArrayList<Token>();
 
         //
-        // zero outgoing transitions
+        // zero outgoing {@link ControlFlow}s
         //
-        if (transitionList.size() == 0) {
+        if (controlFlowList.size() == 0) {
 
             this.exceptionHandler.processException(new NoValidPathException(), this);
 
             //
-            // one outgoing transition
+            // one outgoing {@link ControlFlow}
             //
-        } else if (transitionList.size() == 1) {
+        } else if (controlFlowList.size() == 1) {
 
-            Transition transition = transitionList.get(0);
-            Node node = transition.getDestination();
+            ControlFlow controlFlow = controlFlowList.get(0);
+            Node node = controlFlow.getDestination();
             this.setCurrentNode(node);
-            this.lastTakenTransition = transition;
+            this.lastTakenControlFlow = controlFlow;
             changeActivityState(ActivityState.INIT);
             tokensToNavigate.add(this);
 
             //
-            // multiple outgoing transitions
+            // multiple outgoing {@link ControlFlow}s
             //
         } else {
 
-            for (Transition transition : transitionList) {
-                Node node = transition.getDestination();
-                instance.getBuilder().setNode(node);
-                Token newToken = createNewToken();
-                newToken.setLastTakenTransition(transition);
+            for (ControlFlow controlFlow : controlFlowList) {
+                Node node = controlFlow.getDestination();
+                Token newToken = createToken(node);
+                newToken.setLastTakenControlFlow(controlFlow);
                 tokensToNavigate.add(newToken);
             }
 
@@ -224,4 +224,24 @@ public class BpmnToken extends AbstractToken {
         completeExecution();
     }
 
+    @Override
+    public Map<String, Object> getAttributes() {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+
+        // TODO Auto-generated method stub
+        
+    }
 }

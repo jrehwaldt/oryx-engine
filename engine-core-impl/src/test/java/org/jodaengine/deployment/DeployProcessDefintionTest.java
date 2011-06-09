@@ -48,7 +48,7 @@ public class DeployProcessDefintionTest extends AbstractJodaEngineTest {
     public void testDeployment()
     throws DefinitionNotFoundException {
 
-        // Best Regards Tom Baeyens
+        // Best Regards Tom B.
         deploymentBuilder.addProcessDefinition(def);
         repo.deployInNewScope(deploymentBuilder.buildDeployment());
         Assert.assertEquals(repo.getProcessDefinition(defID), def,

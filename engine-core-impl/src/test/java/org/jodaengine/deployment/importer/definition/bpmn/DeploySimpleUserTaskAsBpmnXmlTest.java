@@ -57,9 +57,9 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Node onlyStartNode = startNodes.get(0);
         Assert.assertEquals(extractActivityClass(onlyStartNode), BpmnStartEvent.class);
         Assert.assertEquals(onlyStartNode.getAttribute("name"), "Start");
-        Assert.assertEquals(onlyStartNode.getOutgoingTransitions().size(), 1);
+        Assert.assertEquals(onlyStartNode.getOutgoingControlFlows().size(), 1);
 
-        Node nextNode = onlyStartNode.getOutgoingTransitions().get(0).getDestination();
+        Node nextNode = onlyStartNode.getOutgoingControlFlows().get(0).getDestination();
         Assert.assertEquals(extractActivityClass(nextNode), BpmnHumanTaskActivity.class);
         Assert.assertEquals(nextNode.getAttribute("name"), "Thorben, please process this task!");
         Assert.assertEquals(nextNode.getAttribute("description"), "It is only a demo task.");
@@ -72,12 +72,12 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(pattern.getItemFormID(), "form.html");
         Assert.assertEquals(pattern.getAssignedResources().iterator().next(), thorben);
 
-        Assert.assertEquals(nextNode.getOutgoingTransitions().size(), 1);
+        Assert.assertEquals(nextNode.getOutgoingControlFlows().size(), 1);
 
-        Node endNode = nextNode.getOutgoingTransitions().get(0).getDestination();
+        Node endNode = nextNode.getOutgoingControlFlows().get(0).getDestination();
         Assert.assertEquals(extractActivityClass(endNode), BpmnEndEventActivity.class);
         Assert.assertEquals(endNode.getAttribute("name"), "End");
-        Assert.assertEquals(endNode.getOutgoingTransitions().size(), 0);
+        Assert.assertEquals(endNode.getOutgoingControlFlows().size(), 0);
     }
 
     private Class<? extends Activity> extractActivityClass(Node node) {

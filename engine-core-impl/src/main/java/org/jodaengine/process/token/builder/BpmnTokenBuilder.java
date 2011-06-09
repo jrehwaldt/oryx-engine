@@ -28,12 +28,11 @@ public class BpmnTokenBuilder implements TokenBuilder {
      * @param node the node
      */
     public BpmnTokenBuilder(Navigator nav,
-                            @Nullable ExtensionService extensionService,
-                            Node node) {
+                            @Nullable ExtensionService extensionService) {
         
         this.nav = nav;
         this.extensionService = extensionService;
-        this.node = node;
+        this.node = null;
     }
     
     // TODO Jannik... die Hälfte aller Methoden hier drin ist sinnlos oder wird nur von Tests verwendet.
@@ -79,7 +78,7 @@ public class BpmnTokenBuilder implements TokenBuilder {
     }
     
     @Override
-    public Token create() {
+    public Token create(Node node) {
         return new BpmnToken(node, instance, nav, this.extensionService);
     }
 

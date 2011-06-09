@@ -25,7 +25,10 @@ public class DeploymentScopeImpl implements DeploymentScope {
     public DeploymentScopeImpl(Map<String, AbstractProcessArtifact> artifacts, Map<String, AbstractForm> forms) {
         this.artifactsTable = artifacts;
         this.formsTable = forms;
-        this.classLoader = new CustomClassLoader();
+        
+        // gets the context loader as a parent, so all the org.jodaengine-classes are available to the new class loader.
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        this.classLoader = new CustomClassLoader(loader);
     }
 
     @Override

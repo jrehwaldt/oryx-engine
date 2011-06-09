@@ -24,24 +24,18 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
     public List<Token> join(Token token) {
 
         List<Token> tokens = new LinkedList<Token>();
-        if (joinable(token)) {
+        
+        // Are all required paths there?
+        if (joinable(token, token.getCurrentNode())) {
+            // then lets do the join
             tokens = performJoin(token);
         } else {
-            // remove the token because we don't need it later on
+            // remove the token because we don't need it later on. The path was already signaled.
             token.getInstance().removeToken(token);
         }
         return tokens;
     }
 
-    /**
-     * Joinable.
-     * 
-     * @param instance
-     *            the instance that the join is triggered for.
-     * @return true, if a join can be performed, e.g. for a BPMN AND-Join, all sibling-instances have to reached the
-     *         join node as well.
-     */
-    protected abstract boolean joinable(Token instance);
 
     /**
      * Perform join.
@@ -50,5 +44,5 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
      *            the instance that the join is triggered for.
      * @return the result of the join.
      */
-    protected abstract List<Token> performJoin(Token instance);
+    protected abstract List<Token> performJoin(Token token);
 }

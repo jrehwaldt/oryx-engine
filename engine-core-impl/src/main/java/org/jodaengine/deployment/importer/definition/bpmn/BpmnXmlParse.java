@@ -38,8 +38,8 @@ import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.Transition;
-import org.jodaengine.process.structure.TransitionBuilder;
+import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.process.structure.condition.CheckVariableTrueCondition;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.CreationPattern;
@@ -278,12 +278,12 @@ public class BpmnXmlParse extends XmlParse {
             } else if (("parallelGateway").equals(activityElement.getTagName())) {
                 parseParallelGateway(activityElement);
 
-                // } else if (activityElement.getTagName().equals("scriptTask")) {
-                // parseScriptTask(activityElement);
-                //
-                // } else if (activityElement.getTagName().equals("serviceTask")) {
-                // parseServiceTask(activityElement);
-                //
+//                 } else if (("scriptTask").equals(activityElement.getTagName())) {                   
+//                 parseScriptTask(activityElement);
+//                
+                 } else if ("serviceTask".equals(activityElement.getTagName())) {
+                 parseServiceTask(activityElement);
+                
                 // } else if (activityElement.getTagName().equals("businessRuleTask")) {
                 // parseBusinessRuleTask(activityElement);
                 //
@@ -328,6 +328,27 @@ public class BpmnXmlParse extends XmlParse {
         // if (activity != null) {
         // parseMultiInstanceLoopCharacteristics(activityElement, activity);
         // }
+    }
+
+    protected void parseServiceTask(XmlElement activityElement) {
+
+        String className = activityElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS,
+            "class");
+        if (className != null) {
+            Node scriptNode = BpmnNodeFactory.createBpmnJavaClassServiceTaskNode(processBuilder, className);
+
+            parseGeneralInformation(activityElement, scriptNode);
+            getNodeXmlIdTable().put((String) scriptNode.getAttribute("idXml"), scriptNode);
+
+           
+//            for (BpmnXmlParseListener parseListener : parseListeners) {
+//                parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
+//            }
+        } else {
+            getProblemLogger().addWarning("Ignoring unsupported service task format", activityElement);
+        }
+        
+        
     }
 
     /**
@@ -568,18 +589,18 @@ public class BpmnXmlParse extends XmlParse {
                 return;
             }
 
-            Condition transitionCondition = parseSequenceFlowCondition(sequenceFlowElement);
+            Condition controlFlowCondition = parseSequenceFlowCondition(sequenceFlowElement);
 
-            TransitionBuilder transitionBuilder = processBuilder.getTransitionBuilder().transitionGoesFromTo(
+            ControlFlowBuilder controlFlowBuilder = processBuilder.getControlFlowBuilder().controlFlowGoesFromTo(
                 sourceNode, destinationNode);
-            if (transitionCondition != null) {
-                transitionBuilder.setCondition(transitionCondition);
+            if (controlFlowCondition != null) {
+                controlFlowBuilder.setCondition(controlFlowCondition);
             }
 
-            Transition transition = transitionBuilder.buildTransition();
+            ControlFlow controlFlow = controlFlowBuilder.buildControlFlow();
 
             for (BpmnXmlParseListener parseListener : parseListeners) {
-                parseListener.parseSequenceFlow(sequenceFlowElement, transition, processBuilder);
+                parseListener.parseSequenceFlow(sequenceFlowElement, controlFlow, processBuilder);
             }
         }
     }

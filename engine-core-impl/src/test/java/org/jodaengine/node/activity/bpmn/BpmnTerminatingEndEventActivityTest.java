@@ -39,9 +39,9 @@ public class BpmnTerminatingEndEventActivityTest {
     throws JodaEngineException {
 
         NavigatorImplMock nav = new NavigatorImplMock();
-        TokenBuilder builder = new BpmnTokenBuilder(nav, null, startNode);
+        TokenBuilder builder = new BpmnTokenBuilder(nav, null);
         AbstractProcessInstance instance = new ProcessInstance(definition, builder);
-        Token startToken = instance.createToken();
+        Token startToken = instance.createToken(startNode);
 
         startToken.executeStep();
 
@@ -109,11 +109,11 @@ public class BpmnTerminatingEndEventActivityTest {
         Node computationNode = BpmnCustomNodeFactory.createBpmnHashComputationNode(builder, "result",
             "meinlieblingspasswort");
 
-        BpmnNodeFactory.createTransitionFromTo(builder, startNode, andSplitNode);
-        BpmnNodeFactory.createTransitionFromTo(builder, andSplitNode, xorJoinNode);
-        BpmnNodeFactory.createTransitionFromTo(builder, andSplitNode, terminatingEnd);
-        BpmnNodeFactory.createTransitionFromTo(builder, xorJoinNode, computationNode);
-        BpmnNodeFactory.createTransitionFromTo(builder, computationNode, xorJoinNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, startNode, andSplitNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, andSplitNode, xorJoinNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, andSplitNode, terminatingEnd);
+        BpmnNodeFactory.createControlFlowFromTo(builder, xorJoinNode, computationNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, computationNode, xorJoinNode);
         
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         definition = builder.buildDefinition();

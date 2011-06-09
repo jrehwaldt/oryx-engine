@@ -39,7 +39,7 @@ function loadFinishedProcessInstances(successHandler) {
 };
 
 /**
- * Loads the process instances and calls the provided function.
+ * Starts the process instance and calls the provided function.
  * 
  * @param definitionId the definition's id, which should be started
  * @param successHandler the anonymous function to call, gets the instanceId and definitionId as #1 and #2 parameter

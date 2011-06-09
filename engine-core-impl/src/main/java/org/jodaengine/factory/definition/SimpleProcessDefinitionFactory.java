@@ -37,7 +37,7 @@ public class SimpleProcessDefinitionFactory implements ProcessDefinitionFactory 
         activityBehavior = new AddNumbersAndStoreActivity("result", 1, 1);
         Node node2 = new NodeImpl(activityBehavior, incomingBehaviour, outgoingBehaviour);
         
-        node1.transitionTo(node2);
+        node1.controlFlowTo(node2);
         List<Node> startNodes = new ArrayList<Node>();
         startNodes.add(node1);
         ProcessDefinition def = new ProcessDefinitionImpl(definitionID, DEFINITION_NAME, DEFINITION_DESCRIPTION,

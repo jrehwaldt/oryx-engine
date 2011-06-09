@@ -13,14 +13,19 @@ public class DummyAdapterEvent extends AbstractAdapterEvent {
 
     private String stringToReturn;
     private int intToReturn;
-    
+
     /**
      * Constructor that has to exist.
+     * 
+     * @param stringToReturn
+     *            - the {@link String} that should be returned
+     * @param intToReturn
+     *            - the {@link Integer} that should be returned
      */
     public DummyAdapterEvent(String stringToReturn, int intToReturn) {
 
         super(null);
-        
+
         this.stringToReturn = stringToReturn;
         this.intToReturn = intToReturn;
     }

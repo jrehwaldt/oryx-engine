@@ -78,7 +78,14 @@ implements Navigator, NavigatorInside, Service {
      */
     public NavigatorImpl() {
 
-        this(null, null, NUMBER_OF_NAVIGATOR_THREADS);
+        this(null, null, new FIFOScheduler(), NUMBER_OF_NAVIGATOR_THREADS);
+    }
+    
+    @Override
+    public void removeTokenFromScheduler(Token t) {
+    
+        this.scheduler.remove(t);
+        
     }
 
     /**
@@ -93,7 +100,9 @@ implements Navigator, NavigatorInside, Service {
      */
     public NavigatorImpl(@Nonnull RepositoryServiceInside repositoryService,
                          @Nullable ExtensionService extensionService,
-                         @Nonnegative int numberOfThreads) {
+                         @Nonnull Scheduler scheduler,
+                         @Nonnegative int numberOfThreads
+                         ) {
         
         this.state = NavigatorState.INIT;
         this.counter = 0;
@@ -104,7 +113,7 @@ implements Navigator, NavigatorInside, Service {
         this.runningInstances = Collections.synchronizedList(new ArrayList<AbstractProcessInstance>());
         this.finishedInstances = new ArrayList<AbstractProcessInstance>();
         
-        this.scheduler = new FIFOScheduler();
+        this.scheduler = scheduler;
         this.repository = repositoryService;
         this.extensionService = extensionService;
     }

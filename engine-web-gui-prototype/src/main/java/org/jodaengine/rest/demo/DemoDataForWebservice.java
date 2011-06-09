@@ -9,7 +9,7 @@ import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.exception.ResourceNotAvailableException;
-import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
@@ -147,10 +147,10 @@ public final class DemoDataForWebservice {
 
         endNode = BpmnNodeFactory.createBpmnEndEventNode(processBuilder);
 
-        TransitionFactory.createTransitionFromTo(processBuilder, startNode, node1);
-        TransitionFactory.createTransitionFromTo(processBuilder, node1, node2);
-        TransitionFactory.createTransitionFromTo(processBuilder, node2, node3);
-        TransitionFactory.createTransitionFromTo(processBuilder, node3, endNode);
+        ControlFlowFactory.createControlFlowFromTo(processBuilder, startNode, node1);
+        ControlFlowFactory.createControlFlowFromTo(processBuilder, node1, node2);
+        ControlFlowFactory.createControlFlowFromTo(processBuilder, node2, node3);
+        ControlFlowFactory.createControlFlowFromTo(processBuilder, node3, endNode);
 
         // Start Process
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processBuilder);

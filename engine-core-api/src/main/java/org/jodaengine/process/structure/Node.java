@@ -50,34 +50,34 @@ public interface Node extends Identifiable<UUID>, Attributable {
      * @return the next Node(s) depending on the node (normal nodes vs. Splits which have multiple next nodes).
      */
     @JsonIgnore
-    List<Transition> getOutgoingTransitions();
+    List<ControlFlow> getOutgoingControlFlows();
 
     /**
-     * Gets the incoming transitions.
+     * Gets the incoming ControlFlows.
      * 
-     * @return the incoming transitions
+     * @return the incoming {@link ControlFlow}s
      */
     @JsonIgnore
-    List<Transition> getIncomingTransitions();
+    List<ControlFlow> getIncomingControlFlows();
 
     /**
      * Describes a new outgoing edge to the given node.
      * 
      * @param node
-     *            the node to which a new transition shall be established
-     * @return the created transition
+     *            the node to which a new {@link ControlFlow} shall be established
+     * @return the created {@link ControlFlow}
      */
-    Transition transitionTo(Node node);
+    ControlFlow controlFlowTo(Node node);
 
     /**
-     * Transition to with condition.
+     * ControlFlow to with condition.
      * 
      * @param node
      *            the destination
      * @param c
      *            the condition
-     * @return the created transition
+     * @return the created {@link ControlFlow}
      */
-    Transition transitionToWithCondition(Node node, Condition c);
+    ControlFlow controlFlowToWithCondition(Node node, Condition c);
 
 }

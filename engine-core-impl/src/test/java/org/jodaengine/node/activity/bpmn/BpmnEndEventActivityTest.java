@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImplMock;
-import org.jodaengine.node.factory.TransitionFactory;
+import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
@@ -47,8 +47,7 @@ public class BpmnEndEventActivityTest {
         // this is done for test purposes. Usually the startProcessInstance methods of the navigator would do this, but
         // we do not actually want to start the navigator here.
         nav.getRunningInstances().add(instance);
-        tokenBuilder.setNode(startNode);
-        Token token = instance.createToken();
+        Token token = instance.createToken(startNode);
 
         // perform fist step, there should be two tokens on forkNode1 and forkNode2 respectively
         token.executeStep();
@@ -110,16 +109,16 @@ public class BpmnEndEventActivityTest {
         Node endNode1 = BpmnNodeFactory.createBpmnEndEventNode(builder); 
         Node endNode2 = BpmnNodeFactory.createBpmnEndEventNode(builder);
 
-        TransitionFactory.createTransitionFromTo(builder, startNode, forkNode1);
-        TransitionFactory.createTransitionFromTo(builder, startNode, forkNode2);
-        TransitionFactory.createTransitionFromTo(builder, forkNode1, endNode1);
-        TransitionFactory.createTransitionFromTo(builder, forkNode2, endNode2);
+        ControlFlowFactory.createControlFlowFromTo(builder, startNode, forkNode1);
+        ControlFlowFactory.createControlFlowFromTo(builder, startNode, forkNode2);
+        ControlFlowFactory.createControlFlowFromTo(builder, forkNode1, endNode1);
+        ControlFlowFactory.createControlFlowFromTo(builder, forkNode2, endNode2);
 
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition definition = builder.buildDefinition();
         
         nav = new NavigatorImplMock();
-        tokenBuilder = new BpmnTokenBuilder(nav, null, null);
+        tokenBuilder = new BpmnTokenBuilder(nav, null);
         instance = new ProcessInstance(definition, tokenBuilder);
     }
 

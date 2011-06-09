@@ -115,17 +115,16 @@ public class BPMNAndJoinTest {
         
         node3 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
         
-        BpmnNodeFactory.createTransitionFromTo(builder, node1, joinNode);
-        BpmnNodeFactory.createTransitionFromTo(builder, node2, joinNode);
-        BpmnNodeFactory.createTransitionFromTo(builder, joinNode, node3);
+        BpmnNodeFactory.createControlFlowFromTo(builder, node1, joinNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, node2, joinNode);
+        BpmnNodeFactory.createControlFlowFromTo(builder, joinNode, node3);
 
-        BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, null, node1);
+        BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, null);
         AbstractToken token = new BpmnToken(splitNode, new ProcessInstance(null, tokenBuilder), navigator);
 
         List<Token> newTokens = new ArrayList<Token>();
-        newTokens.add(token.createNewToken());
-        tokenBuilder.setNode(node2);
-        newTokens.add(token.createNewToken());
+        newTokens.add(token.createToken(node1));
+        newTokens.add(token.createToken(node2));
         return newTokens;
     }
     /**

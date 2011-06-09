@@ -8,12 +8,19 @@
         scope="singleton">
     </bean>
     
+    <bean id="scheduler" class="org.jodaengine.navigator.schedule.FIFOScheduler"
+        scope="singleton">
+    </bean>
+    
     <bean id="navigatorService" class="org.jodaengine.navigator.NavigatorImpl">
         <constructor-arg type="org.jodaengine.RepositoryServiceInside">
             <ref bean="repositoryService" />
         </constructor-arg>
         <constructor-arg type="org.jodaengine.ext.service.ExtensionService">
             <ref bean="extensionService" />
+        </constructor-arg>
+        <constructor-arg type="org.jodaengine.navigator.schedule.Scheduler">
+            <ref bean="scheduler" />
         </constructor-arg>
         <!-- Defines the number of navigator threads -->
         <constructor-arg type="int" value="10" />

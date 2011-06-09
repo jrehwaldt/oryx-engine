@@ -67,9 +67,9 @@ public final class SimpleHumanTaskProcess {
         // TODO @Gerardo: hier gilt dasselbe wie im ExampleProcessForReview.
 //        Node endNode = new NodeImpl(BpmnEndActivity.class);
 
-        // Setting the transitions
-        startNode.transitionTo(secondNode);
-        secondNode.transitionTo(thirdNode);
+        // Setting the {@link ControlFlow}s
+        startNode.controlFlowTo(secondNode);
+        secondNode.controlFlowTo(thirdNode);
 //        thirdNode.transitionTo(endNode);
 
         // TokenBuilder is not used here therefore it can null

@@ -47,7 +47,8 @@ public class BpmnHumanTaskActivity extends AbstractCancelableActivity {
     @Override
     protected void executeIntern(@Nonnull Token token) {
 
-        TaskAllocation service = ServiceFactory.getWorklistQueue();
+        TaskAllocation service = token.getWorklistService();
+        
         AbstractWorklistItem item = creationPattern.createWorklistItem(token, ServiceFactory.getRepositoryService());
 
         // save the UUIDs of the created items to the instance context, in order to be able to delete them, if execution
