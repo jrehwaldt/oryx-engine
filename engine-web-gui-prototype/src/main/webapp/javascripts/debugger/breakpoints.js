@@ -45,6 +45,23 @@ $().ready(function() {
     var definitionTable = $('table#definitions-overview tbody');
     definitionTable.live('definition-table-entry:ready', function(event, definition, definitionId, definitionRow, tableBody) {
         
+        //
+        // create a breakpoints row
+        //
+        definitionRow.after(
+            '<tr breakpoints-for-definition-id="' + definitionId + '">'
+                + '<td colspan="4">Loading breakpoint data</td>'
+            + '</tr>'
+        );
+        
+        //
+        // load the breakpoint list for this definition
+        //
+        refreshDefinitionBreakpoints(definitionId);
+        
+        //
+        // add the svg artifact and an anchor for breakpoint operations
+        //
         $('td.extra-cell', definitionRow).append(
               '<a href="#" class="show-full-svg-artifact">'
                 + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
@@ -117,7 +134,7 @@ $().ready(function() {
         //
         createNodeBreakpoint(definitionId, nodeId, activityState, condition, function(breakpoint) {
             form.reset();
-            refreshBreakpoints();
+            refreshDefinitionBreakpoints(definitionId);
         });
     });
 });
@@ -184,10 +201,56 @@ function svgNodeClicked(svgNodeId, svgDefinitionId, nodeContainer, nodeFrame) {
 }
 
 /**
- * Refresh the breakpoint lists.
+ * Refresh the breakpoint lists for a certain definition.
+ * 
+ * @param definitionId the definition to be refreshed
  */
-function refreshBreakpoints() {
-    alert('Refreshed.');
+function refreshDefinitionBreakpoints(definitionId) {
+    var breakpointsCell = $('tr[breakpoints-for-definition-id="' + definitionId + '"] td:first-child');
+    breakpointsCell.addClass('loading-data');
+    
+    loadDefinitionBreakpoints(definitionId, function(breakpoints) {
+        
+        var breakpointData = null;
+        
+        //
+        // no breakpoints available
+        //
+        if (breakpoints.length == 0) {
+            breakpointData = 'No breakpoints available';
+            
+        //
+        // breakpoints found
+        //
+        } else {
+            
+            breakpointData = '<table width="100%">';
+            breakpointData +=
+                '<thead>'
+                    + '<tr>'
+                        + '<th>Breakpoint-ID</th>'
+                        + '<th>Activating Node</th>'
+                        + '<th>Activating State</th>'
+                        + '<th>Condition</th>'
+                    + '</tr>'
+                + '</thead>';
+            
+            $(breakpoints).each(function(index, breakpoint) {
+                breakpointData += 
+                    '<tr>'
+                        + '<td>' + breakpoint.id + '</td>'
+                        + '<td>' + breakpoint.node.id + '</td>'
+                        + '<td>' + breakpoint.state + '</td>'
+                        + '<td>' + breakpoint.condition + '</td>'
+                    + '</tr>';
+            });
+            
+            breakpointData += '</table>'
+        }
+        
+        breakpointData = breakpointsCell.html(breakpointData);
+        breakpointsCell.removeClass('loading-data');
+    });
 }
 
 /**

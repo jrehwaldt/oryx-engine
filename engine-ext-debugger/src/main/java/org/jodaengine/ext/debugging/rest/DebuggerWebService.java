@@ -251,10 +251,38 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     /**
      * Helper method mapping the rest interface to the underlying api.
      * 
+     * @param dereferencedDefinitionID the {@link ProcessDefinition}'s id
+     * @return the related {@link Breakpoint}s
+     * 
+     * @throws DefinitionNotFoundException definition not found
+     */
+    @Path("/definitions/{definition-id}/breakpoints")
+    @GET
+    public Collection<Breakpoint> getBreakpoints(
+            @Nonnull @PathParam("definition-id") ProcessDefinitionID dereferencedDefinitionID)
+            throws DefinitionNotFoundException {
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
+        }
+        
+        ProcessDefinition definition = this.resolver.resolveDefinition(dereferencedDefinitionID);
+        return getBreakpoints(definition);
+    }
+    
+    @Override
+    public Collection<Breakpoint> getBreakpoints(ProcessDefinition definition) {
+        
+        return this.debugger.getBreakpoints(definition);
+    }
+    
+    /**
+     * Helper method mapping the rest interface to the underlying api.
+     * 
      * @param dereferencedInstanceID the {@link AbstractProcessInstance}'s id
      * @return the related {@link Breakpoint}s
      */
-    @Path("/breakpoints/{instance-id}")
+    @Path("/instance/{instance-id}/breakpoints")
     @GET
     public Collection<Breakpoint> getBreakpoints(@Nonnull @PathParam("instance-id") UUID dereferencedInstanceID) {
         
