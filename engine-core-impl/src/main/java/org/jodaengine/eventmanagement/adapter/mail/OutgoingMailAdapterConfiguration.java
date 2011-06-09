@@ -4,11 +4,8 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterManagement;
-import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
-import org.jodaengine.eventmanagement.adapter.EventType;
 
-// TODO: Auto-generated Javadoc
 /**
  * The configuration for our outgoing mail adapter with the necessary information to send an email via SMTP.
  */
@@ -64,6 +61,11 @@ public class OutgoingMailAdapterConfiguration extends AbstractMailConfiguration 
 
     /** The port. */
     private int port;
+    
+    private OutgoingMailAdapter createAdapter() {
+        OutgoingMailAdapter outgoingMailAdapter = new OutgoingMailAdapter(this);
+        return outgoingMailAdapter;
+    }
     
     /**
      * {@inheritDoc}
