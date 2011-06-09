@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 public class OutgoingMailAdapter extends AbstractEventAdapter<OutgoingMailAdapterConfiguration> 
     implements OutgoingAdapter {
 
+    // TODO @EVENTTEAM Usage of USERNAME and PASSWORD missing
     public final static String DEFAULT_SUBJECT = "JodaMail, you have!";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
@@ -57,24 +58,22 @@ public class OutgoingMailAdapter extends AbstractEventAdapter<OutgoingMailAdapte
     private void sendEmail(String[] recipients, String subject, String message)
     {
         try {
-            //TODO @EVENTTEAM remove debug (as soon as this runs properly)
-            boolean debug = false;
-    
-             //Set the host smtp address
+             //Set the SMTP address
              Properties props = new Properties();
              props.put("mail.smtp.host", this.configuration.getSmtpServer());
     
             // create some properties and get the default Session
             Session session = Session.getDefaultInstance(props, null);
-            session.setDebug(debug);
+            
+            // at this point you may setDebug if neded.
     
-            // create a message
             Message msg = new MimeMessage(session);
     
             // set the from and to address
-            InternetAddress addressFrom = new InternetAddress(this.configuration.getUserName() + '@' + this.configuration.getAddress());
+            InternetAddress addressFrom = new InternetAddress(this.configuration.getEmailAddress());
                 msg.setFrom(addressFrom);
             
+            // An email may have multiple recipients
             InternetAddress[] addressTo = new InternetAddress[recipients.length]; 
             for (int i = 0; i < recipients.length; i++) {
                 addressTo[i] = new InternetAddress(recipients[i]);

@@ -10,15 +10,9 @@ import org.jodaengine.eventmanagement.adapter.EventTypes;
  */
 public abstract class AbstractMailConfiguration extends AbstractAdapterConfiguration {
 
-    /** The user name. */
     protected final String userName;
-    
-    /** The password. */
     protected final String password;
-    
-    // TODO: EVENTTEAM: Better name? Address is misleading (this appears to be the hsoter like web.de...)
-    /** The address. */
-    protected final String address;
+    protected final String domainName;
     
     /**
      * Instantiates a new mail configuration.
@@ -34,7 +28,7 @@ public abstract class AbstractMailConfiguration extends AbstractAdapterConfigura
         super(EventTypes.Mail);
         this.userName = userName;
         this.password = password;
-        this.address = address;
+        this.domainName = address;
     }
 
     /**
@@ -65,8 +59,18 @@ public abstract class AbstractMailConfiguration extends AbstractAdapterConfigura
      * @return the address
      */
     public @Nonnull
-    String getAddress() {
+    String getDomainName() {
 
-        return address;
+        return domainName;
     }
+    
+    /**
+     * Gets the email address (a combination of username and domain name).
+     *
+     * @return the email address
+     */
+    public String getEmailAddress() {
+        return this.userName + "@" + this.getDomainName();
+    }
+    
 }

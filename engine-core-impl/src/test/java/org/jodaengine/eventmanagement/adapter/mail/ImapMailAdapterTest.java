@@ -71,7 +71,7 @@ public class ImapMailAdapterTest {
     private void sendingTestEmail()
     throws MessagingException {
 
-        this.address = String.format("%s@%s", this.config.getUserName(), this.config.getAddress());
+        this.address = String.format("%s@%s", this.config.getUserName(), this.config.getDomainName());
         MimeMessage msg = new MimeMessage(Session.getInstance(this.config.toMailProperties()));
         msg.setRecipients(RecipientType.TO, this.address);
         msg.setFrom(new InternetAddress(this.address));

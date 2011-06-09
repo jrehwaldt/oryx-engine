@@ -24,7 +24,6 @@ public class OutGoingMailAdapterTest {
     private OutgoingMailAdapter outgoingMailAdapter;
     private final static MailProtocol PROTOCOL = MailProtocol.SMTP;
     private final static String USER_NAME = "test";
-    private final static String PASSWORD = "toor";
     private final static String ADDRESS = "example.com";
     private final static String SMTP_SERVER = "localhost";
     private final static String RECEIPENT = "testie@test.de";
@@ -39,8 +38,9 @@ public class OutGoingMailAdapterTest {
      */
     @BeforeClass
     public void setUp() {
+        // no password needed as we don't test authentication here
         OutgoingMailAdapterConfiguration outgoingMailAdapterConfiguration = 
-            new OutgoingMailAdapterConfiguration(PROTOCOL, USER_NAME, PASSWORD, ADDRESS, SMTP_SERVER, SMTP_PORT);
+            new OutgoingMailAdapterConfiguration(PROTOCOL, USER_NAME, "", ADDRESS, SMTP_SERVER, SMTP_PORT);
         outgoingMailAdapter = new OutgoingMailAdapter(outgoingMailAdapterConfiguration);
     }
     
