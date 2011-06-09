@@ -73,7 +73,8 @@ public class ManualTriggeringAdapterConfiguration extends AbstractAdapterConfigu
             return false;
         }
 
-        ManualTriggeringAdapterConfiguration manualTriggeringAdapterConfigToCompare = (ManualTriggeringAdapterConfiguration) object;
+        ManualTriggeringAdapterConfiguration manualTriggeringAdapterConfigToCompare = 
+            (ManualTriggeringAdapterConfiguration) object;
         return name.equals(manualTriggeringAdapterConfigToCompare.getName());
     }
 }

@@ -1,5 +1,8 @@
 package org.jodaengine.eventmanagement.adapter.mail;
 
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+
 import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
@@ -10,12 +13,17 @@ import org.jodaengine.eventmanagement.adapter.EventType;
  */
 
 // TODO well does this implementation more or less equal the one for the POP/IMAP stuff?
-public class OutgoingMailAdapterConfiguration extends AbstractAdapterConfiguration {
+public class OutgoingMailAdapterConfiguration extends AbstractMailConfiguration {
 
-    public OutgoingMailAdapterConfiguration(EventType type) {
 
-        super(type);
-        // TODO Auto-generated constructor stub
+    public OutgoingMailAdapterConfiguration(@Nonnull MailProtocol protocol,
+                                            @Nonnull String userName,
+                                            @Nonnull String password,
+                                            @Nonnull String address,
+                                            @Nonnegative int port) {
+
+        super(userName, password, address);
+        
     }
 
     @Override

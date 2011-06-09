@@ -23,15 +23,6 @@ public class ProcessInstanceImplTest {
     private Token token;
 
     /**
-     * F.
-     */
-    @Test
-    public void testTokenCreation() {
-        assertTrue(instance.getAssignedTokens().contains(token), "The instance should contain the token now.");
-        assertNotNull(token.getInstance().getContext(), "The token should have a context to write to.");
-    }
-
-    /**
      * Before class.
      */
     @BeforeClass
@@ -44,6 +35,15 @@ public class ProcessInstanceImplTest {
         instance = new ProcessInstance(definition, builder);
         token = instance.createToken();
 
+    }
+    
+    /**
+     * F.
+     */
+    @Test
+    public void testTokenCreation() {
+        assertTrue(instance.getAssignedTokens().contains(token), "The instance should contain the token now.");
+        assertNotNull(token.getInstance().getContext(), "The token should have a context to write to.");
     }
 
 }

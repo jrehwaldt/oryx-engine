@@ -26,7 +26,7 @@ public abstract class AbstractProcessInstance implements Identifiable<UUID> {
      * Assigns the token to this instance.
      * 
      * @param t
-     *            the t
+     *            the Token
      */
     public abstract void addToken(Token t);
 
