@@ -46,11 +46,7 @@ function loadProcessDefinitionsOverview() {
                 var definitionId = idToString(definition.id);
                 var definitionRow = $(
                     '<tr definition-id="' + definitionId + '">'
-                        + '<td>' + definition.name + '</td>'
-                        + '<td>' + definition.id.version + '</td>'
-                        + '<td>' + definition.description + '</td>'
-                        + '<td class="extra-cell">'
-                        + '</td>'
+                        + '<td>' + _generateDefinitionHTML(definition) + '</td>'
                     + '</tr>'
                 );
                 tableBody.append(definitionRow);
@@ -86,3 +82,14 @@ function showFullSvg(definitionId) {
         frame.html($(artifact).children().clone());
     });
 };
+
+/**
+ * Generates definition html.
+ * 
+ * @param definition the definition object
+ */
+function _generateDefinitionHTML(definition) {
+    return definition.name + '; Version: '
+         + definition.id.version
+         + (definition.description ? '<br/>' + definition.description : '');
+}

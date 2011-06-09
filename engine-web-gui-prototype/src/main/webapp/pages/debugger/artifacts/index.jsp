@@ -23,12 +23,10 @@
         <h1>Debugger: SVG Artifact Explorer</h1>
         
         <h2>SVG Artifacts</h2>
-        <table id="definitions-overview" width="100%">
+        <table id="definitions-overview" class="svg-overview" width="100%">
             <thead>
                 <tr>
-                    <th class="loading-data">Name</th>
-                    <th class="loading-data">Version</th>
-                    <th class="loading-data">Description</th>
+                    <th class="loading-data">Process Definition</th>
                     <th class="loading-data">SVG Artifact</th>
                 </tr>
             </thead>

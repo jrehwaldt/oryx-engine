@@ -47,26 +47,24 @@ $().ready(function() {
         
         //
         // create a breakpoints row
+        //    and
+        // add the svg artifact and an anchor for breakpoint operations
         //
-        definitionRow.after(
-            '<tr breakpoints-for-definition-id="' + definitionId + '">'
-                + '<td colspan="4">Loading breakpoint data</td>'
-            + '</tr>'
+        definitionRow.append(
+                '<td class="artifact-cell">'
+                + '<a href="#" class="show-full-svg-artifact">'
+                    + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
+                + '</a>'
+            + '</td>'
+            + '<td class="breakpoint-cell">'
+                + 'Loading breakpoint data'
+            + '</td>'
         );
         
         //
         // load the breakpoint list for this definition
         //
         refreshDefinitionBreakpoints(definitionId);
-        
-        //
-        // add the svg artifact and an anchor for breakpoint operations
-        //
-        $('td.extra-cell', definitionRow).append(
-              '<a href="#" class="show-full-svg-artifact">'
-                + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
-            + '</a>'
-        );
         
         //
         // store the svg id with the definition id
@@ -87,7 +85,7 @@ $().ready(function() {
     //
     definitionTable.live('definition-table:ready', function(event, tableBody) {
         
-        $('.extra-cell a.show-full-svg-artifact', tableBody).click(function(event) {
+        $('.artifact-cell a.show-full-svg-artifact', tableBody).click(function(event) {
             event.preventDefault();
             var row = $(event.currentTarget).parent().parent();
             var definitionId = row.attr('definition-id');
@@ -206,7 +204,7 @@ function svgNodeClicked(svgNodeId, svgDefinitionId, nodeContainer, nodeFrame) {
  * @param definitionId the definition to be refreshed
  */
 function refreshDefinitionBreakpoints(definitionId) {
-    var breakpointsCell = $('tr[breakpoints-for-definition-id="' + definitionId + '"] td:first-child');
+    var breakpointsCell = $('tr[definition-id="' + definitionId + '"] td.breakpoint-cell');
     breakpointsCell.addClass('loading-data');
     
     loadDefinitionBreakpoints(definitionId, function(breakpoints) {
@@ -241,7 +239,7 @@ function refreshDefinitionBreakpoints(definitionId) {
                         + '<td>' + breakpoint.id + '</td>'
                         + '<td>' + breakpoint.node.id + '</td>'
                         + '<td>' + breakpoint.state + '</td>'
-                        + '<td>' + breakpoint.condition + '</td>'
+                        + '<td>' + breakpoint.condition.expression + '</td>'
                     + '</tr>';
             });
             

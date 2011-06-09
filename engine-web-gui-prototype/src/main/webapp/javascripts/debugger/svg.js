@@ -17,12 +17,14 @@ $().ready(function() {
     var definitionTable = $('table#definitions-overview tbody');
     definitionTable.live('definition-table-entry:ready', function(event, definition, definitionId, definitionRow, tableBody) {
         
-        $('td.extra-cell', definitionRow).append(
-              '<a href="#" class="show-full-svg-artifact">'
-                + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
-            + '</a>'
-            + '<br />'
-            + '<a href="#" class="set-svg-artifact">Set svg artifact</a>'
+        definitionRow.append(
+            '<td class="artifact-cell">'
+	            + '<a href="#" class="show-full-svg-artifact">'
+	                + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
+	            + '</a>'
+	            + '<br />'
+	            + '<a href="#" class="set-svg-artifact">Set svg artifact</a>'
+            + '</td>'
         );
     });
     
@@ -31,7 +33,7 @@ $().ready(function() {
     //
     definitionTable.live('definition-table:ready', function(event, tableBody) {
         
-        $('.extra-cell a.show-full-svg-artifact', tableBody).click(function(event) {
+        $('.artifact-cell a.show-full-svg-artifact', tableBody).click(function(event) {
             event.preventDefault();
             var row = $(event.currentTarget).parent().parent();
             var definitionId = row.attr('definition-id');
@@ -42,7 +44,7 @@ $().ready(function() {
             $('img.svg-artifact[rel]', tableBody).overlay();
         }
         
-        $('.extra-cell a.set-svg-artifact', tableBody).click(function(event) {
+        $('.artifact-cell a.set-svg-artifact', tableBody).click(function(event) {
             event.preventDefault();
             var row = $(event.currentTarget).parent().parent();
             var definitionId = row.attr('definition-id');

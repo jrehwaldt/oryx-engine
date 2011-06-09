@@ -25,13 +25,12 @@
         <h1>Debugger: Breakpoints Explorer</h1>
         
         <h2>Breakpoints</h2>
-        <table id="definitions-overview" width="100%">
+        <table id="definitions-overview" class="breakpoints-overview" width="100%">
             <thead>
                 <tr>
-                    <th class="loading-data">Name</th>
-                    <th class="loading-data">Version</th>
-                    <th class="loading-data">Description</th>
+                    <th class="loading-data">Process Definition</th>
                     <th class="loading-data">Breakpoints (SVG-view)</th>
+                    <th class="loading-data">Breakpoints (Table-view)</th>
                 </tr>
             </thead>
             <tbody></tbody>
