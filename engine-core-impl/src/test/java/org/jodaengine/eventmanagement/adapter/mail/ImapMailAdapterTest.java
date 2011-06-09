@@ -18,8 +18,13 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * Tests the {@link IncomingImapMailAdapter imap mail adapter}. This test uses the {@link InboundImapMailAdapterMock}
+ * Tests the {@link IncomingImapMailAdapter imap mail adapter}.
  * which provides methods for testing.
+ * 
+ * ATTENTION
+ * 
+ * Be aware that the Mailbox used here is pure magic, as soon as it is in the classpath it 
+ * takes care of all the emailstuff for testing purposes.
  */
 public class ImapMailAdapterTest {
 
@@ -71,14 +76,12 @@ public class ImapMailAdapterTest {
     private void sendingTestEmail()
     throws MessagingException {
 
-        this.address = String.format("%s@%s", this.config.getUserName(), this.config.getAddress());
+        this.address = String.format("%s@%s", this.config.getUserName(), this.config.getDomainName());
         MimeMessage msg = new MimeMessage(Session.getInstance(this.config.toMailProperties()));
         msg.setRecipients(RecipientType.TO, this.address);
         msg.setFrom(new InternetAddress(this.address));
         msg.setText("Huhu");
         Transport.send(msg);
-
-        assertEquals(Mailbox.get(this.address).size(), 1);
     }
 
     /**

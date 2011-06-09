@@ -98,24 +98,31 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
     //=================================================================
     //=================== ResolverService methods =====================
     //=================================================================
-    
+
     @Override
     public Node resolveNode(ProcessDefinition definition,
-                            Node dereferencedNode) {
+                            UUID dereferencedNodeID) {
         
         if (this.repository == null) {
             throw new ServiceUnavailableException(RepositoryService.class);
         }
         
         for (Node node: definition.getStartNodes()) {
-            Node tmp = rereferenceNode(node, dereferencedNode);
+            Node tmp = rereferenceNode(node, dereferencedNodeID);
             
             if (tmp != null) {
                 return tmp;
             }
         }
         
-        throw new DereferencedObjectException(Node.class, dereferencedNode.getID());
+        throw new DereferencedObjectException(Node.class, dereferencedNodeID);
+    }
+    
+    @Override
+    public Node resolveNode(ProcessDefinition definition,
+                            Node dereferencedNode) {
+        
+        return resolveNode(definition, dereferencedNode.getID());
     }
     
     @Override
@@ -190,18 +197,18 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
      * of course, cause a {@link StackOverflowError}.
      * 
      * @param initialNode the searching start point
-     * @param dereferencedNode the node, which is required
+     * @param dereferencedNodeID the node's, which is required
      * @return the node if found, or null
      */
     private @Nonnull Node rereferenceNode(@Nonnull Node initialNode,
-                                          @Nonnull Node dereferencedNode) {
+                                          @Nonnull UUID dereferencedNodeID) {
         
-        if (initialNode.equals(dereferencedNode)) {
+        if (initialNode.getID().equals(dereferencedNodeID)) {
             return initialNode;
         }
         
         for (ControlFlow controlFlow: initialNode.getOutgoingControlFlows()) {
-            Node tmp = rereferenceNode(controlFlow.getDestination(), dereferencedNode);
+            Node tmp = rereferenceNode(controlFlow.getDestination(), dereferencedNodeID);
             
             if (tmp != null) {
                 return tmp;

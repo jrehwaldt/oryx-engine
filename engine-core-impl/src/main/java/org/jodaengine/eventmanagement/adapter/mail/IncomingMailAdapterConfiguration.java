@@ -146,7 +146,7 @@ QuartzPullAdapterConfiguration {
     @Override
     public String getUniqueName() {
 
-        return String.format("%s:%s:%s:%s", protocol, address, port, userName);
+        return String.format("%s:%s:%s:%s", protocol, domainName, port, userName);
     }
 
     /**
@@ -210,7 +210,7 @@ QuartzPullAdapterConfiguration {
         return (MAGIC_HASH[0] * this.getClass().hashCode()
                 + MAGIC_HASH[1] * userName.hashCode() 
                 + MAGIC_HASH[2] * password.hashCode() 
-                + MAGIC_HASH[3] * address.hashCode() 
+                + MAGIC_HASH[3] * domainName.hashCode() 
                 + MAGIC_HASH[4] * protocol.hashCode() 
                 + MAGIC_HASH[5] * port 
                 + MAGIC_HASH[6] * useSSLModifier);
@@ -232,7 +232,7 @@ QuartzPullAdapterConfiguration {
             IncomingMailAdapterConfiguration otherConfiguration = (IncomingMailAdapterConfiguration) o;
             if (this.userName.equals(otherConfiguration.getUserName()) 
                 && this.password.equals(otherConfiguration.getPassword())
-                && this.address.equals(otherConfiguration.getAddress())
+                && this.domainName.equals(otherConfiguration.getDomainName())
                 && this.protocol == otherConfiguration.getProtocol()
                 && this.port == otherConfiguration.getPort()
                 && this.useSSL == otherConfiguration.isUseSSL()) {

@@ -49,7 +49,7 @@ public interface Node extends Identifiable<UUID>, Attributable {
      * 
      * @return the next Node(s) depending on the node (normal nodes vs. Splits which have multiple next nodes).
      */
-    @JsonIgnore
+    @JsonProperty
     List<ControlFlow> getOutgoingControlFlows();
 
     /**

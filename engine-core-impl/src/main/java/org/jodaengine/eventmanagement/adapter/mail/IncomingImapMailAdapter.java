@@ -54,7 +54,7 @@ implements IncomingPullAdapter {
 
             Store store = session.getStore("imap");
 
-            store.connect(this.configuration.getAddress(), this.configuration.getUserName(),
+            store.connect(this.configuration.getDomainName(), this.configuration.getUserName(),
                 this.configuration.getPassword());
 
             // Get a handle on the default folder

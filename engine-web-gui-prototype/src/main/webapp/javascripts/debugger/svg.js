@@ -10,31 +10,21 @@
 //
 
 $().ready(function() {
-    // 
-    // refresh the artifacts table
-    // 
-    loadProcessDefinitionsOverview();
-    
-    //
-    // register the refresh overview handler
-    //
-    $('#definitions-overview-refresh').click(function(event) {
-        event.preventDefault();
-        loadProcessDefinitionsOverview();
-    });
     
     //
     // add the artifact data
     //
     var definitionTable = $('table#definitions-overview tbody');
-    definitionTable.live('definition-table-entry:ready', function(event, definitionId, definitionRow, tableBody) {
+    definitionTable.live('definition-table-entry:ready', function(event, definition, definitionId, definitionRow, tableBody) {
         
-        $('td.extra-cell', definitionRow).append(
-              '<a href="#" class="show-full-svg-artifact">'
-                + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" width="300" height="100" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
-            + '</a>'
-            + '<br />'
-            + '<a href="#" class="set-svg-artifact">Set svg artifact</a>'
+        definitionRow.append(
+            '<td class="artifact-cell">'
+	            + '<a href="#" class="show-full-svg-artifact">'
+	                + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
+	            + '</a>'
+	            + '<br />'
+	            + '<a href="#" class="set-svg-artifact">Set svg artifact</a>'
+            + '</td>'
         );
     });
     
@@ -43,7 +33,7 @@ $().ready(function() {
     //
     definitionTable.live('definition-table:ready', function(event, tableBody) {
         
-        $('.extra-cell a.show-full-svg-artifact', tableBody).click(function(event) {
+        $('.artifact-cell a.show-full-svg-artifact', tableBody).click(function(event) {
             event.preventDefault();
             var row = $(event.currentTarget).parent().parent();
             var definitionId = row.attr('definition-id');
@@ -54,7 +44,7 @@ $().ready(function() {
             $('img.svg-artifact[rel]', tableBody).overlay();
         }
         
-        $('.extra-cell a.set-svg-artifact', tableBody).click(function(event) {
+        $('.artifact-cell a.set-svg-artifact', tableBody).click(function(event) {
             event.preventDefault();
             var row = $(event.currentTarget).parent().parent();
             var definitionId = row.attr('definition-id');
@@ -95,7 +85,7 @@ function showSetSvgArtifactForm(definitionId) {
                 //
                 if ($(document).oneTime) {
                     $(document).oneTime(100, function() {
-                        var overlay = $('tr[definition-id=' + definitionId + '] .svg-artifact');
+                        var overlay = $('tr[definition-id="' + definitionId + '"] .svg-artifact');
                         overlay.prop('src', '/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime());
                     });
                 }

@@ -33,6 +33,16 @@ public interface ReferenceResolverService extends Service {
                               @Nonnull Node dereferencedNode);
     
     /**
+     * Searches for a reference of a {@link Node} and returns it, if available.
+     * 
+     * @param definition the {@link ProcessDefinition}, this node belongs to
+     * @param dereferencedNodeID the dereferenced {@link Node}'s id
+     * @return the referenced {@link Node}
+     */
+    @Nonnull Node resolveNode(@Nonnull ProcessDefinition definition,
+                              @Nonnull UUID dereferencedNodeID);
+    
+    /**
      * Searches for a reference of a {@link ProcessDefinition} and returns it, if available.
      * 
      * @param dereferencedDefinition the dereferenced {@link ProcessDefinition}

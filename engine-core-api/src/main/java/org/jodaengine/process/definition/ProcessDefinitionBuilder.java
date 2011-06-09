@@ -11,9 +11,10 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
 import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
-import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.util.Attributable;
 
 /**
@@ -106,6 +107,7 @@ public interface ProcessDefinitionBuilder extends Attributable {
      *            - value of the attribute
      */
     @Nonnull
+    @Override
     void setAttribute(String attributeId, Object attibuteValue);
 
     ProcessDefinitionBuilder addInstantiationPattern(InstantiationPattern instantiationPattern);
