@@ -14,6 +14,8 @@ import org.jodaengine.RepositoryService;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.ext.debugging.api.Breakpoint;
+import org.jodaengine.ext.debugging.api.NodeBreakpoint;
+import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.debugging.util.AttributeKeyProvider;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
@@ -68,7 +70,7 @@ public class BreakpointServiceTest extends AbstractJodaEngineTest {
         
         this.breakpoints = new ArrayList<Breakpoint>();
         for (int i = 0; i < NUM_OF_BREAKPOINTS; i++) {
-            this.breakpoints.add(mock(Breakpoint.class));
+            this.breakpoints.add(mock(BreakpointImpl.class));
         }
     }
     
@@ -235,7 +237,7 @@ public class BreakpointServiceTest extends AbstractJodaEngineTest {
     @Test
     public void testCreatingBreakpoints() throws DefinitionNotFoundException {
         
-        Breakpoint breakpoint = this.debugger.createBreakpoint(
+        NodeBreakpoint breakpoint = this.debugger.createNodeBreakpoint(
             this.mockDefinition,
             mock(Node.class),
             ActivityState.READY,
@@ -256,11 +258,12 @@ public class BreakpointServiceTest extends AbstractJodaEngineTest {
     @Test
     public void testCreatingBreakpointsWithConditions() throws DefinitionNotFoundException {
         
-        Breakpoint breakpoint = this.debugger.createBreakpoint(
+        NodeBreakpoint breakpoint = this.debugger.createNodeBreakpoint(
             this.mockDefinition,
             mock(Node.class),
             ActivityState.WAITING,
             "true");
+        
         Assert.assertTrue(breakpoint.isEnabled());
         Assert.assertEquals(breakpoint.getState(), ActivityState.WAITING);
         Assert.assertNotNull(breakpoint.getCondition());

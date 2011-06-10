@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 
 /**
@@ -20,7 +21,7 @@ import org.jodaengine.process.structure.Node;
 public interface BreakpointService {
     
     /**
-     * This method allows to add a {@link Breakpoint} to a certain {@link Node}.
+     * This method allows to add a {@link NodeBreakpoint} to a certain {@link Node}.
      * 
      * Optionally a condition may be specified
      * 
@@ -32,10 +33,10 @@ public interface BreakpointService {
      * 
      * @throws DefinitionNotFoundException thrown if the {@link ProcessDefinition} or {@link Node} could not be found
      */
-    @Nonnull Breakpoint createBreakpoint(@Nonnull ProcessDefinition targetDefinition,
-                                         @Nonnull Node targetNode,
-                                         @Nonnull ActivityState targetActivityState,
-                                         @Nullable String juelCondition)
+    @Nonnull NodeBreakpoint createNodeBreakpoint(@Nonnull ProcessDefinition targetDefinition,
+                                                 @Nonnull Node targetNode,
+                                                 @Nonnull ActivityState targetActivityState,
+                                                 @Nullable String juelCondition)
     throws DefinitionNotFoundException;
     
     /**
@@ -68,4 +69,20 @@ public interface BreakpointService {
      * @return a list of all known breakpoints
      */
     @Nonnull Collection<Breakpoint> getBreakpoints();
+    
+    /**
+     * Returns a list of registered breakpoints for a certain process definition.
+     * 
+     * @param definition the {@link ProcessDefinition}
+     * @return a list of {@link Breakpoint}s
+     */
+    @Nonnull Collection<Breakpoint> getBreakpoints(@Nonnull ProcessDefinition definition);
+    
+    /**
+     * Returns a list of registered breakpoints for a certain process instance.
+     * 
+     * @param instance the {@link AbstractProcessInstance}
+     * @return a list of {@link Breakpoint}s
+     */
+    @Nonnull Collection<Breakpoint> getBreakpoints(@Nonnull AbstractProcessInstance instance);
 }

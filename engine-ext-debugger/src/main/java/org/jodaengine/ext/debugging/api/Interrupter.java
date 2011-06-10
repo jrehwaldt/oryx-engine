@@ -21,12 +21,12 @@ public interface Interrupter extends Identifiable<UUID> {
      * @return the {@link DebuggerCommand}, how the process instance should be continued
      * @throws InterruptedException cause through external interruption of this {@link Thread}
      */
-    @Nonnull DebuggerCommand interrupt() throws InterruptedException;
+    @Nonnull DebuggerCommand interruptInstance() throws InterruptedException;
     
     /**
      * This method resumes the underlying instance.
      * 
      * @param command the {@link DebuggerCommand}, how the process instance should be continued
      */
-    void continueInstance(@Nonnull DebuggerCommand command);
+    void releaseInstance(@Nonnull DebuggerCommand command);
 }

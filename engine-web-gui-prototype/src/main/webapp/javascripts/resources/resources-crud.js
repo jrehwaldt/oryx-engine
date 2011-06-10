@@ -14,9 +14,9 @@ function loadParticipants(successHandler, roleId) {
         url: '/api/identity' + (roleId ? '/roles/' + roleId : '') + '/participants',
         success: function(participants) {
             if (successHandler)
-            	successHandler.apply(null, [participants]);
+                successHandler.apply(null, [participants]);
         },
-        dataType: "json"
+        dataType: 'json'
     });
 };
 
@@ -34,7 +34,7 @@ function deleteParticipant(participantId, successHandler) {
             if (successHandler)
                 successHandler.apply(null, [participantId]);
         },
-        dataType: "json"
+        dataType: 'json'
     });
 };
 
@@ -66,7 +66,7 @@ function loadRoles(successHandler) {
             if (successHandler)
                 successHandler.apply(null, [roles]);
         },
-        dataType: "json"
+        dataType: 'json'
     });
 };
 
@@ -84,7 +84,7 @@ function deleteRole(roleId, successHandler) {
             if (successHandler)
                 successHandler.apply(null, [roleId]);
         },
-        dataType: "json"
+        dataType: 'json'
     });
 };
 
@@ -120,6 +120,6 @@ function updateRoleMember(roleId, additions, removals, successHandler) {
             if (successHandler)
                 successHandler.apply(null, [roleId, additions, removals]);
         },
-        contentType: "application/json"
+        contentType: 'application/json'
     });
 };

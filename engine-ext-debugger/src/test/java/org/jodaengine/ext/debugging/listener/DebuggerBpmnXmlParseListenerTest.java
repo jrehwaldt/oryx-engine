@@ -6,6 +6,7 @@ import org.jodaengine.deployment.ProcessDefinitionImporter;
 import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.ext.debugging.api.Breakpoint;
+import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
@@ -187,18 +188,21 @@ public class DebuggerBpmnXmlParseListenerTest extends AbstractJodaEngineTest {
         for (Breakpoint breakpoint: attribute.getBreakpoints()) {
             Assert.assertNotNull(breakpoint);
             
+            Assert.assertTrue(breakpoint instanceof BreakpointImpl);
+            BreakpointImpl concreteBreakpoint = (BreakpointImpl) breakpoint;
+            
             //
             // we have three breakpoints in the file
             //   a) with condition and COMPLETED
             //   b) without condition and INVALID_STATE_WILL_AUTOGENERATE_READY (-> READY)
             //   b) without condition and auto-generated READY
             //
-            if (breakpoint.getCondition() == null) {
+            if (concreteBreakpoint.getCondition() == null) {
                 withoutCondition++;
-                Assert.assertEquals(breakpoint.getState(), ActivityState.READY);
+                Assert.assertEquals(concreteBreakpoint.getState(), ActivityState.READY);
             } else {
                 withCondition++;
-                Assert.assertEquals(breakpoint.getState(), ActivityState.COMPLETED);
+                Assert.assertEquals(concreteBreakpoint.getState(), ActivityState.COMPLETED);
             }
         }
         Assert.assertEquals(withCondition, WITH_CONDITION);

@@ -13,6 +13,7 @@ public interface EventAdapter {
      * 
      * @return the adapter's type
      */
+    // TODO @EVENTTEAM is this really an adapter type? its more the event type - further more should it contain Incoming/Outgoing?
     @Nonnull
     EventType getAdapterType();
 

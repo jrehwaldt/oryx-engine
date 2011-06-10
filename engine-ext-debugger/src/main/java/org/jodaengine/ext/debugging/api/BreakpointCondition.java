@@ -1,7 +1,12 @@
 package org.jodaengine.ext.debugging.api;
 
+import java.io.Serializable;
+
 import javax.annotation.Nonnull;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -10,7 +15,8 @@ import org.jodaengine.process.token.Token;
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
-public interface BreakpointCondition {
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
+public interface BreakpointCondition extends Serializable {
     
     /**
      * When this method is called the condition needs to be evaluated.

@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 public class InboundMailAdapterConfigurationTest {
 
     /** The configuration. */
-    private InboundMailAdapterConfiguration configuration;
+    private IncomingMailAdapterConfiguration configuration;
 
     /**
      * Sets the up.
@@ -29,7 +29,7 @@ public class InboundMailAdapterConfigurationTest {
     @Test
     public void testEqualsWithIdenticalConfigurations() {
 
-        InboundMailAdapterConfiguration configurationWithSameValues = AdapterConfigurationFactory
+        IncomingMailAdapterConfiguration configurationWithSameValues = AdapterConfigurationFactory
         .createMailAdapterConfiguration();
         Assert.assertEquals(configuration.equals(configurationWithSameValues), true,
             "identical configurations should be equal.");
@@ -41,7 +41,7 @@ public class InboundMailAdapterConfigurationTest {
     @Test
     public void testEqualsWithDifferentConfigurations() {
 
-        InboundMailAdapterConfiguration configurationWithDifferentValues = AdapterConfigurationFactory
+        IncomingMailAdapterConfiguration configurationWithDifferentValues = AdapterConfigurationFactory
         .createSlightlyDifferentMailAdapterConfiguration();
         Assert.assertEquals(configuration.equals(configurationWithDifferentValues), false,
             "not identical configurations should not be equal.");
@@ -52,7 +52,7 @@ public class InboundMailAdapterConfigurationTest {
      */
     @Test
     public void testEqualsWorksWithNull() {
-        InboundMailAdapterConfiguration nullito = null;
+        IncomingMailAdapterConfiguration nullito = null;
         Assert.assertEquals(configuration.equals(nullito), false, "Oops our should not equal null!");
     }
     
@@ -62,7 +62,7 @@ public class InboundMailAdapterConfigurationTest {
     @Test
     public void testHashCodeWithIdenticalConfigurations() {
 
-        InboundMailAdapterConfiguration configurationWithSameValues = AdapterConfigurationFactory
+        IncomingMailAdapterConfiguration configurationWithSameValues = AdapterConfigurationFactory
         .createMailAdapterConfiguration();
         Assert.assertEquals(configurationWithSameValues.hashCode(), configuration.hashCode(),
             "Hash codes of identical configurations should be identical");
@@ -74,7 +74,7 @@ public class InboundMailAdapterConfigurationTest {
     @Test
     public void testHashCodeWithDifferentConfigurations() {
 
-        InboundMailAdapterConfiguration configurationWithDifferentValues = AdapterConfigurationFactory
+        IncomingMailAdapterConfiguration configurationWithDifferentValues = AdapterConfigurationFactory
         .createSlightlyDifferentMailAdapterConfiguration();
         Assert.assertNotSame(configuration.hashCode(), configurationWithDifferentValues.hashCode(),
             "not identical configurations should not have the same hashCode.");

@@ -186,17 +186,15 @@ public class BpmnXmlParse extends XmlParse {
         
         parseElements(processElement);
         
+        //
+        // preserve original attributes
+        //
+        parseGeneralInformation(processElement, processBuilder);
+        
         try {
             
             BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processBuilder);
             this.finishedProcessDefinition = processBuilder.buildDefinition();
-            
-            //
-            // preserve original attributes
-            //
-            if (this.finishedProcessDefinition != null) {
-                parseGeneralInformation(processElement, processBuilder);
-            }
         } catch (IllegalStarteventException buildingDefinitionException) {
 
             String errorMessage = "The processDefintion could be built.";

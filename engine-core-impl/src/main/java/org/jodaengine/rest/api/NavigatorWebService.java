@@ -14,6 +14,7 @@ import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorStatistic;
+import org.jodaengine.navigator.schedule.Scheduler;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
@@ -169,5 +170,11 @@ public class NavigatorWebService implements Navigator {
 
         this.navigatorService.removeTokenFromScheduler(t);
         
+    }
+
+    @Override
+    public Scheduler getScheduler() {
+
+        throw new UnsupportedOperationException(NOT_ACCESSIBLE_VIA_WEBSERVICE);
     }
 }

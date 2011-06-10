@@ -34,6 +34,10 @@ navigation.put("resources", new NavigationEntry[] {
     new NavigationEntry("roles", "Roles")
 });
 navigation.put("settings", new NavigationEntry[] {});
+navigation.put("debugger", new NavigationEntry[]  {
+    new NavigationEntry("breakpoints", "Breakpoints"),
+    new NavigationEntry("artifacts", "SVG Artifacts")
+});
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -60,6 +64,12 @@ navigation.put("settings", new NavigationEntry[] {});
         <script type="text/javascript" src="/javascripts/lib/jquery.ui.widget.js"></script>
         <script type="text/javascript" src="/javascripts/lib/jquery.ui.dialog.js"></script>
         
+        <!--begin-debugger-service-->
+        <link rel="stylesheet" type="text/css" href="/stylesheets/debugger.css">
+        <script type="text/javascript" src="/javascripts/debugger/debugger-menu.js"></script>
+        <script type="text/javascript" src="/javascripts/debugger/debugger-crud.js"></script>
+        <!--end-debugger-service-->
+        
         <title><decorator:title default="JodaEngine" /></title>
         <decorator:head />
         
@@ -76,8 +86,8 @@ navigation.put("settings", new NavigationEntry[] {});
               <div class="col1">
                 <div id="header">
                   <div id="logo">
-                    <a href="/" alt="JodaEngine home">
-                        <img src="/images/jodaengine.png" height="69" width="185" border="0" alt="Joda Engine home" />
+                    <a href="/" text="JodaEngine home">
+                        <img src="/images/jodaengine.png" height="69" width="185" border="0" alt="JodaEngine home" />
                     </a>
                   </div>
                   <div id="menu-level-1">
@@ -89,6 +99,7 @@ navigation.put("settings", new NavigationEntry[] {});
                         <!--<li><a class="reports" href="/reports">Reports</a></li>-->
                         <li><a class="resources" href="/resources">Resource Management</a></li>
                         <li><a class="settings" href="/settings">Settings</a></li>
+                        <li class="debugger"><a class="debugger" href="/debugger">Debugger</a></li>
                     </ul>
                     <!--end nav-level-1-->
                   </div>

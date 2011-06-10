@@ -1,5 +1,6 @@
 package org.jodaengine.ext.debugging.shared;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,6 +9,10 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.Switchable;
 import org.jodaengine.util.Attributable;
@@ -20,7 +25,9 @@ import org.jodaengine.util.Identifiable;
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
-public class DebuggerAttribute implements Switchable, Identifiable<UUID> {
+@JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
+public class DebuggerAttribute implements Switchable, Identifiable<UUID>, Serializable {
+    private static final long serialVersionUID = 8824388848972605551L;
     
     protected static final String ATTRIBUTE_KEY = "extension-debugger-attribute";
     
@@ -74,6 +81,7 @@ public class DebuggerAttribute implements Switchable, Identifiable<UUID> {
      * 
      * @return the svg artifact resource name
      */
+    @JsonProperty
     public @Nullable String getSvgArtifact() {
         return this.svgArtifact;
     }
@@ -101,6 +109,7 @@ public class DebuggerAttribute implements Switchable, Identifiable<UUID> {
      * 
      * @return the {@link Breakpoint}s
      */
+    @JsonProperty
     public Collection<Breakpoint> getBreakpoints() {
         return this.breakpoints;
     }

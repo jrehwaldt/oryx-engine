@@ -1,5 +1,7 @@
 package org.jodaengine.ext.debugging.api;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Allow a certain class to be enabled or disabled.
  * 
@@ -23,5 +25,6 @@ public interface Switchable {
      * 
      * @return true, if debugging is enabled
      */
+    @JsonProperty
     boolean isEnabled();
 }

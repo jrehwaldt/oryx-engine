@@ -5,8 +5,6 @@ import static org.mockito.Mockito.when;
 
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.InterruptedInstance;
-import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
-import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
 import org.testng.Assert;
@@ -23,18 +21,15 @@ public class InterruptedInstanceTest {
     
     private Breakpoint breakpoint;
     private Token token;
-    private DebuggerTokenListener listener;
+    private static final Object NULL_INSTANCE = null;
     
     /**
      * Setup.
-     * 
-     * @throws ExtensionNotAvailableException test fails
      */
     @BeforeMethod
-    public void setUp() throws ExtensionNotAvailableException {
+    public void setUp() {
         this.token = mock(Token.class);
         this.breakpoint = mock(Breakpoint.class);
-        this.listener = mock(DebuggerTokenListener.class);
     }
     
     /**
@@ -46,14 +41,36 @@ public class InterruptedInstanceTest {
         AbstractProcessInstance process = mock(AbstractProcessInstance.class);
         when(this.token.getInstance()).thenReturn(process);
         
-        InterruptedInstance instance = new InterruptedInstanceImpl(this.token, this.breakpoint, this.listener);
+        InterruptedInstance instance = new InterruptedInstanceImpl(this.token, this.breakpoint);
         Assert.assertNotNull(instance.getInterruptedInstance());
         Assert.assertEquals(process, instance.getInterruptedInstance());
     }
     
-    //
-    // TODO there needs a lot to be done here.
-    //
-    
-    
+    /**
+     * Tests the implementation of our hashCode() method.
+     */
+    @Test
+    public void testHashCode() {
+        
+        InterruptedInstance instance1 = new InterruptedInstanceImpl(this.token, this.breakpoint);
+        InterruptedInstance instance2 = new InterruptedInstanceImpl(this.token, this.breakpoint);
+        
+        //
+        // they are not equal - otherwise the hash code needs to be equal, too
+        //
+        Assert.assertFalse(instance1.equals(instance2));
+        Assert.assertFalse(instance1.equals(NULL_INSTANCE));
+        Assert.assertTrue(instance1.equals(instance1));
+        
+        //
+        // two different instance (id is different) have different hash codes
+        //
+        Assert.assertFalse(instance1.hashCode() == instance2.hashCode());
+        
+        //
+        // the same instance returns the same hash code all the time
+        //
+        Assert.assertTrue(instance1.hashCode() == instance1.hashCode());
+        Assert.assertTrue(instance2.hashCode() == instance2.hashCode());
+    }
 }

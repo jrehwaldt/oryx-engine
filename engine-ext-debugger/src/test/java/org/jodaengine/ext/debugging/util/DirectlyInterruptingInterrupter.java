@@ -11,7 +11,7 @@ import org.jodaengine.ext.debugging.api.Interrupter;
  * @author Jan Rehwaldt
  * @since 2011-06-01
  */
-public class ThreadInterruptingInterrupter implements Interrupter {
+public class DirectlyInterruptingInterrupter implements Interrupter {
     
     @Override
     public UUID getID() {
@@ -19,13 +19,13 @@ public class ThreadInterruptingInterrupter implements Interrupter {
     }
 
     @Override
-    public DebuggerCommand interrupt()
+    public DebuggerCommand interruptInstance()
     throws InterruptedException {
         throw new InterruptedException("Ätsch.");
     }
 
     @Override
-    public void continueInstance(DebuggerCommand command) {
+    public void releaseInstance(DebuggerCommand command) {
         
     }
     

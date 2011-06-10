@@ -107,6 +107,7 @@ public interface ProcessDefinitionBuilder2 extends Attributable {
      *            - value of the attribute
      */
     @Nonnull
+    @Override
     void setAttribute(String attributeId, Object attibuteValue);
 
     ProcessDefinitionBuilder2 addInstantiationPattern(InstantiationPattern instantiationPattern);

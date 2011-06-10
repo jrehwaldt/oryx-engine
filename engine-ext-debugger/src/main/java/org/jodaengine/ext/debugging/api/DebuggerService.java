@@ -5,14 +5,13 @@ import java.util.Collection;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.bootstrap.Service;
-import org.jodaengine.process.instance.AbstractProcessInstance;
 
 
 /**
  * The {@link DebuggerService} is a debugging extension, which provides several plugin implementations 
  * for debugging business processes.
  * 
- * This is the debugging service part, which provides control over paused {@link AbstractProcessInstance}s.
+ * This is the debugging service part, which provides control over {@link InterruptedInstance}s.
  * Service methods for handling breakpoints are defined within {@link BreakpointService}.
  * 
  * @author Jan Rehwaldt
@@ -23,30 +22,30 @@ public interface DebuggerService extends BreakpointService, DebuggerArtifactServ
     String DEBUGGER_SERVICE_NAME = "engine-ext-debugger";
     
     /**
-     * This method will release the {@link AbstractProcessInstance} and step over to the next process' state.
+     * This method will release the {@link InterruptedInstance} and step over to the next process' state.
      * 
      * @param instance the instance, to release
      */
-    void stepOverInstance(@Nonnull AbstractProcessInstance instance);
+    void stepOverInstance(@Nonnull InterruptedInstance instance);
     
     /**
-     * This method will terminate the {@link AbstractProcessInstance}. The instance will be removed.
+     * This method will terminate the {@link InterruptedInstance}. The instance will be removed.
      * 
      * @param instance the instance, to release
      */
-    void termianteInstance(@Nonnull AbstractProcessInstance instance);
+    void terminateInstance(@Nonnull InterruptedInstance instance);
     
     /**
-     * This method will release the {@link AbstractProcessInstance} and continues until it reaches the process' end.
+     * This method will release the {@link InterruptedInstance} and continues until it reaches the process' end.
      * 
      * Further {@link Breakpoint}s will not be taken into consideration.
      * 
      * @param instance the instance, to release
      */
-    void resumeInstance(@Nonnull AbstractProcessInstance instance);
+    void resumeInstance(@Nonnull InterruptedInstance instance);
     
     /**
-     * This method will release the {@link AbstractProcessInstance} and continues until it
+     * This method will release the {@link InterruptedInstance} and continues until it
      * <ul>
      * <li>
      *   a) will reach a {@link Breakpoint}
@@ -59,7 +58,7 @@ public interface DebuggerService extends BreakpointService, DebuggerArtifactServ
      * 
      * @param instance the instance, to release
      */
-    void continueInstance(@Nonnull AbstractProcessInstance instance);
+    void continueInstance(@Nonnull InterruptedInstance instance);
     
     /**
      * Provides a list of all {@link InterruptedInstance}, which describes the

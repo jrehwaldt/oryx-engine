@@ -39,7 +39,7 @@
         </div>
         <div id="archive-upload">
             <a name="archiveupload"></a>
-            <h2>Archive Upload (.dar-File))</h2>
+            <h2>Archive Upload (.dar-File)</h2>
             <form id="archive-upload-form" method="post" action="/api/repository/deployments" enctype="multipart/form-data">
                 <input type="file" name="filedata" size="40" />
                 <input type="submit" value="Deploy" />

@@ -2,6 +2,8 @@ package org.jodaengine.node.activity.custom;
 
 import javax.annotation.Nonnull;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.token.AbstractToken;
@@ -26,13 +28,14 @@ extends AbstractActivity {
      * @param variableName - the name of the variable for accessing the result
      * @param summands summands
      */
-    public AddNumbersAndStoreActivity(String variableName,
-                                      int... summands) {
+    @JsonCreator
+    public AddNumbersAndStoreActivity(@JsonProperty("resultVariableName") String variableName,
+                                      @JsonProperty("summands") int... summands) {
         super();
         this.summands = summands;
         resultVariableName = variableName;
     }
-
+    
     @Override
     protected void executeIntern(@Nonnull AbstractToken token) {
         

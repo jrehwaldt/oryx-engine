@@ -6,14 +6,11 @@ import java.util.concurrent.CountDownLatch;
 import javax.annotation.Nonnull;
 
 import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.DebuggerCommand;
 import org.jodaengine.ext.debugging.api.InterruptedInstance;
 import org.jodaengine.ext.debugging.api.Interrupter;
-import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
-import org.jodaengine.ext.debugging.rest.DereferencedObjectException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
@@ -24,7 +21,8 @@ import org.slf4j.LoggerFactory;
  * which were matched by a {@link Breakpoint}.
  * 
  * It, furthermore, implements the {@link Interrupter}, which interrupts and signals
- * the {@link DebuggerTokenListener}. It therefore uses the Java Concurrent classes.
+ * the {@link org.jodaengine.ext.debugging.listener.DebuggerTokenListener}.
+ * Therefore, it uses the Java Concurrency classes.
  * 
  * @see http://www.ibm.com/developerworks/java/library/j-jtp11234/
  * @see http://download.oracle.com/javase/tutorial/essential/concurrency/
@@ -34,9 +32,7 @@ import org.slf4j.LoggerFactory;
  * @since 2011-06-01
  */
 public final class InterruptedInstanceImpl implements InterruptedInstance, Interrupter {
-    
-    private static final String ILLEGAL_USAGE
-        = "Interrupting or continuing an InterruptedInstance multiple times is not allowed.";
+    private static final long serialVersionUID = 4018473494661993018L;
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
@@ -45,7 +41,6 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     private final Token interruptedToken;
     private final Breakpoint causingBreakpoint;
     
-    private transient final DebuggerTokenListener interruptingListener;
     private transient final CountDownLatch latch;
     private transient DebuggerCommand command;
     
@@ -54,17 +49,13 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
      * 
      * @param interruptedToken the {@link Token}, which was interrupted
      * @param causingBreakpoint the {@link Breakpoint}, which caused the interruption
-     * @param interruptingListener the {@link DebuggerTokenListener}, which triggered the interruption
      */
     public InterruptedInstanceImpl(@Nonnull Token interruptedToken,
-                                   @Nonnull Breakpoint causingBreakpoint,
-                                   @Nonnull DebuggerTokenListener interruptingListener) {
+                                   @Nonnull Breakpoint causingBreakpoint) {
         
         this.interruptedToken = interruptedToken;
         this.causingBreakpoint = causingBreakpoint;
         this.id = UUID.randomUUID();
-        
-        this.interruptingListener = interruptingListener;
         
         //
         // create our latch with count one
@@ -93,7 +84,6 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
         this.causingBreakpoint = causingBreakpoint;
         this.id = id;
         
-        this.interruptingListener = null;
         this.latch = null;
     }
     
@@ -126,12 +116,7 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     //=================================================================
     
     @Override
-    public DebuggerCommand interrupt() throws InterruptedException {
-        
-        //
-        // disallow multiple invocations
-        //
-        ensureProperInitialization();
+    public DebuggerCommand interruptInstance() throws InterruptedException {
         
         logger.debug("Token {} is interrupted.", getInterruptedToken());
         
@@ -148,12 +133,7 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     }
     
     @Override
-    public synchronized void continueInstance(DebuggerCommand command) {
-        
-        //
-        // disallow multiple invocations
-        //
-        ensureProperInitialization();
+    public synchronized void releaseInstance(DebuggerCommand command) {
         
         logger.debug("Token {} is continued.", getInterruptedToken());
         
@@ -174,38 +154,25 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
     //=================================================================
     
     /**
-     * This is a transient field. Deserialized and serialized representations may not have
-     * an instance and will cause an {@link DereferencedObjectException}.
+     * Returns true if this instances is already released.
      * 
-     * @return the {@link DebuggerTokenListener}, which triggered the interruption
+     * @return true, when released
      */
-    @JsonIgnore
-    public @Nonnull DebuggerTokenListener getInterruptingListener() {
-        
-        if (this.interruptingListener == null) {
-            throw new DereferencedObjectException(DebuggerTokenListener.class, getID());
-        }
-        
-        return interruptingListener;
+    public boolean isReleased() {
+        return this.latch.getCount() == 0;
     }
     
     /**
-     * This method checks the proper initialization of our {@link CountDownLatch}
-     * and disallows multiple invocations of the interruption-relevant methods.
+     * Returns the state of this interrupted instance.
+     * 
+     * @return a String describing the state
      */
-    private void ensureProperInitialization() {
-        
-        //
-        // invoked the second time? - fool!
-        //
-        assert this.command == null;
-        assert this.latch != null;
-        if (this.command != null || this.latch == null) {
-            logger.warn(
-                "There is **most likely** an issue with your programmar. Just replace her or him! Cause: {}",
-                ILLEGAL_USAGE);
-            throw new IllegalStateException(ILLEGAL_USAGE);
+    private String getState() {
+        if (isReleased()) {
+            return "released";
         }
+        
+        return "interrupted";
     }
     
 // CHECKSTYLE:OFF
@@ -225,7 +192,7 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
      * </li>
      * <li>
      * and
-     *   b) all of their fields, except the {@link DebuggerTokenListener} are equal.
+     *   b) all of their <b>non-transient</b> fields are equal.
      * </li>
      * </ul>
      * 
@@ -273,5 +240,15 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
         }
         
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "InterruptedInstance [%s|%s, Breakpoint: %s, Token: %s]",
+            getID(),
+            getState(),
+            getCausingBreakpoint(),
+            getInterruptedToken());
     }
 }

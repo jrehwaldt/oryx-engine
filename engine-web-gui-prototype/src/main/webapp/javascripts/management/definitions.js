@@ -33,9 +33,9 @@ $().ready(function() {
     //
     $('#definitions-upload-form').submit(function(event) {
         if ($(document).oneTime) {
-	        $(document).oneTime(100, function(i) {
-	            loadProcessDefinitionsOverview();
-	        });
+            $(document).oneTime(100, function(i) {
+                loadProcessDefinitionsOverview();
+            });
         }
     });
     
@@ -44,9 +44,9 @@ $().ready(function() {
     //
     $('#archive-upload-form').submit(function(event) {
         if ($(document).oneTime) {
-	        $(document).oneTime(100, function(i) {
-	            loadProcessDefinitionsOverview();
-	        });
+            $(document).oneTime(100, function(i) {
+                loadProcessDefinitionsOverview();
+            });
         }
     });
 });
@@ -58,7 +58,7 @@ $().ready(function() {
  * @returns {String}
  */
 function idToString(definitionID) {
-	return definitionID.identifier + ':' + definitionID.version;
+    return definitionID.identifier + ':' + definitionID.version;
 }
 
 /**
