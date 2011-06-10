@@ -7,8 +7,7 @@ import java.util.List;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnToken;
@@ -112,7 +111,7 @@ public class BPMNUnstructuredJoinSplitTest {
      */
     private Token initializeToken() {
 
-        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
+        BpmnProcessDefinitionBuilder builder = BpmnProcessDefinitionBuilder.newBuilder();
         
         Node splitNode = BpmnCustomNodeFactory.createBpmnNullNode(builder);
         node1 = BpmnCustomNodeFactory.createBpmnNullNode(builder);

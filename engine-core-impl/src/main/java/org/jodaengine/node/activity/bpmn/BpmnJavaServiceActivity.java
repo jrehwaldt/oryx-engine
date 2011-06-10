@@ -8,7 +8,7 @@ import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.AbstractToken;
 
 /**
  * Executes a custom java class. The custom class is searched for in the deployment scope.
@@ -28,7 +28,7 @@ public class BpmnJavaServiceActivity extends AbstractActivity {
     }
 
     @Override
-    protected void executeIntern(Token token) {
+    protected void executeIntern(AbstractToken token) {
 
         // get the class from the DeploymentScope of the definition
         ProcessDefinitionID definitionID = token.getInstance().getDefinition().getID();

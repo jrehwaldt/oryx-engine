@@ -34,8 +34,7 @@ import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.ControlFlowBuilder;
@@ -62,7 +61,7 @@ public class BpmnXmlParse extends XmlParse {
 
     private ProcessDefinition finishedProcessDefinition;
 
-    private ProcessDefinitionBuilder processBuilder;
+    private BpmnProcessDefinitionBuilder processBuilder;
 
     private List<BpmnXmlParseListener> parseListeners;
 
@@ -85,7 +84,7 @@ public class BpmnXmlParse extends XmlParse {
     public BpmnXmlParse(BpmnXmlParser parser, StreamSource streamSource) {
 
         super(parser, streamSource);
-        this.processBuilder = new ProcessDefinitionBuilderImpl();
+        this.processBuilder = BpmnProcessDefinitionBuilder.newBuilder();
         this.parseListeners = parser.getParseListeners();
     }
 

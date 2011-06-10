@@ -13,7 +13,7 @@ import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.definition.ProcessDefinitionImpl;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinition;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -73,7 +73,7 @@ public class ProcessRepositoryTest {
     public void testAddDefinition()
     throws DefinitionNotFoundException {
 
-        final ProcessDefinition def = new ProcessDefinitionImpl(PROCESS_ID, null, null, null);
+        final ProcessDefinition def = new BpmnProcessDefinition(PROCESS_ID, null, null, null);
         assertFalse(this.repository.containsProcessDefinition(PROCESS_ID));
         
         DeploymentBuilder builder = this.repository.getDeploymentBuilder();
@@ -94,7 +94,7 @@ public class ProcessRepositoryTest {
     public void testDeleteDefinition()
     throws DefinitionNotFoundException {
 
-        final ProcessDefinition def = new ProcessDefinitionImpl(PROCESS_ID, null, null, null);
+        final ProcessDefinition def = new BpmnProcessDefinition(PROCESS_ID, null, null, null);
         assertFalse(this.repository.containsProcessDefinition(PROCESS_ID));
 
         DeploymentBuilder builder = this.repository.getDeploymentBuilder();

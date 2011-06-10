@@ -2,7 +2,6 @@ package org.jodaengine.eventmanagement.subscription.processevent.start;
 
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
-import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImpl;
@@ -11,8 +10,8 @@ import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;
 import org.testng.Assert;
@@ -81,8 +80,7 @@ public class DefaultProcessStartEventTest extends AbstractJodaEngineTest {
     private ProcessDefinition buildLittleProcessDefinition()
     throws IllegalStarteventException {
 
-        ProcessDefinitionBuilder definitionBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder()
-        .getProcessDefinitionBuilder();
+        BpmnProcessDefinitionBuilder definitionBuilder = BpmnProcessDefinitionBuilder.newBuilder();
         ControlFlowFactory.createControlFlowFromTo(definitionBuilder,
             BpmnCustomNodeFactory.createBpmnNullStartNode(definitionBuilder),
             BpmnNodeFactory.createBpmnEndEventNode(definitionBuilder));

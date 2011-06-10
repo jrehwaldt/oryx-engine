@@ -3,8 +3,8 @@ package org.jodaengine.node.factory;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Condition;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.Node;
 
 /**
  * This Factory is able to create {@link ControlFlow}s.

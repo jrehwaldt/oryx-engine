@@ -8,16 +8,20 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.monitor.Monitor;
 import org.jodaengine.monitor.MonitorGUI;
 import org.jodaengine.navigator.NavigatorImpl;
+import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.core.joran.event.EndEvent;
+import ch.qos.logback.core.joran.event.StartEvent;
 
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
@@ -95,8 +99,7 @@ public final class SimpleExampleProcess {
 
         DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
 
-        ProcessDefinition processDefinition = buildSampleProcessDefinition(deploymentBuilder
-        .getProcessDefinitionBuilder());
+        ProcessDefinition processDefinition = buildSampleProcessDefinition(BpmnProcessDefinitionBuilder.newBuilder());
 
         ProcessDefinitionID sampleProcessUUID = processDefinition.getID();
         deploymentBuilder.addProcessDefinition(processDefinition);
@@ -118,7 +121,7 @@ public final class SimpleExampleProcess {
      * {@link AutomatedDummyActivity AutomatedDummyActivityNode} => {@link EndEvent} .
      * </p>
      */
-    private static ProcessDefinition buildSampleProcessDefinition(ProcessDefinitionBuilder definitionBuilder)
+    private static ProcessDefinition buildSampleProcessDefinition(BpmnProcessDefinitionBuilder definitionBuilder)
     throws IllegalStarteventException {
 
         String sampleProcessName = "Sample process for load test";

@@ -81,7 +81,7 @@ public class PetriProcessDefinitionBuilder implements Attributable {
 
     public ProcessDefinition buildDefinition() {
 
-        PetriNetProcessDefinition definition = new PetriNetProcessDefinition(name, description, id, startNodes);
+        PetriNetProcessDefinition definition = new PetriNetProcessDefinition(id, name, description, startNodes);
 
         // cleanup
         resetingThisBuilder();

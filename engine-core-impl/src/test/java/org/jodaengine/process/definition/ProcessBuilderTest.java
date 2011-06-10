@@ -7,8 +7,9 @@ import java.util.List;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.Node;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -19,7 +20,7 @@ import org.testng.annotations.Test;
  * @author thorben
  */
 public class ProcessBuilderTest {
-    private ProcessDefinitionBuilder builder = null;
+    private BpmnProcessDefinitionBuilder builder = null;
     private Node startNode, endNode;
 
     /**
@@ -31,8 +32,9 @@ public class ProcessBuilderTest {
     public void testSimpleBuildProcess()
     throws IllegalStarteventException {
 
-        startNode = builder.getStartNodeBuilder().setActivityBehavior(new NullActivity()).buildNode();
-
+        startNode = builder.getNodeBuilder().setActivityBehavior(new NullActivity()).buildNode();
+        builder.addNodeAsStartNode(startNode);
+        
         endNode = builder.getNodeBuilder().setActivityBehavior(new NullActivity()).buildNode();
 
         builder.getControlFlowBuilder().controlFlowGoesFromTo(startNode, endNode).buildControlFlow();
@@ -60,7 +62,7 @@ public class ProcessBuilderTest {
     @BeforeClass
     public void setUp() {
 
-        builder = new ProcessDefinitionBuilderImpl();
+        builder = BpmnProcessDefinitionBuilder.newBuilder();
     }
 
 }

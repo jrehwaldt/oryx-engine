@@ -21,8 +21,7 @@ import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;
@@ -436,7 +435,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         //
         // create a demo process
         //
-        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
+        BpmnProcessDefinitionBuilder builder = BpmnProcessDefinitionBuilder.newBuilder();
         
         Node startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
         

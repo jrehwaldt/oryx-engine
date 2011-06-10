@@ -7,7 +7,7 @@ import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
 import org.jodaengine.process.activation.pattern.RegisterAllStartEventPattern;
-import org.jodaengine.process.definition.ProcessDefinitionImpl;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -35,7 +35,7 @@ public class RegisterAllStartEventPatternTest {
         eventManager = Mockito.mock(EventSubscriptionManager.class);
         Mockito.when(patternContext.getCorrelationService()).thenReturn(eventManager);
 
-        ProcessDefinitionImpl processDefinition = Mockito.mock(ProcessDefinitionImpl.class);
+        BpmnProcessDefinition processDefinition = Mockito.mock(BpmnProcessDefinition.class);
         Mockito.when(patternContext.getProcessDefinition()).thenReturn(processDefinition);
 
         Map<ProcessStartEvent, Node> map = new HashMap<ProcessStartEvent, Node>();

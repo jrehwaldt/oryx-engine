@@ -5,7 +5,6 @@ package org.jodaengine.eventmanagement.adapter.mail;
 
 import java.io.IOException;
 
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;

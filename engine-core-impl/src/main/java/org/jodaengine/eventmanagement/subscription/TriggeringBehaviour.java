@@ -1,6 +1,5 @@
 package org.jodaengine.eventmanagement.subscription;
 
-import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 
 /**
  * This class encapsulate the behavior that should be done in case a {@link ProcessEvent} is triggered.

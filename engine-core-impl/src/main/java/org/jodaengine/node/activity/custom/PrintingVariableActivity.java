@@ -2,7 +2,7 @@ package org.jodaengine.node.activity.custom;
 
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.AbstractToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ extends AbstractActivity {
     }
 
     @Override
-    public void executeIntern(Token token) {
+    public void executeIntern(AbstractToken token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
         logger.info("Variable {}={}", variableName, context.getVariable(variableName));

@@ -12,8 +12,7 @@ import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
 import org.testng.Assert;
@@ -43,7 +42,7 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
     public void createAnotherProcessDefinition()
     throws IllegalStarteventException {
 
-        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
+        BpmnProcessDefinitionBuilder builder = BpmnProcessDefinitionBuilder.newBuilder();
         builder.setName("Empty").setDescription("Really an empty dummy process");
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);
         ProcessDefinition definition = builder.buildDefinition();

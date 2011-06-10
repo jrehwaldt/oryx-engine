@@ -6,17 +6,17 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.definition.ProcessDefinitionImpl;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinition;
 import org.jodaengine.process.structure.Node;
 
 /**
  * This is a testing implementation, which allows to set the {@link ProcessDefinitionID} of
- * a {@link ProcessDefinitionImpl} explicitly.
+ * a {@link BpmnProcessDefinition} explicitly.
  * 
  * @author Jan Rehwaldt
  * @since 2011-05-31
  */
-public class IDProcessDefinitionImpl extends ProcessDefinitionImpl {
+public class IDProcessDefinitionImpl extends BpmnProcessDefinition {
     
     /**
      * Default constructor.
