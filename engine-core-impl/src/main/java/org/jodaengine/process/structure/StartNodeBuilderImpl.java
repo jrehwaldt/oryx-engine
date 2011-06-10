@@ -1,7 +1,7 @@
 package org.jodaengine.process.structure;
 
-import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

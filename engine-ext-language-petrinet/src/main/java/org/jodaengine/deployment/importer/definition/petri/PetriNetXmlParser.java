@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnProcessDefinitionValidator;
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseBuilder;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.util.xml.XmlParseBuilder;
 import org.jodaengine.util.xml.XmlParser;

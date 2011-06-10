@@ -22,7 +22,6 @@
 package org.jodaengine.deployment.importer.definition.petri;
 
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParse;
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
 import org.jodaengine.util.xml.XmlParseBuilderImpl;
 
 /**

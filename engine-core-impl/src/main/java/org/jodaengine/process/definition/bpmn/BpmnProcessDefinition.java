@@ -1,4 +1,4 @@
-package org.jodaengine.process.definition;
+package org.jodaengine.process.definition.bpmn;
 
 import java.util.List;
 import java.util.Map;
@@ -8,6 +8,9 @@ import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
 import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivationPattern;
+import org.jodaengine.process.definition.AbstractProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.instantiation.pattern.StartNullInstantiationPattern;
 import org.jodaengine.process.structure.Node;
@@ -39,13 +42,6 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
             new NullProcessDefinitionActivationPattern());
     }
 
-//    /**
-//     * Hidden constructor.
-//     */
-//    protected BpmnProcessDefinition() {
-//
-//    }
-
     /**
      * Instantiates a new process definition. A UUID is generated randomly.
      * 
@@ -67,11 +63,12 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
 
         super(id, name, description, startNodes, startInstantiationPattern, startActivationPattern);
     }
-    
+
     /**
      * Hidden constructor for the deserialzation of rest-easy.
      */
     protected BpmnProcessDefinition() {
+
         super(null, null, null, null, null, null);
     }
 

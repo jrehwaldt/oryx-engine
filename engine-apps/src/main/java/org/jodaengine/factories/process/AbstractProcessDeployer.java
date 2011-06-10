@@ -12,9 +12,9 @@ import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.forms.AbstractForm;
-import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.resource.IdentityBuilder;
 
 /**

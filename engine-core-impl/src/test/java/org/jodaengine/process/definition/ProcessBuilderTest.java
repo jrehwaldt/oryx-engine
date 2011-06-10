@@ -7,6 +7,7 @@ import java.util.List;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.testng.annotations.BeforeClass;

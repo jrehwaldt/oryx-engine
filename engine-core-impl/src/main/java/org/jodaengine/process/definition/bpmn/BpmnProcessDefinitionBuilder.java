@@ -1,4 +1,4 @@
-package org.jodaengine.process.definition;
+package org.jodaengine.process.definition.bpmn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +15,10 @@ import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultPro
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.ControlFlowBuilder;

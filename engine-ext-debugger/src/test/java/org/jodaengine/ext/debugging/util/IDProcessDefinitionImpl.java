@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.definition.BpmnProcessDefinition;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinition;
 import org.jodaengine.process.structure.Node;
 
 /**

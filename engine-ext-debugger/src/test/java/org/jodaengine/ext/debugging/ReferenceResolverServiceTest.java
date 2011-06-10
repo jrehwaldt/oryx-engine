@@ -20,7 +20,7 @@ import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.definition.BpmnProcessDefinition;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
