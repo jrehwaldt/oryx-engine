@@ -1,6 +1,6 @@
 package org.jodaengine.node.activity;
 
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.AbstractToken;
 
 
 
@@ -24,7 +24,7 @@ extends AbstractActivity {
      * {@inheritDoc}
      */
     @Override
-    public void executeIntern(Token instance) {
+    public void executeIntern(AbstractToken instance) {
         // Nothing toDo
     }
 

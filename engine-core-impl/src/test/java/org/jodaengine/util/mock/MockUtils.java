@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -25,8 +26,8 @@ public final class MockUtils {
      *
      * @return the token
      */
-    public static Token fullyMockedToken() {
-        Token token = mock(Token.class);
+    public static AbstractToken fullyMockedToken() {
+        AbstractToken token = mock(AbstractToken.class);
         AbstractProcessInstance instance = mockProcessInstance();        
         when(token.getInstance()).thenReturn(instance);        
         

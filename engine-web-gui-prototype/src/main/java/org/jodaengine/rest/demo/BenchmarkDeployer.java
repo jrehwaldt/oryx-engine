@@ -13,10 +13,9 @@ import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
+import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.resource.IdentityBuilder;
 import org.jodaengine.resource.Role;
@@ -34,7 +33,7 @@ public final class BenchmarkDeployer {
     private static final String PATH_TO_WEBFORMS = "src/main/resources/forms/benchmark";
 
     private static IdentityService identityService = ServiceFactory.getIdentityService();
-    private static ProcessDefinitionBuilder processDefinitionBuilder = new ProcessDefinitionBuilderImpl();
+    private static BpmnProcessDefinitionBuilder processDefinitionBuilder = BpmnProcessDefinitionBuilder.newBuilder();
     private static IdentityBuilder identityBuilder = identityService.getIdentityBuilder();
 
     private static Role roleA, roleB, roleC, roleD, roleE;

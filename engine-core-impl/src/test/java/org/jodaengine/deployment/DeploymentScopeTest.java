@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
+import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -22,7 +23,7 @@ import org.testng.annotations.Test;
 public class DeploymentScopeTest extends AbstractJodaEngineTest {
     private RepositoryService repository = null;
     private DeploymentBuilder builder = null;
-    private ProcessDefinitionBuilder defBuilder = null;
+    private BpmnProcessDefinitionBuilder defBuilder = null;
     private ProcessDefinition definition = null;
     private Deployment deployment = null;
 
@@ -61,7 +62,7 @@ public class DeploymentScopeTest extends AbstractJodaEngineTest {
 
         repository = jodaEngineServices.getRepositoryService();
         builder = repository.getDeploymentBuilder();
-        defBuilder = builder.getProcessDefinitionBuilder();
+        defBuilder =BpmnProcessDefinitionBuilder.newBuilder();
 
         ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID().toString());
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));

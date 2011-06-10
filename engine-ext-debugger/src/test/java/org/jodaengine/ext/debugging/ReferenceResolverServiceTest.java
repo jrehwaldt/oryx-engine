@@ -19,7 +19,7 @@ import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.definition.ProcessDefinitionImpl;
+import org.jodaengine.process.definition.BpmnProcessDefinition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
@@ -111,7 +111,7 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
         //
         this.repository.addProcessDefinition(this.definition);
         
-        ProcessDefinition dereferencedDefinition = mock(ProcessDefinitionImpl.class);
+        ProcessDefinition dereferencedDefinition = mock(BpmnProcessDefinition.class);
         
         //
         // same id - resolution
@@ -132,7 +132,7 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
     @Test(dependsOnMethods = "testDefinitionResolution", expectedExceptions = DefinitionNotFoundException.class)
     public void testFailingDefinitionResolution() throws DefinitionNotFoundException {
         
-        ProcessDefinition dereferencedDefinition = mock(ProcessDefinitionImpl.class);
+        ProcessDefinition dereferencedDefinition = mock(BpmnProcessDefinition.class);
         
         //
         // different id - no resolution

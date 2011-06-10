@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
+import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -23,7 +24,7 @@ public class DeploymentTest extends AbstractJodaEngineTest {
 
     private RepositoryService repository = null;
     private DeploymentBuilder builder = null;
-    private ProcessDefinitionBuilder defBuilder = null;
+    private BpmnProcessDefinitionBuilder defBuilder = null;
 
     /**
      * Sets services and builders.
@@ -33,7 +34,7 @@ public class DeploymentTest extends AbstractJodaEngineTest {
 
         repository = jodaEngineServices.getRepositoryService();
         builder = repository.getDeploymentBuilder();
-        defBuilder = builder.getProcessDefinitionBuilder();
+        defBuilder = BpmnProcessDefinitionBuilder.newBuilder();
 
     }
 

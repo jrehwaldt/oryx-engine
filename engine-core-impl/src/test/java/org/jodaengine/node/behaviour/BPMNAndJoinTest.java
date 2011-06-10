@@ -10,8 +10,7 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.AbstractToken;
@@ -107,7 +106,7 @@ public class BPMNAndJoinTest {
 
         splitNode = mock(Node.class);
 
-        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
+        BpmnProcessDefinitionBuilder builder = BpmnProcessDefinitionBuilder.newBuilder();
         node1 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
         node2 = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 

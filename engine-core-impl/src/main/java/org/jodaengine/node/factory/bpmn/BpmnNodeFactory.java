@@ -14,6 +14,7 @@ import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.EmptyOutgoingBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.node.outgoingbehaviour.XORSplitBehaviour;
+import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Node;
@@ -42,11 +43,13 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing an {@link BpmnStartEvent}
      */
-    public static Node createBpmnStartEventNode(ProcessDefinitionBuilder builder) {
+    public static Node createBpmnStartEventNode(BpmnProcessDefinitionBuilder builder) {
 
-        NodeBuilder nodeBuilder = builder.getStartNodeBuilder();
+        NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnStartEvent activityBehavior = new BpmnStartEvent();
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
+        Node bpmnStartEventNode = decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
+        builder.addNodeAsStartNode(bpmnStartEventNode);
+        return bpmnStartEventNode;
     }
 
     /**
@@ -59,7 +62,7 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing an {@link BpmnEndEventActivity}
      */
-    public static Node createBpmnEndEventNode(ProcessDefinitionBuilder builder) {
+    public static Node createBpmnEndEventNode(BpmnProcessDefinitionBuilder builder) {
 
         BpmnEndEventActivity activityBehavior = new BpmnEndEventActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
@@ -78,7 +81,7 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
      *            - the time (in milliseconds) to wait for
      * @return a {@link Node} representing an {@link BpmnTimerIntermediateEventActivity}
      */
-    public static Node createBpmnIntermediateTimerEventNode(ProcessDefinitionBuilder builder, long waitingTime) {
+    public static Node createBpmnIntermediateTimerEventNode(BpmnProcessDefinitionBuilder builder, long waitingTime) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnTimerIntermediateEventActivity activityBehavior = new BpmnTimerIntermediateEventActivity(waitingTime);
@@ -97,14 +100,14 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
      *            - the creation pattern to distribute an item
      * @return a {@link Node} representing an {@link BpmnHumanTaskActivity}
      */
-    public static Node createBpmnUserTaskNode(ProcessDefinitionBuilder builder, CreationPattern creationPattern) {
+    public static Node createBpmnUserTaskNode(BpmnProcessDefinitionBuilder builder, CreationPattern creationPattern) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnHumanTaskActivity activityBehavior = new BpmnHumanTaskActivity(creationPattern);
         return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
     }
     
-    public static Node createBpmnJavaClassServiceTaskNode(ProcessDefinitionBuilder builder, String className) {
+    public static Node createBpmnJavaClassServiceTaskNode(BpmnProcessDefinitionBuilder builder, String className) {
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnJavaServiceActivity activityBehavior = new BpmnJavaServiceActivity(className);
         return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
@@ -120,7 +123,7 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing an {@link BpmnEndEventActivity}
      */
-    public static Node createBpmnTerminatingEndEventNode(ProcessDefinitionBuilder builder) {
+    public static Node createBpmnTerminatingEndEventNode(BpmnProcessDefinitionBuilder builder) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnTerminatingEndEventActivity activityBehavior = new BpmnTerminatingEndEventActivity();
@@ -136,7 +139,7 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing a BPMN-XOR-Gateway
      */
-    public static Node createBpmnXorGatewayNode(ProcessDefinitionBuilder builder) {
+    public static Node createBpmnXorGatewayNode(BpmnProcessDefinitionBuilder builder) {
 
         NullActivity activityBehavior = new NullActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
@@ -152,7 +155,7 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing a BPMN-AND-Gateway
      */
-    public static Node createBpmnAndGatewayNode(ProcessDefinitionBuilder builder) {
+    public static Node createBpmnAndGatewayNode(BpmnProcessDefinitionBuilder builder) {
 
         NullActivity activityBehavior = new NullActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new AndJoinBehaviour())
@@ -169,7 +172,7 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
      *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
      * @return a {@link Node} representing a BPMN-Event-Based-Xor-Gateway
      */
-    public static Node createBpmnEventBasedXorGatewayNode(ProcessDefinitionBuilder builder) {
+    public static Node createBpmnEventBasedXorGatewayNode(BpmnProcessDefinitionBuilder builder) {
 
         BpmnEventBasedXorGateway activityBehavior = new BpmnEventBasedXorGateway();
         return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())

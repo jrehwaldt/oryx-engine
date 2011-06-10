@@ -1,6 +1,7 @@
 package org.jodaengine.eventmanagement.subscription.processevent.intermediate;
 
 import org.jodaengine.eventmanagement.adapter.EventTypes;
+import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;

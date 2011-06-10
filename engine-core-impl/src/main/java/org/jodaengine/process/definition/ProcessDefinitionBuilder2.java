@@ -11,15 +11,16 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
 import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
-import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.util.Attributable;
 
 /**
  * The Interface ProcessBuilder. The process builder is a comfortable way to construct a process definition.
  */
-public interface ProcessDefinitionBuilder extends Attributable {
+public interface ProcessDefinitionBuilder2 extends Attributable {
 
     /**
      * Gets the definition as the result of the building process.
@@ -65,7 +66,7 @@ public interface ProcessDefinitionBuilder extends Attributable {
      * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
      */
     @Nonnull
-    ProcessDefinitionBuilder setDescription(String processDescription);
+    ProcessDefinitionBuilder2 setDescription(String processDescription);
 
     /**
      * Sets the name of the {@link ProcessDefinition} to build. The name will be also used for identification (as the
@@ -76,7 +77,7 @@ public interface ProcessDefinitionBuilder extends Attributable {
      * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
      */
     @Nonnull
-    ProcessDefinitionBuilder setName(String processName);
+    ProcessDefinitionBuilder2 setName(String processName);
 
     /**
      * This will create a start trigger for the {@link ProcessDefinition}.
@@ -92,7 +93,7 @@ public interface ProcessDefinitionBuilder extends Attributable {
      * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
      */
     @Nonnull
-    ProcessDefinitionBuilder createStartTrigger(@Nonnull EventType eventType,
+    ProcessDefinitionBuilder2 createStartTrigger(@Nonnull EventType eventType,
                                                 @Nonnull AdapterConfiguration adapterConfig,
                                                 @Nonnull List<EventCondition> eventConditions,
                                                 @Nonnull Node startNode);
@@ -108,9 +109,9 @@ public interface ProcessDefinitionBuilder extends Attributable {
     @Nonnull
     void setAttribute(String attributeId, Object attibuteValue);
 
-    ProcessDefinitionBuilder addInstantiationPattern(InstantiationPattern instantiationPattern);
+    ProcessDefinitionBuilder2 addInstantiationPattern(InstantiationPattern instantiationPattern);
 
-    ProcessDefinitionBuilder addStartInstantiationPattern(StartInstantiationPattern startInstantiationPattern);
+    ProcessDefinitionBuilder2 addStartInstantiationPattern(StartInstantiationPattern startInstantiationPattern);
 
-    ProcessDefinitionBuilder addActivationPattern(ProcessDefinitionDeActivationPattern activatorPattern);
+    ProcessDefinitionBuilder2 addActivationPattern(ProcessDefinitionDeActivationPattern activatorPattern);
 }

@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.AbstractToken;
 
 
 /**
@@ -34,7 +34,7 @@ extends AbstractActivity {
     }
 
     @Override
-    protected void executeIntern(@Nonnull Token token) {
+    protected void executeIntern(@Nonnull AbstractToken token) {
         
         int result = 0;
         for (int value: this.summands) {

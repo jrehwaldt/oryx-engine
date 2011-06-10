@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.AbstractToken;
 
 
 /**
@@ -50,7 +50,7 @@ extends AbstractActivity {
      * {@inheritDoc}
      */
     @Override
-    public void executeIntern(@Nonnull Token token) {
+    public void executeIntern(@Nonnull AbstractToken token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
         String calculationResult = (String) context.getVariable(variableName);

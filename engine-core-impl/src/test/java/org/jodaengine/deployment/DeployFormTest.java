@@ -12,6 +12,7 @@ import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.forms.Form;
 import org.jodaengine.forms.JodaFormField;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
+import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
@@ -47,7 +48,7 @@ public class DeployFormTest extends AbstractJodaEngineTest {
         repo = ServiceFactory.getRepositoryService();
         deploymentBuilder = repo.getDeploymentBuilder();
 
-        ProcessDefinitionBuilder defBuilder = deploymentBuilder.getProcessDefinitionBuilder();
+        BpmnProcessDefinitionBuilder defBuilder = BpmnProcessDefinitionBuilder.newBuilder();
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
         defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
         definition = defBuilder.buildDefinition();

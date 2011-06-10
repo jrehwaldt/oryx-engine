@@ -1,7 +1,7 @@
 package org.jodaengine.process.structure;
 
+import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +14,7 @@ public class StartNodeBuilderImpl extends NodeBuilderImpl {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private ProcessDefinitionBuilderImpl processDefinitionBuilder;
+    private BpmnProcessDefinitionBuilder processDefinitionBuilder;
 
     /**
      * Default Constructor.
@@ -23,7 +23,7 @@ public class StartNodeBuilderImpl extends NodeBuilderImpl {
      *            - the {@link ProcessDefinitionBuilderImpl} that builds the {@link ProcessDefinition} that should
      *            contain this {@link Node startNode}
      */
-    public StartNodeBuilderImpl(ProcessDefinitionBuilderImpl processDefinitionBuilderImpl) {
+    public StartNodeBuilderImpl(BpmnProcessDefinitionBuilder processDefinitionBuilderImpl) {
 
         this.processDefinitionBuilder = processDefinitionBuilderImpl;
     }
@@ -49,6 +49,6 @@ public class StartNodeBuilderImpl extends NodeBuilderImpl {
     private void processStartNode(Node resultNode) {
 
         logger.info("Adding the Node {} to the StartNodeArray.", resultNode);
-        processDefinitionBuilder.getStartNodes().add(resultNode);
+//        processDefinitionBuilder.getStartNodes().add(resultNode);
     }
 }

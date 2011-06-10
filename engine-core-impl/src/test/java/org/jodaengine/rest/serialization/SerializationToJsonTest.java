@@ -17,8 +17,8 @@ import org.jodaengine.navigator.NavigatorState;
 import org.jodaengine.navigator.NavigatorStatistic;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.node.activity.Activity;
+import org.jodaengine.process.definition.BpmnProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
@@ -337,7 +337,7 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         Assert.assertTrue(this.mapper.canSerialize(Token.class));
         Assert.assertTrue(this.mapper.canSerialize(BpmnToken.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessDefinition.class));
-        Assert.assertTrue(this.mapper.canSerialize(ProcessDefinitionImpl.class));
+        Assert.assertTrue(this.mapper.canSerialize(BpmnProcessDefinition.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessInstanceContext.class));
         Assert.assertTrue(this.mapper.canSerialize(ProcessInstanceContextImpl.class));
         

@@ -6,7 +6,6 @@ import java.io.InputStream;
 import org.jodaengine.forms.AbstractForm;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 
 /**
  * The class helps to define a deployment and to deploy it.
@@ -113,7 +112,7 @@ public interface DeploymentBuilder {
      * 
      * @return a {@link ProcessDefinitionBuilder}
      */
-    ProcessDefinitionBuilder getProcessDefinitionBuilder();
+    //ProcessDefinitionBuilder getProcessDefinitionBuilder();
 
     /**
      * Adds a class to the deployment. This will be visible during every execution of the contained

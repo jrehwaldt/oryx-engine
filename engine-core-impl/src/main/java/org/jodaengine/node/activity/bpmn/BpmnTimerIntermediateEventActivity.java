@@ -7,6 +7,7 @@ import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.subscription.processevent.intermediate.TimerProcessIntermediateEvent;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
+import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -32,7 +33,7 @@ BpmnEventBasedGatewayEvent {
     }
 
     @Override
-    protected void executeIntern(@Nonnull Token token) {
+    protected void executeIntern(@Nonnull AbstractToken token) {
 
         EventSubscriptionManager eventManager = token.getCorrelationService();
 
@@ -55,7 +56,7 @@ BpmnEventBasedGatewayEvent {
     }
 
     @Override
-    public void cancel(Token executingToken) {
+    public void cancelIntern(AbstractToken executingToken) {
 
         ProcessIntermediateEvent intermediateEvent = (ProcessIntermediateEvent) executingToken
         .getInternalVariable(internalVariableId(PROCESS_EVENT_PREFIX, executingToken));

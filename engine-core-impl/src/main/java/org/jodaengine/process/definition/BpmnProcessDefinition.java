@@ -25,7 +25,7 @@ import org.jodaengine.process.structure.Node;
  * The Class ProcessDefinitionImpl. A process definition consists of a list of start nodes that, as we have a tree
  * structure of nodes, reference all the nodes of the definition transitively.
  */
-public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefinitionInside {
+public class BpmnProcessDefinition implements ProcessDefinitionInside {
 
     private String name;
 
@@ -58,7 +58,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
      * @param startNodes
      *            - the initial nodes that refer to the whole node-tree
      */
-    public ProcessDefinitionImpl(ProcessDefinitionID id, String name, String description, List<Node> startNodes) {
+    public BpmnProcessDefinition(ProcessDefinitionID id, String name, String description, List<Node> startNodes) {
 
         this(id, name, description, startNodes, new StartNullInstantiationPattern(),
             new NullProcessDefinitionActivationPattern());
@@ -67,7 +67,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
     /**
      * Hidden constructor.
      */
-    protected ProcessDefinitionImpl() {
+    protected BpmnProcessDefinition() {
 
     }
 
@@ -83,7 +83,7 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
      * @param startNodes
      *            - the initial nodes that refer to the whole node-tree
      */
-    public ProcessDefinitionImpl(ProcessDefinitionID id,
+    public BpmnProcessDefinition(ProcessDefinitionID id,
                                  String name,
                                  String description,
                                  List<Node> startNodes,

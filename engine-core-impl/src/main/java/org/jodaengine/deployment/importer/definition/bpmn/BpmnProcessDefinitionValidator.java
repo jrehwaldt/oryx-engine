@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.xml.XmlElement;
 import org.slf4j.Logger;

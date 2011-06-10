@@ -7,8 +7,8 @@ import java.util.Set;
 
 import org.jodaengine.node.outgoingbehaviour.ComplexGatewayState;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 /**

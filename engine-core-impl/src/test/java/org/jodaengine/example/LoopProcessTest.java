@@ -12,11 +12,10 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.process.definition.BpmnProcessDefinition;
+import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.definition.ProcessDefinitionImpl;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Condition;
@@ -89,7 +88,7 @@ public class LoopProcessTest {
     @BeforeClass
     public void setUp() {
 
-        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
+        BpmnProcessDefinitionBuilder builder = BpmnProcessDefinitionBuilder.newBuilder();
 
         start = BpmnCustomNodeFactory.createBpmnNullNode(builder);
 
@@ -124,7 +123,7 @@ public class LoopProcessTest {
         List<Node> startNodes = new ArrayList<Node>();
         startNodes.add(start);
         ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID().toString(), 0);
-        ProcessDefinition definition = new ProcessDefinitionImpl(id, DEFINITION_NAME,
+        ProcessDefinition definition = new BpmnProcessDefinition(id, DEFINITION_NAME,
             DEFINITION_DESCRIPTION, startNodes);
         // TokenBuilder is not used here, therefore it can be null
         AbstractProcessInstance instance = new ProcessInstance(definition, Mockito.mock(BpmnTokenBuilder.class));

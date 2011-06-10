@@ -3,7 +3,7 @@ package org.jodaengine.node.activity.bpmn;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.node.activity.AbstractActivity;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.AbstractToken;
 
 
 /**
@@ -13,7 +13,7 @@ import org.jodaengine.process.token.Token;
 public class BpmnEndEventActivity extends AbstractActivity {
 
     @Override
-    protected void executeIntern(@Nonnull Token token) {
+    protected void executeIntern(@Nonnull AbstractToken token) {
 
         // as this token has finished, it is removed from the instance, because it is not needed anymore.
         token.getInstance().removeToken(token);

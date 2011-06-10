@@ -12,6 +12,7 @@ import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.forms.AbstractForm;
+import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -23,7 +24,7 @@ import org.jodaengine.resource.IdentityBuilder;
 public abstract class AbstractProcessDeployer implements ProcessDeployer {
 
     /** The builder. */
-    protected ProcessDefinitionBuilder processDefinitionBuilder;
+    protected BpmnProcessDefinitionBuilder processDefinitionBuilder;
     protected IdentityBuilder identityBuilder;
     protected IdentityService identityService;
     protected RepositoryService repoService;
@@ -33,8 +34,7 @@ public abstract class AbstractProcessDeployer implements ProcessDeployer {
     throws ResourceNotAvailableException, InstantiationException, IllegalAccessException, InvocationTargetException,
     IllegalStarteventException, NoSuchMethodException {
 
-        this.processDefinitionBuilder = engineServices.getRepositoryService().getDeploymentBuilder()
-        .getProcessDefinitionBuilder();
+        this.processDefinitionBuilder = BpmnProcessDefinitionBuilder.newBuilder();
         this.identityService = engineServices.getIdentityService();
         this.identityBuilder = engineServices.getIdentityService().getIdentityBuilder();
         this.repoService = engineServices.getRepositoryService();

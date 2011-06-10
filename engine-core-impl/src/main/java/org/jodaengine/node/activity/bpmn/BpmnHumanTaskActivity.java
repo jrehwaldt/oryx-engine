@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
+import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.PushPattern;
@@ -45,7 +46,7 @@ public class BpmnHumanTaskActivity extends AbstractCancelableActivity {
     }
 
     @Override
-    protected void executeIntern(@Nonnull Token token) {
+    protected void executeIntern(@Nonnull AbstractToken token) {
 
         TaskAllocation service = token.getWorklistService();
         
@@ -66,7 +67,7 @@ public class BpmnHumanTaskActivity extends AbstractCancelableActivity {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void cancel(Token token) {
+    public void cancelIntern(AbstractToken token) {
 
         List<UUID> itemUUIDs = (List<UUID>) token.getInternalVariable(internalVariableId(ITEM_PREFIX, token));
 

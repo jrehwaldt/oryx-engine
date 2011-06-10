@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.instance.ProcessInstanceContext;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.AbstractToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,7 +83,7 @@ public class HashComputationActivity extends AbstractActivity {
     }
 
     @Override
-    protected void executeIntern(Token token) {
+    protected void executeIntern(AbstractToken token) {
 
         MessageDigest md;
         try {

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.forms.Form;
+import org.jodaengine.forms.JodaFormField;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 
 import net.htmlparser.jericho.FormField;
