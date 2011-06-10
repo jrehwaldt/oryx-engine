@@ -25,30 +25,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jodaengine.ServiceFactory;
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParse;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
-import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
+import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
-import org.jodaengine.process.structure.Condition;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.ControlFlowBuilder;
-import org.jodaengine.process.structure.condition.CheckVariableTrueCondition;
-import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.allocation.CreationPattern;
-import org.jodaengine.resource.allocation.CreationPatternBuilder;
-import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
-import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.io.StreamSource;
 import org.jodaengine.util.xml.XmlElement;
@@ -65,7 +53,7 @@ public class PetriNetXmlParse extends XmlParse {
 
     private ProcessDefinition finishedProcessDefinition;
 
-    private ProcessDefinitionBuilder processBuilder;
+    private BpmnProcessDefinitionBuilder processBuilder;
 
     private List<BpmnXmlParseListener> parseListeners;
 
@@ -88,7 +76,7 @@ public class PetriNetXmlParse extends XmlParse {
     public PetriNetXmlParse(PetriNetXmlParser petriNetXmlParser, StreamSource streamSource) {
 
         super(petriNetXmlParser, streamSource);
-        this.processBuilder = new ProcessDefinitionBuilderImpl();
+        this.processBuilder = BpmnProcessDefinitionBuilder.newBuilder();
         this.parseListeners = petriNetXmlParser.getParseListeners();
     }
 
