@@ -16,7 +16,6 @@ import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;

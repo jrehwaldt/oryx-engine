@@ -11,7 +11,6 @@ import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;

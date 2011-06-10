@@ -9,7 +9,6 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.AbstractToken;
-import org.jodaengine.process.token.Token;
 
 /**
  * The Class MockUtils has methods to create more complex mocks that are reused quite often.
