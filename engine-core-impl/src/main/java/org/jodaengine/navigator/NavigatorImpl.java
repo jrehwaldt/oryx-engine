@@ -236,13 +236,12 @@ implements Navigator, NavigatorInside, Service {
     }
 
     /**
-     * Gets the scheduler. TEMPORARY
+     * Gets the scheduler.
      * 
      * @return the scheduler
      */
-    public FIFOScheduler getScheduler() {
-        // TODO remove
-        return (FIFOScheduler) scheduler;
+    public Scheduler getScheduler() {
+        return scheduler;
     }
 
     @Override

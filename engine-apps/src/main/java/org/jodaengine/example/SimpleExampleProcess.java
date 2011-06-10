@@ -8,6 +8,7 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.monitor.Monitor;
 import org.jodaengine.monitor.MonitorGUI;
 import org.jodaengine.navigator.NavigatorImpl;
+import org.jodaengine.navigator.schedule.FIFOScheduler;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
@@ -66,7 +67,8 @@ public final class SimpleExampleProcess {
 
         // Registering the plugin - kind of a hack
         NavigatorImpl navigator = (NavigatorImpl) jodaEngineServices.getNavigatorService();
-        navigator.getScheduler().registerListener(monitor);
+        FIFOScheduler scheduler = (FIFOScheduler) navigator.getScheduler();
+        scheduler.registerListener(monitor);
 
         ProcessDefinitionID sampleProcessUUID = deploySampleProcess(jodaEngineServices);
 

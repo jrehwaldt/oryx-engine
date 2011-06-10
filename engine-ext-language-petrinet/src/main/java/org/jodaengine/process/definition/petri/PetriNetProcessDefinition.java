@@ -59,16 +59,16 @@ public class PetriNetProcessDefinition extends AbstractProcessDefinition {
     }
 
     // TODO Bleiben erstmal un implementiert werden nach der BA aus dem Interface entfernt
-	@Override
-	public Map<ProcessStartEvent, Node> getStartTriggers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void addStartTrigger(ProcessStartEvent event, Node node)
-			throws IllegalStarteventException {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public Map<ProcessStartEvent, Node> getStartTriggers() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public void addStartTrigger(ProcessStartEvent event, Node node)
+        throws IllegalStarteventException {
+        // TODO Auto-generated method stub
+        
+    }
 }
