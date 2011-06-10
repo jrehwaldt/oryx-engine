@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
  */
 public class PetriProcessDefinitionBuilder {
     
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private List<Node> startNodes;
     private ProcessDefinitionID id;
     private String name;
@@ -70,7 +69,7 @@ public class PetriProcessDefinitionBuilder {
 
     public ProcessDefinition buildDefinition() {
 
-        PetriNetProcessDefinition definition = new PetriNetProcessDefinition(name, description, id, startNodes);
+        PetriNetProcessDefinition definition = new PetriNetProcessDefinition(id, name, description, startNodes);
 
         // cleanup
         resetingThisBuilder();
