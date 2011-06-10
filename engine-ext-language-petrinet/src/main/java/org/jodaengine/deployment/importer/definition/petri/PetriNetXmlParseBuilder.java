@@ -21,12 +21,10 @@
 
 package org.jodaengine.deployment.importer.definition.petri;
 
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParse;
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
 import org.jodaengine.util.xml.XmlParseBuilderImpl;
 
 /**
- * This builder helps to create {@link BpmnXmlParse} object. Here it is possible to configure the source of the XML
+ * This builder helps to create {@link PetriNetXmlParse} object. Here it is possible to configure the source of the XML
  * file.
  */
 public class PetriNetXmlParseBuilder extends XmlParseBuilderImpl {
@@ -34,7 +32,7 @@ public class PetriNetXmlParseBuilder extends XmlParseBuilderImpl {
     protected PetriNetXmlParser petriNetXmlParser;
 
     /**
-     * Creates a 
+     * Creates a ParserBuilder
      * 
      * @param petriNetXmlParser a xml parser instance
      */

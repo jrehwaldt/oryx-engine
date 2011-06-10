@@ -21,23 +21,22 @@
 
 package org.jodaengine.deployment.importer.definition.petri;
 
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.xml.XmlElement;
 
 
 /**
- * If it is necessary to attach while parsing through a BPMN serialized XML file, you can use this class.
+ * If it is necessary to attach while parsing through a PetriNet serialized XML file, you can use this class.
  */
 public interface PetriNetXmlParseListener {
     
-    String BPMN_EXTENSIONS_ELEMENT_NAME = "extensionElements";
+    String PETRI_EXTENSIONS_ELEMENT_NAME = "extensionElements";
     
     /**
-     * Is called when the {@link BpmnXmlParser} finished creating the {@link ProcessDefinition}. Here you can attach
+     * Is called when the {@link PetriNetXmlParser} finished creating the {@link ProcessDefinition}. Here you can attach
      * some afterwork. For example reporting.
      * 
      * @param processXmlElement
@@ -50,93 +49,30 @@ public interface PetriNetXmlParseListener {
                       ProcessDefinition processDefinition);
 
     /**
-     * Is called when the {@link BpmnXmlParser} finished creating the {@link Node startNode}. Here you can attach some
-     * afterwork. For example persistence.
-     * 
-     * @param startEventXmlElement
-     *            - the original {@link XmlElement startEventXMLElement}
-     * @param startNode
-     *            - the created {@link Node startNode}
-     * @param definitionScopeAttributable
-     *            - a globally (within this definition) available {@link Attributable}
+     * Is called when the {@link PetriNetXmlParser} finished creating the {@link Node place}.
+     *
+     * @param placeXmlElement the place xml element
+     * @param place the created {@link Node}
+     * @param definitionScopeAttributable the definition scope attributable
      */
-    void parseStartEvent(XmlElement startEventXmlElement,
-                         Node startNode,
-                         Attributable definitionScopeAttributable);
-
-    /**
-     * Is called when the {@link BpmnXmlParser} finished creating the {@link Node exclusiveGatewayNode}.
-     * 
-     * @param exclusiveGatewayXmlElement
-     *            - the original {@link XmlElement exclusiveGatewayXmlElement}
-     * @param exclusiveGatewayNode
-     *            - the created {@link Node exclusiveGatewayNode}
-     * @param definitionScopeAttributable
-     *            - a globally (within this definition) available {@link Attributable}
-     */
-    void parseExclusiveGateway(XmlElement exclusiveGatewayXmlElement,
-                               Node exclusiveGatewayNode,
+    void parsePlace(XmlElement placeXmlElement,
+                               Node place,
                                Attributable definitionScopeAttributable);
 
     /**
-     * Is called when the {@link BpmnXmlParser} finished creating the {@link Node parallelGatewayNode}.
-     * 
-     * @param parallelGatewayXmlElement
-     *            - the original {@link XmlElement parallelGatewayXmlElement}
-     * @param parallelGatewayNode
-     *            - the created {@link Node parallelGatewayNode}
-     * @param definitionScopeAttributable
-     *            - a globally (within this definition) available {@link Attributable}
+     * Is called when the {@link PetriNetXmlParser} finished creating the {@link Node transition}.
+     *
+     * @param transitionXmlElement the transition xml element
+     * @param transition the created {@link Node}
+     * @param definitionScopeAttributable the definition scope attributable
      */
-    void parseParallelGateway(XmlElement parallelGatewayXmlElement,
-                              Node parallelGatewayNode,
-                              Attributable definitionScopeAttributable);
+    void parseTransition(XmlElement transitionXmlElement,
+                               Node transition,
+                               Attributable definitionScopeAttributable);
 
-    /**
-     * Is called when the {@link BpmnXmlParser} finished creating the {@link Node taskNode}.
-     * 
-     * @param taskXmlElement
-     *            - the original {@link XmlElement taskXmlElement}
-     * @param taskNode
-     *            - the created {@link Node taskNode}
-     * @param definitionScopeAttributable
-     *            - a globally (within this definition) available {@link Attributable}
-     */
-    void parseTask(XmlElement taskXmlElement,
-                   Node taskNode,
-                   Attributable definitionScopeAttributable);
-
-    /**
-     * Is called when the {@link BpmnXmlParser} finished creating the {@link Node userTaskNode}.
-     * 
-     * @param userTaskXmlElement
-     *            - the original {@link XmlElement userTaskXmlElement}
-     * @param userTaskNode
-     *            - the created {@link Node userTaskNode}
-     * @param definitionScopeAttributable
-     *            - a globally (within this definition) available {@link Attributable}
-     */
-    void parseUserTask(XmlElement userTaskXmlElement,
-                       Node userTaskNode,
-                       Attributable definitionScopeAttributable);
     
     /**
-     * Is called when the {@link BpmnXmlParser} finished creating the {@link Node endEventNode}.
-     * 
-     * @param endEventXmlElemnt
-     *            - the original {@link XmlElement endEventXmlElemnt}
-     * @param endEventNode
-     *            - the created {@link Node endEventNode}
-     * @param definitionScopeAttributable
-     *            - a globally (within this definition) available {@link Attributable}
-     */
-    void parseEndEvent(XmlElement endEventXmlElemnt,
-                       Node endEventNode,
-                       Attributable definitionScopeAttributable);
-    
-    
-    /**
-     * Is called when the {@link BpmnXmlParser} finished creating the {@link ControlFlow}.
+     * Is called when the {@link PetriNetXmlParser} finished creating the {@link ControlFlow}.
      * 
      * @param sequenceFlowElement
      *            - the original {@link XmlElement sequenceFlowElement}
