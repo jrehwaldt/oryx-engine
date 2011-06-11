@@ -26,31 +26,40 @@ import org.jodaengine.process.structure.ControlFlow;
 public class BpmnToken extends AbstractToken {
 
     private ActivityState currentActivityState = null;
-    
+
     /**
      * Hidden Constructor.
      */
-    protected BpmnToken() { }
-    
+    protected BpmnToken() {
+
+    }
+
     /**
      * Instantiates a new process {@link Token}. This will not register any available extension.
-     *
-     * @param startNode the start node
-     * @param instance the instance
-     * @param navigator the navigator
+     * 
+     * @param startNode
+     *            the start node
+     * @param instance
+     *            the instance
+     * @param navigator
+     *            the navigator
      */
     public BpmnToken(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
 
         this(startNode, instance, navigator, null);
     }
-    
+
     /**
      * Instantiates a new process {@link TokenImpl} and register all available extensions.
-     *
-     * @param startNode the start node
-     * @param instance the instance
-     * @param navigator the navigator
-     * @param extensionService the extension service
+     * 
+     * @param startNode
+     *            the start node
+     * @param instance
+     *            the instance
+     * @param navigator
+     *            the navigator
+     * @param extensionService
+     *            the extension service
      */
     public BpmnToken(Node startNode,
                      AbstractProcessInstance instance,
@@ -85,10 +94,10 @@ public class BpmnToken extends AbstractToken {
             exceptionHandler.processException(nvpe, this);
         }
     }
-    
+
     /**
      * Completes the execution of the activity.
-     *
+     * 
      * @throws NoValidPathException
      *             thrown if there is no valid path to be executed
      */
@@ -97,16 +106,16 @@ public class BpmnToken extends AbstractToken {
 
         changeActivityState(ActivityState.COMPLETED);
 
-        List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getLazySuspendedProcessingToken());
+        List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getJoinedTokens());
 
         for (Token token : splittedTokens) {
             navigator.addWorkToken(token);
         }
 
-        lazySuspendedProcessingTokens = null;
+        joinedTokens = null;
         internalVariables = null;
     }
-    
+
     @Override
     public void executeStep()
     throws JodaEngineException {
@@ -119,23 +128,27 @@ public class BpmnToken extends AbstractToken {
         }
         try {
 
-            lazySuspendedProcessingTokens = getCurrentNode().getIncomingBehaviour().join(this);
-            changeActivityState(ActivityState.ACTIVE);
+            joinedTokens = getCurrentNode().getIncomingBehaviour().join(this);
 
-            Activity currentActivityBehavior = currentNode.getActivityBehaviour();
-            currentActivityBehavior.execute(this);
+            // only execute any activity behaviour, if the join produced tokens.
+            if (joinedTokens.size() > 0) {
+                changeActivityState(ActivityState.ACTIVE);
 
-            // Aborting the further execution of the process by the token, because it was suspended
-            if (this.currentActivityState == ActivityState.WAITING) {
-                return;
+                Activity currentActivityBehavior = currentNode.getActivityBehaviour();
+                currentActivityBehavior.execute(this);
+
+                // Aborting the further execution of the process by the token, because it was suspended
+                if (this.currentActivityState == ActivityState.WAITING) {
+                    return;
+                }
+
             }
-
             completeExecution();
         } catch (JodaEngineRuntimeException exception) {
             exceptionHandler.processException(exception, this);
         }
     }
-    
+
     @Override
     public void cancelExecution() {
 
@@ -160,7 +173,7 @@ public class BpmnToken extends AbstractToken {
 
         notifyObservers(new ActivityLifecycleChangeEvent(currentNode, prevState, newState, this));
     }
-    
+
     @Override
     public List<Token> navigateTo(List<ControlFlow> controlFlowList) {
 
@@ -205,12 +218,13 @@ public class BpmnToken extends AbstractToken {
 
     @Override
     public boolean isSuspandable() {
+
         return true;
     }
-    
+
     /**
      * Resumes the execution of the activity and completes it.
-     *
+     * 
      * @param resumeObject
      *            - an object that is passed from class that resumes the Token
      * @throws NoValidPathException
@@ -242,6 +256,6 @@ public class BpmnToken extends AbstractToken {
     public void setAttribute(String attributeKey, Object attributeValue) {
 
         // TODO Auto-generated method stub
-        
+
     }
 }

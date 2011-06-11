@@ -96,13 +96,13 @@ public class PetriToken extends AbstractToken {
        currentNode.getIncomingBehaviour().join(newTokens.get(0));
        
        // Now split at the Transition and put tokens on the following places.
-       lazySuspendedProcessingTokens = currentNode.getOutgoingBehaviour().split(newTokens);
+       joinedTokens = currentNode.getOutgoingBehaviour().split(newTokens);
        
-       for (Token token : lazySuspendedProcessingTokens) {
+       for (Token token : joinedTokens) {
            navigator.addWorkToken(token);
        }
 
-       lazySuspendedProcessingTokens = null;
+       joinedTokens = null;
        internalVariables = null;
        
     }

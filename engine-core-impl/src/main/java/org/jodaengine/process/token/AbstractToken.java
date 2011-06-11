@@ -48,7 +48,7 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
     @JsonIgnore
     protected boolean suspandable;
 
-    protected List<Token> lazySuspendedProcessingTokens;
+    protected List<Token> joinedTokens;
     protected HashMap<String, Object> internalVariables;
 
     @JsonIgnore
@@ -148,17 +148,17 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
     }
 
     /**
-     * Gets the lazy suspended processing token.
+     * Gets the joined tokens. This list is lazily initialized.
      * 
-     * @return the lazy suspended processing token
+     * @return the {@link Token}s that were produced during the join.
      */
-    protected List<Token> getLazySuspendedProcessingToken() {
+    protected List<Token> getJoinedTokens() {
 
-        if (lazySuspendedProcessingTokens == null) {
-            lazySuspendedProcessingTokens = new LinkedList<Token>();
+        if (joinedTokens == null) {
+            joinedTokens = new LinkedList<Token>();
         }
         
-        return lazySuspendedProcessingTokens;
+        return joinedTokens;
     }
 
     @Override
