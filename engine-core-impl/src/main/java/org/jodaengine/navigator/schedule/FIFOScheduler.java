@@ -78,6 +78,13 @@ public class FIFOScheduler extends AbstractListenable<AbstractSchedulerListener>
 
         return processtokens.remove(token);
     }
+
+    @Override
+    public void releaseLock(Token token) {
+
+        // TODO Auto-generated method stub
+        
+    }
     
     
 }

@@ -4,14 +4,14 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 import org.jodaengine.exception.JodaEngineException;
 
 /**
  * Representing an adapter for generating TimeEvent.
  */
 public class TimerAdapter extends AbstractCorrelatingEventAdapter<TimerAdapterConfiguration> implements
-InboundPullAdapter {
+IncomingPullAdapter {
 
     /**
      * Default constructor.

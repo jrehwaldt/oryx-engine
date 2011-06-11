@@ -71,6 +71,14 @@ public interface BreakpointService {
     @Nonnull Collection<Breakpoint> getBreakpoints();
     
     /**
+     * Returns a list of registered breakpoints for a certain process definition.
+     * 
+     * @param definition the {@link ProcessDefinition}
+     * @return a list of {@link Breakpoint}s
+     */
+    @Nonnull Collection<Breakpoint> getBreakpoints(@Nonnull ProcessDefinition definition);
+    
+    /**
      * Returns a list of registered breakpoints for a certain process instance.
      * 
      * @param instance the {@link AbstractProcessInstance}

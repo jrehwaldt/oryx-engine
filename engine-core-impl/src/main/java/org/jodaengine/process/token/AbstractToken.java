@@ -22,8 +22,8 @@ import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.resource.allocation.TaskAllocation;
 import org.jodaengine.util.ServiceContext;
 import org.jodaengine.util.ServiceContextImpl;
@@ -31,7 +31,7 @@ import org.jodaengine.util.ServiceContextImpl;
 /**
  * AbstractToken class, which is used by other specific Token classes like the BPMN Token.
  */
-public abstract class AbstractToken extends AbstractListenable<AbstractTokenListener> implements Token {
+public abstract class AbstractToken extends AbstractListenable<AbstractTokenListener> implements Token, ServiceContext {
 
     protected UUID id;
 

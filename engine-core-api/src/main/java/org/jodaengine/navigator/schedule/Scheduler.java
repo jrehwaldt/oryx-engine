@@ -19,10 +19,10 @@ public interface Scheduler {
     void submit(Token p);
     
     /**
-     * Remove a token
-     * 
-     * @param token
-     *            the Token
+     * Remove a token.
+     *
+     * @param token the Token
+     * @return true, if successful
      */
     boolean remove(Token token);
 
@@ -54,5 +54,7 @@ public interface Scheduler {
      * @return the int
      */
     int size();
+    
+    void releaseLock(Token token);
 
 }

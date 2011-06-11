@@ -11,7 +11,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.instance.ProcessInstanceContextImpl;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.util.mock.MockUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
  */
 public class JavaServiceActivityTest {
     
-    private Token token = null;
+    private AbstractToken token = null;
     private RepositoryServiceInside repoMock = null;
     private ProcessInstanceContext context = null;
 

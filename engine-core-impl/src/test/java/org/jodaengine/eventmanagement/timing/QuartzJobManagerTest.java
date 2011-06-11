@@ -1,7 +1,7 @@
 package org.jodaengine.eventmanagement.timing;
 
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 import org.jodaengine.eventmanagement.timing.job.PullAdapterJob;
 import org.jodaengine.exception.JodaEngineException;
 import org.mockito.Mockito;
@@ -57,7 +57,7 @@ public class QuartzJobManagerTest {
     public void testRegisteringAPullAdapter()
     throws JodaEngineException {
 
-        InboundPullAdapter adapter = Mockito.mock(InboundPullAdapter.class);
+        IncomingPullAdapter adapter = Mockito.mock(IncomingPullAdapter.class);
         QuartzPullAdapterConfiguration configuration = new QuartzPullAdapterConfigurationMock(PULL_INTERVAL,
             PullAdapterJob.class, false);
 
@@ -82,7 +82,7 @@ public class QuartzJobManagerTest {
     public void testRegisteringANonRecurringEvent()
     throws JodaEngineException, InterruptedException {
 
-        InboundPullAdapter adapter = Mockito.mock(InboundPullAdapter.class);
+        IncomingPullAdapter adapter = Mockito.mock(IncomingPullAdapter.class);
         QuartzPullAdapterConfiguration configuration = new QuartzPullAdapterConfigurationMock(PULL_INTERVAL,
             PullAdapterJob.class, true);
 

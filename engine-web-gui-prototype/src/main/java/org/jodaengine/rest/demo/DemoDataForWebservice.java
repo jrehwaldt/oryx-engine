@@ -13,8 +13,7 @@ import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractRole;
@@ -116,7 +115,7 @@ public final class DemoDataForWebservice {
     private static void generateDemoWorklistItems()
     throws IllegalStarteventException, ProcessArtifactNotFoundException, DefinitionNotFoundException {
 
-        ProcessDefinitionBuilder processBuilder = new ProcessDefinitionBuilderImpl();
+        BpmnProcessDefinitionBuilder processBuilder = BpmnProcessDefinitionBuilder.newBuilder();
 
         Node startNode, node1, node2, node3, endNode;
 

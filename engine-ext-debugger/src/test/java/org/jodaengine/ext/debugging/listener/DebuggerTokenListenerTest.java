@@ -24,8 +24,7 @@ import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
@@ -71,7 +70,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         //
         // build a definition
         //
-        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
+        BpmnProcessDefinitionBuilder builder = BpmnProcessDefinitionBuilder.newBuilder();
         this.node = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
         Assert.assertNotNull(this.node);
         BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(builder);

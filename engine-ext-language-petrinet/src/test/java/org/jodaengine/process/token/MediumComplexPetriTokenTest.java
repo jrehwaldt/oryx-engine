@@ -5,6 +5,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.navigator.schedule.RandomPetriNetScheduler;
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.incomingbehaviour.petri.TransitionJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.petri.PlaceSplitBehaviour;
@@ -36,6 +37,7 @@ public class MediumComplexPetriTokenTest {
     
     private ProcessInstance instance;
     private TokenUtil util;
+    private Navigator nav;
 
     /**
      * Set up.   
@@ -75,8 +77,10 @@ public class MediumComplexPetriTokenTest {
         secondStartPlace.controlFlowTo(secondPetriTransition);
         secondPetriTransition.controlFlowTo(secondEndPlace);
         
-        
-        TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);
+        nav = Mockito.mock(Navigator.class);
+        Mockito.when(nav.getScheduler()).thenReturn(new RandomPetriNetScheduler());
+        TokenBuilder tokenBuilder = new PetriTokenBuilder(nav, null);
+
         instance = new ProcessInstance(null, tokenBuilder);
         token = instance.createToken(firstStartPlace);
         token2 = instance.createToken(secondStartPlace);
@@ -142,6 +146,9 @@ public class MediumComplexPetriTokenTest {
         remainingToken = util.getTokensWhichAreOnNode(firstEndPlace, instance).get(0);
         remainingToken.executeStep();
         
+        // The process instance should be unlocked
+        Mockito.verify(nav).getScheduler();
+        
         // There should not occur an error, nor should there be new tokens created.
         assertEquals(instance.getAssignedTokens().size(), 2, "There should be no new tokens.");
         assertEquals(util.getTokensWhichAreOnNode(firstEndPlace, instance).size(), 1);
@@ -160,6 +167,9 @@ public class MediumComplexPetriTokenTest {
         instance.removeToken(token3);
         instance.removeToken(token);
         token2.executeStep();
+        
+        // The process instance should be unlocked
+        Mockito.verify(nav).getScheduler();
        
         assertEquals(instance.getAssignedTokens().size(), 1, "There should be no new tokens.");
         assertEquals(util.getTokensWhichAreOnNode(firstStartPlace, instance).size(), 0);

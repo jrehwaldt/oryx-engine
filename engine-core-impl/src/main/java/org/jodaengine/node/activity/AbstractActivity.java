@@ -3,6 +3,7 @@ package org.jodaengine.node.activity;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,9 @@ public abstract class AbstractActivity implements Activity {
     @Override
     public void execute(@Nonnull Token token) {
 
-        executeIntern(token);
+        // The token is transformed into an AbstractToken so that the execute method of the activity is provided with
+        // more methods
+        executeIntern((AbstractToken) token);
     }
 
     /**
@@ -36,7 +39,7 @@ public abstract class AbstractActivity implements Activity {
      * @param token
      *            the instance this activity operates on
      */
-    protected abstract void executeIntern(@Nonnull Token token);
+    protected abstract void executeIntern(@Nonnull AbstractToken token);
 
     /**
      * Override this, if need to cleanup, if the activity is cancelled (e.g. event unsubscription).

@@ -1,12 +1,11 @@
 package org.jodaengine.process.token;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertEqualsNoOrder;
-
-import static org.mockito.Mockito.any;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertEqualsNoOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,15 +18,14 @@ import org.jodaengine.node.incomingbehaviour.AndJoinBehaviour;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
 import org.jodaengine.process.instance.ProcessInstance;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.process.structure.ControlFlowBuilderImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
 import org.jodaengine.process.structure.NodeBuilderImpl;
 import org.jodaengine.process.structure.NodeImpl;
-import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -77,7 +75,7 @@ public class ProcessTokenImplTest {
             currentNodes[i] = newTokens.get(i).getCurrentNode();
         }
 
-        Node[] expectedCurrentNodes = { node2, node3 };
+        Node[] expectedCurrentNodes = {node2, node3};
         assertEqualsNoOrder(currentNodes, expectedCurrentNodes, "The new tokens should point to the following nodes.");
     }
 

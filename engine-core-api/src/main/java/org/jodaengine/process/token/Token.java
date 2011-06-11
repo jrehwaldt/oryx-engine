@@ -14,17 +14,16 @@ import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.Identifiable;
-import org.jodaengine.util.ServiceContext;
 
 /**
  * The Interface Token. A Token is able to navigate through the process, but does not make up the whole process
  * instance. Moreover it is a single strand of execution.
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public interface Token extends Identifiable<UUID>, ServiceContext {
+public interface Token extends Identifiable<UUID> {
 
     /**
      * Gets the current node.

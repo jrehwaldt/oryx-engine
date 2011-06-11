@@ -25,30 +25,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jodaengine.ServiceFactory;
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParse;
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParser;
-import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
-import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
-import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
-import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
-import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
+import org.jodaengine.node.factory.petri.PetriNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
-import org.jodaengine.process.structure.Condition;
-import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.definition.petri.PetriProcessDefinitionBuilder;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.ControlFlowBuilder;
-import org.jodaengine.process.structure.condition.CheckVariableTrueCondition;
-import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.allocation.CreationPattern;
-import org.jodaengine.resource.allocation.CreationPatternBuilder;
-import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
-import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.io.StreamSource;
 import org.jodaengine.util.xml.XmlElement;
@@ -57,7 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Specific parsing of one BPMN 2.0 XML file, created by the {@link BpmnXmlParser}.
+ * Specific parsing of one PNML XML file, created by the {@link PetriNetXmlParser}.
  */
 public class PetriNetXmlParse extends XmlParse {
 
@@ -65,9 +48,9 @@ public class PetriNetXmlParse extends XmlParse {
 
     private ProcessDefinition finishedProcessDefinition;
 
-    private ProcessDefinitionBuilder processBuilder;
+    private PetriProcessDefinitionBuilder processBuilder;
 
-    private List<BpmnXmlParseListener> parseListeners;
+    private List<PetriNetXmlParseListener> parseListeners;
 
     /**
      * Mapping containing values stored during the first phase of parsing since other elements can reference these
@@ -76,9 +59,9 @@ public class PetriNetXmlParse extends XmlParse {
     private Map<String, Node> nodeXmlIdTable;
 
     /**
-     * Constructor to be called by the {@link BpmnXmlParser}.
+     * Constructor to be called by the {@link PetriNetXmlParser}.
      * 
-     * Note the package modifier here: only the {@link BpmnXmlParser} is allowed to create instances.
+     * Note the package modifier here: only the {@link PetriNetXmlParser} is allowed to create instances.
      * 
      * @param petriNetXmlParser
      *            - in order to have general configuration for parsing through the XML
@@ -88,7 +71,7 @@ public class PetriNetXmlParse extends XmlParse {
     public PetriNetXmlParse(PetriNetXmlParser petriNetXmlParser, StreamSource streamSource) {
 
         super(petriNetXmlParser, streamSource);
-        this.processBuilder = new ProcessDefinitionBuilderImpl();
+        this.processBuilder = new PetriProcessDefinitionBuilder();
         this.parseListeners = petriNetXmlParser.getParseListeners();
     }
 
@@ -107,7 +90,7 @@ public class PetriNetXmlParse extends XmlParse {
     @Override
     public PetriNetXmlParse execute() {
 
-        // At first an object model of the whole BPMN XML is created. Afterwards we can process it.
+        // At first an object model of the whole PetriNet XML is created. Afterwards we can process it.
         super.execute();
 
         try {
@@ -149,14 +132,11 @@ public class PetriNetXmlParse extends XmlParse {
      */
     protected void parseProcessDefinitions() {
 
-        List<XmlElement> processes = rootElement.getElements("process");
+        List<XmlElement> processes = rootElement.getElements("net");
+        System.out.println(processes);
 
         if (processes.size() == 0) {
-            String errorMessage = "No process have been defined in the BPMN serialized XMl file.";
-            throw new JodaEngineRuntimeException(errorMessage);
-        }
-        if (processes.size() > 1) {
-            String errorMessage = "Joda Engine cannot read more than one process in a BPMN serialized XMl file.";
+            String errorMessage = "No process have been defined in the PetriNet serialized XMl file.";
             throw new JodaEngineRuntimeException(errorMessage);
         }
 
@@ -176,41 +156,24 @@ public class PetriNetXmlParse extends XmlParse {
 
         // The name of the ProcessDefinition is the value of 'name' attribute, in case that it is defined.
         String processName;
-        if (processElement.getAttribute("name") == null || processElement.getAttribute("name").isEmpty()) {
-
-            processName = processElement.getAttribute("id");
-        } else {
-
-            processName = processElement.getAttribute("name");
-        }
+        processName = processElement.getAttribute("id");
         processBuilder.setName(processName);
-
-        processBuilder.setDescription(parseDocumentation(processElement));
-        processBuilder.setAttribute("targetNamespace", rootElement.getAttribute("targetNamespace"));
         
-        parseElements(processElement);
+        XmlElement element = processElement.getElement("name");
+        if(element != null) {
+            processBuilder.setDescription(element.getElement("text").getText());
+        }
+        parseElements(processElement.getElement("page"));
         
-        try {
+       
             
-            BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processBuilder);
-            this.finishedProcessDefinition = processBuilder.buildDefinition();
-            
-            //
-            // preserve original attributes
-            //
-            if (this.finishedProcessDefinition != null) {
-                parseGeneralInformation(processElement, processBuilder);
-            }
-        } catch (IllegalStarteventException buildingDefinitionException) {
+        this.finishedProcessDefinition = processBuilder.buildDefinition();
+        
 
-            String errorMessage = "The processDefintion could be built.";
-            logger.error(errorMessage, buildingDefinitionException);
+        if (this.finishedProcessDefinition != null) {
+            parseGeneralInformation(processElement, processBuilder);
         }
 
-        // Doing the afterwork
-        for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseProcess(processElement, finishedProcessDefinition);
-        }
     }
 
     /**
@@ -223,178 +186,39 @@ public class PetriNetXmlParse extends XmlParse {
      */
     protected void parseElements(XmlElement processElement) {
 
-        parseStartEvents(processElement);
-        parseActivities(processElement);
-        parseEndEvents(processElement);
+        parsePlaces(processElement);
+        parseTransitions(processElement);
         parseSequenceFlow(processElement);
     }
 
-    /**
-     * Parses the start events of a certain level in the process (process, subprocess or another scope).
-     * 
-     * @param parentXmlElement
-     *            The 'parent' element that contains the start events (process, subprocess).
-     */
-    protected void parseStartEvents(XmlElement parentXmlElement) {
+    protected void parsePlaces(XmlElement parentXmlElement) {
 
-        List<XmlElement> startEventXmlElements = parentXmlElement.getElements("startEvent");
+        List<XmlElement> placeXmlElements = parentXmlElement.getElements("place");
 
-        if (startEventXmlElements.size() > 1) {
+        for(XmlElement element : placeXmlElements) {
 
-            getProblemLogger().addError("Multiple start events are currently not supported", parentXmlElement);
-        } else if (startEventXmlElements.size() > 0) {
-
-            XmlElement startEventXmlElement = startEventXmlElements.get(0);
-
-            Node startEventNode = BpmnNodeFactory.createBpmnStartEventNode(processBuilder);
-
-            parseGeneralInformation(startEventXmlElement, startEventNode);
-
-            getNodeXmlIdTable().put((String) startEventNode.getAttribute("idXml"), startEventNode);
-
-            // We should think about forms for the startEvent
-            // Maybe we can implement that as startTrigger
-            // Example:
-            // StartFormHandler startFormHandler = new StartFormHandler();
-            // String startFormHandlerClassName = startEventElement.attributeNS(BpmnXmlParser.JODA_ENGINE_EXTENSIONS_NS,
-            // "formHandlerClass");
-
-            // Doing some afterwork
-            for (BpmnXmlParseListener parseListener : parseListeners) {
-                parseListener.parseStartEvent(startEventXmlElement, startEventNode, processBuilder);
+            Node place = PetriNodeFactory.createPlace();
+            if(element.getElements("initialMarking").size() > 0) {
+                processBuilder.addStartNode(place);
             }
+
+            parseGeneralInformation(element, place);
+
+            getNodeXmlIdTable().put((String) place.getAttribute("idXml"), place);
         }
     }
+    
+    protected void parseTransitions(XmlElement parentXmlElement) {
 
-    /**
-     * Parses the activities of a certain level in the process (process, subprocess or another scope).
-     * 
-     * @param parentElement
-     *            The 'parent' element that contains the activities (process, subprocess).
-     */
-    protected void parseActivities(XmlElement parentElement) {
+        List<XmlElement> placeXmlElements = parentXmlElement.getElements("transition");
 
-        for (XmlElement activityElement : parentElement.getElements()) {
-            if (("exclusiveGateway").equals(activityElement.getTagName())) {
-                parseExclusiveGateway(activityElement);
+        for(XmlElement element : placeXmlElements) {
 
-            } else if (("parallelGateway").equals(activityElement.getTagName())) {
-                parseParallelGateway(activityElement);
+            Node transition = PetriNodeFactory.createPetriTransition();
 
-//                 } else if (("scriptTask").equals(activityElement.getTagName())) {                   
-//                 parseScriptTask(activityElement);
-//                
-                 } else if ("serviceTask".equals(activityElement.getTagName())) {
-                 parseServiceTask(activityElement);
-                
-                // } else if (activityElement.getTagName().equals("businessRuleTask")) {
-                // parseBusinessRuleTask(activityElement);
-                //
-           
-            } else if (("adHocSubProcess").equals(activityElement.getTagName())
-                || ("complexGateway").equals(activityElement.getTagName())
-                || ("eventBasedGateway").equals(activityElement.getTagName())
-                || ("transaction").equals(activityElement.getTagName())
-                || ("callActivity").equals(activityElement.getTagName())
-                || ("intermediateCatchEvent").equals(activityElement.getTagName())
-                || ("subProcess").equals(activityElement.getTagName())
-                || ("receiveTask").equals(activityElement.getTagName())
-                || ("sendTask").equals(activityElement.getTagName())) {
-                getProblemLogger().addWarning("Ignoring unsupported activity type", activityElement);
-            }
-        }
+            parseGeneralInformation(element, transition);
 
-        // Parse stuff common to activities above, e.g. something like markers
-        // if (activity != null) {
-        // parseMultiInstanceLoopCharacteristics(activityElement, activity);
-        // }
-    }
-
-    protected void parseServiceTask(XmlElement activityElement) {
-
-        String className = activityElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS,
-            "class");
-        if (className != null) {
-            Node scriptNode = BpmnNodeFactory.createBpmnJavaClassServiceTaskNode(processBuilder, className);
-
-            parseGeneralInformation(activityElement, scriptNode);
-            getNodeXmlIdTable().put((String) scriptNode.getAttribute("idXml"), scriptNode);
-
-           
-//            for (BpmnXmlParseListener parseListener : parseListeners) {
-//                parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
-//            }
-        } else {
-            getProblemLogger().addWarning("Ignoring unsupported service task format", activityElement);
-        }
-        
-        
-    }
-
-    /**
-     * Parses an exclusive gateway declaration.
-     * 
-     * @param exclusiveGwElement
-     *            the exclusive gateway element
-     */
-    protected void parseExclusiveGateway(XmlElement exclusiveGwElement) {
-
-        Node exclusiveGatewayNode = BpmnNodeFactory.createBpmnXorGatewayNode(processBuilder);
-
-        parseGeneralInformation(exclusiveGwElement, exclusiveGatewayNode);
-
-        getNodeXmlIdTable().put((String) exclusiveGatewayNode.getAttribute("idXml"), exclusiveGatewayNode);
-
-        for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseExclusiveGateway(
-                exclusiveGwElement,
-                exclusiveGatewayNode,
-                processBuilder);
-        }
-    }
-
-    /**
-     * Parses a parallel gateway declaration.
-     * 
-     * @param parallelGatewayElement
-     *            the parallel gateway element
-     */
-    protected void parseParallelGateway(XmlElement parallelGatewayElement) {
-
-        Node parallelGatewayNode = BpmnNodeFactory.createBpmnAndGatewayNode(processBuilder);
-
-        parseGeneralInformation(parallelGatewayElement, parallelGatewayNode);
-
-        getNodeXmlIdTable().put((String) parallelGatewayNode.getAttribute("idXml"), parallelGatewayNode);
-
-        for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseParallelGateway(
-                parallelGatewayElement,
-                parallelGatewayNode,
-                processBuilder);
-        }
-    }
-
-    /**
-     * Parses the end events of a certain level in the process (process, subprocess or another scope).
-     * 
-     * @param parentElement
-     *            The 'parent' element that contains the end events (process, subprocess).
-     */
-    protected void parseEndEvents(XmlElement parentElement) {
-
-        for (XmlElement endEventXmlElement : parentElement.getElements("endEvent")) {
-
-            Node endEventNode = BpmnNodeFactory.createBpmnEndEventNode(processBuilder);
-
-            parseGeneralInformation(endEventXmlElement, endEventNode);
-
-            getNodeXmlIdTable().put((String) endEventNode.getAttribute("idXml"), endEventNode);
-
-            // Doing some afterwork
-            for (BpmnXmlParseListener parseListener : parseListeners) {
-                parseListener.parseEndEvent(endEventXmlElement, endEventNode, processBuilder);
-            }
+            getNodeXmlIdTable().put((String) transition.getAttribute("idXml"), transition);
         }
     }
 
@@ -406,14 +230,14 @@ public class PetriNetXmlParse extends XmlParse {
      */
     protected void parseSequenceFlow(XmlElement processElement) {
 
-        for (XmlElement sequenceFlowElement : processElement.getElements("sequenceFlow")) {
+        for (XmlElement sequenceFlowElement : processElement.getElements("arc")) {
 
             @SuppressWarnings("unused")
             String id = sequenceFlowElement.getAttribute("id");
-            String sourceRef = sequenceFlowElement.getAttribute("sourceRef");
-            String destinationRef = sequenceFlowElement.getAttribute("targetRef");
+            String source = sequenceFlowElement.getAttribute("source");
+            String destination = sequenceFlowElement.getAttribute("target");
 
-            if (sourceRef == null && destinationRef == null) {
+            if (source == null && destination == null) {
                 String errorMessage = "Each SequenceFlow XML tag must have a sourceRef"
                     + " and a destinationRef corresponding to a XML activity."
                     + " One of these attributes are not set correctly. Please do that!!";
@@ -422,16 +246,16 @@ public class PetriNetXmlParse extends XmlParse {
                 return;
             }
 
-            Node sourceNode = getNodeXmlIdTable().get(sourceRef);
-            Node destinationNode = getNodeXmlIdTable().get(destinationRef);
+            Node sourceNode = getNodeXmlIdTable().get(source);
+            Node destinationNode = getNodeXmlIdTable().get(destination);
 
             if (sourceNode == null || destinationNode == null) {
                 if (sourceNode == null) {
-                    String errorMessage = "The source '" + sourceRef + "' is not available in the XML.";
+                    String errorMessage = "The source '" + source + "' is not available in the XML.";
                     getProblemLogger().addError(errorMessage, sequenceFlowElement);
                 }
                 if (destinationNode == null) {
-                    String errorMessage = "The destination '" + destinationRef + "' is not available in the XMl.";
+                    String errorMessage = "The destination '" + destination + "' is not available in the XMl.";
                     getProblemLogger().addError(errorMessage, sequenceFlowElement);
                 }
                 return;
@@ -443,50 +267,34 @@ public class PetriNetXmlParse extends XmlParse {
 
             ControlFlow controlFlow = controlFlowBuilder.buildControlFlow();
 
-            for (BpmnXmlParseListener parseListener : parseListeners) {
+            for (PetriNetXmlParseListener parseListener : parseListeners) {
                 parseListener.parseSequenceFlow(sequenceFlowElement, controlFlow, processBuilder);
             }
         }
     }
 
     /**
-     * Extracting the documentation Attribute in the {@link XmlElement}.
+     * Parses the generic information of an  element (id etc.).
      * 
      * @param element
-     *            the element to parse
-     * @return the documentation
-     */
-    protected String parseDocumentation(XmlElement element) {
-
-        XmlElement docElement = element.getElement("documentation");
-        if (docElement != null) {
-            return docElement.getText().trim();
-        }
-        return null;
-    }
-
-    /**
-     * Parses the generic information of an activity element (id, name, documentation, etc.), and creates a new
-     * {@link ActivityImpl} on the given scope element.
-     * 
-     * @param activityElement
      *            the activity element to parse
      * @param attributable
      *            the attributable
      */
-    protected void parseGeneralInformation(XmlElement activityElement, Attributable attributable) {
+    protected void parseGeneralInformation(XmlElement element, Attributable attributable) {
 
-        String id = activityElement.getAttribute("id");
+        String id = element.getAttribute("id");
         if (logger.isDebugEnabled()) {
             logger.debug("Parsing attributable " + id);
         }
 
         attributable.setAttribute("idXml", id);
-        attributable.setAttribute("name", activityElement.getAttribute("name"));
-        attributable.setAttribute("description", parseDocumentation(activityElement));
-        attributable.setAttribute("default", activityElement.getAttribute("default"));
-        attributable.setAttribute("type", activityElement.getTagName());
-        attributable.setAttribute("line", activityElement.getLine());
+        
+        if(element.getElement("name") != null){
+            attributable.setAttribute("name", element.getElement("name").getElement("text").getText());
+        }
+        attributable.setAttribute("type", element.getTagName());
+        attributable.setAttribute("line", element.getLine());
     }
 
     /**
@@ -501,4 +309,6 @@ public class PetriNetXmlParse extends XmlParse {
         }
         return this.nodeXmlIdTable;
     }
+    
+    
 }

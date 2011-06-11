@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
-import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 import org.jodaengine.eventmanagement.timing.QuartzPullAdapterConfiguration;
 import org.jodaengine.eventmanagement.timing.job.PullAdapterJob;
 import org.quartz.Job;
@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The mail adapter configuration.
  */
-public final class InboundMailAdapterConfiguration extends AbstractMailConfiguration implements
+public final class IncomingMailAdapterConfiguration extends AbstractMailConfiguration implements
 QuartzPullAdapterConfiguration {
 
     private final int port;
@@ -48,7 +48,7 @@ QuartzPullAdapterConfiguration {
      * @param useSSL
      *            should ssl be used for connection
      */
-    public InboundMailAdapterConfiguration(@Nonnull MailProtocol protocol,
+    public IncomingMailAdapterConfiguration(@Nonnull MailProtocol protocol,
                                            @Nonnull String userName,
                                            @Nonnull String password,
                                            @Nonnull String address,
@@ -146,7 +146,7 @@ QuartzPullAdapterConfiguration {
     @Override
     public String getUniqueName() {
 
-        return String.format("%s:%s:%s:%s", protocol, address, port, userName);
+        return String.format("%s:%s:%s:%s", protocol, domainName, port, userName);
     }
 
     /**
@@ -154,11 +154,11 @@ QuartzPullAdapterConfiguration {
      * 
      * @return the mail adapter configuration
      */
-    public static InboundMailAdapterConfiguration jodaGoogleConfiguration() {
+    public static IncomingMailAdapterConfiguration jodaGoogleConfiguration() {
 
         // TODO @All: WTF delete this (in July). Other options would be a local file.. but well. no.
 // CHECKSTYLE:OFF 
-        return new InboundMailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
+        return new IncomingMailAdapterConfiguration(MailProtocol.IMAP, "oryxengine", "dalmatina!",
             "imap.googlemail.com", MailProtocol.IMAP.getPort(true), true);
 // CHECKSTYLE:ON
     }
@@ -174,9 +174,9 @@ QuartzPullAdapterConfiguration {
      * 
      * @return the InboundMailAdapter
      */
-    private InboundImapMailAdapter createAdapter() {
+    private IncomingImapMailAdapter createAdapter() {
 
-        InboundImapMailAdapter adapter = new InboundImapMailAdapter(this);
+        IncomingImapMailAdapter adapter = new IncomingImapMailAdapter(this);
         logger.debug("Registered mail adapter {}", adapter);
         return adapter;
     }
@@ -184,7 +184,7 @@ QuartzPullAdapterConfiguration {
     @Override
     public EventAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
-        InboundPullAdapter adapter = createAdapter();
+        IncomingPullAdapter adapter = createAdapter();
         adapterRegistrar.registerInboundPullAdapter(adapter);
 
         return adapter;
@@ -210,7 +210,7 @@ QuartzPullAdapterConfiguration {
         return (MAGIC_HASH[0] * this.getClass().hashCode()
                 + MAGIC_HASH[1] * userName.hashCode() 
                 + MAGIC_HASH[2] * password.hashCode() 
-                + MAGIC_HASH[3] * address.hashCode() 
+                + MAGIC_HASH[3] * domainName.hashCode() 
                 + MAGIC_HASH[4] * protocol.hashCode() 
                 + MAGIC_HASH[5] * port 
                 + MAGIC_HASH[6] * useSSLModifier);
@@ -229,10 +229,10 @@ QuartzPullAdapterConfiguration {
             return false;
         }
         if (o.getClass() == this.getClass()) {
-            InboundMailAdapterConfiguration otherConfiguration = (InboundMailAdapterConfiguration) o;
+            IncomingMailAdapterConfiguration otherConfiguration = (IncomingMailAdapterConfiguration) o;
             if (this.userName.equals(otherConfiguration.getUserName()) 
                 && this.password.equals(otherConfiguration.getPassword())
-                && this.address.equals(otherConfiguration.getAddress())
+                && this.domainName.equals(otherConfiguration.getDomainName())
                 && this.protocol == otherConfiguration.getProtocol()
                 && this.port == otherConfiguration.getPort()
                 && this.useSSL == otherConfiguration.isUseSSL()) {

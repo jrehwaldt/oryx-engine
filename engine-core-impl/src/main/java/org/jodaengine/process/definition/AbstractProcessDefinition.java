@@ -7,47 +7,41 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
-import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContextImpl;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
-import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivationPattern;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
 import org.jodaengine.process.instantiation.InstantiationPatternContextImpl;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
-import org.jodaengine.process.instantiation.pattern.StartNullInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 
 /**
- * The Class ProcessDefinitionImpl. A process definition consists of a list of start nodes that, as we have a tree
- * structure of nodes, reference all the nodes of the definition transitively.
+ * This represents the base class for the a {@link ProcessDefinition}. A {@link ProcessDefinition} consists of a list of
+ * start nodes that, as we have a tree structure of nodes, reference all the nodes of the definition transitively.
  */
-public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefinitionInside {
+public abstract class AbstractProcessDefinition implements ProcessDefinitionInside {
 
-    private String name;
+    protected String name;
 
-    private String description;
+    protected String description;
 
-    private ProcessDefinitionID id;
+    protected ProcessDefinitionID id;
 
-    private List<Node> startNodes;
+    protected List<Node> startNodes;
 
-    @JsonIgnore
-    private StartInstantiationPattern startInstantiationPattern;
-
-    @JsonIgnore
-    private ProcessDefinitionDeActivationPattern startActivationPattern;
+    protected Map<String, Object> attributes;
 
     @JsonIgnore
-    private Map<ProcessStartEvent, Node> startTriggers;
+    protected StartInstantiationPattern startInstantiationPattern;
 
-    private Map<String, Object> attributes;
+    @JsonIgnore
+    protected ProcessDefinitionDeActivationPattern startActivationPattern;
 
     /**
-     * Instantiates a new {@link ProcessDefinition}. The name is the ID of the {@link ProcessDefinition}.
+     * Default instantiation.
      * 
      * @param id
      *            - the internal of the {@link ProcessDefinition}
@@ -57,44 +51,23 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
      *            - the description of the {@link ProcessDefinition}
      * @param startNodes
      *            - the initial nodes that refer to the whole node-tree
+     * @param startInstantiationPattern
+     *            - the {@link InstantiationPattern} that is responsilbe for creating a process instance
+     * @param startActivationPattern
+     *            - the {@link ProcessDefinitionDeActivationPattern} that is responsible for the activating and
+     *            deactivating the {@link ProcessDefinition}
      */
-    public ProcessDefinitionImpl(ProcessDefinitionID id, String name, String description, List<Node> startNodes) {
-
-        this(id, name, description, startNodes, new StartNullInstantiationPattern(),
-            new NullProcessDefinitionActivationPattern());
-    }
-
-    /**
-     * Hidden constructor.
-     */
-    protected ProcessDefinitionImpl() {
-
-    }
-
-    /**
-     * Instantiates a new process definition. A UUID is generated randomly.
-     * 
-     * @param id
-     *            - the internal of the {@link ProcessDefinition}
-     * @param name
-     *            - the name of the {@link ProcessDefinition}
-     * @param description
-     *            - the description of the {@link ProcessDefinition}
-     * @param startNodes
-     *            - the initial nodes that refer to the whole node-tree
-     */
-    public ProcessDefinitionImpl(ProcessDefinitionID id,
-                                 String name,
-                                 String description,
-                                 List<Node> startNodes,
-                                 StartInstantiationPattern startInstantiationPattern,
-                                 ProcessDefinitionDeActivationPattern startActivationPattern) {
+    protected AbstractProcessDefinition(ProcessDefinitionID id,
+                                        String name,
+                                        String description,
+                                        List<Node> startNodes,
+                                        StartInstantiationPattern startInstantiationPattern,
+                                        ProcessDefinitionDeActivationPattern startActivationPattern) {
 
         this.id = id;
         this.name = name;
         this.description = description;
         this.startNodes = startNodes;
-        this.startTriggers = new HashMap<ProcessStartEvent, Node>();
         this.startInstantiationPattern = startInstantiationPattern;
         this.startActivationPattern = startActivationPattern;
     }
@@ -136,23 +109,17 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
         return startNodes;
     }
 
-    @Override
-    public Map<ProcessStartEvent, Node> getStartTriggers() {
-
-        return startTriggers;
-    }
-
-    @Override
-    public void addStartTrigger(ProcessStartEvent event, Node node)
-    throws IllegalStarteventException {
-
-        if (startNodes.contains(node)) {
-            startTriggers.put(event, node);
-        } else {
-            throw new IllegalStarteventException();
-        }
-
-    }
+    // @Override
+    // public void addStartTrigger(ProcessStartEvent event, Node node)
+    // throws IllegalStarteventException {
+    //
+    // if (startNodes.contains(node)) {
+    // startTriggers.put(event, node);
+    // } else {
+    // throw new IllegalStarteventException();
+    // }
+    //
+    // }
 
     @JsonProperty
     @Override
@@ -181,22 +148,11 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
 
         InstantiationPatternContext patternContext = new InstantiationPatternContextImpl(this);
         return startInstantiationPattern.createProcessInstance(patternContext);
-
-        // AbstractProcessInstance instance = new ProcessInstanceImpl(this);
-        //
-        // for (Node node : this.getStartNodes()) {
-        // Token newToken = instance.createToken(node, navigator);
-        // navigator.addWorkToken(newToken);
-        // }
-        // return instance;
     }
 
     @Override
     public void activate(EventSubscriptionManager correlationManager) {
 
-        // for (ProcessStartEvent event : this.getStartTriggers().keySet()) {
-        // correlationManager.registerStartEvent(event);
-        // }
         ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
             this);
         startActivationPattern.activateProcessDefinition(patternContext);
@@ -209,38 +165,39 @@ public class ProcessDefinitionImpl implements ProcessDefinition, ProcessDefiniti
             this);
         startActivationPattern.deactivateProcessDefinition(patternContext);
     }
-    
+
     @Override
     public int hashCode() {
+
         return this.id.hashCode();
     }
-    
+
     @Override
     public boolean equals(Object object) {
-        
+
         //
         // will never be equal to null
         //
         if (object == null) {
             return false;
         }
-        
+
         //
         // or to a non-ProcessDefinition instance
         //
         if (object instanceof ProcessDefinition) {
             ProcessDefinition definition = (ProcessDefinition) object;
-            
+
             //
             // same id
             //
             if (!this.getID().equals(definition.getID())) {
                 return false;
             }
-            
+
             return true;
         }
-        
+
         return false;
     }
 }

@@ -64,7 +64,7 @@ function loadOverviewTable() {
                         + '<td class="role-relationship loading-data"></td>'
                         + '<td class="controls">'
                             + '<a href="#" class="change-member">Change members</a> '
-    //                        + '<a href="#" class="edit">Edit</a> '
+//                            + '<a href="#" class="edit">Edit</a> '
                             + '<a href="#" class="delete">Delete</a>'
                         + '</td>'
                     + '</tr>'

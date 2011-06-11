@@ -2,8 +2,6 @@ package org.jodaengine.process.structure;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.exception.JodaEngineRuntimeException;
-
 /**
  * The Interface {@link ControlFlowBuilder}. The {@link ControlFlowBuilder} is a comfortable way to construct a
  * {@link ControlFlow}.
@@ -36,7 +34,6 @@ public interface ControlFlowBuilder {
      * Builds the {@link ControlFlow} and returns it.
      * 
      * @return a configured {@link ControlFlow}
-     * @thorws {@link JodaEngineRuntimeException} in case some constraints are not fulfilled.
      */
     @Nonnull
     ControlFlow buildControlFlow();

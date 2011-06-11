@@ -7,7 +7,7 @@ import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
-import org.jodaengine.eventmanagement.adapter.mail.InboundMailAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.eventmanagement.subscription.condition.simple.MethodInvokingEventCondition;
@@ -17,8 +17,8 @@ import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +58,7 @@ public final class ExampleMailStartProcess {
 
             // Building the ProcessDefintion
             DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
-            ProcessDefinitionBuilder builder = deploymentBuilder.getProcessDefinitionBuilder();
+            BpmnProcessDefinitionBuilder builder = BpmnProcessDefinitionBuilder.newBuilder();
 
             Node startNode = BpmnCustomNodeFactory.createBpmnNullStartNode(builder);
 
@@ -76,7 +76,7 @@ public final class ExampleMailStartProcess {
 
             // Create a mail adapater event here.
             // TODO @TobiP Could create a builder for this later.
-            InboundMailAdapterConfiguration config = InboundMailAdapterConfiguration.jodaGoogleConfiguration();
+            IncomingMailAdapterConfiguration config = IncomingMailAdapterConfiguration.jodaGoogleConfiguration();
             EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class,
                 "getMessageTopic", "Hallo");
             List<EventCondition> conditions = new ArrayList<EventCondition>();

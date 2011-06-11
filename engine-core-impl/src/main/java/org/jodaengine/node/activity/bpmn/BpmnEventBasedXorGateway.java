@@ -8,8 +8,9 @@ import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
 import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.ExclusiveProcessEventGroup;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -20,9 +21,8 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
     private static final String REGISTERED_PROCESS_EVENT_PREFIX = "PROCESS_EVENTS-";
 
     @Override
-    protected void executeIntern(Token token) {
+    protected void executeIntern(AbstractToken token) {
 
-        // TODO @Gerardo muss geändert werden keine ServiceFactory mehr - vielleicht im Token
         EventSubscriptionManager eventManager = token.getCorrelationService();
 
         List<ProcessIntermediateEvent> registeredIntermediateEvents = new ArrayList<ProcessIntermediateEvent>();
@@ -89,7 +89,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
     }
 
     @Override
-    public void cancel(Token executingToken) {
+    public void cancelIntern(AbstractToken executingToken) {
 
         // Extracting the variable
         @SuppressWarnings("unchecked")

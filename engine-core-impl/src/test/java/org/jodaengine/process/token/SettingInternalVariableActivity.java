@@ -25,7 +25,7 @@ public class SettingInternalVariableActivity extends AbstractActivity {
     }
 
     @Override
-    protected void executeIntern(Token token) {
+    protected void executeIntern(AbstractToken token) {
 
         token.setInternalVariable(variableId, variableValue);
         token.suspend();

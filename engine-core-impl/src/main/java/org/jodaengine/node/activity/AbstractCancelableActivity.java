@@ -1,6 +1,7 @@
 package org.jodaengine.node.activity;
 
 import org.jodaengine.node.activity.bpmn.BpmnHumanTaskActivity;
+import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -8,6 +9,20 @@ import org.jodaengine.process.token.Token;
  * {@link BpmnHumanTaskActivity}, ... .
  */
 public abstract class AbstractCancelableActivity extends AbstractActivity {
+
+    @Override
+    public void cancel(Token executingToken) {
+
+        cancelIntern((AbstractToken) executingToken);
+    }
+
+    /**
+     * Method, which implements the concrete's activity's implementation in case it is cancelled.
+     * 
+     * @param executingToken
+     *            - the instance this activity operates on
+     */
+    protected abstract void cancelIntern(AbstractToken executingToken);
 
     /**
      * This method returns the identifier for an internalVariable. The identifier should be unique, as the token can

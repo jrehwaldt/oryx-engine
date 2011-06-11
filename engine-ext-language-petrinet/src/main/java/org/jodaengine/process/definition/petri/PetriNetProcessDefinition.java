@@ -6,15 +6,16 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
+import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivationPattern;
+import org.jodaengine.process.definition.AbstractProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
+import org.jodaengine.process.instantiation.pattern.StartNullInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
@@ -24,89 +25,24 @@ import org.jodaengine.process.token.builder.PetriTokenBuilder;
  * The Class PetriNetProcessDefinition. This is the process definition for petri nets.
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public class PetriNetProcessDefinition implements ProcessDefinition, ProcessDefinitionInside {
+public class PetriNetProcessDefinition extends AbstractProcessDefinition {
 
-    private Map<String, Object> attributes;
-    
-    private String name;
+    /**
+     * Instantiates a new {@link ProcessDefinition} for PetriNets. The name is the ID of the {@link ProcessDefinition}.
+     * 
+     * @param id
+     *            - the internal of the {@link ProcessDefinition}
+     * @param name
+     *            - the name of the {@link ProcessDefinition}
+     * @param description
+     *            - the description of the {@link ProcessDefinition}
+     * @param startNodes
+     *            - the initial nodes that refer to the whole node-tree
+     */
+    public PetriNetProcessDefinition(ProcessDefinitionID id, String name, String description, List<Node> startNodes) {
 
-    private String description;
-
-    private ProcessDefinitionID id;
-
-    private List<Node> startNodes;
-    
-    public PetriNetProcessDefinition(String name,
-                                      String description,
-                                      ProcessDefinitionID id,
-                                      List<Node> startNodes) {
-
-        this.attributes = attributes;
-        this.name = name;
-        this.description = description;
-        this.id = id;
-        this.startNodes = startNodes;
-    }
-
-
-    public String getName() {
-    
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-    
-        this.name = name;
-    }
-
-    @Override
-    public String getDescription() {
-    
-        return description;
-    }
-
-    @Override
-    public void setDescription(String description) {
-    
-        this.description = description;
-    }
-
-    @Override
-    public List<Node> getStartNodes() {
-    
-        return startNodes;
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Object getAttribute(String attributeKey) {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-
-
-    @Override
-    public Map<ProcessStartEvent, Node> getStartTriggers() {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void addStartTrigger(ProcessStartEvent event, Node node)
-    throws IllegalStarteventException {
-
-        // TODO Auto-generated method stub
-        
+        super(id, name, description, startNodes, new StartNullInstantiationPattern(),
+            new NullProcessDefinitionActivationPattern());
     }
 
     @Override
@@ -122,33 +58,17 @@ public class PetriNetProcessDefinition implements ProcessDefinition, ProcessDefi
         return processInstance;
     }
 
+    // TODO Bleiben erstmal un implementiert werden nach der BA aus dem Interface entfernt
     @Override
-    public void activate(EventSubscriptionManager correlationManager) {
-
+    public Map<ProcessStartEvent, Node> getStartTriggers() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public void addStartTrigger(ProcessStartEvent event, Node node)
+        throws IllegalStarteventException {
         // TODO Auto-generated method stub
         
     }
-
-    @Override
-    public void deactivate(EventSubscriptionManager correlationManager) {
-
-        // TODO Auto-generated method stub
-        
-    }
-
-
-    @Override
-    public ProcessDefinitionID getID() {
-
-        return id;
-    }
-
-
-    @Override
-    public void setAttribute(String attributeKey, Object attributeValue) {
-
-        // TODO Auto-generated method stub
-        
-    }
-
 }

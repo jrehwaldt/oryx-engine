@@ -11,8 +11,7 @@ import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.node.helper.ActivityLifecycleAssuranceListener;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
@@ -86,7 +85,7 @@ public class ConcurrentActivityStateTest {
     public void setUpProcess()
     throws IllegalStarteventException {
 
-        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
+        BpmnProcessDefinitionBuilder builder = BpmnProcessDefinitionBuilder.newBuilder();
 
         startNode = BpmnNodeFactory.createBpmnStartEventNode(builder);
 

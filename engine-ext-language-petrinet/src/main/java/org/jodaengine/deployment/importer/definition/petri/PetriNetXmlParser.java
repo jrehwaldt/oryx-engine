@@ -25,51 +25,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jodaengine.bootstrap.JodaEngine;
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnProcessDefinitionValidator;
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseBuilder;
-import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
+
 import org.jodaengine.util.xml.XmlParseBuilder;
 import org.jodaengine.util.xml.XmlParser;
 
 
 /**
- * Parser for BPMN 2.0 process models.
+ * Parser for PetriNet process models.
  * 
- * There is only one instance of this parser in the process engine. This {@link XmlParser} creates {@link BpmnParse}
- * instances that can be used to actually parse the BPMN 2.0 XML process definitions.
+ * There is only one instance of this parser in the process engine. This {@link XmlParser} creates {@link PetriNetParse}
+ * instances that can be used to actually parse the PetriNet XML process definitions.
  * 
  */
 public class PetriNetXmlParser extends XmlParser {
 
-    /** The BPMN 2.0 namespace. */
-    public static final String BPMN20_NS = "http://www.omg.org/spec/BPMN/20100524/MODEL";
-
-    /** The location of the BPMN 2.0 XML schema. */
-    public static final String BPMN_20_SCHEMA_LOCATION = "http://www.omg.org/spec/BPMN/20100501/BPMN20.xsd";
-
-    /** The namepace of the BPMN 2.0 diagram interchange elements. */
-    public static final String BPMN_DI_NS = "http://www.omg.org/spec/BPMN/20100524/DI";
-
-    /** The namespace of the BPMN 2.0 diagram common elements. */
-    public static final String BPMN_DC_NS = "http://www.omg.org/spec/DD/20100524/DC";
-
-    /** The namespace of the generic OMG DI elements (don't ask me why they did not use the BPMN_DI_NS ...). */
-    public static final String OMG_DI_NS = "http://www.omg.org/spec/DD/20100524/DI";
-
-    /** The Schema-Instance namespace. */
-    public static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
-    
     /** Namespace for extensions elements of the {@link JodaEngine}. */
-    public static final String JODAENGINE_EXTENSIONS_NS = "http://jodaengine.org/bpmn-extensions";
+    public static final String JODAENGINE_EXTENSIONS_NS = "http://jodaengine.org/petri-extensions";
     
-    protected List<BpmnXmlParseListener> parseListeners;
+    protected List<PetriNetXmlParseListener> parseListeners;
 
     /**
-     * Default construtcor.
+     * Default constructor.
      */
     public PetriNetXmlParser() {
         
-        getParseListeners().add(new BpmnProcessDefinitionValidator());
+        //getParseListeners().add(new PetriNetProcessDefinitionValidator());
     }
     
     @Override
@@ -79,14 +59,14 @@ public class PetriNetXmlParser extends XmlParser {
     }
     
     /**
-     * Returns a list of specified {@link BpmnXmlParseListener}s.
+     * Returns a list of specified {@link PetriNetXmlParseListener}s.
      * 
      * @return all registered listeners
      */
-    public List<BpmnXmlParseListener> getParseListeners() {
+    public List<PetriNetXmlParseListener> getParseListeners() {
 
         if (this.parseListeners == null) {
-            this.parseListeners = new ArrayList<BpmnXmlParseListener>();
+            this.parseListeners = new ArrayList<PetriNetXmlParseListener>();
         }
         return this.parseListeners;
     }

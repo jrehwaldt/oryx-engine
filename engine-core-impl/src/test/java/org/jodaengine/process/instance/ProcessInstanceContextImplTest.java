@@ -8,8 +8,8 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.Node;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

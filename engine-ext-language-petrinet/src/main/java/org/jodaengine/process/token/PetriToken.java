@@ -86,7 +86,7 @@ public class PetriToken extends AbstractToken {
        
        // If there are no possible options, the token execution has to be skipped.
        if (newTokens == null) {
-           // TODO: Does this make a difference ?
+           this.navigator.getScheduler().releaseLock(this);
            // The old token is not put in the navigator again, we assume that an another token will 
            // trigger the following PetriTransition later on.
            return;

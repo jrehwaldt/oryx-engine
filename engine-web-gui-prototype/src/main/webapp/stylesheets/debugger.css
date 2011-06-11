@@ -14,3 +14,10 @@ div.full-svg-artifact {
     width: 100%;
     height: 100%;
 }
+
+table.svg-overview img.svg-artifact {
+    max-width: 600px;
+}
+table.breakpoints-overview img.svg-artifact {
+    max-width: 200px;
+}

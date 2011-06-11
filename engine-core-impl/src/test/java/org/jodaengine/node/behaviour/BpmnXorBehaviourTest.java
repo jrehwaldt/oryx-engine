@@ -10,8 +10,7 @@ import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.OutgoingBehaviour;
 import org.jodaengine.node.outgoingbehaviour.XORSplitBehaviour;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.instance.ProcessInstanceContext;
 import org.jodaengine.process.structure.Condition;
@@ -30,7 +29,7 @@ import org.testng.annotations.Test;
 /**
  * The test of the TakeAllBehaviour-activity.
  */
-public class BPMNXORBehaviourTest {
+public class BpmnXorBehaviourTest {
 
     private Token token;
 
@@ -114,7 +113,7 @@ public class BPMNXORBehaviourTest {
     private Token simpleToken() {
 
 
-        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
+        BpmnProcessDefinitionBuilder builder = BpmnProcessDefinitionBuilder.newBuilder();
         
         Node node = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
         .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBehavior(new NullActivity()).buildNode();

@@ -1,4 +1,4 @@
-package org.jodaengine.process.definition;
+package org.jodaengine.process.definition.bpmn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,14 +15,18 @@ import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultPro
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
+import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.ProcessDefinitionID;
+import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.structure.ControlFlowBuilder;
+import org.jodaengine.process.structure.ControlFlowBuilderImpl;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
 import org.jodaengine.process.structure.NodeBuilderImpl;
-import org.jodaengine.process.structure.StartNodeBuilderImpl;
-import org.jodaengine.process.structure.ControlFlowBuilder;
-import org.jodaengine.process.structure.ControlFlowBuilderImpl;
+import org.jodaengine.util.Attributable;
 import org.jodaengine.util.PatternAppendable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * The Class ProcessBuilderImpl. As you would think, only nodes that were created using createStartNode() become
  * actually start nodes.
  */
-public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
+public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, Attributable {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private List<Node> startNodes;
@@ -44,10 +48,14 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     private List<ProcessDefinitionDeActivationPattern> temporaryActivationPatterns;
     private StartInstantiationPattern startInstantiationPattern;
 
+    public static BpmnProcessDefinitionBuilder newBuilder() {
+        return new BpmnProcessDefinitionBuilder();
+    }
+    
     /**
      * Instantiates some temporary datastructures.
      */
-    public ProcessDefinitionBuilderImpl() {
+    private BpmnProcessDefinitionBuilder() {
 
         resetingThisBuilder();
     }
@@ -69,24 +77,21 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         this.startInstantiationPattern = null;
     }
 
-    @Override
-    public ProcessDefinitionBuilder setName(String processName) {
-
+    public BpmnProcessDefinitionBuilder setName(String processName) {
+    
         this.name = processName;
         this.id = new ProcessDefinitionID(name);
         return this;
     }
 
-    @Override
-    public ProcessDefinitionBuilder setDescription(String description) {
+    public BpmnProcessDefinitionBuilder setDescription(String description) {
 
         this.description = description;
         return this;
 
     }
 
-    @Override
-    public ProcessDefinitionBuilder createStartTrigger(EventType eventType,
+    public BpmnProcessDefinitionBuilder createStartTrigger(EventType eventType,
                                                        AdapterConfiguration adapterConfig,
                                                        List<EventCondition> eventConditions,
                                                        Node startNode) {
@@ -103,62 +108,56 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
         this.temporaryAttributeTable.put(attributeId, attibuteValue);
     }
 
-    @Override
     public NodeBuilder getNodeBuilder() {
 
         return new NodeBuilderImpl();
     }
 
-    @Override
     public ControlFlowBuilder getControlFlowBuilder() {
 
         return new ControlFlowBuilderImpl();
     }
 
-    @Override
-    public NodeBuilder getStartNodeBuilder() {
-
-        return new StartNodeBuilderImpl(this);
+//    /**
+//     * Getter for the StartNodes-List.
+//     * 
+//     * @return a {@link List} of {@link Node}
+//     */
+//    public List<Node> getStartNodes() {
+//
+//        return startNodes;
+//    }
+    
+    public BpmnProcessDefinitionBuilder addNodeAsStartNode(Node node) {
+        
+        startNodes.add(node);
+        return this;
     }
 
-    /**
-     * Getter for the StartNodes-List.
-     * 
-     * @return a {@link List} of {@link Node}
-     */
-    public List<Node> getStartNodes() {
-
-        return startNodes;
-    }
-
-    @Override
-    public ProcessDefinitionBuilder addInstantiationPattern(InstantiationPattern instantiationPattern) {
+    public BpmnProcessDefinitionBuilder addInstantiationPattern(InstantiationPattern instantiationPattern) {
 
         this.temporaryInstantiationPatterns.add(instantiationPattern);
         return this;
     }
 
-    @Override
-    public ProcessDefinitionBuilder addStartInstantiationPattern(StartInstantiationPattern startInstantiationPattern) {
+    public BpmnProcessDefinitionBuilder addStartInstantiationPattern(StartInstantiationPattern startInstantiationPattern) {
 
         this.startInstantiationPattern = startInstantiationPattern;
         return this;
     }
 
-    @Override
-    public ProcessDefinitionBuilder addActivationPattern(ProcessDefinitionDeActivationPattern activationPattern) {
+    public BpmnProcessDefinitionBuilder addActivationPattern(ProcessDefinitionDeActivationPattern activationPattern) {
 
         this.temporaryActivationPatterns.add(activationPattern);
         return this;
     }
 
-    @Override
     public ProcessDefinition buildDefinition()
     throws IllegalStarteventException {
 
         checkingDefinitionConstraints();
 
-        ProcessDefinitionImpl definition = buildResultDefinition();
+        BpmnProcessDefinition definition = buildResultDefinition();
 
         // cleanup
         resetingThisBuilder();
@@ -169,16 +168,16 @@ public class ProcessDefinitionBuilderImpl implements ProcessDefinitionBuilder {
     /**
      * This method encapsulates.
      * 
-     * @return the {@link ProcessDefinitionImpl processDefinition} as result of this builder
+     * @return the {@link BpmnProcessDefinition processDefinition} as result of this builder
      * @throws IllegalStarteventException no valid start event found
      */
-    private ProcessDefinitionImpl buildResultDefinition()
+    private BpmnProcessDefinition buildResultDefinition()
     throws IllegalStarteventException {
 
         StartInstantiationPattern startInstantionPattern = appendingInstantiationPatterns();
         ProcessDefinitionDeActivationPattern activationPattern = appendingActivationPatterns();
 
-        ProcessDefinitionImpl definition = new ProcessDefinitionImpl(id, name, description, startNodes,
+        BpmnProcessDefinition definition = new BpmnProcessDefinition(id, name, description, startNodes,
             startInstantionPattern, activationPattern);
 
         for (Map.Entry<ProcessStartEvent, Node> entry : temporaryStartTriggers.entrySet()) {

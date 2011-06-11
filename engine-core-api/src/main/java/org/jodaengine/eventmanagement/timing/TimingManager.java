@@ -2,7 +2,7 @@ package org.jodaengine.eventmanagement.timing;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.adapter.incoming.InboundPullAdapter;
+import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 import org.jodaengine.exception.AdapterSchedulingException;
 
 /**
@@ -18,7 +18,7 @@ public interface TimingManager {
      * @throws AdapterSchedulingException
      *             thrown if scheduling fails
      */
-    void registerJobForInboundPullAdapter(@Nonnull InboundPullAdapter inboundPulladapter)
+    void registerJobForInboundPullAdapter(@Nonnull IncomingPullAdapter inboundPulladapter)
     throws AdapterSchedulingException;
 
 //    /**
@@ -41,6 +41,6 @@ public interface TimingManager {
  * @param inboundPulladapter the inbound pulladapter
  * @throws AdapterSchedulingException the adapter scheduling exception
  */
-    void unregisterJobForInboundPullAdapter(@Nonnull InboundPullAdapter inboundPulladapter)
+    void unregisterJobForInboundPullAdapter(@Nonnull IncomingPullAdapter inboundPulladapter)
     throws AdapterSchedulingException;
 }

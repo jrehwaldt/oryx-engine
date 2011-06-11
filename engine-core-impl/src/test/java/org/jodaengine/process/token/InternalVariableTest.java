@@ -7,8 +7,7 @@ import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.TakeAllSplitBehaviour;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.ProcessDefinitionBuilderImpl;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.mockito.Mockito;
@@ -30,7 +29,7 @@ public class InternalVariableTest {
     @BeforeMethod
     public void setUp() {
 
-        ProcessDefinitionBuilder builder = new ProcessDefinitionBuilderImpl();
+        BpmnProcessDefinitionBuilder builder = BpmnProcessDefinitionBuilder.newBuilder();
 
         // Building the IntermediateTimer
         customNode = builder.getNodeBuilder()

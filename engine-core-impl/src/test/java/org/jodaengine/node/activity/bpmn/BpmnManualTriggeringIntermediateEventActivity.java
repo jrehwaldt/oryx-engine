@@ -8,6 +8,7 @@ import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.subscription.processevent.intermediate.ProcessIntermediateManualTriggeringEvent;
 import org.jodaengine.node.activity.AbstractActivity;
+import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -31,7 +32,7 @@ BpmnEventBasedGatewayEvent {
     }
 
     @Override
-    protected void executeIntern(Token token) {
+    protected void executeIntern(AbstractToken token) {
 
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
 
