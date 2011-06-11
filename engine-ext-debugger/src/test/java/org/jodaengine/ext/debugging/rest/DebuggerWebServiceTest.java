@@ -17,7 +17,6 @@ import org.jodaengine.ext.debugging.shared.JuelBreakpointCondition;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

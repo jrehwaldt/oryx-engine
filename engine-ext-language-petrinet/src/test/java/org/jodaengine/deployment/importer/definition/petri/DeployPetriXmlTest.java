@@ -3,19 +3,10 @@ package org.jodaengine.deployment.importer.definition.petri;
 import static org.testng.Assert.assertEquals;
 
 import java.util.List;
-import java.util.UUID;
 
-import org.jodaengine.JodaEngineServices;
-import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotFoundException;
-import org.jodaengine.exception.IllegalStarteventException;
-import org.jodaengine.node.activity.Activity;
-import org.jodaengine.node.activity.bpmn.BpmnEndEventActivity;
-import org.jodaengine.node.activity.bpmn.BpmnStartEvent;
-import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.definition.petri.PetriProcessDefinitionBuilder;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.testing.JodaEngineTestConfiguration;
@@ -39,7 +30,7 @@ public class DeployPetriXmlTest extends AbstractPetriDeployerTest {
 
     public DeployPetriXmlTest() {
 
-        executableProcessResourcePath = "Token-example.pnml";
+        executableProcessResourcePath = "org/jodaengine/deployment/importer/definition/petri/Token-example.pnml";
     }
 
     @Test

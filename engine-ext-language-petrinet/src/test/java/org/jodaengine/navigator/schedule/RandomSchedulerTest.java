@@ -18,7 +18,6 @@ import org.jodaengine.process.token.builder.PetriTokenBuilder;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.jodaengine.util.testing.SkipBuildingJodaEngine;
 import org.jodaengine.util.testing.SkipBuildingJodaEngine.JodaEngineTestSkipMode;
-import org.mockito.Mockito;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

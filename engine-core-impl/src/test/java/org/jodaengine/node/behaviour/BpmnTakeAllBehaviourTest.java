@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 /**
  * The test of the TakeAllBehaviour-activity.
  */
-public class BPMNTakeAllBehaviourTest {
+public class BpmnTakeAllBehaviourTest {
 
     /** The process token. */
     private Token token = null;

@@ -8,12 +8,10 @@ import java.util.UUID;
 
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.process.structure.ControlFlowBuilderImpl;
+import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.Attributable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The Class PetriProcessDefinitionBuilder.

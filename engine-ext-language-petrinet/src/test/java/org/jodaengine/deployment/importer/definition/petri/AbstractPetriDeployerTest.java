@@ -12,9 +12,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.util.ReflectionUtil;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
-import org.jodaengine.util.testing.JodaEngineTestConfiguration;
 import org.testng.Assert;
-import org.testng.annotations.Test;
 
 /**
  * This class is designed to be inherited from. It provides a basic method body for testing the import of PetriNet

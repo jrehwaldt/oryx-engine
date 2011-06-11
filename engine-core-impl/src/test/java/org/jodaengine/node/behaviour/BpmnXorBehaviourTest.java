@@ -29,7 +29,7 @@ import org.testng.annotations.Test;
 /**
  * The test of the TakeAllBehaviour-activity.
  */
-public class BPMNXORBehaviourTest {
+public class BpmnXorBehaviourTest {
 
     private Token token;
 

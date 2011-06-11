@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
 /**
  * This class tests the BPMNAndJoin-Class.
  */
-public class BPMNAndJoinTest {
+public class BpmnAndJoinTest {
 
     /** The node3. */
     private Node node1 = null, node2 = null, joinNode = null, splitNode = null, node3 = null;

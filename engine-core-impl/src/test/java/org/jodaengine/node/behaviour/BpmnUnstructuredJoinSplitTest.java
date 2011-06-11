@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
  * The Class BPMNUnstructuredJoinSplitTest. We want to test that unstructured AND splits and joins are handled
  * correctly.
  */
-public class BPMNUnstructuredJoinSplitTest {
+public class BpmnUnstructuredJoinSplitTest {
 
     /** The initial token. */
     private Token initialToken = null;

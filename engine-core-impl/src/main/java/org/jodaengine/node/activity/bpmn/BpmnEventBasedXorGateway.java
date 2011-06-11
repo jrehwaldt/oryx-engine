@@ -23,7 +23,6 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
     @Override
     protected void executeIntern(AbstractToken token) {
 
-        // TODO @Gerardo muss geändert werden keine ServiceFactory mehr - vielleicht im Token
         EventSubscriptionManager eventManager = token.getCorrelationService();
 
         List<ProcessIntermediateEvent> registeredIntermediateEvents = new ArrayList<ProcessIntermediateEvent>();
