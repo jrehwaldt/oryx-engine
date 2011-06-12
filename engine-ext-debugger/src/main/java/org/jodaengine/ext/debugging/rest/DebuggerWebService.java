@@ -112,7 +112,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
      */
     @Path("/interrupted-instances/{instance-id}/step-over")
     @POST
-    public void stepOverInstance(UUID interruptedInstanceID) {
+    public void stepOverInstance(@PathParam("instance-id") UUID interruptedInstanceID) {
         
         if (this.debugger == null) {
             throw new ServiceUnavailableException(DebuggerService.class);
@@ -139,7 +139,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
      */
     @Path("/interrupted-instances/{instance-id}/terminate")
     @POST
-    public void terminateInstance(UUID interruptedInstanceID) {
+    public void terminateInstance(@PathParam("instance-id") UUID interruptedInstanceID) {
         
         if (this.debugger == null) {
             throw new ServiceUnavailableException(DebuggerService.class);
@@ -166,7 +166,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
      */
     @Path("/interrupted-instances/{instance-id}/resume")
     @POST
-    public void resumeInstance(UUID interruptedInstanceID) {
+    public void resumeInstance(@PathParam("instance-id") UUID interruptedInstanceID) {
         
         if (this.debugger == null) {
             throw new ServiceUnavailableException(DebuggerService.class);
@@ -189,7 +189,7 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
      */
     @Path("/interrupted-instances/{instance-id}/continue")
     @POST
-    public void continueInstance(UUID interruptedInstanceID) {
+    public void continueInstance(@PathParam("instance-id") UUID interruptedInstanceID) {
         
         if (this.debugger == null) {
             throw new ServiceUnavailableException(DebuggerService.class);

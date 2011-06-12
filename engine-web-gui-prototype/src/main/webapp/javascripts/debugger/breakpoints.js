@@ -46,17 +46,17 @@ $().ready(function() {
     definitionTable.live('definition-table-entry:ready', function(event, definition, definitionId, definitionRow, tableBody) {
         
         //
-        // create a breakpoints row
+        // create a breakpoints cell
         //    and
         // add the svg artifact and an anchor for breakpoint operations
         //
         definitionRow.append(
-                '<td class="artifact-cell">'
-                + '<a href="#" class="show-full-svg-artifact">'
-                    + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
-                + '</a>'
-            + '</td>'
-            + '<td class="breakpoint-cell">'
+//              '<td class="artifact-cell">'
+//                + '<a href="#" class="show-full-svg-artifact">'
+//                    + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
+//                + '</a>'
+//            + '</td>'
+            '<td class="breakpoint-cell">'
                 + 'Loading breakpoint data'
             + '</td>'
         );
@@ -85,16 +85,44 @@ $().ready(function() {
     //
     definitionTable.live('definition-table:ready', function(event, tableBody) {
         
-        $('.artifact-cell a.show-full-svg-artifact', tableBody).click(function(event) {
+        $('a.show-full-svg-artifact', tableBody).click(function(event) {
             event.preventDefault();
             var row = $(event.currentTarget).parent().parent();
             var definitionId = row.attr('definition-id');
-            showFullSvg(definitionId);
+            showFullSvg(definitionId, {});
         });
         
         if ($(document).overlay) {
-            $('img.svg-artifact[rel]', tableBody).overlay();
+            $('a.show-full-svg-artifact *[rel]', tableBody).overlay();
         }
+    });
+    
+    //
+    // show breakpoints
+    //
+    var svgFrame = $('#svg-artifact-full-overlay div.full-svg-artifact');
+    svgFrame.live('full-svg-loaded:ready', function(event, definitionId, options) {
+        
+        var frame = $(this);
+        if (!options.svgNodeId) {
+            return;
+        }
+        
+        var svgNodeId = options.svgNodeId;
+        
+        //
+        // get the current frame element
+        //
+        var svgNodeContainer = $('g[id="svg-' + svgNodeId + '"]', frame);
+        var svgFrameContainer = $('g.me > g[id]', svgNodeContainer);
+        var svgElementId = svgFrameContainer.attr('id');
+        var svgFrameElement = $('*[id="' + svgElementId + 'bg_frame"]', svgNodeContainer);
+        
+        //
+        // color orange
+        //
+        svgFrameElement.attr('previous-fill', svgFrameElement.attr('fill'));
+        svgFrameElement.attr('fill', 'orange');
     });
     
     //
@@ -103,24 +131,6 @@ $().ready(function() {
     $("form#create-node-breakpoint").submit(function(event) {
         event.preventDefault();
         var form = this;
-        
-//        //
-//        // create container data
-//        //
-//        var node = {};
-//        node["@classifier"] = "org.jodaengine.process.structure.NodeImpl";
-//        node["id"] = nodeId;
-//        
-//        var breakpoint = {};
-//        breakpoint["@classifier"] = "org.jodaengine.ext.debugger.shared.BreakpointImpl";
-//        breakpoint["node"] = node;
-//        breakpoint["id"] = null;
-//        breakpoint["state"] = $("input[name=breakpoint-activity-state]", form).val();
-//        breakpoint["condition"] = $("input[name=breakpoint-condition]", form).val();
-//        
-//        if (breakpoint["condition"] == '') {
-//            breakpoint["condition"] = null;
-//        }
         
         var nodeId = $("input[name=breakpoint-node-id]", form).val();
         var definitionId = $("input[name=breakpoint-definition-id]", form).val();
@@ -222,96 +232,45 @@ function refreshDefinitionBreakpoints(definitionId) {
         //
         } else {
             
-            breakpointData = '<table width="100%">';
-            breakpointData +=
-                '<thead>'
-                    + '<tr>'
-                        + '<th>Breakpoint-ID</th>'
-                        + '<th>Activating Node</th>'
-                        + '<th>Activating State</th>'
-                        + '<th>Condition</th>'
-                    + '</tr>'
-                + '</thead>';
-            
+            breakpointData = '';
             $(breakpoints).each(function(index, breakpoint) {
+                var svgNodeId = breakpoint.node.attributes['idXml'];
                 breakpointData += 
-                    '<tr>'
-                        + '<td>' + breakpoint.id + '</td>'
-                        + '<td>' + breakpoint.node.id + '</td>'
-                        + '<td>' + breakpoint.state + '</td>'
-                        + '<td>' + breakpoint.condition.expression + '</td>'
-                    + '</tr>';
+                      '<div svg-node-id="' + svgNodeId + '" class="breakpoint" style="padding: 0 0 5px 10px;float: left;">'
+                        + _generateBreakpointHTML(breakpoint)
+                    + '</div>';
             });
-            
-            breakpointData += '</table>'
         }
+        
+        breakpointData += '<a href="#" class="create-a-breakpoint" style="clear: both; float: right" title="Create a breakpoint">'
+                       +       '<div rel="#svg-artifact-full-overlay">Create a breakpoint</div>'
+                       + '</a>';
         
         breakpointData = breakpointsCell.html(breakpointData);
+        
+        $('a.show-full-svg-artifact', breakpointData).click(function(event) {
+            event.preventDefault();
+            var breakpointBox = $(event.currentTarget).parent();
+            var row = breakpointBox.parent().parent();
+            var definitionId = row.attr('definition-id');
+            showFullSvg(definitionId, {svgNodeId: breakpointBox.attr('svg-node-id')});
+        });
+        
+        if ($(document).overlay) {
+            $('a.show-full-svg-artifact *[rel]', breakpointData).overlay();
+        }
+        
+        $('a.create-a-breakpoint', breakpointData).click(function(event) {
+            event.preventDefault();
+            var row = $(event.currentTarget).parent().parent();
+            var definitionId = row.attr('definition-id');
+            showFullSvg(definitionId, {});
+        });
+        
+        if ($(document).overlay) {
+            $('a.create-a-breakpoint *[rel]', breakpointData).overlay();
+        }
+        
         breakpointsCell.removeClass('loading-data');
     });
-}
-
-/**
- * Resolves the svg-based definition id to the original definition id.
- * 
- * @param svgDefinitionId the svg-based definition id
- * @return the original definition id
- */
-function resolveSvgDefinitionId(svgDefinitionId) {
-    
-    var definitionId = $('#svg-artifact-full-overlay div.full-svg-artifact').filter(':has(svg[id="' + svgDefinitionId + '"])').attr('definition-id');
-    return definitionId;
-}
-
-/**
- * Resolves the svg-based node id to the original node id.
- * 
- * @param definitionId the original definition id
- * @param svgNodeId the svg-based node id
- * @return the original node id
- */
-function resolveSvgNodeId(definitionId, svgNodeId) {
-    
-    var definition = $('tr[definition-id="' + definitionId + '"]').data('definition');
-    svgNodeId = svgNodeId.toLowerCase();
-    
-    //
-    // resolve all start node's graphs
-    //
-    var nodeId = null;
-    $(definition.startNodes).each(function(index, node) {
-        
-        if (nodeId != null) {
-            return;
-        }
-        
-        nodeId = _resolveSvgNodeIdFromGraph(node, svgNodeId);
-    });
-    
-    return nodeId;
-}
-
-function _resolveSvgNodeIdFromGraph(node, svgNodeId) {
-    
-    //
-    // is it this node?
-    //
-    if (node.attributes["idXml"].toLowerCase() == svgNodeId) {
-        return node.id;
-    }
-    
-    //
-    // is it one of it's destinations?
-    //
-    var nodeId = null;
-    $(node.outgoingControlFlows).each(function(index, controlFlow) {
-        
-        if (nodeId != null) {
-            return;
-        }
-        
-        nodeId = _resolveSvgNodeIdFromGraph(controlFlow.destination, svgNodeId);
-    });
-    
-    return nodeId;
 }

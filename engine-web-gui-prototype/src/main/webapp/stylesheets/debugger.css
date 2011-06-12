@@ -18,6 +18,7 @@ div.full-svg-artifact {
 table.svg-overview img.svg-artifact {
     max-width: 600px;
 }
-table.breakpoints-overview img.svg-artifact {
+table.breakpoints-overview img.svg-artifact,
+table.interrupted-instances-overview img.svg-artifact {
     max-width: 200px;
 }

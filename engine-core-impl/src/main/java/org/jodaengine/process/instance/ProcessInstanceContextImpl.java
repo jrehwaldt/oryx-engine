@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 
@@ -118,7 +117,6 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
      * 
      * @return the instance variables
      */
-    @JsonProperty
     private Map<String, Object> getInstanceVariables() {
 
         if (contextVariables == null) {

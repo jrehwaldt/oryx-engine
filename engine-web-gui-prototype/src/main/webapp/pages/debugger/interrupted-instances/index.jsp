@@ -27,37 +27,31 @@
         <h1>Debugger: Interrupted Instances Explorer</h1>
         
         <h2>Interrupted Instances</h2>
-        <table id="definitions-overview" class="interrupted-instances-overview" width="100%">
+        <table id="interrupted-instances-overview" class="interrupted-instances-overview" width="100%">
             <thead>
                 <tr>
-                    <th class="loading-data">Process Definition</th>
-                    <th class="loading-data">Breakpoints (SVG-view)</th>
-                    <th class="loading-data">Breakpoints (Table-view)</th>
+                    <th class="loading-data">Interrupted Instance</th>
+                    <th class="loading-data">Matching Breakpoint</th>
+                    <th class="loading-data">Instance Context Data</th>
+                    <th class="loading-data">Controls</th>
                 </tr>
             </thead>
             <tbody></tbody>
         </table>
         
-        <a href="#" id="definitions-overview-refresh">Refresh table</a>
+        <a href="#" id="interrupted-instances-overview-refresh">Refresh table</a>
         
-        <div class="dialog" id="create-node-breakpoint-dialog" title="Create a node breakpoint">
-            <form id="create-node-breakpoint" method="post" action="">
-                
-                <input type="hidden" name="breakpoint-node-id" value="" />
-                <input type="hidden" name="breakpoint-definition-id" value="" />
-                
-                Activity state:
-                <select name="breakpoint-activity-state">
-                    <% for (ActivityState state: ActivityState.values()) { %>
-                        <option value="<%=state.toString() %>"><%=state.toString() %></option>
-                    <% } %>
-                </select>
-                <br />
-                
-                Condition:
-                <input type="text" name="breakpoint-condition" value="" class="optional" />
-                <br />
-            </form>
+        <!-- Successful dialog -->
+        <div class="dialog" id="control-successful-dialog" title="Interrupted instance released">
+            Instance successfully <span class="commandResult"></span>.
+        </div>
+        
+        <!-- Controls dialog -->
+        <div class="dialog" id="control-process-dialog" title="Release interrupted instance">
+            <a href="#" class="control-instance" control-type="continue" title="The interrupted instance will be released and continue until the next breakpoint matches.">Continue</a>
+            <a href="#" class="control-instance" control-type="step-over" title="The interrupted instance will be released and continue to the next decision point.">Step Over</a>
+            <a href="#" class="control-instance" control-type="resume" title="The interrupted instance will be released and continue to the process\' end.">Resume</a>
+            <a href="#" class="control-instance" control-type="terminate" title="The interrupted instance will be terminated.">Terminate</a>
         </div>
         
         <!-- Full SVG Artifact Overlay -->

@@ -29,8 +29,10 @@
             <thead>
                 <tr>
                     <th class="loading-data">Process Definition</th>
+                    <!--
                     <th class="loading-data">Breakpoints (SVG-view)</th>
-                    <th class="loading-data">Breakpoints (Table-view)</th>
+                    -->
+                    <th class="loading-data">Breakpoints</th>
                 </tr>
             </thead>
             <tbody></tbody>

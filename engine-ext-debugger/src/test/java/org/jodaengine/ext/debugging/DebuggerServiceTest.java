@@ -215,7 +215,7 @@ public class DebuggerServiceTest extends AbstractJodaEngineTest {
         //
         // create a new interrupted instance
         //
-        Interrupter signal = this.debugger.breakpointTriggered(token, breakpoint, listener);
+        Interrupter signal = this.debugger.breakTriggered(token, breakpoint, listener);
         Collection<InterruptedInstance> instances = this.debugger.getInterruptedInstances();
         Assert.assertTrue(instances.contains(signal));
         

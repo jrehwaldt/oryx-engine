@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.io.IOUtils;
 import org.jodaengine.JodaEngineServices;
@@ -161,7 +162,10 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
         logger.info("Create a breakpoint for node {} on {}", targetNode, targetActivityState);
         NodeBreakpoint breakpoint = new BreakpointImpl(targetNode, targetActivityState);
         
-        if (juelCondition != null) {
+        //
+        // ignore empty conditions
+        //
+        if (juelCondition != null && !"".equals(juelCondition)) {
             logger.info("Adding condition {}", juelCondition);
             breakpoint.setCondition(new JuelBreakpointCondition(juelCondition));
         }
@@ -352,14 +356,14 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
      * It will not check the proper matching of the breakpoint, as it is verified beforehand.
      * 
      * @param interruptedToken the {@link Token}, which matched a breakpoint
-     * @param causingBreakpoint the {@link Breakpoint}, which was matched
+     * @param causingBreakpoint the {@link Breakpoint}, which was matched, if any
      * @param interruptingListener the {@link DebuggerTokenListener}, which triggered this breakpoint match
      * 
      * @return the signaler for out {@link InterruptedInstance}
      */
-    public synchronized Interrupter breakpointTriggered(@Nonnull Token interruptedToken,
-                                                               @Nonnull Breakpoint causingBreakpoint,
-                                                               @Nonnull DebuggerTokenListener interruptingListener) {
+    public synchronized Interrupter breakTriggered(@Nonnull Token interruptedToken,
+                                                   @Nullable Breakpoint causingBreakpoint,
+                                                   @Nonnull DebuggerTokenListener interruptingListener) {
         
         logger.info("Breakpoint {} triggered for token {}", causingBreakpoint, interruptedToken);
         

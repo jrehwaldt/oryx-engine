@@ -72,7 +72,7 @@ function continueInterruptedInstance(interruptedInstanceId, successHandler) {
 * 
 * @param interruptedInstanceId the id of the interrupted instance object
 * @param debugCommand the debug command ('terminate', 'step-over', 'resume', 'continue')
-* @param successHandler the anonymous function to call, gets the id of the terminates instance as #1 parameter
+* @param successHandler the anonymous function to call, gets the id of the controlled instance and the command as #1 and #2 parameter
 */
 function _controlInterruptedInstance(interruptedInstanceId, debugCommand, successHandler) {
     
@@ -81,7 +81,7 @@ function _controlInterruptedInstance(interruptedInstanceId, debugCommand, succes
         url: '/api/debugger/interrupted-instances/' + interruptedInstanceId + '/' + debugCommand,
         success: function() {
             if (successHandler)
-                successHandler.apply(null, [interruptedInstanceId]);
+                successHandler.apply(null, [interruptedInstanceId, debugCommand]);
         },
         data: null
     });
