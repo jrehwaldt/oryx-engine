@@ -96,4 +96,20 @@ public interface ReferenceResolverService extends Service {
      */
     @Nonnull AbstractProcessInstance resolveInstance(@Nonnull AbstractProcessInstance dereferencedInstance);
     
+    /**
+     * Searches for a reference of a {@link InterruptedInstance} and returns it, if available.
+     * 
+     * @param dereferencedInterruptedInstanceID the dereferenced {@link InterruptedInstance}'s id
+     * @return the referenced {@link InterruptedInstance}
+     */
+    @Nonnull InterruptedInstance resolveInterruptedInstance(@Nonnull UUID dereferencedInterruptedInstanceID);
+    
+    /**
+     * Searches for a reference of a {@link InterruptedInstance} and returns it, if available.
+     * 
+     * @param dereferencedInterruptedInst the dereferenced {@link InterruptedInstance}
+     * @return the referenced {@link InterruptedInstance}
+     */
+    @Nonnull InterruptedInstance resolveInterruptedInstance(@Nonnull InterruptedInstance dereferencedInterruptedInst);
+    
 }

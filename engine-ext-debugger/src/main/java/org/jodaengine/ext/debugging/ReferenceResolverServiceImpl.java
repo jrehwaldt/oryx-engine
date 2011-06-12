@@ -11,6 +11,7 @@ import org.jodaengine.exception.ServiceUnavailableException;
 import org.jodaengine.ext.Extension;
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.DebuggerService;
+import org.jodaengine.ext.debugging.api.InterruptedInstance;
 import org.jodaengine.ext.debugging.api.ReferenceResolverService;
 import org.jodaengine.ext.debugging.rest.DereferencedObjectException;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
@@ -168,8 +169,8 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
     @Override
     public AbstractProcessInstance resolveInstance(UUID dereferencedInstanceID) {
         
-        if (this.repository == null) {
-            throw new ServiceUnavailableException(RepositoryService.class);
+        if (this.navigator == null) {
+            throw new ServiceUnavailableException(Navigator.class);
         }
         
         for (AbstractProcessInstance instance: this.navigator.getRunningInstances()) {
@@ -182,9 +183,31 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
     }
 
     @Override
+    public InterruptedInstance resolveInterruptedInstance(UUID dereferencedInterruptedInstanceID) {
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
+        }
+        
+        for (InterruptedInstance instance: this.debugger.getInterruptedInstances()) {
+            if (instance.getID().equals(dereferencedInterruptedInstanceID)) {
+                return instance;
+            }
+        }
+        
+        throw new DereferencedObjectException(InterruptedInstance.class, dereferencedInterruptedInstanceID);
+    }
+
+    @Override
     public AbstractProcessInstance resolveInstance(AbstractProcessInstance dereferencedInstance) {
         
         return resolveInstance(dereferencedInstance.getID());
+    }
+
+    @Override
+    public InterruptedInstance resolveInterruptedInstance(InterruptedInstance dereferencedInterruptedInst) {
+        
+        return resolveInterruptedInstance(dereferencedInterruptedInst.getID());
     }
     
     //=================================================================
