@@ -14,11 +14,12 @@ public abstract class AbstractPatternAppendable<T> implements PatternAppendable<
     public T setNextPattern(T nextPattern) {
 
         this.nextPattern = nextPattern;
-        return this.nextPattern;
+        return nextPattern;
     }
 
-    protected T getNextPattern() {
+    @Override
+    public T getNextPattern() {
 
-        return this.nextPattern;
+        return nextPattern;
     }
 }
