@@ -123,5 +123,10 @@
 			<groupId>net.htmlparser.jericho</groupId>
 			<artifactId>jericho-html</artifactId>
 		</dependency>
+		<!-- Adapterstuff -->
+         <dependency>
+	         <groupId>org.twitter4j</groupId>
+	          <artifactId>twitter4j-core</artifactId>
+   		 </dependency>
 	</dependencies>
 </project>
