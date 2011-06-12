@@ -60,17 +60,23 @@ function loadDefinitionBreakpoints(definitionId, successHandler) {
 /**
 * Creates a new node breakpoint.
 * 
-* @param breakpoint the breakpoint, which should be created
+* @param processDefinitionId the definition id, which the node belongs to
+* @param activityState the state, which will trigger this breakpoint
+* @param juelCondition a condition, which will be evaluated before the breakpoint triggers
 * @param successHandler the anonymous function to call, gets the created breakpoint as #1 parameter
 */
 function createNodeBreakpoint(processDefinitionId, nodeId, activityState, juelCondition, successHandler) {
     
+    var queryObject = {
+        definitionId: processDefinitionId,
+        nodeId: nodeId,
+        activityState: activityState,
+        juelCondition: juelCondition
+    };
+    
     $.ajax({
         type: 'POST',
-        url: '/api/debugger/breakpoints/create?definitionId=' + processDefinitionId
-                                           + '&nodeId=' + nodeId
-                                           + '&activityState=' + activityState
-                                           + '&juelCondition=' + juelCondition,
+        url: '/api/debugger/breakpoints/create?' + jQuery.param(queryObject),
         success: function(breakpoint) {
             if (successHandler)
                 successHandler.apply(null, [breakpoint]);

@@ -37,7 +37,7 @@ $().ready(function() {
             event.preventDefault();
             var row = $(event.currentTarget).parent().parent();
             var definitionId = row.attr('definition-id');
-            showFullSvg(definitionId);
+            showFullSvg(definitionId, {});
         });
         
         if ($(document).overlay) {

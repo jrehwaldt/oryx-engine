@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
@@ -35,13 +35,13 @@ public interface InterruptedInstance extends Identifiable<UUID>, Serializable {
      * @return the {@link Breakpoint}, which caused the interruption
      */
     @JsonProperty
-    @Nonnull
+    @Nullable
     Breakpoint getCausingBreakpoint();
     
     /**
      * @return the {@link AbstractProcessInstance}, which was interrupted
      */
-    @JsonIgnore
+    @JsonProperty
     @Nonnull
     AbstractProcessInstance getInterruptedInstance();
     

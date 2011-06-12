@@ -1,6 +1,7 @@
 package org.jodaengine.ext.listener.token;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.structure.Node;
@@ -30,7 +31,7 @@ public final class ActivityLifecycleChangeEvent {
      *            the process token
      */
     public ActivityLifecycleChangeEvent(@Nonnull Node currentNode,
-                                        @Nonnull ActivityState prevState,
+                                        @Nullable ActivityState prevState,
                                         @Nonnull ActivityState newState,
                                         @Nonnull Token token) {
         
@@ -54,7 +55,7 @@ public final class ActivityLifecycleChangeEvent {
      * 
      * @return the previous state
      */
-    public @Nonnull ActivityState getPreviousState() {
+    public @Nullable ActivityState getPreviousState() {
         return this.prevState;
     }
 

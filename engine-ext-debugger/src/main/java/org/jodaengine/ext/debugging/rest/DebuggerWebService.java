@@ -105,8 +105,23 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     //=================== DebuggerService methods =====================
     //=================================================================
     
-    @Path("/instance/step-over")
+    /**
+     * Helper method mapping the rest interface to the underlying api.
+     * 
+     * @param interruptedInstanceID the target {@link InterruptedInstance}'s id
+     */
+    @Path("/interrupted-instances/{instance-id}/step-over")
     @POST
+    public void stepOverInstance(@PathParam("instance-id") UUID interruptedInstanceID) {
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
+        }
+        
+        InterruptedInstance instance = this.resolver.resolveInterruptedInstance(interruptedInstanceID);
+        stepOverInstance(instance);
+    }
+    
     @Override
     public void stepOverInstance(InterruptedInstance targetInstance) {
         
@@ -117,8 +132,23 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
         this.debugger.stepOverInstance(targetInstance);
     }
 
-    @Path("/instance/terminate")
+    /**
+     * Helper method mapping the rest interface to the underlying api.
+     * 
+     * @param interruptedInstanceID the target {@link InterruptedInstance}'s id
+     */
+    @Path("/interrupted-instances/{instance-id}/terminate")
     @POST
+    public void terminateInstance(@PathParam("instance-id") UUID interruptedInstanceID) {
+        
+        if (this.debugger == null) {
+            throw new ServiceUnavailableException(DebuggerService.class);
+        }
+        
+        InterruptedInstance instance = this.resolver.resolveInterruptedInstance(interruptedInstanceID);
+        terminateInstance(instance);
+    }
+    
     @Override
     public void terminateInstance(InterruptedInstance targetInstance) {
         
@@ -129,30 +159,54 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
         this.debugger.terminateInstance(targetInstance);
     }
 
-    @Path("/instance/resume")
+    /**
+     * Helper method mapping the rest interface to the underlying api.
+     * 
+     * @param interruptedInstanceID the target {@link InterruptedInstance}'s id
+     */
+    @Path("/interrupted-instances/{instance-id}/resume")
     @POST
-    @Override
-    public void resumeInstance(InterruptedInstance targetInstance) {
+    public void resumeInstance(@PathParam("instance-id") UUID interruptedInstanceID) {
         
         if (this.debugger == null) {
             throw new ServiceUnavailableException(DebuggerService.class);
         }
+        
+        InterruptedInstance instance = this.resolver.resolveInterruptedInstance(interruptedInstanceID);
+        resumeInstance(instance);
+    }
+    
+    @Override
+    public void resumeInstance(InterruptedInstance targetInstance) {
         
         this.debugger.resumeInstance(targetInstance);
     }
 
-    @Path("/instance/continue")
+    /**
+     * Helper method mapping the rest interface to the underlying api.
+     * 
+     * @param interruptedInstanceID the target {@link InterruptedInstance}'s id
+     */
+    @Path("/interrupted-instances/{instance-id}/continue")
     @POST
-    @Override
-    public void continueInstance(InterruptedInstance targetInstance) {
+    public void continueInstance(@PathParam("instance-id") UUID interruptedInstanceID) {
         
         if (this.debugger == null) {
             throw new ServiceUnavailableException(DebuggerService.class);
         }
         
-        this.debugger.continueInstance(targetInstance);
+        InterruptedInstance instance = this.resolver.resolveInterruptedInstance(interruptedInstanceID);
+        continueInstance(instance);
     }
     
+    @Override
+    public void continueInstance(InterruptedInstance targetInstance) {
+        
+        this.debugger.continueInstance(targetInstance);
+    }
+
+    @Path("/interrupted-instances")
+    @GET
     @Override
     public Collection<InterruptedInstance> getInterruptedInstances() {
         
