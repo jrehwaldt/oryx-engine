@@ -48,6 +48,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
      */
     public EventManager() {
 
+        // TODO @EVENTTEAM: do we really need this? I guess not it could be like every other adapter
         this.errorAdapter = new ErrorAdapter(new ErrorAdapterConfiguration());
         this.timingManager = new QuartzJobManager(errorAdapter);
     }
