@@ -6,7 +6,7 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
-import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
+import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivationPattern;
 import org.jodaengine.process.definition.AbstractProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinition;
@@ -59,7 +59,7 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
                                  String description,
                                  List<Node> startNodes,
                                  StartInstantiationPattern startInstantiationPattern,
-                                 ProcessDefinitionDeActivationPattern startActivationPattern) {
+                                 ProcessDeActivationPattern startActivationPattern) {
 
         super(id, name, description, startNodes, startInstantiationPattern, startActivationPattern);
     }

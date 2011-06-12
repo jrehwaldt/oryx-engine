@@ -14,12 +14,12 @@ import org.jodaengine.eventmanagement.subscription.condition.complex.AndEventCon
 import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
+import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
-import org.jodaengine.process.instantiation.InstantiationPattern;
+import org.jodaengine.process.instantiation.ProcessInstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.process.structure.ControlFlowBuilderImpl;
@@ -44,8 +44,8 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
     private String description;
     private Map<ProcessStartEvent, Node> temporaryStartTriggers;
     private Map<String, Object> temporaryAttributeTable;
-    private List<InstantiationPattern> temporaryInstantiationPatterns;
-    private List<ProcessDefinitionDeActivationPattern> temporaryActivationPatterns;
+    private List<ProcessInstantiationPattern> temporaryInstantiationPatterns;
+    private List<ProcessDeActivationPattern> temporaryActivationPatterns;
     private StartInstantiationPattern startInstantiationPattern;
 
     public static BpmnProcessDefinitionBuilder newBuilder() {
@@ -72,8 +72,8 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
         this.description = null;
         this.temporaryStartTriggers = new HashMap<ProcessStartEvent, Node>();
         this.temporaryAttributeTable = new HashMap<String, Object>();
-        this.temporaryInstantiationPatterns = new ArrayList<InstantiationPattern>();
-        this.temporaryActivationPatterns = new ArrayList<ProcessDefinitionDeActivationPattern>();
+        this.temporaryInstantiationPatterns = new ArrayList<ProcessInstantiationPattern>();
+        this.temporaryActivationPatterns = new ArrayList<ProcessDeActivationPattern>();
         this.startInstantiationPattern = null;
     }
 
@@ -134,7 +134,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
         return this;
     }
 
-    public BpmnProcessDefinitionBuilder addInstantiationPattern(InstantiationPattern instantiationPattern) {
+    public BpmnProcessDefinitionBuilder addInstantiationPattern(ProcessInstantiationPattern instantiationPattern) {
 
         this.temporaryInstantiationPatterns.add(instantiationPattern);
         return this;
@@ -146,7 +146,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
         return this;
     }
 
-    public BpmnProcessDefinitionBuilder addActivationPattern(ProcessDefinitionDeActivationPattern activationPattern) {
+    public BpmnProcessDefinitionBuilder addActivationPattern(ProcessDeActivationPattern activationPattern) {
 
         this.temporaryActivationPatterns.add(activationPattern);
         return this;
@@ -175,7 +175,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
     throws IllegalStarteventException {
 
         StartInstantiationPattern startInstantionPattern = appendingInstantiationPatterns();
-        ProcessDefinitionDeActivationPattern activationPattern = appendingActivationPatterns();
+        ProcessDeActivationPattern activationPattern = appendingActivationPatterns();
 
         BpmnProcessDefinition definition = new BpmnProcessDefinition(id, name, description, startNodes,
             startInstantionPattern, activationPattern);
@@ -191,12 +191,12 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
         return definition;
     }
 
-    private ProcessDefinitionDeActivationPattern appendingActivationPatterns() {
+    private ProcessDeActivationPattern appendingActivationPatterns() {
 
         // We have already assured that there are activationPatterns
-        PatternAppendable<ProcessDefinitionDeActivationPattern> lastActivationPattern = null;
+        PatternAppendable<ProcessDeActivationPattern> lastActivationPattern = null;
         boolean firstActivationPassed = false;
-        for (ProcessDefinitionDeActivationPattern activationPattern : temporaryActivationPatterns) {
+        for (ProcessDeActivationPattern activationPattern : temporaryActivationPatterns) {
 
             if (!firstActivationPassed) {
 
@@ -217,8 +217,8 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
      */
     private StartInstantiationPattern appendingInstantiationPatterns() {
 
-        PatternAppendable<InstantiationPattern> lastInstantiationPattern = this.startInstantiationPattern;
-        for (InstantiationPattern instantiationPattern : temporaryInstantiationPatterns) {
+        PatternAppendable<ProcessInstantiationPattern> lastInstantiationPattern = this.startInstantiationPattern;
+        for (ProcessInstantiationPattern instantiationPattern : temporaryInstantiationPatterns) {
 
             lastInstantiationPattern.setNextPattern(instantiationPattern);
             lastInstantiationPattern = instantiationPattern;

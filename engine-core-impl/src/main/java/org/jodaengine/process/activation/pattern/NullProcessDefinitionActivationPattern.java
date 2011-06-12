@@ -1,10 +1,10 @@
 package org.jodaengine.process.activation.pattern;
 
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
-import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
+import org.jodaengine.process.activation.ProcessDeActivationPattern;
 
 /**
- * This is the null object for the {@link ProcessDefinitionDeActivationPattern}. This pattern actually does nothing.
+ * This is the null object for the {@link ProcessDeActivationPattern}. This pattern actually does nothing.
  */
 public class NullProcessDefinitionActivationPattern extends AbstractProcessDefinitionDeActivationPattern {
 

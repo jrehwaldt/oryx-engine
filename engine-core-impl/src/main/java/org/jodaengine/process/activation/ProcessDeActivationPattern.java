@@ -4,14 +4,14 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.util.PatternAppendable;
 
 /**
- * The {@link ProcessDefinitionDeActivationPattern} is responsible for activation and deactivation of a
+ * The {@link ProcessDeActivationPattern} is responsible for activation and deactivation of a
  * {@link ProcessDefinition}.
  * 
  * <p>
- * This Pattern is designed to part of a linked list of {@link ProcessDefinitionDeActivationPattern activationPattern}.
+ * This Pattern is designed to part of a linked list of {@link ProcessDeActivationPattern activationPattern}.
  * </p>
  */
-public interface ProcessDefinitionDeActivationPattern extends PatternAppendable<ProcessDefinitionDeActivationPattern> {
+public interface ProcessDeActivationPattern extends PatternAppendable<ProcessDeActivationPattern> {
 
     /**
      * Activates the {@link ProcessDefinition}.

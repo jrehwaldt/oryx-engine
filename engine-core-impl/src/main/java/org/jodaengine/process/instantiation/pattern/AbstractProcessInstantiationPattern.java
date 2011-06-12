@@ -2,27 +2,19 @@ package org.jodaengine.process.instantiation.pattern;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instantiation.InstantiationPattern;
+import org.jodaengine.process.instantiation.ProcessInstantiationPattern;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
+import org.jodaengine.util.AbstractPatternAppendable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * An abstract class for a {@link InstantiationPattern}. This class provides a method body and basic
+ * An abstract class for a {@link ProcessInstantiationPattern}. This class provides a method body and basic
  * functionality for all patterns.
  */
-public abstract class AbstractProcessInstantiationPattern implements InstantiationPattern {
+public abstract class AbstractProcessInstantiationPattern extends AbstractPatternAppendable<ProcessInstantiationPattern> implements ProcessInstantiationPattern {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private InstantiationPattern nextInstantiationPattern;
-
-    @Override
-    public InstantiationPattern setNextPattern(InstantiationPattern nextPattern) {
-
-        this.nextInstantiationPattern = nextPattern;
-        return this.nextInstantiationPattern;
-    }
 
     @Override
     public AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext,
@@ -62,11 +54,11 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
     protected AbstractProcessInstance nextInstantiationPatternResult(InstantiationPatternContext patternContext,
                                                                      AbstractProcessInstance currentProcessInstance) {
 
-        if (this.nextInstantiationPattern == null) {
+        if (getNextPattern() == null) {
             return currentProcessInstance;
         }
 
-        return this.nextInstantiationPattern.createProcessInstance(patternContext, currentProcessInstance);
+        return getNextPattern().createProcessInstance(patternContext, currentProcessInstance);
     }
 
     /**
@@ -75,7 +67,7 @@ public abstract class AbstractProcessInstantiationPattern implements Instantiati
      * @param patternContext
      *            - a {@link InstantiationPatternContext} that provides information from the pattern invoked before
      * @param previosProcessInstance
-     *            - the {@link AbstractProcessInstance processInstances} from the previous {@link InstantiationPattern
+     *            - the {@link AbstractProcessInstance processInstances} from the previous {@link ProcessInstantiationPattern
      *            patterns}.
      * @return an {@link AbstractProcessInstance}
      * @see ProcessInstantiationPattern#createProcessInstance(AbstractProcessInstance);
