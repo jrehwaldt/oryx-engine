@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.jodaengine.RepositoryService;
 import org.jodaengine.exception.IllegalStarteventException;
-import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
+import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
@@ -65,7 +65,7 @@ public class DeploymentScopeTest extends AbstractJodaEngineTest {
 
         ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID().toString());
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
-        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
+        defBuilder.addActivationPattern(Mockito.mock(ProcessDeActivationPattern.class));
 
         definition = defBuilder.buildDefinition();
         Whitebox.setInternalState(definition, "id", id);

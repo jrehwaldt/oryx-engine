@@ -5,7 +5,7 @@ import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
-import org.jodaengine.process.instantiation.InstantiationPattern;
+import org.jodaengine.process.instantiation.ProcessInstantiationPattern;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
@@ -14,7 +14,7 @@ import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 
 
 /**
- * This pattern encapsulates the default instantiation semantic for BPMN models. This {@link InstantiationPattern
+ * This pattern encapsulates the default instantiation semantic for BPMN models. This {@link ProcessInstantiationPattern
  * instantionPattern} can be used when the {@link ProcessDefinitionInside process
  * definition} has a dedicated start node.
  * 
