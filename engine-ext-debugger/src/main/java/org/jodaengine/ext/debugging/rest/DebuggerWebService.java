@@ -378,7 +378,8 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     
     @Override
     public void setSvgArtifact(ProcessDefinition definition,
-                               String svgArtifact) {
+                               String svgArtifact)
+    throws DefinitionNotFoundException {
         
         this.debugger.setSvgArtifact(definition, svgArtifact);
     }

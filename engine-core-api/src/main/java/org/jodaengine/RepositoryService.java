@@ -136,8 +136,11 @@ public interface RepositoryService extends Service {
      *            the artifact
      * @param definitionID
      *            the id of the definition, in which scope the resource is looked up.
+     * @throws DefinitionNotFoundException
+     *            in case the definition or scope could not be found
      */
-    void addProcessArtifact(@Nonnull AbstractProcessArtifact artifact, @Nonnull ProcessDefinitionID definitionID);
+    void addProcessArtifact(@Nonnull AbstractProcessArtifact artifact, @Nonnull ProcessDefinitionID definitionID)
+    throws DefinitionNotFoundException;
 
     /**
      * Retrieves a certain {@link AbstractProcessArtifact ProcessResource} with the given processResourceID.

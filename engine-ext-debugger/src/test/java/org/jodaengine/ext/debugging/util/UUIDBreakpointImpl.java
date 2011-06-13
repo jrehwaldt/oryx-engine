@@ -16,6 +16,7 @@ import org.jodaengine.process.structure.Node;
  * @since 2011-05-31
  */
 public class UUIDBreakpointImpl extends BreakpointImpl {
+    private static final long serialVersionUID = -8789294418727673126L;
     
     /**
      * Default constructor.

@@ -98,7 +98,6 @@ public class DebuggerTokenListener extends AbstractTokenListener {
                     //
                     // unknown command
                     //
-                    break;
             }
         }
         
@@ -196,7 +195,6 @@ public class DebuggerTokenListener extends AbstractTokenListener {
                     break;
                 default:
                     logger.warn("Released token {} with unknown command {}.", token, command);
-                    break;
             }
         } catch (InterruptedException ie) {
             //

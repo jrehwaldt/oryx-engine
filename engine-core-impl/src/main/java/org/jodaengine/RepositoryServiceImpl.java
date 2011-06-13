@@ -273,9 +273,15 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
     }
 
     @Override
-    public void addProcessArtifact(AbstractProcessArtifact artifact, ProcessDefinitionID definitionID) {
+    public void addProcessArtifact(AbstractProcessArtifact artifact, ProcessDefinitionID definitionID)
+    throws DefinitionNotFoundException {
         
         DeploymentScope scope = scopes.get(definitionID);
+        
+        if (scope == null) {
+            throw new DefinitionNotFoundException(definitionID);
+        }
+        
         scope.addProcessArtifact(artifact);
         
         for (RepositoryDeploymentListener listener: this.getListeners(RepositoryDeploymentListener.class)) {
