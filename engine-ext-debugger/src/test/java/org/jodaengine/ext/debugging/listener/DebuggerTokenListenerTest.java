@@ -20,6 +20,7 @@ import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.debugging.util.DirectlyInterruptingInterrupter;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
+import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
@@ -53,6 +54,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     private DebuggerServiceImpl mockDebuggerWithoutBreakpoint;
     private DebuggerServiceImpl mockDebuggerWithBreakpoint;
     private AbstractProcessInstance mockInstance;
+    private Navigator mockNavigator;
     private Token mockToken;
     private Interrupter mockInterrupter;
     
@@ -93,6 +95,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         // setup clean mocks
         //
         this.mockInterrupter = mock(Interrupter.class);
+        this.mockNavigator = mock(Navigator.class);
         this.mockDebuggerWithBreakpoint = mock(DebuggerServiceImpl.class);
         this.mockDebuggerWithoutBreakpoint = mock(DebuggerServiceImpl.class);
         this.mockToken = mock(Token.class);
@@ -130,8 +133,10 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         //
         // create bounded listeners
         //
-        this.listenerWithBreakpoint = new DebuggerTokenListener(this.mockDebuggerWithBreakpoint);
-        this.listenerWithoutBreakpoint = new DebuggerTokenListener(this.mockDebuggerWithoutBreakpoint);
+        this.listenerWithBreakpoint = new DebuggerTokenListener(this.mockDebuggerWithBreakpoint, this.mockNavigator);
+        this.listenerWithoutBreakpoint = new DebuggerTokenListener(
+            this.mockDebuggerWithoutBreakpoint,
+            this.mockNavigator);
         
     }
     
