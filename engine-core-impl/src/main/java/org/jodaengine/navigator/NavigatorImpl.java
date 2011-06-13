@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryServiceInside;
-import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
@@ -122,7 +121,7 @@ implements Navigator, NavigatorInside, Service {
      * Start. Starts the number of worker thread specified in the NUMBER_OF_NAVIGATOR_THREADS Constant and adds them to
      * the execution threads list.
      * 
-     * @param services the {@link JodaEngine} instance
+     * @param services the {@link JodaEngineServices} instance
      */
     @Override
     public void start(JodaEngineServices services) {
