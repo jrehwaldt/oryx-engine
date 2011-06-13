@@ -27,6 +27,42 @@ $().ready(function() {
         loadInterruptedInstancesOverview();
     });
     
+    $('a.remove-breakpoint').live('click', function(event) {
+        event.preventDefault();
+        var breakpointId = $(event.currentTarget).attr('breakpoint-id');
+        
+        removeBreakpoint(breakpointId, function(breakpointId, removed) {
+            if (removed) {
+                 $(event.currentTarget).trigger('breakpoint-removed:ready', [breakpointId]);
+                 loadProcessDefinitionsOverview();
+                 loadInterruptedInstancesOverview();
+            } else {
+                $(event.currentTarget).trigger('breakpoint-removed:not-found', [breakpointId]);
+            }
+        });
+    });
+    
+    $('a.enable-breakpoint').live('click', function(event) {
+        event.preventDefault();
+        var breakpointId = $(event.currentTarget).attr('breakpoint-id');
+        
+        enableBreakpoint(breakpointId, function(breakpoint) {
+            $(event.currentTarget).trigger('breakpoint-enabled:ready', [breakpoint]);
+            loadProcessDefinitionsOverview();
+            loadInterruptedInstancesOverview();
+        });
+    });
+    
+    $('a.disable-breakpoint').live('click', function(event) {
+        event.preventDefault();
+        var breakpointId = $(event.currentTarget).attr('breakpoint-id');
+        
+        disableBreakpoint(breakpointId, function(breakpoint) {
+            $(event.currentTarget).trigger('breakpoint-disabled:ready', [breakpoint]);
+            loadProcessDefinitionsOverview();
+            loadInterruptedInstancesOverview();
+        });
+    });
 });
 
 /**
@@ -190,9 +226,17 @@ function _resolveSvgNodeIdFromGraph(node, svgNodeId) {
  * @param definition the definition object
  */
 function _generateDefinitionHTML(definition) {
-    return definition.name + '; Version: '
-         + definition.id.version
-         + (definition.description ? '<br/>' + definition.description : '');
+    
+    var result = '';
+    
+    result += '<a href="#" class="show-full-svg-artifact">'
+                + '<img class="svg-artifact" src="/api/debugger/artifacts/' + idToString(definition.id) + '/svg.svg?timestamp=' + new Date().getTime() + '" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
+           +  '</a>'
+           +  '<div title="' + (definition.description ? definition.description : '') + '">'
+           +      definition.name + ' [Version: ' + definition.id.version + ']'
+           +  '</div>';
+    
+    return result;
 }
 
 /**
@@ -218,8 +262,9 @@ function _generateInterruptedInstanceHTML(interruptedInstance) {
  * Generates breakpoint html.
  * 
  * @param breakpoint the breakpoint object
+ * @param showAdditionalControls if true, enable, disable, remove controls ... are shown
  */
-function _generateBreakpointHTML(breakpoint) {
+function _generateBreakpointHTML(breakpoint, showAdditionalControls) {
     
     if (!breakpoint) {
         return '';
@@ -228,16 +273,33 @@ function _generateBreakpointHTML(breakpoint) {
     var nodeDesc = '';
     if (breakpoint.node) {
         var node = breakpoint.node;
-        nodeDesc = 'Node ' + (node.attributes['name'] ? node.attributes['name'] : breakpoint.node.id) + ' '
+        nodeDesc = 'Node: ' + (node.attributes['name'] ? node.attributes['name'] : breakpoint.node.id) + ' '
                  + (node.attributes['type'] ? '[' + node.attributes['type'] + ']' : '');
     }
     
-    var result = (breakpoint.state ? 'State: ' + breakpoint.state + '<br/>' : '')
+    var result = (!breakpoint.enabled ? 'DISABLED' + '<br/>' : '')
+               + (breakpoint.state ? 'State: ' + breakpoint.state + '<br/>' : '')
                + nodeDesc
-               + (breakpoint.condition ? 'Condition: ' + breakpoint.condition.expression + '<br/>' : '')
-               + '<a href="#" class="show-full-svg-artifact">'
+               + (breakpoint.condition ? 'Condition: ' + breakpoint.condition.expression : '') + '<br/>'
+               + '<a href="#" class="show-full-svg-artifact" breakpoint-id="' + breakpoint.id + '">'
                    + '<div rel="#svg-artifact-full-overlay">Show in process definition</div>'
-               + '</a>';
+               + '</a> ';
+    
+    if (showAdditionalControls) {
+        result + '<a href="#" class="remove-breakpoint" breakpoint-id="' + breakpoint.id + '">'
+                   + 'Remove'
+               + '</a> ';
+        
+        if (breakpoint.enabled) {
+           result += '<a href="#" class="disable-breakpoint" breakpoint-id="' + breakpoint.id + '">'
+                      + 'Disable'
+                  + '</a>';
+        } else {
+            result += '<a href="#" class="enable-breakpoint" breakpoint-id="' + breakpoint.id + '">'
+                + 'Enable'
+            + '</a>';
+        }
+    }
     
     return result;
 }

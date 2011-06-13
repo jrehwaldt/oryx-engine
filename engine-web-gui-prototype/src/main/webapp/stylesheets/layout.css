@@ -414,6 +414,9 @@ legend:hover {
 #menu-level-1 .settings {
     background-image: url(../images/layout/icon-settings.png);
 }
+#menu-level-1 .debugger {
+    background-image: url(../images/layout/icon-debugger.png);
+}
 
 #menu-level-2 {
     position: absolute;

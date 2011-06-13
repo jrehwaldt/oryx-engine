@@ -83,4 +83,61 @@ function createNodeBreakpoint(processDefinitionId, nodeId, activityState, juelCo
         },
         data: null
     });
-}
+};
+
+/**
+* Removes a breakpoint
+* 
+* @param breakpointId the breakpoint to remove
+* @param successHandler the anonymous function to call, gets the removed breakpoint id and the removed?-status as #1 and #2 parameter
+*/
+function removeBreakpoint(breakpointId, successHandler) {
+    
+    $.ajax({
+        type: 'DELETE',
+        url: '/api/debugger/breakpoints/' + breakpointId + '/remove',
+        success: function(removed) {
+            if (successHandler)
+                successHandler.apply(null, [breakpointId, removed]);
+        },
+        data: null
+    });
+};
+
+/**
+* Enables a breakpoint
+* 
+* @param breakpointId the breakpoint to enable
+* @param successHandler the anonymous function to call, gets the enabled breakpoint as #1 parameter
+*/
+function enableBreakpoint(breakpointId, successHandler) {
+    
+    $.ajax({
+        type: 'POST',
+        url: '/api/debugger/breakpoints/' + breakpointId + '/enable',
+        success: function(breakpoint) {
+            if (successHandler)
+                successHandler.apply(null, [breakpoint]);
+        },
+        data: null
+    });
+};
+
+/**
+* Disables a breakpoint
+* 
+* @param breakpointId the breakpoint to disable
+* @param successHandler the anonymous function to call, gets the disabled breakpoint as #1 parameter
+*/
+function disableBreakpoint(breakpointId, successHandler) {
+    
+    $.ajax({
+        type: 'POST',
+        url: '/api/debugger/breakpoints/' + breakpointId + '/disable',
+        success: function(breakpoint) {
+            if (successHandler)
+                successHandler.apply(null, [breakpoint]);
+        },
+        data: null
+    });
+};
