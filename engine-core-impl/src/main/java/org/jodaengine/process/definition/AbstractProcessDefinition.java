@@ -39,7 +39,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
 
     @JsonIgnore
     protected ProcessDeActivationPattern firstActivationPattern;
-
+    
     /**
      * Default instantiation.
      * 
