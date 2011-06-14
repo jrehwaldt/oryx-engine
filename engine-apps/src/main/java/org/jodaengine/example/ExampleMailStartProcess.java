@@ -16,9 +16,13 @@ import org.jodaengine.ext.logger.NavigatorListenerLogger;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.process.activation.ProcessDeActivationPattern;
+import org.jodaengine.process.activation.pattern.RegisterAllStartEventPattern;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
+import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.instantiation.pattern.EventBasedInstanceCreationPattern;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,6 +90,12 @@ public final class ExampleMailStartProcess {
             // config,
             // conditions,
             // exampleProcessUUID);
+            
+            StartInstantiationPattern startInstantiationPattern = new EventBasedInstanceCreationPattern();
+            builder.addStartInstantiationPattern(startInstantiationPattern);
+            
+            ProcessDeActivationPattern activationPattern = new RegisterAllStartEventPattern();
+            builder.addActivationPattern(activationPattern);
 
             builder.createStartTrigger(EventTypes.Mail, config, conditions, startNode);
             ProcessDefinition def = builder.buildDefinition();

@@ -1,5 +1,6 @@
 package org.jodaengine.process.definition.bpmn;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,6 @@ import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivationPattern;
 import org.jodaengine.process.definition.AbstractProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.instantiation.pattern.StartNullInstantiationPattern;
@@ -62,6 +62,7 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
                                  ProcessDeActivationPattern startActivationPattern) {
 
         super(id, name, description, startNodes, startInstantiationPattern, startActivationPattern);
+        this.startTriggers = new HashMap<ProcessStartEvent, Node>();
     }
 
     /**
@@ -74,7 +75,6 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
 
     @Override
     public Map<ProcessStartEvent, Node> getStartTriggers() {
-
         return startTriggers;
     }
 

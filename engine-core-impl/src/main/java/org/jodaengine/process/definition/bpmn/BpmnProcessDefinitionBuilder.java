@@ -146,6 +146,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
         return this;
     }
 
+    // TODO @Gerardo: add Activationpattern but it's a DeActivationPattern?
     public BpmnProcessDefinitionBuilder addActivationPattern(ProcessDeActivationPattern activationPattern) {
 
         this.temporaryActivationPatterns.add(activationPattern);
@@ -166,6 +167,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
     }
 
     /**
+     * TODO @Gerardo: WTF really a hell of a comment...
      * This method encapsulates.
      * 
      * @return the {@link BpmnProcessDefinition processDefinition} as result of this builder
