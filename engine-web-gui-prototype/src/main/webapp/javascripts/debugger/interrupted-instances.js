@@ -130,27 +130,12 @@ $().ready(function() {
     svgFrame.live('full-svg-loaded:ready', function(event, definitionId, options) {
         
         var frame = $(this);
-        var instanceId = options.instanceId;
         var interruptedInstanceId = options.interruptedInstanceId;
         var interruptedInstance = options.interruptedInstance;
         
-        //
-        // get the current frame element
-        //
         var currentNode = interruptedInstance.interruptedToken.currentNode;
-        var svgNodeId = currentNode.attributes['idXml'];
-        var svgNodeContainer = $('g[id="svg-' + svgNodeId + '"]', frame);
-        var svgFrameContainer = $('g.me > g[id]', svgNodeContainer);
-        var svgElementId = svgFrameContainer.attr('id');
-        var svgFrameElement = $('*[id="' + svgElementId + 'bg_frame"]', svgNodeContainer);
         
-        //
-        // color orange
-        //
-        svgFrameElement.attr('previous-fill', svgFrameElement.attr('fill'));
-        svgFrameElement.attr('fill', 'orange');
-        svgFrameElement.attr('is-halted', 'true');
-        svgFrameElement.attr('interrupted-instance-id', interruptedInstanceId);
+        highlightCurrentNode(interruptedInstanceId, currentNode, frame);
     });
 });
 
@@ -160,7 +145,34 @@ $().ready(function() {
  * @param interruptedInstanceId the interrupted instance's id
  */
 function showDebugControls(interruptedInstanceId) {
-    $('#control-process-dialog').dialog({
-        model: true
-    });
+//    $('#control-process-dialog').dialog({
+//        model: true
+//    });
 }
+
+/**
+ * Highlights the current node in the svg artifact overlay.
+ * 
+ * @param interruptedInstanceId the interrupted instance's id
+ * @param currentNode the current node to highlight
+ * @param frame the frame with the svg overlay
+ */
+function highlightCurrentNode(interruptedInstanceId, currentNode, frame) {
+    
+    //
+    // get the current frame element
+    //
+    var svgNodeId = currentNode.attributes['idXml'];
+    var svgNodeContainer = $('g[id="svg-' + svgNodeId + '"]', frame);
+    var svgFrameContainer = $('g.me > g[id]', svgNodeContainer);
+    var svgElementId = svgFrameContainer.attr('id');
+    var svgFrameElement = $('*[id="' + svgElementId + 'bg_frame"]', svgNodeContainer);
+    
+    //
+    // color orange
+    //
+    svgFrameElement.attr('previous-fill', svgFrameElement.attr('fill'));
+    svgFrameElement.attr('fill', 'orange');
+    svgFrameElement.attr('is-halted', 'true');
+    svgFrameElement.attr('interrupted-instance-id', interruptedInstanceId);
+};

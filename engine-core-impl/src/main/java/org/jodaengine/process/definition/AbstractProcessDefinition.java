@@ -8,13 +8,13 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.navigator.NavigatorInside;
+import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContextImpl;
-import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instantiation.ProcessInstantiationPattern;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
 import org.jodaengine.process.instantiation.InstantiationPatternContextImpl;
+import org.jodaengine.process.instantiation.ProcessInstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 

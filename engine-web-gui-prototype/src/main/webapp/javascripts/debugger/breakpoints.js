@@ -237,7 +237,7 @@ function refreshDefinitionBreakpoints(definitionId) {
                 var svgNodeId = breakpoint.node.attributes['idXml'];
                 breakpointData += 
                       '<div svg-node-id="' + svgNodeId + '" class="breakpoint" style="padding: 0 0 5px 10px;float: left;">'
-                        + _generateBreakpointHTML(breakpoint)
+                        + _generateBreakpointHTML(breakpoint, true)
                     + '</div>';
             });
         }

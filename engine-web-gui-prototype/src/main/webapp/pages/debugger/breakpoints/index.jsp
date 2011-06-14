@@ -28,11 +28,8 @@
         <table id="definitions-overview" class="breakpoints-overview" width="100%">
             <thead>
                 <tr>
-                    <th class="loading-data">Process Definition</th>
-                    <!--
-                    <th class="loading-data">Breakpoints (SVG-view)</th>
-                    -->
-                    <th class="loading-data">Breakpoints</th>
+                    <th class="loading-data" style="width: 50%">Process Definition</th>
+                    <th class="loading-data" style="width: 50%">Breakpoints</th>
                 </tr>
             </thead>
             <tbody></tbody>

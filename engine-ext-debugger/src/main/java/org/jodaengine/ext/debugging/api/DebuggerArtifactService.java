@@ -34,7 +34,9 @@ public interface DebuggerArtifactService {
      * 
      * @param definition the process definition, the artifact belongs to
      * @param svgArtifact the svg artifact to set
+     * @throws DefinitionNotFoundException in case the definition (scope) could not be found
      */
     void setSvgArtifact(@Nonnull ProcessDefinition definition,
-                        @Nonnull String svgArtifact);
+                        @Nonnull String svgArtifact)
+    throws DefinitionNotFoundException;
 }

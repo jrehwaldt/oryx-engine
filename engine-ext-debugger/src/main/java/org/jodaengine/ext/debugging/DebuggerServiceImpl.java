@@ -290,7 +290,8 @@ public class DebuggerServiceImpl implements DebuggerService, BreakpointService, 
 
     @Override
     public void setSvgArtifact(ProcessDefinition definition,
-                               String svgArtifact) {
+                               String svgArtifact)
+    throws DefinitionNotFoundException {
         
         //
         // add the svg artifact to the repository

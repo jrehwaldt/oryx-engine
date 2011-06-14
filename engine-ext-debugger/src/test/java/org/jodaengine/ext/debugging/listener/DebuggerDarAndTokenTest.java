@@ -24,6 +24,7 @@ import org.jodaengine.ext.debugging.api.NodeBreakpoint;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
+import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.instance.AbstractProcessInstance;
@@ -52,6 +53,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
     private ActivityLifecycleChangeEvent event;
     
     private DebuggerServiceImpl mockDebugger;
+    private Navigator mockNavigator;
     private AbstractProcessInstance mockInstance;
     private Token mockToken;
     
@@ -67,6 +69,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
         // setup clean mocks
         //
         this.mockDebugger = mock(DebuggerServiceImpl.class);
+        this.mockNavigator = mock(Navigator.class);
         this.mockToken = mock(Token.class);
         this.mockInstance = mock(AbstractProcessInstance.class);
         
@@ -83,7 +86,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
         //
         // create bounded listeners
         //
-        this.listener = new DebuggerTokenListener(this.mockDebugger);
+        this.listener = new DebuggerTokenListener(this.mockDebugger, this.mockNavigator);
     }
     
     /**

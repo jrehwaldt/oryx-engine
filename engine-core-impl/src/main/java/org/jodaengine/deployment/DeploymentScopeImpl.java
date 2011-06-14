@@ -1,6 +1,7 @@
 package org.jodaengine.deployment;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
@@ -29,6 +30,13 @@ public class DeploymentScopeImpl implements DeploymentScope {
         // gets the context loader as a parent, so all the org.jodaengine-classes are available to the new class loader.
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         this.classLoader = new CustomClassLoader(loader);
+    }
+    
+    /**
+     * A convenience constructor to create a scope without any initial artifacts and forms.
+     */
+    public DeploymentScopeImpl() {
+        this(new HashMap<String, AbstractProcessArtifact>(), new HashMap<String, AbstractForm>());
     }
 
     @Override

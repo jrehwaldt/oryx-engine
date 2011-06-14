@@ -263,42 +263,75 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
         return this.debugger.createNodeBreakpoint(definition, node, targetActivityState, juelCondition);
     }
 
-    @Path("/breakpoints/remove")
+    /**
+     * Helper method mapping the rest interface to the underlying api.
+     * 
+     * @param dereferencedBreakpointID the target {@link Breakpoint}'s id
+     * @return true, if the breakpoint was removed
+     */
+    @Path("/breakpoints/{breakpoint-id}/remove")
     @DELETE
-    @Override
-    public boolean removeBreakpoint(Breakpoint dereferencedBreakpoint) {
+    public boolean removeBreakpoint(@PathParam("breakpoint-id") UUID dereferencedBreakpointID) {
         
         if (this.debugger == null) {
             throw new ServiceUnavailableException(DebuggerService.class);
         }
         
-        Breakpoint breakpoint = resolver.resolveBreakpoint(dereferencedBreakpoint);
+        Breakpoint breakpoint = resolver.resolveBreakpoint(dereferencedBreakpointID);
+        return removeBreakpoint(breakpoint);
+    }
+
+    @Override
+    public boolean removeBreakpoint(Breakpoint breakpoint) {
+        
         return this.debugger.removeBreakpoint(breakpoint);
     }
 
-    @Path("/breakpoints/enable")
+    /**
+     * Helper method mapping the rest interface to the underlying api.
+     * 
+     * @param dereferencedBreakpointID the target {@link Breakpoint}'s id
+     * @return the enabled breakpoint
+     */
+    @Path("/breakpoints/{breakpoint-id}/enable")
     @POST
-    @Override
-    public Breakpoint enableBreakpoint(Breakpoint dereferencedBreakpoint) {
+    public Breakpoint enableBreakpoint(@PathParam("breakpoint-id") UUID dereferencedBreakpointID) {
         
         if (this.debugger == null) {
             throw new ServiceUnavailableException(DebuggerService.class);
         }
         
-        Breakpoint breakpoint = this.resolver.resolveBreakpoint(dereferencedBreakpoint);
+        Breakpoint breakpoint = resolver.resolveBreakpoint(dereferencedBreakpointID);
+        return enableBreakpoint(breakpoint);
+    }
+    
+    @Override
+    public Breakpoint enableBreakpoint(Breakpoint breakpoint) {
+        
         return this.debugger.enableBreakpoint(breakpoint);
     }
 
-    @Path("/breakpoints/disable")
+    /**
+     * Helper method mapping the rest interface to the underlying api.
+     * 
+     * @param dereferencedBreakpointID the target {@link Breakpoint}'s id
+     * @return the enabled breakpoint
+     */
+    @Path("/breakpoints/{breakpoint-id}/disable")
     @POST
-    @Override
-    public Breakpoint disableBreakpoint(Breakpoint dereferencedBreakpoint) {
+    public Breakpoint disableBreakpoint(@PathParam("breakpoint-id") UUID dereferencedBreakpointID) {
         
         if (this.debugger == null) {
             throw new ServiceUnavailableException(DebuggerService.class);
         }
         
-        Breakpoint breakpoint = this.resolver.resolveBreakpoint(dereferencedBreakpoint);
+        Breakpoint breakpoint = resolver.resolveBreakpoint(dereferencedBreakpointID);
+        return disableBreakpoint(breakpoint);
+    }
+    
+    @Override
+    public Breakpoint disableBreakpoint(Breakpoint breakpoint) {
+        
         return this.debugger.disableBreakpoint(breakpoint);
     }
     
@@ -378,7 +411,8 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
     
     @Override
     public void setSvgArtifact(ProcessDefinition definition,
-                               String svgArtifact) {
+                               String svgArtifact)
+    throws DefinitionNotFoundException {
         
         this.debugger.setSvgArtifact(definition, svgArtifact);
     }

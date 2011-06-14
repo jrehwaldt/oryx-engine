@@ -20,5 +20,23 @@ table.svg-overview img.svg-artifact {
 }
 table.breakpoints-overview img.svg-artifact,
 table.interrupted-instances-overview img.svg-artifact {
-    max-width: 200px;
+    max-width: 500px;
+}
+
+.breakpoint-cell .breakpoint {
+    border-bottom: 1px solid #DDD;
+    padding: 5px;
+    float: left;
+    width: 99%;
+}
+
+.matching-breakpoint-cell > a,
+.breakpoint > a {
+    padding-right: 15px;
+    display: block;
+    float: left;
+}
+
+a.show-full-svg-artifact > div {
+    display: inline;
 }

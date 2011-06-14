@@ -26,8 +26,8 @@
         <table id="definitions-overview" class="svg-overview" width="100%">
             <thead>
                 <tr>
-                    <th class="loading-data">Process Definition</th>
-                    <th class="loading-data">SVG Artifact</th>
+                    <th class="loading-data" style="width: 50%">Process Definition</th>
+                    <th class="loading-data" style="width: 50%">Controls</th>
                 </tr>
             </thead>
             <tbody></tbody>
