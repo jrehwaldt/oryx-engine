@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 /**
  * A concrete implementation of our engines Event Manager.
  */
-public class EventManager implements EventSubscriptionManager, AdapterManagement, Service {
+public class EventManager implements EventSubscriptionManager, AdapterManagement, Service, SendEvents {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -116,7 +116,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
 
         if (correlatingAdapter instanceof IncomingPullAdapter) {
             IncomingPullAdapter incomingPullAdapter = (IncomingPullAdapter) correlatingAdapter;
-            unregisterInboundPullAdapterAtJobManager(incomingPullAdapter);
+            unregisterIncomingPullAdapterAtJobManager(incomingPullAdapter);
         }
     }
 
@@ -173,7 +173,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     }
 
     // ==== AdapterMangement ====
-    // TODO @EVENTMANAGERTEAM: registerAdapter and registerInboundAdapter is basically the same + why not register
+    // TODO @EVENTMANAGERTEAM: registerAdapter and registerIncomingAdapter is basically the same + why not register
     // Adapters for adapter configurations?.
     @Override
     public EventAdapter registerAdapter(EventAdapter adapter) {
@@ -183,14 +183,14 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     }
 
     @Override
-    public IncomingAdapter registerInboundAdapter(IncomingAdapter incomingAdapter) {
+    public IncomingAdapter registerIncomingAdapter(IncomingAdapter incomingAdapter) {
 
         addToEventAdapters(incomingAdapter);
         return incomingAdapter;
     }
 
     @Override
-    public IncomingPullAdapter registerInboundPullAdapter(IncomingPullAdapter incomingPullAdapter) {
+    public IncomingPullAdapter registerIncomingPullAdapter(IncomingPullAdapter incomingPullAdapter) {
 
         // if the the Event Adapter has to be added to the list, we also need to register it with the timing manager
         // otherwise a registration at the timing manager should already be present.
@@ -212,7 +212,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
 
         try {
 
-            timingManager.registerJobForInboundPullAdapter(incomingPullAdapter);
+            timingManager.registerJobForIncomingPullAdapter(incomingPullAdapter);
 
         } catch (AdapterSchedulingException adapterSchedulingException) {
             String errorMessage = "An exception occurred while registering a QuartzJob for the adapter '"
@@ -228,11 +228,11 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
      * @param incomingPullAdapter
      *            - the {@link IncomingPullAdapter} to unregister
      */
-    private void unregisterInboundPullAdapterAtJobManager(IncomingPullAdapter incomingPullAdapter) {
+    private void unregisterIncomingPullAdapterAtJobManager(IncomingPullAdapter incomingPullAdapter) {
 
         try {
 
-            timingManager.unregisterJobForInboundPullAdapter(incomingPullAdapter);
+            timingManager.unregisterJobForIncomingPullAdapter(incomingPullAdapter);
 
         } catch (AdapterSchedulingException aSE) {
             String errorMessage = "An exception occurred while registering a QuartzJob for the adapter '"
@@ -260,5 +260,12 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
             this.eventAdapters = new HashMap<AdapterConfiguration, EventAdapter>();
         }
         return eventAdapters;
+    }
+
+    @Override
+    public void sendMessageFromAdapter(String message, AdapterConfiguration adapterConfiguration) {
+
+        // TODO Auto-generated method stub
+        
     }
 }

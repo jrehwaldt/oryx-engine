@@ -32,7 +32,7 @@ public interface AdapterManagement {
      * @return the registered {@link IncomingAdapter}
      */
     @Nonnull
-    IncomingAdapter registerInboundAdapter(@Nonnull IncomingAdapter adapter);
+    IncomingAdapter registerIncomingAdapter(@Nonnull IncomingAdapter adapter);
 
     /**
      * A call to this method registers the corresponding adapter.
@@ -42,7 +42,7 @@ public interface AdapterManagement {
      * @return the registered {@link IncomingPullAdapter}
      */
     @Nonnull
-    IncomingPullAdapter registerInboundPullAdapter(@Nonnull IncomingPullAdapter adapter);
+    IncomingPullAdapter registerIncomingPullAdapter(@Nonnull IncomingPullAdapter adapter);
 
     /**
      * Gets the timer.
