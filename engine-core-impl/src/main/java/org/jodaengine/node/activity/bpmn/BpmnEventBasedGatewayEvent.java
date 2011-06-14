@@ -28,7 +28,7 @@ public interface BpmnEventBasedGatewayEvent {
      *            - the {@link Token} that is used in order to build the {@link IncomingIntermediateProcessEvent}
      * @param eventGroup
      *            - if the {@link IncomingIntermediateProcessEvent} is connected to another {@link IncomingProcessEvent} than a
-     *            {@link AbstractProcessIntermediateEventGroup} can be used to specify that connection
+     *            {@link AbstractIntermediateProcessEventGroup} can be used to specify that connection
      * @return a specific {@link IncomingIntermediateProcessEvent}
      */
     IncomingIntermediateProcessEvent createProcessIntermediateEventForEventGroup(Token token, TriggeringBehaviour eventGroup);

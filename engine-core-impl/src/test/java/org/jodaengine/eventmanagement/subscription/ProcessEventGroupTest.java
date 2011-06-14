@@ -4,7 +4,7 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.AbstractProcessIntermediateEventGroup;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.AbstractIntermediateProcessEventGroup;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.ExclusiveProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.processevent.intermediate.ProcessIntermediateManualTriggeringEvent;
 import org.jodaengine.process.token.Token;
@@ -33,7 +33,7 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
 
         token = Mockito.mock(Token.class);
 
-        AbstractProcessIntermediateEventGroup eventGroup = new ExclusiveProcessEventGroup(token);
+        AbstractIntermediateProcessEventGroup eventGroup = new ExclusiveProcessEventGroup(token);
 
         intermediateEvent1 = new ProcessIntermediateManualTriggeringEvent("manualTrigger1", token, eventGroup);
         intermediateEvent2 = new ProcessIntermediateManualTriggeringEvent("manualTrigger2", token, eventGroup);
@@ -58,7 +58,7 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
     }
 
     /**
-     * Tests that after an {@link IncomingProcessEvent} of the {@link AbstractProcessIntermediateEventGroup} is triggered that all other
+     * Tests that after an {@link IncomingProcessEvent} of the {@link AbstractIntermediateProcessEventGroup} is triggered that all other
      * {@link IncomingProcessEvent processEvents} are unsubscribed.
      */
     @Test
@@ -80,7 +80,7 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
     }
 
     /**
-     * Tests that two {@link IncomingProcessEvent}s belonging to a {@link AbstractProcessIntermediateEventGroup} are triggered one after another.
+     * Tests that two {@link IncomingProcessEvent}s belonging to a {@link AbstractIntermediateProcessEventGroup} are triggered one after another.
      * The second call should be ignored.
      */
     @Test

@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class groups several events together to a logical unit. If the {@link IncomingProcessEvent} is connected to another
- * {@link IncomingProcessEvent} than a {@link AbstractProcessIntermediateEventGroup} can be used to specify that connection.
+ * {@link IncomingProcessEvent} than a {@link AbstractIntermediateProcessEventGroup} can be used to specify that connection.
  */
-public abstract class AbstractProcessIntermediateEventGroup implements TriggeringBehaviour {
+public abstract class AbstractIntermediateProcessEventGroup implements TriggeringBehaviour {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -27,7 +27,7 @@ public abstract class AbstractProcessIntermediateEventGroup implements Triggerin
      * 
      * @param token
      */
-    protected AbstractProcessIntermediateEventGroup(Token token) {
+    protected AbstractIntermediateProcessEventGroup(Token token) {
 
         this.token = token;
     }
@@ -64,7 +64,7 @@ public abstract class AbstractProcessIntermediateEventGroup implements Triggerin
     protected abstract void triggerIntern(IncomingIntermediateProcessEvent processIntermediateEvent);
 
     /**
-     * Getter for Lazy initialized {@link AbstractProcessIntermediateEventGroup#intermediateEvents}.
+     * Getter for Lazy initialized {@link AbstractIntermediateProcessEventGroup#intermediateEvents}.
      * 
      * @return a {@link List} of {@link IncomingIntermediateProcessEvent}s
      */

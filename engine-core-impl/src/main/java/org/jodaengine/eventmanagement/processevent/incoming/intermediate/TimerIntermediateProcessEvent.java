@@ -6,25 +6,25 @@ import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.Tru
 import org.jodaengine.process.token.Token;
 
 /**
- * The Class {@link TimerProcessIntermediateEvent}.
+ * The Class {@link TimerIntermediateProcessEvent}.
  */
-public class TimerProcessIntermediateEvent extends AbstractIncomingProcessIntermediateEvent {
+public class TimerIntermediateProcessEvent extends AbstractIncomingIntermediateProcessEvent {
 
     /**
-     * Instantiates a new {@link TimerProcessIntermediateEvent}.
+     * Instantiates a new {@link TimerIntermediateProcessEvent}.
      * 
      * @param eventWaitingTime
      *            - the time the event is supposed to trigger
      * @param token
      *            - the process token
      */
-    public TimerProcessIntermediateEvent(long eventWaitingTime, Token token) {
+    public TimerIntermediateProcessEvent(long eventWaitingTime, Token token) {
 
         super(new TimerAdapterConfiguration(eventWaitingTime), token);
     }
 
     /**
-     * Default Constructor for this event that belongs to a {@link AbstractProcessIntermediateEventGroup}.
+     * Default Constructor for this event that belongs to a {@link AbstractIntermediateProcessEventGroup}.
      * 
      * @param eventWaitingTime
      *            - the time the event is supposed to trigger
@@ -32,9 +32,9 @@ public class TimerProcessIntermediateEvent extends AbstractIncomingProcessInterm
      *            - the {@link Token} that registered this event.
      * @param eventGroup
      *            - if this {@link IncomingIntermediateProcessEvent} is related to other {@link IncomingIntermediateProcessEvent} then
-     *            the {@link AbstractProcessIntermediateEventGroup} can be specified here
+     *            the {@link AbstractIntermediateProcessEventGroup} can be specified here
      */
-    public TimerProcessIntermediateEvent(long eventWaitingTime, Token token, TriggeringBehaviour eventGroup) {
+    public TimerIntermediateProcessEvent(long eventWaitingTime, Token token, TriggeringBehaviour eventGroup) {
 
         super(new TimerAdapterConfiguration(eventWaitingTime), new TrueEventCondition(), token, eventGroup);
     }

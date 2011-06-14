@@ -12,7 +12,7 @@ import org.jodaengine.process.token.Token;
  * This represents a {@link TriggeringBehaviour} that a soon a {@link IncomingProcessEvent} of this group is triggered this
  * group will unregister all other {@link IncomingProcessEvent} that are in this group.
  */
-public class ExclusiveProcessEventGroup extends AbstractProcessIntermediateEventGroup {
+public class ExclusiveProcessEventGroup extends AbstractIntermediateProcessEventGroup {
 
     /**
      * Default Constructor this {@link ExclusiveProcessEventGroup}.

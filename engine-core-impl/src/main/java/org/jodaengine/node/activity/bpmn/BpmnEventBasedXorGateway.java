@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.AbstractProcessIntermediateEventGroup;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.AbstractIntermediateProcessEventGroup;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.ExclusiveProcessEventGroup;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.structure.ControlFlow;
@@ -27,7 +27,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
 
         List<IncomingIntermediateProcessEvent> registeredIntermediateEvents = new ArrayList<IncomingIntermediateProcessEvent>();
 
-        AbstractProcessIntermediateEventGroup eventXorGroup = new ExclusiveProcessEventGroup(token);
+        AbstractIntermediateProcessEventGroup eventXorGroup = new ExclusiveProcessEventGroup(token);
 
         for (ControlFlow controlFlow : token.getCurrentNode().getOutgoingControlFlows()) {
             Node node = controlFlow.getDestination();
