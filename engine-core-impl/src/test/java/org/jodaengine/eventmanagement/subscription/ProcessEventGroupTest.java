@@ -3,9 +3,9 @@ package org.jodaengine.eventmanagement.subscription;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.AbstractProcessIntermediateEventGroup;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.ExclusiveProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.processevent.intermediate.ProcessIntermediateManualTriggeringEvent;
-import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
-import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.ExclusiveProcessEventGroup;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;
@@ -57,8 +57,8 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
     }
 
     /**
-     * Tests that after an {@link ProcessEvent} of the {@link AbstractProcessIntermediateEventGroup} is triggered that all other
-     * {@link ProcessEvent processEvents} are unsubscribed.
+     * Tests that after an {@link IntermediateProcessEvent} of the {@link AbstractProcessIntermediateEventGroup} is triggered that all other
+     * {@link IntermediateProcessEvent processEvents} are unsubscribed.
      */
     @Test
     public void testUnsubscriptionOfOtherProcessEvents() {
@@ -79,7 +79,7 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
     }
 
     /**
-     * Tests that two {@link ProcessEvent}s belonging to a {@link AbstractProcessIntermediateEventGroup} are triggered one after another.
+     * Tests that two {@link IntermediateProcessEvent}s belonging to a {@link AbstractProcessIntermediateEventGroup} are triggered one after another.
      * The second call should be ignored.
      */
     @Test

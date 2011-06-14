@@ -3,17 +3,18 @@ package org.jodaengine.eventmanagement.subscription.processevent.intermediate;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapterConfiguration;
-import org.jodaengine.eventmanagement.subscription.ProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.AbstractIncomingProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.AbstractProcessIntermediateEventGroup;
+import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
-import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
-import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
 import org.jodaengine.process.token.Token;
 
 /**
- * It is a {@link ProcessEvent} that can only be triggered manually and not automatically.
+ * It is a {@link IntermediateProcessEvent} that can only be triggered manually and not automatically.
  */
-public class ProcessIntermediateManualTriggeringEvent extends AbstractProcessIntermediateEvent {
+public class ProcessIntermediateManualTriggeringEvent extends AbstractIncomingProcessIntermediateEvent {
 
     /**
      * Default Constructor.

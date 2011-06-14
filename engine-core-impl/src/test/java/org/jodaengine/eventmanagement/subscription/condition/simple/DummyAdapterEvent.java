@@ -2,6 +2,7 @@ package org.jodaengine.eventmanagement.subscription.condition.simple;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
 
 /**
  * Only a dummy {@link AdapterEvent} for the {@link MethodInvokingEventConditionTest}.

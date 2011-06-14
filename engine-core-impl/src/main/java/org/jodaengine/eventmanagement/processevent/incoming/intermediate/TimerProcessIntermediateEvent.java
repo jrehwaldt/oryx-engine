@@ -1,15 +1,16 @@
-package org.jodaengine.eventmanagement.subscription.processevent.intermediate;
+package org.jodaengine.eventmanagement.processevent.incoming.intermediate;
 
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.timer.TimerAdapterConfiguration;
-import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
-import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
+import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.process.token.Token;
 
 /**
  * The Class {@link TimerProcessIntermediateEvent}.
  */
-public class TimerProcessIntermediateEvent extends AbstractProcessIntermediateEvent {
+public class TimerProcessIntermediateEvent extends AbstractIncomingProcessIntermediateEvent {
 
     /**
      * Instantiates a new {@link TimerProcessIntermediateEvent}.

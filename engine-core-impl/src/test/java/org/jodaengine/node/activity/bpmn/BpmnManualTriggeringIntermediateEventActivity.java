@@ -3,16 +3,16 @@ package org.jodaengine.node.activity.bpmn;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
-import org.jodaengine.eventmanagement.subscription.ProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.subscription.processevent.intermediate.ProcessIntermediateManualTriggeringEvent;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
 
 /**
- * This {@link BpmnManualTriggeringIntermediateEventActivity} is an activity that registers a {@link ProcessEvent} that
+ * This {@link BpmnManualTriggeringIntermediateEventActivity} is an activity that registers a {@link IntermediateProcessEvent} that
  * should be triggered manually.
  */
 public class BpmnManualTriggeringIntermediateEventActivity extends AbstractActivity implements

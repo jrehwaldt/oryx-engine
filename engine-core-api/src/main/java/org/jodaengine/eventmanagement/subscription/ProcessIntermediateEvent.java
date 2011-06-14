@@ -8,7 +8,7 @@ import org.jodaengine.process.token.Token;
  * instantiation of a new process, but a notification to a registered process instance will be sent.
  * 
  */
-public interface ProcessIntermediateEvent extends ProcessEvent {
+public interface ProcessIntermediateEvent extends IntermediateProcessEvent {
 
     /**
      * Gets the assigned token that has be notified if timer is complete.

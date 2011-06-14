@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.subscription.condition.complex;
+package org.jodaengine.eventmanagement.processevent.incoming.condition.complex;
 
 import java.util.ArrayList;
 import java.util.List;

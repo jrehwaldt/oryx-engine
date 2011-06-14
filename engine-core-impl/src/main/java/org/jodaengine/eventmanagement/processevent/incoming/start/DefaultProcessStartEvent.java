@@ -1,10 +1,10 @@
-package org.jodaengine.eventmanagement.subscription.processevent.start;
+package org.jodaengine.eventmanagement.processevent.incoming.start;
 
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.processevent.incoming.AbstractIncomingProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
-import org.jodaengine.eventmanagement.subscription.processevent.AbstractProcessEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.navigator.Navigator;
@@ -13,7 +13,7 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
 /**
  * The Class StartEventImpl. Have a look at {@link ProcessStartEvent}.
  */
-public class DefaultProcessStartEvent extends AbstractProcessEvent implements ProcessStartEvent {
+public class DefaultProcessStartEvent extends AbstractIncomingProcessEvent implements ProcessStartEvent {
 
     private ProcessDefinitionID definitionID;
     private Navigator navigator;

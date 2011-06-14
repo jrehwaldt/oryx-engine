@@ -1,7 +1,7 @@
-package org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate;
+package org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup;
 
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
 import org.jodaengine.process.token.Token;
 
 /**

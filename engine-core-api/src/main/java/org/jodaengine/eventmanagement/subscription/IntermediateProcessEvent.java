@@ -1,7 +1,6 @@
 package org.jodaengine.eventmanagement.subscription;
 
-import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.processevent.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.condition.AdapterEventComparable;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 
@@ -11,15 +10,7 @@ import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
  * 
  * Could extend Attributable!!!
  */
-public interface ProcessEvent extends AdapterEventComparable {
-
-    /**
-     * Gets the adapter configuration.
-     * 
-     * @return the adapter configuration
-     */
-
-    AdapterConfiguration getAdapterConfiguration();
+public interface IntermediateProcessEvent extends ProcessEvent, AdapterEventComparable {
 
     /**
      * Gets the conditions.
@@ -29,8 +20,8 @@ public interface ProcessEvent extends AdapterEventComparable {
     EventCondition getCondition();
 
     /**
-     * In case an {@link AdapterEvent} matches to this {@link ProcessEvent}, this means that an event occurred for this
-     * {@link ProcessEvent} and that it can be triggered.
+     * In case an {@link AdapterEvent} matches to this {@link IntermediateProcessEvent}, this means that an event
+     * occurred for this {@link IntermediateProcessEvent} and that it can be triggered.
      */
     void trigger();
 }

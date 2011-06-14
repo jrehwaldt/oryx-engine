@@ -1,18 +1,18 @@
-package org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate;
+package org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jodaengine.eventmanagement.subscription.ProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class groups several events together to a logical unit. If the {@link ProcessEvent} is connected to another
- * {@link ProcessEvent} than a {@link AbstractProcessIntermediateEventGroup} can be used to specify that connection.
+ * This class groups several events together to a logical unit. If the {@link IntermediateProcessEvent} is connected to another
+ * {@link IntermediateProcessEvent} than a {@link AbstractProcessIntermediateEventGroup} can be used to specify that connection.
  */
 public abstract class AbstractProcessIntermediateEventGroup implements TriggeringBehaviour {
 
@@ -44,7 +44,7 @@ public abstract class AbstractProcessIntermediateEventGroup implements Triggerin
     }
 
     @Override
-    public synchronized void trigger(ProcessEvent processEvent) {
+    public synchronized void trigger(IntermediateProcessEvent processEvent) {
 
         // If it was already called then then leave right now
         if (called) {
@@ -55,7 +55,7 @@ public abstract class AbstractProcessIntermediateEventGroup implements Triggerin
     }
 
     /**
-     * If an {@link ProcessEvent} that belongs to that {@link TriggeringBehaviour} is triggered than this method is
+     * If an {@link IntermediateProcessEvent} that belongs to that {@link TriggeringBehaviour} is triggered than this method is
      * called.
      * 
      * @param processIntermediateEvent

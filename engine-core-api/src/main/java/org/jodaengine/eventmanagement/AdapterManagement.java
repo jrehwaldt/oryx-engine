@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
-import org.jodaengine.eventmanagement.subscription.ProcessEvent;
+import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 
 
@@ -51,10 +51,4 @@ public interface AdapterManagement {
      */
     TimingManager getTimer();
 
-    /**
-     * Provides information about the assigned {@link EventCorrelator}.
-     * 
-     * @return a {@link EventCorrelator} that is able to correlate {@link ProcessEvent}s with {@link AdapterEvent}s
-     */
-    EventCorrelator getEventCorrelator();
 }

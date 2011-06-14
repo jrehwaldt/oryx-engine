@@ -15,9 +15,10 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.adapter.mail.MailProtocol;
+import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
+import org.jodaengine.eventmanagement.processevent.incoming.start.DefaultProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
-import org.jodaengine.eventmanagement.subscription.condition.simple.MethodInvokingEventCondition;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.factory.definition.SimpleProcessDefinitionFactory;

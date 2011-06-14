@@ -1,22 +1,23 @@
-package org.jodaengine.eventmanagement.subscription.processevent.intermediate;
+package org.jodaengine.eventmanagement.processevent.incoming.intermediate;
 
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.processevent.incoming.AbstractIncomingProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.DefaultTokenResumption;
+import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
-import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
-import org.jodaengine.eventmanagement.subscription.processevent.AbstractProcessEvent;
-import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.DefaultTokenResumption;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 /**
  * This is the base implementation for all {@link ProcessIntermediateEvent}s.
  */
-public abstract class AbstractProcessIntermediateEvent extends AbstractProcessEvent 
+public abstract class AbstractIncomingProcessIntermediateEvent extends AbstractIncomingProcessEvent 
     implements ProcessIntermediateEvent {
 
     protected Token token;
@@ -30,16 +31,16 @@ public abstract class AbstractProcessIntermediateEvent extends AbstractProcessEv
      * It only predefines a default {@link EventCondition} which is the {@link TrueEventCondition}.
      * 
      * @param type
-     *            the type of this {@link ProcessEvent}
+     *            the type of this {@link IntermediateProcessEvent}
      * @param config
      *            - the {@link AdapterConfiguration configuration of the adapter} corresponding to this
      * @param token
      *            - the {@link Token processToken}
      * 
-     * @see AbstractProcessIntermediateEvent#AbstractProcessIntermediateEvent(EventType, AdapterConfiguration,
+     * @see AbstractIncomingProcessIntermediateEvent#AbstractProcessIntermediateEvent(EventType, AdapterConfiguration,
      *      EventCondition, Token)
      */
-    protected AbstractProcessIntermediateEvent(EventType type, AdapterConfiguration config, Token token) {
+    protected AbstractIncomingProcessIntermediateEvent(EventType type, AdapterConfiguration config, Token token) {
 
         this(type, config, new TrueEventCondition(), token);
     }
@@ -50,18 +51,18 @@ public abstract class AbstractProcessIntermediateEvent extends AbstractProcessEv
      * It only predefines a default {@link AbstractProcessIntermediateEventGroup}.
      * 
      * @param type
-     *            the type of this {@link ProcessEvent}
+     *            the type of this {@link IntermediateProcessEvent}
      * @param config
      *            - the {@link AdapterConfiguration configuration of the adapter} corresponding to this
      * @param condition
-     *            - the conditions of this {@link ProcessEvent}
+     *            - the conditions of this {@link IntermediateProcessEvent}
      * @param token
      *            - the {@link Token processToken}F
      * 
-     * @see AbstractProcessIntermediateEvent#AbstractProcessIntermediateEvent(EventType, AdapterConfiguration,
+     * @see AbstractIncomingProcessIntermediateEvent#AbstractProcessIntermediateEvent(EventType, AdapterConfiguration,
      *      EventCondition, Token, AbstractProcessIntermediateEventGroup)
      */
-    protected AbstractProcessIntermediateEvent(EventType type,
+    protected AbstractIncomingProcessIntermediateEvent(EventType type,
                                                AdapterConfiguration config,
                                                EventCondition condition,
                                                Token token) {
@@ -73,17 +74,17 @@ public abstract class AbstractProcessIntermediateEvent extends AbstractProcessEv
      * Default constructor.
      * 
      * @param type
-     *            the type of this {@link ProcessEvent}
+     *            the type of this {@link IntermediateProcessEvent}
      * @param config
      *            - the {@link AdapterConfiguration configuration of the adapter} corresponding to this
      * @param condition
-     *            - the conditions of this {@link ProcessEvent}
+     *            - the conditions of this {@link IntermediateProcessEvent}
      * @param token
      *            - the {@link Token processToken}
      * @param parentEventGroup
-     *            the {@link AbstractProcessIntermediateEventGroup} this {@link ProcessEvent} belongs to
+     *            the {@link AbstractProcessIntermediateEventGroup} this {@link IntermediateProcessEvent} belongs to
      */
-    protected AbstractProcessIntermediateEvent(EventType type,
+    protected AbstractIncomingProcessIntermediateEvent(EventType type,
                                                AdapterConfiguration config,
                                                EventCondition condition,
                                                Token token,

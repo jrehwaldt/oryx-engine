@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.subscription.condition.simple;
+package org.jodaengine.eventmanagement.processevent.incoming.condition.simple;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

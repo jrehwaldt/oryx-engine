@@ -12,7 +12,7 @@ import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
-import org.jodaengine.eventmanagement.subscription.ProcessEvent;
+import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
 import org.jodaengine.eventmanagement.timing.QuartzJobManager;
@@ -156,7 +156,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
      *            the process event
      * @return the adapter for the process event
      */
-    private AbstractCorrelatingEventAdapter<?> getAdapterForProcessEvent(ProcessEvent processEvent) {
+    private AbstractCorrelatingEventAdapter<?> getAdapterForProcessEvent(IntermediateProcessEvent processEvent) {
 
         AbstractCorrelatingEventAdapter<?> eventAdapter = (AbstractCorrelatingEventAdapter<?>) getEventAdapters().get(
             processEvent.getAdapterConfiguration());
@@ -246,13 +246,6 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     public TimingManager getTimer() {
 
         return timingManager;
-    }
-
-    @Override
-    public EventCorrelator getEventCorrelator() {
-
-        // TODO @EVENTTEAM: lol empty wtf is this srsly? GEEERAARRDOOO???
-        return null;
     }
 
     // === Getter ===
