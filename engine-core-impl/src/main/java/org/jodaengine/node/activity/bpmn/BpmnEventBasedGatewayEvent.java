@@ -1,9 +1,7 @@
 package org.jodaengine.node.activity.bpmn;
 
-import org.jodaengine.eventmanagement.subscription.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
-import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
 import org.jodaengine.process.token.Token;
 
 /**

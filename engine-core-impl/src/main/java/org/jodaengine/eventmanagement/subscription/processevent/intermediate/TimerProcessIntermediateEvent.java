@@ -2,10 +2,8 @@ package org.jodaengine.eventmanagement.subscription.processevent.intermediate;
 
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.timer.TimerAdapterConfiguration;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.subscription.condition.simple.TrueEventCondition;
-import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
 import org.jodaengine.process.token.Token;
 
 /**

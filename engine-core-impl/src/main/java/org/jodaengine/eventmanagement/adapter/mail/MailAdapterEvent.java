@@ -38,10 +38,6 @@ public class MailAdapterEvent extends AbstractAdapterEvent {
      *            the adapter's {@link AdapterConfiguration}.
      * @param message
      *            the email {@link Message} object
-     * @throws MessagingException
-     *             thrown if parseContent throws exception
-     * @throws IOException
-     *             thrown if parseContent throws exception
      */
     public MailAdapterEvent(@Nonnull AdapterConfiguration configuration, @Nonnull Message message) {
 
