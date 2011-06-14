@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.processevent.incoming.intermediate;
+package org.jodaengine.eventmanagement.processevent.incoming;
 
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.navigator.Navigator;

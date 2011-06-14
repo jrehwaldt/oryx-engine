@@ -1,6 +1,7 @@
 package org.jodaengine.node.activity.custom;
 
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.eventmanagement.SendEvents;
 import org.jodaengine.eventmanagement.adapter.twitter.OutgoingTwitterSingleAccountTweetAdapterConfiguration;
 import org.jodaengine.eventmanagement.processevent.ProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
@@ -25,12 +26,10 @@ public class TweetActivity extends AbstractActivity {
 
         EventSubscriptionManager eventManager = token.getCorrelationService();
 
-        OutgoingProcessEvent processEvent = createOutgoingIntermediateProcessEvent();
+        OutgoingTweetEvent processEvent = createOutgoingIntermediateProcessEvent();
 
-        eventManager.registerIncomingIntermediateEvent(processEvent);
-
-        token.suspend();
-
+        SendEvents bla = (SendEvents) token.getCorrelationService();
+        bla.sendMessageFromAdapter("Found me you have. But more work to do you have. Sleep now, you must.", processEvent);
     }
     
     /**
@@ -38,7 +37,7 @@ public class TweetActivity extends AbstractActivity {
      *
      * @return the process event
      */
-    private OutgoingProcessEvent createOutgoingIntermediateProcessEvent() {
+    private OutgoingTweetEvent createOutgoingIntermediateProcessEvent() {
         return new OutgoingTweetEvent(new OutgoingTwitterSingleAccountTweetAdapterConfiguration(PATH_TO_TWITTERCONFIG));
     }
 

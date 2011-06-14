@@ -6,14 +6,17 @@ import java.util.Map;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
+import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
+import org.jodaengine.eventmanagement.adapter.twitter.OutgoingTwitterSingleAccountTweetAdapter;
+import org.jodaengine.eventmanagement.processevent.ProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.eventmanagement.timing.QuartzJobManager;
 import org.jodaengine.eventmanagement.timing.TimingManager;
@@ -21,6 +24,8 @@ import org.jodaengine.exception.AdapterSchedulingException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import twitter4j.TwitterException;
 
 /**
  * A concrete implementation of our engines Event Manager.
@@ -40,7 +45,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     private ErrorAdapter errorAdapter;
 
     private boolean running = false;
-    
+
     private JodaEngineServices services;
 
     /**
@@ -58,7 +63,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
 
         logger.info("Starting the Event Manager.");
         registerAdapter(this.errorAdapter);
-        
+
         this.services = services;
 
         timingManager.start();
@@ -89,14 +94,14 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
 
         // startEvents need the NavigatorService in order to start a process instance
         startEvent.injectNavigatorService(services.getNavigatorService());
-        AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(startEvent);
+        AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(startEvent);
         correlatingAdapter.registerStartEvent(startEvent);
     }
 
     @Override
     public void registerIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
-        AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(intermediateEvent);
+        AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(intermediateEvent);
         correlatingAdapter.registerIncomingIntermediateEvent(intermediateEvent);
     }
 
@@ -104,14 +109,14 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     @Override
     public void unsubscribeFromStartEvent(ProcessStartEvent startEvent) {
 
-        AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(startEvent);
+        AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(startEvent);
         correlatingAdapter.unsubscribeFromStartEvent(startEvent);
     }
 
     @Override
     public void unsubscribeFromIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
-        AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(intermediateEvent);
+        AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(intermediateEvent);
         correlatingAdapter.unsubscribeFromIncomingIntermediateEvent(intermediateEvent);
 
         if (correlatingAdapter instanceof IncomingPullAdapter) {
@@ -140,11 +145,13 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
 
     /**
      * Checks if the event is already registered.
-     *
-     * @param eventAdapter the event adapter
+     * 
+     * @param eventAdapter
+     *            the event adapter
      * @return true, if it is already registered, false if it is not.
      */
     private boolean isAlreadyRegistered(EventAdapter eventAdapter) {
+
         return (getEventAdapters().containsKey(eventAdapter.getConfiguration()));
     }
 
@@ -156,7 +163,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
      *            the process event
      * @return the adapter for the process event
      */
-    private AbstractCorrelatingEventAdapter<?> getAdapterForProcessEvent(IncomingProcessEvent processEvent) {
+    private AbstractEventAdapter<?> getAdapterForProcessEvent(ProcessEvent processEvent) {
 
         AbstractCorrelatingEventAdapter<?> eventAdapter = (AbstractCorrelatingEventAdapter<?>) getEventAdapters().get(
             processEvent.getAdapterConfiguration());
@@ -263,9 +270,16 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     }
 
     @Override
-    public void sendMessageFromAdapter(String message, AdapterConfiguration adapterConfiguration) {
+    public void sendMessageFromAdapter(String message, ProcessEvent event) {
 
-        // TODO Auto-generated method stub
-        
+        OutgoingTwitterSingleAccountTweetAdapter adapter = 
+            (OutgoingTwitterSingleAccountTweetAdapter) getAdapterForProcessEvent(event);
+        try {
+            adapter.sendMessage(message);
+        } catch (TwitterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 }

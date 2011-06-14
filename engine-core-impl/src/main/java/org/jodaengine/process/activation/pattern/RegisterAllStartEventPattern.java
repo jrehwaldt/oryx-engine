@@ -3,7 +3,7 @@ package org.jodaengine.process.activation.pattern;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
 
 /**

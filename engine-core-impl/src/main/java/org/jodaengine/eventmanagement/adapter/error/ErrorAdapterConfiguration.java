@@ -36,7 +36,7 @@ public class ErrorAdapterConfiguration extends AbstractAdapterConfiguration {
     public EventAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
         IncomingAdapter adapter = createAdapter();
-        adapterRegistrar.registerInboundAdapter(adapter);
+        adapterRegistrar.registerIncomingAdapter(adapter);
 
         return adapter;
     }

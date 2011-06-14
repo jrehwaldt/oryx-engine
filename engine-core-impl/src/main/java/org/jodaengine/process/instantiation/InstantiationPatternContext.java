@@ -1,6 +1,6 @@
 package org.jodaengine.process.instantiation;
 
-import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.util.ServiceContext;
 

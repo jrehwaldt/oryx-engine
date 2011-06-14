@@ -1,6 +1,6 @@
 package org.jodaengine.eventmanagement;
 
-import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.processevent.ProcessEvent;
 
 /**
  * Interface to send events. For now it feels a bit lonely bit it sure will grow.
@@ -11,7 +11,7 @@ public interface SendEvents {
      * Send message from adapter.
      *
      * @param message the message
-     * @param adapterConfiguration the configuration of the adapter you want to send this message from
+     * @param event the configuration of the adapter you want to send this message from
      */
-    void sendMessageFromAdapter(String message, AdapterConfiguration adapterConfiguration);
+    void sendMessageFromAdapter(String message, ProcessEvent event);
 }

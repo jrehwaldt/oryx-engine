@@ -2,8 +2,8 @@ package org.jodaengine.eventmanagement.subscription;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessStartEvent;
 
 /**
  * This interface provides methods in order to unsubscribe from events.
