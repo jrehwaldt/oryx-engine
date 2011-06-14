@@ -35,10 +35,10 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
     protected Map<String, Object> attributes;
 
     @JsonIgnore
-    protected StartInstantiationPattern startInstantiationPattern;
+    protected StartInstantiationPattern firstInstantiationPattern;
 
     @JsonIgnore
-    protected ProcessDeActivationPattern startActivationPattern;
+    protected ProcessDeActivationPattern firstActivationPattern;
 
     /**
      * Default instantiation.
@@ -68,8 +68,8 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
         this.name = name;
         this.description = description;
         this.startNodes = startNodes;
-        this.startInstantiationPattern = startInstantiationPattern;
-        this.startActivationPattern = startActivationPattern;
+        this.firstInstantiationPattern = startInstantiationPattern;
+        this.firstActivationPattern = startActivationPattern;
     }
 
     @Override
@@ -147,7 +147,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
     public AbstractProcessInstance createProcessInstance(NavigatorInside navigator) {
 
         InstantiationPatternContext patternContext = new InstantiationPatternContextImpl(this);
-        return startInstantiationPattern.createProcessInstance(patternContext);
+        return firstInstantiationPattern.createProcessInstance(patternContext);
     }
 
     @Override
@@ -155,7 +155,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
 
         ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
             this);
-        startActivationPattern.activateProcessDefinition(patternContext);
+        firstActivationPattern.activateProcessDefinition(patternContext);
     }
 
     @Override
@@ -163,7 +163,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
 
         ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
             this);
-        startActivationPattern.deactivateProcessDefinition(patternContext);
+        firstActivationPattern.deactivateProcessDefinition(patternContext);
     }
 
     @Override
