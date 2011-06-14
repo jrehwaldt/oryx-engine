@@ -1,6 +1,5 @@
 package org.jodaengine.resource;
 
-import org.jodaengine.IdentityService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.testng.Assert;

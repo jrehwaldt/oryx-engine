@@ -4,6 +4,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.resource.worklist.WorklistServiceIntern;
 
 /**
  * The Interface PushPattern according to www.workflowpatterns.com.
@@ -22,6 +23,6 @@ public interface PushPattern {
      * @param worklistService the worklist service
      * @param itemToDistribute the item to distribute
      */
-    void distributeWorkitem(TaskAllocation worklistService, AbstractWorklistItem itemToDistribute);
+    void distributeWorkitem(WorklistServiceIntern worklistService, AbstractWorklistItem itemToDistribute);
 
 }

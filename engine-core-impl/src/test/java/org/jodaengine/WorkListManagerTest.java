@@ -20,6 +20,7 @@ import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistribution
 import org.jodaengine.resource.allocation.pattern.push.AllocateSinglePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
+import org.jodaengine.resource.worklist.WorklistService;
 import org.jodaengine.util.mock.MockUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -102,12 +103,6 @@ public class WorkListManagerTest {
         AbstractRole testRole = ServiceFactory.getIdentityService().getIdentityBuilder().createRole("testRole");
         ServiceFactory.getIdentityService().getIdentityBuilder()
         .participantBelongsToRole(tobi.getID(), testRole.getID());
-        // allocation patterns START
-        // Pattern pushPattern = new DirectDistributionPattern();
-        // Pattern pullPattern = new SimplePullPattern();
-        // AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null,
-        // null);
-        // allocation patterns END
         CreationPatternBuilder creationPatternBuilder = new CreationPatternBuilderImpl();
         CreationPattern anotherPattern = creationPatternBuilder.setItemSubject("Go shopping")
         .setItemDescription("I need milk").setItemFormID(null).addResourceAssignedToItem(tobi)

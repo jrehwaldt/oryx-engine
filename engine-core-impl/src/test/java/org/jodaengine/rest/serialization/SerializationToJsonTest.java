@@ -35,6 +35,15 @@ import org.jodaengine.resource.IdentityBuilder;
 import org.jodaengine.resource.OrganizationUnit;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Role;
+import org.jodaengine.resource.allocation.CreationPattern;
+import org.jodaengine.resource.allocation.DetourPattern;
+import org.jodaengine.resource.allocation.PushPattern;
+import org.jodaengine.resource.allocation.pattern.creation.AbstractCreationPattern;
+import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
+import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
+import org.jodaengine.resource.allocation.pattern.detour.StatelessReallocationPattern;
+import org.jodaengine.resource.allocation.pattern.push.AllocateSinglePattern;
+import org.jodaengine.resource.allocation.pattern.push.OfferMultiplePattern;
 import org.jodaengine.resource.worklist.AbstractDefaultWorklist;
 import org.jodaengine.resource.worklist.AbstractWorklist;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
@@ -327,6 +336,19 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         Assert.assertTrue(this.mapper.canSerialize(RoleWorklist.class));
         Assert.assertTrue(this.mapper.canSerialize(EmptyWorklist.class));
 
+        //
+        // pattern
+        //
+        Assert.assertTrue(this.mapper.canSerialize(CreationPattern.class));
+        Assert.assertTrue(this.mapper.canSerialize(PushPattern.class));
+        Assert.assertTrue(this.mapper.canSerialize(DetourPattern.class));
+        Assert.assertTrue(this.mapper.canSerialize(AbstractCreationPattern.class));
+        Assert.assertTrue(this.mapper.canSerialize(DirectDistributionPattern.class));
+        Assert.assertTrue(this.mapper.canSerialize(RoleBasedDistributionPattern.class));
+        Assert.assertTrue(this.mapper.canSerialize(StatelessReallocationPattern.class));
+        Assert.assertTrue(this.mapper.canSerialize(AllocateSinglePattern.class));
+        Assert.assertTrue(this.mapper.canSerialize(OfferMultiplePattern.class));
+        
         //
         // navigator
         //

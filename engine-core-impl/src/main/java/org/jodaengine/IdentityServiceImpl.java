@@ -18,6 +18,7 @@ import org.jodaengine.resource.AbstractPosition;
 import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.IdentityBuilder;
 import org.jodaengine.resource.IdentityBuilderImpl;
+import org.jodaengine.resource.IdentityService;
 import org.jodaengine.resource.OrganizationUnit;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Position;

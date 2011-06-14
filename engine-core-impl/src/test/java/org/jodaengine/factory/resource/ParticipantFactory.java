@@ -5,16 +5,16 @@ import java.util.Random;
 
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.WorklistService;
 import org.jodaengine.factory.worklist.CreationPatternFactory;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.PushPattern;
-import org.jodaengine.resource.allocation.TaskAllocation;
 import org.jodaengine.resource.allocation.pattern.push.AllocateSinglePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.resource.worklist.WorklistService;
+import org.jodaengine.resource.worklist.WorklistServiceIntern;
 import org.mockito.Mockito;
 
 /**
@@ -78,7 +78,7 @@ public class ParticipantFactory extends ResourceFactory {
     public static AbstractParticipant createBusyWilli() {
 
         WorklistService worklistService = ServiceFactory.getWorklistService();
-        TaskAllocation taskAllocationService = ServiceFactory.getWorklistQueue();
+        WorklistServiceIntern taskAllocationService = ServiceFactory.getWorklistQueue();
         Random rand = new Random();
 
         AbstractParticipant willi = createParticipant("Willi Joda");

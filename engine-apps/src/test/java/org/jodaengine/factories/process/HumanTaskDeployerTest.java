@@ -4,10 +4,10 @@ import static org.testng.Assert.assertEquals;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.jodaengine.IdentityService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.resource.IdentityService;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

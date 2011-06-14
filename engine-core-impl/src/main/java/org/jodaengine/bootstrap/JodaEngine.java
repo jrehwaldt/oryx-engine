@@ -7,13 +7,13 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.IdentityService;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.WorklistService;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.resource.IdentityService;
+import org.jodaengine.resource.worklist.WorklistService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
