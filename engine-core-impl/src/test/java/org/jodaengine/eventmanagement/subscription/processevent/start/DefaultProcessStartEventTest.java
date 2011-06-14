@@ -37,7 +37,7 @@ public class DefaultProcessStartEventTest extends AbstractJodaEngineTest {
     throws DefinitionNotFoundException, InterruptedException {
 
         // Bind the startEvent to a deployed processDefinition
-        DefaultProcessStartEvent startEvent = new DefaultProcessStartEvent(null, null, null, processDefinitionID);
+        DefaultProcessStartEvent startEvent = new DefaultProcessStartEvent(null, null, processDefinitionID);
         
 
         Assert.assertNotNull(startEvent.getDefinitionID());

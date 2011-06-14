@@ -97,7 +97,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
                                                        Node startNode) {
 
         ProcessStartEvent event = new DefaultProcessStartEvent(
-            eventType, adapterConfig, new AndEventCondition(eventConditions), id);
+            adapterConfig, new AndEventCondition(eventConditions), id);
         this.temporaryStartTriggers.put(event, startNode);
 
         return this;

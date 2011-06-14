@@ -1,6 +1,5 @@
 package org.jodaengine.eventmanagement.processevent.incoming.start;
 
-import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.processevent.incoming.AbstractIncomingProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessStartEvent;
@@ -20,9 +19,6 @@ public class DefaultProcessStartEvent extends AbstractIncomingProcessEvent imple
 
     /**
      * Instantiates a new start event impl.
-     * 
-     * @param type
-     *            the type
      * @param config
      *            the config
      * @param condition
@@ -31,8 +27,7 @@ public class DefaultProcessStartEvent extends AbstractIncomingProcessEvent imple
      *            the def
      */
     // TODO @EVENTTEAM: EventType??? WTF? Configuration? hmm? Delete it we must? 
-    public DefaultProcessStartEvent(EventType type,
-                          AdapterConfiguration config,
+    public DefaultProcessStartEvent(AdapterConfiguration config,
                           EventCondition condition,
                           ProcessDefinitionID definitionID) {
 

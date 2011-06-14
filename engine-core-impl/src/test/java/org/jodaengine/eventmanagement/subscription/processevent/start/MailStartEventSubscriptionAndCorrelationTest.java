@@ -76,12 +76,12 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
         EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic",
             "Hallo");
         config = IncomingMailAdapterConfiguration.jodaGoogleConfiguration();
-        event = new DefaultProcessStartEvent(mailType, config, subjectCondition, definitionID);
+        event = new DefaultProcessStartEvent(config, subjectCondition, definitionID);
     
         // register another processStartEvent
         anotherConfig = new IncomingMailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin", "imap.horst.de",
             MAIL_PORT, false);
-        anotherEvent = new DefaultProcessStartEvent(mailType, anotherConfig, subjectCondition, definitionID);
+        anotherEvent = new DefaultProcessStartEvent(anotherConfig, subjectCondition, definitionID);
         anotherEvent.injectNavigatorService(navigatorServiceSpy);
     
         // create some incoming events, for example from a mailbox
