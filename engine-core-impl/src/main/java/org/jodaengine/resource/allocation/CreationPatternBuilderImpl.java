@@ -74,11 +74,7 @@ public class CreationPatternBuilderImpl implements CreationPatternBuilder {
 
         List<AbstractResource<?>> resourcesCopy = new ArrayList<AbstractResource<?>>(abstractResources);
         Collections.copy(resourcesCopy, abstractResources);
-        @SuppressWarnings("rawtypes")
-        Class[] parameterClasses = {String.class,
-            String.class, 
-            String.class, 
-            List.class};
+        Class[] parameterClasses = {String.class, String.class, String.class, List.class};
         CreationPattern pattern = null;
         Constructor<? extends CreationPattern> constructor = null;
         try {
