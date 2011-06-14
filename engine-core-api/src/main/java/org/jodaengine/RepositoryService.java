@@ -62,7 +62,7 @@ public interface RepositoryService extends Service {
     boolean containsProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
 
     /**
-     * Adds a process definition to the repository.
+     * Adds a process definition to the repository in a new {@link DeploymentScope}.
      * 
      * @param definition
      *            the definition
