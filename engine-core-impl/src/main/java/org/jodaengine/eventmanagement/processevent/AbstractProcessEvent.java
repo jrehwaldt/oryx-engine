@@ -13,6 +13,16 @@ public abstract class AbstractProcessEvent implements ProcessEvent {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     protected AdapterConfiguration config;
 
+    /**
+     * Instantiates a new process event
+     * with a given configuration.
+     * 
+     * @param config the config
+     */
+    protected AbstractProcessEvent(AdapterConfiguration config) {
+        this.config = config;
+    }
+    
     @Override
     public AdapterConfiguration getAdapterConfiguration() {
     

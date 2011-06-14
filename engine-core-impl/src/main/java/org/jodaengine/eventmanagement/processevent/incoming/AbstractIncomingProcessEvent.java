@@ -23,7 +23,7 @@ public abstract class AbstractIncomingProcessEvent extends AbstractProcessEvent 
      */
     protected AbstractIncomingProcessEvent(AdapterConfiguration config, EventCondition condition) {
 
-        this.config = config;
+        super(config);
         this.condition = condition;
     }
 

@@ -68,6 +68,8 @@ BpmnEventBasedGatewayEvent {
     //
     // ==== Interface that represents that this event can also be used by other nodes like event-based Gateway ====
     //
+    
+    // TODO @Gerardo: Ok really... this has to change. Period.
     @Override
     public IncomingIntermediateProcessEvent createProcessIntermediateEvent(Token token) {
 

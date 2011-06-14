@@ -1,5 +1,9 @@
 package org.jodaengine.eventmanagement.adapter.twitter;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
@@ -7,6 +11,7 @@ import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingAdapter;
+import org.jodaengine.exception.JodaEngineRuntimeException;
 
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -33,7 +38,20 @@ public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapte
     public AbstractTwitterAdapterConfiguration(String propertiesFilePath) {
 
         super(EventTypes.Twitter);
-        // TODO open the file and do stuff
+        Properties properties = new Properties();
+        try {
+            properties.load(new FileInputStream("filename.properties"));
+            String oauthConsumerKey = properties.getProperty("oauthConsumerKey");
+            String oauthConsumerSecret = properties.getProperty("oauthConsumerSecret");
+            String oauthAccessToken = properties.getProperty("oauthAccessToken");
+            String oauthAccessTokenSecret = properties.getProperty("oauthAccessTokenSecret");
+
+            populateConfigurationBuilder(oauthConsumerKey, oauthConsumerSecret, oauthAccessToken,
+                oauthAccessTokenSecret);
+        } catch (IOException e) {
+            String errorMessage = "Failed to load properties file for the TwitterAdapter, does the file exist?";
+            throw new JodaEngineRuntimeException(errorMessage, e);
+        }
     }
 
     /**
@@ -49,9 +67,9 @@ public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapte
      *            the oauth access token secret string
      */
     public AbstractTwitterAdapterConfiguration(String oauthConsumerKey,
-                                       String oauthConsumerSecret,
-                                       String oauthAccessToken,
-                                       String oauthAccessTokenSecret) {
+                                               String oauthConsumerSecret,
+                                               String oauthAccessToken,
+                                               String oauthAccessTokenSecret) {
 
         super(EventTypes.Twitter);
         populateConfigurationBuilder(oauthConsumerKey, oauthConsumerSecret, oauthAccessToken, oauthAccessTokenSecret);
@@ -60,11 +78,15 @@ public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapte
 
     /**
      * Populate the configuration builder with the necessary oauth data.
-     *
-     * @param oauthConsumerKey the oauth consumer key
-     * @param oauthConsumerSecret the oauth consumer secret
-     * @param oauthAccessToken the oauth access token
-     * @param oauthAccessTokenSecret the oauth access token secret
+     * 
+     * @param oauthConsumerKey
+     *            the oauth consumer key
+     * @param oauthConsumerSecret
+     *            the oauth consumer secret
+     * @param oauthAccessToken
+     *            the oauth access token
+     * @param oauthAccessTokenSecret
+     *            the oauth access token secret
      */
     private void populateConfigurationBuilder(String oauthConsumerKey,
                                               String oauthConsumerSecret,
@@ -72,11 +94,9 @@ public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapte
                                               String oauthAccessTokenSecret) {
 
         configurationBuilder = new ConfigurationBuilder();
-        configurationBuilder.setDebugEnabled(true)
-            .setOAuthConsumerKey(oauthConsumerKey)
-            .setOAuthConsumerSecret(oauthConsumerSecret)
-            .setOAuthAccessToken(oauthAccessToken)
-            .setOAuthAccessTokenSecret(oauthAccessTokenSecret);
+        configurationBuilder.setDebugEnabled(true).setOAuthConsumerKey(oauthConsumerKey)
+        .setOAuthConsumerSecret(oauthConsumerSecret).setOAuthAccessToken(oauthAccessToken)
+        .setOAuthAccessTokenSecret(oauthAccessTokenSecret);
     }
 
     /**
@@ -84,13 +104,12 @@ public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapte
      * Therefore you need to do roughly the equivalent of the following:
      * 
      * new TwitterFactory(configuration.getConfigurationBuilder.build());
-     *
+     * 
      * @return the configuration builder
      */
     public ConfigurationBuilder getConfigurationBuilder() {
 
         return configurationBuilder;
     }
-    
 
 }
