@@ -18,7 +18,6 @@ import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.allocation.TaskAllocation;
-import org.jodaengine.resource.allocation.TaskDistribution;
 import org.jodaengine.resource.allocation.pattern.detour.StatelessReallocationPattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.DetourPattern;
@@ -29,7 +28,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The implementation of the WorklistManager. It manages the worklists of all resources in the system.
  */
-public class WorklistManager implements WorklistService, TaskDistribution, TaskAllocation, Service {
+public class WorklistManager implements WorklistService, TaskAllocation, Service {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private IdentityService identityService;

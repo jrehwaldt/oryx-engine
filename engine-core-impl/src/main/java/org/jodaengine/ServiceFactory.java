@@ -9,7 +9,6 @@ import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.resource.allocation.TaskAllocation;
-import org.jodaengine.resource.allocation.TaskDistribution;
 
 
 /**
@@ -44,16 +43,6 @@ public final class ServiceFactory {
      */
     // TODO @Alle Muss umbenannt werden in InternalWorklistService 
     public static @Nonnull TaskAllocation getWorklistQueue() {
-
-        return getWorklistManagerInstance();
-    }
-
-    /**
-     * Gets the {@link TaskDistribution}.
-     * 
-     * @return the task distribution
-     */
-    public static @Nonnull TaskDistribution getTaskDistribution() {
 
         return getWorklistManagerInstance();
     }
