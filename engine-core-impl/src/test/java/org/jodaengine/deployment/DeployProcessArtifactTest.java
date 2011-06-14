@@ -12,7 +12,7 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
-import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
+import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.definition.AbstractProcessArtifact;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
@@ -51,7 +51,7 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
 
         BpmnProcessDefinitionBuilder defBuilder = BpmnProcessDefinitionBuilder.newBuilder();
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
-        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
+        defBuilder.addActivationPattern(Mockito.mock(ProcessDeActivationPattern.class));
         definition = defBuilder.buildDefinition();
     }
 
@@ -196,7 +196,7 @@ public class DeployProcessArtifactTest extends AbstractJodaEngineTest {
         // do another deployment with a new process definition
         BpmnProcessDefinitionBuilder defBuilder = BpmnProcessDefinitionBuilder.newBuilder();
         defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
-        defBuilder.addActivationPattern(Mockito.mock(ProcessDefinitionDeActivationPattern.class));
+        defBuilder.addActivationPattern(Mockito.mock(ProcessDeActivationPattern.class));
         ProcessDefinition anotherDefinition = defBuilder.buildDefinition();
         Deployment anotherDeployment = deploymentBuilder.addProcessDefinition(anotherDefinition).buildDeployment();
         repo.deployInNewScope(anotherDeployment);

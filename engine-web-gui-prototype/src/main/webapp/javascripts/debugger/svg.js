@@ -19,11 +19,7 @@ $().ready(function() {
         
         definitionRow.append(
             '<td class="artifact-cell">'
-	            + '<a href="#" class="show-full-svg-artifact">'
-	                + '<img class="svg-artifact" src="/api/debugger/artifacts/' + definitionId + '/svg.svg?timestamp=' + new Date().getTime() + '" type="image/svg+xml" rel="#svg-artifact-full-overlay" />'
-	            + '</a>'
-	            + '<br />'
-	            + '<a href="#" class="set-svg-artifact">Set svg artifact</a>'
+                + '<a href="#" class="set-svg-artifact">Set svg artifact</a>'
             + '</td>'
         );
     });
@@ -37,7 +33,7 @@ $().ready(function() {
             event.preventDefault();
             var row = $(event.currentTarget).parent().parent();
             var definitionId = row.attr('definition-id');
-            showFullSvg(definitionId);
+            showFullSvg(definitionId, {});
         });
         
         if ($(document).overlay) {

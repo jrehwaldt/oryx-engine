@@ -16,4 +16,11 @@ public interface PatternAppendable<T> {
      * @return the next pattern of this object
      */
     T setNextPattern(T nextPattern);
+   
+    /**
+     * Retrieves the next pattern.
+     * 
+     * @return the next pattern
+     */
+    T getNextPattern(); 
 }

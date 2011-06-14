@@ -52,7 +52,7 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
     private Map<String, Integer> processVersions;
 
     // private Map<UUID, AbstractProcessArtifact> processArtifactsTable;
-    
+
     private ExtensionService extensionService;
 
     private boolean running = false;
@@ -60,10 +60,11 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
     /**
      * Default constructor.
      * 
-     * @param extensionService an {@link ExtensionService} instance
+     * @param extensionService
+     *            an {@link ExtensionService} instance
      */
     public RepositoryServiceImpl(@Nullable ExtensionService extensionService) {
-        
+
         processVersions = new HashMap<String, Integer>();
         scopes = new HashMap<ProcessDefinitionID, DeploymentScope>();
         this.extensionService = extensionService;
@@ -71,15 +72,14 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
 
     @Override
     public synchronized void start(JodaEngineServices services) {
-        
+
         logger.info("Starting the RespositoryService.");
-        
+
         if (this.extensionService != null) {
-            this.registerListeners(
-                RepositoryDeploymentListener.class,
+            this.registerListeners(RepositoryDeploymentListener.class,
                 this.extensionService.getExtensions(RepositoryDeploymentListener.class));
         }
-        
+
         this.running = true;
     }
 
@@ -93,6 +93,7 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
 
     @Override
     public boolean isRunning() {
+
         return this.running;
     }
 
@@ -111,12 +112,23 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
 
     @Override
     public void addProcessDefinition(ProcessDefinition definition) {
+        addProcessDefinitionToScope(definition, new DeploymentScopeImpl());
+    }
+
+    /**
+     * Adds a {@link ProcessDefinition} to the repository and to a {@link DeploymentScope}.
+     *
+     * @param definition the definition
+     * @param scope the scope
+     */
+    private void addProcessDefinitionToScope(ProcessDefinition definition, DeploymentScope scope) {
 
         getProcessDefinitionsTable().put(definition.getID(), definition);
-        
-        for (RepositoryDeploymentListener listener: this.getListeners(RepositoryDeploymentListener.class)) {
+
+        for (RepositoryDeploymentListener listener : this.getListeners(RepositoryDeploymentListener.class)) {
             listener.definitionDeployed(this, definition);
         }
+        setScopeForDefinition(definition.getID(), scope);
     }
 
     @Override
@@ -148,17 +160,17 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
 
     @Override
     public void deactivateProcessDefinition(ProcessDefinitionID processDefintionID) {
-        
+
         // TODO Auto-generated method stub
     }
 
     @Override
     public void deleteProcessDefinition(ProcessDefinitionID processDefinitionID) {
-        
+
         removeDefinitionFromScope(processDefinitionID);
         ProcessDefinition deleted = getProcessDefinitionsTable().remove(processDefinitionID);
-        
-        for (RepositoryDeploymentListener listener: this.getListeners(RepositoryDeploymentListener.class)) {
+
+        for (RepositoryDeploymentListener listener : this.getListeners(RepositoryDeploymentListener.class)) {
             listener.definitionDeleted(this, deleted);
         }
     }
@@ -169,7 +181,7 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
      * @return the process definitions table
      */
     public Map<ProcessDefinitionID, ProcessDefinition> getProcessDefinitionsTable() {
-        
+
         if (processDefinitionsTable == null) {
             this.processDefinitionsTable = new HashMap<ProcessDefinitionID, ProcessDefinition>();
         }
@@ -179,48 +191,44 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
     @Override
     public ProcessDefinition getProcessDefinition(ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException {
-        
+
         ProcessDefinition processDefinition = getProcessDefinitionsTable().get(processDefintionID);
-        
+
         if (processDefinition == null) {
             throw new DefinitionNotFoundException(processDefintionID);
         }
-        
+
         return processDefinition;
     }
 
     @Override
     public ProcessDefinitionInside getProcessDefinitionInside(ProcessDefinitionID processDefintionID)
     throws DefinitionNotFoundException {
-        
+
         return (ProcessDefinitionInside) getProcessDefinition(processDefintionID);
     }
 
     @Override
     public DeploymentScope deployInNewScope(Deployment processDeployment) {
-        
+
         DeploymentScope scope = new DeploymentScopeImpl(processDeployment.getArtifacts(), processDeployment.getForms());
-        
+
         for (ProcessDefinition definition : processDeployment.getDefinitions()) {
             // determine version of the currently deployed process
             registerNewProcessVersion(definition);
 
-            // add the definition
-            addProcessDefinition(definition);
-
-            // create the connection between definition and scope
-            setScopeForDefinition(definition.getID(), scope);
+            addProcessDefinitionToScope(definition, scope);
         }
-        
+
         Map<String, byte[]> customClasses = processDeployment.getClasses();
         for (String className : customClasses.keySet()) {
             scope.addClass(className, customClasses.get(className));
         }
-        
-        for (RepositoryDeploymentListener listener: this.getListeners(RepositoryDeploymentListener.class)) {
+
+        for (RepositoryDeploymentListener listener : this.getListeners(RepositoryDeploymentListener.class)) {
             listener.deploymentDeployed(this, processDeployment);
         }
-        
+
         return scope;
     }
 
@@ -233,7 +241,7 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
      *            the scope
      */
     private void setScopeForDefinition(ProcessDefinitionID definitionID, DeploymentScope scope) {
-        
+
         scopes.put(definitionID, scope);
     }
 
@@ -244,7 +252,7 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
      *            the definition id
      */
     private void removeDefinitionFromScope(ProcessDefinitionID definitionID) {
-        
+
         scopes.remove(definitionID);
     }
 
@@ -255,7 +263,7 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
      *            the definition
      */
     private void registerNewProcessVersion(ProcessDefinition definition) {
-        
+
         Integer currentVersionNumber = processVersions.get(definition.getID().getIdentifier());
         if (currentVersionNumber != null) {
             currentVersionNumber++;
@@ -268,17 +276,23 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
 
     @Override
     public DeploymentScope getScopeForDefinition(ProcessDefinitionID definitionID) {
-        
+
         return scopes.get(definitionID);
     }
 
     @Override
-    public void addProcessArtifact(AbstractProcessArtifact artifact, ProcessDefinitionID definitionID) {
-        
+    public void addProcessArtifact(AbstractProcessArtifact artifact, ProcessDefinitionID definitionID)
+    throws DefinitionNotFoundException {
+
         DeploymentScope scope = scopes.get(definitionID);
+
+        if (scope == null) {
+            throw new DefinitionNotFoundException(definitionID);
+        }
+
         scope.addProcessArtifact(artifact);
-        
-        for (RepositoryDeploymentListener listener: this.getListeners(RepositoryDeploymentListener.class)) {
+
+        for (RepositoryDeploymentListener listener : this.getListeners(RepositoryDeploymentListener.class)) {
             listener.artifactDeployed(this, artifact);
         }
     }
@@ -286,37 +300,37 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
     @Override
     public AbstractProcessArtifact getProcessArtifact(String processArtifactID, ProcessDefinitionID definitionID)
     throws ProcessArtifactNotFoundException, DefinitionNotFoundException {
-        
+
         DeploymentScope scope = scopes.get(definitionID);
-        
+
         if (scope == null) {
             throw new DefinitionNotFoundException(definitionID);
         }
-        
+
         return scope.getProcessArtifact(processArtifactID);
     }
 
     @Override
     public void deleteProcessArtifact(String processArtifactID, ProcessDefinitionID definitionID) {
-        
+
         DeploymentScope scope = scopes.get(definitionID);
         AbstractProcessArtifact deleted = scope.deleteProcessArtifact(processArtifactID);
-        
-        for (RepositoryDeploymentListener listener: this.getListeners(RepositoryDeploymentListener.class)) {
+
+        for (RepositoryDeploymentListener listener : this.getListeners(RepositoryDeploymentListener.class)) {
             listener.artifactDeleted(this, deleted);
         }
     }
 
     @Override
     public DarImporter getNewDarImporter() {
-        
+
         return new DarImporterImpl(this, this.extensionService);
     }
 
     @Override
     public Class<?> getDeployedClass(ProcessDefinitionID definitionID, String fullClassName)
     throws ClassNotFoundException {
-        
+
         // get the class loader
         DeploymentScope scope = scopes.get(definitionID);
         return scope.getClass(fullClassName);
@@ -324,16 +338,16 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
 
     @Override
     public void addForm(AbstractForm form, ProcessDefinitionID definitionID) {
-        
+
         DeploymentScope scope = scopes.get(definitionID);
         scope.addForm(form);
-        
+
     }
 
     @Override
     public AbstractForm getForm(String formID, ProcessDefinitionID definitionID)
     throws ProcessArtifactNotFoundException {
-        
+
         DeploymentScope scope = scopes.get(definitionID);
         return scope.getForm(formID);
     }
@@ -343,11 +357,12 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
 
         DeploymentScope scope = scopes.get(definitionID);
         scope.deleteForm(formID);
-        
+
     }
 
     @Override
     public boolean supportsExtension(Class<?> type) {
+
         return RepositoryDeploymentListener.class.isAssignableFrom(type);
     }
 }

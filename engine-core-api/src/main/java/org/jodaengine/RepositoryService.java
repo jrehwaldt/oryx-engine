@@ -62,7 +62,7 @@ public interface RepositoryService extends Service {
     boolean containsProcessDefinition(@Nonnull ProcessDefinitionID processDefintionID);
 
     /**
-     * Adds a process definition to the repository.
+     * Adds a process definition to the repository in a new {@link DeploymentScope}.
      * 
      * @param definition
      *            the definition
@@ -136,8 +136,11 @@ public interface RepositoryService extends Service {
      *            the artifact
      * @param definitionID
      *            the id of the definition, in which scope the resource is looked up.
+     * @throws DefinitionNotFoundException
+     *            in case the definition or scope could not be found
      */
-    void addProcessArtifact(@Nonnull AbstractProcessArtifact artifact, @Nonnull ProcessDefinitionID definitionID);
+    void addProcessArtifact(@Nonnull AbstractProcessArtifact artifact, @Nonnull ProcessDefinitionID definitionID)
+    throws DefinitionNotFoundException;
 
     /**
      * Retrieves a certain {@link AbstractProcessArtifact ProcessResource} with the given processResourceID.

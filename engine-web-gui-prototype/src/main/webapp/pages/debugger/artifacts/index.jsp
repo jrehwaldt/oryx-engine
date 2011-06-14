@@ -26,14 +26,14 @@
         <table id="definitions-overview" class="svg-overview" width="100%">
             <thead>
                 <tr>
-                    <th class="loading-data">Process Definition</th>
-                    <th class="loading-data">SVG Artifact</th>
+                    <th class="loading-data" style="width: 50%">Process Definition</th>
+                    <th class="loading-data" style="width: 50%">Controls</th>
                 </tr>
             </thead>
             <tbody></tbody>
         </table>
         
-        <a href="#" id="definitions-overview-refresh">Refresh definitions</a>
+        <a href="#" id="definitions-overview-refresh">Refresh table</a>
         
         <div class="dialog" id="set-svg-artifact-dialog" title="Set a svg artifact">
             <form id="set-svg-artifact" method="post" action=""

@@ -28,15 +28,14 @@
         <table id="definitions-overview" class="breakpoints-overview" width="100%">
             <thead>
                 <tr>
-                    <th class="loading-data">Process Definition</th>
-                    <th class="loading-data">Breakpoints (SVG-view)</th>
-                    <th class="loading-data">Breakpoints (Table-view)</th>
+                    <th class="loading-data" style="width: 50%">Process Definition</th>
+                    <th class="loading-data" style="width: 50%">Breakpoints</th>
                 </tr>
             </thead>
             <tbody></tbody>
         </table>
         
-        <a href="#" id="definitions-overview-refresh">Refresh definitions</a>
+        <a href="#" id="definitions-overview-refresh">Refresh table</a>
         
         <div class="dialog" id="create-node-breakpoint-dialog" title="Create a node breakpoint">
             <form id="create-node-breakpoint" method="post" action="">
@@ -47,7 +46,9 @@
                 Activity state:
                 <select name="breakpoint-activity-state">
                     <% for (ActivityState state: ActivityState.values()) { %>
-                        <option value="<%=state.toString() %>"><%=state.toString() %></option>
+                        <% if (!ActivityState.INIT.equals(state)) { %>
+                            <option value="<%=state.toString() %>"><%=state.toString() %></option>
+                        <% } %>
                     <% } %>
                 </select>
                 <br />

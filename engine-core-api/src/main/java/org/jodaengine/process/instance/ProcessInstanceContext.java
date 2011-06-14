@@ -3,11 +3,12 @@ package org.jodaengine.process.instance;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
+import org.jodaengine.process.structure.Node;
 
 /**
  * The Interface ProcessInstanceContext. It is shared between Tokens that work in the same process scope, for example in
@@ -45,8 +46,10 @@ public interface ProcessInstanceContext {
     boolean allIncomingControlFlowsSignaled(Node n);
 
     /**
-     * Removes all incoming {@link ControlFlow}s of a node from the internal storage of all signaled incoming {@link ControlFlow}s.
-     * This is used in the case, e.g. that the AND-Join triggers. Then the signaled {@link ControlFlow}s have to be reset.
+     * Removes all incoming {@link ControlFlow}s of a node from the internal storage of all
+     * signaled incoming {@link ControlFlow}s.
+     * This is used in the case, e.g. that the AND-Join triggers.
+     * Then the signaled {@link ControlFlow}s have to be reset.
      * 
      * @param n
      *            the node that triggered
@@ -90,6 +93,7 @@ public interface ProcessInstanceContext {
      * 
      * @return a {@link Map} with varibaleId and variableValues
      */
+    @JsonProperty
     Map<String, Object> getVariableMap();
 
     /**

@@ -4,6 +4,7 @@ import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -51,7 +52,7 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
      * @param causingBreakpoint the {@link Breakpoint}, which caused the interruption
      */
     public InterruptedInstanceImpl(@Nonnull Token interruptedToken,
-                                   @Nonnull Breakpoint causingBreakpoint) {
+                                   @Nullable Breakpoint causingBreakpoint) {
         
         this.interruptedToken = interruptedToken;
         this.causingBreakpoint = causingBreakpoint;
@@ -212,27 +213,13 @@ public final class InterruptedInstanceImpl implements InterruptedInstance, Inter
         //
         // or to a non-InterruptedInstance instance
         //
-        if (object instanceof InterruptedInstanceImpl) {
-            InterruptedInstanceImpl instance = (InterruptedInstanceImpl) object;
+        if (object instanceof InterruptedInstance) {
+            InterruptedInstance instance = (InterruptedInstance) object;
             
             //
             // same id
             //
             if (!this.getID().equals(instance.getID())) {
-                return false;
-            }
-            
-            //
-            // same breakpoint
-            //
-            if (!this.getCausingBreakpoint().equals(instance.getCausingBreakpoint())) {
-                return false;
-            }
-            
-            //
-            // same token
-            //
-            if (!this.getInterruptedToken().equals(instance.getInterruptedToken())) {
                 return false;
             }
             

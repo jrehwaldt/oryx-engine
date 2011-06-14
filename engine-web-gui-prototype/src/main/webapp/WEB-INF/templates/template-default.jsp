@@ -36,7 +36,8 @@ navigation.put("resources", new NavigationEntry[] {
 navigation.put("settings", new NavigationEntry[] {});
 navigation.put("debugger", new NavigationEntry[]  {
     new NavigationEntry("breakpoints", "Breakpoints"),
-    new NavigationEntry("artifacts", "SVG Artifacts")
+    new NavigationEntry("artifacts", "SVG Artifacts"),
+    new NavigationEntry("interrupted-instances", "Interrupted Instances")
 });
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

@@ -6,7 +6,7 @@ import org.jodaengine.util.ServiceContext;
 
 
 /**
- * Extends the {@link ServiceContext} with new methods especially for the {@link InstantiationPattern}-Chain.
+ * Extends the {@link ServiceContext} with new methods especially for the {@link ProcessInstantiationPattern}-Chain.
  */
 public interface InstantiationPatternContext extends ServiceContext {
 
@@ -18,7 +18,7 @@ public interface InstantiationPatternContext extends ServiceContext {
     ProcessDefinitionInside getProcessDefinition();
 
     /**
-     * In case an {@link ProcessStartEvent startEvent} was thrown (starting the {@link InstantiationPattern})
+     * In case an {@link ProcessStartEvent startEvent} was thrown (starting the {@link ProcessInstantiationPattern})
      * then this method returns the thrown event.
      * 
      * @return the thrown {@link ProcessStartEvent}

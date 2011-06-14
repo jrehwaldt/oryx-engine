@@ -8,13 +8,13 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.navigator.NavigatorInside;
+import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContextImpl;
-import org.jodaengine.process.activation.ProcessDefinitionDeActivationPattern;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.instantiation.InstantiationPattern;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
 import org.jodaengine.process.instantiation.InstantiationPatternContextImpl;
+import org.jodaengine.process.instantiation.ProcessInstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 
@@ -38,7 +38,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
     protected StartInstantiationPattern startInstantiationPattern;
 
     @JsonIgnore
-    protected ProcessDefinitionDeActivationPattern startActivationPattern;
+    protected ProcessDeActivationPattern startActivationPattern;
 
     /**
      * Default instantiation.
@@ -52,9 +52,9 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
      * @param startNodes
      *            - the initial nodes that refer to the whole node-tree
      * @param startInstantiationPattern
-     *            - the {@link InstantiationPattern} that is responsilbe for creating a process instance
+     *            - the {@link ProcessInstantiationPattern} that is responsilbe for creating a process instance
      * @param startActivationPattern
-     *            - the {@link ProcessDefinitionDeActivationPattern} that is responsible for the activating and
+     *            - the {@link ProcessDeActivationPattern} that is responsible for the activating and
      *            deactivating the {@link ProcessDefinition}
      */
     protected AbstractProcessDefinition(ProcessDefinitionID id,
@@ -62,7 +62,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
                                         String description,
                                         List<Node> startNodes,
                                         StartInstantiationPattern startInstantiationPattern,
-                                        ProcessDefinitionDeActivationPattern startActivationPattern) {
+                                        ProcessDeActivationPattern startActivationPattern) {
 
         this.id = id;
         this.name = name;

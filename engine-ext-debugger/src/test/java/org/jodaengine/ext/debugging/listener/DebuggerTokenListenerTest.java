@@ -20,6 +20,7 @@ import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.debugging.util.DirectlyInterruptingInterrupter;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
+import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
@@ -53,6 +54,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     private DebuggerServiceImpl mockDebuggerWithoutBreakpoint;
     private DebuggerServiceImpl mockDebuggerWithBreakpoint;
     private AbstractProcessInstance mockInstance;
+    private Navigator mockNavigator;
     private Token mockToken;
     private Interrupter mockInterrupter;
     
@@ -93,6 +95,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         // setup clean mocks
         //
         this.mockInterrupter = mock(Interrupter.class);
+        this.mockNavigator = mock(Navigator.class);
         this.mockDebuggerWithBreakpoint = mock(DebuggerServiceImpl.class);
         this.mockDebuggerWithoutBreakpoint = mock(DebuggerServiceImpl.class);
         this.mockToken = mock(Token.class);
@@ -118,11 +121,11 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         // interrupter mock
         //
         when(this.mockInterrupter.interruptInstance()).thenReturn(DebuggerCommand.CONTINUE);
-        when(this.mockDebuggerWithBreakpoint.breakpointTriggered(
+        when(this.mockDebuggerWithBreakpoint.breakTriggered(
             Mockito.<Token>any(),
             Mockito.<Breakpoint>any(),
             Mockito.<DebuggerTokenListener>any())).thenReturn(this.mockInterrupter);
-        when(this.mockDebuggerWithoutBreakpoint.breakpointTriggered(
+        when(this.mockDebuggerWithoutBreakpoint.breakTriggered(
             Mockito.<Token>any(),
             Mockito.<Breakpoint>any(),
             Mockito.<DebuggerTokenListener>any())).thenReturn(this.mockInterrupter);
@@ -130,8 +133,12 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         //
         // create bounded listeners
         //
-        this.listenerWithBreakpoint = new DebuggerTokenListener(this.mockDebuggerWithBreakpoint);
-        this.listenerWithoutBreakpoint = new DebuggerTokenListener(this.mockDebuggerWithoutBreakpoint);
+        this.listenerWithBreakpoint = new DebuggerTokenListener(
+            this.mockDebuggerWithBreakpoint,
+            this.mockNavigator);
+        this.listenerWithoutBreakpoint = new DebuggerTokenListener(
+            this.mockDebuggerWithoutBreakpoint,
+            this.mockNavigator);
         
     }
     
@@ -147,8 +154,9 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
         verify(this.mockInterrupter, times(1)).interruptInstance();
-        verify(this.mockDebuggerWithBreakpoint, times(1)).breakpointTriggered(
+        verify(this.mockDebuggerWithBreakpoint, times(1)).breakTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
     }
     
     /**
@@ -165,8 +173,9 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         
         verify(this.mockDebuggerWithoutBreakpoint, times(1)).getBreakpoints(this.mockInstance);
         verify(this.mockInterrupter, never()).interruptInstance();
-        verify(this.mockDebuggerWithoutBreakpoint, never()).breakpointTriggered(
+        verify(this.mockDebuggerWithoutBreakpoint, never()).breakTriggered(
             this.mockToken, this.breakpoint, this.listenerWithoutBreakpoint);
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
     }
     
     /**
@@ -184,8 +193,9 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
         verify(this.mockInterrupter, never()).interruptInstance();
-        verify(this.mockDebuggerWithBreakpoint, never()).breakpointTriggered(
+        verify(this.mockDebuggerWithBreakpoint, never()).breakTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
     }
     
     /**
@@ -203,7 +213,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         this.listenerWithBreakpoint.stateChanged(this.event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
-        verify(this.mockDebuggerWithBreakpoint, never()).breakpointTriggered(
+        verify(this.mockDebuggerWithBreakpoint, never()).breakTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
         
         this.breakpoint.enable();
@@ -213,8 +223,9 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         
         verify(this.mockDebuggerWithBreakpoint, times(2)).getBreakpoints(this.mockInstance);
         verify(this.mockInterrupter, times(1)).interruptInstance();
-        verify(this.mockDebuggerWithBreakpoint, times(1)).breakpointTriggered(
+        verify(this.mockDebuggerWithBreakpoint, times(1)).breakTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
     }
     
     /**
@@ -233,8 +244,9 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
         verify(this.mockInterrupter, never()).interruptInstance();
-        verify(this.mockDebuggerWithBreakpoint, never()).breakpointTriggered(
+        verify(this.mockDebuggerWithBreakpoint, never()).breakTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
     }
     
     /**
@@ -258,7 +270,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
         verify(this.mockInterrupter, never()).interruptInstance();
-        verify(this.mockDebuggerWithBreakpoint, never()).breakpointTriggered(
+        verify(this.mockDebuggerWithBreakpoint, never()).breakTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
     }
     
@@ -274,7 +286,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         // create an immediately interrupting interrupter
         //
         Interrupter interrupter = new DirectlyInterruptingInterrupter();
-        when(this.mockDebuggerWithBreakpoint.breakpointTriggered(
+        when(this.mockDebuggerWithBreakpoint.breakTriggered(
             Mockito.<Token>any(),
             Mockito.<Breakpoint>any(),
             Mockito.<DebuggerTokenListener>any())).thenReturn(interrupter);
@@ -285,12 +297,150 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         listenerWithBreakpoint.stateChanged(event);
         
         verify(this.mockDebuggerWithBreakpoint, times(1)).getBreakpoints(this.mockInstance);
-        verify(this.mockDebuggerWithBreakpoint, times(1)).breakpointTriggered(
+        verify(this.mockDebuggerWithBreakpoint, times(1)).breakTriggered(
             this.mockToken, this.breakpoint, this.listenerWithBreakpoint);
         
         //
         // This method should be called. The other methods are covered by previous tests...
         //
         verify(this.mockDebuggerWithBreakpoint, times(1)).unexspectedInterruption(interrupter);
+    }
+    
+    /**
+     * The instance should normally go on.
+     * 
+     * @throws InterruptedException no way this happens...
+     */
+    @Test
+    public void testBreakpointReleaseWithContinueCommand() throws InterruptedException {
+        
+        when(this.mockInterrupter.interruptInstance()).thenReturn(DebuggerCommand.CONTINUE);
+        
+        //
+        // break the first time
+        //
+        this.listenerWithBreakpoint.stateChanged(this.event);
+        
+        verify(this.mockInterrupter, times(1)).interruptInstance();
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
+        
+        //
+        // and again
+        //
+        this.listenerWithBreakpoint.stateChanged(this.event);
+        
+        verify(this.mockInterrupter, times(2)).interruptInstance();
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
+        
+        //
+        // no break, because no match
+        //
+        when(this.mockToken.getCurrentActivityState()).thenReturn(ActivityState.SKIPPED);
+        
+        this.listenerWithBreakpoint.stateChanged(this.event);
+        
+        verify(this.mockInterrupter, times(2)).interruptInstance();
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
+    }
+    
+    /**
+     * The instance should not break any longer.
+     * 
+     * @throws InterruptedException no way this happens...
+     */
+    @Test
+    public void testBreakpointReleaseWithResumeCommand() throws InterruptedException {
+        
+        when(this.mockInterrupter.interruptInstance()).thenReturn(DebuggerCommand.RESUME);
+        
+        //
+        // break the first time
+        //
+        this.listenerWithBreakpoint.stateChanged(this.event);
+        
+        verify(this.mockInterrupter, times(1)).interruptInstance();
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
+        
+        //
+        // and again, but skip this break even it would matches
+        //
+        this.listenerWithBreakpoint.stateChanged(this.event);
+        
+        verify(this.mockInterrupter, times(1)).interruptInstance();
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
+        
+        //
+        // and also skip the next one
+        //
+        this.listenerWithBreakpoint.stateChanged(this.event);
+        
+        verify(this.mockInterrupter, times(1)).interruptInstance();
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
+    }
+    
+    /**
+     * The instance should be terminated afterwards.
+     * 
+     * @throws InterruptedException no way this happens...
+     */
+    @Test
+    public void testBreakpointReleaseWithTerminateCommand() throws InterruptedException {
+        
+        when(this.mockInterrupter.interruptInstance()).thenReturn(DebuggerCommand.TERMINATE);
+        
+        //
+        // break the first time
+        //
+        this.listenerWithBreakpoint.stateChanged(this.event);
+        
+        verify(this.mockInterrupter, times(1)).interruptInstance();
+        verify(this.mockNavigator, times(1)).cancelProcessInstance(this.mockInstance);
+        
+        //
+        // and skip next breaks
+        //
+        this.listenerWithBreakpoint.stateChanged(this.event);
+        
+        verify(this.mockInterrupter, times(1)).interruptInstance();
+        verify(this.mockNavigator, times(1)).cancelProcessInstance(this.mockInstance);
+    }
+    
+    /**
+     * When stepped over the instance should be interrupted the next time.
+     * 
+     * @throws InterruptedException no way this happens...
+     */
+    @Test
+    public void testBreakpointReleaseWithStepOverCommand() throws InterruptedException {
+        
+        when(this.mockInterrupter.interruptInstance()).thenReturn(DebuggerCommand.STEP_OVER);
+        
+        //
+        // break the first time
+        //
+        this.listenerWithBreakpoint.stateChanged(this.event);
+        
+        verify(this.mockInterrupter, times(1)).interruptInstance();
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
+        
+        //
+        // breaks, even if the breakpoint did not match
+        //
+        when(this.mockToken.getCurrentActivityState()).thenReturn(ActivityState.SKIPPED);
+        when(this.mockInterrupter.interruptInstance()).thenReturn(DebuggerCommand.CONTINUE);
+        
+        this.listenerWithBreakpoint.stateChanged(this.event);
+        
+        verify(this.mockInterrupter, times(2)).interruptInstance();
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
+        
+        //
+        // go on with continue... should not match anymore
+        //
+        this.listenerWithBreakpoint.stateChanged(this.event);
+        
+        verify(this.mockInterrupter, times(2)).interruptInstance();
+        verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
+        
     }
 }

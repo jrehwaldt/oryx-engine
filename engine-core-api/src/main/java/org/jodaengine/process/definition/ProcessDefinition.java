@@ -52,7 +52,7 @@ public interface ProcessDefinition extends Identifiable<ProcessDefinitionID>, At
     void setDescription(String description);
 
     /**
-     * Gets the start nodes of the process. Tokens can be placed there. As the process definition consists of a tree
+     * Gets the start nodes of the process. Tokens can be placed there. As the process definition consists of a graph
      * structure of nodes, this is enough to reference the whole definition.
      * 
      * @return the start nodes
