@@ -103,12 +103,6 @@ public class WorkListManagerTest {
         AbstractRole testRole = ServiceFactory.getIdentityService().getIdentityBuilder().createRole("testRole");
         ServiceFactory.getIdentityService().getIdentityBuilder()
         .participantBelongsToRole(tobi.getID(), testRole.getID());
-        // allocation patterns START
-        // Pattern pushPattern = new DirectDistributionPattern();
-        // Pattern pullPattern = new SimplePullPattern();
-        // AllocationStrategies allocationStrategies = new AllocationStrategiesImpl(pushPattern, pullPattern, null,
-        // null);
-        // allocation patterns END
         CreationPatternBuilder creationPatternBuilder = new CreationPatternBuilderImpl();
         CreationPattern anotherPattern = creationPatternBuilder.setItemSubject("Go shopping")
         .setItemDescription("I need milk").setItemFormID(null).addResourceAssignedToItem(tobi)
