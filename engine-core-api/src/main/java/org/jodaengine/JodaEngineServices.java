@@ -7,6 +7,8 @@ import javax.annotation.Nonnull;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.resource.IdentityService;
+import org.jodaengine.resource.worklist.WorklistService;
 
 /**
  * General Interface for all Services that the {@link JodaEngine} provides.

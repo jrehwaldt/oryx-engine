@@ -1,8 +1,8 @@
 package org.jodaengine.resource.allocation.pattern.detour;
 
 import org.jodaengine.resource.AbstractResource;
+import org.jodaengine.resource.allocation.DetourPattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
-import org.jodaengine.resource.worklist.DetourPattern;
 import org.jodaengine.resource.worklist.WorklistItemImpl;
 import org.jodaengine.resource.worklist.WorklistItemState;
 

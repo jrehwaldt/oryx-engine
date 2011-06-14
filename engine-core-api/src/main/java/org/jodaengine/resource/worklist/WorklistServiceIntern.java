@@ -1,17 +1,15 @@
-package org.jodaengine.resource.allocation;
+package org.jodaengine.resource.worklist;
 
 import java.util.Set;
 import java.util.UUID;
 
-import org.jodaengine.WorklistService;
 import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.worklist.AbstractWorklistItem;
 
 /**
  * Is the internal interface for operating on the Worklists. This interface is used by the patterns in order to query
  * and modify the queues.
  */
-public interface TaskAllocation extends WorklistService {
+public interface WorklistServiceIntern extends WorklistService {
 
     /**
      * Adds a {@link AbstractWorklistItem} to the specified {@link AbstractResource}.
