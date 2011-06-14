@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.jodaengine.NavigatorImplMock;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.WorklistService;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineException;
@@ -26,6 +25,7 @@ import org.jodaengine.resource.Participant;
 import org.jodaengine.resource.Role;
 import org.jodaengine.resource.allocation.pattern.creation.AbstractCreationPattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.resource.worklist.WorklistService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

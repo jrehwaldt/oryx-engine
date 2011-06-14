@@ -20,6 +20,7 @@ import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistribution
 import org.jodaengine.resource.allocation.pattern.push.AllocateSinglePattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
+import org.jodaengine.resource.worklist.WorklistService;
 import org.jodaengine.util.mock.MockUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;

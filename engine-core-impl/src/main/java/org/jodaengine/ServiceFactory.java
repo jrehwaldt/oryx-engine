@@ -8,7 +8,9 @@ import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
-import org.jodaengine.resource.allocation.TaskAllocation;
+import org.jodaengine.resource.IdentityService;
+import org.jodaengine.resource.worklist.WorklistService;
+import org.jodaengine.resource.worklist.WorklistServiceIntern;
 
 
 /**
@@ -37,12 +39,12 @@ public final class ServiceFactory {
     }
 
     /**
-     * Gets the {@link TaskAllocation} Interface for operating on work lists.
+     * Gets the {@link WorklistServiceIntern} Interface for operating on work lists.
      * 
      * @return the worklist queue
      */
     // TODO @Alle Muss umbenannt werden in InternalWorklistService 
-    public static @Nonnull TaskAllocation getWorklistQueue() {
+    public static @Nonnull WorklistServiceIntern getWorklistQueue() {
 
         return getWorklistManagerInstance();
     }

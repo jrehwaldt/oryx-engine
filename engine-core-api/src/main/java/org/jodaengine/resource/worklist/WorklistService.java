@@ -1,4 +1,4 @@
-package org.jodaengine;
+package org.jodaengine.resource.worklist;
 
 import java.util.List;
 import java.util.Map;
@@ -12,8 +12,6 @@ import org.jodaengine.bootstrap.Service;
 import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
 import org.jodaengine.resource.AbstractResource;
-import org.jodaengine.resource.worklist.AbstractWorklistItem;
-import org.jodaengine.resource.worklist.DetourPattern;
 
 /**
  * The Worklist Service which is used to manage our {@link Worklist}, add tasks and remove them that is. This is the

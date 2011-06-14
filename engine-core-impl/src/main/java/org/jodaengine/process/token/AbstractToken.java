@@ -10,7 +10,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.jodaengine.IdentityService;
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.ext.AbstractListenable;
@@ -24,7 +23,8 @@ import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.resource.allocation.TaskAllocation;
+import org.jodaengine.resource.IdentityService;
+import org.jodaengine.resource.worklist.WorklistServiceIntern;
 import org.jodaengine.util.ServiceContext;
 import org.jodaengine.util.ServiceContextImpl;
 
@@ -307,7 +307,7 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
 
     @Override
     @JsonIgnore
-    public TaskAllocation getWorklistService() {
+    public WorklistServiceIntern getWorklistService() {
 
         return serviceContext.getWorklistService();
     }

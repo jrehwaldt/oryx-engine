@@ -1,4 +1,4 @@
-package org.jodaengine;
+package org.jodaengine.resource;
 
 import java.util.Set;
 import java.util.UUID;
@@ -8,11 +8,6 @@ import javax.annotation.Nullable;
 
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.exception.ResourceNotAvailableException;
-import org.jodaengine.resource.AbstractOrganizationUnit;
-import org.jodaengine.resource.AbstractParticipant;
-import org.jodaengine.resource.AbstractPosition;
-import org.jodaengine.resource.AbstractRole;
-import org.jodaengine.resource.IdentityBuilder;
 
 /**
  * The ResourceService provides an interface for:

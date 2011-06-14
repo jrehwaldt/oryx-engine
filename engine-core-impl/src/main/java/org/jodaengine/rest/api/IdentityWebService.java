@@ -16,7 +16,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.annotate.JsonIgnoreType;
 import org.jboss.resteasy.spi.BadRequestException;
-import org.jodaengine.IdentityService;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.ResourceNotAvailableException;
@@ -26,6 +25,7 @@ import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractPosition;
 import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.IdentityBuilder;
+import org.jodaengine.resource.IdentityService;
 import org.jodaengine.rest.PatchCollectionChangeset;
 import org.jodaengine.util.annotations.PATCH;
 import org.slf4j.Logger;
