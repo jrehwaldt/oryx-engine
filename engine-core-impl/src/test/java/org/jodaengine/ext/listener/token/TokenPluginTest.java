@@ -47,7 +47,7 @@ public class TokenPluginTest {
             new TakeAllSplitBehaviour());
         builder = new BpmnTokenBuilder(mock(Navigator.class), null);
         AbstractProcessInstance processInstance = new ProcessInstance(null, builder);
-        this.token = new BpmnToken(node1, processInstance, null);
+        this.token = new BpmnToken(node1, null, processInstance, null, null);
 
         mock = mock(AbstractTokenListener.class);
         token.registerListener(mock);

@@ -25,7 +25,6 @@ public class BpmnTokenBuilder implements TokenBuilder {
      *
      * @param nav the navigator
      * @param extensionService the {@link ExtensionService}
-     * @param node the node
      */
     public BpmnTokenBuilder(Navigator nav,
                             @Nullable ExtensionService extensionService) {
@@ -78,8 +77,9 @@ public class BpmnTokenBuilder implements TokenBuilder {
     }
     
     @Override
-    public Token create(Node node) {
-        return new BpmnToken(node, instance, nav, this.extensionService);
+    public Token create(Node node,
+                        Token parentToken) {
+        return new BpmnToken(node, parentToken, instance, nav, this.extensionService);
     }
 
 }
