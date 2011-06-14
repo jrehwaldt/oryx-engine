@@ -2,7 +2,7 @@ package org.jodaengine.process.instantiation;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessStartEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.util.ServiceContextImpl;

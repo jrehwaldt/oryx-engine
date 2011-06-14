@@ -1,5 +1,6 @@
-package org.jodaengine.eventmanagement.subscription;
+package org.jodaengine.eventmanagement.processevent.incoming.intermediate;
 
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 
@@ -7,7 +8,7 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
  * The Interface StartEvent. A start event, in contrast to the intermediate event, will trigger the instantiation of a
  * process.
  */
-public interface ProcessStartEvent extends IntermediateProcessEvent {
+public interface ProcessStartEvent extends IncomingProcessEvent {
 
     /**
      * Gets the assigned process definition that is to be instantiated upon event occurrence.

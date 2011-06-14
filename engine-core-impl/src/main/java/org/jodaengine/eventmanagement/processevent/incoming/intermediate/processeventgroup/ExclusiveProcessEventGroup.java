@@ -3,14 +3,14 @@ package org.jodaengine.eventmanagement.processevent.incoming.intermediate.proces
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
-import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.token.Token;
 
 /**
- * This represents a {@link TriggeringBehaviour} that a soon a {@link IntermediateProcessEvent} of this group is triggered this
- * group will unregister all other {@link IntermediateProcessEvent} that are in this group.
+ * This represents a {@link TriggeringBehaviour} that a soon a {@link IncomingProcessEvent} of this group is triggered this
+ * group will unregister all other {@link IncomingProcessEvent} that are in this group.
  */
 public class ExclusiveProcessEventGroup extends AbstractProcessIntermediateEventGroup {
 
@@ -26,7 +26,7 @@ public class ExclusiveProcessEventGroup extends AbstractProcessIntermediateEvent
     }
 
     @Override
-    public void triggerIntern(ProcessIntermediateEvent processIntermediateEvent) {
+    public void triggerIntern(IncomingIntermediateProcessEvent processIntermediateEvent) {
 
         if (!getIntermediateEvents().remove(processIntermediateEvent)) {
 
@@ -43,14 +43,14 @@ public class ExclusiveProcessEventGroup extends AbstractProcessIntermediateEvent
     }
 
     /**
-     * Unsubscribes all {@link ProcessIntermediateEvent} that are left.
+     * Unsubscribes all {@link IncomingIntermediateProcessEvent} that are left.
      */
     // TODO @Gerardo muss geändert werden keine ServiceFactory mehr
     private void unsubscribingOtherEvent() {
 
         // Unsubscribing the other registered events; doing it as early as possible
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
-        for (ProcessIntermediateEvent registeredProcessEvent : getIntermediateEvents()) {
+        for (IncomingIntermediateProcessEvent registeredProcessEvent : getIntermediateEvents()) {
             eventManager.unsubscribeFromIntermediateEvent(registeredProcessEvent);
         }
     }

@@ -8,19 +8,19 @@ import javax.annotation.Nonnull;
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.EventSubscription;
 import org.jodaengine.eventmanagement.subscription.EventUnsubscription;
-import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 
 /**
  * This abstract eventAdapter implements our approach of a self correlating event Adapter. It means that this
- * eventAdapter already manages his own queues for correlating {@link IntermediateProcessEvent}s with {@link AdapterEvent}s.
+ * eventAdapter already manages his own queues for correlating {@link IncomingProcessEvent}s with {@link AdapterEvent}s.
  * <p>
  * That is why this adapter implements {@link EventSubscription} in order to fill his own queue with
- * {@link IntermediateProcessEvent ProcessEvents}. And, it also implements the {@link EventCorrelator} interface in order to
- * correlate {@link IntermediateProcessEvent}s with {@link AdapterEvent}s.
+ * {@link IncomingProcessEvent ProcessEvents}. And, it also implements the {@link EventCorrelator} interface in order to
+ * correlate {@link IncomingProcessEvent}s with {@link AdapterEvent}s.
  * </p>
  * 
  * @param <Configuration>
@@ -31,7 +31,7 @@ public abstract class AbstractCorrelatingEventAdapter
     implements EventSubscription, EventUnsubscription, EventCorrelator {
 
     // Both lists are lazyInitialized
-    private List<IntermediateProcessEvent> processEvents;
+    private List<IncomingProcessEvent> processEvents;
     private List<AdapterEvent> unCorrelatedAdapterEvents;
 
     /**
@@ -54,7 +54,7 @@ public abstract class AbstractCorrelatingEventAdapter
     }
 
     @Override
-    public void registerIntermediateEvent(ProcessIntermediateEvent intermediateEvent) {
+    public void registerIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
         // TODO @EVENTMANAGERTEAM: Checking if it is already in the list of unCorrelatedAdapterEvents
         getProcessEvents().add(intermediateEvent);
@@ -67,7 +67,7 @@ public abstract class AbstractCorrelatingEventAdapter
     }
 
     @Override
-    public void unsubscribeFromIntermediateEvent(ProcessIntermediateEvent intermediateEvent) {
+    public void unsubscribeFromIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
         getProcessEvents().remove(intermediateEvent);
     }
@@ -76,8 +76,8 @@ public abstract class AbstractCorrelatingEventAdapter
     public void correlate(AdapterEvent e) {
 
         // Copy the list of processEvents because the array is modified while it is iterated
-        List<IntermediateProcessEvent> tmpProcessEvents = new ArrayList<IntermediateProcessEvent>(getProcessEvents());
-        for (IntermediateProcessEvent processEvent : tmpProcessEvents) {
+        List<IncomingProcessEvent> tmpProcessEvents = new ArrayList<IncomingProcessEvent>(getProcessEvents());
+        for (IncomingProcessEvent processEvent : tmpProcessEvents) {
 
             if (processEvent.evaluate(e)) {
 
@@ -94,31 +94,31 @@ public abstract class AbstractCorrelatingEventAdapter
      * Knows what to do with a processEvent when it was correlated successfully.
      * 
      * @param processEvent
-     *            - the {@link IntermediateProcessEvent} that was correlated successfully
+     *            - the {@link IncomingProcessEvent} that was correlated successfully
      */
-    private void correlateProcessEvent(IntermediateProcessEvent processEvent) {
+    private void correlateProcessEvent(IncomingProcessEvent processEvent) {
 
         processEvent.trigger();
 
         // If the processEvent is an processIntermediateEvent then it is removed from the list so that it cannot be
         // correlated more
-        if (processEvent instanceof ProcessIntermediateEvent) {
+        if (processEvent instanceof IncomingIntermediateProcessEvent) {
 
             getProcessEvents().remove(processEvent);
         }
     }
 
     /**
-     * Getter for {@link IntermediateProcessEvent}s.
+     * Getter for {@link IncomingProcessEvent}s.
      * 
      * Are public for testing issues.
      * 
-     * @return a {@link List} of {@link IntermediateProcessEvent}s.
+     * @return a {@link List} of {@link IncomingProcessEvent}s.
      */
-    public List<IntermediateProcessEvent> getProcessEvents() {
+    public List<IncomingProcessEvent> getProcessEvents() {
 
         if (processEvents == null) {
-            this.processEvents = new ArrayList<IntermediateProcessEvent>();
+            this.processEvents = new ArrayList<IncomingProcessEvent>();
         }
         return processEvents;
     }

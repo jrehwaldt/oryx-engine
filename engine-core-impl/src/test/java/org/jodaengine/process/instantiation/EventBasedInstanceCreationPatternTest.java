@@ -3,7 +3,7 @@ package org.jodaengine.process.instantiation;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessStartEvent;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instantiation.pattern.EventBasedInstanceCreationPattern;

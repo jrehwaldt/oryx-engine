@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.bootstrap.Service;
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.listener.AbstractNavigatorListener;

@@ -5,6 +5,8 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 
 /**
  * The Interface for a general ProcessEvent.
+ * All process events have an assigned adapter with a given configuration that may produce
+ * events.
  */
 public interface ProcessEvent {
     /**

@@ -2,7 +2,7 @@ package org.jodaengine.eventmanagement.subscription.processevent.start;
 
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.eventmanagement.processevent.incoming.start.DefaultProcessStartEvent;
-import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorImpl;
@@ -73,7 +73,7 @@ public class DefaultProcessStartEventTest extends AbstractJodaEngineTest {
     }
 
     /**
-     * Build a little process that should be started by the {@link IntermediateProcessEvent}.
+     * Build a little process that should be started by the {@link IncomingProcessEvent}.
      *
      * @return the built {@link ProcessDefinition}
      * @throws IllegalStarteventException the illegal startevent exception

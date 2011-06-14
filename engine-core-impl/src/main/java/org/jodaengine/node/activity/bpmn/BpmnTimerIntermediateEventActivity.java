@@ -4,8 +4,8 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.TimerProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
@@ -37,7 +37,7 @@ BpmnEventBasedGatewayEvent {
 
         EventSubscriptionManager eventManager = token.getCorrelationService();
 
-        ProcessIntermediateEvent processEvent = createProcessIntermediateEvent(token);
+        IncomingIntermediateProcessEvent processEvent = createProcessIntermediateEvent(token);
 
         eventManager.registerIntermediateEvent(processEvent);
 
@@ -58,7 +58,7 @@ BpmnEventBasedGatewayEvent {
     @Override
     public void cancelIntern(AbstractToken executingToken) {
 
-        ProcessIntermediateEvent intermediateEvent = (ProcessIntermediateEvent) executingToken
+        IncomingIntermediateProcessEvent intermediateEvent = (IncomingIntermediateProcessEvent) executingToken
         .getInternalVariable(internalVariableId(PROCESS_EVENT_PREFIX, executingToken));
 
         EventSubscriptionManager eventManager = executingToken.getCorrelationService();
@@ -69,13 +69,13 @@ BpmnEventBasedGatewayEvent {
     // ==== Interface that represents that this event can also be used by other nodes like event-based Gateway ====
     //
     @Override
-    public ProcessIntermediateEvent createProcessIntermediateEvent(Token token) {
+    public IncomingIntermediateProcessEvent createProcessIntermediateEvent(Token token) {
 
         return new TimerProcessIntermediateEvent(time, token);
     }
 
     @Override
-    public ProcessIntermediateEvent createProcessIntermediateEventForEventGroup(Token token,
+    public IncomingIntermediateProcessEvent createProcessIntermediateEventForEventGroup(Token token,
                                                                                 TriggeringBehaviour eventGroup) {
 
         return new TimerProcessIntermediateEvent(time, token, eventGroup);

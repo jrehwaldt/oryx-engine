@@ -12,9 +12,9 @@ import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
-import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessStartEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.eventmanagement.timing.QuartzJobManager;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.exception.AdapterSchedulingException;
@@ -94,7 +94,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     }
 
     @Override
-    public void registerIntermediateEvent(ProcessIntermediateEvent intermediateEvent) {
+    public void registerIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
         AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(intermediateEvent);
         correlatingAdapter.registerIntermediateEvent(intermediateEvent);
@@ -109,7 +109,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     }
 
     @Override
-    public void unsubscribeFromIntermediateEvent(ProcessIntermediateEvent intermediateEvent) {
+    public void unsubscribeFromIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
         AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(intermediateEvent);
         correlatingAdapter.unsubscribeFromIntermediateEvent(intermediateEvent);
@@ -156,7 +156,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
      *            the process event
      * @return the adapter for the process event
      */
-    private AbstractCorrelatingEventAdapter<?> getAdapterForProcessEvent(IntermediateProcessEvent processEvent) {
+    private AbstractCorrelatingEventAdapter<?> getAdapterForProcessEvent(IncomingProcessEvent processEvent) {
 
         AbstractCorrelatingEventAdapter<?> eventAdapter = (AbstractCorrelatingEventAdapter<?>) getEventAdapters().get(
             processEvent.getAdapterConfiguration());

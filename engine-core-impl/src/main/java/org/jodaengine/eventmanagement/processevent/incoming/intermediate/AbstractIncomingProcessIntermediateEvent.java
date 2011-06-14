@@ -8,17 +8,16 @@ import org.jodaengine.eventmanagement.processevent.incoming.AbstractIncomingProc
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.DefaultTokenResumption;
-import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
 /**
- * This is the base implementation for all {@link ProcessIntermediateEvent}s.
+ * This is the base implementation for all {@link IncomingIntermediateProcessEvent}s.
  */
 public abstract class AbstractIncomingProcessIntermediateEvent extends AbstractIncomingProcessEvent 
-    implements ProcessIntermediateEvent {
+    implements IncomingIntermediateProcessEvent {
 
     protected Token token;
     protected Node node;
@@ -49,7 +48,7 @@ public abstract class AbstractIncomingProcessIntermediateEvent extends AbstractI
      * @param config
      *            - the {@link AdapterConfiguration configuration of the adapter} corresponding to this
      * @param condition
-     *            - the conditions of this {@link IntermediateProcessEvent}
+     *            - the conditions of this {@link IncomingProcessEvent}
      * @param token
      *            - the {@link Token processToken}F
      * 
@@ -68,11 +67,11 @@ public abstract class AbstractIncomingProcessIntermediateEvent extends AbstractI
      * @param config
      *            - the {@link AdapterConfiguration configuration of the adapter} corresponding to this
      * @param condition
-     *            - the conditions of this {@link IntermediateProcessEvent}
+     *            - the conditions of this {@link IncomingProcessEvent}
      * @param token
      *            - the {@link Token processToken}
      * @param parentEventGroup
-     *            the {@link AbstractProcessIntermediateEventGroup} this {@link IntermediateProcessEvent} belongs to
+     *            the {@link AbstractProcessIntermediateEventGroup} this {@link IncomingProcessEvent} belongs to
      */
     protected AbstractIncomingProcessIntermediateEvent(AdapterConfiguration config,
                                                EventCondition condition,

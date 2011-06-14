@@ -1,19 +1,19 @@
 package org.jodaengine.eventmanagement.processevent.incoming;
 
-import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 
 
 /**
- * This class encapsulate the behavior that should be done in case a {@link IntermediateProcessEvent} is triggered.
+ * This class encapsulate the behavior that should be done in case a {@link IncomingProcessEvent} is triggered.
  */
 public interface TriggeringBehaviour {
 
     /**
-     * If an {@link IntermediateProcessEvent} is triggered than this method is
+     * If an {@link IncomingProcessEvent} is triggered than this method is
      * called.
      * 
      * @param processEvent
-     *            - the {@link IntermediateProcessEvent} that was triggered
+     *            - the {@link IncomingProcessEvent} that was triggered
      */
-    void trigger(IntermediateProcessEvent processEvent);
+    void trigger(IncomingProcessEvent processEvent);
 }

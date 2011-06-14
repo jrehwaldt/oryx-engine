@@ -3,6 +3,8 @@ package org.jodaengine.eventmanagement.subscription;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.EventCorrelator;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessStartEvent;
 
 
 /**
@@ -24,5 +26,5 @@ public interface EventSubscription {
      * @param intermediateEvent
      *            the intermediate event
      */
-    void registerIntermediateEvent(@Nonnull ProcessIntermediateEvent intermediateEvent);
+    void registerIntermediateEvent(@Nonnull IncomingIntermediateProcessEvent intermediateEvent);
 }

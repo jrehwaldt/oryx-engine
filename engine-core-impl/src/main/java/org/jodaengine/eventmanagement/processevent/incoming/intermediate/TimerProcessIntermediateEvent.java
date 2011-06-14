@@ -31,7 +31,7 @@ public class TimerProcessIntermediateEvent extends AbstractIncomingProcessInterm
      * @param token
      *            - the {@link Token} that registered this event.
      * @param eventGroup
-     *            - if this {@link ProcessIntermediateEvent} is related to other {@link ProcessIntermediateEvent} then
+     *            - if this {@link IncomingIntermediateProcessEvent} is related to other {@link IncomingIntermediateProcessEvent} then
      *            the {@link AbstractProcessIntermediateEventGroup} can be specified here
      */
     public TimerProcessIntermediateEvent(long eventWaitingTime, Token token, TriggeringBehaviour eventGroup) {

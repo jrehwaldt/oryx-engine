@@ -1,5 +1,6 @@
-package org.jodaengine.eventmanagement.subscription;
+package org.jodaengine.eventmanagement.processevent.incoming.intermediate;
 
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 
@@ -8,7 +9,7 @@ import org.jodaengine.process.token.Token;
  * instantiation of a new process, but a notification to a registered process instance will be sent.
  * 
  */
-public interface ProcessIntermediateEvent extends IntermediateProcessEvent {
+public interface IncomingIntermediateProcessEvent extends IncomingProcessEvent {
 
     /**
      * Gets the assigned token that has be notified if timer is complete.
@@ -24,7 +25,9 @@ public interface ProcessIntermediateEvent extends IntermediateProcessEvent {
     Node getFireringNode();
 
     /**
-     * Set the {@link Node} that fired the event.
+     * Set the {@link Node} that fires the event.
+     *
+     * @param node the new firering node
      */
     void setFireringNode(Node node);
 }

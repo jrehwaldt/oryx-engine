@@ -5,13 +5,13 @@ import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapterConf
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.AbstractIncomingProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.AbstractProcessIntermediateEventGroup;
-import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.process.token.Token;
 
 /**
- * It is a {@link IntermediateProcessEvent} that can only be triggered manually and not automatically.
+ * It is a {@link IncomingProcessEvent} that can only be triggered manually and not automatically.
  */
 public class ProcessIntermediateManualTriggeringEvent extends AbstractIncomingProcessIntermediateEvent {
 
@@ -36,7 +36,7 @@ public class ProcessIntermediateManualTriggeringEvent extends AbstractIncomingPr
      * @param token
      *            - the {@link Token} that registered this event.
      * @param eventGroup
-     *            - if this {@link ProcessIntermediateEvent} is related to other {@link ProcessIntermediateEvent} then
+     *            - if this {@link IncomingIntermediateProcessEvent} is related to other {@link IncomingIntermediateProcessEvent} then
      *            the {@link AbstractProcessIntermediateEventGroup} can be specified here
      */
     public ProcessIntermediateManualTriggeringEvent(String name, Token token, TriggeringBehaviour eventGroup) {

@@ -1,12 +1,12 @@
 package org.jodaengine.eventmanagement.subscription.condition;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.subscription.IntermediateProcessEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 
 /**
  * Is able to compare an object with a given {@link AdapterEvent}.
  * 
- * Currently, such objects could be a {@link IntermediateProcessEvent} or an {@link EventCondition}.
+ * Currently, such objects could be a {@link IncomingProcessEvent} or an {@link EventCondition}.
  */
 public interface AdapterEventComparable {
 
