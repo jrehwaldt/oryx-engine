@@ -16,7 +16,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * 
  * Twitter uses OAuth.
  */
-public class TwitterAdapterConfiguration extends AbstractAdapterConfiguration {
+public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapterConfiguration {
 
     /**
      * The ConfigurationBuilder holds all the oatuh specific things and is then used to connect to Twitter.
@@ -30,7 +30,7 @@ public class TwitterAdapterConfiguration extends AbstractAdapterConfiguration {
      * @param propertiesFilePath
      *            the properties file path
      */
-    public TwitterAdapterConfiguration(String propertiesFilePath) {
+    public AbstractTwitterAdapterConfiguration(String propertiesFilePath) {
 
         super(EventTypes.Twitter);
         // TODO open the file and do stuff
@@ -48,7 +48,7 @@ public class TwitterAdapterConfiguration extends AbstractAdapterConfiguration {
      * @param oauthAccessTokenSecret
      *            the oauth access token secret string
      */
-    public TwitterAdapterConfiguration(String oauthConsumerKey,
+    public AbstractTwitterAdapterConfiguration(String oauthConsumerKey,
                                        String oauthConsumerSecret,
                                        String oauthAccessToken,
                                        String oauthAccessTokenSecret) {
@@ -92,11 +92,5 @@ public class TwitterAdapterConfiguration extends AbstractAdapterConfiguration {
         return configurationBuilder;
     }
     
-    @Override
-    public EventAdapter registerAdapter(AdapterManagement adapterRegistrar) {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
 
 }
