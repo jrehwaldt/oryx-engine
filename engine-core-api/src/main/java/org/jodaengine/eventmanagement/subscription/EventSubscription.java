@@ -26,5 +26,5 @@ public interface EventSubscription {
      * @param intermediateEvent
      *            the intermediate event
      */
-    void registerIntermediateEvent(@Nonnull IncomingIntermediateProcessEvent intermediateEvent);
+    void registerIncomingIntermediateEvent(@Nonnull IncomingIntermediateProcessEvent intermediateEvent);
 }

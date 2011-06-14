@@ -39,6 +39,8 @@ public interface ServiceContext extends Attributable {
      * Gets the {@link EventCorrelator correlationService}.
      * 
      * @return the {@link EventCorrelator}
+     * 
+     * TODO @EVENTTEAM: The event manager is a correlation service? Not really no? It is also used for just sending.
      */
     EventSubscriptionManager getCorrelationService();
 

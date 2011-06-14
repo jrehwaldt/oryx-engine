@@ -54,7 +54,7 @@ public abstract class AbstractCorrelatingEventAdapter
     }
 
     @Override
-    public void registerIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
+    public void registerIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
         // TODO @EVENTMANAGERTEAM: Checking if it is already in the list of unCorrelatedAdapterEvents
         getProcessEvents().add(intermediateEvent);
@@ -67,7 +67,7 @@ public abstract class AbstractCorrelatingEventAdapter
     }
 
     @Override
-    public void unsubscribeFromIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
+    public void unsubscribeFromIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
         getProcessEvents().remove(intermediateEvent);
     }

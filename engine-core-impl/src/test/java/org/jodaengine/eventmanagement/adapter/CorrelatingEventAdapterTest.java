@@ -65,7 +65,7 @@ public class CorrelatingEventAdapterTest {
         IncomingIntermediateProcessEvent intermediateEvent = Mockito.mock(IncomingIntermediateProcessEvent.class);
         
         // Registering the intermediateEvent
-        eventAdapter.registerIntermediateEvent(intermediateEvent);
+        eventAdapter.registerIncomingIntermediateEvent(intermediateEvent);
 
         Assert.assertEquals(eventAdapter.getProcessEvents().size(), 1);
         Assert.assertEquals(intermediateEvent, eventAdapter.getProcessEvents().get(0));
@@ -81,7 +81,7 @@ public class CorrelatingEventAdapterTest {
         Mockito.when(intermediateEvent.evaluate(Mockito.any(AdapterEvent.class))).thenReturn(true);
 
         // At first register and then correlate
-        eventAdapter.registerIntermediateEvent(intermediateEvent);
+        eventAdapter.registerIncomingIntermediateEvent(intermediateEvent);
         eventAdapter.correlateAdapterEvent(Mockito.mock(AbstractAdapterEvent.class));
 
         Mockito.verify(intermediateEvent).trigger();

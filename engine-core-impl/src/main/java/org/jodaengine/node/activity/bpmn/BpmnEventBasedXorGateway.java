@@ -49,7 +49,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
                 eventXorGroup.add(processEvent);
 
                 // Subscribing on the event
-                eventManager.registerIntermediateEvent(processEvent);
+                eventManager.registerIncomingIntermediateEvent(processEvent);
 
                 // Putting the intermediate Events in the queue for later reference
                 registeredIntermediateEvents.add(processEvent);
@@ -99,7 +99,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
         // Unsubscribing from all processIntermediateEvents
         EventSubscriptionManager eventManager = executingToken.getCorrelationService();
         for (IncomingIntermediateProcessEvent registeredProcessEvent : registeredIntermediateEvents) {
-            eventManager.unsubscribeFromIntermediateEvent(registeredProcessEvent);
+            eventManager.unsubscribeFromIncomingIntermediateEvent(registeredProcessEvent);
         }
     }
 }

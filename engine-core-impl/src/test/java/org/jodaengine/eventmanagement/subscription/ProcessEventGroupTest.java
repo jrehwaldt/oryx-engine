@@ -43,9 +43,9 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
         eventGroup.add(intermediateEvent2);
         eventGroup.add(intermediateEvent3);
 
-        ServiceFactory.getCorrelationService().registerIntermediateEvent(intermediateEvent1);
-        ServiceFactory.getCorrelationService().registerIntermediateEvent(intermediateEvent2);
-        ServiceFactory.getCorrelationService().registerIntermediateEvent(intermediateEvent3);
+        ServiceFactory.getCorrelationService().registerIncomingIntermediateEvent(intermediateEvent1);
+        ServiceFactory.getCorrelationService().registerIncomingIntermediateEvent(intermediateEvent2);
+        ServiceFactory.getCorrelationService().registerIncomingIntermediateEvent(intermediateEvent3);
     }
 
     /**

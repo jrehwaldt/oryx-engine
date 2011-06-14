@@ -51,7 +51,7 @@ public class ExclusiveProcessEventGroup extends AbstractIntermediateProcessEvent
         // Unsubscribing the other registered events; doing it as early as possible
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
         for (IncomingIntermediateProcessEvent registeredProcessEvent : getIntermediateEvents()) {
-            eventManager.unsubscribeFromIntermediateEvent(registeredProcessEvent);
+            eventManager.unsubscribeFromIncomingIntermediateEvent(registeredProcessEvent);
         }
     }
 }

@@ -38,7 +38,7 @@ BpmnEventBasedGatewayEvent {
 
         IncomingIntermediateProcessEvent processEvent = createProcessIntermediateEvent(token);
 
-        eventManager.registerIntermediateEvent(processEvent);
+        eventManager.registerIncomingIntermediateEvent(processEvent);
 
         token.suspend();
     }

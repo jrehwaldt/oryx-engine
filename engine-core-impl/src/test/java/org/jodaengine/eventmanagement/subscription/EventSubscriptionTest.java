@@ -71,9 +71,9 @@ public class EventSubscriptionTest extends AbstractJodaEngineTest {
         IncomingIntermediateProcessEvent intermediateEvent = Mockito.mock(IncomingIntermediateProcessEvent.class);
         Mockito.when(intermediateEvent.getAdapterConfiguration()).thenReturn(adapterConfiguration);
 
-        eventManager.registerIntermediateEvent(intermediateEvent);
+        eventManager.registerIncomingIntermediateEvent(intermediateEvent);
 
         ArgumentCaptor<IncomingIntermediateProcessEvent> event = ArgumentCaptor.forClass(IncomingIntermediateProcessEvent.class);
-        Mockito.verify(correlationAdapter).registerIntermediateEvent(event.capture());
+        Mockito.verify(correlationAdapter).registerIncomingIntermediateEvent(event.capture());
     }
 }

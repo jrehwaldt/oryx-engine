@@ -25,5 +25,5 @@ public interface EventUnsubscription {
      * @param intermediateEvent
      *            - the {@link IncomingIntermediateProcessEvent intermediateEvent} that is not needed anymore
      */
-    void unsubscribeFromIntermediateEvent(@Nonnull IncomingIntermediateProcessEvent intermediateEvent);
+    void unsubscribeFromIncomingIntermediateEvent(@Nonnull IncomingIntermediateProcessEvent intermediateEvent);
 }
