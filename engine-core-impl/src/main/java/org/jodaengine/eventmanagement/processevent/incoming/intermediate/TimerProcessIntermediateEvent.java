@@ -1,10 +1,8 @@
 package org.jodaengine.eventmanagement.processevent.incoming.intermediate;
 
-import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.timer.TimerAdapterConfiguration;
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -22,7 +20,7 @@ public class TimerProcessIntermediateEvent extends AbstractIncomingProcessInterm
      */
     public TimerProcessIntermediateEvent(long eventWaitingTime, Token token) {
 
-        super(EventTypes.Timer, new TimerAdapterConfiguration(eventWaitingTime), token);
+        super(new TimerAdapterConfiguration(eventWaitingTime), token);
     }
 
     /**
@@ -38,7 +36,6 @@ public class TimerProcessIntermediateEvent extends AbstractIncomingProcessInterm
      */
     public TimerProcessIntermediateEvent(long eventWaitingTime, Token token, TriggeringBehaviour eventGroup) {
 
-        super(EventTypes.Timer, new TimerAdapterConfiguration(eventWaitingTime), new TrueEventCondition(), token,
-            eventGroup);
+        super(new TimerAdapterConfiguration(eventWaitingTime), new TrueEventCondition(), token, eventGroup);
     }
 }

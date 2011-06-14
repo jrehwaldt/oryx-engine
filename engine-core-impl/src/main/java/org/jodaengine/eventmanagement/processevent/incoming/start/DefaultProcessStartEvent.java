@@ -36,7 +36,7 @@ public class DefaultProcessStartEvent extends AbstractIncomingProcessEvent imple
                           EventCondition condition,
                           ProcessDefinitionID definitionID) {
 
-        super(type, config, condition);
+        super(config, condition);
         this.definitionID = definitionID;
         // we do not yet have one
         this.navigator = null;

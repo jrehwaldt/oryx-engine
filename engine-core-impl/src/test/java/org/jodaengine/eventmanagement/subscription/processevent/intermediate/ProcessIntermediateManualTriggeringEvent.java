@@ -1,6 +1,5 @@
 package org.jodaengine.eventmanagement.subscription.processevent.intermediate;
 
-import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapterConfiguration;
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
@@ -26,7 +25,7 @@ public class ProcessIntermediateManualTriggeringEvent extends AbstractIncomingPr
      */
     public ProcessIntermediateManualTriggeringEvent(String name, Token token) {
 
-        super(EventTypes.ManualTriggered, new ManualTriggeringAdapterConfiguration(name), token);
+        super(new ManualTriggeringAdapterConfiguration(name), token);
     }
 
     /**
@@ -42,7 +41,7 @@ public class ProcessIntermediateManualTriggeringEvent extends AbstractIncomingPr
      */
     public ProcessIntermediateManualTriggeringEvent(String name, Token token, TriggeringBehaviour eventGroup) {
 
-        super(EventTypes.ManualTriggered, new ManualTriggeringAdapterConfiguration(name), new TrueEventCondition(),
-            token, eventGroup);
+        super(new ManualTriggeringAdapterConfiguration(name), new TrueEventCondition(), token,
+            eventGroup);
     }
 }

@@ -29,9 +29,6 @@ public abstract class AbstractIncomingProcessIntermediateEvent extends AbstractI
      * Another builder for syntactical sugaring.
      * 
      * It only predefines a default {@link EventCondition} which is the {@link TrueEventCondition}.
-     * 
-     * @param type
-     *            the type of this {@link IntermediateProcessEvent}
      * @param config
      *            - the {@link AdapterConfiguration configuration of the adapter} corresponding to this
      * @param token
@@ -40,18 +37,15 @@ public abstract class AbstractIncomingProcessIntermediateEvent extends AbstractI
      * @see AbstractIncomingProcessIntermediateEvent#AbstractProcessIntermediateEvent(EventType, AdapterConfiguration,
      *      EventCondition, Token)
      */
-    protected AbstractIncomingProcessIntermediateEvent(EventType type, AdapterConfiguration config, Token token) {
+    protected AbstractIncomingProcessIntermediateEvent(AdapterConfiguration config, Token token) {
 
-        this(type, config, new TrueEventCondition(), token);
+        this(config, new TrueEventCondition(), token);
     }
 
     /**
      * Another builder for syntactical sugaring.
      * 
      * It only predefines a default {@link AbstractProcessIntermediateEventGroup}.
-     * 
-     * @param type
-     *            the type of this {@link IntermediateProcessEvent}
      * @param config
      *            - the {@link AdapterConfiguration configuration of the adapter} corresponding to this
      * @param condition
@@ -62,19 +56,15 @@ public abstract class AbstractIncomingProcessIntermediateEvent extends AbstractI
      * @see AbstractIncomingProcessIntermediateEvent#AbstractProcessIntermediateEvent(EventType, AdapterConfiguration,
      *      EventCondition, Token, AbstractProcessIntermediateEventGroup)
      */
-    protected AbstractIncomingProcessIntermediateEvent(EventType type,
-                                               AdapterConfiguration config,
+    protected AbstractIncomingProcessIntermediateEvent(AdapterConfiguration config,
                                                EventCondition condition,
                                                Token token) {
 
-        this(type, config, condition, token, new DefaultTokenResumption(token));
+        this(config, condition, token, new DefaultTokenResumption(token));
     }
 
     /**
      * Default constructor.
-     * 
-     * @param type
-     *            the type of this {@link IntermediateProcessEvent}
      * @param config
      *            - the {@link AdapterConfiguration configuration of the adapter} corresponding to this
      * @param condition
@@ -84,13 +74,12 @@ public abstract class AbstractIncomingProcessIntermediateEvent extends AbstractI
      * @param parentEventGroup
      *            the {@link AbstractProcessIntermediateEventGroup} this {@link IntermediateProcessEvent} belongs to
      */
-    protected AbstractIncomingProcessIntermediateEvent(EventType type,
-                                               AdapterConfiguration config,
+    protected AbstractIncomingProcessIntermediateEvent(AdapterConfiguration config,
                                                EventCondition condition,
                                                Token token,
                                                @Nonnull TriggeringBehaviour parentEventGroup) {
 
-        super(type, config, condition);
+        super(config, condition);
         this.token = token;
         this.node = token.getCurrentNode();
         this.parentEventGroup = parentEventGroup;

@@ -1,7 +1,6 @@
 package org.jodaengine.eventmanagement.processevent.incoming;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.processevent.AbstractProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
@@ -17,15 +16,12 @@ public abstract class AbstractIncomingProcessEvent extends AbstractProcessEvent 
 
     /**
      * Instantiates a new {@link IntermediateProcessEvent}.
-     * 
-     * @param type
-     *            the type
      * @param config
      *            the config
      * @param condition
      *            the conditions
      */
-    protected AbstractIncomingProcessEvent(EventType type, AdapterConfiguration config, EventCondition condition) {
+    protected AbstractIncomingProcessEvent(AdapterConfiguration config, EventCondition condition) {
 
         this.config = config;
         this.condition = condition;
