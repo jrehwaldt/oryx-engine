@@ -143,9 +143,9 @@ implements ProcessDeActivationPattern {
 
         errorMessageBuilder.append("This happens while ");
         if (forActivationPattern) {
-            errorMessageBuilder.append("activating");
+            errorMessageBuilder.append("activating ");
         } else {
-            errorMessageBuilder.append("deactivating");
+            errorMessageBuilder.append("deactivating ");
         }
         errorMessageBuilder.append("the ProcessDefinition '");
         errorMessageBuilder.append(patternContext.getProcessDefinition().getName()).append("'.");

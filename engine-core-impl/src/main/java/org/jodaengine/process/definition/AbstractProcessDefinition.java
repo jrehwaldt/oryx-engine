@@ -7,6 +7,8 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
@@ -17,12 +19,16 @@ import org.jodaengine.process.instantiation.InstantiationPatternContextImpl;
 import org.jodaengine.process.instantiation.ProcessInstantiationPattern;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This represents the base class for the a {@link ProcessDefinition}. A {@link ProcessDefinition} consists of a list of
  * start nodes that, as we have a tree structure of nodes, reference all the nodes of the definition transitively.
  */
 public abstract class AbstractProcessDefinition implements ProcessDefinitionInside {
+
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected String name;
 
@@ -39,7 +45,9 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
 
     @JsonIgnore
     protected ProcessDeActivationPattern firstActivationPattern;
-    
+
+    protected boolean activated = false;
+
     /**
      * Default instantiation.
      * 
@@ -108,6 +116,12 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
 
         return startNodes;
     }
+    
+    @Override
+    public boolean isActivated() {
+
+        return activated;
+    }
 
     // @Override
     // public void addStartTrigger(ProcessStartEvent event, Node node)
@@ -142,11 +156,25 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
 
         getAttributes().put(attributeKey, attributeValue);
     }
-
+    
     @Override
-    public AbstractProcessInstance createProcessInstance(NavigatorInside navigator) {
+    public AbstractProcessInstance createProcessInstance(NavigatorInside navigator) throws DefinitionNotActivatedException {
 
+        if (!activated) {
+            String errorMessage = "The processdefintion (id: " + id + "; name: " + name
+                + ") is not activated. Please perform navigatorService.activateProcessDefinition(...) .";
+            logger.error(errorMessage);
+            throw new DefinitionNotActivatedException(getID());
+        }
+        
         InstantiationPatternContext patternContext = new InstantiationPatternContextImpl(this);
+        return firstInstantiationPattern.createProcessInstance(patternContext);
+    }
+    
+    @Override
+    public AbstractProcessInstance createProcessInstance(NavigatorInside navigator, ProcessStartEvent firedStartEvent) {
+    
+        InstantiationPatternContext patternContext = new InstantiationPatternContextImpl(this, firedStartEvent);
         return firstInstantiationPattern.createProcessInstance(patternContext);
     }
 
@@ -156,6 +184,8 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
         ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
             this);
         firstActivationPattern.activateProcessDefinition(patternContext);
+
+        this.activated = true;
     }
 
     @Override
@@ -164,6 +194,8 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
         ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
             this);
         firstActivationPattern.deactivateProcessDefinition(patternContext);
+
+        this.activated = false;
     }
 
     @Override

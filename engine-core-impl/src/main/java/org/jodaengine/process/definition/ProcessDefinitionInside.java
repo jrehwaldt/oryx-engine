@@ -6,11 +6,11 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
-
 
 /**
  * Extends the ProcessDefinitionInterface so that it provides more methods for the internal classes.
@@ -47,11 +47,24 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      * @param navigator
      *            - the {@link NavigatorInside} creating and modifying tokens
      * @return a {@link AbstractProcessInstance processInstance}
+     * @throws DefinitionNotActivatedException
+     *             the definition is not activated
      */
-    AbstractProcessInstance createProcessInstance(NavigatorInside navigator);
+    AbstractProcessInstance createProcessInstance(NavigatorInside navigator)
+    throws DefinitionNotActivatedException;
 
     /**
-     * Is responsible for activating the {@link ProcessDefinition}. Perhaps some {@link ProcessStartEvent StartEvents} need to
+     * Responsible for instantiating a process.
+     *
+     * @param navigator - the {@link NavigatorInside} creating and modifying tokens
+     * @param firedStartEvent - the {@link ProcessStartEvent} that fired the process instantiation
+     * @return a {@link AbstractProcessInstance processInstance}
+     */
+    AbstractProcessInstance createProcessInstance(NavigatorInside navigator, ProcessStartEvent firedStartEvent);
+
+    /**
+     * Is responsible for activating the {@link ProcessDefinition}. Perhaps some {@link ProcessStartEvent StartEvents}
+     * need to
      * be registered.
      * 
      * @param correlationManager
@@ -61,7 +74,8 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
     void activate(EventSubscriptionManager correlationManager);
 
     /**
-     * Is responsible for deactivating the {@link ProcessDefinition}. Perhaps some {@link ProcessStartEvent StartEvents} need
+     * Is responsible for deactivating the {@link ProcessDefinition}. Perhaps some {@link ProcessStartEvent StartEvents}
+     * need
      * to be unregistered.
      * 
      * @param correlationManager

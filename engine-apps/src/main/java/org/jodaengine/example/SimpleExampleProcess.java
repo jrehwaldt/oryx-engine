@@ -3,6 +3,7 @@ package org.jodaengine.example;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.monitor.Monitor;
@@ -53,11 +54,13 @@ public final class SimpleExampleProcess {
      * 
      * @param args
      *            the arguments
-     * @throws IllegalStarteventException fails
-     * @throws DefinitionNotFoundException fails
+     * @throws IllegalStarteventException
+     *             fails
+     * @throws DefinitionNotFoundException
+     *             fails
      */
     public static void main(String[] args)
-    throws IllegalStarteventException, DefinitionNotFoundException {
+    throws IllegalStarteventException, DefinitionNotFoundException, DefinitionNotActivatedException {
 
         MonitorGUI monitorGUI = MonitorGUI.start(INSTANCE_COUNT);
 
@@ -91,10 +94,12 @@ public final class SimpleExampleProcess {
 
     /**
      * Deploys the sample process.
-     *
-     * @param jodaEngineServices the joda engine services
+     * 
+     * @param jodaEngineServices
+     *            the joda engine services
      * @return the process definition id
-     * @throws IllegalStarteventException the illegal startevent exception
+     * @throws IllegalStarteventException
+     *             the illegal startevent exception
      */
     private static ProcessDefinitionID deploySampleProcess(JodaEngineServices jodaEngineServices)
     throws IllegalStarteventException {
@@ -105,7 +110,7 @@ public final class SimpleExampleProcess {
 
         ProcessDefinitionID sampleProcessUUID = processDefinition.getID();
         deploymentBuilder.addProcessDefinition(processDefinition);
-        
+
         jodaEngineServices.getRepositoryService().deployInNewScope(deploymentBuilder.buildDeployment());
 
         return sampleProcessUUID;
@@ -116,12 +121,14 @@ public final class SimpleExampleProcess {
      * Builds the {@link ProcessDefinition} for the sample process.
      * <p>
      * The sample process contains: {@link StartEvent} => {@link AutomatedDummyActivity AutomatedDummyActivityNode} =>
-     *
-     * @param definitionBuilder the definition builder
+     * 
+     * @param definitionBuilder
+     *            the definition builder
      * @return the process definition
-     * @throws IllegalStarteventException the illegal startevent exception
-     * {@link AutomatedDummyActivity AutomatedDummyActivityNode} => {@link EndEvent} .
-     * </p>
+     * @throws IllegalStarteventException
+     *             the illegal startevent exception {@link AutomatedDummyActivity AutomatedDummyActivityNode} =>
+     *             {@link EndEvent} .
+     *             </p>
      */
     private static ProcessDefinition buildSampleProcessDefinition(BpmnProcessDefinitionBuilder definitionBuilder)
     throws IllegalStarteventException {

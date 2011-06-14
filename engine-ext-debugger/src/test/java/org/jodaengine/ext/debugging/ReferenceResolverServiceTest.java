@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.jodaengine.RepositoryService;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.InterruptedInstance;
@@ -298,9 +299,10 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
      * Tests the proper resolution of a {@link AbstractProcessInstance}.
      * 
      * @throws DefinitionNotFoundException test fails
+     * @throws DefinitionNotActivatedException 
      */
     @Test
-    public void testInstanceResolution() throws DefinitionNotFoundException {
+    public void testInstanceResolution() throws DefinitionNotFoundException, DefinitionNotActivatedException {
         
         //
         // deploy process definition and start an instance

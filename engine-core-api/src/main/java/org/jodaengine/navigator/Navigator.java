@@ -6,19 +6,24 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.navigator.schedule.Scheduler;
+import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
 
 /**
- * The {@link Navigator} is the core routing component, which 'navigates' through the processes. 
+ * The {@link Navigator} is the core routing component, which 'navigates' through the processes.
  */
 public interface Navigator extends Service {
 
     /**
      * Start a new process instance.
+     * 
+     * This throws no {@link DefinitionNotActivatedException} in case the {@link ProcessDefinition} is not activated.
+     * But nevertheless the process is not instantiated.
      * 
      * @param processID
      *            the id of the process that is to be instantiated
@@ -37,13 +42,15 @@ public interface Navigator extends Service {
      * 
      * @param processID
      *            the process id
+     * @return the started instance
      * @throws DefinitionNotFoundException
      *             the process definition was not found
-     * @return the started instance
+     * @throws DefinitionNotActivatedException
+     *             the definition is not activated
      */
     @Nonnull
     AbstractProcessInstance startProcessInstance(@Nonnull ProcessDefinitionID processID)
-    throws DefinitionNotFoundException;
+    throws DefinitionNotFoundException, DefinitionNotActivatedException;
 
     /**
      * Add another thread that works on the to-be-executed instances.
@@ -81,7 +88,7 @@ public interface Navigator extends Service {
      *            the token
      */
     void removeTokenFromScheduler(Token t);
-    
+
     /**
      * Gets all the instances that were ever started/executed by this navigator.
      * 
@@ -98,11 +105,12 @@ public interface Navigator extends Service {
 
     /**
      * Cancel the given process instance. Stops all corresponding tokens as soon as possible and does some cleanup.
-     *
-     * @param instance the instance
+     * 
+     * @param instance
+     *            the instance
      */
     void cancelProcessInstance(AbstractProcessInstance instance);
-    
+
     /**
      * Signal that a formerly running process instance has ended.
      * 
@@ -124,10 +132,10 @@ public interface Navigator extends Service {
      * @return the statistics
      */
     NavigatorStatistic getStatistics();
-    
+
     /**
      * Gets the scheduler.
-     *
+     * 
      * @return the scheduler
      */
     Scheduler getScheduler();

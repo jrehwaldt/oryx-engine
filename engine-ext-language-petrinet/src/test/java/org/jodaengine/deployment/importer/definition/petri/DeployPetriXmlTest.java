@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.List;
 
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -64,7 +65,7 @@ public class DeployPetriXmlTest extends AbstractPetriDeployerTest {
      * @throws InterruptedException the interrupted exception
      */
     @Test
-    public void testDeployAndExecution() throws DefinitionNotFoundException, InterruptedException {
+    public void testDeployAndExecution() throws DefinitionNotFoundException, InterruptedException, DefinitionNotActivatedException {
         ProcessDefinition processDefinition = super.testCorrectProcessParsingOfXml();
 
         ProcessDefinitionID id = processDefinition.getID();
