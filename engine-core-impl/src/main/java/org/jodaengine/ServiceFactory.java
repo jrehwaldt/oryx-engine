@@ -88,7 +88,7 @@ public final class ServiceFactory {
      */
     public static @Nonnull EventManagerService getEventManagerService() {
 
-        return (EventManagerService) JodaEngineAppContext.getBean("correlationService");
+        return (EventManagerService) JodaEngineAppContext.getBean("eventManagerService");
     }
     
     /**

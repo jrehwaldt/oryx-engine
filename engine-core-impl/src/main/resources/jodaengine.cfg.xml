@@ -39,7 +39,7 @@
         </constructor-arg>
     </bean>
     
-    <bean id="correlationService" class="org.jodaengine.eventmanagement.EventManager"
+    <bean id="eventManagerService" class="org.jodaengine.eventmanagement.EventManager"
         scope="singleton">
 <!--        <constructor-arg>-->
 <!--            <ref bean="navigatorService" />-->
