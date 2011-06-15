@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:joda="http://jodaengine.org/bpmn-extensions"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com"
+	exporterVersion="5.0.0" expressionLanguage="http://www.w3.org/1999/XPath"
+	id="sid-61042ba3-a728-437c-ae09-f03820719b08" targetNamespace="http://www.signavio.com/bpmn20"
+	typeLanguage="http://www.w3.org/2001/XMLSchema"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+	
+	<process id="simple-event-based-gateway"
+		isExecutable="true">
+		
+		<startEvent id="start"
+			name="Start" />
+			
+		<eventBasedGateway eventGatewayType="Exclusive"
+			gatewayDirection="Diverging" id="event-based-gateway"
+			instantiate="false" />
+
+		<intermediateCatchEvent id="timer-intermediate-event"
+			name="20 Sec" joda:intervall-time="20000" >
+			<timerEventDefinition id="sid-1eacc799-46ea-4b5c-ab03-35f3a56b9aa1" />
+		</intermediateCatchEvent>
+		
+		<intermediateCatchEvent id="message-intermediate-event"
+			name="Mail &#10;eingegangen" joda:intervall-time="10000">
+			<messageEventDefinition id="sid-f441d01e-7c99-4184-988e-1a9891793231" />
+		</intermediateCatchEvent>
+		
+		<exclusiveGateway gatewayDirection="Converging"
+			id="xor-gateway" />
+		
+		<endEvent id="end" name="End" />
+		
+		<sequenceFlow id="sequenceFlow-1" sourceRef="start"
+			targetRef="event-based-gateway" />
+		<sequenceFlow id="sequenceFlow-2" sourceRef="xor-gateway"
+			targetRef="end" />
+		<sequenceFlow id="sequenceFlow-3" sourceRef="event-based-gateway"
+			targetRef="message-intermediate-event" />
+		<sequenceFlow id="sequenceFlow-4" sourceRef="message-intermediate-event"
+			targetRef="xor-gateway" />
+		<sequenceFlow id="sequenceFlow-5" sourceRef="event-based-gateway"
+			targetRef="timer-intermediate-event" />
+		<sequenceFlow id="sequenceFlow-6" sourceRef="timer-intermediate-event"
+			targetRef="xor-gateway" />
+	</process>
+</definitions>

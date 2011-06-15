@@ -92,7 +92,8 @@ public class BpmnXmlParse extends XmlParse {
     public ProcessDefinition getFinishedProcessDefinition() {
 
         if (finishedProcessDefinition == null) {
-
+            
+            getProblemLogger().logWarnings();
             String errorMessage = "Building the ProcessDefinition does not finish.";
             throw new JodaEngineRuntimeException(errorMessage);
         }
@@ -183,16 +184,16 @@ public class BpmnXmlParse extends XmlParse {
 
         processBuilder.setDescription(parseDocumentation(processElement));
         processBuilder.setAttribute("targetNamespace", rootElement.getAttribute("targetNamespace"));
-        
+
         parseElements(processElement);
-        
+
         //
         // preserve original attributes
         //
         parseGeneralInformation(processElement, processBuilder);
-        
+
         try {
-            
+
             BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(processBuilder);
             this.finishedProcessDefinition = processBuilder.buildDefinition();
         } catch (IllegalStarteventException buildingDefinitionException) {
@@ -269,18 +270,22 @@ public class BpmnXmlParse extends XmlParse {
     protected void parseActivities(XmlElement parentElement) {
 
         for (XmlElement activityElement : parentElement.getElements()) {
+
             if (("exclusiveGateway").equals(activityElement.getTagName())) {
-                parseExclusiveGateway(activityElement);
+                parseXorGateway(activityElement);
+
+            } else if (("eventBasedGateway").equals(activityElement.getTagName())) {
+                parseEventBasedXorGateway(activityElement);
 
             } else if (("parallelGateway").equals(activityElement.getTagName())) {
                 parseParallelGateway(activityElement);
 
-//                 } else if (("scriptTask").equals(activityElement.getTagName())) {                   
-//                 parseScriptTask(activityElement);
-//                
-                 } else if ("serviceTask".equals(activityElement.getTagName())) {
-                 parseServiceTask(activityElement);
-                
+                // } else if (("scriptTask").equals(activityElement.getTagName())) {
+                // parseScriptTask(activityElement);
+                //
+            } else if ("serviceTask".equals(activityElement.getTagName())) {
+                parseServiceTask(activityElement);
+
                 // } else if (activityElement.getTagName().equals("businessRuleTask")) {
                 // parseBusinessRuleTask(activityElement);
                 //
@@ -305,15 +310,15 @@ public class BpmnXmlParse extends XmlParse {
                 // } else if (activityElement.getTagName().equals("callActivity")) {
                 // parseCallActivity(activityElement);
                 //
-                // } else if (activityElement.getTagName().equals("intermediateCatchEvent")) {
-                // parseIntermediateCatchEvent(activityElement);
+            } else if (("intermediateCatchEvent").equals(activityElement.getTagName())) {
+                parseIntermediateCatchEvent(activityElement);
 
             } else if (("adHocSubProcess").equals(activityElement.getTagName())
                 || ("complexGateway").equals(activityElement.getTagName())
-                || ("eventBasedGateway").equals(activityElement.getTagName())
+                // || ("eventBasedGateway").equals(activityElement.getTagName())
                 || ("transaction").equals(activityElement.getTagName())
                 || ("callActivity").equals(activityElement.getTagName())
-                || ("intermediateCatchEvent").equals(activityElement.getTagName())
+                // || ("intermediateCatchEvent").equals(activityElement.getTagName())
                 || ("subProcess").equals(activityElement.getTagName())
                 || ("receiveTask").equals(activityElement.getTagName())
                 || ("sendTask").equals(activityElement.getTagName())) {
@@ -329,45 +334,63 @@ public class BpmnXmlParse extends XmlParse {
 
     protected void parseServiceTask(XmlElement activityElement) {
 
-        String className = activityElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS,
-            "class");
+        String className = activityElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS, "class");
         if (className != null) {
             Node scriptNode = BpmnNodeFactory.createBpmnJavaClassServiceTaskNode(processBuilder, className);
 
             parseGeneralInformation(activityElement, scriptNode);
             getNodeXmlIdTable().put((String) scriptNode.getAttribute("idXml"), scriptNode);
 
-           
-//            for (BpmnXmlParseListener parseListener : parseListeners) {
-//                parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
-//            }
+            // TODO BpmnXmlParseListener erweitern um die Methode parseServiceTask
+            // for (BpmnXmlParseListener parseListener : parseListeners) {
+            // parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
+            // }
         } else {
             getProblemLogger().addWarning("Ignoring unsupported service task format", activityElement);
         }
-        
-        
+
     }
 
     /**
      * Parses an exclusive gateway declaration.
      * 
-     * @param exclusiveGwElement
+     * @param xorGatewayElement
      *            the exclusive gateway element
      */
-    protected void parseExclusiveGateway(XmlElement exclusiveGwElement) {
+    protected void parseXorGateway(XmlElement xorGatewayElement) {
 
         Node exclusiveGatewayNode = BpmnNodeFactory.createBpmnXorGatewayNode(processBuilder);
 
-        parseGeneralInformation(exclusiveGwElement, exclusiveGatewayNode);
+        parseGeneralInformation(xorGatewayElement, exclusiveGatewayNode);
 
         getNodeXmlIdTable().put((String) exclusiveGatewayNode.getAttribute("idXml"), exclusiveGatewayNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseExclusiveGateway(
-                exclusiveGwElement,
-                exclusiveGatewayNode,
-                processBuilder);
+            parseListener.parseExclusiveGateway(xorGatewayElement, exclusiveGatewayNode, processBuilder);
         }
+    }
+
+    /**
+     * Parses an event-based exclusive gateway declaration.
+     * 
+     * @param eventBasedXorGatewayElement
+     *            - the {@link XmlElement} that represents an event-based exclusive gateway
+     */
+    protected void parseEventBasedXorGateway(XmlElement eventBasedXorGatewayElement) {
+
+        Node eventBasedXorGatewayNode = BpmnNodeFactory.createBpmnEventBasedXorGatewayNode(processBuilder);
+
+        parseGeneralInformation(eventBasedXorGatewayElement, eventBasedXorGatewayNode);
+
+        getNodeXmlIdTable().put((String) eventBasedXorGatewayNode.getAttribute("idXml"), eventBasedXorGatewayNode);
+
+        // TODO BpmnXmlParseListener erweitern um die Methode parseEventBasedXorGateway
+        // for (BpmnXmlParseListener parseListener : parseListeners) {
+        // parseListener.parseEventBasedXorGateway(
+        // eventBasedXorGatewayElement,
+        // eventBasedXorGatewayNode,
+        // processBuilder);
+        // }
     }
 
     /**
@@ -385,10 +408,7 @@ public class BpmnXmlParse extends XmlParse {
         getNodeXmlIdTable().put((String) parallelGatewayNode.getAttribute("idXml"), parallelGatewayNode);
 
         for (BpmnXmlParseListener parseListener : parseListeners) {
-            parseListener.parseParallelGateway(
-                parallelGatewayElement,
-                parallelGatewayNode,
-                processBuilder);
+            parseListener.parseParallelGateway(parallelGatewayElement, parallelGatewayNode, processBuilder);
         }
     }
 
@@ -400,11 +420,9 @@ public class BpmnXmlParse extends XmlParse {
      */
     protected void parseTask(XmlElement taskXmlElement) {
 
-        Node taskNode = processBuilder.getNodeBuilder()
-                                      .setIncomingBehaviour(new SimpleJoinBehaviour())
-                                      .setOutgoingBehaviour(new TakeAllSplitBehaviour())
-                                      .setActivityBehavior(new AutomatedDummyActivity("Doing something"))
-                                      .buildNode();
+        Node taskNode = processBuilder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
+        .setOutgoingBehaviour(new TakeAllSplitBehaviour())
+        .setActivityBehavior(new AutomatedDummyActivity("Doing something")).buildNode();
 
         parseGeneralInformation(taskXmlElement, taskNode);
         getNodeXmlIdTable().put((String) taskNode.getAttribute("idXml"), taskNode);
@@ -527,12 +545,41 @@ public class BpmnXmlParse extends XmlParse {
     /**
      * Parses the end events of a certain level in the process (process, subprocess or another scope).
      * 
-     * @param parentElement
+     * @param intermediateCatchingEventElement
      *            The 'parent' element that contains the end events (process, subprocess).
      */
-    protected void parseEndEvents(XmlElement parentElement) {
+    protected void parseIntermediateCatchEvent(XmlElement intermediateCatchingEventElement) {
 
-        for (XmlElement endEventXmlElement : parentElement.getElements("endEvent")) {
+        String intervalTime = intermediateCatchingEventElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS,
+            "intervall-time");
+
+        if (intervalTime == null) {
+            getProblemLogger().addWarning("Ignoring unsupported catching event other than timer",
+                intermediateCatchingEventElement);
+            return;
+        }
+
+        Node intermediateTimerEventNode = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(processBuilder,
+            Integer.valueOf(intervalTime));
+
+        parseGeneralInformation(intermediateCatchingEventElement, intermediateTimerEventNode);
+        getNodeXmlIdTable().put((String) intermediateTimerEventNode.getAttribute("idXml"), intermediateTimerEventNode);
+
+        // TODO BpmnXmlParseListener erweitern um die Methode parseIntermediateCatchEvent
+        // for (BpmnXmlParseListener parseListener : parseListeners) {
+        // parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
+        // }
+    }
+
+    /**
+     * Parses the end events of a certain level in the process (process, subprocess or another scope).
+     * 
+     * @param endEventElement
+     *            The 'parent' element that contains the end events (process, subprocess).
+     */
+    protected void parseEndEvents(XmlElement endEventElement) {
+
+        for (XmlElement endEventXmlElement : endEventElement.getElements("endEvent")) {
 
             Node endEventNode = BpmnNodeFactory.createBpmnEndEventNode(processBuilder);
 
