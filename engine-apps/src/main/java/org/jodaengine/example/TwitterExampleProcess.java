@@ -76,6 +76,8 @@ public class TwitterExampleProcess {
             deploymentBuilder.addProcessDefinition(def);
 
             jodaEngineServices.getRepositoryService().deployInNewScope(deploymentBuilder.buildDeployment());
+            
+            jodaEngineServices.getRepositoryService().activateProcessDefinition(exampleProcessUUID);
 
             jodaEngineServices.getNavigatorService().startProcessInstance(exampleProcessUUID);
 
