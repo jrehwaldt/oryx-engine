@@ -43,9 +43,9 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
         eventGroup.add(intermediateEvent2);
         eventGroup.add(intermediateEvent3);
 
-        ServiceFactory.getCorrelationService().registerIncomingIntermediateEvent(intermediateEvent1);
-        ServiceFactory.getCorrelationService().registerIncomingIntermediateEvent(intermediateEvent2);
-        ServiceFactory.getCorrelationService().registerIncomingIntermediateEvent(intermediateEvent3);
+        ServiceFactory.getEventManagerService().registerIncomingIntermediateEvent(intermediateEvent1);
+        ServiceFactory.getEventManagerService().registerIncomingIntermediateEvent(intermediateEvent2);
+        ServiceFactory.getEventManagerService().registerIncomingIntermediateEvent(intermediateEvent3);
     }
 
     /**
@@ -113,7 +113,7 @@ public class ProcessEventGroupTest extends AbstractJodaEngineTest {
      */
     private static ManualTriggeringAdapter extractManualTriggeringAdapterFor(IncomingIntermediateProcessEvent intermediateEvent) {
 
-        EventManager eventManager = (EventManager) ServiceFactory.getCorrelationService();
+        EventManager eventManager = (EventManager) ServiceFactory.getEventManagerService();
 
         ManualTriggeringAdapter manualTrigger = (ManualTriggeringAdapter) eventManager.getEventAdapters().get(
             intermediateEvent.getAdapterConfiguration());

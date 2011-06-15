@@ -10,7 +10,7 @@ import org.jodaengine.eventmanagement.timing.TimingManager;
 
 
 /**
- * This interface provides methods for registering events to the {@link EventManager}.
+ * This interface provides methods for registering events to the {@link EventManagerService}.
  */
 public interface AdapterManagement {
 

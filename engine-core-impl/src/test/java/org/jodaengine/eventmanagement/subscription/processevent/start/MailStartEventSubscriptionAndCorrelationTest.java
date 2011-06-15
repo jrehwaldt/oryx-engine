@@ -57,7 +57,7 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
     public void beforeMethod()
     throws NoSuchMethodException, IllegalStarteventException, MessagingException {
     
-        eventManager = (EventManager) ServiceFactory.getCorrelationService();
+        eventManager = (EventManager) ServiceFactory.getEventManagerService();
     
         // Deploy the process
         RepositoryService repo = ServiceFactory.getRepositoryService();

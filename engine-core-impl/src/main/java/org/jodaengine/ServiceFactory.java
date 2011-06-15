@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jodaengine.bootstrap.JodaEngineAppContext;
 import org.jodaengine.eventmanagement.EventCorrelator;
+import org.jodaengine.eventmanagement.EventManagerService;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
@@ -85,9 +86,9 @@ public final class ServiceFactory {
      * 
      * @return the correlation service
      */
-    public static @Nonnull EventSubscriptionManager getCorrelationService() {
+    public static @Nonnull EventManagerService getEventManagerService() {
 
-        return (EventSubscriptionManager) JodaEngineAppContext.getBean("correlationService");
+        return (EventManagerService) JodaEngineAppContext.getBean("correlationService");
     }
     
     /**

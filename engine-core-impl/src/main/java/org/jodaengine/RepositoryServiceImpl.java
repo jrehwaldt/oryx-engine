@@ -151,7 +151,7 @@ public class RepositoryServiceImpl extends AbstractExtensible implements Reposit
 
         // Register start events at event manager.
         // TODO: Das muss raus gehalten werden
-        processDefintion.activate(ServiceFactory.getCorrelationService());
+        processDefintion.activate(ServiceFactory.getEventManagerService());
         // for (StartEvent event : processDefintion.getStartTriggers().keySet()) {
         // correlation.registerStartEvent(event);
         // }

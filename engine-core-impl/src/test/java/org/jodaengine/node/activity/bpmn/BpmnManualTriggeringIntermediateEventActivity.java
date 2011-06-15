@@ -34,7 +34,7 @@ BpmnEventBasedGatewayEvent {
     @Override
     protected void executeIntern(AbstractToken token) {
 
-        EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
+        EventSubscriptionManager eventManager = ServiceFactory.getEventManagerService();
 
         IncomingIntermediateProcessEvent processEvent = createProcessIntermediateEvent(token);
 

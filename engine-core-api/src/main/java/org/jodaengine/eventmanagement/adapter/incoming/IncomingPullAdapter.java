@@ -6,7 +6,7 @@ import org.jodaengine.eventmanagement.adapter.configuration.PullAdapterConfigura
 import org.jodaengine.exception.JodaEngineException;
 
 /**
- * This interface should be implemented by {@link EventManager} adapters, which allow incoming pull communication. This
+ * This interface should be implemented by {@link EventManagerService} adapters, which allow incoming pull communication. This
  * includes, e.g. pop3 email receiving adapter.
  */
 public interface IncomingPullAdapter extends IncomingAdapter {

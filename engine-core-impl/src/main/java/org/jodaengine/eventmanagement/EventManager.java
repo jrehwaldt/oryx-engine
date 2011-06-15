@@ -30,7 +30,7 @@ import twitter4j.TwitterException;
 /**
  * A concrete implementation of our engines Event Manager.
  */
-public class EventManager implements EventSubscriptionManager, AdapterManagement, Service, SendEvents {
+public class EventManager implements EventManagerService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
