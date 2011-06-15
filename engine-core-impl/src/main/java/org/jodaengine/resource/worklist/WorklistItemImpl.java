@@ -14,7 +14,8 @@ import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.AbstractResource;
 
 /**
- * THe implementation of the Task Interface.
+ * The implementation of the worklist items. They are the tasks a resource has to work on.
+ * They are handled by the {@link WorklistManager}.
  */
 public class WorklistItemImpl extends AbstractWorklistItem {
 

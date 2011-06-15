@@ -51,7 +51,7 @@ public class WorkListManagerTest {
 
         AbstractWorklistItem item = pattern.createWorklistItem(token, ServiceFactory.getRepositoryService());
         PushPattern pushPattern = new AllocateSinglePattern();
-        pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
+        pushPattern.distributeItem(ServiceFactory.getInteralWorklistService(), item);
         // ServiceFactory.getTaskDistribution().distribute(pattern, token);
 
         // "hack" to get the participant the task belongs to
@@ -110,7 +110,7 @@ public class WorkListManagerTest {
         Token token = MockUtils.fullyMockedToken();
         AbstractWorklistItem item = anotherPattern.createWorklistItem(token, engineServices.getRepositoryService());
 
-        anotherPattern.getPushPattern().distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
+        anotherPattern.getPushPattern().distributeItem(ServiceFactory.getInteralWorklistService(), item);
     }
 
     /**

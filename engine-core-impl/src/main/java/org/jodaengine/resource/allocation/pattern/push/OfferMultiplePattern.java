@@ -13,7 +13,7 @@ import org.jodaengine.resource.worklist.WorklistServiceIntern;
 public class OfferMultiplePattern implements PushPattern {
 
     @Override
-    public void distributeWorkitem(WorklistServiceIntern worklistService, AbstractWorklistItem itemToDistribute) {
+    public void distributeItem(WorklistServiceIntern worklistService, AbstractWorklistItem itemToDistribute) {
 
         WorklistItemImpl item = WorklistItemImpl.asWorklistItemImpl(itemToDistribute);
         item.setStatus(WorklistItemState.OFFERED);

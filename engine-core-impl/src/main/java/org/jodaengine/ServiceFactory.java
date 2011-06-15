@@ -43,8 +43,7 @@ public final class ServiceFactory {
      * 
      * @return the worklist queue
      */
-    // TODO @Alle Muss umbenannt werden in InternalWorklistService 
-    public static @Nonnull WorklistServiceIntern getWorklistQueue() {
+    public static @Nonnull WorklistServiceIntern getInteralWorklistService() {
 
         return getWorklistManagerInstance();
     }
