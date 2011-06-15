@@ -234,7 +234,7 @@ public class BpmnToken extends AbstractToken {
      */
     private void resumeAndCompleteExecution(Object resumeObject)
     throws NoValidPathException {
-
+        changeActivityState(ActivityState.ACTIVE);
         currentNode.getActivityBehaviour().resume(this, resumeObject);
 
         completeExecution();
