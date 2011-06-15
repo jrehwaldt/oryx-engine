@@ -3,7 +3,6 @@ package org.jodaengine.rest.demo;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jodaengine.IdentityService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
@@ -18,6 +17,7 @@ import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.resource.IdentityBuilder;
+import org.jodaengine.resource.IdentityService;
 import org.jodaengine.resource.Role;
 import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;

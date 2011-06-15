@@ -7,6 +7,7 @@ import org.jodaengine.node.activity.custom.AddNumbersAndStoreActivity;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.activity.custom.HashComputationActivity;
 import org.jodaengine.node.activity.custom.PrintingVariableActivity;
+import org.jodaengine.node.activity.custom.TweetActivity;
 import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
@@ -183,6 +184,19 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
 
         Activity activityBehavior = new NullActivity();
 
+        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
+        .buildNode();
+    }
+    
+    /**
+     * Creating a freaking twitter node.
+     *
+     * @param builder the builder
+     * @return the node
+     */
+    public static Node createTwitterNode(BpmnProcessDefinitionBuilder builder) {
+        NodeBuilder nodeBuilder = builder.getNodeBuilder();
+        Activity activityBehavior = new TweetActivity();
         return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
         .buildNode();
     }

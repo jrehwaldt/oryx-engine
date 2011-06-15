@@ -7,6 +7,7 @@ import org.jodaengine.JodaEngineServices;
 import org.jodaengine.NoRunningInstancesLoadgeneratorCaller;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.bootstrap.JodaEngine;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ResourceNotAvailableException;
@@ -181,6 +182,7 @@ public class LoadGenerator {
 
     /**
      * Execute.
+     * @throws DefinitionNotActivatedException 
      */
     public void execute() {
 
@@ -201,6 +203,8 @@ public class LoadGenerator {
             try {
                 navigator.startProcessInstance(definitionId);
             } catch (DefinitionNotFoundException e) {
+                logger.error("Exception not found when starting up our many many instances in the Loadgenerator", e);
+            } catch (DefinitionNotActivatedException e) {
                 logger.error("Exception not found when starting up our many many instances in the Loadgenerator", e);
             }
         }

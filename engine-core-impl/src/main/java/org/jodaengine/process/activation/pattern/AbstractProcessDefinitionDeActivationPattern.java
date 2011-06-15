@@ -12,8 +12,9 @@ import org.slf4j.LoggerFactory;
  * {@link ProcessDefinitionDeactivationPattern}. This class provides a method body and basic functionality for all
  * patterns.
  */
-public abstract class AbstractProcessDefinitionDeActivationPattern extends AbstractPatternAppendable<ProcessDeActivationPattern>
-implements ProcessDeActivationPattern {
+public abstract class AbstractProcessDefinitionDeActivationPattern 
+    extends AbstractPatternAppendable<ProcessDeActivationPattern>
+    implements ProcessDeActivationPattern {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -143,9 +144,9 @@ implements ProcessDeActivationPattern {
 
         errorMessageBuilder.append("This happens while ");
         if (forActivationPattern) {
-            errorMessageBuilder.append("activating");
+            errorMessageBuilder.append("activating ");
         } else {
-            errorMessageBuilder.append("deactivating");
+            errorMessageBuilder.append("deactivating ");
         }
         errorMessageBuilder.append("the ProcessDefinition '");
         errorMessageBuilder.append(patternContext.getProcessDefinition().getName()).append("'.");

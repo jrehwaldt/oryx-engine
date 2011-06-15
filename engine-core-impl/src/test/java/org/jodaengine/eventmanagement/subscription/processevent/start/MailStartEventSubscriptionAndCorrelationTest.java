@@ -15,9 +15,10 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.adapter.mail.MailProtocol;
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
+import org.jodaengine.eventmanagement.processevent.incoming.start.DefaultProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
-import org.jodaengine.eventmanagement.subscription.condition.simple.MethodInvokingEventCondition;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.factory.definition.SimpleProcessDefinitionFactory;
@@ -75,12 +76,12 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
         EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic",
             "Hallo");
         config = IncomingMailAdapterConfiguration.jodaGoogleConfiguration();
-        event = new DefaultProcessStartEvent(mailType, config, subjectCondition, definitionID);
+        event = new DefaultProcessStartEvent(config, subjectCondition, definitionID);
     
         // register another processStartEvent
         anotherConfig = new IncomingMailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin", "imap.horst.de",
             MAIL_PORT, false);
-        anotherEvent = new DefaultProcessStartEvent(mailType, anotherConfig, subjectCondition, definitionID);
+        anotherEvent = new DefaultProcessStartEvent(anotherConfig, subjectCondition, definitionID);
         anotherEvent.injectNavigatorService(navigatorServiceSpy);
     
         // create some incoming events, for example from a mailbox

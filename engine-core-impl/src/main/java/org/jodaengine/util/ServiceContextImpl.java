@@ -3,13 +3,13 @@ package org.jodaengine.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jodaengine.IdentityService;
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
-import org.jodaengine.resource.allocation.TaskAllocation;
+import org.jodaengine.resource.IdentityService;
+import org.jodaengine.resource.worklist.WorklistServiceIntern;
 
 
 /**
@@ -67,7 +67,7 @@ public class ServiceContextImpl implements ServiceContext {
     }
 
     @Override
-    public TaskAllocation getWorklistService() {
+    public WorklistServiceIntern getWorklistService() {
 
         return ServiceFactory.getWorklistQueue();
     }

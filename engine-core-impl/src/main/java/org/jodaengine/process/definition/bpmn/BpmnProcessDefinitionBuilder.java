@@ -8,10 +8,10 @@ import java.util.UUID;
 
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.condition.complex.AndEventCondition;
+import org.jodaengine.eventmanagement.processevent.incoming.start.DefaultProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
-import org.jodaengine.eventmanagement.subscription.condition.complex.AndEventCondition;
-import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.activation.ProcessDeActivationPattern;
@@ -97,7 +97,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
                                                        Node startNode) {
 
         ProcessStartEvent event = new DefaultProcessStartEvent(
-            eventType, adapterConfig, new AndEventCondition(eventConditions), id);
+            adapterConfig, new AndEventCondition(eventConditions), id);
         this.temporaryStartTriggers.put(event, startNode);
 
         return this;
@@ -146,6 +146,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
         return this;
     }
 
+    // TODO @Gerardo: add Activationpattern but it's a DeActivationPattern?
     public BpmnProcessDefinitionBuilder addActivationPattern(ProcessDeActivationPattern activationPattern) {
 
         this.temporaryActivationPatterns.add(activationPattern);
@@ -166,6 +167,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
     }
 
     /**
+     * TODO @Gerardo: WTF really a hell of a comment...
      * This method encapsulates.
      * 
      * @return the {@link BpmnProcessDefinition processDefinition} as result of this builder

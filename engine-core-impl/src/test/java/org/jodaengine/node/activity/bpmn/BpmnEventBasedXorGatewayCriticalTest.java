@@ -1,6 +1,6 @@
 package org.jodaengine.node.activity.bpmn;
 
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.ControlFlowFactory;
@@ -64,7 +64,7 @@ public class BpmnEventBasedXorGatewayCriticalTest extends AbstractJodaEngineTest
 
         Assert.assertEquals(token.getCurrentNode(), endNode1, errorMessage());
 
-        Mockito.verify(token).resume(Mockito.any(ProcessIntermediateEvent.class));
+        Mockito.verify(token).resume(Mockito.any(IncomingIntermediateProcessEvent.class));
     }
 
     /**

@@ -1,8 +1,8 @@
 package org.jodaengine.eventmanagement.adapter;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -62,10 +62,10 @@ public class CorrelatingEventAdapterTest {
     @Test
     public void testRegisteringIntermediateEvent() {
 
-        ProcessIntermediateEvent intermediateEvent = Mockito.mock(ProcessIntermediateEvent.class);
+        IncomingIntermediateProcessEvent intermediateEvent = Mockito.mock(IncomingIntermediateProcessEvent.class);
         
         // Registering the intermediateEvent
-        eventAdapter.registerIntermediateEvent(intermediateEvent);
+        eventAdapter.registerIncomingIntermediateEvent(intermediateEvent);
 
         Assert.assertEquals(eventAdapter.getProcessEvents().size(), 1);
         Assert.assertEquals(intermediateEvent, eventAdapter.getProcessEvents().get(0));
@@ -77,11 +77,11 @@ public class CorrelatingEventAdapterTest {
     @Test
     public void testRegisterAndCorrelateIntermediateEvent() {
 
-        ProcessIntermediateEvent intermediateEvent = Mockito.mock(ProcessIntermediateEvent.class);
+        IncomingIntermediateProcessEvent intermediateEvent = Mockito.mock(IncomingIntermediateProcessEvent.class);
         Mockito.when(intermediateEvent.evaluate(Mockito.any(AdapterEvent.class))).thenReturn(true);
 
         // At first register and then correlate
-        eventAdapter.registerIntermediateEvent(intermediateEvent);
+        eventAdapter.registerIncomingIntermediateEvent(intermediateEvent);
         eventAdapter.correlateAdapterEvent(Mockito.mock(AbstractAdapterEvent.class));
 
         Mockito.verify(intermediateEvent).trigger();

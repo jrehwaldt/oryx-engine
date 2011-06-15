@@ -13,8 +13,8 @@ import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.PushPattern;
-import org.jodaengine.resource.allocation.TaskAllocation;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
+import org.jodaengine.resource.worklist.WorklistServiceIntern;
 
 /**
  * The Implementation of a human task.
@@ -48,7 +48,7 @@ public class BpmnHumanTaskActivity extends AbstractCancelableActivity {
     @Override
     protected void executeIntern(@Nonnull AbstractToken token) {
 
-        TaskAllocation service = token.getWorklistService();
+        WorklistServiceIntern service = token.getWorklistService();
         
         AbstractWorklistItem item = creationPattern.createWorklistItem(token, ServiceFactory.getRepositoryService());
 

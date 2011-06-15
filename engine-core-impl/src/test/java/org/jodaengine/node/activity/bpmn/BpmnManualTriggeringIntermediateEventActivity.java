@@ -3,16 +3,16 @@ package org.jodaengine.node.activity.bpmn;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
-import org.jodaengine.eventmanagement.subscription.ProcessEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.eventmanagement.subscription.processevent.intermediate.ProcessIntermediateManualTriggeringEvent;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
 
 /**
- * This {@link BpmnManualTriggeringIntermediateEventActivity} is an activity that registers a {@link ProcessEvent} that
+ * This {@link BpmnManualTriggeringIntermediateEventActivity} is an activity that registers a {@link IncomingProcessEvent} that
  * should be triggered manually.
  */
 public class BpmnManualTriggeringIntermediateEventActivity extends AbstractActivity implements
@@ -36,9 +36,9 @@ BpmnEventBasedGatewayEvent {
 
         EventSubscriptionManager eventManager = ServiceFactory.getCorrelationService();
 
-        ProcessIntermediateEvent processEvent = createProcessIntermediateEvent(token);
+        IncomingIntermediateProcessEvent processEvent = createProcessIntermediateEvent(token);
 
-        eventManager.registerIntermediateEvent(processEvent);
+        eventManager.registerIncomingIntermediateEvent(processEvent);
 
         token.suspend();
     }
@@ -48,13 +48,13 @@ BpmnEventBasedGatewayEvent {
     // ==== Interface that represents that this event can also be used by other nodes like event-based Gateway ====
     //
     @Override
-    public ProcessIntermediateEvent createProcessIntermediateEvent(Token token) {
+    public IncomingIntermediateProcessEvent createProcessIntermediateEvent(Token token) {
 
         return new ProcessIntermediateManualTriggeringEvent(name, token);
     }
 
     @Override
-    public ProcessIntermediateEvent createProcessIntermediateEventForEventGroup(Token token, TriggeringBehaviour eventGroup) {
+    public IncomingIntermediateProcessEvent createProcessIntermediateEventForEventGroup(Token token, TriggeringBehaviour eventGroup) {
 
         return new ProcessIntermediateManualTriggeringEvent(name, token, eventGroup);
     }

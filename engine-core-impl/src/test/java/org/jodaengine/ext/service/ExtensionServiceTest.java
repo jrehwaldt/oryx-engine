@@ -9,6 +9,7 @@ import org.jodaengine.deployment.importer.archive.AbstractDarHandler;
 import org.jodaengine.deployment.importer.archive.DarImporter;
 import org.jodaengine.deployment.importer.archive.DarImporterImpl;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.ext.AbstractListenable;
@@ -418,10 +419,11 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
      * @throws IllegalStarteventException test fails
      * @throws ExtensionNotAvailableException test fails
      * @throws DefinitionNotFoundException test fails
+     * @throws DefinitionNotActivatedException 
      */
     @Test
     public void testTokenListenerIntegrationInNavigatorForBpmnToken()
-    throws IllegalStarteventException, ExtensionNotAvailableException, DefinitionNotFoundException {
+    throws IllegalStarteventException, ExtensionNotAvailableException, DefinitionNotFoundException, DefinitionNotActivatedException {
         
         //
         // get ExtensionService
@@ -463,6 +465,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         // deploy the instance
         //
         repository.addProcessDefinition(definition);
+        repository.activateProcessDefinition(definition.getID());
         
         //
         // start it

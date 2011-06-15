@@ -1,9 +1,8 @@
 package org.jodaengine.node.activity.bpmn;
 
-import org.jodaengine.eventmanagement.subscription.ProcessEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
-import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.process.token.Token;
 
 /**
@@ -14,23 +13,23 @@ import org.jodaengine.process.token.Token;
 public interface BpmnEventBasedGatewayEvent {
 
     /**
-     * Creates an specific {@link ProcessIntermediateEvent}.
+     * Creates an specific {@link IncomingIntermediateProcessEvent}.
      * 
      * @param token
-     *            - the {@link Token} that is used in order to build the {@link ProcessIntermediateEvent}
-     * @return a specific {@link ProcessIntermediateEvent}
+     *            - the {@link Token} that is used in order to build the {@link IncomingIntermediateProcessEvent}
+     * @return a specific {@link IncomingIntermediateProcessEvent}
      */
-    ProcessIntermediateEvent createProcessIntermediateEvent(Token token);
+    IncomingIntermediateProcessEvent createProcessIntermediateEvent(Token token);
 
     /**
-     * Creates an specific {@link ProcessIntermediateEvent}.
+     * Creates an specific {@link IncomingIntermediateProcessEvent}.
      * 
      * @param token
-     *            - the {@link Token} that is used in order to build the {@link ProcessIntermediateEvent}
+     *            - the {@link Token} that is used in order to build the {@link IncomingIntermediateProcessEvent}
      * @param eventGroup
-     *            - if the {@link ProcessIntermediateEvent} is connected to another {@link ProcessEvent} than a
-     *            {@link AbstractProcessIntermediateEventGroup} can be used to specify that connection
-     * @return a specific {@link ProcessIntermediateEvent}
+     *            - if the {@link IncomingIntermediateProcessEvent} is connected to another {@link IncomingProcessEvent} than a
+     *            {@link AbstractIntermediateProcessEventGroup} can be used to specify that connection
+     * @return a specific {@link IncomingIntermediateProcessEvent}
      */
-    ProcessIntermediateEvent createProcessIntermediateEventForEventGroup(Token token, TriggeringBehaviour eventGroup);
+    IncomingIntermediateProcessEvent createProcessIntermediateEventForEventGroup(Token token, TriggeringBehaviour eventGroup);
 }

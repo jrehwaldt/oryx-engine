@@ -1,15 +1,15 @@
 package org.jodaengine.process.definition.bpmn;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivationPattern;
 import org.jodaengine.process.definition.AbstractProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.instantiation.pattern.StartNullInstantiationPattern;
@@ -75,6 +75,18 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
     @Override
     public Map<ProcessStartEvent, Node> getStartTriggers() {
 
+        return new HashMap<ProcessStartEvent, Node>(getLazyStartTriggers());
+    }
+
+    /**
+     * Getter for the startTrigger. Implemented lazy initialized
+     * @return the map of startTrigger; a mapping from a {@link ProcessStartEvent} to a {@link Node}
+     */
+    private Map<ProcessStartEvent, Node> getLazyStartTriggers() {
+
+        if (startTriggers == null) {
+            this.startTriggers = new HashMap<ProcessStartEvent, Node>();
+        }
         return startTriggers;
     }
 
@@ -83,10 +95,9 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
     throws IllegalStarteventException {
 
         if (startNodes.contains(node)) {
-            startTriggers.put(event, node);
+            getLazyStartTriggers().put(event, node);
         } else {
             throw new IllegalStarteventException();
         }
-
     }
 }

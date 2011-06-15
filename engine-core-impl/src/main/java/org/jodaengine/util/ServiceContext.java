@@ -1,13 +1,13 @@
 package org.jodaengine.util;
 
-import org.jodaengine.IdentityService;
 import org.jodaengine.RepositoryServiceInside;
-import org.jodaengine.WorklistService;
 import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
-import org.jodaengine.resource.allocation.TaskAllocation;
+import org.jodaengine.resource.IdentityService;
+import org.jodaengine.resource.worklist.WorklistService;
+import org.jodaengine.resource.worklist.WorklistServiceIntern;
 
 /**
  * This context provides basic functionality. It holds all relevant services that our system provides.
@@ -33,12 +33,14 @@ public interface ServiceContext extends Attributable {
      * 
      * @return the {@link WorklistService}
      */
-    TaskAllocation getWorklistService();
+    WorklistServiceIntern getWorklistService();
 
     /**
      * Gets the {@link EventCorrelator correlationService}.
      * 
      * @return the {@link EventCorrelator}
+     * 
+     * TODO @EVENTTEAM: The event manager is a correlation service? Not really no? It is also used for just sending.
      */
     EventSubscriptionManager getCorrelationService();
 

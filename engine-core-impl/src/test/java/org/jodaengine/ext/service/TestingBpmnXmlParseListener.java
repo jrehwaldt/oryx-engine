@@ -2,13 +2,13 @@ package org.jodaengine.ext.service;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
-import org.jodaengine.WorklistService;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.ext.Extension;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.resource.worklist.WorklistService;
 import org.jodaengine.util.Attributable;
 import org.jodaengine.util.xml.XmlElement;
 import org.testng.Assert;

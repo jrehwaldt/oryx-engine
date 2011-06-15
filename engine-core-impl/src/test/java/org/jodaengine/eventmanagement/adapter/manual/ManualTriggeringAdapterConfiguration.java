@@ -51,7 +51,7 @@ public class ManualTriggeringAdapterConfiguration extends AbstractAdapterConfigu
     public EventAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
         IncomingAdapter adapter = createAdapter();
-        adapterRegistrar.registerInboundAdapter(adapter);
+        adapterRegistrar.registerIncomingAdapter(adapter);
 
         return adapter;
     }
