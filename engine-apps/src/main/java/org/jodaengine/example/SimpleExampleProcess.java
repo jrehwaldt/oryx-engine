@@ -10,7 +10,6 @@ import org.jodaengine.monitor.Monitor;
 import org.jodaengine.monitor.MonitorGUI;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.navigator.schedule.FIFOScheduler;
-
 import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;

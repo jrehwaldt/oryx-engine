@@ -110,7 +110,7 @@ public final class ExampleMailStartProcess {
 
             jodaEngineServices.getRepositoryService().activateProcessDefinition(exampleProcessUUID);
 
-            jodaEngineServices.getNavigatorService().startProcessInstance(exampleProcessUUID);
+           // jodaEngineServices.getNavigatorService().startProcessInstance(exampleProcessUUID);
 
             // Thread.sleep(SLEEP_TIME);
 
