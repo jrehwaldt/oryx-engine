@@ -272,9 +272,9 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
     //
     @Override
     @JsonIgnore
-    public EventSubscriptionManager getCorrelationService() {
+    public EventSubscriptionManager getEventManagerService() {
 
-        return serviceContext.getCorrelationService();
+        return serviceContext.getEventManagerService();
     }
 
     @Override

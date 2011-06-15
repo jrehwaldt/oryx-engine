@@ -30,7 +30,7 @@ public class ServiceContextImpl implements ServiceContext {
     }
 
     @Override
-    public EventSubscriptionManager getCorrelationService() {
+    public EventSubscriptionManager getEventManagerService() {
         return ServiceFactory.getEventManagerService();
     }
 

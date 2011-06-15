@@ -67,20 +67,20 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      * need to
      * be registered.
      * 
-     * @param correlationManager
+     * @param eventManager
      *            - the {@link EventCorrelator} in order to register events, perhaps
      * 
      */
-    void activate(EventSubscriptionManager correlationManager);
+    void activate(EventSubscriptionManager eventManager);
 
     /**
      * Is responsible for deactivating the {@link ProcessDefinition}. Perhaps some {@link ProcessStartEvent StartEvents}
      * need
      * to be unregistered.
      * 
-     * @param correlationManager
+     * @param eventManager
      *            - the {@link EventCorrelator} in order to unregister events, perhaps
      * 
      */
-    void deactivate(EventSubscriptionManager correlationManager);
+    void deactivate(EventSubscriptionManager eventManager);
 }

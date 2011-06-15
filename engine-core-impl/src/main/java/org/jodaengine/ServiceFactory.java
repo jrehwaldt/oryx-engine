@@ -82,9 +82,9 @@ public final class ServiceFactory {
 
     /**
      * Gets the {@link EventCorrelator} for the supplied navigator. As we do not necessarily have only one navigator,
-     * we need a CorrelationManager for each of them.
+     * we need a EventManager for each of them.
      * 
-     * @return the correlation service
+     * @return the event service
      */
     public static @Nonnull EventManagerService getEventManagerService() {
 

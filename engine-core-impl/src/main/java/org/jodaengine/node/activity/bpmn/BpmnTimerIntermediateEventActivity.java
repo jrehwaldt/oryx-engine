@@ -35,7 +35,7 @@ BpmnEventBasedGatewayEvent {
     @Override
     protected void executeIntern(@Nonnull AbstractToken token) {
 
-        EventSubscriptionManager eventManager = token.getCorrelationService();
+        EventSubscriptionManager eventManager = token.getEventManagerService();
 
         IncomingIntermediateProcessEvent processEvent = createProcessIntermediateEvent(token);
 
@@ -61,7 +61,7 @@ BpmnEventBasedGatewayEvent {
         IncomingIntermediateProcessEvent intermediateEvent = (IncomingIntermediateProcessEvent) executingToken
         .getInternalVariable(internalVariableId(PROCESS_EVENT_PREFIX, executingToken));
 
-        EventSubscriptionManager eventManager = executingToken.getCorrelationService();
+        EventSubscriptionManager eventManager = executingToken.getEventManagerService();
         eventManager.unsubscribeFromIncomingIntermediateEvent(intermediateEvent);
     }
 

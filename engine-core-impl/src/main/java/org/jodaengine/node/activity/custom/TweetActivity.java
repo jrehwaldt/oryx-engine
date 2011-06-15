@@ -20,11 +20,11 @@ public class TweetActivity extends AbstractActivity {
     @Override
     protected void executeIntern(AbstractToken token) {
 
-        EventSubscriptionManager eventManager = token.getCorrelationService();
+        EventSubscriptionManager eventManager = token.getEventManagerService();
 
         OutgoingTweetEvent processEvent = createOutgoingIntermediateProcessEvent();
 
-        SendEvents bla = (SendEvents) token.getCorrelationService();
+        SendEvents bla = (SendEvents) token.getEventManagerService();
         bla.sendMessageFromAdapter("A different Tweet this is. Testing has to be done.", processEvent);
     }
     

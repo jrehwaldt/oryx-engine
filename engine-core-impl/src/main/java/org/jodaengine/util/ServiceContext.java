@@ -2,6 +2,7 @@ package org.jodaengine.util;
 
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.eventmanagement.EventCorrelator;
+import org.jodaengine.eventmanagement.EventManagerService;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
@@ -36,13 +37,11 @@ public interface ServiceContext extends Attributable {
     WorklistServiceIntern getWorklistService();
 
     /**
-     * Gets the {@link EventCorrelator correlationService}.
+     * Gets the {@link EventManagerService}.
      * 
-     * @return the {@link EventCorrelator}
-     * 
-     * TODO @EVENTTEAM: The event manager is a correlation service? Not really no? It is also used for just sending.
+     * @return the {@link EventManagerService}
      */
-    EventSubscriptionManager getCorrelationService();
+    EventSubscriptionManager getEventManagerService();
 
     /**
      * Gets the {@link NavigatorInside navigatorService}.

@@ -33,7 +33,7 @@ public class RegisterAllStartEventPatternTest {
 
         patternContext = Mockito.mock(ProcessDefinitionActivationPatternContext.class);
         eventManager = Mockito.mock(EventSubscriptionManager.class);
-        Mockito.when(patternContext.getCorrelationService()).thenReturn(eventManager);
+        Mockito.when(patternContext.getEventManagerService()).thenReturn(eventManager);
 
         BpmnProcessDefinition processDefinition = Mockito.mock(BpmnProcessDefinition.class);
         Mockito.when(patternContext.getProcessDefinition()).thenReturn(processDefinition);

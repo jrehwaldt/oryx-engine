@@ -23,7 +23,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
     @Override
     protected void executeIntern(AbstractToken token) {
 
-        EventSubscriptionManager eventManager = token.getCorrelationService();
+        EventSubscriptionManager eventManager = token.getEventManagerService();
 
         List<IncomingIntermediateProcessEvent> registeredIntermediateEvents = new ArrayList<IncomingIntermediateProcessEvent>();
 
@@ -97,7 +97,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
         .getInternalVariable(internalVariableId(REGISTERED_PROCESS_EVENT_PREFIX, executingToken));
 
         // Unsubscribing from all processIntermediateEvents
-        EventSubscriptionManager eventManager = executingToken.getCorrelationService();
+        EventSubscriptionManager eventManager = executingToken.getEventManagerService();
         for (IncomingIntermediateProcessEvent registeredProcessEvent : registeredIntermediateEvents) {
             eventManager.unsubscribeFromIncomingIntermediateEvent(registeredProcessEvent);
         }

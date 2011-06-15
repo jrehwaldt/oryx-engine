@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * Tests the correlation manager, which should start a process instance after correlation.
+ * Tests the event manager, which should start a process instance after correlation.
  * 
  * @author Jan Rehwaldt
  */
@@ -20,16 +20,6 @@ public class EventManagerTest {
     private static final int INITIAL_ADAPTERS_COUNT = 1;
     private EventManager manager;
     
-    // /**
-    // * Tests that a fresh correlation manager contains an {@link ErrorAdapter}.
-    // */
-    // @Test
-    // public void testErrorAdapterExistsAfterStart() {
-    //
-    // this.manager.start();
-    // assertNotNull(this.manager.getErrorAdapter());
-    // }
-
     /**
      * Setup.
      */
@@ -42,7 +32,7 @@ public class EventManagerTest {
     }
 
     /**
-     * Tests that a fresh correlation manager contains no additional adapters.
+     * Tests that a fresh event manager contains no additional adapters.
      */
     @Test
     public void testNoUnusedAdaptersRegisteredByStartup() {
