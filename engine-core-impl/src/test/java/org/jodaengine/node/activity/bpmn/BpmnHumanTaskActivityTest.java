@@ -134,8 +134,8 @@ public class BpmnHumanTaskActivityTest extends AbstractJodaEngineTest {
 
         humanTask.execute(token);
         AbstractWorklistItem item = ServiceFactory.getWorklistService().getWorklistItems(resource).get(0);
-        ServiceFactory.getWorklistQueue().beginWorklistItemBy(item, resource);
-        ServiceFactory.getWorklistQueue().completeWorklistItemBy(item, resource);
+        ServiceFactory.getInteralWorklistService().beginWorklistItemBy(item, resource);
+        ServiceFactory.getInteralWorklistService().completeWorklistItemBy(item, resource);
 
         List<UUID> savedItemIDs = (List<UUID>) token.getInternalVariable(humanTask.getInternaIdentifier(token));
 

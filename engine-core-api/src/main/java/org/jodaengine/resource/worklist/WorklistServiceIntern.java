@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.jodaengine.resource.AbstractResource;
+import org.jodaengine.resource.allocation.DetourPattern;
 
 /**
  * Is the internal interface for operating on the Worklists. This interface is used by the patterns in order to query
@@ -58,4 +59,18 @@ public interface WorklistServiceIntern extends WorklistService {
      *            - the id of the {@link AbstractWorklistItem} that should be removed from the queue.
      */
     void removeWorklistItem(UUID worklistItemId);
+    
+    /**
+     * Provides the cancellation pattern that is executed on abortion of executing items.
+     *
+     * @return the cancellation pattern
+     */
+    DetourPattern getCancellationPattern();
+    
+    /**
+     * Offers the possibility to change the cancellation pattern.
+     *
+     * @param cancellationPattern the new cancellation pattern
+     */
+    void setCancellationPattern(DetourPattern cancellationPattern);
 }

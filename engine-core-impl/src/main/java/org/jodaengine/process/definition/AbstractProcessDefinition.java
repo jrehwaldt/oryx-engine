@@ -179,7 +179,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
     }
 
     @Override
-    public void activate(EventSubscriptionManager correlationManager) {
+    public void activate(EventSubscriptionManager eventManager) {
 
         ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
             this);
@@ -189,7 +189,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
     }
 
     @Override
-    public void deactivate(EventSubscriptionManager correlationManager) {
+    public void deactivate(EventSubscriptionManager eventManager) {
 
         ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
             this);

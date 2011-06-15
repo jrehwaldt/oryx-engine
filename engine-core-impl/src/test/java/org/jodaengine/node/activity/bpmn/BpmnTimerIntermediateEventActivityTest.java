@@ -181,7 +181,7 @@ public class BpmnTimerIntermediateEventActivityTest extends AbstractJodaEngineTe
       
       
       int jobGroups;
-      EventManager eventManager = (EventManager) ServiceFactory.getCorrelationService();
+      EventManager eventManager = (EventManager) ServiceFactory.getEventManagerService();
       QuartzJobManager timer = (QuartzJobManager) eventManager.getTimer();
 
       //Step through the process and activate the timer

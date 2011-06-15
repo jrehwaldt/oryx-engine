@@ -22,7 +22,7 @@ public class RegisterAllStartEventPattern extends AbstractProcessDefinitionDeAct
         }
 
         for (ProcessStartEvent startEvent : patternContext.getProcessDefinition().getStartTriggers().keySet()) {
-            patternContext.getCorrelationService().registerStartEvent(startEvent);
+            patternContext.getEventManagerService().registerStartEvent(startEvent);
             getRegisteredStartEvents().add(startEvent);
         }
     }
@@ -35,7 +35,7 @@ public class RegisterAllStartEventPattern extends AbstractProcessDefinitionDeAct
         currentRegisteredStartEvents.addAll(getRegisteredStartEvents());
 
         for (ProcessStartEvent startEvent : currentRegisteredStartEvents) {
-            patternContext.getCorrelationService().unsubscribeFromStartEvent(startEvent);
+            patternContext.getEventManagerService().unsubscribeFromStartEvent(startEvent);
             getRegisteredStartEvents().remove(startEvent);
         }
     }

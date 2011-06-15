@@ -64,7 +64,7 @@ public class TokenListenerTest {
         this.token.registerListener(mock);
         token.executeStep();
 
-        verify(mock, times(2)).update(eq(this.token), this.eventCapturer.capture());
+        verify(mock, times(3)).update(eq(this.token), this.eventCapturer.capture());
         Assert.assertEquals(ActivityState.COMPLETED, this.eventCapturer.getValue().getNewState());
     }
 }

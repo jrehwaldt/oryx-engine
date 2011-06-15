@@ -168,7 +168,7 @@ public class WorklistItemStatusTest extends AbstractJsonServerTest {
         Token token = mock(Token.class);
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         AbstractWorklistItem item = pattern.createWorklistItem(token, mock(RepositoryService.class));
-        pattern.getPushPattern().distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
+        pattern.getPushPattern().distributeItem(ServiceFactory.getInteralWorklistService(), item);
 
         // get the participants that are assigned to the role that this task was assigned to.
         assignedRole = (AbstractRole) item.getAssignedResources().iterator().next();

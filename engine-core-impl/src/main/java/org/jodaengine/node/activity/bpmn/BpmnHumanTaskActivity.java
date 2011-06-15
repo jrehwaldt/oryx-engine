@@ -60,7 +60,7 @@ public class BpmnHumanTaskActivity extends AbstractCancelableActivity {
         // the name should be unique, as the token can only work on one activity at a time.
         token.setInternalVariable(internalVariableId(ITEM_PREFIX, token), itemUUIDs);
 
-        pushPattern.distributeWorkitem(service, item);
+        pushPattern.distributeItem(service, item);
 
         token.suspend();
     }
@@ -72,7 +72,7 @@ public class BpmnHumanTaskActivity extends AbstractCancelableActivity {
         List<UUID> itemUUIDs = (List<UUID>) token.getInternalVariable(internalVariableId(ITEM_PREFIX, token));
 
         for (UUID itemUUID : itemUUIDs) {
-            ServiceFactory.getWorklistQueue().removeWorklistItem(itemUUID);
+            ServiceFactory.getInteralWorklistService().removeWorklistItem(itemUUID);
         }
     }
 

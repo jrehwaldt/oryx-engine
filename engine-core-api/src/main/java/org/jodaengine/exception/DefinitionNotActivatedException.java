@@ -11,7 +11,8 @@ public class DefinitionNotActivatedException extends JodaEngineException {
 
     private static final long serialVersionUID = -513944695461864331L;
 
-    private static final String MESSAGE = "The requested process definition was not activated. Please perform navigatorService.activateProcessDefinition(...) .";
+    private static final String MESSAGE = "The requested process definition was not activated. " +
+        "Please perform deploymentService.activateProcessDefinition(...) .";
 
     private final ProcessDefinitionID definitionID;
 

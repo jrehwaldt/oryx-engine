@@ -127,6 +127,8 @@ public class BpmnToken extends AbstractToken {
     public void executeStep()
     throws JodaEngineException {
 
+        changeActivityState(ActivityState.READY);
+        
         if (instance.isCancelled()) {
             // the following statement was already called, when instance.cancel() was called. Nevertheless, a token
             // currently in execution might have created new tokens during split that were added to the instance.
@@ -239,7 +241,7 @@ public class BpmnToken extends AbstractToken {
      */
     private void resumeAndCompleteExecution(Object resumeObject)
     throws NoValidPathException {
-
+        changeActivityState(ActivityState.ACTIVE);
         currentNode.getActivityBehaviour().resume(this, resumeObject);
 
         completeExecution();

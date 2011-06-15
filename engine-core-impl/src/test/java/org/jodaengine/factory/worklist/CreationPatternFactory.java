@@ -16,8 +16,8 @@ import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistribution
  */
 public final class CreationPatternFactory {
 
-    public static final String SIMPLE_TASK_SUBJECT = "Get Gerardo a cup of coffee!";
-    public static final String SIMPLE_TASK_DESCRIPTION = "You know what I mean.";
+    public static final String SIMPLE_TASK_SUBJECT = "Subject";
+    public static final String SIMPLE_TASK_DESCRIPTION = "Description";
 
     /**
      * Private Constructor because the CheckStyle want me to do that. Gerardo do what told. Gerardo intelligent. Gerardo
