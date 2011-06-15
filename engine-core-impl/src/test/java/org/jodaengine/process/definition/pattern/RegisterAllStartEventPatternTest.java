@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 public class RegisterAllStartEventPatternTest {
 
     private ProcessDefinitionActivationPatternContext patternContext;
-    private EventSubscriptionManager eventManager;
+    private EventManagerService eventManager;
     private ProcessStartEvent startEvent1;
     private ProcessStartEvent startEvent2;
 

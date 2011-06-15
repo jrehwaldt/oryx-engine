@@ -4,8 +4,6 @@ import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.IllegalStarteventException;
-import org.jodaengine.ext.logger.NavigatorListenerLogger;
-import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.process.activation.ProcessDeActivationPattern;
