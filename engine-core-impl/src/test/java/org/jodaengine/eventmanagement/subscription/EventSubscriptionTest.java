@@ -4,7 +4,9 @@ import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
-import org.jodaengine.eventmanagement.subscription.processevent.start.DefaultProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.start.DefaultProcessStartEvent;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -66,12 +68,12 @@ public class EventSubscriptionTest extends AbstractJodaEngineTest {
     @Test
     public void testForwardingProcessIntermediateEventSubscription() {
 
-        ProcessIntermediateEvent intermediateEvent = Mockito.mock(ProcessIntermediateEvent.class);
+        IncomingIntermediateProcessEvent intermediateEvent = Mockito.mock(IncomingIntermediateProcessEvent.class);
         Mockito.when(intermediateEvent.getAdapterConfiguration()).thenReturn(adapterConfiguration);
 
-        eventManager.registerIntermediateEvent(intermediateEvent);
+        eventManager.registerIncomingIntermediateEvent(intermediateEvent);
 
-        ArgumentCaptor<ProcessIntermediateEvent> event = ArgumentCaptor.forClass(ProcessIntermediateEvent.class);
-        Mockito.verify(correlationAdapter).registerIntermediateEvent(event.capture());
+        ArgumentCaptor<IncomingIntermediateProcessEvent> event = ArgumentCaptor.forClass(IncomingIntermediateProcessEvent.class);
+        Mockito.verify(correlationAdapter).registerIncomingIntermediateEvent(event.capture());
     }
 }

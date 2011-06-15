@@ -23,7 +23,7 @@ extends AbstractTokenListener {
     /**
      * Hide singleton constructor.
      */
-    private TokenListenerLogger() { }
+    public TokenListenerLogger() { }
     
     /**
      * Returns a lazily initialized logger instance.

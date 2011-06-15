@@ -62,7 +62,7 @@ public class QuartzJobManagerTest {
             PullAdapterJob.class, false);
 
         Mockito.when(adapter.getConfiguration()).thenReturn(configuration);
-        this.quartzJobManager.registerJobForInboundPullAdapter(adapter);
+        this.quartzJobManager.registerJobForIncomingPullAdapter(adapter);
 
         Mockito.verify(adapter, Mockito.timeout(PULL_TIMEOUT_SHORT)).pull();
         Mockito.verify(adapter, Mockito.timeout(PULL_TIMEOUT_LONG).times(2)).pull();
@@ -87,7 +87,7 @@ public class QuartzJobManagerTest {
             PullAdapterJob.class, true);
 
         Mockito.when(adapter.getConfiguration()).thenReturn(configuration);
-        this.quartzJobManager.registerJobForInboundPullAdapter(adapter);
+        this.quartzJobManager.registerJobForIncomingPullAdapter(adapter);
 
         Mockito.verify(adapter, Mockito.timeout(PULL_TIMEOUT_SHORT).never()).pull();
         Mockito.verify(adapter, Mockito.timeout(PULL_TIMEOUT_LONG)).pull();

@@ -7,9 +7,10 @@ import org.jodaengine.node.activity.custom.AddNumbersAndStoreActivity;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.activity.custom.HashComputationActivity;
 import org.jodaengine.node.activity.custom.PrintingVariableActivity;
+import org.jodaengine.node.activity.custom.TweetEndEventActivity;
 import org.jodaengine.node.factory.ControlFlowFactory;
-import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
+import org.jodaengine.node.outgoingbehaviour.EmptyOutgoingBehaviour;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeBuilder;
@@ -134,7 +135,8 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
      *            - the variable to be printed
      * @return a {@link Node} representing an {@link PrintingVariableActivity}
      */
-    public static Node createBpmnPrintingVariableNode(BpmnProcessDefinitionBuilder builder, String variableToBePrinted) {
+    public static Node createBpmnPrintingVariableNode(BpmnProcessDefinitionBuilder builder, 
+                                                      String variableToBePrinted) {
 
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
 
@@ -159,7 +161,7 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
         NodeBuilder nodeBuilder = builder.getNodeBuilder();
 
         Activity activityBehavior = new NullActivity();
-        
+
         Node bpmnNullStartNode = BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder)
         .setActivityBehavior(activityBehavior).buildNode();
         builder.addNodeAsStartNode(bpmnNullStartNode);
@@ -185,5 +187,19 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
 
         return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
         .buildNode();
+    }
+
+    /**
+     * Creating a freaking twitter node.
+     * 
+     * @param builder
+     *            the builder
+     * @return the node
+     */
+    public static Node createTwitterEndEventNode(BpmnProcessDefinitionBuilder builder) {
+
+        Activity activityBehavior = new TweetEndEventActivity();
+        return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
+        .setOutgoingBehaviour(new EmptyOutgoingBehaviour()).setActivityBehavior(activityBehavior).buildNode();
     }
 }

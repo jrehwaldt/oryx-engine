@@ -1,7 +1,7 @@
 package org.jodaengine.node.activity.bpmn;
 
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorImplMock;
 import org.jodaengine.node.factory.ControlFlowFactory;
@@ -83,7 +83,7 @@ public class BpmnEventBasedXorGatewayTest extends AbstractJodaEngineTest {
 
         Assert.assertEquals(token.getCurrentNode(), endNode1, errorMessage());
 
-        Mockito.verify(token).resume(Mockito.any(ProcessIntermediateEvent.class));
+        Mockito.verify(token).resume(Mockito.any(IncomingIntermediateProcessEvent.class));
 
         ManualTriggeringAdapter manualTriggeringAdapterToAssert = ManualTriggeringAdapter
         .getManualTriggeringAdapter(NAME_MANUAL_TRIGGER1);

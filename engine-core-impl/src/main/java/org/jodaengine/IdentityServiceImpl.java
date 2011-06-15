@@ -49,14 +49,14 @@ public class IdentityServiceImpl implements IdentityService, Service {
     @Override
     public synchronized void start(JodaEngineServices services) {
         
-        logger.info("Starting the correlation manager");
+        logger.info("Starting the identity service");
         this.running = true;
     }
 
     @Override
     public synchronized void stop() {
         
-        logger.info("Stopping the correlation manager");
+        logger.info("Stopping the identity service");
         this.running = false;
     }
     

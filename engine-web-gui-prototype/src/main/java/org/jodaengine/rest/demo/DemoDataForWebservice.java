@@ -2,9 +2,11 @@ package org.jodaengine.rest.demo;
 
 import java.io.File;
 
+import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
@@ -22,11 +24,15 @@ import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
 import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class DemoDataForWebservice generates some example data when called.
  */
 public final class DemoDataForWebservice {
+
+    private static final Logger logger = LoggerFactory.getLogger(DemoDataForWebservice.class);
 
     private static final String PATH_TO_WEBFORMS = "src/main/resources/forms";
     private static IdentityBuilder identityBuilder;
@@ -63,7 +69,8 @@ public final class DemoDataForWebservice {
     /**
      * Generate example Participants.
      * 
-     * @throws ResourceNotAvailableException no such resource
+     * @throws ResourceNotAvailableException
+     *             no such resource
      */
     public static synchronized void generate()
     throws ResourceNotAvailableException {
@@ -72,13 +79,24 @@ public final class DemoDataForWebservice {
             invoked = true;
             generateDemoParticipants();
             try {
+
                 generateDemoWorklistItems();
+            
             } catch (IllegalStarteventException e) {
-                e.printStackTrace();
+
+                logger.error("An Exception occurred: " + e.getMessage(), e);
+
             } catch (ProcessArtifactNotFoundException e) {
-                e.printStackTrace();
+
+                logger.error("An Exception occurred: " + e.getMessage(), e);
+
             } catch (DefinitionNotFoundException e) {
-                e.printStackTrace();
+
+                logger.error("An Exception occurred: " + e.getMessage(), e);
+
+            } catch (DefinitionNotActivatedException e) {
+                
+                logger.error("An Exception occurred: " + e.getMessage(), e);
             }
         }
     }
@@ -86,7 +104,8 @@ public final class DemoDataForWebservice {
     /**
      * Generate demo participants.
      * 
-     * @throws ResourceNotAvailableException no such resource
+     * @throws ResourceNotAvailableException
+     *             no such resource
      */
     private static void generateDemoParticipants()
     throws ResourceNotAvailableException {
@@ -109,11 +128,13 @@ public final class DemoDataForWebservice {
      * 
      * @throws IllegalStarteventException
      *             the registered start event was missing or not legally defined
-     * @throws ProcessArtifactNotFoundException 
-     * @throws DefinitionNotFoundException 
+     * @throws ProcessArtifactNotFoundException
+     * @throws DefinitionNotFoundException
+     * @throws DefinitionNotActivatedException
      */
     private static void generateDemoWorklistItems()
-    throws IllegalStarteventException, ProcessArtifactNotFoundException, DefinitionNotFoundException {
+    throws IllegalStarteventException, ProcessArtifactNotFoundException, DefinitionNotFoundException,
+    DefinitionNotActivatedException {
 
         BpmnProcessDefinitionBuilder processBuilder = BpmnProcessDefinitionBuilder.newBuilder();
 
@@ -122,7 +143,8 @@ public final class DemoDataForWebservice {
         startNode = BpmnNodeFactory.createBpmnStartEventNode(processBuilder);
 
         // Creating the Webform for the task
-        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        RepositoryService repositoryService = ServiceFactory.getRepositoryService();
+        DeploymentBuilder deploymentBuilder = repositoryService.getDeploymentBuilder();
         deploymentBuilder.addFileArtifact("form1", new File(PATH_TO_WEBFORMS + "/claimPoints.html"));
 
         // Create the task
@@ -156,12 +178,14 @@ public final class DemoDataForWebservice {
         ProcessDefinition processDefinition = processBuilder.setName("Demoprocess")
         .setDescription("A simple demo process with three human tasks.").buildDefinition();
 
-//        ProcessDefinitionID processID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
-//        .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
+        // ProcessDefinitionID processID = ServiceFactory.getRepositoryService().getDeploymentBuilder()
+        // .deployProcessDefinition(new RawProcessDefintionImporter(processDefinition));
         deploymentBuilder.addProcessDefinition(processDefinition);
-        
+
         Deployment deployment = deploymentBuilder.buildDeployment();
-        ServiceFactory.getRepositoryService().deployInNewScope(deployment);
+        repositoryService.deployInNewScope(deployment);
+        
+        repositoryService.activateProcessDefinition(processDefinition.getID());
 
         // create more tasks
         for (int i = 0; i < NUMBER_OF_PROCESSINSTANCES; i++) {

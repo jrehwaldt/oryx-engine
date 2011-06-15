@@ -3,16 +3,17 @@ package org.jodaengine.example;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.monitor.Monitor;
 import org.jodaengine.monitor.MonitorGUI;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.navigator.schedule.FIFOScheduler;
-import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
@@ -20,9 +21,6 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.core.joran.event.EndEvent;
-import ch.qos.logback.core.joran.event.StartEvent;
 
 /**
  * The Class SimpleExampleProcess. It really is just a simple example process.
@@ -53,11 +51,13 @@ public final class SimpleExampleProcess {
      * 
      * @param args
      *            the arguments
-     * @throws IllegalStarteventException fails
-     * @throws DefinitionNotFoundException fails
+     * @throws IllegalStarteventException
+     *             fails
+     * @throws DefinitionNotFoundException
+     *             fails
      */
     public static void main(String[] args)
-    throws IllegalStarteventException, DefinitionNotFoundException {
+    throws IllegalStarteventException, DefinitionNotFoundException, DefinitionNotActivatedException {
 
         MonitorGUI monitorGUI = MonitorGUI.start(INSTANCE_COUNT);
 
@@ -71,6 +71,9 @@ public final class SimpleExampleProcess {
         scheduler.registerListener(monitor);
 
         ProcessDefinitionID sampleProcessUUID = deploySampleProcess(jodaEngineServices);
+        
+        // Activate the process
+        jodaEngineServices.getRepositoryService().activateProcessDefinition(sampleProcessUUID);
 
         // let's generate some load :)
         LOGGER.info("Engine started");
@@ -91,10 +94,12 @@ public final class SimpleExampleProcess {
 
     /**
      * Deploys the sample process.
-     *
-     * @param jodaEngineServices the joda engine services
+     * 
+     * @param jodaEngineServices
+     *            the joda engine services
      * @return the process definition id
-     * @throws IllegalStarteventException the illegal startevent exception
+     * @throws IllegalStarteventException
+     *             the illegal startevent exception
      */
     private static ProcessDefinitionID deploySampleProcess(JodaEngineServices jodaEngineServices)
     throws IllegalStarteventException {
@@ -105,7 +110,7 @@ public final class SimpleExampleProcess {
 
         ProcessDefinitionID sampleProcessUUID = processDefinition.getID();
         deploymentBuilder.addProcessDefinition(processDefinition);
-        
+
         jodaEngineServices.getRepositoryService().deployInNewScope(deploymentBuilder.buildDeployment());
 
         return sampleProcessUUID;
@@ -116,12 +121,14 @@ public final class SimpleExampleProcess {
      * Builds the {@link ProcessDefinition} for the sample process.
      * <p>
      * The sample process contains: {@link StartEvent} => {@link AutomatedDummyActivity AutomatedDummyActivityNode} =>
-     *
-     * @param definitionBuilder the definition builder
+     * 
+     * @param definitionBuilder
+     *            the definition builder
      * @return the process definition
-     * @throws IllegalStarteventException the illegal startevent exception
-     * {@link AutomatedDummyActivity AutomatedDummyActivityNode} => {@link EndEvent} .
-     * </p>
+     * @throws IllegalStarteventException
+     *             the illegal startevent exception {@link AutomatedDummyActivity AutomatedDummyActivityNode} =>
+     *             {@link EndEvent} .
+     *             </p>
      */
     private static ProcessDefinition buildSampleProcessDefinition(BpmnProcessDefinitionBuilder definitionBuilder)
     throws IllegalStarteventException {
@@ -146,6 +153,7 @@ public final class SimpleExampleProcess {
         ControlFlowFactory.createControlFlowFromTo(definitionBuilder, automatedDummyNode2, endNode);
 
         definitionBuilder.setName(sampleProcessName).setDescription(sampleProcessDescription);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(definitionBuilder);
 
         return definitionBuilder.buildDefinition();
     }

@@ -13,6 +13,7 @@ public enum EventTypes implements EventType {
     Mail,
     Error,
     Timer,
+    Twitter,
     /**
      * Only for testing but it needs to registered here.
      */

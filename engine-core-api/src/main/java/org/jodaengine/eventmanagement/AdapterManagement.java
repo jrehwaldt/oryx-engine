@@ -5,12 +5,12 @@ import javax.annotation.Nonnull;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
-import org.jodaengine.eventmanagement.subscription.ProcessEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 
 
 /**
- * This interface provides methods for registering events to the {@link EventManager}.
+ * This interface provides methods for registering events to the {@link EventManagerService}.
  */
 public interface AdapterManagement {
 
@@ -32,7 +32,7 @@ public interface AdapterManagement {
      * @return the registered {@link IncomingAdapter}
      */
     @Nonnull
-    IncomingAdapter registerInboundAdapter(@Nonnull IncomingAdapter adapter);
+    IncomingAdapter registerIncomingAdapter(@Nonnull IncomingAdapter adapter);
 
     /**
      * A call to this method registers the corresponding adapter.
@@ -42,7 +42,7 @@ public interface AdapterManagement {
      * @return the registered {@link IncomingPullAdapter}
      */
     @Nonnull
-    IncomingPullAdapter registerInboundPullAdapter(@Nonnull IncomingPullAdapter adapter);
+    IncomingPullAdapter registerIncomingPullAdapter(@Nonnull IncomingPullAdapter adapter);
 
     /**
      * Gets the timer.
@@ -51,10 +51,4 @@ public interface AdapterManagement {
      */
     TimingManager getTimer();
 
-    /**
-     * Provides information about the assigned {@link EventCorrelator}.
-     * 
-     * @return a {@link EventCorrelator} that is able to correlate {@link ProcessEvent}s with {@link AdapterEvent}s
-     */
-    EventCorrelator getEventCorrelator();
 }

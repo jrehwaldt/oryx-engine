@@ -2,6 +2,7 @@ package org.jodaengine.process.definition;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
@@ -59,4 +60,12 @@ public interface ProcessDefinition extends Identifiable<ProcessDefinitionID>, At
      */
     @JsonProperty
     List<Node> getStartNodes();
+
+    /**
+     * Tells whether the {@link ProcessDefinition} is activated or not.
+     * 
+     * @return a {@link Boolean} saying whether the {@link ProcessDefinition} is activated or not
+     */
+    @JsonIgnore
+    boolean isActivated();
 }

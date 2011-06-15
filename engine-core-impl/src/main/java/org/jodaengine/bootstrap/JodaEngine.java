@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
+import org.jodaengine.eventmanagement.EventManagerService;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.resource.IdentityService;
@@ -150,6 +151,12 @@ public class JodaEngine implements JodaEngineServices {
     }
 
     @Override
+    public EventManagerService getEventManagerService() {
+
+        return ServiceFactory.getEventManagerService();
+    }
+    
+    @Override
     public List<Service> getCoreServices() {
         List<Service> coreServices = new ArrayList<Service>();
         
@@ -158,6 +165,7 @@ public class JodaEngine implements JodaEngineServices {
         coreServices.add(getNavigatorService());
         coreServices.add(getRepositoryService());
         coreServices.add(getExtensionService());
+        coreServices.add(getEventManagerService());
         
         return coreServices;
     }

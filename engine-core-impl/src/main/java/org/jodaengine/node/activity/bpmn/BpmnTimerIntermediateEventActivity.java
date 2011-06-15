@@ -3,9 +3,9 @@ package org.jodaengine.node.activity.bpmn;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.TriggeringBehaviour;
-import org.jodaengine.eventmanagement.subscription.processevent.intermediate.TimerProcessIntermediateEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.TimerIntermediateProcessEvent;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.token.AbstractToken;
 import org.jodaengine.process.token.Token;
@@ -35,11 +35,11 @@ BpmnEventBasedGatewayEvent {
     @Override
     protected void executeIntern(@Nonnull AbstractToken token) {
 
-        EventSubscriptionManager eventManager = token.getCorrelationService();
+        EventSubscriptionManager eventManager = token.getEventManagerService();
 
-        ProcessIntermediateEvent processEvent = createProcessIntermediateEvent(token);
+        IncomingIntermediateProcessEvent processEvent = createProcessIntermediateEvent(token);
 
-        eventManager.registerIntermediateEvent(processEvent);
+        eventManager.registerIncomingIntermediateEvent(processEvent);
 
         // the name should be unique, as the token can only work on one activity at a time.
         token.setInternalVariable(internalVariableId(PROCESS_EVENT_PREFIX, token), processEvent);
@@ -58,26 +58,28 @@ BpmnEventBasedGatewayEvent {
     @Override
     public void cancelIntern(AbstractToken executingToken) {
 
-        ProcessIntermediateEvent intermediateEvent = (ProcessIntermediateEvent) executingToken
+        IncomingIntermediateProcessEvent intermediateEvent = (IncomingIntermediateProcessEvent) executingToken
         .getInternalVariable(internalVariableId(PROCESS_EVENT_PREFIX, executingToken));
 
-        EventSubscriptionManager eventManager = executingToken.getCorrelationService();
-        eventManager.unsubscribeFromIntermediateEvent(intermediateEvent);
+        EventSubscriptionManager eventManager = executingToken.getEventManagerService();
+        eventManager.unsubscribeFromIncomingIntermediateEvent(intermediateEvent);
     }
 
     //
     // ==== Interface that represents that this event can also be used by other nodes like event-based Gateway ====
     //
+    
+    // TODO @Gerardo: Ok really... this has to change. Period.
     @Override
-    public ProcessIntermediateEvent createProcessIntermediateEvent(Token token) {
+    public IncomingIntermediateProcessEvent createProcessIntermediateEvent(Token token) {
 
-        return new TimerProcessIntermediateEvent(time, token);
+        return new TimerIntermediateProcessEvent(time, token);
     }
 
     @Override
-    public ProcessIntermediateEvent createProcessIntermediateEventForEventGroup(Token token,
+    public IncomingIntermediateProcessEvent createProcessIntermediateEventForEventGroup(Token token,
                                                                                 TriggeringBehaviour eventGroup) {
 
-        return new TimerProcessIntermediateEvent(time, token, eventGroup);
+        return new TimerIntermediateProcessEvent(time, token, eventGroup);
     }
 }

@@ -2,7 +2,7 @@ package org.jodaengine.util;
 
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.eventmanagement.EventCorrelator;
-import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.eventmanagement.EventManagerService;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.resource.IdentityService;
@@ -36,11 +36,11 @@ public interface ServiceContext extends Attributable {
     WorklistServiceIntern getWorklistService();
 
     /**
-     * Gets the {@link EventCorrelator correlationService}.
+     * Gets the {@link EventManagerService}.
      * 
-     * @return the {@link EventCorrelator}
+     * @return the {@link EventManagerService}
      */
-    EventSubscriptionManager getCorrelationService();
+    EventManagerService getEventManagerService();
 
     /**
      * Gets the {@link NavigatorInside navigatorService}.
