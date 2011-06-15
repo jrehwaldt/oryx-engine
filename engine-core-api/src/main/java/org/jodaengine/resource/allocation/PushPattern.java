@@ -23,6 +23,6 @@ public interface PushPattern {
      * @param worklistService the worklist service
      * @param itemToDistribute the item to distribute
      */
-    void distributeWorkitem(WorklistServiceIntern worklistService, AbstractWorklistItem itemToDistribute);
+    void distributeItem(WorklistServiceIntern worklistService, AbstractWorklistItem itemToDistribute);
 
 }

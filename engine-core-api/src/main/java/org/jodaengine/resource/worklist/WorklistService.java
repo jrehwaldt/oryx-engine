@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
+import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.allocation.DetourPattern;
 
@@ -116,8 +117,8 @@ public interface WorklistService extends Service {
      * @return a map where the key is a {@link AbstractResource} and the value is a list of {@link AbstractWorklistItem}
      */
     @Nonnull
-    Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(
-        @Nonnull Set<? extends AbstractResource<?>> resources);
+    Map<AbstractResource<?>, List<AbstractWorklistItem>> 
+    getWorklistItems(@Nonnull Set<? extends AbstractResource<?>> resources);
 
     /**
      * Claims a {@link AbstractWorklistItem}.
@@ -154,42 +155,60 @@ public interface WorklistService extends Service {
      * 
      * @param worklistItem
      *            - {@link AbstractWorklistItem} that is aborted
-     * @param resource
-     *            the resource that triggers this method
+     * @param oldResource
+     *            the old resource that executed the abortion
+     * @param newResource
+     *            the resource that shall get the item that is aborted (if it is not known and the pattern shall
+     *            evaluate a resource, leave <code>null</code> and ensure, that the pattern finds a resource)
+     * @param pattern
+     *            the pattern to be executed on abortion
      */
-    void abortWorklistItemBy(@Nonnull AbstractWorklistItem worklistItem, @Nonnull AbstractResource<?> resource);
+    void abortWorklistItemBy(@Nonnull AbstractWorklistItem worklistItem,
+                             @Nonnull AbstractResource<?> oldResource,
+                             @Nonnull DetourPattern pattern,
+                             AbstractResource<?> newResource);
+    
+    /**
+     * Aborts a {@link AbstractWorklistItem}.
+     * 
+     * @param worklistItem
+     *            - {@link AbstractWorklistItem} that is aborted
+     * @param oldResource
+     *            the old resource that executed the abortion
+     */
+    void abortWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> oldResource);
+
+    /**
+     * Execute detour pattern route the item to a resource. The old resource, that executes the pattern, can be
+     * found in the "assignedResources" of the item
+     * 
+     * @param detourPattern
+     *            the detour pattern to be executed
+     * @param worklistItem
+     *            the worklist item to re-distribute
+     * @param oldResource
+     *            the old resource that triggered the execution of a pattern
+     * @param newResource
+     *            the new resource that shall get the item afterwards (if not known and the pattern evaluates that,
+     *            leave <code>null</code>)
+     */
+    void executeDetourPattern(@Nonnull DetourPattern detourPattern,
+                              @Nonnull AbstractWorklistItem worklistItem,
+                              AbstractResource<?> oldResource,
+                              AbstractResource<?> newResource);
 
     /**
      * Returns a {@link AbstractWorklistItem} by id.
-     *
-     * @param resource the {@link AbstractResource}, to which the {@link AbstractWorklistItem} belongs
-     * @param worklistItemId the {@link AbstractWorklistItem}'s id
+     * 
+     * @param resource
+     *            the {@link AbstractResource}, to which the {@link AbstractWorklistItem} belongs
+     * @param worklistItemId
+     *            the {@link AbstractWorklistItem}'s id
      * @return the {@link AbstractWorklistItem}
-     * @throws InvalidWorkItemException thrown if the work item is not found
+     * @throws InvalidWorkItemException
+     *             thrown if the work item is not found
      */
     @Nullable
     AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource, @Nonnull UUID worklistItemId)
     throws InvalidWorkItemException;
-    
-    /**
-     * Provides the cancellation pattern that is executed on abortion of executing items.
-     *
-     * @return the cancellation pattern
-     */
-    DetourPattern getCancellationPattern();
-    
-    /**
-     * Offers the possibility to change the cancellation pattern.
-     *
-     * @param cancellationPattern the new cancellation pattern
-     */
-    void setCancellationPattern(DetourPattern cancellationPattern);
-    
-    /**
-     * Delegate a worklist item to a specific resource, this resource should be a participant.
-     *
-     * @param worklistItem the worklist item to be delegated
-     * @param resource the resource to get the item
-     */
-    //void delegateWorklistItemTo(@Nonnull AbstractWorklistItem worklistItem, @Nonnull AbstractResource<?> resource);
 }

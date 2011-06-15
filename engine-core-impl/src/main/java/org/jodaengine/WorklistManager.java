@@ -19,7 +19,7 @@ import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.IdentityService;
 import org.jodaengine.resource.allocation.DetourPattern;
-import org.jodaengine.resource.allocation.pattern.detour.StatelessReallocationPattern;
+import org.jodaengine.resource.allocation.pattern.detour.StatelessSelfReallocationPattern;
 import org.jodaengine.resource.worklist.AbstractWorklistItem;
 import org.jodaengine.resource.worklist.WorklistItemState;
 import org.jodaengine.resource.worklist.WorklistService;
@@ -34,28 +34,29 @@ public class WorklistManager implements WorklistService, WorklistServiceIntern, 
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private IdentityService identityService;
-    
+
     private boolean running = false;
     private DetourPattern defaultCancellationPattern;
-    
+
     @Override
     public synchronized void start(JodaEngineServices services) {
-        
+
         logger.info("Starting the worklist manager");
         identityService = services.getIdentityService();
-        defaultCancellationPattern = new StatelessReallocationPattern();
+        defaultCancellationPattern = new StatelessSelfReallocationPattern();
         this.running = true;
     }
 
     @Override
     public synchronized void stop() {
-        
+
         logger.info("Stopping the worklist manager");
         this.running = false;
     }
-    
+
     @Override
     public boolean isRunning() {
+
         return this.running;
     }
 
@@ -103,6 +104,41 @@ public class WorklistManager implements WorklistService, WorklistServiceIntern, 
     }
 
     @Override
+    public void removeWorklistItem(UUID worklistItemId) {
+
+        AbstractWorklistItem worklistItem;
+
+        // Looking in all participants for the worklistItem
+        worklistItem = findWorklistItemInResources(worklistItemId,
+            new HashSet<AbstractResource<?>>(identityService.getParticipants()));
+
+        if (worklistItem == null) {
+            // Looking in all positions for the worklistItem
+            worklistItem = findWorklistItemInResources(worklistItemId,
+                new HashSet<AbstractResource<?>>(identityService.getPositions()));
+
+            if (worklistItem == null) {
+                // Looking in all roles for the worklistItem
+                worklistItem = findWorklistItemInResources(worklistItemId, new HashSet<AbstractResource<?>>(
+                    identityService.getRoles()));
+
+                if (worklistItem == null) {
+                    // Looking in all organizationUnits for the worklistItem
+                    worklistItem = findWorklistItemInResources(worklistItemId, new HashSet<AbstractResource<?>>(
+                        identityService.getOrganizationUnits()));
+
+                    if (worklistItem == null) {
+                        String warnMessage = "No worklistItem with the id : '" + worklistItemId + "' could be found.";
+                        logger.warn(warnMessage);
+                        return;
+                    }
+                }
+            }
+        }
+        removeWorklistItem(worklistItem, worklistItem.getAssignedResources());
+    }
+
+    @Override
     public @Nullable
     AbstractWorklistItem getWorklistItem(@Nonnull AbstractResource<?> resource, @Nonnull UUID worklistItemId)
     throws InvalidWorkItemException {
@@ -112,14 +148,13 @@ public class WorklistManager implements WorklistService, WorklistServiceIntern, 
                 return item;
             }
         }
-
         // throw an exception, if the item was not found
         throw new InvalidWorkItemException(worklistItemId);
     }
 
     @Override
-    public Map<AbstractResource<?>, List<AbstractWorklistItem>> getWorklistItems(
-        Set<? extends AbstractResource<?>> resources) {
+    public Map<AbstractResource<?>, List<AbstractWorklistItem>> 
+    getWorklistItems(Set<? extends AbstractResource<?>> resources) {
 
         Map<AbstractResource<?>, List<AbstractWorklistItem>> result = 
             new HashMap<AbstractResource<?>, List<AbstractWorklistItem>>();
@@ -129,46 +164,6 @@ public class WorklistManager implements WorklistService, WorklistServiceIntern, 
         }
 
         return result;
-    }
-
-    @Override
-    public void claimWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
-
-        synchronized (worklistItem) {
-            if (!getWorklistItems(resource).contains(worklistItem)) {
-                logger.debug("thou shalt not steal worklist items: {}", resource.getName());
-                return;
-            }
-            // Defining which resources' worklists should be notified when the worklist item is claimed
-            Set<AbstractResource<?>> resourcesToNotify = new HashSet<AbstractResource<?>>();
-            resourcesToNotify.add(resource);
-            resourcesToNotify.addAll(worklistItem.getAssignedResources());
-
-            // Notifying the worklist of each resource. Each worklist implements another behavior
-            for (AbstractResource<?> resourceToNotify : resourcesToNotify) {
-                resourceToNotify.getWorklist().itemIsAllocatedBy(worklistItem, resource);
-            }
-        }
-
-    }
-
-    @Override
-    public void abortWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
-
-        defaultCancellationPattern.distribute(worklistItem, resource);
-    }
-
-    @Override
-    public void completeWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
-
-        // Others resources' worklists don't need to be notifyed because there is only one resource that has this
-        // worklistItem
-        resource.getWorklist().itemIsCompleted(worklistItem);
-
-        // Resuming the token
-        // TODO TobiM - vielleicht willst du da was anderes zurückgeben
-        worklistItem.getCorrespondingToken().resume(null);
-
     }
 
     @Override
@@ -224,20 +219,6 @@ public class WorklistManager implements WorklistService, WorklistServiceIntern, 
     }
 
     @Override
-    public void beginWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
-
-        synchronized (worklistItem) {
-            if (!getWorklistItems(resource).contains(worklistItem)) {
-                logger.debug("thou shalt not beign worklist items that are not your own: {}", resource.getName());
-                return;
-            }
-            claimWorklistItemBy(worklistItem, resource);
-            resource.getWorklist().itemIsStarted(worklistItem);
-        }
-
-    }
-
-    @Override
     public List<AbstractWorklistItem> getWorklistItems(UUID id)
     throws ResourceNotAvailableException {
 
@@ -268,42 +249,75 @@ public class WorklistManager implements WorklistService, WorklistServiceIntern, 
         AbstractParticipant resource = identityService.getParticipant(id);
         return this.getExecutingWorklistItems(resource);
     }
-    
-    
 
     @Override
-    public void removeWorklistItem(UUID worklistItemId) {
+    public void claimWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
 
-        AbstractWorklistItem worklistItem;
+        synchronized (worklistItem) {
+            if (!getWorklistItems(resource).contains(worklistItem)) {
+                logger.debug("thou shalt not steal worklist items: {}", resource.getName());
+                return;
+            }
+            // Defining which resources' worklists should be notified when the worklist item is claimed
+            Set<AbstractResource<?>> resourcesToNotify = new HashSet<AbstractResource<?>>();
+            resourcesToNotify.add(resource);
+            resourcesToNotify.addAll(worklistItem.getAssignedResources());
 
-        // Looking in all participants for the worklistItem
-        worklistItem = findWorklistItemInResources(worklistItemId,
-            new HashSet<AbstractResource<?>>(identityService.getParticipants()));
-        
-        if (worklistItem == null) {
-            // Looking in all positions for the worklistItem
-            worklistItem = findWorklistItemInResources(worklistItemId,
-                new HashSet<AbstractResource<?>>(identityService.getPositions()));
-        
-            if (worklistItem == null) {
-                // Looking in all roles for the worklistItem
-                worklistItem = findWorklistItemInResources(worklistItemId, new HashSet<AbstractResource<?>>(
-                    identityService.getRoles()));
-            
-                if (worklistItem == null) {
-                    // Looking in all organizationUnits for the worklistItem
-                    worklistItem = findWorklistItemInResources(worklistItemId, new HashSet<AbstractResource<?>>(
-                        identityService.getOrganizationUnits()));
-                
-                    if (worklistItem == null) {
-                        String warnMessage = "No worklistItem with the id : '" + worklistItemId + "' could be found.";
-                        logger.warn(warnMessage);
-                        return;
-                    }
-                }
+            // Notifying the worklist of each resource. Each worklist implements another behavior
+            for (AbstractResource<?> resourceToNotify : resourcesToNotify) {
+                resourceToNotify.getWorklist().itemIsAllocatedBy(worklistItem, resource);
             }
         }
-        removeWorklistItem(worklistItem, worklistItem.getAssignedResources());
+
+    }
+
+    @Override
+    public void abortWorklistItemBy(AbstractWorklistItem worklistItem, 
+                                    AbstractResource<?> oldResource,
+                                    DetourPattern pattern,
+                                    AbstractResource<?> newResource) {
+
+        pattern.distributeItem(this, worklistItem, oldResource, newResource);
+    }
+    
+    @Override
+    public void abortWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> oldResource) {
+        defaultCancellationPattern.distributeItem(this, worklistItem, oldResource, null);
+    }
+
+    @Override
+    public void completeWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
+
+        // Others resources' worklists don't need to be notified because there is only one resource that has this
+        // worklistItem
+        resource.getWorklist().itemIsCompleted(worklistItem);
+
+        // Resuming the token
+        worklistItem.getCorrespondingToken().resume(null);
+
+    }
+
+    @Override
+    public void beginWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> resource) {
+
+        synchronized (worklistItem) {
+            if (!getWorklistItems(resource).contains(worklistItem)) {
+                logger.debug("thou shalt not beign worklist items that are not your own: {}", resource.getName());
+                return;
+            }
+            claimWorklistItemBy(worklistItem, resource);
+            resource.getWorklist().itemIsStarted(worklistItem);
+        }
+
+    }
+
+    @Override
+    public void executeDetourPattern(DetourPattern detourPattern,
+                                     AbstractWorklistItem worklistItem,
+                                     AbstractResource<?> oldResource,
+                                     AbstractResource<?> newResource) {
+
+        detourPattern.distributeItem(this, worklistItem, oldResource, newResource);
     }
 
     /**
@@ -338,6 +352,4 @@ public class WorklistManager implements WorklistService, WorklistServiceIntern, 
 
         this.defaultCancellationPattern = cancellationPattern;
     }
-
-   
 }

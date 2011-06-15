@@ -86,7 +86,7 @@ public class WorklistWebserviceFormPopulationTest extends AbstractJsonServerTest
 //        ServiceFactory.getTaskDistribution().distribute(pattern, token);
         AbstractWorklistItem item = pattern.createWorklistItem(token, jodaEngineServices.getRepositoryService());
         PushPattern pushPattern = new AllocateSinglePattern();
-        pushPattern.distributeWorkitem(ServiceFactory.getWorklistQueue(), item);
+        pushPattern.distributeItem(ServiceFactory.getInteralWorklistService(), item);
     }
 
     /**

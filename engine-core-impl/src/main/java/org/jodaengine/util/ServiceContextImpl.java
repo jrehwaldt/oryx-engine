@@ -69,6 +69,6 @@ public class ServiceContextImpl implements ServiceContext {
     @Override
     public WorklistServiceIntern getWorklistService() {
 
-        return ServiceFactory.getWorklistQueue();
+        return ServiceFactory.getInteralWorklistService();
     }
 }
