@@ -1,5 +1,6 @@
 package org.jodaengine.rest;
 
+import org.jodaengine.RepositoryService;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
@@ -58,13 +59,17 @@ public final class TestUtils {
         ProcessDefinition definition = builder.buildDefinition();
         Assert.assertNotNull(definition);
 
-        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        RepositoryService repositoryService = ServiceFactory.getRepositoryService();
+        DeploymentBuilder deploymentBuilder = repositoryService.getDeploymentBuilder();
         Deployment deployment = deploymentBuilder.addProcessDefinition(definition).buildDeployment();
-        ServiceFactory.getRepositoryService().deployInNewScope(deployment);
+        repositoryService.deployInNewScope(deployment);
+        
         ProcessDefinitionID processId = definition.getID();
 
         Assert.assertNotNull(processId);
         Assert.assertEquals(processId, definition.getID());
+
+        repositoryService.activateProcessDefinition(processId);
 
         return definition;
     }

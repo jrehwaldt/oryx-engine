@@ -62,7 +62,6 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
                                  ProcessDeActivationPattern startActivationPattern) {
 
         super(id, name, description, startNodes, startInstantiationPattern, startActivationPattern);
-        this.startTriggers = new HashMap<ProcessStartEvent, Node>();
     }
 
     /**
@@ -75,6 +74,19 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
 
     @Override
     public Map<ProcessStartEvent, Node> getStartTriggers() {
+
+        return new HashMap<ProcessStartEvent, Node>(getLazyStartTriggers());
+    }
+
+    /**
+     * Getter for the startTrigger. Implemented lazy initialized
+     * @return the map of startTrigger; a mapping from a {@link ProcessStartEvent} to a {@link Node}
+     */
+    private Map<ProcessStartEvent, Node> getLazyStartTriggers() {
+
+        if (startTriggers == null) {
+            this.startTriggers = new HashMap<ProcessStartEvent, Node>();
+        }
         return startTriggers;
     }
 
@@ -83,10 +95,9 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
     throws IllegalStarteventException {
 
         if (startNodes.contains(node)) {
-            startTriggers.put(event, node);
+            getLazyStartTriggers().put(event, node);
         } else {
             throw new IllegalStarteventException();
         }
-
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.deployment.DeploymentBuilder;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.node.factory.PetriTransitionFactory;
@@ -64,9 +65,10 @@ public class CompletePetriNetTest extends AbstractJodaEngineTest{
      *
      * @throws DefinitionNotFoundException the definition not found exception
      * @throws InterruptedException the interrupted exception
+     * @throws DefinitionNotActivatedException 
      */
     @Test
-    public void testTheProcessExecution() throws DefinitionNotFoundException, InterruptedException {
+    public void testTheProcessExecution() throws DefinitionNotFoundException, InterruptedException, DefinitionNotActivatedException {
         
         AbstractProcessInstance processInstance = jodaEngineServices.getNavigatorService().startProcessInstance(
             sampleProcessUUID);
@@ -84,9 +86,10 @@ public class CompletePetriNetTest extends AbstractJodaEngineTest{
      *
      * @throws DefinitionNotFoundException the definition not found exception
      * @throws InterruptedException the interrupted exception
+     * @throws DefinitionNotActivatedException 
      */
     @Test
-    public void testTheProcessExecutionOfTwo() throws DefinitionNotFoundException, InterruptedException {
+    public void testTheProcessExecutionOfTwo() throws DefinitionNotFoundException, InterruptedException, DefinitionNotActivatedException {
         int counter = 0;
         
         AbstractProcessInstance processInstance = jodaEngineServices.getNavigatorService().startProcessInstance(

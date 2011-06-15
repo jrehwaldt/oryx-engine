@@ -24,12 +24,11 @@ import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.token.Token;
 
-
 /**
  * The Class NavigatorImpl. Our Implementation of the {@link Navigator}.
  */
-public class NavigatorImpl extends AbstractListenable<AbstractNavigatorListener>
-implements Navigator, NavigatorInside, Service {
+public class NavigatorImpl extends AbstractListenable<AbstractNavigatorListener> implements Navigator, NavigatorInside,
+Service {
 
     private static final int NUMBER_OF_NAVIGATOR_THREADS = 10;
 
@@ -60,13 +59,13 @@ implements Navigator, NavigatorInside, Service {
     private ArrayList<NavigationThread> executionThreads;
 
     private int navigatorThreads;
-    
+
     private NavigatorState state;
-    
+
     private int counter;
-    
+
     private RepositoryServiceInside repository;
-    
+
     private ExtensionService extensionService;
 
     /**
@@ -79,12 +78,12 @@ implements Navigator, NavigatorInside, Service {
 
         this(null, null, new FIFOScheduler(), NUMBER_OF_NAVIGATOR_THREADS);
     }
-    
+
     @Override
     public void removeTokenFromScheduler(Token t) {
-    
+
         this.scheduler.remove(t);
-        
+
     }
 
     /**
@@ -100,18 +99,17 @@ implements Navigator, NavigatorInside, Service {
     public NavigatorImpl(@Nonnull RepositoryServiceInside repositoryService,
                          @Nullable ExtensionService extensionService,
                          @Nonnull Scheduler scheduler,
-                         @Nonnegative int numberOfThreads
-                         ) {
-        
+                         @Nonnegative int numberOfThreads) {
+
         this.state = NavigatorState.INIT;
         this.counter = 0;
         this.navigatorThreads = numberOfThreads;
-        
+
         this.suspendedTokens = new ArrayList<Token>();
         this.executionThreads = new ArrayList<NavigationThread>();
         this.runningInstances = Collections.synchronizedList(new ArrayList<AbstractProcessInstance>());
         this.finishedInstances = new ArrayList<AbstractProcessInstance>();
-        
+
         this.scheduler = scheduler;
         this.repository = repositoryService;
         this.extensionService = extensionService;
@@ -121,22 +119,24 @@ implements Navigator, NavigatorInside, Service {
      * Start. Starts the number of worker thread specified in the NUMBER_OF_NAVIGATOR_THREADS Constant and adds them to
      * the execution threads list.
      * 
-     * @param services the {@link JodaEngineServices} instance
+     * @param services
+     *            the {@link JodaEngineServices} instance
      */
     @Override
     public void start(JodaEngineServices services) {
-        
+
         loadExtensions(this.extensionService);
-        
+
         // "Gentlemen, start your engines"
         for (int i = 0; i < navigatorThreads; i++) {
             addThread();
         }
         changeState(NavigatorState.RUNNING);
     }
-    
+
     @Override
     public boolean isRunning() {
+
         return NavigatorState.RUNNING.equals(this.state);
     }
 
@@ -151,29 +151,26 @@ implements Navigator, NavigatorInside, Service {
 
     @Override
     public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID)
-    throws DefinitionNotFoundException {
+    throws DefinitionNotFoundException, DefinitionNotActivatedException {
 
         // TODO use the variable repository here. This cannot be used in tests, as it requires the bootstrap to have
         // run first, but we definitely do not want to start the whole engine to test a simple feature.
         ProcessDefinitionInside definition = repository.getProcessDefinitionInside(processID);
         AbstractProcessInstance instance = definition.createProcessInstance(this);
 
-        // for (Node node : definition.getStartNodes()) {
-        // Token newToken = instance.createToken(node, this);
-        // startArbitraryInstance(newToken);
-        // }
         runningInstances.add(instance);
 
         return instance;
     }
 
     @Override
-    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID, ProcessStartEvent event)
+    public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID,
+                                                        ProcessStartEvent processStartEvent)
     throws DefinitionNotFoundException {
 
         ProcessDefinitionInside definition = repository.getProcessDefinitionInside(processID);
-        AbstractProcessInstance instance = definition.createProcessInstance(this);
-        
+        AbstractProcessInstance instance = definition.createProcessInstance(this, processStartEvent);
+
         runningInstances.add(instance);
 
         return instance;
@@ -240,6 +237,7 @@ implements Navigator, NavigatorInside, Service {
      * @return the scheduler
      */
     public Scheduler getScheduler() {
+
         return scheduler;
     }
 
@@ -274,13 +272,13 @@ implements Navigator, NavigatorInside, Service {
 
         return finishedInstances;
     }
-    
+
     @Override
     public void cancelProcessInstance(AbstractProcessInstance instance) {
 
         instance.cancel();
         signalEndedProcessInstance(instance);
-        
+
     }
 
     @Override
@@ -308,30 +306,30 @@ implements Navigator, NavigatorInside, Service {
         return stat;
     }
 
-    
     /**
      * Registers any available extension suitable for {@link NavigatorImpl} and {@link Scheduler}.
      * 
      * Those include {@link AbstractNavigatorListener} as well as {@link AbstractSchedulerListener}.
      * 
-     * @param extensionService the {@link ExtensionService}, which provides access to the extensions
+     * @param extensionService
+     *            the {@link ExtensionService}, which provides access to the extensions
      */
     @SuppressWarnings("unchecked")
     protected void loadExtensions(@Nullable ExtensionService extensionService) {
-        
+
         //
         // no ExtensionService = no extensions
         //
         if (extensionService == null) {
             return;
         }
-        
+
         //
         // get fresh listener and handler instances
         //
         List<AbstractNavigatorListener> navListener = extensionService.getExtensions(AbstractNavigatorListener.class);
         registerListeners(navListener);
-        
+
         if (this.scheduler instanceof AbstractListenable) {
             List<AbstractSchedulerListener> listener = extensionService.getExtensions(AbstractSchedulerListener.class);
             ((AbstractListenable<AbstractSchedulerListener>) this.scheduler).registerListeners(listener);
