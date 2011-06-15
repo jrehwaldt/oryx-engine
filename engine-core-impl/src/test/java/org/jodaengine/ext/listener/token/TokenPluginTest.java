@@ -79,7 +79,7 @@ public class TokenPluginTest {
 
         AbstractToken newToken = (AbstractToken) token.createToken(node1);
         newToken.executeStep();
-        verify(mock, times(2)).update(eq(newToken), this.eventCapturer.capture());
+        verify(mock, times(3)).update(eq(newToken), this.eventCapturer.capture());
     }
 
     /**
