@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.navigator.schedule.Scheduler;
 import org.jodaengine.process.definition.ProcessDefinition;

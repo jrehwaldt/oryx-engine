@@ -12,6 +12,7 @@ import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.listener.AbstractNavigatorListener;

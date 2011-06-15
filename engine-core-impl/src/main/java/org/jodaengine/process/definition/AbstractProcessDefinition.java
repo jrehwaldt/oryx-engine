@@ -7,7 +7,7 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
 import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.activation.ProcessDeActivationPattern;
