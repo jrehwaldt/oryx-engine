@@ -4,13 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.EventAdapter;
-import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.EventTypes;
-import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingAdapter;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 
 import twitter4j.conf.ConfigurationBuilder;
@@ -40,11 +35,11 @@ public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapte
         super(EventTypes.Twitter);
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream("filename.properties"));
-            String oauthConsumerKey = properties.getProperty("oauthConsumerKey");
-            String oauthConsumerSecret = properties.getProperty("oauthConsumerSecret");
-            String oauthAccessToken = properties.getProperty("oauthAccessToken");
-            String oauthAccessTokenSecret = properties.getProperty("oauthAccessTokenSecret");
+            properties.load(new FileInputStream(propertiesFilePath));
+            String oauthConsumerKey = properties.getProperty("oauth.consumerKey");
+            String oauthConsumerSecret = properties.getProperty("oauth.consumerSecret");
+            String oauthAccessToken = properties.getProperty("oauth.accessToken");
+            String oauthAccessTokenSecret = properties.getProperty("oauth.accessTokenSecret");
 
             populateConfigurationBuilder(oauthConsumerKey, oauthConsumerSecret, oauthAccessToken,
                 oauthAccessTokenSecret);
