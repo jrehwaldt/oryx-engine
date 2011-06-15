@@ -62,8 +62,6 @@ public class TwitterExampleProcess {
             builder.setDescription("description").setName(exampleProcessName);
        
             
-            // TODO @EVENTTEAM: Ok I really dunno what the hell I am doing here,
-            // the error messages told me so..
             StartInstantiationPattern startInstantiationPattern = new DefaultBpmnProcessInstanceCreationPattern();
             builder.addStartInstantiationPattern(startInstantiationPattern);
             

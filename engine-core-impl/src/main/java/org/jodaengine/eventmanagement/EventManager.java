@@ -165,7 +165,7 @@ public class EventManager implements EventManagerService {
      */
     private AbstractEventAdapter<?> getAdapterForProcessEvent(ProcessEvent processEvent) {
 
-        AbstractCorrelatingEventAdapter<?> eventAdapter = (AbstractCorrelatingEventAdapter<?>) getEventAdapters().get(
+        AbstractEventAdapter<?> eventAdapter = (AbstractCorrelatingEventAdapter<?>) getEventAdapters().get(
             processEvent.getAdapterConfiguration());
         if (eventAdapter != null) {
             // Then it means that the eventAdapter already exists, so we return it
@@ -174,7 +174,7 @@ public class EventManager implements EventManagerService {
 
         // Otherwise we will register a new one
         // Delegate the work of registering the adapter to the configuration
-        eventAdapter = (AbstractCorrelatingEventAdapter<?>) processEvent.getAdapterConfiguration()
+        eventAdapter = (AbstractEventAdapter<?>) processEvent.getAdapterConfiguration()
         .registerAdapter(this);
         return eventAdapter;
     }
