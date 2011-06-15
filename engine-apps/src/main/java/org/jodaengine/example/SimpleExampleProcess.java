@@ -10,10 +10,12 @@ import org.jodaengine.monitor.Monitor;
 import org.jodaengine.monitor.MonitorGUI;
 import org.jodaengine.navigator.NavigatorImpl;
 import org.jodaengine.navigator.schedule.FIFOScheduler;
+import org.jodaengine.node.activity.bpmn.BpmnManualTriggeringIntermediateEventActivity;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
+import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
@@ -74,6 +76,9 @@ public final class SimpleExampleProcess {
         scheduler.registerListener(monitor);
 
         ProcessDefinitionID sampleProcessUUID = deploySampleProcess(jodaEngineServices);
+        
+        // Activate the process
+        jodaEngineServices.getRepositoryService().activateProcessDefinition(sampleProcessUUID);
 
         // let's generate some load :)
         LOGGER.info("Engine started");
@@ -153,6 +158,7 @@ public final class SimpleExampleProcess {
         ControlFlowFactory.createControlFlowFromTo(definitionBuilder, automatedDummyNode2, endNode);
 
         definitionBuilder.setName(sampleProcessName).setDescription(sampleProcessDescription);
+        BpmnProcessDefinitionModifier.decorateWithDefaultBpmnInstantiationPattern(definitionBuilder);
 
         return definitionBuilder.buildDefinition();
     }
