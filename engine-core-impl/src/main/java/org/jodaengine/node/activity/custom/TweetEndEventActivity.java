@@ -1,7 +1,6 @@
 package org.jodaengine.node.activity.custom;
 
-import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.SendEvents;
+import org.jodaengine.eventmanagement.EventManagerService;
 import org.jodaengine.eventmanagement.adapter.twitter.OutgoingTwitterSingleAccountTweetAdapterConfiguration;
 import org.jodaengine.eventmanagement.processevent.outgoing.OutgoingTweetEvent;
 import org.jodaengine.node.activity.AbstractActivity;
@@ -10,8 +9,9 @@ import org.jodaengine.process.token.AbstractToken;
 /**
  * An activity used to tweet something.. for now the ProcessInstanceID
  */
-public class TweetActivity extends AbstractActivity {
+public class TweetEndEventActivity extends AbstractActivity {
 
+    // You need to put one there, our one is in the dropbox under Sonstiges/resources
     public static final String PATH_TO_TWITTERCONFIG = "src/main/resources/twitter/twitter.properties";
     
     /**
@@ -20,12 +20,13 @@ public class TweetActivity extends AbstractActivity {
     @Override
     protected void executeIntern(AbstractToken token) {
 
-        EventSubscriptionManager eventManager = token.getEventManagerService();
+        EventManagerService eventManager = token.getEventManagerService();
 
-        OutgoingTweetEvent processEvent = createOutgoingIntermediateProcessEvent();
+        OutgoingTweetEvent processEvent = createTwitterProcessEvent();
 
-        SendEvents bla = (SendEvents) token.getEventManagerService();
-        bla.sendMessageFromAdapter("A different Tweet this is. Testing has to be done.", processEvent);
+        String messageToSend = "Processinstance with ID " + token.getInstance().getID().toString() 
+            + " finished execution...";
+        eventManager.sendMessageFromAdapter(messageToSend, processEvent);
     }
     
     /**
@@ -33,7 +34,7 @@ public class TweetActivity extends AbstractActivity {
      *
      * @return the process event
      */
-    private OutgoingTweetEvent createOutgoingIntermediateProcessEvent() {
+    private OutgoingTweetEvent createTwitterProcessEvent() {
         return new OutgoingTweetEvent(new OutgoingTwitterSingleAccountTweetAdapterConfiguration(PATH_TO_TWITTERCONFIG));
     }
 
