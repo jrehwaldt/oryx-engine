@@ -91,7 +91,7 @@ public class QuartzJobManager implements TimingManager {
     }
 
     @Override
-    public void registerJobForInboundPullAdapter(@Nonnull IncomingPullAdapter inboundPulladapter)
+    public void registerJobForIncomingPullAdapter(@Nonnull IncomingPullAdapter inboundPulladapter)
     throws AdapterSchedulingException {
 
         final QuartzPullAdapterConfiguration configuration = (QuartzPullAdapterConfiguration) inboundPulladapter
@@ -109,7 +109,7 @@ public class QuartzJobManager implements TimingManager {
     }
 
     @Override
-    public void unregisterJobForInboundPullAdapter(IncomingPullAdapter inboundPulladapter)
+    public void unregisterJobForIncomingPullAdapter(IncomingPullAdapter inboundPulladapter)
     throws AdapterSchedulingException {
 
         JobKey jobKeyOfAdapter = getRunningJobKeyTable().get(inboundPulladapter);

@@ -8,7 +8,8 @@ import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 /**
  * This adapter is responsible for exception handling within our engine.
  */
-public class ErrorAdapter extends AbstractCorrelatingEventAdapter<ErrorAdapterConfiguration> implements IncomingAdapter {
+public class ErrorAdapter extends AbstractCorrelatingEventAdapter<ErrorAdapterConfiguration> 
+    implements IncomingAdapter {
 
     /**
      * Default constructor.

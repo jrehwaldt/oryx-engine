@@ -3,8 +3,9 @@ package org.jodaengine.process.definition.pattern;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jodaengine.eventmanagement.EventManagerService;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
 import org.jodaengine.process.activation.pattern.RegisterAllStartEventPattern;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinition;
@@ -21,7 +22,7 @@ import org.testng.annotations.Test;
 public class RegisterAllStartEventPatternTest {
 
     private ProcessDefinitionActivationPatternContext patternContext;
-    private EventSubscriptionManager eventManager;
+    private EventManagerService eventManager;
     private ProcessStartEvent startEvent1;
     private ProcessStartEvent startEvent2;
 
@@ -32,8 +33,8 @@ public class RegisterAllStartEventPatternTest {
     public void setUpMocks() {
 
         patternContext = Mockito.mock(ProcessDefinitionActivationPatternContext.class);
-        eventManager = Mockito.mock(EventSubscriptionManager.class);
-        Mockito.when(patternContext.getCorrelationService()).thenReturn(eventManager);
+        eventManager = Mockito.mock(EventManagerService.class);
+        Mockito.when(patternContext.getEventManagerService()).thenReturn(eventManager);
 
         BpmnProcessDefinition processDefinition = Mockito.mock(BpmnProcessDefinition.class);
         Mockito.when(patternContext.getProcessDefinition()).thenReturn(processDefinition);

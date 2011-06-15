@@ -10,7 +10,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.jodaengine.JodaEngineServices;
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorStatistic;
@@ -55,7 +56,7 @@ public class NavigatorWebService implements Navigator {
 
     @Override
     public AbstractProcessInstance startProcessInstance(ProcessDefinitionID definitionId)
-    throws DefinitionNotFoundException {
+    throws DefinitionNotFoundException, DefinitionNotActivatedException, DefinitionNotActivatedException {
 
         return navigatorService.startProcessInstance(definitionId);
     }
@@ -75,7 +76,7 @@ public class NavigatorWebService implements Navigator {
     @Path("/process-definitions/{definitionId}/start")
     @POST
     public AbstractProcessInstance startProcessInstance(@PathParam("definitionId") String definitionID)
-    throws DefinitionNotFoundException {
+    throws DefinitionNotFoundException, DefinitionNotActivatedException {
 
         return startProcessInstance(ProcessDefinitionID.fromString(definitionID));
     }

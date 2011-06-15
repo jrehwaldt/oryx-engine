@@ -1,6 +1,7 @@
 package org.jodaengine.process.instantiation.pattern;
 
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
@@ -11,8 +12,6 @@ import org.jodaengine.process.instantiation.StartInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
-
-
 
 /**
  * This pattern encapsulates the instantiation semantic for BPMN models that are with an
@@ -32,6 +31,14 @@ StartInstantiationPattern {
         NavigatorInside navigator = patternContext.getNavigatorService();
         ExtensionService extensions = patternContext.getExtensionService();
         ProcessStartEvent startEvent = patternContext.getThrownStartEvent();
+
+        if (startEvent == null) {
+            String errorMessage = "This pattern requires that a start event was thrown, but it is null. "
+                + "Please do not try to create that processInstance through the navigator. "
+                + "Leave the work to the eventManager";
+            logger.error(errorMessage);
+            throw new JodaEngineRuntimeException(errorMessage);
+        }
 
         BpmnTokenBuilder tokenBuilder = new BpmnTokenBuilder(navigator, extensions);
         AbstractProcessInstance processInstance = new ProcessInstance(processDefinition, tokenBuilder);

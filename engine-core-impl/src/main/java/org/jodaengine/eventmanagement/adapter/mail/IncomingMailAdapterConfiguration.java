@@ -185,7 +185,7 @@ QuartzPullAdapterConfiguration {
     public EventAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
         IncomingPullAdapter adapter = createAdapter();
-        adapterRegistrar.registerInboundPullAdapter(adapter);
+        adapterRegistrar.registerIncomingPullAdapter(adapter);
 
         return adapter;
     }

@@ -6,15 +6,18 @@ import java.util.Map;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
+import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
-import org.jodaengine.eventmanagement.subscription.ProcessEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.ProcessStartEvent;
+import org.jodaengine.eventmanagement.adapter.twitter.OutgoingTwitterSingleAccountTweetAdapter;
+import org.jodaengine.eventmanagement.processevent.ProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.eventmanagement.timing.QuartzJobManager;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.exception.AdapterSchedulingException;
@@ -22,10 +25,12 @@ import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import twitter4j.TwitterException;
+
 /**
  * A concrete implementation of our engines Event Manager.
  */
-public class EventManager implements EventSubscriptionManager, AdapterManagement, Service {
+public class EventManager implements EventManagerService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -40,7 +45,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     private ErrorAdapter errorAdapter;
 
     private boolean running = false;
-    
+
     private JodaEngineServices services;
 
     /**
@@ -48,6 +53,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
      */
     public EventManager() {
 
+        // TODO @EVENTTEAM: do we really need this? I guess not it could be like every other adapter
         this.errorAdapter = new ErrorAdapter(new ErrorAdapterConfiguration());
         this.timingManager = new QuartzJobManager(errorAdapter);
     }
@@ -57,7 +63,7 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
 
         logger.info("Starting the Event Manager.");
         registerAdapter(this.errorAdapter);
-        
+
         this.services = services;
 
         timingManager.start();
@@ -88,34 +94,34 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
 
         // startEvents need the NavigatorService in order to start a process instance
         startEvent.injectNavigatorService(services.getNavigatorService());
-        AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(startEvent);
+        AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(startEvent);
         correlatingAdapter.registerStartEvent(startEvent);
     }
 
     @Override
-    public void registerIntermediateEvent(ProcessIntermediateEvent intermediateEvent) {
+    public void registerIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
-        AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(intermediateEvent);
-        correlatingAdapter.registerIntermediateEvent(intermediateEvent);
+        AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(intermediateEvent);
+        correlatingAdapter.registerIncomingIntermediateEvent(intermediateEvent);
     }
 
     // QUESTION: Just call it unsubscribeStartEvent ?
     @Override
     public void unsubscribeFromStartEvent(ProcessStartEvent startEvent) {
 
-        AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(startEvent);
+        AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(startEvent);
         correlatingAdapter.unsubscribeFromStartEvent(startEvent);
     }
 
     @Override
-    public void unsubscribeFromIntermediateEvent(ProcessIntermediateEvent intermediateEvent) {
+    public void unsubscribeFromIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
-        AbstractCorrelatingEventAdapter<?> correlatingAdapter = getAdapterForProcessEvent(intermediateEvent);
-        correlatingAdapter.unsubscribeFromIntermediateEvent(intermediateEvent);
+        AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(intermediateEvent);
+        correlatingAdapter.unsubscribeFromIncomingIntermediateEvent(intermediateEvent);
 
         if (correlatingAdapter instanceof IncomingPullAdapter) {
-            IncomingPullAdapter inboundPullAdapter = (IncomingPullAdapter) correlatingAdapter;
-            unregisterInboundPullAdapterAtJobManager(inboundPullAdapter);
+            IncomingPullAdapter incomingPullAdapter = (IncomingPullAdapter) correlatingAdapter;
+            unregisterIncomingPullAdapterAtJobManager(incomingPullAdapter);
         }
     }
 
@@ -139,11 +145,13 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
 
     /**
      * Checks if the event is already registered.
-     *
-     * @param eventAdapter the event adapter
+     * 
+     * @param eventAdapter
+     *            the event adapter
      * @return true, if it is already registered, false if it is not.
      */
     private boolean isAlreadyRegistered(EventAdapter eventAdapter) {
+
         return (getEventAdapters().containsKey(eventAdapter.getConfiguration()));
     }
 
@@ -155,9 +163,9 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
      *            the process event
      * @return the adapter for the process event
      */
-    private AbstractCorrelatingEventAdapter<?> getAdapterForProcessEvent(ProcessEvent processEvent) {
+    private AbstractEventAdapter<?> getAdapterForProcessEvent(ProcessEvent processEvent) {
 
-        AbstractCorrelatingEventAdapter<?> eventAdapter = (AbstractCorrelatingEventAdapter<?>) getEventAdapters().get(
+        AbstractEventAdapter<?> eventAdapter = (AbstractCorrelatingEventAdapter<?>) getEventAdapters().get(
             processEvent.getAdapterConfiguration());
         if (eventAdapter != null) {
             // Then it means that the eventAdapter already exists, so we return it
@@ -166,13 +174,13 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
 
         // Otherwise we will register a new one
         // Delegate the work of registering the adapter to the configuration
-        eventAdapter = (AbstractCorrelatingEventAdapter<?>) processEvent.getAdapterConfiguration()
+        eventAdapter = (AbstractEventAdapter<?>) processEvent.getAdapterConfiguration()
         .registerAdapter(this);
         return eventAdapter;
     }
 
     // ==== AdapterMangement ====
-    // TODO @EVENTMANAGERTEAM: registerAdapter and registerInboundAdapter is basically the same + why not register
+    // TODO @EVENTMANAGERTEAM: registerAdapter and registerIncomingAdapter is basically the same + why not register
     // Adapters for adapter configurations?.
     @Override
     public EventAdapter registerAdapter(EventAdapter adapter) {
@@ -182,40 +190,40 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     }
 
     @Override
-    public IncomingAdapter registerInboundAdapter(IncomingAdapter inboundAdapter) {
+    public IncomingAdapter registerIncomingAdapter(IncomingAdapter incomingAdapter) {
 
-        addToEventAdapters(inboundAdapter);
-        return inboundAdapter;
+        addToEventAdapters(incomingAdapter);
+        return incomingAdapter;
     }
 
     @Override
-    public IncomingPullAdapter registerInboundPullAdapter(IncomingPullAdapter inboundPullAdapter) {
+    public IncomingPullAdapter registerIncomingPullAdapter(IncomingPullAdapter incomingPullAdapter) {
 
         // if the the Event Adapter has to be added to the list, we also need to register it with the timing manager
         // otherwise a registration at the timing manager should already be present.
-        if (addToEventAdapters(inboundPullAdapter)) {
+        if (addToEventAdapters(incomingPullAdapter)) {
             // Question: Registration maybe in the adapter itself?
-            registerInboundPullAdapterAtJobManager(inboundPullAdapter);
+            registerIncomingPullAdapterAtJobManager(incomingPullAdapter);
         }
 
-        return inboundPullAdapter;
+        return incomingPullAdapter;
     }
 
     /**
      * Encapsulates the registration of the {@link IncomingPullAdapter}.
      * 
-     * @param inboundPullAdapter
+     * @param incomingPullAdapter
      *            - the {@link IncomingPullAdapter} to register
      */
-    private void registerInboundPullAdapterAtJobManager(IncomingPullAdapter inboundPullAdapter) {
+    private void registerIncomingPullAdapterAtJobManager(IncomingPullAdapter incomingPullAdapter) {
 
         try {
 
-            timingManager.registerJobForInboundPullAdapter(inboundPullAdapter);
+            timingManager.registerJobForIncomingPullAdapter(incomingPullAdapter);
 
         } catch (AdapterSchedulingException adapterSchedulingException) {
             String errorMessage = "An exception occurred while registering a QuartzJob for the adapter '"
-                + inboundPullAdapter.getConfiguration().getUniqueName() + "'";
+                + incomingPullAdapter.getConfiguration().getUniqueName() + "'";
             logger.error(errorMessage, adapterSchedulingException);
             throw new JodaEngineRuntimeException(errorMessage, adapterSchedulingException);
         }
@@ -224,18 +232,18 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     /**
      * Encapsulates the 'unregistration' of the {@link IncomingPullAdapter}.
      * 
-     * @param inboundPullAdapter
+     * @param incomingPullAdapter
      *            - the {@link IncomingPullAdapter} to unregister
      */
-    private void unregisterInboundPullAdapterAtJobManager(IncomingPullAdapter inboundPullAdapter) {
+    private void unregisterIncomingPullAdapterAtJobManager(IncomingPullAdapter incomingPullAdapter) {
 
         try {
 
-            timingManager.unregisterJobForInboundPullAdapter(inboundPullAdapter);
+            timingManager.unregisterJobForIncomingPullAdapter(incomingPullAdapter);
 
         } catch (AdapterSchedulingException aSE) {
             String errorMessage = "An exception occurred while registering a QuartzJob for the adapter '"
-                + inboundPullAdapter.getConfiguration().getUniqueName() + "'";
+                + incomingPullAdapter.getConfiguration().getUniqueName() + "'";
             logger.error(errorMessage, aSE);
             throw new JodaEngineRuntimeException(errorMessage, aSE);
         }
@@ -245,13 +253,6 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
     public TimingManager getTimer() {
 
         return timingManager;
-    }
-
-    @Override
-    public EventCorrelator getEventCorrelator() {
-
-        // TODO @EVENTTEAM: lol empty wtf is this srsly? GEEERAARRDOOO???
-        return null;
     }
 
     // === Getter ===
@@ -266,5 +267,19 @@ public class EventManager implements EventSubscriptionManager, AdapterManagement
             this.eventAdapters = new HashMap<AdapterConfiguration, EventAdapter>();
         }
         return eventAdapters;
+    }
+
+    @Override
+    public void sendMessageFromAdapter(String message, ProcessEvent event) {
+
+        OutgoingTwitterSingleAccountTweetAdapter adapter = 
+            (OutgoingTwitterSingleAccountTweetAdapter) getAdapterForProcessEvent(event);
+        try {
+            adapter.sendMessage(message);
+        } catch (TwitterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 }

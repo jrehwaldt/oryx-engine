@@ -18,7 +18,7 @@ public interface TimingManager {
      * @throws AdapterSchedulingException
      *             thrown if scheduling fails
      */
-    void registerJobForInboundPullAdapter(@Nonnull IncomingPullAdapter inboundPulladapter)
+    void registerJobForIncomingPullAdapter(@Nonnull IncomingPullAdapter inboundPulladapter)
     throws AdapterSchedulingException;
 
 //    /**
@@ -41,6 +41,6 @@ public interface TimingManager {
  * @param inboundPulladapter the inbound pulladapter
  * @throws AdapterSchedulingException the adapter scheduling exception
  */
-    void unregisterJobForInboundPullAdapter(@Nonnull IncomingPullAdapter inboundPulladapter)
+    void unregisterJobForIncomingPullAdapter(@Nonnull IncomingPullAdapter inboundPulladapter)
     throws AdapterSchedulingException;
 }

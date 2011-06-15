@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.bootstrap.Service;
+import org.jodaengine.eventmanagement.EventManagerService;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.resource.IdentityService;
@@ -59,6 +60,13 @@ public interface JodaEngineServices {
      * @return the {@link ExtensionService}
      */
     @Nonnull ExtensionService getExtensionService();
+    
+    /**
+     * Gets the {@link EventManagerService}.
+     *
+     * @return the {@link EventManagerService}
+     */
+    @Nonnull EventManagerService getEventManagerService();
     
     /**
      * Gets a list of all core {@link Service}s.

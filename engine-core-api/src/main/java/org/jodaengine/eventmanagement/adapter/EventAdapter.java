@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 
 /**
- * General {@link EventManager} adapter.
+ * General {@link EventManagerService} adapter.
  */
 public interface EventAdapter {
     /**

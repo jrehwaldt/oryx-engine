@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.subscription.ProcessIntermediateEvent;
-import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.AbstractProcessIntermediateEventGroup;
-import org.jodaengine.eventmanagement.subscription.processeventgroup.intermediate.ExclusiveProcessEventGroup;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.AbstractIntermediateProcessEventGroup;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.ExclusiveProcessEventGroup;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
@@ -23,11 +23,11 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
     @Override
     protected void executeIntern(AbstractToken token) {
 
-        EventSubscriptionManager eventManager = token.getCorrelationService();
+        EventSubscriptionManager eventManager = token.getEventManagerService();
 
-        List<ProcessIntermediateEvent> registeredIntermediateEvents = new ArrayList<ProcessIntermediateEvent>();
+        List<IncomingIntermediateProcessEvent> registeredIntermediateEvents = new ArrayList<IncomingIntermediateProcessEvent>();
 
-        AbstractProcessIntermediateEventGroup eventXorGroup = new ExclusiveProcessEventGroup(token);
+        AbstractIntermediateProcessEventGroup eventXorGroup = new ExclusiveProcessEventGroup(token);
 
         for (ControlFlow controlFlow : token.getCurrentNode().getOutgoingControlFlows()) {
             Node node = controlFlow.getDestination();
@@ -40,7 +40,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
                 .getActivityBehaviour();
 
                 // Creating a processIntermediateEvent
-                ProcessIntermediateEvent processEvent = eventBasedGatewayEvent
+                IncomingIntermediateProcessEvent processEvent = eventBasedGatewayEvent
                 .createProcessIntermediateEventForEventGroup(token, eventXorGroup);
                 // Setting the node that has fired the event; the node is not that one the execution is currently
                 // pointing at but rather the node that contained the event
@@ -49,7 +49,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
                 eventXorGroup.add(processEvent);
 
                 // Subscribing on the event
-                eventManager.registerIntermediateEvent(processEvent);
+                eventManager.registerIncomingIntermediateEvent(processEvent);
 
                 // Putting the intermediate Events in the queue for later reference
                 registeredIntermediateEvents.add(processEvent);
@@ -73,12 +73,12 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
     @Override
     public void resume(Token token, Object resumeObject) {
 
-        if (!(resumeObject instanceof ProcessIntermediateEvent)) {
+        if (!(resumeObject instanceof IncomingIntermediateProcessEvent)) {
             logger.debug("The resumeObject '{}' is not a ProcessIntermediateEvent.", resumeObject);
         }
 
         // Each processIntermediateEvent knows which node is waiting for the event to fire
-        ProcessIntermediateEvent intermediateProcessEvent = (ProcessIntermediateEvent) resumeObject;
+        IncomingIntermediateProcessEvent intermediateProcessEvent = (IncomingIntermediateProcessEvent) resumeObject;
         Node nodeToSkip = intermediateProcessEvent.getFireringNode();
 
         // Define where the token continue his execution
@@ -93,13 +93,13 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
 
         // Extracting the variable
         @SuppressWarnings("unchecked")
-        List<ProcessIntermediateEvent> registeredIntermediateEvents = (List<ProcessIntermediateEvent>) executingToken
+        List<IncomingIntermediateProcessEvent> registeredIntermediateEvents = (List<IncomingIntermediateProcessEvent>) executingToken
         .getInternalVariable(internalVariableId(REGISTERED_PROCESS_EVENT_PREFIX, executingToken));
 
         // Unsubscribing from all processIntermediateEvents
-        EventSubscriptionManager eventManager = executingToken.getCorrelationService();
-        for (ProcessIntermediateEvent registeredProcessEvent : registeredIntermediateEvents) {
-            eventManager.unsubscribeFromIntermediateEvent(registeredProcessEvent);
+        EventSubscriptionManager eventManager = executingToken.getEventManagerService();
+        for (IncomingIntermediateProcessEvent registeredProcessEvent : registeredIntermediateEvents) {
+            eventManager.unsubscribeFromIncomingIntermediateEvent(registeredProcessEvent);
         }
     }
 }

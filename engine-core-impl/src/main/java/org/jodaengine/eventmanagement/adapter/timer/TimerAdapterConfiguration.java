@@ -67,7 +67,7 @@ public class TimerAdapterConfiguration extends AbstractAdapterConfiguration impl
     public EventAdapter registerAdapter(AdapterManagement adapterRegistrar) {
 
         TimerAdapter adapter = createAdapter();
-        adapterRegistrar.registerInboundPullAdapter(adapter);
+        adapterRegistrar.registerIncomingPullAdapter(adapter);
         return adapter;
     }
 
