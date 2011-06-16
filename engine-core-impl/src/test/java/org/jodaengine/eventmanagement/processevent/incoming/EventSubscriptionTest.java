@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.subscription;
+package org.jodaengine.eventmanagement.processevent.incoming;
 
 import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.EventManager;

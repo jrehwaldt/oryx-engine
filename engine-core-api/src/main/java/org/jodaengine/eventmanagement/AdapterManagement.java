@@ -5,7 +5,6 @@ import javax.annotation.Nonnull;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
-import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 
 

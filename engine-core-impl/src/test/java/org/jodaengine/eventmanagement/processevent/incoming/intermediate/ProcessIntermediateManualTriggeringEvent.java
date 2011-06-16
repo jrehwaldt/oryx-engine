@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.subscription.processevent.intermediate;
+package org.jodaengine.eventmanagement.processevent.incoming.intermediate;
 
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapterConfiguration;

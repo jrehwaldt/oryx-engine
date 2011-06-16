@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jodaengine.JodaEngineServices;
-import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
 import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
@@ -17,7 +16,6 @@ import org.jodaengine.eventmanagement.adapter.twitter.OutgoingTwitterSingleAccou
 import org.jodaengine.eventmanagement.processevent.ProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
-import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.eventmanagement.timing.QuartzJobManager;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.exception.AdapterSchedulingException;

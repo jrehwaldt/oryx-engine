@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.subscription.processevent.start;
+package org.jodaengine.eventmanagement.processevent.incoming.start;
 
 import java.util.UUID;
 
@@ -46,12 +46,10 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
 
     /**
      * Class initialization.
-     * 
-     * @throws NoSuchMethodException
-     *             unlikely to be thrown...
-     * @throws IllegalStarteventException
-     *             test will fail
-     * @throws MessagingException
+     *
+     * @throws NoSuchMethodException unlikely to be thrown...
+     * @throws IllegalStarteventException test will fail
+     * @throws MessagingException the messaging exception
      */
     @BeforeMethod
     public void beforeMethod()
@@ -73,7 +71,7 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
         // register some processStartEvents
         // register first processStartEvent
         EventType mailType = EventTypes.Mail;
-        EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic",
+        EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageSubject",
             "Hallo");
         config = IncomingMailAdapterConfiguration.jodaGoogleConfiguration();
         event = new DefaultProcessStartEvent(config, subjectCondition, definitionID);
@@ -87,12 +85,12 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
         // create some incoming events, for example from a mailbox
         incomingAdapterEvent = Mockito.mock(MailAdapterEvent.class);
         Mockito.when(incomingAdapterEvent.getAdapterType()).thenReturn(mailType);
-        Mockito.when(incomingAdapterEvent.getMessageTopic()).thenReturn("Hallo");
+        Mockito.when(incomingAdapterEvent.getMessageSubject()).thenReturn("Hallo");
         Mockito.when(incomingAdapterEvent.getAdapterConfiguration()).thenReturn(config);
     
         anotherIncomingAdapterEvent = Mockito.mock(MailAdapterEvent.class);
         Mockito.when(anotherIncomingAdapterEvent.getAdapterType()).thenReturn(mailType);
-        Mockito.when(anotherIncomingAdapterEvent.getMessageTopic()).thenReturn("HalliHallo");
+        Mockito.when(anotherIncomingAdapterEvent.getMessageSubject()).thenReturn("HalliHallo");
         Mockito.when(anotherIncomingAdapterEvent.getAdapterConfiguration()).thenReturn(config);
     
     }
@@ -163,7 +161,8 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
      *            - the {@link AdapterConfiguration}
      * @return the {@link AbstractCorrelatingEventAdapter} that belongs to that {@link AdapterConfiguration}
      */
-    private AbstractCorrelatingEventAdapter<? extends AdapterConfiguration> getCorrelatingAdapter(AdapterConfiguration config) {
+    private AbstractCorrelatingEventAdapter<? extends AdapterConfiguration> 
+        getCorrelatingAdapter(AdapterConfiguration config) {
 
         return (AbstractCorrelatingEventAdapter<?>) eventManager.getEventAdapters().get(config);
     }

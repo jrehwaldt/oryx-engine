@@ -11,7 +11,6 @@ import javax.annotation.Nullable;
 import org.jodaengine.bootstrap.Service;
 import org.jodaengine.exception.InvalidWorkItemException;
 import org.jodaengine.exception.ResourceNotAvailableException;
-import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.AbstractResource;
 import org.jodaengine.resource.allocation.DetourPattern;
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:signavio="http://www.signavio.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com"
+	exporterVersion="5.0.0" expressionLanguage="http://www.w3.org/1999/XPath"
+	id="sid-dc85246e-5da9-485a-9a37-0b63e6633954" targetNamespace="http://www.signavio.com/bpmn20"
+	typeLanguage="http://www.w3.org/2001/XMLSchema"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd"
+	xmlns:joda="http://jodaengine.org/bpmn-extensions">
+	<process id="sid-6582e3e9-d689-4067-a386-e3cd524bbda7"
+		isExecutable="false">
+		<startEvent id="sid-1DA377E6-3F03-4DF4-880C-15CAC382028D"
+			name="Start" />
+		<intermediateThrowEvent id="sid-C16E1AB5-DE8E-462A-BCDD-CDEE357C8BE7"
+			name="Twitter" joda:type="twitter" joda:message="Parsed an XML File you have." joda:pathToProperties="src/main/resources/twitter/twitter.properties" />
+		<endEvent id="sid-B774095B-BEAF-47DD-85D3-71D6F38A2B0B" name="End" />
+		<sequenceFlow id="sid-33C135DA-31CF-46E7-800F-3D52A7F4E563"
+			name="" sourceRef="sid-1DA377E6-3F03-4DF4-880C-15CAC382028D"
+			targetRef="sid-C16E1AB5-DE8E-462A-BCDD-CDEE357C8BE7" />
+		<sequenceFlow id="sid-C1BCDD80-D88B-4288-8EEC-12D94551FF57"
+			name="" sourceRef="sid-C16E1AB5-DE8E-462A-BCDD-CDEE357C8BE7"
+			targetRef="sid-B774095B-BEAF-47DD-85D3-71D6F38A2B0B" />
+	</process>
+</definitions>

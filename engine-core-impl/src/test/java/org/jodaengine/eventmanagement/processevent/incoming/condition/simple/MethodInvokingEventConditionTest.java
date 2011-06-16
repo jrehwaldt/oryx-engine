@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.subscription.condition.simple;
+package org.jodaengine.eventmanagement.processevent.incoming.condition.simple;
 
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
 import org.jodaengine.exception.JodaEngineRuntimeException;

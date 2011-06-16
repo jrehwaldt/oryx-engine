@@ -27,7 +27,7 @@ public class MailAdapterEvent extends AbstractAdapterEvent {
     private @Nullable
     String content;
     private @Nullable
-    String topic;
+    String subject;
     private @Nullable
     String from;
 
@@ -43,72 +43,18 @@ public class MailAdapterEvent extends AbstractAdapterEvent {
 
         super(configuration);
         this.message = message;
-        parseContent();
+        parseEmail();
     }
 
     /**
      * Parse the mail content and save the results.
      */
-    // TODO @EVENTMANAGERTEAM: eventually add a to and clean this bloody mess.
-    public void parseContent() {
+    public void parseEmail() {
 
         try {
-            // Retrieve the this.message content
-            Object messageContentObject = this.message.getContent();
-            String sender = ((InternetAddress) this.message.getFrom()[0]).getPersonal();
-
-            this.from = sender;
-            if (sender == null) {
-                sender = ((InternetAddress) this.message.getFrom()[0]).getAddress();
-                logger.debug("sender in NULL. Printing Address:" + sender);
-            }
-
-            // Get the subject information
-            String subject = this.message.getSubject();
-            this.topic = subject;
-
-            // Determine email type
-            if (messageContentObject instanceof Multipart) {
-                logger.debug("Found Email with Attachment");
-
-                // If the "personal" information has no entry, check the address for the sender information
-                logger.debug("If the personal information has no entry, check the address for the sender information.");
-
-                logger.debug("Sender -." + sender);
-
-                logger.debug("subject=" + subject);
-
-                // Retrieve the Multipart object from the this.message
-                Multipart multipart = (Multipart) this.message.getContent();
-
-                logger.debug("Retrieve the Multipart object from the message");
-
-                // Loop over the parts of the email
-                for (int i = 0; i < multipart.getCount(); i++) {
-                    // Retrieve the next part
-                    Part part = multipart.getBodyPart(i);
-
-                    // Get the content type
-                    String contentType = part.getContentType();
-
-                    // Display the content type
-                    logger.debug("Content: " + contentType);
-
-                    if (contentType.startsWith("text/plain")) {
-                        logger.debug("---------reading content type text/plain  mail -------------");
-                        this.content = (String) part.getContent();
-                    } else {
-                        // Retrieve the file name
-                        String fileName = part.getFileName();
-                        logger.debug("retrive the fileName=" + fileName);
-                    }
-
-                }
-            } else {
-
-                logger.debug("Found Mail Without Attachment");
-                logger.debug("subject=" + subject);
-            }
+            parseSender();
+            parseSubject();
+            parseContent();
         } catch (IOException ioException) {
 
             String errorMessage = "The following exception occurred: " + ioException.getMessage();
@@ -121,6 +67,96 @@ public class MailAdapterEvent extends AbstractAdapterEvent {
             logger.error(errorMessage, messageException);
             throw new JodaEngineRuntimeException(errorMessage, messageException);
         }
+    }
+
+    /**
+     * Retrieve the message content.
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws MessagingException
+     *             the messaging exception
+     */
+    private void parseContent()
+    throws IOException, MessagingException {
+
+        Object messageContentObject = this.message.getContent();
+        // Determine email type
+        logger.debug("message Content object is of class:" + messageContentObject.getClass());
+        if (messageContentObject instanceof String) {
+            this.content = (String) messageContentObject;
+
+        } else if (messageContentObject instanceof Multipart) {
+            parseMultipartMessage();
+        } else {
+            // unknown email content (like com.sun.mail.imap.IMAPInputStream;)
+            logger.error("The email content is of an unknown class, this class being: "
+                + messageContentObject.getClass());
+        }
+    }
+
+    /**
+     * Parsing a Multipart type Email.
+     * 
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws MessagingException
+     *             the messaging exception
+     */
+    private void parseMultipartMessage()
+    throws IOException, MessagingException {
+
+        // Retrieve the Multipart object from the this.message
+        Multipart multipart = (Multipart) this.message.getContent();
+
+        // Loop over the parts of the email
+        for (int i = 0; i < multipart.getCount(); i++) {
+            // Retrieve the next part
+            Part part = multipart.getBodyPart(i);
+
+            // Get the content type
+            String contentType = part.getContentType();
+
+            // TobiBA: Support for more content types goes here!
+            if (contentType.toLowerCase().startsWith("text/plain")) {
+                this.content = (String) part.getContent();
+            } else {
+                // Retrieve the file name
+                String fileName = part.getFileName();
+                logger.debug("retrive the fileName=" + fileName);
+            }
+
+        }
+    }
+
+    /**
+     * Get the subject information.
+     * 
+     * @throws MessagingException
+     *             the messaging exception
+     */
+    private void parseSubject()
+    throws MessagingException {
+
+        this.subject = this.message.getSubject();
+    }
+
+    /**
+     * Get the sender information.
+     * 
+     * @throws MessagingException
+     *             the messaging exception
+     */
+    private void parseSender()
+    throws MessagingException {
+
+        String sender = ((InternetAddress) this.message.getFrom()[0]).getPersonal();
+
+        if (sender == null) {
+            sender = ((InternetAddress) this.message.getFrom()[0]).getAddress();
+        }
+
+        this.from = sender;
     }
 
     /**
@@ -141,9 +177,9 @@ public class MailAdapterEvent extends AbstractAdapterEvent {
      * @return the mail topic.
      */
     public @Nullable
-    String getMessageTopic() {
+    String getMessageSubject() {
 
-        return this.topic;
+        return this.subject;
 
     }
 

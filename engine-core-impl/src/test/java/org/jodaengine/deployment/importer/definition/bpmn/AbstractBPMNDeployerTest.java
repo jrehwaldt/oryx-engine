@@ -8,6 +8,7 @@ import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.ProcessDefinitionImporter;
 import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
+import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.util.ReflectionUtil;
@@ -39,7 +40,7 @@ public abstract class AbstractBPMNDeployerTest extends AbstractJodaEngineTest {
             Assert.fail(failureMessage);
         }
 
-        DeploymentBuilder deploymentBuilder = ServiceFactory.getRepositoryService().getDeploymentBuilder();
+        DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
 
         InputStream bpmnXmlInputStream = ReflectionUtil.getResourceAsStream(executableProcessResourcePath);
         Assert.assertNotNull(bpmnXmlInputStream);
@@ -51,7 +52,7 @@ public abstract class AbstractBPMNDeployerTest extends AbstractJodaEngineTest {
         Deployment deployment = deploymentBuilder.buildDeployment();
         ServiceFactory.getRepositoryService().deployInNewScope(deployment);
 
-        ProcessDefinition processDefinition = ServiceFactory.getRepositoryService().getProcessDefinition(
+        ProcessDefinition processDefinition = jodaEngineServices.getRepositoryService().getProcessDefinition(
             deployedProcessDefinitionUUID);
 
         Assert.assertEquals(processDefinition.getID(), deployedProcessDefinitionUUID);

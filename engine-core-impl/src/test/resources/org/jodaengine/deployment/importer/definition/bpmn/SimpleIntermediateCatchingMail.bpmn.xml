@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:signavio="http://www.signavio.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com"
+	exporterVersion="5.0.0" expressionLanguage="http://www.w3.org/1999/XPath"
+	id="sid-eb2ee1af-4ca4-4f3b-a6e2-76addfde2b0c" targetNamespace="http://www.signavio.com/bpmn20"
+	typeLanguage="http://www.w3.org/2001/XMLSchema"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+	<process id="sid-0e1ff299-f5f5-4232-b47c-d3e06a5044de"
+		isExecutable="false">
+		<startEvent id="sid-59BF1E4B-AEAD-4683-A2CC-A949173A89D8"
+			name=""/>
+		<intermediateCatchEvent id="sid-5AEC4879-9E27-43E4-838E-039E8A5F1D24"
+			name="" joda:eventType="Mail">
+		</intermediateCatchEvent>
+		<endEvent id="sid-54FE8852-66D3-47AE-84E2-A9BE9E90DB02" name=""/>
+		<sequenceFlow id="sid-0801B8B0-9FC7-48C0-9EE7-84C511CE2E33"
+			name="" sourceRef="sid-59BF1E4B-AEAD-4683-A2CC-A949173A89D8"
+			targetRef="sid-5AEC4879-9E27-43E4-838E-039E8A5F1D24" />
+		<sequenceFlow id="sid-F628571F-6298-4E49-B095-D53F5B70C781"
+			name="" sourceRef="sid-5AEC4879-9E27-43E4-838E-039E8A5F1D24"
+			targetRef="sid-54FE8852-66D3-47AE-84E2-A9BE9E90DB02" />
+	</process>
+</definitions>

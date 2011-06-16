@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.subscription.condition.complex;
+package org.jodaengine.eventmanagement.processevent.incoming.condition.complex;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.complex.AndEventCondition;

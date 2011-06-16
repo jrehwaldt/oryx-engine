@@ -1,12 +1,13 @@
-package org.jodaengine.eventmanagement.subscription;
+package org.jodaengine.eventmanagement.processevent.incoming;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessIntermediateManualTriggeringEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.AbstractIntermediateProcessEventGroup;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.ExclusiveProcessEventGroup;
-import org.jodaengine.eventmanagement.subscription.processevent.intermediate.ProcessIntermediateManualTriggeringEvent;
+import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;
