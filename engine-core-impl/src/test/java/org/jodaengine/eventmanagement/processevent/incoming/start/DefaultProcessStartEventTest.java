@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.subscription.processevent.start; 
+package org.jodaengine.eventmanagement.processevent.incoming.start; 
 
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.eventmanagement.processevent.incoming.start.DefaultProcessStartEvent;

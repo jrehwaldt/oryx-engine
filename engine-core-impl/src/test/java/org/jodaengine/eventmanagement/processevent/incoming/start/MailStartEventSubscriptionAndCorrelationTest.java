@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.subscription.processevent.start;
+package org.jodaengine.eventmanagement.processevent.incoming.start;
 
 import java.util.UUID;
 
