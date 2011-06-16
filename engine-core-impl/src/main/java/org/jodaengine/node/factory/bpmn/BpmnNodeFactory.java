@@ -82,9 +82,8 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
      */
     public static Node createBpmnIntermediateTimerEventNode(BpmnProcessDefinitionBuilder builder, long waitingTime) {
 
-        NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnTimerIntermediateEventActivity activityBehavior = new BpmnTimerIntermediateEventActivity(waitingTime);
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
+        return createDefaultBpmnNodeWith(builder, activityBehavior);
     }
 
     /**
@@ -101,15 +100,13 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
      */
     public static Node createBpmnUserTaskNode(BpmnProcessDefinitionBuilder builder, CreationPattern creationPattern) {
 
-        NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnHumanTaskActivity activityBehavior = new BpmnHumanTaskActivity(creationPattern);
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
+        return createDefaultBpmnNodeWith(builder, activityBehavior);
     }
     
     public static Node createBpmnJavaClassServiceTaskNode(BpmnProcessDefinitionBuilder builder, String className) {
-        NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnJavaServiceActivity activityBehavior = new BpmnJavaServiceActivity(className);
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
+        return createDefaultBpmnNodeWith(builder, activityBehavior);
     }
 
     /**
@@ -124,9 +121,8 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
      */
     public static Node createBpmnTerminatingEndEventNode(BpmnProcessDefinitionBuilder builder) {
 
-        NodeBuilder nodeBuilder = builder.getNodeBuilder();
         BpmnTerminatingEndEventActivity activityBehavior = new BpmnTerminatingEndEventActivity();
-        return decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior).buildNode();
+        return createDefaultBpmnNodeWith(builder, activityBehavior);
     }
 
     /**
@@ -188,7 +184,7 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
      *            - a {@link NodeBuilder} that configures the {@link Node}
      * @return a {@link NodeBuilder}
      */
-    static NodeBuilder decorateBpmnDefaultRouting(NodeBuilder nodeBuilder) {
+    public static NodeBuilder decorateBpmnDefaultRouting(NodeBuilder nodeBuilder) {
 
         return nodeBuilder.setIncomingBehaviour(new SimpleJoinBehaviour()).setOutgoingBehaviour(
             new TakeAllSplitBehaviour());
