@@ -41,8 +41,8 @@ public class NodeImpl implements Node {
     /**
      * Instantiates a new abstract node.
      * 
-     * @param blueprint
-     *            the blueprint of the activity that is to instantiate when the node is reached by a token
+     * @param activityBehaviour
+     *            the activiteBehaviour of the activity that is to instantiate when the node is reached by a token
      * @param incomingBehaviour
      *            the incoming behavior
      * @param outgoingBehaviour

@@ -29,6 +29,7 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
+import org.jodaengine.node.factory.bpmn.BpmnCustomNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -64,7 +65,7 @@ public class BpmnXmlParse extends XmlParse {
     private BpmnProcessDefinitionBuilder processBuilder;
 
     private List<BpmnXmlParseListener> parseListeners;
-
+    
     /**
      * Mapping containing values stored during the first phase of parsing since other elements can reference these
      * messages.
@@ -574,22 +575,55 @@ public class BpmnXmlParse extends XmlParse {
         // }
     }
     
+    /**
+     * Parse the intermediate throw event, determining what type of event it is.
+     *
+     * @param intermediateThrowingEventElement the intermediate throwing event element
+     */
     protected void parseIntermediateThrowEvent(XmlElement intermediateThrowingEventElement) {
-        String message = intermediateThrowingEventElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS,
-        "message");
+        
+        String type = intermediateThrowingEventElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS,
+        "type");
 
-        if (message == null) {
-            getProblemLogger().addWarning("Ignoring unsupported throwing event other than Twitter",
+        if ("twitter".equals(type)) {
+            parseIntermediateThrowTweetEvent(intermediateThrowingEventElement);
+        } else {
+            getProblemLogger().addWarning("Ignoring unsupported throwing event ",
                 intermediateThrowingEventElement);
             return;
         }
     
-        // TODO @Tobi: XML Parse here!
-        Node intermediateTimerEventNode = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(processBuilder,
-            Integer.valueOf(intervalTime));
-    
-        parseGeneralInformation(intermediateThrowingEventElement, intermediateTimerEventNode);
-        getNodeXmlIdTable().put((String) intermediateTimerEventNode.getAttribute("idXml"), intermediateTimerEventNode);
+
+    }
+
+    /**
+     * Parse the intermediate throwing tweet event.
+     *
+     * @param intermediateThrowingEventElement the intermediate throwing event element that is a twitter event
+     */
+    protected void parseIntermediateThrowTweetEvent(XmlElement intermediateThrowingEventElement) {
+        String pathToPropertiesFile = intermediateThrowingEventElement
+        .getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS, "pathToProperties");
+        String message = intermediateThrowingEventElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS,
+        "message");
+        
+        if ((message == null) || (pathToPropertiesFile == null)) {
+            getProblemLogger().addWarning("Required attribute message ot pathToProperties missing "
+                + "for intermediateThrowTweetEvent", intermediateThrowingEventElement);
+            return;
+        } else {
+            Node intermediateOutgoingTweetEventNode = BpmnCustomNodeFactory
+                .createTweetNode(processBuilder, message, pathToPropertiesFile);
+        
+            parseGeneralInformation(intermediateThrowingEventElement, intermediateOutgoingTweetEventNode);
+            getNodeXmlIdTable().put((String) intermediateOutgoingTweetEventNode.getAttribute("idXml"), 
+                                    intermediateOutgoingTweetEventNode);
+            
+            // TODO BpmnXmlParseListener erweitern um die Methode parseIntermediateCatchEvent
+            // for (BpmnXmlParseListener parseListener : parseListeners) {
+            // parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
+            // }
+        }
     }
 
     /**

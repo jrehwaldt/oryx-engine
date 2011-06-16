@@ -7,6 +7,7 @@ import org.jodaengine.node.activity.custom.AddNumbersAndStoreActivity;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.activity.custom.HashComputationActivity;
 import org.jodaengine.node.activity.custom.PrintingVariableActivity;
+import org.jodaengine.node.activity.custom.TweetActivity;
 import org.jodaengine.node.activity.custom.TweetEndEventActivity;
 import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
@@ -201,5 +202,25 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
         Activity activityBehavior = new TweetEndEventActivity();
         return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
         .setOutgoingBehaviour(new EmptyOutgoingBehaviour()).setActivityBehavior(activityBehavior).buildNode();
+    }
+    
+    
+    /**
+     * Creates a new Tweetnode.
+     *
+     * @param builder the BPMN Process Definition Builder
+     * @param message the message to tweet
+     * @param pathToProperties the path to the properties file, this must contain the oauth security tokens
+     * @return the node
+     */
+    public static Node createTweetNode(BpmnProcessDefinitionBuilder builder, 
+                                       String message, 
+                                       String pathToProperties) {      
+        Activity activityBehavior = new TweetActivity(message, pathToProperties);
+        
+        NodeBuilder nodeBuilder = builder.getNodeBuilder();
+        
+        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
+        .buildNode();
     }
 }
