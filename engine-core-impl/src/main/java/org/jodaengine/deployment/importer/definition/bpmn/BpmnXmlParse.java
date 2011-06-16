@@ -313,6 +313,9 @@ public class BpmnXmlParse extends XmlParse {
             } else if (("intermediateCatchEvent").equals(activityElement.getTagName())) {
                 parseIntermediateCatchEvent(activityElement);
 
+            }  else if (("intermediateThrowEvent").equals(activityElement.getTagName())) {
+                parseIntermediateThrowEvent(activityElement);
+
             } else if (("adHocSubProcess").equals(activityElement.getTagName())
                 || ("complexGateway").equals(activityElement.getTagName())
                 // || ("eventBasedGateway").equals(activityElement.getTagName())
@@ -569,6 +572,24 @@ public class BpmnXmlParse extends XmlParse {
         // for (BpmnXmlParseListener parseListener : parseListeners) {
         // parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
         // }
+    }
+    
+    protected void parseIntermediateThrowEvent(XmlElement intermediateThrowingEventElement) {
+        String message = intermediateThrowingEventElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS,
+        "message");
+
+        if (message == null) {
+            getProblemLogger().addWarning("Ignoring unsupported throwing event other than Twitter",
+                intermediateThrowingEventElement);
+            return;
+        }
+    
+        // TODO @Tobi: XML Parse here!
+        Node intermediateTimerEventNode = BpmnNodeFactory.createBpmnIntermediateTimerEventNode(processBuilder,
+            Integer.valueOf(intervalTime));
+    
+        parseGeneralInformation(intermediateThrowingEventElement, intermediateTimerEventNode);
+        getNodeXmlIdTable().put((String) intermediateTimerEventNode.getAttribute("idXml"), intermediateTimerEventNode);
     }
 
     /**
