@@ -78,22 +78,14 @@ public final class ExampleMailStartProcess {
 
             builder.setDescription("description").setName(exampleProcessName);
 
-            // Create a mail adapater event here.
+            // Create a mail adapater here.
             // TODO @TobiP Could create a builder for this later.
             IncomingMailAdapterConfiguration config = IncomingMailAdapterConfiguration.jodaGoogleConfiguration();
             EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class,
-                "getMessageTopic", "Hallo");
+                "getMessageSubject", "Hallo");
             List<EventCondition> conditions = new ArrayList<EventCondition>();
             conditions.add(subjectCondition);
-
-            // StartEvent event = new StartEventImpl( EventTypes.Mail,
-            // config,
-            // conditions,
-            // exampleProcessUUID);
-            
-            
-            // TODO @EVENTTEAM: Ok I really dunno what the hell I am doing here,
-            // the error messages told me so..
+           
             StartInstantiationPattern startInstantiationPattern = new EventBasedInstanceCreationPattern();
             builder.addStartInstantiationPattern(startInstantiationPattern);
             

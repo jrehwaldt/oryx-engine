@@ -87,12 +87,12 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
         // create some incoming events, for example from a mailbox
         incomingAdapterEvent = Mockito.mock(MailAdapterEvent.class);
         Mockito.when(incomingAdapterEvent.getAdapterType()).thenReturn(mailType);
-        Mockito.when(incomingAdapterEvent.getMessageTopic()).thenReturn("Hallo");
+        Mockito.when(incomingAdapterEvent.getMessageSubject()).thenReturn("Hallo");
         Mockito.when(incomingAdapterEvent.getAdapterConfiguration()).thenReturn(config);
     
         anotherIncomingAdapterEvent = Mockito.mock(MailAdapterEvent.class);
         Mockito.when(anotherIncomingAdapterEvent.getAdapterType()).thenReturn(mailType);
-        Mockito.when(anotherIncomingAdapterEvent.getMessageTopic()).thenReturn("HalliHallo");
+        Mockito.when(anotherIncomingAdapterEvent.getMessageSubject()).thenReturn("HalliHallo");
         Mockito.when(anotherIncomingAdapterEvent.getAdapterConfiguration()).thenReturn(config);
     
     }
