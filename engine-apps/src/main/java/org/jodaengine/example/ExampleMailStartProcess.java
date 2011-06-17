@@ -10,6 +10,7 @@ import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
+import org.jodaengine.eventmanagement.processevent.incoming.start.ImapEmailProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.ext.logger.NavigatorListenerLogger;
@@ -92,7 +93,7 @@ public final class ExampleMailStartProcess {
             ProcessDeActivationPattern activationPattern = new RegisterAllStartEventPattern();
             builder.addActivationPattern(activationPattern);
 
-            builder.createStartTrigger(EventTypes.Mail, config, conditions, startNode);
+            builder.createStartTrigger(new ImapEmailProcessStartEvent(subjectCondition, null), startNode);
             ProcessDefinition def = builder.buildDefinition();
 
             ProcessDefinitionID exampleProcessUUID = def.getID();

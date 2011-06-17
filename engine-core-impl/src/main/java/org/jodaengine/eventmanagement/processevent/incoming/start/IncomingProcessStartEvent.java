@@ -26,7 +26,6 @@ public class IncomingProcessStartEvent extends AbstractIncomingProcessEvent impl
      * @param definitionID
      *            the def
      */
-    // TODO @EVENTTEAM: EventType??? WTF? Configuration? hmm? Delete it we must?
     public IncomingProcessStartEvent(AdapterConfiguration config,
                                              EventCondition condition,
                                              ProcessDefinitionID definitionID) {
@@ -42,30 +41,6 @@ public class IncomingProcessStartEvent extends AbstractIncomingProcessEvent impl
 
         return definitionID;
     }
-
-//    @Override
-//    public void trigger() {
-//
-//        logger.info("Starting a new processInstance for event {}", this);
-//        try {
-//
-//            logger
-//            .debug("========================================================================================================================");
-//            navigator.startProcessInstance(getDefinitionID(), this);
-//
-//        } catch (DefinitionNotFoundException e) {
-//            String errorMessage = "The processDefinition belonging to the id '" + getDefinitionID()
-//                + "' could not be found.";
-//            logger.error(errorMessage, e);
-//            throw new JodaEngineRuntimeException(errorMessage, e);
-//        } catch (NullPointerException e) {
-//            String errorMessage = "trying to start a process instance by calling the navigator "
-//                + "without having injected a navigator";
-//            logger.error(errorMessage, e);
-//            throw new JodaEngineRuntimeException(errorMessage, e);
-//        }
-//        logger.info("ProcessInstance created for event {}", this);
-//    }
 
     @Override
     public String toString() {

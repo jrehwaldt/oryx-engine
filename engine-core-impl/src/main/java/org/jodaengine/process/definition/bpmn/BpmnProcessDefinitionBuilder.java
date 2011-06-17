@@ -91,13 +91,11 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
 
     }
 
-    public BpmnProcessDefinitionBuilder createStartTrigger(EventType eventType,
-                                                       AdapterConfiguration adapterConfig,
-                                                       List<EventCondition> eventConditions,
+    public BpmnProcessDefinitionBuilder createStartTrigger(StartProcessEvent startProcessEvent,
                                                        Node startNode) {
 
         StartProcessEvent event = new IncomingProcessStartEvent(
-            adapterConfig, new AndEventCondition(eventConditions), id);
+            startProcessEvent.getAdapterConfiguration(), startProcessEvent.getCondition(), id);
         this.temporaryStartTriggers.put(event, startNode);
 
         return this;
