@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup;
+package org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering;
 
 import java.util.ArrayList;
 import java.util.List;

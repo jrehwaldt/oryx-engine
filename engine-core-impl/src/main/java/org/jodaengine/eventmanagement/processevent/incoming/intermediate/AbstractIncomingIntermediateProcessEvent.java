@@ -5,7 +5,7 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 import org.jodaengine.eventmanagement.processevent.incoming.AbstractIncomingProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
-import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.DefaultTokenResumption;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering.DefaultTokenResumption;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.process.structure.Node;
@@ -52,7 +52,7 @@ public abstract class AbstractIncomingIntermediateProcessEvent extends AbstractI
                                                EventCondition condition,
                                                Token token) {
 
-        super(config, condition, new DefaultTokenResumption(token));
+        super(config, condition, new DefaultTokenResumption());
         this.token = token;
         this.node = token.getCurrentNode();
     }

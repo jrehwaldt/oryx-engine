@@ -1,4 +1,4 @@
-package org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup;
+package org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering;
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;

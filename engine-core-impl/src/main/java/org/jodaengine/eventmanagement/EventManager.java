@@ -171,8 +171,7 @@ public class EventManager implements EventManagerService {
 
         // Otherwise we will register a new one
         // Delegate the work of registering the adapter to the configuration
-        eventAdapter = (AbstractEventAdapter<?>) processEvent.getAdapterConfiguration()
-        .registerAdapter(this);
+        eventAdapter = (AbstractEventAdapter<?>) processEvent.getAdapterConfiguration().registerAdapter(this);
         return eventAdapter;
     }
 
@@ -270,6 +269,6 @@ public class EventManager implements EventManagerService {
     public void sendMessageFromAdapter(Message message, ProcessEvent event) {
 
         OutgoingMessagingAdapter adapter = (OutgoingMessagingAdapter) getAdapterForProcessEvent(event);
-            adapter.sendMessage(message);
+        adapter.sendMessage(message);
     }
 }

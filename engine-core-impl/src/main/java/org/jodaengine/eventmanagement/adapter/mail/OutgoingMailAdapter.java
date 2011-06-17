@@ -89,7 +89,7 @@ public class OutgoingMailAdapter extends AbstractEventAdapter<OutgoingMailAdapte
             // create some properties and get the default Session
             Session session = Session.getDefaultInstance(props, null);
             
-            // at this point you may setDebug if neded.
+            // at this point you may setDebug if needed.
     
             Message msg = new MimeMessage(session);
     
@@ -121,7 +121,7 @@ public class OutgoingMailAdapter extends AbstractEventAdapter<OutgoingMailAdapte
     public void sendMessage(org.jodaengine.eventmanagement.adapter.Message message) {
 
         throw new JodaEngineRuntimeException(
-            "Please supply at least an adress wen trying to send an email, it can't be send otherwise!"
+            "Please supply at least an adress when trying to send an email, it can't be send otherwise!"
             + "Try using something that implements AddressableMessage or a subclass of it.");
         
     }

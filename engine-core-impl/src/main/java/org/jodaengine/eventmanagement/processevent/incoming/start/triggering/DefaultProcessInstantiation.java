@@ -1,5 +1,6 @@
 package org.jodaengine.eventmanagement.processevent.incoming.start.triggering;
 
+import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.processevent.incoming.start.IncomingProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
@@ -27,9 +28,18 @@ public class DefaultProcessInstantiation implements TriggeringBehaviour {
             throw new JodaEngineRuntimeException(errorMessage);
         }
 
-        IncomingProcessStartEvent startProcessEvent = (IncomingProcessStartEvent) processEvent;
+        doingProcessInstantiation((IncomingProcessStartEvent) processEvent);
+    }
 
-        logger.info("Starting a new processInstance for event {}", this);
+    /**
+     * This method encapsulates the process instantiation.
+     * 
+     * @param startProcessEvent
+     *            - the {@link StartProcessEvent} that triggers the process instantiation
+     */
+    private void doingProcessInstantiation(IncomingProcessStartEvent startProcessEvent) {
+
+        logger.info("Starting a new processInstance for event {}", startProcessEvent);
         try {
 
             startProcessEvent.getNavigator().startProcessInstance(startProcessEvent.getDefinitionID(),
@@ -46,6 +56,6 @@ public class DefaultProcessInstantiation implements TriggeringBehaviour {
             logger.error(errorMessage, e);
             throw new JodaEngineRuntimeException(errorMessage, e);
         }
-        logger.info("ProcessInstance created for event {}", this);
+        logger.info("ProcessInstance created for event {}", startProcessEvent);
     }
 }
