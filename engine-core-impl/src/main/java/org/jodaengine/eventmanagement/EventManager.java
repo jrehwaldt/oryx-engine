@@ -275,7 +275,6 @@ public class EventManager implements EventManagerService {
         try {
             adapter.sendMessage(message);
         } catch (TwitterException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

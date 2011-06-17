@@ -72,5 +72,53 @@ public abstract class AbstractMailConfiguration extends AbstractAdapterConfigura
     public String getEmailAddress() {
         return this.userName + "@" + this.getDomainName();
     }
+
+    @Override
+    public int hashCode() {
+
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((domainName == null) ? 0 : domainName.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        AbstractMailConfiguration other = (AbstractMailConfiguration) obj;
+        if (domainName == null) {
+            if (other.domainName != null) {
+                return false;
+            }
+        } else if (!domainName.equals(other.domainName)) {
+            return false;
+        }
+        if (password == null) {
+            if (other.password != null) {
+                return false;
+            }
+        } else if (!password.equals(other.password)) {
+            return false;
+        }
+        if (userName == null) {
+            if (other.userName != null) {
+                return false;
+            }
+        } else if (!userName.equals(other.userName)) {
+            return false;
+        }
+        return true;
+    }
     
 }
