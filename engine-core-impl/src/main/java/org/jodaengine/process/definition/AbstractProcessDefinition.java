@@ -7,7 +7,7 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.activation.ProcessDeActivationPattern;
@@ -172,7 +172,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
     }
     
     @Override
-    public AbstractProcessInstance createProcessInstance(NavigatorInside navigator, StartProcessEvent firedStartEvent) {
+    public AbstractProcessInstance createProcessInstance(NavigatorInside navigator, IncomingStartProcessEvent firedStartEvent) {
     
         InstantiationPatternContext patternContext = new InstantiationPatternContextImpl(this, firedStartEvent);
         return firstInstantiationPattern.createProcessInstance(patternContext);

@@ -15,9 +15,9 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.adapter.mail.MailProtocol;
-import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
-import org.jodaengine.eventmanagement.processevent.incoming.start.IncomingProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.start.BaseIncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
  */
 public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEngineTest {
 
-    private StartProcessEvent event, anotherEvent;
+    private IncomingStartProcessEvent event, anotherEvent;
     private MailAdapterEvent incomingAdapterEvent, anotherIncomingAdapterEvent;
     private static final int MAIL_PORT = 25;
     private IncomingMailAdapterConfiguration config;
@@ -74,12 +74,12 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
         EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageSubject",
             "Hallo");
         config = IncomingMailAdapterConfiguration.jodaGoogleConfiguration();
-        event = new IncomingProcessStartEvent(config, subjectCondition, definitionID);
+        event = new BaseIncomingStartProcessEvent(config, subjectCondition, definitionID);
     
         // register another processStartEvent
         anotherConfig = new IncomingMailAdapterConfiguration(MailProtocol.IMAP, "horst", "kevin", "imap.horst.de",
             MAIL_PORT, false);
-        anotherEvent = new IncomingProcessStartEvent(anotherConfig, subjectCondition, definitionID);
+        anotherEvent = new BaseIncomingStartProcessEvent(anotherConfig, subjectCondition, definitionID);
         anotherEvent.injectNavigatorService(navigatorServiceSpy);
     
         // create some incoming events, for example from a mailbox
@@ -130,7 +130,7 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
         getCorrelatingAdapter(config).correlate(anotherIncomingAdapterEvent);
 
         Mockito.verify(navigatorServiceSpy, Mockito.never()).startProcessInstance(
-            Mockito.any(ProcessDefinitionID.class), Mockito.any(StartProcessEvent.class));
+            Mockito.any(ProcessDefinitionID.class), Mockito.any(IncomingStartProcessEvent.class));
     }
 
     /**

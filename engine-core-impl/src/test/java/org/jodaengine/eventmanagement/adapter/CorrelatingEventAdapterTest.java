@@ -1,7 +1,7 @@
 package org.jodaengine.eventmanagement.adapter;
 
 import org.jodaengine.eventmanagement.AdapterEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.mockito.Mockito;
 import org.testng.Assert;
@@ -30,7 +30,7 @@ public class CorrelatingEventAdapterTest {
     @Test
     public void testRegisteringStartEvent() {
 
-        StartProcessEvent startEvent = Mockito.mock(StartProcessEvent.class);
+        IncomingStartProcessEvent startEvent = Mockito.mock(IncomingStartProcessEvent.class);
         
         // Registering the startEvent
         eventAdapter.registerStartEvent(startEvent);
@@ -45,7 +45,7 @@ public class CorrelatingEventAdapterTest {
     @Test
     public void testRegisterAndCorrelateStartEvent() {
 
-        StartProcessEvent startEvent = Mockito.mock(StartProcessEvent.class);
+        IncomingStartProcessEvent startEvent = Mockito.mock(IncomingStartProcessEvent.class);
         Mockito.when(startEvent.evaluate(Mockito.any(AdapterEvent.class))).thenReturn(true);
 
         // At first register and then correlate

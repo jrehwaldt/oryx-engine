@@ -2,7 +2,7 @@ package org.jodaengine.eventmanagement.subscription;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 
 /**
@@ -14,9 +14,9 @@ public interface EventUnsubscription {
      * Entry point for unsubscribing from an event.
      * 
      * @param startEvent
-     *            - the {@link StartProcessEvent startEvent} that is not needed anymore
+     *            - the {@link IncomingStartProcessEvent startEvent} that is not needed anymore
      */
-    void unsubscribeFromStartEvent(@Nonnull StartProcessEvent startEvent);
+    void unsubscribeFromStartEvent(@Nonnull IncomingStartProcessEvent startEvent);
 
     //
     /**

@@ -15,7 +15,7 @@ import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingMessagingAdapter;
 import org.jodaengine.eventmanagement.processevent.ProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.timing.QuartzJobManager;
 import org.jodaengine.eventmanagement.timing.TimingManager;
@@ -87,7 +87,7 @@ public class EventManager implements EventManagerService {
     // ==== EventSubscription ====
 
     @Override
-    public void registerStartEvent(StartProcessEvent startEvent) {
+    public void registerStartEvent(IncomingStartProcessEvent startEvent) {
 
         // startEvents need the NavigatorService in order to start a process instance
         startEvent.injectNavigatorService(services.getNavigatorService());
@@ -104,7 +104,7 @@ public class EventManager implements EventManagerService {
 
     // QUESTION: Just call it unsubscribeStartEvent ?
     @Override
-    public void unsubscribeFromStartEvent(StartProcessEvent startEvent) {
+    public void unsubscribeFromStartEvent(IncomingStartProcessEvent startEvent) {
 
         AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(startEvent);
         correlatingAdapter.unsubscribeFromStartEvent(startEvent);

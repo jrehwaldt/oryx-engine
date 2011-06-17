@@ -8,7 +8,7 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
  * The Interface StartEvent. A start event, in contrast to the intermediate event, will trigger the instantiation of a
  * process.
  */
-public interface StartProcessEvent extends IncomingProcessEvent {
+public interface IncomingStartProcessEvent extends IncomingProcessEvent {
 
     /**
      * Gets the assigned process definition that is to be instantiated upon event occurrence.

@@ -4,9 +4,9 @@ import org.jodaengine.eventmanagement.AdapterManagement;
 import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
-import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.start.IncomingProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.start.BaseIncomingStartProcessEvent;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -53,12 +53,12 @@ public class EventSubscriptionTest extends AbstractJodaEngineTest {
     @Test
     public void testForwardingProcessStartEventSubscription() {
 
-        StartProcessEvent startEvent = Mockito.mock(IncomingProcessStartEvent.class);
+        IncomingStartProcessEvent startEvent = Mockito.mock(BaseIncomingStartProcessEvent.class);
         Mockito.when(startEvent.getAdapterConfiguration()).thenReturn(adapterConfiguration);
 
         eventManager.registerStartEvent(startEvent);
 
-        ArgumentCaptor<IncomingProcessStartEvent> event = ArgumentCaptor.forClass(IncomingProcessStartEvent.class);
+        ArgumentCaptor<BaseIncomingStartProcessEvent> event = ArgumentCaptor.forClass(BaseIncomingStartProcessEvent.class);
         Mockito.verify(correlationAdapter).registerStartEvent(event.capture());
     }
 

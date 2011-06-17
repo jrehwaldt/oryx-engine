@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.start.IncomingProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.start.BaseIncomingStartProcessEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.activation.ProcessDeActivationPattern;
@@ -38,7 +38,7 @@ public final class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuil
     private ProcessDefinitionID id;
     private String name;
     private String description;
-    private Map<StartProcessEvent, Node> temporaryStartTriggers;
+    private Map<IncomingStartProcessEvent, Node> temporaryStartTriggers;
     private Map<String, Object> temporaryAttributeTable;
     private List<ProcessInstantiationPattern> temporaryInstantiationPatterns;
     private List<ProcessDeActivationPattern> temporaryActivationPatterns;
@@ -72,7 +72,7 @@ public final class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuil
         this.id = new ProcessDefinitionID(UUID.randomUUID().toString());
         this.name = null;
         this.description = null;
-        this.temporaryStartTriggers = new HashMap<StartProcessEvent, Node>();
+        this.temporaryStartTriggers = new HashMap<IncomingStartProcessEvent, Node>();
         this.temporaryAttributeTable = new HashMap<String, Object>();
         this.temporaryInstantiationPatterns = new ArrayList<ProcessInstantiationPattern>();
         this.temporaryActivationPatterns = new ArrayList<ProcessDeActivationPattern>();
@@ -111,14 +111,14 @@ public final class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuil
      * This will create a start trigger for the {@link ProcessDefinition}.
      * 
      * @param startProcessEvent
-     *            - the {@link StartProcessEvent} that instantiates this {@link BpmnProcessDefinition}
+     *            - the {@link IncomingStartProcessEvent} that instantiates this {@link BpmnProcessDefinition}
      * @param startNode
      *            - the {@link Node startNode}
      * @return the {@link ProcessDefinitionBuilder} in order to keep on building the {@link ProcessDefinition}
      */
-    public BpmnProcessDefinitionBuilder createStartTrigger(StartProcessEvent startProcessEvent, Node startNode) {
+    public BpmnProcessDefinitionBuilder createStartTrigger(IncomingStartProcessEvent startProcessEvent, Node startNode) {
 
-        StartProcessEvent event = new IncomingProcessStartEvent(startProcessEvent.getAdapterConfiguration(),
+        IncomingStartProcessEvent event = new BaseIncomingStartProcessEvent(startProcessEvent.getAdapterConfiguration(),
             startProcessEvent.getCondition(), id);
         this.temporaryStartTriggers.put(event, startNode);
 
@@ -225,7 +225,7 @@ public final class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuil
         BpmnProcessDefinition definition = new BpmnProcessDefinition(id, name, description, startNodes,
             startInstantionPattern, activationPattern);
 
-        for (Map.Entry<StartProcessEvent, Node> entry : temporaryStartTriggers.entrySet()) {
+        for (Map.Entry<IncomingStartProcessEvent, Node> entry : temporaryStartTriggers.entrySet()) {
             definition.addStartTrigger(entry.getKey(), entry.getValue());
         }
 

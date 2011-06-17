@@ -3,7 +3,7 @@ package org.jodaengine.process.activation.pattern;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
 
 /**
@@ -11,7 +11,7 @@ import org.jodaengine.process.activation.ProcessDefinitionActivationPatternConte
  */
 public class RegisterAllStartEventPattern extends AbstractProcessDefinitionDeActivationPattern {
 
-    private List<StartProcessEvent> registeredStartEvents;
+    private List<IncomingStartProcessEvent> registeredStartEvents;
 
     @Override
     protected void activateProcessDefinitionIntern(ProcessDefinitionActivationPatternContext patternContext) {
@@ -21,7 +21,7 @@ public class RegisterAllStartEventPattern extends AbstractProcessDefinitionDeAct
             return;
         }
 
-        for (StartProcessEvent startEvent : patternContext.getProcessDefinition().getStartTriggers().keySet()) {
+        for (IncomingStartProcessEvent startEvent : patternContext.getProcessDefinition().getStartTriggers().keySet()) {
             patternContext.getEventManagerService().registerStartEvent(startEvent);
             getRegisteredStartEvents().add(startEvent);
         }
@@ -31,10 +31,10 @@ public class RegisterAllStartEventPattern extends AbstractProcessDefinitionDeAct
     protected void deactivateProcessDefinitionIntern(ProcessDefinitionActivationPatternContext patternContext) {
 
         // Copying the List of registered startEvents because it is modified in the loop
-        ArrayList<StartProcessEvent> currentRegisteredStartEvents = new ArrayList<StartProcessEvent>();
+        ArrayList<IncomingStartProcessEvent> currentRegisteredStartEvents = new ArrayList<IncomingStartProcessEvent>();
         currentRegisteredStartEvents.addAll(getRegisteredStartEvents());
 
-        for (StartProcessEvent startEvent : currentRegisteredStartEvents) {
+        for (IncomingStartProcessEvent startEvent : currentRegisteredStartEvents) {
             patternContext.getEventManagerService().unsubscribeFromStartEvent(startEvent);
             getRegisteredStartEvents().remove(startEvent);
         }
@@ -43,12 +43,12 @@ public class RegisterAllStartEventPattern extends AbstractProcessDefinitionDeAct
     /**
      * Getter for the registeredStartEvents.
      * 
-     * @return a {@link List} of {@link StartProcessEvent}s
+     * @return a {@link List} of {@link IncomingStartProcessEvent}s
      */
-    public List<StartProcessEvent> getRegisteredStartEvents() {
+    public List<IncomingStartProcessEvent> getRegisteredStartEvents() {
 
         if (registeredStartEvents == null) {
-            this.registeredStartEvents = new ArrayList<StartProcessEvent>();
+            this.registeredStartEvents = new ArrayList<IncomingStartProcessEvent>();
         }
 
         return registeredStartEvents;

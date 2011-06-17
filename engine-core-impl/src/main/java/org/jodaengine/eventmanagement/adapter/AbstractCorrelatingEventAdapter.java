@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
-import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.EventSubscription;
 import org.jodaengine.eventmanagement.subscription.EventUnsubscription;
@@ -46,7 +46,7 @@ public abstract class AbstractCorrelatingEventAdapter
     }
 
     @Override
-    public void registerStartEvent(StartProcessEvent startEvent) {
+    public void registerStartEvent(IncomingStartProcessEvent startEvent) {
 
         // We don't need to check for uncorrelated events since we only want to know about
         // start events from the moment we dployed a process instance
@@ -61,7 +61,7 @@ public abstract class AbstractCorrelatingEventAdapter
     }
 
     @Override
-    public void unsubscribeFromStartEvent(StartProcessEvent startEvent) {
+    public void unsubscribeFromStartEvent(IncomingStartProcessEvent startEvent) {
 
         getProcessEvents().remove(startEvent);
     }
