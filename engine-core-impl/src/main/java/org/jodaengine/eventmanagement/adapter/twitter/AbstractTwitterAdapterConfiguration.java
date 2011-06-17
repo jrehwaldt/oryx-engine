@@ -87,6 +87,46 @@ public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapte
         .setOAuthConsumerSecret(oauthConsumerSecret).setOAuthAccessToken(oauthAccessToken)
         .setOAuthAccessTokenSecret(oauthAccessTokenSecret);
     }
+    
+    /**
+     * Gets the oauth consumer key.
+     *
+     * @return the oauth consumer key
+     */
+    public String getOauthConsumerKey() {
+        
+        return oauthConsumerKey;
+    }
+
+    /**
+     * Gets the oauth consumer secret.
+     *
+     * @return the oauth consumer secret
+     */
+    public String getOauthConsumerSecret() {
+    
+        return oauthConsumerSecret;
+    }
+
+    /**
+     * Gets the oauth access token.
+     *
+     * @return the oauth access token
+     */
+    public String getOauthAccessToken() {
+    
+        return oauthAccessToken;
+    }
+
+    /**
+     * Gets the oauth access token secret.
+     *
+     * @return the oauth access token secret
+     */
+    public String getOauthAccessTokenSecret() {
+    
+        return oauthAccessTokenSecret;
+    }
 
     /**
      * Gets the configuration builder, which can be used to connect to Twitter.
@@ -117,7 +157,6 @@ public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapte
         result = prime * result + ((oauthConsumerSecret == null) ? 0 : oauthConsumerSecret.hashCode());
         return result;
     }
-
     @Override
     public boolean equals(Object obj) {
 
@@ -135,32 +174,33 @@ public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapte
             if (other.oauthAccessToken != null) {
                 return false;
             }
-        } else if (!oauthAccessToken.equals(other.oauthAccessToken)) {
+        } else if (!oauthAccessToken.equals(other.getOauthAccessToken())) {
             return false;
         }
         if (oauthAccessTokenSecret == null) {
             if (other.oauthAccessTokenSecret != null) {
                 return false;
             }
-        } else if (!oauthAccessTokenSecret.equals(other.oauthAccessTokenSecret)) {
+        } else if (!oauthAccessTokenSecret.equals(other.getOauthAccessTokenSecret())) {
             return false;
         }
         if (oauthConsumerKey == null) {
             if (other.oauthConsumerKey != null) {
                 return false;
             }
-        } else if (!oauthConsumerKey.equals(other.oauthConsumerKey)) {
+        } else if (!oauthConsumerKey.equals(other.getOauthConsumerKey())) {
             return false;
         }
         if (oauthConsumerSecret == null) {
             if (other.oauthConsumerSecret != null) {
                 return false;
             }
-        } else if (!oauthConsumerSecret.equals(other.oauthConsumerSecret)) {
+        } else if (!oauthConsumerSecret.equals(other.getOauthAccessTokenSecret())) {
             return false;
         }
         return true;
     }
     
+
 
 }

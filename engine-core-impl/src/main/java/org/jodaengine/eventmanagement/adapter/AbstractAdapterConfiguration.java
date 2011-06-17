@@ -3,6 +3,7 @@ package org.jodaengine.eventmanagement.adapter;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.mockito.internal.matchers.Equals;
 
 /**
  * Abstract adapter configuration.
