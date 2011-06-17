@@ -11,7 +11,7 @@ import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivationPattern;
 import org.jodaengine.process.definition.AbstractProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.instantiation.StartProcessInstantiationPattern;
 import org.jodaengine.process.instantiation.pattern.StartNullInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 
@@ -58,7 +58,7 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
                                  String name,
                                  String description,
                                  List<Node> startNodes,
-                                 StartInstantiationPattern startInstantiationPattern,
+                                 StartProcessInstantiationPattern startInstantiationPattern,
                                  ProcessDeActivationPattern startActivationPattern) {
 
         super(id, name, description, startNodes, startInstantiationPattern, startActivationPattern);

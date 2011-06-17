@@ -22,7 +22,7 @@ import org.jodaengine.process.activation.pattern.RegisterAllStartEventPattern;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
-import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.instantiation.StartProcessInstantiationPattern;
 import org.jodaengine.process.instantiation.pattern.EventBasedInstanceCreationPattern;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
@@ -87,11 +87,11 @@ public final class ExampleMailStartProcess {
             List<EventCondition> conditions = new ArrayList<EventCondition>();
             conditions.add(subjectCondition);
            
-            StartInstantiationPattern startInstantiationPattern = new EventBasedInstanceCreationPattern();
+            StartProcessInstantiationPattern startInstantiationPattern = new EventBasedInstanceCreationPattern();
             builder.addStartInstantiationPattern(startInstantiationPattern);
             
             ProcessDeActivationPattern activationPattern = new RegisterAllStartEventPattern();
-            builder.addActivationPattern(activationPattern);
+            builder.addDeActivationPattern(activationPattern);
 
             builder.createStartTrigger(new ImapEmailProcessStartEvent(subjectCondition, null), startNode);
             ProcessDefinition def = builder.buildDefinition();

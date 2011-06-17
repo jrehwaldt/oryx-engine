@@ -119,16 +119,9 @@ public final class DemoProcessStartEmailForWebservice {
         ServiceFactory.getRepositoryService().deployInNewScope(deployment);
         
         // Create a mail adapater event here.
-        // TODO @TobiP Could create a builder for this later.
-//        IncomingMailAdapterConfiguration config = IncomingMailAdapterConfiguration.jodaGoogleConfiguration();
         EventCondition subjectCondition = null;
         try {
             subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic", "Hallo");
-            
-//            List<EventCondition> conditions = new ArrayList<EventCondition>();
-//            conditions.add(subjectCondition);
-
-            // StartEvent event = new StartEventImpl( exampleProcessUUID);
 
             builder.createStartTrigger(new ImapEmailProcessStartEvent(subjectCondition, null), node1);
 

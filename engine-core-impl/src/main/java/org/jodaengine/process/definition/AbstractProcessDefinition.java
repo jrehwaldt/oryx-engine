@@ -17,7 +17,7 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
 import org.jodaengine.process.instantiation.InstantiationPatternContextImpl;
 import org.jodaengine.process.instantiation.ProcessInstantiationPattern;
-import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.instantiation.StartProcessInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
     protected Map<String, Object> attributes;
 
     @JsonIgnore
-    protected StartInstantiationPattern firstInstantiationPattern;
+    protected StartProcessInstantiationPattern firstInstantiationPattern;
 
     @JsonIgnore
     protected ProcessDeActivationPattern firstActivationPattern;
@@ -69,7 +69,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
                                         String name,
                                         String description,
                                         List<Node> startNodes,
-                                        StartInstantiationPattern startInstantiationPattern,
+                                        StartProcessInstantiationPattern startInstantiationPattern,
                                         ProcessDeActivationPattern startActivationPattern) {
 
         this.id = id;

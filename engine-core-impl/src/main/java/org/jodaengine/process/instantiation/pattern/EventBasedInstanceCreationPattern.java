@@ -8,7 +8,7 @@ import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
-import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.instantiation.StartProcessInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
@@ -17,11 +17,11 @@ import org.jodaengine.process.token.builder.BpmnTokenBuilder;
  * This pattern encapsulates the instantiation semantic for BPMN models that are with an
  * dedicated {@link StartProcessEvent}.
  * 
- * It also implements the {@link StartInstantiationPattern StartInstantiationPattern-Interface}, so that it can be used
+ * It also implements the {@link StartProcessInstantiationPattern StartInstantiationPattern-Interface}, so that it can be used
  * as one of the first instantiationPattern.
  */
 public class EventBasedInstanceCreationPattern extends AbstractProcessInstantiationPattern implements
-StartInstantiationPattern {
+StartProcessInstantiationPattern {
 
     @Override
     public AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext) {

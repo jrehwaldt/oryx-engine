@@ -8,7 +8,7 @@ import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
-import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.instantiation.StartProcessInstantiationPattern;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.mockito.Mockito;
 import org.mockito.internal.util.reflection.Whitebox;
@@ -64,8 +64,8 @@ public class DeploymentScopeTest extends AbstractJodaEngineTest {
         defBuilder =BpmnProcessDefinitionBuilder.newBuilder();
 
         ProcessDefinitionID id = new ProcessDefinitionID(UUID.randomUUID().toString());
-        defBuilder.addStartInstantiationPattern(Mockito.mock(StartInstantiationPattern.class));
-        defBuilder.addActivationPattern(Mockito.mock(ProcessDeActivationPattern.class));
+        defBuilder.addStartInstantiationPattern(Mockito.mock(StartProcessInstantiationPattern.class));
+        defBuilder.addDeActivationPattern(Mockito.mock(ProcessDeActivationPattern.class));
 
         definition = defBuilder.buildDefinition();
         Whitebox.setInternalState(definition, "id", id);
