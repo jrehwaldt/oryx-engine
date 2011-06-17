@@ -157,6 +157,7 @@ public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapte
         result = prime * result + ((oauthConsumerSecret == null) ? 0 : oauthConsumerSecret.hashCode());
         return result;
     }
+    
     @Override
     public boolean equals(Object obj) {
 
@@ -200,7 +201,4 @@ public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapte
         }
         return true;
     }
-    
-
-
 }
