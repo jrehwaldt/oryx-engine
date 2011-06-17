@@ -13,6 +13,7 @@ import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
+import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingMessagingAdapter;
 import org.jodaengine.eventmanagement.adapter.twitter.OutgoingTwitterSingleAccountTweetAdapter;
 import org.jodaengine.eventmanagement.processevent.ProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
@@ -271,13 +272,7 @@ public class EventManager implements EventManagerService {
     @Override
     public void sendMessageFromAdapter(Message message, ProcessEvent event) {
 
-        OutgoingTwitterSingleAccountTweetAdapter adapter = 
-            (OutgoingTwitterSingleAccountTweetAdapter) getAdapterForProcessEvent(event);
-        try {
+        OutgoingMessagingAdapter adapter = (OutgoingMessagingAdapter) getAdapterForProcessEvent(event);
             adapter.sendMessage(message);
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-
     }
 }

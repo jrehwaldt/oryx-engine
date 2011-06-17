@@ -10,5 +10,5 @@ public interface AddressableMessage extends Message {
      *
      * @return the adress
      */
-    String getAdress();
+    String getAddress();
 }

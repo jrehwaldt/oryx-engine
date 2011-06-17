@@ -9,18 +9,17 @@ public class AddressableMessageImpl extends MessageImpl implements AddressableMe
     private String address;
 
     @Override
-    public String getAdress() {
+    public String getAddress() {
 
         return address;
     }
 
     /**
      * Construct a new Message with a content and an adress.
-     *
-     * @param content the content
      * @param address the address
+     * @param content the content
      */
-    public AddressableMessageImpl(String content, String address) {
+    public AddressableMessageImpl(String address, String content) {
 
         super(content);
         this.address = address;

@@ -3,8 +3,7 @@ package org.jodaengine.eventmanagement.adapter.twitter;
 import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
 import org.jodaengine.eventmanagement.adapter.AddressableMessage;
 import org.jodaengine.eventmanagement.adapter.Message;
-import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingMessageAdapter;
-import org.jodaengine.exception.JodaEngineRuntimeException;
+import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingMessagingAdapter;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -18,7 +17,7 @@ import twitter4j.util.CharacterUtil;
  */
 public class OutgoingTwitterSingleAccountTweetAdapter 
     extends AbstractEventAdapter<OutgoingTwitterSingleAccountTweetAdapterConfiguration>
-    implements OutgoingMessageAdapter {
+    implements OutgoingMessagingAdapter {
 
     private Twitter twitter;
     
@@ -47,24 +46,25 @@ public class OutgoingTwitterSingleAccountTweetAdapter
      * @param message the message
      */
     public void sendMessage(AddressableMessage message) {
-        String content = "@" + message.getAdress() + " " + message.getContent();
+        String content = "@" + message.getAddress() + " " + message.getContent();
         this.tweet(content);
     }
     
     /**
-     * Send a message (tweet).
+     * Send a message (tweet) using the Twitter online service.
+     * 
+     * (see www.twitter.com)
      *
      * @param message the message to tweet
      */
     private void tweet(String message) {
         if (CharacterUtil.isExceedingLengthLimitation(message)) {
-            // TODO new type?
-            throw new JodaEngineRuntimeException("Tweet is longer than 140 characters!");
+            logger.error("The tweet is longer than 140 characters.");            
         } else {
             try {
                 twitter.updateStatus(message);
             } catch (TwitterException e) {
-                throw new JodaEngineRuntimeException("Connection to twitter failed!");
+                logger.error("The connection to Twitter wasn't possible for some reason.", e);
             }
         }
     }

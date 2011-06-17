@@ -1,6 +1,7 @@
 package org.jodaengine.node.activity.custom;
 
 import org.jodaengine.eventmanagement.EventManagerService;
+import org.jodaengine.eventmanagement.adapter.MessageImpl;
 import org.jodaengine.eventmanagement.adapter.twitter.OutgoingTwitterSingleAccountTweetAdapterConfiguration;
 import org.jodaengine.eventmanagement.processevent.outgoing.OutgoingTweetEvent;
 import org.jodaengine.node.activity.AbstractActivity;
@@ -26,7 +27,7 @@ public class TweetEndEventActivity extends AbstractActivity {
 
         String messageToSend = "Processinstance with ID " + token.getInstance().getID().toString() 
             + " finished execution...";
-        eventManager.sendMessageFromAdapter(messageToSend, processEvent);
+        eventManager.sendMessageFromAdapter(new MessageImpl(messageToSend), processEvent);
     }
     
     /**

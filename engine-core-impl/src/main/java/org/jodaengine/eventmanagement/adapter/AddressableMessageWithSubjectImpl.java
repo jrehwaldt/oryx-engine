@@ -9,14 +9,13 @@ public class AddressableMessageWithSubjectImpl extends AddressableMessageImpl im
 
     /**
      * Instantiates a new addressable message with a subject.
-     *
-     * @param content the content
      * @param address the address
      * @param subject the subject
+     * @param content the content
      */
-    public AddressableMessageWithSubjectImpl(String content, String address, String subject) {
+    public AddressableMessageWithSubjectImpl(String address, String subject, String content) {
 
-        super(content, address);
+        super(address, content);
         this.subject = subject;
     }
     
