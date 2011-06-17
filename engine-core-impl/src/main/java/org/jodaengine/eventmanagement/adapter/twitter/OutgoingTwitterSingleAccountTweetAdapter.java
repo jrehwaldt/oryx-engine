@@ -1,7 +1,10 @@
 package org.jodaengine.eventmanagement.adapter.twitter;
 
 import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
-import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingAdapter;
+import org.jodaengine.eventmanagement.adapter.AddressableMessage;
+import org.jodaengine.eventmanagement.adapter.Message;
+import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingMessageAdapter;
+import org.jodaengine.exception.JodaEngineRuntimeException;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -13,8 +16,9 @@ import twitter4j.util.CharacterUtil;
  * So none of the PIN/Authentication stuff has to be done here. You need the oauth tokens of the account and of the
  * application.
  */
-public class OutgoingTwitterSingleAccountTweetAdapter extends AbstractEventAdapter<OutgoingTwitterSingleAccountTweetAdapterConfiguration>
-implements OutgoingAdapter {
+public class OutgoingTwitterSingleAccountTweetAdapter 
+    extends AbstractEventAdapter<OutgoingTwitterSingleAccountTweetAdapterConfiguration>
+    implements OutgoingMessageAdapter {
 
     private Twitter twitter;
     
@@ -31,35 +35,41 @@ implements OutgoingAdapter {
         connectToTwitter();
     }
 
+    @Override
+    public void sendMessage(Message message) {
+        this.tweet(message.getContent());
+    }
+    
+    /**
+     * Send a message with an Address.
+     * Addressing in Twitter works via the @-Symbol.
+     *
+     * @param message the message
+     */
+    public void sendMessage(AddressableMessage message) {
+        String content = "@" + message.getAdress() + " " + message.getContent();
+        this.tweet(content);
+    }
+    
     /**
      * Send a message (tweet).
      *
      * @param message the message to tweet
-     * @throws TwitterException the twitter exception
      */
-    public void sendMessage(String message) throws TwitterException {
+    private void tweet(String message) {
         if (CharacterUtil.isExceedingLengthLimitation(message)) {
-            // TODO change - new exception with extension service?
-            throw new TwitterException("Tweet is longer than 140 characters!");
+            // TODO new type?
+            throw new JodaEngineRuntimeException("Tweet is longer than 140 characters!");
         } else {
-            twitter.updateStatus(message);
+            try {
+                twitter.updateStatus(message);
+            } catch (TwitterException e) {
+                throw new JodaEngineRuntimeException("Connection to twitter failed!");
+            }
         }
     }
-    
-    @Override
-    public void sendMessage(String recipient, String message) {
+       
 
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void sendMessage(String recipient, String subject, String message) {
-
-        // TODO Auto-generated method stub
-
-    }
-    
     /**
      * Uses the configuration in order to connect to Twitter.
      */

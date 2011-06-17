@@ -7,6 +7,7 @@ import org.jodaengine.JodaEngineServices;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
 import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
+import org.jodaengine.eventmanagement.adapter.Message;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
@@ -268,7 +269,7 @@ public class EventManager implements EventManagerService {
     }
 
     @Override
-    public void sendMessageFromAdapter(String message, ProcessEvent event) {
+    public void sendMessageFromAdapter(Message message, ProcessEvent event) {
 
         OutgoingTwitterSingleAccountTweetAdapter adapter = 
             (OutgoingTwitterSingleAccountTweetAdapter) getAdapterForProcessEvent(event);

@@ -10,7 +10,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
-import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingAdapter;
+import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingMessageAdapter;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * An Adapter for sending emails via the SMTP protocol.
  */
 public class OutgoingMailAdapter extends AbstractEventAdapter<OutgoingMailAdapterConfiguration> 
-    implements OutgoingAdapter {
+    implements OutgoingMessageAdapter {
 
     // TODO @EVENTTEAM Usage of USERNAME and PASSWORD missing
     public final static String DEFAULT_SUBJECT = "JodaMail, you have!";
