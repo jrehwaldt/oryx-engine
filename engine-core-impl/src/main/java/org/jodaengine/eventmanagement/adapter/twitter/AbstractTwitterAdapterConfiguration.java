@@ -196,7 +196,7 @@ public abstract class AbstractTwitterAdapterConfiguration extends AbstractAdapte
             if (other.oauthConsumerSecret != null) {
                 return false;
             }
-        } else if (!oauthConsumerSecret.equals(other.getOauthAccessTokenSecret())) {
+        } else if (!oauthConsumerSecret.equals(other.getOauthConsumerSecret())) {
             return false;
         }
         return true;
