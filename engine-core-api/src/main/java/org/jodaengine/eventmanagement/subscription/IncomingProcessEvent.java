@@ -1,5 +1,6 @@
 package org.jodaengine.eventmanagement.subscription;
 
+import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.processevent.ProcessEvent;
 import org.jodaengine.eventmanagement.subscription.condition.AdapterEventComparable;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;

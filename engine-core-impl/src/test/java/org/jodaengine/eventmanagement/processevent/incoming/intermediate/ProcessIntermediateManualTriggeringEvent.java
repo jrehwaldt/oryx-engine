@@ -36,12 +36,13 @@ public class ProcessIntermediateManualTriggeringEvent extends AbstractIncomingIn
      * @param token
      *            - the {@link Token} that registered this event.
      * @param eventGroup
-     *            - if this {@link IncomingIntermediateProcessEvent} is related to other {@link IncomingIntermediateProcessEvent} then
+     *            - if this {@link IncomingIntermediateProcessEvent} is related to other
+     *            {@link IncomingIntermediateProcessEvent} then
      *            the {@link AbstractIntermediateProcessEventGroup} can be specified here
      */
     public ProcessIntermediateManualTriggeringEvent(String name, Token token, TriggeringBehaviour eventGroup) {
 
-        super(new ManualTriggeringAdapterConfiguration(name), new TrueEventCondition(), token,
-            eventGroup);
+        super(new ManualTriggeringAdapterConfiguration(name), new TrueEventCondition(), token);
+        setTriggeringBehaviour(eventGroup);
     }
 }

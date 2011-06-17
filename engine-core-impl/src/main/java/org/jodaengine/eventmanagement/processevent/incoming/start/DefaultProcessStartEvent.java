@@ -31,7 +31,7 @@ public class DefaultProcessStartEvent extends AbstractIncomingProcessEvent imple
                           EventCondition condition,
                           ProcessDefinitionID definitionID) {
 
-        super(config, condition);
+        super(config, condition, null);
         this.definitionID = definitionID;
         // we do not yet have one
         this.navigator = null;
@@ -66,9 +66,6 @@ public class DefaultProcessStartEvent extends AbstractIncomingProcessEvent imple
         logger.info("ProcessInstance created for event {}", this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
 
