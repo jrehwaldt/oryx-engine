@@ -1,6 +1,6 @@
 package org.jodaengine.process.instantiation.pattern;
 
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
@@ -15,7 +15,7 @@ import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 
 /**
  * This pattern encapsulates the instantiation semantic for BPMN models that are with an
- * dedicated {@link ProcessStartEvent}.
+ * dedicated {@link StartProcessEvent}.
  * 
  * It also implements the {@link StartInstantiationPattern StartInstantiationPattern-Interface}, so that it can be used
  * as one of the first instantiationPattern.
@@ -30,7 +30,7 @@ StartInstantiationPattern {
         ProcessDefinitionInside processDefinition = patternContext.getProcessDefinition();
         NavigatorInside navigator = patternContext.getNavigatorService();
         ExtensionService extensions = patternContext.getExtensionService();
-        ProcessStartEvent startEvent = patternContext.getThrownStartEvent();
+        StartProcessEvent startEvent = patternContext.getThrownStartEvent();
 
         if (startEvent == null) {
             String errorMessage = "This pattern requires that a start event was thrown, but it is null. "

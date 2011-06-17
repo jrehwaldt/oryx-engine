@@ -2,7 +2,7 @@ package org.jodaengine.process.instantiation;
 
 import javax.annotation.Nonnull;
 
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.util.ServiceContextImpl;
@@ -18,13 +18,13 @@ public class InstantiationPatternContextImpl extends ServiceContextImpl implemen
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private ProcessStartEvent startEvent;
+    private StartProcessEvent startEvent;
     private ProcessDefinitionInside processDefinition;
 
     /**
      * Default constructor.
      * 
-     * In order to have a context without an {@link ProcessStartEvent}
+     * In order to have a context without an {@link StartProcessEvent}
      * 
      * @param processDefinition
      *            - the {@link ProcessDefinitionInside processDefinition} that is assigned to this patternContext
@@ -36,21 +36,21 @@ public class InstantiationPatternContextImpl extends ServiceContextImpl implemen
     }
 
     /**
-     * An extended Constructor in case a {@link ProcessStartEvent} was thrown.
+     * An extended Constructor in case a {@link StartProcessEvent} was thrown.
      * 
      * @param processDefinition
      *            - the {@link ProcessDefinitionInside processDefinition} that is assigned to this patternContext
      * @param startEvent
-     *            - the thrown {@link ProcessStartEvent}
+     *            - the thrown {@link StartProcessEvent}
      */
-    public InstantiationPatternContextImpl(ProcessDefinitionInside processDefinition, ProcessStartEvent startEvent) {
+    public InstantiationPatternContextImpl(ProcessDefinitionInside processDefinition, StartProcessEvent startEvent) {
 
         this(processDefinition);
         this.startEvent = startEvent;
     }
 
     @Override
-    public ProcessStartEvent getThrownStartEvent() {
+    public StartProcessEvent getThrownStartEvent() {
 
         return this.startEvent;
     }

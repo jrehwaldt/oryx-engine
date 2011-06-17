@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivationPattern;
@@ -22,7 +22,7 @@ import org.jodaengine.process.structure.Node;
 public class BpmnProcessDefinition extends AbstractProcessDefinition {
 
     @JsonIgnore
-    private Map<ProcessStartEvent, Node> startTriggers;
+    private Map<StartProcessEvent, Node> startTriggers;
 
     /**
      * Instantiates a new {@link ProcessDefinition}. The name is the ID of the {@link ProcessDefinition}.
@@ -73,25 +73,25 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
     }
 
     @Override
-    public Map<ProcessStartEvent, Node> getStartTriggers() {
+    public Map<StartProcessEvent, Node> getStartTriggers() {
 
-        return new HashMap<ProcessStartEvent, Node>(getLazyStartTriggers());
+        return new HashMap<StartProcessEvent, Node>(getLazyStartTriggers());
     }
 
     /**
      * Getter for the startTrigger. Implemented lazy initialized
-     * @return the map of startTrigger; a mapping from a {@link ProcessStartEvent} to a {@link Node}
+     * @return the map of startTrigger; a mapping from a {@link StartProcessEvent} to a {@link Node}
      */
-    private Map<ProcessStartEvent, Node> getLazyStartTriggers() {
+    private Map<StartProcessEvent, Node> getLazyStartTriggers() {
 
         if (startTriggers == null) {
-            this.startTriggers = new HashMap<ProcessStartEvent, Node>();
+            this.startTriggers = new HashMap<StartProcessEvent, Node>();
         }
         return startTriggers;
     }
 
     @Override
-    public void addStartTrigger(ProcessStartEvent event, Node node)
+    public void addStartTrigger(StartProcessEvent event, Node node)
     throws IllegalStarteventException {
 
         if (startNodes.contains(node)) {

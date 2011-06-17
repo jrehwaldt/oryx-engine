@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.bootstrap.Service;
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
 import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.ext.AbstractListenable;
@@ -166,7 +166,7 @@ Service {
 
     @Override
     public AbstractProcessInstance startProcessInstance(ProcessDefinitionID processID,
-                                                        ProcessStartEvent processStartEvent)
+                                                        StartProcessEvent processStartEvent)
     throws DefinitionNotFoundException {
 
         ProcessDefinitionInside definition = repository.getProcessDefinitionInside(processID);

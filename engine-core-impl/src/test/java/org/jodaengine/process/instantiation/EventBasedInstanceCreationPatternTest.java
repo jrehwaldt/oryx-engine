@@ -3,7 +3,7 @@ package org.jodaengine.process.instantiation;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instantiation.pattern.EventBasedInstanceCreationPattern;
@@ -21,7 +21,7 @@ public class EventBasedInstanceCreationPatternTest extends AbstractJodaEngineTes
 
     private EventBasedInstanceCreationPattern eventBasedInstanceCreationPattern;
     private InstantiationPatternContext patternContext;
-    private ProcessStartEvent startEvent;
+    private StartProcessEvent startEvent;
     private Node startNode;
 
     /**
@@ -32,9 +32,9 @@ public class EventBasedInstanceCreationPatternTest extends AbstractJodaEngineTes
 
         eventBasedInstanceCreationPattern = new EventBasedInstanceCreationPattern();
 
-        Map<ProcessStartEvent, Node> startTriggers = new HashMap<ProcessStartEvent, Node>();
+        Map<StartProcessEvent, Node> startTriggers = new HashMap<StartProcessEvent, Node>();
 
-        startEvent = Mockito.mock(ProcessStartEvent.class);
+        startEvent = Mockito.mock(StartProcessEvent.class);
         startNode = Mockito.mock(Node.class);
         startTriggers.put(startEvent, startNode);
 

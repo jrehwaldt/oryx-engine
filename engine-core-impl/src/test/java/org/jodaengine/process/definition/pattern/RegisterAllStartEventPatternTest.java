@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jodaengine.eventmanagement.EventManagerService;
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
 import org.jodaengine.process.activation.pattern.RegisterAllStartEventPattern;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinition;
@@ -22,8 +22,8 @@ public class RegisterAllStartEventPatternTest {
 
     private ProcessDefinitionActivationPatternContext patternContext;
     private EventManagerService eventManager;
-    private ProcessStartEvent startEvent1;
-    private ProcessStartEvent startEvent2;
+    private StartProcessEvent startEvent1;
+    private StartProcessEvent startEvent2;
 
     /**
      * Setting up mocks.
@@ -38,9 +38,9 @@ public class RegisterAllStartEventPatternTest {
         BpmnProcessDefinition processDefinition = Mockito.mock(BpmnProcessDefinition.class);
         Mockito.when(patternContext.getProcessDefinition()).thenReturn(processDefinition);
 
-        Map<ProcessStartEvent, Node> map = new HashMap<ProcessStartEvent, Node>();
-        startEvent1 = Mockito.mock(ProcessStartEvent.class);
-        startEvent2 = Mockito.mock(ProcessStartEvent.class);
+        Map<StartProcessEvent, Node> map = new HashMap<StartProcessEvent, Node>();
+        startEvent1 = Mockito.mock(StartProcessEvent.class);
+        startEvent2 = Mockito.mock(StartProcessEvent.class);
         map.put(startEvent1, Mockito.mock(Node.class));
         map.put(startEvent2, Mockito.mock(Node.class));
         Mockito.when(processDefinition.getStartTriggers()).thenReturn(map);
@@ -60,7 +60,7 @@ public class RegisterAllStartEventPatternTest {
         registerStartEventsPattern.activateProcessDefinition(patternContext);
 
         // Make assertions
-        ArgumentCaptor<ProcessStartEvent> startEventArgument = ArgumentCaptor.forClass(ProcessStartEvent.class);
+        ArgumentCaptor<StartProcessEvent> startEventArgument = ArgumentCaptor.forClass(StartProcessEvent.class);
         Mockito.verify(eventManager, Mockito.times(2)).registerStartEvent(startEventArgument.capture());
 
         Assert.assertEquals(startEventArgument.getAllValues().size(), 2);
@@ -83,7 +83,7 @@ public class RegisterAllStartEventPatternTest {
         registerStartEventsPattern.activateProcessDefinition(patternContext);
         registerStartEventsPattern.activateProcessDefinition(patternContext);
 
-        Mockito.verify(eventManager, Mockito.times(2)).registerStartEvent(Mockito.any(ProcessStartEvent.class));
+        Mockito.verify(eventManager, Mockito.times(2)).registerStartEvent(Mockito.any(StartProcessEvent.class));
         Assert.assertEquals(registerStartEventsPattern.getRegisteredStartEvents().size(), 2);
     }
 
@@ -100,7 +100,7 @@ public class RegisterAllStartEventPatternTest {
         registerStartEventsPattern.activateProcessDefinition(patternContext);
         registerStartEventsPattern.deactivateProcessDefinition(patternContext);
 
-        ArgumentCaptor<ProcessStartEvent> startEventArgument = ArgumentCaptor.forClass(ProcessStartEvent.class);
+        ArgumentCaptor<StartProcessEvent> startEventArgument = ArgumentCaptor.forClass(StartProcessEvent.class);
         Mockito.verify(eventManager, Mockito.times(2)).unsubscribeFromStartEvent(startEventArgument.capture());
 
         Assert.assertEquals(startEventArgument.getAllValues().size(), 2);

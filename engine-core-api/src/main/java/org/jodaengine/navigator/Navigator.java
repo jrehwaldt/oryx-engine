@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.bootstrap.Service;
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
 import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.navigator.schedule.Scheduler;
@@ -34,7 +34,7 @@ public interface Navigator extends Service {
      * @return the started instance
      */
     @Nonnull
-    AbstractProcessInstance startProcessInstance(@Nonnull ProcessDefinitionID processID, ProcessStartEvent event)
+    AbstractProcessInstance startProcessInstance(@Nonnull ProcessDefinitionID processID, StartProcessEvent event)
     throws DefinitionNotFoundException;
 
     /**

@@ -8,9 +8,9 @@ import java.util.UUID;
 
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.complex.AndEventCondition;
-import org.jodaengine.eventmanagement.processevent.incoming.start.DefaultProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.start.IncomingProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
@@ -42,7 +42,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
     private ProcessDefinitionID id;
     private String name;
     private String description;
-    private Map<ProcessStartEvent, Node> temporaryStartTriggers;
+    private Map<StartProcessEvent, Node> temporaryStartTriggers;
     private Map<String, Object> temporaryAttributeTable;
     private List<ProcessInstantiationPattern> temporaryInstantiationPatterns;
     private List<ProcessDeActivationPattern> temporaryActivationPatterns;
@@ -70,7 +70,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
         this.id = new ProcessDefinitionID(UUID.randomUUID().toString());
         this.name = null;
         this.description = null;
-        this.temporaryStartTriggers = new HashMap<ProcessStartEvent, Node>();
+        this.temporaryStartTriggers = new HashMap<StartProcessEvent, Node>();
         this.temporaryAttributeTable = new HashMap<String, Object>();
         this.temporaryInstantiationPatterns = new ArrayList<ProcessInstantiationPattern>();
         this.temporaryActivationPatterns = new ArrayList<ProcessDeActivationPattern>();
@@ -96,7 +96,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
                                                        List<EventCondition> eventConditions,
                                                        Node startNode) {
 
-        ProcessStartEvent event = new DefaultProcessStartEvent(
+        StartProcessEvent event = new IncomingProcessStartEvent(
             adapterConfig, new AndEventCondition(eventConditions), id);
         this.temporaryStartTriggers.put(event, startNode);
 
@@ -182,7 +182,7 @@ public class BpmnProcessDefinitionBuilder implements ProcessDefinitionBuilder, A
         BpmnProcessDefinition definition = new BpmnProcessDefinition(id, name, description, startNodes,
             startInstantionPattern, activationPattern);
 
-        for (Map.Entry<ProcessStartEvent, Node> entry : temporaryStartTriggers.entrySet()) {
+        for (Map.Entry<StartProcessEvent, Node> entry : temporaryStartTriggers.entrySet()) {
             definition.addStartTrigger(entry.getKey(), entry.getValue());
         }
         
