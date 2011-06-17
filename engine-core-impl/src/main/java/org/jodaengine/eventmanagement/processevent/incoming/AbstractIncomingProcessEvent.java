@@ -54,6 +54,12 @@ public abstract class AbstractIncomingProcessEvent extends AbstractProcessEvent 
         triggeringBehavior.trigger(this);
     }
 
+    /**
+     * Sets the TriggeringBehaviour for this {@link IncomingProcessEvent}.
+     * 
+     * @param triggeringBehavior
+     *            - the {@link TriggeringBehaviour} that should be set
+     */
     public void setTriggeringBehaviour(TriggeringBehaviour triggeringBehavior) {
 
         this.triggeringBehavior = triggeringBehavior;
