@@ -11,8 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class groups several events together to a logical unit. If the {@link IncomingProcessEvent} is connected to another
- * {@link IncomingProcessEvent} than a {@link AbstractIntermediateProcessEventGroup} can be used to specify that connection.
+ * This class groups several events together to a logical unit. If the {@link IncomingProcessEvent} is connected to
+ * another {@link IncomingProcessEvent} than a {@link AbstractIntermediateProcessEventGroup} can be used to specify that
+ * connection.
  */
 public abstract class AbstractIntermediateProcessEventGroup implements TriggeringBehaviour {
 
@@ -55,8 +56,8 @@ public abstract class AbstractIntermediateProcessEventGroup implements Triggerin
     }
 
     /**
-     * If an {@link IncomingProcessEvent} that belongs to that {@link TriggeringBehaviour} is triggered than this method is
-     * called.
+     * If an {@link IncomingProcessEvent} that belongs to that {@link TriggeringBehaviour} is triggered than this method
+     * is called.
      * 
      * @param processIntermediateEvent
      *            - the {@link IncomingIntermediateProcessEvent} that was triggered

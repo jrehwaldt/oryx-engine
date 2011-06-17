@@ -1,6 +1,5 @@
 package org.jodaengine.eventmanagement.processevent.incoming.start.triggering;
 
-import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
 import org.jodaengine.eventmanagement.processevent.incoming.start.IncomingProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;

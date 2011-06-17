@@ -28,5 +28,4 @@ public class IntermediateIncomingImapEmailProcessEvent extends AbstractIncomingI
 
         super(config, condition, token);
     }
-
 }
