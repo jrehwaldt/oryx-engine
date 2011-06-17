@@ -1,6 +1,6 @@
 package org.jodaengine.eventmanagement.processevent.incoming.intermediate;
 
-import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.process.token.Token;
 
@@ -22,7 +22,7 @@ public class IntermediateIncomingImapEmailProcessEvent extends AbstractIncomingI
      * @param token
      *            the Token for process execution
      */
-    public IntermediateIncomingImapEmailProcessEvent(AdapterConfiguration config, 
+    public IntermediateIncomingImapEmailProcessEvent(IncomingMailAdapterConfiguration config, 
                                                      EventCondition condition, 
                                                      Token token) {
 

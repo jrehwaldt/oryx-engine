@@ -1,15 +1,9 @@
 package org.jodaengine.rest.demo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.eventmanagement.adapter.EventTypes;
-import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.condition.complex.AndEventCondition;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
 import org.jodaengine.eventmanagement.processevent.incoming.start.ImapEmailProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.AbstractIncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.AbstractIntermediateProcessEventGroup;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.ExclusiveProcessEventGroup;
@@ -40,11 +41,13 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
                 .getActivityBehaviour();
 
                 // Creating a processIntermediateEvent
-                IncomingIntermediateProcessEvent processEvent = eventBasedGatewayEvent
-                .createProcessIntermediateEventForEventGroup(token, eventXorGroup);
+                AbstractIncomingIntermediateProcessEvent processEvent = eventBasedGatewayEvent
+//                .createProcessIntermediateEventForEventGroup(token, eventXorGroup);
+                .createProcessIntermediateEvent(token);
                 // Setting the node that has fired the event; the node is not that one the execution is currently
                 // pointing at but rather the node that contained the event
                 processEvent.setFireringNode(node);
+                processEvent.setTriggeringBehaviour(eventXorGroup);
 
                 eventXorGroup.add(processEvent);
 

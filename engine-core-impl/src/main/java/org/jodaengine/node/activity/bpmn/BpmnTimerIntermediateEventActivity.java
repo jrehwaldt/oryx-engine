@@ -3,7 +3,7 @@ package org.jodaengine.node.activity.bpmn;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.AbstractIncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.TimerIntermediateProcessEvent;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
@@ -71,15 +71,8 @@ BpmnEventBasedGatewayEvent {
     
     // TODO @Gerardo: Ok really... this has to change. Period.
     @Override
-    public IncomingIntermediateProcessEvent createProcessIntermediateEvent(Token token) {
+    public AbstractIncomingIntermediateProcessEvent createProcessIntermediateEvent(Token token) {
 
         return new TimerIntermediateProcessEvent(time, token);
-    }
-
-    @Override
-    public IncomingIntermediateProcessEvent createProcessIntermediateEventForEventGroup(Token token,
-                                                                                TriggeringBehaviour eventGroup) {
-
-        return new TimerIntermediateProcessEvent(time, token, eventGroup);
     }
 }

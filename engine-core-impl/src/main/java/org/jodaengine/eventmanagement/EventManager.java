@@ -14,7 +14,6 @@ import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingMessagingAdapter;
-import org.jodaengine.eventmanagement.adapter.twitter.OutgoingTwitterSingleAccountTweetAdapter;
 import org.jodaengine.eventmanagement.processevent.ProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.StartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
@@ -24,8 +23,6 @@ import org.jodaengine.exception.AdapterSchedulingException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import twitter4j.TwitterException;
 
 /**
  * A concrete implementation of our engines Event Manager.
