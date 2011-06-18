@@ -77,7 +77,8 @@ function loadProcessDefinitionsOverview() {
                         + '<td>' + definition.id.version + '</td>'
                         + '<td>' + definition.description + '</td>'
                         + '<td class="controls">'
-                            + '<a href="#" class="start-instance">Start</a> '
+                        	+ '<a href="#" class="activate-definition">Activate</a> '
+                            + '<a href="#" class="start-instance">Start</a> '                            
                         + '</td>'
                     + '</tr>'
                 );
@@ -87,6 +88,19 @@ function loadProcessDefinitionsOverview() {
                 var row = $(event.target).parent().parent();
                 var definitionId = row.attr('definition-id');
                 startProcessInstance(definitionId, function() {
+                    //
+                    // refresh the process instance's view, if it exists
+                    //
+                    if (window.loadRunningProcessInstancesOverview) {
+                        loadRunningProcessInstancesOverview();
+                    }
+                });
+            });
+            $('.controls a.activate-definition', tableBody).click(function(event) {
+                event.preventDefault();
+                var row = $(event.target).parent().parent();
+                var definitionId = row.attr('definition-id');
+                activateProcessDefinition(definitionId, function() {
                     //
                     // refresh the process instance's view, if it exists
                     //
