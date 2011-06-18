@@ -41,6 +41,7 @@ import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.CheckVariableTrueCondition;
+import org.jodaengine.process.structure.condition.JuelExpressionCondition;
 import org.jodaengine.resource.AbstractParticipant;
 import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
@@ -720,7 +721,8 @@ public class BpmnXmlParse extends XmlParse {
         }
 
         String expression = conditionExprElement.getText().trim();
-        Condition expressionCondition = new CheckVariableTrueCondition(expression);
+//        Condition expressionCondition = new CheckVariableTrueCondition(expression);
+        Condition expressionCondition = new JuelExpressionCondition(expression);
         return expressionCondition;
     }
 
