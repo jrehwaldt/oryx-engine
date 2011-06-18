@@ -2,6 +2,7 @@ package org.jodaengine.eventmanagement.processevent.incoming.intermediate.trigge
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.eventmanagement.processevent.incoming.AbstractIncomingProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
@@ -50,8 +51,8 @@ public class ExclusiveProcessEventGroup extends AbstractIntermediateProcessEvent
 
         // Unsubscribing the other registered events; doing it as early as possible
         EventSubscriptionManager eventManager = ServiceFactory.getEventManagerService();
-        for (IncomingIntermediateProcessEvent registeredProcessEvent : getIntermediateEvents()) {
-            eventManager.unsubscribeFromIncomingIntermediateEvent(registeredProcessEvent);
+        for (AbstractIncomingProcessEvent registeredProcessEvent : getIntermediateEvents()) {
+            eventManager.unsubscribeFromIncomingIntermediateEvent((IncomingIntermediateProcessEvent) registeredProcessEvent);
         }
     }
 }

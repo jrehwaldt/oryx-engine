@@ -3,6 +3,7 @@ package org.jodaengine.eventmanagement.processevent.incoming.intermediate.trigge
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jodaengine.eventmanagement.processevent.incoming.AbstractIncomingProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
@@ -20,7 +21,7 @@ public abstract class AbstractIntermediateProcessEventGroup implements Triggerin
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected Token token;
-    private List<IncomingIntermediateProcessEvent> intermediateEvents;
+    private List<AbstractIncomingProcessEvent> groupedIncomingProcessEvents;
     protected boolean called = false;
 
     /**
@@ -39,9 +40,10 @@ public abstract class AbstractIntermediateProcessEventGroup implements Triggerin
      * @param processIntermediateEvent
      *            - the {@link IncomingIntermediateProcessEvent} that should be added to this group
      */
-    public void add(IncomingIntermediateProcessEvent processIntermediateEvent) {
+    public void add(AbstractIncomingProcessEvent processIntermediateEvent) {
 
         getIntermediateEvents().add(processIntermediateEvent);
+        processIntermediateEvent.setTriggeringBehaviour(this);
     }
 
     @Override
@@ -65,15 +67,15 @@ public abstract class AbstractIntermediateProcessEventGroup implements Triggerin
     protected abstract void triggerIntern(IncomingIntermediateProcessEvent processIntermediateEvent);
 
     /**
-     * Getter for Lazy initialized {@link AbstractIntermediateProcessEventGroup#intermediateEvents}.
+     * Getter for Lazy initialized {@link AbstractIntermediateProcessEventGroup#groupedIncomingProcessEvents}.
      * 
-     * @return a {@link List} of {@link IncomingIntermediateProcessEvent}s
+     * @return a {@link List} of {@link AbstractIncomingProcessEvent}s
      */
-    protected List<IncomingIntermediateProcessEvent> getIntermediateEvents() {
+    protected List<AbstractIncomingProcessEvent> getIntermediateEvents() {
 
-        if (intermediateEvents == null) {
-            intermediateEvents = new ArrayList<IncomingIntermediateProcessEvent>();
+        if (groupedIncomingProcessEvents == null) {
+            groupedIncomingProcessEvents = new ArrayList<AbstractIncomingProcessEvent>();
         }
-        return intermediateEvents;
+        return groupedIncomingProcessEvents;
     }
 }

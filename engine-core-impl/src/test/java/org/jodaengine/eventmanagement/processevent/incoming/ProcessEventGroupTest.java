@@ -3,6 +3,7 @@ package org.jodaengine.eventmanagement.processevent.incoming;
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventManager;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.AbstractIncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessIntermediateManualTriggeringEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering.AbstractIntermediateProcessEventGroup;
@@ -22,9 +23,9 @@ import org.testng.annotations.Test;
 public class ProcessEventGroupTest extends AbstractJodaEngineTest {
 
     private Token token;
-    private IncomingIntermediateProcessEvent intermediateEvent1;
-    private IncomingIntermediateProcessEvent intermediateEvent2;
-    private IncomingIntermediateProcessEvent intermediateEvent3;
+    private AbstractIncomingIntermediateProcessEvent intermediateEvent1;
+    private AbstractIncomingIntermediateProcessEvent intermediateEvent2;
+    private AbstractIncomingIntermediateProcessEvent intermediateEvent3;
 
     /**
      * Setting up all necessary objects and mocks.
