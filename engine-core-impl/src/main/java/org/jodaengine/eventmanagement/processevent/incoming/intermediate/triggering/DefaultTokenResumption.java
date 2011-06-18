@@ -1,6 +1,7 @@
 package org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering;
 
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.AbstractIncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
@@ -9,13 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This {@link DefaultTokenResumption} is the default {@link TriggeringBehavior} for a stand alone
- * {@link IncomingIntermediateProcessEvent}. Don't be confused that this behavior inherits from
- * {@link AbstractIntermediateProcessEventGroup}. This class only need the utility methods provided by the
- * {@link AbstractIntermediateProcessEventGroup}.
- * <p>
- * It can be used as null object for a {@link AbstractIntermediateProcessEventGroup}.
- * </p>
+ * This is the default {@link TriggeringBehavior} for an {@link AbstractIncomingIntermediateProcessEvent}. It calls the
+ * {@link Token} in order to resume it start.
  */
 public class DefaultTokenResumption implements TriggeringBehavior {
 

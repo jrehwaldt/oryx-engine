@@ -6,7 +6,7 @@ import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.AbstractIncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering.AbstractIntermediateProcessEventGroup;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering.AbstractProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.process.token.Token;
 
@@ -29,7 +29,7 @@ public class ProcessIntermediateManualTriggeringEvent extends AbstractIncomingIn
     }
 
     /**
-     * Default Constructor for this event that belongs to a {@link AbstractIntermediateProcessEventGroup}.
+     * Default Constructor for this event that belongs to a {@link AbstractProcessEventGroup}.
      * 
      * @param name
      *            - the name of the {@link ManualTriggeringAdapter}
@@ -38,7 +38,7 @@ public class ProcessIntermediateManualTriggeringEvent extends AbstractIncomingIn
      * @param eventGroup
      *            - if this {@link IncomingIntermediateProcessEvent} is related to other
      *            {@link IncomingIntermediateProcessEvent} then
-     *            the {@link AbstractIntermediateProcessEventGroup} can be specified here
+     *            the {@link AbstractProcessEventGroup} can be specified here
      */
     public ProcessIntermediateManualTriggeringEvent(String name, Token token, TriggeringBehavior eventGroup) {
 

@@ -13,23 +13,22 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class groups several events together to a logical unit. If the {@link IncomingProcessEvent} is connected to
- * another {@link IncomingProcessEvent} than a {@link AbstractIntermediateProcessEventGroup} can be used to specify that
+ * another {@link IncomingProcessEvent} than a {@link AbstractProcessEventGroup} can be used to specify that
  * connection.
  */
-public abstract class AbstractIntermediateProcessEventGroup implements TriggeringBehavior {
+public abstract class AbstractProcessEventGroup implements TriggeringBehavior {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected Token token;
     private List<AbstractIncomingProcessEvent> groupedIncomingProcessEvents;
-    protected boolean called = false;
 
     /**
      * Default Constructor.
      * 
      * @param token
      */
-    protected AbstractIntermediateProcessEventGroup(Token token) {
+    protected AbstractProcessEventGroup(Token token) {
 
         this.token = token;
     }
@@ -39,35 +38,18 @@ public abstract class AbstractIntermediateProcessEventGroup implements Triggerin
      * 
      * @param processIntermediateEvent
      *            - the {@link IncomingIntermediateProcessEvent} that should be added to this group
+     * @return this {@link AbstractProcessEventGroup}
      */
-    public void add(AbstractIncomingProcessEvent processIntermediateEvent) {
+    public AbstractProcessEventGroup addIncomingProcessEventToGroup(AbstractIncomingProcessEvent processIntermediateEvent) {
 
         getIntermediateEvents().add(processIntermediateEvent);
         processIntermediateEvent.setTriggeringBehaviour(this);
-    }
 
-    @Override
-    public synchronized void trigger(IncomingProcessEvent processEvent) {
-
-        // If it was already called then then leave right now
-        if (called) {
-            return;
-        }
-
-        triggerIntern((IncomingIntermediateProcessEvent) processEvent);
+        return this;
     }
 
     /**
-     * If an {@link IncomingProcessEvent} that belongs to that {@link TriggeringBehavior} is triggered than this method
-     * is called.
-     * 
-     * @param processIntermediateEvent
-     *            - the {@link IncomingIntermediateProcessEvent} that was triggered
-     */
-    protected abstract void triggerIntern(IncomingIntermediateProcessEvent processIntermediateEvent);
-
-    /**
-     * Getter for Lazy initialized {@link AbstractIntermediateProcessEventGroup#groupedIncomingProcessEvents}.
+     * Getter for Lazy initialized {@link AbstractProcessEventGroup#groupedIncomingProcessEvents}.
      * 
      * @return a {@link List} of {@link AbstractIncomingProcessEvent}s
      */

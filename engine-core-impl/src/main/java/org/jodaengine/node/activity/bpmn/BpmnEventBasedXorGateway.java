@@ -6,8 +6,7 @@ import java.util.List;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.AbstractIncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering.AbstractIntermediateProcessEventGroup;
-import org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering.ExclusiveProcessEventGroup;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering.ExclusiveIntermediateProcessEventGroup;
 import org.jodaengine.node.activity.AbstractCancelableActivity;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
@@ -28,7 +27,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
 
         List<IncomingIntermediateProcessEvent> registeredIntermediateEvents = new ArrayList<IncomingIntermediateProcessEvent>();
 
-        AbstractIntermediateProcessEventGroup eventXorGroup = new ExclusiveProcessEventGroup(token);
+        ExclusiveIntermediateProcessEventGroup eventXorGroup = new ExclusiveIntermediateProcessEventGroup(token);
 
         for (ControlFlow controlFlow : token.getCurrentNode().getOutgoingControlFlows()) {
             Node node = controlFlow.getDestination();
@@ -49,7 +48,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
                 processEvent.setFireringNode(node);
                 //processEvent.setTriggeringBehaviour(eventXorGroup);
 
-                eventXorGroup.add(processEvent);
+                eventXorGroup.addIncomingProcessEventToGroup(processEvent);
 
                 // Subscribing on the event
                 eventManager.registerIncomingIntermediateEvent(processEvent);
