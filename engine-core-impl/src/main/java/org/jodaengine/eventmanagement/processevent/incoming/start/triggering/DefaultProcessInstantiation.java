@@ -1,7 +1,7 @@
 package org.jodaengine.eventmanagement.processevent.incoming.start.triggering;
 
 import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
 import org.jodaengine.eventmanagement.processevent.incoming.start.BaseIncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
@@ -11,10 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This is the default {@link TriggeringBehaviour} for an {@link BaseIncomingStartProcessEvent}. It calls the
+ * This is the default {@link TriggeringBehavior} for an {@link BaseIncomingStartProcessEvent}. It calls the
  * {@link Navigator} in order to start the specified process.
  */
-public class DefaultProcessInstantiation implements TriggeringBehaviour {
+public class DefaultProcessInstantiation implements TriggeringBehavior {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -42,11 +42,11 @@ public class DefaultProcessInstantiation implements TriggeringBehaviour {
         logger.info("Starting a new processInstance for event {}", startProcessEvent);
         try {
 
-            startProcessEvent.getNavigator().startProcessInstance(startProcessEvent.getDefinitionID(),
+            startProcessEvent.getNavigator().startProcessInstance(startProcessEvent.getProcessDefinitionID(),
                 startProcessEvent);
 
         } catch (DefinitionNotFoundException e) {
-            String errorMessage = "The processDefinition belonging to the id '" + startProcessEvent.getDefinitionID()
+            String errorMessage = "The processDefinition belonging to the id '" + startProcessEvent.getProcessDefinitionID()
                 + "' could not be found.";
             logger.error(errorMessage, e);
             throw new JodaEngineRuntimeException(errorMessage, e);

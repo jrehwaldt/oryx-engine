@@ -2,14 +2,14 @@ package org.jodaengine.eventmanagement.processevent.incoming.intermediate.trigge
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.token.Token;
 
 /**
- * This represents a {@link TriggeringBehaviour} that a soon a {@link IncomingProcessEvent} of this group is triggered this
+ * This represents a {@link TriggeringBehavior} that a soon a {@link IncomingProcessEvent} of this group is triggered this
  * group will unregister all other {@link IncomingProcessEvent} that are in this group.
  */
 public class ExclusiveProcessEventGroup extends AbstractIntermediateProcessEventGroup {

@@ -15,7 +15,7 @@ public interface IncomingStartProcessEvent extends IncomingProcessEvent {
      * 
      * @return the definition id
      */
-    ProcessDefinitionID getDefinitionID();
+    ProcessDefinitionID getProcessDefinitionID();
     
     /**
      * Inject the navigator service needed to start an instance.

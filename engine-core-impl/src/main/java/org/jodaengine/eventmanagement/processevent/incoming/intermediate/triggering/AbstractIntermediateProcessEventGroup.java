@@ -3,7 +3,7 @@ package org.jodaengine.eventmanagement.processevent.incoming.intermediate.trigge
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.process.token.Token;
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * another {@link IncomingProcessEvent} than a {@link AbstractIntermediateProcessEventGroup} can be used to specify that
  * connection.
  */
-public abstract class AbstractIntermediateProcessEventGroup implements TriggeringBehaviour {
+public abstract class AbstractIntermediateProcessEventGroup implements TriggeringBehavior {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -34,7 +34,7 @@ public abstract class AbstractIntermediateProcessEventGroup implements Triggerin
     }
 
     /**
-     * Adding {@link IncomingIntermediateProcessEvent}s to this {@link TriggeringBehaviour}.
+     * Adding {@link IncomingIntermediateProcessEvent}s to this {@link TriggeringBehavior}.
      * 
      * @param processIntermediateEvent
      *            - the {@link IncomingIntermediateProcessEvent} that should be added to this group
@@ -56,7 +56,7 @@ public abstract class AbstractIntermediateProcessEventGroup implements Triggerin
     }
 
     /**
-     * If an {@link IncomingProcessEvent} that belongs to that {@link TriggeringBehaviour} is triggered than this method
+     * If an {@link IncomingProcessEvent} that belongs to that {@link TriggeringBehavior} is triggered than this method
      * is called.
      * 
      * @param processIntermediateEvent

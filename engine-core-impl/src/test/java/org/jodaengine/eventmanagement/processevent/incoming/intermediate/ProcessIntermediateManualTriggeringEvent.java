@@ -2,7 +2,7 @@ package org.jodaengine.eventmanagement.processevent.incoming.intermediate;
 
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapterConfiguration;
-import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.AbstractIncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
@@ -40,7 +40,7 @@ public class ProcessIntermediateManualTriggeringEvent extends AbstractIncomingIn
      *            {@link IncomingIntermediateProcessEvent} then
      *            the {@link AbstractIntermediateProcessEventGroup} can be specified here
      */
-    public ProcessIntermediateManualTriggeringEvent(String name, Token token, TriggeringBehaviour eventGroup) {
+    public ProcessIntermediateManualTriggeringEvent(String name, Token token, TriggeringBehavior eventGroup) {
 
         super(new ManualTriggeringAdapterConfiguration(name), new TrueEventCondition(), token);
         setTriggeringBehaviour(eventGroup);

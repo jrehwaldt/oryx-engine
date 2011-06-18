@@ -3,7 +3,7 @@ package org.jodaengine.eventmanagement.processevent.incoming.start;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.processevent.incoming.AbstractIncomingProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
 import org.jodaengine.eventmanagement.processevent.incoming.start.triggering.DefaultProcessInstantiation;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.navigator.Navigator;
@@ -38,7 +38,7 @@ public class BaseIncomingStartProcessEvent extends AbstractIncomingProcessEvent 
     }
 
     @Override
-    public ProcessDefinitionID getDefinitionID() {
+    public ProcessDefinitionID getProcessDefinitionID() {
 
         return definitionID;
     }
@@ -56,7 +56,7 @@ public class BaseIncomingStartProcessEvent extends AbstractIncomingProcessEvent 
     }
 
     /**
-     * Returns the injected {@link Navigator} so that it can be accessed by the {@link TriggeringBehaviour}.
+     * Returns the injected {@link Navigator} so that it can be accessed by the {@link TriggeringBehavior}.
      * 
      * @return the {@link Navigator}
      */

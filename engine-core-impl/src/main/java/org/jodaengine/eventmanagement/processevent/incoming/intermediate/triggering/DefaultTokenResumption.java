@@ -1,6 +1,6 @@
 package org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering;
 
-import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This {@link DefaultTokenResumption} is the default {@link TriggeringBehaviour} for a stand alone
+ * This {@link DefaultTokenResumption} is the default {@link TriggeringBehavior} for a stand alone
  * {@link IncomingIntermediateProcessEvent}. Don't be confused that this behavior inherits from
  * {@link AbstractIntermediateProcessEventGroup}. This class only need the utility methods provided by the
  * {@link AbstractIntermediateProcessEventGroup}.
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * It can be used as null object for a {@link AbstractIntermediateProcessEventGroup}.
  * </p>
  */
-public class DefaultTokenResumption implements TriggeringBehaviour {
+public class DefaultTokenResumption implements TriggeringBehavior {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
