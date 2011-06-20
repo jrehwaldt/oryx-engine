@@ -2,25 +2,26 @@ package org.jodaengine.eventmanagement.processevent.incoming.intermediate.trigge
 
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.AbstractIncomingProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.process.token.Token;
 
 /**
- * This represents a {@link TriggeringBehaviour} that a soon a {@link IncomingProcessEvent} of this group is triggered this
+ * This represents a {@link TriggeringBehavior} that a soon a {@link IncomingProcessEvent} of this group is triggered this
  * group will unregister all other {@link IncomingProcessEvent} that are in this group.
  */
-public class ExclusiveProcessEventGroup extends AbstractIntermediateProcessEventGroup {
+public class ExclusiveIntermediateProcessEventGroup extends AbstractThreadSafeIntermediateProcessEventGroup {
 
     /**
-     * Default Constructor this {@link ExclusiveProcessEventGroup}.
+     * Default Constructor this {@link ExclusiveIntermediateProcessEventGroup}.
      * 
      * @param token
-     *            - the {@link Token} that created this {@link ExclusiveProcessEventGroup}
+     *            - the {@link Token} that created this {@link ExclusiveIntermediateProcessEventGroup}
      */
-    public ExclusiveProcessEventGroup(Token token) {
+    public ExclusiveIntermediateProcessEventGroup(Token token) {
 
         super(token);
     }
@@ -50,8 +51,8 @@ public class ExclusiveProcessEventGroup extends AbstractIntermediateProcessEvent
 
         // Unsubscribing the other registered events; doing it as early as possible
         EventSubscriptionManager eventManager = ServiceFactory.getEventManagerService();
-        for (IncomingIntermediateProcessEvent registeredProcessEvent : getIntermediateEvents()) {
-            eventManager.unsubscribeFromIncomingIntermediateEvent(registeredProcessEvent);
+        for (AbstractIncomingProcessEvent registeredProcessEvent : getIntermediateEvents()) {
+            eventManager.unsubscribeFromIncomingIntermediateEvent((IncomingIntermediateProcessEvent) registeredProcessEvent);
         }
     }
 }

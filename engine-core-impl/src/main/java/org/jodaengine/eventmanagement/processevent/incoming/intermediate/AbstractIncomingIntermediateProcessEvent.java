@@ -3,7 +3,7 @@ package org.jodaengine.eventmanagement.processevent.incoming.intermediate;
 import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.processevent.incoming.AbstractIncomingProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering.DefaultTokenResumption;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
@@ -20,7 +20,7 @@ public abstract class AbstractIncomingIntermediateProcessEvent extends AbstractI
     protected Token token;
     protected Node node;
 
-    protected TriggeringBehaviour triggeringBehavior;
+    protected TriggeringBehavior triggeringBehavior;
 
     /**
      * Another builder for syntactical sugaring.

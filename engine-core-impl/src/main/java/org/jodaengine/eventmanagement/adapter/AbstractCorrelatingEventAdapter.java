@@ -31,6 +31,7 @@ public abstract class AbstractCorrelatingEventAdapter
     implements EventSubscription, EventUnsubscription, EventCorrelator {
 
     // Both lists are lazyInitialized
+    // TODO @EVENTTEAM rename the processEvents - talk to Gerald
     private List<IncomingProcessEvent> processEvents;
     private List<AdapterEvent> unCorrelatedAdapterEvents;
 

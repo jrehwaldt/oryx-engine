@@ -40,7 +40,7 @@ public class DefaultProcessStartEventTest extends AbstractJodaEngineTest {
         BaseIncomingStartProcessEvent startEvent = new BaseIncomingStartProcessEvent(null, null, processDefinitionID);
         
 
-        Assert.assertNotNull(startEvent.getDefinitionID());
+        Assert.assertNotNull(startEvent.getProcessDefinitionID());
         
         NavigatorImpl navigatorMock = Mockito.mock(NavigatorImpl.class);
         // we don't test the EventManager here, so we inject our mock manually
