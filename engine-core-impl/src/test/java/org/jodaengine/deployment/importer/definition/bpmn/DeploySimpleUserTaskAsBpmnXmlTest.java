@@ -20,10 +20,11 @@ import org.testng.annotations.BeforeMethod;
 
 /**
  * It tests the deployment of BPMN processes that where serialized as xml. The xml contains the structure the process
- * and additional information like DI-Information. The process contains only one UserTask that is associated to Thorben
- * telling him to get Gerardo a cup of coffee.
+ * and additional information like DI-Information. The process contains only two UserTasks. One is associated to the
+ * participant 'Thorben', the other is associated to the role 'A Role', both telling them to get Gerardo a cup of 
+ * coffee.
  * 
- * The process were modeled and exported as xml using academic signavio. The process contains a simple sequence.
+ * The process was modeled and exported as xml using academic signavio. The process contains a simple sequence.
  * 
  * The process can be inspected here (authkey important):
  * http://academic.signavio.com/p/model/ea45aa9318334c1680cf24a42532cc09/png?inline&authkey=
@@ -44,7 +45,7 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
     }
 
     /**
-     * Creates the participant needed by the process.
+     * Creates the participant and role as needed by the process.
      */
     @BeforeMethod
     public void setUp() {
@@ -80,7 +81,7 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(pattern.getAssignedResources().iterator().next(), thorben);
 
         Assert.assertEquals(nextNode.getOutgoingControlFlows().size(), 1);
-        
+
         // check the second user task
         nextNode = nextNode.getOutgoingControlFlows().get(0).getDestination();
         Assert.assertEquals(extractActivityClass(nextNode), BpmnHumanTaskActivity.class);
@@ -96,7 +97,6 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(pattern.getAssignedResources().iterator().next(), aRole);
 
         Assert.assertEquals(nextNode.getOutgoingControlFlows().size(), 1);
-        
 
         Node endNode = nextNode.getOutgoingControlFlows().get(0).getDestination();
         Assert.assertEquals(extractActivityClass(endNode), BpmnEndEventActivity.class);
@@ -105,18 +105,20 @@ public class DeploySimpleUserTaskAsBpmnXmlTest extends AbstractBPMNDeployerTest 
     }
 
     private Class<? extends Activity> extractActivityClass(Node node) {
+
         return node.getActivityBehaviour().getClass();
     }
 
     /**
      * Doing a little Java Reflection. I like it that way. ;-)
+     * 
      * @param node
      * @return
      */
     private CreationPattern extractCreationPattern(Node node) {
-        
+
         BpmnHumanTaskActivity bpmnHumanTaskActivity = (BpmnHumanTaskActivity) node.getActivityBehaviour();
-        
+
         return bpmnHumanTaskActivity.getCreationPattern();
     }
 }
