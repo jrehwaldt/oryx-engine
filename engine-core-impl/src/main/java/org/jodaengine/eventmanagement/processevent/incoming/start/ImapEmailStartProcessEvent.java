@@ -8,10 +8,10 @@ import org.jodaengine.process.definition.ProcessDefinitionID;
 /**
  * It is a {@link IncomingStartProcessEvent} for receiving email from an IMAP account.
  */
-public class ImapEmailProcessStartEvent extends BaseIncomingStartProcessEvent {
+public class ImapEmailStartProcessEvent extends BaseIncomingStartProcessEvent {
 
     /**
-     * Default constructor for an {@link ImapEmailProcessStartEvent}.
+     * Default constructor for an {@link ImapEmailStartProcessEvent}.
      * 
      * @param condition
      *            - the condition that specifies what the incoming email should look like
@@ -19,7 +19,7 @@ public class ImapEmailProcessStartEvent extends BaseIncomingStartProcessEvent {
      *            - the id to the {@link ProcessDefinitionID} in order to start the process when this
      *            {@link BaseIncomingStartProcessEvent} triggers
      */
-    public ImapEmailProcessStartEvent(EventCondition condition, ProcessDefinitionID definitionID) {
+    public ImapEmailStartProcessEvent(EventCondition condition, ProcessDefinitionID definitionID) {
 
         super(IncomingMailAdapterConfiguration.jodaGoogleConfiguration(), condition, definitionID);
     }

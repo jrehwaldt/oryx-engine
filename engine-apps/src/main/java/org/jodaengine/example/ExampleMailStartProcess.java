@@ -1,15 +1,11 @@
 package org.jodaengine.example;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
-import org.jodaengine.eventmanagement.processevent.incoming.start.ImapEmailProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.start.ImapEmailStartProcessEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.ext.logger.NavigatorListenerLogger;
@@ -80,11 +76,8 @@ public final class ExampleMailStartProcess {
 
             // Create a mail adapater here.
             // TODO @TobiP Could create a builder for this later.
-            IncomingMailAdapterConfiguration config = IncomingMailAdapterConfiguration.jodaGoogleConfiguration();
             EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class,
                 "getMessageSubject", "Hallo");
-            List<EventCondition> conditions = new ArrayList<EventCondition>();
-            conditions.add(subjectCondition);
            
             StartProcessInstantiationPattern startInstantiationPattern = new EventBasedInstanceCreationPattern();
             builder.addStartInstantiationPattern(startInstantiationPattern);
@@ -92,7 +85,7 @@ public final class ExampleMailStartProcess {
             ProcessDeActivationPattern activationPattern = new RegisterAllStartEventPattern();
             builder.addDeActivationPattern(activationPattern);
 
-            builder.createStartTrigger(new ImapEmailProcessStartEvent(subjectCondition, null), startNode);
+            builder.createStartTrigger(new ImapEmailStartProcessEvent(subjectCondition, null), startNode);
             ProcessDefinition def = builder.buildDefinition();
 
             ProcessDefinitionID exampleProcessUUID = def.getID();

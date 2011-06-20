@@ -4,6 +4,7 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 import org.jodaengine.eventmanagement.processevent.incoming.AbstractIncomingProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
+import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
 import org.jodaengine.eventmanagement.processevent.incoming.start.triggering.DefaultProcessInstantiation;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.navigator.Navigator;
@@ -17,6 +18,16 @@ public class BaseIncomingStartProcessEvent extends AbstractIncomingProcessEvent 
     private ProcessDefinitionID definitionID;
     private Navigator navigator;
 
+    /**
+     * Syntactical suggaring.
+     * @see #BaseIncomingStartProcessEvent(AdapterConfiguration, EventCondition, ProcessDefinitionID)
+     */
+    public BaseIncomingStartProcessEvent(AdapterConfiguration config,
+                                         ProcessDefinitionID definitionID) {
+
+            this(config, new TrueEventCondition(), definitionID);
+        }
+    
     /**
      * Instantiates a new start event impl.
      * 

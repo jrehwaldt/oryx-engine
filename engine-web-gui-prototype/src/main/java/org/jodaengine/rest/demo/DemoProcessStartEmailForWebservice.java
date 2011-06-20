@@ -5,7 +5,7 @@ import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
-import org.jodaengine.eventmanagement.processevent.incoming.start.ImapEmailProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.start.ImapEmailStartProcessEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -117,7 +117,7 @@ public final class DemoProcessStartEmailForWebservice {
         try {
             subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic", "Hallo");
 
-            builder.createStartTrigger(new ImapEmailProcessStartEvent(subjectCondition, null), node1);
+            builder.createStartTrigger(new ImapEmailStartProcessEvent(subjectCondition, null), node1);
 
             ServiceFactory.getRepositoryService().activateProcessDefinition(def.getID());
         } catch (JodaEngineRuntimeException e) {

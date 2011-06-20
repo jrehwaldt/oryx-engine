@@ -16,22 +16,36 @@ import org.quartz.Job;
 public class TimerAdapterConfiguration extends AbstractAdapterConfiguration implements QuartzPullAdapterConfiguration {
 
     private long waitingTime;
-
+    private boolean pullingOnce;
     private long timestamp;
 
-    private final static int[] MAGIC_HASH = {872, -227, -691};
+    private final static int[] MAGIC_HASH = { 872, -227, -691 };
 
     /**
-     * Instantiates a new timer configuration impl.
+     * Instantiates a new {@link TimerAdapterConfiguration} that is pulled only once.
      * 
      * @param waitingTime
-     *            the waiting time
+     *            - the time that specifies the next pull
      */
     public TimerAdapterConfiguration(long waitingTime) {
+
+        this(waitingTime, false);
+    }
+
+    /**
+     * Instantiates a new {@link TimerAdapterConfiguration} that is pulled only once.
+     * 
+     * @param waitingTime
+     *            - the time that specifies the next pull
+     * @param pullingOnce
+     *            - defines whether the {@link TimerAdapterConfiguration} is called only once or continuously.
+     */
+    public TimerAdapterConfiguration(long waitingTime, boolean pullingOnce) {
 
         super(EventTypes.Timer);
         this.waitingTime = waitingTime;
         this.timestamp = System.currentTimeMillis();
+        this.pullingOnce = pullingOnce;
     }
 
     @Override
@@ -74,7 +88,7 @@ public class TimerAdapterConfiguration extends AbstractAdapterConfiguration impl
     @Override
     public boolean pullingOnce() {
 
-        return true;
+        return pullingOnce;
     }
 
     /**
