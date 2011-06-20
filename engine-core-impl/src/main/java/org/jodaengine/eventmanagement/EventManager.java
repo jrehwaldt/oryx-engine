@@ -87,19 +87,19 @@ public class EventManager implements EventManagerService {
     // ==== EventSubscription ====
 
     @Override
-    public void registerStartEvent(IncomingStartProcessEvent startEvent) {
+    public void subscribeToStartEvent(IncomingStartProcessEvent startEvent) {
 
         // startEvents need the NavigatorService in order to start a process instance
         startEvent.injectNavigatorService(services.getNavigatorService());
         AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(startEvent);
-        correlatingAdapter.registerStartEvent(startEvent);
+        correlatingAdapter.subscribeToStartEvent(startEvent);
     }
 
     @Override
-    public void registerIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
+    public void subscribeToIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
         AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(intermediateEvent);
-        correlatingAdapter.registerIncomingIntermediateEvent(intermediateEvent);
+        correlatingAdapter.subscribeToIncomingIntermediateEvent(intermediateEvent);
     }
 
     // QUESTION: Just call it unsubscribeStartEvent ?

@@ -105,7 +105,7 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
     public void shouldAttemptToStartTheSimpleProcessInstance()
     throws DefinitionNotFoundException {
     
-        eventManager.registerStartEvent(event);
+        eventManager.subscribeToStartEvent(event);
         event.injectNavigatorService(navigatorServiceSpy);
     
         getCorrelatingAdapter(config).correlate(incomingAdapterEvent);
@@ -124,7 +124,7 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
     public void shouldNotAttemptToStartTheSimpleProcessInstance()
     throws DefinitionNotFoundException {
 
-        eventManager.registerStartEvent(event);
+        eventManager.subscribeToStartEvent(event);
         event.injectNavigatorService(navigatorServiceSpy);
 
         getCorrelatingAdapter(config).correlate(anotherIncomingAdapterEvent);
@@ -144,9 +144,9 @@ public class MailStartEventSubscriptionAndCorrelationTest extends AbstractJodaEn
     public void testTwoSimilarEventsWithDiferrentConfig()
     throws DefinitionNotFoundException {
 
-        eventManager.registerStartEvent(event);
+        eventManager.subscribeToStartEvent(event);
         event.injectNavigatorService(navigatorServiceSpy);
-        eventManager.registerStartEvent(anotherEvent);
+        eventManager.subscribeToStartEvent(anotherEvent);
         anotherEvent.injectNavigatorService(navigatorServiceSpy);
 
         getCorrelatingAdapter(config).correlate(incomingAdapterEvent);

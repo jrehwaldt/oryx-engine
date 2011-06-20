@@ -61,7 +61,7 @@ public class RegisterAllStartEventPatternTest {
 
         // Make assertions
         ArgumentCaptor<IncomingStartProcessEvent> startEventArgument = ArgumentCaptor.forClass(IncomingStartProcessEvent.class);
-        Mockito.verify(eventManager, Mockito.times(2)).registerStartEvent(startEventArgument.capture());
+        Mockito.verify(eventManager, Mockito.times(2)).subscribeToStartEvent(startEventArgument.capture());
 
         Assert.assertEquals(startEventArgument.getAllValues().size(), 2);
         Assert.assertTrue(startEventArgument.getAllValues().contains(startEvent2));
@@ -83,7 +83,7 @@ public class RegisterAllStartEventPatternTest {
         registerStartEventsPattern.activateProcessDefinition(patternContext);
         registerStartEventsPattern.activateProcessDefinition(patternContext);
 
-        Mockito.verify(eventManager, Mockito.times(2)).registerStartEvent(Mockito.any(IncomingStartProcessEvent.class));
+        Mockito.verify(eventManager, Mockito.times(2)).subscribeToStartEvent(Mockito.any(IncomingStartProcessEvent.class));
         Assert.assertEquals(registerStartEventsPattern.getRegisteredStartEvents().size(), 2);
     }
 

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.eventmanagement.EventSubscriptionManagement;
 import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.navigator.NavigatorInside;
@@ -179,7 +179,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
     }
 
     @Override
-    public void activate(EventSubscriptionManager eventManager) {
+    public void activate(EventSubscriptionManagement eventManager) {
 
         ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
             this);
@@ -189,7 +189,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
     }
 
     @Override
-    public void deactivate(EventSubscriptionManager eventManager) {
+    public void deactivate(EventSubscriptionManagement eventManager) {
 
         ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
             this);

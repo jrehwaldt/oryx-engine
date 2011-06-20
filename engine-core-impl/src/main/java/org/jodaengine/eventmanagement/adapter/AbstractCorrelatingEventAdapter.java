@@ -47,7 +47,7 @@ public abstract class AbstractCorrelatingEventAdapter
     }
 
     @Override
-    public void registerStartEvent(IncomingStartProcessEvent startEvent) {
+    public void subscribeToStartEvent(IncomingStartProcessEvent startEvent) {
 
         // We don't need to check for uncorrelated events since we only want to know about
         // start events from the moment we dployed a process instance
@@ -55,7 +55,7 @@ public abstract class AbstractCorrelatingEventAdapter
     }
 
     @Override
-    public void registerIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
+    public void subscribeToIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
         // TODO @EVENTMANAGERTEAM: Checking if it is already in the list of unCorrelatedAdapterEvents
         getProcessEvents().add(intermediateEvent);
