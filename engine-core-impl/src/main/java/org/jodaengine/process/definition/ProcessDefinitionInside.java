@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.eventmanagement.EventCorrelator;
-import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.eventmanagement.EventSubscriptionManagement;
 import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -71,7 +71,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      *            - the {@link EventCorrelator} in order to register events, perhaps
      * 
      */
-    void activate(EventSubscriptionManager eventManager);
+    void activate(EventSubscriptionManagement eventManager);
 
     /**
      * Is responsible for deactivating the {@link ProcessDefinition}. Perhaps some {@link IncomingStartProcessEvent StartEvents}
@@ -82,5 +82,5 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      *            - the {@link EventCorrelator} in order to unregister events, perhaps
      * 
      */
-    void deactivate(EventSubscriptionManager eventManager);
+    void deactivate(EventSubscriptionManagement eventManager);
 }

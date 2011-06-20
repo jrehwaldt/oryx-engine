@@ -3,7 +3,7 @@ package org.jodaengine.node.activity.bpmn;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.eventmanagement.EventSubscriptionManagement;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.AbstractIncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering.ExclusiveIntermediateProcessEventGroup;
@@ -23,7 +23,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
     @Override
     protected void executeIntern(AbstractToken token) {
 
-        EventSubscriptionManager eventManager = token.getEventManagerService();
+        EventSubscriptionManagement eventManager = token.getEventManagerService();
 
         List<IncomingIntermediateProcessEvent> registeredIntermediateEvents = new ArrayList<IncomingIntermediateProcessEvent>();
 
@@ -51,7 +51,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
                 eventXorGroup.addIncomingProcessEventToGroup(processEvent);
 
                 // Subscribing on the event
-                eventManager.registerIncomingIntermediateEvent(processEvent);
+                eventManager.subscribeToIncomingIntermediateEvent(processEvent);
 
                 // Putting the intermediate Events in the queue for later reference
                 registeredIntermediateEvents.add(processEvent);
@@ -99,7 +99,7 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
         .getInternalVariable(internalVariableId(REGISTERED_PROCESS_EVENT_PREFIX, executingToken));
 
         // Unsubscribing from all processIntermediateEvents
-        EventSubscriptionManager eventManager = executingToken.getEventManagerService();
+        EventSubscriptionManagement eventManager = executingToken.getEventManagerService();
         for (IncomingIntermediateProcessEvent registeredProcessEvent : registeredIntermediateEvents) {
             eventManager.unsubscribeFromIncomingIntermediateEvent(registeredProcessEvent);
         }

@@ -22,7 +22,7 @@ public class RegisterAllStartEventPattern extends AbstractProcessDefinitionDeAct
         }
 
         for (IncomingStartProcessEvent startEvent : patternContext.getProcessDefinition().getStartTriggers().keySet()) {
-            patternContext.getEventManagerService().registerStartEvent(startEvent);
+            patternContext.getEventManagerService().subscribeToStartEvent(startEvent);
             getRegisteredStartEvents().add(startEvent);
         }
     }

@@ -18,7 +18,7 @@ public interface EventSubscription {
      * @param startEvent
      *            the start event
      */
-    void registerStartEvent(@Nonnull IncomingStartProcessEvent startEvent);
+    void subscribeToStartEvent(@Nonnull IncomingStartProcessEvent startEvent);
 
     /**
      * Entry point for registering an event with the {@link EventCorrelator}.
@@ -26,5 +26,5 @@ public interface EventSubscription {
      * @param intermediateEvent
      *            the intermediate event
      */
-    void registerIncomingIntermediateEvent(@Nonnull IncomingIntermediateProcessEvent intermediateEvent);
+    void subscribeToIncomingIntermediateEvent(@Nonnull IncomingIntermediateProcessEvent intermediateEvent);
 }
