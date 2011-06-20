@@ -2,6 +2,9 @@ package org.jodaengine.forms;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.htmlparser.jericho.Attributes;
 import net.htmlparser.jericho.OutputDocument;
 
@@ -11,6 +14,8 @@ import net.htmlparser.jericho.OutputDocument;
  * The Class JodaFormFieldConverterImpl.
  */
 public class JodaFormFieldConverter {
+    
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Converts joda:*-Form-Attributes to JodaFormFields. If the supplied class cannot be resolved, {@link String} is
@@ -38,6 +43,7 @@ public class JodaFormFieldConverter {
             try {
                 dataClass = Class.forName(className);
             } catch (ClassNotFoundException e) {
+                logger.error("Class {} not found", className);
                 dataClass = String.class;
             }
         } else {
