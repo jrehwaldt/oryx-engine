@@ -41,7 +41,9 @@ import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.condition.CheckVariableTrueCondition;
+import org.jodaengine.process.structure.condition.JuelExpressionCondition;
 import org.jodaengine.resource.AbstractParticipant;
+import org.jodaengine.resource.AbstractRole;
 import org.jodaengine.resource.allocation.CreationPattern;
 import org.jodaengine.resource.allocation.CreationPatternBuilder;
 import org.jodaengine.resource.allocation.CreationPatternBuilderImpl;
@@ -65,7 +67,7 @@ public class BpmnXmlParse extends XmlParse {
     private BpmnProcessDefinitionBuilder processBuilder;
 
     private List<BpmnXmlParseListener> parseListeners;
-    
+
     /**
      * Mapping containing values stored during the first phase of parsing since other elements can reference these
      * messages.
@@ -93,7 +95,7 @@ public class BpmnXmlParse extends XmlParse {
     public ProcessDefinition getFinishedProcessDefinition() {
 
         if (finishedProcessDefinition == null) {
-            
+
             getProblemLogger().logWarnings();
             String errorMessage = "Building the ProcessDefinition does not finish.";
             throw new JodaEngineRuntimeException(errorMessage);
@@ -314,7 +316,7 @@ public class BpmnXmlParse extends XmlParse {
             } else if (("intermediateCatchEvent").equals(activityElement.getTagName())) {
                 parseIntermediateCatchEvent(activityElement);
 
-            }  else if (("intermediateThrowEvent").equals(activityElement.getTagName())) {
+            } else if (("intermediateThrowEvent").equals(activityElement.getTagName())) {
                 parseIntermediateThrowEvent(activityElement);
 
             } else if (("adHocSubProcess").equals(activityElement.getTagName())
@@ -525,10 +527,11 @@ public class BpmnXmlParse extends XmlParse {
 
                     AbstractParticipant participantAssignedToTask = null;
 
-                    for (AbstractParticipant participant : ServiceFactory.getIdentityService().getParticipants()) {
-
-                        if (participant.getName().equals(
-                            formalExpression.substring(USER_PREFIX.length(), formalExpression.length() - 1))) {
+                    String participantName = formalExpression.substring(USER_PREFIX.length(),
+                        formalExpression.length() - 1);
+                    
+                    for (AbstractParticipant participant : ServiceFactory.getIdentityService().getParticipants()) {                        
+                        if (participant.getName().equals(participantName)) {
 
                             participantAssignedToTask = participant;
                         }
@@ -541,6 +544,24 @@ public class BpmnXmlParse extends XmlParse {
                     }
 
                     patternBuilder.addResourceAssignedToItem(participantAssignedToTask);
+                } else if (formalExpression.startsWith(GROUP_PREFIX)) {
+                    AbstractRole roleAssignedToTask = null;
+
+                    String roleName = formalExpression.substring(GROUP_PREFIX.length(),
+                        formalExpression.length() - 1);
+                    
+                    for (AbstractRole role : ServiceFactory.getIdentityService().getRoles()) {                        
+                        if (role.getName().equals(roleName)) {
+                            roleAssignedToTask = role;
+                        }
+                    }
+                    if (roleAssignedToTask == null) {
+                        String errorMessage = "The spedified Performer '" + formalExpression
+                            + "' is not available in the IdentityService.";
+                        getProblemLogger().addError(errorMessage, performerElement);
+                    }
+
+                    patternBuilder.addResourceAssignedToItem(roleAssignedToTask);
                 }
             }
         }
@@ -574,51 +595,52 @@ public class BpmnXmlParse extends XmlParse {
         // parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
         // }
     }
-    
+
     /**
      * Parse the intermediate throw event, determining what type of event it is.
-     *
-     * @param intermediateThrowingEventElement the intermediate throwing event element
+     * 
+     * @param intermediateThrowingEventElement
+     *            the intermediate throwing event element
      */
     protected void parseIntermediateThrowEvent(XmlElement intermediateThrowingEventElement) {
-        
-        String type = intermediateThrowingEventElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS,
-        "type");
+
+        String type = intermediateThrowingEventElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS, "type");
 
         if ("twitter".equals(type)) {
             parseIntermediateThrowTweetEvent(intermediateThrowingEventElement);
         } else {
-            getProblemLogger().addWarning("Ignoring unsupported throwing event ",
-                intermediateThrowingEventElement);
+            getProblemLogger().addWarning("Ignoring unsupported throwing event ", intermediateThrowingEventElement);
             return;
         }
-    
 
     }
 
     /**
      * Parse the intermediate throwing tweet event.
-     *
-     * @param intermediateThrowingEventElement the intermediate throwing event element that is a twitter event
+     * 
+     * @param intermediateThrowingEventElement
+     *            the intermediate throwing event element that is a twitter event
      */
     protected void parseIntermediateThrowTweetEvent(XmlElement intermediateThrowingEventElement) {
-        String pathToPropertiesFile = intermediateThrowingEventElement
-        .getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS, "pathToProperties");
+
+        String pathToPropertiesFile = intermediateThrowingEventElement.getAttributeNS(
+            BpmnXmlParser.JODAENGINE_EXTENSIONS_NS, "pathToProperties");
         String message = intermediateThrowingEventElement.getAttributeNS(BpmnXmlParser.JODAENGINE_EXTENSIONS_NS,
-        "message");
-        
+            "message");
+
         if ((message == null) || (pathToPropertiesFile == null)) {
-            getProblemLogger().addWarning("Required attribute message ot pathToProperties missing "
-                + "for intermediateThrowTweetEvent", intermediateThrowingEventElement);
+            getProblemLogger().addWarning(
+                "Required attribute message ot pathToProperties missing " + "for intermediateThrowTweetEvent",
+                intermediateThrowingEventElement);
             return;
         } else {
-            Node intermediateOutgoingTweetEventNode = BpmnCustomNodeFactory
-                .createTweetNode(processBuilder, message, pathToPropertiesFile);
-        
+            Node intermediateOutgoingTweetEventNode = BpmnCustomNodeFactory.createTweetNode(processBuilder, message,
+                pathToPropertiesFile);
+
             parseGeneralInformation(intermediateThrowingEventElement, intermediateOutgoingTweetEventNode);
-            getNodeXmlIdTable().put((String) intermediateOutgoingTweetEventNode.getAttribute("idXml"), 
-                                    intermediateOutgoingTweetEventNode);
-            
+            getNodeXmlIdTable().put((String) intermediateOutgoingTweetEventNode.getAttribute("idXml"),
+                intermediateOutgoingTweetEventNode);
+
             // TODO BpmnXmlParseListener erweitern um die Methode parseIntermediateCatchEvent
             // for (BpmnXmlParseListener parseListener : parseListeners) {
             // parseListener.parseUserTask(taskXmlElement, taskNode, processBuilder);
@@ -720,7 +742,8 @@ public class BpmnXmlParse extends XmlParse {
         }
 
         String expression = conditionExprElement.getText().trim();
-        Condition expressionCondition = new CheckVariableTrueCondition(expression);
+        // Condition expressionCondition = new CheckVariableTrueCondition(expression);
+        Condition expressionCondition = new JuelExpressionCondition(expression);
         return expressionCondition;
     }
 

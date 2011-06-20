@@ -21,7 +21,7 @@ public final class BpmnProcessDefinitionModifier {
      */
     public static BpmnProcessDefinitionBuilder decorateWithDefaultBpmnInstantiationPattern(BpmnProcessDefinitionBuilder builder) {
 
-        builder.addStartInstantiationPattern(new DefaultBpmnProcessInstanceCreationPattern()).addActivationPattern(new RegisterAllStartEventPattern());
+        builder.addStartInstantiationPattern(new DefaultBpmnProcessInstanceCreationPattern()).addDeActivationPattern(new RegisterAllStartEventPattern());
         return builder;
     }
 

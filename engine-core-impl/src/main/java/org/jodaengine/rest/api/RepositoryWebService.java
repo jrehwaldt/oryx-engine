@@ -10,6 +10,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -23,6 +24,7 @@ import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
 import org.jodaengine.deployment.importer.definition.bpmn.BpmnXmlParseListener;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.rest.forms.FileUploadForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,6 +71,15 @@ public class RepositoryWebService {
     public List<ProcessDefinition> getProcessDefinitions() {
 
         return this.repositoryService.getProcessDefinitions();
+    }
+    
+    /**
+     * Activates a process definition.
+     */
+    @Path("/process-definitions/{definitionId}/activate")
+    @POST
+    public void activateProcessDefinition(@PathParam("definitionId") String definitionID) {
+        this.repositoryService.activateProcessDefinition(ProcessDefinitionID.fromString(definitionID));
     }
 
     /**

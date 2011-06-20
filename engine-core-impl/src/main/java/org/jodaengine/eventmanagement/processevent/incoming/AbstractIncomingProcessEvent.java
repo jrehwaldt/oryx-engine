@@ -14,17 +14,23 @@ public abstract class AbstractIncomingProcessEvent extends AbstractProcessEvent 
 
     private EventCondition condition;
 
+    protected TriggeringBehavior triggeringBehavior;
+
     /**
      * Instantiates a new {@link IncomingProcessEvent}.
+     * 
      * @param config
      *            the config
      * @param condition
      *            the conditions
      */
-    protected AbstractIncomingProcessEvent(AdapterConfiguration config, EventCondition condition) {
+    protected AbstractIncomingProcessEvent(AdapterConfiguration config,
+                                           EventCondition condition,
+                                           TriggeringBehavior triggeringBehavior) {
 
         super(config);
         this.condition = condition;
+        this.triggeringBehavior = triggeringBehavior;
     }
 
     @Override
@@ -43,5 +49,19 @@ public abstract class AbstractIncomingProcessEvent extends AbstractProcessEvent 
     }
 
     @Override
-    public abstract void trigger();
+    public void trigger() {
+
+        triggeringBehavior.trigger(this);
+    }
+
+    /**
+     * Sets the TriggeringBehaviour for this {@link IncomingProcessEvent}.
+     * 
+     * @param triggeringBehavior
+     *            - the {@link TriggeringBehavior} that should be set
+     */
+    public void setTriggeringBehaviour(TriggeringBehavior triggeringBehavior) {
+
+        this.triggeringBehavior = triggeringBehavior;
+    }
 }

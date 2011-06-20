@@ -6,7 +6,7 @@ import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 /**
  * This class encapsulate the behavior that should be done in case a {@link IncomingProcessEvent} is triggered.
  */
-public interface TriggeringBehaviour {
+public interface TriggeringBehavior {
 
     /**
      * If an {@link IncomingProcessEvent} is triggered than this method is

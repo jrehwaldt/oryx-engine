@@ -45,6 +45,11 @@ public class OutgoingTwitterSingleAccountTweetAdapterConfiguration extends Abstr
         return adapter;
     }
     
+    /**
+     * Create a new adapter.
+     *
+     * @return the outgoing twitter single account tweet adapter
+     */
     private OutgoingTwitterSingleAccountTweetAdapter createAdapter() {
         return new OutgoingTwitterSingleAccountTweetAdapter(this);
     }

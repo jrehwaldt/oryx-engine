@@ -1,15 +1,11 @@
 package org.jodaengine.rest.demo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.eventmanagement.adapter.EventTypes;
-import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
+import org.jodaengine.eventmanagement.processevent.incoming.start.ImapEmailProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -117,17 +113,11 @@ public final class DemoProcessStartEmailForWebservice {
         ServiceFactory.getRepositoryService().deployInNewScope(deployment);
         
         // Create a mail adapater event here.
-        // TODO @TobiP Could create a builder for this later.
-        IncomingMailAdapterConfiguration config = IncomingMailAdapterConfiguration.jodaGoogleConfiguration();
         EventCondition subjectCondition = null;
         try {
             subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class, "getMessageTopic", "Hallo");
-            List<EventCondition> conditions = new ArrayList<EventCondition>();
-            conditions.add(subjectCondition);
 
-            // StartEvent event = new StartEventImpl( exampleProcessUUID);
-
-            builder.createStartTrigger(EventTypes.Mail, config, conditions, node1);
+            builder.createStartTrigger(new ImapEmailProcessStartEvent(subjectCondition, null), node1);
 
             ServiceFactory.getRepositoryService().activateProcessDefinition(def.getID());
         } catch (JodaEngineRuntimeException e) {

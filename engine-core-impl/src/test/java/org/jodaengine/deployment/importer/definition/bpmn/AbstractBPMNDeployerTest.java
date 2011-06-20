@@ -8,7 +8,6 @@ import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.ProcessDefinitionImporter;
 import org.jodaengine.deployment.importer.definition.BpmnXmlImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
-import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.util.ReflectionUtil;

@@ -1,9 +1,9 @@
 package org.jodaengine.node.activity.bpmn;
 
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.eventmanagement.EventSubscriptionManager;
+import org.jodaengine.eventmanagement.EventSubscriptionManagement;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
-import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.AbstractIncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.ProcessIntermediateManualTriggeringEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
@@ -34,11 +34,11 @@ BpmnEventBasedGatewayEvent {
     @Override
     protected void executeIntern(AbstractToken token) {
 
-        EventSubscriptionManager eventManager = ServiceFactory.getEventManagerService();
+        EventSubscriptionManagement eventManager = ServiceFactory.getEventManagerService();
 
         IncomingIntermediateProcessEvent processEvent = createProcessIntermediateEvent(token);
 
-        eventManager.registerIncomingIntermediateEvent(processEvent);
+        eventManager.subscribeToIncomingIntermediateEvent(processEvent);
 
         token.suspend();
     }
@@ -48,14 +48,8 @@ BpmnEventBasedGatewayEvent {
     // ==== Interface that represents that this event can also be used by other nodes like event-based Gateway ====
     //
     @Override
-    public IncomingIntermediateProcessEvent createProcessIntermediateEvent(Token token) {
+    public AbstractIncomingIntermediateProcessEvent createProcessIntermediateEvent(Token token) {
 
         return new ProcessIntermediateManualTriggeringEvent(name, token);
-    }
-
-    @Override
-    public IncomingIntermediateProcessEvent createProcessIntermediateEventForEventGroup(Token token, TriggeringBehaviour eventGroup) {
-
-        return new ProcessIntermediateManualTriggeringEvent(name, token, eventGroup);
     }
 }

@@ -13,6 +13,6 @@ import org.jodaengine.eventmanagement.subscription.EventUnsubscription;
  * (add information such as an id) and receiving the response.
  * 
  */
-public interface EventSubscriptionManager extends EventUnsubscription, EventSubscription {
+public interface EventSubscriptionManagement extends EventUnsubscription, EventSubscription {
 
 }
