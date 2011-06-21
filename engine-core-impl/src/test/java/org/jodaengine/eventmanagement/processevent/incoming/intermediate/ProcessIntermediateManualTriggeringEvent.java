@@ -2,11 +2,11 @@ package org.jodaengine.eventmanagement.processevent.incoming.intermediate;
 
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapter;
 import org.jodaengine.eventmanagement.adapter.manual.ManualTriggeringAdapterConfiguration;
-import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehaviour;
+import org.jodaengine.eventmanagement.processevent.incoming.TriggeringBehavior;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.TrueEventCondition;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.AbstractIncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.intermediate.processeventgroup.AbstractIntermediateProcessEventGroup;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.triggering.AbstractProcessEventGroup;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.process.token.Token;
 
@@ -29,19 +29,20 @@ public class ProcessIntermediateManualTriggeringEvent extends AbstractIncomingIn
     }
 
     /**
-     * Default Constructor for this event that belongs to a {@link AbstractIntermediateProcessEventGroup}.
+     * Default Constructor for this event that belongs to a {@link AbstractProcessEventGroup}.
      * 
      * @param name
      *            - the name of the {@link ManualTriggeringAdapter}
      * @param token
      *            - the {@link Token} that registered this event.
      * @param eventGroup
-     *            - if this {@link IncomingIntermediateProcessEvent} is related to other {@link IncomingIntermediateProcessEvent} then
-     *            the {@link AbstractIntermediateProcessEventGroup} can be specified here
+     *            - if this {@link IncomingIntermediateProcessEvent} is related to other
+     *            {@link IncomingIntermediateProcessEvent} then
+     *            the {@link AbstractProcessEventGroup} can be specified here
      */
-    public ProcessIntermediateManualTriggeringEvent(String name, Token token, TriggeringBehaviour eventGroup) {
+    public ProcessIntermediateManualTriggeringEvent(String name, Token token, TriggeringBehavior eventGroup) {
 
-        super(new ManualTriggeringAdapterConfiguration(name), new TrueEventCondition(), token,
-            eventGroup);
+        super(new ManualTriggeringAdapterConfiguration(name), new TrueEventCondition(), token);
+        setTriggeringBehaviour(eventGroup);
     }
 }

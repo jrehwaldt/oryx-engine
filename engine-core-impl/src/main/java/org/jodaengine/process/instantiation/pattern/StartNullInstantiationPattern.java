@@ -2,7 +2,7 @@ package org.jodaengine.process.instantiation.pattern;
 
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
-import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.instantiation.StartProcessInstantiationPattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * {@link AbstractProcessInstance processInstance}, this keeps unmodified and is returned.
  */
 public class StartNullInstantiationPattern extends AbstractProcessInstantiationPattern implements
-StartInstantiationPattern {
+StartProcessInstantiationPattern {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

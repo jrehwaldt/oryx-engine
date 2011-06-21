@@ -4,8 +4,8 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.eventmanagement.EventCorrelator;
-import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.EventSubscriptionManagement;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
@@ -26,7 +26,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      * @return the start triggers
      */
     @JsonIgnore
-    Map<ProcessStartEvent, Node> getStartTriggers();
+    Map<IncomingStartProcessEvent, Node> getStartTriggers();
 
     /**
      * Adds the start trigger. If event is invoked, a token will spawn on node.
@@ -38,7 +38,7 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      * @throws IllegalStarteventException
      *             thrown if the provided node isn't a start node.
      */
-    void addStartTrigger(ProcessStartEvent event, Node node)
+    void addStartTrigger(IncomingStartProcessEvent event, Node node)
     throws IllegalStarteventException;
 
     /**
@@ -57,13 +57,13 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      * Responsible for instantiating a process.
      *
      * @param navigator - the {@link NavigatorInside} creating and modifying tokens
-     * @param firedStartEvent - the {@link ProcessStartEvent} that fired the process instantiation
+     * @param firedStartEvent - the {@link IncomingStartProcessEvent} that fired the process instantiation
      * @return a {@link AbstractProcessInstance processInstance}
      */
-    AbstractProcessInstance createProcessInstance(NavigatorInside navigator, ProcessStartEvent firedStartEvent);
+    AbstractProcessInstance createProcessInstance(NavigatorInside navigator, IncomingStartProcessEvent firedStartEvent);
 
     /**
-     * Is responsible for activating the {@link ProcessDefinition}. Perhaps some {@link ProcessStartEvent StartEvents}
+     * Is responsible for activating the {@link ProcessDefinition}. Perhaps some {@link IncomingStartProcessEvent StartEvents}
      * need to
      * be registered.
      * 
@@ -71,10 +71,10 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      *            - the {@link EventCorrelator} in order to register events, perhaps
      * 
      */
-    void activate(EventSubscriptionManager eventManager);
+    void activate(EventSubscriptionManagement eventManager);
 
     /**
-     * Is responsible for deactivating the {@link ProcessDefinition}. Perhaps some {@link ProcessStartEvent StartEvents}
+     * Is responsible for deactivating the {@link ProcessDefinition}. Perhaps some {@link IncomingStartProcessEvent StartEvents}
      * need
      * to be unregistered.
      * 
@@ -82,5 +82,5 @@ public interface ProcessDefinitionInside extends ProcessDefinition {
      *            - the {@link EventCorrelator} in order to unregister events, perhaps
      * 
      */
-    void deactivate(EventSubscriptionManager eventManager);
+    void deactivate(EventSubscriptionManagement eventManager);
 }

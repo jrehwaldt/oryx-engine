@@ -12,7 +12,7 @@ import org.jodaengine.process.token.Token;
 public interface IncomingIntermediateProcessEvent extends IncomingProcessEvent {
 
     /**
-     * Gets the assigned token that has be notified if timer is complete.
+     * Gets the assigned token that has to be notified when the event occurs.
      * 
      * @return the definition id
      */

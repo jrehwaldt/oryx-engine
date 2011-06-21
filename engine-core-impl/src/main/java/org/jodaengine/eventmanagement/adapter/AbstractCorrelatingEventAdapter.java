@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.EventCorrelator;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.subscription.EventSubscription;
 import org.jodaengine.eventmanagement.subscription.EventUnsubscription;
@@ -31,6 +31,7 @@ public abstract class AbstractCorrelatingEventAdapter
     implements EventSubscription, EventUnsubscription, EventCorrelator {
 
     // Both lists are lazyInitialized
+    // TODO @EVENTTEAM rename the processEvents - talk to Gerald
     private List<IncomingProcessEvent> processEvents;
     private List<AdapterEvent> unCorrelatedAdapterEvents;
 
@@ -46,7 +47,7 @@ public abstract class AbstractCorrelatingEventAdapter
     }
 
     @Override
-    public void registerStartEvent(ProcessStartEvent startEvent) {
+    public void subscribeToStartEvent(IncomingStartProcessEvent startEvent) {
 
         // We don't need to check for uncorrelated events since we only want to know about
         // start events from the moment we dployed a process instance
@@ -54,14 +55,14 @@ public abstract class AbstractCorrelatingEventAdapter
     }
 
     @Override
-    public void registerIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
+    public void subscribeToIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
         // TODO @EVENTMANAGERTEAM: Checking if it is already in the list of unCorrelatedAdapterEvents
         getProcessEvents().add(intermediateEvent);
     }
 
     @Override
-    public void unsubscribeFromStartEvent(ProcessStartEvent startEvent) {
+    public void unsubscribeFromStartEvent(IncomingStartProcessEvent startEvent) {
 
         getProcessEvents().remove(startEvent);
     }

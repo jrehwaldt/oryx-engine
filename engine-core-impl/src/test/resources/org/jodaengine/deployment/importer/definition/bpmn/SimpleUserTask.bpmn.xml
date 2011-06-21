@@ -1,36 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
-	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
-	xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:signavio="http://www.signavio.com"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com"
-	exporterVersion="4.7.0" expressionLanguage="http://www.w3.org/1999/XPath"
-	id="process_definition" targetNamespace="http://www.signavio.com/bpmn20"
-	typeLanguage="http://www.w3.org/2001/XMLSchema"
-	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd"
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+    xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" 
+    xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" 
+    xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" 
+    xmlns:signavio="http://www.signavio.com" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com" 
+    exporterVersion="5.0.0" expressionLanguage="http://www.w3.org/1999/XPath" 
+    id="sid-a65c98e4-8bc2-4525-9ad6-2c73e6c65e73" targetNamespace="http://www.signavio.com/bpmn20" 
+    typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd"
     xmlns:joda="http://jodaengine.org/bpmn-extensions">
 
-	<process id="simple_process" name="SimpleUserTask">
-		<documentation>
+   <process id="simple_process" name="SimpleUserTask">
+
+        <documentation>
 			Process that assigns a task to Thorben.
 		</documentation>
+        <startEvent id="start" name="Start"/>
 
-		<startEvent id="start" name="Start" />
-
-		<userTask id="usertask" name="Thorben, please process this task!" joda:form="form.html">
+        <userTask id="participanttask" name="Thorben, please process this task!" joda:form="form.html">
 			<documentation>It is only a demo task.</documentation>
 			<humanPerformer resourceRef="Thorben">
 				<resourceAssignmentExpression>
 					<formalExpression>participant(Thorben)</formalExpression>
 				</resourceAssignmentExpression>
 			</humanPerformer>
-		</userTask>
+	    </userTask>
 
-		<endEvent id="end" name="End" />
+        <userTask id="roletask" name="A Role, please process this task!" joda:form="form2.html">
+			<documentation>It is only a demo task.</documentation>
+			<humanPerformer resourceRef="A Role">
+				<resourceAssignmentExpression>
+					<formalExpression>role(A Role)</formalExpression>
+				</resourceAssignmentExpression>
+			</humanPerformer>
+	    </userTask>
+      
+        <endEvent id="end" name="End" />
+        <sequenceFlow id="sequenceflow1" sourceRef="start"
+			targetRef="participanttask" />
 
-		<sequenceFlow id="sequenceflow1" sourceRef="start"
-			targetRef="usertask" />
-
-		<sequenceFlow id="sequenceflow2" sourceRef="usertask"
+        <sequenceFlow id="sequenceflow2" sourceRef="participanttask"
+			targetRef="roletask" />
+		<sequenceFlow id="sequenceflow3" sourceRef="roletask"
 			targetRef="end" />
-	</process>
+   </process>
 </definitions>

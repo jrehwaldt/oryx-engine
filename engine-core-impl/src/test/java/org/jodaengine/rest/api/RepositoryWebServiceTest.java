@@ -4,14 +4,18 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Set;
 
+import javax.ws.rs.core.MediaType;
+
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
+import org.jodaengine.RepositoryService;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.repository.RepositorySetup;
 import org.jodaengine.util.testing.AbstractJsonServerTest;
@@ -130,5 +134,18 @@ public class RepositoryWebServiceTest extends AbstractJsonServerTest {
 
         Set<ProcessDefinition> definitions = this.mapper.readValue(json, TYPE_REF);
         Assert.assertEquals(definitions.size(), 2);
+    }
+    
+    @Test
+    public void testProcessDefinitionActivation() throws IllegalStarteventException, URISyntaxException {
+        createAnotherProcessDefinition();
+        RepositoryService repo = jodaEngineServices.getRepositoryService();
+        
+        // assuming that only one process definition is deployed.
+        ProcessDefinition definition = repo.getProcessDefinitions().get(0);
+        ProcessDefinitionID id = definition.getID();
+        Assert.assertFalse(definition.isActivated(), "Definition should not be activated yet.");
+        makePOSTRequest(String.format("/repository/process-definitions/%s/activate", id), "", MediaType.TEXT_HTML);
+        Assert.assertTrue(definition.isActivated(), "Definition should be activated now.");
     }
 }

@@ -1,7 +1,7 @@
 package org.jodaengine.eventmanagement.processevent.incoming.start; 
 
 import org.jodaengine.deployment.Deployment;
-import org.jodaengine.eventmanagement.processevent.incoming.start.DefaultProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.start.BaseIncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
@@ -20,7 +20,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * Tests the {@link DefaultProcessStartEvent}.
+ * Tests the {@link BaseIncomingStartProcessEvent}.
  */
 public class DefaultProcessStartEventTest extends AbstractJodaEngineTest {
 
@@ -37,10 +37,10 @@ public class DefaultProcessStartEventTest extends AbstractJodaEngineTest {
     throws DefinitionNotFoundException, InterruptedException {
 
         // Bind the startEvent to a deployed processDefinition
-        DefaultProcessStartEvent startEvent = new DefaultProcessStartEvent(null, null, processDefinitionID);
+        BaseIncomingStartProcessEvent startEvent = new BaseIncomingStartProcessEvent(null, null, processDefinitionID);
         
 
-        Assert.assertNotNull(startEvent.getDefinitionID());
+        Assert.assertNotNull(startEvent.getProcessDefinitionID());
         
         NavigatorImpl navigatorMock = Mockito.mock(NavigatorImpl.class);
         // we don't test the EventManager here, so we inject our mock manually

@@ -11,7 +11,7 @@ import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivation
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
-import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.instantiation.StartProcessInstantiationPattern;
 import org.jodaengine.process.instantiation.pattern.DefaultBpmnProcessInstanceCreationPattern;
 import org.jodaengine.process.structure.Node;
 
@@ -57,10 +57,10 @@ public final class TwitterExampleProcess {
                 .setName(exampleProcessName);
 
             // some patterns that have to be set, those are kind of default values.
-            StartInstantiationPattern startInstantiationPattern = new DefaultBpmnProcessInstanceCreationPattern();
+            StartProcessInstantiationPattern startInstantiationPattern = new DefaultBpmnProcessInstanceCreationPattern();
             builder.addStartInstantiationPattern(startInstantiationPattern);
             ProcessDeActivationPattern activationPattern = new NullProcessDefinitionActivationPattern();
-            builder.addActivationPattern(activationPattern);
+            builder.addDeActivationPattern(activationPattern);
 
             // BUILD!
             ProcessDefinition def = builder.buildDefinition();

@@ -1,6 +1,6 @@
 package org.jodaengine.process.instantiation.pattern;
 
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
@@ -8,20 +8,20 @@ import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
-import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.instantiation.StartProcessInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.builder.BpmnTokenBuilder;
 
 /**
  * This pattern encapsulates the instantiation semantic for BPMN models that are with an
- * dedicated {@link ProcessStartEvent}.
+ * dedicated {@link IncomingStartProcessEvent}.
  * 
- * It also implements the {@link StartInstantiationPattern StartInstantiationPattern-Interface}, so that it can be used
+ * It also implements the {@link StartProcessInstantiationPattern StartInstantiationPattern-Interface}, so that it can be used
  * as one of the first instantiationPattern.
  */
 public class EventBasedInstanceCreationPattern extends AbstractProcessInstantiationPattern implements
-StartInstantiationPattern {
+StartProcessInstantiationPattern {
 
     @Override
     public AbstractProcessInstance createProcessInstance(InstantiationPatternContext patternContext) {
@@ -30,7 +30,7 @@ StartInstantiationPattern {
         ProcessDefinitionInside processDefinition = patternContext.getProcessDefinition();
         NavigatorInside navigator = patternContext.getNavigatorService();
         ExtensionService extensions = patternContext.getExtensionService();
-        ProcessStartEvent startEvent = patternContext.getThrownStartEvent();
+        IncomingStartProcessEvent startEvent = patternContext.getThrownStartEvent();
 
         if (startEvent == null) {
             String errorMessage = "This pattern requires that a start event was thrown, but it is null. "

@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<artifactId>engine-core-impl</artifactId>
 	<name>JodaEngine Implementation</name>
 	<packaging>jar</packaging>
-	
+
 	<parent>
 		<groupId>org.jodaengine</groupId>
 		<artifactId>engine-root</artifactId>
@@ -91,11 +91,11 @@
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jackson-provider</artifactId>
 			<scope>compile</scope>
-		</dependency>		
+		</dependency>
 		<dependency>
-  			<groupId>org.jboss.resteasy</groupId>
-  			<artifactId>resteasy-multipart-provider</artifactId>
-  			<scope>compile</scope>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-multipart-provider</artifactId>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -124,9 +124,9 @@
 			<artifactId>jericho-html</artifactId>
 		</dependency>
 		<!-- Adapterstuff -->
-         <dependency>
-	         <groupId>org.twitter4j</groupId>
-	          <artifactId>twitter4j-core</artifactId>
-   		 </dependency>
+		<dependency>
+			<groupId>org.twitter4j</groupId>
+			<artifactId>twitter4j-core</artifactId>
+		</dependency>
 	</dependencies>
 </project>

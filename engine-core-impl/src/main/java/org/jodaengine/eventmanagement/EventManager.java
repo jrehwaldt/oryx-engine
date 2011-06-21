@@ -14,9 +14,8 @@ import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingMessagingAdapter;
-import org.jodaengine.eventmanagement.adapter.twitter.OutgoingTwitterSingleAccountTweetAdapter;
 import org.jodaengine.eventmanagement.processevent.ProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.timing.QuartzJobManager;
 import org.jodaengine.eventmanagement.timing.TimingManager;
@@ -24,8 +23,6 @@ import org.jodaengine.exception.AdapterSchedulingException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import twitter4j.TwitterException;
 
 /**
  * A concrete implementation of our engines Event Manager.
@@ -90,24 +87,24 @@ public class EventManager implements EventManagerService {
     // ==== EventSubscription ====
 
     @Override
-    public void registerStartEvent(ProcessStartEvent startEvent) {
+    public void subscribeToStartEvent(IncomingStartProcessEvent startEvent) {
 
         // startEvents need the NavigatorService in order to start a process instance
         startEvent.injectNavigatorService(services.getNavigatorService());
         AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(startEvent);
-        correlatingAdapter.registerStartEvent(startEvent);
+        correlatingAdapter.subscribeToStartEvent(startEvent);
     }
 
     @Override
-    public void registerIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
+    public void subscribeToIncomingIntermediateEvent(IncomingIntermediateProcessEvent intermediateEvent) {
 
         AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(intermediateEvent);
-        correlatingAdapter.registerIncomingIntermediateEvent(intermediateEvent);
+        correlatingAdapter.subscribeToIncomingIntermediateEvent(intermediateEvent);
     }
 
     // QUESTION: Just call it unsubscribeStartEvent ?
     @Override
-    public void unsubscribeFromStartEvent(ProcessStartEvent startEvent) {
+    public void unsubscribeFromStartEvent(IncomingStartProcessEvent startEvent) {
 
         AbstractCorrelatingEventAdapter<?> correlatingAdapter = (AbstractCorrelatingEventAdapter<?>) getAdapterForProcessEvent(startEvent);
         correlatingAdapter.unsubscribeFromStartEvent(startEvent);
@@ -174,8 +171,7 @@ public class EventManager implements EventManagerService {
 
         // Otherwise we will register a new one
         // Delegate the work of registering the adapter to the configuration
-        eventAdapter = (AbstractEventAdapter<?>) processEvent.getAdapterConfiguration()
-        .registerAdapter(this);
+        eventAdapter = (AbstractEventAdapter<?>) processEvent.getAdapterConfiguration().registerAdapter(this);
         return eventAdapter;
     }
 
@@ -273,6 +269,6 @@ public class EventManager implements EventManagerService {
     public void sendMessageFromAdapter(Message message, ProcessEvent event) {
 
         OutgoingMessagingAdapter adapter = (OutgoingMessagingAdapter) getAdapterForProcessEvent(event);
-            adapter.sendMessage(message);
+        adapter.sendMessage(message);
     }
 }
