@@ -9,4 +9,5 @@ Kopntrollfluss
 Human task/Nutzeraktivität etc.
 Eventsubscription/Ereignisregistrierung
 Ereignis
+Prozessereignis
 
