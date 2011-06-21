@@ -37,7 +37,7 @@ public class TweetActivity extends AbstractActivity {
         EventService eventManager = token.getEventManagerService();
 
         OutgoingTweetEvent processEvent = createTwitterProcessEvent();
-        eventManager.sendMessageFromAdapter(new MessageImpl(message), processEvent);
+        eventManager.sendMessage(new MessageImpl(message), processEvent);
     }
     
     /**

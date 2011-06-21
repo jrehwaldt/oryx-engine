@@ -266,7 +266,7 @@ public class EventManager implements EventService {
     }
 
     @Override
-    public void sendMessageFromAdapter(Message message, ProcessEvent event) {
+    public void sendMessage(Message message, ProcessEvent event) {
 
         OutgoingMessagingAdapter adapter = (OutgoingMessagingAdapter) getAdapterForProcessEvent(event);
         adapter.sendMessage(message);

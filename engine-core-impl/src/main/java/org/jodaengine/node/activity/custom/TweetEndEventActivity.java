@@ -27,7 +27,7 @@ public class TweetEndEventActivity extends AbstractActivity {
 
         String messageToSend = "Processinstance with ID " + token.getInstance().getID().toString() 
             + " finished execution...";
-        eventManager.sendMessageFromAdapter(new MessageImpl(messageToSend), processEvent);
+        eventManager.sendMessage(new MessageImpl(messageToSend), processEvent);
     }
     
     /**
