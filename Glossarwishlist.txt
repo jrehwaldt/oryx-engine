@@ -1,0 +1,11 @@
+Geschäftsprozessmodell/Prozessmodell
+Geschäftsprozess
+Prozessinstanz
+Prozessengine
+Prozessumgebung
+Token
+Kopntrollfluss
+Human task/Nutzeraktivität etc.
+Eventsubscription/Ereignisregistrierung
+Ereignis
+
