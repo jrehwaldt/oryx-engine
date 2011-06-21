@@ -2,6 +2,7 @@ Geschäftsprozessmodell/Prozessmodell
 Geschäftsprozess
 Prozessinstanz
 Prozessengine
+Prozessdefinition
 Prozessumgebung
 Token
 Kopntrollfluss

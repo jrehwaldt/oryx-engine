@@ -7,6 +7,6 @@ import org.jodaengine.bootstrap.Service;
  * 
  * For more specific details see everys single interface it implements.
  */
-public interface EventManagerService extends EventSubscriptionManagement, AdapterManagement, Service, SendEvents {
+public interface EventService extends EventSubscriptionManagement, AdapterManagement, Service, SendEvents {
 
 }

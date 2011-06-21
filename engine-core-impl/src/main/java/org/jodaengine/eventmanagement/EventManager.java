@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 /**
  * A concrete implementation of our engines Event Manager.
  */
-public class EventManager implements EventManagerService {
+public class EventManager implements EventService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

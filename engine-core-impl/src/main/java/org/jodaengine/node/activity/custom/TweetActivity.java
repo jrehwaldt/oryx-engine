@@ -1,6 +1,6 @@
 package org.jodaengine.node.activity.custom;
 
-import org.jodaengine.eventmanagement.EventManagerService;
+import org.jodaengine.eventmanagement.EventService;
 import org.jodaengine.eventmanagement.adapter.MessageImpl;
 import org.jodaengine.eventmanagement.adapter.twitter.OutgoingTwitterSingleAccountTweetAdapterConfiguration;
 import org.jodaengine.eventmanagement.processevent.outgoing.OutgoingTweetEvent;
@@ -34,7 +34,7 @@ public class TweetActivity extends AbstractActivity {
     @Override
     protected void executeIntern(AbstractToken token) {
 
-        EventManagerService eventManager = token.getEventManagerService();
+        EventService eventManager = token.getEventManagerService();
 
         OutgoingTweetEvent processEvent = createTwitterProcessEvent();
         eventManager.sendMessageFromAdapter(new MessageImpl(message), processEvent);

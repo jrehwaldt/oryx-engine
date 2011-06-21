@@ -3,7 +3,7 @@ package org.jodaengine.process.definition.pattern;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jodaengine.eventmanagement.EventManagerService;
+import org.jodaengine.eventmanagement.EventService;
 import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.process.activation.ProcessDefinitionActivationPatternContext;
 import org.jodaengine.process.activation.pattern.RegisterAllStartEventPattern;
@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 public class RegisterAllStartEventPatternTest {
 
     private ProcessDefinitionActivationPatternContext patternContext;
-    private EventManagerService eventManager;
+    private EventService eventManager;
     private IncomingStartProcessEvent startEvent1;
     private IncomingStartProcessEvent startEvent2;
 
@@ -32,7 +32,7 @@ public class RegisterAllStartEventPatternTest {
     public void setUpMocks() {
 
         patternContext = Mockito.mock(ProcessDefinitionActivationPatternContext.class);
-        eventManager = Mockito.mock(EventManagerService.class);
+        eventManager = Mockito.mock(EventService.class);
         Mockito.when(patternContext.getEventManagerService()).thenReturn(eventManager);
 
         BpmnProcessDefinition processDefinition = Mockito.mock(BpmnProcessDefinition.class);

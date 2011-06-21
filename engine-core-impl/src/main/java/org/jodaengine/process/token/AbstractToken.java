@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.RepositoryServiceInside;
-import org.jodaengine.eventmanagement.EventManagerService;
+import org.jodaengine.eventmanagement.EventService;
 import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.exception.InstanceTerminationHandler;
 import org.jodaengine.ext.exception.LoggerExceptionHandler;
@@ -272,7 +272,7 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
     //
     @Override
     @JsonIgnore
-    public EventManagerService getEventManagerService() {
+    public EventService getEventManagerService() {
 
         return serviceContext.getEventManagerService();
     }

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.jodaengine.RepositoryServiceInside;
 import org.jodaengine.ServiceFactory;
-import org.jodaengine.eventmanagement.EventManagerService;
+import org.jodaengine.eventmanagement.EventService;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.resource.IdentityService;
@@ -30,7 +30,7 @@ public class ServiceContextImpl implements ServiceContext {
     }
 
     @Override
-    public EventManagerService getEventManagerService() {
+    public EventService getEventManagerService() {
         return ServiceFactory.getEventManagerService();
     }
 

@@ -8,7 +8,7 @@ import org.jodaengine.eventmanagement.processevent.incoming.intermediate.Incomin
 
 
 /**
- * This interface provides methods for registering events to the {@link EventManagerService}.
+ * This interface provides methods for registering events to the {@link EventService}.
  */
 public interface EventSubscription {
 
