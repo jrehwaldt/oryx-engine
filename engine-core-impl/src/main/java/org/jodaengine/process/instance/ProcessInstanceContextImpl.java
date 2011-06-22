@@ -36,7 +36,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     @Override
-    public void setWaitingExecution(ControlFlow t) {
+    public void setSignaledControlFlow(ControlFlow t) {
 
         List<ControlFlow> tmpList;
         if (waitingControlFlows.get(t.getDestination()) != null) {
@@ -51,7 +51,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     @Override
-    public List<ControlFlow> getWaitingExecutions(Node n) {
+    public List<ControlFlow> getSignaledControlFlow(Node n) {
 
         return waitingControlFlows.get(n);
     }
@@ -70,7 +70,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     @Override
-    public void removeIncomingControlFlows(Node node) {
+    public void removeSignaledControlFlows(Node node) {
 
         List<ControlFlow> signaledControlFlows = waitingControlFlows.get(node);
         List<ControlFlow> incomingControlFlows = node.getIncomingControlFlows();
@@ -187,25 +187,23 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
         }
         return nodeVariables;
     }
-    
+
     private String generateNodeVariableIdentifier(Node node, String variableName) {
+
         return node.getID() + "-" + variableName;
     }
 
     @Override
-    public void removeIncomingControlFlow(ControlFlow controlFlow, Node node) {
+    public void removeSignaledControlFlow(ControlFlow controlFlow) {
 
         List<ControlFlow> signaledControlFlows = waitingControlFlows.get(controlFlow.getDestination());
-        // The map is referencing to every Destination all the incoming Transitions. But we need to check the start node, in order to delete it.
-        for(ControlFlow t : signaledControlFlows) {
-            if(t.getSource() == node) {
-                List<ControlFlow> incomingControlFlows = new ArrayList<ControlFlow>();
-                incomingControlFlows.add(controlFlow);
-                removeSubset(signaledControlFlows, incomingControlFlows);
-                break;
-            }
+        // The map is referencing to every Destination all the incoming Transitions. But we need to check the start
+        // node, in order to delete it.
+
+        boolean containedControlFlow = true;
+        while (containedControlFlow) {
+            containedControlFlow = signaledControlFlows.remove(controlFlow);
         }
 
-        
     }
 }

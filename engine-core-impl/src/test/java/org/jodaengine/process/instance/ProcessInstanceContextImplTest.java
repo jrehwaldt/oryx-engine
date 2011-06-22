@@ -36,11 +36,11 @@ public class ProcessInstanceContextImplTest {
         Node n = mock(Node.class);
         when(t.getDestination()).thenReturn(n);
 
-        context.setWaitingExecution(t);
+        context.setSignaledControlFlow(t);
 
         ArrayList<ControlFlow> expected = new ArrayList<ControlFlow>();
         expected.add(t);
-        assertEquals(context.getWaitingExecutions(n), expected);
+        assertEquals(context.getSignaledControlFlow(n), expected);
 
     }
 
@@ -57,13 +57,13 @@ public class ProcessInstanceContextImplTest {
         when(t.getDestination()).thenReturn(n);
         when(t2.getDestination()).thenReturn(n);
 
-        context.setWaitingExecution(t);
-        context.setWaitingExecution(t2);
+        context.setSignaledControlFlow(t);
+        context.setSignaledControlFlow(t2);
 
         ArrayList<ControlFlow> expected = new ArrayList<ControlFlow>();
         expected.add(t);
         expected.add(t2);
-        assertEquals(context.getWaitingExecutions(n), expected);
+        assertEquals(context.getSignaledControlFlow(n), expected);
     }
 
     /**
@@ -78,7 +78,7 @@ public class ProcessInstanceContextImplTest {
         when(t.getDestination()).thenReturn(n);
 
         // Save the {@link ControlFlow} in the context Map
-        context.setWaitingExecution(t);
+        context.setSignaledControlFlow(t);
 
         // Build a list out of it
         ArrayList<ControlFlow> controlFlowList = new ArrayList<ControlFlow>();
@@ -88,10 +88,10 @@ public class ProcessInstanceContextImplTest {
         when(n.getIncomingControlFlows()).thenReturn(controlFlowList);
 
         // The method to test, finally...
-        context.removeIncomingControlFlows(n);
+        context.removeSignaledControlFlows(n);
 
         // Now the list should be empty, because the remove private method was called in the context
-        assertEquals(context.getWaitingExecutions(n).size(), 0);
+        assertEquals(context.getSignaledControlFlow(n).size(), 0);
     }
 
     /**
@@ -119,8 +119,8 @@ public class ProcessInstanceContextImplTest {
         when(t.getDestination()).thenReturn(n);
         when(t2.getDestination()).thenReturn(n);
         
-        context.setWaitingExecution(t);
-        context.setWaitingExecution(t2);
+        context.setSignaledControlFlow(t);
+        context.setSignaledControlFlow(t2);
 
         // Build a list out of it
         ArrayList<ControlFlow> controlFlowList = new ArrayList<ControlFlow>();
