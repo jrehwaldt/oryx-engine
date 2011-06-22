@@ -43,7 +43,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     public boolean joinable(Token token, Node node) {
         //TODO Use node instead of getCurrentNode, Ask Thorben if this is ok!
         ProcessInstanceContext context = token.getInstance().getContext();
-        List<ControlFlow> signaledControlFlows = context.getSignaledControlFlow(token.getCurrentNode());
+        List<ControlFlow> signaledControlFlows = context.getSignaledControlFlows(token.getCurrentNode());
 
         // make a set to ignore doubled entries, etc.
         Set<ControlFlow> singaledControlFlowsSet = new HashSet<ControlFlow>(signaledControlFlows);

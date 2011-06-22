@@ -34,7 +34,7 @@ public interface ProcessInstanceContext {
      *            the node that the signaled {@link ControlFlow}s are checked for
      * @return a list of all incoming {@link ControlFlow}s that have been signaled so far
      */
-    List<ControlFlow> getSignaledControlFlow(Node n);
+    List<ControlFlow> getSignaledControlFlows(Node n);
 
     /**
      * Determines, whether all incoming {@link ControlFlow}s for the given node haven been signaled.

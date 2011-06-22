@@ -51,7 +51,7 @@ public class ProcessInstanceContextImpl implements ProcessInstanceContext {
     }
 
     @Override
-    public List<ControlFlow> getSignaledControlFlow(Node n) {
+    public List<ControlFlow> getSignaledControlFlows(Node n) {
 
         return waitingControlFlows.get(n);
     }

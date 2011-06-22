@@ -40,7 +40,7 @@ public class ProcessInstanceContextImplTest {
 
         ArrayList<ControlFlow> expected = new ArrayList<ControlFlow>();
         expected.add(t);
-        assertEquals(context.getSignaledControlFlow(n), expected);
+        assertEquals(context.getSignaledControlFlows(n), expected);
 
     }
 
@@ -63,7 +63,7 @@ public class ProcessInstanceContextImplTest {
         ArrayList<ControlFlow> expected = new ArrayList<ControlFlow>();
         expected.add(t);
         expected.add(t2);
-        assertEquals(context.getSignaledControlFlow(n), expected);
+        assertEquals(context.getSignaledControlFlows(n), expected);
     }
 
     /**
@@ -91,7 +91,7 @@ public class ProcessInstanceContextImplTest {
         context.removeSignaledControlFlows(n);
 
         // Now the list should be empty, because the remove private method was called in the context
-        assertEquals(context.getSignaledControlFlow(n).size(), 0);
+        assertEquals(context.getSignaledControlFlows(n).size(), 0);
     }
 
     /**
