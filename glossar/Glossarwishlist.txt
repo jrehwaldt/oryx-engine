@@ -10,4 +10,5 @@ Human task/Nutzeraktivität etc./manuelle Aktivität
 Eventsubscription/Ereignisregistrierung
 Ereignis
 Prozessereignis
+Deployment
 
