@@ -14,5 +14,5 @@ public interface SendEvents {
      * @param message the message
      * @param event the configuration of the adapter you want to send this message from
      */
-    void sendMessageFromAdapter(Message message, ProcessEvent event);
+    void sendMessage(Message message, ProcessEvent event);
 }

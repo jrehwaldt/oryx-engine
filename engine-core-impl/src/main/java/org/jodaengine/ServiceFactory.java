@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jodaengine.bootstrap.JodaEngineAppContext;
 import org.jodaengine.eventmanagement.EventCorrelator;
-import org.jodaengine.eventmanagement.EventManagerService;
+import org.jodaengine.eventmanagement.EventService;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.resource.IdentityService;
@@ -84,9 +84,9 @@ public final class ServiceFactory {
      * 
      * @return the event service
      */
-    public static @Nonnull EventManagerService getEventManagerService() {
+    public static @Nonnull EventService getEventManagerService() {
 
-        return (EventManagerService) JodaEngineAppContext.getBean("eventManagerService");
+        return (EventService) JodaEngineAppContext.getBean("eventManagerService");
     }
     
     /**

@@ -5,7 +5,7 @@ import org.jodaengine.eventmanagement.adapter.Message;
 
 
 /**
- * This interface should be implemented by {@link EventManagerService} adapters,
+ * This interface should be implemented by {@link EventService} adapters,
  * which allow outgoing communication. This includes,
  * e.g. email sending adapter.
  */

@@ -35,7 +35,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     public synchronized List<Token> join(Token token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
-        context.setWaitingExecution(token.getLastTakenControlFlow());
+        context.setSignaledControlFlow(token.getLastTakenControlFlow());
         return super.join(token);
     }
 
@@ -43,7 +43,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     public boolean joinable(Token token, Node node) {
         //TODO Use node instead of getCurrentNode, Ask Thorben if this is ok!
         ProcessInstanceContext context = token.getInstance().getContext();
-        List<ControlFlow> signaledControlFlows = context.getWaitingExecutions(token.getCurrentNode());
+        List<ControlFlow> signaledControlFlows = context.getSignaledControlFlows(token.getCurrentNode());
 
         // make a set to ignore doubled entries, etc.
         Set<ControlFlow> singaledControlFlowsSet = new HashSet<ControlFlow>(signaledControlFlows);
@@ -82,7 +82,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
                 // we do not forward tokens here, as this is not specified by the discriminator pattern. Implement this,
                 // if you want to implement the complete complex gateway behaviour as specified.
                 setGatewayState(context, token.getCurrentNode(), ComplexGatewayState.WAITING_FOR_START);
-                context.removeIncomingControlFlows(token.getCurrentNode());
+                context.removeSignaledControlFlows(token.getCurrentNode());
 
                 // recursively trigger again as often, as its possible (should be usually only once, as the gateway
                 // cannot be reset after anymore.

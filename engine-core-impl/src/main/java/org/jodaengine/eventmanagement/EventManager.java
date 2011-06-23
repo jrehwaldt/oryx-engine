@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 /**
  * A concrete implementation of our engines Event Manager.
  */
-public class EventManager implements EventManagerService {
+public class EventManager implements EventService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -266,7 +266,7 @@ public class EventManager implements EventManagerService {
     }
 
     @Override
-    public void sendMessageFromAdapter(Message message, ProcessEvent event) {
+    public void sendMessage(Message message, ProcessEvent event) {
 
         OutgoingMessagingAdapter adapter = (OutgoingMessagingAdapter) getAdapterForProcessEvent(event);
         adapter.sendMessage(message);

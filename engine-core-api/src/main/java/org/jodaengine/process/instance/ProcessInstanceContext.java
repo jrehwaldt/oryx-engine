@@ -19,13 +19,13 @@ import org.jodaengine.process.structure.Node;
 public interface ProcessInstanceContext {
 
     /**
-     * Signals that the declared {@link ControlFlow} has been taken.
-     * If all transitions (e.g. for an AND-join) have been signaled the process can continue execution.
+     * Signals that the declared {@link ControlFlow} has been taken. Can be used to synchronize several control flows in
+     * a control flow construct.
      * 
-     * @param t
+     * @param c
      *            the {@link ControlFlow} that is signaled
      */
-    void setWaitingExecution(ControlFlow t);
+    void setSignaledControlFlow(ControlFlow c);
 
     /**
      * Gets all {@link ControlFlow}s that are incoming to a node and that have been signaled.
@@ -34,7 +34,7 @@ public interface ProcessInstanceContext {
      *            the node that the signaled {@link ControlFlow}s are checked for
      * @return a list of all incoming {@link ControlFlow}s that have been signaled so far
      */
-    List<ControlFlow> getWaitingExecutions(Node n);
+    List<ControlFlow> getSignaledControlFlows(Node n);
 
     /**
      * Determines, whether all incoming {@link ControlFlow}s for the given node haven been signaled.
@@ -54,15 +54,16 @@ public interface ProcessInstanceContext {
      * @param n
      *            the node that triggered
      */
-    void removeIncomingControlFlows(Node n);
-    
+    void removeSignaledControlFlows(Node n);
+
     /**
-     * Removes the incoming {@link ControlFlow} for a specific node.
-     *
-     * @param controlFlow the {@link ControlFlow}
-     * @param node the node
+     * Removes the signaled state of a control flow {@link ControlFlow} once. The control flow can still be signaled: If
+     * it was signaled twice and this method was called once, the control flow is still signaled once.
+     * 
+     * @param controlFlow
+     *            the {@link ControlFlow}
      */
-    void removeIncomingControlFlow(ControlFlow controlFlow, Node node);
+    void removeSignaledControlFlow(ControlFlow controlFlow);
 
     /**
      * Sets the variable in the process context.
@@ -98,19 +99,23 @@ public interface ProcessInstanceContext {
 
     /**
      * Sets a variable for a node that might be required by basically any token that belongs to the.
-     *
-     * @param node the node
-     * @param name the name
-     * @param value the value
-     * {@link AbstractProcessInstance} to perform process execution.
+     * 
+     * @param node
+     *            the node
+     * @param name
+     *            the name
+     * @param value
+     *            the value {@link AbstractProcessInstance} to perform process execution.
      */
     void setNodeVariable(Node node, String name, Object value);
 
     /**
      * Gets a variable that has been defined for this node in the current context.
-     *
-     * @param node the node
-     * @param name the name
+     * 
+     * @param node
+     *            the node
+     * @param name
+     *            the name
      * @return the internal variable or <code>null</code>, if the variable was not previously set
      */
     Object getNodeVariable(Node node, String name);
