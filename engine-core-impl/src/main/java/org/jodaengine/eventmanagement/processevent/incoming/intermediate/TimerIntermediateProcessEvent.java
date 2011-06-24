@@ -18,6 +18,6 @@ public class TimerIntermediateProcessEvent extends AbstractIncomingIntermediateP
      */
     public TimerIntermediateProcessEvent(long eventWaitingTime, Token token) {
 
-        super(new TimerAdapterConfiguration(eventWaitingTime, false), token);
+        super(new TimerAdapterConfiguration(eventWaitingTime, true), token);
     }
 }

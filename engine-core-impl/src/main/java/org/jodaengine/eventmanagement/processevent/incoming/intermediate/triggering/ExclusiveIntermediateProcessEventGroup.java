@@ -29,7 +29,7 @@ public class ExclusiveIntermediateProcessEventGroup extends AbstractThreadSafeIn
     @Override
     public void triggerIntern(IncomingIntermediateProcessEvent processIntermediateEvent) {
 
-        if (!getIntermediateEvents().remove(processIntermediateEvent)) {
+        if (!getGroupedEvents().remove(processIntermediateEvent)) {
 
             // Then it means the element that should be deleted was not in the list of registered Events
             String errorMessage = "The processIntermediateEvent '" + processIntermediateEvent.toString()
@@ -51,7 +51,7 @@ public class ExclusiveIntermediateProcessEventGroup extends AbstractThreadSafeIn
 
         // Unsubscribing the other registered events; doing it as early as possible
         EventSubscriptionManagement eventManager = ServiceFactory.getEventManagerService();
-        for (AbstractIncomingProcessEvent registeredProcessEvent : getIntermediateEvents()) {
+        for (AbstractIncomingProcessEvent registeredProcessEvent : getGroupedEvents()) {
             eventManager.unsubscribeFromIncomingIntermediateEvent((IncomingIntermediateProcessEvent) registeredProcessEvent);
         }
     }

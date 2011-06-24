@@ -42,7 +42,7 @@ public abstract class AbstractProcessEventGroup implements TriggeringBehavior {
      */
     public AbstractProcessEventGroup addIncomingProcessEventToGroup(AbstractIncomingProcessEvent processIntermediateEvent) {
 
-        getIntermediateEvents().add(processIntermediateEvent);
+        getGroupedEvents().add(processIntermediateEvent);
         processIntermediateEvent.setTriggeringBehaviour(this);
 
         return this;
@@ -53,7 +53,7 @@ public abstract class AbstractProcessEventGroup implements TriggeringBehavior {
      * 
      * @return a {@link List} of {@link AbstractIncomingProcessEvent}s
      */
-    protected List<AbstractIncomingProcessEvent> getIntermediateEvents() {
+    protected List<AbstractIncomingProcessEvent> getGroupedEvents() {
 
         if (groupedIncomingProcessEvents == null) {
             groupedIncomingProcessEvents = new ArrayList<AbstractIncomingProcessEvent>();

@@ -21,6 +21,6 @@ public class TimerStartProcessEvent extends BaseIncomingStartProcessEvent {
      */
     public TimerStartProcessEvent(long eventWaitingTime, ProcessDefinitionID definitionID) {
 
-        super(new TimerAdapterConfiguration(eventWaitingTime, true), definitionID);
+        super(new TimerAdapterConfiguration(eventWaitingTime, false), definitionID);
     }
 }

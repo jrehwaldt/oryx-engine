@@ -32,6 +32,7 @@ public abstract class AbstractThreadSafeIntermediateProcessEventGroup extends Ab
 
         // If it was already called then leave right now
         if (called) {
+            this.called = true;
             return;
         }
 

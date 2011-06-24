@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class GerardoReferenceProcess {
 
-    private static final int START_INTERVAL = 5000;
+    private static final int START_INTERVAL = 20000;
 
     private static final int TIME_INTERMEDIATE_EVENT_TIME_1 = 5000;
 

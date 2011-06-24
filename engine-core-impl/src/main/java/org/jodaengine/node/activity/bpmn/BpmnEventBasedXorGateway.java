@@ -46,7 +46,6 @@ public class BpmnEventBasedXorGateway extends AbstractCancelableActivity {
                 // Setting the node that has fired the event; the node is not that one the execution is currently
                 // pointing at but rather the node that contained the event
                 processEvent.setFireringNode(node);
-                //processEvent.setTriggeringBehaviour(eventXorGroup);
 
                 eventXorGroup.addIncomingProcessEventToGroup(processEvent);
 
