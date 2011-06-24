@@ -37,7 +37,7 @@ public class EventManager implements EventService {
      */
     private Map<AdapterConfiguration, EventAdapter> eventAdapters;
 
-    private QuartzJobManager timingManager;
+    private TimingManager timingManager;
 
     private ErrorAdapter errorAdapter;
 

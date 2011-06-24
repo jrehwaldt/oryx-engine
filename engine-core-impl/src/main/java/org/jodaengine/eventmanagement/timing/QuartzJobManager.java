@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import org.jodaengine.bootstrap.Service;
 import org.jodaengine.eventmanagement.adapter.configuration.PullAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
@@ -298,37 +299,6 @@ public class QuartzJobManager implements TimingManager {
         return String.format("job-group-%s", configuration.getUniqueName());
     }
 
-    // @Override
-    // public String registerNonRecurringJob(TimerConfiguration configuration, Token token)
-    // throws AdapterSchedulingException {
-    //
-    // JobDetail jobDetail = new JobDetail(jobName(configuration), jobGroupName(configuration),
-    // configuration.getScheduledClass());
-    // JobDataMap data = jobDetail.getJobDataMap();
-    // data.put(TimingManagerImpl.TOKEN_KEY, token);
-    //
-    // Calendar date = new GregorianCalendar();
-    // date.setTimeInMillis(System.currentTimeMillis() + configuration.getTimeInterval());
-    //
-    // Trigger trigger = new SimpleTrigger(triggerName(configuration), date.getTime());
-    //
-    // registerJob(jobDetail, trigger);
-    //
-    // return jobDetail.getFullName();
-    //
-    // }
-
-    // @Override
-    // public void unregisterJob(String jobCompleteName) {
-
-    // String[] tmp = jobCompleteName.split("\\.");
-    // try {
-    // this.scheduler.deleteJob(tmp[1], tmp[0]);
-    // } catch (SchedulerException e) {
-    // e.printStackTrace();
-    // }
-    // }
-
     /**
      * Getter for {@link QuartzJobManager#runningJobKeyTable}.
      * 
@@ -342,36 +312,6 @@ public class QuartzJobManager implements TimingManager {
         return runningJobKeyTable;
     }
 
-    // @Override
-    // public String registerNonRecurringJob(TimerConfiguration configuration, Token token)
-    // throws AdapterSchedulingException {
-    //
-    // JobDetail jobDetail = new JobDetail(jobName(configuration), jobGroupName(configuration),
-    // configuration.getScheduledClass());
-    // JobDataMap data = jobDetail.getJobDataMap();
-    // data.put(TimingManagerImpl.TOKEN_KEY, token);
-    //
-    // Calendar date = new GregorianCalendar();
-    // date.setTimeInMillis(System.currentTimeMillis() + configuration.getTimeInterval());
-    //
-    // Trigger trigger = new SimpleTrigger(triggerName(configuration), date.getTime());
-    //
-    // registerJob(jobDetail, trigger);
-    //
-    // return jobDetail.getFullName();
-    //
-    // }
-    
-    // @Override
-    // public void unregisterJob(String jobCompleteName) {
-    
-    // String[] tmp = jobCompleteName.split("\\.");
-    // try {
-    // this.scheduler.deleteJob(tmp[1], tmp[0]);
-    // } catch (SchedulerException e) {
-    // e.printStackTrace();
-    // }
-    // }
     
     // === testing method ===
     /**
@@ -384,17 +324,4 @@ public class QuartzJobManager implements TimingManager {
         return getRunningJobKeyTable().size();
     }
 
-    // public void emptyScheduler()
-    // throws SchedulerException {
-
-    // String[] groups = scheduler.getJobGroupNames();
-    // for (String group : groups) {
-    // String[] jobs = scheduler.getJobNames(group);
-    // for (String job : jobs) {
-    // unregisterJob(group + "." + job);
-    // }
-    //
-    // }
-
-    // }
 }
