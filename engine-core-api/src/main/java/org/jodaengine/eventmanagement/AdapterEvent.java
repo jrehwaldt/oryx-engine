@@ -8,7 +8,7 @@ import org.jodaengine.eventmanagement.adapter.EventType;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 
 /**
- * A basic event, which is returned to the {@link EventManagerService} by adapter implementations.
+ * A basic event, which is returned to the {@link EventService} by adapter implementations.
  */
 public interface AdapterEvent {
 

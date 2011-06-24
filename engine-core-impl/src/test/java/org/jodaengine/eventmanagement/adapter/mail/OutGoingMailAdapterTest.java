@@ -9,6 +9,10 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
+import org.jodaengine.eventmanagement.adapter.AddressableMessage;
+import org.jodaengine.eventmanagement.adapter.AddressableMessageImpl;
+import org.jodaengine.eventmanagement.adapter.AddressableMessageWithSubject;
+import org.jodaengine.eventmanagement.adapter.AddressableMessageWithSubjectImpl;
 import org.jvnet.mock_javamail.Mailbox;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -56,7 +60,7 @@ public class OutGoingMailAdapterTest {
      */
     @Test
     public void testSendingEmailWithDefaultSubject() throws MessagingException, IOException {
-        outgoingMailAdapter.sendMessage(RECIPIENT, MESSAGE);
+        outgoingMailAdapter.sendMessage(createAddressableMessage(RECIPIENT, MESSAGE));
         
         Mailbox mailbox = Mailbox.get(RECIPIENT);
         Assert.assertEquals(mailbox.size(), 1);
@@ -72,7 +76,7 @@ public class OutGoingMailAdapterTest {
      */
     @Test
     public void testSimpleSend() throws MessagingException, IOException {
-        outgoingMailAdapter.sendMessage(RECIPIENT, SUBJECT, MESSAGE);
+        outgoingMailAdapter.sendMessage(createAddressableMessageWithSubject(RECIPIENT, SUBJECT, MESSAGE));
         
         Mailbox mailbox = Mailbox.get(RECIPIENT);
         Assert.assertEquals(mailbox.size(), 1);
@@ -88,8 +92,10 @@ public class OutGoingMailAdapterTest {
      */
     @Test
     public void testSendTwoEmails() throws AddressException {
-        outgoingMailAdapter.sendMessage(RECIPIENT, SUBJECT, MESSAGE);
-        outgoingMailAdapter.sendMessage(RECIPIENT, "another subject", "Another message");
+        outgoingMailAdapter.sendMessage(createAddressableMessageWithSubject(RECIPIENT, SUBJECT, MESSAGE));
+        outgoingMailAdapter.sendMessage(createAddressableMessageWithSubject(RECIPIENT, 
+                                                                            "another subject",
+                                                                            "Another message"));
         
         Assert.assertEquals(Mailbox.get(RECIPIENT).size(), 2);
     }
@@ -101,11 +107,36 @@ public class OutGoingMailAdapterTest {
      */
     @Test
     public void testSendTwoEmailsToDifferentReceipents() throws AddressException {
-        outgoingMailAdapter.sendMessage(RECIPIENT, MESSAGE);
-        outgoingMailAdapter.sendMessage(OTHER_RECIPIENT, "Hello other guy!");
+        outgoingMailAdapter.sendMessage(createAddressableMessage(RECIPIENT, MESSAGE));
+        outgoingMailAdapter.sendMessage(createAddressableMessage(OTHER_RECIPIENT, "Hello other guy!"));
         
         Assert.assertEquals(Mailbox.get(RECIPIENT).size(), 1);
         Assert.assertEquals(Mailbox.get(OTHER_RECIPIENT).size(), 1);
+    }
+    
+    /**
+     * Creates the addressable message.
+     *
+     * @param recipient the recipient
+     * @param content the content
+     * @return the addressable message
+     */
+    private AddressableMessage createAddressableMessage(String recipient, String content) {
+        return new AddressableMessageImpl(recipient, content);
+    }
+    
+    /**
+     * Creates the addressable message with subject.
+     *
+     * @param recipient the recipient
+     * @param subject the subject
+     * @param content the content
+     * @return the addressable message with subject
+     */
+    private AddressableMessageWithSubject createAddressableMessageWithSubject(String recipient, 
+                                                                              String subject, 
+                                                                              String content) {
+        return new AddressableMessageWithSubjectImpl(recipient, subject, content);
     }
     
     /**

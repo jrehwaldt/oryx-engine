@@ -1,6 +1,6 @@
 package org.jodaengine.process.instantiation;
 
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.process.definition.ProcessDefinitionInside;
 import org.jodaengine.util.ServiceContext;
 
@@ -18,10 +18,10 @@ public interface InstantiationPatternContext extends ServiceContext {
     ProcessDefinitionInside getProcessDefinition();
 
     /**
-     * In case an {@link ProcessStartEvent startEvent} was thrown (starting the {@link ProcessInstantiationPattern})
+     * In case an {@link IncomingStartProcessEvent startEvent} was thrown (starting the {@link ProcessInstantiationPattern})
      * then this method returns the thrown event.
      * 
-     * @return the thrown {@link ProcessStartEvent}
+     * @return the thrown {@link IncomingStartProcessEvent}
      */
-    ProcessStartEvent getThrownStartEvent();
+    IncomingStartProcessEvent getThrownStartEvent();
 }

@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jodaengine.RepositoryServiceInside;
-import org.jodaengine.eventmanagement.EventManagerService;
+import org.jodaengine.eventmanagement.EventService;
 import org.jodaengine.ext.AbstractListenable;
 import org.jodaengine.ext.exception.InstanceTerminationHandler;
 import org.jodaengine.ext.exception.LoggerExceptionHandler;
@@ -31,7 +31,9 @@ import org.jodaengine.util.ServiceContextImpl;
 /**
  * AbstractToken class, which is used by other specific Token classes like the BPMN Token.
  */
-public abstract class AbstractToken extends AbstractListenable<AbstractTokenListener> implements Token, ServiceContext {
+public abstract class AbstractToken
+extends AbstractListenable<AbstractTokenListener>
+implements Token, ServiceContext {
 
     protected UUID id;
 
@@ -53,12 +55,16 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
 
     @JsonIgnore
     protected AbstractExceptionHandler exceptionHandler;
+    
+    protected Token parentToken;
 
     /**
      * Instantiates a new process {@link TokenImpl} and register all available extensions.
      * 
      * @param startNode
      *            the start node
+     * @param parentToken
+     *            the parent token, if any
      * @param instance
      *            the instance
      * @param navigator
@@ -67,15 +73,17 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
      *            the {@link ExtensionService} to load and register extensions from, may be null
      */
     public AbstractToken(Node startNode,
+                         @Nullable Token parentToken,
                          AbstractProcessInstance instance,
                          Navigator navigator,
                          @Nullable ExtensionService extensionService) {
-
+        
         this.currentNode = startNode;
+        this.parentToken = parentToken;
         this.instance = instance;
         this.navigator = navigator;
         this.id = UUID.randomUUID();
-
+        
         //
         // register default exception chain;
         // additional extensions may be registered via the ExtensionService
@@ -219,7 +227,7 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
      * @return the token
      */
     public Token createToken(Node startNode) {
-        AbstractToken token = (AbstractToken) instance.createToken(startNode);
+        AbstractToken token = (AbstractToken) instance.createToken(startNode, this);
         token.registerListeners(getListeners());
         return token;
     }
@@ -267,12 +275,30 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
         return getInternalVariables();
     }
 
+    @Override
+    public Map<String, Object> getAttributes() {
+        
+        return this.internalVariables;
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+        
+        return this.getInternalVariable(attributeKey);
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+        
+        this.setInternalVariable(attributeKey, attributeValue);
+    }
+
     //
     // ==== ServiceContext implementation ====
     //
     @Override
     @JsonIgnore
-    public EventManagerService getEventManagerService() {
+    public EventService getEventManagerService() {
 
         return serviceContext.getEventManagerService();
     }
@@ -310,5 +336,11 @@ public abstract class AbstractToken extends AbstractListenable<AbstractTokenList
     public WorklistServiceIntern getWorklistService() {
 
         return serviceContext.getWorklistService();
+    }
+
+    @Override
+    public Token getParentToken() {
+        
+        return this.parentToken;
     }
 }

@@ -96,4 +96,44 @@ public class OutgoingMailAdapterConfiguration extends AbstractMailConfiguration 
         return outgoingMailAdapter;
     }
 
+    @Override
+    public int hashCode() {
+
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + port;
+        result = prime * result + ((protocol == null) ? 0 : protocol.hashCode());
+        result = prime * result + ((smtpServer == null) ? 0 : smtpServer.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        OutgoingMailAdapterConfiguration other = (OutgoingMailAdapterConfiguration) obj;
+        if (port != other.getPort()) {
+            return false;
+        }
+        if (protocol != other.getProtocol()) {
+            return false;
+        }
+        if (smtpServer == null) {
+            if (other.smtpServer != null) {
+                return false;
+            }
+        } else if (!smtpServer.equals(other.getSmtpServer())) {
+            return false;
+        }
+        return true;
+    }
+
 }

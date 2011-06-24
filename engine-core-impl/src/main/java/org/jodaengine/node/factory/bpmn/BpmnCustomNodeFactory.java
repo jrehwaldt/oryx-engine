@@ -7,13 +7,13 @@ import org.jodaengine.node.activity.custom.AddNumbersAndStoreActivity;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.activity.custom.HashComputationActivity;
 import org.jodaengine.node.activity.custom.PrintingVariableActivity;
+import org.jodaengine.node.activity.custom.TweetActivity;
 import org.jodaengine.node.activity.custom.TweetEndEventActivity;
 import org.jodaengine.node.factory.ControlFlowFactory;
 import org.jodaengine.node.incomingbehaviour.SimpleJoinBehaviour;
 import org.jodaengine.node.outgoingbehaviour.EmptyOutgoingBehaviour;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Node;
-import org.jodaengine.process.structure.NodeBuilder;
 
 /**
  * This Factory is able to create {@link Node} for specific Activity.
@@ -43,13 +43,11 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
                                                         String variableName,
                                                         int[] termsOfSum) {
 
-        NodeBuilder nodeBuilder = builder.getNodeBuilder();
-
         Activity activityBehavior = new AddNumbersAndStoreActivity(variableName, termsOfSum);
 
-        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
-        .buildNode();
+        return createDefaultBpmnNodeWith(builder, activityBehavior);
     }
+
 
     /**
      * Creates a {@link Node} that represents the {@link HashComputationActivity}. It has the default BPMN Incoming-
@@ -67,12 +65,9 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
                                                      String variableName,
                                                      String toBeHashed) {
 
-        NodeBuilder nodeBuilder = builder.getNodeBuilder();
-
         Activity activityBehavior = new HashComputationActivity(variableName, toBeHashed);
 
-        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
-        .buildNode();
+        return createDefaultBpmnNodeWith(builder, activityBehavior);
     }
 
     /**
@@ -93,12 +88,9 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
                                                                String variableName,
                                                                String... summands) {
 
-        NodeBuilder nodeBuilder = builder.getNodeBuilder();
-
         Activity activityBehavior = new AddContextNumbersAndStoreActivity(variableName, summands);
 
-        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
-        .buildNode();
+        return createDefaultBpmnNodeWith(builder, activityBehavior);
     }
 
     /**
@@ -115,12 +107,9 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
      */
     public static Node createBpmnPrintingNode(BpmnProcessDefinitionBuilder builder, String textToBePrinted) {
 
-        NodeBuilder nodeBuilder = builder.getNodeBuilder();
-
         Activity activityBehavior = new AutomatedDummyActivity(textToBePrinted);
 
-        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
-        .buildNode();
+        return createDefaultBpmnNodeWith(builder, activityBehavior);
     }
 
     /**
@@ -138,12 +127,9 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
     public static Node createBpmnPrintingVariableNode(BpmnProcessDefinitionBuilder builder, 
                                                       String variableToBePrinted) {
 
-        NodeBuilder nodeBuilder = builder.getNodeBuilder();
-
         Activity activityBehavior = new PrintingVariableActivity(variableToBePrinted);
 
-        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
-        .buildNode();
+        return createDefaultBpmnNodeWith(builder, activityBehavior);
     }
 
     /**
@@ -158,12 +144,9 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
      */
     public static Node createBpmnNullStartNode(BpmnProcessDefinitionBuilder builder) {
 
-        NodeBuilder nodeBuilder = builder.getNodeBuilder();
-
         Activity activityBehavior = new NullActivity();
 
-        Node bpmnNullStartNode = BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder)
-        .setActivityBehavior(activityBehavior).buildNode();
+        Node bpmnNullStartNode = createDefaultBpmnNodeWith(builder, activityBehavior);
         builder.addNodeAsStartNode(bpmnNullStartNode);
 
         return bpmnNullStartNode;
@@ -181,12 +164,9 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
      */
     public static Node createBpmnNullNode(BpmnProcessDefinitionBuilder builder) {
 
-        NodeBuilder nodeBuilder = builder.getNodeBuilder();
-
         Activity activityBehavior = new NullActivity();
 
-        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
-        .buildNode();
+        return createDefaultBpmnNodeWith(builder, activityBehavior);
     }
 
     /**
@@ -202,4 +182,22 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
         return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
         .setOutgoingBehaviour(new EmptyOutgoingBehaviour()).setActivityBehavior(activityBehavior).buildNode();
     }
+    
+    
+    /**
+     * Creates a new Tweetnode.
+     *
+     * @param builder the BPMN Process Definition Builder
+     * @param message the message to tweet
+     * @param pathToProperties the path to the properties file, this must contain the oauth security tokens
+     * @return the node
+     */
+    public static Node createTweetNode(BpmnProcessDefinitionBuilder builder, 
+                                       String message, 
+                                       String pathToProperties) {      
+        Activity activityBehavior = new TweetActivity(message, pathToProperties);
+        
+        
+        return createDefaultBpmnNodeWith(builder, activityBehavior);
+   }
 }

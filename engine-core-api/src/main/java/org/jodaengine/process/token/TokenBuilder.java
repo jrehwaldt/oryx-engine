@@ -1,5 +1,8 @@
 package org.jodaengine.process.token;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
@@ -12,11 +15,13 @@ import org.jodaengine.process.structure.Node;
 public interface TokenBuilder {
     
     /**
-     * Creates the.
+     * Creates the {@link Token}.
      *
+     * @param startNode the starting node
+     * @param parentToken the parent token
      * @return the token
      */
-    Token create(Node node);
+    Token create(@Nonnull Node startNode, @Nullable Token parentToken);
     
     /**
      * Sets the nav.

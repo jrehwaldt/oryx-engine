@@ -4,7 +4,7 @@ import org.jodaengine.eventmanagement.adapter.EventAdapter;
 
 
 /**
- * This interface should be implemented by {@link EventManagerService} adapters,
+ * This interface should be implemented by {@link EventService} adapters,
  * which allow incoming communication. This includes,
  * e.g. push-imap email receiving adapter.
  */

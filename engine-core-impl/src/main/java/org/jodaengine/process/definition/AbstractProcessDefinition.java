@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.jodaengine.eventmanagement.EventSubscriptionManager;
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.EventSubscriptionManagement;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.activation.ProcessDeActivationPattern;
@@ -17,7 +17,7 @@ import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instantiation.InstantiationPatternContext;
 import org.jodaengine.process.instantiation.InstantiationPatternContextImpl;
 import org.jodaengine.process.instantiation.ProcessInstantiationPattern;
-import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.instantiation.StartProcessInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
     protected Map<String, Object> attributes;
 
     @JsonIgnore
-    protected StartInstantiationPattern firstInstantiationPattern;
+    protected StartProcessInstantiationPattern firstInstantiationPattern;
 
     @JsonIgnore
     protected ProcessDeActivationPattern firstActivationPattern;
@@ -69,7 +69,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
                                         String name,
                                         String description,
                                         List<Node> startNodes,
-                                        StartInstantiationPattern startInstantiationPattern,
+                                        StartProcessInstantiationPattern startInstantiationPattern,
                                         ProcessDeActivationPattern startActivationPattern) {
 
         this.id = id;
@@ -172,14 +172,14 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
     }
     
     @Override
-    public AbstractProcessInstance createProcessInstance(NavigatorInside navigator, ProcessStartEvent firedStartEvent) {
+    public AbstractProcessInstance createProcessInstance(NavigatorInside navigator, IncomingStartProcessEvent firedStartEvent) {
     
         InstantiationPatternContext patternContext = new InstantiationPatternContextImpl(this, firedStartEvent);
         return firstInstantiationPattern.createProcessInstance(patternContext);
     }
 
     @Override
-    public void activate(EventSubscriptionManager eventManager) {
+    public void activate(EventSubscriptionManagement eventManager) {
 
         ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
             this);
@@ -189,7 +189,7 @@ public abstract class AbstractProcessDefinition implements ProcessDefinitionInsi
     }
 
     @Override
-    public void deactivate(EventSubscriptionManager eventManager) {
+    public void deactivate(EventSubscriptionManagement eventManager) {
 
         ProcessDefinitionActivationPatternContext patternContext = new ProcessDefinitionActivationPatternContextImpl(
             this);

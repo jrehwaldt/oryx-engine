@@ -5,12 +5,11 @@ import javax.annotation.Nonnull;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
-import org.jodaengine.eventmanagement.subscription.IncomingProcessEvent;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 
 
 /**
- * This interface provides methods for registering events to the {@link EventManagerService}.
+ * This interface provides methods for registering events to the {@link EventService}.
  */
 public interface AdapterManagement {
 

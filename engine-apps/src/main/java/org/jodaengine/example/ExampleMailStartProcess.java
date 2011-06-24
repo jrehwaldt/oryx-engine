@@ -6,10 +6,10 @@ import java.util.List;
 import org.jodaengine.JodaEngineServices;
 import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.deployment.DeploymentBuilder;
-import org.jodaengine.eventmanagement.adapter.EventTypes;
 import org.jodaengine.eventmanagement.adapter.mail.IncomingMailAdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.mail.MailAdapterEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
+import org.jodaengine.eventmanagement.processevent.incoming.start.ImapEmailProcessStartEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.ext.logger.NavigatorListenerLogger;
@@ -21,7 +21,7 @@ import org.jodaengine.process.activation.pattern.RegisterAllStartEventPattern;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
-import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.instantiation.StartProcessInstantiationPattern;
 import org.jodaengine.process.instantiation.pattern.EventBasedInstanceCreationPattern;
 import org.jodaengine.process.structure.Node;
 import org.slf4j.Logger;
@@ -78,29 +78,21 @@ public final class ExampleMailStartProcess {
 
             builder.setDescription("description").setName(exampleProcessName);
 
-            // Create a mail adapater event here.
+            // Create a mail adapater here.
             // TODO @TobiP Could create a builder for this later.
             IncomingMailAdapterConfiguration config = IncomingMailAdapterConfiguration.jodaGoogleConfiguration();
             EventCondition subjectCondition = new MethodInvokingEventCondition(MailAdapterEvent.class,
-                "getMessageTopic", "Hallo");
+                "getMessageSubject", "Hallo");
             List<EventCondition> conditions = new ArrayList<EventCondition>();
             conditions.add(subjectCondition);
-
-            // StartEvent event = new StartEventImpl( EventTypes.Mail,
-            // config,
-            // conditions,
-            // exampleProcessUUID);
-            
-            
-            // TODO @EVENTTEAM: Ok I really dunno what the hell I am doing here,
-            // the error messages told me so..
-            StartInstantiationPattern startInstantiationPattern = new EventBasedInstanceCreationPattern();
+           
+            StartProcessInstantiationPattern startInstantiationPattern = new EventBasedInstanceCreationPattern();
             builder.addStartInstantiationPattern(startInstantiationPattern);
             
             ProcessDeActivationPattern activationPattern = new RegisterAllStartEventPattern();
-            builder.addActivationPattern(activationPattern);
+            builder.addDeActivationPattern(activationPattern);
 
-            builder.createStartTrigger(EventTypes.Mail, config, conditions, startNode);
+            builder.createStartTrigger(new ImapEmailProcessStartEvent(subjectCondition, null), startNode);
             ProcessDefinition def = builder.buildDefinition();
 
             ProcessDefinitionID exampleProcessUUID = def.getID();

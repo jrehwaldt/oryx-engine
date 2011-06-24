@@ -1,7 +1,9 @@
 package org.jodaengine.eventmanagement.adapter.twitter;
 
 import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
-import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingAdapter;
+import org.jodaengine.eventmanagement.adapter.AddressableMessage;
+import org.jodaengine.eventmanagement.adapter.Message;
+import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingMessagingAdapter;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -14,58 +16,72 @@ import twitter4j.util.CharacterUtil;
  * application.
  */
 public class OutgoingTwitterSingleAccountTweetAdapter extends AbstractEventAdapter<OutgoingTwitterSingleAccountTweetAdapterConfiguration>
-implements OutgoingAdapter {
+implements OutgoingMessagingAdapter {
 
     private Twitter twitter;
-    
+
     /**
      * Instantiates a new adapter from a configuration.
      * 
      * @param configuration
      *            the adapter configuration
      */
-    public OutgoingTwitterSingleAccountTweetAdapter(
-        OutgoingTwitterSingleAccountTweetAdapterConfiguration configuration) {
+    public OutgoingTwitterSingleAccountTweetAdapter(OutgoingTwitterSingleAccountTweetAdapterConfiguration configuration) {
 
         super(configuration);
         connectToTwitter();
     }
 
+    @Override
+    public void sendMessage(Message message) {
+
+        this.tweet(message.getContent());
+    }
+
     /**
-     * Send a message (tweet).
-     *
-     * @param message the message to tweet
-     * @throws TwitterException the twitter exception
+     * Send a message with an Address.
+     * Addressing in Twitter works via the @-Symbol.
+     * 
+     * @param message
+     *            the message
      */
-    public void sendMessage(String message) throws TwitterException {
+    public void sendMessage(AddressableMessage message) {
+
+        String content = "@" + message.getAddress() + " " + message.getContent();
+        this.tweet(content);
+    }
+
+    /**
+     * Send a message (tweet) using the Twitter online service.
+     * 
+     * (see www.twitter.com)
+     * 
+     * @param message
+     *            the message to tweet
+     */
+    private void tweet(String message) {
+
         if (CharacterUtil.isExceedingLengthLimitation(message)) {
-            // TODO change - new exception with extension service?
-            throw new TwitterException("Tweet is longer than 140 characters!");
-        } else {
+            logger.error("The tweet is longer than 140 characters.");
+            return;
+        }
+
+        try {
+            
             twitter.updateStatus(message);
+            
+        } catch (TwitterException e) {
+            logger.error("The connection to Twitter wasn't possible for some reason.", e);
         }
     }
-    
-    @Override
-    public void sendMessage(String recipient, String message) {
 
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void sendMessage(String recipient, String subject, String message) {
-
-        // TODO Auto-generated method stub
-
-    }
-    
     /**
      * Uses the configuration in order to connect to Twitter.
      */
     private void connectToTwitter() {
-      TwitterFactory twitterFactory = new TwitterFactory(this.configuration.getConfigurationBuilder().build());
-      this.twitter = twitterFactory.getInstance();
+
+        TwitterFactory twitterFactory = new TwitterFactory(this.configuration.getConfigurationBuilder().build());
+        this.twitter = twitterFactory.getInstance();
     }
 
 }

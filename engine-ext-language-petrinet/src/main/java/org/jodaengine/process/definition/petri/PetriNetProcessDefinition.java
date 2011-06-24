@@ -6,7 +6,7 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.navigator.NavigatorInside;
 import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivationPattern;
@@ -59,13 +59,13 @@ public class PetriNetProcessDefinition extends AbstractProcessDefinition {
 
     // TODO Bleiben erstmal un implementiert werden nach der BA aus dem Interface entfernt
     @Override
-    public Map<ProcessStartEvent, Node> getStartTriggers() {
+    public Map<IncomingStartProcessEvent, Node> getStartTriggers() {
         // TODO Auto-generated method stub
         return null;
     }
     
     @Override
-    public void addStartTrigger(ProcessStartEvent event, Node node)
+    public void addStartTrigger(IncomingStartProcessEvent event, Node node)
         throws IllegalStarteventException {
         // TODO Auto-generated method stub
         

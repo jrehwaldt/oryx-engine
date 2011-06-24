@@ -26,11 +26,6 @@ QuartzPullAdapterConfiguration {
     private final MailProtocol protocol;
     private static final long DEFAULT_INTERVAL = 6000L;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    /**
-     * Magic constants for the hashfunction.
-     */
-    private static final int[] MAGIC_HASH = {278, -983, 132, 65, -334, 286, 708};
     
     /**
      * Default constructor.
@@ -195,50 +190,41 @@ QuartzPullAdapterConfiguration {
 
         return false;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public int hashCode() {
-        int useSSLModifier = 0;
-        if (useSSL) {
-            useSSLModifier = 1;
-        }
-        // checkstyle doesn't like this indexing.
-        // CHECKSTYLE:OFF
-        return (MAGIC_HASH[0] * this.getClass().hashCode()
-                + MAGIC_HASH[1] * userName.hashCode() 
-                + MAGIC_HASH[2] * password.hashCode() 
-                + MAGIC_HASH[3] * domainName.hashCode() 
-                + MAGIC_HASH[4] * protocol.hashCode() 
-                + MAGIC_HASH[5] * port 
-                + MAGIC_HASH[6] * useSSLModifier);
-        // CHECKSTYLE:ON
+
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + port;
+        result = prime * result + ((protocol == null) ? 0 : protocol.hashCode());
+        result = prime * result + (useSSL ? 1231 : 1237);
+        return result;
     }
-    
-    /**
-     * Checks for the equality of the given argument based on Class and instance variables.
-     *
-     * @param o the Object this is compared to
-     * @return true, if the objects are equal
-     */
+
     @Override
-    public boolean equals(Object o) {
-        if (o == null) {
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
             return false;
         }
-        if (o.getClass() == this.getClass()) {
-            IncomingMailAdapterConfiguration otherConfiguration = (IncomingMailAdapterConfiguration) o;
-            if (this.userName.equals(otherConfiguration.getUserName()) 
-                && this.password.equals(otherConfiguration.getPassword())
-                && this.domainName.equals(otherConfiguration.getDomainName())
-                && this.protocol == otherConfiguration.getProtocol()
-                && this.port == otherConfiguration.getPort()
-                && this.useSSL == otherConfiguration.isUseSSL()) {
-                return true;
-             } 
+        if (getClass() != obj.getClass()) {
+            return false;
         }
-        return false;
+        IncomingMailAdapterConfiguration other = (IncomingMailAdapterConfiguration) obj;
+        if (port != other.getPort()) {
+            return false;
+        }
+        if (protocol != other.getProtocol()) {
+            return false;
+        }
+        if (useSSL != other.isUseSSL()) {
+            return false;
+        }
+        return true;
     }
+    
 }

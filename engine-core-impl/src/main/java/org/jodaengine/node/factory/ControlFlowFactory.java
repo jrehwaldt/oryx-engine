@@ -1,10 +1,13 @@
 package org.jodaengine.node.factory;
 
-import org.jodaengine.process.definition.ProcessDefinition;
+import org.jodaengine.node.activity.Activity;
+import org.jodaengine.node.factory.bpmn.BpmnNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
+import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.process.structure.NodeBuilder;
 
 /**
  * This Factory is able to create {@link ControlFlow}s.
@@ -12,7 +15,6 @@ import org.jodaengine.process.structure.Node;
 // CHECKSTYLE:OFF
 public class ControlFlowFactory {
 // CHECKSTYLE:ON
-
     /**
      * Creates a {@link ControlFlow} and connects two {@link Nodes} with the created {@link ControlFlow}.
      * 
@@ -49,5 +51,20 @@ public class ControlFlowFactory {
 
         return builder.getControlFlowBuilder().controlFlowGoesFromTo(source, destination).setCondition(condition)
         .buildControlFlow();
+    }
+
+    /**
+     * A helper that just takes the activity and creates a BPMN Node with default routing behaviour.
+     *
+     * @param builder the builder
+     * @param activityBehavior the activity behavior
+     * @return the node
+     */
+    protected static Node createDefaultBpmnNodeWith(BpmnProcessDefinitionBuilder builder, Activity activityBehavior) {
+    
+        NodeBuilder nodeBuilder = builder.getNodeBuilder();
+        
+        return BpmnNodeFactory.decorateBpmnDefaultRouting(nodeBuilder).setActivityBehavior(activityBehavior)
+        .buildNode();
     }
 }

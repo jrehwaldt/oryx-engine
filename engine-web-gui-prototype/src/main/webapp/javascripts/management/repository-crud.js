@@ -20,3 +20,14 @@ function loadProcessDefinitions(successHandler) {
         dataType: "json" // we expect json
     });
 };
+
+function activateProcessDefinition(definitionId, successHandler) {
+    $.ajax({
+        type: 'POST',
+        url: '/api/repository/process-definitions/' + definitionId + '/activate',
+        success: function(definitions) {
+            if (successHandler)
+                successHandler.apply(null, [definitions]);
+        }
+    });
+};

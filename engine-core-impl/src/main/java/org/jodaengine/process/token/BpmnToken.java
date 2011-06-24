@@ -2,8 +2,8 @@ package org.jodaengine.process.token;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.jodaengine.exception.JodaEngineException;
@@ -30,12 +30,12 @@ public class BpmnToken extends AbstractToken {
     /**
      * Hidden Constructor.
      */
-    protected BpmnToken() {
-
-    }
+    protected BpmnToken() { }
 
     /**
      * Instantiates a new process {@link Token}. This will not register any available extension.
+     * 
+     * TODO remove this constructor - it is for tests only
      * 
      * @param startNode
      *            the start node
@@ -43,10 +43,14 @@ public class BpmnToken extends AbstractToken {
      *            the instance
      * @param navigator
      *            the navigator
+     * @deprecated to be removed
      */
-    public BpmnToken(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
+    @Deprecated
+    public BpmnToken(@Nonnull Node startNode,
+                     AbstractProcessInstance instance,
+                     Navigator navigator) {
 
-        this(startNode, instance, navigator, null);
+        this(startNode, null, instance, navigator, null);
     }
 
     /**
@@ -54,6 +58,8 @@ public class BpmnToken extends AbstractToken {
      * 
      * @param startNode
      *            the start node
+     * @param parentToken
+     *            the parent token
      * @param instance
      *            the instance
      * @param navigator
@@ -61,12 +67,13 @@ public class BpmnToken extends AbstractToken {
      * @param extensionService
      *            the extension service
      */
-    public BpmnToken(Node startNode,
+    public BpmnToken(@Nonnull Node startNode,
+                     @Nullable Token parentToken,
                      AbstractProcessInstance instance,
                      Navigator navigator,
                      @Nullable ExtensionService extensionService) {
 
-        super(startNode, instance, navigator, extensionService);
+        super(startNode, parentToken, instance, navigator, extensionService);
         changeActivityState(ActivityState.INIT);
     }
 
@@ -234,30 +241,9 @@ public class BpmnToken extends AbstractToken {
      */
     private void resumeAndCompleteExecution(Object resumeObject)
     throws NoValidPathException {
-
+        changeActivityState(ActivityState.ACTIVE);
         currentNode.getActivityBehaviour().resume(this, resumeObject);
 
         completeExecution();
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Object getAttribute(String attributeKey) {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void setAttribute(String attributeKey, Object attributeValue) {
-
-        // TODO Auto-generated method stub
-
     }
 }

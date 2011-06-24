@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.exception.IllegalStarteventException;
 import org.jodaengine.process.activation.ProcessDeActivationPattern;
 import org.jodaengine.process.activation.pattern.NullProcessDefinitionActivationPattern;
 import org.jodaengine.process.definition.AbstractProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.instantiation.StartInstantiationPattern;
+import org.jodaengine.process.instantiation.StartProcessInstantiationPattern;
 import org.jodaengine.process.instantiation.pattern.StartNullInstantiationPattern;
 import org.jodaengine.process.structure.Node;
 
@@ -22,7 +22,7 @@ import org.jodaengine.process.structure.Node;
 public class BpmnProcessDefinition extends AbstractProcessDefinition {
 
     @JsonIgnore
-    private Map<ProcessStartEvent, Node> startTriggers;
+    private Map<IncomingStartProcessEvent, Node> startTriggers;
 
     /**
      * Instantiates a new {@link ProcessDefinition}. The name is the ID of the {@link ProcessDefinition}.
@@ -58,7 +58,7 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
                                  String name,
                                  String description,
                                  List<Node> startNodes,
-                                 StartInstantiationPattern startInstantiationPattern,
+                                 StartProcessInstantiationPattern startInstantiationPattern,
                                  ProcessDeActivationPattern startActivationPattern) {
 
         super(id, name, description, startNodes, startInstantiationPattern, startActivationPattern);
@@ -73,25 +73,25 @@ public class BpmnProcessDefinition extends AbstractProcessDefinition {
     }
 
     @Override
-    public Map<ProcessStartEvent, Node> getStartTriggers() {
+    public Map<IncomingStartProcessEvent, Node> getStartTriggers() {
 
-        return new HashMap<ProcessStartEvent, Node>(getLazyStartTriggers());
+        return new HashMap<IncomingStartProcessEvent, Node>(getLazyStartTriggers());
     }
 
     /**
      * Getter for the startTrigger. Implemented lazy initialized
-     * @return the map of startTrigger; a mapping from a {@link ProcessStartEvent} to a {@link Node}
+     * @return the map of startTrigger; a mapping from a {@link IncomingStartProcessEvent} to a {@link Node}
      */
-    private Map<ProcessStartEvent, Node> getLazyStartTriggers() {
+    private Map<IncomingStartProcessEvent, Node> getLazyStartTriggers() {
 
         if (startTriggers == null) {
-            this.startTriggers = new HashMap<ProcessStartEvent, Node>();
+            this.startTriggers = new HashMap<IncomingStartProcessEvent, Node>();
         }
         return startTriggers;
     }
 
     @Override
-    public void addStartTrigger(ProcessStartEvent event, Node node)
+    public void addStartTrigger(IncomingStartProcessEvent event, Node node)
     throws IllegalStarteventException {
 
         if (startNodes.contains(node)) {

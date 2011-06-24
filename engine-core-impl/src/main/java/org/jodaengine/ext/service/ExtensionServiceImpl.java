@@ -125,7 +125,9 @@ public class ExtensionServiceImpl implements ExtensionService {
                 instances.add(createExtensionInstance(ext));
                 continue;
             } catch (ExtensionNotAvailableException e) {
-                logger.error("No such extension available. None of constructors could be instantiated.");
+                logger.warn(
+                    "Extension {} not available. None of constructors could be instantiated.",
+                    ext.getSimpleName());
             }
         }
         

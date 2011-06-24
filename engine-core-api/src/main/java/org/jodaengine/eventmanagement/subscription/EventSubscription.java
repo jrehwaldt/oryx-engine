@@ -3,12 +3,12 @@ package org.jodaengine.eventmanagement.subscription;
 import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.EventCorrelator;
-import org.jodaengine.eventmanagement.processevent.incoming.ProcessStartEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 
 
 /**
- * This interface provides methods for registering events to the {@link EventManagerService}.
+ * This interface provides methods for registering events to the {@link EventService}.
  */
 public interface EventSubscription {
 
@@ -18,7 +18,7 @@ public interface EventSubscription {
      * @param startEvent
      *            the start event
      */
-    void registerStartEvent(@Nonnull ProcessStartEvent startEvent);
+    void subscribeToStartEvent(@Nonnull IncomingStartProcessEvent startEvent);
 
     /**
      * Entry point for registering an event with the {@link EventCorrelator}.
@@ -26,5 +26,5 @@ public interface EventSubscription {
      * @param intermediateEvent
      *            the intermediate event
      */
-    void registerIncomingIntermediateEvent(@Nonnull IncomingIntermediateProcessEvent intermediateEvent);
+    void subscribeToIncomingIntermediateEvent(@Nonnull IncomingIntermediateProcessEvent intermediateEvent);
 }

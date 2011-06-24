@@ -10,7 +10,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
-import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingAdapter;
+import org.jodaengine.eventmanagement.adapter.AddressableMessage;
+import org.jodaengine.eventmanagement.adapter.AddressableMessageWithSubject;
+import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingMessagingAdapter;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * An Adapter for sending emails via the SMTP protocol.
  */
 public class OutgoingMailAdapter extends AbstractEventAdapter<OutgoingMailAdapterConfiguration> 
-    implements OutgoingAdapter {
+    implements OutgoingMessagingAdapter {
 
     // TODO @EVENTTEAM Usage of USERNAME and PASSWORD missing
     public final static String DEFAULT_SUBJECT = "JodaMail, you have!";
@@ -34,16 +36,38 @@ public class OutgoingMailAdapter extends AbstractEventAdapter<OutgoingMailAdapte
         super(configuration);
     }
 
-    @Override
-    public void sendMessage(String recipient, String message) {
-        sendMessage(recipient, DEFAULT_SUBJECT, message);
+    
+    /**
+     * Send a message with a subject.
+     *
+     * @param message the message
+     */
+    public void sendMessage(AddressableMessage message) {
+        sendSingleRecipientEmail(message.getAddress(), DEFAULT_SUBJECT, message.getContent());
     }
 
-    @Override
-    public void sendMessage(String recipient, String subject, String message) {
+    
+    /**
+     * Send message.
+     *
+     * @param message the message
+     */
+    public void sendMessage(AddressableMessageWithSubject message) {
 
+        this.sendSingleRecipientEmail(message.getAddress(), message.getSubject(), message.getContent());
+        
+    }
+    
+    /**
+     * Send an email to a single recipient email.
+     *
+     * @param recipient the recipient
+     * @param subject the subject
+     * @param content the content
+     */
+    public void sendSingleRecipientEmail(String recipient, String subject, String content) {
         String[] receipents = {recipient};
-        this.sendEmail(receipents, subject, message);
+        this.sendEmail(receipents, subject, content);
         
     }
     
@@ -65,7 +89,7 @@ public class OutgoingMailAdapter extends AbstractEventAdapter<OutgoingMailAdapte
             // create some properties and get the default Session
             Session session = Session.getDefaultInstance(props, null);
             
-            // at this point you may setDebug if neded.
+            // at this point you may setDebug if needed.
     
             Message msg = new MimeMessage(session);
     
@@ -90,5 +114,15 @@ public class OutgoingMailAdapter extends AbstractEventAdapter<OutgoingMailAdapte
             throw new JodaEngineRuntimeException(errorMessage, e);
         }
 
+    }
+
+
+    @Override
+    public void sendMessage(org.jodaengine.eventmanagement.adapter.Message message) {
+
+        throw new JodaEngineRuntimeException(
+            "Please supply at least an adress when trying to send an email, it can't be send otherwise!"
+            + "Try using something that implements AddressableMessage or a subclass of it.");
+        
     }
 }
