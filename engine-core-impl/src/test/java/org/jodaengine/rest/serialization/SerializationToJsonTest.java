@@ -41,6 +41,7 @@ import org.jodaengine.resource.allocation.PushPattern;
 import org.jodaengine.resource.allocation.pattern.creation.AbstractCreationPattern;
 import org.jodaengine.resource.allocation.pattern.creation.DirectDistributionPattern;
 import org.jodaengine.resource.allocation.pattern.creation.RoleBasedDistributionPattern;
+import org.jodaengine.resource.allocation.pattern.detour.SimpleDelegationPattern;
 import org.jodaengine.resource.allocation.pattern.detour.StatelessSelfReallocationPattern;
 import org.jodaengine.resource.allocation.pattern.push.AllocateSinglePattern;
 import org.jodaengine.resource.allocation.pattern.push.OfferMultiplePattern;
@@ -346,6 +347,7 @@ public class SerializationToJsonTest extends AbstractJsonServerTest {
         Assert.assertTrue(this.mapper.canSerialize(DirectDistributionPattern.class));
         Assert.assertTrue(this.mapper.canSerialize(RoleBasedDistributionPattern.class));
         Assert.assertTrue(this.mapper.canSerialize(StatelessSelfReallocationPattern.class));
+        Assert.assertTrue(this.mapper.canSerialize(SimpleDelegationPattern.class));
         Assert.assertTrue(this.mapper.canSerialize(AllocateSinglePattern.class));
         Assert.assertTrue(this.mapper.canSerialize(OfferMultiplePattern.class));
         

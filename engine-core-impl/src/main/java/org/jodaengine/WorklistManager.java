@@ -277,7 +277,7 @@ public class WorklistManager implements WorklistService, WorklistServiceIntern, 
                                     DetourPattern pattern,
                                     AbstractResource<?> newResource) {
 
-        pattern.distributeItem(this, worklistItem, oldResource, newResource);
+        executeDetourPattern(pattern, worklistItem, oldResource, newResource);
     }
     
     @Override
