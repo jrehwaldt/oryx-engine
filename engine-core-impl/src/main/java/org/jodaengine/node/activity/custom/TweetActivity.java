@@ -37,7 +37,7 @@ public class TweetActivity extends AbstractActivity {
         EventService eventManager = token.getEventManagerService();
 
         OutgoingTweetEvent processEvent = createTwitterProcessEvent();
-        eventManager.sendMessage(new MessageImpl(message), processEvent);
+        eventManager.send(processEvent);
     }
     
     /**
@@ -46,6 +46,7 @@ public class TweetActivity extends AbstractActivity {
      * @return the process event
      */
     private OutgoingTweetEvent createTwitterProcessEvent() {
-        return new OutgoingTweetEvent(new OutgoingTwitterSingleAccountTweetAdapterConfiguration(pathToTwitterConfig));
+        return new OutgoingTweetEvent(new MessageImpl(message), 
+                                      new OutgoingTwitterSingleAccountTweetAdapterConfiguration(pathToTwitterConfig));
     }
 }

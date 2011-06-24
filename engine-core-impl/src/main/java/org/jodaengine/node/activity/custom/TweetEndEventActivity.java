@@ -23,20 +23,23 @@ public class TweetEndEventActivity extends AbstractActivity {
 
         EventService eventManager = token.getEventManagerService();
 
-        OutgoingTweetEvent processEvent = createTwitterProcessEvent();
-
         String messageToSend = "Processinstance with ID " + token.getInstance().getID().toString() 
-            + " finished execution...";
-        eventManager.sendMessage(new MessageImpl(messageToSend), processEvent);
+        + " finished execution...";
+        OutgoingTweetEvent processEvent = createTwitterProcessEvent(messageToSend);
+
+        
+        eventManager.send(processEvent);
     }
     
     /**
      * Creates the TwitterEcent.
      *
+     * @param content the content of the message which should be twittered
      * @return the process event
      */
-    private OutgoingTweetEvent createTwitterProcessEvent() {
-        return new OutgoingTweetEvent(new OutgoingTwitterSingleAccountTweetAdapterConfiguration(PATH_TO_TWITTERCONFIG));
+    private OutgoingTweetEvent createTwitterProcessEvent(String content) {
+        return new OutgoingTweetEvent(new MessageImpl(content), 
+                                      new OutgoingTwitterSingleAccountTweetAdapterConfiguration(PATH_TO_TWITTERCONFIG));
     }
 
 }

@@ -1,21 +1,22 @@
 package org.jodaengine.eventmanagement.processevent.outgoing;
 
+import org.jodaengine.eventmanagement.adapter.Message;
 import org.jodaengine.eventmanagement.adapter.twitter.OutgoingTwitterSingleAccountTweetAdapterConfiguration;
-import org.jodaengine.eventmanagement.processevent.AbstractProcessEvent;
 
 /**
  * The Outgoing Tweet event.
  */
-public class OutgoingTweetEvent extends AbstractProcessEvent {
-
+public class OutgoingTweetEvent extends AbstractOutgoingProcessEvent {
+  
     /**
      * Instantiates a new outgoing tweet event.
      *
-     * @param config the config
+     * @param message the message to send
+     * @param config the configuration of the adapter to use
      */
-    public  OutgoingTweetEvent(OutgoingTwitterSingleAccountTweetAdapterConfiguration config) {
+    public  OutgoingTweetEvent(Message message, OutgoingTwitterSingleAccountTweetAdapterConfiguration config) {
 
-        super(config);
+        super(message, config);
     }
 
 }

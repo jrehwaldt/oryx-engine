@@ -7,7 +7,6 @@ import org.jodaengine.JodaEngineServices;
 import org.jodaengine.eventmanagement.adapter.AbstractCorrelatingEventAdapter;
 import org.jodaengine.eventmanagement.adapter.AbstractEventAdapter;
 import org.jodaengine.eventmanagement.adapter.EventAdapter;
-import org.jodaengine.eventmanagement.adapter.Message;
 import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapter;
 import org.jodaengine.eventmanagement.adapter.error.ErrorAdapterConfiguration;
@@ -17,6 +16,7 @@ import org.jodaengine.eventmanagement.adapter.outgoing.OutgoingMessagingAdapter;
 import org.jodaengine.eventmanagement.processevent.ProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.IncomingStartProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
+import org.jodaengine.eventmanagement.processevent.outgoing.OutgoingProcessEvent;
 import org.jodaengine.eventmanagement.timing.QuartzJobManager;
 import org.jodaengine.eventmanagement.timing.TimingManager;
 import org.jodaengine.exception.AdapterSchedulingException;
@@ -266,9 +266,9 @@ public class EventManager implements EventService {
     }
 
     @Override
-    public void sendMessage(Message message, ProcessEvent event) {
+    public void send(OutgoingProcessEvent event) {
 
         OutgoingMessagingAdapter adapter = (OutgoingMessagingAdapter) getAdapterForProcessEvent(event);
-        adapter.sendMessage(message);
+        adapter.sendMessage(event.getMessage());
     }
 }
