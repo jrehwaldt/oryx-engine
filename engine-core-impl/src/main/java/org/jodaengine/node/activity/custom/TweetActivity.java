@@ -24,6 +24,7 @@ public class TweetActivity extends AbstractActivity {
      * @param pathToTwitterConfig the path to the twitter configuration properties file
      */
     public TweetActivity(String message, String pathToTwitterConfig) {
+        super();
         this.message = message;
         this.pathToTwitterConfig = pathToTwitterConfig;
     }

@@ -14,6 +14,7 @@ public enum EventTypes implements EventType {
     Error,
     Timer,
     Twitter,
+    Phidget,
     /**
      * Only for testing but it needs to registered here.
      */
