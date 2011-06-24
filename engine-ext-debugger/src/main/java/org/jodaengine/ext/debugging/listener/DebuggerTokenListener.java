@@ -1,9 +1,6 @@
 package org.jodaengine.ext.debugging.listener;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -14,6 +11,7 @@ import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.DebuggerCommand;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.api.Interrupter;
+import org.jodaengine.ext.debugging.shared.DebuggerInstanceAttribute;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.navigator.Navigator;
@@ -36,8 +34,6 @@ public class DebuggerTokenListener extends AbstractTokenListener {
     private DebuggerServiceImpl debugger;
     private Navigator navigator;
     
-    private Map<UUID, DebuggerCommand> activeCommand;
-    
     /**
      * Default constructor. Creates a {@link DebuggerTokenListener} for a {@link DebuggerService}.
      * 
@@ -48,7 +44,6 @@ public class DebuggerTokenListener extends AbstractTokenListener {
                                  @Nonnull Navigator navigator) {
         this.debugger = debugger;
         this.navigator = navigator;
-        this.activeCommand = new HashMap<UUID, DebuggerCommand>();
     }
     
     @Override
@@ -60,12 +55,22 @@ public class DebuggerTokenListener extends AbstractTokenListener {
         // get the token
         //
         Token token = event.getProcessToken();
+        DebuggerInstanceAttribute debuggerState = DebuggerInstanceAttribute.getAttribute(token);
+        
+        //
+        // keep chosen path for history purposes
+        //
+        debuggerState.addPreviousPath(token.getLastTakenControlFlow(), token);
+        
+        //
+        // TODO merke Parent token
+        //
         
         //
         // consider the active command (it is removed!)
         // -> break or leave, if required (step over vs. resume)
         //
-        DebuggerCommand command = clearActiveCommand(token);
+        DebuggerCommand command = debuggerState.clearActiveCommand();
         if (command != null) {
             switch (command) {
                 case CONTINUE:
@@ -78,21 +83,20 @@ public class DebuggerTokenListener extends AbstractTokenListener {
                     // any following breakpoints are ignored
                     // -> leave
                     //
-                    setActiveCommand(token, DebuggerCommand.RESUME);
+                    debuggerState.setActiveCommand(DebuggerCommand.RESUME);
                     return;
                 case STEP_OVER:
                     //
                     // break, no matter if there is a breakpoint
                     // -> break and 
                     //
-                    this.activeCommand.remove(token.getID());
-                    interruptInstance(token, null);
+                    interruptInstance(token, debuggerState, null);
                     return;
                 case TERMINATE:
                     //
                     // we already canceled the instance
                     //
-                    setActiveCommand(token, DebuggerCommand.TERMINATE);
+                    debuggerState.setActiveCommand(DebuggerCommand.TERMINATE);
                     return;
                 default:
                     //
@@ -124,7 +128,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
                 //
                 // break
                 //
-                interruptInstance(token, breakpoint);
+                interruptInstance(token, debuggerState, breakpoint);
                 
                 //
                 // ignore any subsequent breakpoints at this point and go on with the process instance
@@ -141,9 +145,11 @@ public class DebuggerTokenListener extends AbstractTokenListener {
      * or because the {@link DebuggerCommand} indicated a break.
      * 
      * @param token the token to interrupt
+     * @param debuggerState the token's {@link DebuggerInstanceAttribute}
      * @param breakpoint the breakpoint, which matched, if any
      */
     public void interruptInstance(@Nonnull Token token,
+                                  @Nonnull DebuggerInstanceAttribute debuggerState,
                                   @Nullable Breakpoint breakpoint) {
         
         //
@@ -159,7 +165,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
             DebuggerCommand command = signal.interruptInstance();
             
             logger.info("Token {} released with command {}", token, command);
-            setActiveCommand(token, command);
+            debuggerState.setActiveCommand(command);
             
             //
             // consider the command and go on
@@ -208,26 +214,5 @@ public class DebuggerTokenListener extends AbstractTokenListener {
             //
             this.debugger.unexspectedInterruption(signal);
         }
-    }
-
-    /**
-     * Sets the active command, if any, for a certain {@link Token}.
-     * 
-     * @param token the token, the command is related to
-     * @param command the command, may be null
-     */
-    public void setActiveCommand(@Nonnull Token token,
-                                 @Nullable DebuggerCommand command) {
-        this.activeCommand.put(token.getID(), command);
-    }
-    
-    /**
-     * Gets the active command, if any, for a certain {@link Token}.
-     * 
-     * @param token the token, the command is related to
-     * @return the last command, may be null
-     */
-    public @Nullable DebuggerCommand clearActiveCommand(@Nonnull Token token) {
-        return this.activeCommand.remove(token.getID());
     }
 }

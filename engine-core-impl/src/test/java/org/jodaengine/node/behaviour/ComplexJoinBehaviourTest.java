@@ -95,7 +95,7 @@ public class ComplexJoinBehaviourTest {
         Assert.assertEquals(newToken.getCurrentNode(), nextNode);
 
         ProcessInstanceContext context = instance.getContext();
-        Assert.assertEquals(context.getWaitingExecutions(joinNode).size(), 1,
+        Assert.assertEquals(context.getSignaledControlFlows(joinNode).size(), 1,
             "There should still one {@link ControlFlow} marked as waiting for the joinNode, as it is not reset yet.");
 
     }
@@ -126,7 +126,7 @@ public class ComplexJoinBehaviourTest {
             "There should be no new tokens, the joinBehaviour should not have triggered.");
 
         ProcessInstanceContext context = instance.getContext();
-        Assert.assertEquals(context.getWaitingExecutions(joinNode).size(), 2,
+        Assert.assertEquals(context.getSignaledControlFlows(joinNode).size(), 2,
             "There should two waiting incoming {@link ControlFlow}s, as the gateway has not reset yet.");
 
         // the next token should not trigger the outgoing behaviour, but reset the complex join behaviour and thus
@@ -135,7 +135,7 @@ public class ComplexJoinBehaviourTest {
         anotherToken.setLastTakenControlFlow(incomingControlFlow2);
         anotherToken.executeStep();
 
-        Assert.assertEquals(context.getWaitingExecutions(joinNode).size(), 1,
+        Assert.assertEquals(context.getSignaledControlFlows(joinNode).size(), 1,
             "The reset should have removed both {@link ControlFlow}s from the waiting {@link ControlFlow}s, ");
 
     }
@@ -154,8 +154,8 @@ public class ComplexJoinBehaviourTest {
         setComplexGatewayState(ComplexGatewayState.WAITING_FOR_RESET);
 
         // {@link ControlFlow} has been signaled twice.
-        instance.getContext().setWaitingExecution(incomingControlFlow1);
-        instance.getContext().setWaitingExecution(incomingControlFlow1);
+        instance.getContext().setSignaledControlFlow(incomingControlFlow1);
+        instance.getContext().setSignaledControlFlow(incomingControlFlow1);
 
         // now the discriminator should reset and trigger, as the triggering condition is already met.
         token.setLastTakenControlFlow(incomingControlFlow2);
@@ -166,7 +166,7 @@ public class ComplexJoinBehaviourTest {
             "There should be one new token, that has been created as the joinBehaviour just triggered another time.");
 
         ProcessInstanceContext context = instance.getContext();
-        Assert.assertEquals(context.getWaitingExecutions(joinNode).size(), 1,
+        Assert.assertEquals(context.getSignaledControlFlows(joinNode).size(), 1,
             "There should be the one waiting execution");
 
         Assert.assertEquals(getComplexGatewayState(), ComplexGatewayState.WAITING_FOR_RESET,

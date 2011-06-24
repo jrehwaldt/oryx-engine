@@ -24,7 +24,6 @@ package org.jodaengine.deployment.importer.definition.bpmn;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jodaengine.bootstrap.JodaEngine;
 import org.jodaengine.util.xml.XmlParseBuilder;
 import org.jodaengine.util.xml.XmlParser;
 

@@ -3,7 +3,6 @@ package org.jodaengine.process.token;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -14,10 +13,8 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
 import org.jodaengine.process.instance.AbstractProcessInstance;
-import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
-import org.jodaengine.process.token.AbstractToken;
-import org.jodaengine.process.token.Token;
+import org.jodaengine.process.structure.Node;
 
 /**
  * The Class PetriToken. The token is used for petri nets.
@@ -29,9 +26,7 @@ public class PetriToken extends AbstractToken {
     /**
      * Hidden Constructor.
      */
-    protected PetriToken() {
-        
-    }
+    protected PetriToken() { }
     
     /**
      * Instantiates a new process {@link Token}. This will not register any available extension.
@@ -42,23 +37,25 @@ public class PetriToken extends AbstractToken {
      */
     public PetriToken(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
 
-        this(startNode, instance, navigator, null);
+        this(startNode, null, instance, navigator, null);
     }
     
     /**
      * Instantiates a new process {@link TokenImpl} and register all available extensions.
      *
      * @param startNode the start node
+     * @param parentToken the parent token
      * @param instance the instance
      * @param navigator the navigator
      * @param extensionService the extension service
      */
     public PetriToken(Node startNode,
-                     AbstractProcessInstance instance,
-                     Navigator navigator,
-                     @Nullable ExtensionService extensionService) {
+                      Token parentToken,
+                      AbstractProcessInstance instance,
+                      Navigator navigator,
+                      @Nullable ExtensionService extensionService) {
 
-        super(startNode, instance, navigator, extensionService);
+        super(startNode, parentToken, instance, navigator, extensionService);
     }
 
     @Override
@@ -159,27 +156,6 @@ public class PetriToken extends AbstractToken {
 
     @Override
     public void cancelExecution() {
-
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Object getAttribute(String attributeKey) {
-
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void setAttribute(String attributeKey, Object attributeValue) {
 
         // TODO Auto-generated method stub
         

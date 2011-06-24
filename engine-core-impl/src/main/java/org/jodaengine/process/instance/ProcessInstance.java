@@ -134,7 +134,13 @@ public class ProcessInstance extends AbstractProcessInstance {
 
     @Override
     public Token createToken(Node startNode) {
-        Token token = builder.create(startNode);
+        return createToken(startNode, null);
+    }
+    
+    @Override
+    public Token createToken(Node startNode,
+                             Token parentToken) {
+        Token token = builder.create(startNode, parentToken);
         assignedTokens.add(token);
         return token;
     }

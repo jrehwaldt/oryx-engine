@@ -19,7 +19,7 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
         
         // We have an AND Join, so we have to wait untill all paths are ready.
         // The following line states, that the path with the current token is ready.
-        context.setWaitingExecution(token.getLastTakenControlFlow());
+        context.setSignaledControlFlow(token.getLastTakenControlFlow());
         return super.join(token);
     }
 
@@ -37,7 +37,7 @@ public class AndJoinBehaviour extends AbstractIncomingBehaviour {
         List<Token> newTokens = new LinkedList<Token>();
         
         ProcessInstanceContext context = token.getInstance().getContext();
-        context.removeIncomingControlFlows(token.getCurrentNode());
+        context.removeSignaledControlFlows(token.getCurrentNode());
         newTokens.add(token);
         return newTokens;
     }

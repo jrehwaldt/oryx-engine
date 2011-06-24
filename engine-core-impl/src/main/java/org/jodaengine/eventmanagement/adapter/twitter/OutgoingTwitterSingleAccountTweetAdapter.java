@@ -15,7 +15,8 @@ import twitter4j.util.CharacterUtil;
  * So none of the PIN/Authentication stuff has to be done here. You need the oauth tokens of the account and of the
  * application.
  */
-public class OutgoingTwitterSingleAccountTweetAdapter extends AbstractEventAdapter<OutgoingTwitterSingleAccountTweetAdapterConfiguration>
+public class OutgoingTwitterSingleAccountTweetAdapter 
+    extends AbstractEventAdapter<OutgoingTwitterSingleAccountTweetAdapterConfiguration>
 implements OutgoingMessagingAdapter {
 
     private Twitter twitter;
@@ -26,7 +27,8 @@ implements OutgoingMessagingAdapter {
      * @param configuration
      *            the adapter configuration
      */
-    public OutgoingTwitterSingleAccountTweetAdapter(OutgoingTwitterSingleAccountTweetAdapterConfiguration configuration) {
+    public OutgoingTwitterSingleAccountTweetAdapter(
+                                           OutgoingTwitterSingleAccountTweetAdapterConfiguration configuration) {
 
         super(configuration);
         connectToTwitter();
@@ -56,19 +58,19 @@ implements OutgoingMessagingAdapter {
      * 
      * (see www.twitter.com)
      * 
-     * @param message
+     * @param tweet
      *            the message to tweet
      */
-    private void tweet(String message) {
+    private void tweet(String tweet) {
 
-        if (CharacterUtil.isExceedingLengthLimitation(message)) {
+        if (CharacterUtil.isExceedingLengthLimitation(tweet)) {
             logger.error("The tweet is longer than 140 characters.");
             return;
         }
 
         try {
             
-            twitter.updateStatus(message);
+            twitter.updateStatus(tweet);
             
         } catch (TwitterException e) {
             logger.error("The connection to Twitter wasn't possible for some reason.", e);
@@ -80,7 +82,7 @@ implements OutgoingMessagingAdapter {
      */
     private void connectToTwitter() {
 
-        TwitterFactory twitterFactory = new TwitterFactory(this.configuration.getConfigurationBuilder().build());
+        TwitterFactory twitterFactory = new TwitterFactory(this.configuration.getTwitterConfiguration());
         this.twitter = twitterFactory.getInstance();
     }
 

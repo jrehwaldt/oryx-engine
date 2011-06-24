@@ -4,6 +4,8 @@ import javax.annotation.Nonnull;
 
 import org.jodaengine.eventmanagement.adapter.incoming.IncomingPullAdapter;
 
+
+// TODO pulling once here and the time itnerval somewhere else? this is bullshit...
 /**
  * Configuration for {@link IncomingPullAdapter}.
  */

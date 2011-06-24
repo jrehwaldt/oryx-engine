@@ -35,11 +35,18 @@ public class TokenListenerTest {
      */
     @BeforeTest
     public void setUp() {
-
+        
         String dummyString = "s.out";
-
-        this.token = new BpmnToken(new NodeImpl(new AutomatedDummyActivity(dummyString), new SimpleJoinBehaviour(),
-            new TakeAllSplitBehaviour()), new ProcessInstance(null, mock(BpmnTokenBuilder.class)), null);
+        
+        this.token = new BpmnToken(
+            new NodeImpl(
+                new AutomatedDummyActivity(dummyString),
+                new SimpleJoinBehaviour(),
+                new TakeAllSplitBehaviour()),
+                null,
+            new ProcessInstance(null, mock(BpmnTokenBuilder.class)),
+            null,
+            null);
         this.eventCapturer = ArgumentCaptor.forClass(ActivityLifecycleChangeEvent.class);
     }
 

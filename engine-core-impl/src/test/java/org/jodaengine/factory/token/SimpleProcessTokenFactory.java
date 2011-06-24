@@ -28,7 +28,7 @@ public class SimpleProcessTokenFactory {
                         @Nullable ExtensionService extensionService) {
         TokenBuilder builder = new BpmnTokenBuilder(null, extensionService);
         builder.setInstance(new ProcessInstance(null, builder));
-        return builder.create(startNode);
+        return builder.create(startNode, null);
     }
     
     /**
@@ -38,7 +38,12 @@ public class SimpleProcessTokenFactory {
      * @return the process instance
      */
     public Token create(Node startNode) {
-        Token p = new BpmnToken(startNode, new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)), null);
+        Token p = new BpmnToken(
+            startNode,
+            null,
+            new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)),
+            null,
+            null);
         return p;
     }
 

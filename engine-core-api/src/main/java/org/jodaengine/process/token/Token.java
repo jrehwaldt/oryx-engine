@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -16,6 +18,7 @@ import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
+import org.jodaengine.util.Attributable;
 import org.jodaengine.util.Identifiable;
 
 /**
@@ -23,7 +26,7 @@ import org.jodaengine.util.Identifiable;
  * instance. Moreover it is a single strand of execution.
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public interface Token extends Identifiable<UUID> {
+public interface Token extends Identifiable<UUID>, Attributable {
 
     /**
      * Gets the current node.
@@ -127,6 +130,9 @@ public interface Token extends Identifiable<UUID> {
     @JsonIgnore
     boolean isSuspandable();
 
+    //
+    // TODO replace getInternal() etc with methods from Attributable
+    //
     /**
      * Gets an internal variable. Internal variables can for example be used by activities that need state. These are
      * not process instance variables.
@@ -164,4 +170,10 @@ public interface Token extends Identifiable<UUID> {
      */
     void deleteInternalVariable(String id);
     
+    /**
+     * Returns the parent {@link Token}, if any.
+     * 
+     * @return a parent token, if this one was created via a parallel split
+     */
+    @Nullable Token getParentToken();
 }
