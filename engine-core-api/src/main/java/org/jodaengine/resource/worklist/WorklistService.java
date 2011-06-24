@@ -178,8 +178,7 @@ public interface WorklistService extends Service {
     void abortWorklistItemBy(AbstractWorklistItem worklistItem, AbstractResource<?> oldResource);
 
     /**
-     * Execute detour pattern route the item to a resource. The old resource, that executes the pattern, can be
-     * found in the "assignedResources" of the item
+     * Execute the given detour pattern and route the item to a resource.
      * 
      * @param detourPattern
      *            the detour pattern to be executed

@@ -28,7 +28,7 @@ public class PetriTokenBuilder implements TokenBuilder {
      * @param extensionService the extension service
      */
     public PetriTokenBuilder(Navigator nav,
-                            @Nullable ExtensionService extensionService) {
+                             @Nullable ExtensionService extensionService) {
         
         this.nav = nav;
         this.extensionService = extensionService;
@@ -78,8 +78,8 @@ public class PetriTokenBuilder implements TokenBuilder {
     }
     
     @Override
-    public Token create(Node node) {
-        return new PetriToken(node, instance, nav, this.extensionService);
+    public Token create(Node node, Token parentToken) {
+        return new PetriToken(node, parentToken, instance, nav, this.extensionService);
     }
 
 }

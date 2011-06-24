@@ -1,13 +1,14 @@
-Geschäftsprozessmodell/Prozessmodell
+﻿Geschäftsprozessmodell/Prozessmodell
 Geschäftsprozess
 Prozessinstanz
 Prozessengine
 Prozessdefinition
 Prozessumgebung
 Token
-Kopntrollfluss
-Human task/Nutzeraktivität etc.
+Kontrollfluss
+Human task/Nutzeraktivität etc./manuelle Aktivität
 Eventsubscription/Ereignisregistrierung
 Ereignis
 Prozessereignis
+Deployment
 

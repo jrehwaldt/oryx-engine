@@ -86,11 +86,22 @@ public abstract class AbstractProcessInstance implements Identifiable<UUID> {
     public abstract boolean isCancelled();
     
     /**
-     * Creates a new token pointing to the given node n in the same process instance context.
+     * Creates a new token pointing to the given node n in the same process instance context without
+     * a parent token.
      *
+     * @param startNode the start node
      * @return the new process token
      */
     public abstract Token createToken(Node startNode);
+
+    /**
+     * Creates a new token pointing to the given node n in the same process instance context.
+     *
+     * @param startNode the start node
+     * @param parentToken the parent token
+     * @return the new process token
+     */
+    public abstract Token createToken(Node startNode, Token parentToken);
     
     /**
      * Gets the builder.
