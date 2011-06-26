@@ -5,7 +5,7 @@ import org.jodaengine.eventmanagement.adapter.phidget.IncomingIFKitAdapterConfig
 import org.jodaengine.eventmanagement.adapter.phidget.IFKitAdapterEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IntermediateIncomingOpenIFKitProcessEvent;
+import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IntermediateIncomingIFKitProcessEvent;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.node.activity.AbstractActivity;
 import org.jodaengine.process.token.AbstractToken;
@@ -14,7 +14,7 @@ import org.jodaengine.process.token.Token;
 /**
  * The Class OpenIFKitActivity.
  */
-public class OpenIFKitActivity extends AbstractActivity {
+public class IFKitActivity extends AbstractActivity {
 
     private int channel;
     
@@ -23,7 +23,7 @@ public class OpenIFKitActivity extends AbstractActivity {
      *
      * @param channel the channel
      */
-    public OpenIFKitActivity(int channel) {
+    public IFKitActivity(int channel) {
         this.channel = channel;
     }
     
@@ -60,7 +60,7 @@ public class OpenIFKitActivity extends AbstractActivity {
         EventCondition subjectCondition = new MethodInvokingEventCondition(IFKitAdapterEvent.class, 
                                                                             "getChannel", 
                                                                             channel);
-        return new IntermediateIncomingOpenIFKitProcessEvent(new IncomingIFKitAdapterConfiguration(),
+        return new IntermediateIncomingIFKitProcessEvent(new IncomingIFKitAdapterConfiguration(),
             subjectCondition, token);
 
     }

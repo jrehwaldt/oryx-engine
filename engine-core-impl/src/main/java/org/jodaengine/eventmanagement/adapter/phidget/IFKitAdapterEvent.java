@@ -9,20 +9,20 @@ import org.jodaengine.eventmanagement.adapter.configuration.AdapterConfiguration
 public class IFKitAdapterEvent extends AbstractAdapterEvent {
 
     private int value;
-    private int channel;
+    private int port;
     
     /**
      * Instantiates a new openIFKit adapter event.
      *
      * @param value the value of the sensor, ranges from 0 to 1000
-     * @param channel the channel the event occured on
+     * @param port the port of the InterfaceKit the event occured on
      * @param configuration the configuration
      */
-    public IFKitAdapterEvent(int value, int channel, AdapterConfiguration configuration) {
+    public IFKitAdapterEvent(int value, int port, AdapterConfiguration configuration) {
 
         super(configuration);
         this.value = value;
-        this.channel = channel;
+        this.port = port;
     }
 
     public int getValue() {
@@ -30,9 +30,9 @@ public class IFKitAdapterEvent extends AbstractAdapterEvent {
         return value;
     }
 
-    public int getChannel() {
+    public int getPort() {
     
-        return channel;
+        return port;
     }
 
 }

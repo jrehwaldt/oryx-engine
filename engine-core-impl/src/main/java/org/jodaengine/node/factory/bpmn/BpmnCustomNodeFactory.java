@@ -6,7 +6,7 @@ import org.jodaengine.node.activity.custom.AddContextNumbersAndStoreActivity;
 import org.jodaengine.node.activity.custom.AddNumbersAndStoreActivity;
 import org.jodaengine.node.activity.custom.AutomatedDummyActivity;
 import org.jodaengine.node.activity.custom.HashComputationActivity;
-import org.jodaengine.node.activity.custom.OpenIFKitActivity;
+import org.jodaengine.node.activity.custom.IFKitActivity;
 import org.jodaengine.node.activity.custom.PrintingVariableActivity;
 import org.jodaengine.node.activity.custom.TweetActivity;
 import org.jodaengine.node.activity.custom.TweetEndEventActivity;
@@ -210,7 +210,7 @@ public final class BpmnCustomNodeFactory extends ControlFlowFactory {
      * @return the node
      */
     public static Node createPhidgetNode(BpmnProcessDefinitionBuilder builder, int channel) {
-        Activity activityBehavior = new OpenIFKitActivity(channel);
+        Activity activityBehavior = new IFKitActivity(channel);
         
         return createDefaultBpmnNodeWith(builder, activityBehavior);
     }

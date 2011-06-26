@@ -44,12 +44,6 @@ implements IncomingAdapter {
         } catch (PhidgetException e) {
             logger.error("Could not open the connection to the OpenIFKit for some reason, is it really attached?");
         }
-        try {
-            interfaceKitPhidget.openAny();
-        } catch (PhidgetException e) {
-            logger.error("wwwwwwwwwwwwooooooooaaaaaaahhhhhhhhhhhhhhhhhhhhh no open any bitch!");
-        }
-
     }
 
     /**
@@ -59,7 +53,6 @@ implements IncomingAdapter {
      *            the event
      */
     public void updateFromSensor(SensorChangeEvent event) {
-
         IFKitAdapterEvent adapterEvent = new IFKitAdapterEvent(event.getValue(), event.getIndex(),
             this.getConfiguration());
         this.correlate(adapterEvent);

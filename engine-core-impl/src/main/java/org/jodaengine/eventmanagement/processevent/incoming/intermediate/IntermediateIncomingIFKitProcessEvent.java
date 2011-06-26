@@ -7,7 +7,7 @@ import org.jodaengine.process.token.Token;
 /**
  * The Class IntermediateIncomingOpenIFKitProcessEvent.
  */
-public class IntermediateIncomingOpenIFKitProcessEvent extends AbstractIncomingIntermediateProcessEvent {
+public class IntermediateIncomingIFKitProcessEvent extends AbstractIncomingIntermediateProcessEvent {
 
     /**
      * Instantiates a new intermediate incoming open if kit process event.
@@ -16,7 +16,7 @@ public class IntermediateIncomingOpenIFKitProcessEvent extends AbstractIncomingI
      * @param condition the condition
      * @param token the token
      */
-    public IntermediateIncomingOpenIFKitProcessEvent(IncomingIFKitAdapterConfiguration config,
+    public IntermediateIncomingIFKitProcessEvent(IncomingIFKitAdapterConfiguration config,
                                                         EventCondition condition,
                                                         Token token) {
 
