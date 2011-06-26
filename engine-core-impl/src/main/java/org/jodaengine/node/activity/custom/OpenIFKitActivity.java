@@ -1,8 +1,8 @@
 package org.jodaengine.node.activity.custom;
 
 import org.jodaengine.eventmanagement.EventSubscriptionManagement;
-import org.jodaengine.eventmanagement.adapter.phidget.IncomingOpenIFKitAdapterConfiguration;
-import org.jodaengine.eventmanagement.adapter.phidget.OpenIFKitAdapterEvent;
+import org.jodaengine.eventmanagement.adapter.phidget.IncomingIFKitAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.phidget.IFKitAdapterEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IncomingIntermediateProcessEvent;
 import org.jodaengine.eventmanagement.processevent.incoming.intermediate.IntermediateIncomingOpenIFKitProcessEvent;
@@ -42,7 +42,7 @@ public class OpenIFKitActivity extends AbstractActivity {
     @Override
     public void resume(Token token, Object resumeObject) {
 
-        OpenIFKitAdapterEvent event = (OpenIFKitAdapterEvent) resumeObject;
+        IFKitAdapterEvent event = (IFKitAdapterEvent) resumeObject;
         logger.debug("LLLLLLLOOOOOOOOOOOLLLLLLLLLLLL: " + event.getValue());
         super.resume(token, resumeObject);
 
@@ -57,10 +57,10 @@ public class OpenIFKitActivity extends AbstractActivity {
      */
     private IncomingIntermediateProcessEvent createProcessEvent(Token token) {
 
-        EventCondition subjectCondition = new MethodInvokingEventCondition(OpenIFKitAdapterEvent.class, 
+        EventCondition subjectCondition = new MethodInvokingEventCondition(IFKitAdapterEvent.class, 
                                                                             "getChannel", 
                                                                             channel);
-        return new IntermediateIncomingOpenIFKitProcessEvent(new IncomingOpenIFKitAdapterConfiguration(),
+        return new IntermediateIncomingOpenIFKitProcessEvent(new IncomingIFKitAdapterConfiguration(),
             subjectCondition, token);
 
     }

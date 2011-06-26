@@ -17,14 +17,14 @@ import com.phidgets.event.SensorChangeListener;
 public class JodaSensorChangeListener implements SensorChangeListener {
 
     /** The adapter. */
-    private IncomingOpenIFKitAdapter adapter;
+    private IncomingIFKitAdapter adapter;
     
     /**
      * Instantiates a new joda sensor change listener.
      *
      * @param adapter the adapter
      */
-    public JodaSensorChangeListener(IncomingOpenIFKitAdapter adapter) {
+    public JodaSensorChangeListener(IncomingIFKitAdapter adapter) {
         this.adapter = adapter;
     }
     

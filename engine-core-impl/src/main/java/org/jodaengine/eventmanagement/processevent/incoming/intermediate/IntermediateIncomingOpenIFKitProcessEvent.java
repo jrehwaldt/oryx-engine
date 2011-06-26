@@ -1,6 +1,6 @@
 package org.jodaengine.eventmanagement.processevent.incoming.intermediate;
 
-import org.jodaengine.eventmanagement.adapter.phidget.IncomingOpenIFKitAdapterConfiguration;
+import org.jodaengine.eventmanagement.adapter.phidget.IncomingIFKitAdapterConfiguration;
 import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
 import org.jodaengine.process.token.Token;
 
@@ -16,7 +16,7 @@ public class IntermediateIncomingOpenIFKitProcessEvent extends AbstractIncomingI
      * @param condition the condition
      * @param token the token
      */
-    public IntermediateIncomingOpenIFKitProcessEvent(IncomingOpenIFKitAdapterConfiguration config,
+    public IntermediateIncomingOpenIFKitProcessEvent(IncomingIFKitAdapterConfiguration config,
                                                         EventCondition condition,
                                                         Token token) {
 

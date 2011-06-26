@@ -10,7 +10,7 @@ import com.phidgets.event.SensorChangeEvent;
 /**
  * The Class IncomingOpenIFKitAdapter.
  */
-public class IncomingOpenIFKitAdapter extends AbstractCorrelatingEventAdapter<IncomingOpenIFKitAdapterConfiguration>
+public class IncomingIFKitAdapter extends AbstractCorrelatingEventAdapter<IncomingIFKitAdapterConfiguration>
 implements IncomingAdapter {
 
     /** The interface kit phidget. */
@@ -22,7 +22,7 @@ implements IncomingAdapter {
      * @param configuration
      *            the configuration
      */
-    public IncomingOpenIFKitAdapter(IncomingOpenIFKitAdapterConfiguration configuration) {
+    public IncomingIFKitAdapter(IncomingIFKitAdapterConfiguration configuration) {
 
         super(configuration);
         try {
@@ -60,7 +60,7 @@ implements IncomingAdapter {
      */
     public void updateFromSensor(SensorChangeEvent event) {
 
-        OpenIFKitAdapterEvent adapterEvent = new OpenIFKitAdapterEvent(event.getValue(), event.getIndex(),
+        IFKitAdapterEvent adapterEvent = new IFKitAdapterEvent(event.getValue(), event.getIndex(),
             this.getConfiguration());
         this.correlate(adapterEvent);
     }

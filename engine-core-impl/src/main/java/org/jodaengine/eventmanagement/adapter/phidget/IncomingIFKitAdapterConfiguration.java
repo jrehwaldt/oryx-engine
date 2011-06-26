@@ -9,12 +9,12 @@ import org.jodaengine.eventmanagement.adapter.incoming.IncomingAdapter;
 /**
  * The Class IncomingOpenIFKitAdapterConfiguration.
  */
-public class IncomingOpenIFKitAdapterConfiguration extends AbstractAdapterConfiguration {
+public class IncomingIFKitAdapterConfiguration extends AbstractAdapterConfiguration {
     
     /**
      * Instantiates a new incoming open if kit adapter configuration.   *
      */
-    public IncomingOpenIFKitAdapterConfiguration() {
+    public IncomingIFKitAdapterConfiguration() {
 
         super(EventTypes.Phidget);
     }
@@ -32,7 +32,7 @@ public class IncomingOpenIFKitAdapterConfiguration extends AbstractAdapterConfig
      * @return the incoming adapter
      */
     private IncomingAdapter createAdapter() {
-        return new IncomingOpenIFKitAdapter(this);
+        return new IncomingIFKitAdapter(this);
     }
 
 }
