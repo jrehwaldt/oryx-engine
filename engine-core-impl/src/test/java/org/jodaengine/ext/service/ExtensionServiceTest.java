@@ -57,7 +57,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
     @Test(expectedExceptions = ExtensionNotAvailableException.class)
     public void testGettingUnavailableExtension()
     throws ExtensionNotAvailableException {
-        this.extensionService.getExtensionService(
+        this.extensionService.getServiceExtension(
             TestingExtensionService.class,
             TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME + "-not-available");
     }
@@ -71,7 +71,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
     public void testGettingAvailableExtension()
     throws ExtensionNotAvailableException {
         
-        TestingExtensionService service = this.extensionService.getExtensionService(
+        TestingExtensionService service = this.extensionService.getServiceExtension(
             TestingExtensionService.class,
             TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME);
         
@@ -87,7 +87,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
     public void testInitializationOfExtension()
     throws ExtensionNotAvailableException {
         
-        TestingExtensionService service = this.extensionService.getExtensionService(
+        TestingExtensionService service = this.extensionService.getServiceExtension(
             TestingExtensionService.class,
             TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME);
         
@@ -131,7 +131,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
                 Assert.assertEquals(this.jodaEngineServices.getWorklistService(), testingListener.worklist);
                 Assert.assertEquals(this.jodaEngineServices.getRepositoryService(), testingListener.repository);
                 
-                TestingExtensionService testingService = this.extensionService.getExtensionService(
+                TestingExtensionService testingService = this.extensionService.getServiceExtension(
                     TestingExtensionService.class,
                     TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME);
                 
@@ -207,13 +207,13 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
     @Test
     public void testGettingOneInstanceOnMultipleRunsOfGetExtServices() throws ExtensionNotAvailableException {
         
-        TestingExtensionService firstTestingService = this.extensionService.getExtensionService(
+        TestingExtensionService firstTestingService = this.extensionService.getServiceExtension(
             TestingExtensionService.class,
             TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME);
         
         Assert.assertNotNull(firstTestingService);
         
-        TestingExtensionService secondTestingService = this.extensionService.getExtensionService(
+        TestingExtensionService secondTestingService = this.extensionService.getServiceExtension(
             TestingExtensionService.class,
             TestingExtensionService.DEMO_EXTENSION_SERVICE_NAME);
         
@@ -249,7 +249,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
     public void testCreationOfWebServiceSingletons()
     throws ExtensionNotAvailableException {
         
-        TestingWebExtensionService testing = this.extensionService.getExtensionService(
+        TestingWebExtensionService testing = this.extensionService.getServiceExtension(
             TestingWebExtensionService.class,
             TestingWebExtensionService.DEMO_EXTENSION_SERVICE_NAME);
         
@@ -367,7 +367,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
     @Test
     public void testRegisteringOfDarHandler() throws IllegalAccessException, ExtensionNotAvailableException {
         
-        TestingListenerExtensionService listenerService = this.extensionService.getExtensionService(
+        TestingListenerExtensionService listenerService = this.extensionService.getServiceExtension(
             TestingListenerExtensionService.class,
             TestingListenerExtensionService.DEMO_EXTENSION_SERVICE_NAME);
         
@@ -393,7 +393,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
     @Test
     public void testParseListenerRegistrationInDarImporter() throws ExtensionNotAvailableException {
         
-        TestingListenerExtensionService listenerService = this.extensionService.getExtensionService(
+        TestingListenerExtensionService listenerService = this.extensionService.getServiceExtension(
             TestingListenerExtensionService.class,
             TestingListenerExtensionService.DEMO_EXTENSION_SERVICE_NAME);
         
@@ -428,7 +428,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         //
         // get ExtensionService
         //
-        TestingListenerExtensionService listenerService = this.extensionService.getExtensionService(
+        TestingListenerExtensionService listenerService = this.extensionService.getServiceExtension(
             TestingListenerExtensionService.class,
             TestingListenerExtensionService.DEMO_EXTENSION_SERVICE_NAME);
         
@@ -486,7 +486,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
     @Test
     public void testDeploymentListenerRegistrationInRepository() throws ExtensionNotAvailableException {
         
-        TestingListenerExtensionService listenerService = this.extensionService.getExtensionService(
+        TestingListenerExtensionService listenerService = this.extensionService.getServiceExtension(
             TestingListenerExtensionService.class,
             TestingListenerExtensionService.DEMO_EXTENSION_SERVICE_NAME);
         

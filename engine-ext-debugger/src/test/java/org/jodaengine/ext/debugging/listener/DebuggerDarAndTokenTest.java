@@ -102,7 +102,7 @@ public class DebuggerDarAndTokenTest extends AbstractJodaEngineTest {
     throws ExtensionNotAvailableException, ProcessArtifactNotFoundException, URISyntaxException,
     DefinitionNotFoundException {
         
-        DebuggerServiceImpl debugger = this.jodaEngineServices.getExtensionService().getExtensionService(
+        DebuggerServiceImpl debugger = this.jodaEngineServices.getExtensionService().getServiceExtension(
             DebuggerServiceImpl.class,
             DebuggerServiceImpl.DEBUGGER_SERVICE_NAME);
         Assert.assertNotNull(debugger);

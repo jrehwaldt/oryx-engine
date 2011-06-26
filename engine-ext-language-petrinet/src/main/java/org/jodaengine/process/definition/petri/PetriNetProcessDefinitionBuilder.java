@@ -16,7 +16,7 @@ import org.jodaengine.util.Attributable;
 /**
  * The Class PetriProcessDefinitionBuilder.
  */
-public class PetriProcessDefinitionBuilder implements Attributable {
+public class PetriNetProcessDefinitionBuilder implements Attributable {
     
 
     private List<Node> startNodes;
@@ -30,7 +30,7 @@ public class PetriProcessDefinitionBuilder implements Attributable {
         return description;
     }
 
-    public PetriProcessDefinitionBuilder setStartNodes(List<Node> startNodes) {
+    public PetriNetProcessDefinitionBuilder setStartNodes(List<Node> startNodes) {
     
         this.startNodes = startNodes;
         return this;
@@ -43,18 +43,18 @@ public class PetriProcessDefinitionBuilder implements Attributable {
         startNodes.add(node);
     }
 
-    public static PetriProcessDefinitionBuilder newBuilder() {
-        return new PetriProcessDefinitionBuilder();
+    public static PetriNetProcessDefinitionBuilder newBuilder() {
+        return new PetriNetProcessDefinitionBuilder();
     }
 
-    public PetriProcessDefinitionBuilder setName(String processName) {
+    public PetriNetProcessDefinitionBuilder setName(String processName) {
 
         this.name = processName;
         this.id = new ProcessDefinitionID(name);
         return this;
     }
 
-    public PetriProcessDefinitionBuilder setDescription(String description) {
+    public PetriNetProcessDefinitionBuilder setDescription(String description) {
 
         this.description = description;
         return this;

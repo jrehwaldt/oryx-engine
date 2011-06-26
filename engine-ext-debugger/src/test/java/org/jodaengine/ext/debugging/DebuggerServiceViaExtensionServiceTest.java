@@ -87,7 +87,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
     public void testRequiredServiceIsStarted()
     throws ExtensionNotAvailableException, IllegalAccessException {
         
-        DebuggerService service = this.extensionService.getExtensionService(
+        DebuggerService service = this.extensionService.getServiceExtension(
             DebuggerService.class,
             DebuggerService.DEBUGGER_SERVICE_NAME);
         
@@ -141,7 +141,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
     public void testRequiredReferenceResolverServiceIsStarted()
     throws ExtensionNotAvailableException {
         
-        ReferenceResolverService service = this.extensionService.getExtensionService(
+        ReferenceResolverService service = this.extensionService.getServiceExtension(
             ReferenceResolverService.class,
             ReferenceResolverService.RESOLVER_SERVICE_NAME);
         
@@ -225,7 +225,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
     public void testCreationOfWebServiceSingletons()
     throws ExtensionNotAvailableException, IllegalAccessException {
         
-        DebuggerService debugger = this.extensionService.getExtensionService(
+        DebuggerService debugger = this.extensionService.getServiceExtension(
             DebuggerService.class,
             DebuggerService.DEBUGGER_SERVICE_NAME);
         

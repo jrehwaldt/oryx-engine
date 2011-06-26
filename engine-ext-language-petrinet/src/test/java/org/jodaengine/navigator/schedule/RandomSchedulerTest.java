@@ -8,13 +8,13 @@ import static org.testng.Assert.assertTrue;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jodaengine.node.factory.petri.PetriNodeFactory;
+import org.jodaengine.node.factory.petri.PetriNetNodeFactory;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
-import org.jodaengine.process.token.builder.PetriTokenBuilder;
+import org.jodaengine.process.token.builder.PetriNetTokenBuilder;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
 import org.jodaengine.util.testing.SkipBuildingJodaEngine;
 import org.jodaengine.util.testing.SkipBuildingJodaEngine.JodaEngineTestSkipMode;
@@ -50,8 +50,8 @@ public class RandomSchedulerTest extends AbstractJodaEngineTest {
     throws Exception {
 
         scheduler = new RandomPetriNetScheduler();
-        Node startNode = PetriNodeFactory.createPlace();
-        TokenBuilder builder = new PetriTokenBuilder(null, null);
+        Node startNode = PetriNetNodeFactory.createPlace();
+        TokenBuilder builder = new PetriNetTokenBuilder(null, null);
         instance = new ProcessInstance(null, builder);
         firstToken = instance.createToken(startNode);
         secondToken = instance.createToken(startNode);

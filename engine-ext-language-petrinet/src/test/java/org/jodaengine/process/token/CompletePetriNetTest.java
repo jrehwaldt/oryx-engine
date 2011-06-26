@@ -11,11 +11,11 @@ import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.exception.DefinitionNotActivatedException;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.IllegalStarteventException;
-import org.jodaengine.node.factory.PetriTransitionFactory;
-import org.jodaengine.node.factory.petri.PetriNodeFactory;
+import org.jodaengine.node.factory.PetriNetTransitionFactory;
+import org.jodaengine.node.factory.petri.PetriNetNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
-import org.jodaengine.process.definition.petri.PetriProcessDefinitionBuilder;
+import org.jodaengine.process.definition.petri.PetriNetProcessDefinitionBuilder;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
@@ -130,7 +130,7 @@ public class CompletePetriNetTest extends AbstractJodaEngineTest{
 
         DeploymentBuilder deploymentBuilder = jodaEngineServices.getRepositoryService().getDeploymentBuilder();
 
-        ProcessDefinition processDefinition = buildSampleProcessDefinition(PetriProcessDefinitionBuilder.newBuilder());
+        ProcessDefinition processDefinition = buildSampleProcessDefinition(PetriNetProcessDefinitionBuilder.newBuilder());
 
         ProcessDefinitionID sampleProcessUUID = processDefinition.getID();
         deploymentBuilder.addProcessDefinition(processDefinition);
@@ -149,25 +149,25 @@ public class CompletePetriNetTest extends AbstractJodaEngineTest{
      * @throws IllegalStarteventException the illegal startevent exception
      * </p>
      */
-    private ProcessDefinition buildSampleProcessDefinition(PetriProcessDefinitionBuilder definitionBuilder)
+    private ProcessDefinition buildSampleProcessDefinition(PetriNetProcessDefinitionBuilder definitionBuilder)
     throws IllegalStarteventException {
 
         String sampleProcessName = "Sample petri net";
         String sampleProcessDescription = "A simple petri net.";
 
-        startPlace = PetriNodeFactory.createPlace();
+        startPlace = PetriNetNodeFactory.createPlace();
         startPlace.setAttribute("name", "S0");
-        secondStartPlace = PetriNodeFactory.createPlace();
+        secondStartPlace = PetriNetNodeFactory.createPlace();
         secondStartPlace.setAttribute("name", "S1");
-        endPlace = PetriNodeFactory.createPlace();
+        endPlace = PetriNetNodeFactory.createPlace();
         endPlace.setAttribute("name", "S3");
-        firstTransition = PetriNodeFactory.createPetriTransition();
+        firstTransition = PetriNetNodeFactory.createPetriTransition();
         firstTransition.setAttribute("name", "T2");
 
 
-        PetriTransitionFactory.createControlFlowFromTo(definitionBuilder, startPlace, firstTransition);
-        PetriTransitionFactory.createControlFlowFromTo(definitionBuilder, secondStartPlace, firstTransition);
-        PetriTransitionFactory.createControlFlowFromTo(definitionBuilder, firstTransition, endPlace);
+        PetriNetTransitionFactory.createControlFlowFromTo(definitionBuilder, startPlace, firstTransition);
+        PetriNetTransitionFactory.createControlFlowFromTo(definitionBuilder, secondStartPlace, firstTransition);
+        PetriNetTransitionFactory.createControlFlowFromTo(definitionBuilder, firstTransition, endPlace);
         List<Node> startNodes = new ArrayList<Node>();
         startNodes.add(startPlace);
         startNodes.add(secondStartPlace);

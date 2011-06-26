@@ -10,7 +10,7 @@ import org.jodaengine.node.outgoingbehaviour.petri.TransitionSplitBehaviour;
 import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
-import org.jodaengine.process.token.builder.PetriTokenBuilder;
+import org.jodaengine.process.token.builder.PetriNetTokenBuilder;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -49,7 +49,7 @@ public class TokenUtilTest {
         startPlace.controlFlowTo(petriTransition);
         petriTransition.controlFlowTo(endPlace);
         
-        TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);
+        TokenBuilder tokenBuilder = new PetriNetTokenBuilder(Mockito.mock(Navigator.class), null);
         instance = new ProcessInstance(null, tokenBuilder);
         
         util = new TokenUtil();

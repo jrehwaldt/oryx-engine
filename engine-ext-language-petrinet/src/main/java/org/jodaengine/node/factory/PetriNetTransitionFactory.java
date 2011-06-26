@@ -3,7 +3,7 @@ package org.jodaengine.node.factory;
 
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionBuilder;
-import org.jodaengine.process.definition.petri.PetriProcessDefinitionBuilder;
+import org.jodaengine.process.definition.petri.PetriNetProcessDefinitionBuilder;
 import org.jodaengine.process.structure.Condition;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.ControlFlow;
@@ -13,7 +13,7 @@ import org.jodaengine.process.structure.ControlFlow;
  * This Factory is able to create {@link ControlFlow}s.
  */
 // CHECKSTYLE:OFF
-public class PetriTransitionFactory {
+public class PetriNetTransitionFactory {
 // CHECKSTYLE:ON
 
     /**
@@ -27,7 +27,7 @@ public class PetriTransitionFactory {
      *            - the {@link Node DestinationNode}
      * @return a {@link ControlFlow}
      */
-    public static ControlFlow createControlFlowFromTo(PetriProcessDefinitionBuilder builder, Node source, Node destination) {
+    public static ControlFlow createControlFlowFromTo(PetriNetProcessDefinitionBuilder builder, Node source, Node destination) {
 
         return builder.getControlFlowBuilder().controlFlowGoesFromTo(source, destination).buildControlFlow();
     }

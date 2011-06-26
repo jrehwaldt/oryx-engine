@@ -63,7 +63,7 @@ public class ReferenceResolverServiceImpl implements ReferenceResolverService {
         this.repository = services.getRepositoryService();
         this.navigator = services.getNavigatorService();
         try {
-            this.debugger = extensionService.getExtensionService(
+            this.debugger = extensionService.getServiceExtension(
                 DebuggerService.class, DebuggerService.DEBUGGER_SERVICE_NAME);
         } catch (ExtensionNotAvailableException enae) {
             logger.error("The Breakpoint Resolver will be unavailable. No Debugger Service found.");

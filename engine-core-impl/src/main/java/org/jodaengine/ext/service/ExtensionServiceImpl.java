@@ -136,7 +136,7 @@ public class ExtensionServiceImpl implements ExtensionService {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <IExtensionService extends Service> IExtensionService getExtensionService(Class<IExtensionService> extension,
+    public <IExtensionService extends Service> IExtensionService getServiceExtension(Class<IExtensionService> extension,
                                                                                      String name)
     throws ExtensionNotAvailableException {
         

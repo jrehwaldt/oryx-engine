@@ -71,8 +71,8 @@ public class DebuggerWebService implements DebuggerService, BreakpointService, D
         
         ExtensionService extensionService = this.engineServices.getExtensionService();
         try {
-            this.debugger = extensionService.getExtensionService(DebuggerService.class, DEBUGGER_SERVICE_NAME);
-            this.resolver = extensionService.getExtensionService(
+            this.debugger = extensionService.getServiceExtension(DebuggerService.class, DEBUGGER_SERVICE_NAME);
+            this.resolver = extensionService.getServiceExtension(
                 ReferenceResolverService.class, ReferenceResolverService.RESOLVER_SERVICE_NAME);
         } catch (ExtensionNotAvailableException e) {
             logger.error("The Debugger REST API will be unavailable. No Debugger/Resolver Service found.");

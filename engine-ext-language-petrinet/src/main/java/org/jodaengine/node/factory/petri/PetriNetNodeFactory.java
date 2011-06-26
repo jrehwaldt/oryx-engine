@@ -11,12 +11,12 @@ import org.jodaengine.process.structure.NodeImpl;
 /**
  * This Factory is able to create {@link Node Nodes} for petri nets. To be more specific places and transitions.
  */
-public final class PetriNodeFactory extends ControlFlowFactory {
+public final class PetriNetNodeFactory extends ControlFlowFactory {
 
     /**
      * Hidden Constructor.
      */
-    private PetriNodeFactory() {
+    private PetriNetNodeFactory() {
 
     }
     

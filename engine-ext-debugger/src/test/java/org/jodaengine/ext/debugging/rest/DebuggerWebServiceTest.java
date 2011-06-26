@@ -37,7 +37,7 @@ public class DebuggerWebServiceTest extends AbstractJsonServerTest {
      */
     @BeforeMethod
     public void setUp() throws ExtensionNotAvailableException {
-        this.debugger = this.jodaEngineServices.getExtensionService().getExtensionService(
+        this.debugger = this.jodaEngineServices.getExtensionService().getServiceExtension(
             DebuggerServiceImpl.class,
             DebuggerServiceImpl.DEBUGGER_SERVICE_NAME);
         

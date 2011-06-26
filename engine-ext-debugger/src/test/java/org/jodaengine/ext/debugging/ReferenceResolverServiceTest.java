@@ -75,11 +75,11 @@ public class ReferenceResolverServiceTest extends AbstractJodaEngineTest {
         //
         ExtensionService extensionService = this.jodaEngineServices.getExtensionService();
         
-        this.debugger = extensionService.getExtensionService(
+        this.debugger = extensionService.getServiceExtension(
             DebuggerServiceImpl.class,
             DebuggerServiceImpl.DEBUGGER_SERVICE_NAME);
         
-        this.resolver = extensionService.getExtensionService(
+        this.resolver = extensionService.getServiceExtension(
             ReferenceResolverService.class,
             ReferenceResolverService.RESOLVER_SERVICE_NAME);
         

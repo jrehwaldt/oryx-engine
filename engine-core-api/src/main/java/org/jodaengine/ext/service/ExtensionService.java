@@ -46,7 +46,7 @@ public interface ExtensionService extends Service {
      * @return an array of available extensions
      * @throws ExtensionNotAvailableException no such extension available
      */
-    @Nonnull <IExtService extends Service> IExtService getExtensionService(@Nonnull Class<IExtService> extension,
+    @Nonnull <IExtService extends Service> IExtService getServiceExtension(@Nonnull Class<IExtService> extension,
                                                                            @Nonnull String name)
     throws ExtensionNotAvailableException;
     

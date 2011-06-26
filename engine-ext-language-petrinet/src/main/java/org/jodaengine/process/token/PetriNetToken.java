@@ -21,12 +21,12 @@ import org.jodaengine.process.structure.Node;
  *
  * @author Jannik
  */
-public class PetriToken extends AbstractToken {
+public class PetriNetToken extends AbstractToken {
     
     /**
      * Hidden Constructor.
      */
-    protected PetriToken() { }
+    protected PetriNetToken() { }
     
     /**
      * Instantiates a new process {@link Token}. This will not register any available extension.
@@ -35,7 +35,7 @@ public class PetriToken extends AbstractToken {
      * @param instance the instance
      * @param navigator the navigator
      */
-    public PetriToken(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
+    public PetriNetToken(Node startNode, AbstractProcessInstance instance, Navigator navigator) {
 
         this(startNode, null, instance, navigator, null);
     }
@@ -49,7 +49,7 @@ public class PetriToken extends AbstractToken {
      * @param navigator the navigator
      * @param extensionService the extension service
      */
-    public PetriToken(Node startNode,
+    public PetriNetToken(Node startNode,
                       Token parentToken,
                       AbstractProcessInstance instance,
                       Navigator navigator,

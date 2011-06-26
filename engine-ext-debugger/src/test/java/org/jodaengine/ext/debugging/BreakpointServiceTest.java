@@ -56,7 +56,7 @@ public class BreakpointServiceTest extends AbstractJodaEngineTest {
     @BeforeMethod
     public void setUp() throws ExtensionNotAvailableException {
         this.extensionService = this.jodaEngineServices.getExtensionService();
-        this.debugger = this.extensionService.getExtensionService(
+        this.debugger = this.extensionService.getServiceExtension(
             DebuggerServiceImpl.class,
             DebuggerServiceImpl.DEBUGGER_SERVICE_NAME);
         

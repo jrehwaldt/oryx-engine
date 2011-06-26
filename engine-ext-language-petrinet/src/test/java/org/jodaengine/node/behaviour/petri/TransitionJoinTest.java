@@ -16,7 +16,7 @@ import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
 import org.jodaengine.process.token.TokenUtil;
-import org.jodaengine.process.token.builder.PetriTokenBuilder;
+import org.jodaengine.process.token.builder.PetriNetTokenBuilder;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -64,7 +64,7 @@ public class TransitionJoinTest {
         node2.controlFlowTo(node4);
 
         util = new TokenUtil();
-        TokenBuilder tokenBuilder = new PetriTokenBuilder(Mockito.mock(Navigator.class), null);
+        TokenBuilder tokenBuilder = new PetriNetTokenBuilder(Mockito.mock(Navigator.class), null);
         instance = new ProcessInstance(null, tokenBuilder);
         token = instance.createToken(node);
     }

@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.jodaengine.exception.JodaEngineRuntimeException;
-import org.jodaengine.node.factory.petri.PetriNodeFactory;
+import org.jodaengine.node.factory.petri.PetriNetNodeFactory;
 import org.jodaengine.process.definition.ProcessDefinition;
-import org.jodaengine.process.definition.petri.PetriProcessDefinitionBuilder;
+import org.jodaengine.process.definition.petri.PetriNetProcessDefinitionBuilder;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.ControlFlowBuilder;
 import org.jodaengine.process.structure.Node;
@@ -48,7 +48,7 @@ public class PetriNetXmlParse extends XmlParse {
 
     private ProcessDefinition finishedProcessDefinition;
 
-    private PetriProcessDefinitionBuilder processBuilder;
+    private PetriNetProcessDefinitionBuilder processBuilder;
 
     private List<PetriNetXmlParseListener> parseListeners;
 
@@ -71,7 +71,7 @@ public class PetriNetXmlParse extends XmlParse {
     public PetriNetXmlParse(PetriNetXmlParser petriNetXmlParser, StreamSource streamSource) {
 
         super(petriNetXmlParser, streamSource);
-        this.processBuilder = new PetriProcessDefinitionBuilder();
+        this.processBuilder = new PetriNetProcessDefinitionBuilder();
         this.parseListeners = petriNetXmlParser.getParseListeners();
     }
 
@@ -197,7 +197,7 @@ public class PetriNetXmlParse extends XmlParse {
 
         for(XmlElement element : placeXmlElements) {
 
-            Node place = PetriNodeFactory.createPlace();
+            Node place = PetriNetNodeFactory.createPlace();
             if(element.getElements("initialMarking").size() > 0) {
                 processBuilder.addStartNode(place);
             }
@@ -214,7 +214,7 @@ public class PetriNetXmlParse extends XmlParse {
 
         for(XmlElement element : placeXmlElements) {
 
-            Node transition = PetriNodeFactory.createPetriTransition();
+            Node transition = PetriNetNodeFactory.createPetriTransition();
 
             parseGeneralInformation(element, transition);
 

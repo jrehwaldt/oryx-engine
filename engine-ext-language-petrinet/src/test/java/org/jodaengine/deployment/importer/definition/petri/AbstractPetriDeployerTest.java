@@ -6,7 +6,7 @@ import org.jodaengine.ServiceFactory;
 import org.jodaengine.deployment.Deployment;
 import org.jodaengine.deployment.DeploymentBuilder;
 import org.jodaengine.deployment.ProcessDefinitionImporter;
-import org.jodaengine.deployment.importer.definition.PetriXmlImporter;
+import org.jodaengine.deployment.importer.definition.PetriNetXmlImporter;
 import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -42,7 +42,7 @@ public abstract class AbstractPetriDeployerTest extends AbstractJodaEngineTest {
 
         InputStream petriXmlInputStream = ReflectionUtil.getResourceAsStream(executableProcessResourcePath);
         Assert.assertNotNull(petriXmlInputStream);
-        ProcessDefinitionImporter processDefinitionImporter = new PetriXmlImporter(petriXmlInputStream);
+        ProcessDefinitionImporter processDefinitionImporter = new PetriNetXmlImporter(petriXmlInputStream);
         ProcessDefinition definition = processDefinitionImporter.createProcessDefinition();
         ProcessDefinitionID deployedProcessDefinitionUUID = definition.getID();
         

@@ -42,7 +42,7 @@ public class DebuggerArtifactServiceTest extends AbstractJodaEngineTest {
      */
     @BeforeMethod
     public void setUp() throws ExtensionNotAvailableException {
-        this.debugger = this.jodaEngineServices.getExtensionService().getExtensionService(
+        this.debugger = this.jodaEngineServices.getExtensionService().getServiceExtension(
             DebuggerService.class,
             DebuggerServiceImpl.DEBUGGER_SERVICE_NAME);
         Assert.assertNotNull(this.debugger);

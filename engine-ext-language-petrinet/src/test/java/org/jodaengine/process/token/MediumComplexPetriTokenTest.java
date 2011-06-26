@@ -16,7 +16,7 @@ import org.jodaengine.process.structure.NodeImpl;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
 import org.jodaengine.process.token.TokenUtil;
-import org.jodaengine.process.token.builder.PetriTokenBuilder;
+import org.jodaengine.process.token.builder.PetriNetTokenBuilder;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -79,7 +79,7 @@ public class MediumComplexPetriTokenTest {
         
         nav = Mockito.mock(Navigator.class);
         Mockito.when(nav.getScheduler()).thenReturn(new RandomPetriNetScheduler());
-        TokenBuilder tokenBuilder = new PetriTokenBuilder(nav, null);
+        TokenBuilder tokenBuilder = new PetriNetTokenBuilder(nav, null);
 
         instance = new ProcessInstance(null, tokenBuilder);
         token = instance.createToken(firstStartPlace);

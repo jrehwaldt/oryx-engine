@@ -18,7 +18,7 @@ import org.jodaengine.process.instantiation.pattern.StartNullInstantiationPatter
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
-import org.jodaengine.process.token.builder.PetriTokenBuilder;
+import org.jodaengine.process.token.builder.PetriNetTokenBuilder;
 
 /**
  * The Class PetriNetProcessDefinition. This is the process definition for petri nets.
@@ -47,7 +47,7 @@ public class PetriNetProcessDefinition extends AbstractProcessDefinition {
     @Override
     public AbstractProcessInstance createProcessInstance(NavigatorInside navigator) {
 
-        TokenBuilder builder = new PetriTokenBuilder(navigator, null);
+        TokenBuilder builder = new PetriNetTokenBuilder(navigator, null);
         AbstractProcessInstance processInstance = new ProcessInstance(this, builder);
         for(Node startNode : startNodes) {
             Token token = processInstance.createToken(startNode);   

@@ -7,14 +7,14 @@ import org.jodaengine.navigator.Navigator;
 import org.jodaengine.process.instance.AbstractProcessInstance;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.BpmnToken;
-import org.jodaengine.process.token.PetriToken;
+import org.jodaengine.process.token.PetriNetToken;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.process.token.TokenBuilder;
 
 /**
  * The Class BpmnTokenBuilder. A specific Token Builder which creates BPMN Tokens.
  */
-public class PetriTokenBuilder implements TokenBuilder {
+public class PetriNetTokenBuilder implements TokenBuilder {
     
     private Navigator nav;
     private ExtensionService extensionService;
@@ -27,7 +27,7 @@ public class PetriTokenBuilder implements TokenBuilder {
      * @param nav the navigator
      * @param extensionService the extension service
      */
-    public PetriTokenBuilder(Navigator nav,
+    public PetriNetTokenBuilder(Navigator nav,
                              @Nullable ExtensionService extensionService) {
         
         this.nav = nav;
@@ -79,7 +79,7 @@ public class PetriTokenBuilder implements TokenBuilder {
     
     @Override
     public Token create(Node node, Token parentToken) {
-        return new PetriToken(node, parentToken, instance, nav, this.extensionService);
+        return new PetriNetToken(node, parentToken, instance, nav, this.extensionService);
     }
 
 }

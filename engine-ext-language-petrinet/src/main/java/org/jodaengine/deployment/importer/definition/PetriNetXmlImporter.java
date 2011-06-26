@@ -17,7 +17,7 @@ import org.jodaengine.util.xml.XmlParseable;
  * In order to parse through the XML we use some classes of the Activiti Project (activiti.org).
  * Those are represented accordingly and mark with a license header.
  */
-public class PetriXmlImporter implements ProcessDefinitionImporter {
+public class PetriNetXmlImporter implements ProcessDefinitionImporter {
 
 
     private XmlParseable petriXmlParse;
@@ -28,7 +28,7 @@ public class PetriXmlImporter implements ProcessDefinitionImporter {
      * @param xmlString the xml string
      * @param listeners any number of listeners
      */
-    public PetriXmlImporter(String xmlString,
+    public PetriNetXmlImporter(String xmlString,
                            PetriNetXmlParseListener ... listeners) {
         
         PetriNetXmlParser petriXmlParser = new PetriNetXmlParser();
@@ -44,7 +44,7 @@ public class PetriXmlImporter implements ProcessDefinitionImporter {
      * @param fileStreamSource the file stream source
      * @param listeners any number of listeners
      */
-    public PetriXmlImporter(FileStreamSource fileStreamSource,
+    public PetriNetXmlImporter(FileStreamSource fileStreamSource,
                            PetriNetXmlParseListener ... listeners) {
         
         PetriNetXmlParser petriXmlParser = new PetriNetXmlParser();
@@ -60,7 +60,7 @@ public class PetriXmlImporter implements ProcessDefinitionImporter {
      * @param inputStream the input stream
      * @param listeners any number of listeners
      */
-    public PetriXmlImporter(InputStream inputStream,
+    public PetriNetXmlImporter(InputStream inputStream,
                            PetriNetXmlParseListener ... listeners) {
         
         PetriNetXmlParser petriXmlParser = new PetriNetXmlParser();
