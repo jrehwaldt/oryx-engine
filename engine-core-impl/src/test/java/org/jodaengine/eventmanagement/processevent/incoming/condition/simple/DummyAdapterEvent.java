@@ -1,9 +1,8 @@
 package org.jodaengine.eventmanagement.processevent.incoming.condition.simple;
 
-import org.jodaengine.eventmanagement.AdapterEvent;
 import org.jodaengine.eventmanagement.adapter.AbstractAdapterEvent;
-import org.jodaengine.eventmanagement.processevent.incoming.condition.simple.MethodInvokingEventCondition;
 
+//TODO @Gerardo: please, really please learn how to mock.
 /**
  * Only a dummy {@link AdapterEvent} for the {@link MethodInvokingEventConditionTest}.
  */
