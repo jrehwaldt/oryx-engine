@@ -37,4 +37,13 @@ public interface ControlFlowBuilder {
      */
     @Nonnull
     ControlFlow buildControlFlow();
+    
+    /**
+     * Sets the id of the {@link ControlFlow} to build.
+     *
+     * @param id the id to set
+     * @return this {@link ControlFlowBuilder} in order to keep on configuring it
+     */
+    @Nonnull
+    ControlFlowBuilder setId(String id);
 }
