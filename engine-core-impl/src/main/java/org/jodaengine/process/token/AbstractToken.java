@@ -58,6 +58,8 @@ implements Token, ServiceContext {
 
     protected Collection<Token> joinedTokens;
     protected Map<String, Object> internalVariables;
+    protected Map<String, Object> tokenVariables;
+    
     
     @JsonIgnore
     protected AbstractExceptionHandler exceptionHandler;
@@ -309,19 +311,19 @@ implements Token, ServiceContext {
     @Override
     public Map<String, Object> getAttributes() {
         
-        return this.internalVariables;
+        return this.tokenVariables;
     }
 
     @Override
     public Object getAttribute(String attributeKey) {
         
-        return this.getInternalVariable(attributeKey);
+        return this.tokenVariables.get(attributeKey);
     }
 
     @Override
     public void setAttribute(String attributeKey, Object attributeValue) {
         
-        this.setInternalVariable(attributeKey, attributeValue);
+        this.tokenVariables.put(attributeKey, attributeValue);
     }
 
     //

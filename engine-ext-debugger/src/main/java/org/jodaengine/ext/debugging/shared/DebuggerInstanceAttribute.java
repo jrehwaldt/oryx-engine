@@ -185,7 +185,7 @@ public class DebuggerInstanceAttribute implements Identifiable<UUID>, Serializab
      */
     public static boolean hasAttribute(@Nonnull Token token) {
         
-        return token.getAttributes().containsKey(ATTRIBUTE_KEY);
+        return token.getAttribute(ATTRIBUTE_KEY) != null;
     }
 }
 

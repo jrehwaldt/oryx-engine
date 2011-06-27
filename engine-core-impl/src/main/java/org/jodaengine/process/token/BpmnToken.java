@@ -132,6 +132,7 @@ public class BpmnToken extends AbstractToken {
             navigator.addWorkToken(token);
         }
         
+        internalVariables = null;
         joinedTokens = null;
     }
 
