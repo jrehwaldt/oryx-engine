@@ -58,7 +58,7 @@ implements Token, ServiceContext {
 
     protected Collection<Token> joinedTokens;
     protected Map<String, Object> internalVariables;
-    protected Map<String, Object> tokenVariables;
+    protected Map<String, Object> attributes;
     
     
     @JsonIgnore
@@ -96,6 +96,7 @@ implements Token, ServiceContext {
         this.instance = instance;
         this.navigator = navigator;
         this.id = UUID.randomUUID();
+        this.attributes = new HashMap<String, Object>();
         
         //
         // register default exception chain;
@@ -108,7 +109,6 @@ implements Token, ServiceContext {
         
         this.splitListener = new LinkedList<SplitListener>();
         this.joinListener = new LinkedList<JoinListener>();
-        this.tokenVariables = new HashMap<String, Object>();
         
         //
         // load available extensions, if an ExtensionService is provided
@@ -312,19 +312,19 @@ implements Token, ServiceContext {
     @Override
     public Map<String, Object> getAttributes() {
         
-        return this.tokenVariables;
+        return this.attributes;
     }
 
     @Override
     public Object getAttribute(String attributeKey) {
         
-        return this.tokenVariables.get(attributeKey);
+        return this.attributes.get(attributeKey);
     }
 
     @Override
     public void setAttribute(String attributeKey, Object attributeValue) {
         
-        this.tokenVariables.put(attributeKey, attributeValue);
+        this.attributes.put(attributeKey, attributeValue);
     }
 
     //

@@ -73,11 +73,11 @@ public class XORSplitBehaviour implements OutgoingBehaviour {
                         if (controlFlow.getID().equals(defaultFlowId)) {
                             controlFlowList.add(controlFlow);
                         }
-                    }                   
+                    }
                 }
             }
             
-            if (controlFlowList.size() == 0) {
+            if (controlFlowList.isEmpty()) {
 
                 throw new NoValidPathException();
             }
