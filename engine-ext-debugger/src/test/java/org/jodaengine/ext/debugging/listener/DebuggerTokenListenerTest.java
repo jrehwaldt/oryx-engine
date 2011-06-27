@@ -29,6 +29,7 @@ import org.jodaengine.node.factory.bpmn.BpmnProcessDefinitionModifier;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.bpmn.BpmnProcessDefinitionBuilder;
 import org.jodaengine.process.instance.AbstractProcessInstance;
+import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
 import org.jodaengine.util.testing.AbstractJodaEngineTest;
@@ -45,6 +46,8 @@ import org.testng.annotations.Test;
  */
 public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     
+    private static final short TEST_HISTORY_TIMES = 3;
+    
     private DebuggerTokenListener listenerWithBreakpoint;
     private DebuggerTokenListener listenerWithoutBreakpoint;
     private ProcessDefinition definition;
@@ -58,6 +61,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
     private AbstractProcessInstance mockInstance;
     private Navigator mockNavigator;
     private Token mockToken;
+    private DebuggerInstanceAttribute mockInstanceAttribute;
     private Interrupter mockInterrupter;
     
     /**
@@ -97,6 +101,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         // setup clean mocks
         //
         this.mockInterrupter = mock(Interrupter.class);
+        this.mockInstanceAttribute = mock(DebuggerInstanceAttribute.class);
         this.mockNavigator = mock(Navigator.class);
         this.mockDebuggerWithBreakpoint = mock(DebuggerServiceImpl.class);
         this.mockDebuggerWithoutBreakpoint = mock(DebuggerServiceImpl.class);
@@ -445,6 +450,29 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         
         verify(this.mockInterrupter, times(2)).interruptInstance();
         verify(this.mockNavigator, never()).cancelProcessInstance(this.mockInstance);
+    }
+    
+    /**
+     * Tests that an executed process keeps it's history.
+     */
+    @Test
+    public void testProcessExecutionHistoryIsKept() {
         
+        //
+        // we need a mock debugger instance here
+        //
+        when(this.mockToken.getAttribute(AttributeKeyProvider.getAttributeKey())).thenReturn(
+            this.mockInstanceAttribute);
+        
+        //
+        // test that the history is stored
+        //
+        for (int i = 1; i < TEST_HISTORY_TIMES; i++) {
+            ControlFlow flow = mock(ControlFlow.class);
+            when(this.mockToken.getLastTakenControlFlow()).thenReturn(flow);
+            this.listenerWithoutBreakpoint.stateChanged(this.event);
+            verify(this.mockInstanceAttribute, times(1)).addPreviousPath(
+                this.mockToken.getLastTakenControlFlow(), this.mockToken);
+        }
     }
 }
