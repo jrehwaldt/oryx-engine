@@ -38,7 +38,12 @@ public class ControlFlowBuilderImpl implements ControlFlowBuilder {
 
         checkingControlFlowConstraints();
 
-        return buildResultControlFlow();
+        ControlFlow result = buildResultControlFlow();
+        
+        // reset the id in order to not use it twice.
+        this.id = null;
+        
+        return result;
     }
 
     /**

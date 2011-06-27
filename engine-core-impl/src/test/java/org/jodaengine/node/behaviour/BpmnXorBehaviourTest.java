@@ -25,7 +25,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
 /**
  * The test of the TakeAllBehaviour-activity.
  */
@@ -38,6 +37,7 @@ public class BpmnXorBehaviourTest {
      */
     @BeforeMethod
     public void setUp() {
+
         token = simpleToken();
     }
 
@@ -46,10 +46,10 @@ public class BpmnXorBehaviourTest {
      * 
      */
     @Test
-    public void testTrueNextNode() {
+    public void testDefaultFlowNode() {
 
         Node node = token.getCurrentNode();
-        Node nextNode = node.getOutgoingControlFlows().get(1).getDestination();
+        Node defaultFlowNode = node.getOutgoingControlFlows().get(1).getDestination();
 
         try {
             executeSplitAndJoin(token);
@@ -57,7 +57,7 @@ public class BpmnXorBehaviourTest {
             e.printStackTrace();
         }
 
-        assertEquals(token.getCurrentNode(), nextNode);
+        assertEquals(token.getCurrentNode(), defaultFlowNode);
     }
 
     /**
@@ -65,6 +65,7 @@ public class BpmnXorBehaviourTest {
      */
     @Test
     public void testTrueConditionNode() {
+
         ProcessInstanceContext context = token.getInstance().getContext();
         context.setVariable("a", 1);
         Node node = token.getCurrentNode();
@@ -78,16 +79,16 @@ public class BpmnXorBehaviourTest {
 
         assertEquals(token.getCurrentNode(), nextNode);
     }
-    
+
     /**
      * Test false destination node.
      */
     @Test
     public void testFalseDestinationNode() {
-        
+
         Node node = token.getCurrentNode();
         Node nextNode = node.getOutgoingControlFlows().get(0).getDestination();
-        
+
         try {
             executeSplitAndJoin(token);
         } catch (Exception e) {
@@ -101,6 +102,7 @@ public class BpmnXorBehaviourTest {
      */
     @AfterMethod
     public void tearDown() {
+
         token = null;
     }
 
@@ -112,43 +114,53 @@ public class BpmnXorBehaviourTest {
      */
     private Token simpleToken() {
 
+        String defaultFlowId = "id";
 
         BpmnProcessDefinitionBuilder builder = BpmnProcessDefinitionBuilder.newBuilder();
-        
+
         Node node = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
-        .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBehavior(new NullActivity()).buildNode();
-        
+        .setOutgoingBehaviour(new XORSplitBehaviour(defaultFlowId)).setActivityBehavior(new NullActivity()).buildNode();
+
         Node node2 = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
         .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBehavior(new NullActivity()).buildNode();
-        
+
         Node node3 = builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
         .setOutgoingBehaviour(new XORSplitBehaviour()).setActivityBehavior(new NullActivity()).buildNode();
-        
-        
+
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("a", 1);
         Condition c = new HashMapCondition(map, "==");
 
         builder.getControlFlowBuilder().controlFlowGoesFromTo(node, node2).setCondition(c).buildControlFlow();
-        builder.getControlFlowBuilder().controlFlowGoesFromTo(node, node3).buildControlFlow();
+        
+        map = new HashMap<String, Object>();
+        map.put("b", 1);
+        c = new HashMapCondition(map, "==");
+        
+        builder.getControlFlowBuilder().controlFlowGoesFromTo(node, node3).setId(defaultFlowId).setCondition(c)
+        .buildControlFlow();
 
         return new BpmnToken(node, new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)), null);
     }
-    
+
     /**
      * Execute split and join.
-     *
-     * @param token the processToken
+     * 
+     * @param token
+     *            the processToken
      * @return the list
-     * @throws Exception the exception
+     * @throws Exception
+     *             the exception
      */
-    private List<Token> executeSplitAndJoin(Token token) throws Exception {
+    private List<Token> executeSplitAndJoin(Token token)
+    throws Exception {
+
         Node node = token.getCurrentNode();
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
-        
+
         List<Token> joinedInstances = incomingBehaviour.join(token);
-        
+
         return outgoingBehaviour.split(joinedInstances);
     }
 }
