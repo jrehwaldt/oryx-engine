@@ -14,9 +14,7 @@ import org.jodaengine.eventmanagement.subscription.condition.EventCondition;
  * to return 'true'.
  * </p>
  */
-public class AndEventCondition implements EventCondition {
-
-    private List<EventCondition> eventConditons;
+public class AndEventCondition extends AbstractMultipleEventCondition {
 
     /**
      * Default Instantiation.
@@ -39,18 +37,6 @@ public class AndEventCondition implements EventCondition {
     public AndEventCondition(List<EventCondition> eventConditons) {
 
         this.eventConditons = eventConditons;
-    }
-
-    /**
-     * Add another {@link EventCondition}.
-     *
-     * @param eventCondition - the {@link EventCondition} that should be added
-     * @return this {@link AndEventCondition}
-     */
-    public AndEventCondition addEventCondition(EventCondition eventCondition) {
-
-        eventConditons.add(eventCondition);
-        return this;
     }
 
     /**
