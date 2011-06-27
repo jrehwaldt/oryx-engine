@@ -133,11 +133,7 @@ public class BpmnXorBehaviourTest {
 
         builder.getControlFlowBuilder().controlFlowGoesFromTo(node, node2).setCondition(c).buildControlFlow();
         
-        map = new HashMap<String, Object>();
-        map.put("b", 1);
-        c = new HashMapCondition(map, "==");
-        
-        builder.getControlFlowBuilder().controlFlowGoesFromTo(node, node3).setId(defaultFlowId).setCondition(c)
+        builder.getControlFlowBuilder().controlFlowGoesFromTo(node, node3).setId(defaultFlowId)
         .buildControlFlow();
 
         return new BpmnToken(node, new ProcessInstance(null, Mockito.mock(BpmnTokenBuilder.class)), null);
